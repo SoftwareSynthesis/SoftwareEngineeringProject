@@ -128,10 +128,19 @@ Le regole da adottare per utilizzare questa cartella saranno redatte non appena 
 \end{itemize}
 
 \subsubsection{Sistema di versionamento}
-Come sistema di controllo di versione è stato adottato \textit{git}.
+Come sistema di controllo di versione è stato adottato \textit{git}. Questo scelta è stata decisa dopo aver individuato diversi pregi, tra i quali:
+\begin{itemize}
+\item velocità;
+\item design semplice;
+\item forte supporto allo sviluppo non-lineare (possibilità di migliaia di rami paralleli);
+\item completamente distribuito;
+\item capacità di gestire, in modo efficiente (velocità e dimensione dei dati), grandi progetti come il kernel Linux.
+\end{itemize}
 
 \subsection{Sistema di tracciamento dei requisiti}
-Al fine di rendere automatico e sistematico la gestione del tracciamento dei requisiti, è stato creato un sistema che si appoggia al sito aziendale. Ogni volta che un membro del gruppo necessita di interagire con tale sistema, si dovrà autenticare alla pagina \\\\ \url{http://www.softwaresynthesis.org/}.
+Al fine di rendere automatico e sistematico la gestione del tracciamento dei requisiti, è stato creato un sistema che si appoggia al sito aziendale. Ogni volta che un membro del gruppo necessita di interagire con tale sistema, si dovrà autenticare alla pagina
+\newline
+\url{http://www.softwaresynthesis.org/}
 \newline
 Il sistema di tracciamento offre le seguenti 5 opzioni:
 \begin{itemize}
@@ -139,25 +148,29 @@ Il sistema di tracciamento offre le seguenti 5 opzioni:
 \item \textbf{Gestione fonti}: permette l'inserimento, modifica e la cancellazione di una fonte da intendersi come ad esempio il capitolato d'appalto.
 \item \textbf{Gestione casi d'uso}: permette l'inserimento di un caso d'uso con relativi scenari  e requisiti associati.
 \item \textbf{Gestione attori}: permette l'inserimento, modifica e la cancellazione di un attore utilizzabile in seguito per lo sviluppo di un caso d'uso.
+\item \textbf{Stampa}: crea in modo automatico un file di estensione .tex contenente la lista dei requisiti analizzati, i casi d'uso studiati e il tracciamento tra i requisiti e le fonti. Successivamente alla stampa tale file sarà da includere all'intero del documento "analisi\_ dei \_ requisiti.tex"
 \end{itemize}
-Il sistema è basato su tecnologie mysql con creazione del database sotto engine inno_db. Per sopperire ad alcune mancanze del sistema di tracciamento, lo sviluppatore si potrà appoggiare alla piattaforma phpmyadmin fornita dal web host, al fine di modificare e gestire alcuni dati del database. In particolare, se ne obbliga l'utilizzato nei seguenti casi:
+Il sistema è basato su tecnologie mysql con creazione del database sotto engine inno\_db. Per sopperire ad alcune mancanze del sistema di tracciamento, lo sviluppatore si potrà appoggiare alla piattaforma phpmyadmin fornita dal web host, al fine di modificare e gestire alcuni dati del database. In particolare, se ne obbliga l'utilizzato nei seguenti casi:
 \begin{itemize}
 \item modifica di un caso d'uso;
 \item cancellazione di un caso d'uso.
 \end{itemize}
-Quest'obbligo di gestione è dovuto a mancanze temporali nella fase di sviluppo del sistema, nel periodo antecedente alla consegna dei capitolati, e anche in parte per la compless
+Quest'obbligo di gestione è dovuto a mancanze temporali nella fase di sviluppo del sistema, nel periodo antecedente alla consegna dei capitolati, e anche in parte per la complessità di implementazione.
+\newline
+Ogni altra modifica attuata tramite phpmyadmin è assolutamente vietata per mansioni che non siano riportate al punto precedente.
 
 
 \subsection{Sistema operativo}
-L'intero progetto verrà portato avanti attraverso sistemi Unix e Windows, più in particolare MacOsX, Fedora, Windows 8. Questa scelta deriva dal fatto che essendo il progetto MyTalk un applicativo web, non si sono riscontrate dipendenze alcune da librerie di sistema.
+L'intero progetto verrà portato avanti attraverso sistemi Unix e Windows, più in particolare MacOsX, Fedora 17, Ubuntu 12.04, Windows 7, Windows 8. Questa scelta deriva dal fatto che essendo il progetto MyTalk un applicativo web, non si sono riscontrate dipendenze alcune da librerie di sistema.
 
 \newpage
 \section{Ambiente documentale}
 In questa sezione verranno illustrati i vari standard utilizzati dal team per la produzione di documenti durante l'intero progetto. 
 
 \subsection{Software utilizzati}
-Tutti i documenti dovranno essere scritti in italiano con \Latex, un software free di composizione testuale che comprende una serie di caratteristiche atte alla produzione di documentazione tecnica e scientifica.
-\newline Per attuare questa scelta, l'azienda Software Synthesis ha deciso di utilizzare come editor \Latex \textit{TexMaker}, software disponibile sia per ambienti Unix che Windows. Si presenta come un software molto flessibile che include al suo interno la correzione ortografica automatica, l'autocompletamento e un visualizzatore di PDF integrato. 
+Tutti i documenti dovranno essere scritti in italiano con \LaTeX, un software free di composizione testuale che comprende una serie di caratteristiche atte alla produzione di documentazione tecnica e scientifica.
+\newline
+Per attuare questa scelta, l'azienda Software Synthesis ha deciso di utilizzare come editor \LaTeX \textit{TexMaker}, software disponibile sia per ambienti Unix che Windows. Si presenta come un software molto flessibile che include al suo interno la correzione ortografica automatica, l'autocompletamento e un visualizzatore di PDF integrato. 
 
 \subsection{Impostazioni di base di un documento}
 Ogni documento dovrà attenersi alle seguenti regole per la sua redazione:
@@ -184,10 +197,11 @@ Nella seconda pagina invece dovrà essere presente la tabella delle modifiche ap
 \item descrizione dell'intervento;
 \item redattore;
 \item data modifica.
+\end{itemize}
 Seguirà su una nuova pagina l'indice dell'intero documento e in caso di presenza di tabelle e immagini sarà presente anche l'indice delle tabelle e l'indice delle immagini a seguire.
 
 \subsection{Template}
-Ogni documento dovrà essere generato includendo il template \Latex presente nella cartella "Documents". Questo file è stato redatto prima dell'inizio di stesura di ogni altro documento sotto comune accordo. La modifica perciò di tale template deve essere richiesta all'amministratore di progetto che analizzerà l'esigenza e darà una risposta positiva o negativa. In caso positivo, si procederà all'attuazione delle modifiche e verrà informato l'intero team al fine che ogni membro modifichi il documento su cui sta lavorando.
+Ogni documento dovrà essere generato includendo il template \LaTeX presente nella cartella "Documents". Questo file è stato redatto prima dell'inizio di stesura di ogni altro documento sotto comune accordo. La modifica perciò di tale template deve essere richiesta all'amministratore di progetto che analizzerà l'esigenza e darà una risposta positiva o negativa. In caso positivo, si procederà all'attuazione delle modifiche e verrà informato l'intero team al fine che ogni membro modifichi il documento su cui sta lavorando.
 
 \subsection{Glossario}
 Il glossario è un documento nel quale vengono riportate tutte le parole difficilmente comprensibili o dal significato ambiguo presenti nei documenti. E' un documento un pò particolare in quanto non rispetta le regole stilistiche degli altri documenti. Non sarà presente l'indice dei contenuti, ma solo una pagina iniziale contenente le informazioni del documento, la tabella delle modifiche, una breve introduzione e a seguire le voci ordinate alfabeticamente.
@@ -202,7 +216,7 @@ dove:
 \item \textbf{nome\textunderscore del\textunderscore file}: il nome del file non dovrà contenere lettere maiuscole ne caratteri speciali. Nel caso sia composto da più parole, questa vanno separate con il carattere underscore.
 \item \textbf{Variabile X}: Indica il raggiungimento di uno stato formale rispetto ad una milestone. Assumerà quindi principalmente 4 valori, dall'1 al 4 attribuiti come segue:
 \begin{center}
-\begin{tabularx}{\textwidth}{lXll}
+\begin{tabular}{l|l}
 \toprule
 Milestone & X\\
 \midrule
@@ -211,7 +225,7 @@ Revisione dei Requisiti (RP) & 2\\
 Revisione dei Requisiti (RQ) & 3\\
 Revisione dei Requisiti (RA) & 4\\
 \bottomrule
-\end{tabularx}
+\end{tabular}
 \end{center}
 \item \textbf{Variabile Y}: parte dal valore 0 e viene incrementata ogni qualvolta, senza limite superiore, si apportano modifiche sostanziali al documento, come ad esempio la stesura di una nuova sezione o correzione di errori.
 \end{itemize}
@@ -227,7 +241,22 @@ Questa sezione descrive le norme da utilizzare per l'utilizzo dell'ortografia, t
 \item \textbf{Maiuscolo}: le parole in maiuscolo vanno usate solo per acronimi.
 \end{itemize}
 
+\subsubsection{Punteggiatura}
+Qualsiasi segno di punteggiatura non deve mai seguire uno spazio ma deve precederne uno. Dopo un punto fermo deve esserci uno spazio seguito da una lettera maiuscola.
+\newline
+Le parentesi vanno usate per raggruppare un periodo, non devono aprirsi con un carattere di spaziatura e non devono chiudersi con un carattere di punteggiatura o di spaziatura.
 
+\subsubsection{Composizione del testo}
+Gli elenchi, sia puntati che numerati, vanno usati per elencare una serie di elementi e solitamente hanno una breve lunghezza con la quale descrivono l'elemento in questione. Per questo, ogni punto elenco deve finire con un punto e virgola (;) tranne l'ultimo elemento che finirà con un punto (.), mentre nel caso di punti elenco più discorsivi la frase finirà con un punto ogni volta.
+\newline
+Per quanto concerne le note a piè di pagina invece, ogni nota dovrà cominciare con la prima lettera della prima parola maiuscola, senza spaziatura davanti e finire con un punto.
+
+\subsubsection{Formati ricorrenti}
+\begin{itemize}
+\item \textbf{Path}: per scrivere indirizzi web e url si adotterà il comando prestabilito da \LaTeX \verb+\url+
+\item \textbf{Date}:
+\item \textbf{Sigle}:
+\end{itemize}
 
 \subsection{Grafici UML}
 
