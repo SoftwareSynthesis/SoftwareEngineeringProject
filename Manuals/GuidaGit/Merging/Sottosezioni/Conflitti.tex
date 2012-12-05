@@ -1,0 +1,16 @@
+\subsection{Conflitti durante la fusione}
+Occasionalmente può accadere che durante una fusione tutto non vada a buon fine immediatamente, ossia quando esistono dei conflitti. Un conflitto in un file sorgente lo si ha quando, unendo due rami, lo stesso file sorgente presenta delle differenze in parti che hanno subito il commit. Questo non succede se nel nuovo ramo abbiamo solo fatto aggiunte.
+
+Se Git rileva un conflitto ci avviserà durante l'operazione di merging e tramite il comando di visualizzazione dello stato, sapremo in quale/i file è stato riscontrato questo problema.
+
+Per risolvere i conflitti apriamo l'editor con cui scriviamo il codice sorgente e andiamo manualmente a risolvere i conflitti. La versione che è in stato di ''commit'' nel ramo attuale è marcata dai marcatori ''$<$HEAD'' fino ai simboli ''$=$'' tutto ciò che segue sono i conflitti rilevati da risolvere.
+
+Dopo averli risolti, e aver tolto i marcatori, si procederà come un usuale commit, ossia si tracciano i file e si esegue il commit.
+
+E' possibile risolvere i conflitti anche attraverso un tool grafico, configurato come illustrato ad inizio guida, lanciando il comando:
+
+\begin{center}
+\texttt{git mergetool}
+\end{center}
+
+Al termine della risoluzione Git vorrà sapere se la fusione è andata a buon fine e, nel caso di risposta affermativa, traccerà i file sorgente. A questo punto è necessario solo eseguire l'operazione di commit.

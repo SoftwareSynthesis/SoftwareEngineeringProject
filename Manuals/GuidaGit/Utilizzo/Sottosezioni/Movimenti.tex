@@ -1,0 +1,14 @@
+\subsection{Movimenti di file}
+A differenza di altri VCS, Git non traccia esplicitamente i movimenti di file. Se rinomini un file in Git nessun metadata che ti dirà che il file è stato rinominato è immagazzinato. Per eseguire correttamente questa operazione dobbiamo utilizzare il comando:
+
+\begin{center}
+\texttt{git mv FileFrom FileTo}
+\end{center}
+
+dove con ''FileFrom'' e ''FileTo'' si intendo i percorsi di origine e destinazione del file, che può non solo essere spostato nell'albero ma anche rinominato. Il precedente comando è comodo perchè è come se ne eseguissimo tre, più precisamento sono:
+
+\begin{center}
+\texttt{mv FileFrom FileTo}\\
+\texttt{git rm FileFrom}\\
+\texttt{git add FileTo}
+\end{center}

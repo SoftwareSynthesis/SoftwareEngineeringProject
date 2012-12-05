@@ -1,0 +1,34 @@
+% protocolli e funzionalità di Google Chrome
+% 30/11 autore: DB     :(
+
+\begin{description}
+	\item{\scshape\bfseries Descrizione:}
+  
+Il supporto di Google Chrome a WebRTC è realizzato attraverso una serie di API accessibili ai programmi JavaScript:
+\begin{description}
+\item{\bfseries PeerConnection}, che ha lo scopo di permettere la trasmissione in tempo reale di flussi audio/video dall'interno di applicazioni web;
+\item{\bfseries MediaStream}, che consente di avere accesso alla webcam e al microfono della macchina su cui il browser è in esecuzione e la cui funzione più significativa è con tutta probabilità il metodo (dal nome abbastanza autoesplicativo) \texttt{getUserMedia()} invocabile sull'oggetto \texttt{navigator};
+\item{\bfseries DataChannel}, per la trasmissione \textit{peer-to-peer} di flussi dati generici.
+\end{description}
+
+Chrome integra il protocollo STUN (e la sua estensione TURN) attraverso il framework ICE (Interactive Connectivity Establishment), che permette, ancora attraverso PeerConnection, di stabilire una connessione \textit{peer-to-peer} anche se gli endpoint della connessione si trovano dietro un NAT\@. 
+
+Supporta inoltre al codec video VP8 e i codec audio iSAC (predefinito), iLBC, G.711, e DTMF\@. A quanto pare la possibilità di registrare gli stream trasmessi e di condividere lo schermo sono fra le funzionalità che è in programma di integrare nel prossimo futuro (e che potremmo pensare di includere fra i nostri requisiti opzionali o desiderabili).
+
+Per avere accesso a \texttt{getUserMedia} occorre abilitare dalla pagina di configurazione \texttt{chrome://flag} la funzione sperimentale "Ingresso Web Audio" (penultima in basso). Per il momento possiamo bellamente ignorare il rassicurante messaggio che compare all'inizio della pagina <<Non offriamo assolutamente alcuna garanzia su ciò potrebbe accadere se attivi uno di questi esperimenti: \textit{il tuo browser potrebbe persino andare in autocombustione}!>>
+	\item{\scshape\bfseries Riferimenti:}
+  <<L'estensione dell'HTML5 WebRTC presente nel browser Chrome si propone di rendere semplice la realizzazione di questi programmi e di far sì che le
+componenti necessarie siano installate praticamente in ogni computer.>>
+
+	\item{\scshape\bfseries Link utili:}\\
+  (generale)\\
+  www.html5rocks.com/en/tutorials/webrtc/basics/\\
+  (per MediaStream)\\
+  dvcs.w3.org/hg/audio/raw-file/tip/streams/StreamProcessing.html\\
+  (per MediaStream e \texttt{getUserMedia})\\
+  dev.w3.org/2011/webrtc/editor/getusermedia.html\\
+  (per PeerConnection)\\
+  www.webrtc.org/reference/api-description\\
+  (per DataChannel)\\
+  dev.w3.org/2011/webrtc/editor/webrtc.html\#peer-to-peer-data-api\\
+\end{description}

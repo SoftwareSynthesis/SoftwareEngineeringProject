@@ -1,0 +1,32 @@
+\subsection{Esempio di utilizzo dell'operazione di branching-merging}
+Supponiamo tu stia lavarando su un sito web, e che nella cartella di Git sono presenti già diversi commit. Ora decidi che lavorerai ad una particolare richiesta, chiamata per esempio \textit{richiesta \#42}. Siccome non hai la certezza che tutto funzioni subito decidi di creare un nuovo ramo per non sporcare la soluzione web fino ad ora ottenuta. Per creare e spostarsi direttamente nel nuovo ramo puoi utilizzare come unico comando il seguente:
+
+\begin{center}
+\texttt{git checkout -b NomeNuovoRamo}
+\end{center}
+
+Ora puoi portare avanti la richiesta \#42 ed eseguire i relativi commit senza perdere il lavoro ottenuto fino ad ora. Mentre ci lavori ti arriva la notifica che è presente un problema sul sito web e devi risolverlo immediatamente. Per non perdere le modifiche che hai fatto nel portare avanti la richiesta \#42 eseguirai un operazione di commit prima di spostarti nel ramo master per risolvere il problema riscontrato.
+
+Dopo esserti spostato nuovamente sul ramo master, notando che la situazione nell'area di lavoro è tornata come prima di iniziare il lavoro per la richiesta \#42, decidi di creare un nuovo ramo nel quale apporterai le modifiche al progetto per risolvere il problema riscontrato fino a quando non è del tutto risolto. Per fare ciò ripeti comando citato qui sopra cambiando il nome al branch.
+
+Dopo averci lavorato e testato che le modifiche da te apportate risolvono il problema decidi che è il momento di mettere la tua soluzione in produzione, ossia l'unione di questo nuovo ramo con il ramo principale. Per eseguire ciò è necessaria un operazione di \textbf{merging}, ossia di fusione di branch.
+
+Per unire due rami ci dobbiamo spostare nel ramo che conterrà l'unione, in questo caso il master dato che la modifica deve rientrare in produzione. Eseguiamo il comando per spostarci nel ramo master ed esuiguiamo il seguente comando per ultimare la fusione:
+
+\begin{center}
+\texttt{git merge NomeRamo}
+\end{center}
+
+dove ''NomeRamo'' è il nome del ramo che dobbiamo fondere con il ramo attuale, ossia quello che contiene le modifiche che hanno portato alla soluzione del problema.
+
+Nell'esecuzione del comando di ''merging'' si può notare la fase di \textbf{''Fast Forward''}. Dato che il commit di unione punta direttamente a monte rispetto al commit in cui ci si trova, Git muove il puntatore in avanti. Per parafrasare in un altro modo, quando provi ad unire un commit con un commit che può essere portato al primo commit della storia, Git semplifica le cose muovendo il puntatore in avanti perchè non c'è un lavoro differente da fondere assieme. Questo sistema è definito ''fast forward''.
+
+A questo punto le modifiche che hanno risolto il problema sono agganciate al ramo master, quindi il ramo creato per risolverle non è più necessario può essere quindi distrutto attraverso il comando:
+
+\begin{center}
+\texttt{git branch -d NomeRamo}
+\end{center}
+
+dove ''NomeRamo'' è il nome del ramo che deve essere cancellato. 
+
+A questo punto puoi tornare a lavorare alla richiesta \#42 che però non contiene le modifiche appena apportate, ma ciò non è un problema perchè se hai bisogno di quelle modifiche anche in questo ramo puoi fondere il ramo principale, master, con questo e continuare il lavoro per ultimare la richiesta \#42 oppure puoi aspettare di integrare quelle modifiche quando integrerai questo ramo con il ramo principale.

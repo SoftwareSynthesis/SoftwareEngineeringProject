@@ -1,0 +1,33 @@
+\subsection{Creazione di tag}
+Prima di illustrare il comando per creare un tag è importante sapere che in Git esistono due tipi di tag:
+
+\begin{itemize}
+\item semplificati (lightweight);
+\item commentati (annotated).
+\end{itemize}
+
+Un tag ''semplificato'' è semplicemente un riferimento ad uno specifico commit, mentre un tag ''commentato'' è un vero e proprio oggetto memorizzato nel database interno, ne viene calcolato il checksum e possiede un proprietario, proprio come un commit. Quest'ultimo tipo di tag può essere firmato e verificato con GNU privacyguard (GPG)
+
+Per la creazione di tag ''commentati'' eseguire il comando:
+
+\begin{center}
+\texttt{git tag -a v1.0 -m ''Messaggio da allegare''}
+\end{center}
+
+l'opzione -a sta per ''annotated'' mentre ''v1.4'' è in nome del tag, l'ultimo parametro ''-m'' significa che verrà allegato come messaggio quello contenuto tra doppi apici. Se non viene specificato un messaggio verrà lanciato il tuo editor per inserirne uno.
+
+Per avere informazioni su uno specifico tag, eseguire il seguente comando:
+
+\begin{center}
+\texttt{git show v1.0}
+\end{center}
+
+Per firmare un tag ''annotated'', tramite GPG e assumendo di possedere una chiave privata, lanciare il comando di creazione di un tag ''annotated'' passando come opzione ''$-$s'' al posto di $-$a.
+
+Per creare un tag ''lightweight'' si usa il comando:
+
+\begin{center}
+\texttt{git tag v1.1}
+\end{center}
+
+ovvero lo stesso per i tag ''annotated'' senza nessuna opzione.

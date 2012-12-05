@@ -1,0 +1,30 @@
+\subsection{I tre stati fondamentali}
+Git possiede tra stati fondamentali in cui possono trovarsi i file:
+
+\begin{description}
+\item[committed] ovvero il file è immagazzinato e al sicuro nel database locale;
+\item[modified] ovvero il file è stato modificato ma non ancora inserito nel database locale;
+\item[staged] ovvero che un file modificato è stato contrassegnato per essere inserito nello snapshot alla prossima operazione di commit;
+\end{description}
+
+di conseguenza l'ambiente è suddiviso anch'esso in tre zone:
+
+\begin{itemize}
+\item la directory di Git;
+\item la directory di lavoro;
+\item l'area di staging;
+\end{itemize}
+
+La directory di Git è il luogo dove sono memorizzati i metadati e il database degli oggetti. Questa è la parte fondamentale del repository ed è quella che viene copiata quando si esegue la clonazione del repository da un client ad un altro. Si tratta della cartella nascosta ''.git''.
+
+La directory di lavoro è un singolo checkout di una versione del progetto. Sono file estratti dal database compresso, nella directory di Git, e posizionati nel disco per poter essere usati o modificati.
+
+L'area di staging consiste in un file, che risiede nella cartella di Git, contenenete le informazioni per il successivo commit.
+
+Da quanto appreso possiamo dire che il normale flusso di lavoro consiste in:
+
+\begin{enumerate}
+\item modifica di un file nella directory di lavoro;
+\item esecuzione dell'operazione di staging per i file modificati;
+\item esecuzione dell'operazione di commit per memorizzare in modo permanente i dati.
+\end{enumerate}

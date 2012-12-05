@@ -1,0 +1,68 @@
+% shared/template.tex
+%
+% Contiene un modello di documento che deve essere copiato e opportunamente
+% modificato per creare i documenti 'concreti' di progetto. Definisce le macro
+% specifiche per il documento corrente, importa la parte di preambolo condivisa
+% e le pagine comuni a tutti i documenti.
+% In particolare, per ogni documento concreto occorre per prima cosa aggiornare
+% le macro, inserire una voce nella tabella delle modifiche e inserire il testo
+% (o includere file sorgenti esterni) a partire dalla riga 66 in poi.
+
+% **************************************************
+% Macro specifiche per il documento corrente
+% **************************************************
+% Nome
+\newcommand{\docName}{}
+% Nome file
+\newcommand{\docFileName}{}
+% Versione
+\newcommand{\docVers}{}
+% Data creazione
+\newcommand{\creationDate}{}
+% Data ultima modifica
+\newcommand{\modificationDate}{}
+% Stato in {Approvato, Non approvato}
+\newcommand{\docState}{}
+% Uso in {Interno, Esterno}
+\newcommand{\docUsage}{}
+% Redattori da specificare come nome1\\ &nome2\\ ecc.
+\newcommand{\docAuthors}{}
+% Approvato da
+\newcommand{\approvedBy}{}
+% Verificatori
+\newcommand{\verifiedBy}{}
+% Perscorso (relativo o assoluto) che punta alla directory contenente shared/
+% come sua sottodirectory (per comodità chiamiamola 'doc root').
+\newcommand{\docRoot}{..}
+
+% importa il preambolo condiviso da tutti i documenti
+\input{\docRoot/shared/preamble.tex}
+
+% Fine del preambolo e inizio del documento
+\begin{document}
+
+% Inclusione della prima pagina
+\input{\docRoot/shared/firstpage.tex}
+
+% Storico delle modifiche
+\section*{Storia delle modifiche}
+\begin{tabularx}{\textwidth}{lXll}
+\toprule
+Versione & Descrzione intervento & Redattore & Data\\
+\midrule % inserire qui il contenuto della tabella
+
+\bottomrule
+\end{tabularx}
+\newpage
+
+% inclusione dell'indice
+\input{\docRoot/shared/toc.tex}
+
+% Alcuni aggiustamenti per le pagine
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\pagestyle{normal}
+
+% Qui ha inizio il documento vero e proprio...
+
+\end{document}

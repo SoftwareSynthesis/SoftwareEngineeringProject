@@ -1,0 +1,4 @@
+\subsection{Snapshot non differenze}
+La principale differenza tra Git ed altri VCS consiste nel modo in cui Git memorizza i cambiamenti apportati al codice sorgente. Comunemente i VCS memorizzano le informazioni che essi mantengono come un insieme di file, con le relative modifiche apportate nel corso del tempo. Più precisamente vengono memorizzati nuovamente anche i file che non hanno subito modifiche.
+
+Git non considera e né immagazzina i dati in questo modo; piuttosto li considera come una serie di istantanee (snapshot) di un mini file-system. Più precisamente, ogni volta che viene eseguito un commit, Git fa una immagine dello stato corrente salvando un riferimento allo snapshot. Per essere efficiente se alcuni file non sono stati cambiati, non li memorizza nuovamente, ma crea un collegamento a file già esistenti.

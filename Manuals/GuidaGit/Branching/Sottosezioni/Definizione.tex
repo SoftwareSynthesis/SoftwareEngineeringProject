@@ -1,0 +1,20 @@
+\subsection{Cos'è un branch}
+Come presentato all'inizio della guida, Git non salva i dati in una serie di piccoli cambiamenti o delta file, ma attraverso una serie di istantanee (\textit{snapshot}).
+
+Quando si esegue un'operazione di commit con Git, esso immagazzina i ''commit'' come oggetti che contengono un puntatore allo snapshot registrato nell'area di staging, l'autore delle modifiche, il messaggio associato e zero o più puntatori al o ai commit che sono avvenuti precedentemente a quello attuale. Vengono memorizzati zero puntatori quando si esegue il primo commit su un repository appena inizializzato, un puntatore per un commit normale e due o più puntatori nel caso di unione di più branch.
+
+Continuiamo illustrando un esempio pratico che ci aiuterà a comprendere meglio. 
+
+Assumiamo di inizializzare un nuovo repository e nella directory di lavoro collochiamo i file ''Readme.txt'', ''Index.php'' e ''License.php''. A questo punto, come da usuale pratica di lavoro, li tracciamo mediante il comando ''add'' e ne eseguimo il ''commit'' per memorizzare permanentemente le modifiche.
+
+Quando viene eseguito il comando di ''commit'', Git calcola il checksum di ogni directory, in questo caso solo della cartella principale, e memorizza i tre oggetti nel repository. Ora Git crea un oggetto ''commit'' con i metadati precedentemente elencati ed un puntatore alla radice dell'albero in modo da ricreare lo snapshot quando si vuole. Il repository ora contiene i seguenti oggetti:
+
+\begin{itemize}
+\item un oggetto \textit{blob} per i contenuti di ogni singolo file nell'albero;
+\item un oggetto \textit{albero} che elenca i contenuti della directory e specifica i nomi dei file che devono essere salvati mediante l'oggetto \textit{blob};
+\item un oggetto \textit{commit} con un puntatore alla radice dell'albero e tutti i suoi metadati.
+\end{itemize}
+
+Se ora si eseguono dei cambiamenti, ad uno o più dei precedenti file, e successivamente ne eseguiamo il commit, l'oggetto ''commit'' memorizzato avrà un puntatore al precedente oggetto ''commit''.
+
+In Git un \textbf{branch} o \textbf{ramo} è semplicemente un puntatore ad uno di questi commit. Il nome del ramo principale, presente di default in ogni repository, è \textit{master} ed è quello di default utilizzato.

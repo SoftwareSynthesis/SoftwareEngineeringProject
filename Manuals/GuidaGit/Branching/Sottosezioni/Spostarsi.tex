@@ -1,0 +1,19 @@
+\subsection{Spostarsi da un ramo all'altro}
+Il comando da utilizzare per spostarsi da un ramo all'altro è:
+
+\begin{center}
+\texttt{git checkout NomeRamo}
+\end{center}
+
+dove ''NomeRamo'' va sostituito con il nome del ramo in cui ci vogliamo spostare.
+
+Continuiamo con l'esempio precedente per capire meglio cosa accade. Dopo aver lavorato un pò sui tre file precedenti vogliamo modificare il file ''Index.php'' e ''License.txt'' poichè vogliamo creare una versione a parte, che quindi avrà una licenza diversa di distribuzione. Dopo aver creato un nuovo ramo per ospitare questa modifica ci spostiamo su di esso con il comando appena illustrato. A questo punto il nostro progetto possiede due rami ma in sostanza è ancora quello di partenza. Ora eseguimo la nostra modifica, nei due file, ed eseguiamo l'operazione di staging e successivamente eseguimo il commit per questi ultimi.
+
+Dopo aver eseguito il commit il ramo appena creato, si è spostato in avanti contenendo queste modifiche ma il ramo master invece, punta ancora allo stato che avevano i tre file prima della creazione del nuovo ramo. Se torniano al ramo principale osserviamo che avvengono due cose sostanzialmente:
+
+\begin{itemize}
+\item il puntatore \textit{HEAD} è tornato indietro per puntare all'ultimo commit del ramo master;
+\item i file presenti nella cartella di lavoro sono tornati allo stato rappresentato dall'ultimo commit nel ramo master.
+\end {itemize}
+
+A questo punto il nostro progetto possiede due versioni separate ed indipendenti, ognuna con una sua storia.

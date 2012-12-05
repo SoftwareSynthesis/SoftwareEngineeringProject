@@ -1,0 +1,26 @@
+\subsection{Tracciamento dei file sorgente}
+Dopo aver creato o modificato un file sorgente dobbiamo informare Git che vogliamo versionare tale/i file/s e questo avviene con il comando:
+
+\begin{center}
+\texttt{git add NomeFile}
+\end{center}
+
+dove con NomeFile si intende il percorso, dalla cartella principale del repository, del file da tracciare. Se NomeFile è una directory, il comando aggiungerà ricorsivamente tutti i file presenti in essa.
+
+Per aggiungere in staging tutti i file, senza dover richiamare il comando ''add'' su ogni file è possibile digitare il seguente overloading:
+
+\begin{center}
+\texttt{git add .}
+\end{center}
+
+Se visualizziamo ora lo stato del repository notiamo che Git ci informa che alcuni file sono in stage. Lo si nota dal risulatato del comando di visualizzazione dello stato \textit{On branch master Changes to be committed}. Alla prossima operazione di commit il file verrà aggiunto alla versione registrata quando lo abbiamo tracciato con il comando ''git add''. Se nel frattempo avessimo modificato tale/i file/s dobbiamo ripetere il comando ''git add'' per tale/i file/s. Quest'ultima situazione è rappresentata dal fatto che se richiediamo lo stato ottenianmo la sezione \textit{Changed but not updated}.
+
+\begin{center}
+\textbf{Ricordarsi di tracciare il file sorgente dopo ogni modifica.}
+\end{center}
+
+Se per errore si sono introdotti nello stage file che non devono essere versionati è possibile rimuoverli prima dell'operazione di commit tramite il comando:
+
+\begin{center}
+\texttt{git reset HEAD NomeFile}
+\end{center}

@@ -1,0 +1,30 @@
+\subsection{Ignorare file nel tracciamento}
+Spesso si avranno classi di file che non si vuole automaticamente aggiungere o far vedere a Git come file non tracciati, come ad esempio file di log o risultati di compilazioni. In questi casi si può creare nella directory radice del repository un particolare file chiamato ''.gitignore''. Questo file conterrà il nome dei file o le classi di file che git deve ignorare durante la fase di staging e di commit.
+
+Le regole per comporre questo file sono le seguenti:
+
+\begin{itemize}
+\item le linee che iniziano con il cancelletto (\#)  sono commenti, quindi ignorati;
+\item espressioni regolari utilizzate dalla shell per individuare file o gruppi di file;
+\item per indicare cartelle di file da ignorare terminalre la riga con il carattere slash (/);
+\item per negare un pattern farlo precedere da un punto esclamativo (!)
+\end{itemize}
+
+Questo è un esempio di file .gitignore:
+
+\# un commetto - questo sarà ignorato\\
+*.a\\
+!lib.a\\
+/TODO\\
+build/\\
+doc/*.txt\\
+
+La prima riga rappresenta un commento e come dice verrà ignorata, la seconda riga dice di non includere tutti i file con estensione ''a'', la terza riga dice di ammettere il file ''lib.a'', la quarta riga ignora solamente il file ''TODO'' nella directory principale, la quinta riga dice di non includere la sottodirectory ''build'' con i relativi file mentre l'ultima riga dice di ignorare tutti i file con estensione ''.txt'' che risiedono all'ienterno della sottodirectory ''doc'' presente nella cartella principale.
+
+Dopo aver composto questo file siamo pronti per informare Git che deve consultare questo file durante le operazioni di staging e commit, dalla cartella principale diamo il seguente comando:
+
+\begin{center}
+\texttt{git config core.excludefile /.gitignore}
+\end{center}
+
+Ora si può tranquillamente usare la versione del comando ''add'' che include tutto senza correre il rischio di includere file che non vanno inclusi.

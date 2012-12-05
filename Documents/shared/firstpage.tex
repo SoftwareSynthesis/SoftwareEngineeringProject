@@ -1,0 +1,42 @@
+% shared/firstpage.tex
+%
+% Questo documento definisce il contenuto della prima pagina, che si suppone
+% essere uguale in tutti i documenti.  Oltre al logo e al titolo, la prima
+% pagina contiene i metadati relativi al documento in cui viene inclusa.
+
+
+% rimuove intestazioni e piè di pagina
+\pagestyle{empty}
+
+\begin{center}
+
+% logo del gruppo
+\includegraphics[width=1.5\textwidth]{logo}
+
+\vspace{1in}
+
+% titolo del documento
+{\Huge\bfseries \docName}
+
+\vspace{1in}
+
+% tabella riepilogativa
+\begin{tabularx}{.5\textwidth}{>{\bfseries\sffamily}l>{\sffamily}l}
+\toprule
+\multicolumn{2}{>{\sffamily}c}{Informazioni sul documento}\\
+\midrule
+Nome file:            & \docFileName\\
+Versione:             & \docVers\\
+Data creazione:       & \creationDate\\
+Data ultima modifica: & \modificationDate\\
+Stato:                & \docState\\
+Uso:                  & \docUsage\\
+Redattori:            & \docAuthors\\
+Approvato da:         & \approvedBy\\
+Verificatori:         & \verifiedBy\\
+\bottomrule
+\end{tabularx}
+
+\end{center}
+
+\newpage

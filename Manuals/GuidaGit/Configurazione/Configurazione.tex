@@ -1,0 +1,32 @@
+\section{Configurazione iniziale}
+Verrà ora illustrato come configurare alcune funzioni di Git secondo le esigenze personali del programmatore.
+
+Lo strumento che permette di configuare Git si chiama ''git config'' e consiste in variabili che contengono i valori delle nostre configurazioni. Queste variabili possono trovarsi in un:
+
+\begin{itemize}
+\item file ''/etc/gitconfig'' che contiene i valori per ogni utente del sistema e per tutti i repository configurati. Per leggere/scrivere questo file passiamo l'opzione ''$--$system'' a ''git config'';
+\item ''file \textasciitilde /.gitconfig'' che contiene i valori per uno specifico utente del sistema e per i repository da lui configurati. Per leggere/scrivere questo file passiamo l'opzione ''$--$global'' a ''git config'';
+\item file di configurazione locale che risiede nella cartella nascosta ''.git'' di ogni repository.
+\end{itemize}
+
+I valori di ogni livello sovrascrivono quelli di livello più alto, nello specifico se impostiamo un valore a livello di sistema e lo modifichiamo a livello locale di uno specifico repository, quello locale prevarrà su quello di sistema.
+
+Su sistemi Windows il file ''.gitconfig'' si trova generalmente nella cartella:
+
+\begin{center}
+\texttt{C:\textbackslash Documents and Settings \textbackslash User}
+\end{center}
+
+per quanto riguarda il file ''/etc/gitconfig'' si trova all'interno della directory ''MSys'' e dipende da dove l'utente sceglie di installare il software.
+
+\input{Configurazione/Sottosezioni/IdentitaPersonale.tex}
+
+\input{Configurazione/Sottosezioni/Editor.tex}
+
+\input{Configurazione/Sottosezioni/Diff.tex}
+
+\input{Configurazione/Sottosezioni/Alias.tex}
+
+\input{Configurazione/Sottosezioni/Visualizzazione.tex}
+
+\input{Configurazione/Sottosezioni/Colorazione.tex}
