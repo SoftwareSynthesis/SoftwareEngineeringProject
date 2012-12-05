@@ -1,0 +1,259 @@
+% shared/template.tex
+%
+% Contiene un modello di documento che deve essere copiato e opportunamente
+% modificato per creare i documenti 'concreti' di progetto. Definisce le macro
+% specifiche per il documento corrente, importa la parte di preambolo condivisa
+% e le pagine comuni a tutti i documenti.
+% In particolare, per ogni documento concreto occorre per prima cosa aggiornare
+% le macro, inserire una voce nella tabella delle modifiche e inserire il testo
+% (o includere file sorgenti esterni) a partire dalla riga 66 in poi.
+
+% **************************************************
+% Macro specifiche per il documento corrente
+% **************************************************
+% Nome
+\newcommand{\docName}{Norme di Progetto}
+% Nome file
+\newcommand{\docFileName}{Norme di Progetto}
+% Versione
+\newcommand{\docVers}{1.0}
+% Data creazione
+\newcommand{\creationDate}{05/12/2012}
+% Data ultima modifica
+\newcommand{\modificationDate}{05/12/2012}
+% Stato in {Approvato, Non approvato}
+\newcommand{\docState}{Non approvato}
+% Uso in {Interno, Esterno}
+\newcommand{\docUsage}{Interno}
+% Redattori da specificare come nome1\\ &nome2\\ ecc.
+\newcommand{\docAuthors}{Marco Schivo}
+% Approvato da
+\newcommand{\approvedBy}{}
+% Verificatori
+\newcommand{\verifiedBy}{}
+% Perscorso (relativo o assoluto) che punta alla directory contenente shared/
+% come sua sottodirectory (per comodità chiamiamola 'doc root').
+\newcommand{\docRoot}{..}
+
+% importa il preambolo condiviso da tutti i documenti
+\input{\docRoot/shared/preamble.tex}
+
+% Fine del preambolo e inizio del documento
+\begin{document}
+
+% Inclusione della prima pagina
+\input{\docRoot/shared/firstpage.tex}
+
+% Storico delle modifiche
+\section*{Storia delle modifiche}
+\begin{tabularx}{\textwidth}{lXll}
+\toprule
+Versione & Descrizione intervento & Redattore & Data\\
+\midrule % inserire qui il contenuto della tabella
+0.3 & Stesura sezione ambiente documentale & Marco Schivo & 07/12/2012\\
+0.2 & Stesura sezione ambiente di lavoro & Marco Schivo & 06/12/2012\\
+0.1 & Stesura scheletro documento, sezione comunicazione & Marco Schivo & 05/12/2012\\
+\bottomrule
+\end{tabularx}
+\newpage
+
+% inclusione dell'indice
+\input{\docRoot/shared/toc.tex}
+
+% Alcuni aggiustamenti per le pagine
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\pagestyle{normal}
+
+% Qui ha inizio il documento vero e proprio
+\section{Introduzione}
+\subsection{Scopo del prodotto}
+Con progetto "MyTalk" intendiamo un sistema software di comunicazione tra utenti mediante browser, utilizzando solo componenti standard, senza dover installare plugin o programmi esterni. L'utilizzatore dovrà poter chiamare un altro utente, iniziare la comunicazione sia audio che video, svolgere la chiamata e terminare la chiamata ottenendo delle statistiche sull'attività.
+
+\subsection{Scopo del documento}
+Questo documento viene redatto per definire le norme da adottare da parte di tutti i componenti del gruppo Software Synthesis durante il periodo di svolgimento del capitolato "MyTalk", commissionato dall'azienda Zucchetti SPA. In particolare si andranno a definire le regole per:
+\begin{itemize}
+\item Relazioni interpersonali e comunicazione
+\item Definizione dell'ambiente di lavoro
+\item Redazione documenti
+\item Convenzioni e norme per l'analisi e la progettazione
+\item Convenzioni e norme per la verifica di file e documenti
+\end{itemize}
+
+\subsection{Ambiguità}
+Al fine di evitare incomprensioni dovute all'uso di termini tecnici nei documenti, viene redatto e allegato il documento "Glossario.pdf" dove vengono definiti e descritti tutti i termini marcati con una sottolineatura.
+
+\newpage
+\section{Relazioni interpersonali e comunicazione}
+\subsection{Comunicazione interna}
+La comunicazione tra i vari componenti del team avverrà principalmente durante gli incontri che si terranno in un luogo fisico comune. Per evitare problemi dovuti alla mancata presenza da parte di un membro, le notifiche dell'attività svolta durante l'incontro verranno scritte in un calendario comune messo a disposizione.
+Nei casi in cui il lavoro si svolgerà presso la propria abitazione, si potrà utilizzare \textit{Skype} per avviare chat, chiamate e videoconferenze di gruppo.
+Qualora si evinca la necessità di un ritrovo fisico comune ma vi è l'impossibilità da parte di alcuni membri di recarsi nel luogo prefissato, allora si procederà suddividendo il gruppo in due sottogruppi, ciascuno con un luogo di ritrovo prefissato. I due team di sviluppo quindi potranno comunicare con l'altro team mediante software di comunicazione prestabilito.
+
+
+\subsection{Comunicazione esterna}
+I contatti verso l'esterno saranno a cura del responsabile di progetto. A tale scopo è stato creato un indirizzo di posta elettronica tramite il quale la persona incaricata tratterà a nome dell'intero gruppo Software Synthesis. L'email sopra descritta è \textit{info@softwaresynthesis.org} e l'inoltro di risposte a tutti gli altri membri sarà sempre a carico del responsabile di progetto che dovrà utilizzare i metodi descritti nella sezione "Comunicazione Interna".
+
+\subsection{Incontri Interni}
+Saranno fissate delle riunioni formali decise dal responsabile di progetto che provvederà rendere noto a tutti luogo, data e ora della seduta mediante email personale con almeno tre giorni di anticipo. Nell'email sarà contenuta anche la motivazione per cui si è reso necessario l'incontro. Ai membri è richiesta la conferma di partecipazione tramite risposta sempre via email. Nel caso un componente del team non posso essere presente alla riunione decisa, dovrà specificarne il motivo nell'email di risposta al responsabile.
+Ogni membro del gruppo ha la possibilità di richiedere un incontro interno: tale domanda dovrà venir indirizzata sempre al responsabile di progetto, il quale la visionerà e pianificherà un eventuale incontro.
+Ad ogni riunione verrà redatto un verbale dove verranno annotate tutte le decisioni prese e i punti salienti della discussione.
+
+\subsection{Incontri Esterni}
+Sarà il responsabile di progetto a prendere accordi per incontri con il committente o con i proponenti.
+Ogni membro del gruppo può richiedere un incontro esterno al responsabile, presentando una motivazione. Questa necessità verrà presentata all'intero team e solo nel momento in cui ci saranno tre conferme, con relativa presenza all'incontro, il responsabile provvederà a prendere appuntamento con la parte esterna. In caso contrario la proposta sarà bocciata.
+
+\newpage
+\section{Ambiente di lavoro}
+\subsection{Repository}
+Per un corretto svolgimento del progetto si è reso necessario adottare un luogo dove poter cercare e salvare tutti i documenti da redigere, nonché i file di codifica. Per questo si è deciso di adottare un repository ospitato da \textit{github}. Il motivo principale di questa scelta sta nel fatto che Git, rispetto ad altri sistemi quali Sourceforge ad esempio, è un sistema di controllo di versione distribuito. Rientra infatti nei repository di tipo Distribuited Control Version System (DVCS) mentre sourceforge rientra nei repository di tipo Centralized Control Version System. La differenza sta nel fatto che in Git ognuno di noi avrà in locale l'intera copia del repository, quindi tutti i vari commit, rami ecc. mentre con sourceforge in locale si ha solo la situazione dell'ultimo commit e se si deve eseguire operazioni di roolback si ha bisogno della connessione di rete per potersi connettere al server centrale.
+
+\subsubsection{Struttura}
+\begin{itemize}
+\item \textbf{Progetto}: l'indirizzo web a cui fa riferimento l'intero progetto è: 
+\begin{center}
+\url{"https://github.com/SoftwareSynthesis/MyTalk"}
+\end{center} 
+\item \textbf{Documentazione}: tutti i documenti saranno reperibili all'indirizzo
+\begin{center}
+\url{"https://github.com/SoftwareSynthesis/MyTalk/Documents"}
+\end{center}
+Ogni documento redatto dovrà essere contenuto in una sotto-cartella della directory "Documents" nominata come il nome del documento stesso: questa conterrà i file \LaTeX. E' inoltre presente una cartella "Revisioni", composta a sua volta da quattro sotto-cartelle ("RR", "RP", "RQ", "RA") che conterranno i documenti formali consegnati alle quattro revisioni del progetto ed una cartella "Pics" che conterrà tutte le immagine utilizzate nei documenti.
+\item \textbf{Codice}: tutti i file sorgente saranno reperibili all'indirizzo
+\begin{center}
+\url{"https://github.com/SoftwareSynthesis/MyTalk/Code"}
+\end{center}
+Le regole da adottare per utilizzare questa cartella saranno redatte non appena si verificherà la necessità.
+\item \textbf{Others}: per qualsiasi altro file di utilità per il progetto, è stata predisposta una cartella "Others" utilizzabile da tutti i membri.
+\end{itemize}
+
+\subsubsection{Sistema di versionamento}
+Come sistema di controllo di versione è stato adottato \textit{git}.
+
+\subsection{Sistema di tracciamento dei requisiti}
+Al fine di rendere automatico e sistematico la gestione del tracciamento dei requisiti, è stato creato un sistema che si appoggia al sito aziendale. Ogni volta che un membro del gruppo necessita di interagire con tale sistema, si dovrà autenticare alla pagina \\\\ \url{http://www.softwaresynthesis.org/}.
+\newline
+Il sistema di tracciamento offre le seguenti 5 opzioni:
+\begin{itemize}
+\item \textbf{Gestione requisiti}: permette l'inserimento, modifica e la cancellazione di un requisito.
+\item \textbf{Gestione fonti}: permette l'inserimento, modifica e la cancellazione di una fonte da intendersi come ad esempio il capitolato d'appalto.
+\item \textbf{Gestione casi d'uso}: permette l'inserimento di un caso d'uso con relativi scenari  e requisiti associati.
+\item \textbf{Gestione attori}: permette l'inserimento, modifica e la cancellazione di un attore utilizzabile in seguito per lo sviluppo di un caso d'uso.
+\end{itemize}
+Il sistema è basato su tecnologie mysql con creazione del database sotto engine inno_db. Per sopperire ad alcune mancanze del sistema di tracciamento, lo sviluppatore si potrà appoggiare alla piattaforma phpmyadmin fornita dal web host, al fine di modificare e gestire alcuni dati del database. In particolare, se ne obbliga l'utilizzato nei seguenti casi:
+\begin{itemize}
+\item modifica di un caso d'uso;
+\item cancellazione di un caso d'uso.
+\end{itemize}
+Quest'obbligo di gestione è dovuto a mancanze temporali nella fase di sviluppo del sistema, nel periodo antecedente alla consegna dei capitolati, e anche in parte per la compless
+
+
+\subsection{Sistema operativo}
+L'intero progetto verrà portato avanti attraverso sistemi Unix e Windows, più in particolare MacOsX, Fedora, Windows 8. Questa scelta deriva dal fatto che essendo il progetto MyTalk un applicativo web, non si sono riscontrate dipendenze alcune da librerie di sistema.
+
+\newpage
+\section{Ambiente documentale}
+In questa sezione verranno illustrati i vari standard utilizzati dal team per la produzione di documenti durante l'intero progetto. 
+
+\subsection{Software utilizzati}
+Tutti i documenti dovranno essere scritti in italiano con \Latex, un software free di composizione testuale che comprende una serie di caratteristiche atte alla produzione di documentazione tecnica e scientifica.
+\newline Per attuare questa scelta, l'azienda Software Synthesis ha deciso di utilizzare come editor \Latex \textit{TexMaker}, software disponibile sia per ambienti Unix che Windows. Si presenta come un software molto flessibile che include al suo interno la correzione ortografica automatica, l'autocompletamento e un visualizzatore di PDF integrato. 
+
+\subsection{Impostazioni di base di un documento}
+Ogni documento dovrà attenersi alle seguenti regole per la sua redazione:
+\begin{itemize}
+\item \textbf{Intestazione}: composta dalla sezione del documento nella parte sinistra e dal logo nella parte destra.
+\item \textbf{Piè di pagina}: composto dal nome del documento con relativa versione nella sinistra  e dal numero di pagina nella destra.
+\end{itemize}
+La prima pagina di ogni documento dovrà contenere come prima cosa il logo dell'azienda Software Synthesis, il nome del documento e una tabella che riporta le seguenti informazioni sul file:
+\begin{itemize}
+\item nome del file;
+\item versione;
+\item data creazione;
+\item data ultima modifica;
+\item stato;
+\item uso;
+\item redattori;
+\item approvato da;
+\item verificatori.
+\end{itemize}
+
+Nella seconda pagina invece dovrà essere presente la tabella delle modifiche apportate. Queste dovranno essere inserite in ordine cronologico dalla più recente alla creazione, specificando:
+\begin{itemize}
+\item versione del documento;
+\item descrizione dell'intervento;
+\item redattore;
+\item data modifica.
+Seguirà su una nuova pagina l'indice dell'intero documento e in caso di presenza di tabelle e immagini sarà presente anche l'indice delle tabelle e l'indice delle immagini a seguire.
+
+\subsection{Template}
+Ogni documento dovrà essere generato includendo il template \Latex presente nella cartella "Documents". Questo file è stato redatto prima dell'inizio di stesura di ogni altro documento sotto comune accordo. La modifica perciò di tale template deve essere richiesta all'amministratore di progetto che analizzerà l'esigenza e darà una risposta positiva o negativa. In caso positivo, si procederà all'attuazione delle modifiche e verrà informato l'intero team al fine che ogni membro modifichi il documento su cui sta lavorando.
+
+\subsection{Glossario}
+Il glossario è un documento nel quale vengono riportate tutte le parole difficilmente comprensibili o dal significato ambiguo presenti nei documenti. E' un documento un pò particolare in quanto non rispetta le regole stilistiche degli altri documenti. Non sarà presente l'indice dei contenuti, ma solo una pagina iniziale contenente le informazioni del documento, la tabella delle modifiche, una breve introduzione e a seguire le voci ordinate alfabeticamente.
+
+\subsection{Nomi dei documenti}
+Il nome dei documenti dovrà rappresentare in modo univoco la natura del file e sarà composto nel seguente modo:
+\begin{center}
+nome\textunderscore del\textunderscore file.X.Y.estensione
+\end{center}
+dove:
+\begin{itemize}
+\item \textbf{nome\textunderscore del\textunderscore file}: il nome del file non dovrà contenere lettere maiuscole ne caratteri speciali. Nel caso sia composto da più parole, questa vanno separate con il carattere underscore.
+\item \textbf{Variabile X}: Indica il raggiungimento di uno stato formale rispetto ad una milestone. Assumerà quindi principalmente 4 valori, dall'1 al 4 attribuiti come segue:
+\begin{center}
+\begin{tabularx}{\textwidth}{lXll}
+\toprule
+Milestone & X\\
+\midrule
+Revisione dei Requisiti (RR) & 1\\
+Revisione dei Requisiti (RP) & 2\\
+Revisione dei Requisiti (RQ) & 3\\
+Revisione dei Requisiti (RA) & 4\\
+\bottomrule
+\end{tabularx}
+\end{center}
+\item \textbf{Variabile Y}: parte dal valore 0 e viene incrementata ogni qualvolta, senza limite superiore, si apportano modifiche sostanziali al documento, come ad esempio la stesura di una nuova sezione o correzione di errori.
+\end{itemize}
+
+\subsection{Norme tipografiche}
+Questa sezione descrive le norme da utilizzare per l'utilizzo dell'ortografia, tipografia e l'assunzione si uno stile uniforme nel redigere i documenti.
+
+\subsubsection{Stili di testo}
+\begin{itemize}
+\item \textbf{Grassetto}: usato per evidenziare passaggi importanti. Si utilizza anche su elementi immediatamente seguenti agli elenchi per evidenziare l'oggetto trattato nel paragrafo.
+\item \textbf{Corsivo}: usato per dare enfasi a parole o frasi su cui prestare attenzione.
+\item \textbf{Sottolineato}: le parole sottolineate sono riportate nel glossario. Ogni occorrenza di tali parole va sottolineata.
+\item \textbf{Maiuscolo}: le parole in maiuscolo vanno usate solo per acronimi.
+\end{itemize}
+
+
+
+\subsection{Grafici UML}
+
+\subsection{Ambiente di sviluppo}
+
+\subsection{Ambiente di verifica e validazione}
+
+
+\newpage
+\section{Convenzioni e norme per l'analisi e la progettazione}
+\subsection{}
+
+\subsection{}
+
+\subsection{}
+
+\subsection{}
+
+\newpage
+\section{Convenzioni e norme per la verifica di file e documenti}
+\subsection{}
+
+\subsection{}
+
+\subsection{}
+
+\subsection{}
+
+\end{document}
