@@ -1,9 +1,9 @@
 \begin{abstract}
-La presente, vuol'essere una "bozza" per un ipotetico studio di fattibilità. Di seguito verranno discussi i punti salienti che riguardano il capitolato C1, del corso di ingegneria del software. Si cercherà quindi di stabilire quali tecnologie sono necessarie al conseguimento dell'obbiettivo, e le problematiche insite nell'affrontarlo, sia sul piano dei requisiti che sul piano delle tecnologie.
+Con il presente documento, il gruppo Software Synthesis, itende dimostrare la fattibilità della realizzazione del progetto MyTalk. Si cercherà di stabilire quali tecnologie sono necessarie al conseguimento dell'obbiettivo, e le problematiche insite nell'affrontarlo, sia sul piano dei requisiti che sul piano delle tecnologie.
 \end{abstract}
 \newpage
 
-\section{Descrizione sommaria del capitolato}
+\section{Descrizione sommaria del capitolato scelto}
 Il capitolato C1 (denominato MyTalk) proposto dall'azienda italiana Zucchetti, prevede la creazione di un software di comunicazione audio/video, basato sul progetto (attualmente ancora in fase di sviluppo) WebRTC. Proprio perchè nato di recente, WebRTC è facilemtne soggetto a modifiche (si pensi che in relazione alla data in cui è scritto il presente, l'ultima modifica risale al 15 novembre). Di conseguenza il committente ha precisato i seguenti punti fondamentali:
 
 \begin{itemize}
@@ -11,7 +11,7 @@ Il capitolato C1 (denominato MyTalk) proposto dall'azienda italiana Zucchetti, p
 	\item i requisiti opzionali sono modificabili/eliminabili/aggiungibili in corso d'opera, proprio perchè a priori non è evidentemente chiara la loro fattibilità.
 \end{itemize}
 
-Senza prendere in considerazione la completezza dei requisiti obbligatori, riportiamo di seguito alcuni punti fondamentali da cui è possibile trarre spunti per la determinazione di problemi tecnici e progettuali (che per l'appunto sono lo scopo di tale documento):
+Senza prendere in considerazione la completezza dei requisiti obbligatori (scopo del documento ''Analisi dei requisiti''), riportiamo di seguito alcuni punti fondamentali da cui è possibile trarre spunti per la determinazione di problemi tecnici e progettuali:
 
 \begin{itemize}
 	\item l'applicativo non dovrà richiedere installazione ne di plugin ne di componenti aggiuntivi. Sfrutterà semplicemente il browser Chrome;
@@ -23,10 +23,10 @@ Senza prendere in considerazione la completezza dei requisiti obbligatori, ripor
 \section{Studio del dominio}
 
 \subsection{Dominio tecnologico}
-La realizzazione del progetto MyTalk richiede la conoscenza di alcunistrumenti tecnologici obbligatori, senza i quali sarebbe impossibile rispondere alle esigenze del committente. Di seguito riportiamo un elenco delle conoscenze richieste, affiancate da:
+La realizzazione del progetto MyTalk richiede la conoscenza di alcuni strumenti tecnologici obbligatori, senza i quali sarebbe impossibile rispondere alle esigenze del committente. Di seguito riportiamo un elenco delle conoscenze richieste, affiancate da:
 
 \begin{itemize}
-	\item una breve descriione;
+	\item una breve descrizione;
 	\item una serie di riferimenti alle parti che potrebbero (sempre in termini di anlisi preliminare) richiedere una conoscenza più o meno elevata di tale tecnica/tecnologia;
 	\item una serie di link a guide o dispense informative, per una maggior trattazione dell'argomento.
 \end{itemize}
@@ -35,16 +35,16 @@ La realizzazione del progetto MyTalk richiede la conoscenza di alcunistrumenti t
 \begin{description}
 	\item{\scshape\bfseries Descrizione:} WebRTC è un progetto open source di comunicazione audio/video real time proposto da Google. Il progetto consiste in una serie di API scritte in javascript. Ad oggi (data di stesura del documento), WebRTC è ancora in fase di sviluppo, o meglio, non ha ancora raggiunto una versione stabile e convalidata dal W3C. Stando agli sviluppatori del progetto, WebRTC dovrà fornire la possibilità di creare applicazioni web per il realtime multimedia (ad esempio: video chat), senza richiedere l'installazione di plugin o contenuti aggiuntivi.\\\\In ambito più generale, l'opera di standardizzazione della comunicazione real time mediante applicativi web, passa attraverso due aspetti: la standardizzazione delle interfacce programmatiche che i browser offriranno agli sviluppatori di applicazioni, e i protocolli per lo scambio di media tra browser e browser. I due aspetti sono affrontati rispettivamente dalle iniziative WebRTC in w3c, e RTCWEB in IETF. In sintesi RTCWEB rappresenta l'aspetto di basso livello della comunicazione RTC in ambito web, mentre WebRTC rappresenta l'alto livello, ossia le interfacce (tra cui quella) per la gestione dei flussi audio e video.
 
-	\item{\scshape\bfseries Riferimenti:} ''Il progetto deve essere basato sulla tecnologia WebRTC, parte delle proposte di evoluzione dell'HTML5.''
+	\item{\scshape\bfseries Riferimenti:} ''Il progetto deve essere basato sulla tecnologia WebRTC, parte delle proposte di evoluzione dell'HTML5.'' - estratto dal capitolato C1.
 	
 	\item{\scshape\bfseries Link utili:}\\Sito ufficiale del progetto WebRTC:\\http://www.webrtc.org/\\\\Pagina con le specifiche delle API:\\http://dev.w3.org/2011/webrtc/editor/webrtc.html\\\\ Per una lettura introduttiva, consultare l'allegato: ''Introduzione WebRTC.pdf'';
 \end{description}
 
 \subsubsection{Java - webSoket}
 \begin{description}
-	\item{\scshape\bfseries Descrizione:} è un'implementazione java e javascript del protocollo WebSocket HTML5. Questa contiene jWebSocketServer che è la parte di nostro interesse: una implementazione basata su Java per soluzioni streaming bidirezionali server-to-client e comunicazione client-to-client. L'idea è che il server utilizzi questa tecnologia per restare in ascolto di richieste da parte dei client, in questo caso l'avvio di chiamate e videochiamate. Nel sito riportato all'inizio, c'è molta documentazione che spiega bene nei dettagli come avviene il tutto.
+	\item{\scshape\bfseries Descrizione:} è un'implementazione java e javascript del protocollo WebSocket HTML5. Questa contiene jWebSocketServer: un'implementazione basata su Java per soluzioni streaming bidirezionali server-to-client e comunicazione client-to-client. L'idea è che il server utilizzi questa tecnologia per restare in ascolto di richieste da parte dei client, in questo caso l'avvio di chiamate e videochiamate.
 
-	\item{\scshape\bfseries Riferimenti:} dal capitolato: ''La parte server, necessaria solo nella fase di inizializzazione della chiamata, dovrà essere realizzata in Java e utilizzare il protocollo di comunicazione WebSocket.''
+	\item{\scshape\bfseries Riferimenti:} dal capitolato: ''La parte server, necessaria solo nella fase di inizializzazione della chiamata, dovrà essere realizzata in Java e utilizzare il protocollo di comunicazione WebSocket.'' - estratto dal capitolato C1.
 
 	\item{\scshape\bfseries Link utili:} \\http://code.google.com/p/websockets4j/
 \\\\http://technology.amis.nl/2012/01/14/implementing-a-java-server-side-\\component-for-jwebsocket-server-for-websocket-interaction-with-web-\\clients/
@@ -69,7 +69,7 @@ La realizzazione del progetto MyTalk richiede la conoscenza di alcunistrumenti t
   Integrare il codice JavaScript all'interno di una pagina web è possibile fra i tag \texttt{<script>}\dots\texttt{<script>} con l'attributo \texttt{type} per specificare \texttt{text/javascript}. Il codice dello script può essere inserito nell'elemento head o nel body all'interno della pagina o, se viene richiamato in più pagine, in un file di testo esterno con estensione \texttt{.js} incluso mediante l'attributo \texttt{src} in un elemento \texttt{script}.
   
 	\item{\scshape\bfseries Riferimenti:}
-  <<il programma che sarà realizzato non deve essere inteso come una pagina Web ma come un software che per l'occasione utilizzi il linguaggio Javascript e le librerie contenute nel browser>>
+  ''il programma che sarà realizzato non deve essere inteso come una pagina Web ma come un software che per l'occasione utilizzi il linguaggio Javascript e le librerie contenute nel browser'' - estratto dal capitolato C1.
 
 	\item{\scshape\bfseries Link utili:}\\
   Alcune fonti da cui ho liberamente attinto (oltre Wikipedia):\\
@@ -79,9 +79,13 @@ La realizzazione del progetto MyTalk richiede la conoscenza di alcunistrumenti t
 
 \subsubsection{JQuery}
 \begin{description}
-	\item{\scshape\bfseries Descrizione:}
-	\item{\scshape\bfseries Riferimenti:} 
-	\item{\scshape\bfseries Link utili:}  
+	\item{\scshape\bfseries Descrizione:} JQuery è una libreria JavaScript veloce e concisa che ha il compito di semplificare l'attraversamento del codice HTML, la gestione degli eventi, le animazioni e le interazioni Ajax (ossia chiamate asincrone). Il framework è stato sviluppato con il preciso intento di rendere il codice più sintetico e di limitare al minimo l’estensione degli oggetti globali per ottenere la massima compatibilità con altre librerie. Da questo principio è nata una libreria in grado di offrire un'ampia gamma di funzionalità, che vanno dalla manipolazione degli stili CSS e degli elementi HTML, agli effetti grafici per passare a comodi metodi per chiamate AJAX cross-browser. Il tutto, appunt, senza toccare nessuno degli oggetti nativi JavaScript.
+	\item{\scshape\bfseries Riferimenti:} non pervenuti nel capitolato. Inteso in relazione ad una considerazione del gruppo, risulta interessante il loro utillo al fine di riutilizzare funzionalità javascript già presenti.
+	\item{\scshape\bfseries Link utili:}
+	Guida html.it\\http://www.html.it/guide/guida-jquery/\\\\
+	Pagina ufficiale\\http://jquery.com/\\\\
+	Libreria\\http://jquery.com/download/\\\\
+	Documentazione API\\http://api.jquery.com/
 \end{description}
 
 \subsubsection{HTML5}
@@ -100,7 +104,7 @@ In particolare nella quinta versione di HTML:\\
 -sistema alternativo ai normali cookie (denominato Web Storage),con maggiore efficenza e risparmio di banda;\\
 -standardizzazione di programmi JavaScript (Web Workers) e possibilità di utilizzare alcuni siti offline;\\
 -sostituzione del doctype con un semplice <!DOCTYPE html>;
-	\item{\scshape\bfseries Riferimenti:} ''Il progetto deve essere basato sulla tecnologia WebRTC, parte delle proposte di evoluzione dell'HTML5''.
+	\item{\scshape\bfseries Riferimenti:} ''Il progetto deve essere basato sulla tecnologia WebRTC, parte delle proposte di evoluzione dell'HTML5.'' - estratto dal capitolato C1.
 	\item{\scshape\bfseries Link utili:} \\guide sullo standard HTML5, alcuni esempi:\\
 http://www.guidahtml5.com\\
 http://www.html.it/guide/guida-html5/ (esaustiva e fortemente consigliata)
@@ -171,8 +175,7 @@ Supporta inoltre al codec video VP8 e i codec audio iSAC (predefinito), iLBC, G.
 
 Per avere accesso a \texttt{getUserMedia} occorre abilitare dalla pagina di configurazione \texttt{chrome://flag} la funzione sperimentale "Ingresso Web Audio" (penultima in basso). Per il momento possiamo bellamente ignorare il rassicurante messaggio che compare all'inizio della pagina <<Non offriamo assolutamente alcuna garanzia su ciò potrebbe accadere se attivi uno di questi esperimenti: \textit{il tuo browser potrebbe persino andare in autocombustione}!>>
 	\item{\scshape\bfseries Riferimenti:}
-  <<L'estensione dell'HTML5 WebRTC presente nel browser Chrome si propone di rendere semplice la realizzazione di questi programmi e di far sì che le
-componenti necessarie siano installate praticamente in ogni computer.>>
+  ''L'estensione dell'HTML5 WebRTC presente nel browser Chrome si propone di rendere semplice la realizzazione di questi programmi e di far sì che le componenti necessarie siano installate praticamente in ogni computer.'' - estratto dal capitolato C1.
 
 	\item{\scshape\bfseries Link utili:}\\
   (generale)\\
@@ -188,9 +191,18 @@ componenti necessarie siano installate praticamente in ogni computer.>>
 \end{description}
 
 \subsection{Dominio applicativo}
-Nell'affrontare un progetto è essenziale chiedersi (al fine della fattibilità): qualcuno l'ha già fatto prima? Nel caso di MyTalk la risposta è si. Si riporta che il primo progetto di comunicazione audio/video tramite WebRTC è stato creato dalla Dubango Telecom, e prende il nome di sipML5. SipML5 è il primo client SIP che si basa su WebRTC scritto totalmente in JavaScript e completamente Open Source. La notizia, evidenziata dal sito:\\\\ http://www.html5today.it/link/sipml5-primo-client-sip-scritto-interamente-html5\\\\ dimostra come il progetto sia fattibile, quanto meno, nella realizzazione dei requisiti obbligatori. Si ribadisce che il progetto sipML5 è open source! Gli sviluppatori ne permettono l'accesso in lettura ai membri "non-partecipanti". Per accedere ai sorgenti sarà sufficiente seguire le indicazioni riportate alla pagina:\\\\ http://code.google.com/p/sipml5/source/checkout\\\\ In merito ad altri applicativi software di voip, è possibile trarre spunti per l'implementazione di requisiti opzionali, analizzando programmi come Skype, seguendo il principio ''impariamo dai migliori!''.
-\\\\
-NOTA AGGIUNTIVA: alla pagina:\\\\ http://code.google.com/p/sipml5/wiki/Enable\_WebRTC\_On\_Chrome\\\\ è riportato un wiki che evidenzia la possibilità di attivare alcuni flag di google chrome, tra cui anche il WebRTC. Riportiamo la frase: ''To enable WebRTC, you need to activate both MediaStream and PeerConnection''.
+Essenziale, per analizzare la fattibilità del progetto, è stabilire se esiste o meno una prova documentata che un qualcosa di simile sia già stato realizzato. Sotto tale tema, si riporta che il primo progetto di comunicazione audio/video tramite WebRTC è stato creato dalla Dubango Telecom, e prende il nome di sipML5. SipML5 è il primo client SIP che si basa su WebRTC scritto totalmente in JavaScript e completamente Open Source. La notizia, evidenziata dal sito:\\\\ http://www.html5today.it/link/sipml5-primo-client-sip-scritto-interamente-html5\\\\ dimostra come il progetto sia fattibile, quanto meno, nella realizzazione dei requisiti obbligatori. Si ribadisce che il progetto sipML5 è open source! Gli sviluppatori ne permettono l'accesso in lettura ai membri "non partecipanti". Per accedere ai sorgenti sarà sufficiente seguire le indicazioni riportate alla pagina:\\\\ http://code.google.com/p/sipml5/source/checkout\\\\ In merito ad altri applicativi software di voip, è possibile trarre spunti per l'implementazione di requisiti opzionali, analizzando programmi come Skype, seguendo il principio ''impariamo dai migliori!''.
+
+\subsection{Conclusioni sul dominio}
+Per quanto riguarda il dominio tecnologico:
+\begin{itemize}
+	\item[•] Dall'analisi del capitolato è emerso l'uso obbligatorio di 5 tecnologie: WebRTC, HTML5, Protocolli di Google Crome, WebSoket, Javascript. Alcuni di tali tecnologie sono nuove per una piccola parte dei componenti del gruppo. Tuttavia la ricerca di informazioni riguardanti il loro utilizzo è facilitata dalla mole di riferimenti a tutorial riscontrati nella fase di ''Dominio tecnologico''. Molti di questi linguaggi sono inoltre fonte di studio per il corso di studi ''Tecnologie Web''. Ne consegue che il gruppo avrà modo di approfondire il loro utilizzo durante il secondo trimestre dell'anno 2012-2013, affiancando ad uno studio autodidattico, le conoscenze apprese durante il già citato insegnamento.
+	\item[•] Alle tecnologie obbligatorie se ne affiancano altre facoltative, il cui vantanggio è garantire un riuso sostanziale di funzionalità rese già disponibili (vedi JQuery).
+	\item[•] Il dominio applicativo dimostra che un progetto simile essite già. Il team intende studiare i sorgenti resi disponibili dal gruppo Dubango Telecom, al fine di trarre spunti sull'utilizzo del WebRTC e, se si riscontrasse la possibilità, riutilizzare parte delle funzionalità proposte dal progeto SipML5.
+	\item[•] L'ormai consolidato utilizzo di programmi di comunicazione RT, permette ai membri del gruppo di avere una conoscenza basilare sui requisiti utente, desiderabili per un end user.
+	
+Per i motivi sopracitati, il gruppo Software Synthesis ritiene che il progetto sia fattibile.
+\end{itemize}
 
 \section{Valutazione del capitolato}
 
@@ -199,11 +211,11 @@ NOTA AGGIUNTIVA: alla pagina:\\\\ http://code.google.com/p/sipml5/wiki/Enable\_W
 	\item Le tecnologie richieste per la creazione dell'applicativo, sono attualmente in via di definizione. La tecnologia WebRTC non è ancora uno standard, e il fatto che le sue API vengano modificate in corso d'opera del progetto, è una certezza. Si pensi che nella data attuale, l'ultima modifica apportata all'architettura risale al 15 novembre. Tuttavia "sembrerebbe" sensato supporre che le modifiche non intaccheranno in termini distruttivi le basi già istanziate. Questa è ovviamente una congettura personale, che non rappresenta necessariamente la realtà dei fatti. Tuttavia come  si evidenzierà nel paragrafo successivo, ciò può comportare anche un punto a nostro favore.
 \end{itemize}
 
-\subsection{Vantaggi vari ed evventuali}
+\subsection{Vantaggi potenziali}
 \begin{itemize}
 	\item Estratto dal capitolato: ''In corso d'opera non sarà possibile variare/modificare i requisiti minimi (obbligatori per accettare il prodotto). Sarà invece possibile variare i requisiti opzionali, in quanto saranno i gruppi vincitori dell'appalto a modificarli/eliminarli/aggiungerli''. Di conseguenza, non occorre farsi intimorire dall'applicazione del WebRTC, in quanto se si evidenzia l'impossibilità di soddisfare alcuni requisiti obbligatori, potremmo tranquillamente segnalarlo e abbandonarne lo sviluppo. Va da se, che è una pratica sconsigliata. Se mai è più ragionevole partire con meno requisiti opzionali, e aggiungerne in seguito se si crede che il tutto sia fattibile.
 	\item Il software da sviluppare si poggia completamente sul browser Chrome. Di conseguenza si sarà completamente svincolati dalla gestione delle dipendenze dei sistemi operativi sottostanti.
 	\item L'applicativo software poggia le sue funzionalità su un ''sito web'' che dovrà fungere da server. Per la creazione di tale sito si potrà sfruttare lo spazio web del gruppo, sia per sperimentare il corretto funzionamento delle parti (in fase di sviluppo), sia per permettere al committente di accedere egli stesso all'ambiente, al fine di verificare lo stato del prodotto.
-	\item Riprendendo quanto citato nel paragrafo  "Valutazione rischi", la possibilità che alcune strutture logiche varino durante lo sviluppo del progetto, imporrà al nostro team di creare un architettura sensata e ben curata. Dando quindi un occhio di riguardo al riuso e alla "scalabilità" della struttura, incentiveremo l'utilizzo di pattern appropriati e ricercati. Tali potranno risultare punti a nostro favore nel momento della valutazione da parte del docente.
+	\item Riprendendo quanto citato nel paragrafo  "Valutazione rischi", la possibilità che alcune strutture logiche varino durante lo sviluppo del progetto, imporrà al nostro team di creare un architettura sensata e ben curata. Dando quindi un occhio di riguardo al riuso e alla "scalabilità" della struttura, incentiveremo l'utilizzo di pattern appropriati e ricercati. Tali considerazioni dovranno incentivare i membri del gruppo alla ricerca di un architettura il più performante possibile.
 	\item Come riportato alla voce "Dominio Applicativo" si evidenzia che il progetto è fattibile. Inoltre è possibile accedere a dei sorgenti che mostrano come operare con la tecnologia WebRTC mediante Javascript.
 \end{itemize}
