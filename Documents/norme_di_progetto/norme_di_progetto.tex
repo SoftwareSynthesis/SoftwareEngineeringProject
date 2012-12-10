@@ -332,12 +332,65 @@ Nel caso di immagine generiche, il loro nome dovrà rispecchiare il contenuto di
 
 \newpage
 \section{Analisi dei Requisiti}
-L'analisi dei requisiti dovrà essere redatta dagli analisti. Il documento si presenterà suddiviso principalmente in tre parti: una prima parte riguardante i requisiti, una seconda parte riguardante i casi d'uso e la parte finale riguardante il tracciamento dei due elementi descritti sopra.
+L'analisi dei requisiti dovrà essere redatta dagli analisti. Il documento si presenterà suddiviso principalmente in tre parti: una prima parte riguardante i requisiti, una seconda parte riguardante i casi d'uso e la parte finale riguardante il tracciamento dei due elementi appena elencati.
+
 \subsection{Norme per i requisiti}
+La parte riguardante i requisiti dovrà elencare ordinatamente tutti i requisiti evinti dal capitolato d'appalto o dagli incontri con il proponente. Per far ciò, \textit{ogni requisito avrà nome univoco} e dovrà essere indicato nel formalismo:
+\begin{center}
+R\{Ambito\}\{Tipo\}\{Priorità\}\{Gerarchia\}
+\end{center}
+dove:
+\begin{itemize}
+\item \textbf{Ambito}: indicherà l'ambito del requisito e potrà assumere i seguenti valori
+\begin{itemize}
+\item U per indicare ``Utente'';
+\item S per indicare ``Sistema''.
+\end{itemize}
+\item \textbf{Tipo}: indicherà il tipo del requisito e potrà assumere i seguenti valori
+\begin{itemize}
+\item F per indicare ``Funzionale'';
+\item Q per indicare ``di Qualità'';
+\item P per indicare ``Prestazionale'';
+\item V per indicare ``di Vincolo''.
+\end{itemize}
+\item \textbf{Priorità}: indicherà la priorità del requisito e potrà assumere i seguenti valori
+\begin{itemize}
+\item O per indicare ``Obbligatorio'', ossia necessario per la realizzazione del progetto;
+\item D per indicare ``Desiderabile'', ossia non obbligatorio ma, se implementato, aumenta il valore del progetto;
+\item F per indicare ``Facoltativo'', ossia un requisito da implementare se avanzano risorse al termine del progetto.
+\end{itemize}
+\item \textbf{Gerarchia}: indicherà il grado di parentela dei requisiti e andrà specificato nella sintassi
+\begin{center}
+\textit{x.y.z}
+\end{center}
+dove il numero più a sinistra rappresenta il padre e quelli più a destra i figli.
+\end{itemize}
+Ogni requisito dovrà essere presente nel documento attraverso una ``scheda'', dove oltre i dettagli ricavabili dal nome, dovranno essere specificati anche una breve descrizione, la fonte (ossia la loro origine) e il motivo.\\\\
+\textit{Esempio}\\
+``RUFO2.3.1'' indica un requisito utente, funzionale obbligatorio con padre RUFO2.3 che a sua volta è figlio di RUFO2.
 
 \subsection{Norme per i casi d'uso}
+Il nome di ogni caso d'uso dovrà essere anch'esso, come per i requisiti, univoco e nella forma:
+\begin{center}
+UC\{n1.n2...n3\}
+\end{center}
+dove con ``{n1.n2...n3\}'' intendiamo la gerarchia, ossia il grado di parentela. Come per i requisiti, il numero più a sinistra rappresenta il padre e quelli più a destra i suoi figli.\\
+Ogni caso d'uso dovrà avere i seguenti dettagli:
+\begin{itemize}
+\item Nome;
+\item Grafico UML;
+\item Scopo;
+\item Pre;
+\item Post;
+\item Attori;
+\item Scenario Principale;
+\item Scenari Secondari.    
+\end{itemize}
+\textit{Esempio}\\
+``UC1.2.3'' indica un caso d'uso con padre UC1.2 che a sua volta è figlio di UC1.
 
 \subsection{Tracciamento}
+Durante l'intero ciclo di vita del progetto, sono previste misure per il tracciamento dei casi d'uso con i relativi requisiti. Questo avviene grazie all'utilizzo del Sistema di Tracciamento dei requisiti descritto precedentemente. Tutta la gestione è automatica e in output sarà visualizzata una tabella con tre colonne: Codice UC, Nome UC, Requisito. Questa soluzione facilita notevolmente la gestione di grandi quantità di dati e un notevole risparmio di tempo.
 
 \newpage
 \section{Norme di verifica}
