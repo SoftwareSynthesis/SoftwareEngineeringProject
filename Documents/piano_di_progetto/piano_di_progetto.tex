@@ -1,0 +1,285 @@
+% shared/template.tex
+%
+% Contiene un modello di documento che deve essere copiato e opportunamente
+% modificato per creare i documenti 'concreti' di progetto. Definisce le macro
+% specifiche per il documento corrente, importa la parte di preambolo condivisa
+% e le pagine comuni a tutti i documenti.
+% In particolare, per ogni documento concreto occorre per prima cosa aggiornare
+% le macro, inserire una voce nella tabella delle modifiche e inserire il testo
+% (o includere file sorgenti esterni) a partire dalla riga 66 in poi.
+
+% **************************************************
+% Macro specifiche per il documento corrente
+% **************************************************
+% Nome
+\newcommand{\docName}{Piano di Progetto}
+% Nome file
+\newcommand{\docFileName}{piano di progetto}
+% Versione
+\newcommand{\docVers}{1.0}
+% Data creazione
+\newcommand{\creationDate}{05/12/2012}
+% Data ultima modifica
+\newcommand{\modificationDate}{06/12/2012}
+% Stato in {Approvato, Non approvato}
+\newcommand{\docState}{Non approvato}
+% Uso in {Interno, Esterno}
+\newcommand{\docUsage}{Interno}
+% Redattori da specificare come nome1\\ &nome2\\ ecc.
+\newcommand{\docAuthors}{Stefano Farronato\\ &Elena Zecchinato}
+% Approvato da
+\newcommand{\approvedBy}{}
+% Verificatori
+\newcommand{\verifiedBy}{}
+% Perscorso (relativo o assoluto) che punta alla directory contenente shared/
+% come sua sottodirectory (per comodità chiamiamola 'doc root').
+\newcommand{\docRoot}{..}
+
+% importa il preambolo condiviso da tutti i documenti
+\input{\docRoot/shared/preamble.tex}
+
+% Fine del preambolo e inizio del documento
+\begin{document}
+
+% Inclusione della prima pagina
+\input{\docRoot/shared/firstpage.tex}
+
+% Storico delle modifiche
+\section*{Storia delle modifiche}
+\begin{tabularx}{\textwidth}{lXll}
+\toprule
+Versione & Descrzione intervento & Redattore & Data\\
+\midrule % inserire qui il contenuto della tabella
+0.6.4 &Stesura e analisi sezione "Verifica e Validazione", & Elena Zecchinato & 11/12/2012\\
+0.6.4 &Stesura e analisi sezione "Progettazione di dettaglio e Codifica", & Stefano Farronato & 10/12/2012\\
+0.6.3 &Stesura e analisi sezione "Progettazione Architetturale", & Stefano Farronato & 10/12/2012\\
+0.6.2 &Stesura e analisi sezione "Analisi", & Elena Zecchinato & 08/12/2012\\
+0.6.1 &Stesura e analisi sezione "Ruoli e costi", & Elena Zecchinato & 08/12/2012\\
+0.6 &Inizio stesura "Pianificazione", & Elena Zecchinato & 08/12/2012\\
+0.5 &Stesura e analisi del "Modello di ciclo di vita", & Stefano Farronato & 06/12/2012\\
+0.4 &Modifica sezione "analisi dei rischi" con introduzione e analisi di nuovi rischi, & Stefano Farronato & 06/12/2012\\
+0.3 & Stesura capitolo "Riferimenti", & Stefano Farronato & 06/12/2012\\
+0.2.1 & Modifica sezione "analisi dei rischi" con introduzione e analisi di nuovi rischi, & Elena Zecchinato & 05/12/2012\\
+0.2 & Inizio stesura "analisi dei rischi", & Stefano Farronato & 05/12/2012\\
+0.1 & Stesura scheletro documento, introduzione e introduzione preliminare dei rischi & Stefano Farronato & 05/12/2012\\
+\bottomrule
+\end{tabularx}
+\newpage
+
+% inclusione dell'indice
+\input{\docRoot/shared/toc.tex}
+
+% Alcuni aggiustamenti per le pagine
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\pagestyle{normal}
+
+% Qui ha inizio il documento vero e proprio...
+\section{Organigramma}
+
+\section{Introduzione}
+\subsection{Scopo del prodotto}
+Con progetto "MyTalk" intendiamo un sistema software di comunicazione tra utenti mediante browser, utilizzando solo componenti standard, senza dover installare plugin o programmi esterni. L'utilizzatore dovrà poter chiamare un altro utente, iniziare la comunicazione sia audio che video, svolgere la chiamata e terminare la chiamata ottenendo delle statistiche sull'attività.
+
+\subsection{Scopo del documento}
+Il seguente documento ha lo scopo di presentare e definire i ruoli professionali dei membri del Team di lavoro dell'azienda Software Synthesis sul progetto "MyTalk" regolarmente accettato dall'azienda appaltatrice Zucchetti s.r.l.\\
+Sono inoltre descritti i costi stimati necessari al completamento di tale progetto e i rischi possibili nella sua realizzazione.Infine viene stilato il carico di lavoro distribuito per ogni soggetto del Team mediante un organigramma specificante tempo e risorse.
+\subsection{Glossario}
+
+\section{Riferimenti}
+\subsection{Normativi}
+VINCOLI DI ORGANIGRAMMA: Specificate dal Committente designato all'indirizzo\\ \textit{http://www.math.unipd.it/~tullio/IS-1/2012/Progetto/PD01b.html} \\\\
+NORME DI PROGETTO  v1.0 allegato
+
+\subsection{Informativi}
+RIFERIMENTI INFORMATIVI
+CAPITOLATO D'APPALTO: MyTalk, v 1.0, redatto e rilasciato dal proponente Zucchetti s.r.l reperibile all'indirizzo:\\ \textit{http://www.math.unipd.it/~tullio/IS-1/2012/Progetto/C1.pdf} \\\\
+TESTO DI CONSULTAZIONE: Software Engineering (8th edition) Isan Sommerville, Pearson Education | Addison-Wesley
+
+
+
+\section{Modello di ciclo di vita}
+Per lo sviluppo del prodotto MyTalk, il Team di Software Synthesis ha optato per il modello di ciclo di vita incrementale. Questa scelta è stata dettata da scelte prevalentemente dettate dalla scarsa esperienza dell'azienda nello sviluppo di determinati progetti, nonchè la scelta di realizzare un prodotto mediante passi pianificati in modo da poter gestire l'intero svolgimento progettuale nei tempi e nei costi previsti.\\\\
+Questo tipo di modello inoltre permetterà di sviluppare e completare il software sviluppando i requisiti minimi obbligatori imposti dal committente, procedendo successivamente all'integrazione dei requisiti facoltativi e desiderabili presi in considerazione. Si conclude quindi che il modello sarà dunque composto da due iterazioni.\\\\
+Basandoci sulle specifiche dettate da questo tipo di modello, il Team svolgerà inizialmente (e una sola volta) le fasi di analisi e progettazione a livello architetturale ad alto livello, successivamente si lavorerà iterativamente sul controllo e la valutazione della realizzazione nel dettaglio.
+
+\section{Pianificazione}
+\subsubsection{Ruoli e Costi}
+I ruoli  costituiscono delle funzioni aziendali che vengono assegnate al progetto.\\
+La seguente tabella riporta i ruoli che devono essere ricoperti dai membi del Team e i rispettivi 
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|rl|}
+\hline
+Ruolo& Costo Orario&  \\
+\hline
+Responsabile & 30 euro &\\
+Amministratore  & 20 euro&\\
+Analista & 25 euro&\\
+Progettista  & 22 euro&\\
+Programmatore & 15 euro&\\
+Verificatore & 15 euro&\\
+\hline
+\end{tabular}
+\caption{costo orario per ruolo}
+\end{table}
+
+
+Al fine di permettere che ogni membro del gruppo posso ricoprire almeno una volta ogni ruolo, è necessario adottare un meccanismo di rotazione.\\
+Tale meccanismo dovrà garantire, oltre alla rotazione, che non vi siano conflitti di interesse, ovvero che non ci siano periodi in cui una stessa risorsa sia verificatrice di se stessa.\\
+
+
+\subsubsection{Analisi}
+Questa fase inizia in data 29/11/2012 e finisce in data 10/01/2013.\\
+Tuttavia la data di consegna dei documenti che descrivono le fasi d'analisi sono previste il giorno 21/12/2012, restringendo il tempo produttivo effettivo.\\
+Questa fase coinvolge i ruoli di Responsabile, Amministratore, Analista e Verificatore.
+Le ore svolte dai vari componenti in questa fase non rientrano nel preventivo, la fase di analisi costituisce infatti un investimento da parte dell’azienda e non può quindi essere a carico del proponente ne faranno parte del massimo complessivo finale di 105 ore lavorative per componente .
+Verrà in ogni caso tenuto traccia del dettaglio delle ore compiute per la già concordata rotazione dei ruoli dei membri del Team. \\\\
+
+\begin{figure}[h]
+  \includegraphics[width=\textwidth]{Analisi}
+\caption{Gant della pianificazione d'Analisi }
+\end{figure}
+
+RUOLI ANALISI\\\\
+
+RISORSE ANALISI\\\\
+
+ORE PER COMPONENTE ANALISI\\\\
+
+\subsubsection{Progettazione Architetturale}
+Questa fase inizia in data 09/01/2013 e finisce in data 31/01/2013, per un totale di 20 giorni lavorativi. \\
+Questa fase coinvolge i ruoli di Responsabile, Amministratore, Analista, Progettista e Verificatore.
+L'analista in questa fase avrà un ruolo prevalentemente rifinitorio (ma doveroso) nei confronti dell'Analisi dei Requisiti, per rendere più sicuro e corretto possibile l'avvio progettuale della Specifica Tecnica.
+Si è deciso di suddividere questo periodo in due fasi. La prima fase termina il ... e la seconda il ...\\\\
+\begin{figure}[h]
+  \includegraphics[width=\textwidth]{Progettazione_Architetturale}
+\caption{Gant della Progettazione Architetturale }
+\end{figure}
+
+I ruoli sono in questa fase definiti come in tabella X:\\
+RUOLI PA\\\\
+Ad ogni risorsa sarà distribuito il seguente carico di lavoro (figura X):\\
+RISORSE PA\\\\
+Infine vengono fornite le ore distinte per componente del Team che sono state svolte in questa fase (tabella X):\\
+ORE PER COMPONENTE PA\\\\
+
+\subsubsection{Progettazione di Dettaglio e Codifica}
+La seguente fase inizia in data 07/02/2013 e terminerà in data 06/03/2013. In questo periodo si svilupperà la progettazione di dettaglio del prodotto MyTalk e la sua codifica.
+In questa fase, coerentemente con il modello di ciclo di vita scelto, la fase di Progettazione di Dettaglio e la Codifica avverranno per iterazioni.
+Sono previste X iterazioni, al terimine della prima sarà possibile avere il primo prototipo per testare le funzioni di MyTalk, in data 22/03/2013.
+E' stata scelta tale data anche per provvedere ad una doverosa rotazione di ruoli all'interno del Team di sviluppo, per consentire a tutti i soggetti di raggiungere il massimo apprendimento pratico dei vari compiti.
+Il diagramma di Gantt in figura X descrive l'organizzazione lavorativa:\\
+
+\begin{figure}[h]
+  \includegraphics[width=\textwidth]{Progettazione_di_Dettaglio_e_Codifica}
+\caption{Gant della Progettazione di Dettaglio e Codifica}
+\end{figure}
+I ruoli sono in questa fase definiti come in tabella X:\\
+RUOLI PDC\\\\
+Ad ogni risorsa sarà distribuito il seguente carico di lavoro (figura X):\\
+RISORSE PDC\\\\
+Infine vengono fornite le ore distinte per componente del Team che sono state svolte in questa fase (tabella X):\\
+ORE PER COMPONENTE PDC\\\\
+
+\subsubsection{Verifica e Validazione}
+Questa fase inizia in data 05/03/2012 e finisce in data 22/03/2012, per un totale di 16 giorni lavorativi.
+Questa fase coinvolge i ruoli di Responsabile, Amministratore, Progettista, Programmatore e Verificatore. Si può notare che non è più attivo quindi il ruolo di Analista, si prevede infatti che la in questa fase l’attività di analisi sia ovviamente conclusa.
+Anche per questa fase, come nella Progettazione Architetturale, si è adottata la suddivisione in due fasi: la prima fase termina il… e la seconda il…
+Nell’assegnazione dei ruoli si è volta particolare attenzione al conflitto di interessi,  progettando una distribuzione tale da evitare la situazione surreale in cui un verificatore controlli il suo stesso operato.\\
+Il diagramma di Gantt in figura X descrive l'organizzazione lavorativa:\\
+\begin{figure}[h]
+  \includegraphics[width=\textwidth]{Verifica_e_Validazione}
+\caption{Gant della Verifica e della Validazione}
+\end{figure}
+I ruoli sono in questa fase definiti come in tabella X:\\
+RUOLI VV\\\\
+Ad ogni risorsa sarà distribuito il seguente carico di lavoro (figura X):\\
+RISORSE VV\\\\
+Infine vengono fornite le ore distinte per componente del Team che sono state svolte in questa fase (tabella X):\\
+ORE PER COMPONENTE VV\\\\
+
+\section{Preventivo}
+\subsubsection{Prospetto Orario}
+\subsubsection{Prospetto Economico}
+
+\section{Analisi dei rischi}
+In questa sezione vengono analizzati in modo mirato e approfondito i rischi che abbiamo individuato come possibili durante lo svolgimento del progetto. L'individuazione e la strategia di gestione di tali rischi è fondamentale per la pianificazione delle fasi di lavoro e la loro corretta esecuzione.\\
+Infatti solo tramite un approccio di gestione ai fattori di rischio è possibile tutelarsi dalla loro eventuale insorgenza e mitigarne gli effetti.\\
+Data la scarsa esperienza del Team su tali tematiche, il gruppo si è affidato a delle (una?) sessioni/e di brain-storming collettiva/e cercando di focalizzare i vari punti critici. \\\\
+Per rendere efficace l'analisi di ogni rischio si è deciso di quantificarlo mediante un apposita scala di valutazione sia dal punto di vista della probabilità che il rischio si manifesti (livello), sia il suo grado di incidenza sul progetto stesso (impatto):
+
+\begin{tabularx}{\textwidth}{lXll}
+\toprule
+Probabilità & Descrizione\\
+\midrule
+ALTA & probabilità elevata che si verifichi\\
+MEDIA & probabilità equivalente nel verificarsi o meno\\
+BASSA & pprobabilità bassa che si verifichi\\
+\bottomrule
+\end{tabularx}
+
+\begin{tabularx}{\textwidth}{lXll}
+\toprule
+Scala & Descrizione\\
+\midrule
+5 & conseguenze molto gravi\\
+4 & conseguenze gravi\\
+3 & conseguenze medio-gravi\\
+2 & conseguenze minimali\\
+1 & nessuna/lievi conseguenze\\
+\bottomrule
+\end{tabularx}
+
+\subsection{Rischi di Progetto}
+\subsubsection{Problemi personale}
+\begin{description}
+	\item{\scshape\bfseries Analisi:} durante la realizzazione del progetto è probabile che alcuni membri del Team siano soggetti a problemi fisiologici e/o sovvengano impegni personali improrogabili che porteranno ad una sicura modifica della pianificazione del lavoro collettivo. L'impatto di tale rischio è variabile in base al soggetto mancante, in quanto può essere assegnato ad un'attività (o ruolo) più o meno importante all'interno del progetto.
+	\item{\scshape\bfseries Probabilità:} ALTA
+	\item{\scshape\bfseries Impatto:} variabile
+	\item{\scshape\bfseries Strategia di Gestione:}per mitigare gli effetti di tali fenomeni è ragionevole prima di tutto pianificare i tempi di lavoro personali in modo da lasciare un lasco di tempo tra un attività e l'altra. Così facendo la gestione temporale (compresa di eventuali imprevisti) risulta meno incline a modifiche e/o modifiche dei ruoli assegnati ad ogni membro. Ovviamente anche adottando tali accorgimenti si potrà generare la situazione in cui un componente risulti impossibilitato a svolgere il proprio compito, in tal caso è buona norma che tutti i membri siano ben preparati (conoscenza del dominio e delle metodologie di lavoro) nel caso sia necessaria la sostituzione del soggetto.
+\end{description}
+
+\subsubsection{Variazione nei Requisiti}
+\begin{description}
+	\item{\scshape\bfseries Analisi:} il bando di capitolato non prevede modifiche per i requisiti obbligatori, i requisiti opzionali al contrario possono subire variazioni in corso d'opera. Tale situazione implica il rischio che le risorse assegnate in fase di pianificazione risultino insufficienti al soddisfacimento di tale requisito.
+	\item{\scshape\bfseries Probabilità:} MEDIA
+	\item{\scshape\bfseries Impatto:} 3
+	\item{\scshape\bfseries Strategia di Gestione:}risulta necessaria una doverosa e immediata ridistribuzione delle risorse cercando di mantenere limitato l'impatto sulla pianificazione originale.
+\end{description}
+
+\subsubsection{Scarse conoscenze tecnologiche}
+\begin{description}
+	\item{\scshape\bfseries Analisi:} per ovvie ragioni di inesperienza da parte di tutto il Team la quasi totalità delle competenze tecnologiche richieste per la realizzazione del progetto risultano sconosciute.
+	\item{\scshape\bfseries Probabilità:} ALTO
+	\item{\scshape\bfseries Impatto:} 3
+	\item{\scshape\bfseries Strategia di Gestione:}le lacune saranno colmate tramite la personale consultazione della documentazione specifica che ogni tecnologia fornisce. Inoltre periodicamente su base volontaria di specifici componenti si assumeranno l'incarico di redigere brevi relazioni di facile e mirata comprensione.
+\end{description}
+
+\subsubsection{Variabili Tecnologiche}
+\begin{description}
+	\item{\scshape\bfseries Analisi:} tra le tecnologie di implementazione ci sono le webRTC e HTML5. Ad oggi tali progetti non sono ancora stati promossi a standard, ma risultano tutt'oggi in fase di sviluppo. Seppur HTML5 risulti ormai discretamente stabile nella sua implementazione, webRTC al contrario si presta a costanti modifiche strutturali, l'ultima delle quali è avvenuta il 15 novembre 2012.
+	\item{\scshape\bfseries Probabilità:} MEDIA
+	\item{\scshape\bfseries Impatto:} 2
+	\item{\scshape\bfseries Strategia di Gestione:}Questa condizione ci chiede di prestare massima attenzione in fase di progettazione, al fine di rendere il prodotto ultimo più flessibile possibile. Il proponente in ogni caso è disposto ad accettare una prodotto funzionante con una versione più datata rispetto a quella che verrà ad essere ufficiale in data di accettazione.
+\end{description}
+
+\subsubsection{Errata stima di Risorse}
+\begin{description}
+	\item{\scshape\bfseries Analisi:} l'errata pianificazione del lavoro in particolare nella distribuzione delle ore svolte da ogni ruolo (sia in eccesso che in difetto) fanno parte dell'ovvia inesperienza del Team nella gestione di tali tematiche. Tali errori di stime possono portare ad uno sbilanciamento dei costi (sia in eccesso che in difetto) che andrà ad incidere nel bilancio finale.
+	\item{\scshape\bfseries Probabilità:} MEDIA
+	\item{\scshape\bfseries Impatto:} 3
+	\item{\scshape\bfseries Strategia di Gestione:}lrisulterà indispensabile da parte dei componenti del Team la massima flessibilità nel cambiamento dei ruoli, sarà compito del responsabile ridirigere le risorse nel modo più adeguato e prestando particolare attenzione ad eventuali conflitti di ruoli.
+\end{description}
+
+\subsubsection{Problemi Software/Hardware}
+\begin{description}
+	\item{\scshape\bfseries Analisi:} sono ovviamente probabili eventuali disguidi di natura tecnica, sia di natura hardware (guasti/problemi alle macchine) che software. I membri del Team dispongono di sistemi basati su piattaforme differenti che potrebbero far insorgere incompatibilità. E' altresì probabile che software diversi all'interno dello stesso sistema operativo risultino di difficile integrazione, inoltre il progetto stesso che per sua natura si presta ad essere utilizzato su vari browser (oltre a Chrome, di default) potrebbero presentare problemi di natura funzionale.
+	\item{\scshape\bfseries Probabilità:} MEDIA
+	\item{\scshape\bfseries Impatto:} 4
+	\item{\scshape\bfseries Strategia di Gestione:}questo tipo di problematiche andranno affrontate caso per caso, è stata comunque preventivata un esigua parte di tempo per tali tematiche nella pianificazione del lavoro.
+\end{description}
+
+
+
+\end{document}
