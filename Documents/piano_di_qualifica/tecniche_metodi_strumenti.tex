@@ -1,0 +1,90 @@
+\section{Strumenti, tecniche e metodi}
+
+\subsection{Strumenti}\label{sec:tools}
+Si riporta a continuazione un elenco dei principali strumenti per la verifica della qualità di cui intende avvalersi il team nell'arco dello sviluppo del progetto.\footnote{Si rimanda invece alle Norme di Progetto per un elenco degli strumenti utilizzati non strettamente in relazione con la verifica e il controllo qualitativo.}
+\begin{itemize}
+  \item \textbf{SynthesisRequirementManager}, il sistema di gestione dei requisiti realizzato da \team, avente lo scopo di rendere quanto più agevole gestire il tracciamento dei requisiti a tutti i livelli (requisiti-UC, requisiti-CI, ecc.) e, da un punto di vista prettamente qualitativo, assicurare la necessità e la sufficienza dei casi d'uso e delle componenti software (\url{www.softwaresynthesis.org});
+ \item \textbf{lacheck} ($\geq 1.26$) per assicurare la correttezza sintattica e l'adozione delle \inglese{best practices} per i sorgenti \LaTeX{} nonché rilevare in modo semi-automatico le sviste non segnalate dal compilatore in quanto pur corrispondendo a codice ben formato nascondono errori tipografici sottostanti per es.~bilanciamento delle virgolette, spaziature scorrette per frasi terminate da un acronimo prima di un punto, mancato utilizzo di spazi insecabili, ecc. (\url{www.ctan.org/pkg/lacheck});
+ \item \textbf{hunspell} ($\geq 1.3$) come correttore ortografico e analizzatore morfologico in fase di redazione della documentazione, scelto per la sua portabilità ma anche  perché alle sue librerie si appoggia l'applicativo \textbf{TexMaker} utilizzato per la stesura dei documenti \LaTeX{} (\url{http://hunspell.sourceforge.net});
+ \item le utilità che costituiscono la suite di QA del W3C al fine di verificare l'aderenza agli standard delle pagine web generate, in particolar modo gli strumenti online:
+ \begin{itemize}
+   \item \textbf{Unicorn} in qualità di strumento di validazione unificato (\url{http://validator.w3.org/unicorn});
+   \item \textbf{CSS Valitatom Service} come utilità di validazione per i fogli di stile a cascata (\url{http://jigsaw.w3.org/css-validator});
+ \end{itemize}
+ \item gli strumenti per sviluppatori integrati in \textbf{Google Chrome} (\url{https://developers.google.com/chrome-developer-tools}) e, in particolare:
+   \begin{itemize}
+   \item la sezione \underline{Sources} che rappresenta un'interfaccia al debugger per il motore JavaScript V8 e consente di impostare breakpoint (assoluti o condizionali) per seguire l'esecuzione del codice passo passo (con le consuete funzioni di `step over', `step into' e `step out') nonché arrestare temporaneamente l'esecuzione al sollevamento di un'eccezione (o di un'eccezione non controllata);
+   \item la sezione \underline{Timeline} che permette di quantificare i tempi necessari al caricamento e all'esecuzione degli script, nonché di tracciare l'utilizzo della memoria e forzare l'invocazione del \inglese{garbage collector};
+   \item  gli strumenti di benchmark accessibili dalla sezione \underline{Profiles}, vale a dire il profiler della CPU, che permette di ricostruire l'albero delle chiamate di funzione e la percentuale di utilizzo della CPU per ciascuna funzione, e il profiler dello heap ,mediante il quale è possibile ispezionare il contenuto dello heap e salvarne delle rappresentazioni istantanee;
+   \end{itemize}
+  \item \textbf{FirebugLite}, un'estensione per Chrome che consente di ispezionare gli elementi HTML e la struttura del DOM nonché di modificare in tempo reale i valori delle proprietà dei CSS (\url{https://getfirebug.com/firebuglite});
+  \item \textbf{SpeedTracer} uno strumento che consente identificare i problemi di prestazioni nelle applicazioni web visualizzando una serie di metriche in tempo reale grazie all'analisi dei dati resi disponibili a livello di motore di rendering del browser (\url{https://developers.google.com/web-toolkit/speedtracer});
+  \item \textbf{JSLint} analizzatore statico di codice JavaScript volto a rilevare e impedire l'adozione inconsapevole di `worst practices' in fase di codifica (\url{http://www.jslint.com});
+  \item \textbf{ApacheBench} per testare l'efficienza prestazionale dell'applicazione lato server mediante la simulazione di un numero arbitrario di richieste da parte dei client (\url{http://httpd.apache.org/docs/2.2/programs/ab.html});
+  \item \textbf{Eclipse} IDE multipiattaforma e cross-language, scelto in particolare come ambiente di sviluppo per la parte server da realizzarsi in Java, che include al suo interno funzionalità di debugging (\url{http://www.eclipse.org}) utili ai fini della QA;
+  \item plug-in \textbf{Metrics} per Eclipse, estensione che permette di associare un valore su una scala di riferimento al soddisfacimento di una serie di parametri di qualità del codice sorgente o metriche, per cui si rimanda alla sezione \ref{sec:metrics} (\url{http://metrics.sourceforge.net});
+  \item il plug-in \textbf{FindBugs} per Eclipse, al fine di effettuare analisi statica del codice a livello di bytecode alla ricerca di potenziali cause di malfunzionamento (\inglese{bug patterns}) o adozione inconsapevole di `worst practices' (\url{http://findbugs.sourceforge.net});
+  \item \textbf{JUnit} come framework per i test di unità da effettuarsi relativamente alla parte server dell'applicazione (\url{http://www.junit.org});
+\end{itemize}
+
+\subsection{Tecniche}
+Responsabili delle attività di controllo interne al gruppo sono i verificatori, che si presuppone essere in ogni caso e senza alcuna deroga distinti dai realizzatori del prodotto soggetto a verifica (programmatori o redattori di documentazione). Al fine di garantire la qualità, i verificatori sono tenuti all'utilizzo di due tecniche di analisi: statica e dinamica.
+
+\subsubsection{Analisi statica}
+L'analisi statica è un tipo di controllo basato sulla non esecuzione del codice, ma in senso lato può essere applicato a qualsiasi tipo di prodotto anche non propriamente eseguibile (ad es.~la documentazione di progetto). Sono previste, in particolare, due forme di analisi statica: il controllo manuale (detto altrimenti `desk check') e il controllo assistito da strumenti automatici.
+
+Per quanto concerne il \textbf{desk check}, cioè il controllo realizzato unicamente da parte di un agente umano, sono previsti due metodi formali:
+\begin{itemize}
+  \item \textbf{walkthrough}: implica un esame ad ampio spettro del prodotto da verificare, che è preso in considerazione nella sua totalità in modo indiscriminato e senza alcuna assunzione previa sulla natura, la posizione e la frequenza degli errori da rilevare. Si tratta notoriamente di una tecnica molto onerosa in termini sia di tempo che di sforzo e può essere essa stessa per sua natura soggetta ad errori (in particolar modo falsi negativi). Tuttavia, almeno nelle fasi iniziali del lavoro, è l'unica scelta praticabile a causa della relativa inesperienza dei membri del gruppo nella realizzazione di prodotti complessi e articolati (sia software che documentazione). Allo scopo di ridurre il costo determinato dalla ripetizione di tale attività nell'arco di tutto il ciclo di vita è previsto che durante l'analisi in walkthrough sia stilata una lista di controllo relativa agli errori più frequenti e ai contesti in cui è più probabile che si producano errori in modo da collezionare una base di esperienza comune e consolidata destinata ad alimentare le attività di ispezione;
+  \item \textbf{ispezione}: prevede un controllo mirato avente obiettivi specifici, ristretti e stabiliti a priori \emph{prima} che la verifica abbia luogo. Si tratta di un'attività meno dispendiosa in termini di risorse perché non presuppone l'analisi esaustiva del prodotto ma è focalizzata su determinate categorie di errori frequenti, enunciate in una lista di controllo (\inglese{checklist}) redatta sulla base dell'esperienza personale e delle attività di walkthrough precedentemente poste in essere.
+\end{itemize}
+
+La seconda forma di analisi statica prevede invece l'utilizzo di strumenti appositi denominati \textbf{analizzatori statici} e può essere svolta in modo semiautomatico senza richiedere necessariamente l'intervento di un umano. In particolare, come risulta dalla sezione \ref{sec:tools} si è stabilito di utilizzare degli analizzatori statici tanto per la parte documentale del progetto (come il comando \texttt{lacheck}) quanto per la parte propriamente eseguibile (JSLint per la parte JavaScript e FindBugs per la parte Java).
+
+\subsubsection{Analisi dinamica}
+I controlli dinamici, altrimenti definiti test, prevedono l'esecuzione del software in un ambiente controllato e con dati di input specificatamente pensati per testarne le funzionalità e l'aderenza ai requisiti mettendo in luce l'eventuale presenza di malfunzionamenti dovuti alla presenza di difetti. Caratteristica fondamentale dei test è la loro \emph{ripetibilità}, cioè dato lo stesso set di dati in ingresso e nello stesso contesto di esecuzione, l'output deve essere deterministico e univocamente determinato. Tale proprietà, unitamente all'auspicabile utilizzo di un \inglese{logger} che ha il compito di registrare le fasi dell'esecuzione del test, consente di individuare e riconoscere in maniera più agevole i difetti presenti nel prodotto.
+
+In base al loro ambito di applicazione, i test possono essere suddivisi in:
+\begin{itemize}
+  \item[-] test di unità aventi come oggetto le singole unità e, oltre al modulo da verificare e ai dati d'esempio, possono coinvolgere anche componenti attive (\inglese{driver}) o passive (\inglese{stub}) che siano in grado di simulare le parti del sistema non ancora disponibili al momento in cui il test viene eseguito;
+  \item[-] test di integrazione atti a verificare la corretta interazione e integrazione fra le componenti che costituiscono le parti del sistema e hanno come risultato una \inglese{build}, vale a dire un sottosistema funzionante che può essere eseguito in modo indipendente;
+  \item[-] test di sistema, volti a testare il rispetto dei requisiti software individuati in fase di analisi dei requisiti da parte dell'intero sistema; 
+  \item[-] test di regressione destinati a rilevare il caso indesiderabile in cui una modifica locale destabilizza il resto del sistema, si tratta del numero minimo di test necessario per scongiurare tale eventualità senza per questo dover ripetere \emph{in toto} i test di unità e di integrazione;
+  \item[-] test di accettazione, o collaudo, realizzato sotto la supervisione del committente per verificare l'aderenza del prodotto ai requisiti utente di più alto livello.
+\end{itemize}
+
+\subsection{Misure e metriche}\label{sec:metrics}
+Si riporta, senza pretesa di esaustività, un elenco delle principali metriche in riferimento alle quali il team di sviluppo si ripropone di valutare in modo univoco e quantificabile la qualità del prodotto relativamente alla parte di codifica:
+
+\begin{itemize}
+  \item numero di righe di codice esclusi commenti e annotazioni, considerato nella sua totalità (TLOC, \inglese{Total lines of code}) o piuttosto come corpo dei soli metodi (MLOC, \inglese{Method lines of code});
+  \item numero di metodi (NOM, \inglese{Number of Methods}) e numero di campi dati di ciascuna classe (NOF, \inglese{Number of Fields});
+  \item profondità di una classe nell'albero di derivazione (DIT, \inglese{Depth of Inheritance Tree});
+  \item numero di metodi ridefiniti (NORM, \inglese{Number of OverRidden Methods})
+  \item indice di specializzazione (IS), definito come \[
+  IS := \frac{DIT \times NORM}{NOM}
+  \]
+  \item complessità ciclomatica (o complessità condizionale), un indice che misura all'interno di un metodo il numero di cammini distinti che il flusso di controllo può intraprendere nel codice sorgente incrementando un indice di 1 unità per ogni istruzione di branch (if, for, while, do case, catch, operatore condizionale ternario, operatori logici cortocircuitati);
+  \item peso della classe (WMC, \inglese{Weighted Methods per Class}) definito come la somma della complessità ciclomatica di tutti i metodi membri di una classe;
+  \item mancanza di coesione dei metodi di una classe (LCOM, \inglese{Lack of Cohesion of Methods}), un indice che misura quanto i metodi di una classe fanno riferimento ai campi dati della stessa, definito se $m(A)$ è il numero di metodi che riferiscono il campo dati $A$ come \[
+  LCOM := \frac{\frac{1}{NOF}\left(\displaystyle\sum_{A\;\mathrm{attributo}}{m(A)}\right) - NOM}{1-NOM}
+  \]
+  \item indice di utilità (Ca, \inglese{Afferent Coupling}) definito come il numero di classi esterne al package che dipendono da una determinata classe;
+  \item indice di dipendenza (Ce, \inglese{Efferent Coupling}), definito come il numero delle classi interne al package che dipendono da una classe;
+  \item instabilità (I) definita come \[
+  I := \frac{Ce}{Ca + Ce}
+  \]
+  \item astrattezza (a livello di progetto) dato dal rapporto fra il numero di classi astratte/interfacce e il numero totale di tipi;
+  \item la metrica relativa a metodi e procedure $SFIN - SFOUT$, dove SFIN (\inglese{Structural fan-in}) è il numero di volte che tale metodo è invocato nel corpo di altri metodi e SFOUT è il numero di invocazioni di metodi esterni all'interno del metodo stesso (corrispondono a Ca e Ce rispettivamente).
+  \item rapporto fra righe di commenti e righe di codice.
+\end{itemize}
+
+Altre metriche che saranno prese in considerazione sono la lunghezza dei metodi e il numero di parametri di ciascun metodo.
+
+\subsection{Metodi di misurazione}
+% Mi riservo di finire questa parte domani, attingendo meglio dai miei appunti e dal lavoro di ZetaSolutions che mi sembrava ben fatto al riguardo
+Il processo di misurazione attraverso il quale è possibile valutare quantitativamente l'aderenza del prodotto agli standard di qualità è basato su un ciclo iterativo simile al PDCA\@. In particolare, in una fase preliminare prevede che sia stabilita l'importanza e l'ambito di applicazione della misurazione, la selezione di metriche da adottare come si è fatto nelle precedenti sezioni e la pianificazione del momento nel ciclo di sviluppo in cui le misurazioni dovranno essere effettuate.
+
+La parte operativa, cioè la quantificazione dei valori delle metriche di qualità, avviene lungo tutto l'arco del ciclo di sviluppo, con particolare attenzione alle fasi di progettazione di dettaglio e di test effettuati contestualmente alla codifica e in fase di accettazione/collaudo.
+
+Al fine di evitare che la verifica della qualità sia un onere troppo gravoso in termini di risorse umane e di tempo, anch'esso deve essere sottoposto a misurazione in quanto attività di progetto (cioè la parte `check' del ciclo di Deming): il tempo di lavorazione impiegato per attività di verifica e QA dovrà dunque essere registrato in ogni momento, ed è prerogativa del responsabile di progetto adottare misure correttive qualora i tempi dovessero risultare eccessivi al punto da compromettere il rispetto delle scadenze stabilite nel piano di progetto.

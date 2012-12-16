@@ -1,0 +1,176 @@
+% shared/template.tex
+%
+% Contiene un modello di documento che deve essere copiato e opportunamente
+% modificato per creare i documenti 'concreti' di progetto. Definisce le macro
+% specifiche per il documento corrente, importa la parte di preambolo condivisa
+% e le pagine comuni a tutti i documenti.
+% In particolare, per ogni documento concreto occorre per prima cosa aggiornare
+% le macro, inserire una voce nella tabella delle modifiche e inserire il testo
+% (o includere file sorgenti esterni) a partire dalla riga 66 in poi.
+
+% **************************************************
+% Macro specifiche per il documento corrente
+% **************************************************
+% Nome
+\newcommand{\docName}{Piano di Qualifica}
+% Nome file
+\newcommand{\docFileName}{piano di qualifica}
+% Versione
+\newcommand{\docVers}{1.0}
+% Data creazione
+\newcommand{\creationDate}{05/12/2012}
+% Data ultima modifica
+\newcommand{\modificationDate}{06/12/2012}
+% Stato in {Approvato, Non approvato}
+\newcommand{\docState}{Non approvato}
+% Uso in {Interno, Esterno}
+\newcommand{\docUsage}{Interno}
+% Redattori da specificare come nome1\\ &nome2\\ ecc.
+\newcommand{\docAuthors}{Stefano Farronato\\ &Boh Qualcun'altro}
+% Approvato da
+\newcommand{\approvedBy}{}
+% Verificatori
+\newcommand{\verifiedBy}{}
+% Perscorso (relativo o assoluto) che punta alla directory contenente shared/
+% come sua sottodirectory (per comodità chiamiamola 'doc root').
+\newcommand{\docRoot}{..}
+
+% importa il preambolo condiviso da tutti i documenti
+\input{\docRoot/shared/preamble.tex}
+
+% Fine del preambolo e inizio del documento
+\begin{document}
+
+% Inclusione della prima pagina
+\input{\docRoot/shared/firstpage.tex}
+
+% Storico delle modifiche
+\section*{Storia delle modifiche}
+\begin{tabularx}{\textwidth}{lXll}
+\toprule
+Versione & Descrzione intervento & Redattore & Data\\
+\midrule % inserire qui il contenuto della tabella
+0.1 & Stesura scheletro documento, introduzione & Stefano Farronato & 12/12/2012\\
+\bottomrule
+\end{tabularx}
+\newpage
+
+% inclusione dell'indice
+\input{\docRoot/shared/toc.tex}
+
+% Alcuni aggiustamenti per le pagine
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\pagestyle{normal}
+
+% Qui ha inizio il documento vero e proprio...
+\section{Organigramma}
+
+\section{Introduzione}
+\subsection{Scopo del prodotto}
+Con progetto "MyTalk" intendiamo un sistema software di comunicazione tra utenti mediante browser, utilizzando solo componenti standard, senza dover installare plugin o programmi esterni. L'utilizzatore dovrà poter chiamare un altro utente, iniziare la comunicazione sia audio che video, svolgere la chiamata e terminare la chiamata ottenendo delle statistiche sull'attività.
+
+\subsection{Scopo del documento}
+Il seguente documento ha lo scopo di presentare la strategia di verifica e di validazione complessiva che utilizzeranno i componenti del Team di lavoro di Software Synthesis a scopo di garantire la qualità richiesta nello svolgimento del progetto "MyTalk" regolarmente accettato dall'azienda appaltatrice Zucchetti s.r.l.\\
+Durante lo svolgimento del suddetto progetto sarà possibile l'insorgere di modifiche a tale documento, dettate da eventuali scelte progettuali o da esplicite richieste del cliente committente stesso.
+\subsection{Glossario}
+Al fine di evitare incomprensioni dovute all'uso di termini tecnici nei documenti, viene redatto e allegato il documento "Glossario.pdf" dove vengono definiti e descritti tutti i termini marcati con una sottolineatura.
+
+\section{Riferimenti}
+\subsection{Normativi}
+VINCOLI DI ORGANIGRAMMA: Specificate dal Committente designato all'indirizzo\\ \textit{http://www.math.unipd.it/~tullio/IS-1/2012/Progetto/PD01b.html} \\\\
+NORME DI PROGETTO  v1.0 allegato
+Verbale incontro con il proponente del 10/12/2012
+Riferimenti a specifici estratti del testo \textit{Software Engineering (8th edition) Isan Sommerville, Pearson Education | Addison-Wesley} quali:\\
+\textit{ISO/IEC 9126:2001, Software engineering - Product quality - Part 1: Quality model}\\
+\textit{ISO/IEC 12207, Software Life Cycle Processes}\\
+\subsection{Informativi}
+Analisi dei Requisiti 1.0\\
+Piano di Progetto 1.0\\
+Glosssario\\
+CAPITOLATO D'APPALTO: MyTalk, v 1.0, redatto e rilasciato dal proponente Zucchetti s.r.l reperibile all'indirizzo: \textit{http://www.math.unipd.it/~tullio/IS-1/2012/Progetto/C1.pdf} \\\\
+Riferimenti a specifici estratti del testo \textit{Software Engineering (8th edition) Isan Sommerville, Pearson Education | Addison-Wesley} quali:\\
+\textit{Software Engineering - Part 5: Verification and Validation, Part 6: Management}\\
+
+
+\section{Visione generale della strategia di verifica}
+\subsection{Organizzazione, pianificazione strategica, pianificazione temporale e responsablità}
+Il processo di verifica inizierà quando il prodotto di un processo raggiungerà uno stadio che si potrà definire diverso da quello precedente. La verifica di tali cambiamenti sarà operata in modo mirato e ciscoscritta, grazie al registro delle modifiche che verrà complilato durante lo stilamento del documento stesso. Al termine della fase di verifica, i documenti saranno consegnati al responsabile di progetto, che provvederà ad approvarli.\\
+Il team nel brainstorming successivo all'analisi generale del progetto MyTalk ha deciso di adottare un ciclo di vita incrementale (specificato nel Piano di Progetto).\\
+Coerentemente a tale scelta, il processo di verifica adottato opererà nelle diverse fasi del progetto nel modo seguente: \\
+\begin{description}
+	\item{\scshape\bfseries Analisi dei Requisiti:} Quando un documento uscirà dalla fase di redazione, verrà preso in esame ed effettuata una fase di revisione definitiva prima di essere presentato ufficialmente alla RR: 
+\begin{description}
+		\item{\scshape\bfseries 1.} Verrà presa in esame la correttezza grammaticale.
+		\item{\scshape\bfseries 2.} Verrà presa in esame la correttezza lessicale mediante un accurata rilettura da parte del verificatore designato.
+		\item{\scshape\bfseries 3.} Verrà presa in esame la correttezza dei contenuti e la coerenza rispetto al documento mediante un accurata rilettura da parte del verificatore designato.
+		\item{\scshape\bfseries 4.} Verrà presa in esame la verifica che ogni tabella o figura sia corretta nel suo contenuto e disponga della rispettiva didascalia.
+		\item{\scshape\bfseries 5.} Verrà presa in esame la correttezza rispetto alle Norme di Progetto redatte, utilizzando gli strumenti più appropriati per la verifica.
+		\item{\scshape\bfseries 6.} Verrà presa in esame la corrispondenza tra ogni requisito e i casi d'uso, consultando e controllando le apposite tabelle di tracciamento, verificando inoltre la corretta gestione di entrambi mediante l'applicativo web creato appositamente da Software Synthesis.
+\end{description}
+	\item{\scshape\bfseries Progettazione:} Il processo di verifica garantirà la rintracciabilità nei componenti individuati durante la fase di Progettazione di ogni singolo requisito descritto nell'Analisi dei Requisiti.
+	\item{\scshape\bfseries Realizzazione:} I programmatori svolgeranno le attività di codifica del prodotto e i test di unità per la verifica del codice realizzato nel modo più automatizzato possibile. I verificatori inoltre controlleranno successivamente la presenza di eventuali errori o anomalie.
+	\item{\scshape\bfseries Validazione:} Alla fase di collaudo, il Team garantirà il corretto funzionamento del prodotto MyTalk. Successivi difetti riscontrati o eventuali caratteristiche non coerenti alle richieste dell'appaltatore saranno soggetti a modifica e correzione al fine di eliminare tali incongruenze. 
+\end{description}
+
+\subsection{Risorse necessarie e disponibili}
+L'utilizzo di risorse umane e tecnologiche è fondamentale per la verifica di qualità del prodotto e dei processi. 
+\subsubsection{Umane}
+Software Synthesis si è imposta per garantire un elevato standard qualitativo un team di sviluppo comprendente i seguenti ruoli:
+\begin{itemize}
+\item Responsabile: responsabile della corretta realizzazione del prodotto secondo gli standard e le richieste commissionate, designato all'allocazione corretta delle risorse umane ai rispettivi compiti e stimolarne il coordinamento. 
+Controlla inoltre la qualità dei processi interni mediante le attività di verifica da lui predisposte. Infine ha la facoltà di approvare o meno ogni proposta di correzione (migliorativa o di modifica generica) avanzata.\\
+
+\item Amministratore:
+\item Verificatore:
+\item Programmatore:
+\end{itemize}
+\subsubsection{Software}
+A livello software risulteranno necessari strumenti per permettere l'automatizzazione nell'analisi statica del codice prodotto, ai fini di ricavarne il maggiorn numero possibile di informazioni.\\
+Risulteranno altrettanto utili ai fini dei test di unità legati al linguaggio di programmazione scelto (HTML 5 e Java?) dei Frameworks specializzati, e degli strumenti per standardizzare (e automatizzare) i test sul prodotto finale nonchè produtte dei resoconti appropriati sulle eventuali anomalie riscontrate.\\
+Infine il team ha deciso di produrre un semplice programma basato su interfaccia Web per il tracciamento e la gestione dei requisiti in modo da rendere più stardard e automatizzata possibile questa fase del progetto.
+\subsubsection{Hardware}
+Software Synthesis ha a disposizione oltre al materiale personale di ogni componente del team (Computer portatili e fissi) le strutture fisiche ed informatiche messe a disposizione dall'Università degli Studi di Padova per il dipartimento di Matematica Pura ed Applicata, quali laboratori didattici e le aule studio allocate negli stabili della Facoltà stessa.
+
+\section{Qualità}
+Al fine di garantire un elevato standard qualitativo, sia per ovvia scelta del team di sviluppo, sia per implicita richiesta da parte del cliente stesso, Software Synthesis ha preso come riferimento lo standard ISO/IEC 9126 le cui specifiche primarie sono consultabili al sito XXX.
+ 
+\subsection{Funzionalità}
+Il prodotto MyTalk deve soddisfare nelle sue funzionalità tutti i requisiti individuati nella fase di Analisi, garantendone il funzionamento e l'aderenza alle richieste specifiche del committente. Tutto questo sarà svolto nel modo meno oneroso sia dal punto di vista economico che di sfruttamento delle risorse disponibili.
+Per valutare il grado di funzionalità raggiunto dal prodotto si valuterà la quantità di requisiti che sono stati correttamente implementati all'interno del software finale. La soglia minima di soddisfacimento risulta essere l'assoluta copertura dei requisiti obbligatori imposti dal committente, tuttavia è parso chiaro che la fantasia del team in questa specifica area sarà ben valutata.
+
+\subsection{Portabilità}
+Il prodotto finale dovrà per vincoli di capitolato essere pianamente usufruibile mediante browser Chrome, prodotto da Google, su tutti i sistemi operativi sui quali questo browser risulta compatibile. 
+A dimostrazione di tale soddisfacimento ci si affida alla dimostrazione del superamento della validazione del codice del front-end web (?) e dell'assoluta coerenza con lo standard WebRTC, proposta evolutiva di HTML5.
+All'approvazione del superamento di tale requisito si procederà con lo stesso metodo testando browser alternativi a quello imposto al fine di rendere MyTalk usufruibile da un bacino d'utenza più vasto possibile.
+\subsection{Usabilità}
+Il prodotto deve risultare facile ed intuitivo da parte dell'utenza che dispone di una conoscenza medio-bassa del web e dell'informatica generica.
+Utenti che hanno familiarità con programmi per la gestione di chiamate mediante VOIP (Skype, ...) non dovranno trovare alcuna difficoltà o iniziale disorientamento nell'utilizzo di MyTalk.
+Data l'aleatorietà di tale qualità di prodotto e la non "oggettività" nella misurazione di tale caratteristica si cercherà semplicemente di raggiungere tale risultato basandosi su esperienze personali o brevi test su specifici utenti selezionati.
+\subsection{Affidabilità}
+L'applicazione deve riuscire a stabilire e mantenere stabile una comunicazione tra due o più utenti, senza mostrare problemi di natura tecnica se non imputabili alla qualità della linea di cui dispongono gli utenti stessi. Deve dimostrarsi altresì robusta nella sua struttura e facile da ripristinare in caso di errori di varia natura.
+Al fine di garantire queste caratteristiche verrà utilizzata come unità di misura la quantità di interazioni tra utenti con esito positivo, tenendo conto di tutti i parametri che concorrono ad una corretta comunicazione (qualità audio, video, messaggi testuali correttamente inviati/ricevuti, etc.).
+\subsection{Efficienza}
+MyTalk si pone come obbiettivo oltre alla corretta ed appagante esperienza comunicativa, anche di non risultare particolarmente esosa dal punto di vista harware, sia dal punto di vista puramente componentistico dell'unità dalla quale si accede al prodotto, sia dal punto di vista dell'uso di banda a disposizione della rete.
+Verranno pertanto monitorate in fase di test sia le percentuali d'utilizzo di memoria e processore della macchina, sia la quantità di kb/s trasmessi e ricevuti durante l'esecuzione del programma. I test verranno eseguiti su varie tipologie di hardware e linee di diverse velocità, al fine di rendere il software usufruibile dalla più vasta fetta d'utenza possibile.
+I test risulteranno superati se nei momenti di massimi consumi di risorse il programma riuscirà a garantire un utilizzo fluido e una discreta navigabilità nel web dalla macchina soggetta al test. (ApacheBench citano 7Seeds per prove).
+
+\subsection{Manutenibilità}
+Il capitolato specifica esplicitamente che la modifica e la manutenibilità del software sono una caratteristica fondamentale dell'intero progetto, questa necessità nasce dal costante utilizzo di linguaggi non ancora qualificati come standard, pertanto soggetti a continua (ma fortunatamente non radicale) evoluzione.
+(Aggiungi-vedi 7Seeds)
+\subsection{Altro (?)}
+
+\section{Strumenti, Tecniche e Metodi}
+\subsection{Strumenti}
+\subsection{Tecniche}
+\subsection{Metodi e metriche}
+
+\section{Gestione amministrativa della revisione}
+\subsection{Gestione anomalie e incongruenze}
+\subsection{Procedure di controllo di qualità di processo}
+
+\section{Resoconto delle attività di verifica}
+
+\section{Pianificazione ed esecuzione del collaudo (?)}
+
+\end{document}
