@@ -20,9 +20,9 @@
 % Data creazione
 \newcommand{\creationDate}{05/12/2012}
 % Data ultima modifica
-\newcommand{\modificationDate}{05/12/2012}
+\newcommand{\modificationDate}{17/12/2012}
 % Stato in {Approvato, Non approvato}
-\newcommand{\docState}{Non approvato}
+\newcommand{\docState}{Approvato}
 % Uso in {Interno, Esterno}
 \newcommand{\docUsage}{Interno}
 % Redattori da specificare come nome1\\ &nome2\\ ecc.
@@ -50,6 +50,8 @@
 \toprule
 Versione & Descrizione intervento & Redattore & Data\\
 \midrule % inserire qui il contenuto della tabella
+0.5 & Fine stesura documento & Marco Schivo & 17/12/2012\\
+0.4 & Stesura sezione Milestones e Ticketing, Analisi dei requisiti & Marco Schivo & 11/12/2012\\
 0.3 & Stesura sezione ambiente documentale & Marco Schivo & 07/12/2012\\
 0.2 & Stesura sezione ambiente di lavoro & Marco Schivo & 06/12/2012\\
 0.1 & Stesura scheletro documento, sezione comunicazione & Marco Schivo & 05/12/2012\\
@@ -65,7 +67,7 @@ Versione & Descrizione intervento & Redattore & Data\\
 \setcounter{page}{1}
 \pagestyle{normal}
 
-% Qui ha inizio il documento vero e proprio
+\newpage
 \section{Introduzione}
 \subsection{Scopo del prodotto}
 Con progetto ``MyTalk'' intendiamo un sistema software di comunicazione tra utenti mediante browser, utilizzando solo componenti standard, senza dover installare plugin o programmi esterni. L'utilizzatore dovrà poter chiamare un altro utente, iniziare la comunicazione sia audio che video, svolgere la chiamata e terminare la chiamata ottenendo delle statistiche sull'attività.
@@ -86,13 +88,14 @@ Al fine di evitare incomprensioni dovute all'uso di termini tecnici nei document
 \newpage
 \section{Relazioni interpersonali e comunicazione}
 \subsection{Comunicazione interna}
+\label{sec:comunicazione_interna}
 La comunicazione tra i vari componenti del team avverrà principalmente durante gli incontri che si terranno in un luogo fisico comune. Per evitare problemi dovuti alla mancata presenza da parte di un membro, le notifiche dell'attività svolta durante l'incontro verranno scritte in un calendario comune messo a disposizione.
 Nei casi in cui il lavoro si svolgerà presso la propria abitazione, si potrà utilizzare \textit{Skype} per avviare chat, chiamate e videoconferenze di gruppo.
 Qualora si evinca la necessità di un ritrovo fisico comune ma vi è l'impossibilità da parte di alcuni membri di recarsi nel luogo prefissato, allora si procederà suddividendo il gruppo in due sottogruppi, ciascuno con un luogo di ritrovo prefissato. I due team di sviluppo quindi potranno comunicare con l'altro team mediante software di comunicazione prestabilito.
 
 
 \subsection{Comunicazione esterna}
-I contatti verso l'esterno saranno a cura del responsabile di progetto. A tale scopo è stato creato un indirizzo di posta elettronica tramite il quale la persona incaricata tratterà a nome dell'intero gruppo Software Synthesis. L'email sopra descritta è \textit{info@softwaresynthesis.org} e l'inoltro di risposte a tutti gli altri membri sarà sempre a carico del responsabile di progetto che dovrà utilizzare i metodi descritti nella sezione ``Comunicazione Interna''.
+I contatti verso l'esterno saranno a cura del responsabile di progetto. A tale scopo è stato creato un indirizzo di posta elettronica tramite il quale la persona incaricata tratterà a nome dell'intero gruppo Software Synthesis. L'email sopra descritta è \textit{info@softwaresynthesis.org} e l'inoltro di risposte a tutti gli altri membri sarà sempre a carico del responsabile di progetto che dovrà utilizzare i metodi descritti nella sezione \ref{sec:comunicazione_interna} ``Comunicazione Interna''.
 
 \subsection{Incontri Interni}
 Saranno fissate delle riunioni formali decise dal responsabile di progetto che provvederà rendere noto a tutti luogo, data e ora della seduta mediante email personale con almeno tre giorni di anticipo. Nell'email sarà contenuta anche la motivazione per cui si è reso necessario l'incontro. Ai membri è richiesta la conferma di partecipazione tramite risposta sempre via email. Nel caso un componente del team non posso essere presente alla riunione decisa, dovrà specificarne il motivo nell'email di risposta al responsabile.
@@ -106,9 +109,24 @@ Ogni membro del gruppo può richiedere un incontro esterno al responsabile, pres
 \newpage
 \section{Ambiente di lavoro}
 \subsection{Repository}
+\label{sec:repository}
 Per un corretto svolgimento del progetto si è reso necessario adottare un luogo dove poter cercare e salvare tutti i documenti da redigere, nonché i file di codifica. Per questo si è deciso di adottare un repository ospitato da \textit{github}. Il motivo principale di questa scelta sta nel fatto che Git, rispetto ad altri sistemi quali Sourceforge ad esempio, è un sistema di controllo di versione distribuito. Rientra infatti nei repository di tipo Distribuited Control Version System (DVCS) mentre sourceforge rientra nei repository di tipo Centralized Control Version System. La differenza sta nel fatto che in Git ognuno di noi avrà in locale l'intera copia del repository, quindi tutti i vari commit, rami ecc. mentre con sourceforge in locale si ha solo la situazione dell'ultimo commit e se si deve eseguire operazioni di roolback si ha bisogno della connessione di rete per potersi connettere al server centrale.
 
+\subsubsection{Registrazione}
+Per utilizzare github occorre registrasi presso:
+\begin{center}
+\url{https://github.com}.
+\end{center}
+per far ciò basta inserire un username, un indirizzo email e una password nell'apposito form proposto nella pagina sopra indicata.
+
+\subsubsection{Installazione}
+Per aiutare i componenti del gruppo nella fase di installazione di github, è stata creata appositamente una guida che passo passo spiega come installare e configurare nel modo giusto il software. La guida è reperibile all'indirizzo
+\begin{center}
+\url{https://github.com/SoftwareSynthesis/SoftwareEngineeringProject/blob/master/Manuals/GuidaGit/MasterDocument.pdf}.
+\end{center}
+
 \subsubsection{Struttura}
+\label{sec:struttura}
 \begin{itemize}
 \item \textbf{Progetto}: l'indirizzo web a cui fa riferimento l'intero progetto è: 
 \begin{center}
@@ -138,6 +156,7 @@ Come sistema di controllo di versione è stato adottato \textit{git}. Questo sce
 \end{itemize}
 
 \subsection{Sistema di tracciamento dei requisiti}
+\label{sec:tracciamento}
 Al fine di rendere automatico e sistematico la gestione del tracciamento dei requisiti, è stato creato un sistema che si appoggia al sito aziendale. Ogni volta che un membro del gruppo necessita di interagire con tale sistema, si dovrà autenticare alla pagina
 \newline
 \begin{center}
@@ -162,23 +181,34 @@ Ogni altra modifica attuata tramite phpmyadmin è assolutamente vietata per mans
 
 
 \subsection{Sistema operativo}
-L'intero progetto verrà portato avanti attraverso sistemi Unix e Windows, più in particolare Mac OSX 10.8.2, Fedora 17, Windows 7, Windows 8. Questa scelta deriva dal fatto che essendo il progetto MyTalk un applicativo web, non si sono riscontrate dipendenze alcune da librerie di sistema.
+L'intero progetto verrà portato avanti attraverso sistemi Unix e Windows, più in particolare Mac OSX 10.8.2, Fedora 17, Windows 7, Windows 8. Questa scelta deriva dal fatto che, essendo il progetto MyTalk un applicativo web, non si sono riscontrate dipendenze alcune da librerie di sistema.
 
 \subsection{Grafici UML}
+Per la produzione di grafici UML si adotterà il software ConceptDraw. Questo scelta perchè il tool si presenta molto semplice da usare, è molto potente e permette la creazione di moltissimo grafici UML adottando lo standard 2.0. La qualità dei grafici prodotti inoltre è molto buona.
 
 \subsection{Grafici di Attività}
-Gantt
+Come supporto alla pianificazione del progetto si è scelto di utilizzare Project Libre nella versione 1.5.2, software molto leggero e facile da installare. E' un tool opensource e multi piattaforma. Permette la creazione di diagrammi di Gantt in modo molto semplice con possibilità di esportarli in formato jpg.\\
+Per il download e l'installazione si rimanda al seguente link:
+\begin{center}
+\url{http://sourceforge.net/projects/projectlibre/}.
+\end{center}
 
 \newpage
 \section{Ambiente documentale}
+\label{sec:ambiente_documentale}
 In questa sezione verranno illustrati i vari standard utilizzati dal team per la produzione di documenti durante l'intero progetto. 
 
 \subsection{Software utilizzati}
 Tutti i documenti dovranno essere scritti in italiano con \LaTeX, un software free di composizione testuale che comprende una serie di caratteristiche atte alla produzione di documentazione tecnica e scientifica.
 \newline
-Per attuare questa scelta, l'azienda Software Synthesis ha deciso di utilizzare come editor \LaTeX \textit{TexMaker}, software disponibile sia per ambienti Unix che Windows. Si presenta come un software molto flessibile che include al suo interno la correzione ortografica automatica, l'autocompletamento e un visualizzatore di PDF integrato. 
-
+Per attuare questa scelta, l'azienda Software Synthesis ha deciso di utilizzare come editor \LaTeX \ \textit{TexMaker}, software disponibile sia per ambienti Unix che Windows. Si presenta come un software molto flessibile che include al suo interno la correzione ortografica automatica, l'autocompletamento e un visualizzatore di PDF integrato.\\
+La versione da utilizzare è l'ultima disponibile in tale momento ed è la 3.5.2. Per il download seguire il seguente link:
+\begin{center}
+\url{http://www.xm1math.net/texmaker/download.html}.
+\end{center}
+Per l'installazione, una volta scaricato, basta seguire le indicazioni presenti nel file scaricato precedentemente.
 \subsection{Nomi dei documenti}
+\label{sec:nomi_documenti}
 Il nome dei documenti dovrà rappresentare in modo univoco la natura del file e sarà composto nel seguente modo:
 \begin{center}
 nome\textunderscore del\textunderscore file.X.Y.estensione
@@ -233,13 +263,13 @@ Seguirà su una nuova pagina l'indice dell'intero documento e in caso di presenz
 \subsection{Tipi di documento}
 \begin{itemize}
 \item \textbf{Informali}: verranno ``etichettati'' come informali tutti i documenti in fase di redazione, oppure completati ma non ancora approvati dal responsabile di progetto. Vanno utilizzati solo internamente e quindi non verranno distribuiti all'esterno.\\
-Sono reperibili nella cartella ``Documents'' del repository e sono organizzati secondo quanto previsto nella sezione ``Struttura Repository''.
-\item \textbf{Formali}: tutti i documenti approvati dal responsabile di progetto sono da considerarsi formali e quindi pronti alla distribuzione verso l'esterno. Sono reperibili nella cartella ``Revisioni'' del repository e sono organizzati secondo quanto previsto nella sezione ``Struttura Repository''.
+Sono reperibili nella cartella ``Documents'' del repository e sono organizzati secondo quanto previsto nella sezione \ref{sec:struttura} ``Struttura Repository''.
+\item \textbf{Formali}: tutti i documenti approvati dal responsabile di progetto sono da considerarsi formali e quindi pronti alla distribuzione verso l'esterno. Sono reperibili nella cartella ``Revisioni'' del repository e sono organizzati secondo quanto previsto nella sezione \ref{sec:struttura} ``Struttura Repository''.
 \item \textbf{Verbali}: documenti redatti dal responsabile di progetto dopo un avvenuto incontro esterno. Servono come promemoria dell'incontro avvenuto e delle tematiche trattate. Dovranno essere denominati
 \begin{center}
 \textit{verbale\_incontro\_\{dataincontro\}}
 \end{center}
-dove con \{dataincontro\} intendiamo la data dell'incontro espressa nel formalismo descritto nella sezione ``Formati Ricorrenti''.\\
+dove con \{dataincontro\} intendiamo la data dell'incontro espressa nel formalismo descritto nella sezione \ref{sec:formati_ricorrenti} ``Formati Ricorrenti''.\\
 Ogni verbale dovrà contenere le seguenti informazioni riportate come seguono:
 \begin{itemize}
 \item \textbf{Data}: indica la data dell'incontro
@@ -252,13 +282,14 @@ Ogni verbale dovrà contenere le seguenti informazioni riportate come seguono:
 \item \textbf{Partecipanti}: indica tutti i partecipanti presenti alla riunione. Deve essere un elenco di nomi e cognomi suddivisi per membri interni ed esterni.
 \item \textbf{Oggetto}: indica l'argomento trattato all'incontro. Seguono i punti salienti e le decisioni prese.
 \end{itemize}
+Il verbale dovrà essere approvato da tutti i componenti firmandolo entro e non oltre il successivo incontro. L'approvazione è ufficializzata automaticamente nel momento in cui sono poste tutte le firme dei presenti. In via del tutto eccezionale, nel qual caso un componente non possa approvare il documento nei termini prestabiliti, è compito del responsabile assicurarsi che ciò avvenga il prima possibile. Nel caso in cui un membro del gruppo non abbia potuto partecipare alla riunione, esso dovrà comunque prendere visione del verbale e dovrà firmarlo per accertare la presa visione dello stesso.
 \end{itemize}
 
 \subsection{Ciclo di vita di un documento}
 \begin{enumerate}
-\item Il redattore di un nuovo documento dovrà redigere in locale la prima impostazione del documento e solo allora potrà caricarlo nel repository secondo le regole indicate nelle sezione ``Repository''.
-\item Ad ogni sostanziale modifica verrà incrementato il contatore Y (vedi sezione ``Nomi di documenti'') e seguirà un commit nel repository.
-\item Quando il redattore finisce la stesura o revisione del documento, questo verrà proposto al verificatore il quale avrà il compito di controllare che siano state seguite le norme riguardanti la stesura di documenti (vedi sezione ``Verifica dei documenti''). Il verificatore potrà dare due esiti, positivo o negativo.
+\item Il redattore di un nuovo documento dovrà redigere in locale la prima impostazione del documento e solo allora potrà caricarlo nel repository secondo le regole indicate nelle sezione \ref{sec:repository} ``Repository''.
+\item Ad ogni sostanziale modifica verrà incrementato il contatore Y (vedi sezione \ref{sec:nomi_documenti} ``Nomi di documenti'') e seguirà un commit nel repository.
+\item Quando il redattore finisce la stesura o revisione del documento, questo verrà proposto al verificatore il quale avrà il compito di controllare che siano state seguite le norme riguardanti la stesura di documenti (vedi sezione \ref{sec:verifica_documenti} ``Verifica dei documenti''). Il verificatore potrà dare due esiti, positivo o negativo.
 \item
 In caso di esito negativo, il documento viene riproposto al redattore evidenziandone gli errori riscontrati. Se invece l'esito è positivo, il documento è stato redatto secondo le norme e non presenta errori, passerà quindi al responsabile di progetto che provvederà all'approvazione formale.
 \item Anche il responsabile di progetto può dare due giudizi, idoneo o non idoneo. Nel caso di idoneità, il documento è da considerarsi formale e può essere inserito nella cartella corrispondente alla milestone presente nella directory ``Revisioni''.
@@ -269,7 +300,7 @@ In caso di esito negativo, il documento viene riproposto al redattore evidenzian
 Ogni documento dovrà essere generato includendo il template \LaTeX presente nella cartella ``Documents''. Questo file è stato redatto prima dell'inizio di stesura di ogni altro documento sotto comune accordo. La modifica perciò di tale template deve essere richiesta all'amministratore di progetto che analizzerà l'esigenza e darà una risposta positiva o negativa. In caso positivo, si procederà all'attuazione delle modifiche e verrà informato l'intero team al fine che ogni membro modifichi il documento su cui sta lavorando.
 
 \subsection{Glossario}
-Il glossario è un documento nel quale vengono riportate tutte le parole difficilmente comprensibili o dal significato ambiguo presenti nei documenti. E' un documento un pò particolare in quanto non rispetta le regole stilistiche degli altri documenti. Non sarà presente l'indice dei contenuti, ma solo una pagina iniziale contenente le informazioni del documento, la tabella delle modifiche, una breve introduzione e a seguire le voci ordinate alfabeticamente.
+Il glossario è un documento nel quale vengono riportate tutte le parole difficilmente comprensibili o dal significato ambiguo presenti nei documenti. E' un documento un po' particolare in quanto non rispetta le regole stilistiche degli altri documenti. Non sarà presente l'indice dei contenuti, ma solo una pagina iniziale contenente le informazioni del documento, la tabella delle modifiche, una breve introduzione e a seguire le voci ordinate alfabeticamente.
 
 \subsection{Norme tipografiche}
 Questa sezione descrive le norme da utilizzare per l'utilizzo dell'ortografia, tipografia e l'assunzione si uno stile uniforme nel redigere i documenti.
@@ -293,6 +324,7 @@ Gli elenchi, sia puntati che numerati, vanno usati per elencare una serie di ele
 Per quanto concerne le note a piè di pagina invece, ogni nota dovrà cominciare con la prima lettera della prima parola maiuscola, senza spaziatura davanti e finire con un punto.
 
 \subsubsection{Formati ricorrenti}
+\label{sec:formati_ricorrenti} 
 \begin{itemize}
 \item \textbf{Path}: per scrivere indirizzi web e url si adotterà il comando prestabilito da \LaTeX \verb+ \url+.
 \item \textbf{Date}: per scrivere una data si dovrà utilizzare il formato AAAA-MM-GG (standard ISO 8601) dove:
@@ -330,6 +362,108 @@ e ``x1.x2...xn'' rappresenteranno la numerazione gerarchica dei diagrammi, dove 
 \newline
 Nel caso di immagine generiche, il loro nome dovrà rispecchiare il contenuto di tale immagine.
 
+\subsubsection{Inserimento Immagini}
+L'inserimento di immagini all'interno del documento verrà fatto tramite l'utilizzo del comando \verb+\begin{figure}+ e \verb+\includegraphics[parametri]{riferimento}+ dove:
+\begin{itemize}
+\item \textbf{parametri}: indica una serie di parametri da utilizzare per formattare al meglio l'immagine, come una scala di ridimensionamento (\verb+[scale=0.8]+ indica un ridimensionamento del 20\%), l'altezza e larghezza (\verb+[width=2cm, heigh=4cm]+ indica un'immagine larga 2 cm e alta 4 cm) oppure parametri del tipo \verb+[width=\textwidth]+ per indicare che la figura corrisponda esattamente alla larghezza del testo;
+\item \textbf{riferimento}: va messo il nome dell'immagine presente nella cartella ``pics'' (vedi sezione \ref{sec:struttura}) che si vuole inserire.
+\end{itemize}
+Prima della chiusura (\verb+end{figure}+) vanno inseriti anche i comandi \verb+\caption{didascalia}+ e \verb+\label{riferimento}+ per permettere l'indicizzazione e l'identificazione delle immagini tramite un codice.
+
+\subsection{Tabelle}
+L'inserimento di tabelle all'interno dei documento verrà fatto tramite l'utilizzo del package tabularx che permette la creazione di colonne a larghezza dinamica. Vanno inseriti prima della chiusura della tabella (quindi prima del comando \verb+\endtabularx+) i comandi \verb+\caption{didascalia}+ e \verb+\label{riferimento}+ per permettere l'indicizzazione e l'identificazione delle tabelle tramite un codice.
+
+\newpage
+\section{Milestones e Ticketing}
+Al fine di aiutare lo svolgimento delle operazioni di assegnazione dei lavori e revisione durante l'intero ciclo di vita del progetto, l'azienda Software Synthesis userà il servizio \textit{Codebase}. Questo permette la creazione di milestones e tickets, strumenti molto utili per tracciare il lavoro del team e anche per delineare una roadmap degli obiettivi a breve e lungo termine che l'azienda si prefigge di raggiungere.
+
+\subsection{Milestones}
+Come prima cosa, il responsabile di progetto dovrà inserire tutte le milestones previste dal progetto, ossia le quattro revisioni.
+\subsubsection{Creazione nuova Milestone}
+\label{sec:creazione_milestone}
+Per inserire una nuova Milestone ci si dovrà posizionare nella pagina web dedicata alle milestone e cliccare su ``New Milestone''.
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{creazione_milestone}
+\caption{Creazione di una nuova milestone} \label{fig:creazione_milestone}
+\end{figure}
+Il form va completato nel seguente modo:
+\begin{itemize}
+\item \textbf{Name}: inserire il nome della Milestone;
+\item \textbf{Description}: inserire una breve descrizione della Milestone;
+\item \textbf{Active?}: flag da spuntare se si vuole che la Milestone creata sia quella attiva;
+\item \textbf{Default}: flag da spuntare se si vuole che i futuri tickets creati siano riferiti a questa Milestone;
+\item \textbf{Responsibility of?}: selezionare la persona responsabile;
+\item \textbf{Parent Milestone}: selezionare se la Milestone che si va a creare è figlia di qualche altra Milestone;
+\item \textbf{Start Date}: inserire la data da cui far iniziare la Milestone;
+\item \textbf{Deadline}: inserire la data di chiusura delle Milestone.
+\end{itemize}
+Nel caso non si conosca qualche informazione, si può lasciare il relativo campo bianco e modificarlo successivamente (vedi paragrafo seguente) quando sarà resa pubblica l'informazione.
+
+\subsubsection{Modifica Milestone}
+Per modificare una Milestone, ci si deve posizionare nella scheda ``Edit Milestone''. Per raggiungerla, basta entrare nella Milestone che si vuole modificare e cliccare sul bottone ``Edit Milestone'' situato nella parte alta dello schermo a destra.
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{modifica_milestone}
+\caption{Modifica di una milestone} \label{fig:modifica_milestone}
+\end{figure}
+\\Per la compilazione dei campi, valgono le stesse regole riportate nella sezione \ref{sec:creazione_milestone} ``Creazione nuova Milestone''.
+\\Da notare che si può eliminare anche una Milestone da tale scheda, basta cliccare sul bottone ``Delete Milestone'' presente nella parte destra della pagina.
+
+\subsection{Ticketing}
+Un ticket rappresenta un compito da svolgere.
+
+\subsubsection{Creazione nuovo Ticket}
+\label{sec:creazione_ticket}
+Per inserire un nuovo ticket ci si dovrà posizionare nella pagina web dedicata ai Tickets e cliccare su ``New Ticket''.
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{creazione_ticket}
+\caption{Creazione di un nuovo Ticket} \label{fig:creazione_ticket}
+\end{figure}
+Il form va completato compilando obbligatoriamente i seguenti campi:
+\begin{itemize}
+\item \textbf{Summary}: inserire il nome del compito da assegnare;
+\item \textbf{Status}: da settare su ``New'';
+\item \textbf{Priority}: selezionare la priorità effettiva del compito;
+\item \textbf{Ticket Type}: da settare su ``Task'';
+\item \textbf{Assigned User}: selezionare la persona che dovrà svolgere il compito;
+\item \textbf{Milestone}: selezionare la Milestone corrispondente del compito.
+\end{itemize}
+Tutte le altre informazioni possono essere completate se si ritiene opportuno dare maggiori dettagli.
+
+\subsubsection{Modifica Ticket}
+Durante l'intero ciclo di vita di un ticket, questo viene modificato molte volte come avviene ad esempio quando dobbiamo modificare lo stato del ticket. Per far ciò, basta entrare nel ticket che si vuole modificare e appare subito la scheda di modifica.
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{modifica_ticket}
+\caption{Modifica di un Ticket} \label{fig:modifica_ticket}
+\end{figure}
+
+\subsubsection{Ciclo di vita di un Ticket}
+\label{sec:ciclo_vita_ticket}
+\begin{enumerate}
+\item \textbf{Creazione}: come prima cosa, il ticket va creato come descritto nella sezione \ref{sec:creazione_ticket} ``Creazione nuovo Ticket''.
+\item \textbf{Esecuzione}: ogni membro dovrà prendere atto dei tickets a lui pervenuti e una volta visionati impostare lo stato ad ``Accepted'' o ad ``Invalid''. Una volta accettati, lo stato va modificato in ``In Progress'' quando si inizia a lavorarci e ``Completed'' quando si è portato a termine il compito assegnato.
+\item \textbf{Verifica}: una volta che il compito è stato completato, si procede nella creazione di un nuovo ticket di tipo ``Verification'' il quale verrà assegnato ad un verificatore. Il nuovo ticket va compilato nel seguente modo:
+\begin{itemize}
+\item \textbf{Summary}: dovrà contenere il nome del documento o file da verificare;
+\item \textbf{Status}: da settare su ``New'';
+\item \textbf{Priority}: selezionare la priorità effettiva del compito;
+\item \textbf{Ticket Type}: da settare su ``Verification'';
+\item \textbf{Assigned User}: selezionare il verificatore che dovrà svolgere il compito;
+\item \textbf{Milestone}: selezionare la Milestone entro cui il documento dovrà essere verificato.
+\end{itemize}
+\item \textbf{Esecuzione verifica}: per ogni errore (esclusi quelli grammaticali) dovrà essere creato un nuovo ticket nel seguente modo:
+\begin{itemize}
+\item \textbf{Summary}: dovrà contenere il nome del documento o file da modificare;
+\item \textbf{Additional information}: dovrà contenere la descrizione dell'errore presente nel documento;
+\item \textbf{Status}: da settare su ``New'';
+\item \textbf{Priority}: selezionare la priorità effettiva del compito;
+\item \textbf{Ticket Type}: da settare su ``Bug'';
+\item \textbf{Assigned User}: selezionare il Responsabile del progetto;
+\item \textbf{Milestone}: selezionare la Milestone entro cui il documento dovrà essere verificato.
+\end{itemize}
+Sarà  compito del Responsabile approvare o invalidare il ticket. In caso di approvazione, il Responsabile dovrà decidere a chi far eseguire la modifica. Il membro selezionato dovrà quindi risolvere l'errore. Una volta completata la modifica il Responsabile dovrà riapplicare la procedura a partire dal punto 3.
+\end{enumerate}
+Quando tutti i tickets di una Milestone avranno stato ``Completed'', significa che tutte le attività sono state svolte e il Responsabile potrà procedere alla chiusura della Milestone.
+
 \newpage
 \section{Analisi dei Requisiti}
 L'analisi dei requisiti dovrà essere redatta dagli analisti. Il documento si presenterà suddiviso principalmente in tre parti: una prima parte riguardante i requisiti, una seconda parte riguardante i casi d'uso e la parte finale riguardante il tracciamento dei due elementi appena elencati.
@@ -348,10 +482,10 @@ dove:
 \end{itemize}
 \item \textbf{Tipo}: indicherà il tipo del requisito e potrà assumere i seguenti valori
 \begin{itemize}
-\item F per indicare ``Funzionale'';
-\item Q per indicare ``di Qualità'';
+\item F per indicare ``Funzionale'', ossia offre una funzione all'utente;
+\item Q per indicare ``di Qualità'', ossia offre una qualità al software;
 \item P per indicare ``Prestazionale'';
-\item V per indicare ``di Vincolo''.
+\item D per indicare ``Dichiarativo''.
 \end{itemize}
 \item \textbf{Priorità}: indicherà la priorità del requisito e potrà assumere i seguenti valori
 \begin{itemize}
@@ -367,7 +501,7 @@ dove il numero più a sinistra rappresenta il padre e quelli più a destra i fig
 \end{itemize}
 Ogni requisito dovrà essere presente nel documento attraverso una ``scheda'', dove oltre i dettagli ricavabili dal nome, dovranno essere specificati anche una breve descrizione, la fonte (ossia la loro origine) e il motivo.\\\\
 \textit{Esempio}\\
-``RUFO2.3.1'' indica un requisito utente, funzionale obbligatorio con padre RUFO2.3 che a sua volta è figlio di RUFO2.
+``RUFO2.3.1'' indica un requisito utente, funzionale obbligatorio con padre RUFO2.3.0 che a sua volta è figlio di RUFO2.0.0.
 
 \subsection{Norme per i casi d'uso}
 Il nome di ogni caso d'uso dovrà essere anch'esso, come per i requisiti, univoco e nella forma:
@@ -387,19 +521,22 @@ Ogni caso d'uso dovrà avere i seguenti dettagli:
 \item Scenari Secondari.    
 \end{itemize}
 \textit{Esempio}\\
-``UC1.2.3'' indica un caso d'uso con padre UC1.2 che a sua volta è figlio di UC1.
+``UC1.2.3.0'' indica un caso d'uso con padre UC1.2.0 che a sua volta è figlio di UC1.0.0.
 
 \subsection{Tracciamento}
-Durante l'intero ciclo di vita del progetto, sono previste misure per il tracciamento dei casi d'uso con i relativi requisiti. Questo avviene grazie all'utilizzo del Sistema di Tracciamento dei requisiti descritto precedentemente. Tutta la gestione è automatica e in output sarà visualizzata una tabella con tre colonne: Codice UC, Nome UC, Requisito. Questa soluzione facilita notevolmente la gestione di grandi quantità di dati e un notevole risparmio di tempo.
+Durante l'intero ciclo di vita del progetto, sono previste misure per il tracciamento dei casi d'uso con i relativi requisiti. Questo avviene grazie all'utilizzo del Sistema di Tracciamento dei requisiti descritto nella sezione \ref{sec:tracciamento} ``Sistema di tracciamento dei requisiti''. Tutta la gestione è automatica e in output sarà visualizzata una tabella con tre colonne: Codice UC, Nome UC, Requisito. Questa soluzione facilita notevolmente la gestione di grandi quantità di dati e un notevole risparmio di tempo.
 
 \newpage
 \section{Norme di verifica}
-\subsection{}
+La verifica è un'attività molto importante svolta dal verificatore. Lo scopo è di accertare che i prodotti ottenuti, qualunque sia il loro tipo, siano conformi le norme e convenzioni riportate su questo documento. Oltre a questo, il verificatore dovrà anche assicurare sotto la propria responsabilità che tali prodotti rispettino i requisiti di qualità descritti nel documento Piano di Qualifica (piano\_di\_qualifica.1.0.pdf).
 
-\subsection{}
-
-\subsection{}
-
-\subsection{}
+\subsection{Verifica dei documenti}
+\label{sec:verifica_documenti}
+La verifica di un documento avviene nel momento in cui il redattore ha finito di redigere completamente il documento. Tale processo avverrà principalmente in tre fasi:
+\begin{enumerate}
+\item Si procederà con un'analisi ortografica, compreso il corretto uso della punteggiatura, degli accenti e degli apostrofi.. Per far ciò il verificatore potrà aiutarsi con lo strumento ``Verifica ortografia'' presente in TexMaker raggiungibile dalla scheda ``Modifica->Verifica Ortografia''. Successivamente controllerà l'assenza di errori grammaticali, logici e sintattici nei periodi ed infine la coerenza del documento con le norme previste nella sezione \ref{sec:ambiente_documentale} ``Ambiente documentale''.
+\item Se è la prima volta che il documento viene verificato, il verificatore procederà con un metodo di tipo \textit{walkthrougth}, ossia analizzerà l'intero documento dall'inizio alla fine. Se invece il documento era già stato verificato e rimandato per via di errori, si adopererà un metodo di tipo \textit{inspection}, ossia analizzerà il documento solo dove sono state apportate le modifiche accertandosi che siano stati corretti gli errori rilevati e che non ne siano stati introdotti nuovi.
+\item Il verificatore prenderà nota in modo ordinato di tutti gli errori riscontrati e procederà con la creazione dei tickets relativi che saranno rivolti al redattore del documento come descritto nella sezione \ref{sec:ciclo_vita_ticket} ``Ciclo di vita di un Ticket''.
+\end{enumerate}
 
 \end{document}
