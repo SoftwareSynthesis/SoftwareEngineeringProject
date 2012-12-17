@@ -1,0 +1,27 @@
+% parte su JavaScript da includere dentro il documento principale
+% 29/11 autore: DB     :(
+
+\begin{description}
+	\item{\scshape\bfseries Descrizione:}
+  JavaScript è un linguaggio di scripting interpretato, debolmente orientato agli oggetti la cui sintassi è derivata dal C e il cui modello a oggetti è radicalmente diverso da quello  del C++/Java a noi noto da altri corsi: ad es. alle classi possono essere aggiunte dinamicamente proprietà e operazioni, non esiste ereditarietà di classe ma solo fra oggetti (mediante prototipi) né \textit{dynamic dispatch}, non c'è \textit{encapsulation} in quanto tutte le proprietà degli oggetti sono accessibili come in un array associativo né protezione delle informazioni con i consueti modificatori di accessibilità.
+  
+  A dire il vero non esistono nemmeno delle vere e proprie classi: gli oggetti possono essere definiti aggiungendo nuove proprietà e metodi (oggetti di tipo funzione, vd. poi) a oggetti preesistenti (es. un'istanza \texttt{obj} di \texttt{Object}) oppure definendo una funzione `costruttore' che restituisca un'istanza di oggetto dopo averla costruita (usando \texttt{this} invece di \texttt{obj}). Con alcuni accorgimenti è possibile simulare la presenza di variabili di istanza private (es. usando variabili locali dentro i costruttori), l'ereditarietà, l'overriding di metodi e, in generale, i meccanismi tipici del paradigma OO basato su classi.
+  
+  Il sistema dei tipi di dato comprende \texttt{Array}, \texttt{Boolean}, \texttt{Date}, \texttt{Function}, \texttt{Math}, \texttt{Number}, \texttt{Object}, \texttt{Regexp} e \texttt{String}, tuttavia JavaScript è debolmente tipizzato e, in particolare, le variabili sono dichiarate assegnando un valore a un identificatore eventualmente preceduto dalla keyword \texttt{var} senza però specificarne il tipo. Nota: come forse si è intuito il fatto che le funzioni siano oggetti permette di utilizzare anche funzioni `anonime' (di fatto è un sistema comodo per definire metodi in un costruttore o per passare funzioni di \textit{callback} a funzioni di ordine superiore). Come se ciò non fosse sufficiente, il linguaggio supporta anche costrutti simili alle \textit{closure} di Smalltalk (e derivati, es. Ruby) per cui anche i blocchi di codice sono visti come espressioni e possono essere passati come parametro, restituiti, assegnati a identificatori ecc\dots  
+  
+  Poiché JavaScript è utilizzato in genere all'interno di un programma ospite (\textit{host}), il sistema dei tipi può essere espanso dai nuovi tipi facenti parte dell'API esposta dall'\textit{host} verso l'ambiente JavaScript. Se l'host è un web browser -- come tipicamente accade sfruttando JavaScript per la programmazione web lato client --  il DOM fa parte dell'API resa disponibile dal browser ai programmi JavaScript e tutti i suoi elementi saranno accessibili (a partire da \texttt{document},\texttt{form}, \texttt{link}, ecc\dots).\footnote{%
+    Molto comune è recuperare il riferimento a un elemento identificato dall'attributo \texttt{id} nella struttura dell'HTML chiamando il metodo \texttt{document.getElementById("pippo").}
+  }
+  
+  JavaScript è impiegato per la costruzione di pagine web dinamiche (avvantaggiato in questo dal fatto di svolgere la computazione lato client), compito semplificato dalla possibilità di gestire gli eventi impostando gli \textit{handler} associati agli oggetti per i vari tipi di evento (l'handler impostato può essere un oggetto di tipo \texttt{Function}).
+  
+  Integrare il codice JavaScript all'interno di una pagina web è possibile fra i tag \texttt{<script>}\dots\texttt{<script>} con l'attributo \texttt{type} per specificare \texttt{text/javascript}. Il codice dello script può essere inserito nell'elemento head o nel body all'interno della pagina o, se viene richiamato in più pagine, in un file di testo esterno con estensione \texttt{.js} incluso mediante l'attributo \texttt{src} in un elemento \texttt{script}.
+  
+	\item{\scshape\bfseries Riferimenti:}
+  <<il programma che sarà realizzato non deve essere inteso come una pagina Web ma come un software che per l'occasione utilizzi il linguaggio Javascript e le librerie contenute nel browser>>
+
+	\item{\scshape\bfseries Link utili:}\\
+  Alcune fonti da cui ho liberamente attinto (oltre Wikipedia):\\
+  www.w3schools.com/js/default.asp\\
+  www.html.it/guide/guida-javascript-di-base/
+\end{description}
