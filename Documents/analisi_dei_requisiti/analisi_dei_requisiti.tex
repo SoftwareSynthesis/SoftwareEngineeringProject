@@ -1,12 +1,7 @@
-% shared/template.tex
-%
-% Contiene un modello di documento che deve essere copiato e opportunamente
-% modificato per creare i documenti 'concreti' di progetto. Definisce le macro
-% specifiche per il documento corrente, importa la parte di preambolo condivisa
-% e le pagine comuni a tutti i documenti.
-% In particolare, per ogni documento concreto occorre per prima cosa aggiornare
-% le macro, inserire una voce nella tabella delle modifiche e inserire il testo
-% (o includere file sorgenti esterni) a partire dalla riga 66 in poi.
+% analisi_dei_requisiti/analisi_dei_requisiti.tex
+
+%TODO:
+% sistemare date e autori sulla base del PdP!
 
 % **************************************************
 % Macro specifiche per il documento corrente
@@ -14,19 +9,19 @@
 % Nome
 \newcommand{\docName}{Analisi dei requisiti}
 % Nome file
-\newcommand{\docFileName}{ar.tex}
+\newcommand{\docFileName}{analisi\_dei\_requisiti.tex}
 % Versione
-\newcommand{\docVers}{0.0}
+\newcommand{\docVers}{0.1}
 % Data creazione
 \newcommand{\creationDate}{20/11/2012}
 % Data ultima modifica
 \newcommand{\modificationDate}{20/11/2012}
 % Stato in {Approvato, Non approvato}
-\newcommand{\docState}{}
+\newcommand{\docState}{Non approvato}
 % Uso in {Interno, Esterno}
 \newcommand{\docUsage}{Esterno}
 % Redattori da specificare come nome1\\ &nome2\\ ecc.
-\newcommand{\docAuthors}{}
+\newcommand{\docAuthors}{Andrea Rizzi\\}
 % Approvato da
 \newcommand{\approvedBy}{}
 % Verificatori
@@ -55,7 +50,7 @@
 \toprule
 Versione & Descrzione intervento & Redattore & Data\\
 \midrule % inserire qui il contenuto della tabella
-0.0 & Versione iniziale & Andrea Rizzi & 20/11/2012\\
+0.1 & Versione iniziale & Andrea Rizzi & 20/11/2012\\
 \bottomrule
 \end{tabularx}
 \newpage
@@ -71,11 +66,40 @@ Versione & Descrzione intervento & Redattore & Data\\
 % Qui ha inizio il documento vero e proprio...
 
 \section{Introduzione}
+\subsection{Scopo del prodotto}
+\purpose
+
+\subsection{Scopo del documento}
+Il presente documento riporta il risultato dell'attività di analisi dei requisiti svolta dal gruppo \team{} in fase preliminare, vale a dire un insieme di requisiti -- in parte esplicitati nel testo del capitolato C1, in parte emersi durante incontri con il committente Zucchetti Srl, in parte inferiti dal dominio e in parte auto-imposti dal gruppo -- che il prodotto software è tenuto a soddisfare in termini funzionali, prestazionali, qualitativi e dichiarativi.
+
+Il comportamento del sistema osservabile dall'utente finale, in conformità con i requisiti sopra enunciati, è riportato secondo il formalismo noto come diagrammi dei casi d'uso. La corrispondenza fra casi d'uso e requisiti è illustrata mediante la tabella riportata nella sezione~5.
+%TODO: aggiungere riferimenti incrociati e non basarsi su numeri hard-coded qui dentro
+
+\subsection{Glossario}
+\glossaryIntro
+
+\subsection{Riferimenti}
+\begin{itemize}
+\item Capitolato d'appalto C1\\ (\url{http://www.math.unipd.it/~tullio/IS-1/2012/Progetto/C1.pdf});
+\item verbale relativo all'incontro con il proponente tenutosi in data 2012/12/11\\ (verbale\_incontro\_2012-12-11.pdf);
+\item Piano di qualifica\\ (piano\_di\_qualifica.pdf).
+\end{itemize}
 
 \section{Descrizione generale}
 
-%da qua in poi mi affido al software di stampa automatico
+\subsection{Contesto di utilizzo}
+Il sistema software realizzato nell'ambito del progetto \caName{} si configura come una piattaforma di comunicazione fra utenti connessi alla rete. Oggetto della condivisione -- poiché `comunicare' letteralmente significa `mettere in comune' -- saranno non solo flussi audio/video, secondo le modalità tipiche della (video)chiamata via \inglese{softphone}, ma anche file e documenti presenti in locale, per i quali è previsto tanto il trasferimento quanto la condivisione delle modifiche in tempo reale.
 
+Dal punto di vista dell'utente, \caName{} si configura inoltre come un applicativo fruibile attraverso la sola mediazione di un \underline{browser}, senza necessità di installazione di alcun programma \inglese{stand-alone} sul proprio sistema né di \underline{plugin} per il \underline{browser} forniti da \team{} o da terze parti.
+
+\subsection{Utente finale}
+Il modello implicitamente assunto come utente finale del prodotto prevede che l'utilizzatore del prodotto \caName{} abbia disponibilità di una connessione ad Internet funzionante e di un \underline{browser} di ultima generazione in grado di supportare lo standard \underline{WebRTC}\@. Fra i prerequisiti non figura il possesso di conoscenze particolari estranee alla comune esperienza di navigazione web (in particolare, l'eventuale confidenza con sistemi esistenti di telefonia via internet non rientra nelle assunzioni).
+
+\subsection{Funzionalità}
+Le funzionalità offerte dal prodotto agli utenti finali possono essere raggruppate in due macro-categorie: gestione di scambi di informazioni sincroni (quali comunicazione multimediale fra due o più utenti o condivisione di risorse in tempo reale) da una parte, e scambio di informazioni asincrone (segreteria, chat testuale, trasferimento file) dall'altra. A supporto di tali funzionalità di base è previsto lo sviluppo di funzionalità secondarie quali la gestione di una rubrica utente, la visualizzazione di metadati sulle connessioni e la possibilità di mantenere un registro storico delle attività realizzate mediante il sistema.
+
+%da qua in poi mi affido al software di stampa automatico
+% TODO: sono gestiti i riferimenti incrociati?
 \input{tracciamenti_commentato_per_modifica.tex}
 
 \end{document}
