@@ -34,8 +34,6 @@
 % Perscorso (relativo o assoluto) che punta alla directory contenente shared/
 % come sua sottodirectory (per comodità chiamiamola 'doc root').
 \newcommand{\docRoot}{..}
-\def\INDICETABELLE{true}
-\def\INDICEFIGURE{true}
 
 % importa il preambolo condiviso da tutti i documenti
 \input{\docRoot/shared/preamble.tex}
@@ -80,14 +78,62 @@ Versione & Descrzione intervento & Redattore & Data\\
 
 % Qui ha inizio il documento vero e proprio...
 \section{Organigramma}
+\begin{center}
+\begin{tabularx}{0.8\textwidth}{c|c|c}
+{\bf Nome}&{\bf Data}&{\bf Firma}\\ 
+\hline
+Elena Zecchinato & 01/12/2012 &\rule{3cm}{0cm} \\
+\end{tabularx}
+\end{center}
 
+\subsection{Approvazione}
+\begin{center}
+\begin{tabularx}{0.8\textwidth}{c|c|c}
+{\bf Nome}&{\bf Data}&{\bf Firma}\\ 
+\hline
+Elena Zecchinato & 01/12/2012 &\rule{3cm}{0cm} \\
+Vardanega Tullio & 10/02/2013 & \\
+\end{tabularx}
+\end{center}
+
+\subsection{Accettazione componenti}
+\begin{center}
+\begin{tabularx}{0.9\textwidth}{c|c|c}
+{\bf Nome}&{\bf Data}&{\bf Firma }\\ 
+\hline
+Beraldin Diego & 02/12/2012&\rule{3cm}{0cm}\\
+Farronato Stefano & 02/12/2012&\\
+Meneghinello Andrea & 02/12/2012&\\
+Rizzi Andrea & 02/12/2012&\\
+Schivo Marco & 02/12/2012&\\
+Tresoldi Riccardo & 02/12/2012&\\
+Zecchinato Elena & 02/12/2012&\\
+\end{tabularx}
+\end{center}
+
+\subsection{Componenti}
+\begin{center}
+\begin{tabularx}{0.9\textwidth}{c|c|l}
+{\bf Nome}&{\bf Matricola}&{\bf e-mail}\\ 
+\hline
+Beraldin Diego & 1006523&diego.beraldin@studenti.unipd.it\\
+Farronato Stefano & 582726&stefano.farronato@studenti.unipd.it\\
+Meneghinello Andrea & 610762&andrea.meneghinello@studenti.unipd.it\\
+Rizzi Andrea & 610761&andrea.rizzi@studenti.unipd.it\\
+Schivo Marco & 619740&marco.schivo@studenti.unipd.it\\
+Tresoldi Riccardo & 610068&riccardo.tresoldi@studenti.unipd.it\\
+Zecchinato Elena & 1007584&elena.zecchinato@studenti.unipd.it\\
+\end{tabularx}
+\end{center}
+
+\clearpage
 \section{Introduzione}
 \subsection{Scopo del prodotto}
-Con progetto "MyTalk" intendiamo un sistema software di comunicazione tra utenti mediante browser, utilizzando solo componenti standard, senza dover installare plugin o programmi esterni. L'utilizzatore dovrà poter chiamare un altro utente, iniziare la comunicazione sia audio che video, svolgere la chiamata e terminare la chiamata ottenendo delle statistiche sull'attività.
+Con progetto "MyTalk" intendiamo un sistema software di comunicazione tra utenti mediante underline{browser}, utilizzando solo componenti standard, senza dover installare underline{plugin} o programmi esterni. L'utilizzatore dovrà poter chiamare un altro utente, iniziare la comunicazione sia audio che video, svolgere la chiamata e terminare la chiamata ottenendo delle statistiche sull'attività.
 
 \subsection{Scopo del documento}
 Il seguente documento ha lo scopo di presentare e definire i ruoli professionali dei membri del Team di lavoro dell'azienda Software Synthesis sul progetto "MyTalk" regolarmente accettato dall'azienda appaltatrice Zucchetti s.r.l.\\
-Sono inoltre descritti i costi stimati necessari al completamento di tale progetto e i rischi possibili nella sua realizzazione.Infine viene stilato il carico di lavoro distribuito per ogni soggetto del Team mediante un organigramma specificante tempo e risorse.
+Sono inoltre descritti i costi stimati necessari al completamento di tale progetto e i rischi possibili nella sua realizzazione. Infine viene stilato il carico di lavoro distribuito per ogni soggetto del Team mediante un organigramma specificante tempo e risorse.
 \subsection{Glossario}
 Al fine di evitare incomprensioni dovute all'uso di termini tecnici nei documenti, viene redatto e allegato il documento "Glossario.pdf" dove vengono definiti e descritti tutti i termini marcati con una sottolineatura.
 
@@ -101,34 +147,35 @@ RIFERIMENTI INFORMATIVI
 CAPITOLATO D'APPALTO: MyTalk, v 1.0, redatto e rilasciato dal proponente Zucchetti s.r.l reperibile all'indirizzo:\\ \textit{http://www.math.unipd.it/~tullio/IS-1/2012/Progetto/C1.pdf} \\\\
 TESTO DI CONSULTAZIONE: Software Engineering (8th edition) Isan Sommerville, Pearson Education | Addison-Wesley
 
-
+\clearpage
 \section{Modello di ciclo di vita}
-Per lo sviluppo del prodotto MyTalk, il Team di Software Synthesis ha optato per il modello di ciclo di vita incrementale. Questa scelta è stata dettata da scelte prevalentemente dettate dalla scarsa esperienza dell'azienda nello sviluppo di determinati progetti, nonchè la scelta di realizzare un prodotto mediante passi pianificati in modo da poter gestire l'intero svolgimento progettuale nei tempi e nei costi previsti.\\\\
+Per lo sviluppo del prodotto MyTalk, il Team di Software Synthesis ha optato per il underline{modello di ciclo di vita} incrementale. Questa scelta è stata dettata da scelte prevalentemente dettate dalla scarsa esperienza dell'azienda nello sviluppo di determinati progetti, nonchè la scelta di realizzare un prodotto mediante passi pianificati in modo da poter gestire l'intero svolgimento progettuale nei tempi e nei costi previsti.\\\\
 Questo tipo di modello inoltre permetterà di sviluppare e completare il software sviluppando i requisiti minimi obbligatori imposti dal committente, procedendo successivamente all'integrazione dei requisiti facoltativi e desiderabili presi in considerazione. Si conclude quindi che il modello sarà dunque composto da due iterazioni.\\\\
 Basandoci sulle specifiche dettate da questo tipo di modello, il Team svolgerà inizialmente (e una sola volta) le fasi di analisi e progettazione a livello architetturale ad alto livello, successivamente si lavorerà iterativamente sul controllo e la valutazione della realizzazione nel dettaglio.\\
 
+\clearpage
 \section{Pianificazione}
 \subsubsection{Ruoli e Costi}
-I ruoli  costituiscono delle funzioni aziendali che vengono assegnate al progetto.\\
-La seguente tabella riporta i ruoli che devono essere ricoperti dai membi del Team e i rispettivi costi orari:
-\begin{table}[h]
+I ruoli costituiscono delle funzioni aziendali che vengono assegnate al progetto.\\
+La tabella 1 riporta i ruoli che devono essere ricoperti da tutti i membi del Team e i rispettivi costi orari:
+\begin{table}[h!]
 \centering
-\begin{tabular}{|l|cl|}
+\begin{tabular}{|l|c|}
 \hline
-Ruolo& Costo Orario&  \\
+Ruolo& Costo Orario\\
 \hline
-Responsabile & 30 euro &\\
-Amministratore  & 20 euro&\\
-Analista & 25 euro&\\
-Progettista  & 22 euro&\\
-Programmatore & 15 euro&\\
-Verificatore & 15 euro&\\
+Responsabile & \EUR{30}\\
+Amministratore  & \EUR{20}\\
+Analista & \EUR{25}\\
+Progettista  & \EUR{22}\\
+Programmatore & \EUR{15}\\
+Verificatore & \EUR{15}\\
 \hline
 \end{tabular}
 \caption{costo orario per ruolo}
-\end{table}\\
+\end{table}
 Al fine di permettere che ogni membro del gruppo posso ricoprire almeno una volta ogni ruolo, è necessario adottare un meccanismo di rotazione.\\
-Tale meccanismo dovrà garantire, oltre alla rotazione, che non vi siano conflitti di interesse, ovvero che non ci siano periodi in cui una stessa risorsa sia verificatrice di se stessa.\\
+Tale meccanismo dovrà garantire, oltre alla già citata rotazione, che non vi siano conflitti di interesse, ovvero ad esempio non ci siano periodi in cui una stessa risorsa sia verificatrice di se stessa.\\
 
 \subsubsection{Analisi}
 Questa fase inizia in data 29/11/2012 e finisce in data 10/01/2013.\\
@@ -137,57 +184,59 @@ Questa fase coinvolge i ruoli di Responsabile, Amministratore, Analista e Verifi
 Le ore svolte dai vari componenti in questa fase non rientrano nel preventivo, la fase di analisi costituisce infatti un investimento da parte dell’azienda e non può quindi essere a carico del proponente ne faranno parte del massimo complessivo finale di 100 ore lavorative per componente .
 Verrà in ogni caso tenuto traccia del dettaglio delle ore compiute per la già concordata rotazione dei ruoli dei membri del Team.
 
-\begin{figure}[h]
+\begin{figure}[h!]
   \includegraphics[width=\textwidth]{Analisi}
-\caption{Gant della pianificazione d'Analisi }
+\caption{Gant della pianificazione d'Analisi}
 \end{figure}
-
-I ruoli sono in questa fase definiti come in tabella X:\\
-\begin{table}[h]
+\clearpage
+I ruoli sono in questa fase definiti come in tabella \ref{tab:ruolian}.
+\begin{table}[h!]
 \centering
-\begin{tabular}{|l|c|c|c|c|c|cl|}
+\begin{tabular}{|l|c|c|c|c|c|c|}
 \hline
-Componente& RE& AM& AN& PRO& PRG& VER& \\
+Componente& RE& AM& AN& PRO& PRG& VER\\
 \hline
-Beraldin Diego & 2& & 8& & & 10&\\
-Farronato Stefano & 8& 2& 10& & & &\\
-Meneghinello Andrea & & 6& 15& & & &\\
-Rizzi Andrea & & & 21& & & &\\
-Schivo Marco & & 12& & & & 10&\\
-Tresoldi Riccardo & & & 21& & & &\\
-Zecchinato Elena & 10& & 10& & & &\\
+Beraldin Diego & 2& & 8& & & 10\\
+Farronato Stefano & 8& 2& 10& & & \\
+Meneghinello Andrea & & 6& 15& & & \\
+Rizzi Andrea & & & 21& & & \\
+Schivo Marco & & 12& & & & 10\\
+Tresoldi Riccardo & & & 21& & & \\
+Zecchinato Elena & 10& & 10& & & \\
 \hline
-Totale & 20& 20& 77& & & 20&\\
+Totale & 20& 20& 77& & & 20\\
 \hline
 \end{tabular}
-\caption{copertura ruoli nella fase di Analisi}
-\end{table}\\
+\caption{copertura ruoli nella fase di Analisi}\label{tab:ruolian}
+\end{table}
 
-\begin{figure}[h]
-  \includegraphics[width=\textwidth]{torta_analisi}
+\begin{figure}[h!]
+\centering
+  \includegraphics[width=.9\textwidth]{torta_analisi}
 \caption{Torta ripartizione ruoli nella fase di Analisi}
 \end{figure}
 
-\begin{table}[h]
+\begin{table}[h!]
 \centering
-\begin{tabular}{|l|cl|}
+\begin{tabular}{|l|c|}
 \hline
-Componente& Totale& \\
+Componente& Totale\\
 \hline
-Beraldin Diego & 20&\\
-Farronato Stefano & 20&\\
-Meneghinello Andrea & 21&\\
-Rizzi Andrea &  21&\\
-Schivo Marco & 22&\\
-Tresoldi Riccardo & 21&\\
-Zecchinato Elena & 20&\\
+Beraldin Diego & 20\\
+Farronato Stefano & 20\\
+Meneghinello Andrea & 21\\
+Rizzi Andrea &  21\\
+Schivo Marco & 22\\
+Tresoldi Riccardo & 21\\
+Zecchinato Elena & 20\\
 \hline
 \end{tabular}
 \caption{copertura ruoli nella fase di Analisi}
 \end{table}
 
+\clearpage
 \subsubsection{Progettazione Architetturale}
-Questa fase inizia in data 09/01/2013 e finisce in data 31/01/2013, per un totale di 20 giorni lavorativi. \\
+Questa fase inizia in data 09/01/2013 e finisce in data 31/01/2013, per un totale di 20 giorni underline{lavorativi}. \\
 Questa fase coinvolge i ruoli di Responsabile, Amministratore, Analista, Progettista e Verificatore.
 L'analista in questa fase avrà un ruolo prevalentemente rifinitorio (ma doveroso) nei confronti dell'Analisi dei Requisiti, per rendere più sicuro e corretto possibile l'avvio progettuale della Specifica Tecnica.
 Si è deciso di suddividere questo periodo in due fasi. La prima fase termina il 16/01/2013 e ed inizia la seconda, di seguito la tabella con la pianificazione dei compiti:\\
@@ -195,250 +244,255 @@ Si è deciso di suddividere questo periodo in due fasi. La prima fase termina il
   \includegraphics[width=\textwidth]{Progettazione_Architetturale}
 \caption{Gant della Progettazione Architetturale }
 \end{figure}\\
-I ruoli sono in questa fase definiti come in tabella X:\\
+I ruoli sono in questa fase definiti come in tabella \ref{tab:ruoliprog}:\\
 \begin{table}[h]
 \centering
-\begin{tabular}{|l|c|c|c|c|c|c|c|cl|}
+\begin{tabular}{|l|c|c|c|c|c|c|c|c|}
 \hline
-Componente& RE& AM& AN& PRO(fase1)& PRO(fase2)& PRG& VER(fase1)& VER(fase2)& \\
+\multirow{2}{*}{Componente}& RE& AM& AN& PRO& PRO& PRG& VER& VER\\
+                    &    &      &      &fase1          &fase2         &        &fase1	 &fase2\\ 
 \hline
-Beraldin Diego & & 8& 15& & 13& & & &\\
-Farronato Stefano & & & & 22& & & & 16&\\
-Meneghinello Andrea & 9& & & 12& & & & 13&\\
-Rizzi Andrea & & 8& & & 16& & 16& &\\
-Schivo Marco & & & 15& 20& & & & &\\
-Tresoldi Riccardo & 7& & & 18& & & & 11&\\
-Zecchinato Elena & & & & & 10& & 25& &\\
+Beraldin Diego & & 8& 15& & 13& & &\\
+Farronato Stefano & & & & 22& & & & 16\\
+Meneghinello Andrea & 9& & & 12& & & & 13\\
+Rizzi Andrea & & 8& & & 16& & 16& \\
+Schivo Marco & & & 15& 20& & & & \\
+Tresoldi Riccardo & 7& & & 18& & & & 11\\
+Zecchinato Elena & & & & & 10& & 25& \\
 \hline
-Totale & 16& 16& 30& 72& 39& & 41& 40&\\
+Totale & 16& 16& 30& 72& 39& & 41& 40\\
 \hline
 \end{tabular}
-\caption{copertura ruoli nella fase di Progettazione Architetturale}
-\end{table}\\
-Ad ogni risorsa sarà distribuito il seguente carico di lavoro (figura X):\\
-\begin{figure}[h]
-  \includegraphics[width=\textwidth]{torta_PA}
-\caption{Torta ripartizione ruoli nella fase di Progettazione Architetturale}
+\caption{copertura ruoli nella fase di Progettazione Architetturale}\label{tab:ruoliprog}
+\end{table}
+\clearpage
+Ad ogni risorsa sarà distribuito il seguente carico di lavoro (figura \ref{fig:ruoliprog}) :\\
+\begin{figure}[h!]
+\centering
+\includegraphics[width=.9\textwidth]{torta_PA}
+\caption{Torta ripartizione ruoli nella fase di Progettazione Architetturale}\label{fig:ruoliprog}
 \end{figure}\\
-Infine vengono fornite le ore distinte per componente del Team che sono state svolte in questa fase (tabella X):\\
-\begin{table}[h]
+
+Infine vengono fornite le ore distinte per componente del Team che sono state svolte in questa fase (\ref{tab:ruoliprog2}):\\
+\begin{table}[h!]
 \centering
-\begin{tabular}{|l|c|c|cl|}
+\begin{tabular}{|l|c|c|c|}
 \hline
-Componente& Fase I& Fase II& Totale& \\
+Componente& Fase I& Fase II& Totale\\
 \hline
-Beraldin Diego &23 &13 & 36&\\
-Farronato Stefano & 22& 16& 38&\\
-Meneghinello Andrea & 21& 13& 34&\\
-Rizzi Andrea & 16& 24& 40&\\
-Schivo Marco & 20& 15& 35&\\
-Tresoldi Riccardo & 18& 18& 36&\\
-Zecchinato Elena & 25& 10& 35&\\
+Beraldin Diego &23 &13 & 36\\
+Farronato Stefano & 22& 16& 38\\
+Meneghinello Andrea & 21& 13& 34\\
+Rizzi Andrea & 16& 24& 40\\
+Schivo Marco & 20& 15& 35\\
+Tresoldi Riccardo & 18& 18& 36\\
+Zecchinato Elena & 25& 10& 35\\
 \hline
 \end{tabular}
-\caption{copertura ruoli nella fase di progettazione architetturale}
+\caption{copertura ruoli nella fase di progettazione architetturale}\label{tab:ruoliprog2}
 \end{table}
 
-
+\clearpage
 \subsubsection{Progettazione di Dettaglio e Codifica}
 La seguente fase inizia in data 07/02/2013 e terminerà in data 06/03/2013. In questo periodo si svilupperà la progettazione di dettaglio del prodotto MyTalk e la sua codifica.
-In questa fase, coerentemente con il modello di ciclo di vita scelto, la fase di Progettazione di Dettaglio e la Codifica avverranno per iterazioni.
-Sono previste X iterazioni, al terimine della prima sarà possibile avere il primo prototipo per testare le funzioni di MyTalk, in data 22/03/2013.
+In questa fase, coerentemente con il modello di ciclo di vita scelto, la fase di Progettazione di Dettaglio e la Codifica avverranno per underline{iterazioni}.
+Sono previste X underline{iterazioni}, al terimine della prima sarà possibile avere il primo underline{prototipo} per testare le funzioni di MyTalk, in data 22/03/2013.
 E' stata scelta tale data anche per provvedere ad una doverosa rotazione di ruoli all'interno del Team di sviluppo, per consentire a tutti i soggetti di raggiungere il massimo apprendimento pratico dei vari compiti.
-Il diagramma di Gantt in figura X descrive l'organizzazione lavorativa:\\
+Il diagramma di Gantt in figura \ref{fig:gantdc} descrive l'organizzazione lavorativa:\\
 
-\begin{figure}[h]
+\begin{figure}[h!]
   \includegraphics[width=\textwidth]{Progettazione_di_Dettaglio_e_Codifica}
-\caption{Gant della Progettazione di Dettaglio e Codifica}
+\caption{Gant della Progettazione di Dettaglio e Codifica}\label{fig:gantdc}
 \end{figure}
 
 
-I ruoli sono in questa fase definiti come in tabella X:\\
-\begin{table}[h]
+I ruoli sono in questa fase definiti come in tabella \ref{tab:ruolidc}:\\
+\begin{table}[h!]
 \centering
-\begin{tabular}{|l|c|c|c|c|c|c|c|cl|}
+\begin{tabular}{|l|c|c|c|c|c|c|c|c|}
 \hline
-Componente& RE& AM& AN& PRO& PRG(fase1)&VER(fase1)& PRG(fase2)& VER(fase2)& \\
+\multirow{2}{*}{Componente}& RE& AM& AN& PRO& PRG&VER& PRG& VER \\
+					      &    &     &      &        & fase1&fase1&fase2&fase2\\
 \hline
-Beraldin Diego & & & & & 24& & & 23&\\
-Farronato Stefano & & & & 15&14 & & & 18&\\
-Meneghinello Andrea & & & & & & 25& 19& &\\
-Rizzi Andrea & 9& & & 22& & & 12& &\\
-Schivo Marco & & & & 16& 10& & & 20&\\
-Tresoldi Riccardo & & 7& & & & 20& 20& &\\
-Zecchinato Elena & & & & 25& & & 20& &\\
+Beraldin Diego & & & & & 24& & & 23\\
+Farronato Stefano & & & & 15&14 & & & 18\\
+Meneghinello Andrea & & & & & & 25& 19& \\
+Rizzi Andrea & 9& & & 22& & & 12& \\
+Schivo Marco & & & & 16& 10& & & 20\\
+Tresoldi Riccardo & & 7& & & & 20& 20& \\
+Zecchinato Elena & & & & 25& & & 20& \\
 \hline
-Totale & 9& 7& 0& 78& 48& 45& 71& 61&\\
+Totale & 9& 7& 0& 78& 48& 45& 71& 61\\
 \hline
 \end{tabular}
-\caption{copertura ruoli nella fase di Progettazione di Dettaglio e Codifica}
+\caption{copertura ruoli nella fase di Progettazione di Dettaglio e Codifica}\label{tab:ruolidc}
 \end{table}
-\\\\
-Ad ogni risorsa sarà distribuito il seguente carico di lavoro (figura X):\\
-\begin{figure}[h]
-  \includegraphics[width=\textwidth]{torta_PDC}
-\caption{Torta ripartizione ruoli nella fase di Progettazione di Dettaglio e Codifica}
+\clearpage
+Ad ogni risorsa sarà distribuito il seguente carico di lavoro (figura \ref{fig:ruolidc}):\\
+\begin{figure}[h!]
+\centering
+  \includegraphics[width=.9\textwidth]{torta_PDC}
+\caption{Torta ripartizione ruoli nella fase di Progettazione di Dettaglio e Codifica}\label{fig:ruolidc}
 \end{figure}
 \\\\
-Infine vengono fornite le ore distinte per componente del Team che sono state svolte in questa fase (tabella X):\\
+Infine vengono fornite le ore distinte per componente del Team che sono state svolte in questa fase (tabella \ref{tab:ruolidc2}):\\
 \begin{table}[h]
 \centering
-\begin{tabular}{|l|c|c|cl|}
+\begin{tabular}{|l|c|c|c|}
 \hline
-Componente& Fase I& Fase II& Totale& \\
+Componente& Fase I& Fase II& Totale\\
 \hline
-Beraldin Diego & 24& 23& 47&\\
-Farronato Stefano & 29& 18& 47&\\
-Meneghinello Andrea & 26& 20& 44&\\
-Rizzi Andrea &31 &12 & 43&\\
-Schivo Marco & 26& 20& 46&\\
-Tresoldi Riccardo & 27& 20& 47&\\
-Zecchinato Elena & 25& 20& 45&\\
+Beraldin Diego & 24& 23& 47\\
+Farronato Stefano & 29& 18& 47\\
+Meneghinello Andrea & 26& 20& 44\\
+Rizzi Andrea &31 &12 & 43\\
+Schivo Marco & 26& 20& 46\\
+Tresoldi Riccardo & 27& 20& 47\\
+Zecchinato Elena & 25& 20& 45\\
 \hline
 \end{tabular}
-\caption{copertura ruoli nella fase di progettazione di dettaglio e codifica}
+\caption{copertura ruoli nella fase di progettazione di dettaglio e codifica}\label{tab:ruolidc2}
 \end{table}
-
+\clearpage
 \subsubsection{Verifica e Validazione}
-Questa fase inizia in data 05/03/2012 e finisce in data 22/03/2012, per un totale di 16 giorni lavorativi.
+Questa fase inizia in data 05/03/2012 e finisce in data 22/03/2012, per un totale di 16 giorni underline{lavorativi}.
 Questa fase coinvolge i ruoli di Responsabile, Amministratore, Progettista, Programmatore e Verificatore. Si può notare che non è più attivo quindi il ruolo di Analista, si prevede infatti che la in questa fase l’attività di analisi sia ovviamente conclusa.
-Si è deciso di inserire  in questo periodo anche il ruolo del programmatore in quanto di prevede che qualche ora di programmazione potrebbe essere necessaria al fine di terminare lo sviluppo del software iniziato nelle fasi precedenti.
-In oltre non si è ritenuta necessaria la suddivisione in fasi del periodo visto che le attività riguardano in gran parte il processo di verifica e validazione e quindi non vi è la necessità di una forte rotazione.
-Essendoci però la presenza dei ruoli di Progettista e Programmatore per un numero limitato di ore e la necessità di impiegare risorse nel ruolo di Verificatore, sarà necessario impiegare le persone che svolgono tali ruoli nelle attività di verifica e validazione.  
+Si è deciso di inserire  in questo periodo anche il ruolo del programmatore in quanto di prevede che qualche ora di codifica potrebbe risultare necessaria al fine di terminare lo sviluppo del software iniziato nelle fasi precedenti.
+Non si è ritenuta necessaria la suddivisione in fasi del periodo visto che le attività riguardano in gran parte il processo di verifica e validazione e quindi non vi è necessità di una forte rotazione.
+Essendoci però la presenza dei ruoli di progettista e programmatore per un numero limitato di ore e la necessità di impiegare risorse nel ruolo di verificatore, sarà necessario impiegare le persone che svolgono tali ruoli nelle attività di verifica e validazione.  
 Nell’assegnazione dei ruoli si è volta particolare attenzione al conflitto di interessi,  progettando una distribuzione tale da evitare la situazione surreale in cui un verificatore controlli il suo stesso operato.\\
-Il diagramma di Gantt in figura X descrive l'organizzazione lavorativa:\\
-\begin{figure}[h]
+Il diagramma di Gantt in figura \ref{fig:gantvv} descrive l'organizzazione lavorativa:\\
+\begin{figure}[h!]
   \includegraphics[width=\textwidth]{Verifica_e_Validazione}
-\caption{Gant della Verifica e della Validazione}
-\end{figure}
-I ruoli sono in questa fase definiti come in tabella X:\\
-\begin{table}[h]
+\caption{Gant della Verifica e della Validazione}\label{fig:gantvv}
+\end{figure}\\
+I ruoli sono in questa fase definiti come in tabella \ref{tab:ruolivv}:\\
+\begin{table}[h!]
 \centering
-\begin{tabular}{|l|c|c|c|c|c|cl|}
+\begin{tabular}{|l|c|c|c|c|c|c|}
 \hline
-Componente& RE& AM& AN& PRO& PRG& VER& \\
+Componente& RE& AM& AN& PRO& PRG& VER\\
 \hline
-Beraldin Diego & & & & & & 20&\\
-Farronato Stefano & & & & & 5& 18&\\
-Meneghinello Andrea & & & & 5& & 15&\\
-Rizzi Andrea & & & & & & 20&\\
-Schivo Marco & 6& & & & & 16&\\
-Tresoldi Riccardo & & & & & & 20&\\
-Zecchinato Elena & & 8& & & & 15&\\
+Beraldin Diego & & & & & & 20\\
+Farronato Stefano & & & & & 5& 18\\
+Meneghinello Andrea & & & & 5& & 15\\
+Rizzi Andrea & & & & & & 20\\
+Schivo Marco & 6& & & & & 16\\
+Tresoldi Riccardo & & & & & & 20\\
+Zecchinato Elena & & 8& & & & 15\\
 \hline
-Totale & 6& 8& 0& 5& 5& 124&\\
+Totale & 6& 8& 0& 5& 5& 124\\
 \hline
 \end{tabular}
-\caption{copertura ruoli nella fase di Verifica e Validazione}
+\caption{copertura ruoli nella fase di Verifica e Validazione}\label{tab:ruolivv}
 \end{table}
-\\\\
-Ad ogni risorsa sarà distribuito il seguente carico di lavoro (figura X):\\
-\begin{figure}[h]
-  \includegraphics[width=\textwidth]{torta_VV}
-\caption{Torta ripartizione ruoli nella fase di Verifica e Validazione}
+\clearpage
+Ad ogni risorsa sarà distribuito il seguente carico di lavoro (figura \ref{fig:ruolivv}):\\
+\begin{figure}[h!]
+\centering
+  \includegraphics[width=.9\textwidth]{torta_VV}
+\caption{Torta ripartizione ruoli nella fase di Verifica e Validazione}\label{fig:ruolivv}
 \end{figure}
 \\\\
-Infine vengono fornite le ore distinte per componente del Team che sono state svolte in questa fase (tabella X):\\
+Infine vengono fornite le ore distinte per componente del Team che sono state svolte in questa fase (tabella \ref{tab:ruolivv2}):\\
 \begin{table}[h]
 \centering
-\begin{tabular}{|l|cl|}
+\begin{tabular}{|l|c|}
 \hline
-Componente& Totale& \\
+Componente& Totale \\
 \hline
-Beraldin Diego & 20&\\
-Farronato Stefano & 23&\\
-Meneghinello Andrea & 20&\\
-Rizzi Andrea & 20&\\
-Schivo Marco & 22&\\
-Tresoldi Riccardo & 20&\\
-Zecchinato Elena & 23&\\
+Beraldin Diego & 20\\
+Farronato Stefano & 23\\
+Meneghinello Andrea & 20\\
+Rizzi Andrea & 20\\
+Schivo Marco & 22\\
+Tresoldi Riccardo & 20\\
+Zecchinato Elena & 23\\
 \hline
 \end{tabular}
-\caption{copertura ruoli nella fase di Verifica e Validazione}
+\caption{copertura ruoli nella fase di Verifica e Validazione}\label{tab:ruolivv2}
 \end{table}
-
+\clearpage
 \section{Preventivo}
 \subsubsection{Prospetto Orario}
-La tabella 10 illustra le ore totali di lavoro produttivo di ciascun membro del team Software Synthesis, per soggetto è stato preventivato un totale di 103 ore produttive, pertanto coerenti con le richieste vincolanti.
+La tabella 10 illustra le ore totali di lavoro underline{produttivo} di ciascun membro del team Software Synthesis, per soggetto è stato preventivato un totale di 103 ore produttive, pertanto coerenti con le richieste vincolanti.
 \begin{table}[h]
 \centering
-\begin{tabular}{|l|c|c|c|c|c|c|cl|}
+\begin{tabular}{|l|c|c|c|c|c|c|c|}
 \hline
-Componente& RE& AM& AN& PRO& PRG& VER& TOTALE&\\
+Componente& RE& AM& AN& PRO& PRG& VER& TOTALE\\
 \hline
-Beraldin Diego & A& 8& 15& 13& 24& 43& 103&\\
-Farronato Stefano & A& A& A& 37& 14& 52&  103&\\
-Meneghinello Andrea & 9& A& A& 17& 24& 53& 103&\\
-Rizzi Andrea & 9& 8& A& 38& 12& 36& 103&\\
-Schivo Marco & 6& A& 15& 36& 10& 36& 103&\\
-Tresoldi Riccardo & 7& 7& A& 18& 20& 51& 103&\\
-Zecchinato Elena & A& 8& A& 35& 20& 40& 103&\\
+Beraldin Diego & A& 8& 15& 13& 24& 43& 103\\
+Farronato Stefano & A& A& A& 37& 14& 52&  103\\
+Meneghinello Andrea & 9& A& A& 17& 24& 53& 103\\
+Rizzi Andrea & 9& 8& A& 38& 12& 36& 103\\
+Schivo Marco & 6& A& 15& 36& 10& 36& 103\\
+Tresoldi Riccardo & 7& 7& A& 18& 20& 51& 103\\
+Zecchinato Elena & A& 8& A& 35& 20& 40& 103\\
 \hline
 \end{tabular}
-\caption{Dettaglio delle ore totali preventivate}
+\caption{Dettaglio delle ore totali preventivate}\label{tab:oretotali}
 \end{table}
 
-Ad ogni risorsa sarà distribuito il seguente carico di lavoro per portare a compimento il Progetto MyTalk (figura X):\\
-\begin{figure}[h]
-  \includegraphics[width=\textwidth]{torta_totale}
-\caption{Torta ripartizione ruoli in tutto il periodo di svolgimento del Progetto MyTalk}
+Ad ogni risorsa sarà distribuito il seguente carico di lavoro per portare a compimento il Progetto MyTalk (figura \ref{fig:oretotali}):\\
+\begin{figure}[h!]
+\centering
+  \includegraphics[width=.9\textwidth]{torta_totale}
+\caption{Torta ripartizione ruoli in tutto il periodo di svolgimento del Progetto MyTalk}\label{fig:oretotali}
 \end{figure}
-\\\\
-
+\clearpage
 \subsubsection{Prospetto Economico}
-Il Progetto nella sua realizzazione avrà un costo stimato calcolato nella tabella 11 di seguito esposta, anche in questo caso il progetto impone un impegno economico coerente con i parametri imposti da capitolato.
-\begin{table}[h]
+Il Progetto nella sua realizzazione avrà un costo stimato calcolato nella tabella \ref{tab:costitotali} di seguito esposta, anche in questo caso il progetto impone un impegno economico coerente con i parametri imposti da capitolato.
+\begin{table}[h!]
 \centering
-\begin{tabular}{|l|c|cl|}
+\begin{tabular}{|l|c|c|}
 \hline
-Ruolo& Ore& Costo& \\
+Ruolo& Ore& Costo\\
 \hline
-Responsabile & 31 & 930 euro&\\
-Amministratore  & 31& 620 euro&\\
-Analista & 30& 750 euro&\\
-Progettista  & 194& 4268 euro&\\
-Programmatore & 124& 1860 euro&\\
-Verificatore & 311 & 4665 euro&\\
+Responsabile & 31 & \EUR{930} \\
+Amministratore  & 31& \EUR{620}\\
+Analista & 30& \EUR{750}\\
+Progettista  & 194& \EUR{4268}\\
+Programmatore & 124& \EUR{1860}\\
+Verificatore & 311 & \EUR{4665}\\
 \hline
-Totale & 721 &13.093,00 euro&\\
+Totale & 721 &\EUR{13.093,00}\\
 \hline
 \end{tabular}
-\caption{costo e ore per ogni ruolo di progetto}
+\caption{costo e ore per ogni ruolo di progetto}\label{tab:costitotali}
 \end{table}
-
+\clearpage
 \section{Analisi dei rischi}
-In questa sezione vengono analizzati in modo mirato e approfondito i rischi che abbiamo individuato come possibili durante lo svolgimento del progetto. L'individuazione e la strategia di gestione di tali rischi è fondamentale per la pianificazione delle fasi di lavoro e la loro corretta esecuzione.\\
-Infatti solo tramite un approccio di gestione ai fattori di rischio è possibile tutelarsi dalla loro eventuale insorgenza e mitigarne gli effetti.\\
-Data la scarsa esperienza del Team su tali tematiche, il gruppo si è affidato a delle (una?) sessioni/e di brain-storming collettiva/e cercando di focalizzare i vari punti critici. \\\\
-Per rendere efficace l'analisi di ogni rischio si è deciso di quantificarlo mediante un apposita scala di valutazione sia dal punto di vista della probabilità che il rischio si manifesti (livello), sia il suo grado di incidenza sul progetto stesso (impatto):\\\\
-\begin{table}[h]
+In questa sezione vengono analizzati in modo mirato e approfondito i rischi che si sono individuati come possibili durante lo svolgimento del progetto. L'individuazione e la strategia di gestione di tali rischi è fondamentale per la pianificazione delle fasi di lavoro e la loro corretta esecuzione, infatti solo tramite un approccio di gestione ai fattori di rischio è possibile tutelarsi dalla loro eventuale insorgenza e mitigarne gli effetti.\\
+Data la scarsa esperienza del Team su tali tematiche, il gruppo si è affidato a delle sessioni di underline{brainstorming} collettive cercando di focalizzare i vari punti critici. \\\\
+Per rendere efficace l'analisi di ogni rischio si è deciso di quantificarlo mediante un apposita scala di valutazione sia dal punto di vista della probabilità che il rischio si manifesti (livello), sia il suo grado di incidenza sul progetto stesso (impatto):\\
+\begin{table}[h!]
 \centering
-\begin{tabular}{|l|cl|}
+\begin{tabular}{|l|c|}
 \hline
-Probabilità& Descrizione&  \\
+Probabilità& Descrizione\\
 \hline
-ALTA & probabilità elevata che si verifichi&\\
-MEDIA & probabilità equivalente nel verificarsi o meno&\\
-BASSA & pprobabilità bassa che si verifichi&\\
+ALTA & probabilità elevata che si verifichi\\
+MEDIA & probabilità equivalente nel verificarsi o meno\\
+BASSA & pprobabilità bassa che si verifichi\\
 \hline
 \end{tabular}
-\caption{Probabilità e Descrizione probabilità di un rischio}
+\caption{Probabilità e Descrizione probabilità di un rischio}\label{tab:livellorischi}
 \end{table}
-\\\\
-\begin{table}[h]
+\begin{table}[h!]
 \centering
-\begin{tabular}{|c|cl|}
+\begin{tabular}{|c|c|}
 \hline
-Scala& Descrizione&  \\
+Scala& Descrizione  \\
 \hline
-5 & conseguenze molto gravi&\\
-4 & conseguenze gravi&\\
-3 & conseguenze medio-gravi&\\
-2 & conseguenze minimali&\\
-1 & nessuna/lievi conseguenze&\\
+5 & conseguenze molto gravi\\
+4 & conseguenze gravi\\
+3 & conseguenze medio-gravi\\
+2 & conseguenze minimali\\
+1 & nessuna/lievi conseguenze\\
 \hline
 \end{tabular}
-\caption{Scala e descrizione delle conseguenze di un rischio}
+\caption{Scala e descrizione delle conseguenze di un rischio}\label{tab:impattorischi}
 \end{table}
 
 \subsection{Rischi di Progetto}
@@ -447,12 +501,13 @@ Scala& Descrizione&  \\
 	\item{\scshape\bfseries Analisi:} durante la realizzazione del progetto è probabile che alcuni membri del Team siano soggetti a problemi fisiologici e/o sovvengano impegni personali improrogabili che porteranno ad una sicura modifica della pianificazione del lavoro collettivo. L'impatto di tale rischio è variabile in base al soggetto mancante, in quanto può essere assegnato ad un'attività (o ruolo) più o meno importante all'interno del progetto.
 	\item{\scshape\bfseries Probabilità:} ALTA
 	\item{\scshape\bfseries Impatto:} variabile
-	\item{\scshape\bfseries Strategia di Gestione:}per mitigare gli effetti di tali fenomeni è ragionevole prima di tutto pianificare i tempi di lavoro personali in modo da lasciare un lasco di tempo tra un attività e l'altra. Così facendo la gestione temporale (compresa di eventuali imprevisti) risulta meno incline a modifiche e/o modifiche dei ruoli assegnati ad ogni membro. Ovviamente anche adottando tali accorgimenti si potrà generare la situazione in cui un componente risulti impossibilitato a svolgere il proprio compito, in tal caso è buona norma che tutti i membri siano ben preparati (conoscenza del dominio e delle metodologie di lavoro) nel caso sia necessaria la sostituzione del soggetto.
+	\item{\scshape\bfseries Strategia di Gestione:}per mitigare gli effetti di tali fenomeni è ragionevole prima di tutto pianificare i tempi di lavoro personali in modo da lasciare un lasco temporale tra un attività e l'altra.\\ 
+Così facendo la gestione temporale (compresa di eventuali imprevisti) risulta meno incline a modifiche e/o cambiamenti dei ruoli assegnati ad ogni membro. Ovviamente anche adottando tali accorgimenti si potrà generare la situazione in cui un componente risulti impossibilitato a svolgere il proprio compito, in tal caso è buona norma che tutti i membri siano ben preparati (conoscenza del dominio e delle metodologie di lavoro) nel caso sia necessaria la sostituzione momentanea del soggetto.
 \end{description}
 
 \subsubsection{Variazione nei Requisiti}
 \begin{description}
-	\item{\scshape\bfseries Analisi:} il bando di capitolato non prevede modifiche per i requisiti obbligatori, i requisiti opzionali al contrario possono subire variazioni in corso d'opera. Tale situazione implica il rischio che le risorse assegnate in fase di pianificazione risultino insufficienti al soddisfacimento di tale requisito.
+	\item{\scshape\bfseries Analisi:} il bando di capitolato non prevede modifiche per i requisiti obbligatori, i requisiti opzionali al contrario possono subire variazioni in corso d'opera. Tale situazione implica il rischio che le risorse assegnate in fase di pianificazione risultino insufficienti al soddisfacimento di tali requisiti.
 	\item{\scshape\bfseries Probabilità:} MEDIA
 	\item{\scshape\bfseries Impatto:} 3
 	\item{\scshape\bfseries Strategia di Gestione:}risulta necessaria una doverosa e immediata ridistribuzione delle risorse cercando di mantenere limitato l'impatto sulla pianificazione originale.
@@ -463,12 +518,12 @@ Scala& Descrizione&  \\
 	\item{\scshape\bfseries Analisi:} per ovvie ragioni di inesperienza da parte di tutto il Team la quasi totalità delle competenze tecnologiche richieste per la realizzazione del progetto risultano sconosciute.
 	\item{\scshape\bfseries Probabilità:} ALTO
 	\item{\scshape\bfseries Impatto:} 3
-	\item{\scshape\bfseries Strategia di Gestione:}le lacune saranno colmate tramite la personale consultazione della documentazione specifica che ogni tecnologia fornisce. Inoltre periodicamente su base volontaria di specifici componenti si assumeranno l'incarico di redigere brevi relazioni di facile e mirata comprensione.
+	\item{\scshape\bfseries Strategia di Gestione:}le lacune saranno colmate tramite la personale consultazione della documentazione specifica che ogni tecnologia fornisce. Inoltre periodicamente, su base volontaria, specifici componenti si assumeranno l'incarico di redigere brevi relazioni di facile e mirata comprensione sulle tecnologie prese in esame.
 \end{description}
 
 \subsubsection{Variabili Tecnologiche}
 \begin{description}
-	\item{\scshape\bfseries Analisi:} tra le tecnologie di implementazione ci sono le webRTC e HTML5. Ad oggi tali progetti non sono ancora stati promossi a standard, ma risultano tutt'oggi in fase di sviluppo. Seppur HTML5 risulti ormai discretamente stabile nella sua implementazione, webRTC al contrario si presta a costanti modifiche strutturali, l'ultima delle quali è avvenuta il 15 novembre 2012.
+	\item{\scshape\bfseries Analisi:} tra le tecnologie di implementazione ci sono le webRTC e HTML5. Ad oggi tali progetti non sono ancora stati promossi a standard ma risultano in fase di sviluppo costante. Seppur HTML5 risulti ormai discretamente stabile nella sua implementazione, webRTC al contrario si presta a periodiche modifiche strutturali, l'ultima delle quali è avvenuta il 15 novembre 2012.
 	\item{\scshape\bfseries Probabilità:} MEDIA
 	\item{\scshape\bfseries Impatto:} 2
 	\item{\scshape\bfseries Strategia di Gestione:}Questa condizione ci chiede di prestare massima attenzione in fase di progettazione, al fine di rendere il prodotto ultimo più flessibile possibile. Il proponente in ogni caso è disposto ad accettare una prodotto funzionante con una versione più datata rispetto a quella che verrà ad essere ufficiale in data di accettazione.
@@ -484,10 +539,10 @@ Scala& Descrizione&  \\
 
 \subsubsection{Problemi Software/Hardware}
 \begin{description}
-	\item{\scshape\bfseries Analisi:} sono ovviamente probabili eventuali disguidi di natura tecnica, sia di natura hardware (guasti/problemi alle macchine) che software. I membri del Team dispongono di sistemi basati su piattaforme differenti che potrebbero far insorgere incompatibilità. E' altresì probabile che software diversi all'interno dello stesso sistema operativo risultino di difficile integrazione, inoltre il progetto stesso che per sua natura si presta ad essere utilizzato su vari browser (oltre a Chrome, di default) potrebbero presentare problemi di natura funzionale.
+	\item{\scshape\bfseries Analisi:} sono ovviamente probabili eventuali disguidi di natura tecnica, sia di natura hardware (guasti/problemi tecnici generici delle macchine) che software. E' altresì probabile che software diversi all'interno dello stesso sistema operativo risultino di difficile integrazione, inoltre il progetto stesso che per sua natura si presta ad essere utilizzato su vari browser (oltre a Chrome, di default) potrebbero presentare problemi di natura funzionale. Infine si sottolinea che i componenti del Team dispongono di sistemi basati su piattaforme differenti che potrebbero far insorgere incompatibilità.
 	\item{\scshape\bfseries Probabilità:} MEDIA
 	\item{\scshape\bfseries Impatto:} 4
-	\item{\scshape\bfseries Strategia di Gestione:}questo tipo di problematiche andranno affrontate caso per caso, è stata comunque preventivata un esigua parte di tempo per tali tematiche nella pianificazione del lavoro.
+	\item{\scshape\bfseries Strategia di Gestione:}questo tipo di problematiche andranno affrontate caso per caso, è stata comunque preventivata un esigua parte di tempo per gestire tali tematiche nella pianificazione del lavoro.
 \end{description}
 
 
