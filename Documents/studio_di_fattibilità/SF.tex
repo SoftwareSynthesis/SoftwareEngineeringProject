@@ -1,0 +1,69 @@
+% **************************************************
+% Macro specifiche per il documento corrente
+% **************************************************
+% Nome
+\newcommand{\docName}{Studio di fattibilit\'a}
+% Nome file
+\newcommand{\docFileName}{studio\_di\_fattibilit\'a.tex}
+% Versione
+\newcommand{\docVers}{0.8}
+% Data creazione
+\newcommand{\creationDate}{28/11/2012}
+% Data ultima modifica
+\newcommand{\modificationDate}{8/12/2012}
+% Stato in {Approvato, Non approvato}
+\newcommand{\docState}{Non approvato}
+% Uso in {Interno, Esterno}
+\newcommand{\docUsage}{Interno}
+% Redattori da specificare come nome1\\ &nome2\\ ecc.
+\newcommand{\docAuthors}{Beraldin Diego\\ &Farronato Stefano\\ &Meneghinello Andrea\\ &Rizzi Andrea\\ &Schivo Marco}
+% Approvato da
+\newcommand{\approvedBy}{}
+% Verificatori
+\newcommand{\verifiedBy}{}
+% Perscorso (relativo o assoluto) che punta alla directory contenente shared/
+% come sua sottodirectory (per comodità chiamiamola 'doc root').
+\newcommand{\docRoot}{..}
+
+% importa il preambolo condiviso da tutti i documenti
+\input{\docRoot/shared/preamble.tex}
+
+% Fine del preambolo e inizio del documento
+\begin{document}
+
+% Inclusione della prima pagina
+\input{\docRoot/shared/firstpage.tex}
+
+% Storico delle modifiche
+\section*{Storia delle modifiche}
+\begin{tabularx}{\textwidth}{lXll}
+\toprule
+Versione & Descrzione intervento & Redattore & Data\\
+\midrule % inserire qui il contenuto della tabella
+0.9 & Stesura del punto ''Fattibilità del progetto''. Stesura del punto ''Confronto con gli altri capitolati'' & Andrea Rizzi & 8/12/2012\\\\
+0.8 & Revisione dei punti stesi fino alla presente versione. Stesura del punto ''AJAX''. Stesura del punto ''Database relazionali''. Stesura del punto ''Conclusioni sul dominio'' & Andrea Rizzi & 6/12/2012\\\\
+0.7 & Stesura del punto ''JQuery''. & Andrea Meneghinello & 5/12/2012\\\\
+0.6 & Stesura del punto ''CSS3''. & Diego Beraldin & 1/12/2012\\\\
+0.5 & Stesura del punto ''HTML5''. & Stefano Farronato & 30/11/2012\\\\
+0.4 & Stesura del punto ''WebRTC''. & Andrea Rizzi & 30/11/2012\\\\
+0.3 & Stesura del punto ''Javascript'' e ''Protocolli e funzionalità di Google Chrome''.  & Diego Beraldin & 30/11/2012\\\\
+0.2 & Stesura del punto ''Java - webSoket''.  & Marco Schivo & 29/11/2012\\\\
+0.1 & Stesura del punto ''Dominio tecnologico'' (introduzione). Stesura del punto ''Valutazione rischi''. Stesura del punto ''Vantaggi potenziali''. Stesura del punto ''Dominio applicativo''.  & Andrea Rizzi & 29/11/2012\\\\
+0.0 & Creazione del documento e definizione dei punti chiave del documento. Stesura della ''Descrizione sommaria del capitolato''. & Andrea Rizzi & 28/11/2012\\
+\bottomrule
+\end{tabularx}
+\newpage
+
+% inclusione dell'indice
+\input{\docRoot/shared/toc.tex}
+
+% Alcuni aggiustamenti per le pagine
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\pagestyle{normal}
+
+% Qui ha inizio il documento vero e proprio...
+
+\input{Contenuto.tex}
+
+\end{document}
