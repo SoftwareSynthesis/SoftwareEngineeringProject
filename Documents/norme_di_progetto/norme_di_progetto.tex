@@ -35,9 +35,9 @@
 % come sua sottodirectory (per comodità chiamiamola 'doc root').
 \newcommand{\docRoot}{..}
 % definire se si vuole l'indice delle tabelle
-\def\INDICETABELLE{false}
+\def\INDICETABELLE{true}
 % definire se si vuole l'indice delle figure
-\def\INDICEFIGURE{false}
+\def\INDICEFIGURE{true}
 
 % importa il preambolo condiviso da tutti i documenti
 \input{\docRoot/shared/preamble.tex}
@@ -114,7 +114,7 @@ Ogni membro del gruppo può richiedere un incontro esterno al responsabile, pres
 
 \newpage
 \section{Ambiente di lavoro}
-\subsection{\underline{Repository}}
+\subsection{Repository}
 \label{sec:repository}
 Per un corretto svolgimento del progetto si è reso necessario adottare un luogo dove poter cercare e salvare tutti i documenti da redigere, nonché i file di codifica. Per questo si è deciso di adottare un \underline{repository} ospitato da \textit{github}. Il motivo principale di questa scelta sta nel fatto che Git, rispetto ad altri sistemi quali Sourceforge ad esempio, è un \underline{sistema di controllo di versione} distribuito. Rientra infatti nei \underline{repository} di tipo Distribuited Control Version System (DVCS) mentre sourceforge rientra nei \underline{repository} di tipo Centralized Control Version System. La differenza sta nel fatto che in Git ognuno di noi avrà in locale l'intera copia del \underline{repository}, quindi tutti i vari commit, rami ecc. mentre con sourceforge in locale si ha solo la situazione dell'ultimo commit e se si deve eseguire operazioni di roolback si ha bisogno della connessione di rete per potersi connettere al \underline{server} centrale.
 
@@ -223,7 +223,8 @@ dove:
 \begin{itemize}
 \item \textbf{nome\textunderscore del\textunderscore file}: il nome del file non dovrà contenere lettere maiuscole ne caratteri speciali. Nel caso sia composto da più parole, questa vanno separate con il carattere underscore.
 \item \textbf{Variabile X}: Indica il raggiungimento di uno stato formale rispetto ad una \underline{Milestone}. Assumerà quindi principalmente 4 valori, dall'1 al 4, attribuiti come segue:
-\begin{center}
+\begin{table}[h]
+\centering
 \begin{tabular}{l|l}
 \toprule
 Milestone & X\\
@@ -234,7 +235,8 @@ Revisione dei Requisiti (RQ) & 3\\
 Revisione dei Requisiti (RA) & 4\\
 \bottomrule
 \end{tabular}
-\end{center}
+\caption{Revisioni e Milestones}
+\end{table}
 \item \textbf{Variabile Y}: parte dal valore 0 e viene incrementata ogni qualvolta, senza limite superiore, si apportano modifiche sostanziali al documento, come ad esempio la stesura di una nuova sezione o correzione di errori.
 \end{itemize}
 
@@ -264,7 +266,7 @@ Nella seconda pagina invece dovrà essere presente la tabella delle modifiche ap
 \item redattore;
 \item data modifica.
 \end{itemize}
-Seguirà su una nuova pagina l'indice dell'intero documento e in caso di presenza di tabelle e immagini sarà presente anche l'indice delle tabelle e l'indice delle immagini a seguire.
+Seguirà su una nuova pagina l'indice dell'intero documento e in caso di presenza di tabelle e immagini sarà presente anche l'indice delle tabelle e l'indice delle immagini a seguire. La presenza di questi due indici va specificata settando a ``true'' due flag presenti nel documento ``Template''.
 
 \subsection{Tipi di documento}
 \begin{itemize}
@@ -380,17 +382,17 @@ Prima della chiusura (\verb+end{figure}+) vanno inseriti anche i comandi \verb+\
 L'inserimento di tabelle all'interno dei documento verrà fatto tramite l'utilizzo del package tabularx che permette la creazione di colonne a larghezza dinamica. Vanno inseriti prima della chiusura della tabella (quindi prima del comando \verb+\endtabularx+) i comandi \verb+\caption{didascalia}+ e \verb+\label{riferimento}+ per permettere l'indicizzazione e l'identificazione delle tabelle tramite un codice.
 
 \newpage
-\section{\underline{Milestones} e \underline{Ticketing}}
+\section{Milestones e Ticketing}
 Al fine di aiutare lo svolgimento delle operazioni di assegnazione dei lavori e revisione durante l'intero ciclo di vita del progetto, l'azienda Software Synthesis userà il servizio \textit{Codebase}. Questo permette la creazione di \underline{Milestones} e \underline{tickets}, strumenti molto utili per tracciare il lavoro del team e anche per delineare una \underline{roadmap} degli obiettivi a breve e lungo termine che l'azienda si prefigge di raggiungere.
 
-\subsection{\underline{Milestones}}
+\subsection{Milestones}
 Come prima cosa, il responsabile di progetto dovrà inserire tutte le \underline{Milestones} previste dal progetto, ossia le quattro revisioni.
-\subsubsection{Creazione nuova \underline{Milestone}}
+\subsubsection{Creazione nuova Milestone}
 \label{sec:creazione_milestone}
 Per inserire una nuova \underline{Milestone} ci si dovrà posizionare nella pagina web dedicata alle \underline{Milestone} e cliccare su ``New Milestone''.
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{creazione_milestone}
-\caption{Creazione di una nuova \underline{Milestone}} \label{fig:creazione_milestone}
+\caption{Creazione di una nuova Milestone} \label{fig:creazione_milestone}
 \end{figure}
 Il \underline{form} va completato nel seguente modo:
 \begin{itemize}
@@ -405,24 +407,24 @@ Il \underline{form} va completato nel seguente modo:
 \end{itemize}
 Nel caso non si conosca qualche informazione, si può lasciare il relativo campo bianco e modificarlo successivamente (vedi paragrafo seguente) quando sarà resa pubblica l'informazione.
 
-\subsubsection{Modifica \underline{Milestone}}
+\subsubsection{Modifica Milestone}
 Per modificare una \underline{Milestone}, ci si deve posizionare nella scheda ``Edit \underline{Milestone}''. Per raggiungerla, basta entrare nella \underline{Milestone} che si vuole modificare e cliccare sul bottone ``Edit \underline{Milestone}'' situato nella parte alta dello schermo a destra.
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{modifica_milestone}
-\caption{Modifica di una \underline{Milestone}} \label{fig:modifica_milestone}
+\caption{Modifica di una Milestone} \label{fig:modifica_milestone}
 \end{figure}
 \\Per la compilazione dei campi, valgono le stesse regole riportate nella sezione \ref{sec:creazione_milestone} ``Creazione nuova \underline{Milestone}''.
 \\Da notare che si può eliminare anche una \underline{Milestone} da tale scheda, basta cliccare sul bottone ``Delete Milestone'' presente nella parte destra della pagina.
 
-\subsection{\underline{Ticketing}}
+\subsection{Ticketing}
 Un \underline{ticket} rappresenta un compito da svolgere.
 
-\subsubsection{Creazione nuovo \underline{Ticket}}
+\subsubsection{Creazione nuovo Ticket}
 \label{sec:creazione_ticket}
 Per inserire un nuovo \underline{ticket} ci si dovrà posizionare nella pagina web dedicata ai \underline{Tickets} e cliccare su ``New Ticket''.
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{creazione_ticket}
-\caption{Creazione di un nuovo \underline{Ticket}} \label{fig:creazione_ticket}
+\caption{Creazione di un nuovo Ticket} \label{fig:creazione_ticket}
 \end{figure}
 Il \underline{form} va completato compilando obbligatoriamente i seguenti campi:
 \begin{itemize}
@@ -435,14 +437,14 @@ Il \underline{form} va completato compilando obbligatoriamente i seguenti campi:
 \end{itemize}
 Tutte le altre informazioni possono essere completate se si ritiene opportuno dare maggiori dettagli.
 
-\subsubsection{Modifica \underline{Ticket}}
+\subsubsection{Modifica Ticket}
 Durante l'intero ciclo di vita di un \underline{ticket}, questo viene modificato molte volte come avviene ad esempio quando dobbiamo modificare lo stato del \underline{ticket}. Per far ciò, basta entrare nel \underline{ticket} che si vuole modificare e appare subito la scheda di modifica.
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{modifica_ticket}
-\caption{Modifica di un \underline{ticket}} \label{fig:modifica_ticket}
+\caption{Modifica di un ticket} \label{fig:modifica_ticket}
 \end{figure}
 
-\subsubsection{Ciclo di vita di un \underline{Ticket}}
+\subsubsection{Ciclo di vita di un Ticket}
 \label{sec:ciclo_vita_ticket}
 \begin{enumerate}
 \item \textbf{Creazione}: come prima cosa, il \underline{ticket} va creato come descritto nella sezione \ref{sec:creazione_ticket} ``Creazione nuovo Ticket''.
