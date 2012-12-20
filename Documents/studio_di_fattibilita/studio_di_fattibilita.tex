@@ -2,7 +2,7 @@
 % Macro specifiche per il documento corrente
 % **************************************************
 % Nome
-\newcommand{\docName}{Studio di fattibilit\'a}
+\newcommand{\docName}{Studio di fattibilit\`a}
 % Nome file
 \newcommand{\docFileName}{studio\_di\_fattibilita.1.0.pdf}
 % Versione
@@ -44,11 +44,11 @@
 \toprule
 Versione & Descrzione intervento & Redattore & Data\\
 \midrule % inserire qui il contenuto della tabella
-0.11 & Approvazione documento. & Stefano Farronato & 2012-12-01\\\\
+1.0 & Approvazione documento. & Stefano Farronato & 2012-12-01\\\\
 0.10 & Verifica documento. & Marco Schivo & 2012-12-01\\\\
 0.9 & Stesura del punto ''Fattibilità del progetto''. Stesura del punto ''Confronto con gli altri capitolati'' & Andrea Rizzi & 2012-12-01\\\\
 0.8 & Revisione dei punti stesi fino alla presente versione. Stesura del punto ''AJAX''. Stesura del punto ''Database relazionali''. Stesura del punto ''Conclusioni sul dominio'' & Andrea Rizzi & 2012-12-01\\\\
-0.7 & Stesura del punto ''JQuery''. & Andrea Rizzi & 2012-11-30\\\\
+0.7 & Stesura del punto ''JQuery'', stesura del punto ''JSP''. & Andrea Rizzi & 2012-11-30\\\\
 0.6 & Stesura del punto ''CSS3''. & Riccardo Tresoldi & 2012-11-30\\\\
 0.5 & Stesura del punto ''HTML5''. & Riccardo Tresoldi& 2012-11-30\\\\
 0.4 & Stesura del punto ''WebRTC''. & Andrea Rizzi & 2012-11-30\\\\
@@ -74,7 +74,7 @@ Versione & Descrzione intervento & Redattore & Data\\
 \subsection{Scopo del prodotto}
 \purpose
 \subsection{Scopo del documento}
-Con il presente documento, il gruppo Software Synthesis, itende dimostrare la fattibilità della realizzazione del progetto MyTalk. Si cercherà di stabilire quali tecnologie sono necessarie al conseguimento dell'obbiettivo, e le problematiche insite nell'affrontarlo, sia sul piano dei requisiti che sul piano delle tecnologie.
+Con il presente documento, il gruppo Software Synthesis, intende dimostrare la fattibilità della realizzazione del progetto MyTalk. Si cercherà di stabilire quali tecnologie sono necessarie al conseguimento dell'obbiettivo, e le problematiche insite nell'affrontarlo, sia sul piano dei requisiti che sul piano delle tecnologie.
 \subsection{Glossario}
 \glossaryIntro
 \clearpage
@@ -87,30 +87,29 @@ Con il presente documento, il gruppo Software Synthesis, itende dimostrare la fa
 \subsection{Informativi}
 \begin{itemize}
 \item[] \textit{glosssario1.0.pdf};
-\item[] Capitolato d'appalto C1: MyTalk, v 1.0, redatto e rilasciato dal proponente Zucchetti s.r.l reperibile all'indirizzo: \url{http://www.math.unipd.it/~tullio/IS-1/2012/Progetto/C1.pdf};
-\item[] Capitolato d'appalto C2: 3DMob, v 1.0, redatto e rilasciato dal proponente Mentis s.r.l reperibile all'indirizzo: \url{http://www.math.unipd.it/~tullio/IS-1/2012/Progetto/C2.pdf};
-\item[] Capitolato d'appalto C3: HBaaS, v 1.0, redatto e rilasciato dal proponente New Vision s.r.l reperibile all'indirizzo: \url{http://www.math.unipd.it/~tullio/IS-1/2012/Progetto/C3.pdf};
-\item[] Capitolato d'appalto C4: YAFG, v 1.0, redatto e rilasciato dal proponente YAFG Dev. s.r.l reperibile all'indirizzo: \url{http://www.math.unipd.it/~tullio/IS-1/2012/Progetto/C4.pdf};
+\item[] Capitolato d'appalto C1: MyTalk, v 1.0, redatto e rilasciato dal proponente Zucchetti S.r.l reperibile all'indirizzo: \url{http://www.math.unipd.it/~tullio/IS-1/2012/Progetto/C1.pdf};
+\item[] Capitolato d'appalto C2: 3DMob, v 1.0, redatto e rilasciato dal proponente Mentis S.r.l reperibile all'indirizzo: \url{http://www.math.unipd.it/~tullio/IS-1/2012/Progetto/C2.pdf};
+\item[] Capitolato d'appalto C3: HBaaS, v 1.0, redatto e rilasciato dal proponente New Vision S.r.l reperibile all'indirizzo: \url{http://www.math.unipd.it/~tullio/IS-1/2012/Progetto/C3.pdf};
+\item[] Capitolato d'appalto C4: YAFG, v 1.0, redatto e rilasciato dal proponente YAFG Dev. S.r.l reperibile all'indirizzo: \url{http://www.math.unipd.it/~tullio/IS-1/2012/Progetto/C4.pdf};
 \end{itemize}
 \clearpage
-
 \section{Descrizione sommaria del capitolato scelto}
-Il capitolato C1 (denominato MyTalk) proposto dall'azienda italiana Zucchetti, prevede la creazione di un software di comunicazione audio/video, basato sul progetto (attualmente ancora in fase di sviluppo) \underline{WebRTC}. Proprio a causa della recente introduzione, \underline{WebRTC} è facilmente soggetto a modifiche (in relazione alla data in cui è scritto il presente documento, l'ultima modifica risale a poche settimane orsono, il giorno 15 novembre). Di conseguenza il committente ha precisato i seguenti punti fondamentali:
+Il capitolato C1 (denominato MyTalk) proposto dall'azienda italiana Zucchetti S.r.l., prevede la creazione di un software di comunicazione audio/video, basato sul progetto (attualmente ancora in fase di sviluppo) \underline{WebRTC}. Proprio a causa della recente introduzione, \underline{WebRTC} è frequentemente soggetto a modifiche (in relazione alla data in cui è scritto il presente documento, l'ultima modifica risale a poche settimane orsono, il giorno 2012-11-15). Di conseguenza il committente ha precisato i seguenti punti fondamentali:
 
 \begin{itemize}
 	\item l'architettura software deve basarsi su un modello elastico e facilmente scalabile in seguito a modifiche del pacchetto \underline{WebRTC};
 	\item i requisiti opzionali sono modificabili/eliminabili/aggiungibili in corso d'opera a causa della difficoltà a priori di valutare chiaramente la loro fattibilità.
 \end{itemize}
 
-Senza prendere in considerazione la completezza dei requisiti obbligatori (stilati nel documento \textit{analisi\_dei\_requisiti.1.0.pd}), si riportano di seguito alcuni punti fondamentali da cui è possibile trarre spunti per la determinazione di problemi tecnici e progettuali:
+Senza prendere in considerazione la completezza dei requisiti obbligatori (stilati nel documento \textit{analisi\_dei\_requisiti.1.0.pdf}), si riportano di seguito alcuni punti  da cui è possibile trarre fonti per la determinazione di problemi tecnici e progettuali:
 
 \begin{itemize}
 	\item l'applicativo non dovrà richiedere installazione ne di \underline{plugin} ne di componenti aggiuntivi. Sfrutterà semplicemente il \underline{browser} Google \underline{Chrome};
-	\item di base, vi è un \underline{server} scritto in \underline{java} con l'implementazione di webSocket, al quale i client dovranno connettersi, ma che non dovrà partecipare alla comunicazione tra gli utenti;
+	\item di base, vi è un \underline{server} scritto in \underline{java} con l'implementazione di \underline{webSocket}, al quale i client dovranno connettersi, ma che non dovrà partecipare alla comunicazione tra gli utenti;
 	\item comunicazione audio;
 	\item comunicazione video.
 \end{itemize}
-
+\clearpage
 \section{Studio del dominio}
 
 \subsection{Dominio tecnologico}
@@ -134,27 +133,35 @@ Per una descrizione più accurata delle varie tecnologie, rimandiamo al glossari
 
 \subsubsection{java - webSoket}
 \begin{description}
-	\item{\scshape\bfseries Riferimenti:} dal capitolato: ''La parte \underline{server}, necessaria solo nella fase di inizializzazione della chiamata, dovrà essere realizzata in \underline{java} e utilizzare il protocollo di comunicazione WebSocket.'' - estratto dal capitolato C1.
+	\item{\scshape\bfseries Riferimenti:} dal capitolato: ''La parte \underline{server}, necessaria solo nella fase di inizializzazione della chiamata, dovrà essere realizzata in \underline{java} e utilizzare il protocollo di comunicazione \underline{webSocket}.'' - estratto dal capitolato C1.
 	
 	\item{\scshape\bfseries Vantaggi d'implementazione:} le webSoket permettono ai \underline{browser} e al \underline{server} di ''parlare'' in maniera asincrona e senza bisogno dell'interazione dell'utente.
 
-	\item{\scshape\bfseries Conoscenza attuale:} in merito a \underline{java}, ogni componente del gruppo ha già un livello di formazione pari a 4. Per quanto conprende la libreria  WebSocket, il gruppo ha una conoscenza basilare (livello 2).  
+	\item{\scshape\bfseries Conoscenza attuale:} in merito a \underline{java}, ogni componente del gruppo ha già un livello di formazione pari a 4. Per quanto conprende la libreria  \underline{webSocket}, il gruppo ha una conoscenza basilare (livello 2).  
+\end{description}
+\subsubsection{JSP}
+\begin{description}
+	\item{\scshape\bfseries Riferimenti:} il capitolato riporta: ``La parte \underline{server}, necessaria solo nella fase di inizializzazione della chiamata, dovrà essere realizzata in \underline{java}''. Di conseguenza il gruppo ha internamente dedotto che, l'ideale per la realizzazione dell'interfaccia grafica al server, sia l'ausilio di \underline{JSP}
+	
+	\item{\scshape\bfseries Vantaggi d'implementazione:} l'utilizzo di \underline{JSP} come linguaggio di scripting è fortemente consigliato per avere un accesso diretto alle funzionalità proposte dal server java.
+
+	\item{\scshape\bfseries Conoscenza attuale:} \underline{JSP} non è mai stato adottato precedentemente da nessun componente del gruppo. Di conseguenza sarà necessario formare il personale su tale tecnologia, incentivando lo studio individuale e preventivando delle esercitazioni di gruppo.
 \end{description}
 
 \subsubsection{HTML5}
 \begin{description}
 	\item{\scshape\bfseries Riferimenti:} ''Il progetto deve essere basato sulla tecnologia \underline{WebRTC}, parte delle proposte di evoluzione dell'\underline{HTML5}.'' - estratto dal capitolato C1.
 	
-	\item{\scshape\bfseries Vantaggi d'implementazione:} tra le caratteristiche più interessanti, e che offrono spunti per l'implementazione di nuovi requisiti facoltativi, \underline{HTML5} supporta Canvas, che permette di utilizzare \underline{JavaScript} per creare animazioni e grafica bitmap. Un esempio di tale implementazione è la possibilià di condividere una lavagna grafica.
+	\item{\scshape\bfseries Vantaggi d'implementazione:} tra le caratteristiche più interessanti e che offrono spunti per l'implementazione di nuovi requisiti facoltativi, è il supporto di \underline{HTML5} a Canvas, che permette di utilizzare \underline{JavaScript} per creare animazioni e grafica bitmap. Un esempio di tale implementazione è la possibilià di condividere una lavagna grafica.
 	
-	\item{\scshape\bfseries Conoscenza attuale:} tutti i componenti del gruppo presentano un livello medio di conoscenza pari a 5, sull'utilizzo base di \underline{HTML}. Per quanto riguarda l'utilizzo di \underline{HTML5}, in particolar modo delle componenti grafiche offerte (Canvas), solo tre componenti del gruppo hanno un livello pari a 3. Per i restanti cinque sarà necessario organizzare una sessione di formazione.
+	\item{\scshape\bfseries Conoscenza attuale:} tutti i componenti del gruppo presentano un livello medio di conoscenza pari a 4, sull'utilizzo base di \underline{HTML}. Per quanto riguarda l'utilizzo di \underline{HTML5}, in particolar modo delle componenti grafiche offerte (Canvas), solo due componenti del gruppo hanno un livello pari a 2. Per tutti i componenti, in ogni caso, sarà necessario organizzare una sessione di formazione.
 \end{description}
 
 \subsubsection{CSS3}
 \begin{description}
-	\item{\scshape\bfseries Riferimenti:} non pervenuti nel capitolato. Inteso in relazione ad una considerazione del gruppo, risulta interessante il loro utilizzoo al fine di gestire l'apparato grafico dell'applicativo in modo sistematico e performante.
+	\item{\scshape\bfseries Riferimenti:} non pervenuti nel capitolato. Inteso in relazione ad una considerazione del gruppo, risulta interessante il loro utilizzo al fine di gestire l'apparato grafico dell'applicativo in modo sistematico e performante.
 	
-\item{\scshape\bfseries Vantaggi d'implementazione:} permette una maggiore manuntenibilità del sorgente \underline{HTML}. Le istruzioni di formattazione sono accentrate in un solo punto, sono richiamabili in più punti della stessa pagina (si pensi alle classi di elementi \underline{HTML}) e possono essere condivise fra più pagine se si ricollega ad esse lo stesso \underline{CSS}\@. Ne deriva inoltre un certo incremento prestazionale dal momento che le pagine web genereranno una minore dimensione in byte, neccessitando meno tempo per il loro download. \\Il \underline{CSS} può inoltre risiedere nalla cache del \underline{browser} ed avere pertanto tempi di accesso rapidi e senza comportare ulteriori richieste di trasmissione di dati dal \underline{server}.
+\item{\scshape\bfseries Vantaggi d'implementazione:} permette una maggiore manuntenibilità del sorgente \underline{HTML}. Le istruzioni di formattazione sono accentrate in un solo punto e richiamabili in più punti della stessa pagina (si pensi alle classi di elementi \underline{HTML}), inoltre possono essere condivise fra più pagine se si ricollega ad esse lo stesso \underline{CSS}\@. Ne deriva inoltre un certo incremento prestazionale dal momento che le pagine web genereranno una minore dimensione in byte, neccessitando meno tempo per il loro download. \\Il \underline{CSS} può inoltre risiedere nalla cache del \underline{browser} ed avere pertanto tempi di accesso rapidi e senza comportare ulteriori richieste di trasmissione di dati dal \underline{server}.
 	
 	\item{\scshape\bfseries Conoscenza attuale:} cinque componenti del gruppo presentano un livello di formazione medio pari a 3. Per gli altri due componenti si dovrà imporre uno studio autodidattico della tecnologia, al più affiancatato dalla collaborazione dei colleghi più esperti.
 \end{description}
@@ -182,7 +189,7 @@ Per una descrizione più accurata delle varie tecnologie, rimandiamo al glossari
 \begin{description}
 	\item{\scshape\bfseries Riferimenti:} ''L'intero sistema deve essere contenuto in un unica pagina Web.'' - estratto dal capitolato C1.
 
-	\item{\scshape\bfseries Vantaggi d'implementazione:} tale tecnologia consente l'aggiornamento dinamico di una pagina web senza esplicito comando d'aggiornamento da parte dell'utente. Si osservi che \underline{AJAX} è asincrono nel senso che i dati extra sono richiesti al \underline{server} e caricati in background senza interferire con il comportamento della pagina esistente.
+	\item{\scshape\bfseries Vantaggi d'implementazione:} tale tecnologia consente l'aggiornamento dinamico di una pagina web senza esplicito comando d'aggiornamento da parte dell'utente. Si osservi che \underline{AJAX} è asincrono, ciò implica che i dati extra sono richiesti al \underline{server} e caricati in background senza interferire con il comportamento della pagina esistente.
 	
 	\item{\scshape\bfseries Conoscenza attuale:} tutti i componenti del gruppo si trovano ad affrontare tale tecnologia per la prima volta (livello 1). Si suggerisce quindi uno studio collettivo, e la ricerca di script o funzioni che già implementino le funzionalità desiderate.
 \end{description}
@@ -192,14 +199,14 @@ Per una descrizione più accurata delle varie tecnologie, rimandiamo al glossari
 	\item{\scshape\bfseries Riferimenti:}
   ''L'estensione dell'\underline{HTML5} \underline{WebRTC} presente nel \underline{browser} \underline{Chrome} si propone di rendere semplice la realizzazione di questi programmi e di far sì che le componenti necessarie siano installate praticamente in ogni computer.'' - estratto dal capitolato C1.
   
- 	\item{\scshape\bfseries Vantaggi d'implementazione:} Il supporto di \underline{Chrome} a \underline{WebRTC} è realizzato attraverso una serie di \underline{API} accessibili ai programmi \underline{JavaScript}. In particolare citiamo: PeerConnection, MediaStream e DataChannel.\\Inoltre si sottolinea che la possibilità di registrare gli stream trasmessi e di condividere lo schermo sono fra le funzionalità che sono in programma di integrare nel prossimo futuro, permettendoci di prendere in considerazione la possibilità di sviluppare alcuni interessanti requisiti facoltativi.
+ 	\item{\scshape\bfseries Vantaggi d'implementazione:} Il supporto di \underline{Chrome} a \underline{WebRTC} è realizzato attraverso una serie di \underline{API} accessibili ai programmi \underline{JavaScript}. In particolare citiamo: PeerConnection, MediaStream e DataChannel.\\Inoltre si sottolinea che la possibilità di registrare gli stream trasmessi e di condividere lo schermo permettendoci di prendere in considerazione la possibilità di sviluppare alcuni interessanti requisiti facoltativi e programmarli per delle future implementazioni.
 	
 	\item{\scshape\bfseries Conoscenza attuale:} tutti i componenti del gruppo si trovano ad affrontare tale tecnologia per la prima volta (livello 1), si suggerisce quindi uno studio collettivo. Inoltre è consigliabile che il gruppo si tenga aggiornato sul rilasio di ulteriori funzionalità.
 \end{description}
 
 \subsubsection{Database relazionali}
 \begin{description}
-	\item{\scshape\bfseries Riferimenti:} non pervenuti nel capitolato. In relazione ad una considerazione del gruppo, risulta interessante il loro utilizzo al fine di creare un sistema per memorizzare gli utenti registrati e le loro impostazioni dell'applicazione, cosi da dare la possibilità di impostare le proprie configurazioni (per esempio linguistiche) semplicemente eseguendo un login. Ciò comporterà un'ulteriore riduzione del \underline{TCO}.
+	\item{\scshape\bfseries Riferimenti:} non pervenuti nel capitolato. In relazione ad una considerazione del gruppo, risulta fondamentale il loro utilizzo al fine di creare un sistema per memorizzare gli utenti registrati e le loro impostazioni dell'applicazione, cosi da dare la possibilità di impostare le proprie configurazioni (per esempio linguistiche) semplicemente eseguendo un login. Ciò comporterà un'ulteriore riduzione del \underline{TCO}.
   
  	\item{\scshape\bfseries Vantaggi d'implementazione:} la realizzazione di un DB relazionale è necessaria per la gestione della lista utenti. Per la creazione di tale DB sotto tecnologia \underline{MySQL}, il team conta di potersi appoggiare allo spazio web appositamente creato per il progetto stesso.
 	
@@ -207,17 +214,8 @@ Per una descrizione più accurata delle varie tecnologie, rimandiamo al glossari
 \end{description}
 
 \subsection{Dominio applicativo}
-Essenziale, per analizzare la fattibilità del progetto e stabilire se esiste o meno una prova documentata della realizzazione di un sistema similare.\\ Sotto tale tema, si riporta che il primo progetto di comunicazione audio/video tramite \underline{WebRTC} è stato creato da \textit{Dubango Telecom}, e prende il nome di \textit{sipML5}.\\ \textit{SipML5} è il primo \underline{client} SIP che si basa su \underline{WebRTC} scritto totalmente in \underline{JavaScript} e completamente Open Source. La notizia, evidenziata dal sito: \url{http://www.html5today.it/link/sipml5-primo-\underline{client}-sip-scritto-interamente-html5} dimostra come il progetto sia fattibile quantomeno nella realizzazione dei requisiti obbligatori. Si ribadisce che il progetto sipML5 è open source, inoltre gli sviluppatori ne permettono l'accesso in lettura ai membri "non partecipanti". Per accedere ai sorgenti sarà sufficiente seguire le indicazioni riportate alla pagina: \url{http://code.google.com/p/sipml5/source/checkout}.\\In merito ad altri applicativi software di voip, è possibile trarre spunti per l'implementazione di requisiti opzionali, analizzando programmi come Skype, perseguendo la filosofia che ci impone di ''imparare dai migliori'' sull'attuale mercato.
-
-\subsection{Conclusioni sul dominio}
-Per quanto riguarda il dominio tecnologico:
-\begin{itemize}
-	\item[•] Dall'analisi del capitolato è emerso l'uso obbligatorio di 5 tecnologie: \underline{WebRTC}, \underline{HTML5}, Protocolli di Google Crome, WebSoket, \underline{JavaScript}. Alcune di tali tecnologie risultano sconosciute per alcuni componenti del team. Tuttavia la ricerca di informazioni riguardanti il loro utilizzo è facilitata dalla mole di riferimenti a tutorial reperibili in rete o in testi dedicati. Molti di questi linguaggi sono inoltre fonte di studio per il corso di studi ''Tecnologie Web'', ne consegue che il gruppo avrà modo di approfondire il loro utilizzo durante il secondo trimestre dell'anno accademico 2012-2013, affiancando ad uno studio autodidattico, le conoscenze apprese.
-	\item[•] Alle tecnologie obbligatorie se ne affiancano altre facoltative, il cui vantanggio è garantire un riuso sostanziale di funzionalità rese già disponibili (vedi \underline{JQuery}).
-	\item[•] Il dominio applicativo dimostra che un progetto simile essite già. Il team intende studiare i sorgenti resi disponibili dal gruppo \textit{Dubango Telecom}, al fine di trarre spunti sull'utilizzo del \underline{WebRTC} e, se si riscontrasse la possibilità, riutilizzare parte delle funzionalità proposte dal progeto \textit{SipML5}.
-	\item[•] L'ormai consolidato utilizzo di programmi di comunicazione RT, permette ai membri del gruppo di avere una conoscenza basilare sui requisiti utente, desiderabili per un end user.
-\end{itemize}
-
+Essenziale, per analizzare la fattibilità del progetto e stabilire se esiste o meno una prova documentata della realizzazione di un sistema similare.\\ Sotto tale tema, si riporta che il primo progetto di comunicazione audio/video tramite \underline{WebRTC} è stato creato da \textit{Dubango Telecom}, e prende il nome di \textit{sipML5}.\\ \textit{SipML5} è il primo \underline{client} SIP che si basa su \underline{WebRTC} scritto totalmente in \underline{JavaScript} e completamente Open Source. \textit{sipML5} dimostra come il progetto sia fattibile quantomeno nella realizzazione dei requisiti obbligatori. Si ribadisce che tale progetto è open source, inoltre gli sviluppatori ne permettono l'accesso in lettura ai membri "non partecipanti". Per accedere ai sorgenti sarà sufficiente seguire le indicazioni riportate alla pagina: \url{http://code.google.com/p/sipml5/source/checkout}.\\In merito ad altri applicativi software di \underline{VOIP}, è possibile trarre spunti per l'implementazione di requisiti opzionali, analizzando programmi come Skype o similari, perseguendo la filosofia che ci impone di ''imparare dai migliori'' sull'attuale mercato.
+\clearpage
 \section{Valutazione del capitolato}
 
 \subsection{Valutazione dei rischi}
@@ -228,19 +226,19 @@ Per quanto riguarda il dominio tecnologico:
 
 \subsection{Vantaggi potenziali}
 \begin{itemize}
-	\item Estratto dal capitolato: ''In corso d'opera non sarà possibile variare/modificare i requisiti minimi (obbligatori per accettare il prodotto). Sarà invece possibile variare i requisiti opzionali, in quanto saranno i gruppi vincitori dell'appalto a modificarli/eliminarli/aggiungerli''. La conseguenza di tale informazione rende meno traumatico l'utilizzo del \underline{WebRTC}, in quanto se si evidenzia l'impossibilità di soddisfare alcuni requisiti obbligatori sarà possibilie segnalarlo al committente, discuterne, ed eventualmente abbandonarne lo sviluppo. Questa pratica è ovviamente sconsigliata, al contrario risulta più ragionevole partire con meno requisiti opzionali, er eventualmente procedere in seguito con l'aggiunta di tali requisiti se se ne riconosce l'effettiva soddisfacibilità.
+	\item Estratto dal capitolato: ''In corso d'opera non sarà possibile variare/modificare i requisiti minimi (obbligatori per accettare il prodotto). Sarà invece possibile variare i requisiti opzionali, in quanto saranno i gruppi vincitori dell'appalto a modificarli/ eliminarli/ aggiungerli''. La conseguenza di tale informazione rende meno traumatico l'utilizzo del \underline{WebRTC}, in quanto se si evidenzia l'impossibilità di soddisfare alcuni requisiti obbligatori sarà possibilie segnalarlo al committente, discuterne, ed eventualmente abbandonarne lo sviluppo. Questa pratica è ovviamente sconsigliata, al contrario risulta più ragionevole partire con meno requisiti opzionali, ed eventualmente procedere in seguito con l'aggiunta di tali requisiti se se ne riconosce l'effettiva soddisfacibilità.
 	\item Il software da sviluppare si poggia completamente sul \underline{browser} \underline{Chrome}. Di conseguenza su avrà un completo svincolo dalla gestione delle dipendenze dei sistemi operativi sottostanti.
 	\item L'applicativo software poggia le sue funzionalità su un \textit{sito web} che dovrà fungere da \underline{server}. Per la creazione di tale sito si potrà sfruttare lo spazio web del gruppo, sia per sperimentare il corretto funzionamento delle parti (in fase di sviluppo), sia per permettere al committente di accedere all'ambiente, al fine di verificare lo stato del prodotto.
-	\item Riprendendo quanto citato nel paragrafo 3.1 "Valutazione rischi", la possibilità che alcune strutture logiche varino durante lo sviluppo del progetto, imporrà al team di creare un architettura sensata e ben curata. Dando quindi un occhio di riguardo al riuso e alla "scalabilità" della struttura, saranno incentivati l'utilizzo di pattern appropriati e ricercati. Tali considerazioni dovranno incoraggiare i membri del gruppo alla ricerca di un architettura il più performante possibile.
+	\item Riprendendo quanto citato nel paragrafo 3.1 ``Valutazione rischi'', la possibilità che alcune strutture logiche varino durante lo sviluppo del progetto, imporrà al team di creare un architettura agile e ben curata. Dando quindi un occhio di riguardo al riuso e alla "scalabilità" della struttura, saranno incentivati l'utilizzo di pattern appropriati e ricercati. Tali considerazioni dovranno incoraggiare i membri del gruppo alla ricerca di un architettura il più performante possibile.
 \end{itemize}
-
+\clearpage
 \section{Fattibilità del progetto}
-Il progetto MyTalk è stato preso in considerazione da Software Synthesis per l'interesse generale sulle tecnologie d'implementazione. Malgrado il livello di formazione su tali tecnologie non sia attualmente sufficiente alla realizzazione del progetto, il team è sicuro di poter apprendere quanto necessario in una periodo che permetta il corretto avvio della fase di progettazione. Per tale motivo, e per quanto già riportato nel paragrafo 2.3 ''conclusioni sul dominio'' e nel capitolo 3 ''valutazione del capitolato'', Il gruppo Software Synthesis ha ritenuto il progetto C1 fattibile, ed è pertanto intenzionato a realizzato nei tempi e nei costi previsti.
-
+Il progetto MyTalk è stato preso in considerazione da Software Synthesis per l'interesse generale sulle tecnologie d'implementazione. Malgrado il livello di formazione su tali tecnologie non sia attualmente sufficiente alla realizzazione del progetto, il team è sicuro di poter apprendere quanto necessario in una periodo che permetta il corretto avvio della fase di progettazione. Per tale motivo, e per quanto già riportato nel paragrafo 2.3 `conclusioni sul dominio'' e nel capitolo 3 `valutazione del capitolato'', Il gruppo Software Synthesis ha ritenuto il progetto C1 fattibile, ed è pertanto intenzionato a realizzato nei tempi e nei costi previsti.
+\clearpage
 \section{Confronto con gli altri capitolati}
 
 \subsection{Capitolato C2}
-Nel valutare il capitolato C2, il team si è trovato d'accordo nel ritenere il progetto fattibile. Tuttavia i rischi individuati hanno portato il team a scartare tale progetto in favore del capitolato C1
+Nel valutare il capitolato C2, il team si è trovato d'accordo nel ritenere il progetto fattibile. Tuttavia i rischi individuati hanno portato il team a scartare tale progetto in favore del capitolato C1.
 
 \subsubsection{Individuazione rischi}
 \begin{itemize}
@@ -249,11 +247,11 @@ Nel valutare il capitolato C2, il team si è trovato d'accordo nel ritenere il p
 \end{itemize}
 
 \subsection{Capitolato C3}
-Nel valutare il capitolato C3, il gruppo si è trovato d'accordo nel ritenere il progetto fattibile. Tuttavia sono sorte alcune ambiguità nell'analisi del capitolato. Alla richiesta pervenuta presso il committente, di organizzare una riunione per chiarire i dubbi, il gruppo si è trovato in difficoltà nel osservare le date proposte per l'incontro. Ritenendo che le tempistiche non fossero favorevoli allo sviluppo preliminare del capitolato, il gruppo Software Synthesis ha deciso di scartare il progetto C3.
+Nel valutare il capitolato C3, il gruppo si è trovato d'accordo nel ritenere il progetto fattibile. Tuttavia sono sorte alcune ambiguità nell'analisi del capitolato stesso.\\ Alla richiesta pervenuta presso il committente, di organizzare una riunione per chiarire i dubbi, il team si è trovato in difficoltà nel osservare le date proposte per l'incontro. Ritenendo che le tempistiche non fossero favorevoli allo sviluppo preliminare del capitolato, il gruppo Software Synthesis ha deciso di scartare il progetto C3.
 
 \subsubsection{Individuazione rischi}
 \begin{itemize}
-	\item Dubbia comprensione di alcuni passaggi essenziali, in relazione all'imposibilità di chiarirli in breve tempo, hanno fatto del capitolato C3, un progetto a rischio. Inoltre è stato decisivo l'insorgere del timore di non realizzare entro tempi congrui eventuali difficoltà d'implementazione in fase di scelta del capitolato, e dell'impossibilità temporale di considerare un altro progetto in sostituzione ad esso.
+	\item Dubbia comprensione di alcuni passaggi essenziali, in relazione all'imposibilità di chiarirli in breve tempo, hanno fatto del capitolato C3 un progetto a rischio. Inoltre è stato decisivo l'insorgere del timore di non realizzare entro tempi congrui l'esistenza di eventuali difficoltà d'implementazione, e dell'impossibilità temporale di considerare un altro progetto in sostituzione ad esso.
 	\item Scarse conoscenze da parte dei componenti del team in merito al dominio tecnologico.
 \end{itemize}
 
