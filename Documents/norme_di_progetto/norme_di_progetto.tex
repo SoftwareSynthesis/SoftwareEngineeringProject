@@ -176,7 +176,7 @@ Il sistema di tracciamento offre le seguenti 5 opzioni:
 \item \textbf{Gestione attori}: permette l'inserimento, modifica e la cancellazione di un attore utilizzabile in seguito per lo sviluppo di un caso d'uso.
 \item \textbf{Stampa}: crea in modo automatico un file di estensione .tex contenente la lista dei requisiti analizzati, i casi d'uso studiati e il tracciamento tra i requisiti e le fonti. Successivamente alla stampa tale file sarà da includere all'intero del documento ``\textit{analisi\_dei\_requisiti.tex}''
 \end{itemize}
-Il sistema è basato su tecnologie \underline{MySQL} con creazione del \underline{database} sotto engine\underline{inno\_db} . Per sopperire ad alcune mancanze del sistema di tracciamento, lo sviluppatore si potrà appoggiare alla piattaforma \underline{phpMyAdmin} fornita dal \underline{web host}, al fine di modificare e gestire alcuni dati del \underline{database}. In particolare, se ne obbliga l'utilizzato nei seguenti casi:
+Il sistema è basato su tecnologie \underline{MySQL} con creazione del \underline{database} sotto engine\_inno\_db . Per sopperire ad alcune mancanze del sistema di tracciamento, lo sviluppatore si potrà appoggiare alla piattaforma \underline{phpMyAdmin} fornita dal \underline{web host}, al fine di modificare e gestire alcuni dati del \underline{database}. In particolare, se ne obbliga l'utilizzo nei seguenti casi:
 \begin{itemize}
 \item modifica di un caso d'uso;
 \item cancellazione di un caso d'uso.
@@ -189,10 +189,10 @@ Ogni altra modifica attuata tramite \underline{phpmyadmin} è assolutamente viet
 \subsection{Sistema operativo}
 L'intero progetto verrà portato avanti attraverso sistemi Unix e Windows, più in particolare Mac OSX 10.8.2, Fedora 17, Windows 7, Windows 8. Questa scelta deriva dal fatto che, essendo il progetto MyTalk un applicativo web, non si sono riscontrate dipendenze alcune da librerie di sistema.
 
-\subsection{Grafici UML}
-Per la produzione di grafici UML si adotterà il software ConceptDraw. Questo scelta perchè il tool si presenta molto semplice da usare, è molto potente e permette la creazione di moltissimi grafici UML adottando lo standard 2.0. La qualità dei grafici prodotti inoltre è molto buona.
+\subsection{Diagrammi UML}
+Per la produzione di diagrammi UML si adotterà il software ConceptDraw. Questo scelta perchè il tool si presenta molto semplice da usare, è molto potente e permette la creazione di moltissimi diagrammi UML adottando lo standard 2.0. La qualità dei diagrammi prodotti inoltre è molto buona.
 
-\subsection{Grafici di Attività}
+\subsection{Diagrammi di Attività}
 Come supporto alla pianificazione del progetto si è scelto di utilizzare Project Libre nella versione 1.5.2, software molto leggero e facile da installare. E' un tool opensource e multi piattaforma. Permette la creazione di diagrammi di Gantt in modo molto semplice con possibilità di esportarli in formato jpg.\\
 Per il download e l'installazione si rimanda al seguente link:
 \begin{center}
@@ -295,6 +295,12 @@ Il verbale dovrà essere approvato da tutti i componenti firmandolo entro e non 
 \end{itemize}
 
 \subsection{Ciclo di vita di un documento}
+Come mostrato in figura \ref{fig:ciclo_di_vita_documento}, un documento seguirà i seguenti passi:
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.16]{ciclo_di_vita_documento}
+\caption{Ciclo di vita di un documento} \label{fig:ciclo_di_vita_documento}
+\end{figure}
 \begin{enumerate}
 \item Il redattore di un nuovo documento dovrà redigere in locale la prima impostazione del documento e solo allora potrà caricarlo nel \underline{repository} secondo le regole indicate nelle sezione \ref{sec:repository} ``\underline{Repository}''.
 \item Ad ogni sostanziale modifica verrà incrementato il contatore Y (vedi sezione \ref{sec:nomi_documenti} ``Nomi di documenti'') e seguirà un commit nel \underline{repository}.
@@ -447,6 +453,13 @@ Durante l'intero ciclo di vita di un \underline{ticket}, questo viene modificato
 
 \subsubsection{Ciclo di vita di un Ticket}
 \label{sec:ciclo_vita_ticket}
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.16]{ciclo_di_vita_ticket}
+\caption{Ciclo di vita di un documento} \label{fig:ciclo_di_vita_ticket}
+\end{figure}
+Come riportato in figura \ref{fig:ciclo_di_vita_ticket}, il ciclo di vita di un ticket si articolerà nel seguente modo:
 \begin{enumerate}
 \item \textbf{Creazione}: come prima cosa, il \underline{ticket} va creato come descritto nella sezione \ref{sec:creazione_ticket} ``Creazione nuovo Ticket''.
 \item \textbf{Esecuzione}: ogni membro dovrà prendere atto dei \underline{tickets} a lui pervenuti e una volta visionati impostare lo stato ad ``Accepted'' o ad ``Invalid''. Una volta accettati, lo stato va modificato in ``In Progress'' quando si inizia a lavorarci e ``Completed'' quando si è portato a termine il compito assegnato.
@@ -469,7 +482,7 @@ Durante l'intero ciclo di vita di un \underline{ticket}, questo viene modificato
 \item \textbf{Assigned User}: selezionare il Responsabile del progetto;
 \item \textbf{Milestone}: selezionare la \underline{Milestone} entro cui il documento dovrà essere verificato.
 \end{itemize}
-Sarà  compito del Responsabile approvare o invalidare il \underline{ticket}. In caso di approvazione, il Responsabile dovrà decidere a chi far eseguire la modifica. Il membro selezionato dovrà quindi risolvere l'errore. Una volta completata la modifica il Responsabile dovrà riapplicare la procedura a partire dal punto 3.
+Sarà  compito del Responsabile approvare o invalidare il \underline{ticket}. In caso di non approvazione, il Responsabile dovrà decidere a chi far eseguire la modifica. Il membro selezionato dovrà quindi risolvere l'errore. Una volta completata la modifica il Responsabile dovrà riapplicare la procedura a partire dal punto 3.
 \end{enumerate}
 Quando tutti i \underline{tickets} di una \underline{Milestone} avranno stato ``Completed'', significa che tutte le attività sono state svolte e il Responsabile potrà procedere alla chiusura della \underline{Milestone}.
 
