@@ -1,13 +1,3 @@
-% shared/template.tex
-%
-% Contiene un modello di documento che deve essere copiato e opportunamente
-% modificato per creare i documenti 'concreti' di progetto. Definisce le macro
-% specifiche per il documento corrente, importa la parte di preambolo condivisa
-% e le pagine comuni a tutti i documenti.
-% In particolare, per ogni documento concreto occorre per prima cosa aggiornare
-% le macro, inserire una voce nella tabella delle modifiche e inserire il testo
-% (o includere file sorgenti esterni) a partire dalla riga 66 in poi.
-
 % **************************************************
 % Macro specifiche per il documento corrente
 % **************************************************
@@ -25,6 +15,8 @@
 \newcommand{\docState}{Approvato}
 % Uso in {Interno, Esterno}
 \newcommand{\docUsage}{Esterno}
+% Destinatari da specificare come nome1\\ &nome2\\ ecc.
+\newcommand{\docDistributionList}{Proponente\\ & Committente}
 % Redattori da specificare come nome1\\ &nome2\\ ecc.
 \newcommand{\docAuthors}{Elena Zecchinato\\ &Andrea Meneghinello\\ &Stefano Farronato\\ &Marco Schivo}
 % Approvato da
@@ -50,28 +42,29 @@
 
 % Storico delle modifiche
 \section*{Storia delle modifiche}
-\begin{tabularx}{\textwidth}{lXll}
+\begin{longtable}{lp{.3\textwidth}lll}
 \toprule
-Versione & Descrzione intervento & Redattore & Data\\
+Versione & Descrzione intervento & Redattore & Ruolo & Data\\
 \midrule % inserire qui il contenuto della tabella
-1.0 &Approvazione documento & Elena Zecchinato & 2012-12-20\\\\
-0.14 &Verifica del documento & Diego Beraldin & 2012-12-20\\\\
-0.13 &Inserimento tabelle nella sezione ``Preventivo'' & Marco Schivo & 2012-12-19\\\\
-0.12 &Correzione contenuti nella ``Pianificazione'' & Stefano Farronato & 2012-12-18\\\\
-0.11 &Inserimento Gantt, tabelle e immagini nella sezione ``Pianificazione'' & Marco Schivo & 2012-12-18\\\\
-0.11 &Stesura e analisi sezione ``Validazione'' & Elena Zecchinato & 2012-12-18\\\\
-0.10 &Stesura e analisi sezione `Progettazione di dettaglio e Codifica'' & Stefano Farronato & 2012-12-06\\\\
-0.9 &Stesura e analisi sezione ``Progettazione Architetturale'' & Stefano Farronato & 2012-12-06\\\\
-0.8 &Stesura e analisi sezione ``Analisi'', ``Ruoli e Costi'' & Andrea Meneghinello & 2012-12-05\\\\
-0.7 &Stesura e analisi sezione ``Pianificazione'', ``Analisi'', ``Ruoli e Costi'' & Elena Zecchinato & 2012-12-05\\\\
-0.6 &Stesura e analisi del ``Modello di ciclo di vita'' & Andrea Meneghinello & 2012-12-05\\\\
-0.5 &Modifica sezione ``analisi dei rischi'' con introduzione e analisi di nuovi rischi, & Stefano Farronato & 2012-12-05\\\\
-0.4 & Modifica sezione ``analisi dei rischi'' con introduzione e analisi di nuovi rischi, & Elena Zecchinato & 2012-12-03\\\\
-0.3 & Stesura ``Riferimenti'' & Stefano Farronato & 2012-12-03\\\\
-0.2 & Stesura ``analisi dei rischi'' & Andrea Meneghinello & 2012-12-03\\\\
-0.1 & Stesura scheletro documento, ``introduzione'' e introduzione preliminare dei ``rischi'' & Stefano Farronato & 2012-12-03\\\\
+1.1 & Modifica del diagramma in figura \ref{fig:ganttprog} in base alla data di consegna e correzioni a seguito di RR & Andrea Meneghinello & Responsabile & 2012-01-14\\
+1.0 &Approvazione documento & Elena Zecchinato & Responsabile & 2012-12-20\\
+0.14 &Verifica del documento & Diego Beraldin & Verificatore & 2012-12-20\\
+0.13 &Inserimento tabelle nella sezione ``Preventivo'' & Marco Schivo & Amministratore & 2012-12-19\\
+0.12 &Correzione contenuti nella ``Pianificazione'' & Stefano Farronato & Analista & 2012-12-18\\
+0.11 &Inserimento Gantt, tabelle e immagini nella sezione ``Pianificazione'' & Marco Schivo & Amministratore & 2012-12-18\\
+0.11 &Stesura e analisi sezione ``Validazione'' & Elena Zecchinato & Responsabile & 2012-12-18\\
+0.10 &Stesura e analisi sezione `Progettazione di dettaglio e Codifica'' & Stefano Farronato & Responsabile & 2012-12-06\\
+0.9 &Stesura e analisi sezione ``Progettazione Architetturale'' & Stefano Farronato & Responsabile & 2012-12-06\\
+0.8 &Stesura e analisi sezione ``Analisi'', ``Ruoli e Costi'' & Andrea Meneghinello & Amministratore & 2012-12-05\\
+0.7 &Stesura e analisi sezione ``Pianificazione'', ``Analisi'', ``Ruoli e Costi'' & Elena Zecchinato & Analista & 2012-12-05\\
+0.6 &Stesura e analisi del ``Modello di ciclo di vita'' & Andrea Meneghinello & Amministratore & 2012-12-05\\
+0.5 &Modifica sezione ``analisi dei rischi'' con introduzione e analisi di nuovi rischi, & Stefano Farronato & Responsabile & 2012-12-05\\
+0.4 & Modifica sezione ``analisi dei rischi'' con introduzione e analisi di nuovi rischi, & Elena Zecchinato & analista & 2012-12-03\\
+0.3 & Stesura ``Riferimenti'' & Stefano Farronato & Responsabile & 2012-12-03\\
+0.2 & Stesura ``analisi dei rischi'' & Andrea Meneghinello & Amministratore & 2012-12-03\\
+0.1 & Stesura scheletro documento, ``introduzione'' e introduzione preliminare dei ``rischi'' & Stefano Farronato & Responsabile & 2012-12-03\\
 \bottomrule
-\end{tabularx}
+\end{longtable}
 \newpage
 
 % inclusione dell'indice
@@ -138,11 +131,15 @@ Versione & Descrzione intervento & Redattore & Data\\
 \purpose
 
 \subsection{Scopo del documento}
-Il seguente documento ha lo scopo di presentare e definire i ruoli professionali dei membri del team di lavoro dell'azienda Software Synthesis sul progetto ``\caName'' regolarmente accettato dall'azienda appaltatrice Zucchetti s.r.l.\\
+Il seguente documento ha lo scopo di presentare e definire i ruoli professionali dei membri del team di lavoro dell'azienda Software Synthesis sul progetto ``\caName'' regolarmente accettato dall'azienda appaltatrice Zucchetti s.r.l
+
 Sono inoltre descritti i costi stimati necessari al completamento di tale progetto e i rischi possibili nella sua realizzazione. Infine viene stilato il carico di lavoro distribuito per ogni soggetto del team mediante un organigramma specificante tempo e risorse.
+
 \subsection{Glossario}
 \glossaryIntro
+
 \section{Riferimenti}
+
 \subsection{Normativi}
 \begin{itemize}
 \item[] \textit{Vincoli di organigramma}: Specificati dal Committente designato all'indirizzo\\ \url{http://www.math.unipd.it/~tullio/IS-1/2012/Progetto/PD01b.html};
@@ -156,18 +153,28 @@ Sono inoltre descritti i costi stimati necessari al completamento di tale proget
 \item[] Testo di consultazione: \textit{Software Engineering (8th edition) Ian Sommerville, Pearson Education | Addison-Wesley}.
 \end{itemize}
 \clearpage
+
 \section{Modello di ciclo di vita}
-Per lo sviluppo del prodotto MyTalk, il team di Software Synthesis ha optato per il modello di ciclo di vita incrementale.\\
+Per lo sviluppo del prodotto MyTalk, il team di Software Synthesis ha optato per il modello di ciclo di vita incrementale.
+
 L'inesperienza dei membri del gruppo porta infatti ad escludere il ciclo di vita sequenziale, che pur essendo il modello che si adatta maggiormente alla conformazione sequenziale delle scadenze, richiede una certa esperienza a causa della sua rigidità che non prevede la possibilità di ritornare nelle varie attività del progetto, una volta che sono state abbandonate.
-Il modello di ciclo di vita evolutivo è stato altresì scartato in quanto ritenuto oneroso sia dal punto di vista economico che temporale visto che richiede un continuo attraversamento delle attività del ciclo di vita, che potrebbe portare, data l'inesperienza del gruppo, ad una convergenza molto lenta e quindi discostarsi anche di molto dalla pianificazione di tempi e costi.\\
-Il ciclo di vita scelto dal team è quindi quello incrementale, che permette la realizzazione del prodotto per passi pianificati,in modo da poter gestire l'intero svolgimento progettuale nei tempi e nei costi previsti.\\\\
-Questo tipo di modello inoltre permetterà di sviluppare e completare il software sviluppando i requisiti minimi obbligatori imposti dal committente, **enfatizzare il discorso prototipo** procedendo successivamente all'integrazione dei requisiti facoltativi e desiderabili presi in considerazione. Si conclude quindi che il modello sarà dunque composto da due iterazioni.\\\\
+
+Il modello di ciclo di vita evolutivo è stato altresì scartato in quanto ritenuto oneroso sia dal punto di vista economico che temporale visto che richiede un continuo attraversamento delle attività del ciclo di vita, che potrebbe portare, data l'inesperienza del gruppo, ad una convergenza molto lenta e quindi discostarsi anche di molto dalla pianificazione di tempi e costi.
+
+Il ciclo di vita scelto dal team è quindi quello incrementale, che permette la realizzazione del prodotto per passi pianificati,in modo da poter gestire l'intero svolgimento progettuale nei tempi e nei costi previsti.
+
+Questo tipo di modello inoltre permetterà di sviluppare e completare il software sviluppando i requisiti minimi obbligatori imposti dal committente,
+% TODO: enfatizzare il discorso prototipo
+procedendo successivamente all'integrazione dei requisiti facoltativi e desiderabili presi in considerazione. Si conclude quindi che il modello sarà dunque composto da due iterazioni.
+
 Basandoci sulle specifiche dettate da questo tipo di modello, il team svolgerà inizialmente (e una sola volta) le attività di analisi e progettazione a livello architetturale ad alto livello, successivamente si lavorerà iterativamente sul controllo e la valutazione della realizzazione nel dettaglio.
 \clearpage
+
 \section{Pianificazione}
+
 \subsubsection{Ruoli e Costi}
-I ruoli costituiscono delle funzioni aziendali che vengono assegnate al progetto.\\
-La tabella 1 riporta i ruoli che devono essere ricoperti da tutti i membi del team e i rispettivi costi orari:\\
+I ruoli costituiscono delle funzioni aziendali che vengono assegnate al progetto. La tabella 1 riporta i ruoli che devono essere ricoperti da tutti i membri del team e i rispettivi costi orari:
+
 \begin{table}[h!]
 \centering
 \begin{tabular}{|l|c|}
@@ -183,19 +190,22 @@ Verificatore & \EUR{15}\\
 \hline
 \end{tabular}
 \caption{costo orario per ruolo}
-\end{table}\\
-al fine di permettere che ogni membro del gruppo possa ricoprire almeno una volta ogni ruolo, è necessario adottare un meccanismo di rotazione.\\
-Tale meccanismo dovrà garantire, oltre alla già citata rotazione, che non vi siano conflitti di interesse, ovvero ad esempio non ci siano periodi in cui una stessa risorsa sia verificatrice di se stessa.\\
+\end{table}
+
+al fine di permettere che ogni membro del gruppo possa ricoprire almeno una volta ogni ruolo, è necessario adottare un meccanismo di rotazione.
+
+Tale meccanismo dovrà garantire, oltre alla già citata rotazione, che non vi siano conflitti di interesse, ovvero ad esempio non ci siano periodi in cui una stessa risorsa sia verificatrice di se stessa.
 
 \subsubsection{Analisi}
-Questa attività inizia in data 2012-11-29 e finisce in data 2013-01-10.\\
-Tuttavia la data di consegna dei documenti che descrivono le attività di analisi è prevista il giorno 2012-12-21, restringendo il tempo produttivo effettivo.\\
-Questa attività coinvolge i ruoli di Responsabile, Amministratore, Analista e Verificatore.
-Le ore svolte dai vari componenti in questa attività non rientrano nel preventivo, l'attività di analisi costituisce infatti un investimento da parte dell’azienda e non può quindi essere a carico del proponente ne faranno parte del massimo complessivo finale di 100 ore lavorative per componente .
-Verrà in ogni caso tenuto traccia del dettaglio delle ore compiute per la già concordata rotazione dei ruoli dei membri del eam. A tale proposito già in questa attività preliminare sono state concordate due fasi (la prima terminerà il 2012-12-10), in modo da permettere lo scambio degli incarichi tra i soggetti.
+Questa attività inizia in data 2012-11-29 e finisce in data 2013-01-10. Tuttavia la data di consegna dei documenti che descrivono le attività di analisi è prevista il giorno 2012-12-21, restringendo il tempo produttivo effettivo.
+
+Questa attività coinvolge i ruoli di Responsabile, Amministratore, Analista e Verificatore. Le ore svolte dai vari componenti in questa attività non rientrano nel preventivo, l'attività di analisi costituisce infatti un investimento da parte dell'azienda e non può quindi essere a carico del proponente ne faranno parte del massimo complessivo finale di 100 ore lavorative per componente .
+
+Verrà in ogni caso tenuto traccia del dettaglio delle ore compiute per la già concordata rotazione dei ruoli dei membri del team. A tale proposito già in questa attività preliminare sono state concordate due fasi (la prima terminerà il 2012-12-10), in modo da permettere lo scambio degli incarichi tra i soggetti.
+
 \begin{figure}[h!]
   \includegraphics[width=\textwidth]{Analisi}
-\caption{Gantt della pianificazione d'Analisi}
+\caption{Gantt della pianificazione dell'attività di Analisi}
 \end{figure}
 \clearpage
 In questa attività i ruoli sono definiti come in tabella \ref{tab:ruolian}.
@@ -217,15 +227,19 @@ Totale & 16& 18& 82& & & 20\\
 \hline
 \end{tabular}
 \caption{copertura ruoli nell'attività di Analisi}\label{tab:ruolian}
-\end{table}\\
-Ad ogni risorsa sarà distribuito il seguente carico di lavoro (figura \ref{fig:ruolian}) :\\
+\end{table}
+
+Ad ogni risorsa sarà distribuito il seguente carico di lavoro (figura \ref{fig:ruolian}):
+
 \begin{figure}[h!]
 \centering
   \includegraphics{torta_analisi}
 \caption{Torta ripartizione ruoli nell'attività di Analisi}\label{fig:ruolian}
-\end{figure}\\
+\end{figure}
 \clearpage
-Infine vengono fornite le ore distinte per componente del team che sono state svolte in questa attività (tabella \ref{tab:ruolian2}) e la copertura dei ruoli sempre divisa per soggetto (tabella \ref{tab:ruolian3}):\\
+
+Infine vengono fornite le ore distinte per componente del team che sono state svolte in questa attività (tabella \ref{tab:ruolian2}) e la copertura dei ruoli sempre divisa per soggetto (tabella \ref{tab:ruolian3}):
+
 \begin{table}[h!]
 \centering
 \begin{tabular}{|l|c|c|c|}
@@ -243,6 +257,7 @@ Elena Zecchinato & 12& 8& 20\\
 \end{tabular}
 \caption{copertura ruoli nell'attività di analisi}\label{tab:ruolian2}
 \end{table}
+
 \begin{table}[h!]
 \centering
 \begin{tabular}{|l|c|c|}
@@ -261,18 +276,24 @@ Elena Zecchinato & analista&responsabile\\
 \caption{ruoli per persona nell'attività di Analisi}\label{tab:ruolian3}
 \end{table}
 
-
+Come si evince dalle ore di lavoro assegnate ai verificatori, nel corso dello svolgimento dell'attività di analisi dei requisiti sono stati effettuati controlli di verifica sui singoli documenti prodotti al fine di assicurarne la conformità con le norme.
 \clearpage
+
 \subsubsection{Progettazione Architetturale}
-Questa attività inizia in data 2013-01-09 e finisce in data 2013-01-30, per un totale di 19 giorni lavorativi. \\
+Questa attività inizia in data 2013-01-09 e finisce in data 2013-01-30, per un totale di 19 giorni lavorativi.
+
 Questa attività coinvolge i ruoli di Responsabile, Amministratore, Analista, Progettista e Verificatore.
 L'analista in questo periodo temporale avrà un ruolo prevalentemente rifinitorio (ma doveroso) nei confronti dell'Analisi dei Requisiti, per rendere più sicuro e corretto possibile l'avvio progettuale della Specifica Tecnica.
-Si è deciso di suddividere questo periodo in due fasi. La prima fase termina il 2013-01-16 e ed inizia la seconda, il seguente diagramma di Gantt descrive la pianificazione dei compiti:\\
+
+Si è deciso di suddividere questo periodo in due fasi. La prima fase termina il 2013-01-16 e ed inizia la seconda, il seguente diagramma di Gantt descrive la pianificazione dei compiti:
+
 \begin{figure}[h]
   \includegraphics[width=\textwidth]{Progettazione_Architetturale}
-\caption{Gantt della Progettazione Architetturale }
-\end{figure}\\
-In questa attività i ruoli sono definiti come in tabella \ref{tab:ruoliprog}:\\
+\caption{Gantt della Progettazione Architetturale}\label{fig:ganttprog}
+\end{figure}
+
+In questa attività i ruoli sono definiti come in tabella \ref{tab:ruoliprog}:
+
 \begin{table}[h]
 \centering
 \begin{tabular}{|l|c|c|c|c|c|c|c|c|}
@@ -294,13 +315,16 @@ Totale & 16& 13& 28& 52& 63& & 41& 40\\
 \caption{copertura ruoli nell'attività di Progettazione Architetturale}\label{tab:ruoliprog}
 \end{table}
 \clearpage
-Ad ogni risorsa sarà distribuito il seguente carico di lavoro (figura \ref{fig:ruoliprog}) :\\
+
+Ad ogni risorsa sarà distribuito il seguente carico di lavoro (figura \ref{fig:ruoliprog}):
 \begin{figure}[h!]
 \centering
 \includegraphics{torta_PA}
 \caption{Torta ripartizione ruoli nell'attività di Progettazione Architetturale}\label{fig:ruoliprog}
-\end{figure}\\
-Infine vengono fornite le ore distinte per componente del team che sono state svolte in questa attività (Tabella \ref{tab:ruoliprog2}) e la copertura dei ruoli sempre divisa per soggetto (tabella \ref{tab:ruoliprog3}):\\
+\end{figure}
+
+Infine vengono fornite le ore distinte per componente del team che sono state svolte in questa attività (Tabella \ref{tab:ruoliprog2}) e la copertura dei ruoli sempre divisa per soggetto (tabella \ref{tab:ruoliprog3}):
+
 \begin{table}[h!]
 \centering
 \begin{tabular}{|l|c|c|c|}
@@ -337,20 +361,27 @@ Elena Zecchinato & verificatore&progettista\\
 \caption{ruoli per persona nell'attività di progettazione architetturale}\label{tab:ruoliprog3}
 \end{table}
 
+Il risultato della progettazione architetturale è stato inoltre sottoposto a un'accurata attività di verifica, com'è possibile inferire dal numero di ore che sono state assegnate ai verificatori durante il periodo di tempo in esame.
+
 \clearpage
+
 \subsubsection{Progettazione di Dettaglio e Codifica}
 La seguente attività inizia in data 2013-02-07 e terminerà in data 2013-03-06. In questo periodo si svilupperà la progettazione di dettaglio del prodotto MyTalk e la sua codifica.
+
 In questa periodo temporale, coerentemente con il modello di ciclo di vita scelto, l'attività di Progettazione di Dettaglio e la Codifica avverranno per \underline{iterazioni}.
-Sono previste 2 \underline{iterazioni}, al terimine della prima sarà possibile avere il primo \underline{prototipo} per testare le funzioni di MyTalk, in data 2013-03-22.
-E' stata scelta tale data anche per provvedere ad una doverosa rotazione di ruoli all'interno del team di sviluppo, per consentire a tutti i soggetti di raggiungere il massimo apprendimento pratico dei vari compiti.
-Il diagramma di Gantt in figura \ref{fig:gantdc} descrive l'organizzazione lavorativa:\\
+Sono previste 2 \underline{iterazioni}, al termine della prima sarà possibile avere il primo \underline{prototipo} per testare le funzioni di MyTalk, in data 2013-03-22.
+
+È stata scelta tale data anche per provvedere ad una doverosa rotazione di ruoli all'interno del team di sviluppo, per consentire a tutti i soggetti di raggiungere il massimo apprendimento pratico dei vari compiti.
+
+Il diagramma di Gantt in figura \ref{fig:gantdc} descrive l'organizzazione lavorativa:
 
 \begin{figure}[h!]
   \includegraphics[width=\textwidth]{Progettazione_di_Dettaglio_e_Codifica}
 \caption{Gantt della Progettazione di Dettaglio e Codifica}\label{fig:gantdc}
 \end{figure}
 
-In questa attività i ruoli sono definiti come in tabella \ref{tab:ruolidc}:\\
+In questa attività i ruoli sono definiti come in tabella \ref{tab:ruolidc}:
+
 \begin{table}[h!]
 \centering
 \begin{tabular}{|l|c|c|c|c|c|c|c|c|}
@@ -372,14 +403,17 @@ Totale & 18& 12& 0& 73& 48& 45& 71& 53\\
 \caption{copertura ruoli nell'attività di Progettazione di Dettaglio e Codifica}\label{tab:ruolidc}
 \end{table}
 \clearpage
-Ad ogni risorsa sarà distribuito il seguente carico di lavoro (figura \ref{fig:ruolidc}):\\
+
+Ad ogni risorsa sarà distribuito il seguente carico di lavoro (figura \ref{fig:ruolidc}):
+
 \begin{figure}[h!]
 \centering
   \includegraphics{torta_PDC}
 \caption{Torta ripartizione ruoli nell'attività di Progettazione di Dettaglio e Codifica}\label{fig:ruolidc}
 \end{figure}
-\\\\
-Infine vengono fornite le ore distinte per componente del team che sono state svolte in questa attività (tabella \ref{tab:ruolidc2})e la copertura dei ruoli sempre divisa per soggetto (tabella \ref{tab:ruolidc3}):\\
+
+Infine vengono fornite le ore distinte per componente del team che sono state svolte in questa attività (tabella \ref{tab:ruolidc2})e la copertura dei ruoli sempre divisa per soggetto (tabella \ref{tab:ruolidc3}):
+
 \begin{table}[h]
 \centering
 \begin{tabular}{|l|c|c|c|}
@@ -415,22 +449,34 @@ Elena Zecchinato & progettista&programmatore\\
 \end{tabular}
 \caption{ruoli per persona nell'attività di dettaglio e codifica}\label{tab:ruolidc3}
 \end{table}
+
+Il risultato delle attività di progettazione di dettaglio e codifica è inoltre sottoposto a verifica prima della conclusione.
+
 \clearpage
 
-
 \subsubsection{Validazione}
-Questa attività inizia in data 2013-03-05 e finisce in data 2013-03-22, per un totale di 16 giorni \underline{lavorativi}. Coinvolge i ruoli di Responsabile, Amministratore, Progettista, Programmatore e Verificatore. Si può notare che non è più attivo quindi il ruolo di Analista, si prevede infatti che a questo stadio del progetto l’attività di analisi sia ovviamente conclusa.\\
-L'attività di validazione è intesa come un controllo finale sul prodotto ottenuto, l'attività di verifica è stata infatti correttamente svolta durante l'intero processo di sviluppo, pertanto si procederà con 
+
+Questa attività inizia in data 2013-03-05 e finisce in data 2013-03-22, per un totale di 16 giorni \underline{lavorativi}. Coinvolge i ruoli di Responsabile, Amministratore, Progettista, Programmatore e Verificatore. Si può notare che non è più attivo quindi il ruolo di Analista, si prevede infatti che a questo stadio del progetto l'attività di analisi sia ovviamente conclusa.
+
+L'attività di validazione è da intendersi come un controllo a posteriori sul prodotto finale al fine di verificarne l'aderenza ai requisiti di sistema e utente, l'attività di verifica è stata invece svolta durante l'intero processo di sviluppo, come evidenziato in precedenza, di volta in volta al termine di ognuna delle attività precedentemente elencate.
+
 Si è deciso di inserire  in questo periodo anche il ruolo del programmatore in quanto si prevede che qualche ora di codifica potrebbe risultare necessaria al fine di terminare lo sviluppo del software iniziato nelle attività precedenti.
+
 Non si è ritenuta necessaria la suddivisione in fasi del periodo visto che le attività riguardano in gran parte il \underline{processo} di validazione e quindi non vi è necessità di una forte rotazione.
+
 Essendoci però la presenza dei ruoli di progettista e programmatore per un numero limitato di ore e la necessità di impiegare risorse nel ruolo di verificatore, sarà necessario impiegare le persone che svolgono tali ruoli nelle attività di validazione.  
-Nell’assegnazione dei ruoli si è volta particolare attenzione al conflitto di interessi,  progettando una distribuzione tale da evitare la situazione surreale in cui un verificatore controlli il suo stesso operato.\\
-Il diagramma di Gantt in figura \ref{fig:gantvv} descrive l'organizzazione lavorativa:\\
+
+Nell'assegnazione dei ruoli si è volta particolare attenzione al conflitto di interessi,  progettando una distribuzione tale da evitare la situazione surreale in cui un verificatore controlli il suo stesso operato.
+
+Il diagramma di Gantt in figura \ref{fig:gantvv} descrive l'organizzazione lavorativa:
+
 \begin{figure}[h!]
   \includegraphics[width=\textwidth]{Verifica_e_Validazione}
 \caption{Gantt della Validazione}\label{fig:gantvv}
-\end{figure}\\
-In questa attività i ruoli sono definiti come in tabella \ref{tab:ruolivv}:\\
+\end{figure}
+
+In questa attività i ruoli sono definiti come in tabella \ref{tab:ruolivv}:
+
 \begin{table}[h!]
 \centering
 \begin{tabular}{|l|c|c|c|c|c|c|}
@@ -451,14 +497,17 @@ Totale & 6& 8& 0& 5& 5& 124\\
 \caption{copertura ruoli nell'attività di Validazione}\label{tab:ruolivv}
 \end{table}
 \clearpage
-Ad ogni risorsa sarà distribuito il seguente carico di lavoro (figura \ref{fig:ruolivv}):\\
+
+Ad ogni risorsa sarà distribuito il seguente carico di lavoro (figura \ref{fig:ruolivv}):
+
 \begin{figure}[h!]
 \centering
   \includegraphics{torta_VV}
 \caption{Torta ripartizione ruoli nell'attività di Validazione}\label{fig:ruolivv}
 \end{figure}
-\\\\
-Infine vengono fornite le ore distinte per componente del team che sono state svolte in questa attività (tabella \ref{tab:ruolivv2})e la copertura dei ruoli sempre divisa per soggetto (tabella \ref{tab:ruolivv3}):\\
+
+Infine vengono fornite le ore distinte per componente del team che sono state svolte in questa attività (tabella \ref{tab:ruolivv2})e la copertura dei ruoli sempre divisa per soggetto (tabella \ref{tab:ruolivv3}):
+
 \begin{table}[h]
 \centering
 \begin{tabular}{|l|c|}
@@ -494,11 +543,15 @@ Elena Zecchinato &amministratore/verificatore\\
 \end{tabular}
 \caption{ruoli per persona nell'attività di Validazione}\label{tab:ruolivv3}
 \end{table}
-
 \clearpage
+
 \section{Preventivo}
+
 \subsubsection{Prospetto Orario}
-La tabella 10 illustra le ore totali di lavoro \underline{produttivo} di ciascun membro del team Software Synthesis, per soggetto è stato preventivato un totale di 103 ore produttive, pertanto coerenti con le richieste vincolanti.
+La tabella \ref{tab:oretotali} illustra le ore totali di lavoro \underline{produttivo} di ciascun membro del team Software Synthesis, per soggetto è stato preventivato un totale di 103 ore produttive, pertanto coerenti con le richieste vincolanti.\footnote{%
+  Le celle contrassegnate da una `A' rappresentano le ore di lavoro impiegate durante lo svolgimento dell'analisi dei requisiti, che non contribuiscono al monte ore totale di ciascuno dei componenti del gruppo.
+}
+
 \begin{table}[h]
 \centering
 \begin{tabular}{|l|c|c|c|c|c|c|c|}
@@ -519,15 +572,19 @@ TOTALE&40&33&28&193&124&303&721\\
 \caption{Dettaglio delle ore totali preventivate}\label{tab:oretotali}
 \end{table}
 
-Ad ogni risorsa sarà distribuito il seguente carico di lavoro per portare a compimento il Progetto MyTalk (figura \ref{fig:oretotali}):\\
+Ad ogni risorsa sarà distribuito il seguente carico di lavoro per portare a compimento il Progetto MyTalk (figura \ref{fig:oretotali}):
+
 \begin{figure}[h!]
 \centering
   \includegraphics{torta_totale}
 \caption{Torta ripartizione ruoli in tutto il periodo di svolgimento del Progetto MyTalk}\label{fig:oretotali}
 \end{figure}
 \clearpage
+
 \subsubsection{Prospetto Economico}
+
 Il Progetto nella sua realizzazione avrà un costo stimato calcolato nella tabella \ref{tab:costitotali} di seguito esposta, anche in questo caso il progetto impone un impegno economico coerente con i parametri imposti da capitolato.
+
 \begin{table}[h!]
 \centering
 \begin{tabular}{|l|c|c|}
@@ -547,10 +604,15 @@ Totale & 721 &\EUR{13.211,00}\\
 \caption{costo e ore per ogni ruolo di progetto}\label{tab:costitotali}
 \end{table}
 \clearpage
+
 \section{Analisi dei rischi}
-In questa sezione vengono analizzati in modo mirato e approfondito i rischi che si sono individuati come possibili durante lo svolgimento del progetto. L'individuazione e la strategia di mitigazione di tali rischi è fondamentale per la pianificazione delle attività e la loro corretta esecuzione, infatti solo tramite un approccio di gestione ai fattori di rischio è possibile tutelarsi dalla loro eventuale insorgenza e mitigarne gli effetti.\\
-Data la scarsa esperienza del team su tali tematiche, il gruppo si è affidato a delle sessioni di \underline{brainstorming} collettive cercando di focalizzare i vari punti critici. \\\\
-Per rendere efficace l'analisi di ogni rischio si è deciso di quantificarlo mediante un apposita scala di valutazione sia dal punto di vista della probabilità che il rischio si manifesti (livello), sia il suo grado di incidenza sul progetto stesso (impatto):\\
+
+In questa sezione vengono analizzati in modo mirato e approfondito i rischi che si sono individuati come possibili durante lo svolgimento del progetto. L'individuazione e la strategia di mitigazione di tali rischi è fondamentale per la pianificazione delle attività e la loro corretta esecuzione, infatti solo tramite un approccio di gestione ai fattori di rischio è possibile tutelarsi dalla loro eventuale insorgenza e mitigarne gli effetti.
+
+Data la scarsa esperienza del team su tali tematiche, il gruppo si è affidato a delle sessioni di \underline{brainstorming} collettive cercando di focalizzare i vari punti critici.
+
+Per rendere efficace l'analisi di ogni rischio si è deciso di quantificarlo mediante un apposita scala di valutazione sia dal punto di vista della probabilità che il rischio si manifesti (livello), sia il suo grado di incidenza sul progetto stesso (impatto):
+
 \begin{table}[h!]
 \centering
 \begin{tabular}{|l|c|}
@@ -581,16 +643,20 @@ Scala& Descrizione  \\
 \end{table}
 
 \subsection{Rischi di Progetto}
-\subsubsection{Problemi personale}
+
+\subsubsection{Problemi personali}
+
 \begin{description}
 	\item{\scshape\bfseries Analisi:} durante la realizzazione del progetto è probabile che alcuni membri del team siano soggetti a problemi fisiologici e/o sovvengano impegni personali improrogabili che porterebbero ad una sicura modifica della pianificazione del lavoro collettivo. L'impatto di tale rischio è variabile in base al soggetto mancante, in quanto può essere assegnato ad un'attività (o ruolo) più o meno importante all'interno del progetto.
 	\item{\scshape\bfseries Probabilità:} ALTA
 	\item{\scshape\bfseries Impatto:} variabile
-	\item{\scshape\bfseries Strategia di Gestione:}per mitigare gli effetti di tali fenomeni è ragionevole prima di tutto pianificare i tempi di lavoro personali in modo da lasciare un lasco temporale tra un attività e l'altra.\\ 
+	\item{\scshape\bfseries Strategia di Gestione:}per mitigare gli effetti di tali fenomeni è ragionevole prima di tutto pianificare i tempi di lavoro personali in modo da lasciare un lasco temporale tra un attività e l'altra.
+	
 Così facendo la gestione temporale (compresa di eventuali imprevisti) risulta meno incline a modifiche e/o cambiamenti dei ruoli assegnati ad ogni membro. Ovviamente anche adottando tali accorgimenti si potrà generare la situazione in cui un componente risulti impossibilitato a svolgere il proprio compito, in tal caso è buona norma che tutti i membri siano ben preparati (conoscenza del dominio e delle metodologie di lavoro) nel caso sia necessaria la sostituzione momentanea del soggetto.
 \end{description}
 
 \subsubsection{Variazione nei Requisiti}
+
 \begin{description}
 	\item{\scshape\bfseries Analisi:} il bando di capitolato non prevede modifiche per i requisiti obbligatori, i requisiti opzionali al contrario possono subire variazioni in corso d'opera. Tale situazione implica il rischio che le risorse assegnate durante l'attività pianificazione risultino insufficienti al soddisfacimento di tali requisiti.
 	\item{\scshape\bfseries Probabilità:} MEDIA
@@ -607,6 +673,7 @@ Così facendo la gestione temporale (compresa di eventuali imprevisti) risulta m
 \end{description}
 
 \subsubsection{Variabili Tecnologiche}
+
 \begin{description}
 	\item{\scshape\bfseries Analisi:} tra le tecnologie di implementazione sono presenti le librerie \underline{WebRTC} e \underline{HTML5}. Ad oggi tali progetti non sono ancora stati promossi a standard ma risultano in una fase di sviluppo costante. Seppur \underline{HTML5} risulti ormai discretamente stabile nella sua implementazione, \underline{WebRTC} al contrario si presta a periodiche modifiche strutturali, l'ultima delle quali è avvenuta il 15 novembre 2012 (a tempo di redazione del documento).
 	\item{\scshape\bfseries Probabilità:} MEDIA
@@ -629,7 +696,5 @@ Così facendo la gestione temporale (compresa di eventuali imprevisti) risulta m
 	\item{\scshape\bfseries Impatto:} 4
 	\item{\scshape\bfseries Strategia di Gestione:} questo tipo di problematiche andranno affrontate caso per caso, è stata comunque preventivata un esigua parte di tempo per gestire tali tematiche nella pianificazione del lavoro.
 \end{description}
-
-
 
 \end{document}
