@@ -25,6 +25,8 @@
 \newcommand{\docState}{Approvato}
 % Uso in {Interno, Esterno}
 \newcommand{\docUsage}{Interno}
+% Destinatari da specificare come nome1\\ &nome2\\ ecc.
+\newcommand{\docDistributionList}{Membri del Team}
 % Redattori da specificare come nome1\\ &nome2\\ ecc.
 \newcommand{\docAuthors}{Andrea Meneghinello}
 % Approvato da
@@ -50,17 +52,18 @@
 
 % Storico delle modifiche
 \section*{Storia delle modifiche}
-\begin{tabularx}{\textwidth}{lXll}
+\begin{tabularx}{\textwidth}{lXlll}
 \toprule
-Versione & Descrizione intervento & Redattore & Data\\
+Versione & Descrizione intervento & Membro & Ruolo & Data\\
 \midrule % inserire qui il contenuto della tabella
-1.0 & Approvazione documento & Stefano Farronato & 2012-12-04\\\\
-0.6 & Validazione documento & Marco Schivo & 2012-12-04\\\\
-0.5 & Fine stesura documento & Andrea Meneghinello & 2012-12-03\\\\
-0.4 & Stesura sezione Milestones e Ticketing, Analisi dei requisiti & Andrea Meneghinello & 2012-12-03\\\\
-0.3 & Stesura sezione ambiente documentale & Andrea Meneghinello & 2012-12-03\\\\
-0.2 & Stesura sezione ambiente di lavoro & Andrea Meneghinello & 2012-12-01\\\\
-0.1 & Stesura scheletro documento, sezione comunicazione & Andrea Meneghinello & 2012-12-01\\\\
+1.1 & Correzione errori rilevati in RR & ---- & Amministratore & 2013-01-14\\
+1.0 & Approvazione documento & Stefano Farronato & Responsabile & 2012-12-04\\
+0.6 & Validazione documento & Marco Schivo & Verificatore & 2012-12-04\\
+0.5 & Fine stesura documento & Andrea Meneghinello & Amministratore & 2012-12-03\\
+0.4 & Stesura sezione Milestones e Ticketing, Analisi dei requisiti & Andrea Meneghinello & Amministratore & 2012-12-03\\
+0.3 & Stesura sezione ambiente documentale & Andrea Meneghinello & Amministratore & 2012-12-03\\
+0.2 & Stesura sezione ambiente di lavoro & Andrea Meneghinello & Amministratore & 2012-12-01\\
+0.1 & Stesura scheletro documento, sezione comunicazione & Andrea Meneghinello & Amministratore & 2012-12-01\\
 \bottomrule
 \end{tabularx}
 \newpage
@@ -457,7 +460,7 @@ Durante l'intero ciclo di vita di un \underline{ticket}, questo viene modificato
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.16]{ciclo_di_vita_ticket}
-\caption{Ciclo di vita di un documento} \label{fig:ciclo_di_vita_ticket}
+\caption{Ciclo di vita di un ticket} \label{fig:ciclo_di_vita_ticket}
 \end{figure}
 Come riportato in figura \ref{fig:ciclo_di_vita_ticket}, il ciclo di vita di un ticket si articolerà nel seguente modo:
 \begin{enumerate}
@@ -550,8 +553,70 @@ Ogni caso d'uso dovrà avere i seguenti dettagli:
 Durante l'intero ciclo di vita del progetto, sono previste misure per il tracciamento dei casi d'uso con i relativi requisiti. Questo avviene grazie all'utilizzo del sistema di tracciamento dei requisiti ``\manager{}'' descritto nella sezione \ref{sec:tracciamento} ``Sistema di tracciamento dei requisiti''. Tutta la gestione è automatica e in output sarà visualizzata una tabella con tre colonne: Codice UC, Nome UC, Requisito. Questa soluzione facilita notevolmente la gestione di grandi quantità di dati e un notevole risparmio di tempo.
 
 \newpage
+\section{Progettazione}
+\subsection{Stile}
+
+\subsection{Design Pattern}
+
+\subsection{Convenzioni UML}
+
+\newpage
 \section{Norme di verifica}
 La verifica è un'attività molto importante svolta dal verificatore. Lo scopo è di accertare che i prodotti ottenuti, qualunque sia il loro tipo, siano conformi le norme e convenzioni riportate su questo documento. Oltre a questo, il verificatore dovrà anche assicurare sotto la propria responsabilità che tali prodotti rispettino i requisiti di qualità descritti nel documento Piano di Qualifica (piano\_di\_qualifica.1.0.pdf).
+
+\subsection{Strumenti}\label{sec:tools}
+Si riporta a continuazione un elenco dei principali strumenti per la verifica di cui intende avvalersi il team nell'arco dello sviluppo del progetto.
+\begin{itemize}
+  \item \textbf{SynthesisRequirementManager}, il sistema di gestione dei requisiti (citato nel paragrafo \ref{sec:tracciamento} realizzato da \team, avente lo scopo di rendere quanto più agevole gestire il tracciamento dei requisiti a tutti i livelli (requisiti-UC, requisiti-CI, ecc.) e, da un punto di vista prettamente qualitativo, assicurare la necessità e la sufficienza dei casi d'uso e delle componenti software;
+ \item \textbf{lacheck} ($\geq 1.26$) per assicurare la correttezza sintattica e l'adozione delle \inglese{best practices} per i sorgenti \LaTeX{} nonché rilevare in modo semi-automatico le sviste non segnalate dal compilatore in quanto pur corrispondendo a codice ben formato nascondono errori tipografici sottostanti per es.~bilanciamento delle virgolette, spaziature scorrette per frasi terminate da un acronimo prima di un punto, mancato utilizzo di spazi insecabili, ecc. (\url{www.ctan.org/pkg/lacheck});
+ \item \textbf{hunspell} ($\geq 1.3$) come correttore ortografico e analizzatore morfologico in fase di redazione della documentazione, scelto per la sua portabilità ma anche perché alle sue librerie si appoggia l'applicativo \textbf{TexMaker} utilizzato per la stesura dei documenti \LaTeX{} (\url{http://hunspell.sourceforge.net});
+ \item le utilità che costituiscono la suite di \underline{QA} del W3C al fine di verificare l'aderenza agli standard delle pagine web generate, in particolar modo gli strumenti online:
+ \begin{itemize}
+   \item \textbf{Unicorn} in qualità di strumento di validazione unificato (\url{http://validator.w3.org/unicorn});
+   \item \textbf{CSS Valitatom Service} come utilità di validazione per i fogli di stile a cascata (\url{http://jigsaw.w3.org/css-validator});
+ \end{itemize}
+ \item gli strumenti per sviluppatori integrati in \textbf{Google \underline{Chrome}} (\url{https://developers.google.com/chrome-developer-tools}) e, in particolare:
+   \begin{itemize}
+   \item la sezione \underline{Sources} che rappresenta un'interfaccia al \underline{debugger} per il motore \underline{JavaScript} V8 e consente di impostare \underline{breakpoint} (assoluti o condizionali) per seguire l'esecuzione del codice passo passo (con le consuete funzioni di \underline{``step over''}, \underline{``step into''} e \underline{``step out''}) nonché arrestare temporaneamente l'esecuzione al sollevamento di un'eccezione (o di un'eccezione non controllata);
+   \item la sezione \underline{Timeline} che permette di quantificare i tempi necessari al caricamento e all'esecuzione degli script, nonché di tracciare l'utilizzo della memoria e forzare l'invocazione del \inglese{garbage collector};
+   \item  gli strumenti di benchmark accessibili dalla sezione \underline{Profiles}, vale a dire il profiler della CPU, che permette di ricostruire l'albero delle chiamate di funzione e la percentuale di utilizzo della CPU per ciascuna funzione, e il profiler dello heap, mediante il quale è possibile ispezionare il contenuto dello heap e salvarne delle rappresentazioni istantanee;
+   \end{itemize}
+  \item \textbf{FirebugLite}, un'estensione per \underline{Chrome} che consente di ispezionare gli elementi \underline{HTML} e la struttura del \underline{DOM} nonché di modificare in tempo reale i valori delle proprietà dei \underline{CSS} (\url{https://getfirebug.com/firebuglite});
+  \item \textbf{SpeedTracer} uno strumento che consente di identificare i problemi di prestazioni nelle applicazioni web visualizzando una serie di metriche in tempo reale grazie all'analisi dei dati resi disponibili a livello di motore di rendering del \underline{browser} (\url{https://developers.google.com/web-toolkit/speedtracer});
+  \item \textbf{JSLint} analizzatore statico di codice \underline{JavaScript} volto a rilevare e impedire l'adozione inconsapevole di ``\underline{worst practices}'' in fase di codifica (\url{http://www.jslint.com});
+  \item \textbf{ApacheBench} per testare l'efficienza prestazionale dell'applicazione lato \underline{server} mediante la simulazione di un numero arbitrario di richieste da parte dei \underline{client} (\url{http://httpd.apache.org/docs/2.2/programs/ab.html});
+  \item \textbf{Eclipse} \underline{IDE} multipiattaforma e cross-language, scelto in particolare come ambiente di sviluppo per la parte \underline{server} da realizzarsi in \underline{Java}, che include al suo interno funzionalità di debugging (\url{http://www.eclipse.org}) utili ai fini della \underline{QA};
+  \item \underline{plugin} \textbf{Metrics} per Eclipse, estensione che permette di associare un valore su una scala di riferimento al soddisfacimento di una serie di parametri di qualità del codice sorgente o metriche, per cui si rimanda alla sezione \ref{sec:metrics} (\url{http://metrics.sourceforge.net});
+  \item il \underline{plugin} \textbf{FindBugs} per Eclipse, al fine di effettuare analisi statica del codice a livello di bytecode alla ricerca di potenziali cause di \underline{malfunzionamento} (\inglese{bug patterns}) o adozione inconsapevole di ``worst practices'' (\url{http://findbugs.sourceforge.net});
+  \item \textbf{JUnit} come framework per i test di unità da effettuarsi relativamente alla parte \underline{server} dell'applicazione (\url{http://www.junit.org});
+\end{itemize}
+
+\subsection{Tecniche}
+Responsabili delle attività di controllo interne al gruppo sono i verificatori, che si presuppone essere in ogni caso e senza alcuna deroga distinti dai realizzatori del prodotto soggetto a verifica (programmatori o redattori di documentazione). Al fine di garantire la qualità, i verificatori sono tenuti all'utilizzo di due tecniche di analisi: statica e dinamica.
+
+\subsubsection{Analisi statica}
+L'analisi statica è un tipo di controllo basato sulla non esecuzione del codice, ma in senso lato può essere applicato a qualsiasi tipo di prodotto anche non propriamente eseguibile (ad es.~la documentazione di progetto). Sono previste, in particolare, due forme di analisi statica: il controllo manuale (detto altrimenti ``desk check'') e il controllo assistito da strumenti automatici.
+
+Per quanto concerne il \textbf{desk check}, cioè il controllo realizzato unicamente da parte di un agente umano, sono previsti due metodi formali:
+\begin{itemize}
+  \item \textbf{\underline{walkthrough}}: implica un esame ad ampio spettro del prodotto da verificare, che è preso in considerazione nella sua totalità in modo indiscriminato e senza alcuna assunzione previa sulla natura, la posizione e la frequenza degli errori da rilevare. Si tratta notoriamente di una tecnica molto onerosa in termini sia di tempo che di sforzo e può essere essa stessa per sua natura soggetta ad errori (in particolar modo falsi negativi). Tuttavia, almeno nelle fasi iniziali del lavoro, è l'unica scelta praticabile a causa della relativa inesperienza dei membri del gruppo nella realizzazione di prodotti complessi e articolati (sia software che documentazione). Allo scopo di ridurre il costo determinato dalla ripetizione di tale attività nell'arco di tutto il ciclo di vita è previsto che durante l'analisi in \underline{walkthrough} sia stilata una lista di controllo relativa agli errori più frequenti e ai contesti in cui è più probabile che si producano errori in modo da collezionare una base di esperienza comune e consolidata destinata ad alimentare le attività di ispezione.
+  \item \textbf{\underline{inspection}}: prevede un controllo mirato avente obiettivi specifici, ristretti e stabiliti a priori \emph{prima} che la verifica abbia luogo. Si tratta di un'attività meno dispendiosa in termini di risorse perché non presuppone l'analisi esaustiva del prodotto ma è focalizzata su determinate categorie di errori frequenti, enunciate in una lista di controllo (\inglese{checklist}) redatta sulla base dell'esperienza personale e delle attività di \underline{walkthrough} precedentemente poste in essere.
+\end{itemize}
+
+La seconda forma di analisi statica prevede invece l'utilizzo di strumenti appositi denominati \textbf{analizzatori statici} e può essere svolta in modo semiautomatico senza richiedere necessariamente l'intervento di un umano. In particolare, come risulta dalla sezione \ref{sec:tools} si è stabilito di utilizzare degli analizzatori statici tanto per la parte documentale del progetto (come il comando \texttt{lacheck}) quanto per la parte propriamente eseguibile (JSLint per la parte \underline{JavaScript} e FindBugs per la parte \underline{Java}).
+
+\subsubsection{Analisi dinamica}
+I controlli dinamici, altrimenti definiti test, prevedono l'esecuzione del software in un ambiente controllato e con dati di input specificatamente pensati per testarne le funzionalità e l'aderenza ai requisiti mettendo in luce l'eventuale presenza di \underline{malfunzionamenti} dovuti alla presenza di \underline{difetti}. Caratteristica fondamentale dei test è la loro \emph{ripetibilità}, cioè dato lo stesso set di dati in ingresso e nello stesso contesto di esecuzione, l'output deve essere deterministico e univocamente determinato. Tale proprietà, unitamente all'auspicabile utilizzo di un \inglese{logger} che ha il compito di registrare le fasi dell'esecuzione del test, consente di individuare e riconoscere in maniera più agevole i \underline{difetti} presenti nel prodotto.
+
+In base al loro ambito di applicazione, i test possono essere suddivisi in:
+\begin{itemize}
+  \item test di unità aventi come oggetto le singole unità e, oltre al modulo da verificare e ai dati d'esempio, possono coinvolgere anche componenti attive (\inglese{\underline{driver}}) o passive (\inglese{\underline{stub}}) che siano in grado di simulare le parti del sistema non ancora disponibili al momento in cui il test viene eseguito;
+  \item test di integrazione atti a verificare la corretta interazione e integrazione fra le componenti che costituiscono le parti del sistema e hanno come risultato una \inglese{build}, vale a dire un sottosistema funzionante che può essere eseguito in modo indipendente;
+  \item test di sistema, volti a testare il rispetto dei requisiti software individuati in fase di analisi dei requisiti da parte dell'intero sistema; 
+  \item test di regressione destinati a rilevare il caso indesiderabile in cui una modifica locale destabilizza il resto del sistema, si tratta del numero minimo di test necessario per scongiurare tale eventualità senza per questo dover ripetere \emph{in toto} i test di unità e di integrazione;
+  \item test di accettazione, o collaudo, realizzato sotto la supervisione del committente per verificare l'aderenza del prodotto ai requisiti utente di più alto livello.
+\end{itemize}
+
 
 \subsection{Verifica dei documenti}
 \label{sec:verifica_documenti}
