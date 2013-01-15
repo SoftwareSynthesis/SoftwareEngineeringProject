@@ -4,9 +4,9 @@
 % Nome
 \newcommand{\docName}{Piano di Qualifica}
 % Nome file
-\newcommand{\docFileName}{piano\_di\_qualifica.1.0.pdf}
+\newcommand{\docFileName}{piano\_di\_qualifica.1.1.pdf}
 % Versione
-\newcommand{\docVers}{1.0}
+\newcommand{\docVers}{1.1}
 % Data creazione
 \newcommand{\creationDate}{2012-12-10}
 % Data ultima modifica
@@ -126,40 +126,60 @@ Riferimenti a specifici estratti del testo \textit{Software Engineering (8th edi
 
 \subsection{Qualità di prodotto software}
 Al fine di garantire un elevato standard qualitativo, sia per ovvia scelta del team di sviluppo, sia per implicita richiesta da parte del committente stesso, Software Synthesis ha preso come riferimento lo standard ISO/9126:2001.
- 
-\subsubsection{Funzionalità}
+
+\begin{description}
+\item{\bfseries Funzionalità}
 Il prodotto MyTalk deve soddisfare nelle sue funzionalità tutti i requisiti individuati nell'attività di Analisi, garantendone il funzionamento e l'aderenza alle richieste specifiche del committente. Tutto questo sarà svolto nel modo meno oneroso sia dal punto di vista economico che di sfruttamento delle risorse disponibili.
 
 Per valutare il grado di funzionalità raggiunto dal prodotto si valuterà la quantità di requisiti che sono stati correttamente implementati all'interno del software finale. La soglia minima di soddisfacimento risulta essere l'assoluta copertura dei requisiti obbligatori imposti dal committente, tuttavia è parso chiaro che la fantasia del team in questa specifica area sarà ben valutata.
 
-\subsubsection{Portabilità}
+\item{\bfseries Portabilità}
 Il prodotto finale dovrà per vincoli di capitolato essere pianamente usufruibile mediante \underline{browser} \underline{Chrome}, prodotto da Google, su tutti i sistemi operativi sui quali questo \underline{browser} risulta compatibile.
 
 A dimostrazione di tale soddisfacimento ci si affida alla dimostrazione del superamento della validazione del codice del front-end web e dell'assoluta coerenza con le specifiche \underline{WebRTC}, proposta evolutiva di \underline{HTML5}\@.
 All'approvazione del superamento di tale requisito si procederà con lo stesso metodo testando \underline{browser} alternativi a quello imposto al fine di rendere MyTalk usufruibile da un bacino d'utenza più vasto possibile.
 
-\subsubsection{Usabilità}
+\item{\bfseries Usabilità}
 Il prodotto deve risultare facile ed intuitivo da parte dell'utenza che dispone di una conoscenza medio-bassa del web e dell'informatica generica.
 
 Utenti che hanno familiarità con programmi per la gestione di chiamate mediante \underline{VOIP} non dovranno trovare alcuna difficoltà o iniziale disorientamento nell'utilizzo di MyTalk.
 
 Data l'aleatorietà di tale qualità di prodotto e la non ``oggettività'' nella misurazione di tale caratteristica si cercherà semplicemente di raggiungere tale risultato basandosi su esperienze personali o brevi test su specifici utenti selezionati.
 
-\subsubsection{Affidabilità}
+\item{\bfseries Affidabilità}
 L'applicazione deve riuscire a stabilire e mantenere stabile una comunicazione tra due o più utenti, senza mostrare problemi di natura tecnica se non imputabili alla qualità della connessione di cui dispongono gli utenti stessi. Deve dimostrarsi altresì robusta nella sua struttura e facile da ripristinare in caso di errori di varia natura.
 
 Al fine di garantire queste caratteristiche verrà utilizzata come unità di misura la quantità di interazioni tra utenti con esito positivo, tenendo conto di tutti i parametri che concorrono ad una corretta comunicazione (qualità audio, video, messaggi testuali correttamente inviati/ricevuti, etc.).
 
-\subsubsection{Efficienza}
+\item{\bfseries Efficienza}
 MyTalk si pone come obbiettivo oltre alla corretta ed appagante esperienza comunicativa, anche di non risultare particolarmente esosa dal punto di vista hardware, sia dal punto di vista puramente componentistico dell'unità dalla quale si accede al prodotto, sia dal punto di vista dell'uso di banda a disposizione della rete.
 
 Verranno pertanto monitorate in fase di test sia le percentuali d'utilizzo di memoria e processore della macchina, sia la quantità di kb/s trasmessi e ricevuti durante l'esecuzione del programma. I test verranno eseguiti su varie tipologie di hardware e linee di diverse velocità, al fine di rendere il software usufruibile dalla più vasta fetta d'utenza possibile.
 I test risulteranno superati se nei momenti di massimo consumo di risorse il programma riuscirà a garantire un utilizzo fluido e una discreta navigabilità nel web dalla macchina soggetta al test. 
 
-\subsubsection{Manutenibilità}
+\item{\bfseries Manutenibilità}
 Il capitolato specifica esplicitamente che la modifica e la manutenibilità del software sono una caratteristica fondamentale dell'intero progetto, questa necessità nasce dal costante utilizzo di linguaggi non ancora qualificati come standard, pertanto soggetti a continua evoluzione.
+\end{description}
 
-% per riscontrare tali caratteristiche il team ha deciso di adottare il ciclo di Deming (PDCA)
+\subsubsection{Ciclo di Deming}
+Per riscontrare le caratteristiche sopra elencate il team ha deciso di adottare il \underline{ciclo di Deming} (PDCA)\@.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=.35\textwidth]{pdca}
+\caption{Il ciclo di Deming.}\label{fig:pdca}
+\end{figure}
+
+Tale tecnica è costituita dalle seguenti fasi:
+
+\begin{tabularx}{.9\textwidth}{>{\bfseries\scshape}lX}
+plan  & analizzare il problema e stabilire le attività, le tempistiche e i soggetti coinvolti;\\
+do    & attuare dettagliatamente le attività pianificate;\\
+check & verificare a consuntivo quanto preventivato nella pianificazione;\\
+act   & nel caso in cui il controllo abbia rilevato discrepanze tra preventivo e consuntivo attuare misure correttive.\\
+\end{tabularx}
+
+È chiaro che gli obiettivi di qualità prefissati possono essere raggiunti tramite una adeguata pianificazione delle attività, che deve essere rispettata attentamente per poter permettere al team un'autovalutazione ed eventualmente l'adozione di misure correttive volte al miglioramento continuo e all'attuazione delle \underline{best practices}.  Solo in tal modo è infatti possibile ottenere un prodotto di qualità.
 \clearpage
 
 \section{Visione generale della strategia di verifica}
@@ -184,6 +204,7 @@ Coerentemente a tale scelta, il processo di verifica adottato opererà nelle div
 		% che i requisiti siano chiari, atomici, tracciabili (pag. 12 PdQ ZetaSolutions)
 \end{itemize}
 	\item{\scshape\bfseries Progettazione:} Il processo di verifica garantirà la rintracciabilità nei componenti individuati durante la fase di Progettazione di ogni singolo requisito descritto nell'Analisi dei Requisiti.
+	% TODO:
 	% aggiungere del nostro sistema di tracciamento fra requisiti e componenti
 	% RELATIVAMENTE ALLA PROGETTAZIONE DI DETTAGLIO
 	% test di unità (definizione, elementi richiesti, obiettivi: statement coverage e branch coverage)
@@ -312,7 +333,7 @@ Il processo di misurazione attraverso il quale è possibile valutare quantitativ
 
 La parte operativa, cioè la quantificazione dei valori delle metriche di qualità, avviene lungo tutto l'arco del ciclo di sviluppo, con particolare attenzione alle fasi di progettazione di dettaglio e di test effettuati contestualmente alla codifica e in fase di accettazione/collaudo.
 
- Al fine di evitare che la verifica della qualità sia un onere troppo gravoso in termini di risorse umane e di tempo, anch'esso deve essere sottoposto a misurazione in quanto attività di progetto (cioè la parte `check' del \underline{ciclo di Deming}): il tempo di lavorazione impiegato per attività di verifica e \underline{QA} dovrà dunque essere registrato in ogni momento, ed è prerogativa del responsabile di progetto adottare misure correttive qualora i tempi dovessero risultare eccessivi al punto da compromettere il rispetto delle scadenze stabilite nel piano di progetto.
+Al fine di evitare che la verifica della qualità sia un onere troppo gravoso in termini di risorse umane e di tempo, anch'esso deve essere sottoposto a misurazione in quanto attività di progetto (cioè la parte `check' del \underline{ciclo di Deming}): il tempo di lavorazione impiegato per attività di verifica e \underline{QA} dovrà dunque essere registrato in ogni momento, ed è prerogativa del responsabile di progetto adottare misure correttive qualora i tempi dovessero risultare eccessivi al punto da compromettere il rispetto delle scadenze stabilite nel piano di progetto.
 
 In via preliminare, si prevede di utilizzare i seguenti metodi di analisi:
 \begin{description}
@@ -361,7 +382,8 @@ La discrepanza generalmente può essere identificata come un allontanamento dall
 \subsection{Procedure di controllo di qualità di processo}
 La qualità del processo è basata su un ciclo continuo di miglioramento basato del processo stesso e sull'uso ottimale delle risorse disponibili. 
 Per garantire questo miglioramento continuo, l'organizzazione dei processi si basa sul principio \underline{PDCA}. La verifica che i processi rispettino la pianificazione rispetto ai requisiti stilati e alle risorse disponibili avviene attraverso l'analisi costante delle misurazioni sul prodotto del processo stesso.
-Se i risultati di tali verifiche evidenziano valori che denotano ad un peggioramento qualificativo da quelli prefissati nella pianificazione, si provvederà ad identificare e a stabilire le possibili soluzioni al problema che li ha generati, intervenendo in modo correttivo sul processo. \\\\
+Se i risultati di tali verifiche evidenziano valori che denotano ad un peggioramento qualificativo da quelli prefissati nella pianificazione, si provvederà ad identificare e a stabilire le possibili soluzioni al problema che li ha generati, intervenendo in modo correttivo sul processo. \
+
 Risulta evidente che è possibile intervenire in modo migliorativo su un processo a prescindere dalla rilevazione di problematiche su di esso. Tale miglioramento consiste generalmente nella riduzione di risorse temporali o fisiche utilizzate o ridurre i cicli iterativi garantendo l'esecuzione fedele del processo rispetto al piano, il mantenimento del suo grado di efficacia ma allo stesso tempo aumentandone l'efficienza.
 
 \clearpage
