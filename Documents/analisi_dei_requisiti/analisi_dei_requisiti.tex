@@ -20,6 +20,8 @@
 \newcommand{\docState}{Approvato}
 % Uso in {Interno, Esterno}
 \newcommand{\docUsage}{Esterno}
+% Destinatari da specificare come nome1\\ &nome2\\ ecc.
+\newcommand{\docDistributionList}{Proponente \\& Committente}
 % Redattori da specificare come nome1\\ &nome2\\ ecc.
 \newcommand{\docAuthors}{Andrea Meneghinello \\& Andrea Rizzi\\& Diego Beraldin\\& Elena Zecchinato\\& Riccardo Tresoldi\\& Stefano Farronato}
 % Approvato da
@@ -46,26 +48,29 @@
 
 % Storico delle modifiche
 \section*{Storia delle modifiche}
-\begin{tabularx}{\textwidth}{lXll}
+\begin{center}
+\begin{longtable}{lp{.32\textwidth}lll}
 \toprule
-Versione & Descrizione intervento & Redattore & Data\\
+Versione & Descrizione intervento & Membro & Ruolo & Data\\
 \midrule % inserire qui il contenuto della tabella
-1.0 & Approvazione documento. & Elena Zecchinato & 2012-12-18\\\\
-0.13 & Verifica dell'intero documento. & Diego Beraldin & 2012-12-18\\\\
-0.12 & Correzione casi d'uso errati. Aggiunta requisiti mancanti. Fine stesura documento. & Andrea Rizzi & 2012-12-17\\\\
-0.11 & Seconda stesura dei casi d'uso e loro inserimento nel sistema \manager. & Riccardo Tresoldi & 2012-12-15\\\\
-0.10 & Correzione requisiti errati. Correzione casi d'uso errati. & Stefano Farronato & 2012-12-14\\\\
-0.9 & Seconda stesura dei requisiti e loro inserimento nel sistema \manager. & Andrea Meneghinello & 2012-12-13\\\\
-0.8 & Incontro con il proponente. Stesura dei requisiti emersi. Correzione requisiti errati. & Riccardo Tresoldi & 2012-12-10\\\\
-0.7 & Verifica documento fino alla versione 0.4. Correzione errori nel punto ``funzionalità''. & Marco Schivo & 2012-12-08\\\\
-0.6 & Prima stesura dei casi d'uso e loro inserimento nel sistema \manager. Stesura del punto ``Requisiti'' (introduzione) & Riccardo Tresoldi & 2012-12-07\\\\
-0.5 & Continuazione stesura dei requisiti e loro inserimento nel sistema \manager. Correzione requisiti errati. & Diego Beraldin & 2012-12-06\\\\
-0.4 & Prima stesura dei requisiti e loro inserimento nel sistema \manager. & Andrea Rizzi & 2012-12-05\\\\
-0.3 & Stesura del punto ``Funzionalità'' e ``Assunzioni e prerequisiti''. & Diego Beraldin & 2012-12-04\\\\
-0.2 & Stesura del punto ``Riferimenti'' e ``Descrizione generale''. & Riccardo Tresoldi & 2012-12-03\\\\
-0.1 & Creazione del documento e stesura del punto ``Scopo del documento''. & Andrea Rizzi & 2012-12-03\\
+1.1 & Correzione errori rilevati in RR: aggiornamento tabella delle modifiche con l'aggiunta dei ruoli. Aggiunta la lista di distribuzione. Aggiunto sommario. Aggiornati i riferimenti normativi. Modificata Sez. ``Assunzioni e prerequisiti''. Modificato UC1 & Diego Beraldin & Analista & 2013-01-14\\
+1.0 & Approvazione documento. & Elena Zecchinato & Responsabile & 2012-12-18\\
+0.13 & Verifica dell'intero documento. & Diego Beraldin & Verificatore & 2012-12-18\\
+0.12 & Correzione casi d'uso errati. Aggiunta requisiti mancanti. Fine stesura documento. & Andrea Rizzi & Analista & 2012-12-17\\
+0.11 & Seconda stesura dei casi d'uso e loro inserimento nel sistema \manager. & Riccardo Tresoldi & Analista & 2012-12-15\\
+0.10 & Correzione requisiti errati. Correzione casi d'uso errati. & Stefano Farronato & Analista & 2012-12-14\\
+0.9 & Seconda stesura dei requisiti e loro inserimento nel sistema \manager. & Andrea Meneghinello & Analista & 2012-12-13\\
+0.8 & Incontro con il proponente. Stesura dei requisiti emersi. Correzione requisiti errati. & Riccardo Tresoldi & Analista & 2012-12-10\\
+0.7 & Verifica documento fino alla versione 0.4. Correzione errori nel punto ``funzionalità''. & Marco Schivo & Verificatore & 2012-12-08\\
+0.6 & Prima stesura dei casi d'uso e loro inserimento nel sistema \manager. Stesura del punto ``Requisiti'' (introduzione) & Riccardo Tresoldi & Analista & 2012-12-07\\
+0.5 & Continuazione stesura dei requisiti e loro inserimento nel sistema \manager. Correzione requisiti errati. & Diego Beraldin & Analista & 2012-12-06\\
+0.4 & Prima stesura dei requisiti e loro inserimento nel sistema \manager. & Andrea Rizzi & Analista & 2012-12-05\\
+0.3 & Stesura del punto ``Funzionalità'' e ``Assunzioni e prerequisiti''. & Diego Beraldin & Analista & 2012-12-04\\
+0.2 & Stesura del punto ``Riferimenti'' e ``Descrizione generale''. & Riccardo Tresoldi & Analista & 2012-12-03\\
+0.1 & Creazione del documento e stesura del punto ``Scopo del documento''. & Andrea Rizzi & Analista & 2012-12-03\\
 \bottomrule
-\end{tabularx}
+\end{longtable}
+\end{center}
 \newpage
 
 % inclusione dell'indice
@@ -77,6 +82,12 @@ Versione & Descrizione intervento & Redattore & Data\\
 \pagestyle{normal}
 
 % Qui ha inizio il documento vero e proprio...
+
+\begin{abstract}
+Il presente documento, nasce con la necessità di evidenziare i requisiti che costituiscono il sistema e i casi d'uso associati. Inoltre viene proposta la tabella di tracciamento requisiti-casi e requisiti-fonti.
+\end{abstract}
+
+\newpage
 
 \section{Introduzione}
 \subsection{Scopo del prodotto}
@@ -98,6 +109,7 @@ Il comportamento del sistema osservabile dall'utente finale, in conformità con 
 \begin{itemize}
 \item[] verbale \textit{verbale\_incontro\_2012-12-11.pdf} allegato;
 \item[] \textit{piano\_di\_qualifica.1.0.pdf} allegato.
+\item[] \textit{norme\_di\_progetto.1.0.pdf} allegato.
 \end{itemize}
 
 \subsection{Informativi}
@@ -125,20 +137,20 @@ Le funzionalità offerte dal prodotto agli utenti finali possono essere suddivis
   \item gestione di scambi di informazioni in tempo reale, in particolare
   \begin{itemize}
   \item[--] comunicazione audio e audio/video tra due (o più) utenti;
+  \item[--] chat testuale;
   \item[--] condivisione di risorse (ad esempio lavagna grafica, schermo e documenti PDF). 
   \end{itemize}
   \item scambio di informazioni asincrone 
   \begin{itemize}
   \item[--] segreteria (sia per messaggi vocali che videomessaggi);
-  \item[--] chat testuale;
   \item[--] trasferimento file.
   \end{itemize}
 \end{itemize}
 A integrazione e supporto di tali funzionalità di base è previsto lo sviluppo di funzionalità secondarie quali l'autenticazione degli utenti, la gestione della rubrica, la visualizzazione di metadati sulle connessioni e la possibilità di mantenere un registro storico delle attività realizzate mediante il sistema.
 
 \subsection{Assunzioni e prerequisiti}
-In fase di \underline{deployment} si presuppone che l'installatore presso il committente sia in possesso delle competenze necessarie per l'installazione e la configurazione della parte \underline{server} del sistema.\\
-Si assume inoltre che l'utente sia in possesso di una connessione a internet funzionante al fine di instaurare la comunicazione. È altresì assunto implicitamente l'utilizzo di un browser con supporto a \underline{WebRTC}.
+%In fase di \underline{deployment} si presuppone che l'installatore presso il committente sia in possesso delle competenze necessarie per l'installazione e la configurazione della parte \underline{server} del sistema.\\
+Si assume che l'utente sia in possesso di una connessione a internet funzionante al fine di instaurare la comunicazione. È altresì assunto implicitamente l'utilizzo di un browser con supporto a \underline{WebRTC}.
 
 \clearpage
 %da qua in poi mi affido al software di stampa automatico
