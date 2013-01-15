@@ -14,9 +14,9 @@
 % Nome
 \newcommand{\docName}{Norme di Progetto}
 % Nome file
-\newcommand{\docFileName}{norme\_di\_progetto.1.0.pdf}
+\newcommand{\docFileName}{norme\_di\_progetto.2.0.pdf}
 % Versione
-\newcommand{\docVers}{1.0}
+\newcommand{\docVers}{2.0}
 % Data creazione
 \newcommand{\creationDate}{2012-12-01}
 % Data ultima modifica
@@ -56,6 +56,7 @@
 \toprule
 Versione & Descrizione intervento & Membro & Ruolo & Data\\
 \midrule % inserire qui il contenuto della tabella
+1.2 & Aggiunta sezione progettazione & ----- & Amministratore & 2013-01-15\\
 1.1 & Correzione errori rilevati in RR & ---- & Amministratore & 2013-01-14\\
 1.0 & Approvazione documento & Stefano Farronato & Responsabile & 2012-12-04\\
 0.6 & Validazione documento & Marco Schivo & Verificatore & 2012-12-04\\
@@ -554,18 +555,49 @@ Durante l'intero ciclo di vita del progetto, sono previste misure per il traccia
 
 \newpage
 \section{Progettazione}
-\subsection{Stile}
+In questa sezione verranno descritte le norme che i progettisti dovranno seguire durante la loro attività.
+
+\subsection{Stile di progettazione}
+Al fine di semplificare la futura fase di verifica, nonché la leggibilità degli schemi e diminuire il livello di rischio dovuto ad una progettazione errata, si dovranno rispettare le seguenti regole e linee guida:
+\begin{itemize}
+\item \textbf{Information hiding}: si dovrà seguire il principio di \textit{information hiding}, ossia nascondere dettagli organizzativi tramite attributi e metodi privati e/o protetti in modo tale da ridurre la complessità del contratto della classe. Ciò aumenta il grado di protezione e abbassa il rischio di errori logici.
+\item \textbf{Decomposizione}: dovrà essere eseguita una \textit{decomposizione modulare} al fine di identificare fin da subito i componenti terminali che non richiedono ulteriore scomposizione, in modo tale da abbattere tempi e costi già dalle prime fasi.
+\item \textbf{Design patterns}: individuare i \textit{design patterns} da poter usare e applicarli.
+\item \textbf{Livello di dettaglio}: raggiungere un livello di dettaglio in modo tale da permettere la parallelizzazione della codifica e non lasciare decisioni ai programmatori. 
+
+\item \textbf{Annidamento di chiamate}: non dovranno essere presenti nell'applicativo chiamate di metodi annidate con profondità maggiore di dieci. Se è necessaria una modifica di tale limite, il progettista dovrà proporlo, con relativa giustificazione, al responsabile di progetto che valuterà la richiesta.
+\item \textbf{Costrutti condizionali}: non dovranno essere presenti nell'applicativo flussi condizionali con profondità maggiore di cinque. Se è necessaria una modifica di tale limite, il progettista dovrà proporlo, con relativa giustificazione, al responsabile di progetto che valuterà la richiesta.
+\item \textbf{Ricorsione}: la tecnica di ricorsione dovrà essere evitata il più possibile. Nel caso venga utilizzata, il progettista dovrà giustificarne la scelta e fornire inoltre la correttezza per dimostrarne la terminazione.
+\item \textbf{Parametri}: il numero di parametri passati ad una chiamata di metodo non dovrà superare il limite di sette.
+\item \textbf{Concorrenza}: se vengono utilizzati flussi di esecuzione concorrenti, dovrà essere fornito anche il relativo diagramma di flusso.
+\end{itemize}
 
 \subsection{Design Pattern}
+Per ogni design patterns utilizzato, si dovrà dare una breve descrizione indicando:
+\begin{itemize}
+\item una breve descrizione riguardante la struttura generale;
+\item il motivo per cui è stato scelto e di conseguenza usato;
+\item elenco dei contesti dove è stato utilizzato il design patterns.
+\end{itemize}
 
-\subsection{Convenzioni UML}
+\subsection{Convenzioni sui diagrammi}
+Si dovrà utilizzare il linguaggio UML per definire:
+\begin{itemize}
+\item \textbf{Diagrammi di attività}: dovranno essere presenti per l'architettura generale. Questi diagrammi rappresenteranno un generico flusso d'esecuzione dell'intero applicativo. Nel caso non sia possibile inserire tutto in un solo diagramma, questo dovrà essere scomposto in sotto-diagrammi. Tale regola serve anche per ottenere una maggiore leggibilità e chiarezza.
+\item \textbf{Diagrammi di sequenza}:
+\item \textbf{Diagrammi delle classi}:
+\end{itemize}
+
+\subsection{Tracciamento}
+\subsection{Struttura della Specifica Tecnica}
+
 
 \newpage
 \section{Norme di verifica}
-La verifica è un'attività molto importante svolta dal verificatore. Lo scopo è di accertare che i prodotti ottenuti, qualunque sia il loro tipo, siano conformi le norme e convenzioni riportate su questo documento. Oltre a questo, il verificatore dovrà anche assicurare sotto la propria responsabilità che tali prodotti rispettino i requisiti di qualità descritti nel documento Piano di Qualifica (piano\_di\_qualifica.1.0.pdf).
+La verifica è un'attività molto importante svolta dal verificatore. Lo scopo è di accertare che i prodotti ottenuti, qualunque sia il loro tipo, siano conformi le norme e convenzioni riportate su questo documento. Oltre a questo, il verificatore dovrà anche assicurare sotto la propria responsabilità che tali prodotti rispettino i requisiti di qualità descritti nel documento Piano di Qualifica (piano\_di\_qualifica.2.0.pdf).
 
 \subsection{Strumenti}\label{sec:tools}
-Si riporta a continuazione un elenco dei principali strumenti per la verifica di cui intende avvalersi il team nell'arco dello sviluppo del progetto.
+Si riporta a continuazione un elenco dei principali strumenti per la verifica di cui il team si dovrà avvalere nell'arco dello sviluppo del progetto.
 \begin{itemize}
   \item \textbf{SynthesisRequirementManager}, il sistema di gestione dei requisiti (citato nel paragrafo \ref{sec:tracciamento} realizzato da \team, avente lo scopo di rendere quanto più agevole gestire il tracciamento dei requisiti a tutti i livelli (requisiti-UC, requisiti-CI, ecc.) e, da un punto di vista prettamente qualitativo, assicurare la necessità e la sufficienza dei casi d'uso e delle componenti software;
  \item \textbf{lacheck} ($\geq 1.26$) per assicurare la correttezza sintattica e l'adozione delle \inglese{best practices} per i sorgenti \LaTeX{} nonché rilevare in modo semi-automatico le sviste non segnalate dal compilatore in quanto pur corrispondendo a codice ben formato nascondono errori tipografici sottostanti per es.~bilanciamento delle virgolette, spaziature scorrette per frasi terminate da un acronimo prima di un punto, mancato utilizzo di spazi insecabili, ecc. (\url{www.ctan.org/pkg/lacheck});
@@ -586,9 +618,9 @@ Si riporta a continuazione un elenco dei principali strumenti per la verifica di
   \item \textbf{JSLint} analizzatore statico di codice \underline{JavaScript} volto a rilevare e impedire l'adozione inconsapevole di ``\underline{worst practices}'' in fase di codifica (\url{http://www.jslint.com});
   \item \textbf{ApacheBench} per testare l'efficienza prestazionale dell'applicazione lato \underline{server} mediante la simulazione di un numero arbitrario di richieste da parte dei \underline{client} (\url{http://httpd.apache.org/docs/2.2/programs/ab.html});
   \item \textbf{Eclipse} \underline{IDE} multipiattaforma e cross-language, scelto in particolare come ambiente di sviluppo per la parte \underline{server} da realizzarsi in \underline{Java}, che include al suo interno funzionalità di debugging (\url{http://www.eclipse.org}) utili ai fini della \underline{QA};
-  \item \underline{plugin} \textbf{Metrics} per Eclipse, estensione che permette di associare un valore su una scala di riferimento al soddisfacimento di una serie di parametri di qualità del codice sorgente o metriche, per cui si rimanda alla sezione \ref{sec:metrics} (\url{http://metrics.sourceforge.net});
+  \item \underline{plugin} \textbf{Metrics} per Eclipse, estensione che permette di associare un valore su una scala di riferimento al soddisfacimento di una serie di parametri di qualità del codice sorgente o metriche (\url{http://metrics.sourceforge.net});
   \item il \underline{plugin} \textbf{FindBugs} per Eclipse, al fine di effettuare analisi statica del codice a livello di bytecode alla ricerca di potenziali cause di \underline{malfunzionamento} (\inglese{bug patterns}) o adozione inconsapevole di ``worst practices'' (\url{http://findbugs.sourceforge.net});
-  \item \textbf{JUnit} come framework per i test di unità da effettuarsi relativamente alla parte \underline{server} dell'applicazione (\url{http://www.junit.org});
+  \item \textbf{JUnit} come framework per i test di unità da effettuarsi relativamente alla parte \underline{server} dell'applicazione (\url{http://www.junit.org}).
 \end{itemize}
 
 \subsection{Tecniche}
