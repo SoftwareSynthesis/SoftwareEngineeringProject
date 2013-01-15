@@ -42,26 +42,27 @@
 
 % Storico delle modifiche
 \section*{Storia delle modifiche}
-\begin{tabularx}{\textwidth}{lXll}
+\begin{longtable}{lp{.3\textwidth}lll}
 \toprule
-Versione & Descrizione intervento & Redattore & Data\\
+Versione & Descrizione intervento & Redattore & Ruolo & Data\\
 \midrule % inserire qui il contenuto della tabella
-% TODO: Aggiungere nuova voce
-1.0 & Approvazione documento & Elena Zecchinato & 2012-12-18\\\\
-0.12 & Correzione errori segnalati dal verificatore & Stefano Farronato & 2012-12-18\\\\
-0.11 & Verifica Capitoli 5,6,7,8,9 & Diego Beraldin & 2012-12-17\\\\
-0.10 & Verifica Capitoli 1,2,3,4 & Diego Beraldin & 2012-12-16\\\\
-0.9 & Correzione paragrafo 4.1 e paragrafo 6.1 & Riccardo Tresoldi & 2012-12-15\\\\
-0.8 & Correzione paragrafo 6.3 e stilazione capitolo ''Riferimenti''& Stefano Farronato & 2012-12-14\\\\
-0.7 & Impostazione capitoli rimanenti: ``Resoconto delle attività di verifica'', ``Prossima versione Piano di Qualifica''. Correzione paragrafo 6.2.1. & Riccardo Tresoldi & 2012-12-13\\\\
-0.6 & Correzione capitolo ``Visione generale della strategia di verifica'' nella ``risorse necessarie e disponibili'' & Riccardo Tresoldi & 2012-12-12\\\\
-0.5 & Stesura capitolo ``Gestione amministrativa della revisione''& Stefano Farronato & 2012-12-12\\\\
-0.4 & Stesura capitolo ``Strumenti, tecniche e metodi '', conclusione capitolo ''Qualità'' & Riccardo Tresoldi & 2012-12-11\\\\
-0.3 & Stesura capitolo ``Qualità'' & Stefano Farronato & 2012-12-11\\\\
-0.2 & Stesura capitolo ``Visione generale della strategia di verifica'' & Stefano Farronato & 2012-12-10\\\\
-0.1 & Stesura scheletro documento, introduzione & Stefano Farronato & 2012-12-10\\\\
+% TODO: questa riga deve essere completata
+1.1 & Stesura sezione qualità di processo & & & 2012-12-15\\
+1.0 & Approvazione documento & Elena Zecchinato & & 2012-12-18\\
+0.12 & Correzione errori segnalati dal verificatore & Stefano Farronato & & 2012-12-18\\
+0.11 & Verifica Capitoli 5,6,7,8,9 & Diego Beraldin & & 2012-12-17\\
+0.10 & Verifica Capitoli 1,2,3,4 & Diego Beraldin & & 2012-12-16\\
+0.9 & Correzione paragrafo 4.1 e paragrafo 6.1 & Riccardo Tresoldi & & 2012-12-15\\
+0.8 & Correzione paragrafo 6.3 e stesura capitolo ''Riferimenti''& Stefano Farronato & & 2012-12-14\\
+0.7 & Impostazione capitoli rimanenti: ``Resoconto delle attività di verifica'', ``Prossima versione Piano di Qualifica''. Correzione paragrafo 6.2.1. & Riccardo Tresoldi & & 2012-12-13\\
+0.6 & Correzione capitolo ``Visione generale della strategia di verifica'' nella ``risorse necessarie e disponibili'' & Riccardo Tresoldi & & 2012-12-12\\
+0.5 & Stesura capitolo ``Gestione amministrativa della revisione''& Stefano Farronato & & 2012-12-12\\
+0.4 & Stesura capitolo ``Strumenti, tecniche e metodi '', conclusione capitolo ``Obiettivi di qualità'' & Riccardo Tresoldi & & 2012-12-11\\
+0.3 & Stesura capitolo ``Qualità'' & Stefano Farronato & & 2012-12-11\\
+0.2 & Stesura capitolo ``Visione generale della strategia di verifica'' & Stefano Farronato & & 2012-12-10\\
+0.1 & Stesura scheletro documento, introduzione & Stefano Farronato & & 2012-12-10\\
 \bottomrule
-\end{tabularx}
+\end{longtable}
 \newpage
 
 % inclusione dell'indice
@@ -79,7 +80,8 @@ Versione & Descrizione intervento & Redattore & Data\\
 
 \subsection{Scopo del documento}
 
-Il seguente documento ha lo scopo di presentare la strategia di verifica e di validazione complessiva che utilizzeranno i componenti del team di lavoro di Software Synthesis a scopo di garantire la qualità richiesta nello svolgimento del progetto MyTalk regolarmente accettato dall'azienda appaltatrice Zucchetti s.r.l.\\
+Il seguente documento ha lo scopo di presentare la strategia di verifica e di validazione complessiva che utilizzeranno i componenti del team di lavoro di Software Synthesis a scopo di garantire la qualità richiesta nello svolgimento del progetto MyTalk regolarmente accettato dall'azienda appaltatrice Zucchetti s.r.l.
+
 Durante lo svolgimento del suddetto progetto sarà possibile l'insorgere di modifiche a tale documento, dettate da eventuali scelte progettuali o da esplicite richieste del committente stesso.
 
 \subsection{Glossario}
@@ -116,7 +118,8 @@ Riferimenti a specifici estratti del testo \textit{Software Engineering (8th edi
 \end{itemize}
 \clearpage
 
-\section{Qualità}
+\section{Obiettivi di qualità}
+% TODO: Controllare che tutti questi requisiti aggiuntivi siano presenti anche nell'analisi dei requisiti
 
 \subsection{Qualità di processo}
 % scrivere parte sulla qualità di processo con SPA-I e CMMI
@@ -132,34 +135,42 @@ Per valutare il grado di funzionalità raggiunto dal prodotto si valuterà la qu
 \subsubsection{Portabilità}
 Il prodotto finale dovrà per vincoli di capitolato essere pianamente usufruibile mediante \underline{browser} \underline{Chrome}, prodotto da Google, su tutti i sistemi operativi sui quali questo \underline{browser} risulta compatibile.
 
-A dimostrazione di tale soddisfacimento ci si affida alla dimostrazione del superamento della validazione del codice del front-end web e dell'assoluta coerenza con lo standard \underline{WebRTC}, proposta evolutiva di \underline{HTML5}.
+A dimostrazione di tale soddisfacimento ci si affida alla dimostrazione del superamento della validazione del codice del front-end web e dell'assoluta coerenza con le specifiche \underline{WebRTC}, proposta evolutiva di \underline{HTML5}\@.
 All'approvazione del superamento di tale requisito si procederà con lo stesso metodo testando \underline{browser} alternativi a quello imposto al fine di rendere MyTalk usufruibile da un bacino d'utenza più vasto possibile.
 
 \subsubsection{Usabilità}
 Il prodotto deve risultare facile ed intuitivo da parte dell'utenza che dispone di una conoscenza medio-bassa del web e dell'informatica generica.
+
 Utenti che hanno familiarità con programmi per la gestione di chiamate mediante \underline{VOIP} non dovranno trovare alcuna difficoltà o iniziale disorientamento nell'utilizzo di MyTalk.
+
 Data l'aleatorietà di tale qualità di prodotto e la non ``oggettività'' nella misurazione di tale caratteristica si cercherà semplicemente di raggiungere tale risultato basandosi su esperienze personali o brevi test su specifici utenti selezionati.
 
 \subsubsection{Affidabilità}
 L'applicazione deve riuscire a stabilire e mantenere stabile una comunicazione tra due o più utenti, senza mostrare problemi di natura tecnica se non imputabili alla qualità della connessione di cui dispongono gli utenti stessi. Deve dimostrarsi altresì robusta nella sua struttura e facile da ripristinare in caso di errori di varia natura.
+
 Al fine di garantire queste caratteristiche verrà utilizzata come unità di misura la quantità di interazioni tra utenti con esito positivo, tenendo conto di tutti i parametri che concorrono ad una corretta comunicazione (qualità audio, video, messaggi testuali correttamente inviati/ricevuti, etc.).
 
 \subsubsection{Efficienza}
-MyTalk si pone come obbiettivo oltre alla corretta ed appagante esperienza comunicativa, anche di non risultare particolarmente esosa dal punto di vista harware, sia dal punto di vista puramente componentistico dell'unità dalla quale si accede al prodotto, sia dal punto di vista dell'uso di banda a disposizione della rete.
+MyTalk si pone come obbiettivo oltre alla corretta ed appagante esperienza comunicativa, anche di non risultare particolarmente esosa dal punto di vista hardware, sia dal punto di vista puramente componentistico dell'unità dalla quale si accede al prodotto, sia dal punto di vista dell'uso di banda a disposizione della rete.
 
 Verranno pertanto monitorate in fase di test sia le percentuali d'utilizzo di memoria e processore della macchina, sia la quantità di kb/s trasmessi e ricevuti durante l'esecuzione del programma. I test verranno eseguiti su varie tipologie di hardware e linee di diverse velocità, al fine di rendere il software usufruibile dalla più vasta fetta d'utenza possibile.
 I test risulteranno superati se nei momenti di massimo consumo di risorse il programma riuscirà a garantire un utilizzo fluido e una discreta navigabilità nel web dalla macchina soggetta al test. 
 
 \subsubsection{Manutenibilità}
 Il capitolato specifica esplicitamente che la modifica e la manutenibilità del software sono una caratteristica fondamentale dell'intero progetto, questa necessità nasce dal costante utilizzo di linguaggi non ancora qualificati come standard, pertanto soggetti a continua evoluzione.
+
+% per riscontrare tali caratteristiche il team ha deciso di adottare il ciclo di Deming (PDCA)
 \clearpage
 
 \section{Visione generale della strategia di verifica}
 
-\subsection{Organizzazione, pianificazione strategica, pianificazione temporale e responsablità}
-Il processo di verifica inizierà quando il prodotto di un processo raggiungerà uno stadio che si potrà definire diverso da quello precedente. La verifica di tali cambiamenti sarà operata in modo mirato e ciscoscritta, grazie al registro delle modifiche che verrà complilato durante lo stilamento del documento stesso. Al termine della fase di verifica, i documenti saranno consegnati al responsabile di progetto, che provvederà ad approvarli.\\
-Il team nel \underline{brainstorming} successivo all'analisi generale del progetto MyTalk ha deciso di adottare un ciclo di vita incrementale (specificato nel Piano di Progetto).\\
-Coerentemente a tale scelta, il processo di verifica adottato opererà nelle diverse fasi del progetto nel modo seguente: \\
+\subsection{Organizzazione, pianificazione strategica, pianificazione temporale e responsabilità}
+Il processo di verifica inizierà quando il prodotto di un processo raggiungerà uno stadio che si potrà definire diverso da quello precedente. La verifica di tali cambiamenti sarà operata in modo mirato e circoscritta, grazie al registro delle modifiche che verrà compilato durante lo stilamento del documento stesso. Al termine della fase di verifica, i documenti saranno consegnati al responsabile di progetto, che provvederà ad approvarli.
+
+Il team nel \underline{brainstorming} successivo all'analisi generale del progetto MyTalk ha deciso di adottare un ciclo di vita incrementale (specificato nel Piano di Progetto).
+
+Coerentemente a tale scelta, il processo di verifica adottato opererà nelle diverse fasi del progetto nel modo seguente:
+
 \begin{description}
 	\item{\scshape\bfseries Analisi dei Requisiti:} Quando un documento uscirà dalla fase di redazione, verrà preso in esame ed effettuata una fase di revisione definitiva prima di essere presentato ufficialmente alla RR: 
 \begin{itemize}
@@ -200,11 +211,11 @@ Controlla inoltre la qualità dei processi interni mediante le attività di veri
 \end{itemize}
 
 \subsubsection{Software}
-A livello software risulteranno necessari strumenti per permettere l'automatizzazione nell'analisi statica del codice prodotto, ai fini di ricavarne il maggiorn numero possibile di informazioni.
+A livello software risulteranno necessari strumenti per permettere l'automatizzazione nell'analisi statica del codice prodotto, ai fini di ricavarne il maggior numero possibile di informazioni.
 
-Risulteranno altrettanto utili ai fini dei test di unità legati al linguaggio di programmazione scelto dei \underline{Frameworks} specializzati, e degli strumenti per standardizzare (e automatizzare) i test sul prodotto finale nonchè produtte dei resoconti appropriati sulle eventuali anomalie riscontrate.
+Risulteranno altrettanto utili ai fini dei test di unità legati al linguaggio di programmazione scelto dei \underline{Frameworks} specializzati, e degli strumenti per standardizzare (e automatizzare) i test sul prodotto finale nonché produrre dei resoconti appropriati sulle eventuali anomalie riscontrate.
 
-Infine il team ha deciso di produrre un semplice programma basato su interfaccia Web per il tracciamento e la gestione dei requisiti in modo da rendere più stardard e automatizzata possibile questa fase del progetto.
+Infine il team ha deciso di produrre un semplice programma basato su interfaccia Web per il tracciamento e la gestione dei requisiti in modo da rendere più standard e automatizzata possibile questa fase del progetto.
 
 \subsubsection{Hardware}
 Software Synthesis ha a disposizione oltre al materiale personale di ogni componente del team (Computer portatili e fissi) le strutture fisiche ed informatiche messe a disposizione dalla facoltà di informatica dell'Università degli Studi di Padova, quali laboratori didattici e le aule studio allocate negli stabili della Facoltà stessa.
@@ -319,7 +330,7 @@ Lo strumento scelto dal team è Codebase, (\url{http://www.codebasehq. com/}) ch
 I \underline{ticket} sono strutturati nel modo seguente:
 \begin{itemize}
 \item \textbf{Titolo:} comprende il nome del file da modificare e una descrizione stringata dell'errore;
-\item \textbf{Tipologia}: indica la tipologia del \underline{ticket} aperto, nel caso di anomalie di cartattere tecnico sarà impostato a Bug.
+\item \textbf{Tipologia}: indica la tipologia del \underline{ticket} aperto, nel caso di anomalie di carattere tecnico sarà impostato a Bug.
 \item \textbf{Categoria Errore:} individua macroscopicamente il tipo di errore preso in esame.
 \item \textbf{Stato:} tiene traccia dell'attuale stato del \underline{ticket} ed è catalogato in cinque categorie:
 \begin{itemize}
@@ -337,25 +348,28 @@ I \underline{ticket} sono strutturati nel modo seguente:
 \item \textbf{Bassa:} l'anomalia permette la corretta esecuzione del programma, la sua gestione ha una bassa priorità generale.
 \end{description}
 \item Responsabile Correzione: selezionato dal Responsabile di Progetto, ha il compito di gestire e correggere l'anomalia.
-\item Note: comprende informazioni dettagliate redatte dal soggetto che ha riscontrato l'anomalia. Può comprendere la descrizione dell'errata esecuzione del prodotto a causa dell'anomalia e il comportamento corretto atteso nonchè il tempo stimato per la correzione del problema stesso. 
+\item Note: comprende informazioni dettagliate redatte dal soggetto che ha riscontrato l'anomalia. Può comprendere la descrizione dell'errata esecuzione del prodotto a causa dell'anomalia e il comportamento corretto atteso nonché il tempo stimato per la correzione del problema stesso. 
 \item Tag: indicano i termini inerenti all'anomalia per rendere la ricerca e l'identificazione più rapida ed efficace possibile.
 \end{itemize}
-Quando il progetto MyTalk giungerà al termine del processo produttivo sarà stilato un documento che analizzerà tutti i test effettuati e i relativi risultati che una volta analizzato dal Responsabile di Progetto potrà certificare la correttezza del prodotto finale.\\\\
+
+Quando il progetto MyTalk giungerà al termine del processo produttivo sarà stilato un documento che analizzerà tutti i test effettuati e i relativi risultati che una volta analizzato dal Responsabile di Progetto potrà certificare la correttezza del prodotto finale.
+
 Trattiamo ora le \textbf{discrepanze}, ovvero degli errori di coerenza tra il prodotto che si è realizzato e quello atteso. Tale errore si presenta in una forma di diversa gravità in base a quanto la discrepanza si distanzia dal risultato atteso, tuttavia verrà trattata come una normale anomalia e gestita tramite \underline{ticketing}.
+
 La discrepanza generalmente può essere identificata come un allontanamento dalle norme di progetto o dai requisiti specificati nella fase d'analisi, nel primo caso il Responsabile di Progetto notificherà all'Amministratore che prenderà le dovute contromisure; nel secondo si identificherà il requisito associato al problema e se ne valuterà la discrepanza e le relative modifiche correttive per renderlo coerente al requisito stesso.
 
 \subsection{Procedure di controllo di qualità di processo}
 La qualità del processo è basata su un ciclo continuo di miglioramento basato del processo stesso e sull'uso ottimale delle risorse disponibili. 
-Per garantire questo miglioramento continuo, l'organizzazione dei processi si basa sul principio \underline{PDCA}. La verifica che i processi rispettino la pianificazione rispetto ai requisiti stilati e alle risorse disponibili avviene attraverso l’analisi costante delle misurazioni sul prodotto del processo stesso.
+Per garantire questo miglioramento continuo, l'organizzazione dei processi si basa sul principio \underline{PDCA}. La verifica che i processi rispettino la pianificazione rispetto ai requisiti stilati e alle risorse disponibili avviene attraverso l'analisi costante delle misurazioni sul prodotto del processo stesso.
 Se i risultati di tali verifiche evidenziano valori che denotano ad un peggioramento qualificativo da quelli prefissati nella pianificazione, si provvederà ad identificare e a stabilire le possibili soluzioni al problema che li ha generati, intervenendo in modo correttivo sul processo. \\\\
-Risulta evidente che è possibile intervenire in modo migliorativo su un processo a prescindere dalla rilevazione di problematiche su di esso. Tale miglioramento consiste generalmente nella riduzione di risorse temporali o fisiche utilizzate o ridurre i cicli iterativi garantendo l'esecuzione fedele del processo rispetto al piano, il mantenimento del suo grado di efficacia ma allo stesso tempo aumentandone l'efficenza.
+Risulta evidente che è possibile intervenire in modo migliorativo su un processo a prescindere dalla rilevazione di problematiche su di esso. Tale miglioramento consiste generalmente nella riduzione di risorse temporali o fisiche utilizzate o ridurre i cicli iterativi garantendo l'esecuzione fedele del processo rispetto al piano, il mantenimento del suo grado di efficacia ma allo stesso tempo aumentandone l'efficienza.
 
 \clearpage
 \section{Resoconto delle attività di verifica}
 In questa sezione verranno descritte, nel prossimo aggiornamento, in che modo sono state effettuate le attività di verifica e i loro relativi esiti.
 
 \section{Prossima versione Piano di Qualifica}
-E' stato prevenivato che nella prossima versione del Piano di Qualifica (coerentemente alle norme di progetto redatte si tratterà della versione 2.0) saranno aggiornate le sezioni riguardanti:
+E' stato preventivato che nella prossima versione del Piano di Qualifica (coerentemente alle norme di progetto redatte si tratterà della versione 2.0) saranno aggiornate le sezioni riguardanti:
 \begin{itemize}
 \item procedure di validazione del codice prodotto;
 \item resoconto finale delle attività di verifica della fase di progettazione;
