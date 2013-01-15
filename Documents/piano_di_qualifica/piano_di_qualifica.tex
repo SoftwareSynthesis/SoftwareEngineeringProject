@@ -1,13 +1,3 @@
-% shared/template.tex
-%
-% Contiene un modello di documento che deve essere copiato e opportunamente
-% modificato per creare i documenti 'concreti' di progetto. Definisce le macro
-% specifiche per il documento corrente, importa la parte di preambolo condivisa
-% e le pagine comuni a tutti i documenti.
-% In particolare, per ogni documento concreto occorre per prima cosa aggiornare
-% le macro, inserire una voce nella tabella delle modifiche e inserire il testo
-% (o includere file sorgenti esterni) a partire dalla riga 66 in poi.
-
 % **************************************************
 % Macro specifiche per il documento corrente
 % **************************************************
@@ -25,6 +15,8 @@
 \newcommand{\docState}{Approvato}
 % Uso in {Interno, Esterno}
 \newcommand{\docUsage}{Esterno}
+% Destinatari da specificare come nome1\\ &nome2\\ ecc.
+\newcommand{\docDistributionList}{Proponente\\ &Committente}
 % Redattori da specificare come nome1\\ &nome2\\ ecc.
 \newcommand{\docAuthors}{Stefano Farronato\\ &Riccardo Tresoldi}
 % Approvato da
@@ -54,6 +46,7 @@
 \toprule
 Versione & Descrizione intervento & Redattore & Data\\
 \midrule % inserire qui il contenuto della tabella
+% TODO: Aggiungere nuova voce
 1.0 & Approvazione documento & Elena Zecchinato & 2012-12-18\\\\
 0.12 & Correzione errori segnalati dal verificatore & Stefano Farronato & 2012-12-18\\\\
 0.11 & Verifica Capitoli 5,6,7,8,9 & Diego Beraldin & 2012-12-17\\\\
@@ -85,13 +78,18 @@ Versione & Descrizione intervento & Redattore & Data\\
 \purpose
 
 \subsection{Scopo del documento}
+
 Il seguente documento ha lo scopo di presentare la strategia di verifica e di validazione complessiva che utilizzeranno i componenti del team di lavoro di Software Synthesis a scopo di garantire la qualità richiesta nello svolgimento del progetto MyTalk regolarmente accettato dall'azienda appaltatrice Zucchetti s.r.l.\\
 Durante lo svolgimento del suddetto progetto sarà possibile l'insorgere di modifiche a tale documento, dettate da eventuali scelte progettuali o da esplicite richieste del committente stesso.
+
 \subsection{Glossario}
 \glossaryIntro
 \clearpage
+
 \section{Riferimenti}
+
 \subsection{Normativi}
+
 \begin{itemize}
 \item[] \textit{norme\_di\_progetto.1.0.pdf} allegato;
 \item[]  Verbale \textit{verbale\_incontro\_2012-12-11.pdf} allegato;
@@ -101,19 +99,63 @@ Durante lo svolgimento del suddetto progetto sarà possibile l'insorgere di modi
 \item[]  \textit{ISO/IEC 12207, Software Life Cycle Processes}.
 \end{itemize}
 \end{itemize}
+
 \subsection{Informativi}
+
 \begin{itemize}
 \item[] \textit{analisi\_dei\_requisiti.1.0.pdf};
 \item[] \textit{piano\_di\_progetto.1.0.pdf};
 \item[] \textit{glosssario1.0.pdf};
 \item[] Capitolato d'appalto: MyTalk, v 1.0, redatto e rilasciato dal proponente Zucchetti S.r.l reperibile all'indirizzo: \url{http://www.math.unipd.it/~tullio/IS-1/2012/Progetto/C1.pdf};
+
 Riferimenti a specifici estratti del testo \textit{Software Engineering (8th edition) Ian Sommerville, Pearson Education | Addison-Wesley} quali:
+
 \begin{itemize}
 \item[]  \textit{Software Engineering - Part 5: Verification and Validation, Part 6: Management}.\\
 \end{itemize}
 \end{itemize}
 \clearpage
+
+\section{Qualità}
+
+\subsection{Qualità di processo}
+% scrivere parte sulla qualità di processo con SPA-I e CMMI
+
+\subsection{Qualità di prodotto software}
+Al fine di garantire un elevato standard qualitativo, sia per ovvia scelta del team di sviluppo, sia per implicita richiesta da parte del committente stesso, Software Synthesis ha preso come riferimento lo standard ISO/9126:2001.
+ 
+\subsubsection{Funzionalità}
+Il prodotto MyTalk deve soddisfare nelle sue funzionalità tutti i requisiti individuati nell'attività di Analisi, garantendone il funzionamento e l'aderenza alle richieste specifiche del committente. Tutto questo sarà svolto nel modo meno oneroso sia dal punto di vista economico che di sfruttamento delle risorse disponibili.
+
+Per valutare il grado di funzionalità raggiunto dal prodotto si valuterà la quantità di requisiti che sono stati correttamente implementati all'interno del software finale. La soglia minima di soddisfacimento risulta essere l'assoluta copertura dei requisiti obbligatori imposti dal committente, tuttavia è parso chiaro che la fantasia del team in questa specifica area sarà ben valutata.
+
+\subsubsection{Portabilità}
+Il prodotto finale dovrà per vincoli di capitolato essere pianamente usufruibile mediante \underline{browser} \underline{Chrome}, prodotto da Google, su tutti i sistemi operativi sui quali questo \underline{browser} risulta compatibile.
+
+A dimostrazione di tale soddisfacimento ci si affida alla dimostrazione del superamento della validazione del codice del front-end web e dell'assoluta coerenza con lo standard \underline{WebRTC}, proposta evolutiva di \underline{HTML5}.
+All'approvazione del superamento di tale requisito si procederà con lo stesso metodo testando \underline{browser} alternativi a quello imposto al fine di rendere MyTalk usufruibile da un bacino d'utenza più vasto possibile.
+
+\subsubsection{Usabilità}
+Il prodotto deve risultare facile ed intuitivo da parte dell'utenza che dispone di una conoscenza medio-bassa del web e dell'informatica generica.
+Utenti che hanno familiarità con programmi per la gestione di chiamate mediante \underline{VOIP} non dovranno trovare alcuna difficoltà o iniziale disorientamento nell'utilizzo di MyTalk.
+Data l'aleatorietà di tale qualità di prodotto e la non ``oggettività'' nella misurazione di tale caratteristica si cercherà semplicemente di raggiungere tale risultato basandosi su esperienze personali o brevi test su specifici utenti selezionati.
+
+\subsubsection{Affidabilità}
+L'applicazione deve riuscire a stabilire e mantenere stabile una comunicazione tra due o più utenti, senza mostrare problemi di natura tecnica se non imputabili alla qualità della connessione di cui dispongono gli utenti stessi. Deve dimostrarsi altresì robusta nella sua struttura e facile da ripristinare in caso di errori di varia natura.
+Al fine di garantire queste caratteristiche verrà utilizzata come unità di misura la quantità di interazioni tra utenti con esito positivo, tenendo conto di tutti i parametri che concorrono ad una corretta comunicazione (qualità audio, video, messaggi testuali correttamente inviati/ricevuti, etc.).
+
+\subsubsection{Efficienza}
+MyTalk si pone come obbiettivo oltre alla corretta ed appagante esperienza comunicativa, anche di non risultare particolarmente esosa dal punto di vista harware, sia dal punto di vista puramente componentistico dell'unità dalla quale si accede al prodotto, sia dal punto di vista dell'uso di banda a disposizione della rete.
+
+Verranno pertanto monitorate in fase di test sia le percentuali d'utilizzo di memoria e processore della macchina, sia la quantità di kb/s trasmessi e ricevuti durante l'esecuzione del programma. I test verranno eseguiti su varie tipologie di hardware e linee di diverse velocità, al fine di rendere il software usufruibile dalla più vasta fetta d'utenza possibile.
+I test risulteranno superati se nei momenti di massimo consumo di risorse il programma riuscirà a garantire un utilizzo fluido e una discreta navigabilità nel web dalla macchina soggetta al test. 
+
+\subsubsection{Manutenibilità}
+Il capitolato specifica esplicitamente che la modifica e la manutenibilità del software sono una caratteristica fondamentale dell'intero progetto, questa necessità nasce dal costante utilizzo di linguaggi non ancora qualificati come standard, pertanto soggetti a continua evoluzione.
+\clearpage
+
 \section{Visione generale della strategia di verifica}
+
 \subsection{Organizzazione, pianificazione strategica, pianificazione temporale e responsablità}
 Il processo di verifica inizierà quando il prodotto di un processo raggiungerà uno stadio che si potrà definire diverso da quello precedente. La verifica di tali cambiamenti sarà operata in modo mirato e ciscoscritta, grazie al registro delle modifiche che verrà complilato durante lo stilamento del documento stesso. Al termine della fase di verifica, i documenti saranno consegnati al responsabile di progetto, che provvederà ad approvarli.\\
 Il team nel \underline{brainstorming} successivo all'analisi generale del progetto MyTalk ha deciso di adottare un ciclo di vita incrementale (specificato nel Piano di Progetto).\\
@@ -121,22 +163,34 @@ Coerentemente a tale scelta, il processo di verifica adottato opererà nelle div
 \begin{description}
 	\item{\scshape\bfseries Analisi dei Requisiti:} Quando un documento uscirà dalla fase di redazione, verrà preso in esame ed effettuata una fase di revisione definitiva prima di essere presentato ufficialmente alla RR: 
 \begin{itemize}
-		\item Verrà presa in esame la correttezza grammaticale, che al contrario di quella ortografica può essere verificata solo mediante un accurata rilettura da parte del verificatore designato..
-		\item Verrà presa in esame la correttezza lessicale mediante un accurata rilettura da parte del verificatore designato.
+		\item Verrà presa in esame la correttezza grammaticale, che al contrario di quella ortografica può essere verificata solo mediante un accurata rilettura da parte del verificatore designato.
+		\item Verrà presa in esame la correttezza lessicale mediante un'accurata rilettura da parte del verificatore designato.
 		\item Verrà presa in esame la correttezza dei contenuti e la coerenza rispetto al documento mediante un accurata rilettura da parte del verificatore designato.
 		\item Verrà effettuata la verifica che ogni tabella o figura sia corretta nel suo contenuto e disponga della rispettiva didascalia.
 		\item Verrà presa in esame la correttezza rispetto alle Norme di Progetto redatte, utilizzando gli strumenti più appropriati per la verifica.
 		\item Verrà presa in esame la corrispondenza tra ogni requisito e i Casi d'Uso, consultando e controllando le apposite tabelle di tracciamento, verificando inoltre la corretta gestione di entrambi mediante l'applicativo web creato appositamente da Software Synthesis.
+		% corrispondenza tra i requisiti elencati e il capitolato
+		% che i requisiti siano chiari, atomici, tracciabili (pag. 12 PdQ ZetaSolutions)
 \end{itemize}
 	\item{\scshape\bfseries Progettazione:} Il processo di verifica garantirà la rintracciabilità nei componenti individuati durante la fase di Progettazione di ogni singolo requisito descritto nell'Analisi dei Requisiti.
+	% aggiungere del nostro sistema di tracciamento fra requisiti e componenti
+	% RELATIVAMENTE ALLA PROGETTAZIONE DI DETTAGLIO
+	% test di unità (definizione, elementi richiesti, obiettivi: statement coverage e branch coverage)
+	% test d integrazione
 	\item{\scshape\bfseries Realizzazione:} I programmatori svolgeranno le attività di codifica del prodotto e i test di unità per la verifica del codice realizzato nel modo più automatizzato possibile. I verificatori inoltre controlleranno successivamente la presenza di eventuali errori o anomalie.
+    % verifica funzionale (black-box) e verifica strutturale (white-box), citare Dijkstra relativente all'esito dei test
+    % (possibilità di falso negativo)
 	\item{\scshape\bfseries Validazione:} Alla fase di collaudo, il team garantirà il corretto funzionamento del prodotto MyTalk. Successivi \underline{difetti} riscontrati o eventuali caratteristiche non coerenti alle richieste dell'appaltatore saranno soggetti a modifica e correzione al fine di eliminare tali incongruenze. 
+	% alpha test e beta test
 \end{description}
 \clearpage
+
 \subsection{Risorse necessarie e disponibili}
-L'utilizzo di risorse umane e tecnologiche è fondamentale per la verifica di qualità del prodotto e dei processi. 
+L'utilizzo di risorse umane e tecnologiche è fondamentale per la verifica di qualità del prodotto e dei processi.
+
 \subsubsection{Umane}
 Software Synthesis si è imposta per garantire un elevato standard qualitativo che all'interno del team siano ricoperti, nel corso del progetto, i seguenti ruoli:
+
 \begin{itemize}
 \item Responsabile: responsabile della corretta realizzazione del prodotto secondo gli standard e le richieste commissionate, designato all'allocazione corretta delle risorse umane ai rispettivi compiti e stimolarne il coordinamento. 
 Controlla inoltre la qualità dei processi interni mediante le attività di verifica da lui predisposte. Infine ha la facoltà di approvare o meno ogni proposta di correzione (migliorativa o di modifica generica) avanzata.
@@ -144,41 +198,18 @@ Controlla inoltre la qualità dei processi interni mediante le attività di veri
 \item Verificatore: applica i processi di verifica e validazione approvati dall'amministratore e predisposte dal responsabile tenendo traccia del suo lavoro. Ogni discrepanza o anomalia incontrerà durante tale attività verrà presentata tramite \underline{ticketing} (vedi capitolo 5).
 \item Programmatore: durante il suo lavoro ha l'obbligo di risolvere le anomalie evidenziate tramite \underline{ticketing} dai verificatori o dai test effettuati sul codice da lui stesso prodotto.
 \end{itemize}
+
 \subsubsection{Software}
-A livello software risulteranno necessari strumenti per permettere l'automatizzazione nell'analisi statica del codice prodotto, ai fini di ricavarne il maggiorn numero possibile di informazioni.\\
-Risulteranno altrettanto utili ai fini dei test di unità legati al linguaggio di programmazione scelto dei \underline{Frameworks} specializzati, e degli strumenti per standardizzare (e automatizzare) i test sul prodotto finale nonchè produtte dei resoconti appropriati sulle eventuali anomalie riscontrate.\\
+A livello software risulteranno necessari strumenti per permettere l'automatizzazione nell'analisi statica del codice prodotto, ai fini di ricavarne il maggiorn numero possibile di informazioni.
+
+Risulteranno altrettanto utili ai fini dei test di unità legati al linguaggio di programmazione scelto dei \underline{Frameworks} specializzati, e degli strumenti per standardizzare (e automatizzare) i test sul prodotto finale nonchè produtte dei resoconti appropriati sulle eventuali anomalie riscontrate.
+
 Infine il team ha deciso di produrre un semplice programma basato su interfaccia Web per il tracciamento e la gestione dei requisiti in modo da rendere più stardard e automatizzata possibile questa fase del progetto.
+
 \subsubsection{Hardware}
 Software Synthesis ha a disposizione oltre al materiale personale di ogni componente del team (Computer portatili e fissi) le strutture fisiche ed informatiche messe a disposizione dalla facoltà di informatica dell'Università degli Studi di Padova, quali laboratori didattici e le aule studio allocate negli stabili della Facoltà stessa.
-
 \clearpage
-\section{Qualità}
-Al fine di garantire un elevato standard qualitativo, sia per ovvia scelta del team di sviluppo, sia per implicita richiesta da parte del committente stesso, Software Synthesis ha preso come riferimento lo standard ISO/9126:2001.
- 
-\subsection{Funzionalità}
-Il prodotto MyTalk deve soddisfare nelle sue funzionalità tutti i requisiti individuati nella fase di Analisi, garantendone il funzionamento e l'aderenza alle richieste specifiche del committente. Tutto questo sarà svolto nel modo meno oneroso sia dal punto di vista economico che di sfruttamento delle risorse disponibili.
-Per valutare il grado di funzionalità raggiunto dal prodotto si valuterà la quantità di requisiti che sono stati correttamente implementati all'interno del software finale. La soglia minima di soddisfacimento risulta essere l'assoluta copertura dei requisiti obbligatori imposti dal committente, tuttavia è parso chiaro che la fantasia del team in questa specifica area sarà ben valutata.
 
-\subsection{Portabilità}
-Il prodotto finale dovrà per vincoli di capitolato essere pianamente usufruibile mediante \underline{browser} \underline{Chrome}, prodotto da Google, su tutti i sistemi operativi sui quali questo \underline{browser} risulta compatibile. 
-A dimostrazione di tale soddisfacimento ci si affida alla dimostrazione del superamento della validazione del codice del front-end web e dell'assoluta coerenza con lo standard \underline{WebRTC}, proposta evolutiva di \underline{HTML5}.
-All'approvazione del superamento di tale requisito si procederà con lo stesso metodo testando \underline{browser} alternativi a quello imposto al fine di rendere MyTalk usufruibile da un bacino d'utenza più vasto possibile.
-\subsection{Usabilità}
-Il prodotto deve risultare facile ed intuitivo da parte dell'utenza che dispone di una conoscenza medio-bassa del web e dell'informatica generica.
-Utenti che hanno familiarità con programmi per la gestione di chiamate mediante \underline{VOIP} non dovranno trovare alcuna difficoltà o iniziale disorientamento nell'utilizzo di MyTalk.
-Data l'aleatorietà di tale qualità di prodotto e la non ``oggettività'' nella misurazione di tale caratteristica si cercherà semplicemente di raggiungere tale risultato basandosi su esperienze personali o brevi test su specifici utenti selezionati.
-\subsection{Affidabilità}
-L'applicazione deve riuscire a stabilire e mantenere stabile una comunicazione tra due o più utenti, senza mostrare problemi di natura tecnica se non imputabili alla qualità della connessione di cui dispongono gli utenti stessi. Deve dimostrarsi altresì robusta nella sua struttura e facile da ripristinare in caso di errori di varia natura.
-Al fine di garantire queste caratteristiche verrà utilizzata come unità di misura la quantità di interazioni tra utenti con esito positivo, tenendo conto di tutti i parametri che concorrono ad una corretta comunicazione (qualità audio, video, messaggi testuali correttamente inviati/ricevuti, etc.).
-\subsection{Efficienza}
-MyTalk si pone come obbiettivo oltre alla corretta ed appagante esperienza comunicativa, anche di non risultare particolarmente esosa dal punto di vista harware, sia dal punto di vista puramente componentistico dell'unità dalla quale si accede al prodotto, sia dal punto di vista dell'uso di banda a disposizione della rete.
-Verranno pertanto monitorate in fase di test sia le percentuali d'utilizzo di memoria e processore della macchina, sia la quantità di kb/s trasmessi e ricevuti durante l'esecuzione del programma. I test verranno eseguiti su varie tipologie di hardware e linee di diverse velocità, al fine di rendere il software usufruibile dalla più vasta fetta d'utenza possibile.
-I test risulteranno superati se nei momenti di massimo consumo di risorse il programma riuscirà a garantire un utilizzo fluido e una discreta navigabilità nel web dalla macchina soggetta al test. 
-
-\subsection{Manutenibilità}
-Il capitolato specifica esplicitamente che la modifica e la manutenibilità del software sono una caratteristica fondamentale dell'intero progetto, questa necessità nasce dal costante utilizzo di linguaggi non ancora qualificati come standard, pertanto soggetti a continua evoluzione.
-
-\clearpage
 \section{Strumenti, tecniche e metodi}
 
 \subsection{Strumenti}\label{sec:tools}
@@ -212,9 +243,11 @@ Si riporta a continuazione un elenco dei principali strumenti per la verifica de
 Responsabili delle attività di controllo interne al gruppo sono i verificatori, che si presuppone essere in ogni caso e senza alcuna deroga distinti dai realizzatori del prodotto soggetto a verifica (programmatori o redattori di documentazione). Al fine di garantire la qualità, i verificatori sono tenuti all'utilizzo di due tecniche di analisi: statica e dinamica.
 
 \subsubsection{Analisi statica}
+
 L'analisi statica è un tipo di controllo basato sulla non esecuzione del codice, ma in senso lato può essere applicato a qualsiasi tipo di prodotto anche non propriamente eseguibile (ad es.~la documentazione di progetto). Sono previste, in particolare, due forme di analisi statica: il controllo manuale (detto altrimenti `desk check'') e il controllo assistito da strumenti automatici.
 
 Per quanto concerne il \textbf{desk check}, cioè il controllo realizzato unicamente da parte di un agente umano, sono previsti due metodi formali:
+
 \begin{itemize}
   \item \textbf{\underline{walkthrough}}: implica un esame ad ampio spettro del prodotto da verificare, che è preso in considerazione nella sua totalità in modo indiscriminato e senza alcuna assunzione previa sulla natura, la posizione e la frequenza degli errori da rilevare. Si tratta notoriamente di una tecnica molto onerosa in termini sia di tempo che di sforzo e può essere essa stessa per sua natura soggetta ad errori (in particolar modo falsi negativi). Tuttavia, almeno nelle fasi iniziali del lavoro, è l'unica scelta praticabile a causa della relativa inesperienza dei membri del gruppo nella realizzazione di prodotti complessi e articolati (sia software che documentazione). Allo scopo di ridurre il costo determinato dalla ripetizione di tale attività nell'arco di tutto il ciclo di vita è previsto che durante l'analisi in \underline{walkthrough} sia stilata una lista di controllo relativa agli errori più frequenti e ai contesti in cui è più probabile che si producano errori in modo da collezionare una base di esperienza comune e consolidata destinata ad alimentare le attività di ispezione.
   \item \textbf{\underline{inspection}}: prevede un controllo mirato avente obiettivi specifici, ristretti e stabiliti a priori \emph{prima} che la verifica abbia luogo. Si tratta di un'attività meno dispendiosa in termini di risorse perché non presuppone l'analisi esaustiva del prodotto ma è focalizzata su determinate categorie di errori frequenti, enunciate in una lista di controllo (\inglese{checklist}) redatta sulla base dell'esperienza personale e delle attività di \underline{walkthrough} precedentemente poste in essere.
@@ -226,6 +259,7 @@ La seconda forma di analisi statica prevede invece l'utilizzo di strumenti appos
 I controlli dinamici, altrimenti definiti test, prevedono l'esecuzione del software in un ambiente controllato e con dati di input specificatamente pensati per testarne le funzionalità e l'aderenza ai requisiti mettendo in luce l'eventuale presenza di \underline{malfunzionamenti} dovuti alla presenza di \underline{difetti}. Caratteristica fondamentale dei test è la loro \emph{ripetibilità}, cioè dato lo stesso set di dati in ingresso e nello stesso contesto di esecuzione, l'output deve essere deterministico e univocamente determinato. Tale proprietà, unitamente all'auspicabile utilizzo di un \inglese{logger} che ha il compito di registrare le fasi dell'esecuzione del test, consente di individuare e riconoscere in maniera più agevole i \underline{difetti} presenti nel prodotto.
 
 In base al loro ambito di applicazione, i test possono essere suddivisi in:
+
 \begin{itemize}
   \item test di unità aventi come oggetto le singole unità e, oltre al modulo da verificare e ai dati d'esempio, possono coinvolgere anche componenti attive (\inglese{\underline{driver}}) o passive (\inglese{\underline{stub}}) che siano in grado di simulare le parti del sistema non ancora disponibili al momento in cui il test viene eseguito;
   \item test di integrazione atti a verificare la corretta interazione e integrazione fra le componenti che costituiscono le parti del sistema e hanno come risultato una \inglese{build}, vale a dire un sottosistema funzionante che può essere eseguito in modo indipendente;
@@ -263,7 +297,7 @@ Si riporta, senza pretesa di esaustività, un elenco delle principali metriche i
 Altre metriche che saranno prese in considerazione sono la lunghezza dei metodi e il numero di parametri di ciascun metodo.
 
 \subsection{Metodi}
- Il processo di misurazione attraverso il quale è possibile valutare quantitativamente l'aderenza del prodotto agli standard di qualità è basato su un ciclo iterativo simile al \underline{PDCA}\@. In particolare, in una fase preliminare prevede che sia stabilita l'importanza e l'ambito di applicazione della misurazione, la selezione di metriche da adottare come si è fatto nelle precedenti sezioni e la pianificazione del momento nel ciclo di sviluppo in cui le misurazioni dovranno essere effettuate.
+Il processo di misurazione attraverso il quale è possibile valutare quantitativamente l'aderenza del prodotto agli standard di qualità è basato su un ciclo iterativo simile al \underline{PDCA}\@. In particolare, in una fase preliminare prevede che sia stabilita l'importanza e l'ambito di applicazione della misurazione, la selezione di metriche da adottare come si è fatto nelle precedenti sezioni e la pianificazione del momento nel ciclo di sviluppo in cui le misurazioni dovranno essere effettuate.
 
 La parte operativa, cioè la quantificazione dei valori delle metriche di qualità, avviene lungo tutto l'arco del ciclo di sviluppo, con particolare attenzione alle fasi di progettazione di dettaglio e di test effettuati contestualmente alla codifica e in fase di accettazione/collaudo.
 
@@ -278,6 +312,7 @@ In via preliminare, si prevede di utilizzare i seguenti metodi di analisi:
 
 \clearpage
 \section{Gestione amministrativa della revisione}
+
 \subsection{Gestione anomalie e incongruenze}
 Un anomalia è una deviazione dalle aspettative definite sul prodotto, per la loro gestione è stato pianificato l'utilizzo di un sistema di \underline{ticketing}.
 Lo strumento scelto dal team è Codebase, (\url{http://www.codebasehq. com/}) che permetterà ad ogni verificatore di aprire un \underline{ticket} per ogni nuova anomalia riscontrata.
@@ -311,7 +346,7 @@ La discrepanza generalmente può essere identificata come un allontanamento dall
 
 \subsection{Procedure di controllo di qualità di processo}
 La qualità del processo è basata su un ciclo continuo di miglioramento basato del processo stesso e sull'uso ottimale delle risorse disponibili. 
-Per garantire questo miglioramento continuo, l’organizzazione dei processi si basa sul principio \underline{PDCA}. La verifica che i processi rispettino la pianificazione rispetto ai requisiti stilati e alle risorse disponibili avviene attraverso l’analisi costante delle misurazioni sul prodotto del processo stesso.
+Per garantire questo miglioramento continuo, l'organizzazione dei processi si basa sul principio \underline{PDCA}. La verifica che i processi rispettino la pianificazione rispetto ai requisiti stilati e alle risorse disponibili avviene attraverso l’analisi costante delle misurazioni sul prodotto del processo stesso.
 Se i risultati di tali verifiche evidenziano valori che denotano ad un peggioramento qualificativo da quelli prefissati nella pianificazione, si provvederà ad identificare e a stabilire le possibili soluzioni al problema che li ha generati, intervenendo in modo correttivo sul processo. \\\\
 Risulta evidente che è possibile intervenire in modo migliorativo su un processo a prescindere dalla rilevazione di problematiche su di esso. Tale miglioramento consiste generalmente nella riduzione di risorse temporali o fisiche utilizzate o ridurre i cicli iterativi garantendo l'esecuzione fedele del processo rispetto al piano, il mantenimento del suo grado di efficacia ma allo stesso tempo aumentandone l'efficenza.
 
