@@ -326,35 +326,7 @@ Infine il team ha deciso di produrre un semplice programma basato su interfaccia
 Software Synthesis ha a disposizione oltre al materiale personale di ogni componente del team (Computer portatili e fissi) le strutture fisiche ed informatiche messe a disposizione dalla facoltà di informatica dell'Università degli Studi di Padova, quali laboratori didattici e le aule studio allocate negli stabili della Facoltà stessa.
 \clearpage
 
-\section{Strumenti e metodi}
-
-\subsection{Strumenti}\label{sec:tools}
-Si riporta a continuazione un elenco dei principali strumenti per la verifica della qualità di cui intende avvalersi il team nell'arco dello sviluppo del progetto.\footnote{Si rimanda invece alle Norme di Progetto per un elenco degli strumenti utilizzati non strettamente in relazione con la verifica e il controllo qualitativo.}
-\begin{itemize}
-  \item \textbf{SynthesisRequirementManager}, il sistema di gestione dei requisiti realizzato da \team, avente lo scopo di rendere quanto più agevole gestire il tracciamento dei requisiti a tutti i livelli (requisiti-UC, requisiti-CI, ecc.) e, da un punto di vista prettamente qualitativo, assicurare la necessità e la sufficienza dei casi d'uso e delle componenti software (\url{www.softwaresynthesis.org});
- \item \textbf{lacheck} ($\geq 1.26$) per assicurare la correttezza sintattica e l'adozione delle \inglese{best practices} per i sorgenti \LaTeX{} nonché rilevare in modo semi-automatico le sviste non segnalate dal compilatore in quanto pur corrispondendo a codice ben formato nascondono errori tipografici sottostanti per es.~bilanciamento delle virgolette, spaziature scorrette per frasi terminate da un acronimo prima di un punto, mancato utilizzo di spazi insecabili, ecc. (\url{www.ctan.org/pkg/lacheck});
- \item \textbf{hunspell} ($\geq 1.3$) come correttore ortografico e analizzatore morfologico in fase di redazione della documentazione, scelto per la sua portabilità ma anche  perché alle sue librerie si appoggia l'applicativo \textbf{TexMaker} utilizzato per la stesura dei documenti \LaTeX{} (\url{http://hunspell.sourceforge.net});
- \item le utilità che costituiscono la suite di \underline{QA} del W3C al fine di verificare l'aderenza agli standard delle pagine web generate, in particolar modo gli strumenti online:
- \begin{itemize}
-   \item \textbf{Unicorn} in qualità di strumento di validazione unificato (\url{http://validator.w3.org/unicorn});
-   \item \textbf{CSS Valitatom Service} come utilità di validazione per i fogli di stile a cascata (\url{http://jigsaw.w3.org/css-validator});
- \end{itemize}
- \item gli strumenti per sviluppatori integrati in \textbf{Google \underline{Chrome}} (\url{https://developers.google.com/chrome-developer-tools}) e, in particolare:
-   \begin{itemize}
-   \item la sezione \underline{Sources} che rappresenta un'interfaccia al \underline{debugger} per il motore \underline{JavaScript} V8 e consente di impostare \underline{breakpoint} (assoluti o condizionali) per seguire l'esecuzione del codice passo passo (con le consuete funzioni di \underline{''step over''}, \underline{''step into''} e \underline{''step out''}) nonché arrestare temporaneamente l'esecuzione al sollevamento di un'eccezione (o di un'eccezione non controllata);
-   \item la sezione \underline{Timeline} che permette di quantificare i tempi necessari al caricamento e all'esecuzione degli script, nonché di tracciare l'utilizzo della memoria e forzare l'invocazione del \inglese{garbage collector};
-   \item  gli strumenti di benchmark accessibili dalla sezione \underline{Profiles}, vale a dire il profiler della CPU, che permette di ricostruire l'albero delle chiamate di funzione e la percentuale di utilizzo della CPU per ciascuna funzione, e il profiler dello heap, mediante il quale è possibile ispezionare il contenuto dello heap e salvarne delle rappresentazioni istantanee;
-   \end{itemize}
-  \item \textbf{FirebugLite}, un'estensione per \underline{Chrome} che consente di ispezionare gli elementi \underline{HTML} e la struttura del \underline{DOM} nonché di modificare in tempo reale i valori delle proprietà dei \underline{CSS} (\url{https://getfirebug.com/firebuglite});
-  \item \textbf{SpeedTracer} uno strumento che consente di identificare i problemi di prestazioni nelle applicazioni web visualizzando una serie di metriche in tempo reale grazie all'analisi dei dati resi disponibili a livello di motore di rendering del \underline{browser} (\url{https://developers.google.com/web-toolkit/speedtracer});
-  \item \textbf{JSLint} analizzatore statico di codice \underline{JavaScript} volto a rilevare e impedire l'adozione inconsapevole di ''\underline{worst practices}'' in fase di codifica (\url{http://www.jslint.com});
-  \item \textbf{ApacheBench} per testare l'efficienza prestazionale dell'applicazione lato \underline{server} mediante la simulazione di un numero arbitrario di richieste da parte dei \underline{client} (\url{http://httpd.apache.org/docs/2.2/programs/ab.html});
-  \item \textbf{Eclipse} \underline{IDE} multipiattaforma e cross-language, scelto in particolare come ambiente di sviluppo per la parte \underline{server} da realizzarsi in \underline{Java}, che include al suo interno funzionalità di debugging (\url{http://www.eclipse.org}) utili ai fini della \underline{QA};
-  \item \underline{plugin} \textbf{Metrics} per Eclipse, estensione che permette di associare un valore su una scala di riferimento al soddisfacimento di una serie di parametri di qualità del codice sorgente o metriche, per cui si rimanda alla sezione \ref{sec:metrics} (\url{http://metrics.sourceforge.net});
-  \item il \underline{plugin} \textbf{FindBugs} per Eclipse, al fine di effettuare analisi statica del codice a livello di bytecode alla ricerca di potenziali cause di \underline{malfunzionamento} (\inglese{bug patterns}) o adozione inconsapevole di `worst practices' (\url{http://findbugs.sourceforge.net});
-  \item \textbf{JUnit} come framework per i test di unità da effettuarsi relativamente alla parte \underline{server} dell'applicazione (\url{http://www.junit.org});
-\end{itemize}
-
+\section{Misure, metriche e metodi}
 %\subsection{Tecniche}
 %Responsabili delle attività di controllo interne al gruppo sono i verificatori, che si presuppone essere in ogni caso e senza alcuna deroga distinti dai realizzatori del prodotto soggetto a verifica (programmatori o redattori di documentazione). Al fine di garantire la qualità, i verificatori sono tenuti all'utilizzo di due tecniche di analisi: statica e dinamica.
 %
@@ -425,8 +397,8 @@ In via preliminare, si prevede di utilizzare i seguenti metodi di analisi:
 \item{\textbf{analisi del flusso dei dati}} per scongiurare l'utilizzo inconsapevole di variabili non inizializzate e rilevare variabili inutilizzate o `write-only';
 \item{\textbf{analisi del flusso di informazione}} al fine di assicurare l'assenza di dipendenze fra valori di variabili incoerenti con quanto previsto in fase di design architetturale (a livello di modulo, di componente o di sistema nella sua totalità).
 \end{description}
-
 \clearpage
+
 \section{Gestione amministrativa della revisione}
 
 \subsection{Gestione anomalie e incongruenze}
@@ -473,12 +445,19 @@ Risulta evidente che è possibile intervenire in modo migliorativo su un process
 \clearpage
 \section{Resoconto delle attività di verifica}
 In questa sezione verranno descritte, nel prossimo aggiornamento, in che modo sono state effettuate le attività di verifica e i loro relativi esiti.
+% TODO:
+% completare questa sezione con l'esito delle attività di verifica per le attività di analisi e di progettazione architetturale
+
+\section{Esito delle revisioni}
+% TODO:
+% aggiungere dettaglio esito delle revisioni
 
 \section{Prossima versione Piano di Qualifica}
-E' stato preventivato che nella prossima versione del Piano di Qualifica (coerentemente alle norme di progetto redatte si tratterà della versione 2.0) saranno aggiornate le sezioni riguardanti:
+È stato preventivato che nella prossima versione del Piano di Qualifica (coerentemente alle norme di progetto redatte si tratterà della versione 2.0) saranno aggiornate le sezioni riguardanti:
 \begin{itemize}
 \item procedure di validazione del codice prodotto;
 \item resoconto finale delle attività di verifica della fase di progettazione;
-\item definizione definitiva degli strumenti software utilizzati.
+%\item definizione definitiva degli strumenti software utilizzati.
 \end{itemize}
+
 \end{document}
