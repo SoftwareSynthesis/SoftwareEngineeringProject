@@ -244,12 +244,29 @@ Quando un documento uscirà dalla fase di redazione, verrà preso in esame ed ef
 \end{itemize}
 
 \subsubsection{Progettazione}
-\begin{description}
-\item{\bfseries\scshape ad alto livello:}
-il processo di verifica garantirà la rintracciabilità nei componenti individuati durante la fase di Progettazione architetturale di ogni singolo requisito descritto nell'Analisi dei Requisiti. A tale scopo lo strumento che si è scelto di utilizzare è ancora \manager, nello specifico tramite il modulo relativo ai \textit{configuration item}.
 
-\item{\bfseries\scshape di dettaglio:}
-per ogni unità architetturale prodotta durante la fase di progettazione di dettaglio verrà effettuato un test di unità al fine di verificarne il comportamento dell'unità stessa rispetto a quello atteso in fase d'esecuzione. Tali test sono definiti da:
+\subsubsection*{Progettazione ad alto livello}
+Il processo di verifica garantirà la rintracciabilità nei componenti individuati durante la fase di Progettazione architetturale di ogni singolo requisito descritto nell'Analisi dei Requisiti. A tale scopo lo strumento che si è scelto di utilizzare è ancora \manager, nello specifico tramite il modulo relativo ai \textit{configuration item}.
+
+Tali verifiche verranno svolte al termine della stesura del documento di specifica tecnica e dell'aggiornamento dei documenti relativi al piano di progetto, piano di qualifica, norme di progetto, analisi dei requisiti.
+
+Al fine di garantire un'elevata qualità nell'architettura software elaborata durante la progettazione di alto livello, la verifica dovrà valutare la presenza delle seguenti proprietà:
+\begin{itemize}
+\item \textbf{necessità} ogni componente soddisfa almeno uno fra i requisiti emersi in fase di analisi;
+\item \textbf{sufficienza} l'architettura nel suo complesso è in grado di soddisfare tutti i requisiti;
+\item \textbf{modularità} è chiaramente definita la suddivisione delle varie componenti e il ruolo di ciascuna di esse;
+\item \textbf{flessibilità} permette modifiche a basso costo al variare dei requisiti;
+\item \textbf{affidabilità} consente un utilizzo corretto durante il funzionamento;
+\item \textbf{semplicità} ogni parte contiene tutto e solo ciò che è necessario al proprio funzionamento;
+\item \textbf{incapsulamento} le parti del sistema mantengono private le informazioni relative al proprio stato interno e permettono di accedervi solo attraverso le operazioni dell'interfaccia pubblica che espongono verso l'esterno;
+\item \textbf{coesione} le componenti che stanno assieme condividono lo stesso obiettivo;
+\item \textbf{basso accoppiamento} eventuali modifiche a una componente avranno bassa o nulla incidenza sul resto dell'architettura grazie al controllo delle relazioni di dipendenza.
+\end{itemize}
+
+Infine, i diagrammi UML riportati nel documento di specifica tecnica saranno sottoposti a verifica rispetto a quanto stabilito nella sezione 3.4 del documento \textit{norme\_di\_progetto.2.0.pdf}.
+
+\subsubsection*{Progettazione di dettaglio}
+Per ogni unità architetturale prodotta durante la fase di progettazione di dettaglio verrà effettuato un test di unità al fine di verificarne il comportamento dell'unità stessa rispetto a quello atteso in fase d'esecuzione. Tali test sono definiti da:
 \begin{itemize}
   \item Un oggetto su cui viene eseguito e gli obbiettivi del il test;
   \item la strategia e le risorse software utilizzate nella prova;
@@ -260,7 +277,6 @@ Allo scopo di ridurre al minimo la presenza di errori interni alle singole unit�
 
 Effettuati i test di unità si procederà con l'unione delle unità stesse in modo da poter effettuare i relativi test d'integrazione per verificare come le varie componenti del sistema interagiscono tra loro, evidenziando eventuali difetti di progettazione, e dipendenze (o incompatibilità) tra i diversi componenti architetturali.
 La pianificazione dei vari test da eseguire verrà fornita dal team di Software Synthesis una volta terminata la fase di progettazione di dettaglio.
-\end{description}
 
 \subsubsection{Codifica}
 I programmatori svolgeranno le attività di codifica del prodotto e i test di unità per la verifica del codice realizzato nel modo più automatizzato possibile.
