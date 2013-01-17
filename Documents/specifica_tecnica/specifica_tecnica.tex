@@ -1,0 +1,188 @@
+% analisi_dei_requisiti/analisi_dei_requisiti.tex
+
+%TODO:
+% sistemare date e autori sulla base del PdP!
+
+% **************************************************
+% Macro specifiche per il documento corrente
+% **************************************************
+% Nome
+\newcommand{\docName}{Specifica tecnica}
+% Nome file
+\newcommand{\docFileName}{specifica\_tecnica.1.0.pdf}
+% Versione
+\newcommand{\docVers}{0.1}
+% Data creazione
+\newcommand{\creationDate}{2013-01-16}
+% Data ultima modifica
+\newcommand{\modificationDate}{2013-01-16}
+% Stato in {Approvato, Non approvato}
+\newcommand{\docState}{Non approvato}
+% Uso in {Interno, Esterno}
+\newcommand{\docUsage}{Interno}
+% Destinatari da specificare come nome1\\ &nome2\\ ecc.
+\newcommand{\docDistributionList}{Progettisti del team}
+% Redattori da specificare come nome1\\ &nome2\\ ecc.
+\newcommand{\docAuthors}{}
+% Approvato da
+\newcommand{\approvedBy}{}
+% Verificatori
+\newcommand{\verifiedBy}{}
+% Perscorso (relativo o assoluto) che punta alla directory contenente shared/
+% come sua sottodirectory (per comodità chiamiamola 'doc root').
+\newcommand{\docRoot}{..}
+% definire se si vuole l'indice delle tabelle
+\def\INDICETABELLE{false}
+% definire se si vuole l'indice delle figure
+\def\INDICEFIGURE{false}
+
+
+% importa il preambolo condiviso da tutti i documenti
+\input{\docRoot/shared/preamble.tex}
+
+% Fine del preambolo e inizio del documento
+\begin{document}
+
+% Inclusione della prima pagina
+\input{\docRoot/shared/firstpage.tex}
+
+% Storico delle modifiche
+\section*{Storia delle modifiche}
+\begin{center}
+\begin{longtable}{lp{.32\textwidth}lll}
+\toprule
+Versione & Descrizione intervento & Membro & Ruolo & Data\\
+\midrule % inserire qui il contenuto della tabella
+0.1 & Creazione del documento e stesura della sezione ``Introduzione''. & Andrea Rizzi & Non lo so & 2013-01-16\\
+\bottomrule
+\end{longtable}
+\end{center}
+\newpage
+
+% inclusione dell'indice
+\input{\docRoot/shared/toc.tex}
+
+% Alcuni aggiustamenti per le pagine
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\pagestyle{normal}
+
+% Qui ha inizio il documento vero e proprio...
+
+\newpage
+
+\section{Introduzione}
+\subsection{Scopo del prodotto}
+\purpose
+
+\subsection{Scopo del documento}
+Il presente documento è stato redatto al fine di produrre le specifiche sulla progettazione ad alto livello, del prodotto MyTalk. A tal fine il documento presenterà:
+
+\begin{itemize}
+	\item Un elenco con le specifiche dei design pattern utilizzati. Per ogni design pattern sarà fornita: una breve descrizione riguardante la struttura generale, il motivo per cui è stato scelto e di conseguenza usato, e l'elenco dei contesti dove è stato utilizzato il design patterns.
+	\item Una descrizione dettagliata dei componenti rilevati in fase di progettazione indicando il tipo,
+la funzione e l'obbiettivo.
+	\item L'architettura d'alto livello del sistema.
+	\item I diagrammi UML per definire i flussi principali di controllo dell'applicativo.
+	\item Il tracciamento dei requisiti e delle componenti, negli schemi: requisiti-componeneti e componenti-requisiti.
+\end{itemize}
+
+\subsection{Glossario}
+\glossaryIntro
+
+\clearpage
+\section{Riferimenti}
+
+\subsection{Normativi}
+\begin{itemize}
+\item[] \textit{piano\_di\_qualifica.2.0.pdf} allegato.
+\item[] \textit{norme\_di\_progetto.2.0.pdf} allegato.
+\item[] \textit{analisi\_dei\_requisiti.2.0.pdf} allegato
+\end{itemize}
+
+\subsection{Informativi}
+\begin{itemize}
+\item[] Capitolato d'appalto: \caName{}, v1.0, redatto e rilasciato dal proponente Zucchetti s.r.l. reperibile all'indirizzo \url{http://www.math.unipd.it/~tullio/IS-1/2012/Progetto/C1.pdf};
+\item[] testo di consultazione: \textit{Software Engineering (8th edition) Ian Sommerville, Pearson Education | Addison Wesley};
+\item[] manuale all'utilizzo dei design pattens: \textit{Design Patterns, Elementi per il riuso di software a oggetti - (1/Ed. italiana) Eric Gamma, Richard Helm, Ralph Johnson, John Vlissides, Pearson Education};
+\item[] \textit{glossario.1.0.pdf} allegato.
+\end{itemize}
+
+\clearpage
+\section{Design Pattern}
+\subsection{Template descrizione design pattern}
+\subsubsection{Descrizione}
+\subsubsection{Schema in UML}
+\subsubsection{Motivazione}
+\subsubsection{Configuration Item che lo implementano}
+%mettere in evidenza le CI che lo usano, elencandole per schema architetturale: CI del Server, CI per ClientUniversale, CI per Client
+\clearpage
+\section{Introduzione all'architettura di sistema}
+\clearpage
+\section{Architettura MyTalk-Server}
+\subsection{Componenti evidenziate}
+\subsubsection{Template della componente X}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Diagramma del package:}
+	\item{\scshape\bfseries Classi utilizzate:} 
+\end{description}
+\subsection{Classi utilizzate}
+\subsubsection{Template classe X}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Diagramma della classe:}
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+\subsection{Diagramma del package}
+\subsection{Diagramma delle classi}
+\clearpage
+\section{Architettura MyTalk-ClientUniversale}
+\subsection{Componenti evidenziate}
+\subsubsection{Template della componente X}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Diagramma del package:}
+	\item{\scshape\bfseries Classi utilizzate:} 
+\end{description}
+\subsection{Classi utilizzate}
+\subsubsection{Template classe X}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Diagramma della classe:}
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+\subsection{Diagramma del package}
+\subsection{Diagramma delle classi}
+\clearpage
+\section{Architettura MyTalk-ClientSoftwareSynthesis}
+\subsection{Componenti evidenziate}
+\subsubsection{Template della componente X}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Diagramma del package:}
+	\item{\scshape\bfseries Classi utilizzate:} 
+\end{description}
+\subsection{Classi utilizzate}
+\subsubsection{Template classe X}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Diagramma della classe:}
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+\subsection{Diagramma del package}
+\subsection{Diagramma delle classi}
+\clearpage
+\section{Conclusioni sull'architettura}
+\subsection{Diagrammi delle attività}
+\subsection{Diagrammi di sequenza}
+\clearpage
+\section{Tracciamenti}
+\subsection{Tracciamenti Requisiti-Componenti}
+\subsection{Tracciamenti Componenti-Requisiti}
+\subsection{Tracciamenti Componenti-DesignPattern}
+\subsection{Tracciamenti DesignPattern-Componenti}
+\subsection{Tracciamenti Componenti-Classi}
+\subsection{Tracciamenti Classi-Componenti}
+
+\end{document}
