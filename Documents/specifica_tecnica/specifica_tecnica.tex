@@ -15,13 +15,13 @@
 % Data creazione
 \newcommand{\creationDate}{2013-01-16}
 % Data ultima modifica
-\newcommand{\modificationDate}{2013-01-16}
+\newcommand{\modificationDate}{2013-01-17}
 % Stato in {Approvato, Non approvato}
 \newcommand{\docState}{Non approvato}
 % Uso in {Interno, Esterno}
 \newcommand{\docUsage}{Interno}
 % Destinatari da specificare come nome1\\ &nome2\\ ecc.
-\newcommand{\docDistributionList}{Progettisti del team}
+\newcommand{\docDistributionList}{Team SoftwareSynthesis}
 % Redattori da specificare come nome1\\ &nome2\\ ecc.
 \newcommand{\docAuthors}{}
 % Approvato da
@@ -46,6 +46,16 @@
 % Inclusione della prima pagina
 \input{\docRoot/shared/firstpage.tex}
 
+%---------------------------RUOLI----------------------------
+%FASE 1:
+%Progettisti: TRES, STEFANO, SCHIVO;
+%FASE 2:
+%Progettisti: DIEGO, ELENA, RIZZI
+
+%Verificatore: Andrea Meneghinello
+%Responsabile finale TRES
+%------------------------------------------------------------
+
 % Storico delle modifiche
 \section*{Storia delle modifiche}
 \begin{center}
@@ -53,7 +63,8 @@
 \toprule
 Versione & Descrizione intervento & Membro & Ruolo & Data\\
 \midrule % inserire qui il contenuto della tabella
-0.1 & Creazione del documento e stesura della sezione ``Introduzione''. & Andrea Rizzi & Non lo so & 2013-01-16\\
+0.2 & Stesura dell'introduzione ai design pattern. Stesura dell'introduzione ai tracciamenti. & Stefano Farronato & Progettista & 2013-01-17\\
+0.1 & Creazione del documento e stesura della sezione ``Introduzione''. & Riccardo Tresoldi & Progettista & 2013-01-16\\
 \bottomrule
 \end{longtable}
 \end{center}
@@ -110,14 +121,28 @@ la funzione e l'obbiettivo.
 
 \clearpage
 \section{Design Pattern}
+In questa sezione discuteremo i design pattern utilizzati nella progettazione delle componenti. Ogni desing pattern sarà proposto con la seguente forma:
+
+\begin{itemize}
+	\item \textbf{Scopo}: verrà proposto lo scopo generico del pattern, al fine di evidenziare subito la sua utilità.
+	\item \textbf{Motivazione}: verrà definito perché l'applicativo necessita di tale pattern, in relazione alle componenti che lo dovranno utilizzare.
+	\item \textbf{Diagramma esemplificativo}: si riporterà lo schema UML, rappresentante un implementazione generica del design pattern in esame.
+	\item \textbf{Vantaggi derivanti}: si darà un elenco dei vantaggi apportati dall'utilizzo del pattern, in particolare sotto il profilo della manutenzione e del riuso del codice.
+	\item \textbf{Componenti che lo implementano}: infine verranno elencati i componenti dell'architettura di sistema, che implementano il pattern descritto.
+\end{itemize}
+
+Per una visione d'insieme dei delle componenti utilizzate da un pattern, e dei pattern utilizzati da un componente, rimandiamo alle sottosezioni ``Tracciamenti Componenti-DesignPattern'' e ``Tracciamenti DesignPattern-Componenti'' della sezione ``Tracciamenti''.
+
 \subsection{Template descrizione design pattern}
-\subsubsection{Descrizione}
-\subsubsection{Schema in UML}
+\subsubsection{Scopo}
 \subsubsection{Motivazione}
-\subsubsection{Configuration Item che lo implementano}
-%mettere in evidenza le CI che lo usano, elencandole per schema architetturale: CI del Server, CI per ClientUniversale, CI per Client
+\subsubsection{Diagramma esemplificativo}
+\subsubsection{Vantaggi derivanti}
+\subsubsection{Componenti che lo implementano}
+
 \clearpage
 \section{Introduzione all'architettura di sistema}
+
 \clearpage
 \section{Architettura MyTalk-Server}
 \subsection{Componenti evidenziate}
@@ -136,6 +161,7 @@ la funzione e l'obbiettivo.
 \end{description}
 \subsection{Diagramma del package}
 \subsection{Diagramma delle classi}
+
 \clearpage
 \section{Architettura MyTalk-ClientUniversale}
 \subsection{Componenti evidenziate}
@@ -154,6 +180,7 @@ la funzione e l'obbiettivo.
 \end{description}
 \subsection{Diagramma del package}
 \subsection{Diagramma delle classi}
+
 \clearpage
 \section{Architettura MyTalk-ClientSoftwareSynthesis}
 \subsection{Componenti evidenziate}
@@ -172,12 +199,21 @@ la funzione e l'obbiettivo.
 \end{description}
 \subsection{Diagramma del package}
 \subsection{Diagramma delle classi}
+
 \clearpage
 \section{Conclusioni sull'architettura}
 \subsection{Diagrammi delle attività}
 \subsection{Diagrammi di sequenza}
+
 \clearpage
 \section{Tracciamenti}
+Nella seguente sezione vengono proposti tutti i tracciamenti eseguiti mediante il sistema Synthsis Requirment Manager. I tracciamenti proposti sono giustificati dalle seguenti due motivazioni:
+
+\begin{itemize}
+	\item Dimostrare il soddisfacimento per necessarietà e sufficienza della corrispondenza tra gli elementi tracciati (e.g. una componente deve rispondere necessariamente alle esigenze di uno o più requisiti, tali insomma che ne giustifichino l'esistenza. D'altro canto è richiesto che ogni requisito definito in fase d'analisi sia soddisfatto e risolto da almeno una componente).
+	\item dare una lettura generale delle varie: componenti, requisiti, design patter e classi.
+\end{itemize}
+
 \subsection{Tracciamenti Requisiti-Componenti}
 \subsection{Tracciamenti Componenti-Requisiti}
 \subsection{Tracciamenti Componenti-DesignPattern}
