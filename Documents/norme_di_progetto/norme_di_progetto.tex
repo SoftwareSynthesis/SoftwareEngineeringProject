@@ -1,13 +1,3 @@
-% shared/template.tex
-%
-% Contiene un modello di documento che deve essere copiato e opportunamente
-% modificato per creare i documenti 'concreti' di progetto. Definisce le macro
-% specifiche per il documento corrente, importa la parte di preambolo condivisa
-% e le pagine comuni a tutti i documenti.
-% In particolare, per ogni documento concreto occorre per prima cosa aggiornare
-% le macro, inserire una voce nella tabella delle modifiche e inserire il testo
-% (o includere file sorgenti esterni) a partire dalla riga 66 in poi.
-
 % **************************************************
 % Macro specifiche per il documento corrente
 % **************************************************
@@ -622,11 +612,11 @@ Si riporta a continuazione un elenco dei principali strumenti per la verifica di
  \end{itemize}
  \item gli strumenti per sviluppatori integrati in \textbf{Google \underline{Chrome}} (\url{https://developers.google.com/chrome-developer-tools}) e, in particolare:
    \begin{itemize}
-   \item la sezione \underline{Sources} che rappresenta un'interfaccia al \underline{debugger} per il motore \underline{JavaScript} V8 e consente di impostare \underline{breakpoint} (assoluti o condizionali) per seguire l'esecuzione del codice passo passo (con le consuete funzioni di \underline{``step over''}, \underline{``step into''} e \underline{``step out''}) nonché arrestare temporaneamente l'esecuzione al sollevamento di un'eccezione (o di un'eccezione non controllata);
-   \item la sezione \underline{Timeline} che permette di quantificare i tempi necessari al caricamento e all'esecuzione degli script, nonché di tracciare l'utilizzo della memoria e forzare l'invocazione del \inglese{garbage collector};
+   \item la sezione Sources che rappresenta un'interfaccia al \underline{debugger} per il motore \underline{JavaScript} V8 e consente di impostare \underline{breakpoint} (assoluti o condizionali) per seguire l'esecuzione del codice passo passo (con le consuete funzioni di \underline{``step over''}, \underline{``step into''} e \underline{``step out''}) nonché arrestare temporaneamente l'esecuzione al sollevamento di un'eccezione (o di un'eccezione non controllata);
+   \item la sezione Timeline che permette di quantificare i tempi necessari al caricamento e all'esecuzione degli script, nonché di tracciare l'utilizzo della memoria e forzare l'invocazione del \inglese{garbage collector};
    \item  gli strumenti di benchmark accessibili dalla sezione \underline{Profiles}, vale a dire il profiler della CPU, che permette di ricostruire l'albero delle chiamate di funzione e la percentuale di utilizzo della CPU per ciascuna funzione, e il profiler dello heap, mediante il quale è possibile ispezionare il contenuto dello heap e salvarne delle rappresentazioni istantanee;
    \end{itemize}
-  \item \textbf{FirebugLite}, un'estensione per \underline{Chrome} che consente di ispezionare gli elementi \underline{HTML} e la struttura del \underline{DOM} nonché di modificare in tempo reale i valori delle proprietà dei \underline{CSS} (\url{https://getfirebug.com/firebuglite});
+  \item FirebugLite, un'estensione per \underline{Chrome} che consente di ispezionare gli elementi \underline{HTML} e la struttura del \underline{DOM} nonché di modificare in tempo reale i valori delle proprietà dei \underline{CSS} (\url{https://getfirebug.com/firebuglite});
   \item \textbf{SpeedTracer} uno strumento che consente di identificare i problemi di prestazioni nelle applicazioni web visualizzando una serie di metriche in tempo reale grazie all'analisi dei dati resi disponibili a livello di motore di rendering del \underline{browser} (\url{https://developers.google.com/web-toolkit/speedtracer});
   \item \textbf{JSLint} analizzatore statico di codice \underline{JavaScript} volto a rilevare e impedire l'adozione inconsapevole di ``\underline{worst practices}'' in fase di codifica (\url{http://www.jslint.com});
   \item \textbf{ApacheBench} per testare l'efficienza prestazionale dell'applicazione lato \underline{server} mediante la simulazione di un numero arbitrario di richieste da parte dei \underline{client} (\url{http://httpd.apache.org/docs/2.2/programs/ab.html});
@@ -669,7 +659,7 @@ In base al loro ambito di applicazione, i test possono essere suddivisi in:
 La verifica di un documento avviene nel momento in cui il redattore ha finito di redigere completamente il documento. Tale \underline{processo} avverrà principalmente in tre fasi:
 \begin{enumerate}
 \item Si procederà con un'analisi ortografica, compreso il corretto uso della punteggiatura, degli accenti e degli apostrofi. Per far ciò il verificatore potrà aiutarsi con lo strumento ``Verifica ortografia'' presente in TexMaker raggiungibile dalla scheda ``Modifica->Verifica Ortografia''. Successivamente controllerà l'assenza di errori grammaticali, logici e sintattici nei periodi ed infine la coerenza del documento con le norme previste nella sezione \ref{sec:ambiente_documentale} ``Ambiente documentale''.
-\item Se è la prima volta che il documento viene verificato, il verificatore procederà con un metodo di tipo \underline{walkthrougth}, come descritto in sezione \ref{analisi_statica}. Se invece il documento era già stato verificato e rimandato per via di errori, si adopererà un metodo di tipo \underline{inspection},come descritto in sezione \ref{analisi_statica}.
+\item Se è la prima volta che il documento viene verificato, il verificatore procederà con un metodo di tipo \underline{walkthrough}, come descritto in sezione \ref{analisi_statica}. Se invece il documento era già stato verificato e rimandato per via di errori, si adopererà un metodo di tipo \underline{inspection},come descritto in sezione \ref{analisi_statica}.
 \item Il verificatore prenderà nota in modo ordinato di tutti gli errori riscontrati e procederà con la creazione dei \underline{tickets} relativi che saranno rivolti al redattore del documento come descritto nella sezione \ref{sec:ciclo_vita_ticket} ``Ciclo di vita di un \underline{Ticket}''.
 \end{enumerate}
 
