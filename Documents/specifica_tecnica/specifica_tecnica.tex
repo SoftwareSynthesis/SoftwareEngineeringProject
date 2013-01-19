@@ -1,8 +1,3 @@
-% analisi_dei_requisiti/analisi_dei_requisiti.tex
-
-%TODO:
-% sistemare date e autori sulla base del PdP!
-
 % **************************************************
 % Macro specifiche per il documento corrente
 % **************************************************
@@ -35,7 +30,6 @@
 \def\INDICETABELLE{false}
 % definire se si vuole l'indice delle figure
 \def\INDICEFIGURE{false}
-
 
 % importa il preambolo condiviso da tutti i documenti
 \input{\docRoot/shared/preamble.tex}
@@ -133,11 +127,42 @@ In questa sezione discuteremo i design pattern utilizzati nella progettazione de
 
 Per una visione d'insieme dei delle componenti utilizzate da un pattern, e dei pattern utilizzati da un componente, rimandiamo alle sottosezioni ``Tracciamenti Componenti-DesignPattern'' e ``Tracciamenti DesignPattern-Componenti'' della sezione ``Tracciamenti''.
 
-\subsection{Template descrizione design pattern}
+%\subsection{Template descrizione design pattern}
+%\subsubsection{Scopo}
+%\subsubsection{Motivazione}
+%\subsubsection{Diagramma esemplificativo}
+%\subsubsection{Vantaggi derivanti}
+%\subsubsection{Componenti che lo implementano}
+
+\subsection{Model-View-Presenter}
+
 \subsubsection{Scopo}
+Il pattern architetturale \foreignlanguage{english}{Model-View-Presenter} (d'ora in avanti MVP), similmente a quanto accade per \foreignlanguage{english}{Model-View-Controller} (MVC), ha lo scopo di mantenere separata la \textit{business logic}, cioè la gestione dei dati secondo le regole di un determinato dominio e la loro memorizzazione in forma persistente, dalla presentazione e manipolazione mediante interfaccia utente.
+
+Mantenere questi due aspetti separati ha il vantaggio di ridurre l'accoppiamento fra le componenti del sistema permettendo, ad esempio, di modificare la grafica (View) senza dover per questo preoccuparsi delle operazioni di aggiornamento dei dati.
+
 \subsubsection{Motivazione}
+MVP, concepito alla fine degli anni '70, è ritornato in auge con la diffusione di JavaScript come linguaggio di programmazione per la computazione lato \underline{client} allo scopo di superare le difficoltà che emergevano applicando MVC in un contesto distribuito in cui non tutte le componenti risiedono sullo stesso host.
+
+Un'applicazione rigorosa di MVC porterebbe infatti a far risiedere tanto la \textit{business logic} racchiusa nel Model quanto la \textit{application logic} di cui si occupa il Controller sul \underline{server}, lasciando la sola visualizzazione grafica dei dati e la ricezione dell'input utente tramite interfaccia grafica al \underline{client}, che non ha dunque alcuna esigenza di eseguire computazione localmente (\textit{thin client}).
+
+Il problema principale di una simile configurazione sta nel massiccio impiego dell'infrastruttura di rete per gestire le comunicazioni fra la View (isolata sul \underline{client}) e le altre componenti, che implica potenzialmente a un decadimento prestazionale (e quindi una peggiore esperienza utente) nel caso in cui la rete non sia sufficientemente affidabile e/o veloce.
+
+MVP mantiene intatto il principio mutuato da MVC secondo cui i dati e la \textit{business logic} devono risiedere sul \underline{server} e la View sul \underline{client} ma introduce una nuova componente chiamata Presenter, ancora sul \underline{client}, che interagisce con la View modificandola e incapsulando parte della \textit{application logic} da un lato ed è responsabile di effettuare le operazioni sul Model dall'altro.
+
+Il grande vantaggio nell'utilizzo di MVP rispetto a MVC è che per tutte le operazioni che non coinvolgono direttamente il modello non è necessario appoggiarsi alla connessione di rete in quanto tutti i dati e la logica necessaria sono già disponibili sul \underline{client}.
+
+A differenza di MVC, però, in MVP l'accoppiamento fra View e Presenter è più stretto e, in genere, in genere vi è una corrispondenza biunivoca fra l'una e l'altro (mentre in MVC uno stesso Controller può occuparsi di gestire più viste al contempo).
+
 \subsubsection{Diagramma esemplificativo}
+\begin{figure}[h]
+\centering
+\includegraphics[width=.7\textwidth]{mvpHLdiagram}
+\caption{Diagramma ad alto livello del pattern MVP.}\label{fig:mvpHL}
+\end{figure}
+
 \subsubsection{Vantaggi derivanti}
+
 \subsubsection{Componenti che lo implementano}
 
 \clearpage
@@ -145,80 +170,105 @@ Per una visione d'insieme dei delle componenti utilizzate da un pattern, e dei p
 
 \clearpage
 \section{Architettura MyTalk-Server}
+
 \subsection{Componenti evidenziate}
+
 \subsubsection{Template della componente X}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:} 
 	\item{\scshape\bfseries Diagramma del package:}
 	\item{\scshape\bfseries Classi utilizzate:} 
 \end{description}
+
 \subsection{Classi utilizzate}
+
 \subsubsection{Template classe X}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:} 
 	\item{\scshape\bfseries Diagramma della classe:}
 	\item{\scshape\bfseries Componenti che ne fanno uso:} 
 \end{description}
-\subsection{Diagramma del package}
-\subsection{Diagramma delle classi}
 
+\subsection{Diagramma del package}
+
+\subsection{Diagramma delle classi}
 \clearpage
+
 \section{Architettura MyTalk-ClientUniversale}
+
 \subsection{Componenti evidenziate}
+
 \subsubsection{Template della componente X}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:} 
 	\item{\scshape\bfseries Diagramma del package:}
 	\item{\scshape\bfseries Classi utilizzate:} 
 \end{description}
+
 \subsection{Classi utilizzate}
+
 \subsubsection{Template classe X}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:} 
 	\item{\scshape\bfseries Diagramma della classe:}
 	\item{\scshape\bfseries Componenti che ne fanno uso:} 
 \end{description}
-\subsection{Diagramma del package}
-\subsection{Diagramma delle classi}
 
+\subsection{Diagramma del package}
+
+\subsection{Diagramma delle classi}
 \clearpage
+
 \section{Architettura MyTalk-ClientSoftwareSynthesis}
+
 \subsection{Componenti evidenziate}
+
 \subsubsection{Template della componente X}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:} 
 	\item{\scshape\bfseries Diagramma del package:}
 	\item{\scshape\bfseries Classi utilizzate:} 
 \end{description}
+
 \subsection{Classi utilizzate}
+
 \subsubsection{Template classe X}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:} 
 	\item{\scshape\bfseries Diagramma della classe:}
 	\item{\scshape\bfseries Componenti che ne fanno uso:} 
 \end{description}
+
 \subsection{Diagramma del package}
+
 \subsection{Diagramma delle classi}
-
 \clearpage
+
 \section{Conclusioni sull'architettura}
-\subsection{Diagrammi delle attività}
-\subsection{Diagrammi di sequenza}
 
+\subsection{Diagrammi delle attività}
+
+\subsection{Diagrammi di sequenza}
 \clearpage
+
 \section{Tracciamenti}
 Nella seguente sezione vengono proposti tutti i tracciamenti eseguiti mediante il sistema Synthsis Requirment Manager. I tracciamenti proposti sono giustificati dalle seguenti due motivazioni:
 
 \begin{itemize}
 	\item Dimostrare il soddisfacimento per necessarietà e sufficienza della corrispondenza tra gli elementi tracciati (e.g. una componente deve rispondere necessariamente alle esigenze di uno o più requisiti, tali insomma che ne giustifichino l'esistenza. D'altro canto è richiesto che ogni requisito definito in fase d'analisi sia soddisfatto e risolto da almeno una componente).
-	\item dare una lettura generale delle varie: componenti, requisiti, design patter e classi.
+	\item dare una lettura generale delle varie: componenti, requisiti, design pattern e classi.
 \end{itemize}
 
 \subsection{Tracciamenti Requisiti-Componenti}
+
 \subsection{Tracciamenti Componenti-Requisiti}
+
 \subsection{Tracciamenti Componenti-DesignPattern}
+
 \subsection{Tracciamenti DesignPattern-Componenti}
+
 \subsection{Tracciamenti Componenti-Classi}
+
 \subsection{Tracciamenti Classi-Componenti}
 
 \end{document}
