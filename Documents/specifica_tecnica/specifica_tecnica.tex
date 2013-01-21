@@ -84,7 +84,7 @@ Versione & Descrizione intervento & Membro & Ruolo & Data\\
 Il presente documento è stato redatto al fine di produrre le specifiche sulla progettazione ad alto livello, del prodotto MyTalk. A tal fine il documento presenterà:
 
 \begin{itemize}
-	\item Un elenco con le specifiche dei design pattern utilizzati. Per ogni design pattern sarà fornita: una breve descrizione riguardante la struttura generale, il motivo per cui è stato scelto e di conseguenza usato, e l'elenco dei contesti dove è stato utilizzato il design patterns.
+	\item Un elenco con le specifiche dei design pattern utilizzati.
 	\item Una descrizione dettagliata dei componenti rilevati in fase di progettazione indicando il tipo,
 la funzione e l'obbiettivo.
 	\item L'architettura d'alto livello del sistema.
@@ -182,6 +182,20 @@ Questo pattern va utilizzato negli ambiti in cui si ha la necessità che l'acces
 
 \subsubsection{Vantaggi derivanti}
 
+\subsubsection{Componenti che lo implementano}
+
+\subsection{State}
+\subsubsection{Scopo}
+Permette ad un oggetto di cambiare il suo comportamento al variare del suo stato interno. L'oggetto si comporterà come se avesse cambiato la sua classe.
+\subsubsection{Motivazione}
+Come scritto sopra, questo design pattern è utile per oggetti che possono cambiare stato a run-time e a volte tale cambiamento di stato implica (o dovrebbe implicare) un cambiamento di comportamento. La scelta d'uso nel nostro applicativo è dovuta alla gestione dello stato di un utente che può variare da ''disponibile'' e ''non disponibile''. Questo significa che le richieste ricevute da un utente avranno comportamenti diversi a seconda dello stato dell'utente stesso.
+\subsubsection{Diagramma esemplificativo}
+\begin{figure}[h]
+\centering
+\includegraphics[width=.8\textwidth]{DesignPatternState}
+\caption{Diagramma ad alto livello del pattern State.}\label{fig:state}
+\end{figure}
+\subsubsection{Vantaggi derivanti}
 \subsubsection{Componenti che lo implementano}
 
 \clearpage
