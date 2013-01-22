@@ -129,9 +129,12 @@ Per una visione d'insieme dei delle componenti utilizzate da un pattern, e dei p
 
 %\subsection{Template descrizione design pattern}
 %\subsubsection{Scopo}
-%\subsubsection{Motivazione}
 %\subsubsection{Diagramma esemplificativo}
 %\subsubsection{Vantaggi derivanti}
+%\begin{itemize}
+%\item
+%\item
+%\end{itemize}
 %\subsubsection{Componenti che lo implementano}
 
 \subsection{Model-View-Presenter}
@@ -169,10 +172,8 @@ A differenza di MVC, però, in MVP l'accoppiamento fra View e Presenter è più 
 \subsection{Singleton}
 
 \subsubsection{Scopo}
-Il pattern creazionale Singleton, garantisce che una determinata classe possa essere istanziata una e una sola volta, e di fornirne un punto di accesso globale.
+Il pattern creazionale Singleton, garantisce che una determinata classe possa essere istanziata una sola volta, e di fornirne un punto di accesso globale. Questo pattern va utilizzato negli ambiti in cui si ha la necessità che l'accesso ad una determinata entità sia unico, in modo da permettere la gestione ottimale della risorsa stessa.
 
-\subsubsection{Motivazione}
-Questo pattern va utilizzato negli ambiti in cui si ha la necessità che l'accesso ad una determinata entità sia unico, in modo da permettere la gestione ottimale della risorsa stessa. In questo modo si evita inoltre la proliferazione di variabili globali per condividere risorse con più parti del sistema, inoltre si raggiunge un controllo completo di come e quando i client accedono all'interfaccia.
 \subsubsection{Diagramma esemplificativo}
 \begin{figure}[h]
 \centering
@@ -181,14 +182,17 @@ Questo pattern va utilizzato negli ambiti in cui si ha la necessità che l'acces
 \end{figure}
 
 \subsubsection{Vantaggi derivanti}
+\begin{itemize}
+\item accesso controllato a un'unica istanza;
+\item riduzione dello spazio dei nomi in quanto riduce l'uso di variabili globali;
+\item permette di gestire un numero variabile di istanze.
+\end{itemize}
 
 \subsubsection{Componenti che lo implementano}
 
 \subsection{State}
 \subsubsection{Scopo}
-Permette ad un oggetto di cambiare il suo comportamento al variare del suo stato interno. L'oggetto si comporterà come se avesse cambiato la sua classe.
-\subsubsection{Motivazione}
-Come scritto sopra, questo design pattern è utile per oggetti che possono cambiare stato a run-time e a volte tale cambiamento di stato implica (o dovrebbe implicare) un cambiamento di comportamento. La scelta d'uso nel nostro applicativo è dovuta alla gestione dello stato di un utente che può variare da ''disponibile'' e ''non disponibile''. Questo significa che le richieste ricevute da un utente avranno comportamenti diversi a seconda dello stato dell'utente stesso.
+Permette ad un oggetto di cambiare il suo comportamento al variare del suo stato interno, quindi a run-time. L'oggetto si comporterà come se avesse cambiato la sua classe.
 \subsubsection{Diagramma esemplificativo}
 \begin{figure}[h]
 \centering
@@ -196,6 +200,69 @@ Come scritto sopra, questo design pattern è utile per oggetti che possono cambi
 \caption{Diagramma ad alto livello del pattern State.}\label{fig:state}
 \end{figure}
 \subsubsection{Vantaggi derivanti}
+\begin{itemize}
+\item specializza il comportamento associato ad uno stato;
+\item rende esplicita la transazione si stato (tale condizione è espressa esplicitamente);
+\item condivisione di oggetti di stato.
+\end{itemize}
+
+\subsubsection{Componenti che lo implementano}
+
+\subsection{Composite}
+\subsubsection{Scopo}
+Il pattern Composite ha lo scopo di comporre oggetti in strutture ad albero al fine di rappresentare gerarchie parte-tutto e consentire ai client di trattare oggetti singoli e composizioni in modo uniforme. Permette inoltre di gestire strutture dati gerarchicizzate con elementi "foglie" ed elementi "contenitori", l'ideale per la struttura "gruppo" e "utente".
+\subsubsection{Diagramma esemplificativo}
+\subsubsection{Vantaggi derivanti}
+\begin{itemize}
+\item definisce gerarchie di classi costituite da oggetti primitivi e composti;
+\item semplifica il client in quanto posso trattare oggetti singoli e strutture astratte in modo uniforme;
+\item rende più semplice l'aggiunta di nuovi componenti.
+\end{itemize}
+\subsubsection{Componenti che lo implementano}
+
+\subsection{Data Access Object (DAO)}
+\subsubsection{Scopo}
+Il pattern DAO ha lo scopo di disaccoppiare la logica di business dalla logica di accesso ai dati. Questo si ottiene spostando la logica di accesso ai dati dai componenti di business ad una classe DAO rendendo i componenti che implementano la logica di business indipendenti dalla natura del dispositivo di persistenza. Questo approccio garantisce che un eventuale cambiamento del dispositivo di persistenza non comporti modifiche sui componenti di business.
+\subsubsection{Diagramma esemplificativo}
+\subsubsection{Vantaggi derivanti}
+\begin{itemize}
+\item stratifica e isola l'accesso ad una tabella dalla parte di business logic;
+\item crea un maggiore livello di astrazione;
+\item mantiene una rigida separazione tra le componenti di un'applicazione (Model - Controller).
+\end{itemize}
+\subsubsection{Componenti che lo implementano}
+
+\subsection{Factory Method}
+\subsubsection{Scopo}
+Definisce un'interfaccia per la creazione di un oggetto, lasciando alle sottoclassi la decisione sulla classe che deve essere istanziata e consente di deferire l'istanziazione di una classe alle sottoclassi.
+\subsubsection{Diagramma esemplificativo}
+\subsubsection{Vantaggi derivanti}
+\begin{itemize}
+\item fornisce un punto di aggancio per le sottoclassi per la produzione di una versione specializzata di un oggetto;
+\item connette gerarchie di classi parallele;
+\end{itemize}
+\subsubsection{Componenti che lo implementano}
+
+\subsection{Adapter}
+\subsubsection{Scopo}
+Convertire l'interfaccia di una classe in un altra interfaccia richiesta dal client e consente a classi diverse di operare insieme quando ciò non sarebbe altrimenti possibile a causa di interfacce incompatibili.
+\subsubsection{Diagramma esemplificativo}
+\subsubsection{Vantaggi derivanti}
+\begin{itemize}
+\item consente di adattare una classe esistente senza doverla ridefinire;
+\item un unico oggetto può adattare più classi.
+\end{itemize}
+\subsubsection{Componenti che lo implementano}
+
+\subsection{Façade}
+\subsubsection{Scopo}
+Fornire un interfaccia unificata per un insieme di interfacce presenti in un sottosistema. Façade definisce un interfaccia di livello più alto che rende il sottosistema più semplice da utilizzare.
+\subsubsection{Diagramma esemplificativo}
+\subsubsection{Vantaggi derivanti}
+\begin{itemize}
+\item ;
+\item .
+\end{itemize}
 \subsubsection{Componenti che lo implementano}
 
 \clearpage
