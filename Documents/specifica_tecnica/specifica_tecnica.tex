@@ -119,13 +119,12 @@ In questa sezione discuteremo i design pattern utilizzati nella progettazione de
 
 \begin{itemize}
 	\item \textbf{Scopo}: verrà proposto lo scopo generico del pattern, al fine di evidenziare subito la sua utilità.
-	\item \textbf{Motivazione}: verrà definito perché l'applicativo necessita di tale pattern, in relazione alle componenti che lo dovranno utilizzare.
 	\item \textbf{Diagramma esemplificativo}: si riporterà lo schema UML, rappresentante un implementazione generica del design pattern in esame.
 	\item \textbf{Vantaggi derivanti}: si darà un elenco dei vantaggi apportati dall'utilizzo del pattern, in particolare sotto il profilo della manutenzione e del riuso del codice.
 	\item \textbf{Componenti che lo implementano}: infine verranno elencati i componenti dell'architettura di sistema, che implementano il pattern descritto.
 \end{itemize}
 
-Per una visione d'insieme dei delle componenti utilizzate da un pattern, e dei pattern utilizzati da un componente, rimandiamo alle sottosezioni ``Tracciamenti Componenti-DesignPattern'' e ``Tracciamenti DesignPattern-Componenti'' della sezione ``Tracciamenti''.
+Per una visione d'insieme dei delle componenti utilizzate da un pattern, e dei pattern utilizzati da un componente, rimandiamo alle sottosezioni ``Tracciamenti Componenti-Design Pattern'' e ``Tracciamenti Design Pattern-Componenti'' della sezione ``Tracciamenti''.
 
 %\subsection{Template descrizione design pattern}
 %\subsubsection{Scopo}
@@ -137,25 +136,67 @@ Per una visione d'insieme dei delle componenti utilizzate da un pattern, e dei p
 %\end{itemize}
 %\subsubsection{Componenti che lo implementano}
 
+\subsection{Adapter}
+\subsubsection{Scopo}
+Convertire l'interfaccia di una classe in un altra interfaccia richiesta dal \underline{client} e consente a classi diverse di operare insieme quando ciò non sarebbe altrimenti possibile a causa di interfacce incompatibili.
+\subsubsection{Diagramma esemplificativo}
+\subsubsection{Vantaggi derivanti}
+\begin{itemize}
+\item consente di adattare una classe esistente senza doverla ridefinire;
+\item un unico oggetto può adattare più classi.
+\end{itemize}
+\subsubsection{Componenti che lo implementano}
+
+\subsection{Composite}
+\subsubsection{Scopo}
+Il pattern Composite ha lo scopo di comporre oggetti in strutture ad albero al fine di rappresentare gerarchie parte-tutto e consentire ai \underline{client} di trattare oggetti singoli e composizioni in modo uniforme. Permette inoltre di gestire strutture dati gerarchicizzate con elementi "foglie" ed elementi "contenitori", l'ideale per la struttura "gruppo" e "utente".
+\subsubsection{Diagramma esemplificativo}
+\subsubsection{Vantaggi derivanti}
+\begin{itemize}
+\item definisce gerarchie di classi costituite da oggetti primitivi e composti;
+\item semplifica il \underline{client} in quanto posso trattare oggetti singoli e strutture astratte in modo uniforme;
+\item rende più semplice l'aggiunta di nuovi componenti.
+\end{itemize}
+\subsubsection{Componenti che lo implementano}
+
+\subsection{Data Access Object (DAO)}
+\subsubsection{Scopo}
+Il pattern DAO ha lo scopo di disaccoppiare la logica di business dalla logica di accesso ai dati. Questo si ottiene spostando la logica di accesso ai dati dai componenti di business ad una classe DAO rendendo i componenti che implementano la logica di business indipendenti dalla natura del dispositivo di persistenza. Questo approccio garantisce che un eventuale cambiamento del dispositivo di persistenza non comporti modifiche sui componenti di business.
+\subsubsection{Diagramma esemplificativo}
+\subsubsection{Vantaggi derivanti}
+\begin{itemize}
+\item stratifica e isola l'accesso ad una tabella dalla parte di business logic;
+\item crea un maggiore livello di astrazione;
+\item mantiene una rigida separazione tra le componenti di un'applicazione (Model - Controller).
+\end{itemize}
+\subsubsection{Componenti che lo implementano}
+
+\subsection{Factory Method}
+\subsubsection{Scopo}
+Definisce un'interfaccia per la creazione di un oggetto, lasciando alle sottoclassi la decisione sulla classe che deve essere istanziata e consente di deferire l'istanziazione di una classe alle sottoclassi.
+\subsubsection{Diagramma esemplificativo}
+\subsubsection{Vantaggi derivanti}
+\begin{itemize}
+\item fornisce un punto di aggancio per le sottoclassi per la produzione di una versione specializzata di un oggetto;
+\item connette gerarchie di classi parallele;
+\end{itemize}
+\subsubsection{Componenti che lo implementano}
+
+\subsection{Façade}
+\subsubsection{Scopo}
+Fornire un interfaccia unificata per un insieme di interfacce presenti in un sottosistema. Façade definisce un interfaccia di livello più alto che rende il sottosistema più semplice da utilizzare.
+\subsubsection{Diagramma esemplificativo}
+\subsubsection{Vantaggi derivanti}
+\begin{itemize}
+\item nasconde ai \underline{client} i componenti del sottosistema rendendo quest'ultimo più facile da usare;
+\item promuove l'accoppiamento lasco tra un sottosistema e i \underline{client}, ossia consente di modificare i componenti del sottosistema senza che i suoi \underline{client} siano coinvolti.
+\end{itemize}
+\subsubsection{Componenti che lo implementano}
+
 \subsection{Model-View-Presenter}
 
 \subsubsection{Scopo}
-Il pattern architetturale \foreignlanguage{english}{Model-View-Presenter} (d'ora in avanti MVP), similmente a quanto accade per \foreignlanguage{english}{Model-View-Controller} (MVC), ha lo scopo di mantenere separata la \textit{business logic}, cioè la gestione dei dati secondo le regole di un determinato dominio e la loro memorizzazione in forma persistente, dalla presentazione e manipolazione mediante interfaccia utente.
-
-Mantenere questi due aspetti separati ha il vantaggio di ridurre l'accoppiamento fra le componenti del sistema permettendo, ad esempio, di modificare la grafica (View) senza dover per questo preoccuparsi delle operazioni di aggiornamento dei dati.
-
-\subsubsection{Motivazione}
-MVP, concepito alla fine degli anni '70, è ritornato in auge con la diffusione di JavaScript come linguaggio di programmazione per la computazione lato \underline{client} allo scopo di superare le difficoltà che emergevano applicando MVC in un contesto distribuito in cui non tutte le componenti risiedono sullo stesso host.
-
-Un'applicazione rigorosa di MVC porterebbe infatti a far risiedere tanto la \textit{business logic} racchiusa nel Model quanto la \textit{application logic} di cui si occupa il Controller sul \underline{server}, lasciando la sola visualizzazione grafica dei dati e la ricezione dell'input utente tramite interfaccia grafica al \underline{client}, che non ha dunque alcuna esigenza di eseguire computazione localmente (\textit{thin client}).
-
-Il problema principale di una simile configurazione sta nel massiccio impiego dell'infrastruttura di rete per gestire le comunicazioni fra la View (isolata sul \underline{client}) e le altre componenti, che implica potenzialmente a un decadimento prestazionale (e quindi una peggiore esperienza utente) nel caso in cui la rete non sia sufficientemente affidabile e/o veloce.
-
-MVP mantiene intatto il principio mutuato da MVC secondo cui i dati e la \textit{business logic} devono risiedere sul \underline{server} e la View sul \underline{client} ma introduce una nuova componente chiamata Presenter, ancora sul \underline{client}, che interagisce con la View modificandola e incapsulando parte della \textit{application logic} da un lato ed è responsabile di effettuare le operazioni sul Model dall'altro.
-
-Il grande vantaggio nell'utilizzo di MVP rispetto a MVC è che per tutte le operazioni che non coinvolgono direttamente il modello non è necessario appoggiarsi alla connessione di rete in quanto tutti i dati e la logica necessaria sono già disponibili sul \underline{client}.
-
-A differenza di MVC, però, in MVP l'accoppiamento fra View e Presenter è più stretto e, in genere, in genere vi è una corrispondenza biunivoca fra l'una e l'altro (mentre in MVC uno stesso Controller può occuparsi di gestire più viste al contempo).
+Il pattern architetturale \foreignlanguage{english}{Model-View-Presenter} similmente a quanto accade per \foreignlanguage{english}{Model-View-Controller} (MVC), ha lo scopo di mantenere separata la \textit{business logic}, cioè la gestione dei dati secondo le regole di un determinato dominio e la loro memorizzazione in forma persistente, dalla presentazione e manipolazione mediante interfaccia utente.
 
 \subsubsection{Diagramma esemplificativo}
 \begin{figure}[h]
@@ -166,6 +207,10 @@ A differenza di MVC, però, in MVP l'accoppiamento fra View e Presenter è più 
 
 
 \subsubsection{Vantaggi derivanti}
+\begin{itemize}
+\item riduce l'accoppiamento fra le componenti del sistema permettendo, ad esempio, di modificare la grafica (View) senza dover per questo preoccuparsi delle operazioni di aggiornamento dei dati;
+\item computazione lato \underline{client}, quindi per tutte le operazioni che non coinvolgono direttamente il modello non è necessario appoggiarsi alla connessione di rete in quanto tutti i dati e la logica necessaria sono già disponibili sul \underline{client}.
+\end{itemize}
 
 \subsubsection{Componenti che lo implementano}
 
@@ -208,60 +253,22 @@ Permette ad un oggetto di cambiare il suo comportamento al variare del suo stato
 
 \subsubsection{Componenti che lo implementano}
 
-\subsection{Composite}
-\subsubsection{Scopo}
-Il pattern Composite ha lo scopo di comporre oggetti in strutture ad albero al fine di rappresentare gerarchie parte-tutto e consentire ai client di trattare oggetti singoli e composizioni in modo uniforme. Permette inoltre di gestire strutture dati gerarchicizzate con elementi "foglie" ed elementi "contenitori", l'ideale per la struttura "gruppo" e "utente".
-\subsubsection{Diagramma esemplificativo}
-\subsubsection{Vantaggi derivanti}
-\begin{itemize}
-\item definisce gerarchie di classi costituite da oggetti primitivi e composti;
-\item semplifica il client in quanto posso trattare oggetti singoli e strutture astratte in modo uniforme;
-\item rende più semplice l'aggiunta di nuovi componenti.
-\end{itemize}
-\subsubsection{Componenti che lo implementano}
 
-\subsection{Data Access Object (DAO)}
-\subsubsection{Scopo}
-Il pattern DAO ha lo scopo di disaccoppiare la logica di business dalla logica di accesso ai dati. Questo si ottiene spostando la logica di accesso ai dati dai componenti di business ad una classe DAO rendendo i componenti che implementano la logica di business indipendenti dalla natura del dispositivo di persistenza. Questo approccio garantisce che un eventuale cambiamento del dispositivo di persistenza non comporti modifiche sui componenti di business.
-\subsubsection{Diagramma esemplificativo}
-\subsubsection{Vantaggi derivanti}
-\begin{itemize}
-\item stratifica e isola l'accesso ad una tabella dalla parte di business logic;
-\item crea un maggiore livello di astrazione;
-\item mantiene una rigida separazione tra le componenti di un'applicazione (Model - Controller).
-\end{itemize}
-\subsubsection{Componenti che lo implementano}
 
-\subsection{Factory Method}
-\subsubsection{Scopo}
-Definisce un'interfaccia per la creazione di un oggetto, lasciando alle sottoclassi la decisione sulla classe che deve essere istanziata e consente di deferire l'istanziazione di una classe alle sottoclassi.
-\subsubsection{Diagramma esemplificativo}
-\subsubsection{Vantaggi derivanti}
-\begin{itemize}
-\item fornisce un punto di aggancio per le sottoclassi per la produzione di una versione specializzata di un oggetto;
-\item connette gerarchie di classi parallele;
-\end{itemize}
-\subsubsection{Componenti che lo implementano}
 
-\subsection{Adapter}
-\subsubsection{Scopo}
-Convertire l'interfaccia di una classe in un altra interfaccia richiesta dal client e consente a classi diverse di operare insieme quando ciò non sarebbe altrimenti possibile a causa di interfacce incompatibili.
-\subsubsection{Diagramma esemplificativo}
-\subsubsection{Vantaggi derivanti}
-\begin{itemize}
-\item consente di adattare una classe esistente senza doverla ridefinire;
-\item un unico oggetto può adattare più classi.
-\end{itemize}
-\subsubsection{Componenti che lo implementano}
 
-\subsection{Façade}
+
+
+\subsection{Strategy}
 \subsubsection{Scopo}
-Fornire un interfaccia unificata per un insieme di interfacce presenti in un sottosistema. Façade definisce un interfaccia di livello più alto che rende il sottosistema più semplice da utilizzare.
+Ha lo scopo di definire degli algoritmi, incapsularli e renderli intercambiabili. Permette inoltre agli algoritmi di variare indipendentemente dai \underline{client} che ne fa uso.
 \subsubsection{Diagramma esemplificativo}
 \subsubsection{Vantaggi derivanti}
 \begin{itemize}
-\item ;
-\item .
+\item famiglie di algoritmi correlati;
+\item può essere usato al posto dell'ereditarietà
+\item può essere un'alternativa ai blocchi di scelta condizionale per determinare il comportamento desiderato;
+\item può fornire più implementazioni diverse dello stesso comportamento;
 \end{itemize}
 \subsubsection{Componenti che lo implementano}
 
@@ -294,7 +301,7 @@ Fornire un interfaccia unificata per un insieme di interfacce presenti in un sot
 \subsection{Diagramma delle classi}
 \clearpage
 
-\section{Architettura MyTalk-ClientUniversale}
+\section{Architettura MyTalk-\underline{client}Universale}
 
 \subsection{Componenti evidenziate}
 
@@ -319,7 +326,7 @@ Fornire un interfaccia unificata per un insieme di interfacce presenti in un sot
 \subsection{Diagramma delle classi}
 \clearpage
 
-\section{Architettura MyTalk-ClientSoftwareSynthesis}
+\section{Architettura MyTalk-clientSoftwareSynthesis}
 
 \subsection{Componenti evidenziate}
 
