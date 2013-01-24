@@ -47,8 +47,9 @@
 Versione & Descrizione intervento & Membro & Ruolo & Data\\
 \midrule % inserire qui il contenuto della tabella
 2.0 & Approvazione documento & Andrea Meneghinello & Responsabile & 2013-01-18\\
-1.5 & Correzione errori rilevati dal verificatore & Diego Beraldin & Amministratore & 2013-01-17\\
-1.4 & Validazione del documento & Elena Zecchinato & Verificatore & 2013-01-17\\
+1.6 & Correzione errori rilevati dal verificatore & Diego Beraldin & Amministratore & 2013-01-17\\
+1.5 & Validazione del documento & Elena Zecchinato & Verificatore & 2013-01-17\\
+1.4 & Aggiornata sezione software di tracciamento e verifica & Diego Beraldin & Amministratore & 2013-01-16\\
 1.3 & Conclusa sezione progettazione & Diego Beraldin & Amministratore & 2013-01-16\\
 1.2 & Aggiunta sezione progettazione & Diego Beraldin & Amministratore & 2013-01-15\\
 1.1 & Correzione errori rilevati in RR & Diego Beraldin & Amministratore & 2013-01-14\\
@@ -168,11 +169,15 @@ Al fine di rendere automatico e sistematico la gestione del tracciamento dei req
 \end{center}
 Il sistema di tracciamento offre le seguenti 5 opzioni:
 \begin{itemize}
-\item \textbf{Gestione requisiti}: permette l'inserimento, modifica e la cancellazione di un requisito.
-\item \textbf{Gestione fonti}: permette l'inserimento, modifica e la cancellazione di una fonte da intendersi come ad esempio il capitolato d'appalto.
-\item \textbf{Gestione casi d'uso}: permette l'inserimento di un caso d'uso con relativi scenari  e requisiti associati.
-\item \textbf{Gestione attori}: permette l'inserimento, modifica e la cancellazione di un attore utilizzabile in seguito per lo sviluppo di un caso d'uso.
-\item \textbf{Stampa}: crea in modo automatico un file di estensione .tex contenente la lista dei requisiti analizzati, i casi d'uso studiati e il tracciamento tra i requisiti e le fonti. Successivamente alla stampa tale file sarà da includere all'intero del documento ``\textit{analisi\_dei\_requisiti.tex}''
+\item \textbf{Gestione requisiti}: permette l'inserimento, modifica e la cancellazione di un requisito;
+\item \textbf{Gestione fonti}: permette l'inserimento, modifica e la cancellazione di una fonte da intendersi come ad esempio il capitolato d'appalto;
+\item \textbf{Gestione casi d'uso}: permette l'inserimento di un caso d'uso con relativi scenari  e requisiti associati;
+\item \textbf{Gestione attori}: permette l'inserimento, modifica e la cancellazione di un attore utilizzabile in seguito per lo sviluppo di un caso d'uso;
+\item \textbf{Gestione classi}: permette l'inserimento e la cancellazione di una classe rilevata nell'attività di progettazione;
+\item \textbf{Gestione componenti}: permette l'inserimento e la cancellazione di una componente rilevata nell'attività di progettazione;
+\item \textbf{Gestione design pattern}: permette l'inserimento e la cancellazione di un design pattern utilizzato nel progetto;
+
+\item \textbf{Stampa}: è suddivisa in due sezioni, la prima per la parte di analisi, la seconda per la parte di progettazione. Il comportamento delle due stampe è analogo, crea in modo automatico un file di estensione .tex contenente nel primo caso la lista dei requisiti analizzati, i casi d'uso studiati e il tracciamento tra i requisiti-casi d'uso e viceversa, nel secondo caso viene stampato la lista di tracciamenti tra classi-componenti-design pattern (vedi sezione \ref{sec:tracciamenti_progettazione}). Successivamente alla stampa tale file sarà da includere all'intero del documento ``\textit{analisi\_dei\_requisiti.tex}'' o ``\textit{specifica\_tecnica.tex}'' a seconda.
 \end{itemize}
 Il sistema è basato su tecnologie \underline{MySQL} con creazione del \underline{database} sotto engine\_inno\_db . Per sopperire ad alcune mancanze del sistema di tracciamento, lo sviluppatore si potrà appoggiare alla piattaforma \underline{phpMyAdmin} fornita dal \underline{web host}, al fine di modificare e gestire alcuni dati del \underline{database}. In particolare, se ne obbliga l'utilizzo nei seguenti casi:
 \begin{itemize}
@@ -549,6 +554,7 @@ Durante l'intero ciclo di vita del progetto, sono previste misure per il traccia
 
 \newpage
 \section{Progettazione}
+\label{sec:progettazione}
 In questa sezione verranno descritte le norme che i progettisti dovranno seguire durante la loro attività.
 
 \subsection{Stile di progettazione}
@@ -571,32 +577,76 @@ Al fine di semplificare la futura fase di verifica, nonché la leggibilità degl
 Per ogni design pattern utilizzato, si dovrà dare una breve descrizione indicando:
 \begin{itemize}
 \item una breve descrizione riguardante la struttura generale;
-\item il motivo per cui è stato scelto e di conseguenza usato;
-\item elenco dei contesti dove è stato utilizzato il design pattern.
+\item il diagramma generale;
+\item i vantaggi che ne comportano l'uso;
+\item elenco dei componenti dove è stato utilizzato il design pattern.
 \end{itemize}
 
 \subsection{Convenzioni sui diagrammi}
 Si dovrà utilizzare il linguaggio UML per definire:
 \begin{itemize}
-\item \textbf{Diagrammi di attività}: dovranno essere presenti per l'architettura generale. Questi diagrammi rappresenteranno un generico flusso d'esecuzione dell'intero applicativo e nel caso non sia possibile inserire tutto in un solo diagramma, questo dovrà essere scomposto in sotto-diagrammi. Tale regola ha lo scopo di ottenere una maggiore leggibilità e chiarezza.
-\item \textbf{Diagrammi di sequenza}: possono essere presenti per l'architettura generale. Devono essere usati per descrivere una determinata sequenza di azioni in cui tutte le scelte sono state già effettuate. Questo significa che nel diagramma non compaiono né scelte, né flussi alternativi.
-\item \textbf{Diagrammi deli package}: dovranno essere presenti per la parte server implementata con Java. Servono per definire i package, ossia un raggruppamento di classi.
+
+\item \textbf{Diagrammi dei package}: dovranno essere presenti per la parte server implementata con Java. Servono per definire i package, ossia un raggruppamento di classi.
 \item \textbf{Diagrammi delle classi}: dovranno essere presenti per la parte server implementata con Java. Verranno usati per descrivere tipi di entità, con le loro caratteristiche e le eventuali relazioni.
 \end{itemize}
 
+\subsection{Classi di verifica}
+Si dovranno sviluppare, quando possibile, delle classi fittizie da utilizzare in fase di verifica e come prototipo.
+
 \subsection{Tracciamento}
-Per il tracciamento componenti-requisiti (e viceversa), si utilizzeranno due tabelle: la prima sarà composta da due colonne, una per il nome del componente e l'altra per i requisiti, la seconda tabella invece sarà composta da tre colonne, la prima per il codice del requisito, la seconda per la descrizione del requisito e la terza colonna per i componenti.
+\label{sec:tracciamenti_progettazione}
+Per il tracciamento generale di componenti, requisiti, classi, si utilizzeranno sei tabelle complessive con due colonne ognuna. Di seguito la lista di tali tabelle che devono comparire nel documento ``specifica tecnica'':
+\begin{itemize}
+\item requisiti-componenti;
+\item componenti-requisiti;
+\item componenti-design pattern
+\item design pattern-componenti;
+\item componenti-classi
+\item classi-componenti.
+\end{itemize} 
 \subsection{Struttura della Specifica Tecnica}
 Il documento relativo alla Specifica Tecnica sarà strutturato nel seguente modo:
 \begin{itemize}
 \item una breve introduzione che spiega lo scopo del documento, i formalismi adottati e i riferimenti alle norme;
 \item breve trattazione dei design pattern utilizzati seguendo le norme indicate nel paragrafo \ref{sec:design_patterns};
-\item descrizione dettagliata dei componenti rilevati in fase di progettazione indicando il tipo, la funzione e l'obbiettivo;
+\item descrizione dell'architettura generale evidenziando i componenti rilevati in fase di progettazione indicando il tipo, la funzione e l'obbiettivo;
+\item descrizione dell'architettura di dettaglio (quando disponibile);
 \item diagrammi UML;
-\item tracciamento componenti-requisiti, requisiti-componenti.
+\item tracciamenti (come descritto in sezione \ref{sec:tracciamenti_progettazione}).
 \end{itemize}
 
+\newpage
+\section{Codifica}
+Questa sezione andrà ampliata nel momento in cui si avvierà la vera attività di codifica. Vengono intanto fornite delle convenzioni di codifica generale.
 
+\subsection{Convenzioni di codifica}
+Per rendere il codice più leggibile ed ordinato, per quanto riguarda l'uso del linguaggio Java, si dovranno rispettare le \textit{Java Code Convention} reperibili all'indirizzo \url{http://www.oracle.com/technetwork/java/codeconvtoc-136057.html}. Tali convenzioni possono essere variate, ma tale modifica deve essere richiesta al responsabile di progetto che valuterà la vera necessità di tale modifica.
+
+\subsubsection{Convenzioni sui nomi}
+\begin{itemize}
+\item \textbf{Classi e Interfacce}: il loro nome è un sostantivo e deve avere la prima lettere maiuscola.
+\item \textbf{Metodi}: devono avere il nome di un verbo e la prima lettera minuscola. Nel caso il nome sia composto da più parole, la prima lettera di ogni parola sarà maiuscola.
+\item \textbf{Variabili}: devono avere un nome che fa capire subito il significato. Nel caso il nome sia composto da più parole, la prima lettera di ogni parola sarà maiuscola.
+\item \textbf{Costanti}: il nome va scritto tutto in maiuscolo. Nel caso il nome sia composto da più parole, vanno separate da un underscore.
+
+\end{itemize}
+
+\subsubsection{Struttura delle classi}
+La classi dovranno essere composte riportando nel seguente ordine tali elementi:
+\begin{enumerate}
+\item variabili statiche e di istanza;
+\item costruttori;
+\item metodi.
+\end{enumerate}
+
+\subsubsection{Struttura del codice}
+Per la stesura di codice, si seguiranno le seguenti regole:
+\begin{enumerate}
+\item le dichiarazioni di variabili andranno riportate tutte all'inizio e si dovrà usare una riga per ogni variabile;
+\item ogni blocco di codice (tipo definizione di un metodo) va separato  con una linea bianca vuota;
+\item le parentesi graffe che delineano un blocco di codice devono iniziare nella stessa riga della parola chiave a cui appartengono e finire in una nuova riga allineata con la parola d'inizio;
+\item parole chiave e parentesi (ad esempio parentesi dovute a costrutti condizionali o ciclici) non devono essere separate da spazi.
+\end{enumerate}
 
 \newpage
 \section{Norme di verifica}
@@ -665,5 +715,8 @@ La verifica di un documento avviene nel momento in cui il redattore ha finito di
 \item Se è la prima volta che il documento viene verificato, il verificatore procederà con un metodo di tipo \underline{walkthrough}, come descritto in sezione \ref{analisi_statica}. Se invece il documento era già stato verificato e rimandato per via di errori, si adopererà un metodo di tipo \underline{inspection},come descritto in sezione \ref{analisi_statica}.
 \item Il verificatore prenderà nota in modo ordinato di tutti gli errori riscontrati e procederà con la creazione dei \underline{tickets} relativi che saranno rivolti al redattore del documento come descritto nella sezione \ref{sec:ciclo_vita_ticket} ``Ciclo di vita di un \underline{Ticket}''.
 \end{enumerate}
+
+\subsection{Verifica del codice}
+La verifica del codice verrà fatta, come prima cosa, durante lo sviluppo di ogni classe attraverso il proprio IDE che segnalerà gli errori più banali (errori di battitura o piccole mancanze). Lo sviluppatore, prima di caricarlo nel repository, deve assicurarsi che il codice compili e non dia errori o warning. Il verificatore successivamente dovrà assicurarsi che siano state rispettate le convenzioni descritte nella sezione ``Progettazione'' \ref{sec:progettazione} e in caso di errori dovrà aprire un \underline{ticket} (rispettando sempre le norme descritte in sezione \ref{sec:creazione_ticket}) rivolto allo sviluppatore che provvederà a risolvere gli errori.
 
 \end{document}
