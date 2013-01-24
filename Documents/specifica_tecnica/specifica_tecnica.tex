@@ -89,7 +89,7 @@ Il presente documento è stato redatto al fine di produrre le specifiche sulla p
 la funzione e l'obbiettivo.
 	\item L'architettura d'alto livello del sistema.
 	\item I diagrammi UML per definire i flussi principali di controllo dell'applicativo.
-	\item Il tracciamento dei requisiti e delle componenti, negli schemi: requisiti-componeneti e componenti-requisiti.
+	\item Il tracciamento dei requisiti e delle componenti, negli schemi: requisiti-componenti e componenti-requisiti.
 \end{itemize}
 
 \subsection{Glossario}
@@ -113,9 +113,16 @@ la funzione e l'obbiettivo.
 \item[] \textit{glossario.1.0.pdf} allegato.
 \end{itemize}
 
+\section{Strumenti utilizzati}
+\subsection{Java}
+
+\subsection{Hibernate}
+
+% da completare
+
 \clearpage
 \section{Design Pattern}
-In questa sezione discuteremo i design pattern utilizzati nella progettazione delle componenti. Ogni desing pattern sarà proposto con la seguente forma:
+In questa sezione discuteremo i design pattern utilizzati nella progettazione delle componenti. Ogni design pattern sarà proposto con la seguente forma:
 
 \begin{itemize}
 	\item \textbf{Scopo}: verrà proposto lo scopo generico del pattern, al fine di evidenziare subito la sua utilità.
@@ -194,58 +201,45 @@ Fornire un interfaccia unificata per un insieme di interfacce presenti in un sot
 \subsubsection{Componenti che lo implementano}
 
 \subsection{Model-View-Presenter}
+
 \subsubsection{Scopo}
 Il pattern architetturale \foreignlanguage{english}{Model-View-Presenter} similmente a quanto accade per \foreignlanguage{english}{Model-View-Controller} (MVC), ha lo scopo di mantenere separata la \textit{business logic}, cioè la gestione dei dati secondo le regole di un determinato dominio e la loro memorizzazione in forma persistente, dalla presentazione e manipolazione mediante interfaccia utente.
+
 \subsubsection{Diagramma esemplificativo}
 \begin{figure}[h]
 \centering
 \includegraphics[width=.7\textwidth]{mvpHLdiagram}
 \caption{Diagramma ad alto livello del pattern MVP.}\label{fig:mvpHL}
 \end{figure}
+
+
 \subsubsection{Vantaggi derivanti}
 \begin{itemize}
 \item riduce l'accoppiamento fra le componenti del sistema permettendo, ad esempio, di modificare la grafica (View) senza dover per questo preoccuparsi delle operazioni di aggiornamento dei dati;
 \item computazione lato \underline{client}, quindi per tutte le operazioni che non coinvolgono direttamente il modello non è necessario appoggiarsi alla connessione di rete in quanto tutti i dati e la logica necessaria sono già disponibili sul \underline{client}.
 \end{itemize}
-\subsubsection{Componenti che lo implementano}
 
-\subsection{Observer}
-\subsubsection{Scopo}
-Definisce una dipendenza uno-a-molti fra oggetti in modo tale che se uno cambia tutti gli oggetti dipendenti da esso vengano modificati e aggiornati automaticamente.
-\subsubsection{Diagramma esemplificativo}
-\subsubsection{Vantaggi derivanti}
-\begin{itemize}
-\item poiché i vari oggetti non sono rigidamente accoppiati, possono eppartenere a diversi livelli di astrazione del sistema.
-\item ................................................................................................
-\end{itemize}
-\subsubsection{Componenti che lo implementano}
-
-\subsection{Proxy}
-\subsubsection{Scopo}
-Fornire un surrogato o un segnaposto di un oggetto per controllare l'accesso all'oggetto stesso.
-\subsubsection{Diagramma esemplificativo}
-\subsubsection{Vantaggi derivanti}
-\begin{itemize}
-\item il proxy virtuale permette ottimizzazioni quali la creazione di un oggetto su richiesta;
-\item un altra ottimizzaizone sfruttata è correlata alla creazione su richiesta (copy-on-write), la copia di un oggetto in locale è effettuata solo se viene rischiesta.
-\end{itemize}
 \subsubsection{Componenti che lo implementano}
 
 \subsection{Singleton}
+
 \subsubsection{Scopo}
 Il pattern creazionale Singleton, garantisce che una determinata classe possa essere istanziata una sola volta, e di fornirne un punto di accesso globale. Questo pattern va utilizzato negli ambiti in cui si ha la necessità che l'accesso ad una determinata entità sia unico, in modo da permettere la gestione ottimale della risorsa stessa.
+
 \subsubsection{Diagramma esemplificativo}
 \begin{figure}[h]
 \centering
 \includegraphics[width=.7\textwidth]{singletonHLdiagram}
 \caption{Diagramma ad alto livello del pattern Singleton.}\label{fig:singletonHL}
 \end{figure}
+
 \subsubsection{Vantaggi derivanti}
 \begin{itemize}
 \item accesso controllato a un'unica istanza;
 \item riduzione dello spazio dei nomi in quanto riduce l'uso di variabili globali;
 \item permette di gestire un numero variabile di istanze.
 \end{itemize}
+
 \subsubsection{Componenti che lo implementano}
 
 \subsection{State}
@@ -263,6 +257,7 @@ Permette ad un oggetto di cambiare il suo comportamento al variare del suo stato
 \item rende esplicita la transazione si stato (tale condizione è espressa esplicitamente);
 \item condivisione di oggetti di stato.
 \end{itemize}
+
 \subsubsection{Componenti che lo implementano}
 
 \subsection{Strategy}
@@ -283,22 +278,282 @@ Ha lo scopo di definire degli algoritmi, incapsularli e renderli intercambiabili
 
 \clearpage
 \section{Architettura MyTalk-Server}
+%TODO: da completare
+Infine, si fa notare che i nomi di tutte le classi riportate nella sezione sono implicitamente parte del package \texttt{org.softwaresynthesis.server} pertanto tale prefisso sarà omesso nella loro denominazione.
 
 \subsection{Componenti evidenziate}
 
-\subsubsection{Template della componente X}
+%\subsubsection{Template della componente X}
+%\begin{description}
+%	\item{\scshape\bfseries Descrizione:} 
+%	\item{\scshape\bfseries Diagramma delle classi:}
+%	\item{\scshape\bfseries Classi utilizzate:} 
+%\end{description}
+
+\subsubsection{Gestione Database}
 \begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Diagramma del package:}
-	\item{\scshape\bfseries Classi utilizzate:} 
+	\item{\scshape\bfseries Descrizione:}\\
+	Gestione Database è la componente che si occupa di rappresentare la struttura del database relazionale su cui poggia l'applicativo. Le singole classi in esso definite rappresentano quindi le tabelle del database. In termini tecnici Gestione Database implementa il design pattern DAO\@.
+
+Tramite questa componente, il sistema potrà quindi effettuare operazione di lettura e scrittura di entità all'interno del database. Le classi che costituiscono la componente dovranno quindi essere dotate di:
+
+\begin{itemize}
+	\item metodi getter per restituire i singoli attributi dell'istanza;
+	\item metodi setter per garantire un corretto inserimento dei dati prima di registrare l'istanza nel database.
+\end{itemize}
+
+Si informa inoltre che le classi di tale componente dovranno interagire con il \underline{framework} Hibernate, al fine di ottenere lo scopo precisato.
+
+	\item{\scshape\bfseries Diagramma delle classi:}
+	\item{\scshape\bfseries Classi utilizzate:}
+\begin{itemize}
+  \item \texttt{dao.AudioMessage}
+  \item \texttt{dao.AudioVideoMessage}
+  \item \texttt{dao.IAudioMessage}
+  \item \texttt{dao.IAudioVideoMessage}
+  \item \texttt{dao.IGroup}
+  \item \texttt{dao.IUserData}
+  \item \texttt{dao.StandardGroup}
+  \item \texttt{dao.StandardUserData}
+\end{itemize}
+\end{description}
+
+\begin{itemize}
+	\item \texttt{connection.ISocket}
+	\item \texttt{connection.WebSocketAdapter}
+\end{itemize}
+
+\subsubsection{Gestione connessione}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:}\\
+Tale componente ingloba le classi destinate a stabilire le routine di connessione. Il server ha la consapevolezza degli oggetti rappresentati una connessione tra client. Si ricorda infatti che: ``ogni cliente per comunicare con altri, deve prima connettersi al server e richiedere a questo un oggetto rappresentante la linea di comunicazione con il destinatario''. Le specifiche di tale oggetto sono descritte dall'interfaccia \texttt{connection.ISocket}.
+
+Al fine di rendere l'architettura di tale componente il più manutenibile possibile, si è deciso di usare il pattern Adapter. In pratica esternamente il sistema ha esclusivamente la conoscenza dell'interfaccia \texttt{connection.ISocket}. Quindi l'esterno è svincolato dal conoscere il tipo preciso di protocollo di connessione (che ricordiamo nel nostro caso essere \texttt{da\_definire}). Poiché la classe che implementa il protocollo di comunicazione esiste già, nasce l'esigenza di ``adattare'' tale classe alla nostra interfaccia (\texttt{connection.ISocket}). Ciò giustifica l'esistenza della classe \texttt{connection.WebSocketAdapter}.
+	\item{\scshape\bfseries Diagramma delle classi:}
+	\item{\scshape\bfseries Classi utilizzate:}
+\begin{itemize}
+  \item \texttt{connection.ISocket}
+  \item \texttt{connection.WebSocketAdapter}
+  \item \texttt{da\_definire}
+\end{itemize}
+\end{description}
+
+\subsubsection{Gestione rubrica}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:}\\
+La rubrica è organizzata in gruppi e sono previste due categorie di default: la \textit{blacklist} e la \textit{whitelist}. L'utente può aggiungere ulteriori gruppi in base alle sue esigenze ma esclusivamente all'interno della \textit{whitelist}. Per trattare in maniera omogenea i gruppi di contatti e i singoli contatti si è utilizzato il design pattern Composite.
+
+In particolare, \texttt{abook.IContact} rappresenta l'interfaccia principale comune a ogni tipologia di contatto e viene estesa dalle due interfacce \texttt{dao.IUserData} e \texttt{dao.IGroup}. La componente comprende anche l'interfaccia \texttt{abook.IAddressBook} e la relativa implementazione \texttt{abook.AddressBook}. Nell'implementazione specificata \texttt{abook.Addressbook} vincola il sistema a garantire che ogni utente abbia i due gruppi di default sopra descritti, come richiesto dai requisiti.
+
+	\item{\scshape\bfseries Diagramma delle classi:}
+	\item{\scshape\bfseries Classi utilizzate:}\\
+\begin{itemize}
+  \item \texttt{abook.AddressBook}
+  \item \texttt{abook.IAddressBook}
+  \item \texttt{abook.IContact}
+  \item \texttt{dao.IGroup}
+  \item \texttt{dao.IUserData}
+\end{itemize}
+
+\end{description}
+
+\subsubsection{Gestione stato}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:}\\
+	Le classi di tale componente sono utilizzate per gestire lo stato degli utenti, permettendo un comportamento diverso delle istanze di \texttt{dao.StandardUserData} a seconda dello stato in cui si trova l'utente corrispondente. Gli stati possibili sono ``online'' e ``offline'' che sono rappresentati dalle classi \texttt{state.StateOnline} e \texttt{state.StateOffline} rispettivamente.
+	
+	Gli utenti che si trovano nello stato online possono trovarsi in due situazioni: ``occupato'' o ``disponibile'', rappresentati a loro volta dalle classi \texttt{state.StateOccupied} e \texttt{state.StateAvailable}. L'utente si troverà nello stato ``occupato'' solo se è impegnato in una conversazione. Lo stato può essere controllato solo dal sistema in risposta agli eventi di connessione e di chiamata ma non è direttamente accessibile dall'utente.
+	
+	Ad esempio, la chiamata viene trattata in modo differente a seconda che l'utente si trovi nello stato ``disponibile'' o ``occupato''/``offline'', dal momento che nel primo caso la chiamata va a buon fine mentre nel secondo verrà attivato il meccanismo di segreteria telefonica.
+	
+	Inoltre, i cambiamenti di stato vengono notificati a tutti gli utenti presenti in rubrica tali che si trovano nello stato online.
+	
+	\item{\scshape\bfseries Diagramma delle classi:}
+	\item{\scshape\bfseries Classi utilizzate:}\\ 
+	\begin{itemize}
+          \item \texttt{dao.StandardUserData}
+          \item \texttt{state.IState}
+          \item \texttt{state.StateAvailable}
+          \item \texttt{state.StateOccupied}
+          \item \texttt{state.StateOffline}
+          \item \texttt{state.StateOnline}
+	\end{itemize}
+\end{description}
+
+\subsubsection{Gestione segreteria}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:}\\
+Il sistema segreteria telefonica corrisponde all'interfaccia \texttt{message.IMessageBox} e alla relativa implementazione \texttt{message.StandardMessageBox} che permettono un accesso centralizzato all'insieme di messaggi che un determinato utente ha ricevuto.
+
+I messaggi audio e audio/video sul server sono rappresentati dalle classi \texttt{dao.IAudioMessage} (implementata da \texttt{dao.AudioMessage}) e \texttt{dao.IAudioVideoMessage} (implementata da \texttt{dao.AudioVideoMessage}) rispettivamente. L'onere di caricare in memoria e gestire l'interno contenuto del messaggio è posticipato al momento di effettiva necessità mediante l'utilizzo dei \textit{virtual proxy} corrispondenti alle classi \texttt{message.AudioMessageProxy} e \texttt{message.AudioVideoMessageProxy}.
+	\item{\scshape\bfseries Diagramma delle classi:}
+	\item{\scshape\bfseries Classi utilizzate:}
+\begin{itemize}
+  \item \texttt{dao.AudioMessage}
+  \item \texttt{dao.AudioVideoMessage}
+  \item \texttt{dao.IAudioMessage}
+  \item \texttt{dao.IAudioVideoMessage}
+  \item \texttt{message.AudioMessageProxy}
+  \item \texttt{message.AudioVideoMessageProxy}
+\end{itemize}
+\end{description}
+
+\subsubsection{Façade del server}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:}\\
+L'interfaccia \texttt{IServerFacade} e la relativa implementazione \texttt{StandardServerFacade}, nella quale si è scelto di applicare il design pattern Singleton, forniscono una sorta di interfaccia alle funzionalità offerte dal sottosistema server alle componenti che risiedono nel client. Le funzionalità esposte consentono di gestire i messaggi presenti in segreteria, le richieste di comunicazione con altri utenti il login/registrazione degli utenti.
+	\item{\scshape\bfseries Diagramma delle classi:}
+	\item{\scshape\bfseries Classi utilizzate:}\\
+\begin{itemize}
+  \item \texttt{IServerFacade}
+  \item \texttt{StandardServerFacade}
+\end{itemize}
 \end{description}
 
 \subsection{Classi utilizzate}
 
-\subsubsection{Template classe X}
+%\subsubsection{Template classe X}
+%\begin{description}
+%	\item{\scshape\bfseries Descrizione:} 
+%	\item{\scshape\bfseries Diagramma della classe:}
+%	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+%\end{description}
+
+\subsubsection{mytalk.server.dao.IAudioMessage}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Diagramma della classe:}
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{mytalk.server.dao.AudioMessage}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{mytalk.server.dao.IAudioVideoMessage}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{mytalk.server.dao.IGroup}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{mytalk.server.dao.StandardGroup}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{mytalk.server.dao.IUserData}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{mytalk.server.dao.StandardUserData}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{mytalk.server.connection.ISocket}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{mytalk.server.connection.WebSocketAdapter}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{mytalk.server.abook.IContact}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{mytalk.server.abook.IAddressBook}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{mytalk.server.abook.AddressBook}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{mytalk.server.state.IState}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{mytalk.server.state.StateOnline}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{mytalk.server.state.StateOffline}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{mytalk.server.state.StateAvailable}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{mytalk.server.state.StateOccupied}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{mytalk.server.message.IMessageBox}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{mytalk.server.message.StandardMessageBox}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{mytalk.server.message.AudioMessageProxy}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{mytalk.server.message.AudioVideoMessageProxy}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{mytalk.server.IServerFacade}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{mytalk.server.StandardServerFacade}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
 	\item{\scshape\bfseries Componenti che ne fanno uso:} 
 \end{description}
 
@@ -311,19 +566,49 @@ Ha lo scopo di definire degli algoritmi, incapsularli e renderli intercambiabili
 
 \subsection{Componenti evidenziate}
 
-\subsubsection{Template della componente X}
+\subsubsection{Gestione rubrica}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Diagramma del package:}
+	\item{\scshape\bfseries Diagramma delle classi:}
+	\item{\scshape\bfseries Classi utilizzate:} 
+\end{description}
+
+\subsubsection{Gestione comunicazione}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Diagramma delle classi:}
 	\item{\scshape\bfseries Classi utilizzate:} 
 \end{description}
 
 \subsection{Classi utilizzate}
 
-\subsubsection{Template classe X}
+\subsubsection{mytalk.client.Contact}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Diagramma della classe:}
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{mytalk.client.IClient}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{mytalk.client.StandardClient}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{mytalk.client.IPresenterFacade}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{mytalk.client.StandardServerFacade}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
 	\item{\scshape\bfseries Componenti che ne fanno uso:} 
 \end{description}
 
