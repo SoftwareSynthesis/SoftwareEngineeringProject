@@ -194,45 +194,58 @@ Fornire un interfaccia unificata per un insieme di interfacce presenti in un sot
 \subsubsection{Componenti che lo implementano}
 
 \subsection{Model-View-Presenter}
-
 \subsubsection{Scopo}
 Il pattern architetturale \foreignlanguage{english}{Model-View-Presenter} similmente a quanto accade per \foreignlanguage{english}{Model-View-Controller} (MVC), ha lo scopo di mantenere separata la \textit{business logic}, cioè la gestione dei dati secondo le regole di un determinato dominio e la loro memorizzazione in forma persistente, dalla presentazione e manipolazione mediante interfaccia utente.
-
 \subsubsection{Diagramma esemplificativo}
 \begin{figure}[h]
 \centering
 \includegraphics[width=.7\textwidth]{mvpHLdiagram}
 \caption{Diagramma ad alto livello del pattern MVP.}\label{fig:mvpHL}
 \end{figure}
-
-
 \subsubsection{Vantaggi derivanti}
 \begin{itemize}
 \item riduce l'accoppiamento fra le componenti del sistema permettendo, ad esempio, di modificare la grafica (View) senza dover per questo preoccuparsi delle operazioni di aggiornamento dei dati;
 \item computazione lato \underline{client}, quindi per tutte le operazioni che non coinvolgono direttamente il modello non è necessario appoggiarsi alla connessione di rete in quanto tutti i dati e la logica necessaria sono già disponibili sul \underline{client}.
 \end{itemize}
+\subsubsection{Componenti che lo implementano}
 
+\subsection{Observer}
+\subsubsection{Scopo}
+Definisce una dipendenza uno-a-molti fra oggetti in modo tale che se uno cambia tutti gli oggetti dipendenti da esso vengano modificati e aggiornati automaticamente.
+\subsubsection{Diagramma esemplificativo}
+\subsubsection{Vantaggi derivanti}
+\begin{itemize}
+\item poiché i vari oggetti non sono rigidamente accoppiati, possono eppartenere a diversi livelli di astrazione del sistema.
+\item ................................................................................................
+\end{itemize}
+\subsubsection{Componenti che lo implementano}
+
+\subsection{Proxy}
+\subsubsection{Scopo}
+Fornire un surrogato o un segnaposto di un oggetto per controllare l'accesso all'oggetto stesso.
+\subsubsection{Diagramma esemplificativo}
+\subsubsection{Vantaggi derivanti}
+\begin{itemize}
+\item il proxy virtuale permette ottimizzazioni quali la creazione di un oggetto su richiesta;
+\item un altra ottimizzaizone sfruttata è correlata alla creazione su richiesta (copy-on-write), la copia di un oggetto in locale è effettuata solo se viene rischiesta.
+\end{itemize}
 \subsubsection{Componenti che lo implementano}
 
 \subsection{Singleton}
-
 \subsubsection{Scopo}
 Il pattern creazionale Singleton, garantisce che una determinata classe possa essere istanziata una sola volta, e di fornirne un punto di accesso globale. Questo pattern va utilizzato negli ambiti in cui si ha la necessità che l'accesso ad una determinata entità sia unico, in modo da permettere la gestione ottimale della risorsa stessa.
-
 \subsubsection{Diagramma esemplificativo}
 \begin{figure}[h]
 \centering
 \includegraphics[width=.7\textwidth]{singletonHLdiagram}
 \caption{Diagramma ad alto livello del pattern Singleton.}\label{fig:singletonHL}
 \end{figure}
-
 \subsubsection{Vantaggi derivanti}
 \begin{itemize}
 \item accesso controllato a un'unica istanza;
 \item riduzione dello spazio dei nomi in quanto riduce l'uso di variabili globali;
 \item permette di gestire un numero variabile di istanze.
 \end{itemize}
-
 \subsubsection{Componenti che lo implementano}
 
 \subsection{State}
@@ -250,14 +263,7 @@ Permette ad un oggetto di cambiare il suo comportamento al variare del suo stato
 \item rende esplicita la transazione si stato (tale condizione è espressa esplicitamente);
 \item condivisione di oggetti di stato.
 \end{itemize}
-
 \subsubsection{Componenti che lo implementano}
-
-
-
-
-
-
 
 \subsection{Strategy}
 \subsubsection{Scopo}
