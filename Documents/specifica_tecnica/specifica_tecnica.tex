@@ -118,7 +118,7 @@ la funzione e l'obbiettivo.
 
 \subsection{Hibernate}
 
-% da completare
+%TODO: da completare
 
 \clearpage
 \section{Design Pattern}
@@ -134,58 +134,55 @@ In questa sezione discuteremo i design pattern utilizzati nella progettazione de
 Per una visione d'insieme dei delle componenti utilizzate da un pattern, e dei pattern utilizzati da un componente, rimandiamo alle sottosezioni ``Tracciamenti Componenti-Design Pattern'' e ``Tracciamenti Design Pattern-Componenti'' della sezione ``Tracciamenti''.
 
 
-\subsection{Adapter}
-\subsubsection{Scopo}
-Convertire l'interfaccia di una classe in un altra interfaccia richiesta dal \underline{client} e consente a classi diverse di operare insieme quando ciò non sarebbe altrimenti possibile a causa di interfacce incompatibili.
-\subsubsection{Diagramma esemplificativo}
-\begin{figure}[h]
-\centering
-\includegraphics[width=.8\textwidth]{adapter}
-\caption{Diagramma ad alto livello del pattern Adapter.}\label{fig:adapter}
-\end{figure}
-\subsubsection{Vantaggi derivanti}
-\begin{itemize}
-\item consente di adattare una classe esistente senza doverla ridefinire;
-\item un unico oggetto può adattare più classi.
-\end{itemize}
-\subsubsection{Componenti che lo implementano}
-\item *****************************************************************
+%\subsection{Adapter}
+%\subsubsection{Scopo}
+%Convertire l'interfaccia di una classe in un altra interfaccia richiesta dal \underline{client} e consente a classi diverse di operare insieme quando ciò non sarebbe altrimenti possibile a causa di interfacce incompatibili.
+%\subsubsection{Diagramma esemplificativo}
+%\begin{figure}[h]
+%\centering
+%\includegraphics[width=.8\textwidth]{adapter}
+%\caption{Diagramma ad alto livello del pattern Adapter.}\label{fig:adapter}
+%\end{figure}
+%\subsubsection{Vantaggi derivanti}
+%\begin{itemize}
+%\item consente di adattare una classe esistente senza doverla ridefinire;
+%\item un unico oggetto può adattare più classi.
+%\end{itemize}
+%\subsubsection{Componenti che lo implementano}
 
 \subsection{Composite}
 \subsubsection{Scopo}
-Il pattern Composite ha lo scopo di comporre oggetti in strutture ad albero al fine di rappresentare gerarchie parte-tutto e consentire ai \underline{client} di trattare oggetti singoli e composizioni in modo uniforme. Permette inoltre di gestire strutture dati gerarchicizzate con elementi "foglie" ed elementi "contenitori", l'ideale per la struttura "gruppo" e "utente".
+Il pattern Composite ha lo scopo di comporre oggetti in strutture ad albero al fine di rappresentare gerarchie parte-tutto e consentire ai \underline{client} di trattare oggetti singoli e composizioni in modo uniforme. Permette inoltre di gestire strutture dati gerarchicizzate con elementi ``foglie'' ed elementi ``contenitori'', l'ideale per la struttura ``gruppo'' e ``utente''.
 \subsubsection{Diagramma esemplificativo}
 \begin{figure}[h]
 \centering
 \includegraphics[width=.8\textwidth]{composite}
 \caption{Diagramma ad alto livello del pattern Composite.}\label{fig:composite}
 \end{figure}
-\subsubsection{Vantaggi derivanti}
-\begin{itemize}
-\item definisce gerarchie di classi costituite da oggetti primitivi e composti;
-\item semplifica il \underline{client} in quanto posso trattare oggetti singoli e strutture astratte in modo uniforme;
-\item rende più semplice l'aggiunta di nuovi componenti.
-\end{itemize}
 \subsubsection{Componenti che lo implementano}
-\item Gestione della Rubrica (lato server)
+\begin{description}
+\item{\bfseries\scshape Gestione della rubrica (lato server)}\\
+Composite permette di trattare in maniera omogenea singoli oggetti e oggetti composti, come gli utenti e gruppi di utenti della rubrica. Inoltre, visto che rende più semplice l'aggiunta di componenti, permetterebbe in futuro l'integrazione di nuove tipologie di utenti senza la necessità di modificare la struttura preesistente.
+
+Lo svantaggio principale che comporta l'uso di Composite è la mancanza di limiti nell'aggiunta di nuove tipologie di componenti. Per far fronte a questo rischio si è introdotta la classe \texttt{org.softwaresynthesis.mytalk.server.abook.AddressBook} che controlla l'accesso alla struttura dati corrispondente alla rubrica.
+\end{description}
 
 \subsection{Data Access Object (DAO)}
 \subsubsection{Scopo}
 Il pattern DAO ha lo scopo di disaccoppiare la logica di business dalla logica di accesso ai dati. Questo si ottiene spostando la logica di accesso ai dati dai componenti di business ad una classe DAO rendendo i componenti che implementano la logica di business indipendenti dalla natura del dispositivo di persistenza. Questo approccio garantisce che un eventuale cambiamento del dispositivo di persistenza non comporti modifiche sui componenti di business.
+
 \subsubsection{Diagramma esemplificativo}
 \begin{figure}[h]
 \centering
 \includegraphics[width=.8\textwidth]{dao}
 \caption{Diagramma ad alto livello del pattern DataAccessObject.}\label{fig:dao}
 \end{figure}
-\subsubsection{Vantaggi derivanti}
-\begin{itemize}
-\item stratifica e isola l'accesso ad una tabella dalla parte di business logic;
-\item crea un maggiore livello di astrazione;
-\item mantiene una rigida separazione tra le componenti di un'applicazione (Model - Controller).
-\end{itemize}
+
 \subsubsection{Componenti che lo implementano}
-\item Gestione Database
+\begin{description}
+\item{\scshape\bfseries Gestione Database}\\
+Le classi DAO consentono di isolare l'accesso alle tabelle del database dalla parte di business logic facendo corrispondere alle invocazioni di metodo le opportune operazioni sui record del database. L'utilizzo di tale pattern crea inoltre un maggiore livello di astrazione e mantiene una rigida separazione tra i sottosistemi corrispondenti a model e presenter.
+\end{descrition}
 
 \subsection{Façade}
 \subsubsection{Scopo}
@@ -202,7 +199,7 @@ Fornire un interfaccia unificata per un insieme di interfacce presenti in un sot
 \item promuove l'accoppiamento lasco tra un sottosistema e i \underline{client}, ossia consente di modificare i componenti del sottosistema senza che i suoi \underline{client} siano coinvolti.
 \end{itemize}
 \subsubsection{Componenti che lo implementano}
-\item *************************************************
+%\item *************************************************
 
 \subsection{Factory Method}
 \subsubsection{Scopo}
@@ -219,7 +216,7 @@ Definisce un'interfaccia per la creazione di un oggetto, lasciando alle sottocla
 \item connette gerarchie di classi parallele;
 \end{itemize}
 \subsubsection{Componenti che lo implementano}
-\item *********************************************************
+%\item *********************************************************
 
 \subsection{Model-View-Presenter}
 \subsubsection{Scopo}
@@ -261,7 +258,6 @@ Definire una dipendenza uno a molti fra oggetti, in modo tale che se un oggetto 
 \item 
 \end{itemize}
 \subsubsection{Componenti che lo implementano}
-\item 
 
 \subsection{Singleton}
 \subsubsection{Scopo}
@@ -279,7 +275,7 @@ Il pattern creazionale Singleton, garantisce che una determinata classe possa es
 \item permette di gestire un numero variabile di istanze.
 \end{itemize}
 \subsubsection{Componenti che lo implementano}
-\item ******************************************************
+%\item ******************************************************
 
 \subsection{State}
 \subsubsection{Scopo}
@@ -297,7 +293,9 @@ Permette ad un oggetto di cambiare il suo comportamento al variare del suo stato
 \item condivisione di oggetti di stato.
 \end{itemize}
 \subsubsection{Componenti che lo implementano}
+\begin{itemize}
 \item Gestione dello Stato
+\end{itemize}
 \clearpage
 
 \section{Introduzione all'architettura di sistema}
