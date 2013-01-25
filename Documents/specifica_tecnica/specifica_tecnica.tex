@@ -615,6 +615,7 @@ Interfaccia condivisa da tutti i contatti della rubrica di un utente, permette d
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[nolistsep, noitemsep]
 	  \item[-] Gestione rubrica
+	  % forse gestione database
 	\end{itemize}
 \end{description}
 
@@ -636,6 +637,7 @@ Classe che implementa l'interfaccia \texttt{IAddressBook} e rappresenta quindi l
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Gestione rubrica
+	  % forse gestione database
 	\end{itemize}
 \end{description}
 
@@ -646,40 +648,53 @@ Classe che implementa l'interfaccia \texttt{IAddressBook} e rappresenta quindi l
 Interfaccia alla base della gerarchia di stati che gli utenti possono assumere nel corso dell'interazione con il sistema. La composizione delle istanze di \texttt{server.dao.StandardUserData} con oggetti sottotipo di \texttt{IState} cui inoltrano le richieste ricevute dall'esterno permette di cambiare dinamicamente il comportamento degli oggetti che rappresentano gli utenti.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] Gestione rubrica
+	  \item[-] Gestione stato
+	  \item[-] Gestione comunicazione
 	\end{itemize}
 \end{description}
 
 \subsubsection{StateOnline}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Classe astratta che viene estesa da tutti gli stati che corrispondono alla presenza ``online'' dell'utente. È ulteriormente specializzata dalle sottoclassi concrete \texttt{StateAvailable} e \texttt{StateOccupied}, le quali hanno facoltà di determinare il reale comportamento degli utenti online.
+Classe astratta che implementa l'interfaccia \texttt{IState} e viene estesa da tutti gli stati che corrispondono alla presenza ``online'' dell'utente. È ulteriormente specializzata dalle sottoclassi concrete \texttt{StateAvailable} e \texttt{StateOccupied}, le quali hanno facoltà di determinare il reale comportamento degli utenti online.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Gestione stato
+	  \item[-] Gestione comunicazione
 	\end{itemize}
 \end{description}
 
 \subsubsection{StateOffline}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Classe concreta della gerarchia degli stati che corrisponde alla non presenza online dell'utente che la possiede. Un utente che si trova nello stato ``offline'' non può essere contattato direttamente ma solo attraverso la segreteria telefonica.
+Classe concreta della gerarchia degli stati che implementa l'interfaccia \texttt{IState} e corrisponde alla non presenza online dell'utente che la possiede. Un utente che si trova nello stato ``offline'' non può essere contattato direttamente ma solo attraverso la segreteria telefonica.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Gestione stato
+	  \item[-] Gestione comunicazione
 	\end{itemize}
 \end{description}
 
 \subsubsection{StateAvailable}
 \begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+	\item{\scshape\bfseries Descrizione:}\\
+Classe concreta della gerarchia degli stati che corrisponde alla presenza online di un utente e alla sua disponibilità ad accettare comunicazioni in ingresso.
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+    \begin{itemize}[noitemsep,nolistsep]
+      \item[-] Gestione stato
+      \item[-] Gestione comunicazione
+    \end{itemize}
 \end{description}
 
 \subsubsection{StateOccupied}
 \begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+	\item{\scshape\bfseries Descrizione:}\\
+Classe concreta della gerarchia degli stati che corrisponde alla mancata disponibilità di un utente a ricevere ulteriori comunicazioni in ingresso dal momento che si trova impegnato in un'altra conversazione. Gli utenti che si trovano in questo stato non possono essere contattati direttamente ma solo attraverso la possibilità di lasciare un messaggio in segreteria.
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-] Gestione stato
+	  \item[-] Gestione comunicazione
+	\end{itemize}
 \end{description}
 
 \subsection{Package org.softwaresynthesis.mytalk.server.message}
