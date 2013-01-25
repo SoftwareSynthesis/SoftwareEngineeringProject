@@ -214,11 +214,6 @@ Definisce un'interfaccia per la creazione di un oggetto, lasciando alle sottocla
 \caption{Diagramma ad alto livello del pattern Factory Method.}\label{fig:factory_method}
 \end{figure}
 
-%\subsubsection{Vantaggi derivanti}
-%\begin{itemize}
-%\item fornisce un punto di aggancio per le sottoclassi per la produzione di una versione specializzata di un oggetto;
-%\item connette gerarchie di classi parallele;
-%\end{itemize}
 \subsubsection{Componenti che lo implementano}
 \begin{description}
   \item{\scshape\ttfamily Facade del server}\\
@@ -265,6 +260,24 @@ Definire una dipendenza uno a molti fra oggetti, in modo tale che se un oggetto 
 \begin{description}
   \item{\scshape\ttfamily Gestione stato}\\
 Il pattern Observer è utile in quanto permette agli utenti di osservare lo stato degli altri, ricevendo in modo automatico e trasparente una notifica nel caso in cui quest'ultimo subisse variazioni, essendo ogni utente sia osservato che osservatore. Al momento della connessione, infatti, ogni utente si registra come osservatore sui suoi contatti che sono online e, al contempo, li aggiunge tra i propri osservatori. In tal modo gli utenti notificano in broadcast le loro variazioni di stato e sono sempre aggiornati sullo stato dei contatti della loro rubrica.
+\end{description}
+
+\subsection{Proxy}
+\subsubsection{Scopo}
+Fornisce un placeholder per un altro oggetto in modo da controllarne l'accesso e consentire un uso ottimizzato della memoria.
+
+\subsubsection{Diagramma esemplificativo}
+\begin{figure}
+\includegraphics[width=.8\textwidth]{proxy}
+\caption{Diagramma ad alto livello del pattern Proxy.}\label{fig:proxy}
+\end{figure}
+
+\subsubsection{Componenti che lo implementano}
+\begin{description}
+  \item{\bfseries\scshape Gestione rubrica}\\
+L'utilizzo di un proxy al posto di un utente permette di raggiungere una maggiore efficienza limitando l'utilizzo della rete evitando all'utente di percepire una eccessiva lentezza che comprometterebbe la sua esperienza. Inoltre, tramite un proxy è possibile controllare l'accesso ai dati (che risiedono nel server) garantendo un migliore livello di protezione.
+  \item{\bfseries\scshape Gestione segreteria}\\
+Poiché i messaggi audio e, soprattutto, i messaggi audio/video possono essere di grandi dimensioni, i proxy permettono di ottimizzare il consumo della memoria e di evitare l'attesa da parte dell'utente se non strettamente necessario.
 \end{description}
 
 \subsection{Singleton}
@@ -368,12 +381,15 @@ La rubrica è organizzata in gruppi e sono previste due categorie di default: la
 
 In particolare, \texttt{abook.IContact} rappresenta l'interfaccia principale comune a ogni tipologia di contatto e viene estesa dalle due interfacce \texttt{dao.IUserData} e \texttt{dao.IGroup}. La componente comprende anche l'interfaccia \texttt{abook.IAddressBook} e la relativa implementazione \texttt{abook.AddressBook}. Nell'implementazione specificata \texttt{abook.Addressbook} vincola il sistema a garantire che ogni utente abbia i due gruppi di default sopra descritti, come richiesto dai requisiti.
 
+Infine, la classe \texttt{abook.UserDataProxy} viene utilizzata come proxy per lo scambio di dati fra il sottosistema \texttt{server} e il sottosistema \texttt{clientpresenter}.
+
 	\item{\scshape\bfseries Diagramma delle classi:}
 	\item{\scshape\bfseries Classi utilizzate:}\\
 \begin{itemize}
   \item \texttt{abook.AddressBook}
   \item \texttt{abook.IAddressBook}
   \item \texttt{abook.IContact}
+  \item \texttt{abook.UserDataProxy}
   \item \texttt{dao.IGroup}
   \item \texttt{dao.IUserData}
 \end{itemize}
@@ -433,160 +449,6 @@ L'interfaccia \texttt{IServerFacade} e la relativa implementazione \texttt{Stand
 \end{itemize}
 \end{description}
 
-\subsection{Classi utilizzate}
-
-%\subsubsection{Template classe X}
-%\begin{description}
-%	\item{\scshape\bfseries Descrizione:} 
-%	\item{\scshape\bfseries Diagramma della classe:}
-%	\item{\scshape\bfseries Componenti che ne fanno uso:} 
-%\end{description}
-
-\subsubsection{mytalk.server.dao.IAudioMessage}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:} \\
-Interfaccia di un messaggio audio della segreteria telefonica che viene implementata dalle classi \texttt{dao.AudioMessage} e \texttt{message.AudioMessageProxy}.
-	\item{\scshape\bfseries Componenti che ne fanno uso:}\\
-\end{description}
-
-\subsubsection{mytalk.server.dao.IAudioVideoMessage}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
-\end{description}
-
-\subsubsection{mytalk.server.dao.AudioMessage}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
-\end{description}
-
-\subsubsection{mytalk.server.dao.AudioVideoMessage}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
-\end{description}
-
-\subsubsection{mytalk.server.dao.IGroup}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
-\end{description}
-
-\subsubsection{mytalk.server.dao.StandardGroup}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
-\end{description}
-
-\subsubsection{mytalk.server.dao.IUserData}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
-\end{description}
-
-\subsubsection{mytalk.server.dao.StandardUserData}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
-\end{description}
-
-\subsubsection{mytalk.server.connection.ISocket}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
-\end{description}
-
-\subsubsection{mytalk.server.connection.WebSocketAdapter}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
-\end{description}
-
-\subsubsection{mytalk.server.abook.IContact}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
-\end{description}
-
-\subsubsection{mytalk.server.abook.IAddressBook}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
-\end{description}
-
-\subsubsection{mytalk.server.abook.AddressBook}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
-\end{description}
-
-\subsubsection{mytalk.server.state.IState}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
-\end{description}
-
-\subsubsection{mytalk.server.state.StateOnline}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
-\end{description}
-
-\subsubsection{mytalk.server.state.StateOffline}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
-\end{description}
-
-\subsubsection{mytalk.server.state.StateAvailable}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
-\end{description}
-
-\subsubsection{mytalk.server.state.StateOccupied}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
-\end{description}
-
-\subsubsection{mytalk.server.message.IMessageBox}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
-\end{description}
-
-\subsubsection{mytalk.server.message.StandardMessageBox}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
-\end{description}
-
-\subsubsection{mytalk.server.message.AudioMessageProxy}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
-\end{description}
-
-\subsubsection{mytalk.server.message.AudioVideoMessageProxy}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
-\end{description}
-
-\subsubsection{mytalk.server.IServerFacade}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
-\end{description}
-
-\subsubsection{mytalk.server.StandardServerFacade}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
-\end{description}
-
 \subsection{Diagramma del package}
 
 \subsection{Diagramma delle classi}
@@ -595,31 +457,6 @@ Interfaccia di un messaggio audio della segreteria telefonica che viene implemen
 \section{Architettura MyTalk-client Universale}
 
 \subsection{Componenti evidenziate}
-
-
-% gestione segreteria lato client
-\subsubsection{Gestione segreteria}
-\begin{description}
-  \item{\bfseries\scshape Descrizione:}\\
-Questo componente permette di gestire la segreteria telefonica lato client tramite le classi \texttt{message.AudioMessageProxy} e \texttt{AudioVideoMessageProxy}, che rappresentano dei proxy rispettivamente per \texttt{server.dao.AudioMessage} e \texttt{server.dao.AudioVideoMessage}. In tal modo è possibile che i messaggi vengano scaricati solo quando effettivamente richiesto, in maniera totalmente trasparente per i client della classe.
-
-  \item{\bfseries\scshape Diagramma delle classi:}\\
-
-  \item{\bfseries\scshape Classi utilizzate:}\\
-\begin{itemize}
-  \item \texttt{message.AudioMessageProxy}
-  \item \texttt{message.AudioVideoMessageProxy}
-  \item \texttt{server.dao.IAudioMessage}
-  \item \texttt{server.dao.IAudioVideoMessage}
-\end{itemize}
-\end{description}
-\subsubsection{Gestione rubrica}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Diagramma delle classi:}
-	\item{\scshape\bfseries Classi utilizzate:} 
-\end{description}
-
 \subsubsection{Gestione comunicazione}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:} 
@@ -632,38 +469,6 @@ Questo componente permette di gestire la segreteria telefonica lato client trami
 	\item{\scshape\bfseries Descrizione:} 
 	\item{\scshape\bfseries Diagramma delle classi:}
 	\item{\scshape\bfseries Classi utilizzate:} 
-\end{description}
-
-\subsection{Classi utilizzate}
-
-\subsubsection{mytalk.client.Contact}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
-\end{description}
-
-\subsubsection{mytalk.client.IClient}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
-\end{description}
-
-\subsubsection{mytalk.client.StandardClient}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
-\end{description}
-
-\subsubsection{mytalk.client.IPresenterFacade}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
-\end{description}
-
-\subsubsection{mytalk.client.StandardServerFacade}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
 \end{description}
 
 \subsection{Diagramma del package}
@@ -694,6 +499,185 @@ Questo componente permette di gestire la segreteria telefonica lato client trami
 \subsection{Diagramma del package}
 
 \subsection{Diagramma delle classi}
+\clearpage
+
+\section{Descrizione delle classi}
+
+\subsection{Package org.softwaresynthesis.mytalk.server.dao}
+\subsubsection{IAudioMessage}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:}\\
+Interfaccia di un messaggio audio della segreteria telefonica che viene implementata dalle classi \texttt{dao.AudioMessage} e \texttt{message.AudioMessageProxy}.
+	\item{\scshape\bfseries Componenti che ne fanno uso:}\\
+\end{description}
+
+\subsubsection{IAudioVideoMessage}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{AudioMessage}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{AudioVideoMessage}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{IGroup}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{StandardGroup}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{IUserData}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{StandardUserData}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsection{Package org.softwaresynthesis.mytalk.server.connection}
+\subsubsection{ISocket}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{WebSocketAdapter}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsection{Package org.softwaresynthesis.mytalk.server.abook}
+\subsubsection{IContact}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{IAddressBook}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{AddressBook}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsection{Package org.softwaresynthesis.mytalk.server.state}
+\subsubsection{IState}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{StateOnline}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{StateOffline}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{StateAvailable}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{StateOccupied}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsection{Package org.softwaresynthesis.mytalk.server.message}
+\subsubsection{IMessageBox}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{StandardMessageBox}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{AudioMessageProxy}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{AudioVideoMessageProxy}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsection{Package org.softwaresynthesis.mytalk.server}
+\subsubsection{IServerFacade}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{StandardServerFacade}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsection{Package org.softwaresynthesis.mytalk.client}
+\subsubsection{IClient}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{StandardClient}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{IPresenterFacade}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
+
+\subsubsection{mytalk.client.StandardPresenterFacade}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+\end{description}
 \clearpage
 
 \section{Conclusioni sull'architettura}
