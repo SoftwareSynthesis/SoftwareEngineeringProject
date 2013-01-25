@@ -768,13 +768,15 @@ Proxy virtuale ad uso dei client per i messaggi audio/video in segreteria. La cl
 \subsection{Package org.softwaresynthesis.mytalk.server}
 \subsubsection{IServerFacade}
 \begin{description}
-	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Descrizione:}\\
+Interfaccia che contiene tutte le operazioni richieste dai componenti del sottosistema \texttt{clientpresenter} inerenti alla registrazione, all'autenticazione,  alla gestione della rubrica e della segreteria nonché delle connessioni con altri utenti. In quest'ultimo caso, tuttavia, le operazioni richieste vengono a loro volta inoltrate alla componente per la gestione della connessione (in particolare, verso \texttt{connection.IConnectionHandler}).
 	%\item{\scshape\bfseries Componenti che ne fanno uso
 \end{description}
 
 \subsubsection{StandardServerFacade}
 \begin{description}
-	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Descrizione:}\\
+Questa classe Singleton è l'implementazione dell'interfaccia \texttt{IServerFacade} e contiene, in particolare, i metodi che rendono concrete le operazioni corrispondenti ai Factory Method dichiarati nell'interfaccia citata (per la gestione dei messaggi in segreteria e degli utenti nella rubrica).
 	%\item{\scshape\bfseries Componenti che ne fanno uso:} 
 \end{description}
 
