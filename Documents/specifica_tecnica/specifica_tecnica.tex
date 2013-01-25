@@ -206,19 +206,25 @@ Tramite questo design pattern si introduce un livello di indirettezza fra il sot
 \subsection{Factory Method}
 \subsubsection{Scopo}
 Definisce un'interfaccia per la creazione di un oggetto, lasciando alle sottoclassi la decisione sulla classe che deve essere istanziata e consente di deferire l'istanziazione di una classe alle sottoclassi.
+
 \subsubsection{Diagramma esemplificativo}
 \begin{figure}[h]
 \centering
 \includegraphics[width=.8\textwidth]{factory_method}
 \caption{Diagramma ad alto livello del pattern Factory Method.}\label{fig:factory_method}
 \end{figure}
-\subsubsection{Vantaggi derivanti}
-\begin{itemize}
-\item fornisce un punto di aggancio per le sottoclassi per la produzione di una versione specializzata di un oggetto;
-\item connette gerarchie di classi parallele;
-\end{itemize}
+
+%\subsubsection{Vantaggi derivanti}
+%\begin{itemize}
+%\item fornisce un punto di aggancio per le sottoclassi per la produzione di una versione specializzata di un oggetto;
+%\item connette gerarchie di classi parallele;
+%\end{itemize}
 \subsubsection{Componenti che lo implementano}
-%\item *********************************************************
+\begin{description}
+  \item{\scshape\ttfamily Facade del server}\\
+Factory Method permette ai client di ottenere con facilità degli oggetti proxy che specializzano le interfacce \texttt{server.dao.IAudioMessage}, \texttt{server.dao.IAudioVideoMessage} e \texttt{server.dao.IUserData}. Questo permette di ridurre il traffico di rete in quanto oggetti potenzialmente di grandi dimensioni rimangono sul server e vengono scaricati solo quando se ne presenta l'effettiva necessità.
+%TODO: Un altro oggetto specializzato che si ottiene mediante il ServerFacade è l'Adapter per la connessione di rete (da definire!)
+\end{description}
 
 \subsection{Model-View-Presenter}
 \subsubsection{Scopo}
