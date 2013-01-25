@@ -293,9 +293,9 @@ Il pattern creazionale Singleton, garantisce che una determinata classe possa es
 
 \subsubsection{Componenti che lo implementano}
 \begin{description}
-  \item{\scshape\ttfamily Façade del server}\\
+  \item{\scshape\bfseries Façade del server}\\
 Il pattern Singleton pone un limite superiore stretto al numero di istanze che possono esistere di una determinata classe e perciò è utile utilizzarlo per poter controllare il numero di oggetti \texttt{server.StandardServerFacade} che in questo caso è pari a uno. L'unicità dell'oggetto façade garantisce la presenza di un solo punto di accesso alle funzionalità del sottosistema \texttt{server}.
-  \item{\scshape\ttfamily Façade del presenter}
+  \item{\scshape\bfseries Façade del presenter}
 Il pattern Singleton è altresì utile nella componente \texttt{client.StandardPresenterFacade} per gli stessi motivi evidenziati nella componente precedente, ossia l'unicità del punto di accesso alle funzionalità del sottosistema \texttt{clientpresenter}.
 \end{description}
 
@@ -357,15 +357,16 @@ Si informa inoltre che le classi di tale componente dovranno interagire con il \
 \subsubsection{Gestione connessione}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Tale componente ingloba le classi destinate a stabilire le routine di connessione. Il server ha la consapevolezza degli oggetti rappresentati una connessione tra client. Si ricorda infatti che: ``ogni cliente per comunicare con altri, deve prima connettersi al server e richiedere a questo un oggetto rappresentante la linea di comunicazione con il destinatario''. Le specifiche di tale oggetto sono descritte dall'interfaccia \texttt{connection.ISocket}.
+Tale componente ingloba le classi destinate a stabilire le routine di connessione. Il server ha la consapevolezza degli oggetti rappresentati una connessione tra client. Si ricorda infatti che: ``ogni cliente per comunicare con altri, deve prima connettersi al server e richiedere a questo un oggetto rappresentante la linea di comunicazione con il destinatario''.
 
-Al fine di rendere l'architettura di tale componente il più manutenibile possibile, si è deciso di usare il pattern Adapter. In pratica esternamente il sistema ha esclusivamente la conoscenza dell'interfaccia \texttt{connection.ISocket}. Quindi l'esterno è svincolato dal conoscere il tipo preciso di protocollo di connessione (che ricordiamo nel nostro caso essere \texttt{da\_definire}). Poiché la classe che implementa il protocollo di comunicazione esiste già, nasce l'esigenza di ``adattare'' tale classe alla nostra interfaccia (\texttt{connection.ISocket}). Ciò giustifica l'esistenza della classe \texttt{connection.WebSocketAdapter}.
+Le specifiche di tale oggetto sono descritte dall'interfaccia \texttt{connection.IChannelInfo}, di cui si fornisce un'implementazione standard \texttt{connection.WebRTCInfo}.
+
+%Al fine di rendere l'architettura di tale componente il più manutenibile possibile, si è deciso di usare il pattern Adapter. In pratica esternamente il sistema ha esclusivamente la conoscenza dell'interfaccia \texttt{connection.ISocket}. Quindi l'esterno è svincolato dal conoscere il tipo preciso di protocollo di connessione (che ricordiamo nel nostro caso essere \texttt{da\_definire}). Poiché la classe che implementa il protocollo di comunicazione esiste già, nasce l'esigenza di ``adattare'' tale classe alla nostra interfaccia (\texttt{connection.ISocket}). Ciò giustifica l'esistenza della classe \texttt{connection.WebSocketAdapter}.
 	\item{\scshape\bfseries Diagramma delle classi:}
 	\item{\scshape\bfseries Classi utilizzate:}
 \begin{itemize}
-  \item \texttt{connection.ISocket}
-  \item \texttt{connection.WebSocketAdapter}
-  \item \texttt{da\_definire}
+  \item \texttt{connection.IChannelInfo}
+  \item \texttt{connection.WebRTCInfo}
 \end{itemize}
 \end{description}
 
