@@ -354,11 +354,6 @@ Si informa inoltre che le classi di tale componente dovranno interagire con il \
 \end{itemize}
 \end{description}
 
-\begin{itemize}
-	\item \texttt{connection.ISocket}
-	\item \texttt{connection.WebSocketAdapter}
-\end{itemize}
-
 \subsubsection{Gestione connessione}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
@@ -382,7 +377,6 @@ La rubrica è organizzata in gruppi e sono previste due categorie di default: la
 In particolare, \texttt{abook.IContact} rappresenta l'interfaccia principale comune a ogni tipologia di contatto e viene estesa dalle due interfacce \texttt{dao.IUserData} e \texttt{dao.IGroup}. La componente comprende anche l'interfaccia \texttt{abook.IAddressBook} e la relativa implementazione \texttt{abook.AddressBook}. Nell'implementazione specificata \texttt{abook.Addressbook} vincola il sistema a garantire che ogni utente abbia i due gruppi di default sopra descritti, come richiesto dai requisiti.
 
 Infine, la classe \texttt{abook.UserDataProxy} viene utilizzata come proxy per lo scambio di dati fra il sottosistema \texttt{server} e il sottosistema \texttt{clientpresenter}.
-
 	\item{\scshape\bfseries Diagramma delle classi:}
 	\item{\scshape\bfseries Classi utilizzate:}\\
 \begin{itemize}
@@ -393,20 +387,18 @@ Infine, la classe \texttt{abook.UserDataProxy} viene utilizzata come proxy per l
   \item \texttt{dao.IGroup}
   \item \texttt{dao.IUserData}
 \end{itemize}
-
 \end{description}
 
 \subsubsection{Gestione stato}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-	Le classi di tale componente sono utilizzate per gestire lo stato degli utenti, permettendo un comportamento diverso delle istanze di \texttt{dao.StandardUserData} a seconda dello stato in cui si trova l'utente corrispondente. Gli stati possibili sono ``online'' e ``offline'' che sono rappresentati dalle classi \texttt{state.StateOnline} e \texttt{state.StateOffline} rispettivamente.
+Le classi di tale componente sono utilizzate per gestire lo stato degli utenti, permettendo un comportamento diverso delle istanze di \texttt{dao.StandardUserData} a seconda dello stato in cui si trova l'utente corrispondente. Gli stati possibili sono ``online'' e ``offline'' che sono rappresentati dalle classi \texttt{state.StateOnline} e \texttt{state.StateOffline} rispettivamente.
 	
-	Gli utenti che si trovano nello stato online possono trovarsi in due situazioni: ``occupato'' o ``disponibile'', rappresentati a loro volta dalle classi \texttt{state.StateOccupied} e \texttt{state.StateAvailable}. L'utente si troverà nello stato ``occupato'' solo se è impegnato in una conversazione. Lo stato può essere controllato solo dal sistema in risposta agli eventi di connessione e di chiamata ma non è direttamente accessibile dall'utente.
+Gli utenti che si trovano nello stato online possono trovarsi in due situazioni: ``occupato'' o ``disponibile'', rappresentati a loro volta dalle classi \texttt{state.StateOccupied} e \texttt{state.StateAvailable}. L'utente si troverà nello stato ``occupato'' solo se è impegnato in una conversazione. Lo stato può essere controllato solo dal sistema in risposta agli eventi di connessione e di chiamata ma non è direttamente accessibile dall'utente.
 	
-	Ad esempio, la chiamata viene trattata in modo differente a seconda che l'utente si trovi nello stato ``disponibile'' o ``occupato''/``offline'', dal momento che nel primo caso la chiamata va a buon fine mentre nel secondo verrà attivato il meccanismo di segreteria telefonica.
+Ad esempio, la chiamata viene trattata in modo differente a seconda che l'utente si trovi nello stato ``disponibile'' o ``occupato''/``offline'', dal momento che nel primo caso la chiamata va a buon fine mentre nel secondo verrà attivato il meccanismo di segreteria telefonica.
 	
-	Inoltre, i cambiamenti di stato vengono notificati a tutti gli utenti presenti in rubrica tali che si trovano nello stato online.
-	
+Inoltre, i cambiamenti di stato vengono notificati a tutti gli utenti presenti in rubrica tali che si trovano nello stato online.
 	\item{\scshape\bfseries Diagramma delle classi:}
 	\item{\scshape\bfseries Classi utilizzate:}\\ 
 	\begin{itemize}
@@ -489,12 +481,12 @@ L'interfaccia \texttt{IServerFacade} e la relativa implementazione \texttt{Stand
 
 \subsection{Classi utilizzate}
 
-\subsubsection{Template classe X}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Diagramma della classe:}
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
-\end{description}
+%\subsubsection{Template classe X}
+%\begin{description}
+%	\item{\scshape\bfseries Descrizione:} 
+%	\item{\scshape\bfseries Diagramma della classe:}
+%	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+%\end{description}
 
 \subsection{Diagramma del package}
 
@@ -507,37 +499,59 @@ L'interfaccia \texttt{IServerFacade} e la relativa implementazione \texttt{Stand
 \subsubsection{IAudioMessage}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Interfaccia di un messaggio audio della segreteria telefonica che viene implementata dalle classi \texttt{dao.AudioMessage} e \texttt{message.AudioMessageProxy}.
+Interfaccia per i messaggi audio della segreteria telefonica che viene implementata dalle classi \texttt{AudioMessage} e dal suo proxy \texttt{message.AudioMessageProxy}.
+% contiene operazione astratta play() per riprodurre il messaggio (se presente) o scaricarlo e avviarne la riproduzione
 	\item{\scshape\bfseries Componenti che ne fanno uso:}\\
+	  \begin{itemize}
+	    \item[-] Gestione segreteria
+	  \end{itemize}
 \end{description}
 
 \subsubsection{IAudioVideoMessage}
 \begin{description}
-	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Descrizione:}\\
+Interfaccia per i messaggi audio/video della segreteria telefonica, a sua volta implementata dalle classi \texttt{AudioVideoMessage} e dal relativo proxy \texttt{message.AudioVideoMessage}.
+% contiene operazione astratta play() per riprodurre il messaggio (se presente) o scaricarlo e avviarne la riproduzione
 	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+	  \begin{itemize}
+	    \item[-] Gestione segreteria
+	  \end{itemize}
 \end{description}
 
 \subsubsection{AudioMessage}
 \begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+	\item{\scshape\bfseries Descrizione:}\\
+Classe che rappresenta un messaggio audio nella segreteria telefonica di un utente, implementa l'interfaccia \texttt{IAudioMessage}.
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+	  \begin{itemize}
+	    \item[-] Gestione segreteria
+	  \end{itemize}
 \end{description}
 
 \subsubsection{AudioVideoMessage}
 \begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+	\item{\scshape\bfseries Descrizione:}\\
+Classe che rappresenta un messaggio audio/video nella segreteria telefonica di un utente, implementa l'interfaccia \texttt{IAudioVideoMessage}.
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+	  \begin{itemize}
+	    \item[-] Gestione segreteria
+	  \end{itemize}
 \end{description}
 
 \subsubsection{IGroup}
 \begin{description}
-	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Descrizione:}\\
+Interfaccia per i gruppi interni alla rubrica, prevede un'operazione \texttt{add(IUserData)} per l'aggiunta di un nuovo contatto al gruppo e un'operazione \texttt{remove(IUserData)} per la sua rimozione.
 	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+	  \begin{itemize}
+	    \item Gestione rubrica
+	  \end{itemize}
 \end{description}
 
 \subsubsection{StandardGroup}
 \begin{description}
-	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Descrizione:}\\
+Implementazione dell'interfaccia \texttt{IGroup}.
 	\item{\scshape\bfseries Componenti che ne fanno uso:} 
 \end{description}
 
