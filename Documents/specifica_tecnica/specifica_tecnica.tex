@@ -195,15 +195,12 @@ Fornire un interfaccia unificata per un insieme di interfacce presenti in un sot
 \caption{Diagramma ad alto livello del pattern Facade.}\label{fig:facade}
 \end{figure}
 
-\subsubsection{Vantaggi derivanti}
-\begin{itemize}
-\item nasconde ai \underline{client} i componenti del sottosistema rendendo quest'ultimo più facile da usare;
-\item promuove l'accoppiamento lasco tra un sottosistema e i \underline{client}, ossia consente di modificare i componenti del sottosistema senza che i suoi \underline{client} siano coinvolti.
-\end{itemize}
 \subsubsection{Componenti che lo implementano}
 \begin{description}
-  \item{\scshape \bfseries Façade del server}
-  \item{\scshape \bfseries Façade del client}
+  \item{\scshape \bfseries Façade del server}\\
+  L'uso di Façade permette di esporre verso i client una sorta di interfaccia semplificata nascondendo i componenti del sottosistema \texttt{server}, fornendo un punto di accesso centralizzato e riducendo il numero di dipendenze funzionali fra le classi del server e i componenti appartenenti a sottosistemi esterni.
+  \item{\scshape \bfseries Façade del presenter}\\
+Tramite questo design pattern si introduce un livello di indirettezza fra il sottosistema \texttt{clientpresenter} e \texttt{clientview} con il vantaggio di rendere i due sottosistemi indipendenti.
 \end{description}
 
 \subsection{Factory Method}
