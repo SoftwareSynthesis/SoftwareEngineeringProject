@@ -270,20 +270,21 @@ Il pattern Observer è utile in quanto permette agli utenti di osservare lo stat
 \subsection{Singleton}
 \subsubsection{Scopo}
 Il pattern creazionale Singleton, garantisce che una determinata classe possa essere istanziata una sola volta, e di fornirne un punto di accesso globale. Questo pattern va utilizzato negli ambiti in cui si ha la necessità che l'accesso ad una determinata entità sia unico, in modo da permettere la gestione ottimale della risorsa stessa.
+
 \subsubsection{Diagramma esemplificativo}
 \begin{figure}[h]
 \centering
 \includegraphics[width=.8\textwidth]{singleton}
 \caption{Diagramma ad alto livello del pattern Singleton.}\label{fig:singleton}
 \end{figure}
-\subsubsection{Vantaggi derivanti}
-\begin{itemize}
-\item accesso controllato a un'unica istanza;
-\item riduzione dello spazio dei nomi in quanto riduce l'uso di variabili globali;
-\item permette di gestire un numero variabile di istanze.
-\end{itemize}
+
 \subsubsection{Componenti che lo implementano}
-%\item ******************************************************
+\begin{description}
+  \item{\scshape\ttfamily Façade del server}\\
+Il pattern Singleton pone un limite superiore stretto al numero di istanze che possono esistere di una determinata classe e perciò è utile utilizzarlo per poter controllare il numero di oggetti \texttt{server.StandardServerFacade} che in questo caso è pari a uno. L'unicità dell'oggetto façade garantisce la presenza di un solo punto di accesso alle funzionalità del sottosistema \texttt{server}.
+  \item{\scshape\ttfamily Façade del presenter}
+Il pattern Singleton è altresì utile nella componente \texttt{client.StandardPresenterFacade} per gli stessi motivi evidenziati nella componente precedente, ossia l'unicità del punto di accesso alle funzionalità del sottosistema \texttt{clientpresenter}.
+\end{description}
 
 \subsection{State}
 \subsubsection{Scopo}
@@ -599,6 +600,13 @@ L'interfaccia \texttt{IServerFacade} e la relativa implementazione \texttt{Stand
 \end{description}
 
 \subsubsection{Gestione comunicazione}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+	\item{\scshape\bfseries Diagramma delle classi:}
+	\item{\scshape\bfseries Classi utilizzate:} 
+\end{description}
+
+\subsubsection{Façade del presenter}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:} 
 	\item{\scshape\bfseries Diagramma delle classi:}
