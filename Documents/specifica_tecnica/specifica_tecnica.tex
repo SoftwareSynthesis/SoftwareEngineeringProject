@@ -133,23 +133,6 @@ In questa sezione discuteremo i design pattern utilizzati nella progettazione de
 
 Per una visione d'insieme dei delle componenti utilizzate da un pattern, e dei pattern utilizzati da un componente, rimandiamo alle sottosezioni ``Tracciamenti Componenti-Design Pattern'' e ``Tracciamenti Design Pattern-Componenti'' della sezione ``Tracciamenti''.
 
-
-%\subsection{Adapter}
-%\subsubsection{Scopo}
-%Convertire l'interfaccia di una classe in un altra interfaccia richiesta dal \underline{client} e consente a classi diverse di operare insieme quando ciò non sarebbe altrimenti possibile a causa di interfacce incompatibili.
-%\subsubsection{Diagramma esemplificativo}
-%\begin{figure}[h]
-%\centering
-%\includegraphics[width=.8\textwidth]{adapter}
-%\caption{Diagramma ad alto livello del pattern Adapter.}\label{fig:adapter}
-%\end{figure}
-%\subsubsection{Vantaggi derivanti}
-%\begin{itemize}
-%\item consente di adattare una classe esistente senza doverla ridefinire;
-%\item un unico oggetto può adattare più classi.
-%\end{itemize}
-%\subsubsection{Componenti che lo implementano}
-
 \subsection{Composite}
 \subsubsection{Scopo}
 Il pattern Composite ha lo scopo di comporre oggetti in strutture ad albero al fine di rappresentare gerarchie parte-tutto e consentire ai \underline{client} di trattare oggetti singoli e composizioni in modo uniforme. Permette inoltre di gestire strutture dati gerarchicizzate con elementi ``foglie'' ed elementi ``contenitori'', l'ideale per la struttura ``gruppo'' e ``utente''.
@@ -216,9 +199,10 @@ Definisce un'interfaccia per la creazione di un oggetto, lasciando alle sottocla
 
 \subsubsection{Componenti che lo implementano}
 \begin{description}
-  \item{\scshape\ttfamily Facade del server}\\
+  \item{\scshape\bfseries Facade del server}\\
 Factory Method permette ai client di ottenere con facilità degli oggetti proxy che specializzano le interfacce \texttt{server.dao.IAudioMessage}, \texttt{server.dao.IAudioVideoMessage} e \texttt{server.dao.IUserData}. Questo permette di ridurre il traffico di rete in quanto oggetti potenzialmente di grandi dimensioni rimangono sul server e vengono scaricati solo quando se ne presenta l'effettiva necessità.
-%TODO: Un altro oggetto specializzato che si ottiene mediante il ServerFacade è l'Adapter per la connessione di rete (da definire!)
+  \item{\scshape\bfseries Gestione connessione}\\
+Gli oggetti che rappresentano connessioni, sottotipi di \texttt{server.connection.IConnection} sono ottenuti mediante un Factory Method nelle classi concrete che implementano \texttt{ICommunicationHandler}. Ciò garantisce maggiore flessibilità in quanto permette in futuro di gestire più categorie di handler che restituiscono diversi tipi connessione.
 \end{description}
 
 \subsection{Model-View-Presenter}
@@ -295,8 +279,10 @@ Il pattern creazionale Singleton, garantisce che una determinata classe possa es
 \begin{description}
   \item{\scshape\bfseries Façade del server}\\
 Il pattern Singleton pone un limite superiore stretto al numero di istanze che possono esistere di una determinata classe e perciò è utile utilizzarlo per poter controllare il numero di oggetti \texttt{server.StandardServerFacade} che in questo caso è pari a uno. L'unicità dell'oggetto façade garantisce la presenza di un solo punto di accesso alle funzionalità del sottosistema \texttt{server}.
-  \item{\scshape\bfseries Façade del presenter}
+  \item{\scshape\bfseries Façade del presenter}\\
 Il pattern Singleton è altresì utile nella componente \texttt{client.StandardPresenterFacade} per gli stessi motivi evidenziati nella componente precedente, ossia l'unicità del punto di accesso alle funzionalità del sottosistema \texttt{clientpresenter}.
+  \item{\scshape\bfseries Gestione connessione}\\
+La classe \texttt{server.connection.StandardConnectionHandler} è implementata come Singleton in modo da centralizzare la responsabilità di creare nuove connessioni in risposta alle esigenze dei client.
 \end{description}
 
 \subsection{State}
@@ -334,39 +320,37 @@ Gestione Database è la componente che si occupa di rappresentare la struttura d
 Tramite questa componente, il sistema potrà quindi effettuare operazione di lettura e scrittura di entità all'interno del database. Le classi che costituiscono la componente dovranno quindi essere dotate di:
 
 \begin{itemize}
-	\item metodi getter per restituire i singoli attributi dell'istanza;
-	\item metodi setter per garantire un corretto inserimento dei dati prima di registrare l'istanza nel database.
+	\item metodi get per restituire i singoli attributi dell'istanza;
+	\item metodi set per garantire un corretto inserimento dei dati prima di registrare l'istanza nel database.
 \end{itemize}
 
 Si informa inoltre che le classi di tale componente dovranno interagire con il \underline{framework} Hibernate, al fine di ottenere lo scopo precisato.
 
 	\item{\scshape\bfseries Diagramma delle classi:}
 	\item{\scshape\bfseries Classi utilizzate:}
-\begin{itemize}
-  \item \texttt{dao.AudioMessage}
-  \item \texttt{dao.AudioVideoMessage}
-  \item \texttt{dao.IAudioMessage}
-  \item \texttt{dao.IAudioVideoMessage}
-  \item \texttt{dao.IGroup}
-  \item \texttt{dao.IUserData}
-  \item \texttt{dao.StandardGroup}
-  \item \texttt{dao.StandardUserData}
+\begin{itemize}[nolistsep, noitemsep]
+  \item[-] \texttt{dao.AudioMessage}
+  \item[-] \texttt{dao.AudioVideoMessage}
+  \item[-] \texttt{dao.IAudioMessage}
+  \item[-] \texttt{dao.IAudioVideoMessage}
+  \item[-] \texttt{dao.IGroup}
+  \item[-] \texttt{dao.IUserData}
+  \item[-] \texttt{dao.StandardGroup}
+  \item[-] \texttt{dao.StandardUserData}
 \end{itemize}
 \end{description}
 
 \subsubsection{Gestione connessione}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Tale componente ingloba le classi destinate a stabilire le routine di connessione. Il server ha la consapevolezza degli oggetti rappresentati una connessione tra client. Si ricorda infatti che: ``ogni cliente per comunicare con altri, deve prima connettersi al server e richiedere a questo un oggetto rappresentante la linea di comunicazione con il destinatario''.
-
-Le specifiche di tale oggetto sono descritte dall'interfaccia \texttt{connection.IChannelInfo}, di cui si fornisce un'implementazione standard \texttt{connection.WebRTCInfo}.
-
-%Al fine di rendere l'architettura di tale componente il più manutenibile possibile, si è deciso di usare il pattern Adapter. In pratica esternamente il sistema ha esclusivamente la conoscenza dell'interfaccia \texttt{connection.ISocket}. Quindi l'esterno è svincolato dal conoscere il tipo preciso di protocollo di connessione (che ricordiamo nel nostro caso essere \texttt{da\_definire}). Poiché la classe che implementa il protocollo di comunicazione esiste già, nasce l'esigenza di ``adattare'' tale classe alla nostra interfaccia (\texttt{connection.ISocket}). Ciò giustifica l'esistenza della classe \texttt{connection.WebSocketAdapter}.
+Tale componente ingloba le classi destinate a stabilire le routine di connessione. A tal fine è stata definita l'interfaccia di una classe Singleton \texttt{connection.ICommunicationHandler}, implementata da \texttt{StandardCommunicationHandler} che ha il compito di creare oggetti connessione. Le specifiche di tali oggetti sono descritte dall'interfaccia \texttt{connection.IConnection}, con la relativa implementazione \texttt{connection.WebRTCInfo}.
 	\item{\scshape\bfseries Diagramma delle classi:}
 	\item{\scshape\bfseries Classi utilizzate:}
-\begin{itemize}
-  \item \texttt{connection.IChannelInfo}
-  \item \texttt{connection.WebRTCInfo}
+\begin{itemize}[nolistsep, noitemsep]
+  \item[-] \texttt{ICommunicationHandler}
+  \item[-] \texttt{StandardCommunicationHandler}
+  \item[-] \texttt{connection.IConnection}
+  \item[-] \texttt{connection.WebRTCInfo}
 \end{itemize}
 \end{description}
 
@@ -380,13 +364,13 @@ In particolare, \texttt{abook.IContact} rappresenta l'interfaccia principale com
 Infine, la classe \texttt{abook.UserDataProxy} viene utilizzata come proxy per lo scambio di dati fra il sottosistema \texttt{server} e il sottosistema \texttt{clientpresenter}.
 	\item{\scshape\bfseries Diagramma delle classi:}
 	\item{\scshape\bfseries Classi utilizzate:}\\
-\begin{itemize}
-  \item \texttt{abook.AddressBook}
-  \item \texttt{abook.IAddressBook}
-  \item \texttt{abook.IContact}
-  \item \texttt{abook.UserDataProxy}
-  \item \texttt{dao.IGroup}
-  \item \texttt{dao.IUserData}
+\begin{itemize}[nolistsep, noitemsep]
+  \item[-] \texttt{abook.AddressBook}
+  \item[-] \texttt{abook.IAddressBook}
+  \item[-] \texttt{abook.IContact}
+  \item[-] \texttt{abook.UserDataProxy}
+  \item[-] \texttt{dao.IGroup}
+  \item[-] \texttt{dao.IUserData}
 \end{itemize}
 \end{description}
 
@@ -402,14 +386,14 @@ Ad esempio, la chiamata viene trattata in modo differente a seconda che l'utente
 Inoltre, i cambiamenti di stato vengono notificati a tutti gli utenti presenti in rubrica tali che si trovano nello stato online.
 	\item{\scshape\bfseries Diagramma delle classi:}
 	\item{\scshape\bfseries Classi utilizzate:}\\ 
-	\begin{itemize}
-          \item \texttt{dao.StandardUserData}
-          \item \texttt{state.IState}
-          \item \texttt{state.StateAvailable}
-          \item \texttt{state.StateOccupied}
-          \item \texttt{state.StateOffline}
-          \item \texttt{state.StateOnline}
-	\end{itemize}
+\begin{itemize}[noitemsep,nolistsep]
+	\item[-] \texttt{dao.StandardUserData}
+    \item[-] \texttt{state.IState}
+    \item[-] \texttt{state.StateAvailable}
+    \item[-] \texttt{state.StateOccupied}
+    \item[-] \texttt{state.StateOffline}
+    \item[-] \texttt{state.StateOnline}
+\end{itemize}
 \end{description}
 
 \subsubsection{Gestione segreteria}
@@ -420,13 +404,13 @@ Il sistema segreteria telefonica corrisponde all'interfaccia \texttt{message.IMe
 I messaggi audio e audio/video sul server sono rappresentati dalle classi \texttt{dao.IAudioMessage} (implementata da \texttt{dao.AudioMessage}) e \texttt{dao.IAudioVideoMessage} (implementata da \texttt{dao.AudioVideoMessage}) rispettivamente. L'onere di caricare in memoria e gestire l'interno contenuto del messaggio è posticipato al momento di effettiva necessità mediante l'utilizzo dei \textit{virtual proxy} corrispondenti alle classi \texttt{message.AudioMessageProxy} e \texttt{message.AudioVideoMessageProxy}.
 	\item{\scshape\bfseries Diagramma delle classi:}
 	\item{\scshape\bfseries Classi utilizzate:}
-\begin{itemize}
-  \item \texttt{dao.AudioMessage}
-  \item \texttt{dao.AudioVideoMessage}
-  \item \texttt{dao.IAudioMessage}
-  \item \texttt{dao.IAudioVideoMessage}
-  \item \texttt{message.AudioMessageProxy}
-  \item \texttt{message.AudioVideoMessageProxy}
+\begin{itemize}[noitemsep,nolistsep]
+  \item[-] \texttt{dao.AudioMessage}
+  \item[-] \texttt{dao.AudioVideoMessage}
+  \item[-] \texttt{dao.IAudioMessage}
+  \item[-] \texttt{dao.IAudioVideoMessage}
+  \item[-] \texttt{message.AudioMessageProxy}
+  \item[-] \texttt{message.AudioVideoMessageProxy}
 \end{itemize}
 \end{description}
 
@@ -436,9 +420,9 @@ I messaggi audio e audio/video sul server sono rappresentati dalle classi \textt
 L'interfaccia \texttt{IServerFacade} e la relativa implementazione \texttt{StandardServerFacade}, nella quale si è scelto di applicare il design pattern Singleton, forniscono una sorta di interfaccia alle funzionalità offerte dal sottosistema server alle componenti che risiedono nel client. Le funzionalità esposte consentono di gestire i messaggi presenti in segreteria, le richieste di comunicazione con altri utenti il login/registrazione degli utenti.
 	\item{\scshape\bfseries Diagramma delle classi:}
 	\item{\scshape\bfseries Classi utilizzate:}\\
-\begin{itemize}
-  \item \texttt{IServerFacade}
-  \item \texttt{StandardServerFacade}
+\begin{itemize}[noitemsep,nolistsep]
+  \item[-] \texttt{IServerFacade}
+  \item[-] \texttt{StandardServerFacade}
 \end{itemize}
 \end{description}
 
@@ -482,13 +466,6 @@ L'interfaccia \texttt{IServerFacade} e la relativa implementazione \texttt{Stand
 
 \subsection{Classi utilizzate}
 
-%\subsubsection{Template classe X}
-%\begin{description}
-%	\item{\scshape\bfseries Descrizione:} 
-%	\item{\scshape\bfseries Diagramma della classe:}
-%	\item{\scshape\bfseries Componenti che ne fanno uso:} 
-%\end{description}
-
 \subsection{Diagramma del package}
 
 \subsection{Diagramma delle classi}
@@ -497,14 +474,16 @@ L'interfaccia \texttt{IServerFacade} e la relativa implementazione \texttt{Stand
 \section{Descrizione delle classi}
 
 \subsection{Package org.softwaresynthesis.mytalk.server.dao}
+
 \subsubsection{IAudioMessage}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Interfaccia per i messaggi audio della segreteria telefonica che viene implementata dalle classi \texttt{AudioMessage} e dal suo proxy \texttt{message.AudioMessageProxy}.
 % contiene operazione astratta play() per riprodurre il messaggio (se presente) o scaricarlo e avviarne la riproduzione
 	\item{\scshape\bfseries Componenti che ne fanno uso:}\\
-	  \begin{itemize}
-	    \item[-] Gestione segreteria
+	  \begin{itemize}[noitemsep,nolistsep]
+	  \item[-] Gestione database
+	  \item[-] Gestione segreteria
 	  \end{itemize}
 \end{description}
 
@@ -514,7 +493,8 @@ Interfaccia per i messaggi audio della segreteria telefonica che viene implement
 Interfaccia per i messaggi audio/video della segreteria telefonica, a sua volta implementata dalle classi \texttt{AudioVideoMessage} e dal relativo proxy \texttt{message.AudioVideoMessage}.
 % contiene operazione astratta play() per riprodurre il messaggio (se presente) o scaricarlo e avviarne la riproduzione
 	\item{\scshape\bfseries Componenti che ne fanno uso:} 
-	  \begin{itemize}
+	  \begin{itemize}[noitemsep,nolistsep]
+	    \item[-] Gestione database
 	    \item[-] Gestione segreteria
 	  \end{itemize}
 \end{description}
@@ -524,7 +504,8 @@ Interfaccia per i messaggi audio/video della segreteria telefonica, a sua volta 
 	\item{\scshape\bfseries Descrizione:}\\
 Classe che rappresenta un messaggio audio nella segreteria telefonica di un utente, implementa l'interfaccia \texttt{IAudioMessage}.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
-	  \begin{itemize}
+	  \begin{itemize}[noitemsep,nolistsep]
+	    \item[-] Gestione database
 	    \item[-] Gestione segreteria
 	  \end{itemize}
 \end{description}
@@ -534,7 +515,8 @@ Classe che rappresenta un messaggio audio nella segreteria telefonica di un uten
 	\item{\scshape\bfseries Descrizione:}\\
 Classe che rappresenta un messaggio audio/video nella segreteria telefonica di un utente, implementa l'interfaccia \texttt{IAudioVideoMessage}.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
-	  \begin{itemize}
+	  \begin{itemize}[noitemsep,nolistsep]
+	    \item[-] Gestione database
 	    \item[-] Gestione segreteria
 	  \end{itemize}
 \end{description}
@@ -542,81 +524,150 @@ Classe che rappresenta un messaggio audio/video nella segreteria telefonica di u
 \subsubsection{IGroup}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Interfaccia per i gruppi interni alla rubrica, prevede un'operazione \texttt{add(IUserData)} per l'aggiunta di un nuovo contatto al gruppo e un'operazione \texttt{remove(IUserData)} per la sua rimozione.
+Interfaccia per i gruppi interni alla rubrica, prevede un'operazione \texttt{add(IUserData)} per l'aggiunta di un nuovo contatto al gruppo e un'operazione \texttt{remove(IUserData)} per la sua rimozione. Estende inoltre l'interfaccia \texttt{abook.IContact} comune a tutti i contatti della rubrica.
 	\item{\scshape\bfseries Componenti che ne fanno uso:} 
-	  \begin{itemize}
-	    \item Gestione rubrica
+	  \begin{itemize}[noitemsep,nolistsep]
+	    \item[-] Gestione database
+	    \item[-] Gestione rubrica
 	  \end{itemize}
 \end{description}
 
 \subsubsection{StandardGroup}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Implementazione dell'interfaccia \texttt{IGroup}.
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+Implementazione dell'interfaccia \texttt{IGroup}, ogni gruppo è dotato di un nome e raccoglie in sé zero o più istanze di classi sottotipo di \texttt{abook.IContact}.
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+	  \begin{itemize}[noitemsep,nolistsep]
+	    \item[-] Gestione database
+	    \item[-] Gestione rubrica
+	  \end{itemize}
 \end{description}
 
 \subsubsection{IUserData}
 \begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+	\item{\scshape\bfseries Descrizione:}\\
+Interfaccia per le classi che rappresentano gli utenti, è dotata di operazioni get/set per accedere ai dati degli utenti registrati sul sistema.
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-] Gestione database
+	  \item[-] Gestione rubrica
+	\end{itemize}
 \end{description}
 
 \subsubsection{StandardUserData}
 \begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+	\item{\scshape\bfseries Descrizione:}\\
+Classe che implementa l'interfaccia \texttt{dao.IUserData} le cui istanze corrispondono ai record della tabella degli utenti nel database.
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-] Gestione database
+	\end{itemize}
 \end{description}
 
 \subsection{Package org.softwaresynthesis.mytalk.server.connection}
-\subsubsection{ISocket}
+
+\subsubsection{ICommunicationHandler}
 \begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+	\item{\scshape\bfseries Descrizione:}\\
+\texttt{ICommunicationHandler} è l'interfaccia per la gestione delle richieste per ottenere le informazioni necessarie ad un client per stabilire una comunicazione con altri client. In particolare i metodi in essa definiti dovranno ritornare un istanza di un oggetto che implementa \texttt{IConnection}.
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+		\begin{itemize}[noitemsep,nolistsep]
+			\item[-] Gestione connessione
+		\end{itemize}
 \end{description}
 
-\subsubsection{WebSocketAdapter}
+\subsubsection{StandardCommunicationHandler}
 \begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+	\item{\scshape\bfseries Descrizione:}\\
+La classe \texttt{StandardCommunicationHandler} è l'implementazione dell'interfaccia \texttt{ICommunicationHandler}. In tale classe, le informazioni ritornate al client sono informazioni necessarie a stabilire una connessione di tipo WebRTC (ritorna un istanza di \texttt{WebRTCInfo}).
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+		\begin{itemize}[noitemsep,nolistsep]
+			\item[-] Gestione connessione
+		\end{itemize}
+\end{description}
+
+\subsubsection{IConnection}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:}\\
+Interfaccia per i dati necessari ad un client per stabilire una connessione con un altro client.
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+		\begin{itemize}[noitemsep,nolistsep]
+			\item[-] Gestione connessione
+		\end{itemize}
+\end{description}
+
+\subsubsection{WebRTCInfo}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:}\\
+Implementazione dell'interfaccia \texttt{IConnection} che rappresenta le informazioni usate da un client per stabilire una connessione WebRTC con un altro client.
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+		\begin{itemize}[noitemsep,nolistsep]
+			\item[-] Gestione connessione
+		\end{itemize}
 \end{description}
 
 \subsection{Package org.softwaresynthesis.mytalk.server.abook}
+
 \subsubsection{IContact}
 \begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+	\item{\scshape\bfseries Descrizione:}\\
+Interfaccia condivisa da tutti i contatti della rubrica di un utente, permette di trattare in modo uniforme gli utenti singoli e i gruppi secondo quando previsto dal design pattern Composite. Dichiara la presenza di operazioni per recuperare l'accesso alle informazioni sottostanti (ad esempio il nome di un utente o di un gruppo).
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+	\begin{itemize}[nolistsep, noitemsep]
+	  \item[-] Gestione rubrica
+	\end{itemize}
 \end{description}
 
 \subsubsection{IAddressBook}
 \begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+	\item{\scshape\bfseries Descrizione:}\\
+Interfaccia che raccoglie le operazioni della rubrica e permette di controllare l'accesso alle strutture dati che la implementano.
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-] Gestione rubrica
+	  % forse gestione database
+	\end{itemize}
 \end{description}
 
 \subsubsection{AddressBook}
 \begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+	\item{\scshape\bfseries Descrizione:}\\
+Classe che implementa l'interfaccia \texttt{IAddressBook} e rappresenta quindi la rubrica di un determinato utente. Contiene un riferimento a \texttt{IContact} che corrisponde al nodo padre della struttura dati ad albero contenente la rubrica.
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-] Gestione rubrica
+	\end{itemize}
 \end{description}
 
 \subsection{Package org.softwaresynthesis.mytalk.server.state}
 \subsubsection{IState}
 \begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+	\item{\scshape\bfseries Descrizione:}\\
+Interfaccia alla base della gerarchia di stati che gli utenti possono assumere nel corso dell'interazione con il sistema. La composizione delle istanze di \texttt{server.dao.StandardUserData} con oggetti sottotipo di \texttt{IState} cui inoltrano le richieste ricevute dall'esterno permette di cambiare dinamicamente il comportamento degli oggetti che rappresentano gli utenti.
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-] Gestione rubrica
+	\end{itemize}
 \end{description}
 
 \subsubsection{StateOnline}
 \begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+	\item{\scshape\bfseries Descrizione:}\\
+Classe astratta che viene estesa da tutti gli stati che corrispondono alla presenza ``online'' dell'utente. È ulteriormente specializzata dalle sottoclassi concrete \texttt{StateAvailable} e \texttt{StateOccupied}, le quali hanno facoltà di determinare il reale comportamento degli utenti online.
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-] Gestione stato
+	\end{itemize}
 \end{description}
 
 \subsubsection{StateOffline}
 \begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+	\item{\scshape\bfseries Descrizione:}\\
+Classe concreta della gerarchia degli stati che corrisponde alla non presenza online dell'utente che la possiede. Un utente che si trova nello stato ``offline'' non può essere contattato direttamente ma solo attraverso la segreteria telefonica.
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-] Gestione stato
+	\end{itemize}
 \end{description}
 
 \subsubsection{StateAvailable}
