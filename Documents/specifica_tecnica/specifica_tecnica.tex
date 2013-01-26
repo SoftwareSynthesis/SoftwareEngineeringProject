@@ -331,11 +331,44 @@ Il pattern State permette di gestire gli utenti del sistema determinando un comp
 \clearpage
 
 \section{Introduzione all'architettura di sistema}
-%TODO: da completare
+Per introdurre l'architettura proposta è essenziale mettere in evidenza le seguenti considerazioni:
+\begin{itemize}
+	\item Il sistema proposto dal team è dotato di una parte server ed una parte client.
+	\item Dopo un analisi preliminare il team ha stabilito che la progettazione del server non deve essere vincolata da quella del client. Non vogliamo che il progetto dell'applicativo lato server abbia la cognizione di come funziona il client. Ciò permetterà un futuro riutilizzo del codice (e.g. se si desiderasse creare un nuovo applicativo di tipo VOIP si potrà riutilizzare il server già creato.
+	\item Per quanto riguarda il lato client, al fine di garantire un alto livello di riutilizzo del codice e la possibilità di eseguire manutenzioni nel minor tempo possibile, si vuole che la logica d'implementazione del client sia svincolata dalla rappresentazione grafica del medesimo.
+\end{itemize}
+
+Tali considerazioni di base, hanno portato il team a suddividere l'architettura in 3 sotto-architetture, intese anche come package:
+\begin{itemize}
+	\item Il server (org.softwaresynthesis.mytalk.server).
+	\item Il clientpresenter (org.softwaresynthesis.mytalk.clientpresenter).
+	\item il clientview (org.softwaresynthesis.mytalk.clientview).
+\end{itemize}
+
+Le specifiche di ogni sotto-architettura saranno definite in seguito, nelle relative sezioni.
+
+Inoltre si fa presente che l'architettura generale, intesa come agglomerato delle 3 sotto-architetture precedentemente elencate, fa uso del pattern MVP. Sotto tale ottica: la sotto-architettura server ricopre il ruolo di model, il clientpresenter costituisce invece il presenter, mentre clientview è la vista definita per questo progetto. Tra le considerazioni più interessanti che hanno portato alla scelta di questo pattern, va messa in evidenza la seguente.
+
+Assegnando ad ogni sotto-architettura un ruolo specifico, si garantisce un alto livello di riutilizzo del codice (e.g. clientview comunica con il presenter poiché non conosce la logica di business del sistema. Quindi in un futuro di potrebbe riprendere la vista oggi definita, e riutilizzarla in un altro progetto, andando solo a ridefinire, se necessario, un presente che riproponga una nuovo adattamento della parte logica).
+
+Di seguito verranno proposte le sotto-architetture evidenziate. Di ogni una sarà dato un elenco dettagliato delle componenti che lo interessano. Si sottolinea che per componenti non si intende i sotto package, ma gli agglomerati di classi (potenzialmente prese da package diversi) che concorrono ad un fine comune: la definizione delle funzionalità della componente trattata.
+
 \clearpage
 
-\section{Architettura MyTalk-Server}
-%TODO: da completare
+\section{Architettura mytalk.server}
+
+Tale sotto-architettura definisce le specifiche e le funzionalità dell'applicativo lato server. In esso saranno definite le seguenti componenti:
+\begin{itemize}
+	\item Gestione Database.
+	\item Gestione connessione.
+	\item Gestione rubrica.
+	\item Gestione stato.
+	\item Gestione segreteria.
+	\item Façade del server.
+\end{itemize}
+
+Le componenti sopracitate verranno definite di seguito. Si sottolinea da subito che il server è l'unico in grado di comunicare con il database su cui regge l'applicativo.
+
 Infine, si fa notare che i nomi di tutte le classi riportate nella sezione sono implicitamente parte del package \texttt{org.softwaresynthesis.mytalk.server} pertanto tale prefisso sarà omesso nella loro denominazione.
 
 \subsection{Componenti evidenziate}
@@ -459,22 +492,35 @@ L'interfaccia \texttt{IServerFacade} e la relativa implementazione \texttt{Stand
 \subsection{Diagramma delle classi}
 \clearpage
 
-\section{Architettura MyTalk-client Universale}
+\section{Architettura mytalk.clientpresenter}
+%TODO: da completare
+
+Si fa notare che i nomi di tutte le classi riportate nella sezione sono implicitamente parte del package \texttt{org.softwaresynthesis.mytalk.clientpresenter} pertanto tale prefisso sarà omesso nella loro denominazione.
 
 \subsection{Componenti evidenziate}
 
 \subsubsection{Gestione comunicazione}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:} 
+		
 	\item{\scshape\bfseries Diagramma delle classi:}
 	\item{\scshape\bfseries Classi utilizzate:} 
+	\begin{itemize}[noitemsep,nolistsep]
+		\item[-] \texttt{IClient}
+		\item[-] \texttt{StandardClient}
+	\end{itemize}  
 \end{description}
 
 \subsubsection{Façade del presenter}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:} 
+		Rappresenta l'interfaccia d'accesso verso la sotto-architettura clientpresenter. Tale componente svincola l'interfaccia grafica dal dover conoscere l'esatta sequenza di chiamata dei metodi per portare a conseguimento una determinata procedura. I metodi della componente ``Façade del presenter'' hanno la cognizione dell'iter di chiamate a metodo per il corretto conseguimento della procedura. La componente in esame richiede la definizione di un'interfaccia e una sua implementazione standard. Rimandiamo a tali classi per un approfondimento sul comportamento da seguire.
 	\item{\scshape\bfseries Diagramma delle classi:}
 	\item{\scshape\bfseries Classi utilizzate:} 
+	\begin{itemize}[noitemsep,nolistsep]
+		\item[-] \texttt{IPresenterFacade}
+		\item[-] \texttt{StandardPresenterFacade}
+	\end{itemize}
 \end{description}
 
 \subsection{Diagramma del package}
@@ -482,7 +528,9 @@ L'interfaccia \texttt{IServerFacade} e la relativa implementazione \texttt{Stand
 \subsection{Diagramma delle classi}
 \clearpage
 
-\section{Architettura MyTalk-clientSoftwareSynthesis}
+\section{Architettura mytalk.clientview}
+
+Si fa notare che i nomi di tutte le classi riportate nella sezione sono implicitamente parte del package \texttt{org.softwaresynthesis.mytalk.clientview} pertanto tale prefisso sarà omesso nella loro denominazione.
 
 \subsection{Componenti evidenziate}
 
@@ -492,6 +540,28 @@ L'interfaccia \texttt{IServerFacade} e la relativa implementazione \texttt{Stand
 %	\item{\scshape\bfseries Diagramma del package:}
 %	\item{\scshape\bfseries Classi utilizzate:} 
 %\end{description}
+
+\subsubsection{Façade della vista}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+		
+	\item{\scshape\bfseries Diagramma delle classi:}
+	\item{\scshape\bfseries Classi utilizzate:} 
+	\begin{itemize}[noitemsep,nolistsep]
+		\item[-] \texttt{boooooo}
+	\end{itemize}  
+\end{description}
+
+\subsubsection{Gestione della GUI}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:} 
+		
+	\item{\scshape\bfseries Diagramma delle classi:}
+	\item{\scshape\bfseries Classi utilizzate:} 
+	\begin{itemize}[noitemsep,nolistsep]
+		\item[-] \texttt{boooooo}
+	\end{itemize}  
+\end{description}
 
 \subsection{Diagramma del package}
 
@@ -660,7 +730,7 @@ Interfaccia che raccoglie le operazioni della rubrica e permette di controllare 
 
 \subsubsection{UserDataProxy}
 \begin{description}
-  \item{\shscape\bfseries Descrizione:}\\
+  \item{\scshape\bfseries Descrizione:}\\
 La classe implementa l'interfaccia \texttt{server.dao.IUserData} e rappresenta un proxy per i dati degli utenti che risiedono sul server. Le istanze di questa classe vengono restituite da un opportuno FactoryMethod dichiarato nell'interfaccia \texttt{server.ServerFacade} e hanno il ruolo di rappresentare sui client degli oggetti che risiedono in un diverso spazio di indirizzamento (sul server) nonché di controllare gli accessi per esigenze di protezione.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
