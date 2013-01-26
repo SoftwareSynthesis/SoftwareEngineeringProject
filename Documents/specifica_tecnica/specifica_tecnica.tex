@@ -406,7 +406,8 @@ Infine, la classe \texttt{abook.UserDataProxy} viene utilizzata come proxy per l
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Le classi di tale componente sono utilizzate per gestire lo stato degli utenti, permettendo un comportamento diverso delle istanze di \texttt{dao.StandardUserData} a seconda dello stato in cui si trova l'utente corrispondente. Gli stati possibili sono ``online'' e ``offline'' che sono rappresentati dalle classi \texttt{state.StateOnline} e \texttt{state.StateOffline} rispettivamente.
-	
+
+%TODO Questa parte deve essere riscritta
 Gli utenti che si trovano nello stato online possono trovarsi in due situazioni: ``occupato'' o ``disponibile'', rappresentati a loro volta dalle classi \texttt{state.StateOccupied} e \texttt{state.StateAvailable}. L'utente si troverà nello stato ``occupato'' solo se è impegnato in una conversazione. Lo stato può essere controllato solo dal sistema in risposta agli eventi di connessione e di chiamata ma non è direttamente accessibile dall'utente.
 	
 Ad esempio, la chiamata viene trattata in modo differente a seconda che l'utente si trovi nello stato ``disponibile'' o ``occupato''/``offline'', dal momento che nel primo caso la chiamata va a buon fine mentre nel secondo verrà attivato il meccanismo di segreteria telefonica.
