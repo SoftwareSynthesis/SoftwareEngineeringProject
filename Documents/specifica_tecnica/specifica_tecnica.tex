@@ -80,15 +80,16 @@ Versione & Descrizione intervento & Membro & Ruolo & Data\\
 \purpose
 
 \subsection{Scopo del documento}
-Il presente documento è stato redatto al fine di produrre le specifiche sulla progettazione ad alto livello, del prodotto MyTalk. A tal fine il documento presenterà:
-
+Il presente documento è stato redatto al fine di produrre le specifiche sulla progettazione ad alto livello, del prodotto \caName. A tal fine il documento presenterà:
 \begin{itemize}
-	\item Un elenco con le specifiche dei design pattern utilizzati.
-	\item Una descrizione dettagliata dei componenti rilevati in fase di progettazione indicando il tipo,
-la funzione e l'obbiettivo.
-	\item L'architettura d'alto livello del sistema.
-	\item I diagrammi UML per definire i flussi principali di controllo dell'applicativo.
-	\item Il tracciamento dei requisiti e delle componenti, negli schemi: requisiti-componenti e componenti-requisiti.
+    \item una descrizione degli strumenti e dei framework su cui si basa l'architettura;
+	\item un elenco con le specifiche dei design pattern utilizzati;
+	\item l'architettura di alto livello del sistema;
+	\item una descrizione dettagliata dei componenti rilevati in fase di progettazione indicando relativamente a ciascuno di essi il tipo, la funzione e l'obiettivo;
+	\item i diagrammi UML per definire i flussi principali di controllo dell'applicativo;
+	\item il tracciamento dei requisiti e delle componenti, negli schemi: requisiti-componenti e componenti-requisiti;
+	\item il tracciamento di componenti e design pattern;
+	\item il tracciamento di classi e componenti.
 \end{itemize}
 
 \subsection{Glossario}
@@ -116,23 +117,28 @@ la funzione e l'obbiettivo.
 \section{Strumenti utilizzati}
 %TODO: da completare
 \subsection{Java}
-L'utilizzo del linguaggio JAVA è richiesto dal proponente solo per il lato server.
+L'utilizzo del linguaggio Java è richiesto dal proponente solo per il lato server.
+
 \subsubsection*{Vantaggi}
 \begin{itemize}
-\item[-] è un linguaggio predisposto alla gestione parallela di Thead. Questo applicato ad un server dà la possibilità di gestire parallelamente richieste da parte di più utenti allo stesso tempo.
-\item[-] da trovare altri vantaggi**********************************************
+\item[-] è un linguaggio predisposto nativamente alla gestione parallela di thread e questo applicato ad un server dà la possibilità di gestire parallelamente richieste da parte di più utenti allo stesso tempo;
+\item[-] essendo un linguaggio orientato agli oggetti e fortemente tipizzato si presta all'applicazione di design pattern e alla costruzione di un'architettura robusta, fortemente modulare e al contempo flessibile, in accordo con i principi del paradigma di programmazione OO;
+\item[-] permette la generazione automatica della documentazione con l'ausilio di JavaDoc;
+\item[-] garantisce la portabilità del codice (a livello di bytecode), l'indipendenza dalla piattaforma fisica di esecuzione grazie alla JVM e l'integrazione nell'ambiente di esecuzione del proponente (TomCat).
 \end{itemize}
 \subsubsection*{Svantaggi}
 \begin{itemize}
-\item[-] lentezza causata dall'utilizzo di una JVM e dal fatto di essere un linguaggio interpretato.
+\item[-] potenziale lentezza causata dall'utilizzo della JVM e dal fatto di essere un linguaggio interpretato.
 \end{itemize}
 
 \subsection{Hibernate}
-Hibernate è un Framework Java utilizzato per facilitare l'utilizzo di un database relazionale da parte del server Java.
+Hibernate è un framework Java utilizzato per facilitare l'utilizzo di un database da parte del server realizzando la mappatura fra oggetti intesi in senso OOP ed ennuple del modello relazionale (Object-Relational Mapping).
+
 \subsubsection*{Vantaggi}
 \begin{itemize}
-\item[-] Hibernate permette di utilizzare le tabelle di un database relazionale come se fossero degli oggetti. Mappa il database su di una classe strutturata ad-hoc.
-\item[-] con questo framework, java riesce a lavorare su un database rendendo invisibile le vere e proprie query al programmatore, mostrando solo classi e metodi.
+\item[-] Hibernate permette di utilizzare le tabelle di un database relazionale come se fossero degli oggetti mappando il database su di opportune classi strutturate ad-hoc svincolando la gestione della persistenza dei dati dalla logica di business;
+\item[-] con questo framework, Java riesce a lavorare su un database rendendo trasparenti al programmatore le vere e proprie query e mostrando esclusivamente classi e metodi;
+\item[-] essendo rilasciato sotto licenza LGPL può essere utilizzato senza restrizioni (copyleft) e vincoli di licenza delle opere derivate. 
 \end{itemize}
 \clearpage
 
