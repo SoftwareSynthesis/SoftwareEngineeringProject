@@ -914,14 +914,16 @@ Questa classe Singleton è l'implementazione dell'interfaccia \texttt{IServerFac
 	\end{itemize}
 \end{description}
 
-\subsection{Package org.softwaresynthesis.mytalk.client}
+\subsection{Package org.softwaresynthesis.mytalk.clientpresenter}
 \subsubsection{IClient}
+%TODO da completare
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 	\item{\scshape\bfseries Componenti che ne fanno uso:} 
 \end{description}
 
 \subsubsection{StandardClient}
+%TODO da completare
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 	\item{\scshape\bfseries Componenti che ne fanno uso:} 
@@ -930,15 +932,25 @@ Questa classe Singleton è l'implementazione dell'interfaccia \texttt{IServerFac
 \subsubsection{IPresenterFacade}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+Interfaccia che raccoglie la dichiarazione di tutte le operazioni astratte con cui si suppone che la vista realizzi lo scambio di messaggi con il presenter. Tramite queste operazioni deve dunque essere possibile, ad esempio, gestire l'autenticazione di un utente, interrogare la segreteria telefonica, modificare lo stato e le informazioni personali e scaricare la rubrica.
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-] Façade del presenter
+	  %TODO anche le classi della sottoarchitettura clientview devono fare uso di questa interfaccia!
+	\end{itemize}
 \end{description}
 
 \subsubsection{mytalk.client.StandardPresenterFacade}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+Questa classe rappresenta un'applicazione del design pattern Singleton e implementa inoltre l'interfaccia \texttt{IPresenterFacade}. Fornisce pertanto dei metodi concreti utilizzati per la comunicazione fra la vista e il server, elaborando qualora necessario i dati ricevuti in input e inoltrando le richieste al componente Façade del server.
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-] Façade del presenter
+	\end{itemize}
 \end{description}
 
+\subsection{Package org.softwaresynthesis.mytalk.clientview}
 %TODO mancano tutte le classi della sotto-architettura clientview
 \clearpage
 
