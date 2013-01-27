@@ -115,7 +115,6 @@ Il presente documento è stato redatto al fine di produrre le specifiche sulla p
 \clearpage
 
 \section{Strumenti utilizzati}
-%TODO: da completare
 \subsection{Java}
 L'utilizzo del linguaggio Java è richiesto dal proponente solo per il lato server.
 
@@ -444,12 +443,13 @@ Infine, la classe \texttt{abook.UserDataProxy} viene utilizzata come proxy per l
 \subsubsection{Gestione stato}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Le classi di tale componente sono utilizzate per gestire lo stato degli utenti, permettendo un comportamento diverso delle istanze di \texttt{dao.StandardUserData} a seconda dello stato in cui si trova l'utente corrispondente. Gli stati possibili sono ``online'' e ``offline'' che sono rappresentati dalle classi \texttt{state.StateOnline} e \texttt{state.StateOffline} rispettivamente.
+Le classi di tale componente sono utilizzate per gestire lo stato degli utenti, permettendo un comportamento diverso delle istanze di \texttt{dao.StandardUserData} a seconda dello stato in cui si trova l'utente corrispondente. Gli stati possibili sono in prima istanza ``online'' e ``offline'', rappresentati dalle classi \texttt{state.StateOnline} e \texttt{state.StateOffline} rispettivamente.
 
-%TODO Questa parte deve essere riscritta
-Gli utenti che si trovano nello stato online possono trovarsi in due situazioni: ``occupato'' o ``disponibile'', rappresentati a loro volta dalle classi \texttt{state.StateOccupied} e \texttt{state.StateAvailable}. L'utente si troverà nello stato ``occupato'' solo se è impegnato in una conversazione. Lo stato può essere controllato solo dal sistema in risposta agli eventi di connessione e di chiamata ma non è direttamente accessibile dall'utente.
+Gli utenti che si trovano nello stato online possono trovarsi in due situazioni: ``occupato'' o ``disponibile'', rappresentati a loro volta dalle classi \texttt{state.StateOccupied} e \texttt{state.StateAvailable}.
+
+Se l'utente è impegnato in una conversazione con uno o più utenti, allora lo stato in cui si trova è ``occupato''. Tuttavia, un utente può anche impostare manualmente il proprio stato ad ``occupato'' anche per segnalare di non essere disponibile a ricevere chiamate in ingresso.
 	
-Ad esempio, la chiamata viene trattata in modo differente a seconda che l'utente si trovi nello stato ``disponibile'' o ``occupato''/``offline'', dal momento che nel primo caso la chiamata va a buon fine mentre nel secondo verrà attivato il meccanismo di segreteria telefonica.
+La chiamata viene inoltre trattata in modo differente a seconda che l'utente si trovi nello stato ``disponibile'' o ``occupato''/``offline'', dal momento che nel primo caso la chiamata va a buon fine mentre nel secondo verrà attivato il meccanismo di segreteria telefonica.
 	
 Inoltre, i cambiamenti di stato vengono notificati a tutti gli utenti presenti in rubrica tali che si trovano nello stato online.
 	\item{\scshape\bfseries Diagramma delle classi:}
@@ -536,7 +536,7 @@ Si fa notare che i nomi di tutte le classi riportate nella sezione sono implicit
 \clearpage
 
 \section{Architettura mytalk.clientview}
-
+%TODO: da completare
 Si fa notare che i nomi di tutte le classi riportate nella sezione sono implicitamente parte del package \texttt{org.softwaresynthesis.mytalk.clientview} pertanto tale prefisso sarà omesso nella loro denominazione.
 
 \subsection{Componenti evidenziate}
