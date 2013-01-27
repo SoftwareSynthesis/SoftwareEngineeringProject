@@ -534,7 +534,22 @@ Le funzionalità esposte consentono di gestire i messaggi presenti in segreteria
 \clearpage
 
 \section{Architettura mytalk.clientpresenter}
-%TODO: da completare
+La sotto-architettura clientpresenter, nasce con lo scopo di imporre una separazione tra la logica di gestione di un client e l'interfaccia grafica usata da quest'ultimo.
+
+Tale considerazione è conforme a l'utilizzo del design pattern MVP, già citato nella sezione ``Design pattern'', e alla quale rimandiamo per le specifiche tecniche del medesimo.
+
+La sotto-architettura clientpresenter è per l'appunto la parte ``presenter'' dell'applicativo. I componenti che lo costituiscono devono quindi garantire una logica stabile di comunicazione con il server. Essi dovranno anche stabilire le procedure per interrogare il server (attraverso il suo façade) al fine di ottenere:
+\begin{itemize}
+	\item i vari dati contenuti nel database;
+	\item le ``informazioni'' necessarie per stabilire una connessione client-client.
+\end{itemize}
+
+In sintesi la sotto-architettura clientpresenter dispone dei seguenti componenti:
+\begin{itemize}
+	\item Gestione comunicazione;
+	\item Façade del presenter.
+\end{itemize}
+Si rimanda alla sottosezione successiva per maggiori dettagli.
 
 Si fa notare che i nomi di tutte le classi riportate nella sezione sono implicitamente parte del package \texttt{org.softwaresynthesis.mytalk.clientpresenter} pertanto tale prefisso sarà omesso nella loro denominazione.
 
@@ -575,8 +590,27 @@ I metodi del componente Façade del presenter hanno la cognizione dell'iter di c
 \clearpage
 
 \section{Architettura mytalk.clientview}
-%TODO da completare
-Si fa notare che i nomi di tutte le classi riportate nella sezione sono implicitamente parte del package \texttt{org.softwaresynthesis.mytalk.clientview} pertanto tale prefisso sarà omesso nella loro denominazione.
+Come già accennato in precedenza, nella sezione introduttiva all'architettura e nella sezione del clientpresenter, clientview ha il compito di definire la logica di visualizzazione dei dati costituendo la GUI del sistema lato client.
+
+Le motivazioni che hanno portato a separare tale sotto-architettura dalla parte logica sono da ricercare nei vantaggi di riutilizzo del codice e semplificazione della manutenzione:
+\begin{itemize}
+ 	\item \textbf{future espanzioni}: innanzitutto tale scelta permetterà ai progettisti di sviluppare (in futuro) molteplici tipologie di ``viste'', implementabili liberamente svincolando i programmatori dal conoscere al dettaglio la logica sottostante per la gestione delle comunicazioni. Va comunque ricordato che in tal caso, gli sviluppatori dovranno avere un idea chiara del significato delle varie funzioni del Façade del presenter.
+ 	\item \textbf{semplificare la manutenzione}: cosi come scrivere da zero una nuova vista, anche modificare quelle già presenti risulta essere più facile, per gli stessi motivi descritti al punto precedente.
+\end{itemize}
+
+La sotto-architettura clientview rappresenta quindi una vista di default fornita dal team, con lo scopo di rappresentare in modo chiaro ed organizzato le possibilità di iterazione, da parte dell'utente finale, con l'applicativo \caName{}.
+
+Nell'utilizzare tale vista l'utente non avrà la percezione di come sia stata progettata l'architettura totale del sistema, svincolandolo cosi dal dover conoscere le procedure necessarie all'esecuzione di una determinata operazione.
+
+Per quanto riguarda la componentistica, la sotto-architettura clientview è dotata di:
+\begin{itemize}
+	\item Façade della vista.
+	\item Gestione della GUI.
+\end{itemize}
+
+Per le specifiche dei componenti sopra citati, si rimanda alla sezione successiva.
+
+Infine si fa notare che i nomi di tutte le classi riportate nella sezione sono implicitamente parte del package \texttt{org.softwaresynthesis.mytalk.clientview} pertanto tale prefisso sarà omesso nella loro denominazione.
 
 \subsection{Componenti evidenziati}
 
@@ -969,6 +1003,7 @@ Nella seguente sezione vengono proposti tutti i tracciamenti eseguiti mediante i
 	\item dare una lettura generale delle varie: componenti, requisiti, design pattern e classi.
 \end{itemize}
 
+%TODO parte che deve essere prodotta mediante interrogazione del database
 \subsection{Tracciamenti Requisiti-Componenti}
 
 \subsection{Tracciamenti Componenti-Requisiti}
