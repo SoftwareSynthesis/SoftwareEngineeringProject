@@ -369,7 +369,7 @@ Tali considerazioni di base, hanno portato il team a suddividere l'architettura 
 
 Le specifiche di ogni sotto-architettura saranno definite in seguito, nelle relative sezioni.
 
-Inoltre si fa presente che l'architettura generale, intesa come agglomerato delle tre sotto-architetture precedentemente elencate, fa uso del pattern MVP\@
+Inoltre si fa presente che l'architettura generale, intesa come agglomerato delle tre sotto-architetture precedentemente elencate, fa uso del pattern MVP\@.
 
 Sotto tale ottica la sotto-architettura server ricopre il ruolo di model, il clientpresenter costituisce invece il presenter, mentre clientview è la vista definita per questo progetto. Tra le considerazioni più interessanti che hanno portato alla scelta di questo pattern, va messa in evidenza la seguente.
 
@@ -378,7 +378,6 @@ Assegnando ad ogni sotto-architettura un ruolo specifico, si garantisce un alto 
 Quindi in un futuro di potrebbe riprendere la vista oggi definita, e riutilizzarla in un altro progetto, andando solo a ridefinire, se necessario, un presente che riproponga una nuovo adattamento della parte logica.
 
 Di seguito verranno proposte le sotto-architetture evidenziate. Di ogni una sarà dato un elenco dettagliato dei componenti che lo interessano. Si sottolinea che per componenti non si intende i sottopackage, ma gli agglomerati di classi (potenzialmente prese da package diversi) che concorrono ad un fine comune: la definizione delle funzionalità del componente trattato.
-
 \clearpage
 
 \section{Architettura del database}
@@ -766,7 +765,7 @@ Si fa notare che i nomi di tutte le classi riportate nella sezione sono implicit
 \subsubsection{Gestione comunicazione}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-È il componente che definisce i client con cui sta comunicando o con cui desidera comunicare l'utente. Tale componente è costituito da un'interfaccia \texttt{clientpresenter.IClient} che rappresenta un modello di client con cui interagire (possibilità di stabilire una connessione, possibilità di estendere una comunicazione e possibilità di verificare se il client è super nodo). In pratica nel momento in cui l'utente A desidera stabilire una comunicazione con l'utente B, questi si farà restituire dal server le informazioni necessarie. Con tali informazioni, quindi, sarà creata un istanza di \texttt{clientpresenter.StandardClient} (implementazione dell'interfaccia \texttt{clientpresenter.IClient}), dalla quale potrà essere abilitata la comunicazione.
+È il componente che definisce i client con cui sta comunicando o con cui desidera comunicare l'utente. Tale componente è costituito da un'interfaccia \texttt{clientpresenter.IClient} che rappresenta un modello di client con cui interagire (possibilità di stabilire una connessione, possibilità di estendere una comunicazione e possibilità di verificare se il client è supernodo). In pratica nel momento in cui l'utente A desidera stabilire una comunicazione con l'utente B, questi si farà restituire dal server le informazioni necessarie. Con tali informazioni, quindi, sarà creata un istanza di \texttt{clientpresenter.StandardClient} (implementazione dell'interfaccia \texttt{clientpresenter.IClient}), dalla quale potrà essere abilitata la comunicazione.
 	\item{\scshape\bfseries Diagramma delle classi:}
 	\item{\scshape\bfseries Classi utilizzate:} 
 	\begin{itemize}[noitemsep,nolistsep]
@@ -811,8 +810,8 @@ Nell'utilizzare tale vista l'utente non avrà la percezione di come sia stata pr
 
 Per quanto riguarda la componentistica, la sotto-architettura clientview è dotata di:
 \begin{itemize}[noitemsep,nolistsep]
-	\item[-] Façade della vista.
-	\item[-] Gestione della GUI.
+	\item[-] Façade della vista
+	\item[-] Gestione della GUI
 \end{itemize}
 
 Per le specifiche dei componenti sopra citati, si rimanda alla sezione successiva.
@@ -838,13 +837,22 @@ In particolare, tramite le operazioni che sono dichiarate nell'interfaccia \text
 
 \subsubsection{Gestione della GUI}
 \begin{description}
-	\item{\scshape\bfseries Descrizione:} 
-%TODO da scrivere
+	\item{\scshape\bfseries Descrizione:}\\
+Questo componente si occupa della gestione dell'interfaccia grafica presentata all'utente finale. Le classi in esso contenute servono pertanto per la rappresentazione delle funzionalità offerte dal sistema all'utente.
+
+Si noti che questo componente demanda tutta la logica al presenter, tramite il Façade del presenter, e quindi è relativo solo ed esclusivamente alla grafica. Inoltre l'interazione con esso è centralizzata all'interno della classe \texttt{gui.GUIHandler}, ciò significa che tutte le altre classi del package \texttt{gui} non interagiscono direttamente con il presenter.
 	\item{\scshape\bfseries Diagramma delle classi:}
 	%TODO inserire il diagramma delle classi del componente gestione della GUI
 	\item{\scshape\bfseries Classi utilizzate:} 
 	\begin{itemize}[noitemsep,nolistsep]
-		\item[-] \texttt{boooooo}
+		\item[-] \texttt{gui.GUIHandler}
+		\item[-] \texttt{gui.MainPanel}
+		\item[-] \texttt{gui.ToolsPanel}
+		\item[-] \texttt{gui.ContactPanel}
+		\item[-] \texttt{gui.ConfigurationPanel}
+		\item[-] \texttt{gui.LanguagePanel}
+		\item[-] \texttt{gui.AccountSettingsPanel}
+		\item[-] \texttt{gui.CallHistoryPanel}
 	\end{itemize}  
 \end{description}
 
