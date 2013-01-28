@@ -381,12 +381,12 @@ Di seguito verranno proposte le sotto-architetture evidenziate. Di ogni una sar�
 \section{Architettura mytalk.server}
 Tale sotto-architettura definisce le specifiche e le funzionalità dell'applicativo lato server. In esso saranno definiti i seguenti componenti:
 \begin{itemize}[noitemsep,nolistsep]
-	\item Gestione Database.
-	\item Gestione connessione.
-	\item Gestione rubrica.
-	\item Gestione stato.
-	\item Gestione segreteria.
-	\item Façade del server.
+	\item[-] Gestione Database.
+	\item[-] Gestione connessione.
+	\item[-] Gestione rubrica.
+	\item[-] Gestione stato.
+	\item[-] Gestione segreteria.
+	\item[-] Façade del server.
 \end{itemize}
 
 I componenti sopracitati verranno definiti di seguito. Si sottolinea sin da ora che il server è l'unico in grado di comunicare con il database su cui regge l'applicativo.
@@ -545,9 +545,9 @@ La sotto-architettura clientpresenter è per l'appunto la parte ``presenter'' de
 \end{itemize}
 
 In sintesi la sotto-architettura clientpresenter dispone dei seguenti componenti:
-\begin{itemize}
-	\item Gestione comunicazione;
-	\item Façade del presenter.
+\begin{itemize}[noitemsep,nolistsep]
+	\item[-] Gestione comunicazione;
+	\item[-] Façade del presenter.
 \end{itemize}
 Si rimanda alla sottosezione successiva per maggiori dettagli.
 
@@ -602,9 +602,9 @@ La sotto-architettura clientview rappresenta quindi una vista di default fornita
 Nell'utilizzare tale vista l'utente non avrà la percezione di come sia stata progettata l'architettura totale del sistema, svincolandolo cosi dal dover conoscere le procedure necessarie all'esecuzione di una determinata operazione.
 
 Per quanto riguarda la componentistica, la sotto-architettura clientview è dotata di:
-\begin{itemize}
-	\item Façade della vista.
-	\item Gestione della GUI.
+\begin{itemize}[noitemsep,nolistsep]
+	\item[-] Façade della vista.
+	\item[-] Gestione della GUI.
 \end{itemize}
 
 Per le specifiche dei componenti sopra citati, si rimanda alla sezione successiva.
@@ -976,7 +976,7 @@ Interfaccia che raccoglie la dichiarazione di tutte le operazioni astratte con c
 	\end{itemize}
 \end{description}
 
-\subsubsection{mytalk.client.StandardPresenterFacade}
+\subsubsection{StandardPresenterFacade}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Questa classe rappresenta un'applicazione del design pattern Singleton e implementa inoltre l'interfaccia \texttt{IPresenterFacade}. Fornisce pertanto dei metodi concreti utilizzati per la comunicazione fra la vista e il server, elaborando qualora necessario i dati ricevuti in input e inoltrando le richieste al componente Façade del server.
@@ -987,7 +987,28 @@ Questa classe rappresenta un'applicazione del design pattern Singleton e impleme
 \end{description}
 
 \subsection{Package org.softwaresynthesis.mytalk.clientview}
-%TODO mancano tutte le classi della sotto-architettura clientview
+\subsubsection{IViewFacade}
+\begin{description}
+  \item{\scshape\bfseries Descrizione}\\
+Interfaccia che dichiara le operazioni astratte che possono essere richiamate sulla vista a partire dai componenti della sotto-architettura clientpresenter.
+  \item{\scshape\bfseries Componenti che ne fanno uso:}
+  \begin{itemize}[noitemsep,nolistsep]
+    \item[-] Façade della vista
+    \item[-] Façade del presenter
+  \end{itemize}
+\end{description}
+
+\subsubsection{StandardViewFacade}
+\begin{description}
+  \item{\scshape\bfseries Descrizione}\\
+Implementazione dell'interfaccia \texttt{IViewFacade} che contiene la definizione concreta dei metodi in essa dichiarati.
+  \item{\scshape\bfseries Componenti che ne fanno uso:}
+  \begin{itemize}[noitemsep,nolistsep]
+    \item[-] Façade della vista
+  \end{itemize}
+\end{description}
+
+%TODO mancano tutte le classi del componente gestione della GUI
 \clearpage
 
 \section{Conclusioni sull'architettura}
