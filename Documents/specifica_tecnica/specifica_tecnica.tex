@@ -1378,6 +1378,101 @@ Questa classe estende \texttt{MainPanel} e viene impiegata per rappresentare lo 
 \section{Conclusioni sull'architettura}
 
 \subsection{Diagrammi delle attività}
+In questa sezione saranno descritti i diagrammi di attività che rappresentano il flusso di utilizzo dei vari servizi messi a disposizione dal prodotto \caName.
+
+Il diagramma in figura \vref{fig:ADautenticazione} rappresenta il modo in cui un utente si autentica al sistema. Nel successivi diagrammi, figura \ref{fig:ADregistrazione} e \ref{fig:ADrecuperopassword}, vengono descritti rispettivamente le specializzazioni delle attività presenti nella schermata di login: registrazione (se non si ha ancora a disposizione un account utente) e recupero password (nel caso la password sia stata smarrita).
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=.6\textwidth]{autenticazione}
+\caption{Diagramma di attività relativo all'autententicazione}\label{fig:ADautenticazione}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=.6\textwidth]{registrazione}
+\caption{Diagramma di attività relativo alla registrazione}\label{fig:ADregistrazione}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=.6\textwidth]{recupero_pass}
+\caption{Diagramma di attività relativo al recupero della password}\label{fig:ADrecuperopassword}
+\end{figure}
+
+Il diagramma in figura \vref{fig:ADhome} rappresenta la schermata principale (e unica) dell'applicazione \caName. Da tale interfaccia è possibile raggiungere ogni funzionalità del software, come ad esempio la gestione della rubrica (figura \ref{fig:ADgestionerubrica}), la gestione del proprio account(figura \ref{fig:ADgestioneaccount}) o della segreteria (figura \ref{fig:ADgestionesegreteria}).
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=.6\textwidth]{home}
+\caption{Diagramma di attività generale che descrive l'interazione con il sistema}\label{fig:ADhome}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=.6\textwidth]{gestione_account_pers}
+\caption{Diagramma di attività relativo alla gestione dei dati dell'account personale}\label{fig:ADgestioneaccount}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=.6\textwidth]{gestione_rub_pers}
+\caption{Diagramma di attività relativo alla gestione della rubrica personale}\label{fig:ADgestionerubrica}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=.6\textwidth]{gestione_segreteria}
+\caption{Diagramma di attività relativo alla gestione della segretria}\label{fig:ADgestionesegreteria}
+\end{figure}
+
+\`{E} infine data la possibilità di connettersi con altri utenti tramite l'attività connessione illustrata nel dettaglio in figura \ref{fig:ADconnessione}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=.6\textwidth]{connessione}
+\caption{Diagramma di attività relativo alla connessione}\label{fig:ADconnessione}
+\end{figure}
+
+La connessione può essere di tipo audio (figura \ref{fig:ADcomaudio}), audio/video (figura \ref{fig:ADcomaudiovideo}) o testuale (figura \ref{fig:ADcomtestuale}). In tutte e tre le tipologie di connessione è possibile effettuare una condivisione di risorse, come specificato in figura \ref{fig:ADcondrisorse}, o registrare una chiamata (tranne nel caso di comunicazione testuale) figura \ref{fig:ADregistrachiamata}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=.6\textwidth]{com_audio}
+\caption{Diagramma di attività relativo alla comunicazione audio}\label{fig:ADcomaudio}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=.5\textwidth]{com_audiovideo}
+\caption{Diagramma di attività relativo alla comunicazione audio/video}\label{fig:ADcomaudiovideo}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=.6\textwidth]{com_testuale}
+\caption{Diagramma di attività relativo alla comunicazione testuale}\label{fig:ADcomtestuale}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=.6\textwidth]{condividi_ris}
+\caption{Diagramma di attività relativo alla condivisione di risorse}\label{fig:ADcondrisorse}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=.6\textwidth]{registrazione_chiamata}
+\caption{Diagramma di attività relativo alla registrazione della chiamata}\label{fig:ADregistrachiamata}
+\end{figure}
+
+In conclusione si ricorda che è possibile lasciare un messaggio nella segreteria di un determinato contatto se non presente in linea nel momento in cui desideriamo comunicare con lui \ref{fig:ADmessegreteria}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=.6\textwidth]{mes_segreteria}
+\caption{Diagramma di attività relativo alla memorizzazione di un messaggio in segreteria}\label{fig:ADmessegreteria}
+\end{figure}
 
 \subsection{Diagramma di package}
 %TODO inserire diagramma con i package generale di tutta l'architettura
