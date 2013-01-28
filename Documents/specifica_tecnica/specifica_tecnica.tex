@@ -396,7 +396,7 @@ Con la progettazione concettuale definiremo una struttura ``concettuale'' della 
 \rowcolors{2}{lightblue}{llightblue}
 \begin{tabular}{lccc}
 \toprule
-Nome attributo & Tipo & Opzionale & Chiave\\
+Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule % inserire qui il contenuto della tabella
 E-Mail & Varchar(100) & NO & PrimaryKey\\
 Password & Password & NO & PrimaryKey\\
@@ -409,16 +409,34 @@ Immagine & Varchar(150) & SI &\\
 \end{tabular}
 \end{center}
 
+	\item{\scshape\bfseries CallList}: è l'entità le cui istanze rappresentano lo storico delle chiamate effettuate da un utente (identificato nella tabella come ``Utente\_chiamante''. UserData è caratterizzata dai seguenti attributi:
+
+\begin{center}
+\rowcolors{2}{lightblue}{llightblue}
+\begin{tabular}{lccc}
+\toprule
+Nome attributo & Tipo & Opzionale & Vincoli\\
+\midrule % inserire qui il contenuto della tabella
+ID & int & NO & PrimaryKey\\
+ID\_chiamata & int & NO & \\
+Utente\_chiamante & Varchar(100) & NO & \\
+Utente\_ricevente & Varchar(100) & NO & \\
+Data & Datetime & NO &\\
+\bottomrule
+\end{tabular}
+\end{center}
+
 	\item{\scshape\bfseries Groups}: è l'entità le cui istanze rappresentano un gruppo della rubrica di un utente. Tale entità è costituita dagli attributi:
 
 \begin{center}
 \rowcolors{2}{lightblue}{llightblue}
 \begin{tabular}{lccc}
 \toprule
-Nome attributo & Tipo & Opzionale & Chiave\\
+Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule % inserire qui il contenuto della tabella
 ID\_gruppo & Varchar(100) & NO & PrimaryKey\\
-Nome & Varchar(100) & SI & \\
+Nome & Varchar(100) & NO &\\
+Proprietario & Varchar(100) & NO &\\
 \bottomrule
 \end{tabular}
 \end{center}	
@@ -429,7 +447,7 @@ Nome & Varchar(100) & SI & \\
 \rowcolors{2}{lightblue}{llightblue}
 \begin{tabular}{lccc}
 \toprule
-Nome attributo & Tipo & Opzionale & Chiave\\
+Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule % inserire qui il contenuto della tabella
 ID\_messaggio & int & NO & PrimaryKey\\
 Mittente & Varchar(100) & NO & \\
@@ -444,7 +462,7 @@ Destinatario & Varchar(100) & NO & \\
 \rowcolors{2}{lightblue}{llightblue}
 \begin{tabular}{lccc}
 \toprule
-Nome attributo & Tipo & Opzionale & Chiave\\
+Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule % inserire qui il contenuto della tabella
 Path & Varchar(150) & NO & PrimaryKey\\
 \bottomrule
@@ -457,7 +475,7 @@ Path & Varchar(150) & NO & PrimaryKey\\
 \rowcolors{2}{lightblue}{llightblue}
 \begin{tabular}{lccc}
 \toprule
-Nome attributo & Tipo & Opzionale & Chiave\\
+Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule % inserire qui il contenuto della tabella
 Path & Varchar(150) & NO & PrimaryKey\\
 \bottomrule
@@ -469,13 +487,15 @@ Path & Varchar(150) & NO & PrimaryKey\\
 \subsubsection{Gerarchia tra classi}
 
 \begin{description}
-	\item{\scshape\bfseries Messages(AudioMessages e AudioVideoMessages}: i messaggi si suddividono logicamente in due categorie, i messaggi dotati solamente di traccia audio e quelli aventi anche una traccia video. Si osservi che gli attributi contenuti in queste entità sono gli stessi. Infatti la necessità di mostrare la separazione logica deriva dalla volontà del team di evidenziare la separazione logica tra i due oggetti, motivata dalla possibilità di gestire le istanze delle due entità in modo diverso.
+	\item{\scshape\bfseries Messages(AudioMessages e AudioVideoMessages)}: i messaggi si suddividono logicamente in due categorie, i messaggi dotati solamente di traccia audio e quelli aventi anche una traccia video. Si osservi che gli attributi contenuti in queste entità sono gli stessi. Infatti la necessità di mostrare la separazione logica deriva dalla volontà del team di evidenziare la separazione logica tra i due oggetti, motivata dalla possibilità di gestire le istanze delle due entità in modo diverso.
 \end{description}
 
 \subsubsection{Associazione tra classi}
 
 \begin{description}
-	\item{\scshape\bfseries UserData - Groups}: tale associazione rappresenta il legame che intercorre tra gli utenti ed i gruppi, per la quale si è deciso di usare un associazione molti a molti con totalità parziale da entrambi i lati. Ciò significa che: un utente può comparire in uno o più gruppi (in ragione del fatto che potrebbe esserci qualcuno che registra l'utente A nella propria rubrica), ed un utente può possedere più gruppi.
+	\item{\scshape\bfseries UserData - CallList}: tale associazione rappresenta il legame che intercorre tra gli utenti e la CallList. Tale associazione è del tipo molti a uno da CallList a UserData, con totalità parziale verso CallList e totalità totale verso UserData.
+	\item{\scshape\bfseries UserData - Groups (molti a molti)}: tale associazione rappresenta il legame che intercorre tra gli utenti ed i gruppi, per la quale si è deciso di usare un associazione molti a molti con totalità parziale da entrambi i lati. Ciò significa che: un utente può comparire in uno o più gruppi (in ragione del fatto che potrebbe esserci qualcuno che registra l'utente A nella propria rubrica), ed un utente può possedere più gruppi.
+	\item{\scshape\bfseries UserData - Groups (uno a molti)}: tale associazione rappresenta il legame che intercorre tra il proprietario del gruppo e il gruppo stesso. L'associazione è del tipo uno a molti, a rappresentare come un gruppo sia visualizzabile unicamente dal proprietario, mentre un utente può avere (e di conseguenza visualizzare) più gruppi.
 	\item{\scshape\bfseries UserData - Messages}: tale associazione rappresenta il legame che intercorre tra gli utenti ed i messaggi registrati nella sua segreteria. L'associazione è del tipo uno a molti verso Messages, con totalità parziale verso Messages e totalità totale verso UserData. L'idea alla base è che un utente può avere nella propria segreteria uno o più messaggi, cosi come può non averne nessuno. Mentre ogni messaggio della segreteria è ``visionabile'' da un unico utente, il destinatario del messaggio.
 \end{description}
 
@@ -487,13 +507,15 @@ Con la progettazione logica intendiamo costruire la struttura definitiva del dat
 \subsubsection{Rappresentazione delle gerarchie}
 
 \begin{description}
-	\item{\scshape\bfseries Messages(AudioMessages e AudioVideoMessages}: al fine di evidenziare la suddivisione logica tra le due tipologie di messaggi, è stato deciso di trasformare la specializzazione di Messages con un partizionamento orizzontale. Delle 3 entità iniziali sono rimaste solo AudioMessages e AudioVideoMessages, le quali incorporano nei loro attributi, gli attributi di Messages.
+	\item{\scshape\bfseries Messages(AudioMessages e AudioVideoMessages)}: al fine di evidenziare la suddivisione logica tra le due tipologie di messaggi, è stato deciso di trasformare la specializzazione di Messages con un partizionamento orizzontale. Delle 3 entità iniziali sono rimaste solo AudioMessages e AudioVideoMessages, le quali incorporano nei loro attributi, gli attributi di Messages.
 \end{description}
 
 \subsubsection{Rappresentazione delle associazioni}
 
 \begin{description}
-	\item{\scshape\bfseries UserData - Groups}: tale associazione si è risolta con la creazione di una terza tabella denominata UserData\_Group, che contiene una chiave esterna verso UserData e una chiave esterna verso Groups.
+	\item{\scshape\bfseries UserData - CallList}: tale associazione si è risolta trasformando: il campo ID\_chiamante in un ForeignKey verso UserData (per collegare la chiamata a colui che l'ha avviata), e analogamente usando il campo ID\_ricevente come ForeingKey verso UserData (per collegare la chiamata a chi l'ha ricevuta).
+	\item{\scshape\bfseries UserData - Groups (molti a molti}: tale associazione si è risolta con la creazione di una terza tabella denominata AddressBook, che contiene una chiave esterna verso UserData e una chiave esterna verso Groups.
+	\item{\scshape\bfseries UserData - Groups (uno a molti}: tale associazione si è risolta trasformando l'attributo ``Proprietario'' in una ForeingKey verso UserData.
 	\item{\scshape\bfseries UserData - AudioMessages}: tale associazione si è risolta inserendo una chiave esterna verso UserData, all'interno di AudioMessages.
 	\item{\scshape\bfseries UserData - AudioVideoMessages}: tale associazione si è risolta inserendo una chiave esterna verso UserData, all'interno di AudioVideoMessage.
 \end{description}
@@ -508,7 +530,7 @@ UserData
 \begin{center}
 \begin{tabular}{lccc}
 \toprule
-Nome attributo & Tipo & Opzionale & Chiave\\
+Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule % inserire qui il contenuto della tabella
 E-Mail & Varchar(100) & NO & PrimaryKey\\
 Password & Password & NO & PrimaryKey\\
@@ -521,13 +543,32 @@ Immagine & Varchar(150) & SI &\\
 \end{tabular}
 \end{center}
 
+\newpage
+
+CallList
+
+\begin{center}
+\rowcolors{2}{lightblue}{llightblue}
+\begin{tabular}{lccc}
+\toprule
+Nome attributo & Tipo & Opzionale & Vincoli\\
+\midrule % inserire qui il contenuto della tabella
+ID & int & NO & PrimaryKey\\
+ID\_chiamata & int & NO & \\
+Utente\_chiamante & Varchar(100) & NO & ForeingKey verso UserData\\
+Utente\_ricevente & Varchar(100) & NO & ForeingKey verso UserData\\
+Data & Datetime & NO &\\
+\bottomrule
+\end{tabular}
+\end{center}
+
 AddressBook
 
 \begin{center}
 \rowcolors{2}{lightblue}{llightblue}
 \begin{tabular}{lccc}
 \toprule
-Nome attributo & Tipo & Opzionale & Chiave\\
+Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule % inserire qui il contenuto della tabella
 ID\_utente & Varchar(100) & NO & PrimaryKey e ForeignKey verso UserData\\
 ID\_gruppo & Varchar(100) & NO & PrimaryKey e ForeignKey verso Group\\
@@ -541,10 +582,11 @@ Groups
 \rowcolors{2}{lightblue}{llightblue}
 \begin{tabular}{lccc}
 \toprule
-Nome attributo & Tipo & Opzionale & Chiave\\
+Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule % inserire qui il contenuto della tabella
 ID\_gruppo & Varchar(100) & NO & PrimaryKey\\
-Nome & Varchar(100) & SI & \\
+Nome & Varchar(100) & NO & \\
+Proprietario & Varchar(100) & NO & ForeignKey verso UserData\\
 \bottomrule
 \end{tabular}
 \end{center}	
@@ -555,7 +597,7 @@ AudioMessages
 \rowcolors{2}{lightblue}{llightblue}
 \begin{tabular}{lccc}
 \toprule
-Nome attributo & Tipo & Opzionale & Chiave\\
+Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule % inserire qui il contenuto della tabella
 Mittente & Varchar(100) & NO & \\
 Destinatario & Varchar(100) & NO & ForeignKey verso UserData\\
@@ -570,7 +612,7 @@ AudioVideoMessages
 \rowcolors{2}{lightblue}{llightblue}
 \begin{tabular}{lccc}
 \toprule
-Nome attributo & Tipo & Opzionale & Chiave\\
+Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule % inserire qui il contenuto della tabella
 Mittente & Varchar(100) & NO & \\
 Destinatario & Varchar(100) & NO & ForeignKey verso UserData\\
