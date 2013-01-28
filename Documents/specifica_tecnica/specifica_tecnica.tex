@@ -955,14 +955,20 @@ Questa classe Singleton è l'implementazione dell'interfaccia \texttt{IServerFac
 Interfaccia che raccoglie le operazioni astratte che è possibile invocare su un client astratto del sistema corrispondenti, ad esempio, alla ricezione di una chiamata in ingresso oppure all'interrogazione sullo stato (nodo semplice o supernodo) di un determinato client.
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-] Gestione comunicazione
+	\end{itemize}
 \end{description}
 
 \subsubsection{StandardClient}
-%TODO da completare
-\begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
+Implementazione dell'interfaccia \texttt{IClient} che incapsula al suo interno la logica di eventuale ritrasmissione dei dati in ingresso (nel caso in cui il client sia un supernodo) e di invio dei dati prodotti in locale ai client con cui è stata instaurata una connessione. 
+\begin{description}
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-] Gestione comunicazione
+	end{itemize}
 \end{description}
 
 \subsubsection{IPresenterFacade}
