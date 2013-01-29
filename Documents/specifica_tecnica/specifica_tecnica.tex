@@ -74,7 +74,7 @@ Versione & Descrizione intervento & Membro & Ruolo & Data\\
 0.7 & Stesura della sezione relativa alla progettazione logica &Diego Beraldin  & Progettista & 2013-01-26\\
 0.6 & Completata la sezione relativa alla progettazione concettuale &Elena Zecchinato & Progettista & 2013-01-25\\
 0.5 & Inizio stesura della sezione relativa alla progettazione concettuale con classi evidenziate in fase di progettazione &Elena Zecchinato& Progettista & 2013-01-24\\
-0.4 & Descrizione dei design patterns evidenziati nella fase di progettazione. &Diego Beraldin & Progettista & 2013-01-24\\
+0.4 & Descrizione dei design pattern evidenziati nella fase di progettazione. &Diego Beraldin & Progettista & 2013-01-24\\
 0.3 & Aggiunto capitolo relativo agli strumenti utilizzati.& Marco Schivo & Progettista & 2013-01-23\\
 0.2 & Stesura dell'introduzione ai design pattern. Stesura dell'introduzione ai tracciamenti. &Elena Zecchinato & Progettista & 2013-01-23\\
 0.1 & Creazione del documento e stesura della sezione ``Introduzione''. &Diego Beraldin & Progettista & 2013-01-23\\
@@ -129,8 +129,8 @@ Il presente documento è stato redatto al fine di produrre le specifiche sulla p
 \item[] Capitolato d'appalto: \caName{}, v1.0, redatto e rilasciato dal proponente Zucchetti s.r.l. reperibile all'indirizzo \url{http://www.math.unipd.it/~tullio/IS-1/2012/Progetto/C1.pdf};
 \item[] testo di consultazione: \textit{Software Engineering (8th edition) Ian Sommerville, Pearson Education | Addison Wesley};
 \item[] manuale all'utilizzo dei design pattens: \textit{Design Patterns, Elementi per il riuso di software a oggetti -- (1/Ed. italiana) Eric Gamma, Richard Helm, Ralph Johnson, John Vlissides, Pearson Education};
-\item[] manuale di basi di dati: \textit{Titolo: Sistemi di basi di dati-fondamenti} -- (6° edizione) Ramez Elmasri / Shamkant B. Navathe
-\item[] \textit{glossario.1.0.pdf} allegato.
+\item[] manuale di basi di dati: \textit{Sistemi di basi di dati-fondamenti} -- (6° edizione) Ramez Elmasri / Shamkant B. Navathe
+\item[] \textit{glossario.2.0.pdf} allegato.
 \end{itemize}
 \clearpage
 
@@ -143,7 +143,7 @@ L'utilizzo del linguaggio \underline{Java} è richiesto dal proponente solo per 
 \item[-] è un linguaggio predisposto nativamente alla gestione parallela di thread e questo applicato ad un \underline{server} dà la possibilità di gestire parallelamente richieste da parte di più utenti allo stesso tempo;
 \item[-] essendo un linguaggio orientato agli oggetti e fortemente tipizzato si presta all'applicazione di \underline{design pattern} e alla costruzione di un'architettura robusta, fortemente modulare e al contempo flessibile, in accordo con i principi del paradigma di programmazione OO;
 \item[-] permette la generazione automatica della documentazione con l'ausilio di JavaDoc;
-\item[-] garantisce la portabilità del codice (a livello di bytecode), l'indipendenza dalla piattaforma fisica di esecuzione grazie alla JVM e l'integrazione nell'ambiente di esecuzione del proponente (TomCat).
+\item[-] garantisce la portabilità del codice (a livello di bytecode), l'indipendenza dalla piattaforma fisica di esecuzione grazie alla JVM e l'integrazione nell'ambiente di esecuzione del proponente (\underline{TomCat}).
 \end{itemize}
 \subsubsection*{Svantaggi}
 \begin{itemize}
@@ -170,7 +170,7 @@ In questa sezione discuteremo i \underline{design pattern} utilizzati nella prog
 	\item \textbf{Componenti che lo implementano}: infine verranno elencati i componenti dell'architettura di sistema, che implementano il pattern descritto.
 \end{itemize}
 
-Per una visione d'insieme dei componenti utilizzati da un pattern, e dei pattern utilizzati da un componente, rimandiamo alle sottosezioni ``Tracciamenti Componenti-Design Pattern'' e ``Tracciamenti Design Pattern-Componenti'' della sezione ``Tracciamenti''.
+Per una visione d'insieme dei componenti utilizzati da un pattern, e dei pattern utilizzati da un componente, rimandiamo alle sottosezioni ``Tracciamenti Componenti-Design Pattern'' e ``Tracciamenti Design Pattern-Componenti'' della sezione \vref{sec:tracciamenti}.
 
 \subsection{Composite}
 
@@ -976,7 +976,7 @@ I metodi del componente Façade del presenter hanno la cognizione dell'iter di c
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=.8\textwidth]{package_presenter}
-\caption{Diagramma delle classi - Client Presenter}\label{fig:package_presenter}
+\caption{Diagramma delle classi - Architettura mytalk.clientpresenter}\label{fig:package_presenter}
 \end{center}
 \end{figure}
 \clearpage
@@ -1072,7 +1072,7 @@ Si noti che questo componente demanda tutta la logica al presenter, tramite il F
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=1\textwidth]{Package_view}
-\caption{Diagramma delle classi - Client Presenterview}\label{fig:package_client_presenterview}
+\caption{Diagramma delle classi - Architettura mytalk.clientview}\label{fig:package_client_presenterview}
 \end{center}
 \end{figure}
 \clearpage
@@ -1084,7 +1084,7 @@ Si noti che questo componente demanda tutta la logica al presenter, tramite il F
 \subsubsection{IAudioMessage}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Interfaccia per i messaggi audio della segreteria telefonica che viene implementata dalle classi \texttt{AudioMessage} e dal suo proxy \texttt{message.AudioMessageProxy}.
+Interfaccia per i messaggi audio della segreteria telefonica che viene implementata dalle classi \texttt{AudioMessage} e dal relativo proxy \texttt{server.message.AudioMessageProxy}.
 % contiene operazione astratta play() per riprodurre il messaggio (se presente) o scaricarlo e avviarne la riproduzione
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	  \begin{itemize}[noitemsep,nolistsep]
@@ -1096,7 +1096,7 @@ Interfaccia per i messaggi audio della segreteria telefonica che viene implement
 \subsubsection{IAudioVideoMessage}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Interfaccia per i messaggi audio/video della segreteria telefonica, a sua volta implementata dalle classi \texttt{AudioVideoMessage} e dal relativo proxy \texttt{message.AudioVideoMessageProxy}.
+Interfaccia per i messaggi audio/video della segreteria telefonica, a sua volta implementata dalle classi \texttt{AudioVideoMessage} e dal suo proxy \texttt{server.message.AudioVideoMessageProxy}.
 % contiene operazione astratta play() per riprodurre il messaggio (se presente) o scaricarlo e avviarne la riproduzione
 	\item{\scshape\bfseries Componenti che ne fanno uso:} 
 	  \begin{itemize}[noitemsep,nolistsep]
@@ -1132,7 +1132,7 @@ Classe che rappresenta un messaggio audio/video nella segreteria telefonica di u
 	\item{\scshape\bfseries Descrizione:}\\
 Interfaccia per i gruppi interni alla rubrica, prevede un'operazione astratta \texttt{add(IUserData)} per l'aggiunta di un nuovo contatto al gruppo e un'operazione \texttt{remove(IUserData)} per la sua rimozione.
 
-Estende inoltre l'interfaccia \texttt{abook.IContact} comune a tutti i contatti della rubrica e richiesta per l'applicazione del \underline{design pattern} Composite.
+Estende inoltre l'interfaccia \texttt{server.abook.IContact} comune a tutti i contatti della rubrica e richiesta per l'applicazione del \underline{design pattern} Composite.
 	\item{\scshape\bfseries Componenti che ne fanno uso:} 
 	  \begin{itemize}[noitemsep,nolistsep]
 	    \item[-] Gestione database
@@ -1143,7 +1143,7 @@ Estende inoltre l'interfaccia \texttt{abook.IContact} comune a tutti i contatti 
 \subsubsection{StandardGroup}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Implementazione dell'interfaccia \texttt{IGroup}, ogni gruppo è dotato di un nome e raccoglie in sé zero o più istanze di classi sottotipo di \texttt{abook.IContact}.
+Implementazione dell'interfaccia \texttt{IGroup}, ogni gruppo è dotato di un nome e raccoglie in sé zero o più istanze di classi sottotipo di \texttt{server.abook.IContact}.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	  \begin{itemize}[noitemsep,nolistsep]
 	    \item[-] Gestione database
@@ -1165,7 +1165,7 @@ Interfaccia per le classi che rappresentano gli utenti, è dotata di operazioni 
 \subsubsection{StandardUserData}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Classe che implementa l'interfaccia \texttt{dao.IUserData} le cui istanze corrispondono ai record della tabella degli utenti nel \underline{database}.
+Classe che implementa l'interfaccia \texttt{IUserData} le cui istanze corrispondono ai record della tabella degli utenti nel \underline{database}.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Gestione database
@@ -1266,7 +1266,7 @@ Classe che implementa l'interfaccia \texttt{IAddressBook} e rappresenta quindi l
 \subsubsection{IState}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Interfaccia alla base della gerarchia di stati che gli utenti possono assumere nel corso dell'interazione con il sistema. La composizione delle istanze di \texttt{server.dao.StandardUserData} con oggetti sottotipo di \texttt{IState} cui inoltrano le richieste ricevute dall'esterno permette di cambiare dinamicamente il comportamento degli oggetti che rappresentano gli utenti.
+Interfaccia padre della gerarchia di stati che gli utenti possono assumere nel corso dell'interazione con il sistema. La composizione delle istanze di \texttt{server.dao.StandardUserData} con oggetti sottotipo di \texttt{IState} cui inoltrano le richieste ricevute dall'esterno permette di cambiare dinamicamente il comportamento degli oggetti che rappresentano gli utenti.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Gestione stato
@@ -1331,27 +1331,27 @@ Interfaccia che rappresenta, ad alto livello, la segreteria telefonica dell'uten
 Classe concreta che implementa l'interfaccia \texttt{IMessageBox} e rappresenta dunque la rubrica associata a un determinato utente.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item Gestione segreteria
+	  \item[-] Gestione segreteria
 	\end{itemize}
 \end{description}
 
 \subsubsection{AudioMessageProxy}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Proxy virtuale ad uso dei \underline{client} per i messaggi audio lasciati ad un utente in segreteria. La classe implementa l'interfaccia \texttt{dao.IAudioMessage} ogni sua istanza è costruita per composizione con un riferimento a  \texttt{dao.AudioMessage}, cui inoltra le richieste dopo aver eventualmente scaricato il messaggio dal \underline{server}.
+Proxy virtuale ad uso dei \underline{client} per i messaggi audio lasciati ad un utente in segreteria. La classe implementa l'interfaccia \texttt{server.dao.IAudioMessage} ogni sua istanza è costruita per composizione con un riferimento a  \texttt{server.dao.AudioMessage}, cui inoltra le richieste dopo aver eventualmente scaricato il messaggio dal \underline{server}.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item Gestione segreteria
+	  \item[-] Gestione segreteria
 	\end{itemize}
 \end{description}
 
 \subsubsection{AudioVideoMessageProxy}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Proxy virtuale ad uso dei \underline{client} per i messaggi audio/video in segreteria. La classe implementa l'interfaccia \texttt{dao.AudioVideoMessage} ed è costruita, similmente a \texttt{AudioMessageProxy} con un'istanza di \texttt{dao.AudioVideoMessage} per limitare il traffico di rete e ottimizzare il consumo di memoria del \underline{client}.
+Proxy virtuale ad uso dei \underline{client} per i messaggi audio/video in segreteria. La classe implementa l'interfaccia \texttt{server.dao.AudioVideoMessage} ed è costruita, similmente a \texttt{AudioMessageProxy} con un'istanza di \texttt{server.dao.AudioVideoMessage} per limitare il traffico di rete e ottimizzare il consumo di memoria del \underline{client}.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item Gestione segreteria
+	  \item[-] Gestione segreteria
 	\end{itemize}
 \end{description}
 
@@ -1361,7 +1361,7 @@ Proxy virtuale ad uso dei \underline{client} per i messaggi audio/video in segre
 	\item{\scshape\bfseries Descrizione:}\\
 Interfaccia che contiene tutte le operazioni richieste dai componenti della sotto-architettura clientpresenter inerenti alla registrazione, all'autenticazione,  alla gestione della rubrica e della segreteria nonché delle connessioni con altri utenti.
 
-In quest'ultimo caso, tuttavia, le operazioni richieste vengono a loro volta inoltrate al componente per la gestione della connessione (es. verso \texttt{connection.IConnectionHandler}).
+In quest'ultimo caso le operazioni richieste vengono a loro volta inoltrate al componente responsabile della gestione della connessione (\texttt{server.connection.IConnectionHandler}).
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Façade del server
@@ -1509,7 +1509,7 @@ Sottoclasse di \texttt{MainPanel} utilizzata per rappresentare il profilo di un 
 \subsubsection{MessagePanel}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Questa sottoclasse di \texttt{MainPanel} permette di accedere all'elenco dei messaggi in segreteria di un determinato utente e ne permette la gestione. La visualizzazione si attiva quando viene premuto il relativo pulsante mostrato dall'istanza di \texttt{ToolPanel}.
+Questa sottoclasse di \texttt{MainPanel} permette di accedere all'elenco dei messaggi in segreteria di un determinato utente e ne permette la gestione. La visualizzazione si attiva quando viene premuto il relativo pulsante mostrato dall'istanza di \texttt{ToolsPanel}.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] Gestione GUI
@@ -1539,7 +1539,7 @@ Questa classe è utilizzata per rappresentare il \underline{form} che si present
 \subsubsection{CallHistoryPanel}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Questa classe estende \texttt{MainPanel} e viene impiegata per rappresentare lo storico delle chiamate visualizzato quando l'utente attiva il pulsante corrispondente presente nel \texttt{ToolPanel}.
+Questa classe estende \texttt{MainPanel} e viene impiegata per rappresentare lo storico delle chiamate visualizzato quando l'utente attiva il pulsante corrispondente presente nel \texttt{ToolsPanel}.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] Gestione GUI
@@ -1600,7 +1600,7 @@ Dal diagramma principale (ricordiamo in figura \vref{fig:ADhome}) una volta aute
 \end{figure}
 
 
-E' infine data la possibilità di connettersi con altri utenti tramite l'attività connessione illustrata nel dettaglio in figura \ref{fig:ADconnessione}.
+\`{E} infine data la possibilità di connettersi con altri utenti tramite l'attività connessione illustrata nel dettaglio in figura \ref{fig:ADconnessione}.
 
 \begin{figure}[H]
 \centering
@@ -1608,7 +1608,7 @@ E' infine data la possibilità di connettersi con altri utenti tramite l'attivit
 \caption{Diagramma di attività relativo alla connessione}\label{fig:ADconnessione}
 \end{figure}
 
-La connessione può essere di tipo audio (figura\ref{fig:ADcomaudio}), audio/video (figura \ref{fig:ADcomaudiovideo}) o testuale (figura \ref{fig:ADcomtestuale}). In tutte e tre le tipologie di connessione è possibile effettuare una condivisione di risorse, come specificato in figura \ref{fig:ADcondrisorse}, o registrare una chiamata (tranne nel caso di comunicazione testuale) figura \ref{fig:ADregistrachiamata}.
+La connessione può essere di tipo audio (figura \ref{fig:ADcomaudio}), audio/video (figura \ref{fig:ADcomaudiovideo}) o testuale (figura \ref{fig:ADcomtestuale}). In tutte e tre le tipologie di connessione è possibile effettuare una condivisione di risorse, come specificato in figura \ref{fig:ADcondrisorse}, o registrare una chiamata (tranne nel caso di comunicazione testuale) figura \ref{fig:ADregistrachiamata}.
 
 \begin{figure}[H]
 \centering
@@ -1650,7 +1650,7 @@ In conclusione si ricorda che è possibile lasciare un messaggio nella segreteri
 
 \clearpage
 
-\section{Tracciamenti}
+\section{Tracciamenti}\label{sec:tracciamenti}
 Nella seguente sezione vengono proposti tutti i tracciamenti eseguiti mediante il sistema Synthsis Requirment Manager. I tracciamenti proposti sono giustificati dalle seguenti due motivazioni:
 
 \begin{itemize}
