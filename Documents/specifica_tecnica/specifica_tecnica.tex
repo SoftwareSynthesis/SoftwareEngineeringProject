@@ -167,7 +167,7 @@ Il pattern Composite ha lo scopo di comporre oggetti in strutture ad albero al f
 
 \subsubsection{Componenti che lo implementano}
 \begin{description}
-\item{\bfseries\scshape Gestione della rubrica (lato server)}\\
+\item{\bfseries\scshape Gestione rubrica}\\
 Composite permette di trattare in maniera omogenea singoli oggetti e oggetti composti, come gli utenti e gruppi di utenti della rubrica. Inoltre, dal momento che rende più semplice l'aggiunta di componenti, permetterebbe in futuro l'integrazione di nuove tipologie di utenti senza la necessità di modificare la struttura preesistente.
 
 Lo svantaggio principale che comporta l'uso di Composite è la mancanza di limiti nell'aggiunta di nuove tipologie di componenti. Per far fronte a questo rischio si è introdotta la classe \texttt{org.softwaresynthesis.mytalk.server.abook.AddressBook} che controlla l'accesso alla struttura dati corrispondente alla rubrica.
@@ -329,7 +329,7 @@ Il pattern Singleton è altresì utile per controllare il numero di istanze dell
 La classe \texttt{server.connection.StandardConnectionHandler} è implementata come Singleton in modo da centralizzare la responsabilità di creare nuove connessioni in risposta alle esigenze dei client.
   \item{\scshape\bfseries Façade della vista}\\
 La classe \texttt{clientview.StandardViewFacade} è stata progettata in accordo con il design pattern Singleton in modo da assicurare che in ogni momento ve ne sia una sola istanza attiva, responsabile di ricevere le richieste che giungono dal presenter.
-  \item{\scshape\bfseries Gestione della GUI}\\
+  \item{\scshape\bfseries Gestione GUI}\\
 Anche la classe \texttt{clientview.gui.GUIHandler} è implementata come Singleton in quanto permette di centralizzare la gestione delle collaborazioni fra le varie istanze attive delle classi grafiche.
 \end{description}
 
@@ -919,7 +919,7 @@ Nell'utilizzare tale vista l'utente non avrà la percezione di come sia stata pr
 Per quanto riguarda la componentistica, la sotto-architettura clientview è dotata di:
 \begin{itemize}[noitemsep,nolistsep]
 	\item[-] Façade della vista
-	\item[-] Gestione della GUI
+	\item[-] Gestione GUI
 \end{itemize}
 
 Per le specifiche dei componenti sopra citati, si rimanda alla sezione successiva.
@@ -943,7 +943,7 @@ In particolare, tramite le operazioni che sono dichiarate nell'interfaccia \text
 	\end{itemize}  
 \end{description}
 
-\subsubsection{Gestione della GUI}
+\subsubsection{Gestione GUI}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Questo componente si occupa della gestione dell'interfaccia grafica presentata all'utente finale. Le classi in esso contenute servono pertanto per la rappresentazione delle funzionalità offerte dal sistema all'utente.
@@ -1304,7 +1304,7 @@ Interfaccia che raccoglie la dichiarazione di tutte le operazioni astratte con c
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Façade del presenter
-	  \item[-] Gestione della GUI
+	  \item[-] Gestione GUI
 	\end{itemize}
 \end{description}
 
@@ -1349,7 +1349,7 @@ L'istanza di questa classe ha il compito di inoltrare ai componenti delle divers
 Inoltre, tale classe ha la responsabilità di controllare l'attivazione e gli aggiornamenti dinamici nel corso dell'esecuzione di tutti gli oggetti di classi grafiche istanziate.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] Gestione della GUI
+    \item[-] Gestione GUI
   \end{itemize}
 \end{description}
 
@@ -1359,7 +1359,7 @@ Inoltre, tale classe ha la responsabilità di controllare l'attivazione e gli ag
 Pannello che permette la visualizzazione della rubrica dell'utente connesso al sistema, e di accedere alle funzionalità di amministrazione della rubrica stessa (come l'aggiunta o la rimozione di utenti/gruppi, lo spostamento di un utente da un gruppo a un altro oppure l'ordinamento).
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] Gestione della GUI
+    \item[-] Gestione GUI
   \end{itemize}
 \end{description}
 
@@ -1369,7 +1369,7 @@ Pannello che permette la visualizzazione della rubrica dell'utente connesso al s
 Classe padre della gerarchia di oggetti grafici che possono comparire nella sezione principale dell'interfaccia utente. La parte comune a tutte le sottoclassi permette all'utente di impostare il proprio stato e di uscire dall'applicazione. Ogni sua specializzazione si rivolge a \texttt{GUIHandler} per inoltrare i comandi verso il componente Façade del presenter.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] Gestione della GUI
+    \item[-] Gestione GUI
   \end{itemize}
 \end{description}
 
@@ -1379,7 +1379,7 @@ Classe padre della gerarchia di oggetti grafici che possono comparire nella sezi
 Classe che rappresenta il pannello degli strumenti della home screen dell'applicativo, mediante il quale è possibile accedere alle funzionalità di ricerca, di segreteria telefonica, selezione della lingua, modifica dei dati dell'utente e storico delle chiamate.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] Gestione della GUI
+    \item[-] Gestione GUI
   \end{itemize}
 \end{description}
 
@@ -1388,7 +1388,7 @@ Classe che rappresenta il pannello degli strumenti della home screen dell'applic
   \item{\scshape\bfseries Descrizione}\\
 Componente grafica che estende la classe \texttt{MainPanel} e visualizza i risultati della ricerca di un utente. La sua visualizzazione avviene in seguito all'uso della componente grafica di ricerca presente nel pannello degli strumenti.
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] Gestione della GUI
+    \item[-] Gestione GUI
   \end{itemize}
 \end{description}
 
@@ -1398,7 +1398,7 @@ Componente grafica che estende la classe \texttt{MainPanel} e visualizza i risul
 Sottoclasse di \texttt{MainPanel} utilizzata per rappresentare il profilo di un utente. Solo accedendo quest'ultimo sarà possibile avviare una comunicazione con l'utente. Il contatto viene visualizzato selezionando l'utente dalla rubrica oppure tra i risultati di una ricerca.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] Gestione della GUI
+    \item[-] Gestione GUI
   \end{itemize}
 \end{description}
 
@@ -1408,7 +1408,7 @@ Sottoclasse di \texttt{MainPanel} utilizzata per rappresentare il profilo di un 
 Questa sottoclasse di \texttt{MainPanel} permette di accedere all'elenco dei messaggi in segreteria di un determinato utente e ne permette la gestione. La visualizzazione si attiva quando viene premuto il relativo pulsante mostrato dall'istanza di \texttt{ToolPanel}.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] Gestione della GUI
+    \item[-] Gestione GUI
   \end{itemize}
 \end{description}
 
@@ -1418,7 +1418,7 @@ Questa sottoclasse di \texttt{MainPanel} permette di accedere all'elenco dei mes
 Questa sottoclasse di \texttt{MainPanel} è impiegata per permettere da parte dell'utente finale la selezione della lingua desiderata. La visualizzazione del pannello avviene in seguito all'attivazione del pulsante corrispondente situato nel pannello degli strumenti.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] Gestione della GUI
+    \item[-] Gestione GUI
   \end{itemize}
 \end{description}
 
@@ -1428,7 +1428,7 @@ Questa sottoclasse di \texttt{MainPanel} è impiegata per permettere da parte de
 Questa classe è utilizzata per rappresentare il form che si presenta all'utente per la modifica dei propri dati. Costituisce inoltre una sottoclasse di \texttt{MainPanel} e viene visualizzata quando l'utente preme il relativo pulsante nel pannello degli strumenti.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] Gestione della GUI
+    \item[-] Gestione GUI
   \end{itemize}
 \end{description}
 
@@ -1438,7 +1438,7 @@ Questa classe è utilizzata per rappresentare il form che si presenta all'utente
 Questa classe estende \texttt{MainPanel} e viene impiegata per rappresentare lo storico delle chiamate visualizzato quando l'utente attiva il pulsante corrispondente presente nel \texttt{ToolPanel}.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] Gestione della GUI
+    \item[-] Gestione GUI
   \end{itemize}
 \end{description}
 \clearpage
