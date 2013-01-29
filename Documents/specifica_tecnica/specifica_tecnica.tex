@@ -327,6 +327,10 @@ Il pattern Singleton pone un limite superiore stretto al numero di istanze che p
 Il pattern Singleton è altresì utile per controllare il numero di istanze della classe \texttt{clientpresenter.StandardPresenterFacade} per gli stessi motivi evidenziati in precedenza, ossia l'unicità del punto di accesso alle funzionalità della sotto-architettura clientpresenter.
   \item{\scshape\bfseries Gestione connessione}\\
 La classe \texttt{server.connection.StandardConnectionHandler} è implementata come Singleton in modo da centralizzare la responsabilità di creare nuove connessioni in risposta alle esigenze dei client.
+  \item{\scshape\bfseries Façade della vista}\\
+La classe \texttt{clientview.StandardViewFacade} è stata progettata in accordo con il design pattern Singleton in modo da assicurare che in ogni momento ve ne sia una sola istanza attiva, responsabile di ricevere le richieste che giungono dal presenter.
+  \item{\scshape\bfseries Gestione della GUI}\\
+Anche la classe \texttt{clientview.gui.GUIHandler} è implementata come Singleton in quanto permette di centralizzare la gestione delle collaborazioni fra le varie istanze attive delle classi grafiche.
 \end{description}
 
 \subsection{State}
