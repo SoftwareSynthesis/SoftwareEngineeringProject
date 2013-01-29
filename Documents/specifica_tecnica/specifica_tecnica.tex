@@ -162,7 +162,7 @@ Il pattern Composite ha lo scopo di comporre oggetti in strutture ad albero al f
 \begin{figure}[H]
 \centering
 \includegraphics[width=.8\textwidth]{composite}
-\caption{Diagramma ad alto livello del pattern Composite.}\label{fig:composite}
+\caption{Diagramma ad alto livello del pattern Composite}\label{fig:composite}
 \end{figure}
 
 \subsubsection{Componenti che lo implementano}
@@ -182,7 +182,7 @@ Il pattern DAO ha lo scopo di disaccoppiare la logica di business dalla logica d
 \begin{figure}[H]
 \centering
 \includegraphics[width=.8\textwidth]{dao}
-\caption{Diagramma ad alto livello del pattern DataAccessObject.}\label{fig:dao}
+\caption{Diagramma ad alto livello del pattern DataAccessObject}\label{fig:dao}
 \end{figure}
 
 \subsubsection{Componenti che lo implementano}
@@ -202,7 +202,7 @@ Fornire un'interfaccia unificata per un insieme di interfacce o classi presenti 
 \begin{figure}[H]
 \centering
 \includegraphics[width=.8\textwidth]{facade}
-\caption{Diagramma ad alto livello del pattern Facade.}\label{fig:façade}
+\caption{Diagramma ad alto livello del pattern Facade}\label{fig:façade}
 \end{figure}
 
 \subsubsection{Componenti che lo implementano}
@@ -224,7 +224,7 @@ Definisce un'interfaccia per la creazione di un oggetto, lasciando alle sottocla
 \begin{figure}[H]
 \centering
 \includegraphics[width=.8\textwidth]{factory_method}
-\caption{Diagramma ad alto livello del pattern Factory Method.}\label{fig:factory_method}
+\caption{Diagramma ad alto livello del pattern Factory Method}\label{fig:factory_method}
 \end{figure}
 
 \subsubsection{Componenti che lo implementano}
@@ -244,12 +244,26 @@ Ciò garantisce maggiore flessibilità in quanto permette in futuro di gestire p
 \subsubsection{Scopo}
 Il pattern architetturale \foreignlanguage{english}{Model-View-Presenter} similmente a quanto accade per \foreignlanguage{english}{Model-View-Controller} (MVC), ha lo scopo di mantenere separata la \textit{business logic}, cioè la gestione dei dati secondo le regole di un determinato dominio e la loro memorizzazione in forma persistente, dalla presentazione e manipolazione mediante interfaccia utente.
 
-\subsubsection{Diagramma esemplificativo}
+\subsubsection{Diagrammi esemplificativi}
 \begin{figure}[H]
 \centering
 \includegraphics[width=.8\textwidth]{mvpHLdiagram}
-\caption{Diagramma ad alto livello del pattern MVP.}\label{fig:mvpHL}
+\caption{Diagramma ad alto livello del pattern MVP}\label{fig:mvpHL}
 \end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=.9\textwidth]{diagrammasequenzaMVP}
+\caption{Diagramma di sequenza che illustra le collaborazioni in MVP}\label{fig:mvpSD}
+\end{figure}
+
+Come si evince dal diagramma riportato in figura \ref{fig:mvpSD} le interazioni avvengono solo tra view e presenter oppure tra presenter e model, senza che avvenga mai uno scambio di dati diretto fra model e view.
+
+Ciò si deve al fatto che la business logic e il modello dei dati risiedono nel server mentre il presenter e la view sono situati nel client. Quando un utente richiede un servizio tramite l'interfaccia grafica, la richiesta viene inoltrata dalla view al presenter.
+
+Qualora quest'ultimo fosse in grado di soddisfare tale richiesta con le risorse di cui dispone, i dati sono restituiti immediatamente alla view senza alcun bisogno di richiedere l'intervento del server. Nel caso, invece, in cui il presenter non fosse in grado di servire autonomamente la view, interrogherebbe il server al fine di ottenere i dati da restituire alla componente grafica.
+
+Il vantaggio di un simile schema di interazione consiste nella riduzione del traffico di rete e nel conseguente incremento delle prestazioni in termini di velocità e, di conseguenza, dell'esperienza utente in generale.
 
 \subsubsection{Componenti che lo implementano}
 MVP viene utilizzato come il pattern più ad alto livello del nostro sistema. La distinzione fra model, presenter e view è infatti rispecchiata dalla suddivisione del sistema nelle tre sotto-architetture server, clientpresenter e clientview.
@@ -274,7 +288,7 @@ Definire una dipendenza uno a molti fra oggetti, in modo tale che se un oggetto 
 \begin{figure}[H]
 \centering
 \includegraphics[width=.7\textwidth]{observer}
-\caption{Diagramma ad alto livello del pattern Observer.}\label{fig:observer}
+\caption{Diagramma ad alto livello del pattern Observer}\label{fig:observer}
 \end{figure}
 
 \subsubsection{Componenti che lo implementano}
@@ -294,7 +308,7 @@ Fornisce un placeholder per un altro oggetto in modo da controllarne l'accesso e
 \begin{figure}[H]
 \centering
 \includegraphics[width=.8\textwidth]{proxy}
-\caption{Diagramma ad alto livello del pattern Proxy.}\label{fig:proxy}
+\caption{Diagramma ad alto livello del pattern Proxy}\label{fig:proxy}
 \end{figure}
 
 \subsubsection{Componenti che lo implementano}
@@ -316,7 +330,7 @@ Il pattern creazionale Singleton, garantisce che una determinata classe possa es
 \begin{figure}[H]
 \centering
 \includegraphics[width=.8\textwidth]{singleton}
-\caption{Diagramma ad alto livello del pattern Singleton.}\label{fig:singleton}
+\caption{Diagramma ad alto livello del pattern Singleton}\label{fig:singleton}
 \end{figure}
 
 \subsubsection{Componenti che lo implementano}
@@ -342,7 +356,7 @@ Permette ad un oggetto di cambiare il suo comportamento al variare del suo stato
 \begin{figure}[H]
 \centering
 \includegraphics[width=.7\textwidth]{state}
-\caption{Diagramma ad alto livello del pattern State.}\label{fig:state}
+\caption{Diagramma ad alto livello del pattern State}\label{fig:state}
 \end{figure}
 
 \subsubsection{Componenti che lo implementano}
