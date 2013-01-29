@@ -842,6 +842,28 @@ Si rimanda alla sottosezione successiva per maggiori dettagli.
 
 Si fa notare che i nomi di tutte le classi riportate nella sezione sono implicitamente parte del package \texttt{org.softwaresynthesis.mytalk.clientpresenter} pertanto tale prefisso sarà omesso nella loro denominazione.
 
+\subsection{Logica di rete}
+La rete che viene a crearsi sotto l'architettura di myTalk è suddivisa in ``comunicazioni'', ovvero gruppi di due o più utenti che comunicano tra di loro. Ogni comunicazione è formata dalle singole ``connessioni'' tra i vari client.
+Questo capitolo serve a spiegare quale è la logica che governa la rete. Iniziamo definendo i tipi di client che la popolano.
+\begin{description}
+	\item{\scshape\bfseries Nodo}\\
+	Il Nodo è rappresentato da un semplice client che si trova all'interno di una comunicazione e che ha una unica connessione attiva verso un altro client.
+	\item{\scshape\bfseries Supernodo}\\
+	Il Supernodo è un client con funzione di server. È usato nelle comunicazioni tra tre o più utenti per smistare le connessioni di tutti facendosi carico del traffico dei client.
+\end{description}
+Vediamo nel dettaglio come avviene una comunicazione. Essa nasce sempre tra due utenti, nel momento in cui uno desidera iniziarla effetta una richesta verso il server che la inoltra al destinatario.
+La comunicazione nascie così come un'unica connessione tra due client in modalità \underline{peer-to-peer} dove entrambi gli utenti hanno il ruolo di Nodo. Una comunicazione potrà iniziare solo attraverso tale metodologia, in quanto non vengono aperte comunicazioni iniziali tra più di due utenti.
+Da questa situazione uno dei due utenti può richiederne l'aggiunta di un ulteriore soggetto. Dopo questa richiesta, il Nodo che la ha eseguita diventa un Supernodo con attive sia la connessione con il vecchio Nodo sia quella con il nuovo Nodo appena aggiunto.
+Questa operzione crea una connessione fra tre Nodi estendibile dal Supernodo e dagli altri Nodi attraverso una richiesta al Supernodo stesso. 
+%Solo il Supernodo può richiedere nuove connessioni al Server. Con ulteriori richieste i nuovi nodi si collegano al Supernodo con una connessione estendendo la comunicazione.
+Ogni Nodo può togliersi dalla comunicazione chiudendo la connessione con il Supernodo. Se è il Supernodo stesso a volersi togliere dalla comunicazione, l'intera comunicazione cade e tutti gli utenti vendono disconnessi.
+\subsubsection{L'idea iniziale}
+La logica di gestione della rete scelta dal team può rendere poco stabile le comunicazioni. Tale problematica è stata analizzata a lungo, e al fine di rendere le comunicazioni più stabili e solide era stata presa in considerazione un ulteriore soluzione alternativa sempre basata sul modello concettuale di Nodi e Supernodi, tuttavia è stata scartata dopo una breve analisi preliminare.
+La differenza principale di tale soluzione rispetto a quella adottata è nella gestione dinamica del Supernodo, che viene scelto in base alla sua capacità di banda e alla possibilità di mantenere attive, con la massima qualità, tutte le connessioni con i Nodi della comunicazione.
+Questa soluzione avrebbe richiesto un test di qualità della rete per ogni Nodo verso il nuovo possibile Supernodo, operazione di difficile progettazione e con complessità elevata, pari a $\omega$(n-1) con n Nodi attivi nella comunicazione.
+Al fine di garantire sempre la migliore qualità di connessione era stata presa inoltre in considerazione l'idea di controllare periodicamente la qualità del Supernodo e degli altri Nodi in modo da sostituire il Supernodo se necessario. Purtroppo anche questa soluzione richiederebbe dei calcoli di complessità $\omega$(n*n-1) con n Nodi attivi nella comunicazione.
+Con una corretta implementazione questa soluzione avrebbe permesso una migliore qualità del prodotto myTalk, il gruppo ha tuttavia optato per la prima implementazione presentata in quanto le risorse disponibili non erano sufficenti per terminare la seconda.
+
 \subsection{Componenti evidenziati}
 
 \subsubsection{Gestione comunicazione}
@@ -1418,9 +1440,15 @@ Questa classe estende \texttt{MainPanel} e viene impiegata per rappresentare lo 
 \section{Conclusioni sull'architettura}
 
 \subsection{Diagrammi delle attività}
-In questa sezione saranno descritti i diagrammi di attività che rappresentano il flusso di utilizzo dei vari servizi messi a disposizione dal prodotto \caName.
+In questa sezione saranno descritti i diagrammi di attività che rappresentano il flusso di utilizzo dei vari servizi messi a disposizione dal prodotto MyTalk.
 
-Il diagramma in figura \vref{fig:ADautenticazione} rappresenta il modo in cui un utente si autentica al sistema. Nel successivi diagrammi, figura \ref{fig:ADregistrazione} e \ref{fig:ADrecuperopassword}, vengono descritti rispettivamente le specializzazioni delle attività presenti nella schermata di login: registrazione (se non si ha ancora a disposizione un account utente) e recupero password (nel caso la password sia stata smarrita).
+\begin{figure}[H]
+\centering
+\includegraphics[width=.6\textwidth]{home}
+\caption{Diagramma di attività generale che descrive l'interazione con il sistema}\label{fig:ADhome}
+\end{figure}
+
+Il diagramma in figura \vref{fig:ADhome} rappresenta il flusso principale dell'applicazione MyTalk. Da tale punto è possibile autenticarsi al sistema per poi poter usufruire di tutti i servizi messi a disposizione dal prodotto. Nei successivi diagrammi, figura \ref{fig:ADregistrazione} e \ref{fig:ADrecuperopassword}, vengono descritti rispettivamente le specializzazioni delle attività presenti nella schermata di login: registrazione (se non si ha ancora a disposizione un account utente) e recupero password (nel caso la password sia stata smarrita).
 
 \begin{figure}[H]
 \centering
@@ -1440,12 +1468,13 @@ Il diagramma in figura \vref{fig:ADautenticazione} rappresenta il modo in cui un
 \caption{Diagramma di attività relativo al recupero della password}\label{fig:ADrecuperopassword}
 \end{figure}
 
-Il diagramma in figura \vref{fig:ADhome} rappresenta la schermata principale (e unica) dell'applicazione \caName. Da tale interfaccia è possibile raggiungere ogni funzionalità del software, come ad esempio la gestione della rubrica (figura \ref{fig:ADgestionerubrica}), la gestione del proprio account(figura \ref{fig:ADgestioneaccount}) o della segreteria (figura \ref{fig:ADgestionesegreteria}).
+
+Dal diagramma principale (ricordiamo in figura \vref{fig:ADhome}) una volta autenticati è possibile raggiungere ogni funzionalità del software, come ad esempio la gestione della rubrica (figura \ref{fig:ADgestionerubrica}), la gestione del proprio account(figura \ref{fig:ADgestioneaccount}) o della segreteria (figura \ref{fig:ADgestionesegreteria}).
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=.6\textwidth]{home}
-\caption{Diagramma di attività generale che descrive l'interazione con il sistema}\label{fig:ADhome}
+\includegraphics[width=.6\textwidth]{gestione_rub_pers}
+\caption{Diagramma di attività relativo alla gestione della rubrica personale}\label{fig:ADgestionerubrica}
 \end{figure}
 
 \begin{figure}[H]
@@ -1456,17 +1485,12 @@ Il diagramma in figura \vref{fig:ADhome} rappresenta la schermata principale (e 
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=.6\textwidth]{gestione_rub_pers}
-\caption{Diagramma di attività relativo alla gestione della rubrica personale}\label{fig:ADgestionerubrica}
-\end{figure}
-
-\begin{figure}[H]
-\centering
 \includegraphics[width=.6\textwidth]{gestione_segreteria}
 \caption{Diagramma di attività relativo alla gestione della segretria}\label{fig:ADgestionesegreteria}
 \end{figure}
 
-\`{E} infine data la possibilità di connettersi con altri utenti tramite l'attività connessione illustrata nel dettaglio in figura \ref{fig:ADconnessione}.
+
+E' infine data la possibilità di connettersi con altri utenti tramite l'attività connessione illustrata nel dettaglio in figura \ref{fig:ADconnessione}.
 
 \begin{figure}[H]
 \centering
@@ -1474,7 +1498,7 @@ Il diagramma in figura \vref{fig:ADhome} rappresenta la schermata principale (e 
 \caption{Diagramma di attività relativo alla connessione}\label{fig:ADconnessione}
 \end{figure}
 
-La connessione può essere di tipo audio (figura \ref{fig:ADcomaudio}), audio/video (figura \ref{fig:ADcomaudiovideo}) o testuale (figura \ref{fig:ADcomtestuale}). In tutte e tre le tipologie di connessione è possibile effettuare una condivisione di risorse, come specificato in figura \ref{fig:ADcondrisorse}, o registrare una chiamata (tranne nel caso di comunicazione testuale) figura \ref{fig:ADregistrachiamata}.
+La connessione può essere di tipo audio (figura\ref{fig:ADcomaudio}), audio/video (figura \ref{fig:ADcomaudiovideo}) o testuale (figura \ref{fig:ADcomtestuale}). In tutte e tre le tipologie di connessione è possibile effettuare una condivisione di risorse, come specificato in figura \ref{fig:ADcondrisorse}, o registrare una chiamata (tranne nel caso di comunicazione testuale) figura \ref{fig:ADregistrachiamata}.
 
 \begin{figure}[H]
 \centering
