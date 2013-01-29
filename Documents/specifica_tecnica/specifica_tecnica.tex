@@ -6,23 +6,23 @@
 % Nome file
 \newcommand{\docFileName}{specifica\_tecnica.1.0.pdf}
 % Versione
-\newcommand{\docVers}{0.1}
+\newcommand{\docVers}{1.0}
 % Data creazione
-\newcommand{\creationDate}{2013-01-16}
+\newcommand{\creationDate}{2013-01-23}
 % Data ultima modifica
-\newcommand{\modificationDate}{2013-01-17}
+\newcommand{\modificationDate}{2013-01-30}
 % Stato in {Approvato, Non approvato}
-\newcommand{\docState}{Non approvato}
+\newcommand{\docState}{Approvato}
 % Uso in {Interno, Esterno}
-\newcommand{\docUsage}{Interno}
+\newcommand{\docUsage}{Esterno}
 % Destinatari da specificare come nome1\\ &nome2\\ ecc.
-\newcommand{\docDistributionList}{Team SoftwareSynthesis}
+\newcommand{\docDistributionList}{Prof. Tullio Vardanega\\Prof. Riccardo Cardin\\Dott. Gregorio Piccoli\\Team SoftwareSynthesis}
 % Redattori da specificare come nome1\\ &nome2\\ ecc.
-\newcommand{\docAuthors}{}
+\newcommand{\docAuthors}{Diego Beraldin\\Elena Zecchinato\\Marco Schivo}
 % Approvato da
-\newcommand{\approvedBy}{}
+\newcommand{\approvedBy}{Riccardo Tresoldi}
 % Verificatori
-\newcommand{\verifiedBy}{}
+\newcommand{\verifiedBy}{Andrea Meneghinello\\Stefano Farronato}
 % Perscorso (relativo o assoluto) che punta alla directory contenente shared/
 % come sua sottodirectory (per comodità chiamiamola 'doc root').
 \newcommand{\docRoot}{..}
@@ -57,8 +57,27 @@
 \toprule
 Versione & Descrizione intervento & Membro & Ruolo & Data\\
 \midrule % inserire qui il contenuto della tabella
-0.2 & Stesura dell'introduzione ai design pattern. Stesura dell'introduzione ai tracciamenti. & Stefano Farronato & Progettista & 2013-01-17\\
-0.1 & Creazione del documento e stesura della sezione ``Introduzione''. & Riccardo Tresoldi & Progettista & 2013-01-16\\
+
+1.0 & Approvazione documento &Riccardo Tresoldi & Responsabile & 2012-01-30\\
+0.19 & Correzione errori ortografici e di forma presenti nel documento in base alle segnalazioni del verificatore&Marco Schivo & Progettista & 2013-01-29\\
+0.18 & Correzione diagrammi presenti nel documento in base alle segnalazioni del verificatore&Elena Zecchinato & Progettista & 2013-01-29\\
+0.17 & Verifica lessico ortografica del documento & Andrea Meneghinello & Verificatore & 2013-01-28\\
+0.16 & Verifica correttezza e corrispondenza dei diagrammi presenti nel documento & Stefano Farronato & Verificatore & 2013-01-27\\
+0.15 & Inserimento tabelle di tracciamento prodotte nel capitolo 12&Diego Beraldin & Progettista & 2013-01-28\\
+0.14 & Inserimento diagrammi delle attività e dei package prodotti nel capitolo 11&Diego Beraldin & Progettista & 2013-01-28\\
+0.13 & Inserimento diagrammi delle classi nel capitolo 6, 7, 8, 9&Marco Schivo & Progettista & 2013-01-28\\
+0.12 & Inserimento diagrammi relativi ai design pattern evidenziati&Marco Schivo & Progettista & 2013-01-28\\
+0.11 & Inizio stesura capitolo relativo alla descrizione delle classi&Diego Beraldin & Progettista & 2013-01-27\\
+0.10 & Stesura della sezione relativa all'architettura mytalk.clientview stilando i componenti evidenziati&Elena Zecchinato & Progettista & 2013-01-27\\
+0.9 & Stesura della sezione relativa all'architettura mytalk.clientpresenter stilando i componenti evidenziati&Marco Schivo & Progettista & 2013-01-27\\
+0.8 & Stesura della sezione relativa all'architettura mytalk.server stilando i componenti evidenziati&Marco Schivo & Progettista & 2013-01-26\\
+0.7 & Stesura della sezione relativa alla progettazione logica &Diego Beraldin  & Progettista & 2013-01-26\\
+0.6 & Completata la sezione relativa alla progettazione concettuale &Elena Zecchinato & Progettista & 2013-01-25\\
+0.5 & Inizio stesura della sezione relativa alla progettazione concettuale con classi evidenziate in fase di progettazione &Elena Zecchinato& Progettista & 2013-01-24\\
+0.4 & Descrizione dei design patterns evidenziati nella fase di progettazione. &Diego Beraldin & Progettista & 2013-01-24\\
+0.3 & Aggiunto capitolo relativo agli strumenti utilizzati.& Marco Schivo & Progettista & 2013-01-23\\
+0.2 & Stesura dell'introduzione ai design pattern. Stesura dell'introduzione ai tracciamenti. &Elena Zecchinato & Progettista & 2013-01-23\\
+0.1 & Creazione del documento e stesura della sezione ``Introduzione''. &Diego Beraldin & Progettista & 2013-01-23\\
 \bottomrule
 \end{longtable}
 \end{center}
@@ -382,6 +401,14 @@ Assegnando ad ogni sotto-architettura un ruolo specifico, si garantisce un alto 
 Quindi in un futuro di potrebbe riprendere la vista oggi definita, e riutilizzarla in un altro progetto, andando solo a ridefinire, se necessario, un presente che riproponga una nuovo adattamento della parte logica.
 
 Di seguito verranno proposte le sotto-architetture evidenziate. Di ogni una sarà dato un elenco dettagliato dei componenti che lo interessano. Si sottolinea che per componenti non si intende i sottopackage, ma gli agglomerati di classi (potenzialmente prese da package diversi) che concorrono ad un fine comune: la definizione delle funzionalità del componente trattato.
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=.8\textwidth]{DiagrammaPackage}
+\caption{Diagramma dei Package - Generale}\label{fig:package_generale}
+\end{center}
+\end{figure}
+
+
 \clearpage
 
 \section{Architettura del database}
@@ -504,6 +531,12 @@ Path & Varchar(150) & NO & PrimaryKey\\
 \end{description}
 
 \subsubsection{Diagramma delle classi}
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=.9\textwidth]{Database_concettuale}
+\caption{Diagramma delle classi - Schema concettuale Database}\label{fig:database_concettuale}
+\end{center}
+\end{figure}
 
 \subsection{Progettazione logica}
 Con la progettazione logica intendiamo costruire la struttura definitiva del database sulla base della progettazione concettuale. Quindi si deciderà come trasformare le gerarchie e in seguito le associazioni, al fine di restituire una struttura chiara e pronta per la creazione su DBMS. La lista delle classi proposta infine, e lo schema associato, rappresentano tale struttura.
@@ -546,8 +579,6 @@ Immagine & Varchar(150) & SI &\\
 \bottomrule
 \end{tabular}
 \end{center}
-
-\newpage
 
 CallList
 
@@ -609,7 +640,7 @@ Path & Varchar(150) & NO & PrimaryKey\\
 \bottomrule
 \end{tabular}	
 \end{center}	
-	
+\newpage
 AudioVideoMessages
 
 \begin{center}
@@ -628,6 +659,12 @@ Path & Varchar(150) & NO & PrimaryKey\\
 \end{center}
 
 \subsubsection{Diagramma delle classi}
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=.9\textwidth]{Database_logico}
+\caption{Diagramma delle classi - Schema logico Database}\label{fig:database_logico}
+\end{center}
+\end{figure}
 
 \clearpage
 
@@ -814,8 +851,6 @@ Le funzionalità esposte consentono di gestire i messaggi presenti in segreteria
 	\end{itemize}
 \end{description}
 
-\subsection{Diagramma del package}
-%TODO inserire il diagramma del package della sotto-architettura server
 
 \subsection{Diagramma delle classi}
 \begin{figure}[H]
@@ -875,6 +910,12 @@ Con una corretta implementazione questa soluzione avrebbe permesso una migliore 
 	\item{\scshape\bfseries Descrizione:}\\
 È il componente che definisce i client con cui sta comunicando o con cui desidera comunicare l'utente. Tale componente è costituito da un'interfaccia \texttt{clientpresenter.IClient} che rappresenta un modello di client con cui interagire (possibilità di stabilire una connessione, possibilità di estendere una comunicazione e possibilità di verificare se il client è Supernodo). In pratica nel momento in cui l'utente A desidera stabilire una comunicazione con l'utente B, questi si farà restituire dal server le informazioni necessarie. Con tali informazioni, quindi, sarà creata un istanza di \texttt{clientpresenter.StandardClient} (implementazione dell'interfaccia \texttt{clientpresenter.IClient}), dalla quale potrà essere abilitata la comunicazione.
 	\item{\scshape\bfseries Diagramma delle classi:}
+	\begin{figure}[H]
+\begin{center}
+\includegraphics[width=.8\textwidth]{gestione_comunicazione}
+\caption{Diagramma delle classi - Gestione Comunicazione}\label{fig:gestione_comunicazione}
+\end{center}
+\end{figure}
 	\item{\scshape\bfseries Classi utilizzate:} 
 	\begin{itemize}[noitemsep,nolistsep]
 		\item[-] \texttt{IClient}
@@ -889,6 +930,12 @@ Rappresenta l'interfaccia d'accesso verso la sotto-architettura clientpresenter.
 
 I metodi del componente Façade del presenter hanno la cognizione dell'iter di chiamate a metodo per portare a termine correttamente la procedura. Il componente in esame richiede la definizione di un'interfaccia e una sua implementazione standard. Rimandiamo a tali classi per un approfondimento sul comportamento da seguire.
 	\item{\scshape\bfseries Diagramma delle classi:}
+	\begin{figure}[H]
+\begin{center}
+\includegraphics[width=.8\textwidth]{facade_presenter}
+\caption{Diagramma delle classi - Façade del Presenter}\label{fig:facade_presenter}
+\end{center}
+\end{figure}
 	\item{\scshape\bfseries Classi utilizzate:} 
 	\begin{itemize}[noitemsep,nolistsep]
 		\item[-] \texttt{IPresenterFacade}
@@ -896,11 +943,13 @@ I metodi del componente Façade del presenter hanno la cognizione dell'iter di c
 	\end{itemize}
 \end{description}
 
-\subsection{Diagramma del package}
-%TODO inserire diagramma di package del componente façade del presenter
-
 \subsection{Diagramma delle classi}
-%TODO inserire diagramma delle classi del componente façade del presenter
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=.8\textwidth]{package_presenter}
+\caption{Diagramma delle classi - Client Presenter}\label{fig:package_presenter}
+\end{center}
+\end{figure}
 \clearpage
 
 \section{Architettura mytalk.clientview}
@@ -935,7 +984,12 @@ Il compito di questo componente è rappresentare l'intera sotto-architettura cli
 
 In particolare, tramite le operazioni che sono dichiarate nell'interfaccia \texttt{IViewFacade} si rende possibile l'aggiornamento dinamico a tempo di esecuzione della vista e, di conseguenza, di quello che viene visualizzato dall'utente finale del sistema.
 	\item{\scshape\bfseries Diagramma delle classi:}
-	%TODO inserire il diagramma delle classi del componente façade della vista
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=.8\textwidth]{componenti_clientview}
+\caption{Diagramma delle classi - Façade della Vista}\label{fig:facade_vista}
+\end{center}
+\end{figure}
 	\item{\scshape\bfseries Classi utilizzate:} 
 	\begin{itemize}[noitemsep,nolistsep]
 		\item[-] \texttt{IViewFacade}
@@ -950,7 +1004,14 @@ Questo componente si occupa della gestione dell'interfaccia grafica presentata a
 
 Si noti che questo componente demanda tutta la logica al presenter, tramite il Façade del presenter, e quindi è relativo solo ed esclusivamente alla grafica. Inoltre l'interazione con esso è centralizzata all'interno della classe \texttt{gui.GUIHandler}, ciò significa che tutte le altre classi del package \texttt{gui} non interagiscono direttamente con il presenter.
 	\item{\scshape\bfseries Diagramma delle classi:}
-	%TODO inserire il diagramma delle classi del componente gestione della GUI
+	
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=.8\textwidth]{componenti_clientview_gui}
+\caption{Diagramma delle classi - Gestione Gui}\label{fig:gestione_gui}
+\end{center}
+\end{figure}	
+	
 	\item{\scshape\bfseries Classi utilizzate:} 
 	\begin{itemize}[noitemsep,nolistsep]
 		\item[-] \texttt{gui.GUIHandler}
@@ -966,11 +1027,13 @@ Si noti che questo componente demanda tutta la logica al presenter, tramite il F
 	\end{itemize}  
 \end{description}
 
-\subsection{Diagramma del package}
-%TODO inserire diagramma di package della sotto-architettura clientview
-
 \subsection{Diagramma delle classi}
-%TODO inserire diagramma delle classi della sotto-architettura clientview
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=1\textwidth]{Package_view}
+\caption{Diagramma delle classi - Client Presenterview}\label{fig:package_client_presenterview}
+\end{center}
+\end{figure}
 \clearpage
 
 \section{Descrizione delle classi}
@@ -1450,7 +1513,7 @@ In questa sezione saranno descritti i diagrammi di attività che rappresentano i
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=.6\textwidth]{home}
+\includegraphics[width=.8\textwidth]{home}
 \caption{Diagramma di attività generale che descrive l'interazione con il sistema}\label{fig:ADhome}
 \end{figure}
 
@@ -1458,19 +1521,19 @@ Il diagramma in figura \vref{fig:ADhome} rappresenta il flusso principale dell'a
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=.6\textwidth]{autenticazione}
+\includegraphics[width=.8\textwidth]{autenticazione}
 \caption{Diagramma di attività relativo all'autententicazione}\label{fig:ADautenticazione}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=.6\textwidth]{registrazione}
+\includegraphics[width=.8\textwidth]{registrazione}
 \caption{Diagramma di attività relativo alla registrazione}\label{fig:ADregistrazione}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=.6\textwidth]{recupero_pass}
+\includegraphics[width=.8\textwidth]{recupero_pass}
 \caption{Diagramma di attività relativo al recupero della password}\label{fig:ADrecuperopassword}
 \end{figure}
 
@@ -1479,19 +1542,19 @@ Dal diagramma principale (ricordiamo in figura \vref{fig:ADhome}) una volta aute
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=.6\textwidth]{gestione_rub_pers}
+\includegraphics[width=.8\textwidth]{gestione_rub_pers}
 \caption{Diagramma di attività relativo alla gestione della rubrica personale}\label{fig:ADgestionerubrica}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=.6\textwidth]{gestione_account_pers}
+\includegraphics[width=.8\textwidth]{gestione_account_pers}
 \caption{Diagramma di attività relativo alla gestione dei dati dell'account personale}\label{fig:ADgestioneaccount}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=.6\textwidth]{gestione_segreteria}
+\includegraphics[width=.8\textwidth]{gestione_segreteria}
 \caption{Diagramma di attività relativo alla gestione della segretria}\label{fig:ADgestionesegreteria}
 \end{figure}
 
@@ -1500,7 +1563,7 @@ E' infine data la possibilità di connettersi con altri utenti tramite l'attivit
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=.6\textwidth]{connessione}
+\includegraphics[width=.8\textwidth]{connessione}
 \caption{Diagramma di attività relativo alla connessione}\label{fig:ADconnessione}
 \end{figure}
 
@@ -1508,31 +1571,31 @@ La connessione può essere di tipo audio (figura\ref{fig:ADcomaudio}), audio/vid
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=.6\textwidth]{com_audio}
+\includegraphics[width=.8\textwidth]{com_audio}
 \caption{Diagramma di attività relativo alla comunicazione audio}\label{fig:ADcomaudio}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=.5\textwidth]{com_audiovideo}
+\includegraphics[width=.8\textwidth]{com_audiovideo}
 \caption{Diagramma di attività relativo alla comunicazione audio/video}\label{fig:ADcomaudiovideo}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=.6\textwidth]{com_testuale}
+\includegraphics[width=.8\textwidth]{com_testuale}
 \caption{Diagramma di attività relativo alla comunicazione testuale}\label{fig:ADcomtestuale}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=.6\textwidth]{condividi_ris}
+\includegraphics[width=.8\textwidth]{condividi_ris}
 \caption{Diagramma di attività relativo alla condivisione di risorse}\label{fig:ADcondrisorse}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=.6\textwidth]{registrazione_chiamata}
+\includegraphics[width=.8\textwidth]{registrazione_chiamata}
 \caption{Diagramma di attività relativo alla registrazione della chiamata}\label{fig:ADregistrachiamata}
 \end{figure}
 
@@ -1540,12 +1603,9 @@ In conclusione si ricorda che è possibile lasciare un messaggio nella segreteri
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=.6\textwidth]{mes_segreteria}
+\includegraphics[width=.8\textwidth]{mes_segreteria}
 \caption{Diagramma di attività relativo alla memorizzazione di un messaggio in segreteria}\label{fig:ADmessegreteria}
 \end{figure}
-
-\subsection{Diagramma di package}
-%TODO inserire diagramma con i package generale di tutta l'architettura
 
 \clearpage
 
@@ -1557,17 +1617,6 @@ Nella seguente sezione vengono proposti tutti i tracciamenti eseguiti mediante i
 	\item dare una lettura generale delle varie: componenti, requisiti, design pattern e classi.
 \end{itemize}
 
-%TODO parte che deve essere prodotta mediante interrogazione del database
-\subsection{Tracciamenti Requisiti-Componenti}
-
-\subsection{Tracciamenti Componenti-Requisiti}
-
-\subsection{Tracciamenti Componenti-DesignPattern}
-
-\subsection{Tracciamenti DesignPattern-Componenti}
-
-\subsection{Tracciamenti Componenti-Classi}
-
-\subsection{Tracciamenti Classi-Componenti}
+\input{tracciamenti.tex}
 
 \end{document}
