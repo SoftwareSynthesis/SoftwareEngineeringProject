@@ -658,8 +658,13 @@ Tramite questo componente, il sistema potrà quindi effettuare operazione di let
 
 Si informa inoltre che le classi di tale componente dovranno interagire con il \underline{framework} Hibernate, al fine di ottenere lo scopo precisato.
 
-	\item{\scshape\bfseries Diagramma delle classi:}
-	%TODO inserire il diagramma delle classi
+\item{\scshape\bfseries Diagramma delle classi:}
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=.8\textwidth]{class_gestione_database}
+\caption{Diagramma delle classi - Gestione Database}\label{fig:gestione_database}
+\end{center}
+\end{figure}
 	
 	\item{\scshape\bfseries Classi utilizzate:}
 	\begin{itemize}[nolistsep, noitemsep]
@@ -679,7 +684,13 @@ Si informa inoltre che le classi di tale componente dovranno interagire con il \
 	\item{\scshape\bfseries Descrizione:}\\
 Tale componente ingloba le classi destinate a stabilire le routine di connessione. A tal fine è stata definita l'interfaccia di una classe Singleton \texttt{connection.ICommunicationHandler}, implementata da \texttt{connection.StandardCommunicationHandler} che ha il compito di creare oggetti connessione. Le specifiche di tali oggetti sono descritte dall'interfaccia \texttt{connection.IConnection}, con la relativa implementazione \texttt{connection.WebRTCInfo}.
 	\item{\scshape\bfseries Diagramma delle classi:}
-	%TODO inserire il diagramma delle classi del componente gestione connessione
+	\begin{figure}[H]
+\begin{center}
+\includegraphics[width=.8\textwidth]{class_gestione_connessione}
+\caption{Diagramma delle classi - Gestione Connessione}\label{fig:gestione_connessione}
+\end{center}
+\end{figure}
+	
 	\item{\scshape\bfseries Classi utilizzate:}
 	\begin{itemize}[nolistsep, noitemsep]
 	  \item[-] \texttt{connection.ICommunicationHandler}
@@ -702,7 +713,13 @@ Il componente comprende anche l'interfaccia \texttt{abook.IAddressBook} e la rel
 
 Infine, la classe \texttt{abook.UserDataProxy} viene utilizzata come proxy per lo scambio di dati fra la sotto-architettura server e la sotto-architettura clientpresenter.
 	\item{\scshape\bfseries Diagramma delle classi:}
-	%TODO inserire il diagramma delle classi del componente gestione rubrica
+	\begin{figure}[H]
+\begin{center}
+\includegraphics[width=.8\textwidth]{class_gestione_rubrica}
+\caption{Diagramma delle classi - Gestione Rubrica}\label{fig:gestione_rubrica}
+\end{center}
+\end{figure}
+	
 	\item{\scshape\bfseries Classi utilizzate:}\\
 	\begin{itemize}[nolistsep, noitemsep]
 	  \item[-] \texttt{abook.AddressBook}
@@ -727,7 +744,13 @@ La chiamata viene inoltre trattata in modo differente a seconda che l'utente si 
 	
 Inoltre, i cambiamenti di stato vengono notificati a tutti gli utenti presenti in rubrica tali che si trovano nello stato online.
 	\item{\scshape\bfseries Diagramma delle classi:}
-	%TODO inserire il diagramma delle classi del componente gestione stato
+	\begin{figure}[H]
+\begin{center}
+\includegraphics[width=.9\textwidth]{class_gestione_stato}
+\caption{Diagramma delle classi - Gestione Stato}\label{fig:gestione_stato}
+\end{center}
+\end{figure}
+	
 	\item{\scshape\bfseries Classi utilizzate:}\\ 
 	\begin{itemize}[noitemsep,nolistsep]
 		\item[-] \texttt{dao.StandardUserData}
@@ -748,7 +771,13 @@ I messaggi audio e audio/video sul server sono rappresentati dalle classi \textt
 
 L'onere di caricare in memoria e gestire l'interno contenuto del messaggio è posticipato al momento di effettiva necessità mediante l'utilizzo dei \textit{virtual proxy} corrispondenti alle classi \texttt{message.AudioMessageProxy} e \texttt{message.AudioVideoMessageProxy}.
 	\item{\scshape\bfseries Diagramma delle classi:}
-	%TODO inserire il diagramma delle classi del componente gestione rubrica
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=.8\textwidth]{class_gestione_segreteria}
+\caption{Diagramma delle classi - Gestione Segreteria}\label{fig:gestione_segreteria}
+\end{center}
+\end{figure}	
+	
 	\item{\scshape\bfseries Classi utilizzate:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \texttt{dao.AudioMessage}
@@ -767,7 +796,13 @@ L'interfaccia \texttt{IServerFacade} e la relativa implementazione \texttt{Stand
 
 Le funzionalità esposte consentono di gestire i messaggi presenti in segreteria, le richieste di comunicazione con altri utenti il login/registrazione degli utenti.
 	\item{\scshape\bfseries Diagramma delle classi:}
-	%TODO inserire il diagramma delle classi del componente façade del server
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=.8\textwidth]{class_facade_server}
+\caption{Diagramma delle classi - Façade del server}\label{fig:facade_server}
+\end{center}
+\end{figure}	
+	
 	\item{\scshape\bfseries Classi utilizzate:}\\
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \texttt{IServerFacade}
@@ -779,7 +814,12 @@ Le funzionalità esposte consentono di gestire i messaggi presenti in segreteria
 %TODO inserire il diagramma del package della sotto-architettura server
 
 \subsection{Diagramma delle classi}
-%TODO inserire il diagramma delle classi della sotto-architettura server
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=1\textwidth]{server_generale}
+\caption{Diagramma delle classi - Architettura mytalk.server}\label{fig:server_generale}
+\end{center}
+\end{figure}
 \clearpage
 
 \section{Architettura mytalk.clientpresenter}
