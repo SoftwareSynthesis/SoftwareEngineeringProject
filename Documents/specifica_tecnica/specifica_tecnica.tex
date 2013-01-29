@@ -357,11 +357,11 @@ Il pattern creazionale Singleton, garantisce che una determinata classe possa es
   \item{\scshape\bfseries Façade del server}\\
 Il pattern Singleton pone un limite superiore stretto al numero di istanze che possono esistere di una determinata classe e perciò è utile utilizzarlo per poter controllare il numero di oggetti \texttt{server.StandardServerFacade} che in questo caso è pari a uno. L'unicità dell'oggetto façade garantisce la presenza di un solo punto di accesso alle funzionalità dell sotto-architettura server.
   \item{\scshape\bfseries Façade del presenter}\\
-Il pattern Singleton è altresì utile per controllare il numero di istanze della classe \texttt{clientpresenter.StandardPresenterFacade} per gli stessi motivi evidenziati in precedenza, ossia l'unicità del punto di accesso alle funzionalità della sotto-architettura clientpresenter.
+Il pattern Singleton è altresì utile per controllare il numero di istanze attive della classe \texttt{clientpresenter.StandardPresenterFacade} per gli stessi motivi evidenziati in precedenza, ossia l'unicità del punto di accesso alle funzionalità della sotto-architettura clientpresenter.
   \item{\scshape\bfseries Gestione connessione}\\
 La classe \texttt{server.connection.StandardConnectionHandler} è implementata come Singleton in modo da centralizzare la responsabilità di creare nuove connessioni in risposta alle esigenze dei \underline{client}.
   \item{\scshape\bfseries Façade della vista}\\
-La classe \texttt{clientview.StandardViewFacade} è stata progettata in accordo con il \underline{design pattern} Singleton in modo da assicurare che in ogni momento ve ne sia una sola istanza attiva, responsabile di ricevere le richieste che giungono dal presenter.
+La classe \texttt{clientview.StandardViewFacade} è progettata in accordo con il \underline{design pattern} Singleton in modo da assicurare che in ogni momento ve ne sia una sola istanza attiva, responsabile di ricevere le richieste che giungono dal presenter.
   \item{\scshape\bfseries Gestione GUI}\\
 Anche la classe \texttt{clientview.gui.GUIHandler} è implementata come Singleton in quanto permette di centralizzare la gestione delle collaborazioni fra le varie istanze attive delle classi grafiche.
 \end{description}
@@ -392,7 +392,7 @@ Per introdurre l'architettura proposta è essenziale mettere in evidenza le segu
 \begin{itemize}
 	\item il sistema poggia su un \underline{database} nel quale sono contenuti i dati d'interesse per gli utenti (dati anagrafici, lista dei messaggi audio, lista dei messaggi audio e video, e la rubrica dei contatti);
 	\item il sistema proposto dal team è dotato di una parte \underline{server} ed una parte \underline{client};
-	\item dopo un'analisi preliminare il team ha stabilito che la progettazione del \underline{server} non deve essere vincolata da quella del \underline{client} in modo tale da evitare che il progetto dell'applicativo lato \underline{server} abbia la cognizione di come funziona il \underline{client}. Ciò permetterà un futuro riutilizzo del codice (e.g. se si desiderasse creare un nuovo applicativo di tipo VOIP si potrà riutilizzare il \underline{server} già creato);
+	\item dopo un'analisi preliminare il team ha stabilito che la progettazione del \underline{server} non deve essere vincolata da quella del \underline{client} in modo tale da evitare che il progetto dell'applicativo lato \underline{server} abbia la cognizione di come funziona il \underline{client}. Ciò permetterà un futuro riutilizzo del codice (e.g. se si desiderasse creare un nuovo applicativo di tipo \underline{VoIP} si potrà riutilizzare il \underline{server} già creato);
 	\item per quanto riguarda il lato \underline{client}, al fine di garantire un alto livello di riutilizzo del codice e la possibilità di eseguire manutenzioni nel minor tempo possibile, si vuole che la logica d'implementazione del \underline{client} sia svincolata dalla rappresentazione grafica del medesimo.
 \end{itemize}
 
@@ -737,7 +737,9 @@ Si informa inoltre che le classi di tale componente dovranno interagire con il \
 \subsubsection{Gestione connessione}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Tale componente ingloba le classi destinate a stabilire le routine di connessione. A tal fine è stata definita l'interfaccia di una classe Singleton \texttt{connection.ICommunicationHandler}, implementata da \texttt{connection.StandardCommunicationHandler} che ha il compito di creare oggetti connessione. Le specifiche di tali oggetti sono descritte dall'interfaccia \texttt{connection.IConnection}, con la relativa implementazione \texttt{connection.WebRTCInfo}.
+Tale componente ingloba le classi destinate a stabilire le routine di connessione. A tal fine è stata definita l'interfaccia di una classe Singleton \texttt{connection.ICommunicationHandler}, implementata da \texttt{connection.StandardCommunicationHandler} che ha il compito di creare oggetti connessione.
+
+Le specifiche di tali oggetti sono descritte dall'interfaccia \texttt{connection.IConnection}, con la relativa implementazione \texttt{connection.WebRTCInfo}.
 	\item{\scshape\bfseries Diagramma delle classi:}
 	\begin{figure}[H]
 \begin{center}
@@ -897,6 +899,7 @@ Si fa notare che i nomi di tutte le classi riportate nella sezione sono implicit
 
 \subsection{Logica di rete}
 La rete che viene a crearsi sotto l'architettura di \caName{} è suddivisa in ``comunicazioni'', ovvero gruppi di due o più utenti che comunicano tra di loro. Ogni comunicazione è formata dalle singole ``connessioni'' tra i vari \underline{client}.
+
 Questo capitolo serve a spiegare quale è la logica che governa la rete. Iniziamo definendo i tipi di \underline{client} che la popolano.
 \begin{description}
 	\item{\scshape\bfseries Nodo}\\
@@ -904,17 +907,26 @@ Questo capitolo serve a spiegare quale è la logica che governa la rete. Iniziam
 	\item{\scshape\bfseries Supernodo}\\
 	Il Supernodo è un \underline{client} con funzione di \underline{server}. È usato nelle comunicazioni tra tre o più utenti per smistare le connessioni di tutti facendosi carico del traffico dei \underline{client}.
 \end{description}
+
 Vediamo nel dettaglio come avviene una comunicazione. Essa nasce sempre tra due utenti, nel momento in cui uno desidera iniziarla effettua una richiesta verso il \underline{server} che la inoltra al destinatario.
 La comunicazione nasce così come un'unica connessione tra due \underline{client} in modalità \underline{peer-to-peer} dove entrambi gli utenti hanno il ruolo di Nodo. Una comunicazione potrà iniziare solo attraverso tale metodologia, in quanto non vengono aperte comunicazioni iniziali tra più di due utenti.
+
 Da questa situazione uno dei due utenti può richiederne l'aggiunta di un ulteriore soggetto. Dopo questa richiesta, il Nodo che la ha eseguita diventa un Supernodo con attive sia la connessione con il vecchio Nodo sia quella con il nuovo Nodo appena aggiunto.
+
 Questa operazione crea una connessione fra tre Nodi estendibile dal Supernodo e dagli altri Nodi attraverso una richiesta al Supernodo stesso. 
 %Solo il Supernodo può richiedere nuove connessioni al Server. Con ulteriori richieste i nuovi nodi si collegano al Supernodo con una connessione estendendo la comunicazione.
+
 Ogni Nodo può togliersi dalla comunicazione chiudendo la connessione con il Supernodo. Se è il Supernodo stesso a volersi togliere dalla comunicazione, l'intera comunicazione cade e tutti gli utenti vendono disconnessi.
+
 \subsubsection{L'idea iniziale}
 La logica di gestione della rete scelta dal team può rendere poco stabile le comunicazioni. Tale problematica è stata analizzata a lungo, e al fine di rendere le comunicazioni più stabili e solide era stata presa in considerazione un ulteriore soluzione alternativa sempre basata sul modello concettuale di Nodi e Supernodi, tuttavia è stata scartata dopo una breve analisi preliminare.
+
 La differenza principale di tale soluzione rispetto a quella adottata è nella gestione dinamica del Supernodo, che viene scelto in base alla sua capacità di banda e alla possibilità di mantenere attive, con la massima qualità, tutte le connessioni con i Nodi della comunicazione.
-Questa soluzione avrebbe richiesto un test di qualità della rete per ogni Nodo verso il nuovo possibile Supernodo, operazione di difficile progettazione e con complessità elevata, pari a $\omega$(n-1) con n Nodi attivi nella comunicazione.
-Al fine di garantire sempre la migliore qualità di connessione era stata presa inoltre in considerazione l'idea di controllare periodicamente la qualità del Supernodo e degli altri Nodi in modo da sostituire il Supernodo se necessario. Purtroppo anche questa soluzione richiederebbe dei calcoli di complessità $\omega$(n*n-1) con n Nodi attivi nella comunicazione.
+
+Questa soluzione avrebbe richiesto un test di qualità della rete per ogni Nodo verso il nuovo possibile Supernodo, operazione di difficile progettazione e con complessità elevata, pari a $\omega(n-1)$ con n Nodi attivi nella comunicazione.
+
+Al fine di garantire sempre la migliore qualità di connessione era stata presa inoltre in considerazione l'idea di controllare periodicamente la qualità del Supernodo e degli altri Nodi in modo da sostituire il Supernodo se necessario. Purtroppo anche questa soluzione richiederebbe dei calcoli di complessità $\omega(n*n-1)$ con n Nodi attivi nella comunicazione.
+
 Con una corretta implementazione questa soluzione avrebbe permesso una migliore qualità del prodotto \caName, il gruppo ha tuttavia optato per la prima implementazione presentata in quanto le risorse disponibili non erano sufficienti per terminare la seconda.
 
 \subsection{Componenti evidenziati}
@@ -1349,7 +1361,7 @@ Proxy virtuale ad uso dei \underline{client} per i messaggi audio/video in segre
 	\item{\scshape\bfseries Descrizione:}\\
 Interfaccia che contiene tutte le operazioni richieste dai componenti della sotto-architettura clientpresenter inerenti alla registrazione, all'autenticazione,  alla gestione della rubrica e della segreteria nonché delle connessioni con altri utenti.
 
-In quest'ultimo caso, tuttavia, le operazioni richieste vengono a loro volta inoltrate al componente per la gestione della connessione (in particolare, verso \texttt{connection.IConnectionHandler}).
+In quest'ultimo caso, tuttavia, le operazioni richieste vengono a loro volta inoltrate al componente per la gestione della connessione (es. verso \texttt{connection.IConnectionHandler}).
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Façade del server
