@@ -1,0 +1,216 @@
+% **************************************************
+% Macro specifiche per il documento corrente
+% **************************************************
+% Nome
+\newcommand{\docName}{Definizione di prodotto}
+% Nome file
+\newcommand{\docFileName}{definizione\_di\_prodotto.1.0.pdf}
+% Versione
+\newcommand{\docVers}{1.0}
+% Data creazione
+\newcommand{\creationDate}{2013-02-03}
+% Data ultima modifica
+\newcommand{\modificationDate}{2013-02-03}
+% Stato in {Approvato, Non approvato}
+\newcommand{\docState}{Non approvato}
+% Uso in {Interno, Esterno}
+\newcommand{\docUsage}{Esterno}
+% Destinatari da specificare come nome1\\ &nome2\\ ecc.
+\newcommand{\docDistributionList}{Prof. Tullio Vardanega\\&Prof. Riccardo Cardin\\&Dott. Gregorio Piccoli\\&Team SoftwareSynthesis}
+% Redattori da specificare come nome1\\ &nome2\\ ecc.
+\newcommand{\docAuthors}{Elena Zecchinato\\&Andrea Meneghinello\\&Riccardo Tresoldi}
+% Approvato da
+\newcommand{\approvedBy}{Andrea Rizzi}
+% Verificatori
+\newcommand{\verifiedBy}{Stefano Farronato\\&Marco Schivo}
+% Perscorso (relativo o assoluto) che punta alla directory contenente shared/
+% come sua sottodirectory (per comodità chiamiamola 'doc root').
+\newcommand{\docRoot}{..}
+% definire se si vuole l'indice delle tabelle
+\def\INDICETABELLE{false}
+% definire se si vuole l'indice delle figure
+\def\INDICEFIGURE{false}
+
+% importa il preambolo condiviso da tutti i documenti
+\input{\docRoot/shared/preamble.tex}
+
+% Fine del preambolo e inizio del documento
+\begin{document}
+
+% Inclusione della prima pagina
+\input{\docRoot/shared/firstpage.tex}
+
+%---------------------------RUOLI----------------------------
+%FASE 1:
+%Programmatori: DIEGO, STEFANO, SCHIVO
+%FASE 2:
+%Programmatori: MENE, TRES, ELENA
+
+%Verificatore: SCHIVO, STEFANO, RIZZI, DIEGO (dobbiamo fare un sacco di test)
+%Responsabile finale supremo: RIZZI
+%------------------------------------------------------------
+
+% Storico delle modifiche
+\section*{Storia delle modifiche}
+\begin{center}
+\begin{longtable}{lp{.32\textwidth}lll}
+\toprule
+Versione & Descrizione intervento & Membro & Ruolo & Data\\
+\midrule % inserire qui il contenuto della tabella
+0.1 & Creazione del documento e stesura delle sezioni ``Introduzione'' e ``Riferimenti''. & &  & 2013-02-03\\
+\bottomrule
+\end{longtable}
+\end{center}
+\newpage
+
+% inclusione dell'indice
+\input{\docRoot/shared/toc.tex}
+
+% Alcuni aggiustamenti per le pagine
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\pagestyle{normal}
+
+% Qui ha inizio il documento vero e proprio...
+\newpage
+
+\section{Introduzione}
+\subsection{Scopo del prodotto}
+\purpose
+
+\subsection{Scopo del documento}
+
+\end{itemize}
+
+\subsection{Glossario}
+\glossaryIntro
+
+\clearpage
+\section{Riferimenti}
+
+\subsection{Normativi}
+\begin{itemize}
+\item[] \textit{piano\_di\_qualifica.3.0.pdf} allegato.
+\item[] \textit{norme\_di\_progetto.3.0.pdf} allegato.
+\item[] \textit{specifica\_tecnica.2.0.pdf} allegato
+\end{itemize}
+
+\subsection{Informativi}
+\begin{itemize}
+\item[] Capitolato d'appalto: \caName{}, v1.0, redatto e rilasciato dal proponente Zucchetti s.r.l. reperibile all'indirizzo \url{http://www.math.unipd.it/~tullio/IS-1/2012/Progetto/C1.pdf};
+\item[] testo di consultazione: \textit{Software Engineering (8th edition) Ian Sommerville, Pearson Education | Addison Wesley};
+\item[] manuale all'utilizzo dei design pattens: \textit{Design Patterns, Elementi per il riuso di software a oggetti -- (1/Ed. italiana) Eric Gamma, Richard Helm, Ralph Johnson, John Vlissides, Pearson Education};
+\item[] \textit{glossario.3.0.pdf} allegato.
+\end{itemize}
+\clearpage
+
+\section{Standard di progettazione}
+\clearpage
+
+\section{Descrizione delle classi}
+
+\subsection{Package org.softwaresynthesis.mytalk.server.dao}
+
+\subsubsection{IAudioMessage}
+
+\subsubsection{IAudioVideoMessage}
+
+\subsubsection{AudioMessage}
+
+\subsubsection{AudioVideoMessage}
+
+\subsubsection{IGroup}
+
+\subsubsection{StandardGroup}
+
+\subsubsection{IUserData}
+
+\subsubsection{StandardUserData}
+
+\subsection{Package org.softwaresynthesis.mytalk.server.connection}
+
+\subsubsection{ICommunicationHandler}
+
+\subsubsection{StandardCommunicationHandler}
+
+\subsubsection{IConnection}
+
+\subsubsection{WebRTCInfo}
+
+\subsection{Package org.softwaresynthesis.mytalk.server.abook}
+
+\subsubsection{IContact}
+
+\subsubsection{IAddressBook}
+
+\subsubsection{UserDataProxy}
+
+\subsubsection{AddressBook}
+
+\subsection{Package org.softwaresynthesis.mytalk.server.state}
+
+\subsubsection{IState}
+
+\subsubsection{StateOnline}
+
+\subsubsection{StateOffline}
+
+\subsubsection{StateAvailable}
+
+\subsubsection{StateOccupied}
+
+\subsection{Package org.softwaresynthesis.mytalk.server.message}
+
+\subsubsection{IMessageBox}
+
+\subsubsection{StandardMessageBox}
+
+\subsubsection{AudioMessageProxy}
+
+\subsubsection{AudioVideoMessageProxy}
+
+\subsection{Package org.softwaresynthesis.mytalk.server}
+
+\subsubsection{IServerFacade}
+
+\subsubsection{StandardServerFacade}
+
+\subsection{Package org.softwaresynthesis.mytalk.clientpresenter}
+
+\subsubsection{IClient}
+
+\subsubsection{StandardClient}
+
+\subsubsection{IPresenterFacade}
+
+\subsubsection{StandardPresenterFacade}
+
+\subsection{Package org.softwaresynthesis.mytalk.clientview}
+
+\subsubsection{IViewFacade}
+
+\subsubsection{StandardViewFacade}
+
+\subsection{Package org.softwaresynthesis.clientview.gui}
+
+\subsubsection{GUIHandler}
+
+\subsubsection{AddressBookPanel}
+
+\subsubsection{MainPanel}
+
+\subsubsection{ToolsPanel}
+
+\subsubsection{SearchResultPanel}
+
+\subsubsection{ContactPanel}
+
+\subsubsection{MessagePanel}
+
+\subsubsection{LanguagePanel}
+
+\subsubsection{AccountSettingsPanel}
+
+\subsubsection{CallHistoryPanel}
+
+\end{document}
