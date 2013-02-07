@@ -1,3 +1,10 @@
+% ATTENZIONE!!! 
+% Per far funzionare i collegamenti ipertestuali si raccomanda di usare
+%	\classname{nomedellaclasse}
+% per le classi dello stesso package mentre invece 
+%	\hyperref[nomedellaclasse]{\ttfamily{}nomequalificatodellaclasse}
+% per le classi che non sono dello stesso package e che hanno il nome completo
+
 % **************************************************
 % Macro specifiche per il documento corrente
 % **************************************************
@@ -38,6 +45,8 @@
 \newcommand{\memberdata}[1]{\texttt{\textcolor{RedOrange}{#1}}}
 \newcommand{\method}[1]{\texttt{\textcolor{Emerald}{#1}}}
 \newcommand{\exception}[1]{\texttt{\textcolor{RedViolet}{#1}}}
+\newcommand{\classsection}[1]{\subsubsection{#1}\label{#1}}
+\newcommand{\classname}[1]{\hyperref[#1]{\ttfamily#1}}
 
 % Fine del preambolo e inizio del documento
 \begin{document}
@@ -93,7 +102,7 @@ A tal fine, si riporta per ognuno dei componenti definiti nel documento di speci
 
 \subsection{Convenzioni di scrittura}
 % vedere issue #56 al riguardo
-Al fine di rendere quanto più agevole possibile la consultazione di questo documento, è stata adottata una serie di accorgimenti. In primo luogo, sono stati inseriti riferimenti incrociati sui nomi delle classi aventi come destinazione la sottosezione che descrive la classe stessa.
+Al fine di rendere quanto più agevole possibile la consultazione di questo documento da parte dei programmatori e del committente, è stata adottata una serie di accorgimenti. In primo luogo, sono stati inseriti riferimenti incrociati sui nomi delle classi aventi come destinazione la sottosezione che descrive la classe stessa.
 
 In secondo luogo, per i membri di classi e interfacce, oltre a una famiglia di font a spaziatura fissa, sono state adottate le seguenti convenzioni cromatiche:
 \begin{itemize}[noitemsep,nolistsep]
@@ -149,7 +158,8 @@ Infine, i membri statici di classi e interfacce sono contrassegnati con una \und
 
 \subsection{Package org.softwaresynthesis.mytalk.server.dao}\label{sec:dao}
 
-\subsubsection{IAudioMessage}\label{sec:iaudiomessage}
+\classsection{IAudioMessage}
+
 \subsubsection*{Funzione}
 
 \subsubsection*{Relazioni d'uso}
@@ -160,7 +170,7 @@ Infine, i membri statici di classi e interfacce sono contrassegnati con una \und
 \subsubsection*{Metodi}
 \begin{description}
   \item{\method{+ getSender(): IUserData}}\\
-Restituisce il mittente del messaggio, sotto forma di un sottotipo (proxy) di \texttt{IUserData}.
+Restituisce il mittente del messaggio, sotto forma di un sottotipo (proxy) di \classname{IUserData}.
   \item{\method{+ getDate(): Date}}\\
 Restituisce la data di creazione del messaggio (appoggiandosi a \texttt{java.util.Date}).
   \item{\method{+ isNew(): boolean}}\\
@@ -175,11 +185,11 @@ Restituisce il contenuto del messaggio audio in questione.
 Restituisce la dimensione del messaggio audio espressa in byte.
 \end{description}
 
-\subsubsection{IAudioVideoMessage}\label{sec:iaudiovideomessage}
+\classsection{IAudioVideoMessage}
 \subsubsection*{Metodi}
 \begin{description}
   \item{\method{+ getSender(): IUserData}}\\
-Restituisce il mittente del messaggio, sotto forma di un sottotipo (proxy) di \texttt{IUserData}.
+Restituisce il mittente del messaggio, sotto forma di un sottotipo (proxy) di \classname{IUserData}.
   \item{\method{+ getDate(): Date}}\\
 Restituisce la data di creazione del messaggio (appoggiandosi a \texttt{java.util.Date}).
   \item{\method{+ isNew(): boolean}}\\
@@ -194,11 +204,11 @@ Restituisce il contenuto del messaggio audio/video in questione.
 Restituisce la dimensione del messaggio audio/video espressa in byte.
 \end{description}
 
-\subsubsection{AudioMessage}\label{sec:audiomessage}
+\classsection{AudioMessage}
 
 \subsubsection*{Interfacce implementate}
 \begin{itemize}[noitemsep,nolistsep]
-  \item[-]\texttt{IAudioMessage}
+  \item[-] \classname{IAudioMessage}
 \end{itemize}
 
 \subsubsection*{Funzionalità}
@@ -220,16 +230,16 @@ Rappresentazione del contenuto del messaggio audio.
 \end{description}
 
 \subsubsection*{Metodi}
-Oltre alle implementazioni dell'interfaccia \texttt{IAudioMessage}, la classe contiene i seguenti metodi:
+Oltre alle implementazioni dell'interfaccia \classname{IAudioMessage}, la classe contiene i seguenti metodi:
 \begin{description}
   \item{\method{AudioMessage(path: String)}}\\
 \end{description}
 
-\subsubsection{AudioVideoMessage}\label{sec:audiovideomessage}
+\classsection{AudioVideoMessage}
 
 \subsubsection*{Interfacce implementate}
 \begin{itemize}[noitemsep,nolistsep]
-  \item[-]\texttt{IAudioVideoMessage}
+  \item[-] \classname{IAudioVideoMessage}
 \end{itemize}
 
 \subsubsection*{Funzionalità}
@@ -251,22 +261,24 @@ Rappresentazione del contenuto del messaggio audio/video.
 \end{description}
 
 \subsubsection*{Metodi}
-Oltre alle implementazioni dell'interfaccia \texttt{IAudioVideoMessage}, la classe contiene i seguenti metodi:
+Oltre alle implementazioni dell'interfaccia \classname{IAudioVideoMessage}, la classe contiene i seguenti metodi:
 \begin{description}
   \item{\method{AudioVideoMessage(path: String)}}\\
 \end{description}
 
-\subsubsection{IGroup}\label{sec:igroup}
+\classsection{IGroup}
+
 \subsubsection*{Interfacce estese}
 \begin{itemize}[noitemsep,nolistsep]
-  \item[-] \texttt{IContact}
+  \item[-] \hyperref[IContact]{\ttfamily{}org.softwaresynthesis.mytalk.abook.IContact}
 \end{itemize}
 
-\subsubsection{StandardGroup}\label{sec:standardgroup}
+\classsection{StandardGroup}
 
 \subsubsection*{Interfacce implementate}
 \begin{itemize}[noitemsep,nolistsep]
-  \item[-]
+  \item[-] \hyperref[IContact]{\ttfamily{}org.softwaresynthesis.mytalk.abook.IContact}
+  \item[-] \classname{IGroup}
 \end{itemize}
 
 \subsubsection*{Funzionalità}
@@ -277,26 +289,28 @@ Oltre alle implementazioni dell'interfaccia \texttt{IAudioVideoMessage}, la clas
 
 \subsubsection*{Metodi}
 
-\subsubsection{IUserData}\label{sec:iuserdata}
+\classsection{IUserData}
 \subsubsection*{Interfacce estese}
 \begin{itemize}[noitemsep,nolistsep]
-  \item[-] \texttt{IContact}
+  \item[-] \hyperref[IContact]{\ttfamily{}org.softwaresynthesis.mytalk.abook.IContact}
 \end{itemize}
 
 \subsubsection*{Funzionalità}
+
 \subsubsection*{Relazioni d'uso}
+
 \subsubsection*{Metodi}
 
-\subsubsection{StandardUserData}\label{sec:standarduserdata}
+\classsection{StandardUserData}
 \subsubsection*{Interfacce implementate}
 \begin{itemize}[noitemsep,nolistsep]
-  \item[-] \texttt{IContact}
-  \item[-] \texttt{IUserData}
+  \item[-] \hyperref[IContact]{\ttfamily{}org.softwaresynthesis.mytalk.abook.IContact}
+  \item[-] \classname{IUserData}
 \end{itemize}
 
 \subsection{Package org.softwaresynthesis.mytalk.server.connection}\label{sec:connection}
 
-\subsubsection{ICommunicationHandler}\label{sec:icommunicationhandler}
+\classsection{ICommunicationHandler}
 
 \subsubsection*{Funzionalità}
 
@@ -305,11 +319,11 @@ Oltre alle implementazioni dell'interfaccia \texttt{IAudioVideoMessage}, la clas
 
 \subsubsection*{Metodi}
 
-\subsubsection{StandardCommunicationHandler}\label{sec:standardcommunicationhandler}
+\classsection{StandardCommunicationHandler}
 
 \subsubsection*{Interfacce implementate}
 \begin{itemize}[noitemsep,nolistsep]
-  \item[-]
+  \item[-] \classname{ICommunicationHandler}
 \end{itemize}
 
 \subsubsection*{Funzionalità}
@@ -320,21 +334,19 @@ Oltre alle implementazioni dell'interfaccia \texttt{IAudioVideoMessage}, la clas
 
 \subsubsection*{Metodi}
 
-\subsubsection{IConnection}\label{sec:iconnection}
+\classsection{IConnection}
 
 \subsubsection*{Funzionalità}
 
 \subsubsection*{Relazioni d'uso}
 
-\subsubsection*{Attributi}
-
 \subsubsection*{Metodi}
 
-\subsubsection{WebRTCInfo}\label{sec:webrtcinfo}
+\classsection{WebRTCInfo}
 
 \subsubsection*{Interfacce implementate}
 \begin{itemize}[noitemsep,nolistsep]
-  \item[-]
+  \item[-] \classname{IConnection}
 \end{itemize}
 
 \subsubsection*{Funzionalità}
@@ -347,7 +359,7 @@ Oltre alle implementazioni dell'interfaccia \texttt{IAudioVideoMessage}, la clas
 
 \subsection{Package org.softwaresynthesis.mytalk.server.abook}\label{sec:abook}
 
-\subsubsection{IContact}\label{sec:icontact}
+\classsection{IContact}
 
 \subsubsection*{Funzionalità}
 
@@ -367,21 +379,19 @@ Aggiunge un contatto (utente singolo o gruppo) come figlio del nodo selezionato.
 Cancella dai figli del contatto di invocazione il contatto \texttt{contact}.
 \end{description}
 
-\subsubsection{IAddressBook}\label{sec:iaddressbook}
+\classsection{IAddressBook}
 
 \subsubsection*{Funzionalità}
 
 \subsubsection*{Relazioni d'uso}
 
-\subsubsection*{Attributi}
-
 \subsubsection*{Metodi}
 
-\subsubsection{UserDataProxy}\label{sec:userdataproxy}
+\classsection{AddressBook}
 
 \subsubsection*{Interfacce implementate}
 \begin{itemize}[noitemsep,nolistsep]
-  \item[-]
+  \item[-] \classname{IAddressBook}
 \end{itemize}
 
 \subsubsection*{Funzionalità}
@@ -392,11 +402,11 @@ Cancella dai figli del contatto di invocazione il contatto \texttt{contact}.
 
 \subsubsection*{Metodi}
 
-\subsubsection{AddressBook}\label{sec:addressbook}
+\classsection{UserDataProxy}
 
 \subsubsection*{Interfacce implementate}
 \begin{itemize}[noitemsep,nolistsep]
-  \item[-]
+  \item[-] \hyperref[IUserData]{\ttfamily{}org.softwaresynthesis.mytalk.server.dao.IUserData}
 \end{itemize}
 
 \subsubsection*{Funzionalità}
@@ -409,21 +419,19 @@ Cancella dai figli del contatto di invocazione il contatto \texttt{contact}.
 
 \subsection{Package org.softwaresynthesis.mytalk.server.state}\label{sec:state}
 
-\subsubsection{IState}\label{sec:istate}
+\classsection{IState}
 
 \subsubsection*{Funzionalità}
 
 \subsubsection*{Relazioni d'uso}
 
-\subsubsection*{Attributi}
-
 \subsubsection*{Metodi}
 
-\subsubsection{StateOnline}\label{sec:stateonline}
+\classsection{StateOnline}
 
 \subsubsection*{Interfacce implementate}
 \begin{itemize}[noitemsep,nolistsep]
-  \item[-]
+  \item[-] \classname{IState}
 \end{itemize}
 
 \subsubsection*{Funzionalità}
@@ -434,11 +442,11 @@ Cancella dai figli del contatto di invocazione il contatto \texttt{contact}.
 
 \subsubsection*{Metodi}
 
-\subsubsection{StateOffline}\label{sec:stateoffline}
+\classsection{StateOffline}
 
 \subsubsection*{Interfacce implementate}
 \begin{itemize}[noitemsep,nolistsep]
-  \item[-]
+  \item[-] \classname{IState}
 \end{itemize}
 
 \subsubsection*{Funzionalità}
@@ -449,11 +457,11 @@ Cancella dai figli del contatto di invocazione il contatto \texttt{contact}.
 
 \subsubsection*{Metodi}
 
-\subsubsection{StateAvailable}\label{sec:stateavailable}
+\classsection{StateAvailable}
 
 \subsubsection*{Interfacce implementate}
 \begin{itemize}[noitemsep,nolistsep]
-  \item[-]
+  \item[-] \classname{IState}
 \end{itemize}
 
 \subsubsection*{Funzionalità}
@@ -464,11 +472,11 @@ Cancella dai figli del contatto di invocazione il contatto \texttt{contact}.
 
 \subsubsection*{Metodi}
 
-\subsubsection{StateOccupied}\label{sec:stateoccupied}
+\classsection{StateOccupied}
 
 \subsubsection*{Interfacce implementate}
 \begin{itemize}[noitemsep,nolistsep]
-  \item[-]
+  \item[-] \classname{IState}
 \end{itemize}
 
 \subsubsection*{Funzionalità}
@@ -481,21 +489,19 @@ Cancella dai figli del contatto di invocazione il contatto \texttt{contact}.
 
 \subsection{Package org.softwaresynthesis.mytalk.server.message}\label{sec:message}
 
-\subsubsection{IMessageBox}\label{sec:imessagebox}
+\classsection{IMessageBox}
 
 \subsubsection*{Funzionalità}
 
 \subsubsection*{Relazioni d'uso}
 
-\subsubsection*{Attributi}
-
 \subsubsection*{Metodi}
 
-\subsubsection{StandardMessageBox}\label{sec:standardmessagebox}
+\classsection{StandardMessageBox}
 
 \subsubsection*{Interfacce implementate}
 \begin{itemize}[noitemsep,nolistsep]
-  \item[-]
+  \item[-] \classname{IMessageBox}
 \end{itemize}
 
 \subsubsection*{Funzionalità}
@@ -506,11 +512,11 @@ Cancella dai figli del contatto di invocazione il contatto \texttt{contact}.
 
 \subsubsection*{Metodi}
 
-\subsubsection{AudioMessageProxy}\label{sec:audiomessageproxy}
+\classsection{AudioMessageProxy}
 
 \subsubsection*{Interfacce implementate}
 \begin{itemize}[noitemsep,nolistsep]
-  \item[-]\texttt{org.softwaresynthesis.mytalk.IAudioMessage}
+  \item[-] \hyperref[IAudioMessage]{\ttfamily{}org.softwaresynthesis.mytalk.IAudioMessage}
 \end{itemize}
 
 \subsubsection*{Funzionalità}
@@ -527,8 +533,8 @@ Data in cui è stato creato il messaggio audio.
 Percorso che punta alla rappresentazione in forma persistente del messaggio audio.
   \item{\memberdata{-- new: boolean}}\\
 Flag booleano che permette di discriminare i messaggi audio ascoltati da quelli non ascoltati.
-  \item{\memberdata{-- msg: org.softwaresynthesis.mytalk.server.dao.AudioMessage}}\\
-Riferimento al messaggio reale costruito mediante la tecnica di lazy initialization.
+  \item{\memberdata{-- msg: AudioMessage}}\\
+Riferimento di tipo \hyperref[AudioMessage]{\texttt{org.softwaresynthesis.mytalk.server.dao.AudioMessage}} al messaggio reale  costruito mediante la tecnica di lazy initialization.
 \end{description}
 
 \subsubsection*{Metodi}
@@ -537,11 +543,11 @@ Oltre alle implementazioni dell'interfaccia \texttt{org.mytalk.server.dao.IAudio
 \item{\method{+ AudioMessageProxy(path: String)}}\\
 \end{description}
 
-\subsubsection{AudioVideoMessageProxy}\label{sec:audiovideomessageproxy}
+\classsection{AudioVideoMessageProxy}
 
 \subsubsection*{Interfacce implementate}
 \begin{itemize}[noitemsep,nolistsep]
-  \item[-]\texttt{org.softwaresynthesis.mytalk.IAudioVideoMessage}
+  \item[-] \hyperref[IAudioVideoMessage]{\ttfamily{}org.softwaresynthesis.mytalk.IAudioVideoMessage}
 \end{itemize}
 
 \subsubsection*{Funzionalità}
@@ -558,33 +564,31 @@ Data in cui è stato creato il messaggio audio/video.
 Percorso che punta alla rappresentazione in forma persistente del messaggio audio/video.
   \item{\memberdata{-- new: boolean}}\\
 Flag booleano che permette di discriminare i messaggi audio/video ascoltati da quelli non ascoltati.
-  \item{\memberdata{-- msg: org.softwaresynthesis.mytalk.server.dao.AudioVideoMessage}}\\
-Riferimento al messaggio reale costruito mediante la tecnica di lazy initialization.
+  \item{\memberdata{-- msg: AudioVideoMessage}}\\
+Riferimento di tipo \hyperref[AudioVideoMessage]{\ttfamily{}org.softwaresynthesis.mytalk.server.dao.AudioVideoMessage} al messaggio reale costruito mediante la tecnica di lazy initialization.
 \end{description}
 
 \subsubsection*{Metodi}
-Oltre alle implementazioni dell'interfaccia \texttt{org.mytalk.server.dao.IAudioVideoMessage}, la classe prevede i seguenti metodi:
+Oltre alle implementazioni dell'interfaccia \hyperref[IAudioVideoMessage]{\ttfamily{}org.mytalk.server.dao.IAudioVideoMessage}, la classe prevede i seguenti metodi:
 \begin{description}
 \item{\method{+ AudioMessageProxy(path: String)}}\\
 \end{description}
 
 \subsection{Package org.softwaresynthesis.mytalk.server}\label{sec:server}
 
-\subsubsection{IServerFacade}\label{sec:iserverfacade}
+\classsection{IServerFacade}
 
 \subsubsection*{Funzionalità}
 
 \subsubsection*{Relazioni d'uso}
 
-\subsubsection*{Attributi}
-
 \subsubsection*{Metodi}
 
-\subsubsection{StandardServerFacade}\label{sec:standardserverfacade}
+\classsection{StandardServerFacade}
 
 \subsubsection*{Interfacce implementate}
 \begin{itemize}[noitemsep,nolistsep]
-  \item[-] \texttt{IServerFacade}
+  \item[-] \classname{IServerFacade}
 \end{itemize}
 
 \subsubsection*{Funzionalità}
@@ -601,13 +605,51 @@ Oltre alle implementazioni dell'interfaccia \texttt{org.mytalk.server.dao.IAudio
 
 \subsection{Package org.softwaresynthesis.mytalk.clientpresenter}\label{sec:clientpresetner}
 
-\subsubsection{IClient}\label{sec:iclient}
+\classsection{IClient}
 
-\subsubsection{StandardClient}\label{sec:standardclient}
+\subsubsection*{Funzionalità}
 
-\subsubsection{IPresenterFacade}\label{sec:ipresenterfacade}
+\subsubsection*{Relazioni d'uso}
 
-\subsubsection{StandardPresenterFacade}\label{sec:standardserverfacade}
+\subsubsection*{Metodi}
+
+\classsection{StandardClient}
+
+\subsubsection*{Interfacce implementate}
+\begin{itemize}[noitemsep,nolistsep]
+  \item[-] \classname{IClient}
+\end{itemize}
+
+\subsubsection*{Funzionalità}
+
+\subsubsection*{Relazioni d'uso}
+
+\subsubsection*{Attributi}
+
+\subsubsection*{Metodi}
+
+\classsection{IPresenterFacade}
+
+\subsubsection*{Funzionalità}
+
+\subsubsection*{Relazioni d'uso}
+
+\subsubsection*{Metodi}
+
+\classsection{StandardPresenterFacade}
+
+\subsubsection*{Interfacce implementate}
+\begin{itemize}[noitemsep,nolistsep]
+  \item[-] \classname{IPresenterFacade}
+\end{itemize}
+
+\subsubsection*{Funzionalità}
+
+\subsubsection*{Relazioni d'uso}
+
+\subsubsection*{Attributi}
+
+\subsubsection*{Metodi}
 
 \clearpage
 
@@ -615,31 +657,31 @@ Oltre alle implementazioni dell'interfaccia \texttt{org.mytalk.server.dao.IAudio
 
 \subsection{Package org.softwaresynthesis.mytalk.clientview}\label{sec:clientview}
 
-\subsubsection{IViewFacade}\label{sec:iviewfacade}
+\classsection{IViewFacade}
 
-\subsubsection{StandardViewFacade}\label{sec:standardviewfacade}
+\classsection{StandardViewFacade}
 
 \subsection{Package org.softwaresynthesis.clientview.gui}\label{sec:gui}
 
-\subsubsection{GUIHandler}\label{sec:guihandler}
+\classsection{GUIHandler}
 
-\subsubsection{AddressBookPanel}\label{sec:addressbookpanel}
+\classsection{AddressBookPanel}
 
-\subsubsection{MainPanel}\label{sec:mainpanel}
+\classsection{MainPanel}
 
-\subsubsection{ToolsPanel}\label{sec:toolspanel}
+\classsection{ToolsPanel}
 
-\subsubsection{SearchResultPanel}\label{sec:searchresultpanel}
+\classsection{SearchResultPanel}
 
-\subsubsection{ContactPanel}\label{sec:contactpanel}
+\classsection{ContactPanel}
 
-\subsubsection{MessagePanel}\label{sec:messagepanel}
+\classsection{MessagePanel}
 
-\subsubsection{LanguagePanel}\label{sec:languagepanel}
+\classsection{LanguagePanel}
 
-\subsubsection{AccountSettingsPanel}\label{sec:accountsettingspanel}
+\classsection{AccountSettingsPanel}
 
-\subsubsection{CallHistoryPanel}\label{sec:callhistorypanel}
+\classsection{CallHistoryPanel}
 
 \clearpage
 
