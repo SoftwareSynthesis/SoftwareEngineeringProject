@@ -34,6 +34,11 @@
 % importa il preambolo condiviso da tutti i documenti
 \input{\docRoot/shared/preamble.tex}
 
+% macro specifiche per il documento corrente
+\newcommand{\memberdata}[1]{\texttt{\textcolor{RedOrange}{#1}}}
+\newcommand{\method}[1]{\texttt{\textcolor{Emerald}{#1}}}
+\newcommand{\exception}[1]{\texttt{\textcolor{RedViolet}{#1}}}
+
 % Fine del preambolo e inizio del documento
 \begin{document}
 
@@ -129,12 +134,103 @@ A tal fine, si riporta per ognuno dei componenti definiti nel documento di speci
 \subsection{Package org.softwaresynthesis.mytalk.server.dao}\label{sec:dao}
 
 \subsubsection{IAudioMessage}\label{sec:iaudiomessage}
+\subsubsection*{Funzione}
+
+\subsubsection*{Relazioni d'uso}
+
+% eventualmente creare interfaccia padre IMessage
+% vedere issue #62
+
+\subsubsection*{Metodi}
+\begin{description}
+  \item{\method{+ getSender(): IUserData}}\\
+Restituisce il mittente del messaggio, sotto forma di un sottotipo (proxy) di \texttt{IUserData}.
+  \item{\method{+ getDate(): Date}}\\
+Restituisce la data di creazione del messaggio (appoggiandosi a \texttt{java.util.Date}).
+  \item{\method{+ isNew(): boolean}}\\
+Restituisce un booleano che fornisce le informazioni relative all'ascolto del messaggio: \texttt{true} se è stato ascoltato, \texttt{false} altrimenti.
+  \item{\method{+ setNew(b: boolean): void}}\\
+Imposta il booleano che fornisce le informazioni relative all'ascolto del messaggio.
+  \item{\method{+ getLength(): int}}\\
+Restituisce la lunghezza del messaggio espressa in secondi.
+  \item{\method{+ getAudio(): byte[]}}\\
+Restituisce il contenuto del messaggio audio in questione.
+\end{description}
 
 \subsubsection{IAudioVideoMessage}\label{sec:iaudiovideomessage}
+\subsubsection*{Metodi}
+\begin{description}
+  \item{\method{+ getSender(): IUserData}}\\
+Restituisce il mittente del messaggio, sotto forma di un sottotipo (proxy) di \texttt{IUserData}.
+  \item{\method{+ getDate(): Date}}\\
+Restituisce la data di creazione del messaggio (appoggiandosi a \texttt{java.util.Date}).
+  \item{\method{+ isNew(): boolean}}\\
+Restituisce un booleano che fornisce le informazioni relative all'ascolto del messaggio: \texttt{true} se è stato ascoltato, \texttt{false} altrimenti.
+  \item{\method{+ setNew(b: boolean): void}}\\
+Imposta il booleano che fornisce le informazioni relative all'ascolto del messaggio.
+  \item{\method{+ getLength(): int}}\\
+Restituisce la lunghezza del messaggio espressa in secondi.
+  \item{\method{+ getAudioVideo(): byte[]}}\\
+Restituisce il contenuto del messaggio audio/video in questione.
+\end{description}
 
 \subsubsection{AudioMessage}\label{sec:audiomessage}
 
+\subsubsection*{Funzionalità}
+
+\subsubsection*{Relazioni d'uso}
+
+\subsubsection*{Interfacce implementate}
+\texttt{IAudioMessage}
+
+\subsubsection*{Attributi}
+\begin{description}
+  \item{\memberdata{-- sender: IUserData}}\\
+Riferimento all'utente che costituisce il mittente del messaggio audio.
+  \item{\memberdata{-- date: Date}}\\
+Data in cui è stato creato il messaggio audio.
+  \item{\memberdata{-- path: String}}\\
+Percorso che punta alla rappresentazione in forma persistente del messaggio audio.
+  \item{\memberdata{-- new: boolean}}\\
+Flag booleano che permette di discriminare i messaggi audio ascoltati da quelli non ascoltati.
+  \item{\memberdata{-- content: byte[]}}\\
+Rappresentazione del contenuto del messaggio audio.
+\end{description}
+
+\subsubsection*{Metodi}
+Oltre alle implementazioni dell'interfaccia \texttt{IAudioMessage}, la classe contiene i seguenti metodi:
+\begin{description}
+  \item{\method{AudioMessage(path: String)}}\\
+\end{description}
+
 \subsubsection{AudioVideoMessage}\label{sec:audiovideomessage}
+
+\subsubsection*{Funzionalità}
+
+\subsubsection*{Relazioni d'uso}
+
+\subsubsection*{Interfacce implementate}
+\texttt{IAudioVideoMessage}
+
+\subsubsection*{Attributi}
+\begin{description}
+  \item{\memberdata{-- sender: IUserData}}\\
+Riferimento all'utente che costituisce il mittente del messaggio audio/video.
+  \item{\memberdata{-- date: Date}}\\
+Data in cui è stato creato il messaggio audio/video.
+  \item{\memberdata{-- path: String}}\\
+Percorso che punta alla rappresentazione in forma persistente del messaggio audio/video.
+  \item{\memberdata{-- new: boolean}}\\
+Flag booleano che permette di discriminare i messaggi audio/video ascoltati da quelli non ascoltati.
+  \item{\memberdata{-- content: byte[]}}\\
+Rappresentazione del contenuto del messaggio audio/video.
+\end{description}
+
+\subsubsection*{Metodi}
+Oltre alle implementazioni dell'interfaccia \texttt{IAudioVideoMessage}, la classe contiene i seguenti metodi:
+\begin{description}
+  \item{\method{AudioVideoMessage(path: String)}}\\
+\end{description}
 
 \subsubsection{IGroup}\label{sec:igroup}
 
@@ -184,7 +280,61 @@ A tal fine, si riporta per ognuno dei componenti definiti nel documento di speci
 
 \subsubsection{AudioMessageProxy}\label{sec:audiomessageproxy}
 
+\subsubsection*{Funzionalità}
+
+\subsubsection*{Relazioni d'uso}
+
+\subsubsection*{Interfacce implementate}
+\texttt{org.softwaresynthesis.mytalk.IAudioMessage}
+
+\subsubsection*{Attributi}
+\begin{description}
+  \item{\memberdata{-- sender: IUserData}}\\
+Riferimento all'utente che costituisce il mittente del messaggio audio.
+  \item{\memberdata{-- date: Date}}\\
+Data in cui è stato creato il messaggio audio.
+  \item{\memberdata{-- path: String}}\\
+Percorso che punta alla rappresentazione in forma persistente del messaggio audio.
+  \item{\memberdata{-- new: boolean}}\\
+Flag booleano che permette di discriminare i messaggi audio ascoltati da quelli non ascoltati.
+  \item{\memberdata{-- msg: org.softwaresynthesis.mytalk.server.dao.AudioMessage}}\\
+Riferimento al messaggio reale costruito mediante la tecnica di lazy initialization.
+\end{description}
+
+\subsubsection*{Metodi}
+Oltre alle implementazioni dell'interfaccia \texttt{org.mytalk.server.dao.IAudioMessage}, la classe prevede i seguenti metodi:
+\begin{description}
+\item{\method{+ AudioMessageProxy(path: String)}}\\
+\end{description}
+
 \subsubsection{AudioVideoMessageProxy}\label{sec:audiovideomessageproxy}
+
+\subsubsection*{Funzionalità}
+
+\subsubsection*{Relazioni d'uso}
+
+\subsubsection*{Interfacce implementate}
+\texttt{org.softwaresynthesis.mytalk.IAudioVideoMessage}
+
+\subsubsection*{Attributi}
+\begin{description}
+  \item{\memberdata{-- sender: IUserData}}\\
+Riferimento all'utente che costituisce il mittente del messaggio audio/video.
+  \item{\memberdata{-- date: Date}}\\
+Data in cui è stato creato il messaggio audio/video.
+  \item{\memberdata{-- path: String}}\\
+Percorso che punta alla rappresentazione in forma persistente del messaggio audio/video.
+  \item{\memberdata{-- new: boolean}}\\
+Flag booleano che permette di discriminare i messaggi audio/video ascoltati da quelli non ascoltati.
+  \item{\memberdata{-- msg: org.softwaresynthesis.mytalk.server.dao.AudioVideoMessage}}\\
+Riferimento al messaggio reale costruito mediante la tecnica di lazy initialization.
+\end{description}
+
+\subsubsection*{Metodi}
+Oltre alle implementazioni dell'interfaccia \texttt{org.mytalk.server.dao.IAudioVideoMessage}, la classe prevede i seguenti metodi:
+\begin{description}
+\item{\method{+ AudioMessageProxy(path: String)}}\\
+\end{description}
 
 \subsection{Package org.softwaresynthesis.mytalk.server}\label{sec:server}
 
