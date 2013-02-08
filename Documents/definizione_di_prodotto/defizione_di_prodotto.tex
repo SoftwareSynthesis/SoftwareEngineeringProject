@@ -273,6 +273,22 @@ Oltre alle implementazioni dell'interfaccia \classname{IAudioVideoMessage}, la c
   \item[-] \hyperref[IContact]{\ttfamily{}org.softwaresynthesis.mytalk.abook.IContact}
 \end{itemize}
 
+\subsubsection*{Funzionalità}
+
+\subsubsection*{Relazioni d'uso}
+
+\subsubsection*{Metodi}
+\begin{description}
+	\item{\method{+ addContact(contact: IContact): void}}\\
+Aggiunge al gruppo un nuovo oggetto IContact, può essere un sottogruppo oppure un singolo utente.
+	\item{\method{+ getOwner(): IUserData}}\\
+Restituisce l'utente proprietario del gruppo.
+	\item{\method{+ getContact(): List<IContact>}}\\
+Restituisce i contatti, sottogruppi oppure utenti, appartenenti al gruppo.
+	\item{\method{+ setOwner(user: IUserData): void}}\\
+Imposta l'utente proprietario del gruppo.
+\end{description}
+
 \classsection{StandardGroup}
 
 \subsubsection*{Interfacce implementate}
@@ -300,6 +316,42 @@ Oltre alle implementazioni dell'interfaccia \classname{IAudioVideoMessage}, la c
 \subsubsection*{Relazioni d'uso}
 
 \subsubsection*{Metodi}
+\begin{description}
+	\item{\method{+ getEMail(): string}}\\
+Restituisce l'indirizzo e-mail con cui l'utente si è registrato.
+	\item{\method{+ getPassword(): string}}\\
+Restituisce la password, non criptata, dell'utente.
+	\item{\method{+ getQuestion(): string}}\\
+Restituisce la domanda, scelta dall'utente in fase di registrazione, per il recupero della password.
+	\item{\method{+ getName(): string}}\\
+Restituisce il nome dell'utente.
+	\item{\method{+ getSurname(): string}}\\
+Restituisce il cognome dell'utente.
+	\item{\method{+ getPicture(): Image}}\\
+Restituisce l'immagine che l'utente ha associato al proprio account.
+	\item{\method{+ getAddressBook(): IAddressBook}}\\
+Restituisce la rubrica dell'utente.
+	\item{\method{+ getCallList(): List<ICall>}}\\
+Restituisce la lista delle chiamate effettuate e ricevute dall'utente.
+	\item{\method{+ getMessages(): List<IMessage>}}\\
+Restituisce la lista di tutti i messaggi memorizzati nella segreteria dell'utente
+	\item{\method{+ getMessages(news: Boolean): List<IMessage>}}\\
+Restituisce la lista dei nuovi messaggi, in segreteria, se news è impostato a true altrimenti ritorna tutti quelli memorizzati.
+	\item{\method{+ setEMail(mail: string): void}}\\
+Imposta l'indirizzo e-mail di un utente.
+	\item{\method{+ setPassword(password): void}}\\
+Imposta la password che l'utente utilizza per accedere al sistema \caName.
+	\item{\method{+ setQuestion(question: string): void}}\\
+Imposta la domanda, scelta dall'utente utilizzata nella procedura di recupero della password.
+	\item{\method{+ setAnswer(answer: string): void}}\\
+Imposta la risposta alla domanda segreta utilizzata per la procedura di recupero della password.
+	\item{\method{+ setName(name: string): void}}\\
+Imposta il nome dell'utente.
+	\item{\method{+ setSurname(surname: string): void}}\\
+Imposta il cognome dell'utente.
+	\item{\method{+ setPicture(image: Image): void}}\\
+Imposta l'immagine relativa all'utente.
+\end{description}
 
 \classsection{StandardUserData}
 \subsubsection*{Interfacce implementate}
