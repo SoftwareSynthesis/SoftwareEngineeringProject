@@ -431,7 +431,7 @@ Con la progettazione concettuale definiremo una struttura ``concettuale'' della 
 \subsubsection{Lista delle classi}
 
 \begin{description}
-	\item{\scshape\bfseries UserDatas}: è l'entità le cui istanze rappresentano gli utenti registrati nel sistema. UserDatas è caratterizzata dai seguenti attributi:
+	\item{\scshape\bfseries UserData}: è l'entità le cui istanze rappresentano gli utenti registrati nel sistema. UserData è caratterizzata dai seguenti attributi:
 
 \begin{center}
 \rowcolors{2}{lightblue}{llightblue}
@@ -510,10 +510,10 @@ New & Boolean & NO & \\
 \subsubsection{Associazione tra classi}
 
 \begin{description}
-	\item{\scshape\bfseries UserDatas - Calls (molti a molti)}: tale associazione rappresenta il legame che intercorre tra gli utenti e le chiamate. Tale associazione è del tipo molti a molti, con totalità parziale verso Calls e totalità totale verso UserDatas.
-	\item{\scshape\bfseries UserDatas - Groups (molti a molti)}: tale associazione rappresenta il legame che intercorre tra gli utenti ed i gruppi, per la quale si è deciso di usare un associazione molti a molti con totalità parziale solo da Groups a UserDatas. Ciò significa che: un utente può comparire in zero o più gruppi (in ragione del fatto che potrebbe esserci più di qualcuno che registra un dato utente nella propria rubrica), ed un utente può possedere uno o più gruppi.
-	\item{\scshape\bfseries UserDatas - Groups (uno a molti)}: tale associazione rappresenta il legame che intercorre tra il proprietario del gruppo e il gruppo stesso. L'associazione è del tipo uno a molti, a rappresentare come un gruppo sia visualizzabile unicamente dal proprietario, mentre un utente può avere (e di conseguenza visualizzare) più gruppi.
-	\item{\scshape\bfseries UserDatas - Messages (uno a molti)}: tale associazione rappresenta il legame che intercorre tra gli utenti ed i messaggi registrati nella sua segreteria. L'associazione è del tipo uno a molti verso Messages, con totalità parziale verso Messages e totalità totale verso UserDatas. L'idea alla base è che un utente può avere nella propria segreteria uno o più messaggi, così come può non averne nessuno, mentre ogni messaggio della segreteria è ``visionabile'' da un unico utente, il destinatario del messaggio.
+	\item{\scshape\bfseries UserData - Calls (molti a molti)}: tale associazione rappresenta il legame che intercorre tra gli utenti e le chiamate. Tale associazione è del tipo molti a molti, con totalità parziale verso Calls e totalità totale verso UserData.
+	\item{\scshape\bfseries UserData - Groups (molti a molti)}: tale associazione rappresenta il legame che intercorre tra gli utenti ed i gruppi, per la quale si è deciso di usare un associazione molti a molti con totalità parziale solo da Groups a UserData. Ciò significa che: un utente può comparire in zero o più gruppi (in ragione del fatto che potrebbe esserci più di qualcuno che registra un dato utente nella propria rubrica), ed un utente può possedere uno o più gruppi.
+	\item{\scshape\bfseries UserData - Groups (uno a molti)}: tale associazione rappresenta il legame che intercorre tra il proprietario del gruppo e il gruppo stesso. L'associazione è del tipo uno a molti, a rappresentare come un gruppo sia visualizzabile unicamente dal proprietario, mentre un utente può avere (e di conseguenza visualizzare) più gruppi.
+	\item{\scshape\bfseries UserData - Messages (uno a molti)}: tale associazione rappresenta il legame che intercorre tra gli utenti ed i messaggi registrati nella sua segreteria. L'associazione è del tipo uno a molti verso Messages, con totalità parziale verso Messages e totalità totale verso UserData. L'idea alla base è che un utente può avere nella propria segreteria uno o più messaggi, così come può non averne nessuno, mentre ogni messaggio della segreteria è ``visionabile'' da un unico utente, il destinatario del messaggio.
 \end{description}
 
 \subsection{Progettazione logica}
@@ -528,17 +528,17 @@ Con la progettazione logica intendiamo costruire la struttura definitiva del \un
 \subsubsection{Rappresentazione delle associazioni}
 
 \begin{description}
-	\item{\scshape\bfseries UserDatas - Calls}: tale associazione si è risolta attraverso l'introduzione dell'entità CallList. Tale entità contiene l'attributo User come chiave esterna verso l'entità UserDatas e l'attributo Call\_ID come chiave esterna verso l'entità Calls. È dotata inoltre dell'attributo Caller che identifica colui che ha per primo avviato la chiamata; per ogni gruppo di ennuple aventi lo stesso Call\_ID si avrà soltanto una ennupla contrassegnata con il campo Caller a vero.
-	\item{\scshape\bfseries UserDatas - Groups}: tale associazione si è risolta con la creazione di una terza entità denominata AddressBooks, che contiene una chiave esterna verso UserDatas e una chiave esterna verso Groups.
-	\item{\scshape\bfseries UserDatas - Groups}: tale associazione si è risolta trasformando l'attributo Owner in una chiave esterna verso UserDatas.
-	\item{\scshape\bfseries UserDatas - Messages}: tale associazione si è risolta inserendo una chiave esterna verso UserDatas, all'interno dell'entità Messages.
+	\item{\scshape\bfseries UserData - Calls}: tale associazione si è risolta attraverso l'introduzione dell'entità CallLists. Tale entità contiene l'attributo User come chiave esterna verso l'entità UserData e l'attributo Call\_ID come chiave esterna verso l'entità Calls. È dotata inoltre dell'attributo Caller che identifica colui che ha per primo avviato la chiamata; per ogni gruppo di ennuple aventi lo stesso Call\_ID si avrà soltanto una ennupla contrassegnata con il campo Caller a vero.
+	\item{\scshape\bfseries UserData - Groups}: tale associazione si è risolta con la creazione di una terza entità denominata AddressBooks, che contiene una chiave esterna verso UserData e una chiave esterna verso Groups.
+	\item{\scshape\bfseries UserData - Groups}: tale associazione si è risolta trasformando l'attributo Owner in una chiave esterna verso UserData.
+	\item{\scshape\bfseries UserData - Messages}: tale associazione si è risolta inserendo una chiave esterna verso UserData, all'interno dell'entità Messages.
 \end{description}
 
 \subsubsection{Lista delle classi}
 
 \begin{center}
 
-UserDatas
+UserData
 
 \rowcolors{2}{lightblue}{llightblue}
 \begin{center}
@@ -572,7 +572,7 @@ End\_date & Datetime & SI &\\
 \end{tabular}
 \end{center}
 
-CallList
+CallLists
 
 \begin{center}
 \rowcolors{2}{lightblue}{llightblue}
@@ -581,7 +581,7 @@ CallList
 Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule % inserire qui il contenuto della tabella
 Call\_ID & int & NO & PrimaryKey e ForeignKey verso Calls\\
-User & Varchar(100) & NO & PrimaryKey e ForeignKey verso UserDatas \\
+User & Varchar(100) & NO & PrimaryKey e ForeignKey verso UserData \\
 Caller & Boolean & NO &\\
 \bottomrule
 \end{tabular}
@@ -595,7 +595,7 @@ AddressBooks
 \toprule
 Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule % inserire qui il contenuto della tabella
-User\_ID & Varchar(100) & NO & PrimaryKey e ForeignKey verso UserDatas\\
+User\_ID & Varchar(100) & NO & PrimaryKey e ForeignKey verso UserData\\
 Group\_ID & int & NO & PrimaryKey e ForeignKey verso Groups\\
 \bottomrule
 \end{tabular}
@@ -611,7 +611,7 @@ Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule % inserire qui il contenuto della tabella
 Group\_ID & int & NO & PrimaryKey\\
 Name & Varchar(100) & NO & \\
-Owner & Varchar(100) & NO & ForeignKey verso UserDatas\\
+Owner & Varchar(100) & NO & ForeignKey verso UserData\\
 \bottomrule
 \end{tabular}
 \end{center}	
@@ -625,8 +625,8 @@ Messages
 Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule % inserire qui il contenuto della tabella
 Path & Varchar(150) & NO & PrimaryKey\\
-Sender & Varchar(100) & NO & ForeignKey verso UserDatas \\
-Receiver & Varchar(100) & NO & ForeignKey verso UserDatas\\
+Sender & Varchar(100) & NO & ForeignKey verso UserData \\
+Receiver & Varchar(100) & NO & ForeignKey verso UserData\\
 New & Boolean & NO & \\
 Audio & Boolean & NO & \\
 \bottomrule
