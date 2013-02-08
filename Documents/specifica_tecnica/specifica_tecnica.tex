@@ -56,9 +56,9 @@
 \begin{longtable}{lp{.32\textwidth}lll}
 \toprule
 Versione & Descrizione intervento & Membro & Ruolo & Data\\
-\midrule % inserire qui il contenuto della tabella
+\midrule
 1.1 & Modifica architettura del database & Elena Zecchinato & Progettista & 2012-02-08\\
-1.0 & Approvazione documento &Riccardo Tresoldi & Responsabile & 2012-01-30\\
+1.0 & Approvazione documento & Riccardo Tresoldi & Responsabile & 2012-01-30\\
 0.19 & Correzione errori ortografici e di forma presenti nel documento in base alle segnalazioni del verificatore&Marco Schivo & Progettista & 2013-01-29\\
 0.18 & Correzione diagrammi presenti nel documento in base alle segnalazioni del verificatore&Elena Zecchinato & Progettista & 2013-01-29\\
 0.17 & Verifica lessico ortografica del documento & Andrea Meneghinello & Verificatore & 2013-01-28\\
@@ -202,7 +202,7 @@ Il pattern DAO ha lo scopo di disaccoppiare la logica di business dalla logica d
 
 \subsubsection{Componenti che lo implementano}
 \begin{description}
-\item{\scshape\bfseries Gestione Database}\\
+\item{\scshape\bfseries Gestione database}\\
 Le classi DAO consentono di isolare l'accesso alle tabelle del \underline{database} dalla parte di business logic facendo corrispondere alle invocazioni di metodo le opportune operazioni sui record del \underline{database}.
 
 L'utilizzo di tale pattern crea inoltre un maggiore livello di astrazione e mantiene una rigida separazione tra le sotto-architetture corrispondenti a model e presenter.
@@ -648,7 +648,7 @@ Audio & Boolean & NO & \\
 \section{Architettura mytalk.server}
 Tale sotto-architettura definisce le specifiche e le funzionalità dell'applicativo lato \underline{server}. In esso saranno definiti i seguenti componenti:
 \begin{itemize}[noitemsep,nolistsep]
-	\item[-] Gestione Database.
+	\item[-] Gestione database.
 	\item[-] Gestione connessione.
 	\item[-] Gestione rubrica.
 	\item[-] Gestione stato.
@@ -665,7 +665,7 @@ Infine, si fa notare che i nomi di tutte le classi riportate nella sezione sono 
 \subsubsection{Gestione database}
 \begin{description}
 \item{\scshape\bfseries Descrizione:}\\
-Gestione Database è il componente che si occupa di rappresentare la struttura del \underline{database} relazionale su cui poggia l'applicativo. Le singole classi in esso definite rappresentano quindi le tabelle del \underline{database}. In termini tecnici le classi interne al componente Gestione database implementa il \underline{design pattern} DAO\@.
+Gestione database è il componente che si occupa di rappresentare la struttura del \underline{database} relazionale su cui poggia l'applicativo. Le singole classi in esso definite rappresentano quindi le tabelle del \underline{database}. In termini tecnici le classi interne al componente Gestione database implementa il \underline{design pattern} DAO\@.
 
 Tramite questo componente, il sistema potrà quindi effettuare operazione di lettura e scrittura di entità all'interno del \underline{database}. Le classi che costituiscono il componente dovranno quindi essere dotate di:
 
