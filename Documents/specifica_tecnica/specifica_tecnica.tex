@@ -514,6 +514,7 @@ New & Boolean & NO & \\
 	\item{\scshape\bfseries UserData - Groups (molti a molti)}: tale associazione rappresenta il legame che intercorre tra gli utenti ed i gruppi, per la quale si è deciso di usare un associazione molti a molti con totalità parziale solo da Groups a UserData. Ciò significa che: un utente può comparire in zero o più gruppi (in ragione del fatto che potrebbe esserci più di qualcuno che registra un dato utente nella propria rubrica), ed un utente può possedere uno o più gruppi.
 	\item{\scshape\bfseries UserData - Groups (uno a molti)}: tale associazione rappresenta il legame che intercorre tra il proprietario del gruppo e il gruppo stesso. L'associazione è del tipo uno a molti, a rappresentare come un gruppo sia visualizzabile unicamente dal proprietario, mentre un utente può avere (e di conseguenza visualizzare) più gruppi.
 	\item{\scshape\bfseries UserData - Messages (uno a molti)}: tale associazione rappresenta il legame che intercorre tra gli utenti ed i messaggi registrati nella sua segreteria. L'associazione è del tipo uno a molti verso Messages, con totalità parziale verso Messages e totalità totale verso UserData. L'idea alla base è che un utente può avere nella propria segreteria uno o più messaggi, così come può non averne nessuno, mentre ogni messaggio della segreteria è ``visionabile'' da un unico utente, il destinatario del messaggio.
+	\item{\scshape\bfseries Groups - Groups (uno a molti)}: tale associazione rappresenta il legame che intercorre tra oggetti di tipo gruppo, ovvero che un gruppo può possedere zero o più sottogruppi mentre un sottogruppo ha un gruppo ``padre'' che lo contiene.
 \end{description}
 
 \subsection{Progettazione logica}
@@ -612,6 +613,7 @@ Nome attributo & Tipo & Opzionale & Vincoli\\
 Group\_ID & int & NO & PrimaryKey\\
 Name & Varchar(100) & NO & \\
 Owner & Varchar(100) & NO & ForeignKey verso UserData\\
+Father & int & NO & ForeignKey verso Groups\\
 \bottomrule
 \end{tabular}
 \end{center}	
