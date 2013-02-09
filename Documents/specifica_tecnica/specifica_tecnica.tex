@@ -291,14 +291,14 @@ Come si evince dal diagramma riportato in figura \ref{fig:mvpSD} le interazioni 
 
 % SONO ARRIVATO QUA
 
-Ciò si deve al fatto che la business logic e il modello dei dati risiedono nel \underline{server} mentre il presenter e la view sono situati nel \underline{client}. Quando un utente richiede un servizio tramite l'interfaccia grafica, la richiesta viene inoltrata dalla view al presenter.
+Ciò si deve al fatto che la business logic e il modello dei dati risiedono nel \underline{server} mentre il \inglese{presenter} e la \inglese{view} sono situati nel \underline{client}. Quando un utente richiede un servizio tramite l'interfaccia grafica, la richiesta viene inoltrata dalla \inglese{view} al \inglese{presenter}.
 
-Qualora quest'ultimo fosse in grado di soddisfare tale richiesta con le risorse di cui dispone, i dati sono restituiti immediatamente alla view senza alcun bisogno di richiedere l'intervento del \underline{server}. Nel caso, invece, in cui il presenter non fosse in grado di servire autonomamente la view, interrogherebbe il \underline{server} al fine di ottenere i dati da restituire alla componente grafica.
+Qualora quest'ultimo fosse in grado di soddisfare tale richiesta con le risorse di cui dispone, i dati sono restituiti immediatamente alla \inglese{view} senza alcun bisogno di richiedere l'intervento del \underline{server}. Nel caso, invece, in cui il \inglese{presenter} non fosse in grado di servire autonomamente la \inglese{view}, interrogherebbe il \underline{server} al fine di ottenere i dati da restituire alla componente grafica.
 
 Il vantaggio di un simile schema di interazione consiste nella riduzione del traffico di rete e nel conseguente incremento delle prestazioni in termini di velocità e, di conseguenza, dell'esperienza utente in generale.
 
 \subsubsection{Componenti che lo implementano}
-MVP viene utilizzato come il pattern più ad alto livello del nostro sistema. La distinzione fra model, presenter e view è infatti rispecchiata dalla suddivisione del sistema nelle tre sotto-architetture server, clientpresenter e clientview.
+MVP viene utilizzato come il pattern più ad alto livello del nostro sistema. La distinzione fra \inglese{model}, \inglese{presenter} e \inglese{view} è infatti rispecchiata dalla suddivisione del sistema nelle tre sotto-architetture server, clientpresenter e clientview.
 
 In generale, l'utilizzo di MVP riduce l'accoppiamento tra le sotto-architetture minimizzando le modifiche richieste a ognuno di essi come conseguenza di cambiamenti all'interno degli altri.
 
@@ -374,7 +374,7 @@ Il pattern Singleton è altresì utile per controllare il numero di istanze atti
   \item{\scshape\bfseries Gestione connessione}\\
 La classe \texttt{server.connection.StandardConnectionHandler} è implementata come Singleton in modo da centralizzare la responsabilità di creare nuove connessioni in risposta alle esigenze dei \underline{client}.
   \item{\scshape\bfseries Façade della vista}\\
-La classe \texttt{clientview.StandardViewFacade} è progettata in accordo con il \underline{design pattern} Singleton in modo da assicurare che in ogni momento ve ne sia una sola istanza attiva, responsabile di ricevere le richieste che giungono dal presenter.
+La classe \texttt{clientview.StandardViewFacade} è progettata in accordo con il \underline{design pattern} Singleton in modo da assicurare che in ogni momento ve ne sia una sola istanza attiva, responsabile di ricevere le richieste che giungono dal \inglese{presenter}.
   \item{\scshape\bfseries Gestione GUI}\\
 Anche la classe \texttt{clientview.gui.GUIHandler} è implementata come Singleton in quanto permette di centralizzare la gestione delle collaborazioni fra le varie istanze attive delle classi grafiche.
 \end{description}
@@ -421,9 +421,9 @@ Le specifiche di ogni sotto-architettura saranno definite in seguito, nelle rela
 
 Inoltre si fa presente che l'architettura generale, intesa come agglomerato delle tre sotto-architetture precedentemente elencate, fa uso del pattern MVP\@.
 
-Sotto tale ottica la sotto-architettura \underline{server} ricopre il ruolo di model, il clientpresenter costituisce invece il presenter, mentre clientview è la vista definita per questo progetto. Tra le considerazioni più interessanti che hanno portato alla scelta di questo pattern, va messa in evidenza la seguente.
+Sotto tale ottica la sotto-architettura \underline{server} ricopre il ruolo di \inglese{model}, il clientpresenter costituisce invece il \inglese{presenter}, mentre clientview è la vista definita per questo progetto. Tra le considerazioni più interessanti che hanno portato alla scelta di questo pattern, va messa in evidenza la seguente.
 
-Assegnando ad ogni sotto-architettura un ruolo specifico, si garantisce un alto livello di riutilizzo del codice (e.g. clientview comunica con il presenter poiché non conosce la logica di business del sistema).
+Assegnando ad ogni sotto-architettura un ruolo specifico, si garantisce un alto livello di riutilizzo del codice (e.g. clientview comunica con il \inglese{presenter} poiché non conosce la logica di business del sistema).
 
 Quindi in un futuro di potrebbe riprendere la vista oggi definita, e riutilizzarla in un altro progetto, andando solo a ridefinire, se necessario, un presente che riproponga una nuovo adattamento della parte logica.
 
@@ -693,7 +693,7 @@ Tramite questo componente, il sistema potrà quindi effettuare operazione di let
 	\item metodi set per garantire un corretto inserimento dei dati prima di registrare l'istanza nel \underline{database}.
 \end{itemize}
 
-Si informa inoltre che le classi di tale componente dovranno interagire con il \underline{framework} Hibernate, al fine di ottenere lo scopo precisato.
+Si informa inoltre che le classi di tale componente dovranno interagire con il \underline{\inglese{framework}} Hibernate, al fine di ottenere lo scopo precisato.
 
 \item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -864,7 +864,7 @@ La sotto-architettura clientpresenter, nasce con lo scopo di imporre una separaz
 
 Tale considerazione è conforme a l'utilizzo del \underline{design pattern} MVP, già citato nella sezione ``Design pattern'', e alla quale rimandiamo per le specifiche tecniche del medesimo.
 
-La sotto-architettura clientpresenter è per l'appunto la parte ``presenter'' dell'applicativo. I componenti che lo costituiscono devono quindi garantire una logica stabile di comunicazione con il \underline{server}. Essi dovranno anche stabilire le procedure per interrogare il \underline{server} (attraverso il suo façade) al fine di ottenere:
+La sotto-architettura clientpresenter è per l'appunto la parte ``\inglese{presenter}'' dell'applicativo. I componenti che lo costituiscono devono quindi garantire una logica stabile di comunicazione con il \underline{server}. Essi dovranno anche stabilire le procedure per interrogare il \underline{server} (attraverso il suo façade) al fine di ottenere:
 \begin{itemize}
 	\item i vari dati contenuti nel \underline{database};
 	\item le ``informazioni'' necessarie per stabilire una connessione \underline{client}-\underline{client}.
@@ -939,7 +939,7 @@ In pratica nel momento in cui l'utente A desidera stabilire una comunicazione co
 	\item{\scshape\bfseries Descrizione:}\\
 Rappresenta l'interfaccia d'accesso verso la sotto-architettura clientpresenter. Tale componente svincola l'interfaccia grafica dal dover conoscere l'esatta sequenza di chiamata dei metodi per portare a conseguimento una determinata procedura.
 
-I metodi del componente Façade del presenter hanno la cognizione dell'iter di chiamate a metodo per portare a termine correttamente la procedura. Il componente in esame richiede la definizione di un'interfaccia e una sua implementazione standard. Rimandiamo a tali classi per un approfondimento sul comportamento da seguire.
+I metodi del componente Façade del \inglese{presenter} hanno la cognizione dell'iter di chiamate a metodo per portare a termine correttamente la procedura. Il componente in esame richiede la definizione di un'interfaccia e una sua implementazione standard. Rimandiamo a tali classi per un approfondimento sul comportamento da seguire.
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
 \begin{center}
@@ -968,7 +968,7 @@ Come già accennato in precedenza, nella sezione introduttiva all'architettura e
 
 Le motivazioni che hanno portato a separare tale sotto-architettura dalla parte logica sono da ricercare nei vantaggi di riutilizzo del codice e semplificazione della manutenzione:
 \begin{itemize}
- 	\item \textbf{future espansioni}: innanzitutto tale scelta permetterà ai progettisti di sviluppare (in futuro) molteplici tipologie di ``viste'', implementabili liberamente svincolando i programmatori dal conoscere al dettaglio la logica sottostante per la gestione delle comunicazioni. Va comunque ricordato che in tal caso, gli sviluppatori dovranno avere un idea chiara del significato delle varie funzioni del Façade del presenter.
+ 	\item \textbf{future espansioni}: innanzitutto tale scelta permetterà ai progettisti di sviluppare (in futuro) molteplici tipologie di ``viste'', implementabili liberamente svincolando i programmatori dal conoscere al dettaglio la logica sottostante per la gestione delle comunicazioni. Va comunque ricordato che in tal caso, gli sviluppatori dovranno avere un idea chiara del significato delle varie funzioni del Façade del \inglese{presenter}.
  	\item \textbf{semplificare la manutenzione}: cosi come scrivere da zero una nuova vista, anche modificare quelle già presenti risulta essere più facile, per gli stessi motivi descritti al punto precedente.
 \end{itemize}
 
@@ -1003,7 +1003,7 @@ Il contenuto del MainPanel, invece, varia in relazione alla funzionalità scelta
 \subsubsection{Façade della vista}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Il compito di questo componente è rappresentare l'intera sotto-architettura clientview, per come viene vista dalle classi del presenter. In tal modo è possibile rendere indipendenti le classi concrete della sotto-architettura clientview in quanto le dipendenze funzionali provenienti dall'esterno sono accentrate nel Façade.
+Il compito di questo componente è rappresentare l'intera sotto-architettura clientview, per come viene vista dalle classi del \inglese{presenter}. In tal modo è possibile rendere indipendenti le classi concrete della sotto-architettura clientview in quanto le dipendenze funzionali provenienti dall'esterno sono accentrate nel Façade.
 
 In particolare, tramite le operazioni che sono dichiarate nell'interfaccia \texttt{IViewFacade} si rende possibile l'aggiornamento dinamico a tempo di esecuzione della vista e, di conseguenza, di quello che viene visualizzato dall'utente finale del sistema.
 	\item{\scshape\bfseries Diagramma delle classi:}
@@ -1025,7 +1025,7 @@ In particolare, tramite le operazioni che sono dichiarate nell'interfaccia \text
 	\item{\scshape\bfseries Descrizione:}\\
 Questo componente si occupa della gestione dell'interfaccia grafica presentata all'utente finale. Le classi in esso contenute servono pertanto per la rappresentazione delle funzionalità offerte dal sistema all'utente.
 
-Si noti che questo componente demanda tutta la logica al presenter, tramite il Façade del presenter, e quindi è relativo solo ed esclusivamente alla grafica. Inoltre l'interazione con esso è centralizzata all'interno della classe \texttt{gui.GUIHandler}, ciò significa che tutte le altre classi del package \texttt{gui} non interagiscono direttamente con il presenter.
+Si noti che questo componente demanda tutta la logica al \inglese{presenter}, tramite il Façade del \inglese{presenter}, e quindi è relativo solo ed esclusivamente alla grafica. Inoltre l'interazione con esso è centralizzata all'interno della classe \texttt{gui.GUIHandler}, ciò significa che tutte le altre classi del package \texttt{gui} non interagiscono direttamente con il \inglese{presenter}.
 	\item{\scshape\bfseries Diagramma delle classi:}
 	
 \begin{figure}[H]
@@ -1386,7 +1386,7 @@ Implementazione dell'interfaccia \texttt{IClient} che incapsula al suo interno l
 \subsubsection{IPresenterFacade}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Interfaccia che raccoglie la dichiarazione di tutte le operazioni astratte con cui si suppone che la vista realizzi lo scambio di messaggi con il presenter. Tramite queste operazioni deve dunque essere possibile, ad esempio, gestire l'autenticazione di un utente, interrogare la segreteria telefonica, modificare lo stato e le informazioni personali e scaricare la rubrica.
+Interfaccia che raccoglie la dichiarazione di tutte le operazioni astratte con cui si suppone che la vista realizzi lo scambio di messaggi con il \inglese{presenter}. Tramite queste operazioni deve dunque essere possibile, ad esempio, gestire l'autenticazione di un utente, interrogare la segreteria telefonica, modificare lo stato e le informazioni personali e scaricare la rubrica.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Façade del presenter
@@ -1452,7 +1452,7 @@ Pannello che permette la visualizzazione della rubrica dell'utente connesso al s
 \subsubsection{MainPanel}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Classe padre della gerarchia di oggetti grafici che possono comparire nella sezione principale dell'interfaccia utente. La parte comune a tutte le sottoclassi permette all'utente di impostare il proprio stato e di uscire dall'applicazione. Ogni sua specializzazione si rivolge a \texttt{GUIHandler} per inoltrare i comandi verso il componente Façade del presenter.
+Classe padre della gerarchia di oggetti grafici che possono comparire nella sezione principale dell'interfaccia utente. La parte comune a tutte le sottoclassi permette all'utente di impostare il proprio stato e di uscire dall'applicazione. Ogni sua specializzazione si rivolge a \texttt{GUIHandler} per inoltrare i comandi verso il componente Façade del \inglese{presenter}.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] Gestione GUI
