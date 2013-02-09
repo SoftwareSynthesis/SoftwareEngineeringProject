@@ -4,7 +4,7 @@
 % Nome
 \newcommand{\docName}{Specifica tecnica}
 % Nome file
-\newcommand{\docFileName}{specifica\_tecnica.1.0.pdf}
+\newcommand{\docFileName}{specifica\_tecnica.2.0.pdf}
 % Versione
 \newcommand{\docVers}{2.0}
 % Data creazione
@@ -78,9 +78,9 @@ Versione & Descrizione intervento & Membro & Ruolo & Data\\
 0.13 & Inserimento diagrammi delle classi nel capitolo 6, 7, 8, 9&Marco Schivo & Progettista & 2013-01-28\\
 0.12 & Inserimento diagrammi relativi ai design pattern evidenziati&Marco Schivo & Progettista & 2013-01-28\\
 0.11 & Inizio stesura capitolo relativo alla descrizione delle classi&Diego Beraldin & Progettista & 2013-01-27\\
-0.10 & Stesura della sezione relativa all'architettura mytalk.clientview stilando i componenti evidenziati&Elena Zecchinato & Progettista & 2013-01-27\\
-0.9 & Stesura della sezione relativa all'architettura mytalk.clientpresenter stilando i componenti evidenziati&Marco Schivo & Progettista & 2013-01-27\\
-0.8 & Stesura della sezione relativa all'architettura mytalk.server stilando i componenti evidenziati&Marco Schivo & Progettista & 2013-01-26\\
+0.10 & Stesura della sezione relativa all'architettura \texttt{mytalk.clientview} stilando i componenti evidenziati&Elena Zecchinato & Progettista & 2013-01-27\\
+0.9 & Stesura della sezione relativa all'architettura \texttt{mytalk.clientpresenter} stilando i componenti evidenziati&Marco Schivo & Progettista & 2013-01-27\\
+0.8 & Stesura della sezione relativa all'architettura \texttt{mytalk.server} stilando i componenti evidenziati&Marco Schivo & Progettista & 2013-01-26\\
 0.7 & Stesura della sezione relativa alla progettazione logica &Diego Beraldin  & Progettista & 2013-01-26\\
 0.6 & Completata la sezione relativa alla progettazione concettuale &Elena Zecchinato & Progettista & 2013-01-25\\
 0.5 & Inizio stesura della sezione relativa alla progettazione concettuale con classi evidenziate in fase di progettazione &Elena Zecchinato& Progettista & 2013-01-24\\
@@ -162,11 +162,11 @@ L'utilizzo del linguaggio \underline{Java} è richiesto dal proponente esclusiva
 \end{itemize}
 
 \subsection{Hibernate}
-Hibernate è un \inglese{framework} Java utilizzato per facilitare l'utilizzo di un \underline{database} da parte del server realizzando la mappatura fra oggetti intesi in senso OOP ed ennuple del modello relazionale (Object-Relational Mapping).
+Hibernate è un \inglese{framework} Java utilizzato per facilitare l'utilizzo di un \underline{database} da parte del server realizzando la mappatura fra oggetti intesi in senso OOP ed ennuple del modello relazionale (\inglese{object-relational mapping}).
 
 \subsubsection*{Vantaggi}
 \begin{itemize}
-\item[-] Hibernate permette di utilizzare le tabelle di un database relazionale come se fossero degli oggetti mappando il \underline{database} su di opportune classi strutturate ad-hoc svincolando la gestione della persistenza dei dati dalla logica di business;
+\item[-] Hibernate permette di utilizzare le tabelle di un database relazionale come se fossero degli oggetti mappando il database su di opportune classi strutturate ad-hoc svincolando la gestione della persistenza dei dati dalla logica di business;
 \item[-] con questo \inglese{framework} Java riesce a lavorare su un database rendendo trasparenti al programmatore le vere e proprie \inglese{query} e mostrando esclusivamente classi e metodi;
 \item[-] essendo rilasciato sotto licenza LGPL può essere utilizzato senza restrizioni (\inglese{copyleft}) e vincoli di licenza delle opere derivate. 
 \end{itemize}
@@ -176,7 +176,7 @@ Hibernate è un \inglese{framework} Java utilizzato per facilitare l'utilizzo di
 In questa sezione discuteremo i \inglese{design pattern} utilizzati nella progettazione dei componenti architetturali. Ogni \inglese{pattern} sarà proposto con la seguente forma:
 \begin{itemize}
 	\item \textbf{Scopo}: verrà proposto lo scopo generico del pattern, al fine di evidenziare subito la sua utilità.
-	\item \textbf{Diagramma esemplificativo}: si riporterà lo schema UML, rappresentante un implementazione generica del \underline{design pattern} in esame.
+	\item \textbf{Diagramma esemplificativo}: si riporterà lo schema UML, rappresentante un implementazione generica del \inglese{design pattern} in esame.
 	\item \textbf{Vantaggi derivanti}: si darà un elenco dei vantaggi apportati dall'utilizzo del \inglese{pattern}, in particolare sotto il profilo della manutenzione e del riuso del codice.
 	\item \textbf{Componenti che lo implementano}: infine verranno elencati i componenti dell'architettura di sistema, che implementano il \inglese{pattern} descritto.
 \end{itemize}
@@ -206,13 +206,13 @@ Lo svantaggio principale che comporta l'uso di Composite è la mancanza di limit
 \subsection{Data Access Object (DAO)}
 
 \subsubsection{Scopo}
-Il \inglese{pattern} DAO ha lo scopo di disaccoppiare la logica di \inglese{business} dalla logica di accesso ai dati. Questo si ottiene spostando la logica di accesso ai dati dai componenti di business ad una classe DAO rendendo i componenti che implementano la logica di \inglese{business} indipendenti dalla natura del dispositivo di persistenza. Questo approccio garantisce che un eventuale cambiamento del dispositivo di persistenza non comporti modifiche sui componenti di business.
+Il \inglese{pattern} DAO ha lo scopo di disaccoppiare la logica di \inglese{business} dalla logica di accesso ai dati. Questo si ottiene spostando la logica di accesso ai dati dai componenti di business ad una classe DAO rendendo i componenti che implementano la logica di \inglese{business} indipendenti dalla natura del dispositivo di persistenza. Questo approccio garantisce che un eventuale cambiamento del dispositivo di persistenza non comporti modifiche sui componenti di \inglese{business}.
 
 \subsubsection{Diagramma esemplificativo}
 \begin{figure}[H]
 \centering
 \includegraphics[width=.8\textwidth]{dao}
-\caption{Diagramma ad alto livello del pattern Data Access Object}\label{fig:dao}
+\caption{Diagramma ad alto livello del \inglese{pattern} Data Access Object}\label{fig:dao}
 \end{figure}
 
 \subsubsection{Componenti che lo implementano}
@@ -232,17 +232,17 @@ Fornire un'interfaccia unificata per un insieme di interfacce o classi presenti 
 \begin{figure}[H]
 \centering
 \includegraphics[width=.8\textwidth]{facade}
-\caption{Diagramma ad alto livello del pattern Façade}\label{fig:façade}
+\caption{Diagramma ad alto livello del \inglese{pattern} Façade}\label{fig:façade}
 \end{figure}
 
 \subsubsection{Componenti che lo implementano}
 \begin{description}
   \item{\scshape\bfseries Façade del server}\\
-L'uso di Façade permette di esporre verso i client una sorta di interfaccia semplificata nascondendo i componenti della sotto-architettura server, fornendo un punto di accesso centralizzato e riducendo il numero di dipendenze funzionali fra le classi del server e i componenti appartenenti a sotto-architetture esterne.
+L'uso di Façade permette di esporre verso i client una sorta di interfaccia semplificata nascondendo i componenti della sotto-architettura \texttt{server}, fornendo un punto di accesso centralizzato e riducendo il numero di dipendenze funzionali fra le classi del server e i componenti appartenenti a sotto-architetture esterne.
   \item{\scshape\bfseries Façade del presenter}\\
-Tramite questo \inglese{design pattern} si introduce un livello di astrazione fra le sotto-architetture clientpresenter e clientview, che risultano dunque indipendenti.
+Tramite questo \inglese{design pattern} si introduce un livello di astrazione fra le sotto-architetture \texttt{clientpresenter} e \texttt{clientview}, che risultano dunque indipendenti.
   \item{\scshape\bfseries Façade della vista}\\
-Data la forte bidirezionalità delle interazioni fra componenti delle sotto-architettura clientpresenter e clientview, è stata introdotta una sorta di facciata anche alla vista in modo da facilitare il tracciamento delle dipendenze fra i componenti del \inglese{presenter} e quelli della \inglese{view}.
+Data la forte bidirezionalità delle interazioni fra componenti appartenenti alle sotto-architetture \texttt{clientpresenter} e \texttt{clientview}, è stata introdotta una sorta di facciata anche alla vista in modo da facilitare il tracciamento delle dipendenze fra i componenti del \inglese{presenter} e quelli della \inglese{view}.
 \end{description}
 
 \subsection{Factory Method}
@@ -254,7 +254,7 @@ Definisce un'interfaccia per la creazione di un oggetto, lasciando alle sottocla
 \begin{figure}[H]
 \centering
 \includegraphics[width=.8\textwidth]{factory_method}
-\caption{Diagramma ad alto livello del pattern Factory Method}\label{fig:factory_method}
+\caption{Diagramma ad alto livello del \inglese{pattern} Factory Method}\label{fig:factory_method}
 \end{figure}
 
 \subsubsection{Componenti che lo implementano}
@@ -269,7 +269,7 @@ Gli oggetti che rappresentano connessioni, sottotipi di \texttt{server.connectio
 Ciò garantisce maggiore flessibilità in quanto permette in futuro di gestire più categorie di \inglese{handler} che restituiscono diversi tipi connessione.
 \end{description}
 
-\subsection{Model-View-Presenter}
+\subsection{Model-View-Presenter}\label{sec:MVP}
 
 \subsubsection{Scopo}
 Il pattern architetturale \inglese{Model-View-Presenter} similmente a quanto accade per \inglese{Model-View-Controller} (MVC), ha lo scopo di mantenere separata la \inglese{business logic}, cioè la gestione dei dati secondo le regole di un determinato dominio e la loro memorizzazione in forma persistente, dalla presentazione e manipolazione mediante interfaccia utente.
@@ -278,7 +278,7 @@ Il pattern architetturale \inglese{Model-View-Presenter} similmente a quanto acc
 \begin{figure}[H]
 \centering
 \includegraphics[width=.8\textwidth]{mvpHLdiagram}
-\caption{Diagramma ad alto livello del pattern MVP}\label{fig:mvpHL}
+\caption{Diagramma ad alto livello del \inglese{pattern} MVP}\label{fig:mvpHL}
 \end{figure}
 
 \begin{figure}[H]
@@ -289,26 +289,24 @@ Il pattern architetturale \inglese{Model-View-Presenter} similmente a quanto acc
 
 Come si evince dal diagramma riportato in figura \ref{fig:mvpSD} le interazioni avvengono solo tra \inglese{view} e \inglese{presenter} oppure tra \inglese{presenter} e \inglese{model}, senza che avvenga mai uno scambio di dati diretto fra \inglese{model} e \inglese{view}.
 
-% SONO ARRIVATO QUA
+Ciò si deve al fatto che la \inglese{business logic} e il modello dei dati risiedono nel server mentre il \inglese{presenter} e la \inglese{view} sono situati nel client. Quando un utente richiede un servizio tramite l'interfaccia grafica, la richiesta viene inoltrata dalla \inglese{view} al \inglese{presenter}.
 
-Ciò si deve al fatto che la business logic e il modello dei dati risiedono nel \underline{server} mentre il \inglese{presenter} e la \inglese{view} sono situati nel \underline{client}. Quando un utente richiede un servizio tramite l'interfaccia grafica, la richiesta viene inoltrata dalla \inglese{view} al \inglese{presenter}.
-
-Qualora quest'ultimo fosse in grado di soddisfare tale richiesta con le risorse di cui dispone, i dati sono restituiti immediatamente alla \inglese{view} senza alcun bisogno di richiedere l'intervento del \underline{server}. Nel caso, invece, in cui il \inglese{presenter} non fosse in grado di servire autonomamente la \inglese{view}, interrogherebbe il \underline{server} al fine di ottenere i dati da restituire alla componente grafica.
+Qualora quest'ultimo fosse in grado di soddisfare tale richiesta con le risorse di cui dispone, i dati sono restituiti immediatamente alla \inglese{view} senza alcun bisogno di richiedere l'intervento del server. Nel caso, invece, in cui il \inglese{presenter} non fosse in grado di servire autonomamente la \inglese{view}, interrogherebbe il server al fine di ottenere i dati da restituire alla componente grafica.
 
 Il vantaggio di un simile schema di interazione consiste nella riduzione del traffico di rete e nel conseguente incremento delle prestazioni in termini di velocità e, di conseguenza, dell'esperienza utente in generale.
 
 \subsubsection{Componenti che lo implementano}
-MVP viene utilizzato come il pattern più ad alto livello del nostro sistema. La distinzione fra \inglese{model}, \inglese{presenter} e \inglese{view} è infatti rispecchiata dalla suddivisione del sistema nelle tre sotto-architetture server, clientpresenter e clientview.
+MVP viene utilizzato come il pattern più ad alto livello del nostro sistema. La distinzione fra \inglese{model}, \inglese{presenter} e \inglese{view} è infatti rispecchiata dalla suddivisione del sistema nelle tre sotto-architetture \texttt{server}, \texttt{clientpresenter} e \texttt{clientview}.
 
 In generale, l'utilizzo di MVP riduce l'accoppiamento tra le sotto-architetture minimizzando le modifiche richieste a ognuno di essi come conseguenza di cambiamenti all'interno degli altri.
 
-Inoltre, i componenti di questa sotto-architettura non sono vincolati a utilizzare la rete per accedere alle informazioni che sono memorizzate sul \underline{server} quando queste sono già disponibili (e possono essere elaborate) sul \underline{client}, migliorando quindi l'esperienza utente.
+Inoltre, i componenti di questa sotto-architettura non sono vincolati a utilizzare la rete per accedere alle informazioni che sono memorizzate sul server quando queste sono già disponibili (e possono essere elaborate) sul client, migliorando quindi l'esperienza utente.
 
 In particolare, le parti del sistema che usano questo pattern corrispondono alle sotto-architetture:
 \begin{itemize}[noitemsep,nolistsep]
-  \item server
-  \item clientpresenter
-  \item clientview
+  \item[-] \texttt{server}
+  \item[-] \texttt{clientpresenter}
+  \item[-] \texttt{clientview}
 \end{itemize}
 
 \subsection{Observer}
@@ -320,7 +318,7 @@ Definire una dipendenza uno a molti fra oggetti, in modo tale che se un oggetto 
 \begin{figure}[H]
 \centering
 \includegraphics[width=.7\textwidth]{observer}
-\caption{Diagramma ad alto livello del pattern Observer}\label{fig:observer}
+\caption{Diagramma ad alto livello del \inglese{pattern} Observer}\label{fig:observer}
 \end{figure}
 
 \subsubsection{Componenti che lo implementano}
@@ -328,53 +326,53 @@ Definire una dipendenza uno a molti fra oggetti, in modo tale che se un oggetto 
   \item{\scshape\bfseries Gestione stato}\\
 Il pattern Observer è utile in quanto permette agli utenti di osservare lo stato degli altri, ricevendo in modo automatico e trasparente una notifica nel caso in cui uno di questi ultimi subisse variazioni, essendo ogni utente sia osservato che osservatore.
 
-Al momento della connessione, infatti, ogni utente si registra come osservatore sui suoi contatti che sono online e, al contempo, li aggiunge tra i propri osservatori. In tal modo gli utenti notificano in broadcast le loro variazioni di stato e sono sempre aggiornati sullo stato dei contatti della loro rubrica.
+Al momento della connessione, infatti, ogni utente si registra come osservatore sui suoi contatti che sono online e, al contempo, li aggiunge tra i propri osservatori. In tal modo gli utenti notificano in \inglese{broadcast} le loro variazioni di stato e sono sempre aggiornati sullo stato dei contatti della loro rubrica.
 \end{description}
 
 \subsection{Proxy}
 
 \subsubsection{Scopo}
-Fornisce un placeholder per un altro oggetto in modo da controllarne l'accesso e consentire un uso ottimizzato della memoria.
+Fornisce un \inglese{placeholder} per un altro oggetto in modo da controllarne l'accesso e consentire un uso ottimizzato della memoria.
 
 \subsubsection{Diagramma esemplificativo}
 \begin{figure}[H]
 \centering
 \includegraphics[width=.8\textwidth]{proxy}
-\caption{Diagramma ad alto livello del pattern Proxy}\label{fig:proxy}
+\caption{Diagramma ad alto livello del \inglese{pattern} Proxy}\label{fig:proxy}
 \end{figure}
 
 \subsubsection{Componenti che lo implementano}
 \begin{description}
   \item{\bfseries\scshape Gestione rubrica}\\
-L'utilizzo di un proxy al posto di un utente permette di raggiungere una maggiore efficienza limitando l'utilizzo della rete evitando all'utente di percepire una eccessiva lentezza che comprometterebbe la sua esperienza.
+L'utilizzo di un \inglese{proxy} al posto di un utente permette di raggiungere una maggiore efficienza limitando l'utilizzo della rete evitando all'utente di percepire una eccessiva lentezza che comprometterebbe la sua esperienza.
 
 Inoltre, tramite un proxy è possibile controllare l'accesso ai dati (che risiedono nel server) garantendo dunque un migliore livello di protezione.
   \item{\bfseries\scshape Gestione segreteria}\\
-Poiché i messaggi audio e, soprattutto, i messaggi audio/video possono essere di grandi dimensioni, i proxy permettono di ottimizzare il consumo della memoria e di evitare l'attesa da parte dell'utente se non strettamente necessario.
+Poiché i messaggi audio e, soprattutto, i messaggi audio/video possono essere di grandi dimensioni, i \textit{proxy} permettono di ottimizzare il consumo della memoria e di evitare l'attesa da parte dell'utente se non strettamente necessario.
 \end{description}
 
 \subsection{Singleton}
 
 \subsubsection{Scopo}
-Il pattern creazionale Singleton, garantisce che una determinata classe possa essere istanziata una sola volta, e di fornirne un punto di accesso globale. Questo pattern va utilizzato negli ambiti in cui si ha la necessità che l'accesso ad una determinata entità sia unico, in modo da permettere la gestione ottimale della risorsa stessa.
+Il pattern creazionale Singleton, garantisce che una determinata classe possa essere istanziata una sola volta, e di fornirne un punto di accesso globale. Questo \inglese{pattern} va utilizzato negli ambiti in cui si ha la necessità che l'accesso ad una determinata entità sia unico, in modo da permettere la gestione ottimale della risorsa stessa.
 
 \subsubsection{Diagramma esemplificativo}
 \begin{figure}[H]
 \centering
 \includegraphics[width=.5\textwidth]{singleton}
-\caption{Diagramma ad alto livello del pattern Singleton}\label{fig:singleton}
+\caption{Diagramma ad alto livello del \inglese{pattern} Singleton}\label{fig:singleton}
 \end{figure}
 
 \subsubsection{Componenti che lo implementano}
 \begin{description}
   \item{\scshape\bfseries Façade del server}\\
-Il pattern Singleton pone un limite superiore stretto al numero di istanze che possono esistere di una determinata classe e perciò è utile utilizzarlo per poter controllare il numero di oggetti \texttt{server.StandardServerFacade} che in questo caso è pari a uno. L'unicità dell'oggetto façade garantisce la presenza di un solo punto di accesso alle funzionalità dell sotto-architettura server.
+Il \inglese{pattern} Singleton pone un limite superiore stretto al numero di istanze che possono esistere di una determinata classe e perciò è utile utilizzarlo per poter controllare il numero di oggetti \texttt{server.StandardServerFacade} che in questo caso è pari a uno. L'unicità del Façade garantisce la presenza di un solo punto di accesso alle funzionalità della sotto-architettura \texttt{server}.
   \item{\scshape\bfseries Façade del presenter}\\
-Il pattern Singleton è altresì utile per controllare il numero di istanze attive della classe \texttt{clientpresenter.StandardPresenterFacade} per gli stessi motivi evidenziati in precedenza, ossia l'unicità del punto di accesso alle funzionalità della sotto-architettura clientpresenter.
+Il \inglese{pattern} Singleton è altresì utile per controllare il numero di istanze attive della classe \texttt{clientpresenter.StandardPresenterFacade} per gli stessi motivi evidenziati in precedenza, ossia l'unicità del punto di accesso alle funzionalità della sotto-architettura \texttt{clientpresenter}.
   \item{\scshape\bfseries Gestione connessione}\\
-La classe \texttt{server.connection.StandardConnectionHandler} è implementata come Singleton in modo da centralizzare la responsabilità di creare nuove connessioni in risposta alle esigenze dei \underline{client}.
+La classe \texttt{server.connection.StandardConnectionHandler} è implementata come Singleton in modo da centralizzare la responsabilità di creare nuove connessioni in risposta alle esigenze dei client.
   \item{\scshape\bfseries Façade della vista}\\
-La classe \texttt{clientview.StandardViewFacade} è progettata in accordo con il \underline{design pattern} Singleton in modo da assicurare che in ogni momento ve ne sia una sola istanza attiva, responsabile di ricevere le richieste che giungono dal \inglese{presenter}.
+La classe \texttt{clientview.StandardViewFacade} è progettata in accordo con il \inglese{design pattern} Singleton in modo da assicurare che in ogni momento ve ne sia una sola istanza attiva, responsabile di ricevere le richieste che giungono dal \inglese{presenter}.
   \item{\scshape\bfseries Gestione GUI}\\
 Anche la classe \texttt{clientview.gui.GUIHandler} è implementata come Singleton in quanto permette di centralizzare la gestione delle collaborazioni fra le varie istanze attive delle classi grafiche.
 \end{description}
@@ -382,48 +380,48 @@ Anche la classe \texttt{clientview.gui.GUIHandler} è implementata come Singleto
 \subsection{State}
 
 \subsubsection{Scopo}
-Permette ad un oggetto di cambiare il suo comportamento al variare del suo stato interno, quindi a run-time. L'oggetto si comporterà come se avesse cambiato la sua classe.
+Permette ad un oggetto di cambiare il suo comportamento al variare del suo stato interno, quindi a \inglese{runtime}. L'oggetto si comporterà come se avesse cambiato la sua classe.
 
 \subsubsection{Diagramma esemplificativo}
 \begin{figure}[H]
 \centering
 \includegraphics[width=.7\textwidth]{state}
-\caption{Diagramma ad alto livello del pattern State}\label{fig:state}
+\caption{Diagramma ad alto livello del \inglese{pattern} State}\label{fig:state}
 \end{figure}
 
 \subsubsection{Componenti che lo implementano}
 \begin{description}
 \item{\scshape\bfseries Gestione dello Stato}\\
-Il pattern State permette di gestire gli utenti del sistema determinando un comportamento diverso per questi ultimi a seconda del loro stato.
+Il \inglese{pattern} State permette di gestire gli utenti del sistema determinando un comportamento diverso per questi ultimi a seconda del loro stato.
 
 È stata definita un'apposita gerarchia di stati che permette quindi di specializzare nella maniera più adatta alle necessità del sistema le operazioni sugli utenti senza bisogno di condizionali annidati.
 \end{description}
 \clearpage
 
-\section{Introduzione all'architettura di sistema}
+\section{Introduzione all'architettura di sistema}\label{sec:introdesign}
 Per introdurre l'architettura proposta è essenziale mettere in evidenza le seguenti considerazioni:
 \begin{itemize}
-	\item il sistema poggia su un \underline{database} nel quale sono contenuti i dati d'interesse per gli utenti (dati anagrafici, lista dei messaggi audio, lista dei messaggi audio e video, e la rubrica dei contatti);
-	\item il sistema proposto dal team è dotato di una parte \underline{server} ed una parte \underline{client};
-	\item dopo un'analisi preliminare il team ha stabilito che la progettazione del \underline{server} non deve essere vincolata da quella del \underline{client} in modo tale da evitare che il progetto dell'applicativo lato \underline{server} abbia la cognizione di come funziona il \underline{client}. Ciò permetterà un futuro riutilizzo del codice (e.g. se si desiderasse creare un nuovo applicativo di tipo \underline{VoIP} si potrà riutilizzare il \underline{server} già creato);
-	\item per quanto riguarda il lato \underline{client}, al fine di garantire un alto livello di riutilizzo del codice e la possibilità di eseguire manutenzioni nel minor tempo possibile, si vuole che la logica d'implementazione del \underline{client} sia svincolata dalla rappresentazione grafica del medesimo.
+	\item il sistema poggia su un database nel quale sono contenuti i dati d'interesse per gli utenti (dati anagrafici, lista dei messaggi audio, lista dei messaggi audio e video, e la rubrica dei contatti);
+	\item il sistema proposto dal team è dotato di una parte server e una parte client;
+	\item dopo un'analisi preliminare il team ha stabilito che la progettazione del server non deve essere vincolata da quella del client in modo tale da evitare che il progetto dell'applicativo lato server abbia la cognizione di come funziona il client. Ciò permetterà un futuro riutilizzo del codice (e.g. se si desiderasse creare un nuovo applicativo di tipo \underline{VoIP} si potrà riutilizzare il server già creato);
+	\item per quanto riguarda il lato client, al fine di garantire un alto livello di riutilizzo del codice e la possibilità di eseguire manutenzioni nel minor tempo possibile, si vuole che la logica d'implementazione del client sia svincolata dalla rappresentazione grafica del medesimo.
 \end{itemize}
 
-Tali considerazioni di base, hanno portato il team a suddividere l'architettura in tre sotto-architetture, intese anche come package, più una quarta architettura inerente la struttura del \underline{database}:
+Tali considerazioni di base, hanno portato il team a suddividere l'architettura in tre sotto-architetture, intese anche come package, più una quarta architettura inerente la struttura del database:
 \begin{itemize}
-	\item il \underline{database};
-	\item il \underline{server} (org.softwaresynthesis.mytalk.server);
-	\item il clientpresenter (org.softwaresynthesis.mytalk.clientpresenter);
-	\item il clientview (org.softwaresynthesis.mytalk.clientview).
+	\item il database;
+	\item il server (\texttt{org.softwaresynthesis.mytalk.server});
+	\item il presenter del client (\texttt{org.softwaresynthesis.mytalk.clientpresenter});
+	\item la vista del client (\texttt{org.softwaresynthesis.mytalk.clientview}
 \end{itemize}
 
 Le specifiche di ogni sotto-architettura saranno definite in seguito, nelle relative sezioni.
 
 Inoltre si fa presente che l'architettura generale, intesa come agglomerato delle tre sotto-architetture precedentemente elencate, fa uso del pattern MVP\@.
 
-Sotto tale ottica la sotto-architettura \underline{server} ricopre il ruolo di \inglese{model}, il clientpresenter costituisce invece il \inglese{presenter}, mentre clientview è la vista definita per questo progetto. Tra le considerazioni più interessanti che hanno portato alla scelta di questo pattern, va messa in evidenza la seguente.
+Sotto tale ottica la sotto-architettura \texttt{server} ricopre il ruolo di \inglese{model}, \texttt{clientpresenter} costituisce invece il \inglese{presenter}, mentre \texttt{clientview} è la vista definita per questo progetto. Tra le considerazioni più interessanti che hanno portato alla scelta di questo \inglese{pattern}, va messa in evidenza la seguente.
 
-Assegnando ad ogni sotto-architettura un ruolo specifico, si garantisce un alto livello di riutilizzo del codice (e.g. clientview comunica con il \inglese{presenter} poiché non conosce la logica di business del sistema).
+Assegnando ad ogni sotto-architettura un ruolo specifico, si garantisce un alto livello di riutilizzo del codice (e.g. la vista comunica con il \inglese{presenter} poiché non conosce la logica di \inglese{business} del sistema).
 
 Quindi in un futuro di potrebbe riprendere la vista oggi definita, e riutilizzarla in un altro progetto, andando solo a ridefinire, se necessario, un presente che riproponga una nuovo adattamento della parte logica.
 
@@ -431,16 +429,16 @@ Di seguito verranno proposte le sotto-architetture evidenziate. Di ogni una sar�
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=.8\textwidth]{DiagrammaPackage}
-\caption{Diagramma dei Package - Generale}\label{fig:package_generale}
+\caption{Diagramma dei package generale}\label{fig:packagegenerale}
 \end{center}
 \end{figure}
 
 
 \clearpage
 
-\section{Architettura del database}
+\section{Architettura del database}\label{sec:database}
 
-Come già citato nella parte introduttiva all'architettura, il \underline{server} si appoggia ad un \underline{database} dove sono registrati i dati del sistema. La progettazione di tale \underline{database} passa per due fasi (come appreso dal manuale ``Sistemi di basi di dati''): la progettazione concettuale e la progettazione logica.
+Come già citato nella parte introduttiva all'architettura, il server si appoggia ad un database dove sono registrati i dati del sistema. La progettazione di tale database passa per due fasi (come appreso dal manuale ``Sistemi di basi di dati''): la progettazione concettuale e la progettazione logica.
 
 \subsection{Progettazione concettuale}
 Con la progettazione concettuale definiremo una struttura ``concettuale'' della base di dati. Tale struttura non rappresenta quella finale pronta per la creazione su DBMS, ma bensì un modello in grado di rappresentare il problema, svincolato da come esso debba essere logicamente rappresentato.
@@ -535,7 +533,7 @@ New & Boolean & NO & \\
 \end{description}
 
 \subsection{Progettazione logica}
-Con la progettazione logica intendiamo costruire la struttura definitiva del \underline{database} sulla base della progettazione concettuale. Quindi si deciderà come trasformare le gerarchie e in seguito le associazioni, al fine di restituire una struttura chiara e pronta per la creazione sul DBMS\@. La lista delle classi proposta, e lo schema associato, rappresentano tale struttura.
+Con la progettazione logica intendiamo costruire la struttura definitiva del database sulla base della progettazione concettuale. Quindi si deciderà come trasformare le gerarchie e in seguito le associazioni, al fine di restituire una struttura chiara e pronta per la creazione sul DBMS\@. La lista delle classi proposta, e lo schema associato, rappresentano tale struttura.
 
 \subsubsection{Rappresentazione delle gerarchie}
 
@@ -658,14 +656,14 @@ Audio & Boolean & NO & \\
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=.9\textwidth]{Database_logico}
-\caption{Diagramma delle classi - Schema logico Database}\label{fig:database_logico}
+\caption{Diagramma delle classi - Schema logico database}\label{fig:database_logico}
 \end{center}
 \end{figure}
 
 \clearpage
 
-\section{Architettura mytalk.server}
-Tale sotto-architettura definisce le specifiche e le funzionalità dell'applicativo lato \underline{server}. In esso saranno definiti i seguenti componenti:
+\section{Architettura mytalk.server}\label{sec:server}
+Tale sotto-architettura definisce le specifiche e le funzionalità dell'applicativo lato server. In esso saranno definiti i seguenti componenti:
 \begin{itemize}[noitemsep,nolistsep]
 	\item[-] Gestione database.
 	\item[-] Gestione connessione.
@@ -675,7 +673,7 @@ Tale sotto-architettura definisce le specifiche e le funzionalità dell'applicat
 	\item[-] Façade del server.
 \end{itemize}
 
-I componenti sopracitati verranno definiti di seguito. Si sottolinea sin da ora che il \underline{server} è l'unico in grado di comunicare con il \underline{database} su cui regge l'applicativo.
+I componenti sopracitati verranno definiti di seguito. Si sottolinea sin da ora che il server è l'unico in grado di comunicare con il database su cui regge l'applicativo.
 
 Infine, si fa notare che i nomi di tutte le classi riportate nella sezione sono implicitamente parte del package \texttt{org.softwaresynthesis.mytalk.server} pertanto tale prefisso sarà omesso nella loro denominazione.
 
@@ -684,16 +682,16 @@ Infine, si fa notare che i nomi di tutte le classi riportate nella sezione sono 
 \subsubsection{Gestione database}
 \begin{description}
 \item{\scshape\bfseries Descrizione:}\\
-Gestione database è il componente che si occupa di rappresentare la struttura del \underline{database} relazionale su cui poggia l'applicativo. Le singole classi in esso definite rappresentano quindi le tabelle del \underline{database}. In termini tecnici le classi interne al componente Gestione database implementa il \underline{design pattern} DAO\@.
+Gestione database è il componente che si occupa di rappresentare la struttura del database relazionale su cui poggia l'applicativo. Le singole classi in esso definite rappresentano quindi le tabelle del database. In termini tecnici le classi interne al componente Gestione database implementa il \inglese{design pattern} DAO\@.
 
-Tramite questo componente, il sistema potrà quindi effettuare operazione di lettura e scrittura di entità all'interno del \underline{database}. Le classi che costituiscono il componente dovranno quindi essere dotate di:
+Tramite questo componente, il sistema potrà quindi effettuare operazione di lettura e scrittura di entità all'interno del database. Le classi che costituiscono il componente dovranno quindi essere dotate di:
 
 \begin{itemize}
 	\item metodi get per restituire i singoli attributi dell'istanza;
-	\item metodi set per garantire un corretto inserimento dei dati prima di registrare l'istanza nel \underline{database}.
+	\item metodi set per garantire un corretto inserimento dei dati prima di registrare l'istanza nel database.
 \end{itemize}
 
-Si informa inoltre che le classi di tale componente dovranno interagire con il \underline{\inglese{framework}} Hibernate, al fine di ottenere lo scopo precisato.
+Si informa inoltre che le classi di tale componente dovranno interagire con il \inglese{framework} Hibernate, al fine di ottenere lo scopo precisato.
 
 \item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -742,15 +740,15 @@ Le specifiche di tali oggetti sono descritte dall'interfaccia \texttt{connection
 \subsubsection{Gestione rubrica}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-La rubrica è organizzata in gruppi e sono previste due categorie di default: la \textit{blacklist} e la \textit{whitelist}.
+La rubrica è organizzata in gruppi e sono previste due categorie di default: la \inglese{blacklist} e la \inglese{whitelist}.
 
-L'utente può aggiungere ulteriori gruppi in base alle sue esigenze ma esclusivamente all'interno della \textit{whitelist}. Per trattare in maniera omogenea i gruppi di contatti e i singoli contatti si è utilizzato il \underline{design pattern} Composite.
+L'utente può aggiungere ulteriori gruppi in base alle sue esigenze ma esclusivamente all'interno della \inglese{whitelist}. Per trattare in maniera omogenea i gruppi di contatti e i singoli contatti si è utilizzato il \inglese{design pattern} Composite.
 
 In particolare, \texttt{abook.IContact} rappresenta l'interfaccia principale comune a ogni tipologia di contatto e viene estesa dalle due interfacce \texttt{dao.IUserData} e \texttt{dao.IGroup}.
 
 Il componente comprende anche l'interfaccia \texttt{abook.IAddressBook} e la relativa implementazione \texttt{abook.AddressBook}. Nell'implementazione specificata \texttt{abook.Addressbook} vincola il sistema a garantire che ogni utente abbia i due gruppi di default sopra descritti, come richiesto dai requisiti.
 
-Infine, la classe \texttt{abook.UserDataProxy} viene utilizzata come proxy per lo scambio di dati fra la sotto-architettura \underline{server} e la sotto-architettura clientpresenter.
+Infine, la classe \texttt{abook.UserDataProxy} viene utilizzata come \inglese{proxy} per lo scambio di dati fra la sotto-architettura \texttt{server} e la sotto-architettura \texttt{clientpresenter}.
 	\item{\scshape\bfseries Diagramma delle classi:}
 	\begin{figure}[H]
 \begin{center}
@@ -773,15 +771,15 @@ Infine, la classe \texttt{abook.UserDataProxy} viene utilizzata come proxy per l
 \subsubsection{Gestione stato}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Le classi di tale componente sono utilizzate per gestire lo stato degli utenti, permettendo un comportamento diverso delle istanze di \texttt{dao.StandardUserData} a seconda dello stato in cui si trova l'utente corrispondente. Gli stati possibili sono in prima istanza ``online'' e ``offline'', rappresentati dalle classi \texttt{state.StateOnline} e \texttt{state.StateOffline} rispettivamente.
+Le classi di tale componente sono utilizzate per gestire lo stato degli utenti, permettendo un comportamento diverso delle istanze di \texttt{dao.StandardUserData} a seconda dello stato in cui si trova l'utente corrispondente. Gli stati possibili sono in prima istanza ``\inglese{online}'' e ``\inglese{offline}'', rappresentati dalle classi \texttt{state.StateOnline} e \texttt{state.StateOffline} rispettivamente.
 
 Gli utenti che si trovano nello stato online possono trovarsi in due situazioni: ``occupato'' o ``disponibile'', rappresentati a loro volta dalle classi \texttt{state.StateOccupied} e \texttt{state.StateAvailable}.
 
 Se l'utente è impegnato in una conversazione con uno o più utenti, allora lo stato in cui si trova è ``occupato''. Tuttavia, un utente può anche impostare manualmente il proprio stato ad ``occupato'' anche per segnalare di non essere disponibile a ricevere chiamate in ingresso.
 	
-La chiamata viene inoltre trattata in modo differente a seconda che l'utente si trovi nello stato ``disponibile'' o ``occupato''/``offline'', dal momento che nel primo caso la chiamata va a buon fine mentre nel secondo verrà attivato il meccanismo di segreteria telefonica.
+La chiamata viene inoltre trattata in modo differente a seconda che l'utente si trovi nello stato ``disponibile'' o ``occupato''/``\inglese{offline}'', dal momento che nel primo caso la chiamata va a buon fine mentre nel secondo verrà attivato il meccanismo di segreteria telefonica.
 	
-Inoltre, i cambiamenti di stato vengono notificati a tutti gli utenti presenti in rubrica tali che si trovano nello stato online.
+Inoltre, i cambiamenti di stato vengono notificati a tutti gli utenti presenti in rubrica tali che si trovano nello stato \inglese{online}.
 	\item{\scshape\bfseries Diagramma delle classi:}
 	\begin{figure}[H]
 \begin{center}
@@ -806,9 +804,9 @@ Inoltre, i cambiamenti di stato vengono notificati a tutti gli utenti presenti i
 	\item{\scshape\bfseries Descrizione:}\\
 Il sistema di segreteria telefonica corrisponde all'interfaccia \texttt{message.IMessageBox} e alla relativa implementazione \texttt{message.StandardMessageBox} che permettono un accesso centralizzato all'insieme di messaggi che un determinato utente ha ricevuto.
 
-I messaggi audio e audio/video sul \underline{server} sono rappresentati dalle classi \texttt{dao.IAudioMessage} (implementata da \texttt{dao.AudioMessage}) e \texttt{dao.IAudioVideoMessage} (implementata da \texttt{dao.AudioVideoMessage}) rispettivamente.
+I messaggi audio e audio/video sul server sono rappresentati dalle classi \texttt{dao.IAudioMessage} (implementata da \texttt{dao.AudioMessage}) e \texttt{dao.IAudioVideoMessage} (implementata da \texttt{dao.AudioVideoMessage}) rispettivamente.
 
-L'onere di caricare in memoria e gestire l'interno contenuto del messaggio è posticipato al momento di effettiva necessità mediante l'utilizzo dei \textit{virtual proxy} corrispondenti alle classi \texttt{message.AudioMessageProxy} e \texttt{message.AudioVideoMessageProxy}.
+L'onere di caricare in memoria e gestire l'interno contenuto del messaggio è posticipato al momento di effettiva necessità mediante l'utilizzo dei \inglese{virtual proxy} corrispondenti alle classi \texttt{message.AudioMessageProxy} e \texttt{message.AudioVideoMessageProxy}.
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
 \begin{center}
@@ -831,9 +829,9 @@ L'onere di caricare in memoria e gestire l'interno contenuto del messaggio è po
 \subsubsection{Façade del server}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-L'interfaccia \texttt{IServerFacade} e la relativa implementazione \texttt{StandardServerFacade}, nella quale si è scelto di applicare il \underline{design pattern} Singleton, forniscono una sorta di interfaccia alle funzionalità offerte dalla sotto-architettura \underline{server} ai componenti che risiedono nel \underline{client}.
+L'interfaccia \texttt{IServerFacade} e la relativa implementazione \texttt{StandardServerFacade}, nella quale si è scelto di applicare il \inglese{design pattern} Singleton, forniscono una sorta di interfaccia alle funzionalità offerte dalla sotto-architettura \texttt{server} ai componenti che risiedono nel client.
 
-Le funzionalità esposte consentono di gestire i messaggi presenti in segreteria, le richieste di comunicazione con altri utenti il login/registrazione degli utenti.
+Le funzionalità esposte consentono di gestire i messaggi presenti in segreteria, le richieste di comunicazione con altri utenti, l'autenticazione o  la registrazione degli utenti.
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
 \begin{center}
@@ -854,23 +852,23 @@ Le funzionalità esposte consentono di gestire i messaggi presenti in segreteria
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=1\textwidth]{server_generale}
-\caption{Diagramma delle classi - Architettura mytalk.server}\label{fig:server_generale}
+\caption{Diagramma delle classi - Architettura \texttt{mytalk.server}}\label{fig:server_generale}
 \end{center}
 \end{figure}
 \clearpage
 
-\section{Architettura mytalk.clientpresenter}
-La sotto-architettura clientpresenter, nasce con lo scopo di imporre una separazione tra la logica di gestione di un \underline{client} e l'interfaccia grafica usata da quest'ultimo.
+\section{Architettura mytalk.clientpresenter}\label{sec:clientpresenter}
+La sotto-architettura \texttt{clientpresenter}, nasce con lo scopo di imporre una separazione tra la logica di gestione di un client e l'interfaccia grafica usata da quest'ultimo.
 
-Tale considerazione è conforme a l'utilizzo del \underline{design pattern} MVP, già citato nella sezione ``Design pattern'', e alla quale rimandiamo per le specifiche tecniche del medesimo.
+Tale considerazione è conforme a l'utilizzo del \inglese{design pattern} MVP, già citato nella sezione \ref{sec:MVP}, e alla quale rimandiamo per le specifiche tecniche del medesimo.
 
-La sotto-architettura clientpresenter è per l'appunto la parte ``\inglese{presenter}'' dell'applicativo. I componenti che lo costituiscono devono quindi garantire una logica stabile di comunicazione con il \underline{server}. Essi dovranno anche stabilire le procedure per interrogare il \underline{server} (attraverso il suo façade) al fine di ottenere:
+La sotto-architettura \texttt{clientpresenter} è per l'appunto la parte ``\inglese{presenter}'' dell'applicativo. I componenti che lo costituiscono devono quindi garantire una logica stabile di comunicazione con il server. Essi dovranno anche stabilire le procedure per interrogare il server (attraverso il suo Façade) al fine di ottenere:
 \begin{itemize}
-	\item i vari dati contenuti nel \underline{database};
-	\item le ``informazioni'' necessarie per stabilire una connessione \underline{client}-\underline{client}.
+	\item i vari dati contenuti nel database;
+	\item le ``informazioni'' necessarie per stabilire una connessione client-client.
 \end{itemize}
 
-In sintesi la sotto-architettura clientpresenter dispone dei seguenti componenti:
+In sintesi la sotto-architettura \texttt{clientpresenter} dispone dei seguenti componenti:
 \begin{itemize}[noitemsep,nolistsep]
 	\item[-] Gestione comunicazione;
 	\item[-] Façade del presenter.
@@ -880,18 +878,19 @@ Si rimanda alla sottosezione successiva per maggiori dettagli.
 Si fa notare che i nomi di tutte le classi riportate nella sezione sono implicitamente parte del package \texttt{org.softwaresynthesis.mytalk.clientpresenter} pertanto tale prefisso sarà omesso nella loro denominazione.
 
 \subsection{Logica di rete}
-La rete che viene a crearsi sotto l'architettura di \caName{} è suddivisa in ``comunicazioni'', ovvero gruppi di due o più utenti che comunicano tra di loro. Ogni comunicazione è formata dalle singole ``connessioni'' tra i vari \underline{client}.
+La rete che viene a crearsi sotto l'architettura di \caName{} è suddivisa in ``comunicazioni'', ovvero gruppi di due o più utenti che comunicano tra di loro. Ogni comunicazione è formata dalle singole ``connessioni'' tra i vari client.
 
-Questo capitolo serve a spiegare quale è la logica che governa la rete. Iniziamo definendo i tipi di \underline{client} che la popolano.
+Questo capitolo serve a spiegare quale è la logica che governa la rete. Iniziamo definendo i tipi di client che la popolano.
 \begin{description}
 	\item{\scshape\bfseries Nodo}\\
-	Il Nodo è rappresentato da un semplice \underline{client} che si trova all'interno di una comunicazione e che ha una unica connessione attiva verso un altro \underline{client}.
+	Il Nodo è rappresentato da un semplice client che si trova all'interno di una comunicazione e che ha una unica connessione attiva verso un altro client.
 	\item{\scshape\bfseries Supernodo}\\
-	Il Supernodo è un \underline{client} con funzione di \underline{server}. È usato nelle comunicazioni tra tre o più utenti per smistare le connessioni di tutti facendosi carico del traffico dei \underline{client}.
+	Il Supernodo è un client con funzione di server. È usato nelle comunicazioni tra tre o più utenti per smistare le connessioni di tutti facendosi carico del traffico dei client.
 \end{description}
 
-Vediamo nel dettaglio come avviene una comunicazione. Essa nasce sempre tra due utenti, nel momento in cui uno desidera iniziarla effettua una richiesta verso il \underline{server} che la inoltra al destinatario.
-La comunicazione nasce così come un'unica connessione tra due \underline{client} in modalità \underline{peer-to-peer} dove entrambi gli utenti hanno il ruolo di Nodo. Una comunicazione potrà iniziare solo attraverso tale metodologia, in quanto non vengono aperte comunicazioni iniziali tra più di due utenti.
+Vediamo nel dettaglio come avviene una comunicazione. Essa nasce sempre tra due utenti, nel momento in cui uno desidera iniziarla effettua una richiesta verso il server che la inoltra al destinatario.
+
+La comunicazione nasce così come un'unica connessione tra due client in modalità \underline{\inglese{peer-to-peer}} dove entrambi gli utenti hanno il ruolo di Nodo. Una comunicazione potrà iniziare solo attraverso tale metodologia, in quanto non vengono aperte comunicazioni iniziali tra più di due utenti.
 
 Da questa situazione uno dei due utenti può richiederne l'aggiunta di un ulteriore soggetto. Dopo questa richiesta, il Nodo che la ha eseguita diventa un Supernodo con attive sia la connessione con il vecchio Nodo sia quella con il nuovo Nodo appena aggiunto.
 
@@ -907,7 +906,7 @@ La differenza principale di tale soluzione rispetto a quella adottata è nella g
 
 Questa soluzione avrebbe richiesto un test di qualità della rete per ogni Nodo verso il nuovo possibile Supernodo, operazione di difficile progettazione e con complessità elevata, pari a $\omega(n-1)$ con n Nodi attivi nella comunicazione.
 
-Al fine di garantire sempre la migliore qualità di connessione era stata presa inoltre in considerazione l'idea di controllare periodicamente la qualità del Supernodo e degli altri Nodi in modo da sostituire il Supernodo se necessario. Purtroppo anche questa soluzione richiederebbe dei calcoli di complessità $\omega(n*n-1)$ con n Nodi attivi nella comunicazione.
+Al fine di garantire sempre la migliore qualità di connessione era stata presa inoltre in considerazione l'idea di controllare periodicamente la qualità del Supernodo e degli altri Nodi in modo da sostituire il Supernodo se necessario. Purtroppo anche questa soluzione richiederebbe dei calcoli di complessità $\omega(n*(n-1))$ con n Nodi attivi nella comunicazione.
 
 Con una corretta implementazione questa soluzione avrebbe permesso una migliore qualità del prodotto \caName, il gruppo ha tuttavia optato per la prima implementazione presentata in quanto le risorse disponibili non erano sufficienti per terminare la seconda.
 
@@ -916,10 +915,9 @@ Con una corretta implementazione questa soluzione avrebbe permesso una migliore 
 \subsubsection{Gestione comunicazione}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-È il componente che definisce i \underline{client} con cui sta comunicando o con cui desidera comunicare l'utente. Tale componente è costituito da un'interfaccia \texttt{clientpresenter.IClient} che rappresenta un modello di \underline{client} con cui interagire (possibilità di stabilire una connessione, possibilità di
-estendere una comunicazione e possibilità di verificare se il \underline{client} è Supernodo).
+È il componente che definisce i client con cui sta comunicando o con cui desidera comunicare l'utente. Tale componente è costituito da un'interfaccia \texttt{clientpresenter.IClient} che rappresenta un modello di client con cui interagire (possibilità di stabilire una connessione, possibilità di estendere una comunicazione e possibilità di verificare se il client è Supernodo).
 
-In pratica nel momento in cui l'utente A desidera stabilire una comunicazione con l'utente B, questi si farà restituire dal \underline{server} le informazioni necessarie. Con tali informazioni, quindi, sarà creata un istanza di \texttt{clientpresenter.StandardClient} (implementazione dell'interfaccia \texttt{clientpresenter.IClient}), dalla quale potrà essere abilitata la comunicazione.
+In pratica nel momento in cui l'utente A desidera stabilire una comunicazione con l'utente B, questi si farà restituire dal server le informazioni necessarie. Con tali informazioni, quindi, sarà creata un istanza di \texttt{clientpresenter.StandardClient} (implementazione dell'interfaccia \texttt{clientpresenter.IClient}), dalla quale potrà essere abilitata la comunicazione.
 	\item{\scshape\bfseries Diagramma delle classi:}
 	\begin{figure}[H]
 \begin{center}
@@ -937,7 +935,7 @@ In pratica nel momento in cui l'utente A desidera stabilire una comunicazione co
 \subsubsection{Façade del presenter}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Rappresenta l'interfaccia d'accesso verso la sotto-architettura clientpresenter. Tale componente svincola l'interfaccia grafica dal dover conoscere l'esatta sequenza di chiamata dei metodi per portare a conseguimento una determinata procedura.
+Rappresenta l'interfaccia d'accesso verso la sotto-architettura \texttt{clientpresenter}. Tale componente svincola l'interfaccia grafica dal dover conoscere l'esatta sequenza di chiamata dei metodi per portare a conseguimento una determinata procedura.
 
 I metodi del componente Façade del \inglese{presenter} hanno la cognizione dell'iter di chiamate a metodo per portare a termine correttamente la procedura. Il componente in esame richiede la definizione di un'interfaccia e una sua implementazione standard. Rimandiamo a tali classi per un approfondimento sul comportamento da seguire.
 	\item{\scshape\bfseries Diagramma delle classi:}
@@ -958,25 +956,25 @@ I metodi del componente Façade del \inglese{presenter} hanno la cognizione dell
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=.8\textwidth]{package_presenter}
-\caption{Diagramma delle classi - Architettura mytalk.clientpresenter}\label{fig:package_presenter}
+\caption{Diagramma delle classi - Architettura \texttt{mytalk.clientpresenter}}\label{fig:package_presenter}
 \end{center}
 \end{figure}
 \clearpage
 
-\section{Architettura mytalk.clientview}
-Come già accennato in precedenza, nella sezione introduttiva all'architettura e nella sezione del clientpresenter, clientview ha il compito di definire la logica di visualizzazione dei dati costituendo la GUI del sistema lato \underline{client}.
+\section{Architettura mytalk.clientview}\label{sec:clientview}
+Come già accennato in precedenza, nella sezione \ref{sec:introdesign} e \ref{sec:clientpresenter}, \texttt{clientview} ha il compito di definire la logica di visualizzazione dei dati costituendo la GUI del sistema lato client.
 
 Le motivazioni che hanno portato a separare tale sotto-architettura dalla parte logica sono da ricercare nei vantaggi di riutilizzo del codice e semplificazione della manutenzione:
 \begin{itemize}
- 	\item \textbf{future espansioni}: innanzitutto tale scelta permetterà ai progettisti di sviluppare (in futuro) molteplici tipologie di ``viste'', implementabili liberamente svincolando i programmatori dal conoscere al dettaglio la logica sottostante per la gestione delle comunicazioni. Va comunque ricordato che in tal caso, gli sviluppatori dovranno avere un idea chiara del significato delle varie funzioni del Façade del \inglese{presenter}.
+ 	\item \textbf{future espansioni}: innanzitutto tale scelta permetterà ai progettisti di sviluppare (in futuro) molteplici tipologie di ``viste'', implementabili liberamente svincolando i programmatori dal conoscere al dettaglio la logica sottostante per la gestione delle comunicazioni. Va comunque ricordato che in tal caso, gli sviluppatori dovranno avere un idea chiara del significato delle varie funzioni del Façade del presenter.
  	\item \textbf{semplificare la manutenzione}: cosi come scrivere da zero una nuova vista, anche modificare quelle già presenti risulta essere più facile, per gli stessi motivi descritti al punto precedente.
 \end{itemize}
 
-La sotto-architettura clientview rappresenta quindi una vista di default fornita dal team, con lo scopo di rappresentare in modo chiaro ed organizzato le possibilità di iterazione, da parte dell'utente finale, con l'applicativo \caName{}.
+La sotto-architettura \texttt{clientview} rappresenta quindi una vista di \inglese{default} fornita dal team, con lo scopo di rappresentare in modo chiaro ed organizzato le possibilità di iterazione, da parte dell'utente finale, con l'applicativo \caName.
 
 Nell'utilizzare tale vista l'utente non avrà la percezione di come sia stata progettata l'architettura totale del sistema, svincolandolo cosi dal dover conoscere le procedure necessarie all'esecuzione di una determinata operazione.
 
-Per quanto riguarda la componentistica, la sotto-architettura clientview è dotata di:
+Per quanto riguarda la componentistica, la sotto-architettura \texttt{clientview} è dotata di:
 \begin{itemize}[noitemsep,nolistsep]
 	\item[-] Façade della vista
 	\item[-] Gestione GUI
@@ -984,7 +982,7 @@ Per quanto riguarda la componentistica, la sotto-architettura clientview è dota
 
 Per le specifiche dei componenti sopra citati, si rimanda alla sezione successiva.
 
-Infine si fa notare che i nomi di tutte le classi riportate nella sezione sono implicitamente parte del package \texttt{org.softwaresynthesis.mytalk.clientview} pertanto tale prefisso sarà omesso nella loro denominazione.
+I nomi di tutte le classi riportate nella presente sezione sono implicitamente parte del package \texttt{org.softwaresynthesis.mytalk.clientview} pertanto tale prefisso sarà omesso nella loro denominazione.
 
 \begin{figure}[h]
 \centering
@@ -1003,7 +1001,7 @@ Il contenuto del MainPanel, invece, varia in relazione alla funzionalità scelta
 \subsubsection{Façade della vista}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Il compito di questo componente è rappresentare l'intera sotto-architettura clientview, per come viene vista dalle classi del \inglese{presenter}. In tal modo è possibile rendere indipendenti le classi concrete della sotto-architettura clientview in quanto le dipendenze funzionali provenienti dall'esterno sono accentrate nel Façade.
+Il compito di questo componente è rappresentare l'intera sotto-architettura \texttt{clientview}, per come viene vista dalle classi del \inglese{presenter}. In tal modo è possibile rendere indipendenti le classi concrete della sotto-architettura \texttt{clientview} in quanto le dipendenze funzionali provenienti dall'esterno sono accentrate nel Façade.
 
 In particolare, tramite le operazioni che sono dichiarate nell'interfaccia \texttt{IViewFacade} si rende possibile l'aggiornamento dinamico a tempo di esecuzione della vista e, di conseguenza, di quello che viene visualizzato dall'utente finale del sistema.
 	\item{\scshape\bfseries Diagramma delle classi:}
@@ -1025,7 +1023,7 @@ In particolare, tramite le operazioni che sono dichiarate nell'interfaccia \text
 	\item{\scshape\bfseries Descrizione:}\\
 Questo componente si occupa della gestione dell'interfaccia grafica presentata all'utente finale. Le classi in esso contenute servono pertanto per la rappresentazione delle funzionalità offerte dal sistema all'utente.
 
-Si noti che questo componente demanda tutta la logica al \inglese{presenter}, tramite il Façade del \inglese{presenter}, e quindi è relativo solo ed esclusivamente alla grafica. Inoltre l'interazione con esso è centralizzata all'interno della classe \texttt{gui.GUIHandler}, ciò significa che tutte le altre classi del package \texttt{gui} non interagiscono direttamente con il \inglese{presenter}.
+Si noti che tale componente demanda tutta la logica al \inglese{presenter}, tramite Façade del presenter, e quindi è relativo solo ed esclusivamente alla grafica. Inoltre l'interazione con esso è centralizzata all'interno della classe \texttt{gui.GUIHandler}, ciò significa che tutte le altre classi del package \texttt{gui} non interagiscono direttamente con il \inglese{presenter}.
 	\item{\scshape\bfseries Diagramma delle classi:}
 	
 \begin{figure}[H]
@@ -1114,7 +1112,7 @@ Classe che rappresenta un messaggio audio/video nella segreteria telefonica di u
 	\item{\scshape\bfseries Descrizione:}\\
 Interfaccia per i gruppi interni alla rubrica, prevede un'operazione astratta \texttt{add(IUserData)} per l'aggiunta di un nuovo contatto al gruppo e un'operazione \texttt{remove(IUserData)} per la sua rimozione.
 
-Estende inoltre l'interfaccia \texttt{server.abook.IContact} comune a tutti i contatti della rubrica e richiesta per l'applicazione del \underline{design pattern} Composite.
+Estende inoltre l'interfaccia \texttt{server.abook.IContact} comune a tutti i contatti della rubrica e richiesta per l'applicazione del \inglese{design pattern} Composite.
 	\item{\scshape\bfseries Componenti che ne fanno uso:} 
 	  \begin{itemize}[noitemsep,nolistsep]
 	    \item[-] Gestione database
@@ -1147,7 +1145,7 @@ Interfaccia per le classi che rappresentano gli utenti, è dotata di operazioni 
 \subsubsection{StandardUserData}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Classe che implementa l'interfaccia \texttt{IUserData} le cui istanze corrispondono ai record della tabella degli utenti nel \underline{database}.
+Classe che implementa l'interfaccia \texttt{IUserData} le cui istanze corrispondono ai record della tabella degli utenti nel database.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Gestione database
@@ -1160,7 +1158,7 @@ Classe che implementa l'interfaccia \texttt{IUserData} le cui istanze corrispond
 \subsubsection{ICommunicationHandler}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Interfaccia per la gestione delle richieste per ottenere le informazioni necessarie a un \underline{client} per stabilire una comunicazione con altri \underline{client}. In particolare le operazioni in essa dichiarate dovranno ritornare un istanza di un oggetto che implementa \texttt{IConnection}.
+Interfaccia per la gestione delle richieste per ottenere le informazioni necessarie a un client per stabilire una comunicazione con altri client. In particolare le operazioni in essa dichiarate dovranno ritornare un istanza di un oggetto che implementa \texttt{IConnection}.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 		\begin{itemize}[noitemsep,nolistsep]
 			\item[-] Gestione connessione
@@ -1170,7 +1168,7 @@ Interfaccia per la gestione delle richieste per ottenere le informazioni necessa
 \subsubsection{StandardCommunicationHandler}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Implementazione che si fornisce dell'interfaccia \texttt{ICommunicationHandler}. In tale classe, le informazioni ritornate al \underline{client} sono informazioni necessarie a stabilire una connessione di tipo WebRTC (ritorna un istanza di \texttt{WebRTCInfo}).
+Implementazione che si fornisce dell'interfaccia \texttt{ICommunicationHandler}. In tale classe, le informazioni ritornate al client sono informazioni necessarie a stabilire una connessione di tipo WebRTC (ritorna un istanza di \texttt{WebRTCInfo}).
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 		\begin{itemize}[noitemsep,nolistsep]
 			\item[-] Gestione connessione
@@ -1180,7 +1178,7 @@ Implementazione che si fornisce dell'interfaccia \texttt{ICommunicationHandler}.
 \subsubsection{IConnection}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Interfaccia mediante la quale è possibile recuperare  i dati necessari a un \underline{client} al fine di stabilire una connessione con un altro \underline{client}.
+Interfaccia mediante la quale è possibile recuperare  i dati necessari a un client al fine di stabilire una connessione con un altro client.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 		\begin{itemize}[noitemsep,nolistsep]
 			\item[-] Gestione connessione
@@ -1191,7 +1189,7 @@ Interfaccia mediante la quale è possibile recuperare  i dati necessari a un \un
 \subsubsection{WebRTCInfo}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Implementazione dell'interfaccia \texttt{IConnection} che rappresenta le informazioni usate da un \underline{client} per stabilire una connessione WebRTC con un altro \underline{client}.
+Implementazione dell'interfaccia \texttt{IConnection} che rappresenta le informazioni usate da un client per stabilire una connessione WebRTC con un altro client.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 		\begin{itemize}[noitemsep,nolistsep]
 			\item[-] Gestione connessione
@@ -1203,7 +1201,7 @@ Implementazione dell'interfaccia \texttt{IConnection} che rappresenta le informa
 \subsubsection{IContact}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Interfaccia condivisa da tutti i contatti della rubrica di un utente, permette di trattare in modo uniforme gli utenti singoli e i gruppi secondo quando previsto dal \underline{design pattern} Composite.
+Interfaccia condivisa da tutti i contatti della rubrica di un utente, permette di trattare in modo uniforme gli utenti singoli e i gruppi secondo quando previsto dal \inglese{design pattern} Composite.
 
 Dichiara la presenza di operazioni astratte per recuperare l'accesso alle informazioni sottostanti (ad esempio il nome di un utente o di un gruppo).
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
@@ -1225,9 +1223,9 @@ Interfaccia che raccoglie le operazioni sulla rubrica e permette di controllare 
 \subsubsection{UserDataProxy}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
-La classe implementa l'interfaccia \texttt{server.dao.IUserData} e rappresenta un proxy per i dati degli utenti che risiedono sul \underline{server}.
+La classe implementa l'interfaccia \texttt{server.dao.IUserData} e rappresenta un \inglese{proxy} per i dati degli utenti che risiedono sul server.
 
-Le istanze di questa classe vengono restituite da un opportuno Factory Method dichiarato nell'interfaccia \texttt{server.ServerFacade} e hanno il ruolo di rappresentare sui \underline{client} degli oggetti che risiedono in un diverso spazio di indirizzamento (sul \underline{server}) nonché di controllare gli accessi per esigenze di protezione.
+Le istanze di questa classe vengono restituite da un opportuno Factory Method dichiarato nell'interfaccia \texttt{server.ServerFacade} e hanno il ruolo di rappresentare sui client degli oggetti che risiedono in un diverso spazio di indirizzamento (sul server) nonché di controllare gli accessi per esigenze di protezione.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] Gestione rubrica
@@ -1259,7 +1257,7 @@ Interfaccia padre della gerarchia di stati che gli utenti possono assumere nel c
 \subsubsection{StateOnline}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Classe astratta che implementa l'interfaccia \texttt{IState} e viene estesa da tutti gli stati che corrispondono alla presenza ``online'' dell'utente. È ulteriormente specializzata dalle sottoclassi concrete \texttt{StateAvailable} e \texttt{StateOccupied}, le quali hanno facoltà di determinare il reale comportamento degli utenti online.
+Classe astratta che implementa l'interfaccia \texttt{IState} e viene estesa da tutti gli stati che corrispondono alla presenza \inglese{online} dell'utente. È ulteriormente specializzata dalle sottoclassi concrete \texttt{StateAvailable} e \texttt{StateOccupied}, le quali hanno facoltà di determinare il reale comportamento degli utenti \inglese{online}.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Gestione stato
@@ -1269,7 +1267,7 @@ Classe astratta che implementa l'interfaccia \texttt{IState} e viene estesa da t
 \subsubsection{StateOffline}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Classe concreta della gerarchia degli stati che implementa l'interfaccia \texttt{IState} e corrisponde alla mancata presenza online dell'utente che la possiede. Un utente che si trova nello stato ``offline'' non può essere contattato direttamente ma solo attraverso la segreteria telefonica.
+Classe concreta della gerarchia degli stati che implementa l'interfaccia \texttt{IState} e corrisponde alla mancata presenza online dell'utente che la possiede. Un utente che si trova nello stato ``\inglese{offline}'' non può essere contattato direttamente ma solo attraverso la segreteria telefonica.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Gestione stato
@@ -1279,7 +1277,7 @@ Classe concreta della gerarchia degli stati che implementa l'interfaccia \texttt
 \subsubsection{StateAvailable}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Classe concreta della gerarchia degli stati che corrisponde alla presenza online di un utente e alla sua disponibilità ad accettare comunicazioni in ingresso.
+Classe concreta della gerarchia degli stati che corrisponde alla presenza \inglese{online} di un utente e alla sua disponibilità ad accettare comunicazioni in ingresso.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
     \begin{itemize}[noitemsep,nolistsep]
       \item[-] Gestione stato
@@ -1320,7 +1318,7 @@ Classe concreta che implementa l'interfaccia \texttt{IMessageBox} e rappresenta 
 \subsubsection{AudioMessageProxy}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Proxy virtuale ad uso dei \underline{client} per i messaggi audio lasciati ad un utente in segreteria. La classe implementa l'interfaccia \texttt{server.dao.IAudioMessage} ogni sua istanza è costruita per composizione con un riferimento a  \texttt{server.dao.AudioMessage}, cui inoltra le richieste dopo aver eventualmente scaricato il messaggio dal \underline{server}.
+\inglese{Proxy} virtuale ad uso dei client per i messaggi audio lasciati ad un utente in segreteria. La classe implementa l'interfaccia \texttt{server.dao.IAudioMessage} ogni sua istanza è costruita per composizione con un riferimento a  \texttt{server.dao.AudioMessage}, cui inoltra le richieste dopo aver eventualmente scaricato il messaggio dal server.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Gestione segreteria
@@ -1330,7 +1328,7 @@ Proxy virtuale ad uso dei \underline{client} per i messaggi audio lasciati ad un
 \subsubsection{AudioVideoMessageProxy}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Proxy virtuale ad uso dei \underline{client} per i messaggi audio/video in segreteria. La classe implementa l'interfaccia \texttt{server.dao.AudioVideoMessage} ed è costruita, similmente a \texttt{AudioMessageProxy} con un'istanza di \texttt{server.dao.AudioVideoMessage} per limitare il traffico di rete e ottimizzare il consumo di memoria del \underline{client}.
+\inglese{Proxy} virtuale ad uso dei client per i messaggi audio/video in segreteria. La classe implementa l'interfaccia \texttt{server.dao.AudioVideoMessage} ed è costruita, similmente a \texttt{AudioMessageProxy} con un'istanza di \texttt{server.dao.AudioVideoMessage} per limitare il traffico di rete e ottimizzare il consumo di memoria del client.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Gestione segreteria
@@ -1341,7 +1339,7 @@ Proxy virtuale ad uso dei \underline{client} per i messaggi audio/video in segre
 \subsubsection{IServerFacade}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Interfaccia che contiene tutte le operazioni richieste dai componenti della sotto-architettura clientpresenter inerenti alla registrazione, all'autenticazione,  alla gestione della rubrica e della segreteria nonché delle connessioni con altri utenti.
+Interfaccia che contiene tutte le operazioni richieste dai componenti della sotto-architettura \texttt{clientpresenter} inerenti alla registrazione, all'autenticazione,  alla gestione della rubrica e della segreteria nonché delle connessioni con altri utenti.
 
 In quest'ultimo caso le operazioni richieste vengono a loro volta inoltrate al componente responsabile della gestione della connessione (\texttt{server.connection.IConnectionHandler}).
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
@@ -1366,7 +1364,7 @@ Questa classe Singleton è l'implementazione dell'interfaccia \texttt{IServerFac
 \subsubsection{IClient}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Interfaccia che raccoglie le operazioni astratte che è possibile invocare su un \underline{client} astratto del sistema corrispondenti, ad esempio, alla ricezione di una chiamata in ingresso oppure all'interrogazione sullo stato (nodo semplice o Supernodo) di un determinato \underline{client}.
+Interfaccia che raccoglie le operazioni astratte che è possibile invocare su un client astratto del sistema corrispondenti, ad esempio, alla ricezione di una chiamata in ingresso oppure all'interrogazione sullo stato (nodo semplice o Supernodo) di un determinato client.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Gestione comunicazione
@@ -1376,7 +1374,7 @@ Interfaccia che raccoglie le operazioni astratte che è possibile invocare su un
 \subsubsection{StandardClient}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Implementazione dell'interfaccia \texttt{IClient} che incapsula al suo interno la logica di eventuale ritrasmissione dei dati in ingresso (nel caso in cui il \underline{client} sia un Supernodo) e di invio dei dati prodotti in locale ai \underline{client} con cui è stata instaurata una connessione. 
+Implementazione dell'interfaccia \texttt{IClient} che incapsula al suo interno la logica di eventuale ritrasmissione dei dati in ingresso (nel caso in cui il client sia un Supernodo) e di invio dei dati prodotti in locale ai client con cui è stata instaurata una connessione. 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Gestione comunicazione
@@ -1397,7 +1395,7 @@ Interfaccia che raccoglie la dichiarazione di tutte le operazioni astratte con c
 \subsubsection{StandardPresenterFacade}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Questa classe rappresenta un'applicazione del \underline{design pattern} Singleton e implementa inoltre l'interfaccia \texttt{IPresenterFacade}. Fornisce pertanto dei metodi concreti utilizzati per la comunicazione fra la vista e il \underline{server}, elaborando qualora necessario i dati ricevuti in input e inoltrando le richieste al componente Façade del server.
+Questa classe rappresenta un'applicazione del \inglese{design pattern} Singleton e implementa inoltre l'interfaccia \texttt{IPresenterFacade}. Fornisce pertanto dei metodi concreti utilizzati per la comunicazione fra la vista e il server, elaborando qualora necessario i dati ricevuti in input e inoltrando le richieste al componente Façade del server.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Façade del presenter
@@ -1408,7 +1406,7 @@ Questa classe rappresenta un'applicazione del \underline{design pattern} Singlet
 \subsubsection{IViewFacade}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Interfaccia che dichiara le operazioni astratte che possono essere richiamate sulla vista a partire dai componenti della sotto-architettura clientpresenter.
+Interfaccia che dichiara le operazioni astratte che possono essere richiamate sulla vista a partire dai componenti della sotto-architettura \texttt{clientpresenter}.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] Façade della vista
@@ -1462,7 +1460,7 @@ Classe padre della gerarchia di oggetti grafici che possono comparire nella sezi
 \subsubsection{ToolsPanel}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Classe che rappresenta il pannello degli strumenti della home screen dell'applicativo, mediante il quale è possibile accedere alle funzionalità di ricerca, di segreteria telefonica, selezione della lingua, modifica dei dati dell'utente e storico delle chiamate.
+Classe che rappresenta il pannello degli strumenti della \inglese{home screen} dell'applicativo, mediante il quale è possibile accedere alle funzionalità di ricerca, di segreteria telefonica, selezione della lingua, modifica dei dati dell'utente e storico delle chiamate.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] Gestione GUI
@@ -1511,7 +1509,7 @@ Questa sottoclasse di \texttt{MainPanel} è impiegata per permettere da parte de
 \subsubsection{AccountSettingsPanel}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Questa classe è utilizzata per rappresentare il \underline{form} che si presenta all'utente per la modifica dei propri dati. Costituisce inoltre una sottoclasse di \texttt{MainPanel} e viene visualizzata quando l'utente preme il relativo pulsante nel pannello degli strumenti.
+Questa classe è utilizzata per rappresentare il \underline{\inglese{form}} che si presenta all'utente per la modifica dei propri dati. Costituisce inoltre una sottoclasse di \texttt{MainPanel} e viene visualizzata quando l'utente preme il relativo pulsante nel pannello degli strumenti.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] Gestione GUI
@@ -1738,11 +1736,11 @@ In conclusione, si ricorda che è possibile lasciare un messaggio nella segreter
 \clearpage
 
 \section{Tracciamenti}\label{sec:tracciamenti}
-Nella seguente sezione vengono proposti tutti i tracciamenti eseguiti mediante il sistema Synthsis Requirment Manager. I tracciamenti proposti sono giustificati dalle seguenti due motivazioni:
+Nella seguente sezione vengono proposti tutti i tracciamenti eseguiti mediante il sistema \manager. I tracciamenti proposti sono giustificati dalle seguenti due motivazioni:
 
 \begin{itemize}
 	\item Dimostrare il soddisfacimento per necessarietà e sufficienza della corrispondenza tra gli elementi tracciati (e.g. un componente deve rispondere necessariamente alle esigenze di uno o più requisiti, tali insomma che ne giustifichino l'esistenza. D'altro canto è richiesto che ogni requisito definito in fase d'analisi sia soddisfatto e risolto da almeno un componente).
-	\item dare una lettura generale delle varie: componenti, requisiti, \underline{design pattern} e classi.
+	\item dare una lettura generale delle varie: componenti, requisiti, \inglese{design pattern} e classi.
 \end{itemize}
 
 \input{tracciamenti.tex}
