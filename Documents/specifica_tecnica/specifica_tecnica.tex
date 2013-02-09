@@ -433,6 +433,42 @@ Di seguito verranno proposte le sotto-architetture evidenziate. Di ogni una sar�
 \end{center}
 \end{figure}
 
+\newpage
+
+\subsection{Logica di rete}
+\subsubsection{Descrizione della logica di connessione}
+La rete che viene a crearsi sotto l'architettura di \caName{} è suddivisa in ``comunicazioni'', ovvero gruppi di due o più utenti che comunicano tra di loro. Ogni comunicazione è formata dalle singole ``connessioni'' tra i vari client.
+
+Questo capitolo serve a spiegare quale è la logica che governa la rete. Iniziamo definendo i tipi di client che la popolano.
+\begin{description}
+	\item{\scshape\bfseries Nodo}\\
+	Il Nodo è rappresentato da un semplice client che si trova all'interno di una comunicazione e che ha una unica connessione attiva verso un altro client.
+	\item{\scshape\bfseries Supernodo}\\
+	Il Supernodo è un client con funzione di server. È usato nelle comunicazioni tra tre o più utenti per smistare le connessioni di tutti facendosi carico del traffico dei client.
+\end{description}
+
+Vediamo nel dettaglio come avviene una comunicazione. Essa nasce sempre tra due utenti, nel momento in cui uno desidera iniziarla effettua una richiesta verso il server che la inoltra al destinatario.
+
+La comunicazione nasce così come un'unica connessione tra due client in modalità \underline{\inglese{peer-to-peer}} dove entrambi gli utenti hanno il ruolo di Nodo. Una comunicazione potrà iniziare solo attraverso tale metodologia, in quanto non vengono aperte comunicazioni iniziali tra più di due utenti.
+
+Da questa situazione uno dei due utenti può richiederne l'aggiunta di un ulteriore soggetto. Dopo questa richiesta, il Nodo che la ha eseguita diventa un Supernodo con attive sia la connessione con il vecchio Nodo sia quella con il nuovo Nodo appena aggiunto.
+
+Questa operazione crea una connessione fra tre Nodi estendibile dal Supernodo e dagli altri Nodi attraverso una richiesta al Supernodo stesso. 
+%Solo il Supernodo può richiedere nuove connessioni al Server. Con ulteriori richieste i nuovi nodi si collegano al Supernodo con una connessione estendendo la comunicazione.
+
+Ogni Nodo può togliersi dalla comunicazione chiudendo la connessione con il Supernodo. Se è il Supernodo stesso a volersi togliere dalla comunicazione, l'intera comunicazione cade e tutti gli utenti vendono disconnessi.
+
+\subsubsection{L'idea iniziale}
+La logica di gestione della rete scelta dal team può rendere poco stabile le comunicazioni. Tale problematica è stata analizzata a lungo, e al fine di rendere le comunicazioni più stabili e solide era stata presa in considerazione un ulteriore soluzione alternativa sempre basata sul modello concettuale di Nodi e Supernodi, tuttavia è stata scartata dopo una breve analisi preliminare.
+
+La differenza principale di tale soluzione rispetto a quella adottata è nella gestione dinamica del Supernodo, che viene scelto in base alla sua capacità di banda e alla possibilità di mantenere attive, con la massima qualità, tutte le connessioni con i Nodi della comunicazione.
+
+Questa soluzione avrebbe richiesto un test di qualità della rete per ogni Nodo verso il nuovo possibile Supernodo, operazione di difficile progettazione e con complessità elevata, pari a $\omega(n-1)$ con n Nodi attivi nella comunicazione.
+
+Al fine di garantire sempre la migliore qualità di connessione era stata presa inoltre in considerazione l'idea di controllare periodicamente la qualità del Supernodo e degli altri Nodi in modo da sostituire il Supernodo se necessario. Purtroppo anche questa soluzione richiederebbe dei calcoli di complessità $\omega(n*(n-1))$ con n Nodi attivi nella comunicazione.
+
+Con una corretta implementazione questa soluzione avrebbe permesso una migliore qualità del prodotto \caName, il gruppo ha tuttavia optato per la prima implementazione presentata in quanto le risorse disponibili non erano sufficienti per terminare la seconda.
+
 
 \clearpage
 
@@ -876,39 +912,6 @@ In sintesi la sotto-architettura \texttt{clientpresenter} dispone dei seguenti c
 Si rimanda alla sottosezione successiva per maggiori dettagli.
 
 Si fa notare che i nomi di tutte le classi riportate nella sezione sono implicitamente parte del package \texttt{org.softwaresynthesis.mytalk.clientpresenter} pertanto tale prefisso sarà omesso nella loro denominazione.
-
-\subsection{Logica di rete}
-La rete che viene a crearsi sotto l'architettura di \caName{} è suddivisa in ``comunicazioni'', ovvero gruppi di due o più utenti che comunicano tra di loro. Ogni comunicazione è formata dalle singole ``connessioni'' tra i vari client.
-
-Questo capitolo serve a spiegare quale è la logica che governa la rete. Iniziamo definendo i tipi di client che la popolano.
-\begin{description}
-	\item{\scshape\bfseries Nodo}\\
-	Il Nodo è rappresentato da un semplice client che si trova all'interno di una comunicazione e che ha una unica connessione attiva verso un altro client.
-	\item{\scshape\bfseries Supernodo}\\
-	Il Supernodo è un client con funzione di server. È usato nelle comunicazioni tra tre o più utenti per smistare le connessioni di tutti facendosi carico del traffico dei client.
-\end{description}
-
-Vediamo nel dettaglio come avviene una comunicazione. Essa nasce sempre tra due utenti, nel momento in cui uno desidera iniziarla effettua una richiesta verso il server che la inoltra al destinatario.
-
-La comunicazione nasce così come un'unica connessione tra due client in modalità \underline{\inglese{peer-to-peer}} dove entrambi gli utenti hanno il ruolo di Nodo. Una comunicazione potrà iniziare solo attraverso tale metodologia, in quanto non vengono aperte comunicazioni iniziali tra più di due utenti.
-
-Da questa situazione uno dei due utenti può richiederne l'aggiunta di un ulteriore soggetto. Dopo questa richiesta, il Nodo che la ha eseguita diventa un Supernodo con attive sia la connessione con il vecchio Nodo sia quella con il nuovo Nodo appena aggiunto.
-
-Questa operazione crea una connessione fra tre Nodi estendibile dal Supernodo e dagli altri Nodi attraverso una richiesta al Supernodo stesso. 
-%Solo il Supernodo può richiedere nuove connessioni al Server. Con ulteriori richieste i nuovi nodi si collegano al Supernodo con una connessione estendendo la comunicazione.
-
-Ogni Nodo può togliersi dalla comunicazione chiudendo la connessione con il Supernodo. Se è il Supernodo stesso a volersi togliere dalla comunicazione, l'intera comunicazione cade e tutti gli utenti vendono disconnessi.
-
-\subsubsection{L'idea iniziale}
-La logica di gestione della rete scelta dal team può rendere poco stabile le comunicazioni. Tale problematica è stata analizzata a lungo, e al fine di rendere le comunicazioni più stabili e solide era stata presa in considerazione un ulteriore soluzione alternativa sempre basata sul modello concettuale di Nodi e Supernodi, tuttavia è stata scartata dopo una breve analisi preliminare.
-
-La differenza principale di tale soluzione rispetto a quella adottata è nella gestione dinamica del Supernodo, che viene scelto in base alla sua capacità di banda e alla possibilità di mantenere attive, con la massima qualità, tutte le connessioni con i Nodi della comunicazione.
-
-Questa soluzione avrebbe richiesto un test di qualità della rete per ogni Nodo verso il nuovo possibile Supernodo, operazione di difficile progettazione e con complessità elevata, pari a $\omega(n-1)$ con n Nodi attivi nella comunicazione.
-
-Al fine di garantire sempre la migliore qualità di connessione era stata presa inoltre in considerazione l'idea di controllare periodicamente la qualità del Supernodo e degli altri Nodi in modo da sostituire il Supernodo se necessario. Purtroppo anche questa soluzione richiederebbe dei calcoli di complessità $\omega(n*(n-1))$ con n Nodi attivi nella comunicazione.
-
-Con una corretta implementazione questa soluzione avrebbe permesso una migliore qualità del prodotto \caName, il gruppo ha tuttavia optato per la prima implementazione presentata in quanto le risorse disponibili non erano sufficienti per terminare la seconda.
 
 \subsection{Componenti evidenziati}
 
