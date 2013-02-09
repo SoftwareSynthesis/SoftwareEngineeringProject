@@ -6,7 +6,7 @@
 % Nome file
 \newcommand{\docFileName}{specifica\_tecnica.1.0.pdf}
 % Versione
-\newcommand{\docVers}{1.0}
+\newcommand{\docVers}{2.0}
 % Data creazione
 \newcommand{\creationDate}{2013-01-23}
 % Data ultima modifica
@@ -40,14 +40,22 @@
 % Inclusione della prima pagina
 \input{\docRoot/shared/firstpage.tex}
 
-%---------------------------RUOLI----------------------------
-%FASE 1:
-%Progettisti: TRES, STEFANO, SCHIVO;
-%FASE 2:
-%Progettisti: DIEGO, ELENA, RIZZI
+%------------------------ RUOLI PA --------------------------
+% FASE 1:
+% Progettisti: TRES, STEFANO, SCHIVO;
+% FASE 2:
+% Progettisti: DIEGO, ELENA, RIZZI
+%
+% Verificatore: Andrea Meneghinello
+% Responsabile finale: TRES
+%------------------------------------------------------------
 
-%Verificatore: Andrea Meneghinello
-%Responsabile finale TRES
+%------------------------ RUOLI PDC -------------------------
+% FASE 1:
+% Progettisti: STEFANO, RIZZI, SCHIVO, ELENA
+%
+% Verificatore: Andrea Meneghinello
+% Responsabile finale: Andrea Rizzi
 %------------------------------------------------------------
 
 % Storico delle modifiche
@@ -57,7 +65,9 @@
 \toprule
 Versione & Descrizione intervento & Membro & Ruolo & Data\\
 \midrule
+1.2 & Aggiunta descrizione dei diagrammi di attività e correzione degli stessi & Stefano Farronato & Progettista & 2012-02-09\\
 1.1 & Modifica architettura del database & Elena Zecchinato & Progettista & 2012-02-08\\
+
 1.0 & Approvazione documento & Riccardo Tresoldi & Responsabile & 2012-01-30\\
 0.19 & Correzione errori ortografici e di forma presenti nel documento in base alle segnalazioni del verificatore&Marco Schivo & Progettista & 2013-01-29\\
 0.18 & Correzione diagrammi presenti nel documento in base alle segnalazioni del verificatore&Elena Zecchinato & Progettista & 2013-01-29\\
@@ -81,7 +91,7 @@ Versione & Descrizione intervento & Membro & Ruolo & Data\\
 \bottomrule
 \end{longtable}
 \end{center}
-\newpage
+\clearpage
 
 % inclusione dell'indice
 \input{\docRoot/shared/toc.tex}
@@ -1517,10 +1527,12 @@ Questa classe estende \texttt{MainPanel} e viene impiegata per rappresentare lo 
 \end{description}
 \clearpage
 
-\section{Conclusioni sull'architettura}
-
-\subsection{Diagrammi delle attività}
+\section{Diagrammi delle attività}
 In questa sezione saranno descritti i diagrammi di attività che rappresentano il flusso di utilizzo dei vari servizi messi a disposizione dal prodotto \caName.
+
+\subsection{Diagramma di attività generale}
+
+Il diagramma in figura \vref{fig:ADhome} rappresenta il flusso principale dell'applicazione \caName. Innanzitutto, l'accesso alle funzionalità del sistema è vincolato allo svolgimento con successo dell'azione di autenticazione, illustrata con maggiori dettagli nel diagramma di sotto-attività \vref{fig:ADautenticazione}.
 
 \begin{figure}[H]
 \centering
@@ -1528,7 +1540,25 @@ In questa sezione saranno descritti i diagrammi di attività che rappresentano i
 \caption{Diagramma di attività generale che descrive l'interazione con il sistema}\label{fig:ADhome}
 \end{figure}
 
-Il diagramma in figura \vref{fig:ADhome} rappresenta il flusso principale dell'applicazione \caName. Da tale punto è possibile autenticarsi al sistema per poi poter usufruire di tutti i servizi messi a disposizione dal prodotto. Nei successivi diagrammi, figura \ref{fig:ADregistrazione} e \ref{fig:ADrecuperopassword}, vengono descritti rispettivamente le specializzazioni delle attività presenti nella schermata di login: registrazione (se non si ha ancora a disposizione un account utente) e recupero password (nel caso la password sia stata smarrita).
+A seguito dell'autenticazione, diviene possibile scegliere una fra le azioni di amministrazione, vale a dire
+\begin{itemize}[noitemsep,nolistsep]
+  \item[-] scelta lingua GUI;
+  \item[-] gestione segreteria (illustrata dal diagramma \ref{fig:ADgestionesegreteria});
+  \item[-] gestione rubrica (illustrata dal diagramma \ref{fig:ADgestionerubrica});
+  \item[-] gestione account (illustrata dal diagramma \ref{fig:ADgestioneaccount});
+  \item[-] gestione dello stato personale;
+\end{itemize}
+oppure di consultazione informazioni, in particolare:
+\begin{itemize}[noitemsep,nolistsep]
+  \item[-] visualizzazione dello storico delle chiamate;
+  \item[-] visualizzazione della rubrica;
+  \item[-] ricerca di un utente.
+\end{itemize}
+
+A partire infine dalla visualizzazione del profilo di un utente, cui è possibile accedere tanto tramite una ricerca quanto dall'elenco dei contatti in rubrica, è possibile dare inizio a una comunicazione (diagramma \vref{fig:ADconnessione}).
+
+\subsection{Diagrammi di attività Autenticazione}
+Il diagramma riportato in figura \vref{fig:ADautenticazione} illustra la sotto-attività di autenticazione di un utente al sistema. A partire dalla schermata iniziale è possibile inserire le proprie credenziali di accesso al sistema se ne si è provvisti, richiederle se è la prima volta che si effettua l'accesso al sistema (avviando la procedura di registrazione riportata in figura \ref{fig:ADregistrazione}) oppure recuperarle (sotto-attività in figura \vref{fig:ADrecuperopassword}).
 
 \begin{figure}[H]
 \centering
@@ -1536,20 +1566,44 @@ Il diagramma in figura \vref{fig:ADhome} rappresenta il flusso principale dell'a
 \caption{Diagramma di attività relativo all'autententicazione}\label{fig:ADautenticazione}
 \end{figure}
 
+\subsubsection{Diagramma di attività Registrazione}
+In dettaglio, la registrazione di un utente al sistema (fig.~\vref{fig:ADregistrazione}) prevede l'inserimento di una serie di dati alcuni dei quali obbligatori (indirizzo email, password, domanda segreta e relativa risposta) e altri facoltativi (nome, cognome e immagine del profilo). Al termine della procedura di registrazione l'utente dispone di un account personale e delle credenziali di accesso allo stesso.
+
 \begin{figure}[H]
 \centering
-\includegraphics[width=.8\textwidth]{registrazione}
+\includegraphics[width=.6\textwidth]{registrazione}
 \caption{Diagramma di attività relativo alla registrazione}\label{fig:ADregistrazione}
 \end{figure}
 
+\subsubsection{Diagramma di attività Recupero password}
+Il recupero della password (fig.~\vref{fig:ADrecuperopassword}) prevede invece l'inserimento dell'email, la visualizzazione della domanda segreta impostata in fase di creazione dell'account e l'inserimento della relativa risposta. In caso di risposta corretta si ha il termine della sotto-attività con l'invio dei dati richiesti via email, in caso contrario la procedura deve essere ripetuta.
+
 \begin{figure}[H]
 \centering
-\includegraphics[width=.8\textwidth]{recupero_pass}
+\includegraphics[width=.6\textwidth]{recupero_pass}
 \caption{Diagramma di attività relativo al recupero della password}\label{fig:ADrecuperopassword}
 \end{figure}
 
+\subsection{Diagramma di attività Gestione rubrica}
+La sotto-attività di gestione (diagramma in fig.~\vref{fig:ADgestionerubrica}) della rubrica prevede l'accesso a due classi di azioni, a seconda che sia o meno richiesta da parte dell'utente una conferma esplicita per il completamento dell'attività.
 
-Dal diagramma principale (ricordiamo in figura \vref{fig:ADhome}) una volta autenticati è possibile raggiungere ogni funzionalità del software, come ad esempio la gestione della rubrica (figura \ref{fig:ADgestionerubrica}), la gestione del proprio account(figura \ref{fig:ADgestioneaccount}) o della segreteria (figura \ref{fig:ADgestionesegreteria}).
+In particolare, la prima categoria di azioni comprende:
+\begin{itemize}[noitemsep,nolistsep]
+  \item[-] l'aggiunta di un contatto alla rubrica;
+  \item[-] l'ordinamento della rubrica;
+  \item[-] l'eliminazione di un contatto;
+  \item[-] la ricerca di un contatto;
+  \item[-] l'inserimento di un contatto in un gruppo;
+\end{itemize}
+mentre la seconda categoria raggruppa azioni quali:
+\begin{itemize}[noitemsep,nolistsep]
+  \item[-] l'eliminazione di un gruppo;
+  \item[-] la modifica di un gruppo;
+  \item[-] l'importazione della rubrica da un file locale in formato XML;
+  \item[-] l'esportazione della rubrica personale in un file XML.
+\end{itemize}
+
+La risposta affermativa alla domanda di conferma in seguito alla scelta di un'azione della seconda categoria porta alla conclusione della sotto-attività, mentre una risposta negativa comporta la scelta di una nuova azione amministrativa.
 
 \begin{figure}[H]
 \centering
@@ -1557,11 +1611,32 @@ Dal diagramma principale (ricordiamo in figura \vref{fig:ADhome}) una volta aute
 \caption{Diagramma di attività relativo alla gestione della rubrica personale}\label{fig:ADgestionerubrica}
 \end{figure}
 
+\subsection{Diagramma di attività Gestione account personale}
+La gestione dell'account personale (fig.~\vref{fig:ADgestioneaccount}) comporta in primo luogo la visualizzazione di una schermata che mette a disposizione le operazioni disponibili, quindi la scelta di una di queste ultime. Le azioni che possono essere effettuate sono, in particolare:
+\begin{itemize}[noitemsep,nolistsep]
+  \item[-] modifica della password utente;
+  \item[-] modifica dei dati anagrafici;
+  \item[-] modifica dell'immagine del profilo;
+  \item[-] modifica della domanda segreta e/o della relativa risposta per il recupero della password.
+\end{itemize}
+
+Al termine dell'operazione è prevista la visualizzazione di una domanda di conferma e, in caso di risposta affermativa da parte dell'utente, la modifica va a buon fine. In caso contrario, l'operazione non sortisce alcun effetto e si ritorna alla possibilità di scegliere l'azione amministrativa da effettuare.
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=.8\textwidth]{gestione_account_pers}
 \caption{Diagramma di attività relativo alla gestione dei dati dell'account personale}\label{fig:ADgestioneaccount}
 \end{figure}
+
+\subsection{Diagramma di attività Gestione segreteria}
+La gestione della segreteria prevede la scelta fra le seguenti azioni:
+\begin{itemize}[noitemsep,nolistsep]
+ \item[-] ascoltare un messaggio della segreteria;
+ \item[-] cancellare un messaggio;
+ \item[-] impostare lo stato (ascoltato/non ascoltato) di un messaggio;
+\end{itemize}
+
+Compiere una di queste azioni comporta l'uscita dalla sotto-attività ma l'esecuzione di più di una di queste azioni in sequenza è comunque possibile grazie al \inglese{merge} antecedente l'azione ``Visualizza attività'' nel diagramma di attività generale riportato in figura \vref{fig:ADhome}.
 
 \begin{figure}[H]
 \centering
@@ -1569,8 +1644,10 @@ Dal diagramma principale (ricordiamo in figura \vref{fig:ADhome}) una volta aute
 \caption{Diagramma di attività relativo alla gestione della segretria}\label{fig:ADgestionesegreteria}
 \end{figure}
 
+\subsection{Diagrammi di attività Connessione}
+L'utente ha inoltre la possibilità di connettersi con altri utenti tramite l'attività di connessione.
 
-\`{E} infine data la possibilità di connettersi con altri utenti tramite l'attività connessione illustrata nel dettaglio in figura \ref{fig:ADconnessione}.
+Come si evince dal diagramma riportato in figura \vref{fig:ADconnessione}, la comunicazione con un utente dipende intrinsecamente dallo stato in cui si trova: se questo è \inglese{offline} oppure \inglese{online} ma occupato, può essere raggiunto in maniera indiretta solo tramite la segreteria telefonica (diagramma \ref{fig:ADmessegreteria}), mentre se l'utente è disponibile può essere contattato immediatamente.
 
 \begin{figure}[H]
 \centering
@@ -1578,13 +1655,27 @@ Dal diagramma principale (ricordiamo in figura \vref{fig:ADhome}) una volta aute
 \caption{Diagramma di attività relativo alla connessione}\label{fig:ADconnessione}
 \end{figure}
 
-La connessione può essere di tipo audio (figura \ref{fig:ADcomaudio}), audio/video (figura \ref{fig:ADcomaudiovideo}) o testuale (figura \ref{fig:ADcomtestuale}). In tutte e tre le tipologie di connessione è possibile effettuare una condivisione di risorse, come specificato in figura \ref{fig:ADcondrisorse}, o registrare una chiamata (tranne nel caso di comunicazione testuale) figura \ref{fig:ADregistrachiamata}.
+Esistono tre tipologie di comunicazione a seconda del mezzo utilizzato:
+\begin{itemize}[noitemsep,nolistsep]
+  \item[-] audio (illustrata nel diagramma in fig.~\ref{fig:ADcomaudio});
+  \item[-] audio/video (diagramma in fig.~\ref{fig:ADcomaudiovideo});
+  \item[-] testuale (diagramma in fig.~\ref{fig:ADcomtestuale});
+\end{itemize}
+
+
+Tutte e tre le tipologie di connessione prevedono la condivisione di risorse, secondo le modalità riportate in figura \ref{fig:ADcondrisorse}. Inoltre, nel corso di una comunicazione di tipo audio oppure audio/video è possibile registrare una chiamata, secondo me modalità riportate in figura \ref{fig:ADregistrachiamata} nonché visualizzare le statistiche sulla comunicazione corrente (diagramma in fig.~\vref{fig:ADstatistiche}).
+
+\subsubsection{Diagramma di attività Comunicazione audio}
+La comunicazione audio (fig.~\vref{fig:ADcomaudio}) prevede la possibilità svolgimento di più azioni in parallelo, in particolare la registrazione, la condivisione di risorse, una comunicazione testuale e la visualizzazione delle statistiche sulla comunicazione in corso. Inoltre, a discrezione dell'utente, una comunicazione audio può essere promossa in una comunicazione audio/video oppure può essere estesa a nuovi partecipanti.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=1\textwidth]{com_audio}
+\includegraphics[width=.8\textwidth]{com_audio}
 \caption{Diagramma di attività relativo alla comunicazione audio}\label{fig:ADcomaudio}
 \end{figure}
+
+\subsubsection{Diagramma di attività Comunicazione audio/video}
+La comunicazione audio/video (fig.~\vref{fig:ADcomaudiovideo}) prevede la possibilità svolgimento di più azioni in parallelo, in particolare la registrazione, la condivisione di risorse, una comunicazione testuale e la visualizzazione delle statistiche sulla comunicazione in corso. Inoltre, a discrezione dell'utente, una comunicazione audio/video può essere declassata in una comunicazione audio semplice oppure può essere estesa a nuovi partecipanti.
 
 \begin{figure}[H]
 \centering
@@ -1592,11 +1683,17 @@ La connessione può essere di tipo audio (figura \ref{fig:ADcomaudio}), audio/vi
 \caption{Diagramma di attività relativo alla comunicazione audio/video}\label{fig:ADcomaudiovideo}
 \end{figure}
 
+\subsubsection{Diagramma di attività Comunicazione testuale}
+La comunicazione testuale, come illustrato dal diagramma riportato in figura \vref{fig:ADcomtestuale} può avvenire in parallelo con una condivisione di risorse, può essere promossa a comunicazione audio o audio/video e può essere estesa a più partecipanti. Non è prevista, durante una comunicazione testuale, la possibilità di visualizzare statistiche sulla comunicazione o di registrare la stessa in forma persistente.
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=.8\textwidth]{com_testuale}
 \caption{Diagramma di attività relativo alla comunicazione testuale}\label{fig:ADcomtestuale}
 \end{figure}
+
+\subsubsection{Diagramma di attività Condivisione di risorse}
+La sotto-attività di condivisione (fig.~\vref{fig:ADcomtestuale}) di risorse comporta la possibilità di scegliere se condividere un file PDF, un file oppure lo schermo con gli altri partecipanti ad una comunicazione audio, audio/video oppure testuale.
 
 \begin{figure}[H]
 \centering
@@ -1604,20 +1701,38 @@ La connessione può essere di tipo audio (figura \ref{fig:ADcomaudio}), audio/vi
 \caption{Diagramma di attività relativo alla condivisione di risorse}\label{fig:ADcondrisorse}
 \end{figure}
 
+\subsubsection{Diagramma di attività Registrazione chiamata}
+La registrazione di una chiamata (fig.~\vref{fig:ADregistrachiamata}), sotto-attività cui è possibile accedere solo durante una comunicazione audio oppure audio/video, comporta innanzitutto l'inoltro di una richiesta di registrazione agli altri partecipanti della chiamata. Se si ottiene il consenso da parte di tutti, la registrazione ha inizio e prosegue fino a che non viene esplicitamente terminata. Se invece almeno uno degli utenti coinvolti non dà il proprio consenso alla registrazione, questa non può avere luogo.
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=.8\textwidth]{registrazione_chiamata}
 \caption{Diagramma di attività relativo alla registrazione della chiamata}\label{fig:ADregistrachiamata}
 \end{figure}
 
-In conclusione si ricorda che è possibile lasciare un messaggio nella segreteria di un determinato contatto se non presente in linea nel momento in cui desideriamo comunicare con lui \ref{fig:ADmessegreteria}.
+\subsubsection{Diagramma di attività Statistiche comunicazione}
+Nel corso di una comunicazione multimediale è possibile visualizzare una serie di informazioni (fig.~\vref{fig:ADstatistiche})fra cui:
+\begin{itemize}[noitemsep,nolistsep]
+  \item[-] il numero di byte inviati e ricevuti;
+  \item[-] la velocità di trasmissione;
+  \item[-] la latenza della connessione;
+  \item[-] il numero di fps (nel caso delle sole comunicazioni video).
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=.8\textwidth]{statistiche_com}
+\caption{Diagramma di attività relativo alla visualizzazione delle statistiche della comunicazione}\label{fig:ADstatistiche}
+\end{figure}
+
+\subsubsection{Diagramma di attività Messaggio in segreteria}
+In conclusione, si ricorda che è possibile lasciare un messaggio nella segreteria di un determinato contatto se non presente in linea nel momento in cui desideriamo comunicare con lui \vref{fig:ADmessegreteria}. I messaggi che possono essere lasciati in segreteria possono essere costituiti da una sola traccia audio oppure da una traccia audio e da una traccia video.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=.8\textwidth]{mes_segreteria}
 \caption{Diagramma di attività relativo alla memorizzazione di un messaggio in segreteria}\label{fig:ADmessegreteria}
 \end{figure}
-
 \clearpage
 
 \section{Tracciamenti}\label{sec:tracciamenti}
