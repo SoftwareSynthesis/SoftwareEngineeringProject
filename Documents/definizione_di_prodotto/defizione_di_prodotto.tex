@@ -167,12 +167,12 @@ L'interfaccia rappresenta un generico messaggio della segreteria.
 
 \subsubsection*{Metodi}
 \begin{description}
+	\item{\method{+ isNew(): boolean}}\\
+Restituisce un valore booleano che fornisce le informazioni relative all'ascolto del messaggio: \texttt{true} se è stato ascoltato, \texttt{false} altrimenti.
 	\item{\method{+ getSender(): IUserData}}\\
 Restituisce il mittente del messaggio, sotto forma di un sottotipo (design pattern Proxy) di \classname{IUserData}.
 	\item{\method{+ getDate(): Date}}\\
 Restituisce la data di creazione del messaggio (appoggiandosi a \texttt{java.util.Date}).
-	\item{\method{+ isNew(): boolean}}\\
-Restituisce un valore booleano che fornisce le informazioni relative all'ascolto del messaggio: \texttt{true} se è stato ascoltato, \texttt{false} altrimenti.
 	\item{\method{+ getLength(): int}}\\
 Restituisce la lunghezza del messaggio espressa in secondi.
 	\item{\method{+ getStream(): byte[]}}\\
@@ -184,45 +184,11 @@ Imposta il valore che determina se un messaggio è stato ascoltato o meno.
 
 \end{description}
 
-\classsection{IAudioMessage}
-
-\subsubsection*{Interfacce estese}
-\begin{itemize}[noitemsep,nolistsep]
-  \item[-] \classname{IMessage}
-\end{itemize}
-
-\subsubsection*{Funzione}
-L'interfaccia rappresenta un messaggio audio lasciato nella segreteria dell'utente.
-
-\subsubsection*{Relazioni d'uso}
-
-\subsubsection*{Metodi}
-\begin{description}
-  \item{\method{+ getAudio(): byte[]}}\\
-Restituisce il contenuto audio del messaggio attraverso il metodo \method{getStream()} dell'interfaccia \classname{IMessage}.
-\end{description}
-
-\classsection{IAudioVideoMessage}
-
-\subsubsection*{Interfacce estese}
-\begin{itemize}[noitemsep,nolistsep]
-  \item[-] \classname{IMessage}
-\end{itemize}
-
-\subsubsection*{Funzione}
-L'interfaccia rappresenta un messaggio audio/video lasciato nella segreteria dell'utente.
-
-\subsubsection*{Metodi}
-\begin{description}
-  \item{\method{+ getAudioVideo(): byte[]}}\\
-Restituisce il contenuto audio-video del messaggio attraverso il metodo \method{getStream()} dell'interfaccia \classname{IMessage}.
-\end{description}
-
 \classsection{AudioMessage}
 
 \subsubsection*{Interfacce implementate}
 \begin{itemize}[noitemsep,nolistsep]
-  \item[-] \classname{IAudioMessage}
+  \item[-] \classname{IMessage}
 \end{itemize}
 
 \subsubsection*{Funzionalità}
@@ -255,7 +221,7 @@ Costruttore dell'oggetto \classname{AudioMessage}.
 
 \subsubsection*{Interfacce implementate}
 \begin{itemize}[noitemsep,nolistsep]
-  \item[-] \classname{IAudioVideoMessage}
+  \item[-] \classname{IMessage}
 \end{itemize}
 
 \subsubsection*{Funzionalità}
