@@ -173,232 +173,6 @@ Hibernate è un \inglese{framework} Java utilizzato per facilitare l'utilizzo di
 \end{itemize}
 \clearpage
 
-\section{Design Pattern utilizzati}
-In questa sezione discuteremo i \inglese{design pattern} utilizzati nella progettazione dei componenti architetturali. Ogni \inglese{pattern} sarà proposto con la seguente forma:
-\begin{itemize}
-	\item \textbf{Scopo}: verrà proposto lo scopo generico del pattern, al fine di evidenziare subito la sua utilità.
-	\item \textbf{Diagramma esemplificativo}: si riporterà lo schema UML, rappresentante un implementazione generica del \inglese{design pattern} in esame.
-	\item \textbf{Vantaggi derivanti}: si darà un elenco dei vantaggi apportati dall'utilizzo del \inglese{pattern}, in particolare sotto il profilo della manutenzione e del riuso del codice.
-	\item \textbf{Componenti che lo implementano}: infine verranno elencati i componenti dell'architettura di sistema, che implementano il \inglese{pattern} descritto.
-\end{itemize}
-
-Per una visione d'insieme dei componenti utilizzati da un \inglese{pattern}, e dei \inglese{pattern} utilizzati da un componente, rimandiamo alle sottosezioni ``Tracciamenti Componenti-Design Pattern'' e ``Tracciamenti Design Pattern-Componenti'' della sezione \vref{sec:tracciamenti}.
-
-\subsection{Composite}
-
-\subsubsection{Scopo}
-Il \inglese{pattern} Composite ha lo scopo di comporre oggetti in strutture ad albero al fine di rappresentare gerarchie parte-tutto e consentire ai client di trattare oggetti singoli e composizioni in modo uniforme. Permette inoltre di gestire strutture dati gerarchicizzate con elementi ``foglie'' ed elementi ``contenitori'', l'ideale per la struttura ``gruppo'' e ``utente''.
-
-\subsubsection{Diagramma esemplificativo}
-\begin{figure}[H]
-\centering
-\includegraphics[width=.8\textwidth]{composite}
-\caption{Diagramma ad alto livello del \inglese{pattern} Composite}\label{fig:composite}
-\end{figure}
-
-\subsubsection{Componenti che lo implementano}
-\begin{description}
-\item{\bfseries\scshape Gestione rubrica}\\
-Composite permette di trattare in maniera omogenea singoli oggetti e oggetti composti, come gli utenti e gruppi di utenti della rubrica. Inoltre, dal momento che rende più semplice l'aggiunta di componenti, permetterebbe in futuro l'integrazione di nuove tipologie di utenti senza la necessità di modificare la struttura preesistente.
-
-Lo svantaggio principale che comporta l'uso di Composite è la mancanza di limiti nell'aggiunta di nuove tipologie di componenti. Per far fronte a questo rischio si è introdotta la classe \texttt{org.softwaresynthesis.mytalk.server.abook.AddressBook} che controlla l'accesso alla struttura dati corrispondente alla rubrica.
-\end{description}
-
-\subsection{Data Access Object (DAO)}
-
-\subsubsection{Scopo}
-Il \inglese{pattern} DAO ha lo scopo di disaccoppiare la logica di \inglese{business} dalla logica di accesso ai dati. Questo si ottiene spostando la logica di accesso ai dati dai componenti di business ad una classe DAO rendendo i componenti che implementano la logica di \inglese{business} indipendenti dalla natura del dispositivo di persistenza. Questo approccio garantisce che un eventuale cambiamento del dispositivo di persistenza non comporti modifiche sui componenti di \inglese{business}.
-
-\subsubsection{Diagramma esemplificativo}
-\begin{figure}[H]
-\centering
-\includegraphics[width=.8\textwidth]{dao}
-\caption{Diagramma ad alto livello del \inglese{pattern} Data Access Object}\label{fig:dao}
-\end{figure}
-
-\subsubsection{Componenti che lo implementano}
-\begin{description}
-\item{\scshape\bfseries Gestione database}\\
-Le classi DAO consentono di isolare l'accesso alle tabelle del database dalla parte di \inglese{business logic} facendo corrispondere alle invocazioni di metodo le opportune operazioni sui record del database.
-
-L'utilizzo di tale pattern crea inoltre un maggiore livello di astrazione e mantiene una rigida separazione tra le sotto-architetture corrispondenti a \inglese{model} e \inglese{presenter}.
-\end{description}
-
-\subsection{Façade}
-
-\subsubsection{Scopo}
-Fornire un'interfaccia unificata per un insieme di interfacce o classi presenti in una sotto-architettura. Façade definisce inoltre un'interfaccia di livello più alto che rende la sotto-architettura più semplice da utilizzare.
-
-\subsubsection{Diagramma esemplificativo}
-\begin{figure}[H]
-\centering
-\includegraphics[width=.8\textwidth]{facade}
-\caption{Diagramma ad alto livello del \inglese{pattern} Façade}\label{fig:façade}
-\end{figure}
-
-\subsubsection{Componenti che lo implementano}
-\begin{description}
-  \item{\scshape\bfseries Façade del server}\\
-L'uso di Façade permette di esporre verso i client una sorta di interfaccia semplificata nascondendo i componenti della sotto-architettura \texttt{server}, fornendo un punto di accesso centralizzato e riducendo il numero di dipendenze funzionali fra le classi del server e i componenti appartenenti a sotto-architetture esterne.
-  \item{\scshape\bfseries Façade del presenter}\\
-Tramite questo \inglese{design pattern} si introduce un livello di astrazione fra le sotto-architetture \texttt{clientpresenter} e \texttt{clientview}, che risultano dunque indipendenti.
-  \item{\scshape\bfseries Façade della vista}\\
-Data la forte bidirezionalità delle interazioni fra componenti appartenenti alle sotto-architetture \texttt{clientpresenter} e \texttt{clientview}, è stata introdotta una sorta di facciata anche alla vista in modo da facilitare il tracciamento delle dipendenze fra i componenti del \inglese{presenter} e quelli della \inglese{view}.
-\end{description}
-
-\subsection{Factory Method}
-
-\subsubsection{Scopo}
-Definisce un'interfaccia per la creazione di un oggetto, lasciando alle sottoclassi la decisione sulla classe concreta che deve essere istanziata e consente di deferire l'istanziazione di una classe alle sottoclassi.
-
-\subsubsection{Diagramma esemplificativo}
-\begin{figure}[H]
-\centering
-\includegraphics[width=.8\textwidth]{factory_method}
-\caption{Diagramma ad alto livello del \inglese{pattern} Factory Method}\label{fig:factory_method}
-\end{figure}
-
-\subsubsection{Componenti che lo implementano}
-\begin{description}
-  \item{\scshape\bfseries Façade del server}\\
-Factory Method permette ai client di ottenere con facilità degli oggetti \inglese{proxy} che specializzano le interfacce \texttt{server.dao.IAudioMessage}, \texttt{server.dao.IAudioVideoMessage} e \texttt{server.dao.IUserData}.
-
-Questo permette di ridurre il traffico di rete in quanto oggetti potenzialmente di grandi dimensioni rimangono sul server e vengono scaricati solo quando se ne presenta l'effettiva necessità.
-  \item{\scshape\bfseries Gestione connessione}\\
-Gli oggetti che rappresentano connessioni, sottotipi di \texttt{server.connection.IConnection} sono ottenuti mediante un Factory Method nelle classi concrete che implementano l'interfaccia \texttt{server.connectionICommunicationHandler}.
-
-Ciò garantisce maggiore flessibilità in quanto permette in futuro di gestire più categorie di \inglese{handler} che restituiscono diversi tipi connessione.
-\end{description}
-
-\subsection{Model-View-Presenter}\label{sec:MVP}
-
-\subsubsection{Scopo}
-Il pattern architetturale \inglese{Model-View-Presenter} similmente a quanto accade per \inglese{Model-View-Controller} (MVC), ha lo scopo di mantenere separata la \inglese{business logic}, cioè la gestione dei dati secondo le regole di un determinato dominio e la loro memorizzazione in forma persistente, dalla presentazione e manipolazione mediante interfaccia utente.
-
-\subsubsection{Diagrammi esemplificativi}
-\begin{figure}[H]
-\centering
-\includegraphics[width=.8\textwidth]{mvpHLdiagram}
-\caption{Diagramma ad alto livello del \inglese{pattern} MVP}\label{fig:mvpHL}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{diagrammasequenzaMVP}
-\caption{Diagramma di sequenza che illustra le collaborazioni in MVP}\label{fig:mvpSD}
-\end{figure}
-
-Come si evince dal diagramma riportato in figura \ref{fig:mvpSD} le interazioni avvengono solo tra \inglese{view} e \inglese{presenter} oppure tra \inglese{presenter} e \inglese{model}, senza che avvenga mai uno scambio di dati diretto fra \inglese{model} e \inglese{view}.
-
-Ciò si deve al fatto che la \inglese{business logic} e il modello dei dati risiedono nel server mentre il \inglese{presenter} e la \inglese{view} sono situati nel client. Quando un utente richiede un servizio tramite l'interfaccia grafica, la richiesta viene inoltrata dalla \inglese{view} al \inglese{presenter}.
-
-Qualora quest'ultimo fosse in grado di soddisfare tale richiesta con le risorse di cui dispone, i dati sono restituiti immediatamente alla \inglese{view} senza alcun bisogno di richiedere l'intervento del server. Nel caso, invece, in cui il \inglese{presenter} non fosse in grado di servire autonomamente la \inglese{view}, interrogherebbe il server al fine di ottenere i dati da restituire alla componente grafica.
-
-Il vantaggio di un simile schema di interazione consiste nella riduzione del traffico di rete e nel conseguente incremento delle prestazioni in termini di velocità e, di conseguenza, dell'esperienza utente in generale.
-
-\subsubsection{Componenti che lo implementano}
-MVP viene utilizzato come il pattern più ad alto livello del nostro sistema. La distinzione fra \inglese{model}, \inglese{presenter} e \inglese{view} è infatti rispecchiata dalla suddivisione del sistema nelle tre sotto-architetture \texttt{server}, \texttt{clientpresenter} e \texttt{clientview}.
-
-In generale, l'utilizzo di MVP riduce l'accoppiamento tra le sotto-architetture minimizzando le modifiche richieste a ognuno di essi come conseguenza di cambiamenti all'interno degli altri.
-
-Inoltre, i componenti di questa sotto-architettura non sono vincolati a utilizzare la rete per accedere alle informazioni che sono memorizzate sul server quando queste sono già disponibili (e possono essere elaborate) sul client, migliorando quindi l'esperienza utente.
-
-In particolare, le parti del sistema che usano questo pattern corrispondono alle sotto-architetture:
-\begin{itemize}[noitemsep,nolistsep]
-  \item[-] \texttt{server}
-  \item[-] \texttt{clientpresenter}
-  \item[-] \texttt{clientview}
-\end{itemize}
-
-\subsection{Observer}
-
-\subsubsection{Scopo}
-Definire una dipendenza uno a molti fra oggetti, in modo tale che se un oggetto cambia il suo stato tutti gli oggetti dipendenti da questo siano notificati e aggiornati automaticamente.
-
-\subsubsection{Diagramma esemplificativo}
-\begin{figure}[H]
-\centering
-\includegraphics[width=.7\textwidth]{observer}
-\caption{Diagramma ad alto livello del \inglese{pattern} Observer}\label{fig:observer}
-\end{figure}
-
-\subsubsection{Componenti che lo implementano}
-\begin{description}
-  \item{\scshape\bfseries Gestione stato}\\
-Il pattern Observer è utile in quanto permette agli utenti di osservare lo stato degli altri, ricevendo in modo automatico e trasparente una notifica nel caso in cui uno di questi ultimi subisse variazioni, essendo ogni utente sia osservato che osservatore.
-
-Al momento della connessione, infatti, ogni utente si registra come osservatore sui suoi contatti che sono online e, al contempo, li aggiunge tra i propri osservatori. In tal modo gli utenti notificano in \inglese{broadcast} le loro variazioni di stato e sono sempre aggiornati sullo stato dei contatti della loro rubrica.
-\end{description}
-
-\subsection{Proxy}
-
-\subsubsection{Scopo}
-Fornisce un \inglese{placeholder} per un altro oggetto in modo da controllarne l'accesso e consentire un uso ottimizzato della memoria.
-
-\subsubsection{Diagramma esemplificativo}
-\begin{figure}[H]
-\centering
-\includegraphics[width=.8\textwidth]{proxy}
-\caption{Diagramma ad alto livello del \inglese{pattern} Proxy}\label{fig:proxy}
-\end{figure}
-
-\subsubsection{Componenti che lo implementano}
-\begin{description}
-  \item{\bfseries\scshape Gestione rubrica}\\
-L'utilizzo di un \inglese{proxy} al posto di un utente permette di raggiungere una maggiore efficienza limitando l'utilizzo della rete evitando all'utente di percepire una eccessiva lentezza che comprometterebbe la sua esperienza.
-
-Inoltre, tramite un proxy è possibile controllare l'accesso ai dati (che risiedono nel server) garantendo dunque un migliore livello di protezione.
-  \item{\bfseries\scshape Gestione segreteria}\\
-Poiché i messaggi audio e, soprattutto, i messaggi audio/video possono essere di grandi dimensioni, i \textit{proxy} permettono di ottimizzare il consumo della memoria e di evitare l'attesa da parte dell'utente se non strettamente necessario.
-\end{description}
-
-\subsection{Singleton}
-
-\subsubsection{Scopo}
-Il pattern creazionale Singleton, garantisce che una determinata classe possa essere istanziata una sola volta, e di fornirne un punto di accesso globale. Questo \inglese{pattern} va utilizzato negli ambiti in cui si ha la necessità che l'accesso ad una determinata entità sia unico, in modo da permettere la gestione ottimale della risorsa stessa.
-
-\subsubsection{Diagramma esemplificativo}
-\begin{figure}[H]
-\centering
-\includegraphics[width=.5\textwidth]{singleton}
-\caption{Diagramma ad alto livello del \inglese{pattern} Singleton}\label{fig:singleton}
-\end{figure}
-
-\subsubsection{Componenti che lo implementano}
-\begin{description}
-  \item{\scshape\bfseries Façade del server}\\
-Il \inglese{pattern} Singleton pone un limite superiore stretto al numero di istanze che possono esistere di una determinata classe e perciò è utile utilizzarlo per poter controllare il numero di oggetti \texttt{server.StandardServerFacade} che in questo caso è pari a uno. L'unicità del Façade garantisce la presenza di un solo punto di accesso alle funzionalità della sotto-architettura \texttt{server}.
-  \item{\scshape\bfseries Façade del presenter}\\
-Il \inglese{pattern} Singleton è altresì utile per controllare il numero di istanze attive della classe \texttt{clientpresenter.StandardPresenterFacade} per gli stessi motivi evidenziati in precedenza, ossia l'unicità del punto di accesso alle funzionalità della sotto-architettura \texttt{clientpresenter}.
-  \item{\scshape\bfseries Gestione connessione}\\
-La classe \texttt{server.connection.StandardConnectionHandler} è implementata come Singleton in modo da centralizzare la responsabilità di creare nuove connessioni in risposta alle esigenze dei client.
-  \item{\scshape\bfseries Façade della vista}\\
-La classe \texttt{clientview.StandardViewFacade} è progettata in accordo con il \inglese{design pattern} Singleton in modo da assicurare che in ogni momento ve ne sia una sola istanza attiva, responsabile di ricevere le richieste che giungono dal \inglese{presenter}.
-  \item{\scshape\bfseries Gestione GUI}\\
-Anche la classe \texttt{clientview.gui.GUIHandler} è implementata come Singleton in quanto permette di centralizzare la gestione delle collaborazioni fra le varie istanze attive delle classi grafiche.
-\end{description}
-
-\subsection{State}
-
-\subsubsection{Scopo}
-Permette ad un oggetto di cambiare il suo comportamento al variare del suo stato interno, quindi a \inglese{runtime}. L'oggetto si comporterà come se avesse cambiato la sua classe.
-
-\subsubsection{Diagramma esemplificativo}
-\begin{figure}[H]
-\centering
-\includegraphics[width=.7\textwidth]{state}
-\caption{Diagramma ad alto livello del \inglese{pattern} State}\label{fig:state}
-\end{figure}
-
-\subsubsection{Componenti che lo implementano}
-\begin{description}
-\item{\scshape\bfseries Gestione dello Stato}\\
-Il \inglese{pattern} State permette di gestire gli utenti del sistema determinando un comportamento diverso per questi ultimi a seconda del loro stato.
-
-È stata definita un'apposita gerarchia di stati che permette quindi di specializzare nella maniera più adatta alle necessità del sistema le operazioni sugli utenti senza bisogno di condizionali annidati.
-\end{description}
-\clearpage
-
 \section{Introduzione all'architettura di sistema}\label{sec:introdesign}
 Per introdurre l'architettura proposta è essenziale mettere in evidenza le seguenti considerazioni:
 \begin{itemize}
@@ -1534,6 +1308,232 @@ Questa classe estende \texttt{MainPanel} e viene impiegata per rappresentare lo 
 \caption{Diagramma delle classi - Architettura \texttt{mytalk.clientview}}\label{fig:package_client_presenterview}
 \end{center}
 \end{figure}
+\clearpage
+
+\section{Design Pattern utilizzati}
+In questa sezione discuteremo i \inglese{design pattern} utilizzati nella progettazione dei componenti architetturali. Ogni \inglese{pattern} sarà proposto con la seguente forma:
+\begin{itemize}
+	\item \textbf{Scopo}: verrà proposto lo scopo generico del pattern, al fine di evidenziare subito la sua utilità.
+	\item \textbf{Diagramma esemplificativo}: si riporterà lo schema UML, rappresentante un implementazione generica del \inglese{design pattern} in esame.
+	\item \textbf{Vantaggi derivanti}: si darà un elenco dei vantaggi apportati dall'utilizzo del \inglese{pattern}, in particolare sotto il profilo della manutenzione e del riuso del codice.
+	\item \textbf{Componenti che lo implementano}: infine verranno elencati i componenti dell'architettura di sistema, che implementano il \inglese{pattern} descritto.
+\end{itemize}
+
+Per una visione d'insieme dei componenti utilizzati da un \inglese{pattern}, e dei \inglese{pattern} utilizzati da un componente, rimandiamo alle sottosezioni ``Tracciamenti Componenti-Design Pattern'' e ``Tracciamenti Design Pattern-Componenti'' della sezione \vref{sec:tracciamenti}.
+
+\subsection{Composite}
+
+\subsubsection{Scopo}
+Il \inglese{pattern} Composite ha lo scopo di comporre oggetti in strutture ad albero al fine di rappresentare gerarchie parte-tutto e consentire ai client di trattare oggetti singoli e composizioni in modo uniforme. Permette inoltre di gestire strutture dati gerarchicizzate con elementi ``foglie'' ed elementi ``contenitori'', l'ideale per la struttura ``gruppo'' e ``utente''.
+
+\subsubsection{Diagramma esemplificativo}
+\begin{figure}[H]
+\centering
+\includegraphics[width=.8\textwidth]{composite}
+\caption{Diagramma ad alto livello del \inglese{pattern} Composite}\label{fig:composite}
+\end{figure}
+
+\subsubsection{Componenti che lo implementano}
+\begin{description}
+\item{\bfseries\scshape Gestione rubrica}\\
+Composite permette di trattare in maniera omogenea singoli oggetti e oggetti composti, come gli utenti e gruppi di utenti della rubrica. Inoltre, dal momento che rende più semplice l'aggiunta di componenti, permetterebbe in futuro l'integrazione di nuove tipologie di utenti senza la necessità di modificare la struttura preesistente.
+
+Lo svantaggio principale che comporta l'uso di Composite è la mancanza di limiti nell'aggiunta di nuove tipologie di componenti. Per far fronte a questo rischio si è introdotta la classe \texttt{org.softwaresynthesis.mytalk.server.abook.AddressBook} che controlla l'accesso alla struttura dati corrispondente alla rubrica.
+\end{description}
+
+\subsection{Data Access Object (DAO)}
+
+\subsubsection{Scopo}
+Il \inglese{pattern} DAO ha lo scopo di disaccoppiare la logica di \inglese{business} dalla logica di accesso ai dati. Questo si ottiene spostando la logica di accesso ai dati dai componenti di business ad una classe DAO rendendo i componenti che implementano la logica di \inglese{business} indipendenti dalla natura del dispositivo di persistenza. Questo approccio garantisce che un eventuale cambiamento del dispositivo di persistenza non comporti modifiche sui componenti di \inglese{business}.
+
+\subsubsection{Diagramma esemplificativo}
+\begin{figure}[H]
+\centering
+\includegraphics[width=.8\textwidth]{dao}
+\caption{Diagramma ad alto livello del \inglese{pattern} Data Access Object}\label{fig:dao}
+\end{figure}
+
+\subsubsection{Componenti che lo implementano}
+\begin{description}
+\item{\scshape\bfseries Gestione database}\\
+Le classi DAO consentono di isolare l'accesso alle tabelle del database dalla parte di \inglese{business logic} facendo corrispondere alle invocazioni di metodo le opportune operazioni sui record del database.
+
+L'utilizzo di tale pattern crea inoltre un maggiore livello di astrazione e mantiene una rigida separazione tra le sotto-architetture corrispondenti a \inglese{model} e \inglese{presenter}.
+\end{description}
+
+\subsection{Façade}
+
+\subsubsection{Scopo}
+Fornire un'interfaccia unificata per un insieme di interfacce o classi presenti in una sotto-architettura. Façade definisce inoltre un'interfaccia di livello più alto che rende la sotto-architettura più semplice da utilizzare.
+
+\subsubsection{Diagramma esemplificativo}
+\begin{figure}[H]
+\centering
+\includegraphics[width=.8\textwidth]{facade}
+\caption{Diagramma ad alto livello del \inglese{pattern} Façade}\label{fig:façade}
+\end{figure}
+
+\subsubsection{Componenti che lo implementano}
+\begin{description}
+  \item{\scshape\bfseries Façade del server}\\
+L'uso di Façade permette di esporre verso i client una sorta di interfaccia semplificata nascondendo i componenti della sotto-architettura \texttt{server}, fornendo un punto di accesso centralizzato e riducendo il numero di dipendenze funzionali fra le classi del server e i componenti appartenenti a sotto-architetture esterne.
+  \item{\scshape\bfseries Façade del presenter}\\
+Tramite questo \inglese{design pattern} si introduce un livello di astrazione fra le sotto-architetture \texttt{clientpresenter} e \texttt{clientview}, che risultano dunque indipendenti.
+  \item{\scshape\bfseries Façade della vista}\\
+Data la forte bidirezionalità delle interazioni fra componenti appartenenti alle sotto-architetture \texttt{clientpresenter} e \texttt{clientview}, è stata introdotta una sorta di facciata anche alla vista in modo da facilitare il tracciamento delle dipendenze fra i componenti del \inglese{presenter} e quelli della \inglese{view}.
+\end{description}
+
+\subsection{Factory Method}
+
+\subsubsection{Scopo}
+Definisce un'interfaccia per la creazione di un oggetto, lasciando alle sottoclassi la decisione sulla classe concreta che deve essere istanziata e consente di deferire l'istanziazione di una classe alle sottoclassi.
+
+\subsubsection{Diagramma esemplificativo}
+\begin{figure}[H]
+\centering
+\includegraphics[width=.8\textwidth]{factory_method}
+\caption{Diagramma ad alto livello del \inglese{pattern} Factory Method}\label{fig:factory_method}
+\end{figure}
+
+\subsubsection{Componenti che lo implementano}
+\begin{description}
+  \item{\scshape\bfseries Façade del server}\\
+Factory Method permette ai client di ottenere con facilità degli oggetti \inglese{proxy} che specializzano le interfacce \texttt{server.dao.IAudioMessage}, \texttt{server.dao.IAudioVideoMessage} e \texttt{server.dao.IUserData}.
+
+Questo permette di ridurre il traffico di rete in quanto oggetti potenzialmente di grandi dimensioni rimangono sul server e vengono scaricati solo quando se ne presenta l'effettiva necessità.
+  \item{\scshape\bfseries Gestione connessione}\\
+Gli oggetti che rappresentano connessioni, sottotipi di \texttt{server.connection.IConnection} sono ottenuti mediante un Factory Method nelle classi concrete che implementano l'interfaccia \texttt{server.connectionICommunicationHandler}.
+
+Ciò garantisce maggiore flessibilità in quanto permette in futuro di gestire più categorie di \inglese{handler} che restituiscono diversi tipi connessione.
+\end{description}
+
+\subsection{Model-View-Presenter}\label{sec:MVP}
+
+\subsubsection{Scopo}
+Il pattern architetturale \inglese{Model-View-Presenter} similmente a quanto accade per \inglese{Model-View-Controller} (MVC), ha lo scopo di mantenere separata la \inglese{business logic}, cioè la gestione dei dati secondo le regole di un determinato dominio e la loro memorizzazione in forma persistente, dalla presentazione e manipolazione mediante interfaccia utente.
+
+\subsubsection{Diagrammi esemplificativi}
+\begin{figure}[H]
+\centering
+\includegraphics[width=.8\textwidth]{mvpHLdiagram}
+\caption{Diagramma ad alto livello del \inglese{pattern} MVP}\label{fig:mvpHL}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{diagrammasequenzaMVP}
+\caption{Diagramma di sequenza che illustra le collaborazioni in MVP}\label{fig:mvpSD}
+\end{figure}
+
+Come si evince dal diagramma riportato in figura \ref{fig:mvpSD} le interazioni avvengono solo tra \inglese{view} e \inglese{presenter} oppure tra \inglese{presenter} e \inglese{model}, senza che avvenga mai uno scambio di dati diretto fra \inglese{model} e \inglese{view}.
+
+Ciò si deve al fatto che la \inglese{business logic} e il modello dei dati risiedono nel server mentre il \inglese{presenter} e la \inglese{view} sono situati nel client. Quando un utente richiede un servizio tramite l'interfaccia grafica, la richiesta viene inoltrata dalla \inglese{view} al \inglese{presenter}.
+
+Qualora quest'ultimo fosse in grado di soddisfare tale richiesta con le risorse di cui dispone, i dati sono restituiti immediatamente alla \inglese{view} senza alcun bisogno di richiedere l'intervento del server. Nel caso, invece, in cui il \inglese{presenter} non fosse in grado di servire autonomamente la \inglese{view}, interrogherebbe il server al fine di ottenere i dati da restituire alla componente grafica.
+
+Il vantaggio di un simile schema di interazione consiste nella riduzione del traffico di rete e nel conseguente incremento delle prestazioni in termini di velocità e, di conseguenza, dell'esperienza utente in generale.
+
+\subsubsection{Componenti che lo implementano}
+MVP viene utilizzato come il pattern più ad alto livello del nostro sistema. La distinzione fra \inglese{model}, \inglese{presenter} e \inglese{view} è infatti rispecchiata dalla suddivisione del sistema nelle tre sotto-architetture \texttt{server}, \texttt{clientpresenter} e \texttt{clientview}.
+
+In generale, l'utilizzo di MVP riduce l'accoppiamento tra le sotto-architetture minimizzando le modifiche richieste a ognuno di essi come conseguenza di cambiamenti all'interno degli altri.
+
+Inoltre, i componenti di questa sotto-architettura non sono vincolati a utilizzare la rete per accedere alle informazioni che sono memorizzate sul server quando queste sono già disponibili (e possono essere elaborate) sul client, migliorando quindi l'esperienza utente.
+
+In particolare, le parti del sistema che usano questo pattern corrispondono alle sotto-architetture:
+\begin{itemize}[noitemsep,nolistsep]
+  \item[-] \texttt{server}
+  \item[-] \texttt{clientpresenter}
+  \item[-] \texttt{clientview}
+\end{itemize}
+
+\subsection{Observer}
+
+\subsubsection{Scopo}
+Definire una dipendenza uno a molti fra oggetti, in modo tale che se un oggetto cambia il suo stato tutti gli oggetti dipendenti da questo siano notificati e aggiornati automaticamente.
+
+\subsubsection{Diagramma esemplificativo}
+\begin{figure}[H]
+\centering
+\includegraphics[width=.7\textwidth]{observer}
+\caption{Diagramma ad alto livello del \inglese{pattern} Observer}\label{fig:observer}
+\end{figure}
+
+\subsubsection{Componenti che lo implementano}
+\begin{description}
+  \item{\scshape\bfseries Gestione stato}\\
+Il pattern Observer è utile in quanto permette agli utenti di osservare lo stato degli altri, ricevendo in modo automatico e trasparente una notifica nel caso in cui uno di questi ultimi subisse variazioni, essendo ogni utente sia osservato che osservatore.
+
+Al momento della connessione, infatti, ogni utente si registra come osservatore sui suoi contatti che sono online e, al contempo, li aggiunge tra i propri osservatori. In tal modo gli utenti notificano in \inglese{broadcast} le loro variazioni di stato e sono sempre aggiornati sullo stato dei contatti della loro rubrica.
+\end{description}
+
+\subsection{Proxy}
+
+\subsubsection{Scopo}
+Fornisce un \inglese{placeholder} per un altro oggetto in modo da controllarne l'accesso e consentire un uso ottimizzato della memoria.
+
+\subsubsection{Diagramma esemplificativo}
+\begin{figure}[H]
+\centering
+\includegraphics[width=.8\textwidth]{proxy}
+\caption{Diagramma ad alto livello del \inglese{pattern} Proxy}\label{fig:proxy}
+\end{figure}
+
+\subsubsection{Componenti che lo implementano}
+\begin{description}
+  \item{\bfseries\scshape Gestione rubrica}\\
+L'utilizzo di un \inglese{proxy} al posto di un utente permette di raggiungere una maggiore efficienza limitando l'utilizzo della rete evitando all'utente di percepire una eccessiva lentezza che comprometterebbe la sua esperienza.
+
+Inoltre, tramite un proxy è possibile controllare l'accesso ai dati (che risiedono nel server) garantendo dunque un migliore livello di protezione.
+  \item{\bfseries\scshape Gestione segreteria}\\
+Poiché i messaggi audio e, soprattutto, i messaggi audio/video possono essere di grandi dimensioni, i \textit{proxy} permettono di ottimizzare il consumo della memoria e di evitare l'attesa da parte dell'utente se non strettamente necessario.
+\end{description}
+
+\subsection{Singleton}
+
+\subsubsection{Scopo}
+Il pattern creazionale Singleton, garantisce che una determinata classe possa essere istanziata una sola volta, e di fornirne un punto di accesso globale. Questo \inglese{pattern} va utilizzato negli ambiti in cui si ha la necessità che l'accesso ad una determinata entità sia unico, in modo da permettere la gestione ottimale della risorsa stessa.
+
+\subsubsection{Diagramma esemplificativo}
+\begin{figure}[H]
+\centering
+\includegraphics[width=.5\textwidth]{singleton}
+\caption{Diagramma ad alto livello del \inglese{pattern} Singleton}\label{fig:singleton}
+\end{figure}
+
+\subsubsection{Componenti che lo implementano}
+\begin{description}
+  \item{\scshape\bfseries Façade del server}\\
+Il \inglese{pattern} Singleton pone un limite superiore stretto al numero di istanze che possono esistere di una determinata classe e perciò è utile utilizzarlo per poter controllare il numero di oggetti \texttt{server.StandardServerFacade} che in questo caso è pari a uno. L'unicità del Façade garantisce la presenza di un solo punto di accesso alle funzionalità della sotto-architettura \texttt{server}.
+  \item{\scshape\bfseries Façade del presenter}\\
+Il \inglese{pattern} Singleton è altresì utile per controllare il numero di istanze attive della classe \texttt{clientpresenter.StandardPresenterFacade} per gli stessi motivi evidenziati in precedenza, ossia l'unicità del punto di accesso alle funzionalità della sotto-architettura \texttt{clientpresenter}.
+  \item{\scshape\bfseries Gestione connessione}\\
+La classe \texttt{server.connection.StandardConnectionHandler} è implementata come Singleton in modo da centralizzare la responsabilità di creare nuove connessioni in risposta alle esigenze dei client.
+  \item{\scshape\bfseries Façade della vista}\\
+La classe \texttt{clientview.StandardViewFacade} è progettata in accordo con il \inglese{design pattern} Singleton in modo da assicurare che in ogni momento ve ne sia una sola istanza attiva, responsabile di ricevere le richieste che giungono dal \inglese{presenter}.
+  \item{\scshape\bfseries Gestione GUI}\\
+Anche la classe \texttt{clientview.gui.GUIHandler} è implementata come Singleton in quanto permette di centralizzare la gestione delle collaborazioni fra le varie istanze attive delle classi grafiche.
+\end{description}
+
+\subsection{State}
+
+\subsubsection{Scopo}
+Permette ad un oggetto di cambiare il suo comportamento al variare del suo stato interno, quindi a \inglese{runtime}. L'oggetto si comporterà come se avesse cambiato la sua classe.
+
+\subsubsection{Diagramma esemplificativo}
+\begin{figure}[H]
+\centering
+\includegraphics[width=.7\textwidth]{state}
+\caption{Diagramma ad alto livello del \inglese{pattern} State}\label{fig:state}
+\end{figure}
+
+\subsubsection{Componenti che lo implementano}
+\begin{description}
+\item{\scshape\bfseries Gestione dello Stato}\\
+Il \inglese{pattern} State permette di gestire gli utenti del sistema determinando un comportamento diverso per questi ultimi a seconda del loro stato.
+
+È stata definita un'apposita gerarchia di stati che permette quindi di specializzare nella maniera più adatta alle necessità del sistema le operazioni sugli utenti senza bisogno di condizionali annidati.
+\end{description}
 \clearpage
 
 \section{Diagrammi delle attività}
