@@ -158,50 +158,64 @@ Infine, i membri statici di classi e interfacce sono contrassegnati con una \und
 
 \subsection{Package org.softwaresynthesis.mytalk.server.dao}\label{sec:dao}
 
-\classsection{IAudioMessage}
+\classsection{IMessage}
 
 \subsubsection*{Funzione}
+L'interfaccia rappresenta un generico messaggio della segreteria.
 
 \subsubsection*{Relazioni d'uso}
 
-% eventualmente creare interfaccia padre IMessage
-% vedere issue #62
+\subsubsection*{Metodi}
+\begin{description}
+	\item{\method{+ getSender(): IUserData}}\\
+Restituisce il mittente del messaggio, sotto forma di un sottotipo (design pattern Proxy) di \classname{IUserData}.
+	\item{\method{+ getDate(): Date}}\\
+Restituisce la data di creazione del messaggio (appoggiandosi a \texttt{java.util.Date}).
+	\item{\method{+ isNew(): boolean}}\\
+Restituisce un valore booleano che fornisce le informazioni relative all'ascolto del messaggio: \texttt{true} se è stato ascoltato, \texttt{false} altrimenti.
+	\item{\method{+ getLength(): int}}\\
+Restituisce la lunghezza del messaggio espressa in secondi.
+	\item{\method{+ getStream(): byte[]}}\\
+Restituisce lo stream dati del messaggio.
+	\item{\method{+ getSize(): int}}\\
+Restituisce la dimensione del messaggio espressa in byte.
+	\item{\method{+ setNew(value: boolean): void}}\\
+Imposta il valore che determina se un messaggio è stato ascoltato o meno.
+
+\end{description}
+
+\classsection{IAudioMessage}
+
+\subsubsection*{Interfacce estese}
+\begin{itemize}[noitemsep,nolistsep]
+  \item[-] \classname{IMessage}
+\end{itemize}
+
+\subsubsection*{Funzione}
+L'interfaccia rappresenta un messaggio audio lasciato nella segreteria dell'utente.
+
+\subsubsection*{Relazioni d'uso}
 
 \subsubsection*{Metodi}
 \begin{description}
-  \item{\method{+ getSender(): IUserData}}\\
-Restituisce il mittente del messaggio, sotto forma di un sottotipo (proxy) di \classname{IUserData}.
-  \item{\method{+ getDate(): Date}}\\
-Restituisce la data di creazione del messaggio (appoggiandosi a \texttt{java.util.Date}).
-  \item{\method{+ isNew(): boolean}}\\
-Restituisce un booleano che fornisce le informazioni relative all'ascolto del messaggio: \texttt{true} se è stato ascoltato, \texttt{false} altrimenti.
-  \item{\method{+ setNew(b: boolean): void}}\\
-Imposta il booleano che fornisce le informazioni relative all'ascolto del messaggio.
-  \item{\method{+ getLength(): int}}\\
-Restituisce la lunghezza del messaggio audio espressa in secondi.
   \item{\method{+ getAudio(): byte[]}}\\
-Restituisce il contenuto del messaggio audio in questione.
-  \item{\method{+ getSize(): int}}\\
-Restituisce la dimensione del messaggio audio espressa in byte.
+Restituisce il contenuto audio del messaggio attraverso il metodo \method{getStream()} dell'interfaccia \classname{IMessage}.
 \end{description}
 
 \classsection{IAudioVideoMessage}
+
+\subsubsection*{Interfacce estese}
+\begin{itemize}[noitemsep,nolistsep]
+  \item[-] \classname{IMessage}
+\end{itemize}
+
+\subsubsection*{Funzione}
+L'interfaccia rappresenta un messaggio audio/video lasciato nella segreteria dell'utente.
+
 \subsubsection*{Metodi}
 \begin{description}
-  \item{\method{+ getSender(): IUserData}}\\
-Restituisce il mittente del messaggio, sotto forma di un sottotipo (proxy) di \classname{IUserData}.
-  \item{\method{+ getDate(): Date}}\\
-Restituisce la data di creazione del messaggio (appoggiandosi a \texttt{java.util.Date}).
-  \item{\method{+ isNew(): boolean}}\\
-Restituisce un booleano che fornisce le informazioni relative all'ascolto del messaggio: \texttt{true} se è stato ascoltato, \texttt{false} altrimenti.
-  \item{\method{+ setNew(b: boolean): void}}\\
-Imposta il booleano che fornisce le informazioni relative all'ascolto del messaggio.
-  \item{\method{+ getLength(): int}}\\
-Restituisce la lunghezza del messaggio audio/video espressa in secondi.
   \item{\method{+ getAudioVideo(): byte[]}}\\
-Restituisce il contenuto del messaggio audio/video in questione.
-  \item{\method{+ getSize(): int}}\\
-Restituisce la dimensione del messaggio audio/video espressa in byte.
+Restituisce il contenuto audio-video del messaggio attraverso il metodo \method{getStream()} dell'interfaccia \classname{IMessage}.
 \end{description}
 
 \classsection{AudioMessage}
@@ -212,6 +226,7 @@ Restituisce la dimensione del messaggio audio/video espressa in byte.
 \end{itemize}
 
 \subsubsection*{Funzionalità}
+La classe rappresenta il messaggio audio vero e proprio memorizzato nella segreteria dell'utente.
 
 \subsubsection*{Relazioni d'uso}
 
@@ -233,6 +248,7 @@ Rappresentazione del contenuto del messaggio audio.
 Oltre alle implementazioni dell'interfaccia \classname{IAudioMessage}, la classe contiene i seguenti metodi:
 \begin{description}
   \item{\method{AudioMessage(path: String)}}\\
+Costruttore dell'oggetto \classname{AudioMessage}.
 \end{description}
 
 \classsection{AudioVideoMessage}
@@ -243,6 +259,7 @@ Oltre alle implementazioni dell'interfaccia \classname{IAudioMessage}, la classe
 \end{itemize}
 
 \subsubsection*{Funzionalità}
+La classe rappresenta il messaggio audio/video vero e proprio memorizzato nella segreteria dell'utente.
 
 \subsubsection*{Relazioni d'uso}
 
@@ -264,6 +281,7 @@ Rappresentazione del contenuto del messaggio audio/video.
 Oltre alle implementazioni dell'interfaccia \classname{IAudioVideoMessage}, la classe contiene i seguenti metodi:
 \begin{description}
   \item{\method{AudioVideoMessage(path: String)}}\\
+Costruttore dell'oggetto \classname{AudioVideoMessagio()}.
 \end{description}
 
 \classsection{IGroup}
