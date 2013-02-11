@@ -742,8 +742,7 @@ Si informa inoltre che le classi di tale componente dovranno interagire con il \
 	\begin{itemize}[nolistsep, noitemsep]
 	  \item[-] \texttt{dao.AudioMessage}
 	  \item[-] \texttt{dao.AudioVideoMessage}
-	  \item[-] \texttt{dao.IAudioMessage}
-	  \item[-] \texttt{dao.IAudioVideoMessage}
+	  \item[-] \texttt{dao.IMessage}
 	  \item[-] \texttt{dao.IGroup}
 	  \item[-] \texttt{dao.IUserData}
 	  \item[-] \texttt{dao.StandardGroup}
@@ -841,9 +840,9 @@ Inoltre, i cambiamenti di stato vengono notificati a tutti gli utenti presenti i
 	\item{\scshape\bfseries Descrizione:}\\
 Il sistema di segreteria telefonica corrisponde all'interfaccia \texttt{message.IMessageBox} e alla relativa implementazione \texttt{message.StandardMessageBox} che permettono un accesso centralizzato all'insieme di messaggi che un determinato utente ha ricevuto.
 
-I messaggi audio e audio/video sul server sono rappresentati dalle classi \texttt{dao.IAudioMessage} (implementata da \texttt{dao.AudioMessage}) e \texttt{dao.IAudioVideoMessage} (implementata da \texttt{dao.AudioVideoMessage}) rispettivamente.
+I messaggi audio e audio/video sul server sono rappresentati dalle classi \texttt{dao.AudioMessage} e \texttt{dao.AudioVideoMessage} rispettivamente.
 
-L'onere di caricare in memoria e gestire l'interno contenuto del messaggio è posticipato al momento di effettiva necessità mediante l'utilizzo dei \inglese{virtual proxy} corrispondenti alle classi \texttt{message.AudioMessageProxy} e \texttt{message.AudioVideoMessageProxy}.
+L'onere di caricare in memoria e gestire l'interno contenuto del messaggio è posticipato al momento di effettiva necessità mediante l'utilizzo di un \inglese{virtual proxy} corrispondente alla classe \texttt{message.MessageProxy}.
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
 \begin{center}
@@ -856,10 +855,8 @@ L'onere di caricare in memoria e gestire l'interno contenuto del messaggio è po
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \texttt{dao.AudioMessage}
 	  \item[-] \texttt{dao.AudioVideoMessage}
-	  \item[-] \texttt{dao.IAudioMessage}
-	  \item[-] \texttt{dao.IAudioVideoMessage}
-	  \item[-] \texttt{message.AudioMessageProxy}
-	  \item[-] \texttt{message.AudioVideoMessageProxy}
+	  \item[-] \texttt{dao.IMessage}
+	  \item[-] \texttt{message.MessageProxy}
 	\end{itemize}
 \end{description}
 
@@ -891,34 +888,10 @@ Le funzionalità esposte consentono di gestire i messaggi presenti in segreteria
 
 \begin{itemize}[leftmargin=0em]
 
-\item \texttt{IAudioMessage}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:}\\
-Interfaccia per i messaggi audio della segreteria telefonica che viene implementata dalle classi \texttt{AudioMessage} e dal relativo proxy \texttt{server.message.AudioMessageProxy}.
-% contiene operazione astratta play() per riprodurre il messaggio (se presente) o scaricarlo e avviarne la riproduzione
-	\item{\scshape\bfseries Componenti che ne fanno uso:}
-	  \begin{itemize}[noitemsep,nolistsep]
-	  \item[-] Gestione database
-	  \item[-] Gestione segreteria
-	  \end{itemize}
-\end{description}
-
-\item \texttt{IAudioVideoMessage}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:}\\
-Interfaccia per i messaggi audio/video della segreteria telefonica, a sua volta implementata dalle classi \texttt{AudioVideoMessage} e dal suo proxy \texttt{server.message.AudioVideoMessageProxy}.
-% contiene operazione astratta play() per riprodurre il messaggio (se presente) o scaricarlo e avviarne la riproduzione
-	\item{\scshape\bfseries Componenti che ne fanno uso:} 
-	  \begin{itemize}[noitemsep,nolistsep]
-	    \item[-] Gestione database
-	    \item[-] Gestione segreteria
-	  \end{itemize}
-\end{description}
-
 \item \texttt{AudioMessage}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Classe che rappresenta un messaggio audio nella segreteria telefonica di un utente, implementa l'interfaccia \texttt{IAudioMessage}.
+Classe che rappresenta un messaggio audio nella segreteria telefonica di un utente, implementa l'interfaccia \texttt{IMessage}.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	  \begin{itemize}[noitemsep,nolistsep]
 	    \item[-] Gestione database
@@ -929,7 +902,7 @@ Classe che rappresenta un messaggio audio nella segreteria telefonica di un uten
 \item \texttt{AudioVideoMessage}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Classe che rappresenta un messaggio audio/video nella segreteria telefonica di un utente, implementa l'interfaccia \texttt{IAudioVideoMessage}.
+Classe che rappresenta un messaggio audio/video nella segreteria telefonica di un utente, implementa l'interfaccia \texttt{IMessage}.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	  \begin{itemize}[noitemsep,nolistsep]
 	    \item[-] Gestione database
@@ -1163,20 +1136,10 @@ Classe concreta che implementa l'interfaccia \texttt{IMessageBox} e rappresenta 
 	\end{itemize}
 \end{description}
 
-\item \texttt{AudioMessageProxy}
+\item \texttt{MessageProxy}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-\inglese{Proxy} virtuale ad uso dei client per i messaggi audio lasciati ad un utente in segreteria. La classe implementa l'interfaccia \texttt{server.dao.IAudioMessage} ogni sua istanza è costruita per composizione con un riferimento a  \texttt{server.dao.AudioMessage}, cui inoltra le richieste dopo aver eventualmente scaricato il messaggio dal server.
-	\item{\scshape\bfseries Componenti che ne fanno uso:}
-	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] Gestione segreteria
-	\end{itemize}
-\end{description}
-
-\item \texttt{AudioVideoMessageProxy}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:}\\
-\inglese{Proxy} virtuale ad uso dei client per i messaggi audio/video in segreteria. La classe implementa l'interfaccia \texttt{server.dao.AudioVideoMessage} ed è costruita, similmente a \texttt{AudioMessageProxy} con un'istanza di \texttt{server.dao.AudioVideoMessage} per limitare il traffico di rete e ottimizzare il consumo di memoria del client.
+\inglese{Proxy} virtuale ad uso dei client per i messaggi lasciati ad un utente in segreteria (siano essi audio oppure audio/video). La classe implementa l'interfaccia \texttt{server.dao.IMessage} ogni sua istanza è costruita per composizione con un riferimento a  \texttt{server.dao.AudioMessage} o \texttt{server.dao.AudioVideoMessage}, cui inoltra le richieste dopo aver eventualmente scaricato il messaggio dal server.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Gestione segreteria
