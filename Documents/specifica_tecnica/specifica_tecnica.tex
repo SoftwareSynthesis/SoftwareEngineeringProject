@@ -1027,7 +1027,9 @@ In pratica, nel momento in cui l'utente A desidera stabilire una comunicazione c
 	\item{\scshape\bfseries Descrizione:}\\
 Il componente ha il duplice ruolo di intercettare gli eventi che scaturiscono dall'interazione dell'utente con la GUI e di controllare l'aggiornamento della stessa a seguito dei cambiamenti che intervengono sul modello dei dati.
 
-Le istanze di sottotipi di \texttt{guicontrol.MainPanelPresenter} comprendono dunque, oltre ad alcune operazioni comuni (ad es. per l'inizializzazione) tutte le funzioni di \inglese{callback} richiamate dall'interfaccia grafica. Inoltre, dal momento che questo componente è responsabile anche delle modifiche alle viste, le sottoclassi di \texttt{guicontrol.MainPanelPresenter} contengono anche le operazioni richiamate dall'esterno per l'aggiornamento dinamico della GUI.
+Le istanze di sottotipi di \texttt{guicontrol.MainPanelPresenter} comprendono dunque, oltre ad alcune operazioni comuni (ad es. per l'inizializzazione o per la comparsa/scomparsa dell'elemento grafico associato) tutte le funzioni di \inglese{callback} richiamate dall'interfaccia grafica.
+
+D'altro canto, dal momento che questo componente è responsabile anche delle modifiche alle viste, le sottoclassi di \texttt{guicontrol.MainPanelPresenter} contengono anche le operazioni richiamate dall'esterno per l'aggiornamento dinamico della GUI.
 
 La struttura delle classi che lo compongono mostra una corrispondenza biunivoca con gli elementi grafici presentati nella sezione~\ref{sec:gui} con un \inglese{presenter} per ognuno dei pannelli, cui si aggiunge un oggetto istanza di \texttt{guicontrol.PresenterMediator}. Quest'ultimo incapsula la collaborazione fra i vari \inglese{presenter} e permette di gestire gli eventi generati da un elemento della GUI inviando a uno (o più) \inglese{presenter} i messaggi corrispondenti alle azioni da compiere.
 	\item{\scshape\bfseries Diagramma delle classi:}\\
@@ -1041,10 +1043,10 @@ La struttura delle classi che lo compongono mostra una corrispondenza biunivoca 
 	  \item[-] \texttt{guicontrol.CommunicationPanelPresenter}
 	  \item[-] \texttt{guicontrol.ContactPanelPresenter}
 	  \item[-] \texttt{guicontrol.LanguagePanelPresenter}
-	  \item[-] \texttt{guicontrol.MainPanelPresenter}
+	  \item[-] \texttt{guicontrol.MainPanelPresenter} %TODO siamo sicuri che vada qui e non nel package kernel?
 		\item[-] \texttt{guicontrol.MessagePanelPresenter}
-		\item[-] \texttt{guicontrol.PresenterMediator} %questo non so se lo metterei qui o nel kernel
-	  \item[-] \texttt{guicontrol.SearchResultPanelPresenter}
+		\item[-] \texttt{guicontrol.PresenterMediator}
+	  \item[-] \texttt{guicontrol.SearchResultPanelPresenter} %TODO: forse da ricongiungere con AddressBookPanelPresenter
 	  \item[-] \texttt{guicontrol.ToolsPanelPresenter}
 	\end{itemize}
 \end{description}
@@ -1071,7 +1073,7 @@ I metodi del componente Façade del \inglese{presenter} hanno la cognizione dell
 
 \subsection{Descrizione delle classi}
 
-\subsubsection{Package \texttt{org.softwaresynthesis.mytalk.clientpresenter}}
+\subsubsection{Package \texttt{org.softwaresynthesis.mytalk.clientpresenter.kernel}}
 
 \begin{itemize}[leftmargin=0em]
 
@@ -1095,6 +1097,118 @@ Implementazione dell'interfaccia \texttt{IClient} che incapsula al suo interno l
 	\end{itemize}
 \end{description}
 
+\end{itemize}
+
+\subsubsection{Package \texttt{org.softwaresynthesis.mytalk.clientpresenter.guicontrol}}
+\begin{itemize}[noitemsep,nolistsep]
+
+\item[-] \texttt{guicontrol.AccountSettingsPanelPresenter}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:}\\
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-] Gestione GUI
+	\end{itemize}
+\end{description}
+
+\item[-] \texttt{guicontrol.AddressBookPanelPresenter}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:}\\
+Tale \inglese{presenter} viene richiamato dall'elemento grafico corrispondente a \texttt{org.softwaresynthesis.mytalk.clientview.AddressBookPanel} e contiene la risposta a eventi quali la selezione di un contatto dalla rubrica da parte dell'utente. Contiene inoltre un'operazione di \inglese{refresh} che visualizza una lista di contatti ricevuta in input in forma grafica sulla UI\@.
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-] Gestione GUI
+	\end{itemize}
+\end{description}
+
+\item[-] \texttt{guicontrol.CallHistoryPanelPresenter}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:}\\
+Questo \inglese{presenter} gestisce l'elemento \texttt{org.softwaresynthesis.mytalk.clientview.CallHistoryPanel} presente nell'interfaccia grafica, permettendo la visualizzazione di un array di chiamate corrispondenti allo storico delle comunicazioni di un determinato utente. Poiché il componente grafico supervisionato è totalmente passivo, non sono presenti operazioni di \inglese{callback} da associare alle componenti grafiche vere e proprie.
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-] Gestione GUI
+	\end{itemize}
+\end{description}
+
+\item[-] \texttt{guicontrol.CommunicationPanelPresenter}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:}\\
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-] Gestione GUI
+	\end{itemize}
+\end{description}
+
+\item[-] \texttt{guicontrol.ContactPanelPresenter}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:}\\
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-] Gestione GUI
+	\end{itemize}
+\end{description}
+
+\item[-] \texttt{guicontrol.LanguagePanelPresenter}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:}\\
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-] Gestione GUI
+	\end{itemize}
+\end{description}
+
+\item[-] \texttt{guicontrol.MainPanelPresenter}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:}\\
+Classe base per i \inglese{presenter} associati ai diversi componenti dell'interfaccia grafica. Contiene i metodi necessari all'inizializzazione di questi ultimi nonché i controlli che ne attivano la comparsa o scomparsa in risposta alle preferenze di visualizzazione dell'utente.
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-] Gestione GUI
+	\end{itemize}
+\end{description}
+
+\item[-] \texttt{guicontrol.MessagePanelPresenter}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:}\\
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-] Gestione GUI
+	\end{itemize}
+\end{description}
+
+\item[-] \texttt{guicontrol.PresenterMediator}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:}\\
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-] Gestione GUI
+	\end{itemize}
+\end{description}
+
+%TODO: forse da eliminare
+\item[-] \texttt{guicontrol.SearchResultPanelPresenter}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:}\\
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-] Gestione GUI
+	\end{itemize}
+\end{description}
+
+\item[-] \texttt{guicontrol.ToolsPanelPresenter}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:}\\
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-] Gestione GUI
+	\end{itemize}
+\end{description}
+
+\end{itemize}
+
+\subsubsection{Package \texttt{org.softwaresynthesis.mytalk.clientpresenter}}
+
 \item \texttt{IPresenterFacade}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
@@ -1102,7 +1216,9 @@ Interfaccia che raccoglie la dichiarazione di tutte le operazioni astratte con c
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Façade del presenter
-	  \item[-] Gestione GUI
+	  %\item[-] Gestione GUI
+	  %TODO
+	  % qui dovrebbe esserci: Gestione Stato ad esempio
 	\end{itemize}
 \end{description}
 
@@ -1204,7 +1320,7 @@ Si noti che tale componente demanda tutta la logica al \inglese{presenter}, tram
 		\item[-] \texttt{gui.ToolsPanel}
 		\item[-] \texttt{gui.AddressBookPanel}
 		\item[-] \texttt{gui.ContactPanel}
-		\item[-] \texttt{gui.SearchResultPanel}
+		\item[-] \texttt{gui.SearchResultPanel} %TODO: questo se non sbaglio Tres diceva di assimilarlo a AddressBookPanel
 		\item[-] \texttt{gui.MessagePanel}
 		\item[-] \texttt{gui.LanguagePanel}
 		\item[-] \texttt{gui.AccountSettingsPanel}
@@ -1288,6 +1404,7 @@ Classe che rappresenta il pannello degli strumenti della \inglese{home screen} d
   \end{itemize}
 \end{description}
 
+%TODO: forse da eliminare
 \item \texttt{SearchResultPanel}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
