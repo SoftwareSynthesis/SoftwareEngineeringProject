@@ -994,7 +994,7 @@ Nella progettazione ad alto livello è stato scelto di non tenere in considerazi
 
 Tale scelta è motivata dalle seguenti considerazioni:
 \begin{itemize}
-   \item l'utilizzo dei \inglese{pattern} architetturali necessita a monte di uno stile di progettazione ad oggetti
+   \item l'utilizzo dei \inglese{pattern} architetturali necessita a monte di uno stile di progettazione ad oggetti;
    \item così facendo è garantita la possibilità di riuso del risultato progettazione architetturale sotto altri domini tecnologici.
 \end{itemize}
 
@@ -1007,7 +1007,7 @@ La presenza delle interfacce, delle relazioni di implementazione e l'estensione 
 	\item{\scshape\bfseries Descrizione:}\\
 È il componente che definisce i client con cui sta comunicando o con cui desidera comunicare l'utente. Tale componente è costituito da un'interfaccia \texttt{clientpresenter.IClient} che rappresenta un modello di client con cui interagire (possibilità di stabilire una connessione, possibilità di estendere una comunicazione e possibilità di verificare se il client è Supernodo).
 
-In pratica nel momento in cui l'utente A desidera stabilire una comunicazione con l'utente B, questi si farà restituire dal server le informazioni necessarie. Con tali informazioni, quindi, sarà creata un istanza di \texttt{clientpresenter.StandardClient} (implementazione dell'interfaccia \texttt{clientpresenter.IClient}), dalla quale potrà essere abilitata la comunicazione.
+In pratica, nel momento in cui l'utente A desidera stabilire una comunicazione con l'utente B, questi si farà restituire dal server le informazioni necessarie. Con tali informazioni, quindi, sarà creata un istanza di \texttt{clientpresenter.StandardClient} (implementazione dell'interfaccia \texttt{clientpresenter.IClient}), dalla quale potrà essere abilitata la comunicazione.
 	\item{\scshape\bfseries Diagramma delle classi:}
 	\begin{figure}[H]
 \begin{center}
@@ -1017,36 +1017,44 @@ In pratica nel momento in cui l'utente A desidera stabilire una comunicazione co
 \end{figure}
 	\item{\scshape\bfseries Classi utilizzate:} 
 	\begin{itemize}[noitemsep,nolistsep]
-		\item[-] \texttt{IClient}
-		\item[-] \texttt{StandardClient}
+		\item[-] \texttt{kernel.IClient}
+		\item[-] \texttt{kernel.StandardClient}
 	\end{itemize}  
 \end{description}
 
 \subsubsection{Gestione GUI}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
+Il componente ha il duplice ruolo di intercettare gli eventi che scaturiscono dall'interazione dell'utente con la GUI e di controllare l'aggiornamento della stessa a seguito dei cambiamenti che intervengono sul modello dei dati.
+
+Le istanze di sottotipi di \texttt{guicontrol.MainPanelPresenter} comprendono dunque, oltre ad alcune operazioni comuni (ad es. per l'inizializzazione) tutte le funzioni di \inglese{callback} richiamate dall'interfaccia grafica. Inoltre, dal momento che questo componente è responsabile anche delle modifiche alle viste, le sottoclassi di \texttt{guicontrol.MainPanelPresenter} contengono anche le operazioni richiamate dall'esterno per l'aggiornamento dinamico della GUI.
+
+La struttura delle classi che lo compongono mostra una corrispondenza biunivoca con gli elementi grafici presentati nella sezione~\ref{sec:gui} con un \inglese{presenter} per ognuno dei pannelli, cui si aggiunge un oggetto istanza di \texttt{guicontrol.PresenterMediator}. Quest'ultimo incapsula la collaborazione fra i vari \inglese{presenter} e permette di gestire gli eventi generati da un elemento della GUI inviando a uno (o più) \inglese{presenter} i messaggi corrispondenti alle azioni da compiere.
 	\item{\scshape\bfseries Diagramma delle classi:}\\
+%TODO
+% questo diagramma deve essere fatto
 	\item{\scshape\bfseries Classi utilizzate:}\\
-	\begin{itemizet}[noitemsep,nolistsep]
+	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \texttt{guicontrol.AccountSettingsPanelPresenter}
 	  \item[-] \texttt{guicontrol.AddressBookPanelPresenter}
+	  \item[-] \texttt{guicontrol.CallHistoryPanelPresenter}
 	  \item[-] \texttt{guicontrol.CommunicationPanelPresenter}
 	  \item[-] \texttt{guicontrol.ContactPanelPresenter}
-	  \item[-] \texttt{guicontrol.MainPanelPresenter}
-	  \item[-] \texttt{guicontrol.ToolsPanelPresenter}
-	  \item[-] \texttt{guicontrol.SearchResultPanelPresenter}
-	  \item[-] \texttt{guicontrol.MessagePanelPresenter}
 	  \item[-] \texttt{guicontrol.LanguagePanelPresenter}
-	  \item[-] \texttt{guicontrol.CallHistoryPanelPresenter}
+	  \item[-] \texttt{guicontrol.MainPanelPresenter}
+		\item[-] \texttt{guicontrol.MessagePanelPresenter}
+		\item[-] \texttt{guicontrol.PresenterMediator} %questo non so se lo metterei qui o nel kernel
+	  \item[-] \texttt{guicontrol.SearchResultPanelPresenter}
+	  \item[-] \texttt{guicontrol.ToolsPanelPresenter}
 	\end{itemize}
 \end{description}
 
 \subsubsection{Façade del presenter}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Rappresenta l'interfaccia d'accesso verso la sotto-architettura \texttt{clientpresenter}. Tale componente svincola i componenti presenti nel server dal dover conoscere l'esatta sequenza di chiamata dei metodi per portare a conseguimento una determinata procedura.
+Rappresenta l'interfaccia d'accesso verso la sotto-architettura \texttt{clientpresenter}, in particolare per i componenti presenti nel \texttt{server}. La presenza di tale componente svincola il server dal dover conoscere l'esatta sequenza di chiamata dei metodi per portare a conseguimento una determinata procedura.
 
-I metodi del componente Façade del \inglese{presenter} hanno la cognizione dell'iter di chiamate a metodo per portare a termine correttamente la procedura. Si rimanda a tali classi per un approfondimento sul comportamento da seguire.
+I metodi del componente Façade del \inglese{presenter} hanno la cognizione dell'iter di chiamate a metodo per portare a termine correttamente le operazioni richieste dall'esterno. Un esempio di richiesta proveniente dal server che richiede di essere gestita in questa sede è la reazione al cambiamento di stato di un utente presente nella rubrica del client dove risiede il Façade, che si traduce in una notifica in entrata dal server e ha un effetto sull'interfaccia grafica.
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
 \begin{center}
@@ -1061,7 +1069,7 @@ I metodi del componente Façade del \inglese{presenter} hanno la cognizione dell
 	\end{itemize}
 \end{description}
 
-subsection{Descrizione delle classi}
+\subsection{Descrizione delle classi}
 
 \subsubsection{Package \texttt{org.softwaresynthesis.mytalk.clientpresenter}}
 
@@ -1090,7 +1098,7 @@ Implementazione dell'interfaccia \texttt{IClient} che incapsula al suo interno l
 \item \texttt{IPresenterFacade}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Interfaccia che raccoglie la dichiarazione di tutte le operazioni astratte con cui si suppone che la vista realizzi lo scambio di messaggi con il \inglese{presenter}. Tramite queste operazioni deve dunque essere possibile, ad esempio, gestire l'autenticazione di un utente, interrogare la segreteria telefonica, modificare lo stato e le informazioni personali e scaricare la rubrica.
+Interfaccia che raccoglie la dichiarazione di tutte le operazioni astratte con cui si suppone che il server realizzi lo scambio di messaggi con il \inglese{presenter}. La sequenza di operazioni da eseguire che interessano i componenti del \inglese{presenter} (ad esempio Gestione GUI) saranno incapsulate nell'implementazione delle operazioni contenute in questa interfaccia.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Façade del presenter
@@ -1101,7 +1109,7 @@ Interfaccia che raccoglie la dichiarazione di tutte le operazioni astratte con c
 \item \texttt{StandardPresenterFacade}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Questa classe rappresenta un'applicazione del \inglese{design pattern} Singleton e implementa inoltre l'interfaccia \texttt{IPresenterFacade}. Fornisce pertanto dei metodi concreti utilizzati per la comunicazione fra la vista e il server, elaborando qualora necessario i dati ricevuti in input e inoltrando le richieste al componente Façade del server.
+Questa classe rappresenta un'applicazione del \inglese{design pattern} Singleton e implementa inoltre l'interfaccia \texttt{IPresenterFacade}. Fornisce pertanto dei metodi concreti utilizzati per la comunicazione fra la vista e il server, elaborando qualora necessario i dati ricevuti in input e inoltrando le richieste agli oggetti facenti parte dei diversi componenti del \inglese{presenter}.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Façade del presenter
@@ -1111,11 +1119,10 @@ Questa classe rappresenta un'applicazione del \inglese{design pattern} Singleton
 \end{itemize}
 
 \begin{figure}[H]
-\begin{center}
-\includegraphics[width=.8\textwidth]{package_presenter}
-\caption{Diagramma delle classi - Architettura \texttt{mytalk.clientpresenter}}\label{fig:package_presenter}
-\end{center}
-\end{figure}
+  \centering
+  \includegraphics[width=.8\textwidth]{package_presenter}
+  \caption{Diagramma delle classi - Architettura \texttt{mytalk.clientpresenter}}\label{fig:package_presenter}
+  \end{figure}
 \clearpage
 
 \section{Architettura \texttt{mytalk.clientview}}\label{sec:clientview}
@@ -1141,9 +1148,9 @@ Per le specifiche dei componenti sopra citati, si rimanda alla sezione successiv
 I nomi di tutte le classi riportate nella presente sezione sono implicitamente parte del package \texttt{org.softwaresynthesis.mytalk.clientview} pertanto tale prefisso sarà omesso nella loro denominazione.
 
 \begin{figure}[h]
-\centering
-\includegraphics[width=.9\textwidth]{GUI}
-\caption{Rappresentazione ad alto livello della GUI}\label{fig:gui}
+  \centering
+  \includegraphics[width=.9\textwidth]{GUI}
+  \caption{Rappresentazione ad alto livello della GUI}\label{fig:gui}
 \end{figure}
 
 Analogamente a quanto osservato per la sotto-architettura \texttt{clientpresenter}, la rappresentazione tramite classi e oggetti è utilizzata a livello prettamente logico indipendentemente dal dominio applicativo concreto di implementazione.
@@ -1176,7 +1183,7 @@ Il contenuto del MainPanel, invece, varia in relazione alla funzionalità scelta
 %	\end{itemize}  
 %\end{description}
 
-\subsubsection{GUI}
+\subsubsection{GUI}\label{sec:gui}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Questo componente si occupa della gestione dell'interfaccia grafica presentata all'utente finale. Le classi in esso contenute servono pertanto per la rappresentazione delle funzionalità offerte dal sistema all'utente.
