@@ -967,23 +967,26 @@ Questa classe Singleton è l'implementazione dell'interfaccia \texttt{IServerFac
 \clearpage
 
 \section{Architettura \texttt{mytalk.clientpresenter}}\label{sec:clientpresenter}
-La sotto-architettura \texttt{clientpresenter}, nasce con lo scopo di imporre una separazione tra la logica di gestione di un client e l'interfaccia grafica usata da quest'ultimo.
+La sotto-architettura \texttt{clientpresenter}, nasce con lo scopo di imporre una separazione tra la logica di gestione di un client e l'interfaccia grafica visualizzata all'utente finale.
 
-Tale considerazione è conforme a l'utilizzo del \inglese{design pattern} MVP, già citato nella sezione \ref{sec:MVP}, e alla quale rimandiamo per le specifiche tecniche del medesimo.
+Dal momento che per l'interazione con l'utente sono previste molteplici viste, è stato predisposto un \inglese{presenter} per ognuna di queste. Ogni vista detiene un riferimento al proprio \inglese{presenter} cui vengono inviate le richieste su risposta dell'interazione con l'utente, in quanto le operazioni del \inglese{presenter} sono impostati come funzioni di \inglese{callback} nell'interfaccia grafica.
 
-La sotto-architettura \texttt{clientpresenter} è per l'appunto la parte ``\inglese{presenter}'' dell'applicativo. I componenti che lo costituiscono devono quindi garantire una logica stabile di comunicazione con il server. Essi dovranno anche stabilire le procedure per interrogare il server (attraverso il suo Façade) al fine di ottenere:
+D'altro canto, i vari \inglese{presenter} interagiscono con le viste grazie alla conoscenza della loro interfaccia. Tali considerazioni sono conformi all'utilizzo del \inglese{design pattern} MVP, già citato nella sezione \ref{sec:MVP}, e alla quale rimandiamo per le specifiche tecniche del medesimo. 
+
+La sotto-architettura \texttt{clientpresenter} è per l'appunto la parte ``\inglese{presenter}'' dell'applicativo. I componenti che lo costituiscono hanno dunque il fine garantire una logica stabile di comunicazione con il server. Essi dovranno anche stabilire le procedure per interrogare il server (attraverso il suo Façade) al fine di ottenere:
 \begin{itemize}
-	\item i vari dati contenuti nel database;
-	\item le ``informazioni'' necessarie per stabilire una connessione client-client.
+  \item i vari dati contenuti nel database;
+  \item le informazioni necessarie per stabilire una connessione fra client.
 \end{itemize}
+
 
 In sintesi la sotto-architettura \texttt{clientpresenter} dispone dei seguenti componenti:
 \begin{itemize}[noitemsep,nolistsep]
 	\item[-] Gestione comunicazione;
-	\item[-] Gestione GUI
-	\item[-] Façade del presenter.
+	\item[-] Gestione GUI;
+	\item[-] Façade del presenter;
 \end{itemize}
-Si rimanda alla sottosezione successiva per maggiori dettagli.
+che saranno descritte con maggiori dettagli nella sezione successiva.
 
 Si fa notare che i nomi di tutte le interfacce e tutte le classi riportate nella sezione sono implicitamente parte del package \texttt{org.softwaresynthesis.mytalk.clientpresenter} pertanto tale prefisso sarà omesso nella loro denominazione.
 
@@ -1024,6 +1027,18 @@ In pratica nel momento in cui l'utente A desidera stabilire una comunicazione co
 	\item{\scshape\bfseries Descrizione:}\\
 	\item{\scshape\bfseries Diagramma delle classi:}\\
 	\item{\scshape\bfseries Classi utilizzate:}\\
+	\begin{itemizet}[noitemsep,nolistsep]
+	  \item[-] \texttt{guicontrol.AccountSettingsPanelPresenter}
+	  \item[-] \texttt{guicontrol.AddressBookPanelPresenter}
+	  \item[-] \texttt{guicontrol.CommunicationPanelPresenter}
+	  \item[-] \texttt{guicontrol.ContactPanelPresenter}
+	  \item[-] \texttt{guicontrol.MainPanelPresenter}
+	  \item[-] \texttt{guicontrol.ToolsPanelPresenter}
+	  \item[-] \texttt{guicontrol.SearchResultPanelPresenter}
+	  \item[-] \texttt{guicontrol.MessagePanelPresenter}
+	  \item[-] \texttt{guicontrol.LanguagePanelPresenter}
+	  \item[-] \texttt{guicontrol.CallHistoryPanelPresenter}
+	\end{itemize}
 \end{description}
 
 \subsubsection{Façade del presenter}
@@ -1046,7 +1061,7 @@ I metodi del componente Façade del \inglese{presenter} hanno la cognizione dell
 	\end{itemize}
 \end{description}
 
-\subsection{Descrizione delle classi}
+subsection{Descrizione delle classi}
 
 \subsubsection{Package \texttt{org.softwaresynthesis.mytalk.clientpresenter}}
 
@@ -1436,7 +1451,7 @@ Factory Method permette ai client di ottenere con facilità degli oggetti \ingle
 
 Questo permette di ridurre il traffico di rete in quanto oggetti potenzialmente di grandi dimensioni rimangono sul server e vengono scaricati solo quando se ne presenta l'effettiva necessità.
   \item{\scshape\bfseries Gestione connessione}\\
-Gli oggetti che rappresentano connessioni, sottotipi di \texttt{server.connection.IConnection} sono ottenuti mediante un Factory Method nelle classi concrete che implementano l'interfaccia \texttt{server.connectionICommunicationHandler}.
+Gli oggetti che rappresentano connessioni, sottotipi di \texttt{server.connection.IConnection} sono ottenuti mediante un Factory Method nelle classi concrete che implementano l'interfaccia \texttt{server.connection.ICommunicationHandler}.
 
 Ciò garantisce maggiore flessibilità in quanto permette in futuro di gestire più categorie di \inglese{handler} che restituiscono diversi tipi connessione.
 \end{description}
