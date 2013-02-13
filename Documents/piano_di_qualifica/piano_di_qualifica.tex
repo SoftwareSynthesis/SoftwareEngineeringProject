@@ -248,7 +248,7 @@ Gli obiettivi di qualità prefissati possono essere raggiunti tramite una adegua
 \subsection{Gestione della qualità}
 La qualità di un software non si limita all'assenza di problematiche durante il suo funzionamento  anche se è evidente che la maggior parte delle attività inerenti al suo controllo hanno come fine ultimo l'identificazione e l'eliminazione di ogni possibile caratteristica che si discosti dal comportamento atteso del programma o dai requisiti che il programma stesso deve soddisfare.
 
-Al fine di rendere ancor più chiara la comprensione di tali problematiche ed evitare che termini all'apparenza simili assumano significati impropri precisiamo che un \textbf{malfunzionamento} è un funzionamento di un programma (o di una sua parte) diverso da quanto previsto dalla sua specifica, un \textbf{difetto} è la causa di un malfunzionamento, mentre un \textbf{errore} è l'origine di un difetto.
+Al fine di rendere ancor più chiara la comprensione di tali problematiche ed evitare che termini all'apparenza simili assumano significati impropri precisiamo che un \underline{\textbf{malfunzionamento}} è un funzionamento di un programma (o di una sua parte) diverso da quanto previsto dalla sua specifica, un \underline{\textbf{difetto}} è la causa di un malfunzionamento, mentre un \textbf{errore} è l'origine di un difetto.
 Tali termini oltre ad avere un significato diverso hanno quindi anche una dipendenza causa-effetto gli uni dagli altri, con una dipendenza temporale ben definita.
 
 Terminiamo il capitolo evidenziando gli aspetti fondamentali per contenere i problemi descritti in precedenza e accertare la qualità del prodotto e dei processi: \inglese{Quality Assurance}, Verifica e validazione.
@@ -392,9 +392,31 @@ L'analisi statica farà largo uso della matrice delle dipendenze che definisce q
 Durante le prime verifiche verrà adottata la tecnica di \inglese{walkthrough} in quanto non risultano ancora diponibili dati o statistiche sugli errori più comuni e frequenti. Man mano che il team analizzerà gli errori emersi verrà redatto un documento nel quale saranno presenti tali statistiche, in modo che quando il responsabile riterrà che la raccolta dati risulti sufficientemente si passerà alla tecnica di \inglese{inspection}, tecnica che richiede un minor costo temporale e di conseguenza economico.\\
 
 \subsection{Metodi}
-Pag 18 par.3.3.3 zetasoluction
+Il processo di misurazione attraverso il quale è possibile valutare quantitativamente l'aderenza del prodotto agli standard di qualità è basato su un ciclo iterativo simile al ciclo di Deming. In particolare, in una fase preliminare prevede che sia stabilita l'importanza e l'ambito di applicazione della misurazione, la selezione di metriche da adottare come si è fatto nelle precedenti sezioni e la pianificazione del momento nel ciclo di sviluppo in cui le misurazioni dovranno essere effettuate.
 
-\subsection{Metriche (per il codice!)}\label{sec:metrics}
+La parte operativa, cioè la quantificazione dei valori delle metriche di qualità, avviene lungo tutto l'arco del ciclo di sviluppo, con particolare attenzione alle fasi di progettazione di dettaglio e di test effettuati contestualmente alla codifica e in fase di accettazione/collaudo.
+
+Al fine di evitare che la verifica della qualità sia un onere troppo gravoso in termini di risorse umane e di tempo, anch'esso deve essere sottoposto a misurazione in quanto attività di progetto (cioè la parte \inglese{check} di PDCA): il tempo di lavorazione impiegato per attività di verifica e \underline{QA} dovrà dunque essere registrato in ogni momento, ed è prerogativa del responsabile di progetto adottare misure correttive qualora i tempi dovessero risultare eccessivi al punto da compromettere il rispetto delle scadenze stabilite nel piano di progetto.
+
+Il team ha quindi, dopo aver analizzato il problema che andrà ad affrontare, optato per utilizzare le seguenti tipologie di analisi statica: 
+\begin{itemize}
+
+\item \textbf{Analisi di flusso di controllo:} il prodotto sviluppato avrà caratteristiche di affidabilità e rubostezza, riducendo al minimo gli sprechi. Questa analisi ha il compito di verificare che il codice sia eseguito nella giusta sequenza, correttamente strutturato, e non siano presenti parti di codice non raggiungibili o iterazioni aventi un limite superiore non definito. A tale fine sarà necessario prestare particolare attenzione alle decisioni interne all'unità di codice e verificare che le condizioni risultino totalmente gestite.
+
+\item \textbf{Analisi di flusso dei dati:} al fine di garantire che in ogni stato in cui si trova il prodotto si riesca ad accedere correttamente ai dati richiesti dall'utente e che nessun cammino d'esecuzione acceda a variabili prive di valore. 
+Questa tipologia di analisi può rilevare anomalie quali scritture successive su una variabile senza letture intermedie. Al fine di evitare complicazioni inutili per questo tipo di analisi si opterà per sconsigliare l'uso di variabili globali in fase di progettazione e codifica.
+
+\item \textbf{Analisi di flusso di informazione:} per controllare il grado di accoppiamento, determinando le dipendenze tra ingressi e uscite che risultano dall'esecuzione di un'unità di codice e consentendo solo quelle previste dalla specifica degli specifici moduli.
+
+\item \textbf{Verifica formale del codice:} garantisce la correttezza del codice sorgente sviluppato rispetto alla specifica formale dei requisiti redatta nell'attività di analisi.
+\end{itemize}
+
+\subsection{Metriche}
+Per effettuare delle misure efficacemente è nesessario definire un'unità di misura, una scala metrica e il metodo per rilevare tali misure.
+Tali caratteristiche sono definite dettagliatamente dallo standard ISO/IEC 9126, e le metriche descritte possono essere catalogate secondo due macro categorie: metriche elementari e derivate. Le prime sono in grado di rappresentare istantaneamente un dato fenomeno, le metriche derivate al contrario sono ricavate da operazioni su altre misurazioni.
+Sempre in riferimento alla capacità di immediatezza di misurazione sulle caratteristiche del prodotto si possono distinguere metriche dirette, che sono rilevabili sul software senza considerare l'influenza di fattori esterni (come l'ambiente nel quale è eseguito il software), e metriche indirette che combinano nelle misurazioni sul prodotto anche misure relative a elementi ambientali.
+
+\subsection{Metriche per la verifica del codice}\label{sec:metrics}
 
 Si riporta un elenco delle principali metriche, in riferimento alle quali il team di sviluppo si ripropone di valutare in modo univoco e quantificabile la qualità del prodotto relativamente alla parte di codifica:
 
@@ -458,20 +480,6 @@ Le misure interne che si possono adottare sono:
 Mentre le misure esterne sono principalmente basate sul modello di qualità di Boehm, che si sviluppa mediante approccio \inglese{top-down}: a livello gerarchico nelle parti superiori compaiono gli attributi qualitativi dal punto di vista del committente, mentre nei livelli inferiori gli attributi dal punto di vista del fornitore.
 
 Tali qualità sono organizzate in modo gerarchico ad albero, le cui foglie sono composte dalle metriche, ovvero gli elementi direttamente osservabili e misurabili, come l'indipendenza dalla piattaforma, l'accessibilità, l'efficienza e la leggibilità.
-
-\subsection{Metodi}
-Il processo di misurazione attraverso il quale è possibile valutare quantitativamente l'aderenza del prodotto agli standard di qualità è basato su un ciclo iterativo simile al ciclo di Deming. In particolare, in una fase preliminare prevede che sia stabilita l'importanza e l'ambito di applicazione della misurazione, la selezione di metriche da adottare come si è fatto nelle precedenti sezioni e la pianificazione del momento nel ciclo di sviluppo in cui le misurazioni dovranno essere effettuate.
-
-La parte operativa, cioè la quantificazione dei valori delle metriche di qualità, avviene lungo tutto l'arco del ciclo di sviluppo, con particolare attenzione alle fasi di progettazione di dettaglio e di test effettuati contestualmente alla codifica e in fase di accettazione/collaudo.
-
-Al fine di evitare che la verifica della qualità sia un onere troppo gravoso in termini di risorse umane e di tempo, anch'esso deve essere sottoposto a misurazione in quanto attività di progetto (cioè la parte \inglese{check} di PDCA): il tempo di lavorazione impiegato per attività di verifica e \underline{QA} dovrà dunque essere registrato in ogni momento, ed è prerogativa del responsabile di progetto adottare misure correttive qualora i tempi dovessero risultare eccessivi al punto da compromettere il rispetto delle scadenze stabilite nel piano di progetto.
-
-In via preliminare, si prevede di utilizzare i seguenti metodi di analisi:
-\begin{description}
-\item{\textbf{analisi del flusso di controllo}} volta ad assicurare che il codice sia ben strutturato e non contenga punti non raggiungibili;
-\item{\textbf{analisi del flusso dei dati}} per scongiurare l'utilizzo inconsapevole di variabili non inizializzate e rilevare variabili inutilizzate o \inglese{write-only};
-\item{\textbf{analisi del flusso di informazione}} al fine di assicurare l'assenza di dipendenze fra valori di variabili incoerenti con quanto previsto in fase di progettazione architetturale (a livello di modulo, di componente o di sistema nella sua totalità).
-\end{description}
 \clearpage
 
 \section{Gestione amministrativa della revisione}
