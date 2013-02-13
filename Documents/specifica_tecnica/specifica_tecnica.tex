@@ -1048,6 +1048,9 @@ La struttura delle classi che lo compongono mostra una corrispondenza biunivoca 
 		\item[-] \texttt{guicontrol.PresenterMediator}
 	  \item[-] \texttt{guicontrol.SearchResultPanelPresenter} %TODO: forse da ricongiungere con AddressBookPanelPresenter
 	  \item[-] \texttt{guicontrol.ToolsPanelPresenter}
+	  %TODO: confesso che non mi è chiaro molto bene dove facciamo l'amministrazione della rubrica?
+	  % L'AddressBookPanel (e il relativo presenter) non servono solo per la visualizzazione dei contatti?
+	  % Avviene sempre qui la gestione dei gruppi e quant'altro? Se sì è più semplice l'architettura, non so quanto sia implementabile però
 	\end{itemize}
 \end{description}
 
@@ -1114,7 +1117,7 @@ Implementazione dell'interfaccia \texttt{IClient} che incapsula al suo interno l
 \item[-] \texttt{guicontrol.AddressBookPanelPresenter}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Tale \inglese{presenter} viene richiamato dall'elemento grafico corrispondente a \texttt{org.softwaresynthesis.mytalk.clientview.AddressBookPanel} e contiene la risposta a eventi quali la selezione di un contatto dalla rubrica da parte dell'utente. Contiene inoltre un'operazione di \inglese{refresh} che visualizza una lista di contatti ricevuta in input in forma grafica sulla UI\@.
+Tale \inglese{presenter} viene richiamato dall'elemento grafico corrispondente a \texttt{org.softwaresynthesis.mytalk.clientview.gui.AddressBookPanel} e contiene la risposta a eventi quali la selezione di un contatto dalla rubrica da parte dell'utente. Contiene inoltre un'operazione di \inglese{refresh} che visualizza una lista di contatti ricevuta in input in forma grafica sulla UI\@.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Gestione GUI
@@ -1124,7 +1127,7 @@ Tale \inglese{presenter} viene richiamato dall'elemento grafico corrispondente a
 \item[-] \texttt{guicontrol.CallHistoryPanelPresenter}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Questo \inglese{presenter} gestisce l'elemento \texttt{org.softwaresynthesis.mytalk.clientview.CallHistoryPanel} presente nell'interfaccia grafica, permettendo la visualizzazione di un array di chiamate corrispondenti allo storico delle comunicazioni di un determinato utente. Poiché il componente grafico supervisionato è totalmente passivo, non sono presenti operazioni di \inglese{callback} da associare alle componenti grafiche vere e proprie.
+Questo \inglese{presenter} gestisce l'elemento corrispondente al pannello dello storico delle chiamate presente nell'interfaccia grafica, permettendo la visualizzazione di un array di chiamate corrispondenti alle comunicazioni di un determinato utente. Poiché il componente grafico supervisionato è totalmente passivo, non sono presenti operazioni di \inglese{callback} da associare alle componenti grafiche vere e proprie.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Gestione GUI
@@ -1134,6 +1137,7 @@ Questo \inglese{presenter} gestisce l'elemento \texttt{org.softwaresynthesis.myt
 \item[-] \texttt{guicontrol.CommunicationPanelPresenter}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
+Tale \inglese{presenter} si occupa della gestione del componente grafico corrispondente al pannello di comunicazione fra utenti. In particolare, comprende le operazioni necessarie all'aggiornamento della grafica corrispondente alle chat testuali e alle condivisioni, nonché alla visualizzazione dello \inglese{stream} video nel corso di una comunicazione audio/video o dell'immagine associata al profilo utente nel caso di una sola comunicazione audio.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Gestione GUI
@@ -1143,6 +1147,7 @@ Questo \inglese{presenter} gestisce l'elemento \texttt{org.softwaresynthesis.myt
 \item[-] \texttt{guicontrol.ContactPanelPresenter}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
+Tale \inglese{presenter} ha la responsabilità di controllare l'aggiornamento della sezione dell'interfaccia grafica avente il compito di visualizzare il profilo di un utente in risposta alla selezione dalla rubrica o dall'esito di una ricerca. Poiché, inoltre, a partire da tale componente grafico è possibile avviare una comunicazione, tale classe comprende al proprio interno anche le operazioni che devono essere richiamate in risposta all'azione da parte dell'utente di dare avvio a una comunicazione.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Gestione GUI
@@ -1183,6 +1188,7 @@ Classe base per i \inglese{presenter} associati ai diversi componenti dell'inter
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Gestione GUI
+	  \item[-] Façade del \inglese{presenter}
 	\end{itemize}
 \end{description}
 
@@ -1199,6 +1205,9 @@ Classe base per i \inglese{presenter} associati ai diversi componenti dell'inter
 \item[-] \texttt{guicontrol.ToolsPanelPresenter}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
+Tramite tale \inglese{presenter} è possibile inizializzare la barra laterale degli strumenti rappresentata dal componente grafico \texttt{org.softwaresynthesis.mytalk.clientview.gui.ToolsPanel}. Gli aggiornamenti cui tale porzione della vista è soggetta consistono nella visualizzazione/scomparsa di uno o più strumenti su richiesta dell'utente e per ognuno di questi è prevista la presenza di un'operazione.
+
+D'altra parte, gli eventi scatenati dall'interazione dell'utente con il pannello degli strumenti che comportano la modifica dell'elemento mostrato nella regione centrale al posto del pannello principale, sono raccolti da questo \inglese{presenter} e le corrispondenti richieste sono inoltrate al \texttt{PresenterMediator} per la corretta gestione. In questo modo è possibile far comparire il pannello di gestione dei dati personali corrispondenti al proprio account, della segreteria, lo storico delle chiamate e la selezione della lingua.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Gestione GUI
@@ -1218,7 +1227,7 @@ Interfaccia che raccoglie la dichiarazione di tutte le operazioni astratte con c
 	  \item[-] Façade del presenter
 	  %\item[-] Gestione GUI
 	  %TODO
-	  % qui dovrebbe esserci: Gestione Stato ad esempio
+	  % qui dovrebbe esserci: Gestione Stato (ad esempio)
 	\end{itemize}
 \end{description}
 
