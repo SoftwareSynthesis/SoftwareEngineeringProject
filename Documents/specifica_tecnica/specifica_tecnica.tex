@@ -612,7 +612,7 @@ D'altro canto, la rubrica può contenere uno o più gruppi, laddove il limite in
 \subsubsection{Gestione stato}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Le classi di tale componente sono utilizzate per gestire lo stato degli utenti, permettendo un comportamento diverso delle istanze di \texttt{dao.StandardUserData} a seconda dello stato in cui si trova l'utente corrispondente. Gli stati possibili sono in prima istanza ``\inglese{online}'' e ``\inglese{offline}'', rappresentati dalle classi \texttt{state.StateOnline} e \texttt{state.StateOffline} rispettivamente.
+Le classi di tale componente sono utilizzate per gestire lo stato degli utenti, permettendo un comportamento diverso delle istanze di \texttt{dao.UserDataTO} a seconda dello stato in cui si trova l'utente corrispondente. Gli stati possibili sono in prima istanza ``\inglese{online}'' e ``\inglese{offline}'', rappresentati dalle classi \texttt{state.StateOnline} e \texttt{state.StateOffline} rispettivamente.
 
 Gli utenti che si trovano nello stato online possono trovarsi in due situazioni: ``occupato'' o ``disponibile'', rappresentati a loro volta dalle classi \texttt{state.StateOccupied} e \texttt{state.StateAvailable}.
 
@@ -640,6 +640,7 @@ Inoltre, i cambiamenti di stato vengono notificati a tutti gli utenti presenti i
 	\end{itemize}
 \end{description}
 
+%TODO da rivedere, inserire classi TO
 \subsubsection{Gestione segreteria}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
@@ -728,7 +729,6 @@ Classe che rappresenta un messaggio di natura audio o audio/video nella segreter
 	\item{\scshape\bfseries Descrizione:}\\
 Interfaccia per i gruppi interni alla rubrica, prevede un'operazione astratta \texttt{add(IUserData)} per l'aggiunta di un nuovo contatto al gruppo e un'operazione \texttt{remove(IUserData)} per la sua rimozione.
 
-Estende inoltre l'interfaccia \texttt{server.abook.IContact} comune a tutti i contatti della rubrica e richiesta per l'applicazione del \inglese{design pattern} Composite.
 	\item{\scshape\bfseries Componenti che ne fanno uso:} 
 	  \begin{itemize}[noitemsep,nolistsep]
 	    \item[-] Gestione database
@@ -739,7 +739,7 @@ Estende inoltre l'interfaccia \texttt{server.abook.IContact} comune a tutti i co
 \item \texttt{GroupTO}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Implementazione dell'interfaccia \texttt{IGroup}, ogni gruppo è dotato di un nome e raccoglie in sé zero o più istanze di classi sottotipo di \texttt{server.abook.IContact}.
+Implementazione dell'interfaccia \texttt{IGroup}, ogni gruppo è dotato di un nome e raccoglie in sé zero o più istanze di classi sottotipo di \texttt{abook.IUserData}.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	  \begin{itemize}[noitemsep,nolistsep]
 	    \item[-] Gestione database
@@ -951,16 +951,6 @@ Interfaccia che rappresenta, ad alto livello, la segreteria telefonica dell'uten
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Classe concreta che implementa l'interfaccia \texttt{IMessageBox} e rappresenta dunque la rubrica associata a un determinato utente.
-	\item{\scshape\bfseries Componenti che ne fanno uso:}
-	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] Gestione segreteria
-	\end{itemize}
-\end{description}
-
-\item \texttt{MessageProxy}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:}\\
-\inglese{Proxy} virtuale ad uso dei client per i messaggi lasciati ad un utente in segreteria (siano essi audio oppure audio/video). La classe implementa l'interfaccia \texttt{server.dao.IMessage} ogni sua istanza è costruita per composizione con un riferimento a  \texttt{server.dao.AudioMessage} o \texttt{server.dao.AudioVideoMessage}, cui inoltra le richieste dopo aver eventualmente scaricato il messaggio dal server.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Gestione segreteria
