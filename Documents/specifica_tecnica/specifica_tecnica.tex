@@ -537,19 +537,23 @@ Allo scopo di rendere l'architettura facilmente estendibile a futuri ampliamenti
 
 	\item{\scshape\bfseries Classi utilizzate:}
 	\begin{itemize}[nolistsep, noitemsep]
-	  \item[-] \texttt{dao.CallDAO}
+	  \item[-] \texttt{dao.JavaDBCallDAO}
 	  \item[-] \texttt{dao.CallTO}
-	  \item[-] \texttt{dao.GroupDAO}
+	  \item[-] \texttt{dao.JavaDBGroupDAO}
 	  \item[-] \texttt{dao.GroupTO}
 	  \item[-] \texttt{dao.ICall}
+	  \item[-] \texttt{dao.ICallDAO}
 	  \item[-] \texttt{dao.IDAOFactory}
 	  \item[-] \texttt{dao.IGroup}
+	  \item[-] \texttt{dao.IGroupDAO}
 	  \item[-] \texttt{dao.IMessage}
+	  \item[-] \texttt{dao.IMessageDAO}
 	  \item[-] \texttt{dao.IUserData}
+	  \item[-] \texttt{dao.IUserDataDAO}
 	  \item[-] \texttt{dao.JavaDBDAOFactory}
-	  \item[-] \texttt{dao.MessageDAO}
+	  \item[-] \texttt{dao.JavaDBMessageDAO}
 	  \item[-] \texttt{dao.MessageTO}
-	  \item[-] \texttt{dao.UserDataDAO}
+	  \item[-] \texttt{dao.JavaDBUserDataDAO}
 	  \item[-] \texttt{dao.UserDataTO}
 	\end{itemize}
 \end{description}
@@ -557,7 +561,7 @@ Allo scopo di rendere l'architettura facilmente estendibile a futuri ampliamenti
 \subsubsection{Gestione connessione}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Tale componente ingloba le classi destinate a stabilire le routine di connessione. A tal fine è stata definita l'interfaccia di una classe Singleton \texttt{connection.ICommunicationHandler}, implementata da \texttt{connection.StandardCommunicationHandler} che ha il compito di creare oggetti connessione.
+Tale componente ingloba le classi destinate a stabilire le \inglese{routine} di connessione. A tal fine è stata definita l'interfaccia di una classe Singleton \texttt{connection.ICommunicationHandler}, implementata da \texttt{connection.StandardCommunicationHandler} che ha il compito di creare oggetti connessione.
 
 Le specifiche di tali oggetti sono descritte dall'interfaccia \texttt{connection.IConnection}, con la relativa implementazione \texttt{connection.WebRTCInfo}.
 	\item{\scshape\bfseries Diagramma delle classi:}
@@ -577,6 +581,7 @@ Le specifiche di tali oggetti sono descritte dall'interfaccia \texttt{connection
 	\end{itemize}
 \end{description}
 
+%TODO ero arrivato qua!
 \subsubsection{Gestione rubrica}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
@@ -1312,26 +1317,6 @@ Il contenuto del MainPanel, invece, varia in relazione alla funzionalità scelta
 
 \subsection{Componenti evidenziati}
 
-%\subsubsection{Façade della vista}
-%\begin{description}
-%	\item{\scshape\bfseries Descrizione:}\\
-%Il compito di questo componente è rappresentare l'intera sotto-architettura \texttt{clientview}, per come viene vista dalle classi del \inglese{presenter}. In tal modo è possibile rendere indipendenti le classi concrete della sotto-architettura \texttt{clientview} in quanto le dipendenze funzionali provenienti dall'esterno sono accentrate nel Façade.
-%
-%In particolare, tramite le operazioni che sono dichiarate nell'interfaccia \texttt{IViewFacade} si rende possibile l'aggiornamento dinamico a tempo di esecuzione della vista e, di conseguenza, di quello che viene visualizzato dall'utente finale del sistema.
-%	\item{\scshape\bfseries Diagramma delle classi:}
-%\begin{figure}[H]
-%\begin{center}
-%\includegraphics[width=.8\textwidth]{componenti_clientview}
-%\caption{Diagramma delle classi - Façade della vista}\label{fig:facade_vista}
-%\end{center}
-%\end{figure}
-%	\item{\scshape\bfseries Classi utilizzate:} 
-%	\begin{itemize}[noitemsep,nolistsep]
-%		\item[-] \texttt{IViewFacade}
-%		\item[-] \texttt{StandardViewFacade}
-%	\end{itemize}  
-%\end{description}
-
 \subsubsection{GUI}\label{sec:gui}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
@@ -1339,13 +1324,6 @@ Questo componente si occupa della gestione dell'interfaccia grafica presentata a
 
 Si noti che tale componente demanda tutta la logica al \inglese{presenter}, tramite Façade del presenter, e quindi è relativo solo ed esclusivamente alla grafica. Inoltre l'interazione con esso è centralizzata all'interno della classe \texttt{gui.GUIHandler}, ciò significa che tutte le altre classi del package \texttt{gui} non interagiscono direttamente con il \inglese{presenter}.
 	\item{\scshape\bfseries Diagramma delle classi:}
-	
-%\begin{figure}[H]
-%\begin{center}
-%\includegraphics[width=.8\textwidth]{componenti_clientview_gui}
-%\caption{Diagramma delle classi - Gestione GUI}\label{fig:gestione_gui}
-%\end{center}
-%\end{figure}
 	
 	\item{\scshape\bfseries Classi utilizzate:} 
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1363,48 +1341,9 @@ Si noti che tale componente demanda tutta la logica al \inglese{presenter}, tram
 
 \subsection{Descrizione delle classi}
 
-%\subsubsection{Package \texttt{org.softwaresynthesis.mytalk.clientview}}
-%
-%\begin{itemize}[leftmargin=0em]
-%
-%\item \texttt{IViewFacade}
-%\begin{description}
-%  \item{\scshape\bfseries Descrizione}\\
-%Interfaccia che dichiara le operazioni astratte che possono essere richiamate sulla vista a partire dai componenti della sotto-architettura \texttt{clientpresenter}.
-%  \item{\scshape\bfseries Componenti che ne fanno uso:}
-%  \begin{itemize}[noitemsep,nolistsep]
-%    \item[-] Façade della vista
-%    \item[-] Façade del presenter
-%  \end{itemize}
-%\end{description}
-%
-%\item \texttt{StandardViewFacade}
-%\begin{description}
-%  \item{\scshape\bfseries Descrizione}\\
-%Implementazione dell'interfaccia \texttt{IViewFacade} che contiene la definizione concreta dei metodi in essa dichiarati.
-%  \item{\scshape\bfseries Componenti che ne fanno uso:}
-%  \begin{itemize}[noitemsep,nolistsep]
-%    \item[-] Façade della vista
-%  \end{itemize}
-%\end{description}
-%
-%\end{itemize}
-
 \subsubsection{Package \texttt{org.softwaresynthesis.clientview.gui}}
 
 \begin{itemize}[leftmargin=0em]
-
-%\item \texttt{GUIHandler}
-%\begin{description}
-%  \item{\scshape\bfseries Descrizione}\\
-%L'istanza di questa classe ha il compito di inoltrare ai componenti delle diverse sotto-architetture le richieste provenienti dalle altre classi di questo package, in quanto unico possessore di un riferimento di tipo \texttt{IServerFacade}.
-%
-%Inoltre, tale classe ha la responsabilità di controllare l'attivazione e gli aggiornamenti dinamici nel corso dell'esecuzione di tutti gli oggetti di classi grafiche istanziate.
-%  \item{\scshape\bfseries Componenti che ne fanno uso:}
-%  \begin{itemize}[noitemsep,nolistsep]
-%    \item[-] Gestione GUI
-%  \end{itemize}
-%\end{description}
 
 \item \texttt{AddressBookPanel}
 \begin{description}
@@ -1507,7 +1446,7 @@ Questa classe estende \texttt{MainPanel} e viene impiegata per rappresentare lo 
 \end{figure}
 \clearpage
 
-\section{Design Pattern utilizzati}
+\section{Design pattern utilizzati}
 In questa sezione discuteremo i \inglese{design pattern} utilizzati nella progettazione dei componenti architetturali. Ogni \inglese{pattern} sarà proposto con la seguente forma:
 \begin{itemize}
 	\item \textbf{Scopo}: verrà proposto lo scopo generico del pattern, al fine di evidenziare subito la sua utilità.
@@ -1518,44 +1457,45 @@ In questa sezione discuteremo i \inglese{design pattern} utilizzati nella proget
 
 Per una visione d'insieme dei componenti utilizzati da un \inglese{pattern}, e dei \inglese{pattern} utilizzati da un componente, rimandiamo alle sottosezioni ``Tracciamenti Componenti-Design Pattern'' e ``Tracciamenti Design Pattern-Componenti'' della sezione \vref{sec:tracciamenti}.
 
-\subsection{Composite}
-
+\subsection{Abstract Factory}
 \subsubsection{Scopo}
-Il \inglese{pattern} Composite ha lo scopo di comporre oggetti in strutture ad albero al fine di rappresentare gerarchie parte-tutto e consentire ai client di trattare oggetti singoli e composizioni in modo uniforme. Permette inoltre di gestire strutture dati gerarchicizzate con elementi ``foglie'' ed elementi ``contenitori'', l'ideale per la struttura ``gruppo'' e ``utente''.
+Il \inglese{pattern} fornisce un'interfaccia per la creazione di famiglie di oggetti correlati, senza specificare le classi concrete ma garantendo un utilizzo coerente di prodotti appartenenti allo stesso insieme.
 
 \subsubsection{Diagramma esemplificativo}
-\begin{figure}[H]
-\centering
-\includegraphics[width=.8\textwidth]{composite}
-\caption{Diagramma ad alto livello del \inglese{pattern} Composite}\label{fig:composite}
-\end{figure}
-
+%TODO questo diagramma deve essere ancora fatto!
+% \begin{figure}[h]
+% \centering
+% \includegraphics[width=.8\textwidth]{abstractfactory}
+% \caption{Diagramma ad alto livello del \inglese{pattern} Abstract Factory}\label{fig:abstractfactory}
+% \end{figure}
 \subsubsection{Componenti che lo implementano}
 \begin{description}
-\item{\bfseries\scshape Gestione rubrica}\\
-Composite permette di trattare in maniera omogenea singoli oggetti e oggetti composti, come gli utenti e gruppi di utenti della rubrica. Inoltre, dal momento che rende più semplice l'aggiunta di componenti, permetterebbe in futuro l'integrazione di nuove tipologie di utenti senza la necessità di modificare la struttura preesistente.
+  \item{\bfseries\scshape Gestione database}\\
+Il componente Gestione database sfrutta la presenza di un'interfaccia \texttt{IDAOFactory} le cui operazioni restituiscono i tipi interfaccia necessari per la gestione della persistenza dei dati (\texttt{IMessageDAO}, \texttt{IGroupDAO}, \texttt{ICallDAO} e \texttt{IUserDataDAO}).
 
-Lo svantaggio principale che comporta l'uso di Composite è la mancanza di limiti nell'aggiunta di nuove tipologie di componenti. Per far fronte a questo rischio si è introdotta la classe \texttt{org.softwaresynthesis.mytalk.server.abook.AddressBook} che controlla l'accesso alla struttura dati corrispondente alla rubrica.
+È quindi fornita un'implementazione della \inglese{factory} specifica per JavaDB, mediante la quale è possibile ottenere le classi DAO in cui le implementazioni delle operazioni di inserimento, modifica e cancellazione sono specifiche per tale DBMS\@.
+
+Il vantaggio dell'utilizzo di Abstract Factory è che permette la creazione di un insieme omogeneo di oggetti specifici per JavaDB che necessitano di essere utilizzati nello stesso contesto, senza però limitare la possibilità di future espansioni perché creando nuovi set di prodotti e nuove \inglese{factory} è possibile ottenere un altro insieme di oggetti da utilizzare insieme.
 \end{description}
 
 \subsection{Data Access Object (DAO)}
 
 \subsubsection{Scopo}
-Il \inglese{pattern} DAO ha lo scopo di disaccoppiare la logica di \inglese{business} dalla logica di accesso ai dati. Questo si ottiene spostando la logica di accesso ai dati dai componenti di business ad una classe DAO rendendo i componenti che implementano la logica di \inglese{business} indipendenti dalla natura del dispositivo di persistenza. Questo approccio garantisce che un eventuale cambiamento del dispositivo di persistenza non comporti modifiche sui componenti di \inglese{business}.
+Il \inglese{pattern} DAO ha lo scopo di disaccoppiare la logica di \inglese{business} dalla logica di accesso ai dati. Questo si ottiene spostando la logica di accesso ai dati dai componenti di \inglese{business} stessi ad una classe DAO ad hoc per il DBMS scelto, rendendo i componenti che implementano la \inglese{business logic} indipendenti dalla natura del dispositivo di persistenza. Un simile approccio garantisce che un eventuale cambiamento del dispositivo di persistenza non comporti modifiche sui componenti di \inglese{business}.
 
 \subsubsection{Diagramma esemplificativo}
-\begin{figure}[H]
-\centering
-\includegraphics[width=.8\textwidth]{dao}
-\caption{Diagramma ad alto livello del \inglese{pattern} Data Access Object}\label{fig:dao}
+  \begin{figure}[H]
+  \centering
+  \includegraphics[width=.8\textwidth]{dao}
+  \caption{Diagramma ad alto livello del \inglese{pattern} Data Access Object}\label{fig:dao}
 \end{figure}
 
 \subsubsection{Componenti che lo implementano}
 \begin{description}
 \item{\scshape\bfseries Gestione database}\\
-Le classi DAO consentono di isolare l'accesso alle tabelle del database dalla parte di \inglese{business logic} facendo corrispondere alle invocazioni di metodo le opportune operazioni sui record del database.
+Le classi DAO consentono di isolare l'accesso alle tabelle del database dalla parte di \inglese{business logic} corrispondente alle entità TO, incapsulando in metodi di alto livello le operazioni sui record del database sottostante.
 
-L'utilizzo di tale pattern crea inoltre un maggiore livello di astrazione e mantiene una rigida separazione tra le sotto-architetture corrispondenti a \inglese{model} e \inglese{presenter}.
+Operando una distinzione di questo tipo, gli utenti esterni possono considerare gli oggetti che richiedono la mappatura nel database alla stregua di normali oggetti Java (POJO) senza preoccuparsi del meccanismo di persistenza dei dati.
 \end{description}
 
 \subsection{Façade}
@@ -1576,8 +1516,6 @@ Fornire un'interfaccia unificata per un insieme di interfacce o classi presenti 
 L'uso di Façade permette di esporre verso i client una sorta di interfaccia semplificata nascondendo i componenti della sotto-architettura \texttt{server}, fornendo un punto di accesso centralizzato e riducendo il numero di dipendenze funzionali fra le classi del server e i componenti appartenenti a sotto-architetture esterne.
   \item{\scshape\bfseries Façade del presenter}\\
 Tramite questo \inglese{design pattern} si introduce un livello di astrazione fra le sotto-architetture \texttt{clientpresenter} e \texttt{clientview}, che risultano dunque indipendenti.
-  \item{\scshape\bfseries Façade della vista}\\
-Data la forte bidirezionalità delle interazioni fra componenti appartenenti alle sotto-architetture \texttt{clientpresenter} e \texttt{clientview}, è stata introdotta una sorta di facciata anche alla vista in modo da facilitare il tracciamento delle dipendenze fra i componenti del \inglese{presenter} e quelli della \inglese{view}.
 \end{description}
 
 \subsection{Factory Method}
