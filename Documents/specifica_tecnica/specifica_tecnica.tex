@@ -168,6 +168,11 @@ Come si vedrà nella sezione architetturale del prodotto, il sistema fa uso di u
 
 Tra le motivazioni che hanno portato a tale scelta, vi è indiscutibilmente il fatto che Apache Derby è un \inglese{relational database management system} (RDBMS) scritto in Java, incorporabile nei programmi scritti in Java e usato per elaborazione delle transazioni online.
 
+\subsubsection*{Vantaggi}
+\begin{itemize}
+  \item si tratta di un DBMS \inglese{embedded} integrato strettamente nell'applicazione stessa che non richiede l'esecuzine di un servizio esterno sull'\inglese{host} in cui è eseguito.
+\end{itemize}
+
 \subsection{Hibernate}
 Hibernate è un \inglese{framework} Java utilizzato per facilitare l'utilizzo di un \underline{database} da parte del server realizzando la mappatura fra oggetti intesi in senso OOP ed ennuple del modello relazionale (\inglese{object-relational mapping}).
 
@@ -1033,8 +1038,7 @@ D'altro canto, dal momento che questo componente è responsabile anche delle mod
 
 La struttura delle classi che lo compongono mostra una corrispondenza biunivoca con gli elementi grafici presentati nella sezione~\ref{sec:gui} con un \inglese{presenter} per ognuno dei pannelli, cui si aggiunge un oggetto istanza di \texttt{guicontrol.PresenterMediator}. Quest'ultimo incapsula la collaborazione fra i vari \inglese{presenter} e permette di gestire gli eventi generati da un elemento della GUI inviando a uno (o più) \inglese{presenter} i messaggi corrispondenti alle azioni da compiere.
 	\item{\scshape\bfseries Diagramma delle classi:}\\
-%TODO
-% questo diagramma deve essere fatto
+%TODO: questo diagramma deve essere fatto
 	\item{\scshape\bfseries Classi utilizzate:}\\
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \texttt{guicontrol.AccountSettingsPanelPresenter}
@@ -1043,14 +1047,18 @@ La struttura delle classi che lo compongono mostra una corrispondenza biunivoca 
 	  \item[-] \texttt{guicontrol.CommunicationPanelPresenter}
 	  \item[-] \texttt{guicontrol.ContactPanelPresenter}
 	  \item[-] \texttt{guicontrol.LanguagePanelPresenter}
-	  \item[-] \texttt{guicontrol.MainPanelPresenter} %TODO siamo sicuri che vada qui e non nel package kernel?
+	  \item[-] \texttt{guicontrol.MainPanelPresenter}
 		\item[-] \texttt{guicontrol.MessagePanelPresenter}
 		\item[-] \texttt{guicontrol.PresenterMediator}
-	  \item[-] \texttt{guicontrol.SearchResultPanelPresenter} %TODO: forse da ricongiungere con AddressBookPanelPresenter
 	  \item[-] \texttt{guicontrol.ToolsPanelPresenter}
-	  %TODO: confesso che non mi è chiaro molto bene dove facciamo l'amministrazione della rubrica?
-	  % L'AddressBookPanel (e il relativo presenter) non servono solo per la visualizzazione dei contatti?
-	  % Avviene sempre qui la gestione dei gruppi e quant'altro? Se sì è più semplice l'architettura, non so quanto sia implementabile però
+%TODO: amministrazione della rubrica
+% IN ADDRESBOOKPANELPRESENTER
+% - aggiungi gruppo
+% - rimuovi gruppo
+% IN CONTACTPANELPRESENTER
+% - assegna un utente a un gruppo
+% - rimuovi un utente dal gruppo cui appartiene
+% - aggiungi un utente alla rubrica (se non presente in rubrica)
 	\end{itemize}
 \end{description}
 
@@ -1118,6 +1126,8 @@ Implementazione dell'interfaccia \texttt{IClient} che incapsula al suo interno l
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Tale \inglese{presenter} viene richiamato dall'elemento grafico corrispondente al pannello della rubrica (\texttt{org.softwaresynthesis.mytalk.clientview.gui.AddressBookPanel}) e contiene la risposta a eventi quali la selezione di un contatto dalla rubrica da parte dell'utente. Contiene inoltre un'operazione di \inglese{refresh} che visualizza una lista di contatti ricevuta in input in forma grafica sulla UI\@.
+
+Il \inglese{presenter} in questione rende inoltre possibile avviare una ricerca fra gli utenti registrati nel sistema nonché rilevare che l'operazione di ricerca è conclusa (e conseguentemente visualizzare nuovamente la rubrica). Inoltre comprende anche le funzioni di \inglese{callback} per alcune operazioni di amministrazione sulla rubrica, come la creazione e l'eliminazione di un gruppo.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Gestione GUI
@@ -1192,17 +1202,6 @@ L'istanza di tale classe ha il compito di gestire le collaborazioni fra i divers
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Gestione GUI
 	  \item[-] Façade del \inglese{presenter}
-	\end{itemize}
-\end{description}
-
-%TODO: forse questa è da eliminare
-\item \texttt{guicontrol.SearchResultPanelPresenter}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:}\\
-In maniera analoga al \inglese{presenter} associato alla rubrica, anche in questo caso la classe ha la responsabilità di visualizzare una lista di contatti, a partire da ognuno dei quali è possibile attivare, dopo la selezione, nel pannello con le informazioni di contatto, la visualizzazione di un profilo utente.
-	\item{\scshape\bfseries Componenti che ne fanno uso:}
-	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] Gestione GUI
 	\end{itemize}
 \end{description}
 
@@ -1335,7 +1334,6 @@ Si noti che tale componente demanda tutta la logica al \inglese{presenter}, tram
 		\item[-] \texttt{gui.ToolsPanel}
 		\item[-] \texttt{gui.AddressBookPanel}
 		\item[-] \texttt{gui.ContactPanel}
-		\item[-] \texttt{gui.SearchResultPanel} %TODO: questo se non sbaglio Tres diceva di assimilarlo a AddressBookPanel
 		\item[-] \texttt{gui.MessagePanel}
 		\item[-] \texttt{gui.LanguagePanel}
 		\item[-] \texttt{gui.AccountSettingsPanel}
@@ -1392,7 +1390,9 @@ Si noti che tale componente demanda tutta la logica al \inglese{presenter}, tram
 \item \texttt{AddressBookPanel}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Pannello che permette la visualizzazione della rubrica dell'utente connesso al sistema, e di accedere alle funzionalità di amministrazione della rubrica stessa (come l'aggiunta o la rimozione di utenti/gruppi, lo spostamento di un utente da un gruppo a un altro oppure l'ordinamento).
+Pannello che permette la visualizzazione della rubrica dell'utente connesso al sistema, e di accedere ad alcune delle funzionalità di amministrazione della rubrica stessa (ad esempio l'aggiunta o la rimozione di gruppi).
+
+In questo pannello sono anche presenti le funzionalità di ricerca fra gli utenti presenti nel sistema, con la visualizzazione dei risultati della ricerca al posto della lista dei contatti presenti in rubrica.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] GUI
@@ -1414,16 +1414,6 @@ Classe padre della gerarchia di oggetti grafici che possono comparire nella sezi
   \item{\scshape\bfseries Descrizione}\\
 Classe che rappresenta il pannello degli strumenti della \inglese{home screen} dell'applicativo, mediante il quale è possibile accedere alle funzionalità di ricerca, di segreteria telefonica, selezione della lingua, modifica dei dati dell'utente e storico delle chiamate.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
-  \begin{itemize}[noitemsep,nolistsep]
-    \item[-] GUI
-  \end{itemize}
-\end{description}
-
-%TODO: forse da eliminare
-\item \texttt{SearchResultPanel}
-\begin{description}
-  \item{\scshape\bfseries Descrizione}\\
-Componente grafica che estende la classe \texttt{MainPanel} e visualizza i risultati della ricerca di un utente. La sua visualizzazione avviene in seguito all'uso della componente grafica di ricerca presente nel pannello degli strumenti.
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] GUI
   \end{itemize}
