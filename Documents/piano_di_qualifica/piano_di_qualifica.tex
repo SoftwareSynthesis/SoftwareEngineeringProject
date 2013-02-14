@@ -184,8 +184,20 @@ Il modello fornisce inoltre una scala di valutazione sul grado di maturità dei 
 
 \item\textbf{Livello 5}: ll raggiungimento di questo livello è dimostrato attraverso il possesso degli attributi di \inglese{process change} e \inglese{continuous improvement}. Il processo si presta all'ottimizzazione, è predicibile e in grado di adattarsi al raggiungimento di obbiettivi specifici e rilevanti a livello organizzativo.
 \end{itemize}
+\clearpage
+%il clearpage serve solo a rendere più leggibile il testo, se modifichiamo il pezzo sopra verrà tolta.
 
-La qualità dei processi, come già accennato ad inizio sezione, è una condizione necessaria per arrivare ad un prodotto di qualità. Il team si pone l'obiettivo di garantire e ottimizzare la qualità dei propri processi mediante l'utilizzo di strumenti necessari per garantirla, pertanto ogni processo sarà definito in modo dettagliato e valutato l'output prodotto. Inoltre verranno attuate procedure di misurazione, valutazione ed eventuale modifica sul processo per perseguire il suo miglioramento mediante una costante collaborazione tra il verificatore e lo sviluppatore del processo stesso.
+La qualità dei processi, come già accennato ad inizio sezione, è una condizione necessaria per arrivare ad un prodotto di qualità. Il team si pone l'obiettivo di garantire e ottimizzare la qualità dei propri processi mediante l'utilizzo di strumenti necessari per garantirla, pertanto si aspetta di trarre da tali considerazioni:
+
+\begin {itemize}
+\item [-] un ottimizzazione dell'uso delle risorse;
+\item [-] una migliore gestione economica, contenendo al massimo i costi;
+\item [-] una maggiore possibilità di confronto con delle \inglese{best practice};
+\item [-] maggiore affidabilità nei tempi di stima rispetto alle consegne preventivate;
+\item [-] una migliore stima dei rischi e la loro gestione;
+\end {itemize}
+
+Inoltre ogni processo sarà definito in modo dettagliato e valutato l'output prodotto. Infine verranno attuate procedure di misurazione, valutazione ed eventuale modifica sul processo per perseguire il suo miglioramento mediante una costante collaborazione tra il verificatore e lo sviluppatore del processo stesso.
 
 \subsection{Qualità di prodotto software}
 Al fine di garantire un elevato standard qualitativo, sia per ovvia scelta del team di sviluppo, sia per implicita richiesta da parte del committente stesso, \team{} ha preso come riferimento lo standard ISO/9126:2001.
@@ -327,16 +339,11 @@ La verifica funzionale (\underline{\inglese{black-box}}) è una tecnica che proc
 
 La verifica strutturale (\underline{\inglese{white-box}}) al contrario è una tecnica in cui l'ispezione viene svolta a livello di codice sorgente, richiamando esplicitamente tutti i metodi presenti nell'unità al fine di verificarne, oltre al corretto funzionamento, anche la correttezza logica. Questo modello si predilige per controlli sui singoli moduli che costituiscono il progetto, controllando come già citato la struttura stessa del codice.
 
-Specifichiamo infine che per effettuare un controllo approfondito del codice si utilizza il termine ``analisi'', che si specializza essenzialmente in due tipologie:
-\begin{description}
-\item{\scshape\bfseries Analisi statica:} non comporta l'esecuzione del codice in quanto la verifica avviene tramite lettura da parte di un verificatore (tramite \underline{\inglese{inspection}} e \underline{\inglese{walkthrough}}) o mediante opportuni strumenti software di verifica statica. Gli errori riscontrati mediante tali metodologie dal verificatore non vengono corretti dal soggetto stesso, ma vengono riferiti al progettista o al programmatore al quale comunque rimane il compito di individuazione e correzione degli errori individuati durante il suo lavoro sul codice stesso.
+Specifichiamo infine che per effettuare un controllo approfondito del codice si utilizza il termine ``analisi'', che si specializza essenzialmente in due tipologie: analisi statica e dinamica.
 
-\item{\scshape\bfseries Analisi dinamica:} richiede l'esecuzione del programma in un ambiente controllato e con dati in ingresso verificati. Verranno registrati tutti i dati relativi all'esecuzione e inerenti alla quantificazione della qualità del software preso in esame, inoltre tali dati saranno confrontati con i requisiti stilati.
+L'analisi statica non comporta l'esecuzione del codice in quanto la verifica avviene tramite lettura da parte di un verificatore (tramite \underline{\inglese{inspection}} e \underline{\inglese{walkthrough}}, descritti più dettagliatamente nella sezione 5.1.1) o mediante opportuni strumenti software di verifica statica. Gli errori riscontrati mediante tali metodologie dal verificatore non vengono corretti dal soggetto stesso, ma vengono riferiti al progettista o al programmatore al quale comunque rimane il compito di individuazione e correzione degli errori individuati durante il suo lavoro sul codice stesso.
+L'analisi dinamica richiede l'esecuzione del programma in un ambiente controllato e con dati in ingresso verificati. Verranno registrati tutti i dati relativi all'esecuzione e inerenti alla quantificazione della qualità del software preso in esame, inoltre tali dati saranno confrontati con i requisiti stilati.
 
-Ai fini pratici i test hanno il fine di scoprire malfunzionamenti o la presenza di eventuali difetti nel software, mentre se effettuato per uno scopo prevalentemente di controllo ha il semplice obbiettivo di verificare la correttezza funzionale (più o meno mirata) del programma.
- 
-Controlli più mirati con tale tipo d'analisi possono comprendere fattori d'affidabilità, usabilità o efficienza del software.
-\end{description}
     
 \subsubsection{Validazione}
 Alla fase di collaudo, il team garantirà il corretto funzionamento del prodotto \caName{} relativo alle funzionalità,l'usabilità, l'efficienza, l'affidabilità, e la portabilità. Tali garanzie vengono confermate dopo un'attività interna di test denominata Alfa-test. All'esito positivo di tale attività avverrà il collaudo vero e proprio (Beta-test) alla presenza del proponente, successivi \underline{difetti} riscontrati o eventuali caratteristiche non coerenti alle richieste di quest'ultimo saranno soggette a modifica e correzione al fine di eliminare tali incongruenze.
@@ -387,9 +394,34 @@ Gli specifici programmi e \inglese{tool} per la gestione di tali servizi sono de
 \section{Tecniche, metodi e metriche}
 
 \subsection{Tecniche}
-Durante lo svolgimento del progetto il team utilizzerà le tecniche di analisi statica e dinamica (descritte nel paragrafo 4.1.3) per testare il software.
-L'analisi statica farà largo uso della matrice delle dipendenze che definisce quali informazioni sono necessarie per avviare una particolare attività (tracciamento requisiti-componenti), facilitando la tracciabilità di entrambi.
-Durante le prime verifiche verrà adottata la tecnica di \inglese{walkthrough} in quanto non risultano ancora diponibili dati o statistiche sugli errori più comuni e frequenti. Man mano che il team analizzerà gli errori emersi verrà redatto un documento nel quale saranno presenti tali statistiche, in modo che quando il responsabile riterrà che la raccolta dati risulti sufficientemente si passerà alla tecnica di \inglese{inspection}, tecnica che richiede un minor costo temporale e di conseguenza economico.\\
+Durante lo svolgimento del progetto il team utilizzerà le tecniche di analisi statica e dinamica per effettuare verifiche su software e documentazione.
+
+\subsubsection{Analisi statica} 
+L’analisi statica è un tipo di controllo basato sulla non esecuzione del codice, ma in senso lato può essere applicato a qualsiasi tipo di prodotto anche non propriamente eseguibile (ad es. la documentazione di progetto). Sono previste, in particolare, due forme di analisi statica: il controllo manuale (detto altrimenti ``desk check'') e il controllo assistito da strumenti automatici.
+Per quanto concerne il desk check, cioè il controllo realizzato unicamente da parte di un agente umano, sono previsti due metodi formali:
+
+\begin{itemize}
+\item \textbf{\underline{walkthrough}}: implica un esame ad ampio spettro del prodotto da verificare, che è preso in considerazione nella sua totalità in modo indiscriminato e senza alcuna assunzione previa sulla natura, la posizione e la frequenza degli errori da rilevare. Si tratta notoriamente di una tecnica molto onerosa in termini sia di tempo che di sforzo e può essere essa stessa per sua natura soggetta ad errori (in particolar modo falsi negativi). Tuttavia, almeno nelle fasi iniziali del lavoro, è l’unica scelta praticabile a causa della relativa inesperienza dei membri del gruppo nella realizzazione di prodotti complessi e articolati (sia software che documentazione). Allo scopo di ridurre il costo determinato dalla ripetizione di tale attività nell’arco di tutto il ciclo di vita è previsto che durante l’analisi in walkthrough sia stilata una lista di controllo relativa agli errori più frequenti e ai contesti in cui è più probabile che si producano errori in modo da collezionare una base di esperienza comune e consolidata destinata ad alimentare le attività di ispezione.
+
+\item \textbf{\underline{inspection}}:prevede un controllo mirato avente obiettivi specifici, ristretti e stabiliti a priori \textit{prima} che la verifica abbia luogo. Si tratta di un’attività meno dispendiosa in termini di risorse perchè non presuppone l’analisi esaustiva del prodotto ma è focalizzata su determinate categorie di errori frequenti, enunciate in una lista di controllo (\inglese{checklist}) redatta sulla base dell'esperienza personale e delle attività di walkthrough precedentemente poste in essere.
+\end{itemize}
+
+
+\subsubsection{Analisi dinamica} 
+I controlli dinamici, altrimenti definiti test, prevedono l’esecuzione del software in un ambiente controllato e con dati di input specificatamente pensati per testarne le funzionalità e l’aderenza ai requisiti mettendo in luce l’eventuale presenza di malfunzionamenti dovuti alla presenza di difetti. Caratteristica fondamentale dei test è la loro \textbf{ripetibilità}, cioè dato lo stesso set di dati in ingresso e nello stesso contesto di esecuzione, l’output deve essere deterministico e univocamente determinato. Tale proprietà, unitamente all’auspicabile utilizzo di un \inglese{logger} che ha il compito di registrare le fasi dell’esecuzione del test, consente di individuare e riconoscere in maniera più agevole i difetti presenti nel prodotto.
+In base al loro ambito di applicazione, i test possono essere suddivisi in:
+\begin {itemize}
+\item test di unità aventi come oggetto le singole unità e, oltre al modulo da verificare e ai dati d’esempio, possono coinvolgere anche componenti attive (\underline{driver}) o passive (\underline{stub}) che siano in grado di simulare le parti del sistema non ancora disponibili al momento in cui il test viene eseguito;
+
+\item test di integrazione atti a verificare la corretta interazione e integrazione fra le componenti che costituiscono le parti del sistema e hanno come risultato una \inglese{build}, vale a dire un sottosistema funzionante che può essere eseguito in modo indipendente;
+
+\item test di sistema, volti a testare il rispetto dei requisiti software individuati in fase di analisi dei requisiti da parte dell’intero sistema;
+
+\item test di regressione destinati a rilevare il caso indesiderabile in cui una modifica locale destabilizza il resto del sistema, si tratta del numero minimo di test necessario per scongiurare tale eventualità senza per questo dover ripetere in toto i test di unità e di integrazione;
+
+\item test di accettazione, o collaudo, realizzato sotto la supervisione del committente per verificare l’aderenza del prodotto ai requisiti utente di più alto livello.
+
+\end{itemize}
 
 \subsection{Metodi}
 Il processo di misurazione attraverso il quale è possibile valutare quantitativamente l'aderenza del prodotto agli standard di qualità è basato su un ciclo iterativo simile al ciclo di Deming. In particolare, in una fase preliminare prevede che sia stabilita l'importanza e l'ambito di applicazione della misurazione, la selezione di metriche da adottare come si è fatto nelle precedenti sezioni e la pianificazione del momento nel ciclo di sviluppo in cui le misurazioni dovranno essere effettuate.
@@ -412,11 +444,12 @@ Questa tipologia di analisi può rilevare anomalie quali scritture successive su
 \end{itemize}
 
 \subsection{Metriche}
+\subsubsection{Metriche per il progetto}
 Per effettuare delle misure efficacemente è nesessario definire un'unità di misura, una scala metrica e il metodo per rilevare tali misure.
 Tali caratteristiche sono definite dettagliatamente dallo standard ISO/IEC 9126, e le metriche descritte possono essere catalogate secondo due macro categorie: metriche elementari e derivate. Le prime sono in grado di rappresentare istantaneamente un dato fenomeno, le metriche derivate al contrario sono ricavate da operazioni su altre misurazioni.
 Sempre in riferimento alla capacità di immediatezza di misurazione sulle caratteristiche del prodotto si possono distinguere metriche dirette, che sono rilevabili sul software senza considerare l'influenza di fattori esterni (come l'ambiente nel quale è eseguito il software), e metriche indirette che combinano nelle misurazioni sul prodotto anche misure relative a elementi ambientali.
 
-\subsection{Metriche per la verifica del codice}\label{sec:metrics}
+\subsubsection{Metriche per la verifica del codice}\label{sec:metrics}
 
 Si riporta un elenco delle principali metriche, in riferimento alle quali il team di sviluppo si ripropone di valutare in modo univoco e quantificabile la qualità del prodotto relativamente alla parte di codifica:
 
@@ -555,6 +588,7 @@ Aggiunta la parte relativa al resoconto delle attività di verifica svolte sulla
 \end{itemize}
 \clearpage
 
+ 
 \section{Considerazioni per il miglioramento}
 
 Seguendo la logica del PDCA, Il team ha ritenuto necessario stendere una sezione che aiuti i membri del gruppo stesso a migliorare il loro operato sotto i 3 aspetti essenziali dello sviluppo di progetto:
@@ -565,15 +599,15 @@ Seguendo la logica del PDCA, Il team ha ritenuto necessario stendere una sezione
 	\item strumenti utilizzati.
 \end{itemize}
 
-Tale considerazioni vengono quindi riportate in corrispondenza della fase di ``check'' relativa al PDCA. Mancando un ente terzo in grado di giudicare i temi trattati in modo oggettivo, il team ha deciso di affrontare tale attività in termini di autovalutazione. Consci del fatto che tale procedura rischia di non essere ottimale quanto un giudizio esterno, può risultare comunque interessante per i seguenti motivi:
+Tale considerazioni vengono quindi riportate in corrispondenza della fase di ``check'' relativa al PDCA. Mancando un ente terzo in grado di giudicare i temi trattati in modo oggettivo, il team ha deciso di affrontare tale attività in termini di autovalutazione. Consci del fatto che tale procedura rischia di non essere ottimale quanto un giudizio esterno, può risultare comunque interessante al fine di:
 
 \begin{itemize}
-	\item spronare i membri del team a ricercare gli errori al termine di un attività svolta, cosi da migliorare la ripetizione della medesima attività nelle successive fasi;
-	\item spronare i membri del team ad autogiudicarsi sul il proprio operato, scontrandosi (per mezzo di critiche costruttive) con il giudizio altrui;
-	\item spronare i membri del team a ricercare tecniche d'utilizzo del software sempre più pratiche ed economiche (in termini di tempistiche).
+	\item incentivare i membri del team a ricercare gli errori al termine di un attività svolta, cosi da migliorare la ripetizione della medesima;
+	\item incentivare i membri del team ad autogiudicare il proprio operato integrandolo con il giudizio altrui;
+	\item incentivare i membri del team a ricercare tecniche d'utilizzo del software sempre più pratiche ed economiche (in termini sia di tempistiche che di effettivo costo strumentale).
 \end{itemize}
 
-L'obbiettivo finale è quello di attuare, sulla base di tali considerazioni, un miglioramento continuo che si ripeterà per ogni fase, aiutando il team a ``crescere'' non solo il termini di professionalità, ma anche ad imparare ad apprezzare gli sforzi altrui riconoscendo i propri errori e migliorando cosi il livello di comunicazione interno. 
+L'obbiettivo finale è quello di attuare, sulla base di tali considerazioni, un miglioramento continuo che si ripeterà durante tutti il progetto, aiutando il team a ``crescere'' non solo in termini di professionalità, ma anche a migliorare l'integrazione, la coesione e la comunicazione interna al gruppo di lavoro stesso. 
 
 Ciò potrà ridurre il livello di rischi interpersonali e nel contempo migliorare il livello di qualità dei processi e infine del prodotto stesso.
 
@@ -588,11 +622,118 @@ Al fine della praticità, si vuole che l'autovalutazione sia composta da:
 
 Tali commenti saranno presi in considerazione da ogni membro del team e per ogni ``tema'' di autovalutazione che compare nel paragrafo precedente.
 
-\subsection{Autovalutazione di qualità dei processi}
+Nello specifico al termine di ogni fase di sviluppo ogni membro del team sarà richiamato a fare autovalutazione. Tale attività si svolgerà con la compilazione di un apposito documento, fornito di volta in volta dall'amministratore. Il documento dovrà riportare i seguenti punti:
 
-\subsection{Autovalutazione dei ruoli}
+\begin{itemize}
+	\item In merito ai ruoli svolti in questa attività del progetto, che errori pensa di aver commesso?
+	\item Come pensa si possano evitare gli errori evidenziati al punto precedenti?
+	\item In merito agli strumenti utilizzati, crede sia possibile migliorare il loro utilizzo? Se si come?
+\end{itemize}
 
-\subsection{Autovalutazione degli strumenti}
+L'amministratore avrà poi il compito di prendere in considerazione tali documenti, analizzarli e riportarne il contenuto nelle sezioni successive utilizzando una forma appropriata.
+
+\subsection{Autovalutazione dei ruoli fino RQ}
+
+\subsubsection{Responsabile}
+
+\begin{description}
+	\item \textbf{Errori riscontrati}:
+		\begin{itemize}
+			\item difficoltà nell'assegnazione dei ruoli e dei ticket dovuta, inizialmente, ad una scarsa conoscenza delle competenze dei singoli membri del gruppo;
+			\item non aver applicato in maniera corretta e approfondita nella realizzazione del progetto alcuni concetti teorici solo descritti nella documentazione;
+			\item difficoltà scarsa esperienza nel stimare le risorse in maniera corretta;
+			\item difficoltà nel cogliere la situazione generale dello stato dell'avanzamento progettuale;
+			\item difficoltà nell'esercitare l'autorità a causa di problemi caratteriali e una non sempre elevata attitudine al comando;
+			\item errori nella creazione dei ticket: non sempre i ticket creati presentano una buona ``granularità''. È stato osservato che alcuni ticket risultavano essere eccessivamente onerosi per essere assegnati ad un unico membro del team.
+		\end{itemize}
+			
+	\item \textbf{Suggerimenti per l'automiglioramento}:
+		\begin{itemize}
+			\item aumentare la conoscenza delle competenze dei vari membri del team, al fine di poter assegnare correttamente i ruoli e le responsabilità;
+			\item il rispetto delle pratiche e norme inserite nei documenti deve essere sistematico e disciplinato. Il responsabile non dovrà lasciare che le tempistiche lo portino ad abbandonare una buona norma di lavoro;
+			\item come osservato l'inesperienza può portare a diversi errori (soprattutto di valutazione). Per evitarli si consiglia il confronto con chi ha svolto l'attività di responsabile in precedenza, soprattutto in caso di dubbio;
+			\item controllare in maniera rigorosa i commit dei membri del gruppo, rilasciando eventualmente commenti appropriati e costruttivi.
+		\end{itemize}
+\end{description}
+
+\subsubsection{Amministratore}
+
+\begin{description}
+	\item \textbf{Errori riscontrati}:
+		\begin{itemize}
+			\item nello stendere i documenti si è utilizzata una forma eccessivamente verbosa a discapito di una sintassi procedurale;
+			\item a causa di una mancanza di competenza e di conoscenza dell'attività di amministrazione, e degli strumenti di automatizzazione, gli strumenti non sono stati resi immediatamente disponibili. In particolare in merito all'utilizzo di \LaTeX, il template utilizzato dal team non è stato sufficientemente documentato. Ciò ha reso difficile la modifica del medesimo da parte degli amministratori successivi che hanno dovuto interpellare il creatore del template rallentando di conseguenza il lavoro.
+		\end{itemize}
+	\item \textbf{Suggerimenti per l'automiglioramento}:
+		\begin{itemize}
+			\item fare più uso di diagrammi delle attività, che risultano essere veloci, pratici e chiari;
+			\item migliorare la documentazione sull'utilizzo di determinati strumenti. In merito alla creazione di template o di script di automatizzazione, tali dovranno essere adeguatamente commentati. 
+In caso di dubbi si invita a consultare chi ha svolto l'attività di amministratore in precedenza. Tale pratica (ovviamente costosa) va però svolta con parsimonia e non per banalità. Il giudizio su quando ciò sia o meno necessario è lasciato agli amministratori stessi con la consapevolezza che ciò crescerà con l'esperienza.		
+		\end{itemize}
+\end{description}
+
+\subsubsection{Analista}
+
+\begin{description}
+	\item \textbf{Errori riscontrati}:
+		\begin{itemize}
+			\item errori nella decomposizione dei requisiti. Alcuni di questi non erano stati portati ad un buon livello d'atomicità;
+			\item errori dovuti ad alcuni dubbi sulla rappresentazione degli use case;
+		\end{itemize}
+	\item \textbf{Suggerimenti per l'automiglioramento}:
+		\begin{itemize}
+			\item ogni volta che si inserisce un requisito è giusto chiedersi: tale requisito può essere inteso come aggregato di più sotto-requisiti? Se si va suddiviso ulteriormente.
+			\item ogni analista, prima di prendere parte ad un'attività d'analisi è invitato a ripassare il linguaggio UML usato negli use case. In casi di dubbi è anche invitato a consigliarsi con gli altri analisti.
+		\end{itemize}
+\end{description}
+
+\subsubsection{Progettista}
+
+\begin{description}
+	\item \textbf{Errori riscontrati}:
+		\begin{itemize}
+			\item come per l'analista, anche in questo caso molti errori riscontrati sulla specifica tecnica sono da ricondursi ad uno studio superficiale della sintassi UML;
+			\item lo scarso studio del dominio tecnologico (soprattuto relativa alle conoscenze sul webRTC) hanno portato ad alcuni errori di progettazione dell'architettura di sistema;
+		\end{itemize}
+	\item \textbf{Suggerimenti per l'automiglioramento}:
+		\begin{itemize}
+			\item si invitano i progettisti a migliorare le proprie conoscenze in merito al linguaggio UML.
+			\item il dominio tecnologico è importante. Nel progettare il sistema è importante non solo tener conto di quelli che sono i dogmi della programmazione ad oggetti, ma è anche richiesto ai progettisti di analizzare in modo rigoroso le tecnologie da implementare.
+		\end{itemize}
+\end{description}
+
+\subsubsection{Verificatore}
+
+\begin{description}
+	\item \textbf{Errori riscontrati}:
+		\begin{itemize}
+			\item difficoltà nel rilevare gli errori, dovuti ad una scarsa conoscenza del dominio trattato nei documenti;
+			\item errori dovuti ad eccessiva fretta;
+		\end{itemize}
+	\item \textbf{Suggerimenti per l'automiglioramento}:
+		\begin{itemize}
+			\item prendere in considerazione la possibilità di assegnare più tempo all'attività di verifica;
+			\item dare maggior importanza all'attività di verifica, evitando di svolgere frettolosamente il ruolo a causa di tempistiche stringenti.
+		\end{itemize}
+\end{description}
+
+\subsection{Autovalutazione degli strumenti fino RQ}
+
+\begin{description}
+	\item \textbf{GitHub e sistema di repository}: si è riscontrata una certa difficoltà nel gestire i \inglese{merge}, pertanto si consiglia di dedicare un po' di tempo per eseguire delle mini esercitazioni nell'uso di tale pratica. Successivamente si dovrà imporre la seguente norma: nessun membro del gruppo dovrebbe lavorare direttamente sul ramo \inglese{master}, ma aprirsi un ramo locale , eseguire il proprio lavoro e fare \inglese{merge}. Ciò aumenterà il livello di parallelismo nel lavoro del gruppo.
+	\item \textbf{Concept Draw}: per quanto tale software si sia rivelato pratico ed intuitivo, esso si è anche rivelato più pesante della norma (in particolare in fase di esportazione dei diagrammi).  Si suggerisce quindi (nei prossimi progetti del team) di prendere in considerazione altri software alternativi.
+	\item \textbf{LaTeX}: difficoltà nel suo utilizzo sono dovute ad una scarsa documentazione sugli appunti riportati dall'amministratore in merito al suo utilizzo. Si consiglia ai membri del gruppo di prendere visione di tali appunti con maggior serietà. Evitare in assoluto modalità ``copia-incolla'' di parti di documento. Utilizzare norme appropriate  per la stesura dei documenti, evitando \inglese{worst practices}.
+\end{description}
+
+\subsection{Considerazioni sui rapporti interpersonali}
+
+La presente sotto-sezione intende riassumere i punti focali inerenti i rapporti tra i membri del team. Tali sono da intendere come suggerimenti da rispettare per il rispetto comune. Consigliati, al fine di non far insorgere litigi controproducenti allo sforzo comune.
+
+\begin{itemize}
+	\item \textbf{Usare un linguaggio consono e rispettoso}: si invitano tutti i membri del team ad assumere un comportamento rispettoso verso il prossimo. Con ciò si fa riferimento all'uso di un linguaggio e gestualità civile (anche in virtù del fatto che molti luoghi di riunione sono pubblici).
+	\item \textbf{Nessuno è superiore agli altri}: è evidente che tutti i membri del team hanno la medesima esperienza nel campo dell'ingegneria del software (da intendersi sia come conoscenze generali che come grado di ``maturità'' nel settore). Pertanto in ogni dibattito  è richiesto ad ogni membro del team di ricordare che le idee altrui non sono da criticare a prescindere, ma bensì vanno valutate e giudicate coscientemente, dando luogo ad un dibattito nel rispetto di ogni membro del team.
+	\item \textbf{Mai mettere alla berlina chi sbaglia}: indubbiamente ogni membro del team, ha delle responsabilità che cambiano in virtù del ruolo che ricopre. Va però ricordato che in caso d'errore non si dovrà giudicare colpevole e conseguentemente screditare un membro del team. Ciò potrebbe si portare chi ha sbagliato a prestare una maggiore attenzione al proprio operato, ma il rischio di  portare il suddetto membro del gruppo, a non esporre le proprie idee per pregiudizi su quanto accaduto potrebbe nuocere alla qualità del prodotto finale. Sarà quindi esclusiva responsabilità del responsabile, comunicare in privato gli errori ai relativi ``colpevoli''. Cosi facendo chi sbaglia sarà corretto e si eviterà che questi si senta pubblicamente umiliato.
+\end{itemize}
 
 \clearpage
 
