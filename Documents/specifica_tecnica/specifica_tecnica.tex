@@ -169,7 +169,7 @@ Come si vedrà nella sezione architetturale del prodotto, il sistema fa uso di u
 
 Tra le motivazioni che hanno portato a tale scelta, vi è indiscutibilmente il fatto che Apache Derby è un \inglese{relational database management system} (RDBMS) scritto in Java, incorporabile nei programmi scritti in Java e usato per elaborazione delle transazioni online.
 
-\subsection{Hibernate}
+\subsection{Hibernate}\label{sec:hibernate}
 Hibernate è un \inglese{framework} Java utilizzato per facilitare l'utilizzo di un \underline{database} da parte del server realizzando la mappatura fra oggetti intesi in senso OOP ed ennuple del modello relazionale (\inglese{object-relational mapping}).
 
 \subsubsection*{Vantaggi}
@@ -273,7 +273,8 @@ Con la progettazione concettuale definiremo una struttura ``concettuale'' della 
 \toprule
 Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule % inserire qui il contenuto della tabella
-E-Mail & Varchar(100) & NO & PrimaryKey\\
+ID\_user & Text & NO & PrimaryKey\\
+E-Mail & Varchar(100) & NO & Unique\\
 Password & Password & NO &\\
 Question & Varchar(100) & NO &\\
 Answer & Varchar(100) & NO &\\
@@ -292,7 +293,7 @@ Picture & Varchar(150) & SI &\\
 \toprule
 Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule % inserire qui il contenuto della tabella
-ID & int & NO & PrimaryKey\\
+ID\_call & Text & NO & PrimaryKey\\
 Start\_date & Datetime & NO & \\
 End\_date & Datetime & SI & \\
 \bottomrule
@@ -307,7 +308,7 @@ End\_date & Datetime & SI & \\
 \toprule
 Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule % inserire qui il contenuto della tabella
-Group\_ID & int & NO & PrimaryKey\\
+ID\_group & Text & NO & PrimaryKey\\
 Name & Varchar(100) & NO &\\
 \bottomrule
 \end{tabular}
@@ -321,7 +322,7 @@ Name & Varchar(100) & NO &\\
 \toprule
 Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule % inserire qui il contenuto della tabella
-Path & Varchar(150) & NO & PrimaryKey\\
+ID\_message & Text & NO & PrimaryKey\\
 Sender & Varchar(100) & NO & \\
 Receiver & Varchar(100) & NO & \\
 New & Boolean & NO & \\
@@ -334,6 +335,23 @@ New & Boolean & NO & \\
 	\item{\scshape\bfseries AudioVideoMessages}: è un entità che specializza Messages e rappresenta i messaggi audio/video lasciati nella segreteria di un utente.  L'entità non è caratterizzata da alcun attributo proprio.	
 	
 \end{description}
+
+\subsubsection{Chiavi primarie sintetiche}
+I progettisti hanno optato per la definizione di chiavi primarie sintetiche, ovvero chiavi generate da una funzione sql definita nel DBMS al momento della creazione di un nuovo record. Tale scelta è dettata dall'utilizzo del framework Hibernate che non permette la modifica del valore della chiavi primarie associate ad una istanza di un oggetto di business. Le chiavi saranno quindi composte da una stringa di sette caratteri di cui i primi due rappresenteranno un prefisso che individuerà il tipo di entità a cui appartiene il record, mentre le restanti cifre rappresentano un contatore che identifica univocamente i record.
+
+\begin{center}
+\rowcolors{2}{lightblue}{llightblue}
+\begin{tabular}{lccc}
+\toprule
+Entità & Prefisso\\
+\midrule % inserire qui il contenuto della tabella
+UserData & UD \\
+Calls & CL \\
+Groups & GR \\
+Messages & MS\\
+\bottomrule
+\end{tabular}
+\end{center}
 
 \subsubsection{Gerarchia tra classi}
 
@@ -381,7 +399,8 @@ UserData
 \toprule
 Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule % inserire qui il contenuto della tabella
-E-Mail & Varchar(100) & NO & PrimaryKey\\
+ID\_user & Text & NO & PrimaryKey\\
+E-Mail & Varchar(100) & NO & Unique\\
 Password & Password & NO &\\
 Question & Varchar(100) & NO &\\
 Answer & Varchar(100) & NO &\\
@@ -400,7 +419,7 @@ Calls
 \toprule
 Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule % inserire qui il contenuto della tabella
-ID & int & NO & PrimaryKey\\
+ID\_call & Text & NO & PrimaryKey\\
 Start\_date & Datetime & NO & \\
 End\_date & Datetime & SI &\\
 \bottomrule
@@ -415,8 +434,8 @@ CallLists
 \toprule
 Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule % inserire qui il contenuto della tabella
-Call\_ID & int & NO & PrimaryKey e ForeignKey verso Calls\\
-User & Varchar(100) & NO & PrimaryKey e ForeignKey verso UserData \\
+ID\_call & Text & NO & PrimaryKey e ForeignKey verso Calls\\
+ID\_user & Text & NO & PrimaryKey e ForeignKey verso UserData \\
 Caller & Boolean & NO &\\
 \bottomrule
 \end{tabular}
@@ -430,8 +449,8 @@ AddressBooks
 \toprule
 Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule % inserire qui il contenuto della tabella
-User\_ID & Varchar(100) & NO & PrimaryKey e ForeignKey verso UserData\\
-Group\_ID & int & NO & PrimaryKey e ForeignKey verso Groups\\
+ID\_user & Text & NO & PrimaryKey e ForeignKey verso UserData\\
+ID\_group & Text & NO & PrimaryKey e ForeignKey verso Groups\\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -444,7 +463,7 @@ Groups
 \toprule
 Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule % inserire qui il contenuto della tabella
-Group\_ID & int & NO & PrimaryKey\\
+ID\_group & Text & NO & PrimaryKey\\
 Name & Varchar(100) & NO & \\
 Owner & Varchar(100) & NO & ForeignKey verso UserData\\
 Father & int & NO & ForeignKey verso Groups\\
@@ -460,7 +479,7 @@ Messages
 \toprule
 Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule % inserire qui il contenuto della tabella
-Path & Varchar(150) & NO & PrimaryKey\\
+ID\_message & Text & NO & PrimaryKey\\
 Sender & Varchar(100) & NO & ForeignKey verso UserData \\
 Receiver & Varchar(100) & NO & ForeignKey verso UserData\\
 New & Boolean & NO & \\
