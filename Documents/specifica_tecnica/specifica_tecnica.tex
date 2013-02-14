@@ -207,21 +207,22 @@ Inoltre si fa presente che l'architettura generale, intesa come agglomerato dell
 
 Sotto tale ottica la sotto-architettura \texttt{server} ricopre il ruolo di \inglese{model}, \texttt{clientpresenter} costituisce invece il \inglese{presenter}, mentre \texttt{clientview} è la vista definita per questo progetto. Tra le considerazioni più interessanti che hanno portato alla scelta di questo \inglese{pattern}, va messa in evidenza la seguente.
 
-Assegnando ad ogni sotto-architettura un ruolo specifico, si garantisce un alto livello di riutilizzo del codice (e.g. la vista comunica con il \inglese{presenter} poiché non conosce la logica di \inglese{business} del sistema).
+Assegnando a ogni sotto-architettura un ruolo specifico, si garantisce un alto livello di riutilizzo del codice (e.g. la vista comunica con il \inglese{presenter} poiché non conosce la logica di \inglese{business} del sistema).
 
 Quindi in un futuro di potrebbe riprendere la vista oggi definita, e riutilizzarla in un altro progetto, andando solo a ridefinire, se necessario, un presente che riproponga una nuovo adattamento della parte logica.
 
-Di seguito verranno proposte le sotto-architetture evidenziate. Di ogni una sarà dato un elenco dettagliato dei componenti che lo interessano. Si sottolinea che per componenti non si intende i sottopackage, ma gli agglomerati di classi (potenzialmente prese da package diversi) che concorrono ad un fine comune: la definizione delle funzionalità del componente trattato.
+Di seguito verranno proposte le sotto-architetture evidenziate. Di ogni una sarà dato un elenco dettagliato dei componenti che lo interessano. Si sottolinea che per componenti non si intende i sotto-package, ma gli agglomerati di classi (potenzialmente prese da package diversi) che concorrono ad un fine comune: la definizione delle funzionalità del componente trattato.
+
 \begin{figure}[H]
-\begin{center}
-\includegraphics[width=.8\textwidth]{DiagrammaPackage}
-\caption{Diagramma dei package generale}\label{fig:packagegenerale}
-\end{center}
+\centering
+  \includegraphics[width=.8\textwidth]{DiagrammaPackage}
+  \caption{Diagramma dei package generale}\label{fig:packagegenerale}
 \end{figure}
 
-\newpage
+\clearpage
 
 \subsection{Logica di rete}
+
 \subsubsection{Descrizione della logica di connessione}
 La rete che viene a crearsi sotto l'architettura di \caName{} è suddivisa in ``comunicazioni'', ovvero gruppi di due o più utenti che comunicano tra di loro. Ogni comunicazione è formata dalle singole ``connessioni'' tra i vari client.
 
@@ -239,7 +240,8 @@ La comunicazione nasce così come un'unica connessione tra due client in modalit
 
 Da questa situazione uno dei due utenti può richiederne l'aggiunta di un ulteriore soggetto. Dopo questa richiesta, il Nodo che la ha eseguita diventa un Supernodo con attive sia la connessione con il vecchio Nodo sia quella con il nuovo Nodo appena aggiunto.
 
-Questa operazione crea una connessione fra tre Nodi estendibile dal Supernodo e dagli altri Nodi attraverso una richiesta al Supernodo stesso. 
+Questa operazione crea una connessione fra tre Nodi estendibile dal Supernodo e dagli altri Nodi attraverso una richiesta al Supernodo stesso.
+
 %Solo il Supernodo può richiedere nuove connessioni al Server. Con ulteriori richieste i nuovi nodi si collegano al Supernodo con una connessione estendendo la comunicazione.
 
 Ogni Nodo può togliersi dalla comunicazione chiudendo la connessione con il Supernodo. Se è il Supernodo stesso a volersi togliere dalla comunicazione, l'intera comunicazione cade e tutti gli utenti vendono disconnessi.
@@ -254,8 +256,6 @@ Questa soluzione avrebbe richiesto un test di qualità della rete per ogni Nodo 
 Al fine di garantire sempre la migliore qualità di connessione era stata presa inoltre in considerazione l'idea di controllare periodicamente la qualità del Supernodo e degli altri Nodi in modo da sostituire il Supernodo se necessario. Purtroppo anche questa soluzione richiederebbe dei calcoli di complessità $\omega(n*(n-1))$ con n Nodi attivi nella comunicazione.
 
 Con una corretta implementazione questa soluzione avrebbe permesso una migliore qualità del prodotto \caName, il gruppo ha tuttavia optato per la prima implementazione presentata in quanto le risorse disponibili non erano sufficienti per terminare la seconda.
-
-
 \clearpage
 
 \section{Architettura del database}\label{sec:database}
@@ -504,34 +504,53 @@ Infine, si fa notare che i nomi di tutte le classi riportate nella sezione sono 
 \subsubsection{Gestione database}
 \begin{description}
 \item{\scshape\bfseries Descrizione:}\\
-Gestione database è il componente che si occupa di rappresentare la struttura del database relazionale su cui poggia l'applicativo. Le singole classi in esso definite rappresentano quindi le tabelle del database. In termini tecnici le classi interne al componente Gestione database implementa il \inglese{design pattern} DAO\@.
+Gestione database è il componente che si occupa di rappresentare la struttura del database relazionale su cui poggia l'applicativo. Tramite questo componente, il sistema potrà quindi effettuare operazione di lettura e scrittura di entità all'interno del database.
 
-Tramite questo componente, il sistema potrà quindi effettuare operazione di lettura e scrittura di entità all'interno del database. Le classi che costituiscono il componente dovranno quindi essere dotate di:
+Le classi presenti in questo componente possono essere suddivise in tre gruppi:
+\begin{enumerate}
+  \item le classi \inglese{transfer object} (TO) e le relative interfacce;
+  \item le classi \inglese{data access object} (DAO) concrete per il DBMS prescelto (JavaDB) e le relative interfacce;
+  \item le classi \inglese{factory} (concrete e astratte) utilizzate per ottenere le istanze delle classi DAO necessarie a supportare la persistenza dei dati del database.
+\end{enumerate}
 
-\begin{itemize}
-	\item metodi get per restituire i singoli attributi dell'istanza;
-	\item metodi set per garantire un corretto inserimento dei dati prima di registrare l'istanza nel database.
-\end{itemize}
+In linea generale le classi TO mappano le entità rappresentate nel database e sono dotate di variabili di istanza che corrispondono ai campi dei \inglese{record}. Le operazioni disponibili su questo genere di oggetti comprendono i metodi get/set associati ai campi delle tabelle del database e sono rese disponibili dalle interfacce (una per ogni entità) implementate dalle classi TO\@.
 
-Si informa inoltre che le classi di tale componente dovranno interagire con il \inglese{framework} Hibernate, al fine di ottenere lo scopo precisato.
+Ad ognuna delle entità è associata inoltre un'interfaccia DAO il cui contratto stabilisce la responsabilità di gestire la transizione di stato degli oggetti TO da transienti a persistenti, l'aggiornamento delle informazioni sul database e la rimozione di un oggetto dallo stato persistente, realizzando le operazioni di \inglese{insert}, \inglese{select} e \inglese{update} e \inglese{delete} corrispondenti.
+
+Poiché le implementazioni delle interfacce DAO contengono istruzioni dipendenti dal DBMS utilizzato, è stato realizzato un set di classi specifiche per JavaDB che si appoggiano al \inglese{framework} Hibernate per la gestione della persistenza dei dati. Inoltre, è stata introdotta una classe \inglese{factory} per JavaDB responsabile della creazione degli oggetti DAO specifici per questo DBMS\@.
+
+Allo scopo di rendere l'architettura facilmente estendibile a futuri ampliamenti o cambiamenti di DBMS, è stata introdotta un'interfaccia della \inglese{factory} in cui i tipi di ritorno dei metodi sono le interfacce DAO\@. Una diversa classe \inglese{factory} che la implementi potrà pertanto restituire istanze di sottotipi delle interfacce DAO specifiche per gestori di database distinti.
 
 \item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
-\begin{center}
-\includegraphics[width=.5\textwidth]{class_gestione_database}
-\caption{Diagramma delle classi - Gestione database}\label{fig:gestione_database}
-\end{center}
+  \centering
+  \includegraphics[width=.5\textwidth]{class_gestione_database}
+  \caption{Diagramma delle classi - Gestione database}\label{fig:gestione_database}
 \end{figure}
-	
+
+%TODO
+% Sbaglio o forse il package dao dovrebbe solo mantenere gli oggetti DAO e le factory, non avrebbe più senso lasciare gli oggetti TO nei loro posti "corretti" e cioè
+% - MessageTO e IMessage nel package message
+% - GroupTO, UserDataTO, IGroup e IUserData nel package abook
+% - CallTO e ICall da qualche altra parte?
+% E, inoltre, dobbiamo proprio posporre quel suffisso TO?
+
 	\item{\scshape\bfseries Classi utilizzate:}
 	\begin{itemize}[nolistsep, noitemsep]
-	  \item[-] \texttt{dao.AudioMessage}
-	  \item[-] \texttt{dao.AudioVideoMessage}
-	  \item[-] \texttt{dao.IMessage}
+	  \item[-] \texttt{dao.CallDAO}
+	  \item[-] \texttt{dao.CallTO}
+	  \item[-] \texttt{dao.GroupDAO}
+	  \item[-] \texttt{dao.GroupTO}
+	  \item[-] \texttt{dao.ICall}
+	  \item[-] \texttt{dao.IDAOFactory}
 	  \item[-] \texttt{dao.IGroup}
+	  \item[-] \texttt{dao.IMessage}
 	  \item[-] \texttt{dao.IUserData}
-	  \item[-] \texttt{dao.StandardGroup}
-	  \item[-] \texttt{dao.StandardUserData}
+	  \item[-] \texttt{dao.JavaDBDAOFactory}
+	  \item[-] \texttt{dao.MessageDAO}
+	  \item[-] \texttt{dao.MessageTO}
+	  \item[-] \texttt{dao.UserDataDAO}
+	  \item[-] \texttt{dao.UserDataTO}
 	\end{itemize}
 \end{description}
 
