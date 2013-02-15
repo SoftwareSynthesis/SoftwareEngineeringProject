@@ -511,11 +511,12 @@ Messages & Datatime & NO & \\
 \section{Architettura \texttt{mytalk.server}}\label{sec:server}
 Tale sotto-architettura definisce le specifiche e le funzionalità dell'applicativo lato server. In esso saranno definiti i seguenti componenti:
 \begin{itemize}[noitemsep,nolistsep]
-	\item[-] Gestione database.
-	\item[-] Gestione connessione.
-	\item[-] Gestione rubrica.
-	\item[-] Gestione stato.
-	\item[-] Gestione segreteria.
+	\item[-] Gestione database;
+	\item[-] Gestione connessione;
+	\item[-] Gestione chiamate;
+	\item[-] Gestione rubrica;
+	\item[-] Gestione stato;
+	\item[-] Gestione segreteria;
 	\item[-] Façade del server.
 \end{itemize}
 
@@ -530,7 +531,7 @@ Infine, si fa notare che i nomi di tutte le classi riportate nella sezione sono 
 \item{\scshape\bfseries Descrizione:}\\
 Gestione database è il componente che si occupa di rappresentare la struttura del database relazionale su cui poggia l'applicativo. Tramite questo componente, il sistema potrà quindi effettuare operazione di lettura e scrittura di entità all'interno del database.
 
-Le classi presenti in questo componente possono essere suddivise in tre gruppi:
+Le classi utilizzare in questo componente possono essere suddivise in tre gruppi:
 \begin{enumerate}
   \item le classi \inglese{transfer object} (TO) e le relative interfacce;
   \item le classi \inglese{data access object} (DAO) concrete per il DBMS prescelto (JavaDB) e le relative interfacce;
@@ -552,32 +553,26 @@ Allo scopo di rendere l'architettura facilmente estendibile a futuri ampliamenti
   \caption{Diagramma delle classi - Gestione database}\label{fig:gestione_database}
 \end{figure}
 
-%TODO sbaglio o forse il package dao dovrebbe solo mantenere gli oggetti DAO e le factory, non avrebbe più senso lasciare gli oggetti TO nei loro posti "corretti" e cioè
-% - MessageTO e IMessage nel package message
-% - GroupTO, UserDataTO, IGroup e IUserData nel package abook
-% - CallTO e ICall da qualche altra parte?
-% E, inoltre, dobbiamo proprio posporre quel suffisso TO?
-
 	\item{\scshape\bfseries Classi utilizzate:}
 	\begin{itemize}[nolistsep, noitemsep]
-	  \item[-] \texttt{dao.JavaDBCallDAO}
-	  \item[-] \texttt{dao.CallTO}
-	  \item[-] \texttt{dao.JavaDBGroupDAO}
-	  \item[-] \texttt{dao.GroupTO}
-	  \item[-] \texttt{dao.ICall}
-	  \item[-] \texttt{dao.ICallDAO}
 	  \item[-] \texttt{dao.IDAOFactory}
-	  \item[-] \texttt{dao.IGroup}
-	  \item[-] \texttt{dao.IGroupDAO}
-	  \item[-] \texttt{dao.IMessage}
-	  \item[-] \texttt{dao.IMessageDAO}
-	  \item[-] \texttt{dao.IUserData}
-	  \item[-] \texttt{dao.IUserDataDAO}
 	  \item[-] \texttt{dao.JavaDBDAOFactory}
+	  \item[-] \texttt{dao.ICallDAO}
+	  \item[-] \texttt{dao.JavaDBCallDAO}
+	  \item[-] \texttt{dao.IGroupDAO}
+	  \item[-] \texttt{dao.JavaDBGroupDAO}
+	  \item[-] \texttt{dao.IMessageDAO}
 	  \item[-] \texttt{dao.JavaDBMessageDAO}
-	  \item[-] \texttt{dao.MessageTO}
+	  \item[-] \texttt{dao.IUserDataDAO}
 	  \item[-] \texttt{dao.JavaDBUserDataDAO}
-	  \item[-] \texttt{dao.UserDataTO}
+	  \item[-] \texttt{abook.IGroup}
+	  \item[-] \texttt{abook.Group}
+	  \item[-] \texttt{abook.IUserData}
+	  \item[-] \texttt{abook.UserData}
+	  \item[-] \texttt{call.ICall}
+	  \item[-] \texttt{call.Call}
+	  \item[-] \texttt{message.IMessage}
+	  \item[-] \texttt{message.Message}
 	\end{itemize}
 \end{description}
 
@@ -609,11 +604,13 @@ Le specifiche di tali oggetti sono descritte dall'interfaccia \texttt{connection
 	\item{\scshape\bfseries Descrizione:}\\
 Ad ogni utente del sistema è associata una rubrica personale, rappresentata dall'interfaccia \texttt{abook.IAddressBook} e dalla relativa implementazione \texttt{abook.AddressBook}.
 
-I contatti in rubrica corrispondono agli utenti del sistema che il possessore ha aggiunto alla stessa. Una rubrica può contenere zero o più utenti, come si evince dalla relazione di composizione fra \texttt{AddressBook} e \texttt{IUserData} riportata del diagramma in figura~\ref{fig:gestionerubrica}.
+I contatti in rubrica corrispondono agli utenti del sistema che il possessore ha aggiunto alla stessa. Una rubrica può contenere zero o più utenti, come si evince dalla relazione di composizione fra \texttt{abook.AddressBook} e \texttt{abook.IUserData} riportata del diagramma in figura~\ref{fig:gestionerubrica}.
 
 Gli utenti, inoltre, possono essere opzionalmente organizzati in gruppi: un contatto in rubrica può, in un dato momento, appartenere a uno o più gruppi oppure non appartenere a nessuno.
 
-D'altro canto, la rubrica può contenere uno o più gruppi, laddove il limite inferiore è fissato dalla presenza di default di un gruppo \inglese{blacklist} in ogni rubrica. Questo spiega la relazione di composizione fra \texttt{AddressBook} e \texttt{IGroup}
+D'altro canto, la rubrica può contenere uno o più gruppi, laddove il limite inferiore è fissato dalla presenza di default di un gruppo \inglese{blacklist} in ogni rubrica. Questo spiega la relazione di composizione fra \texttt{abook.AddressBook} e \texttt{abook.IGroup}.
+
+Infine, il passaggio dei dati corrispondenti ai contatti della rubrica al \inglese{presenter} è gestito restituendo una versione serializzata degli oggetti compatibile con il dominio applicativo dei client che rappresenta inoltre una sorta di \inglese{proxy} di protezione, corrispondente alla classe \texttt{clientpresenter.kernel.JSUserData}.
 
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -626,17 +623,18 @@ D'altro canto, la rubrica può contenere uno o più gruppi, laddove il limite in
 	\begin{itemize}[nolistsep, noitemsep]
 	  \item[-] \texttt{abook.AddressBook}
 	  \item[-] \texttt{abook.IAddressBook}
-	  \item[-] \texttt{dao.IGroup}
-	  \item[-] \texttt{dao.GroupTO}
-	  \item[-] \texttt{dao.IUserData}
-	  \item[-] \texttt{dao.UserDataTO}
+	  \item[-] \texttt{abook.IGroup}
+	  \item[-] \texttt{abook.Group}
+	  \item[-] \texttt{abook.IUserData}
+	  \item[-] \texttt{abook.UserData}
+	  \item[-] \texttt{org.softwaresynthesis.mytalk.kernel.JSUserData}
 	\end{itemize}
 \end{description}
 
 \subsubsection{Gestione stato}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Le classi di tale componente sono utilizzate per gestire lo stato degli utenti, permettendo un comportamento diverso delle istanze di \texttt{dao.UserDataTO} a seconda dello stato in cui si trova l'utente corrispondente. Gli stati possibili sono in prima istanza ``\inglese{online}'' e ``\inglese{offline}'', rappresentati dalle classi \texttt{state.StateOnline} e \texttt{state.StateOffline} rispettivamente.
+Le classi di tale componente sono utilizzate per gestire lo stato degli utenti, permettendo un comportamento diverso delle istanze di \texttt{abook.UserData} a seconda dello stato in cui si trova l'utente corrispondente. Gli stati possibili sono in prima istanza ``\inglese{online}'' e ``\inglese{offline}'', rappresentati dalle classi \texttt{state.StateOnline} e \texttt{state.StateOffline} rispettivamente.
 
 Gli utenti che si trovano nello stato online possono trovarsi in due situazioni: ``occupato'' o ``disponibile'', rappresentati a loro volta dalle classi \texttt{state.StateOccupied} e \texttt{state.StateAvailable}.
 
@@ -655,12 +653,12 @@ Inoltre, i cambiamenti di stato vengono notificati a tutti gli utenti presenti i
 	
 	\item{\scshape\bfseries Classi utilizzate:}\\ 
 	\begin{itemize}[noitemsep,nolistsep]
-		  \item[-] \texttt{dao.UserDataTO}
-	    \item[-] \texttt{state.IState}
-	    \item[-] \texttt{state.StateAvailable}
-	    \item[-] \texttt{state.StateOccupied}
-	    \item[-] \texttt{state.StateOffline}
-	    \item[-] \texttt{state.StateOnline}
+	  \item[-] \texttt{abook.UserData}
+	  \item[-] \texttt{state.IState}
+	  \item[-] \texttt{state.StateAvailable}
+	  \item[-] \texttt{state.StateOccupied}
+	  \item[-] \texttt{state.StateOffline}
+	  \item[-] \texttt{state.StateOnline}
 	\end{itemize}
 \end{description}
 
@@ -669,9 +667,9 @@ Inoltre, i cambiamenti di stato vengono notificati a tutti gli utenti presenti i
 	\item{\scshape\bfseries Descrizione:}\\
 Il sistema di segreteria telefonica corrisponde all'interfaccia \texttt{message.IMessageBox} e alla relativa implementazione \texttt{message.StandardMessageBox} che permettono un accesso centralizzato all'insieme di messaggi che un determinato utente ha ricevuto.
 
-I messaggi audio e audio/video sul server corrispondono alle istanze dalla classe \texttt{dao.MessageTO} e sono caratterizzati da mittente, destinatario, data di registrazione e dallo \inglese{stream}.
+I messaggi audio e audio/video sul server corrispondono alle istanze dalla classe \texttt{message.Message} e sono caratterizzati da mittente, destinatario, data di registrazione e dallo \inglese{stream}.
 
-L'onere di caricare in memoria e gestire l'intero messaggio è posticipato al momento di effettiva necessità mediante l'utilizzo lato client di una sorta di \inglese{virtual proxy} corrispondente alla classe \texttt{clientpresenter.kernel.JSMessage} che rende disponibili le medesime operazioni di \texttt{dao.MessageTO} ma scarica il contenuto del messaggio solo quando effettivamente richiesto.
+L'onere di caricare in memoria e gestire l'intero messaggio è posticipato al momento di effettiva necessità mediante l'utilizzo lato client di una sorta di \inglese{virtual proxy} corrispondente alla classe \texttt{clientpresenter.kernel.JSMessage} che rende disponibili le medesime operazioni di \texttt{message.Message} ma scarica il contenuto del messaggio solo quando effettivamente richiesto.
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
 \begin{center}
@@ -682,8 +680,8 @@ L'onere di caricare in memoria e gestire l'intero messaggio è posticipato al mo
 	
 	\item{\scshape\bfseries Classi utilizzate:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \texttt{dao.MessageTO}
-	  \item[-] \texttt{dao.IMessage}
+		\item[-] \texttt{message.IMessage}
+	  \item[-] \texttt{message.Message}
 	  \item[-] \texttt{org.softwaresythesis.mytalk.clientpresenter.kernel.JSMessage}
 	\end{itemize}
 \end{description}
@@ -713,12 +711,14 @@ Le funzionalità esposte consentono di gestire i messaggi presenti in segreteria
 
 \subsubsection{Package \texttt{org.softwaresynthesis.mytalk.server.dao}}
 
-%TODO mancano descrizioni di 12 classi nel package dao
 \begin{itemize}[leftmargin=0em]
 
 \item \texttt{IDAOFactory}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
+Interfaccia della Abstract Factory che contiene operazioni permettono di ottenere un riferimento di tipo statico interfaccia alle classi DAO (cioè \texttt{IMessageDAO}, \texttt{IUserDataDAO}, \texttt{IGroupDAO} e \texttt{ICallDAO}).
+
+Le operazioni di questa interfaccia sono dunque dei Factory Method (ad es. \texttt{createMessageDAO(): IMessageDAO}) che nelle implementazioni delle \inglese{factory} concrete restituiscono oggetti aventi un tipo dinamico specifico per il DBMS utilizzato.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] Gestione database
