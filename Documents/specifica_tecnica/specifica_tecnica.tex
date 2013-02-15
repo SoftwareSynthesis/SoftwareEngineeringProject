@@ -163,16 +163,11 @@ L'utilizzo del linguaggio \underline{Java} è richiesto dal proponente esclusiva
 \item[-] garantisce la portabilità del codice (a livello di bytecode), l'indipendenza dalla piattaforma fisica di esecuzione grazie alla JVM e l'integrazione nell'ambiente di esecuzione del proponente (\underline{TomCat}).
 \end{itemize}
 
-%TODO questa sottosezione deve essere eliminata e sostituita con una relativa a MySQL
-\subsection{Java DB - Apache Derby}
-Come si vedrà nella sezione architetturale del prodotto, il sistema fa uso di un database per la gestione dei dati. Ciò comporta l'esigenza di utilizzare un DBMS su cui appoggiarsi nella realizzazione della base di dati. In merito il team ha scelto Apache Derby.
+%TODO inserire sotto-sezione relativa a MySQL
 
-Tra le motivazioni che hanno portato a tale scelta, vi è indiscutibilmente il fatto che Apache Derby è un \inglese{relational database management system} (RDBMS) scritto in Java, incorporabile nei programmi scritti in Java e usato per elaborazione delle transazioni online.
+%TODO inserire sotto-sezione relativa al web server Apache
 
-\subsubsection*{Vantaggi}
-\begin{itemize}[noitemsep,nolistsep]
-  \item[-] si tratta di un DBMS \inglese{embedded} integrato strettamente nell'applicazione stessa che non richiede l'esecuzine di un servizio esterno sull'\inglese{host} in cui è eseguito.
-\end{itemize}
+%TODO inserire sotto-sezione relativa a TomCat
 
 \subsection{Hibernate}\label{sec:hibernate}
 
@@ -1205,7 +1200,7 @@ D'altro canto, dal momento che questo componente è responsabile anche delle mod
 
 La struttura delle classi che lo compongono mostra una corrispondenza biunivoca con gli elementi grafici presentati nella sezione~\ref{sec:gui} con un \inglese{presenter} per ognuno dei pannelli, cui si aggiunge un oggetto istanza di \texttt{guicontrol.PresenterMediator}. Quest'ultimo incapsula la collaborazione fra i vari \inglese{presenter} e permette di gestire gli eventi generati da un elemento della GUI inviando a uno (o più) \inglese{presenter} i messaggi corrispondenti alle azioni da compiere.
 	\item{\scshape\bfseries Diagramma delle classi:}\\
-%TODO questo diagramma deve essere fatto
+%TODO questo diagramma deve essere generato ed esportato
 	\item{\scshape\bfseries Classi utilizzate:}\\
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \texttt{guicontrol.AccountSettingsPanelPresenter}
@@ -1218,14 +1213,6 @@ La struttura delle classi che lo compongono mostra una corrispondenza biunivoca 
 		\item[-] \texttt{guicontrol.MessagePanelPresenter}
 		\item[-] \texttt{guicontrol.PresenterMediator}
 	  \item[-] \texttt{guicontrol.ToolsPanelPresenter}
-%TODO amministrazione della rubrica
-% IN ADDRESBOOKPANELPRESENTER
-% - aggiungi gruppo
-% - rimuovi gruppo
-% IN CONTACTPANELPRESENTER
-% - assegna un utente a un gruppo
-% - rimuovi un utente dal gruppo cui appartiene
-% - aggiungi un utente alla rubrica (se non presente in rubrica)
 	\end{itemize}
 \end{description}
 
@@ -1237,10 +1224,9 @@ Rappresenta l'interfaccia d'accesso verso la sotto-architettura \texttt{clientpr
 I metodi del componente Façade del \inglese{presenter} hanno la cognizione dell'iter di chiamate a metodo per portare a termine correttamente le operazioni richieste dall'esterno. Un esempio di richiesta proveniente dal server che richiede di essere gestita in questa sede è la reazione al cambiamento di stato di un utente presente nella rubrica del client dove risiede il Façade, che si traduce in una notifica in entrata dal server e ha un effetto sull'interfaccia grafica.
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
-\begin{center}
-\includegraphics[width=.8\textwidth]{facade_presenter}
-\caption{Diagramma delle classi - Façade del presenter}\label{fig:facade_presenter}
-\end{center}
+\centering
+  \includegraphics[width=.8\textwidth]{facade_presenter}
+  \caption{Diagramma delle classi - Façade del presenter}\label{fig:facade_presenter}
 \end{figure}
 	\item{\scshape\bfseries Classi utilizzate:} 
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1298,6 +1284,7 @@ Il \inglese{presenter} in questione rende inoltre possibile avviare una ricerca 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Gestione GUI
+	  \item[-] GUI
 	\end{itemize}
 \end{description}
 
@@ -1308,6 +1295,7 @@ Questo \inglese{presenter} gestisce l'elemento corrispondente al pannello dello 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Gestione GUI
+	  \item[-] GUI
 	\end{itemize}
 \end{description}
 
@@ -1318,16 +1306,22 @@ Tale \inglese{presenter} si occupa della gestione del componente grafico corrisp
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Gestione GUI
+	  \item[-] GUI
 	\end{itemize}
 \end{description}
 
 \item \texttt{guicontrol.ContactPanelPresenter}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Tale \inglese{presenter} ha la responsabilità di controllare l'aggiornamento della sezione dell'interfaccia grafica avente il compito di visualizzare il profilo di un utente in risposta alla selezione dalla rubrica o dall'esito di una ricerca. Poiché, inoltre, a partire da tale componente grafico è possibile avviare una comunicazione, tale classe comprende al proprio interno anche le operazioni che devono essere richiamate in risposta all'azione da parte dell'utente di dare avvio a una comunicazione.
+Tale \inglese{presenter} ha la responsabilità di controllare l'aggiornamento della sezione dell'interfaccia grafica avente il compito di visualizzare il profilo di un utente in risposta alla selezione dalla rubrica o dall'esito di una ricerca.
+
+Poiché, inoltre, a partire da tale componente grafico è possibile avviare una comunicazione, tale classe comprende al proprio interno anche le operazioni che devono essere richiamate in risposta all'azione da parte dell'utente di dare avvio a una comunicazione.
+
+Infine, poiché da \texttt{org.softwaresynthesis.mytalk.clientview.gui.ContactPanel} è possibile anche svolgere alcune attività di amministrazione della rubrica utente, in questo \inglese{presenter} sono presenti anche le funzioni di \inglese{callback} necessarie per l'aggiunta e la rimozione di un contatto particolare ad un gruppo, nonché per l'aggiunta di contatto alla rubrica se il suo profilo è stato aperto a seguito di una ricerca fra gli utenti registrati nel sistema.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Gestione GUI
+	  \item[-] GUI
 	\end{itemize}
 \end{description}
 
@@ -1338,6 +1332,7 @@ Il \inglese{presenter} in questione ha il compito di popolare il contenuto dell'
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Gestione GUI
+	  \item[-] GUI
 	\end{itemize}
 \end{description}
 
@@ -1348,6 +1343,7 @@ Classe base per i \inglese{presenter} associati ai diversi componenti dell'inter
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Gestione GUI
+	  \item[-] GUI
 	\end{itemize}
 \end{description}
 
@@ -1358,6 +1354,7 @@ Tale \inglese{presenter} contiene le operazioni necessarie a visualizzare lo sto
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Gestione GUI
+	  \item[-] GUI
 	\end{itemize}
 \end{description}
 
@@ -1381,6 +1378,7 @@ D'altra parte, gli eventi scatenati dall'interazione dell'utente con il pannello
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Gestione GUI
+	  \item[-] GUI
 	\end{itemize}
 \end{description}
 
@@ -1397,7 +1395,6 @@ Interfaccia che raccoglie la dichiarazione di tutte le operazioni astratte con c
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Façade del presenter
-	  %\item[-] Gestione GUI
 	  %TODO qui dovrebbe esserci: Gestione Stato (ad esempio)
 	\end{itemize}
 \end{description}
