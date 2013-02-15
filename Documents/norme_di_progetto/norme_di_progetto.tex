@@ -756,17 +756,17 @@ Per la stesura di codice, si seguiranno le seguenti regole:
 \end{enumerate}
 
 
-*************DA INTEGRARE CON CAPITOLO 10 ZETASOLUCTION PAG 69*******************
+*************DA INTEGRARE CON CAPITOLO 10 ZETASOLUCTION PAG 69 O CAPITOLO 7 SEVEN SEEDS PAG12*******************
 
 \subsection{Verifica del codice}
 La verifica del codice verrà fatta, come prima cosa, durante lo sviluppo di ogni classe attraverso il proprio IDE che segnalerà gli errori più banali (errori di battitura o piccole mancanze). Lo sviluppatore, prima di caricarlo nel \inglese{repository}, deve assicurarsi che il codice compili e non dia errori o \inglese{warning}. Il verificatore successivamente dovrà assicurarsi che siano state rispettate le convenzioni descritte nella sezione ``Progettazione'' \ref{sec:progettazione} e in caso di errori dovrà aprire un ticket (rispettando sempre le norme descritte in sezione \ref{sec:creazione_ticket}) rivolto allo sviluppatore che provvederà a risolvere gli errori.
 
 
 \newpage
-\section{Norme di verifica}
+\section{Verifica e Validazione}
 La verifica è un'attività molto importante svolta dal verificatore. Lo scopo è di accertare che i prodotti ottenuti, qualunque sia il loro tipo, siano conformi le norme e convenzioni riportate su questo documento. Oltre a questo, il verificatore dovrà anche assicurare sotto la propria responsabilità che tali prodotti rispettino i requisiti di qualità descritti nel documento Piano di Qualifica (piano\_di\_qualifica.2.0.pdf).
 
-\subsection{Strumenti}\label{sec:tools}
+\subsection{Strumenti di verifica}\label{sec:tools}
 Si riporta a continuazione un elenco dei principali strumenti per la verifica di cui il team si dovrà avvalere nell'arco dello sviluppo del progetto.
 \begin{itemize}
   \item \textbf{SynthesisRequirementManager}, il sistema di gestione dei requisiti (citato nel paragrafo \ref{sec:tracciamento} realizzato da \team, avente lo scopo di rendere quanto più agevole gestire il tracciamento dei requisiti a tutti i livelli (requisiti-UC, requisiti-CI, ecc.) e, da un punto di vista prettamente qualitativo, assicurare la necessità e la sufficienza dei casi d'uso e delle componenti software;
@@ -793,7 +793,7 @@ Si riporta a continuazione un elenco dei principali strumenti per la verifica di
   \item \textbf{JUnit} come framework per i test di unità da effettuarsi relativamente alla parte server dell'applicazione (\url{http://www.junit.org}).
 \end{itemize}
 
-\subsection{Tecniche}
+\subsection{Tecniche di verifica}
 Responsabili delle attività di controllo interne al gruppo sono i verificatori, che si presuppone essere in ogni caso e senza alcuna deroga distinti dai realizzatori del prodotto soggetto a verifica (programmatori o redattori di documentazione). Al fine di garantire la qualità, i verificatori sono tenuti all'utilizzo di due tecniche di analisi: statica e dinamica.
 
 \subsubsection{Analisi statica}
@@ -820,9 +820,19 @@ In base al loro ambito di applicazione, i test possono essere suddivisi in:
   \item test di accettazione, o collaudo, realizzato sotto la supervisione del committente per verificare l'aderenza del prodotto ai requisiti utente di più alto livello.
 \end{itemize}
 
+\subsection{Test di sistema e di unità}
+La validazione dei test di sistema verrà svolta basandosi sui test specificati durante l'attività di analisi dei requisiti. I risultati di tali test verranno riportati in forma tabellare, in modo da renderne più pratica ed efficace la lettura e la comprensione.
+L'esecuzione dei test avverrà mediante l'utilizzo di \textit{Selenium}, un \inglese{tool} che permette di impostare e eseguire automaticamente i test per la dimostrazione delle funzionalità del sistema.
 
-\subsection{test di unità e di sistema}
+Per i test di unità al contrario la verifica dovrà basarsi sui test di unità e di integrazione prodotto dalle attività di progettazione architetturale e di dettaglio, tali modalità sono specificate in maniera esauriente nel documento \textit{piano\_di\_qualifica.3.0.pdf} allegato. Verranno svolti tramite \textit{Eclispe} tramite il \textit{framework} JUnit descritto nella sezione relativa agli strumenti di verifica e QUnit.
 
-\subsection{Ambiente verifica e validazione}
+Verrà successivamente redatto un documento riassuntivo contenente l'esito dei test in formato tabellare con specificati per ogni tipologia di test effettuati:
+\begin{itemize}
+\item ambiente in cui è stato svolto il test;
+\item tipologia del test;
+\item classi/Componenti testate nel test;
+\item descrizione del test effettuato;
+\item eventuali errori evidenziati dal test.
+\end{itemize}
 
 \end{document}
