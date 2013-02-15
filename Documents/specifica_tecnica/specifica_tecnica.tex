@@ -123,7 +123,7 @@ Il presente documento è stato redatto al fine di produrre le specifiche sulla p
 	\item l'architettura di alto livello del sistema;
 	\item una descrizione dettagliata dei componenti rilevati in fase di progettazione indicando relativamente a ciascuno di essi il tipo, la funzione e l'obiettivo;
 	\item i diagrammi UML per definire i flussi principali di controllo dell'applicativo;
-	\item il tracciamento dei requisiti e dei componenti, negli schemi: requisiti-componenti e componenti-requisiti;
+	\item il tracciamento di requisiti e componenti;
 	\item il tracciamento di componenti e \inglese{design pattern};
 	\item il tracciamento di classi e componenti.
 \end{itemize}
@@ -516,7 +516,7 @@ Tale sotto-architettura definisce le specifiche e le funzionalità dell'applicat
 
 I componenti sopracitati verranno definiti di seguito. Si sottolinea sin da ora che il server è l'unico in grado di comunicare con il database su cui regge l'applicativo.
 
-Infine, si fa notare che i nomi di tutte le classi riportate nella sezione sono implicitamente parte del package \texttt{org.softwaresynthesis.mytalk.server} pertanto tale prefisso sarà omesso nella loro denominazione.
+Infine, si fa notare che i nomi di tutte le classi riportate nella presente sezione sono implicitamente parte del package \texttt{org.softwaresynthesis.mytalk.server} pertanto tale prefisso sarà omesso nella loro denominazione.
 
 \subsection{Componenti evidenziati}
 
@@ -525,9 +525,9 @@ Infine, si fa notare che i nomi di tutte le classi riportate nella sezione sono 
 \item{\scshape\bfseries Descrizione:}\\
 Gestione database è il componente che si occupa di rappresentare la struttura del database relazionale su cui poggia l'applicativo. Tramite questo componente, il sistema potrà quindi effettuare operazione di lettura e scrittura di entità all'interno del database.
 
-Le classi utilizzare in questo componente possono essere suddivise in tre gruppi:
+Le classi utilizzate all'interno di questo componente possono essere suddivise in tre gruppi:
 \begin{enumerate}
-  \item le classi \inglese{transfer object} (TO) e le relative interfacce;
+  \item le classi \inglese{transfer object} (TO) e le relative interfacce che modellano le entità di \inglese{business};
   \item le classi \inglese{data access object} (DAO) concrete per il DBMS prescelto (MySQL) e le relative interfacce;
   \item le classi \inglese{factory} (concrete e astratte) utilizzate per ottenere le istanze delle classi DAO necessarie a supportare la persistenza dei dati del database.
 \end{enumerate}
@@ -536,7 +536,7 @@ In linea generale le classi TO mappano le entità rappresentate nel database e s
 
 Ad ognuna delle entità è associata inoltre un'interfaccia DAO il cui contratto stabilisce la responsabilità di gestire la transizione di stato degli oggetti TO da transienti a persistenti, l'aggiornamento delle informazioni sul database, la ricerca di un elemento e la rimozione di un oggetto dallo stato persistente, realizzando le operazioni di \inglese{insert}, \inglese{update}, \inglese{find}, \inglese{select} e \inglese{delete} corrispondenti.
 
-Poiché le implementazioni delle interfacce DAO contengono istruzioni dipendenti dal DBMS utilizzato, è stato realizzato un set di classi specifiche per MySQL che si appoggiano al \inglese{framework} Hibernate per la gestione della persistenza dei dati. Inoltre, è stata introdotta una classe \inglese{factory} per MySQL responsabile della creazione degli oggetti DAO specifici per questo DBMS\@.
+Poiché le implementazioni delle interfacce DAO contengono istruzioni dipendenti dal DBMS utilizzato, è stato realizzato un set di classi specifiche per MySQL che si appoggiano al \inglese{framework} Hibernate per la gestione della persistenza dei dati. Inoltre, è stata introdotta una classe \inglese{factory} per MySQL (\texttt{dao.MySQLDAOFactory})responsabile della creazione degli oggetti DAO specifici per questo DBMS\@.
 
 Allo scopo di rendere l'architettura facilmente estendibile a futuri ampliamenti o cambiamenti di DBMS, è stata introdotta un'interfaccia della \inglese{factory} in cui i tipi di ritorno dei metodi sono le interfacce DAO\@. Una diversa classe \inglese{factory} che la implementi potrà pertanto restituire istanze di sottotipi delle interfacce DAO specifiche per gestori di database distinti.
 
@@ -559,23 +559,23 @@ Allo scopo di rendere l'architettura facilmente estendibile a futuri ampliamenti
 	  \item[-] \texttt{dao.MySQLMessageDAO}
 	  \item[-] \texttt{dao.IUserDataDAO}
 	  \item[-] \texttt{dao.MySQLUserDataDAO}
-	  \item[-] \texttt{abook.IGroup}
-	  \item[-] \texttt{abook.Group}
-	  \item[-] \texttt{abook.IUserData}
-	  \item[-] \texttt{abook.UserData}
 	  \item[-] \texttt{call.ICall}
 	  \item[-] \texttt{call.Call}
+	  \item[-] \texttt{abook.IGroup}
+	  \item[-] \texttt{abook.Group}
 	  \item[-] \texttt{message.IMessage}
 	  \item[-] \texttt{message.Message}
+	  \item[-] \texttt{abook.IUserData}
+	  \item[-] \texttt{abook.UserData}
 	\end{itemize}
 \end{description}
 
 \subsubsection{Gestione connessione}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Tale componente ingloba le classi destinate a stabilire le \inglese{routine} di connessione. A tal fine è stata definita l'interfaccia di una classe Singleton \texttt{connection.ICommunicationHandler}, implementata da \texttt{connection.StandardCommunicationHandler} che ha il compito di creare oggetti connessione.
+Tale componente ingloba le classi destinate a stabilire le \inglese{routine} di connessione. A tal fine è stata definita l'interfaccia di una classe Singleton \texttt{connection.ICommunicationHandler}, implementata da \texttt{connection.StandardCommunicationHandler} che ha il compito di creare gli oggetti necessari alla connessione.
 
-Le specifiche di tali oggetti sono descritte dall'interfaccia \texttt{connection.IConnection}, con la relativa implementazione \texttt{connection.WebRTCInfo}.
+Le specifiche di tali oggetti sono descritte dall'interfaccia \texttt{connection.IConnection}, con la relativa implementazione \texttt{connection.WebRTCInfo}, che permette il recupero delle informazioni di cui il client necessita per instaurare la connessione. Dal momento che si tratta di informazioni per loro stessa natura volatili, non è stato predisposto per esse alcun meccanismo di memorizzazione in forma fortemente strutturata e persistente.
 	\item{\scshape\bfseries Diagramma delle classi:}
 	\begin{figure}[H]
 \begin{center}
@@ -604,7 +604,7 @@ Gli utenti, inoltre, possono essere opzionalmente organizzati in gruppi: un cont
 
 D'altro canto, la rubrica può contenere uno o più gruppi, laddove il limite inferiore è fissato dalla presenza di default di un gruppo \inglese{blacklist} in ogni rubrica. Questo spiega la relazione di composizione fra \texttt{abook.AddressBook} e \texttt{abook.IGroup}.
 
-Infine, il passaggio dei dati corrispondenti ai contatti della rubrica al \inglese{presenter} è gestito restituendo una versione serializzata degli oggetti compatibile con il dominio applicativo dei client che rappresenta inoltre una sorta di \inglese{proxy} di protezione, corrispondente alla classe \texttt{clientpresenter.kernel.JSUserData}.
+Infine, il passaggio dei dati corrispondenti ai contatti della rubrica al \inglese{presenter} è gestito restituendo una versione serializzata degli oggetti compatibile con il dominio applicativo dei client che rappresenta inoltre una sorta di \inglese{proxy} di protezione, corrispondente alla classe \texttt{org.softwaresynthesis.mytalk.clientpresenter.kernel.JSUserData}. Un trattamento analogo è stato riservato ai gruppi di utenti che fanno parte di una rubrica personale.
 
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -622,6 +622,7 @@ Infine, il passaggio dei dati corrispondenti ai contatti della rubrica al \ingle
 	  \item[-] \texttt{abook.IUserData}
 	  \item[-] \texttt{abook.UserData}
 	  \item[-] \texttt{org.softwaresynthesis.mytalk.kernel.JSUserData}
+	  \item[-] \texttt{org.softwaresynthesis.mytalk.kernel.JSGroup}
 	\end{itemize}
 \end{description}
 
@@ -660,9 +661,9 @@ Inoltre, i cambiamenti di stato vengono notificati a tutti gli utenti presenti i
 	\item{\scshape\bfseries Descrizione:}\\
 Il sistema di segreteria telefonica corrisponde all'interfaccia \texttt{message.IMessageBox} e alla relativa implementazione \texttt{message.StandardMessageBox} che permettono un accesso centralizzato all'insieme di messaggi che un determinato utente ha ricevuto.
 
-I messaggi audio e audio/video sul server corrispondono alle istanze dalla classe \texttt{message.Message} e sono caratterizzati da mittente, destinatario, data di registrazione e dallo \inglese{stream}.
+I messaggi di natura audio o audio/video sul server corrispondono alle istanze dalla classe \texttt{message.Message} e sono caratterizzati da mittente, destinatario, data di registrazione nella segreteria.
 
-L'onere di caricare in memoria e gestire l'intero messaggio è posticipato al momento di effettiva necessità mediante l'utilizzo lato client di una sorta di \inglese{virtual proxy} corrispondente alla classe \texttt{clientpresenter.kernel.JSMessage} che rende disponibili le medesime operazioni di \texttt{message.Message} ma scarica il contenuto del messaggio solo quando effettivamente richiesto.
+L'onere di caricare in memoria e gestire l'intero messaggio è posticipato al momento di effettiva necessità mediante l'utilizzo lato client di una sorta di \inglese{virtual proxy} corrispondente alla classe \texttt{clientpresenter.kernel.JSMessage} che rende disponibili le medesime operazioni di \texttt{message.Message} ma consente di scaricare il contenuto del messaggio sul client solo quando effettivamente richiesto.
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
   \centering
@@ -730,7 +731,7 @@ Le funzionalità esposte consentono di gestire i messaggi presenti in segreteria
   \item{\scshape\bfseries Descrizione:}\\
 Interfaccia della Abstract Factory che contiene operazioni permettono di ottenere un riferimento di tipo statico interfaccia alle classi DAO (cioè \texttt{IMessageDAO}, \texttt{IUserDataDAO}, \texttt{IGroupDAO} e \texttt{ICallDAO}).
 
-Le operazioni di questa interfaccia sono dunque dei Factory Method (ad es. \texttt{createMessageDAO(): IMessageDAO}) che nelle implementazioni delle \inglese{factory} concrete restituiscono oggetti aventi un tipo dinamico specifico per il DBMS utilizzato.
+Le operazioni astratte contenute in questa interfaccia sono dunque dei Factory Method (ad esempio \texttt{createMessageDAO(): IMessageDAO}) che nelle implementazioni delle \inglese{factory} concrete restituiscono oggetti aventi un tipo dinamico specifico per il DBMS utilizzato.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] Gestione database
@@ -797,6 +798,7 @@ Implementazione dell'interfaccia \texttt{IMessageDAO} che fornisce una definizio
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] Gestione database
+    \item[-] Gestione segreteria
   \end{itemize}
 \end{description}
 
@@ -809,6 +811,7 @@ Le operazioni dichiarate in questa interfaccia corrispondono alle operazioni di 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] Gestione database
+    \item[-] Gestione rubrica
   \end{itemize}
 \end{description}
 
@@ -819,6 +822,7 @@ Implementazione dell'interfaccia \texttt{IGroupDAO} che fornisce una definizione
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] Gestione database
+    \item[-] Gestione rubrica
   \end{itemize}
 \end{description}
 
@@ -831,6 +835,7 @@ Le operazioni dichiarate in questa interfaccia corrispondono alle operazioni di 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] Gestione database
+    \item[-] Gestione rubrica
   \end{itemize}
 \end{description}
 
@@ -841,6 +846,7 @@ Implementazione dell'interfaccia \texttt{IUserDataDAO} che fornisce una definizi
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] Gestione database
+    \item[-] Gestione rubrica
   \end{itemize}
 \end{description}
 
@@ -904,6 +910,7 @@ Interfaccia che raccoglie le operazioni sulla rubrica di un utente e permette di
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Gestione rubrica
+	  \item[-] Gestione database
 	\end{itemize}
 \end{description}
 
@@ -923,8 +930,8 @@ Classe che implementa l'interfaccia \texttt{IAddressBook} e rappresenta quindi l
 Interfaccia per le classi che rappresentano gli utenti, è dotata di operazioni get/set per accedere ai dati degli utenti registrati sul sistema.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] Gestione database
 	  \item[-] Gestione rubrica
+	  \item[-] Gestione database
 	  \item[-] Gestione connessione
 	\end{itemize}
 \end{description}
@@ -935,7 +942,7 @@ Interfaccia per le classi che rappresentano gli utenti, è dotata di operazioni 
 Classe \inglese{transfer object} che implementa l'interfaccia \texttt{IUserData} le cui istanze corrispondono ai record della tabella degli utenti nel database. È caratterizzata dai campi dati che corrispondono alle proprietà degli utenti (email, password, domanda segreta e relativa risposta, nome, cognome e immagine personale).
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] Gestione database
+		\item[-] Gestione rubrica
 	  \item[-] Gestione stato
 	\end{itemize}
 \end{description}
@@ -947,8 +954,8 @@ Interfaccia per i gruppi interni alla rubrica, prevede un'operazione astratta \t
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:} 
 	  \begin{itemize}[noitemsep,nolistsep]
-	    \item[-] Gestione database
 	    \item[-] Gestione rubrica
+	    \item[-] Gestione database
 	  \end{itemize}
 \end{description}
 
@@ -958,7 +965,7 @@ Interfaccia per i gruppi interni alla rubrica, prevede un'operazione astratta \t
 Implementazione dell'interfaccia \texttt{IGroup}, che costituisce anche il \inglese{transfer object} per i gruppi di una rubrica utente. Ogni gruppo è dotato di un nome e raccoglie in sé zero o più istanze di classi sottotipo di \texttt{abook.IUserData}.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	  \begin{itemize}[noitemsep,nolistsep]
-	    \item[-] Gestione database
+	    \item[-] Gestione rubrica
 	  \end{itemize}
 \end{description}
 
@@ -1051,6 +1058,7 @@ Classe concreta che implementa l'interfaccia \texttt{IMessageBox} e rappresenta 
 Interfaccia che dichiara le operazioni astratte (get/set) necessarie ad accedere alle proprietà di un messaggio in segreteria (in particolare: mittente, destinatario, stato del messaggio e data di registrazione).
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
+    \item[-] Gestione segreteria
     \item[-] Gestione database
   \end{itemize}
 \end{description}
@@ -1061,7 +1069,6 @@ Interfaccia che dichiara le operazioni astratte (get/set) necessarie ad accedere
 Classe \inglese{transfer object} che rappresenta un messaggio di natura audio o audio/video nella segreteria telefonica di un utente e implementa l'interfaccia \texttt{IMessage}.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	  \begin{itemize}[noitemsep,nolistsep]
-	    \item[-] Gestione database
 	    \item[-] Gestione segreteria
 	  \end{itemize}
 \end{description}
@@ -1078,8 +1085,8 @@ Classe \inglese{transfer object} che rappresenta un messaggio di natura audio o 
 Interfaccia che contiene le operazioni astratte di accesso ai dati (metodi get/set) che caratterizzano le chiamate, vale a dire il chiamante, l'insieme degli utenti chiamati nonché la data e l'ora di avvio e di terminazione della chiamata.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] Gestione database
     \item[-] Gestione chiamate
+    \item[-] Gestione database
   \end{itemize}
 \end{description}
 
@@ -1089,7 +1096,6 @@ Interfaccia che contiene le operazioni astratte di accesso ai dati (metodi get/s
 Classe \inglese{transfer object} che rappresenta le chiamate realizzate attraverso il sistema e implementa l'interfaccia \texttt{ICall}.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] Gestione database
     \item[-] Gestione chiamate
   \end{itemize}
 \end{description}
