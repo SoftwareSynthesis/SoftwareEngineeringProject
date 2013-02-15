@@ -653,7 +653,7 @@ Inoltre, i cambiamenti di stato vengono notificati a tutti gli utenti presenti i
 	
 	\item{\scshape\bfseries Classi utilizzate:}\\ 
 	\begin{itemize}[noitemsep,nolistsep]
-		\item[-] \texttt{dao.UserDataTO}
+		  \item[-] \texttt{dao.UserDataTO}
 	    \item[-] \texttt{state.IState}
 	    \item[-] \texttt{state.StateAvailable}
 	    \item[-] \texttt{state.StateOccupied}
@@ -668,9 +668,9 @@ Inoltre, i cambiamenti di stato vengono notificati a tutti gli utenti presenti i
 	\item{\scshape\bfseries Descrizione:}\\
 Il sistema di segreteria telefonica corrisponde all'interfaccia \texttt{message.IMessageBox} e alla relativa implementazione \texttt{message.StandardMessageBox} che permettono un accesso centralizzato all'insieme di messaggi che un determinato utente ha ricevuto.
 
-I messaggi audio e audio/video sul server sono rappresentati dalle classi \texttt{dao.AudioMessage} e \texttt{dao.AudioVideoMessage} rispettivamente.
+I messaggi audio e audio/video sul server corrispondono alle istanze dalla classe \texttt{dao.MessageTO} e sono caratterizzati da mittente, destinatario, data di registrazione e dallo \inglese{stream}.
 
-L'onere di caricare in memoria e gestire l'interno contenuto del messaggio è posticipato al momento di effettiva necessità mediante l'utilizzo di un \inglese{virtual proxy} corrispondente alla classe \texttt{message.MessageProxy}.
+L'onere di caricare in memoria e gestire l'intero messaggio è posticipato al momento di effettiva necessità mediante l'utilizzo lato client di una sorta di \inglese{virtual proxy} corrispondente alla classe \texttt{clientpresenter.kernel.JSMessage} che rende disponibili le medesime operazioni di \texttt{dao.MessageTO} ma scarica il contenuto del messaggio solo quando effettivamente richiesto.
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
 \begin{center}
@@ -683,8 +683,7 @@ L'onere di caricare in memoria e gestire l'interno contenuto del messaggio è po
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \texttt{dao.MessageTO}
 	  \item[-] \texttt{dao.IMessage}
-%TODO pensare se davvero è richiesta qui
-% 	  \item[-] \texttt{org.softwaresythesis.mytalk.clientpresenter.kernel.JSMessage}
+	  \item[-] \texttt{org.softwaresythesis.mytalk.clientpresenter.kernel.JSMessage}
 	\end{itemize}
 \end{description}
 
