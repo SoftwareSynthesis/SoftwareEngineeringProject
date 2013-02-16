@@ -1144,26 +1144,32 @@ La sotto-architettura \texttt{clientpresenter}, nasce con lo scopo di imporre un
 
 Dal momento che per l'interazione con l'utente sono previste molteplici viste, è stato predisposto un \inglese{presenter} per ognuna di queste. Ogni vista detiene un riferimento al proprio \inglese{presenter} cui vengono inviate le richieste su risposta dell'interazione con l'utente, in quanto le operazioni del \inglese{presenter} sono impostati come funzioni di \inglese{callback} nell'interfaccia grafica.
 
-D'altro canto, i vari \inglese{presenter} interagiscono con le viste grazie alla conoscenza della loro interfaccia. Tali considerazioni sono conformi all'utilizzo del \inglese{design pattern} MVP, già citato nella sezione \ref{sec:MVP}, e alla quale rimandiamo per le specifiche tecniche del medesimo. 
+D'altro canto, i vari \inglese{presenter} interagiscono con le viste grazie alla conoscenza di una ``interfaccia'' per la loro manipolazione in quanto tramite JavaScript è possibile intervenire sul \underline{DOM}\@. Tali considerazioni sono conformi all'utilizzo del \inglese{design pattern} MVP, per una descrizione più dettagliata del quale si rimanda alla sezione \ref{sec:MVP}\@.
 
-La sotto-architettura \texttt{clientpresenter} è per l'appunto la parte ``\inglese{presenter}'' dell'applicativo. I componenti che lo costituiscono hanno dunque il fine garantire una logica stabile di comunicazione con il server. Essi dovranno anche stabilire le procedure per interrogare il server (attraverso il suo Façade) al fine di ottenere:
+Tale sotto-architettura \texttt{clientpresenter} corrisponde alla parte ``\inglese{presenter}'' dell'applicativo. Allo scopo di gestire le comunicazioni in ingresso dal server (ad esempio le notifiche dei cambiamenti di stato) è stato predisposto un componente Façade del presenter che nasconde la complessità della sotto-architettura sottostante.
+ 
+I componenti in quest'ultima sfruttano inoltre la comunicazione con il server, tramite opportune procedure di interrogazione attraverso il componente Façade del server, al fine di ottenere:
 \begin{itemize}
-  \item i vari dati contenuti nel database;
+  \item i dati contenuti nel database necessari alla composizione dell'interfaccia grafica;
   \item le informazioni necessarie per stabilire una connessione fra client.
 \end{itemize}
 
+Mentre i primi sono rappresentati dalle strutture del componente Rappresentazione dati e permangono internamente al \inglese{presenter} per essere disponibili a successive interrogazioni da parte della GUI senza coinvolgere il server, i secondi sono utilizzati da Gestione comunicazione per instaurare e mantenere le connessioni fra client.
 
-In sintesi la sotto-architettura \texttt{clientpresenter} dispone dei seguenti componenti:
+Dal momento che il \inglese{presenter} ha la responsabilità di ricevere i comandi utente dalla vista e di sovrintendere all'aggiornamento della stessa, è prevista anche la presenza di una serie di oggetti necessari a gestire l'interazione con la vista, corrispondenti al componente Gestione GUI.
+
+In sintesi, la sotto-architettura \texttt{clientpresenter} dispone dei seguenti componenti:
 \begin{itemize}[noitemsep,nolistsep]
 	\item[-] Gestione comunicazione;
+	\item[-] Rappresentazione dati
 	\item[-] Gestione GUI;
 	\item[-] Façade del presenter;
 \end{itemize}
 che saranno descritte con maggiori dettagli nella sezione successiva.
 
-Si fa notare che i nomi di tutte le interfacce e tutte le classi riportate nella sezione sono implicitamente parte del package \texttt{org.softwaresynthesis.mytalk.clientpresenter} pertanto tale prefisso sarà omesso nella loro denominazione.
+Si ricorda sin da ora che i nomi di tutte le interfacce e tutte le classi riportate nella sezione sono implicitamente parte del package \texttt{org.softwaresynthesis.mytalk.clientpresenter} pertanto tale prefisso sarà omesso nella loro denominazione.
 
-Nella progettazione ad alto livello è stato scelto di non tenere in considerazione il dominio tecnologico dell'applicativo. La progettazione sarà influenzata unicamente dalle specifiche e dai principi della programmazione ad oggetti.
+Nella progettazione ad alto livello è stato scelto di non tenere in considerazione il dominio tecnologico dell'applicativo, che non prevede la presenza di classi e interfacce. In questa sede, la progettazione sarà influenzata unicamente dalle specifiche e dai principi della programmazione orientata agli oggetti.
 
 Tale scelta è motivata dalle seguenti considerazioni:
 \begin{itemize}
@@ -1196,6 +1202,7 @@ In pratica, nel momento in cui l'utente A desidera stabilire una comunicazione c
 \end{description}
 
 %TODO manca componente Rappresentazione dati con JSUserData, JSGroup, JSMessage e JSCall
+%FIXME io a Rappresentazione dati aggiungerei anche JSMessageBox e JSAddressBook che forse rendono il lavoro lato client più semplice
 
 \subsubsection{Gestione GUI}
 \begin{description}
