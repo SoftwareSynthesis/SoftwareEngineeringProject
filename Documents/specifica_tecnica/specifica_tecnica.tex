@@ -683,6 +683,9 @@ L'onere di caricare in memoria e gestire l'intero messaggio è posticipato al mo
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
 Le classi di questo componente hanno il ruolo di incapsulare la logica di gestione delle chiamate e di accesso ai dati relativi a una chiamata (data, mittente e $n\geq1$ dstinatari della chiamata). Tali informazioni rivestono un ruolo importante per la rappresentazione e la trasmissione ai client dello storico delle chiamate.
+
+%TODO considerare se inserire anche ICallList e StandardCallList
+
   \item{\scshape\bfseries Diagramma delle classi:}
 % TODO esportare l'immagine e includerla qui
 % \begin{figure}[H]
@@ -1077,6 +1080,8 @@ Classe \inglese{transfer object} che rappresenta un messaggio di natura audio o 
 
 \subsubsection{Package \texttt{org.softwaresynthesis.mytalk.server.call}}
 
+%TODO se inseriti sopra ICallList e StandardCallList devono essere descritti qui
+
 \begin{itemize}[noitemsep,nolistsep]
 
 \item \texttt{ICall}
@@ -1186,14 +1191,14 @@ La presenza delle interfacce, delle relazioni di implementazione e l'estensione 
 	\item{\scshape\bfseries Descrizione:}\\
 È il componente che definisce i client con cui sta comunicando o con cui desidera comunicare l'utente. Tale componente è costituito da un'interfaccia \texttt{clientpresenter.IClient} che rappresenta un modello di client con cui interagire (possibilità di stabilire una connessione, possibilità di estendere una comunicazione e possibilità di verificare se il client è Supernodo).
 
-In pratica, nel momento in cui l'utente A desidera stabilire una comunicazione con l'utente B, questi si farà restituire dal server le informazioni necessarie. Con tali informazioni, quindi, sarà creata un istanza di \texttt{clientpresenter.StandardClient} (implementazione dell'interfaccia \texttt{clientpresenter.IClient}), dalla quale potrà essere abilitata la comunicazione.
+Quando un determinato utente (mittente) desidera stabilire una comunicazione con un altro utente (destinatario), il client associato al mittente ha il compito innanzitutto di farsi restituire dal server le informazioni necessarie ad instaurare la connessione. Una volta in possesso di tali informazioni, sarà creata un istanza di \texttt{clientpresenter.StandardClient} (implementazione dell'interfaccia \texttt{clientpresenter.IClient}), dalla quale potrà essere abilitata la comunicazione.
 	\item{\scshape\bfseries Diagramma delle classi:}
-	\begin{figure}[H]
-\begin{center}
-\includegraphics[width=.8\textwidth]{gestione_comunicazione}
-\caption{Diagramma delle classi - Gestione comunicazione}\label{fig:gestione_comunicazione}
-\end{center}
-\end{figure}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=.8\textwidth]{gestione_comunicazione}
+    \caption{Diagramma delle classi - Gestione comunicazione}\label{fig:gestionecomunicazione}
+  \end{figure}
+
 	\item{\scshape\bfseries Classi utilizzate:} 
 	\begin{itemize}[noitemsep,nolistsep]
 		\item[-] \texttt{kernel.IClient}
@@ -1201,8 +1206,34 @@ In pratica, nel momento in cui l'utente A desidera stabilire una comunicazione c
 	\end{itemize}  
 \end{description}
 
-%TODO manca componente Rappresentazione dati con JSUserData, JSGroup, JSMessage e JSCall
-%FIXME io a Rappresentazione dati aggiungerei anche JSMessageBox e JSAddressBook che forse rendono il lavoro lato client più semplice
+\subsubsection{Rappresentazione dati}
+\begin{description}
+  \item{\scshape\bfseries Descrizione:}\\
+Le classi di questo componente hanno il compito di rappresentare sotto forma di apposite strutture dati le informazioni ottenute dall'interrogazione del modello dei dati e ricevute in forma serializzata a seguito delle richieste al server.
+
+La disponibilità di queste informazioni sul client permette una più agevole rappresentazione dell'interfaccia grafica per gli oggetti del componente Gestione GUI ed evita nuove interrogazioni al server qualora i dati in possesso da parte del \inglese{presenter} siano ancora validi.
+
+I dati rappresentati in forma di oggetti sono necessari, in particolare, per la gestione della segreteria, dello storico delle chiamate e della rubrica lato client.
+  \item{\scshape\bfseries Diagramma delle classi:}\\
+%TODO questo diagramma deve essere generato ed esportato
+%   \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=.8\textwidth]{rappresentazione_dati}
+%     \caption{Diagramma delle classi - Rappresentazione dati}\label{fig:rappresentazionedati}
+%   \end{figure}
+
+	\item{\scshape\bfseries Classi utilizzate:} 
+	\begin{itemize}[noitemsep,nolistsep]
+		\item[-] \texttt{kernel.JSCall}
+		\item[-] \texttt{kernel.JSGroup}
+		\item[-] \texttt{kernel.JSMessage}
+		\item[-] \texttt{kernel.JSUserData}
+%TODO decidere se queste due devono o meno esistere
+% 		\item[-] \texttt{kernel.JSAddressBook}
+% 		\item[-] \texttt{kernel.JSMessageBox}
+%     \item[-] \texttt{kernel.JSCallList}
+	\end{itemize}  
+\end{description}
 
 \subsubsection{Gestione GUI}
 \begin{description}
@@ -1216,6 +1247,11 @@ D'altro canto, dal momento che questo componente è responsabile anche delle mod
 La struttura delle classi che lo compongono mostra una corrispondenza biunivoca con gli elementi grafici presentati nella sezione~\ref{sec:gui} con un \inglese{presenter} per ognuno dei pannelli, cui si aggiunge un oggetto istanza di \texttt{guicontrol.PresenterMediator}. Quest'ultimo incapsula la collaborazione fra i vari \inglese{presenter} e permette di gestire gli eventi generati da un elemento della GUI inviando a uno (o più) \inglese{presenter} i messaggi corrispondenti alle azioni da compiere.
 	\item{\scshape\bfseries Diagramma delle classi:}\\
 %TODO questo diagramma deve essere generato ed esportato
+%   \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=.8\textwidth]{gestione_gui}
+%     \caption{Diagramma delle classi - Rappresentazione dati}\label{fig:gestionegui}
+%   \end{figure}
 	\item{\scshape\bfseries Classi utilizzate:}\\
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \texttt{guicontrol.AccountSettingsPanelPresenter}
