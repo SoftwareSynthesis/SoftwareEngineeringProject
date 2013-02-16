@@ -1228,7 +1228,7 @@ I dati rappresentati in forma di oggetti sono necessari, in particolare, per la 
 		\item[-] \texttt{kernel.JSGroup}
 		\item[-] \texttt{kernel.JSMessage}
 		\item[-] \texttt{kernel.JSUserData}
-%TODO decidere se queste due devono o meno esistere
+%TODO decidere se queste tre devono o meno esistere
 % 		\item[-] \texttt{kernel.JSAddressBook}
 % 		\item[-] \texttt{kernel.JSMessageBox}
 %     \item[-] \texttt{kernel.JSCallList}
@@ -1454,7 +1454,9 @@ Contiene un'unica operazione di \inglese{callback} per la grafica, che riceve la
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Classe base per i \inglese{presenter} associati ai diversi componenti dell'interfaccia grafica. Contiene i metodi necessari all'inizializzazione di questi ultimi nonché i controlli che ne attivano la comparsa o scomparsa in risposta alle preferenze di visualizzazione dell'utente.
-%TODO da MainPanel è anche possibile impostare il proprio stato, quindi il presenter deve contenere i callback necessari!
+
+Poiché inoltre da (\texttt{org.softwaresynthesis.mytalk.clienview.gui.MainPanel} è possibile impostare il proprio stato, il \inglese{presenter} ad esso associato contiene le funzioni che notificano l'avvenuto cambiamento di stato al \texttt{PresenterMediator} e da questo al Façade del server.
+%TODO chiarire se invece la cosa deve passare prima per StandardClient perché, ad essere sincero, ho idea che nessuno sappia per davvero a che cosa serviva quella classe!
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
