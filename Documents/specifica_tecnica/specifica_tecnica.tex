@@ -1242,9 +1242,10 @@ Il componente ha il duplice ruolo di intercettare gli eventi che scaturiscono da
 
 Le istanze di sottotipi di \texttt{guicontrol.MainPanelPresenter} comprendono dunque, oltre ad alcune operazioni comuni (ad es. per l'inizializzazione o per la comparsa/scomparsa dell'elemento grafico associato) tutte le funzioni di \inglese{callback} richiamate dall'interfaccia grafica.
 
-D'altro canto, dal momento che questo componente è responsabile anche delle modifiche alle viste, le sottoclassi di \texttt{guicontrol.MainPanelPresenter} contengono anche le operazioni richiamate dall'esterno per l'aggiornamento dinamico della GUI.
+D'altro canto, dal momento che questo componente è responsabile anche delle modifiche alle viste, le sottoclassi di \texttt{guicontrol.MainPanelPresenter} contengono anche le operazioni richiamate dall'esterno per l'aggiornamento dinamico della GUI\@.
 
 La struttura delle classi che lo compongono mostra una corrispondenza biunivoca con gli elementi grafici presentati nella sezione~\ref{sec:gui} con un \inglese{presenter} per ognuno dei pannelli, cui si aggiunge un oggetto istanza di \texttt{guicontrol.PresenterMediator}. Quest'ultimo incapsula la collaborazione fra i vari \inglese{presenter} e permette di gestire gli eventi generati da un elemento della GUI inviando a uno (o più) \inglese{presenter} i messaggi corrispondenti alle azioni da compiere.
+
 	\item{\scshape\bfseries Diagramma delle classi:}\\
 %TODO questo diagramma deve essere generato ed esportato
 %   \begin{figure}[H]
@@ -1252,6 +1253,7 @@ La struttura delle classi che lo compongono mostra una corrispondenza biunivoca 
 %     \includegraphics[width=.8\textwidth]{gestione_gui}
 %     \caption{Diagramma delle classi - Rappresentazione dati}\label{fig:gestionegui}
 %   \end{figure}
+
 	\item{\scshape\bfseries Classi utilizzate:}\\
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \texttt{guicontrol.AccountSettingsPanelPresenter}
@@ -1273,12 +1275,14 @@ La struttura delle classi che lo compongono mostra una corrispondenza biunivoca 
 Rappresenta l'interfaccia d'accesso verso la sotto-architettura \texttt{clientpresenter}, in particolare per i componenti presenti nel \texttt{server}. La presenza di tale componente svincola il server dal dover conoscere l'esatta sequenza di chiamata dei metodi per portare a conseguimento una determinata procedura.
 
 I metodi del componente Façade del \inglese{presenter} hanno la cognizione dell'iter di chiamate a metodo per portare a termine correttamente le operazioni richieste dall'esterno. Un esempio di richiesta proveniente dal server che richiede di essere gestita in questa sede è la reazione al cambiamento di stato di un utente presente nella rubrica del client dove risiede il Façade, che si traduce in una notifica in entrata dal server e ha un effetto sull'interfaccia grafica.
+
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
 \centering
   \includegraphics[width=.8\textwidth]{facade_presenter}
   \caption{Diagramma delle classi - Façade del presenter}\label{fig:facade_presenter}
 \end{figure}
+
 	\item{\scshape\bfseries Classi utilizzate:} 
 	\begin{itemize}[noitemsep,nolistsep]
 		\item[-] \texttt{IPresenterFacade}
@@ -1312,11 +1316,10 @@ Implementazione dell'interfaccia \texttt{IClient} che incapsula al suo interno l
 	\end{itemize}
 \end{description}
 
-%TODO queste 4 classi devono essere descritte!
-
 \item \texttt{JSCall}
 \begin{desription}
   \item{\scshape\bfseries Descrizione:}\\
+Tale classe modella una chiamata appartenente allo storico dell'utente corrente (dove risiede il \inglese{presenter}), e permette di accedere alle informazioni caratteristiche quali il mittente, l'insieme dei destinatari, la durata e la data di inizio della chiamata, sia essa di natura audio oppure audio/video.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Rappresentazione dati
@@ -1327,6 +1330,7 @@ Implementazione dell'interfaccia \texttt{IClient} che incapsula al suo interno l
 \item \texttt{JSGroup}
 \begin{desription}
   \item{\scshape\bfseries Descrizione:}\\
+Classe avente il compito di modellare un gruppo nella rubrica dell'utente corrente. In particolare ogni gruppo possiede un nome e contiene al proprio interno zero o più contatti.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Rappresentazione dati
@@ -1337,6 +1341,9 @@ Implementazione dell'interfaccia \texttt{IClient} che incapsula al suo interno l
 \item \texttt{JSMessage}
 \begin{desription}
   \item{\scshape\bfseries Descrizione:}\\
+Classe che rappresenta un messaggio presente nella segreteria dell'utente corrente. I diversi \inglese{presenter} del componente Gestione GUI possono accedere al mittente del messaggio, allo stato del messaggio (ascoltato o non ascoltato), alla natura del messaggio (audio o audio/video), alla durata e, in ultima istanza, al contenuto del messaggio.
+
+Tale valore non è inizializzato allo scaricamento iniziale dei messaggi sul client, in quanto il contenuto audio o audio/video è recuperato dal server in un secondo momento solo quando è effettivamente necessario per evitare di sovraccaricare la rete senza motivi reali.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Rappresentazione dati
@@ -1347,12 +1354,17 @@ Implementazione dell'interfaccia \texttt{IClient} che incapsula al suo interno l
 \item \texttt{JSUserData}
 \begin{desription}
   \item{\scshape\bfseries Descrizione:}\\
+Classe avente il compito di rappresentare i contatti della rubrica lato \inglese{presenter}, generato serializzando esclusivamente la parte che si vuole trasmettere ai client delle istanze del \inglese{transfer object} descritto in precedenza (\texttt{org.softwaresynthesis.mytalk.server.abook.UserData}).
+
+In particolare, di un utente-contatto è possibile ottenere lo \inglese{username}, i dati anagrafici (nome e cognome) nonché l'immagine associata al profilo personale, laddove queste ultime tre informazioni sono da considerarsi facoltative e potrebbero non essere disponibili per un determinato utente.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Rappresentazione dati
 	  \item[-] Gestione rubrica
 	\end{itemize}
 \end{description}
+
+%TODO se sono state aggiunte sopra JSCallList, JSMessageBox e JSAddressBook queste devono essere descritte qui
 
 \end{itemize}
 
