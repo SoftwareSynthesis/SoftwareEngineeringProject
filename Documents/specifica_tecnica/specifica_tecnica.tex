@@ -1540,26 +1540,19 @@ Questa classe rappresenta un'applicazione del \inglese{design pattern} Singleton
 \clearpage
 
 \section{Architettura \texttt{mytalk.clientview}}\label{sec:clientview}
-Come già accennato in precedenza, nella sezione \ref{sec:introdesign} e \ref{sec:clientpresenter}, \texttt{clientview} ha il compito di definire la logica di visualizzazione dei dati costituendo la GUI del sistema lato client.
+Come già accennato in precedenza, nella sezione \ref{sec:introdesign} e \ref{sec:clientpresenter}, \texttt{clientview} ha il compito di definire la struttura di visualizzazione dei dati costituendo la GUI del sistema lato client.
 
 Le motivazioni che hanno portato a separare tale sotto-architettura dalla parte logica sono da ricercare nei vantaggi di riutilizzo del codice e semplificazione della manutenzione:
 \begin{itemize}
- 	\item \textbf{future espansioni}: innanzitutto tale scelta permetterà ai progettisti di sviluppare (in futuro) molteplici tipologie di ``viste'', implementabili liberamente svincolando i programmatori dal conoscere al dettaglio la logica sottostante per la gestione delle comunicazioni. Va comunque ricordato che in tal caso, gli sviluppatori dovranno avere un idea chiara del significato delle varie funzioni del Façade del presenter.
- 	\item \textbf{semplificare la manutenzione}: cosi come scrivere da zero una nuova vista, anche modificare quelle già presenti risulta essere più facile, per gli stessi motivi descritti al punto precedente.
+ 	\item \textbf{future espansioni}: innanzitutto tale scelta permetterà ai progettisti di sviluppare (in futuro) molteplici tipologie di ``viste'', implementabili liberamente svincolando i programmatori dal conoscere al dettaglio la logica sottostante per la gestione delle comunicazioni.
+ 	\item \textbf{semplificare la manutenzione}: così come scrivere da zero una nuova vista, anche modificare quelle già presenti risulta essere più facile, per gli stessi motivi descritti al punto precedente.
 \end{itemize}
 
 La sotto-architettura \texttt{clientview} rappresenta quindi una vista di \inglese{default} fornita dal team, con lo scopo di rappresentare in modo chiaro ed organizzato le possibilità di iterazione, da parte dell'utente finale, con l'applicativo \caName.
 
 Nell'utilizzare tale vista l'utente non avrà la percezione di come sia stata progettata l'architettura totale del sistema, svincolandolo cosi dal dover conoscere le procedure necessarie all'esecuzione di una determinata operazione.
 
-Per quanto riguarda la componentistica, la sotto-architettura \texttt{clientview} è dotata di:
-\begin{itemize}[noitemsep,nolistsep]
-	\item[-] GUI
-\end{itemize}
-
-Per le specifiche dei componenti sopra citati, si rimanda alla sezione successiva.
-
-I nomi di tutte le classi riportate nella presente sezione sono implicitamente parte del package \texttt{org.softwaresynthesis.mytalk.clientview} pertanto tale prefisso sarà omesso nella loro denominazione.
+In figura \ref{fig:gui} si riporta un abbozzo dell'interfaccia grafica utente realizzata mediante le classi di questa sotto-architettura. In conformità con quanto stabilito dai requisiti (RSDO10.0.0) l'interfaccia si sviluppa in un'unica pagina.
 
 \begin{figure}[h]
   \centering
@@ -1567,23 +1560,32 @@ I nomi di tutte le classi riportate nella presente sezione sono implicitamente p
   \caption{Rappresentazione ad alto livello della GUI}\label{fig:gui}
 \end{figure}
 
+Per quanto riguarda la componentistica, la sotto-architettura \texttt{clientview} è costituita da:
+\begin{itemize}[noitemsep,nolistsep]
+	\item[-] GUI
+\end{itemize}
+per le specifiche dei componenti sopra citati, si rimanda alla sezione successiva.
+
+I nomi di tutte le classi riportate nella presente sezione sono implicitamente parte del package \texttt{org.softwaresynthesis.mytalk.clientview}, pertanto tale prefisso sarà omesso nella loro denominazione.
+
 Analogamente a quanto osservato per la sotto-architettura \texttt{clientpresenter}, la rappresentazione tramite classi e oggetti è utilizzata a livello prettamente logico indipendentemente dal dominio applicativo concreto di implementazione.
 
-In figura \ref{fig:gui} si riporta un abbozzo dell'interfaccia grafica utente realizzata mediante le classi di questa sotto-architettura. In conformità con quanto stabilito dai requisiti (RSDO10.0.0) l'interfaccia si sviluppa in un'unica pagina.
 
-In particolare, la parte denominata AddressBookPanel conterrà la lista degli utenti nella rubrica, mentre ToolsPanel conterrà i componenti grafici che rappresentano tutte le funzionalità offerte dal sistema. 
+In riferimento alla bozza di interfaccia utente presentata in figura \ref{fig:gui}, la parte denominata \texttt{AddressBookPanel} conterrà la lista degli utenti nella rubrica, mentre \texttt{ToolsPanel} conterrà i componenti grafici che rappresentano tutte le funzionalità offerte dal sistema. 
 
-Il contenuto del MainPanel, invece, varia in relazione alla funzionalità scelta dall'utente in quel momento. Ad esempio, qualora l'utente selezioni un contatto presente nella rubrica, verrà visualizzato il profilo corrispondente al contatto scelto.
+Il contenuto del \texttt{MainPanel}, invece, è destinato in relazione alla funzionalità scelta dall'utente in quel momento. Ad esempio, qualora l'utente selezioni un contatto presente nella rubrica, verrà visualizzato il profilo corrispondente al contatto scelto in \texttt{ContactPanel}, mentre nel caso in cui si attiva una forma di comunicazione, sarà visibile la parte grafica di un'istanza di \texttt{CommunicationPanel}.
 
 \subsection{Componenti evidenziati}
 
 \subsubsection{GUI}\label{sec:gui}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Questo componente si occupa della gestione dell'interfaccia grafica presentata all'utente finale. Le classi in esso contenute servono pertanto per la rappresentazione delle funzionalità offerte dal sistema all'utente.
+Questo componente si occupa della presentazione dell'interfaccia grafica presentata all'utente finale. Le classi in esso contenute servono pertanto per la visualizzazione dei punti di accesso alle funzionalità offerte dal sistema all'utente.
 
-Si noti che tale componente demanda tutta la logica al \inglese{presenter}, tramite Façade del presenter, e quindi è relativo solo ed esclusivamente alla grafica. Inoltre l'interazione con esso è centralizzata all'interno della classe \texttt{gui.GUIHandler}, ciò significa che tutte le altre classi del package \texttt{gui} non interagiscono direttamente con il \inglese{presenter}.
+Si noti che tale componente demanda tutta la logica di applicazione al \inglese{presenter} ed è quindi relativo solo ed esclusivamente alla grafica. Tutti i pannelli, che corrispondono ad altrettante viste, hanno pertanto un canale di comunicazione aperto con il \inglese{presenter} loro associato, e gli eventi generati dall'utente devono essere gestiti collegando l'evento alle opportune funzioni di \inglese{callback} offerte dai presenter.
+
 	\item{\scshape\bfseries Diagramma delle classi:}
+Il diagramma non è riportato perché, coincidendo le classi di questo componente con l'unico package della sotto-architettura \texttt{clientview}, esso verrebbe ad essere identico a quello presentato in \vref{fig:classclientiew}. Si rimanda pertanto a quest'ultimo per la rappresentazione UML del componente GUI\@.
 	
 	\item{\scshape\bfseries Classi utilizzate:} 
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1701,7 +1703,7 @@ Questa classe estende \texttt{MainPanel} e viene impiegata per rappresentare lo 
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=1\textwidth]{Package_view}
-\caption{Diagramma delle classi - Architettura \texttt{mytalk.clientview}}\label{fig:package_client_presenterview}
+\caption{Diagramma delle classi - Architettura \texttt{mytalk.clientview}}\label{fig:classclientiew}
 \end{center}
 \end{figure}
 \clearpage
