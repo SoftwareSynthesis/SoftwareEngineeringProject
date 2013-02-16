@@ -1386,6 +1386,7 @@ In particolare, di un utente-contatto è possibile ottenere lo \inglese{username
 Tale \inglese{presenter} viene richiamato dall'elemento grafico corrispondente al pannello della rubrica (\texttt{org.softwaresynthesis.mytalk.clientview.gui.AddressBookPanel}) e contiene la risposta a eventi quali la selezione di un contatto dalla rubrica da parte dell'utente. Contiene inoltre un'operazione di \inglese{refresh} che visualizza una lista di contatti ricevuta in input in forma grafica sulla UI\@.
 
 Il \inglese{presenter} in questione rende inoltre possibile avviare una ricerca fra gli utenti registrati nel sistema nonché rilevare che l'operazione di ricerca è conclusa (e conseguentemente visualizzare nuovamente la rubrica). Inoltre comprende anche le funzioni di \inglese{callback} per alcune operazioni di amministrazione sulla rubrica, come la creazione e l'eliminazione di un gruppo.
+
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Gestione GUI
@@ -1397,6 +1398,7 @@ Il \inglese{presenter} in questione rende inoltre possibile avviare una ricerca 
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Questo \inglese{presenter} gestisce l'elemento corrispondente al pannello dello storico delle chiamate presente nell'interfaccia grafica, permettendo la visualizzazione di un array di chiamate corrispondenti alle comunicazioni di un determinato utente. Poiché il componente grafico supervisionato è totalmente passivo, non sono presenti operazioni di \inglese{callback} da associare alle componenti grafiche vere e proprie.
+
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Gestione GUI
@@ -1408,6 +1410,9 @@ Questo \inglese{presenter} gestisce l'elemento corrispondente al pannello dello 
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Tale \inglese{presenter} si occupa della gestione del componente grafico corrispondente al pannello di comunicazione fra utenti. In particolare, comprende le operazioni necessarie all'aggiornamento della grafica corrispondente alle chat testuali e alle condivisioni, nonché alla visualizzazione dello \inglese{stream} video nel corso di una comunicazione audio/video o dell'immagine associata al profilo utente nel caso di una sola comunicazione audio.
+
+Le principali funzioni di \inglese{callback} utilizzate dall'interfaccia grafica presenti in questa classe corrispondono alla possibilità di interrompere una chiamata in corso, avviare/interrompere una condivisone di risorse, avviare/interrompere una registrazione, visualizzare/nascondere le aree di chat (che sono indipendenti dalla comunicazione corrente).
+
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Gestione GUI
@@ -1418,11 +1423,12 @@ Tale \inglese{presenter} si occupa della gestione del componente grafico corrisp
 \item \texttt{guicontrol.ContactPanelPresenter}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Tale \inglese{presenter} ha la responsabilità di controllare l'aggiornamento della sezione dell'interfaccia grafica avente il compito di visualizzare il profilo di un utente in risposta alla selezione dalla rubrica o dall'esito di una ricerca.
+Tale \inglese{presenter} ha la responsabilità di controllare l'aggiornamento della sezione dell'interfaccia grafica incaricata di visualizzare il profilo di un utente in risposta alla selezione dalla rubrica o dall'esito di una ricerca.
 
-Poiché, inoltre, a partire da tale componente grafico è possibile avviare una comunicazione, tale classe comprende al proprio interno anche le operazioni che devono essere richiamate in risposta all'azione da parte dell'utente di dare avvio a una comunicazione.
+Poiché, inoltre, a partire da tale componente grafico è possibile avviare una comunicazione, tale classe comprende al proprio interno anche le funzioni che devono essere richiamate in risposta all'azione da parte dell'utente di dare avvio a una comunicazione.
 
 Infine, poiché da \texttt{org.softwaresynthesis.mytalk.clientview.gui.ContactPanel} è possibile anche svolgere alcune attività di amministrazione della rubrica utente, in questo \inglese{presenter} sono presenti anche le funzioni di \inglese{callback} necessarie per l'aggiunta e la rimozione di un contatto particolare ad un gruppo, nonché per l'aggiunta di contatto alla rubrica se il suo profilo è stato aperto a seguito di una ricerca fra gli utenti registrati nel sistema.
+
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Gestione GUI
@@ -1433,7 +1439,10 @@ Infine, poiché da \texttt{org.softwaresynthesis.mytalk.clientview.gui.ContactPa
 \item \texttt{guicontrol.LanguagePanelPresenter}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Il \inglese{presenter} in questione ha il compito di popolare il contenuto dell'elemento grafico corrispondente al pannello di configurazione della UI e, in particolare, della lingua in cui questa viene visualizzata. Contiene un'unica operazione di \inglese{callback} per la grafica, che riceve la selezione dell'utente e propaga le modifiche tramite il \texttt{PresenterMediator} a tutti i \inglese{presenter} associati alle componenti grafiche.
+Il \inglese{presenter} in questione ha il compito di popolare il contenuto dell'elemento grafico corrispondente al pannello di configurazione della UI e, in particolare, della lingua in cui questa viene visualizzata.
+
+Contiene un'unica operazione di \inglese{callback} per la grafica, che riceve la selezione dell'utente e propaga le modifiche tramite il \texttt{PresenterMediator} a tutti i \inglese{presenter} associati alle componenti grafiche. Non ammette invece alcuna operazione di aggiornamento della GUI in quanto gli elementi da visualizzare sono noti al momento dell'inizializzazione e non subiscono modifiche ulteriori a tempo di esecuzione.
+
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Gestione GUI
@@ -1445,6 +1454,7 @@ Il \inglese{presenter} in questione ha il compito di popolare il contenuto dell'
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Classe base per i \inglese{presenter} associati ai diversi componenti dell'interfaccia grafica. Contiene i metodi necessari all'inizializzazione di questi ultimi nonché i controlli che ne attivano la comparsa o scomparsa in risposta alle preferenze di visualizzazione dell'utente.
+
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Gestione GUI
@@ -1456,6 +1466,9 @@ Classe base per i \inglese{presenter} associati ai diversi componenti dell'inter
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Tale \inglese{presenter} contiene le operazioni necessarie a visualizzare lo storico delle chiamate di un determinato utente. Poiché il componente grafico ad esso associato è totalmente passivo, non sono presenti operazioni di \inglese{callback} per la grafica.
+
+È invece prevista la possibilità di aggiornamento del componente grafico, in quanto la ricezione di nuovi messaggi può avvenire anche se l'utente è in linea (ad esempio se questi è impegnato in un'altra conversazione).
+
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Gestione GUI
@@ -1467,6 +1480,7 @@ Tale \inglese{presenter} contiene le operazioni necessarie a visualizzare lo sto
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 L'istanza di tale classe ha il compito di gestire le collaborazioni fra i diversi \inglese{presenter} associati alle viste dell'interfaccia grafica e smistare i messaggi che questi si devono scambiare. A tale scopo, è necessario che tutti i \inglese{presenter} si registrino su di essa in modo da poter ricevere le successive richieste tramite chiamata di metodo.
+
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Gestione GUI
@@ -1497,10 +1511,11 @@ D'altra parte, gli eventi scatenati dall'interazione dell'utente con il pannello
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Interfaccia che raccoglie la dichiarazione di tutte le operazioni astratte con cui si suppone che il server realizzi lo scambio di messaggi con il \inglese{presenter}. La sequenza di operazioni da eseguire che interessano i componenti del \inglese{presenter} (ad esempio Gestione GUI) saranno incapsulate nell'implementazione delle operazioni contenute in questa interfaccia.
+
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Façade del presenter
-	  %TODO qui dovrebbe esserci: Gestione Stato (ad esempio)
+	  \item[-] Gestione stato
 	\end{itemize}
 \end{description}
 
@@ -1508,6 +1523,7 @@ Interfaccia che raccoglie la dichiarazione di tutte le operazioni astratte con c
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Questa classe rappresenta un'applicazione del \inglese{design pattern} Singleton e implementa inoltre l'interfaccia \texttt{IPresenterFacade}. Fornisce pertanto dei metodi concreti utilizzati per la comunicazione fra la vista e il server, elaborando qualora necessario i dati ricevuti in input e inoltrando le richieste agli oggetti facenti parte dei diversi componenti del \inglese{presenter}.
+
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Façade del presenter
