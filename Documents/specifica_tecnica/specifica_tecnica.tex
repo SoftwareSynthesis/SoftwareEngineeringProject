@@ -167,35 +167,38 @@ L'utilizzo del linguaggio \underline{Java} è richiesto dal proponente esclusiva
  
 \subsection{Web server Apache}
 
-La struttura dell'applicativo si basa su pagine web scritte in HTML5. Ciò richiede la presenza di un server web dove collocare le pagine richimabili dai browser degli utenti. A tal fine è stato scelto Apache per le seguenti motivazioni/vantaggi:
+La struttura dell'applicativo si basa su pagine web scritte in \underline{HTML5}. Ciò richiede la presenza di un server web dove collocare le pagine richiamabili dai browser degli utenti.
 
 \subsubsection*{Vantaggi}
 
 \begin{itemize}[noitemsep,nolistsep]
-  \item[-] diversi membri del team hanno già lavorato su tale struttura. Il costo in termini di tempo per istruire il personale è dunque ridotto al minimo;
-  \item[-] Apache offre funzioni di controllo per la sicurezza come quelli che compie il proxy;
+  \item[-] diversi membri del team hanno già lavorato su tale struttura, il costo in termini di tempo per istruire il personale è dunque ridotto al minimo;
+  \item[-] Apache offre funzioni di controllo per la sicurezza come quelli che compie il \inglese{proxy};
 \end{itemize}
   
 \subsection{RDBMS MySQL}
 
-Ogni utente avrà a disposizione diversi dati consultabili e modificabili in diverse aree dell'applicativo. Per esempio un utente sarà interessato a gestire i propri dati personali. Ciò richiede che l'applicativo sia dotato di un sistema di memorizzazione permanente dei dati. A tale scopo si è scelto di usare un RDBMS (\inglese{relational database management system}) e nello specifico  il team intende appoggiarsi ad un server MySQL
+Ogni utente avrà a disposizione diversi dati consultabili e modificabili in diverse aree dell'applicativo. Per esempio, un utente sarà interessato a gestire i propri dati personali.
+
+Ciò richiede che l'applicativo sia dotato di un sistema di memorizzazione permanente dei dati. A tale scopo si è scelto di usare un RDBMS (\inglese{relational database management system}) e nello specifico  il team intende appoggiarsi ad un server MySQL\@.
 
 \subsubsection*{Vantaggi}
 
 \begin{itemize}[noitemsep,nolistsep]
-  \item[-] come per Apache, anche per questo sistema si stima che costi per istruire i personali saranno minimi, poichè i membri del team hanno già avuto modo di utilizzare tale strumento;
+  \item[-] come per Apache, anche per questo sistema si stima che costi per istruire i personali saranno minimi, poiché i membri del team hanno già avuto modo di utilizzare tale strumento;
   \item[-] uno dei principali strumenti d'amministrazione di un database MySQL è phpMyAdmin. Il team conta di utilizzarlo in virtù dell'intuitività con cui è costruita l'interfaccia grafica;
   \item[-] tale DBMS supporta le transazioni, essenziali nel nostro progetto per la manipolazione e la lettura dei dati memorizzati.
 \end{itemize}
 
-\subsection{Servlet container Tomcat}
+\subsection{Servlet container TomCat}
 
-L'applicativo dovrà disporre di un lato server ed un lato client. Se da una parte il lato client è rappresentato da una pagina web fornita tramite un server apache, dall'altra l'applicativo server sarà strutturato tramite delle servlet java che, per conformità con i software usati, saranno caricate nel servlet container Tomcat. Tale sistem infatti si appoggia sul già citato Apache. L'utilizzo di tale software fornirà i seguenti vantaggi
+L'applicativo dovrà disporre di un lato server ed un lato client. Se da una parte il lato client è rappresentato dall'ambiente di esecuzione del browser che ha il compito di visualizzare una pagina web fornita tramite un server Apache ed eseguire gli \inglese{script} ad essa associati, dall'altra l'applicativo server sarà strutturato tramite delle \inglese{servlet} Java che, per conformità con i software usati, saranno caricate nel \inglese{servlet container} di TomCat che si appoggia sul già citato Apache.
 
 \subsubsection*{Vantaggi}
 
 \begin{itemize}[noitemsep,nolistsep]
-  \item[-] l'installazione di Tomcat automatizza anche l'installazione del web server Apache, richiedendola qual'ora l'applicativo non sia già installato nell'elaboratore;
+%TODO siamo proprio sicuri che sia un vantaggio interessante?
+  \item[-] l'installazione di TomCat automatizza anche l'installazione del web server Apache, richiedendola qualora l'applicativo non sia già installato nell'elaboratore;
 \end{itemize}
 
 \subsection{Hibernate}\label{sec:hibernate}
@@ -301,15 +304,15 @@ Con la progettazione concettuale definiremo una struttura ``concettuale'' della 
 \begin{tabular}{lccc}
 \toprule
 Nome attributo & Tipo & Opzionale & Vincoli\\
-\midrule % inserire qui il contenuto della tabella
-ID\_user & Text & NO & PrimaryKey\\
+\midrule
+ID\_user & Integer & NO & PrimaryKey\\
 E-Mail & Varchar(100) & NO & Unique\\
 Password & Password & NO &\\
 Question & Varchar(100) & NO &\\
 Answer & Varchar(100) & NO &\\
-Name & Varchar(100) & SI &\\
-Cognome & Varchar(100) & SI &\\
-Picture & Varchar(150) & SI &\\
+Name & Varchar(100) & SÌ &\\
+Cognome & Varchar(100) & SÌ &\\
+Picture & Varchar(150) & SÌ &\\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -321,10 +324,10 @@ Picture & Varchar(150) & SI &\\
 \begin{tabular}{lccc}
 \toprule
 Nome attributo & Tipo & Opzionale & Vincoli\\
-\midrule % inserire qui il contenuto della tabella
-ID\_call & Text & NO & PrimaryKey\\
+\midrule
+ID\_call & Integer & NO & PrimaryKey\\
 Start\_date & Datetime & NO & \\
-End\_date & Datetime & SI & \\
+End\_date & Datetime & SÌ & \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -336,8 +339,8 @@ End\_date & Datetime & SI & \\
 \begin{tabular}{lccc}
 \toprule
 Nome attributo & Tipo & Opzionale & Vincoli\\
-\midrule % inserire qui il contenuto della tabella
-ID\_group & Text & NO & PrimaryKey\\
+\midrule
+ID\_group & Integer & NO & PrimaryKey\\
 Name & Varchar(100) & NO &\\
 \bottomrule
 \end{tabular}
@@ -350,12 +353,13 @@ Name & Varchar(100) & NO &\\
 \begin{tabular}{lccc}
 \toprule
 Nome attributo & Tipo & Opzionale & Vincoli\\
-\midrule % inserire qui il contenuto della tabella
-ID\_message & Text & NO & PrimaryKey\\
+\midrule
+ID\_message & Integer & NO & PrimaryKey\\
 Sender & Varchar(100) & NO & \\
 Receiver & Varchar(100) & NO & \\
 New & Boolean & NO & \\
-Date & Datetime & NO & \\
+Start\_date & Datetime & NO & \\
+End\_date & Datetime & SÌ & \\
 \bottomrule
 \end{tabular}
 \end{center}	
@@ -367,21 +371,9 @@ Date & Datetime & NO & \\
 \end{description}
 
 \subsubsection{Chiavi primarie sintetiche}
-I progettisti hanno optato per la definizione di chiavi primarie sintetiche, ovvero chiavi generate da una funzione sql definita nel DBMS al momento della creazione di un nuovo record. Tale scelta è dettata dall'utilizzo del framework Hibernate che non permette la modifica del valore della chiavi primarie associate ad una istanza di un oggetto di business. Le chiavi saranno quindi composte da una stringa di sette caratteri di cui i primi due rappresenteranno un prefisso che individuerà il tipo di entità a cui appartiene il record, mentre le restanti cifre rappresentano un contatore che identifica univocamente i record.
+I progettisti hanno optato per la definizione di chiavi primarie sintetiche, ovvero chiavi generate automaticamente all'inserimento di un nuovo \inglese{record} nelle tabelle corrispondenti alle entità.
 
-\begin{center}
-\rowcolors{2}{lightblue}{llightblue}
-\begin{tabular}{lccc}
-\toprule
-Entità & Prefisso\\
-\midrule % inserire qui il contenuto della tabella
-UserData & UD \\
-Calls & CL \\
-Groups & GR \\
-Messages & MS\\
-\bottomrule
-\end{tabular}
-\end{center}
+Tale scelta è dettata dall'utilizzo del framework Hibernate che non permette la modifica del valore della chiavi primarie associate ad una istanza di un oggetto di \inglese{business}. Le chiavi saranno quindi composte da un campo a valore intero, da intendersi come un contatore che identifica univocamente i record.
 
 \subsubsection{Gerarchia tra classi}
 
@@ -393,10 +385,12 @@ Messages & MS\\
 
 \begin{description}
 	\item{\scshape\bfseries UserData - Calls (molti a molti)}: tale associazione rappresenta il legame che intercorre tra gli utenti e le chiamate. Tale associazione è del tipo molti a molti, con totalità parziale verso Calls e totalità totale verso UserData.
+	
 	\item{\scshape\bfseries UserData - Groups (molti a molti)}: tale associazione rappresenta il legame che intercorre tra gli utenti ed i gruppi, per la quale si è deciso di usare un associazione molti a molti con totalità parziale solo da Groups a UserData. Ciò significa che: un utente può comparire in zero o più gruppi (in ragione del fatto che potrebbe esserci più di qualcuno che registra un dato utente nella propria rubrica), ed un utente può possedere uno o più gruppi.
+	
 	\item{\scshape\bfseries UserData - Groups (uno a molti)}: tale associazione rappresenta il legame che intercorre tra il proprietario del gruppo e il gruppo stesso. L'associazione è del tipo uno a molti, a rappresentare come un gruppo sia visualizzabile unicamente dal proprietario, mentre un utente può avere (e di conseguenza visualizzare) più gruppi.
+	
 	\item{\scshape\bfseries UserData - Messages (uno a molti)}: tale associazione rappresenta il legame che intercorre tra gli utenti ed i messaggi registrati nella sua segreteria. L'associazione è del tipo uno a molti verso Messages, con totalità parziale verso Messages e totalità totale verso UserData. L'idea alla base è che un utente può avere nella propria segreteria uno o più messaggi, così come può non averne nessuno, mentre ogni messaggio della segreteria è ``visionabile'' da un unico utente, il destinatario del messaggio.
-	\item{\scshape\bfseries Groups - Groups (uno a molti)}: tale associazione rappresenta il legame che intercorre tra oggetti di tipo gruppo, ovvero che un gruppo può possedere zero o più sottogruppi mentre un sottogruppo ha un gruppo ``padre'' che lo contiene.
 \end{description}
 
 \subsection{Progettazione logica}
@@ -412,8 +406,11 @@ Con la progettazione logica intendiamo costruire la struttura definitiva del dat
 
 \begin{description}
 	\item{\scshape\bfseries UserData - Calls}: tale associazione si è risolta attraverso l'introduzione dell'entità CallLists. Tale entità contiene l'attributo User come chiave esterna verso l'entità UserData e l'attributo Call\_ID come chiave esterna verso l'entità Calls. È dotata inoltre dell'attributo Caller che identifica colui che ha per primo avviato la chiamata; per ogni gruppo di ennuple aventi lo stesso Call\_ID si avrà soltanto una ennupla contrassegnata con il campo Caller a vero.
+	
 	\item{\scshape\bfseries UserData - Groups}: tale associazione si è risolta con la creazione di una terza entità denominata AddressBooks, che contiene una chiave esterna verso UserData e una chiave esterna verso Groups.
+	
 	\item{\scshape\bfseries UserData - Groups}: tale associazione si è risolta trasformando l'attributo Owner in una chiave esterna verso UserData.
+	
 	\item{\scshape\bfseries UserData - Messages}: tale associazione si è risolta inserendo una chiave esterna verso UserData, all'interno dell'entità Messages.
 \end{description}
 
@@ -428,15 +425,15 @@ UserData
 \begin{tabular}{lccc}
 \toprule
 Nome attributo & Tipo & Opzionale & Vincoli\\
-\midrule % inserire qui il contenuto della tabella
-ID\_user & Text & NO & PrimaryKey\\
+\midrule
+ID\_user & Integer & NO & PrimaryKey\\
 E-Mail & Varchar(100) & NO & Unique\\
 Password & Password & NO &\\
 Question & Varchar(100) & NO &\\
 Answer & Varchar(100) & NO &\\
-Name & Varchar(100) & SI &\\
-Surname & Varchar(100) & SI &\\
-Picture & Varchar(150) & SI &\\
+Name & Varchar(100) & SÌ &\\
+Surname & Varchar(100) & SÌ &\\
+Picture & Varchar(150) & SÌ &\\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -448,10 +445,10 @@ Calls
 \begin{tabular}{lccc}
 \toprule
 Nome attributo & Tipo & Opzionale & Vincoli\\
-\midrule % inserire qui il contenuto della tabella
-ID\_call & Text & NO & PrimaryKey\\
+\midrule
+ID\_call & Integer & NO & PrimaryKey\\
 Start\_date & Datetime & NO & \\
-End\_date & Datetime & SI &\\
+End\_date & Datetime & SÌ &\\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -463,9 +460,9 @@ CallLists
 \begin{tabular}{lccc}
 \toprule
 Nome attributo & Tipo & Opzionale & Vincoli\\
-\midrule % inserire qui il contenuto della tabella
-ID\_call & Text & NO & PrimaryKey e ForeignKey verso Calls\\
-ID\_user & Text & NO & PrimaryKey e ForeignKey verso UserData \\
+\midrule
+ID\_call & Integer & NO & PrimaryKey e ForeignKey verso Calls\\
+ID\_user & Integer & NO & PrimaryKey e ForeignKey verso UserData \\
 Caller & Boolean & NO &\\
 \bottomrule
 \end{tabular}
@@ -478,9 +475,9 @@ AddressBooks
 \begin{tabular}{lccc}
 \toprule
 Nome attributo & Tipo & Opzionale & Vincoli\\
-\midrule % inserire qui il contenuto della tabella
-ID\_user & Text & NO & PrimaryKey e ForeignKey verso UserData\\
-ID\_group & Text & NO & PrimaryKey e ForeignKey verso Groups\\
+\midrule
+ID\_user & Integer & NO & PrimaryKey e ForeignKey verso UserData\\
+ID\_group & Integer & NO & PrimaryKey e ForeignKey verso Groups\\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -492,11 +489,10 @@ Groups
 \begin{tabular}{lccc}
 \toprule
 Nome attributo & Tipo & Opzionale & Vincoli\\
-\midrule % inserire qui il contenuto della tabella
-ID\_group & Text & NO & PrimaryKey\\
+\midrule
+ID\_group & Integer & NO & PrimaryKey\\
 Name & Varchar(100) & NO & \\
 Owner & Varchar(100) & NO & ForeignKey verso UserData\\
-Father & int & NO & ForeignKey verso Groups\\
 \bottomrule
 \end{tabular}
 \end{center}	
@@ -508,13 +504,14 @@ Messages
 \begin{tabular}{lccc}
 \toprule
 Nome attributo & Tipo & Opzionale & Vincoli\\
-\midrule % inserire qui il contenuto della tabella
-ID\_message & Text & NO & PrimaryKey\\
+\midrule
+ID\_message & Integer & NO & PrimaryKey\\
 Sender & Varchar(100) & NO & ForeignKey verso UserData \\
 Receiver & Varchar(100) & NO & ForeignKey verso UserData\\
 New & Boolean & NO & \\
 Audio & Boolean & NO & \\
-Messages & Datatime & NO & \\
+Start\_date & Datetime & NO & \\
+End\_date & Datetime & SÌ & \\
 \bottomrule
 \end{tabular}	
 \end{center}
@@ -534,13 +531,13 @@ Messages & Datatime & NO & \\
 \section{Architettura \texttt{mytalk.server}}\label{sec:server}
 Tale sotto-architettura definisce le specifiche e le funzionalità dell'applicativo lato server. In esso saranno definiti i seguenti componenti:
 \begin{itemize}[noitemsep,nolistsep]
-	\item[-] Gestione database;
-	\item[-] Gestione connessione;
-	\item[-] Gestione chiamate;
-	\item[-] Gestione rubrica;
-	\item[-] Gestione stato;
-	\item[-] Gestione segreteria;
-	\item[-] Façade del server.
+	\item[-] \textsf{CS01 -- Gestione database};
+	\item[-] \textsf{CS02 -- Gestione connessione};
+	\item[-] \textsf{CS03 -- Gestione rubrica};
+	\item[-] \textsf{CS04 -- Gestione stato};
+	\item[-] \textsf{CS05 -- Gestione segreteria};
+	\item[-] \textsf{CS06 -- Gestione chiamate};
+	\item[-] \textsf{CS07 -- Façade del server}.
 \end{itemize}
 
 I componenti sopracitati verranno definiti di seguito. Si sottolinea sin da ora che il server è l'unico in grado di comunicare con il database su cui regge l'applicativo.
@@ -549,17 +546,28 @@ Infine, si fa notare che i nomi di tutte le classi riportate nella presente sezi
 
 \subsection{Componenti evidenziati}
 
-\subsubsection{Gestione database}
+\subsubsection{CS01 -- Gestione database}
 \begin{description}
 \item{\scshape\bfseries Descrizione:}\\
-Gestione database è il componente che si occupa di rappresentare la struttura del database relazionale su cui poggia l'applicativo. Tramite questo componente, il sistema potrà quindi effettuare operazione di lettura e scrittura di entità all'interno del database.
+È il componente che si occupa di rappresentare la struttura del database relazionale su cui poggia l'applicativo. Tramite questo componente, il sistema potrà quindi effettuare operazione di lettura e scrittura di entità all'interno del database.
 
-Le classi utilizzate all'interno di questo componente possono essere suddivise in tre gruppi:
-\begin{enumerate}
-  \item le classi \inglese{transfer object} (TO) e le relative interfacce che modellano le entità di \inglese{business};
+Le classi che fanno parte  di questo componente possono essere suddivise in:
+\begin{itemize}
   \item le classi \inglese{data access object} (DAO) concrete per il DBMS prescelto (MySQL) e le relative interfacce;
   \item le classi \inglese{factory} (concrete e astratte) utilizzate per ottenere le istanze delle classi DAO necessarie a supportare la persistenza dei dati del database.
-\end{enumerate}
+\end{itemize}
+
+Inoltre, sono utilizzate le classi \inglese{transfer object} (TO) esterne e le relative interfacce che modellano le entità di \inglese{business}, in particolare:
+\begin{itemize}[noitemsep,nolistsep]
+  \item[-] \texttt{call.ICall}
+	\item[-] \texttt{call.Call}
+	\item[-] \texttt{abook.IGroup}
+	\item[-] \texttt{abook.Group}
+	\item[-] \texttt{message.IMessage}
+	\item[-] \texttt{message.Message}
+	\item[-] \texttt{abook.IUserData}
+	\item[-] \texttt{abook.UserData}
+\end{itemize}
 
 In linea generale le classi TO mappano le entità rappresentate nel database e sono dotate di variabili di istanza che corrispondono ai campi dei \inglese{record}. Le operazioni disponibili su questo genere di oggetti comprendono i metodi get/set associati ai campi delle tabelle del database e sono rese disponibili dalle interfacce (una per ogni entità) implementate dalle classi TO\@.
 
@@ -599,10 +607,10 @@ Allo scopo di rendere l'architettura facilmente estendibile a futuri ampliamenti
 	\end{itemize}
 \end{description}
 
-\subsubsection{Gestione connessione}
+\subsubsection{CS02 -- Gestione connessione}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Tale componente ingloba le classi destinate a stabilire le \inglese{routine} di connessione. A tal fine è stata definita l'interfaccia di una classe Singleton \texttt{connection.ICommunicationHandler}, implementata da \texttt{connection.StandardCommunicationHandler} che ha il compito di creare gli oggetti necessari alla connessione.
+Tale componente ingloba le classi destinate a stabilire le \inglese{routine} di connessione. A tal fine è stata definita l'interfaccia di una classe Singleton \texttt{connection.ICommunicationHandler}, implementata da \texttt{connection.CommunicationHandler} che ha il compito di creare gli oggetti necessari alla connessione.
 
 Le specifiche di tali oggetti sono descritte dall'interfaccia \texttt{connection.IConnection}, con la relativa implementazione \texttt{connection.WebRTCInfo}, che permette il recupero delle informazioni di cui il client necessita per instaurare la connessione. Dal momento che si tratta di informazioni per loro stessa natura volatili, non è stato predisposto per esse alcun meccanismo di memorizzazione in forma fortemente strutturata e persistente.
 	\item{\scshape\bfseries Diagramma delle classi:}
@@ -616,13 +624,13 @@ Le specifiche di tali oggetti sono descritte dall'interfaccia \texttt{connection
 	\item{\scshape\bfseries Classi utilizzate:}
 	\begin{itemize}[nolistsep, noitemsep]
 	  \item[-] \texttt{connection.ICommunicationHandler}
-	  \item[-] \texttt{connection.StandardCommunicationHandler}
+	  \item[-] \texttt{connection.CommunicationHandler}
 	  \item[-] \texttt{connection.IConnection}
 	  \item[-] \texttt{connection.WebRTCInfo}
 	\end{itemize}
 \end{description}
 
-\subsubsection{Gestione rubrica}
+\subsubsection{CS03 -- Gestione rubrica}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Ad ogni utente del sistema, che corrisponde a un'istanza di \texttt{abook.UserData} è associata una rubrica personale, rappresentata dall'interfaccia \texttt{abook.IAddressBook} e dalla relativa implementazione \texttt{abook.AddressBook}.
@@ -634,6 +642,8 @@ Gli utenti, inoltre, possono essere opzionalmente organizzati in gruppi: un cont
 D'altro canto, la rubrica può contenere uno o più gruppi, laddove il limite inferiore è fissato dalla presenza di default di un gruppo \inglese{blacklist} in ogni rubrica. Questo spiega la relazione di composizione fra \texttt{abook.AddressBook} e \texttt{abook.IGroup}.
 
 Infine, il passaggio dei dati corrispondenti ai contatti della rubrica al \inglese{presenter} è gestito restituendo una versione serializzata degli oggetti compatibile con il dominio applicativo dei client che rappresenta inoltre una sorta di \inglese{proxy} di protezione, corrispondente alla classe \texttt{org.softwaresynthesis.mytalk.clientpresenter.kernel.JSUserData}. Un trattamento analogo è stato riservato ai gruppi di utenti che fanno parte di una rubrica personale.
+
+La gestione della rubrica lato client è resa inoltre più agevole modellando quest'ultima come una collezione di contatti e gruppi, attraverso un livello di astrazione ulteriore introdotto da \texttt{clientpresenter.kernel.JSAddressBook}.
 
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -650,12 +660,13 @@ Infine, il passaggio dei dati corrispondenti ai contatti della rubrica al \ingle
 	  \item[-] \texttt{abook.Group}
 	  \item[-] \texttt{abook.IUserData}
 	  \item[-] \texttt{abook.UserData}
-	  \item[-] \texttt{org.softwaresynthesis.mytalk.kernel.JSUserData}
-	  \item[-] \texttt{org.softwaresynthesis.mytalk.kernel.JSGroup}
+	  \item[-] \texttt{org.softwaresynthesis.mytalk.clientpresenter.kernel.JSUserData}
+	  \item[-] \texttt{org.softwaresynthesis.mytalk.clientpresenter.kernel.JSGroup}
+	  \item[-] \texttt{org.softwaresynthesis.mytalk.clientpresenter.kernel.JSAddressBook}
 	\end{itemize}
 \end{description}
 
-\subsubsection{Gestione stato}
+\subsubsection{CS04 -- Gestione stato}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Le classi di tale componente sono utilizzate per gestire lo stato degli utenti, permettendo un comportamento diverso delle istanze di \texttt{abook.UserData} a seconda dello stato in cui si trova l'utente corrispondente. Gli stati possibili sono in prima istanza ``\inglese{online}'' e ``\inglese{offline}'', rappresentati dalle classi \texttt{state.StateOnline} e \texttt{state.StateOffline} rispettivamente.
@@ -685,14 +696,17 @@ Inoltre, i cambiamenti di stato vengono notificati a tutti gli utenti presenti i
 	\end{itemize}
 \end{description}
 
-\subsubsection{Gestione segreteria}
+\subsubsection{CS05 -- Gestione segreteria}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Il sistema di segreteria telefonica corrisponde all'interfaccia \texttt{message.IMessageBox} e alla relativa implementazione \texttt{message.StandardMessageBox} che permettono un accesso centralizzato all'insieme di messaggi che un determinato utente ha ricevuto.
+Il sistema di segreteria telefonica corrisponde all'interfaccia \texttt{message.IMessageBox} e alla relativa implementazione \texttt{message.MessageBox} che permettono un accesso centralizzato all'insieme di messaggi che un determinato utente ha ricevuto.
 
 I messaggi di natura audio o audio/video sul server corrispondono alle istanze dalla classe \texttt{message.Message} e sono caratterizzati da mittente, destinatario, data di registrazione nella segreteria.
 
 L'onere di caricare in memoria e gestire l'intero messaggio è posticipato al momento di effettiva necessità mediante l'utilizzo lato client di una sorta di \inglese{virtual proxy} corrispondente alla classe \texttt{clientpresenter.kernel.JSMessage} che rende disponibili le medesime operazioni di \texttt{message.Message} ma consente di scaricare il contenuto del messaggio sul client solo quando effettivamente richiesto.
+
+La gestione della segreteria lato client è resa più agevole dall'introduzione della classe \texttt{clientpresenter.kernel.JSMessageBox} che rappresenta una collezione di messaggi.
+
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
   \centering
@@ -702,18 +716,25 @@ L'onere di caricare in memoria e gestire l'intero messaggio è posticipato al mo
 	
 	\item{\scshape\bfseries Classi utilizzate:}
 	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-] \texttt{message.IMessageBox}
+	  \item[-] \texttt{message.MessageBox}
 		\item[-] \texttt{message.IMessage}
 	  \item[-] \texttt{message.Message}
 	  \item[-] \texttt{org.softwaresythesis.mytalk.clientpresenter.kernel.JSMessage}
+	  \item[-] \texttt{org.softwaresythesis.mytalk.clientpresenter.kernel.JSMessageBox}
 	\end{itemize}
 \end{description}
 
-\subsubsection{Gestione chiamate}
+\subsubsection{CS06 -- Gestione chiamate}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
 Le classi di questo componente hanno il ruolo di incapsulare la logica di gestione delle chiamate e di accesso ai dati relativi a una chiamata (data, mittente e $n\geq1$ dstinatari della chiamata). Tali informazioni rivestono un ruolo importante per la rappresentazione e la trasmissione ai client dello storico delle chiamate.
 
-%TODO considerare se inserire anche ICallList e StandardCallList
+Oltre all'interfaccia \texttt{ICall} e alla sua implementazione lato server \texttt{Call}, che rappresenta il \inglese{transfer object} per la gestione del database, sono state predisposte l'interfaccia \texttt{ICallList} e la relativa implementazione \texttt{CallList} per la rappresentazione di una collezione di chiamate.
+
+Le tabelle del database che corrispondono a \texttt{CallList} e al \inglese{transfer object} \texttt{Call} sono Calls e l'entità di associazione CallLists. Pur essendo la chiave primaria in Calls (e chiave esterna in CallLists) è di tipo \texttt{BIGINT} senza segno, il team è consapevole che questo impone una limitazione dell'ordine di $\times10^{19}$ al numero di chiamate che possono essere memorizzate contemporaneamente. Una soluzione da adottarsi in futuro per evitare la perdita di dati potrebbe consistere nello spostare da database a disco parte di queste informazioni.
+
+Per la gestione dello storico delle chiamate lato client, invece, sono state previste le classi \texttt{clientpresenter.kernel.JSCall}, che aderisce al medesimo contratto della sua controparte server, e \texttt{JSCallList}, che rappresenta invece lo storico delle chiamate associato al client su cui risiede il \inglese{presenter}.
 
   \item{\scshape\bfseries Diagramma delle classi:}
 % TODO esportare l'immagine e includerla qui
@@ -727,11 +748,14 @@ Le classi di questo componente hanno il ruolo di incapsulare la logica di gestio
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \texttt{call.ICall}
     \item[-] \texttt{call.Call}
+    \item[-] \texttt{call.ICallList}
+    \item[-] \texttt{call.CallList}
     \item[-] \texttt{org.softwaresythesis.mytalk.clientpresenter.kernel.JSCall}
+    \item[-] \texttt{org.softwaresythesis.mytalk.clientpresenter.kernel.JSCallList}
   \end{itemize}
 \end{description}
 
-\subsubsection{Façade del server}
+\subsubsection{CS07 -- Façade del server}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 L'interfaccia \texttt{IServerFacade} e la relativa implementazione \texttt{StandardServerFacade}, nella quale si è scelto di applicare il \inglese{design pattern} Singleton, forniscono una sorta di interfaccia alle funzionalità offerte dalla sotto-architettura \texttt{server} ai componenti che risiedono nel client.
@@ -739,10 +763,9 @@ L'interfaccia \texttt{IServerFacade} e la relativa implementazione \texttt{Stand
 Le funzionalità esposte consentono di gestire i messaggi presenti in segreteria, le richieste di comunicazione con altri utenti, l'autenticazione o  la registrazione degli utenti.
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
-\begin{center}
-\includegraphics[width=.6\textwidth]{class_facade_server}
-\caption{Diagramma delle classi - Façade del server}\label{fig:facade_server}
-\end{center}
+  \centering
+  \includegraphics[width=.6\textwidth]{class_facade_server}
+  \caption{Diagramma delle classi - Façade del server}\label{fig:facade_server}
 \end{figure}	
 	
 	\item{\scshape\bfseries Classi utilizzate:}\\
@@ -766,10 +789,10 @@ Interfaccia della Abstract Factory che contiene operazioni permettono di ottener
 Le operazioni astratte contenute in questa interfaccia sono dunque dei Factory Method (ad esempio \texttt{createMessageDAO(): IMessageDAO}) che nelle implementazioni delle \inglese{factory} concrete restituiscono oggetti aventi un tipo dinamico specifico per il DBMS utilizzato.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] Gestione database
-    \item[-] Gestione chiamate
-    \item[-] Gestione segreteria
-    \item[-] Gestione rubrica
+    \item[-] \textsf{Gestione database}
+    \item[-] \textsf{Gestione chiamate}
+    \item[-] \textsf{Gestione segreteria}
+    \item[-] \textsf{Gestione rubrica}
   \end{itemize}
 \end{description}
 
@@ -779,10 +802,10 @@ Le operazioni astratte contenute in questa interfaccia sono dunque dei Factory M
 Implementazione dell'interfaccia \texttt{IDAOFactory} specifica per il DBMS MySQL\@. Il tipo dinamico degli oggetti DAO restituiti dalle implementazioni delle operazioni astratte sarà pertanto \texttt{MySQLMessageDAO}, \texttt{MySQLUserDataDao}, \texttt{MySQLGroupDAO} e \texttt{MySQLCallDAO}.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] Gestione database
-    \item[-] Gestione chiamate
-    \item[-] Gestione segreteria
-    \item[-] Gestione rubrica
+    \item[-] \textsf{Gestione database}
+    \item[-] \textsf{Gestione chiamate}
+    \item[-] \textsf{Gestione segreteria}
+    \item[-] \textsf{Gestione rubrica}
   \end{itemize}
 \end{description}
 
@@ -792,10 +815,11 @@ Implementazione dell'interfaccia \texttt{IDAOFactory} specifica per il DBMS MySQ
 Interfaccia che definisce le operazioni per la gestione della persistenza relativa agli oggetti corrispondenti al tipo interfaccia \texttt{call.ICall}.
 
 Le operazioni dichiarate in questa interfaccia corrispondono alle operazioni di inserimento, ricerca univoca tramite chiave primaria, ricerca tramite una serie di parametri, aggiornamento e cancellazione di un \inglese{transfer object} e, conseguentemente, di un record nella tabella corrispondente alle chiamate.
+
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] Gestione database
-    \item[-] Gestione chiamate
+    \item[-] \textsf{Gestione database}
+    \item[-] \textsf{Gestione chiamate}
   \end{itemize}
 \end{description}
 
@@ -803,10 +827,11 @@ Le operazioni dichiarate in questa interfaccia corrispondono alle operazioni di 
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
 Implementazione dell'interfaccia \texttt{ICallDAO} che fornisce una definizione concreta alle operazioni per la gestione della persistenza delle chiamate specifica per il DBMS MySQL\@.
+
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] Gestione database
-    \item[-] Gestione chiamate
+    \item[-] \textsf{Gestione database}
+    \item[-] \textsf{Gestione chiamate}
   \end{itemize}
 \end{description}
 
@@ -816,10 +841,11 @@ Implementazione dell'interfaccia \texttt{ICallDAO} che fornisce una definizione 
 Interfaccia che definisce le operazioni per la gestione della persistenza relativa agli oggetti corrispondenti al tipo interfaccia \texttt{message.IMessage}.
 
 Le operazioni dichiarate in questa interfaccia corrispondono alle operazioni di inserimento, ricerca univoca tramite chiave primaria, ricerca tramite una serie di parametri, aggiornamento e cancellazione di un \inglese{transfer object} e, conseguentemente, di un record nella tabella corrispondente ai messaggi in segreteria.
+
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] Gestione database
-    \item[-] Gestione segreteria
+    \item[-] \textsf{Gestione database}
+    \item[-] \textsf{Gestione segreteria}
   \end{itemize}
 \end{description}
 
@@ -827,10 +853,11 @@ Le operazioni dichiarate in questa interfaccia corrispondono alle operazioni di 
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
 Implementazione dell'interfaccia \texttt{IMessageDAO} che fornisce una definizione concreta alle operazioni per la gestione della persistenza dei messaggi in segreteria specifica per il DBMS MySQL\@.
+
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] Gestione database
-    \item[-] Gestione segreteria
+    \item[-] \textsf{Gestione database}
+    \item[-] \textsf{Gestione segreteria}
   \end{itemize}
 \end{description}
 
@@ -840,10 +867,11 @@ Implementazione dell'interfaccia \texttt{IMessageDAO} che fornisce una definizio
 Interfaccia che definisce le operazioni per la gestione della persistenza relativa agli oggetti corrispondenti al tipo interfaccia \texttt{abook.IGroup}.
 
 Le operazioni dichiarate in questa interfaccia corrispondono alle operazioni di inserimento, ricerca univoca tramite chiave primaria, ricerca tramite una serie di parametri, aggiornamento e cancellazione di un \inglese{transfer object} e, conseguentemente, di un record nella tabella corrispondente ai gruppi della rubrica.
+
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] Gestione database
-    \item[-] Gestione rubrica
+    \item[-] \textsf{Gestione database}
+    \item[-] \textsf{Gestione rubrica}
   \end{itemize}
 \end{description}
 
@@ -851,10 +879,11 @@ Le operazioni dichiarate in questa interfaccia corrispondono alle operazioni di 
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
 Implementazione dell'interfaccia \texttt{IGroupDAO} che fornisce una definizione concreta alle operazioni per la gestione della persistenza dei gruppi di una rubrica utente specifica per il DBMS MySQL\@.
+
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] Gestione database
-    \item[-] Gestione rubrica
+    \item[-] \textsf{Gestione database}
+    \item[-] \textsf{Gestione rubrica}
   \end{itemize}
 \end{description}
 
@@ -864,10 +893,11 @@ Implementazione dell'interfaccia \texttt{IGroupDAO} che fornisce una definizione
 Interfaccia che definisce le operazioni per la gestione della persistenza relativa agli oggetti corrispondenti al tipo interfaccia \texttt{abook.IUserData}.
 
 Le operazioni dichiarate in questa interfaccia corrispondono alle operazioni di inserimento, ricerca univoca tramite chiave primaria, ricerca tramite una serie di parametri, aggiornamento e cancellazione di un \inglese{transfer object} e, conseguentemente, di un record nella tabella corrispondente agli utenti del sistema.
+
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] Gestione database
-    \item[-] Gestione rubrica
+    \item[-] \textsf{Gestione database}
+    \item[-] \textsf{Gestione rubrica}
   \end{itemize}
 \end{description}
 
@@ -875,10 +905,11 @@ Le operazioni dichiarate in questa interfaccia corrispondono alle operazioni di 
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
 Implementazione dell'interfaccia \texttt{IUserDataDAO} che fornisce una definizione concreta alle operazioni per la gestione della persistenza dei dati degli utenti specifica per il DBMS MySQL\@.
+
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] Gestione database
-    \item[-] Gestione rubrica
+    \item[-] \textsf{Gestione database}
+    \item[-] \textsf{Gestione rubrica}
   \end{itemize}
 \end{description}
 
@@ -892,30 +923,33 @@ Implementazione dell'interfaccia \texttt{IUserDataDAO} che fornisce una definizi
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Interfaccia per la gestione delle richieste per ottenere le informazioni necessarie a un client per stabilire una comunicazione con altri client. In particolare le operazioni in essa dichiarate dovranno ritornare un istanza di un oggetto che implementa \texttt{IConnection}.
+
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 		\begin{itemize}[noitemsep,nolistsep]
-			\item[-] Gestione connessione
+			\item[-] \textsf{Gestione connessione}
 		\end{itemize}
 \end{description}
 
 \item \texttt{StandardCommunicationHandler}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Implementazione che si fornisce dell'interfaccia \texttt{ICommunicationHandler}. In tale classe, le informazioni ritornate al client sono informazioni necessarie a stabilire una connessione di tipo WebRTC (ritorna un istanza di \texttt{WebRTCInfo}).
+Implementazione che si fornisce dell'interfaccia \texttt{ICommunicationHandler}. In tale classe, le informazioni ritornate al client sono informazioni necessarie a stabilire una connessione di tipo \underline{WebRTC} (ritorna un istanza di \texttt{WebRTCInfo}).
+
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 		\begin{itemize}[noitemsep,nolistsep]
-			\item[-] Gestione connessione
+			\item[-] \textsf{Gestione connessione}
 		\end{itemize}
 \end{description}
 
 \item \texttt{IConnection}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Interfaccia mediante la quale è possibile recuperare  i dati necessari a un client al fine di stabilire una connessione con un altro client.
+Interfaccia mediante la quale è possibile recuperare  i dati necessari a un client al fine di stabilire una connessione con un altro client, in particolare l'indirizzo IP e la porta.
+
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 		\begin{itemize}[noitemsep,nolistsep]
-			\item[-] Gestione connessione
-			\item[-] Gestione comunicazione
+			\item[-] \textsf{Gestione connessione}
+			\item[-] \textsf{Gestione comunicazione}
 		\end{itemize}
 \end{description}
 
@@ -923,9 +957,10 @@ Interfaccia mediante la quale è possibile recuperare  i dati necessari a un cli
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Implementazione dell'interfaccia \texttt{IConnection} che rappresenta le informazioni usate da un client per stabilire una connessione WebRTC con un altro client.
+
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 		\begin{itemize}[noitemsep,nolistsep]
-			\item[-] Gestione connessione
+			\item[-] \textsf{Gestione connessione}
 		\end{itemize}
 \end{description}
 
@@ -939,20 +974,22 @@ Implementazione dell'interfaccia \texttt{IConnection} che rappresenta le informa
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Interfaccia che raccoglie le operazioni sulla rubrica di un utente e permette di controllare l'accesso alle strutture dati che la implementano ad esempio al fine di recuperare l'insieme dei contatti, dei gruppi e dei contatti in \inglese{blacklist}.
+
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] Gestione rubrica
-	  \item[-] Gestione database
+	  \item[-] \textsf{Gestione rubrica}
+	  \item[-] \textsf{Gestione database}
 	\end{itemize}
 \end{description}
 
 \item \texttt{AddressBook}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Classe che implementa l'interfaccia \texttt{IAddressBook} e rappresenta quindi la rubrica di un determinato utente. Contiene un riferimento a \texttt{IContact} che corrisponde al nodo padre della struttura dati ad albero contenente la rubrica.
+Classe che implementa l'interfaccia \texttt{IAddressBook} e rappresenta quindi la rubrica associata a un determinato utente. Permette di accedere ai contatti di cui si compone e ai gruppi, ivi compresa la \inglese{blacklist} di un utente.
+
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] Gestione rubrica
+	  \item[-] \textsf{Gestione rubrica}
 	\end{itemize}
 \end{description}
 
@@ -960,11 +997,12 @@ Classe che implementa l'interfaccia \texttt{IAddressBook} e rappresenta quindi l
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Interfaccia per le classi che rappresentano gli utenti, è dotata di operazioni get/set per accedere ai dati degli utenti registrati sul sistema.
+
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] Gestione rubrica
-	  \item[-] Gestione database
-	  \item[-] Gestione connessione
+	  \item[-] \textsf{Gestione rubrica}
+	  \item[-] \textsf{Gestione database}
+	  \item[-] \textsf{Gestione connessione}
 	\end{itemize}
 \end{description}
 
@@ -972,10 +1010,11 @@ Interfaccia per le classi che rappresentano gli utenti, è dotata di operazioni 
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Classe \inglese{transfer object} che implementa l'interfaccia \texttt{IUserData} le cui istanze corrispondono ai record della tabella degli utenti nel database. È caratterizzata dai campi dati che corrispondono alle proprietà degli utenti (email, password, domanda segreta e relativa risposta, nome, cognome e immagine personale).
+
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-		\item[-] Gestione rubrica
-	  \item[-] Gestione stato
+		\item[-] \textsf{Gestione rubrica}
+	  \item[-] \textsf{Gestione stato}
 	\end{itemize}
 \end{description}
 
@@ -986,8 +1025,8 @@ Interfaccia per i gruppi interni alla rubrica, prevede un'operazione astratta \t
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:} 
 	  \begin{itemize}[noitemsep,nolistsep]
-	    \item[-] Gestione rubrica
-	    \item[-] Gestione database
+	    \item[-] \textsf{Gestione rubrica}
+	    \item[-] \textsf{Gestione database}
 	  \end{itemize}
 \end{description}
 
@@ -995,9 +1034,10 @@ Interfaccia per i gruppi interni alla rubrica, prevede un'operazione astratta \t
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Implementazione dell'interfaccia \texttt{IGroup}, che costituisce anche il \inglese{transfer object} per i gruppi di una rubrica utente. Ogni gruppo è dotato di un nome e raccoglie in sé zero o più istanze di classi sottotipo di \texttt{abook.IUserData}.
+
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	  \begin{itemize}[noitemsep,nolistsep]
-	    \item[-] Gestione rubrica
+	    \item[-] \textsf{Gestione rubrica}
 	  \end{itemize}
 \end{description}
 
@@ -1011,10 +1051,11 @@ Implementazione dell'interfaccia \texttt{IGroup}, che costituisce anche il \ingl
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Interfaccia padre della gerarchia di stati che gli utenti possono assumere nel corso dell'interazione con il sistema. La composizione delle istanze di \texttt{abook.UserData} con oggetti sottotipo di \texttt{IState} cui inoltrano le richieste ricevute dall'esterno permette di cambiare dinamicamente il comportamento degli oggetti che rappresentano gli utenti.
+
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] Gestione stato
-	  \item[-] Gestione connessione
+	  \item[-] \textsf{Gestione stato}
+	  \item[-] \textsf{Gestione connessione}
 	\end{itemize}
 \end{description}
 
@@ -1022,9 +1063,10 @@ Interfaccia padre della gerarchia di stati che gli utenti possono assumere nel c
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Classe astratta che implementa l'interfaccia \texttt{IState} e viene estesa da tutti gli stati che corrispondono alla presenza \inglese{online} dell'utente. È ulteriormente specializzata dalle sottoclassi concrete \texttt{StateAvailable} e \texttt{StateOccupied}, le quali hanno facoltà di determinare il reale comportamento degli utenti \inglese{online}.
+
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] Gestione stato
+	  \item[-] \textsf{Gestione stato}
 	\end{itemize}
 \end{description}
 
@@ -1032,9 +1074,10 @@ Classe astratta che implementa l'interfaccia \texttt{IState} e viene estesa da t
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Classe concreta della gerarchia degli stati che implementa l'interfaccia \texttt{IState} e corrisponde alla mancata presenza online dell'utente che la possiede. Un utente che si trova nello stato ``\inglese{offline}'' non può essere contattato direttamente ma solo attraverso la segreteria telefonica.
+
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] Gestione stato
+	  \item[-] \textsf{Gestione stato}
 	\end{itemize}
 \end{description}
 
@@ -1042,9 +1085,10 @@ Classe concreta della gerarchia degli stati che implementa l'interfaccia \texttt
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Classe concreta della gerarchia degli stati che corrisponde alla presenza \inglese{online} di un utente e alla sua disponibilità ad accettare comunicazioni in ingresso.
+
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
     \begin{itemize}[noitemsep,nolistsep]
-      \item[-] Gestione stato
+      \item[-] \textsf{Gestione stato}
     \end{itemize}
 \end{description}
 
@@ -1052,9 +1096,10 @@ Classe concreta della gerarchia degli stati che corrisponde alla presenza \ingle
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Classe concreta della gerarchia degli stati che corrisponde alla mancata disponibilità di un utente a ricevere ulteriori comunicazioni in ingresso dal momento che si trova impegnato in un'altra conversazione. Gli utenti che si trovano in questo stato non possono essere contattati direttamente ma solo attraverso la possibilità di lasciare un messaggio in segreteria.
+
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] Gestione stato
+	  \item[-] \textsf{Gestione stato}
 	\end{itemize}
 \end{description}
 
@@ -1068,19 +1113,21 @@ Classe concreta della gerarchia degli stati che corrisponde alla mancata disponi
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Interfaccia che rappresenta, ad alto livello, la segreteria telefonica dell'utente cui è associata. Tramite opportune operazioni permette di accedere all'elenco dei messaggi audio o audio/video che l'utente ha ricevuto nel periodo in cui era in linea o non era disponibile perché impegnato in una conversazione.
+
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}
-	  \item[-] Gestione segreteria
+	  \item[-] \textsf{Gestione segreteria}
 	\end{itemize}
 \end{description}
 
-\item \texttt{StandardMessageBox}
+\item \texttt{MessageBox}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Classe concreta che implementa l'interfaccia \texttt{IMessageBox} e rappresenta dunque la rubrica associata a un determinato utente.
+
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] Gestione segreteria
+	  \item[-] \textsf{Gestione segreteria}
 	\end{itemize}
 \end{description}
 
@@ -1088,10 +1135,11 @@ Classe concreta che implementa l'interfaccia \texttt{IMessageBox} e rappresenta 
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
 Interfaccia che dichiara le operazioni astratte (get/set) necessarie ad accedere alle proprietà di un messaggio in segreteria (in particolare: mittente, destinatario, stato del messaggio e data di registrazione).
+
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] Gestione segreteria
-    \item[-] Gestione database
+    \item[-] \textsf{Gestione segreteria}
+    \item[-] \textsf{Gestione database}
   \end{itemize}
 \end{description}
 
@@ -1099,17 +1147,16 @@ Interfaccia che dichiara le operazioni astratte (get/set) necessarie ad accedere
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Classe \inglese{transfer object} che rappresenta un messaggio di natura audio o audio/video nella segreteria telefonica di un utente e implementa l'interfaccia \texttt{IMessage}.
+
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	  \begin{itemize}[noitemsep,nolistsep]
-	    \item[-] Gestione segreteria
+	    \item[-] \textsf{Gestione segreteria}
 	  \end{itemize}
 \end{description}
 
 \end{itemize}
 
 \subsubsection{Package \texttt{org.softwaresynthesis.mytalk.server.call}}
-
-%TODO se inseriti sopra ICallList e StandardCallList devono essere descritti qui
 
 \begin{itemize}[noitemsep,nolistsep]
 
@@ -1119,8 +1166,8 @@ Classe \inglese{transfer object} che rappresenta un messaggio di natura audio o 
 Interfaccia che contiene le operazioni astratte di accesso ai dati (metodi get/set) che caratterizzano le chiamate, vale a dire il chiamante, l'insieme degli utenti chiamati nonché la data e l'ora di avvio e di terminazione della chiamata.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] Gestione chiamate
-    \item[-] Gestione database
+    \item[-] \textsf{Gestione chiamate}
+    \item[-] \textsf{Gestione database}
   \end{itemize}
 \end{description}
 
@@ -1130,7 +1177,27 @@ Interfaccia che contiene le operazioni astratte di accesso ai dati (metodi get/s
 Classe \inglese{transfer object} che rappresenta le chiamate realizzate attraverso il sistema e implementa l'interfaccia \texttt{ICall}.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] Gestione chiamate
+    \item[-] \textsf{Gestione chiamate}
+  \end{itemize}
+\end{description}
+
+\item \texttt{ICallList}
+\begin{description}
+  \item{\scshape\bfseries Descrizione:}\\
+Interfaccia che permette di interrogare la collezione di oggetti che costituisce lo storico delle chiamate di un utente fornendo opportuni sistemi di scorrimento.
+  \item{\scshape\bfseries Componenti che ne fanno uso:}
+  \begin{itemize}[noitemsep,nolistsep]
+    \item[-] \textsf{Gestione chiamate}
+  \end{itemize}
+\end{description}
+
+\item \texttt{CallList}
+\begin{description}
+  \item{\scshape\bfseries Descrizione:}\\
+Implementazione dell'interfaccia \texttt{ICallList}, permette di accedere alla lista delle chiamate che hanno coinvolto un utente sia in qualità di chiamante che di chiamato.
+  \item{\scshape\bfseries Componenti che ne fanno uso:}
+  \begin{itemize}[noitemsep,nolistsep]
+    \item[-] \textsf{Gestione chiamate}
   \end{itemize}
 \end{description}
 
@@ -1148,9 +1215,8 @@ Interfaccia che contiene tutte le operazioni richieste dai componenti della sott
 In quest'ultimo caso le operazioni richieste vengono a loro volta inoltrate al componente responsabile della gestione della connessione (\texttt{server.connection.IConnectionHandler}).
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] Façade del server
-	  \item[-] Façade del \inglese{presenter}
-	  \item[-] Gestione comunicazione
+	  \item[-] \textsf{Façade del server}
+	  \item[-] \textsf{Gestione comunicazione}
 	\end{itemize}
 \end{description}
 
@@ -1160,7 +1226,7 @@ In quest'ultimo caso le operazioni richieste vengono a loro volta inoltrate al c
 Questa classe Singleton è l'implementazione dell'interfaccia \texttt{IServerFacade} e contiene, in particolare, i metodi che rendono concrete le operazioni corrispondenti ai Factory Method dichiarati nell'interfaccia citata (per la gestione dei messaggi in segreteria e degli utenti nella rubrica).
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] Façade del server
+	  \item[-] \textsf{Façade del server}
 	\end{itemize}
 \end{description}
 
@@ -1180,7 +1246,7 @@ Dal momento che per l'interazione con l'utente sono previste molteplici viste, �
 
 D'altro canto, i vari \inglese{presenter} interagiscono con le viste grazie alla conoscenza di una ``interfaccia'' per la loro manipolazione in quanto tramite JavaScript è possibile intervenire sul \underline{DOM}\@. Tali considerazioni sono conformi all'utilizzo del \inglese{design pattern} MVP, per una descrizione più dettagliata del quale si rimanda alla sezione \ref{sec:MVP}\@.
 
-Tale sotto-architettura \texttt{clientpresenter} corrisponde alla parte ``\inglese{presenter}'' dell'applicativo. Allo scopo di gestire le comunicazioni in ingresso dal server (ad esempio le notifiche dei cambiamenti di stato) è stato predisposto un componente Façade del \inglese{presenter} che nasconde la complessità della sotto-architettura sottostante.
+Tale sotto-architettura \texttt{clientpresenter} corrisponde alla parte ``\inglese{presenter}'' dell'applicativo. Allo scopo di gestire le comunicazioni in ingresso dal server (ad esempio le notifiche dei cambiamenti di stato) è stato predisposto un componente \textsl{Gestione remota}.
  
 I componenti in quest'ultima sfruttano inoltre la comunicazione con il server, tramite opportune procedure di interrogazione attraverso il componente Façade del server, al fine di ottenere:
 \begin{itemize}
@@ -1194,10 +1260,10 @@ Dal momento che il \inglese{presenter} ha la responsabilità di ricevere i coman
 
 In sintesi, la sotto-architettura \texttt{clientpresenter} dispone dei seguenti componenti:
 \begin{itemize}[noitemsep,nolistsep]
-	\item[-] Gestione comunicazione;
-	\item[-] Rappresentazione dati
-	\item[-] Gestione GUI;
-	\item[-] Façade del \inglese{presenter};
+	\item[-] \textsf{CP01 -- Gestione comunicazione};
+	\item[-] \textsf{CP02 -- Rappresentazione dati};
+	\item[-] \textsf{CP03 -- Gestione GUI};
+	\item[-] \textsf{CP04 -- Gestione remota};
 \end{itemize}
 che saranno descritte con maggiori dettagli nella sezione successiva.
 
@@ -1215,12 +1281,16 @@ La presenza delle interfacce, delle relazioni di implementazione e l'estensione 
 
 \subsection{Componenti evidenziati}
 
-\subsubsection{Gestione comunicazione}
+\subsubsection{CP01 -- Gestione comunicazione}
+
+%TODO parlare dei server STUN
+
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 È il componente che definisce i client con cui sta comunicando o con cui desidera comunicare l'utente. Tale componente è costituito da un'interfaccia \texttt{kernel.IClient} che rappresenta un modello di client con cui interagire (possibilità di stabilire una connessione, possibilità di estendere una comunicazione e possibilità di verificare se il client è Supernodo).
 
-Quando un determinato utente (mittente) desidera stabilire una comunicazione con un altro utente (destinatario), il client associato al mittente ha il compito innanzitutto di farsi restituire dal server le informazioni necessarie ad instaurare la connessione. Una volta in possesso di tali informazioni, sarà creata un istanza di \texttt{kernel.StandardClient} (implementazione dell'interfaccia \texttt{kernel.IClient}), dalla quale potrà essere abilitata la comunicazione.
+Quando un determinato utente (mittente) desidera stabilire una comunicazione con un altro utente (destinatario), il client associato al mittente ha il compito innanzitutto di farsi restituire dal server le informazioni necessarie ad instaurare la connessione. Una volta in possesso di tali informazioni, sarà creata un istanza di \texttt{kernel.Client} (implementazione dell'interfaccia \texttt{kernel.IClient}), dalla quale potrà essere abilitata la comunicazione.
+
 	\item{\scshape\bfseries Diagramma delle classi:}
   \begin{figure}[H]
     \centering
@@ -1231,18 +1301,19 @@ Quando un determinato utente (mittente) desidera stabilire una comunicazione con
 	\item{\scshape\bfseries Classi utilizzate:} 
 	\begin{itemize}[noitemsep,nolistsep]
 		\item[-] \texttt{kernel.IClient}
-		\item[-] \texttt{kernel.StandardClient}
+		\item[-] \texttt{kernel.Client}
 	\end{itemize}  
 \end{description}
 
-\subsubsection{Rappresentazione dati}
+\subsubsection{CP02 -- Rappresentazione dati}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
 Le classi di questo componente hanno il compito di rappresentare sotto forma di apposite strutture dati le informazioni ottenute dall'interrogazione del modello dei dati e ricevute in forma serializzata a seguito delle richieste al server.
 
-La disponibilità di queste informazioni sul client permette una più agevole rappresentazione dell'interfaccia grafica per gli oggetti del componente Gestione GUI ed evita nuove interrogazioni al server qualora i dati in possesso da parte del \inglese{presenter} siano ancora validi.
+La disponibilità di queste informazioni sul client permette una più agevole rappresentazione dell'interfaccia grafica per gli oggetti del componente \textsf{Gestione GUI} ed evita nuove interrogazioni al server qualora i dati in possesso da parte del \inglese{presenter} siano ancora validi.
 
 I dati rappresentati in forma di oggetti sono necessari, in particolare, per la gestione della segreteria, dello storico delle chiamate e della rubrica lato client.
+
   \item{\scshape\bfseries Diagramma delle classi:}\\
 %TODO questo diagramma deve essere generato ed esportato
 %   \begin{figure}[H]
@@ -1257,14 +1328,13 @@ I dati rappresentati in forma di oggetti sono necessari, in particolare, per la 
 		\item[-] \texttt{kernel.JSGroup}
 		\item[-] \texttt{kernel.JSMessage}
 		\item[-] \texttt{kernel.JSUserData}
-%TODO decidere se queste tre devono o meno esistere
-% 		\item[-] \texttt{kernel.JSAddressBook}
-% 		\item[-] \texttt{kernel.JSMessageBox}
-%     \item[-] \texttt{kernel.JSCallList}
+		\item[-] \texttt{kernel.JSAddressBook}
+		\item[-] \texttt{kernel.JSMessageBox}
+    \item[-] \texttt{kernel.JSCallList}
 	\end{itemize}  
 \end{description}
 
-\subsubsection{Gestione GUI}
+\subsubsection{CP03 -- Gestione GUI}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Il componente ha il duplice ruolo di intercettare gli eventi che scaturiscono dall'interazione dell'utente con la GUI e di controllare l'aggiornamento della stessa a seguito dei cambiamenti che intervengono sul modello dei dati.
@@ -1298,24 +1368,26 @@ La struttura delle classi che lo compongono mostra una corrispondenza biunivoca 
 	\end{itemize}
 \end{description}
 
-\subsubsection{Façade del presenter}
+\subsubsection{CP04 -- Gestione remota}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Rappresenta l'interfaccia d'accesso verso la sotto-architettura \texttt{clientpresenter}, in particolare per i componenti presenti nel \texttt{server}. La presenza di tale componente svincola il server dal dover conoscere l'esatta sequenza di chiamata dei metodi per portare a conseguimento una determinata procedura.
 
-I metodi del componente Façade del \inglese{presenter} hanno la cognizione dell'iter di chiamate a metodo per portare a termine correttamente le operazioni richieste dall'esterno. Un esempio di richiesta proveniente dal server che richiede di essere gestita in questa sede è la reazione al cambiamento di stato di un utente presente nella rubrica del client dove risiede il Façade, che si traduce in una notifica in entrata dal server e ha un effetto sull'interfaccia grafica.
+Le classi del componente \textsl{Gestione remota} hanno la cognizione dell'iter di chiamate a metodo per portare a termine correttamente le operazioni richieste dall'esterno. Un esempio di richiesta proveniente dal server che richiede di essere gestita in questa sede è la reazione al cambiamento di stato di un utente presente nella rubrica del client, che si traduce in una notifica in entrata dal server e ha un effetto sull'interfaccia grafica.
+
+Un altro esempio è la ricezione di una chiamata in ingresso: infatti la precondizione per stabilire una comunicazione via WebRTC è che il chiamato dia l'autorizzazione per stabilire la comunicazione.
 
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
 \centering
   \includegraphics[width=.8\textwidth]{facade_presenter}
-  \caption{Diagramma delle classi - Façade del \inglese{presenter}}\label{fig:facade_presenter}
+  \caption{Diagramma delle classi - Gestione remota}\label{fig:facade_presenter}
 \end{figure}
 
 	\item{\scshape\bfseries Classi utilizzate:} 
 	\begin{itemize}[noitemsep,nolistsep]
-		\item[-] \texttt{IPresenterFacade}
-		\item[-] \texttt{StandardPresenterFacade}
+		\item[-] \texttt{kernel.IRemoteHandler}
+		\item[-] \texttt{kernel.RemoteHandler}
 	\end{itemize}
 \end{description}
 
@@ -1329,19 +1401,21 @@ I metodi del componente Façade del \inglese{presenter} hanno la cognizione dell
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Interfaccia che raccoglie le operazioni astratte che è possibile invocare su un client astratto del sistema corrispondenti, ad esempio, alla ricezione di una chiamata in ingresso oppure all'interrogazione sullo stato (nodo semplice o Supernodo) di un determinato client.
+
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] Gestione comunicazione
+	  \item[-] \textsf{Gestione comunicazione}
 	\end{itemize}
 \end{description}
 
-\item \texttt{StandardClient}
+\item \texttt{Client}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Implementazione dell'interfaccia \texttt{IClient} che incapsula al suo interno la logica di eventuale ritrasmissione dei dati in ingresso (nel caso in cui il client sia un Supernodo) e di invio dei dati prodotti in locale ai client con cui è stata instaurata una connessione. 
+
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] Gestione comunicazione
+	  \item[-] \textsf{CP01 -- Gestione comunicazione}
 	\end{itemize}
 \end{description}
 
@@ -1349,10 +1423,11 @@ Implementazione dell'interfaccia \texttt{IClient} che incapsula al suo interno l
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
 Tale classe modella una chiamata appartenente allo storico dell'utente corrente (dove risiede il \inglese{presenter}), e permette di accedere alle informazioni caratteristiche quali il mittente, l'insieme dei destinatari, la durata e la data di inizio della chiamata, sia essa di natura audio oppure audio/video.
+
   \item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] Rappresentazione dati
-	  \item[-] Gestione chiamate
+	  \item[-] \textsf{CP02 -- Rappresentazione dati}
+	  \item[-] \textsf{Gestione chiamate}
 	\end{itemize}
 \end{description}
 
@@ -1360,10 +1435,11 @@ Tale classe modella una chiamata appartenente allo storico dell'utente corrente 
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
 Classe avente il compito di modellare un gruppo nella rubrica dell'utente corrente. In particolare ogni gruppo possiede un nome e contiene al proprio interno zero o più contatti.
+
   \item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] Rappresentazione dati
-	  \item[-] Gestione rubrica
+	  \item[-] \textsf{CP02 -- Rappresentazione dati}
+	  \item[-] \textsf{Gestione rubrica}
 	\end{itemize}
 \end{description}
 
@@ -1373,10 +1449,11 @@ Classe avente il compito di modellare un gruppo nella rubrica dell'utente corren
 Classe che rappresenta un messaggio presente nella segreteria dell'utente corrente. I diversi \inglese{presenter} del componente Gestione GUI possono accedere al mittente del messaggio, allo stato del messaggio (ascoltato o non ascoltato), alla natura del messaggio (audio o audio/video), alla durata e, in ultima istanza, al contenuto del messaggio.
 
 Tale valore non è inizializzato allo scaricamento iniziale dei messaggi sul client, in quanto il contenuto audio o audio/video è recuperato dal server in un secondo momento solo quando è effettivamente necessario per evitare di sovraccaricare la rete senza motivi reali.
+
   \item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] Rappresentazione dati
-	  \item[-] Gestione segreteria
+	  \item[-] \textsf{CP02 -- Rappresentazione dati}
+	  \item[-] \textsf{Gestione segreteria}
 	\end{itemize}
 \end{description}
 
@@ -1386,14 +1463,67 @@ Tale valore non è inizializzato allo scaricamento iniziale dei messaggi sul cli
 Classe avente il compito di rappresentare i contatti della rubrica lato \inglese{presenter}, generato serializzando esclusivamente la parte che si vuole trasmettere ai client delle istanze del \inglese{transfer object} descritto in precedenza (\texttt{org.softwaresynthesis.mytalk.server.abook.UserData}).
 
 In particolare, di un utente-contatto è possibile ottenere lo \inglese{username}, i dati anagrafici (nome e cognome) nonché l'immagine associata al profilo personale, laddove queste ultime tre informazioni sono da considerarsi facoltative e potrebbero non essere disponibili per un determinato utente.
+
   \item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] Rappresentazione dati
-	  \item[-] Gestione rubrica
+	  \item[-] \textsf{CP02 -- Rappresentazione dati}
+	  \item[-] \textsf{Gestione rubrica}
 	\end{itemize}
 \end{description}
 
-%TODO se sono state aggiunte sopra JSCallList, JSMessageBox e JSAddressBook queste devono essere descritte qui
+%TODO queste devono essere descritte
+\item \texttt{JSCallList}
+\begin{description}
+  \item{\scshape\bfseries Descrizione:}\\
+
+  \item{\scshape\bfseries Componenti che ne fanno uso:}
+	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-]
+	\end{itemize}
+\end{description}
+
+\item \texttt{JSMessageBox}
+\begin{description}
+  \item{\scshape\bfseries Descrizione:}\\
+
+  \item{\scshape\bfseries Componenti che ne fanno uso:}
+	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-]
+	\end{itemize}
+\end{description}
+
+\item \texttt{JSAddressBook}
+\begin{description}
+  \item{\scshape\bfseries Descrizione:}\\
+
+  \item{\scshape\bfseries Componenti che ne fanno uso:}
+	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-]
+	\end{itemize}
+\end{description}
+
+\item \texttt{IRemoteHandler}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:}\\
+Interfaccia che raccoglie la dichiarazione di tutte le operazioni astratte con cui si suppone che il server realizzi lo scambio di messaggi con il \inglese{presenter}. La sequenza di operazioni da eseguire che interessano i componenti del \inglese{presenter} (ad esempio Gestione GUI) saranno incapsulate nell'implementazione delle operazioni contenute in questa interfaccia.
+
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-] \textsl{Gestione remota}
+	  \item[-] \textsl{Gestione stato}
+	\end{itemize}
+\end{description}
+
+\item \texttt{RemoteHandler}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:}\\
+Questa classe rappresenta un'applicazione del \inglese{design pattern} Singleton e implementa inoltre l'interfaccia \texttt{IRemoteHandler}. Fornisce pertanto dei metodi concreti utilizzati per la comunicazione fra la vista e il server, elaborando qualora necessario i dati ricevuti in input e inoltrando le richieste agli oggetti facenti parte dei diversi componenti del \inglese{presenter}.
+
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-] \textsl{Gestione remota}
+	\end{itemize}
+\end{description}
 
 \end{itemize}
 
@@ -1532,35 +1662,6 @@ D'altra parte, gli eventi scatenati dall'interazione dell'utente con il pannello
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] Gestione GUI
 	  \item[-] GUI
-	\end{itemize}
-\end{description}
-
-\end{itemize}
-
-\subsubsection{Package \texttt{org.softwaresynthesis.mytalk.clientpresenter}}
-
-\begin{itemize}[noitemsep,nolistsep]
-
-\item \texttt{IPresenterFacade}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:}\\
-Interfaccia che raccoglie la dichiarazione di tutte le operazioni astratte con cui si suppone che il server realizzi lo scambio di messaggi con il \inglese{presenter}. La sequenza di operazioni da eseguire che interessano i componenti del \inglese{presenter} (ad esempio Gestione GUI) saranno incapsulate nell'implementazione delle operazioni contenute in questa interfaccia.
-
-	\item{\scshape\bfseries Componenti che ne fanno uso:}
-	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] Façade del \inglese{presenter}
-	  \item[-] Gestione stato
-	\end{itemize}
-\end{description}
-
-\item \texttt{StandardPresenterFacade}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:}\\
-Questa classe rappresenta un'applicazione del \inglese{design pattern} Singleton e implementa inoltre l'interfaccia \texttt{IPresenterFacade}. Fornisce pertanto dei metodi concreti utilizzati per la comunicazione fra la vista e il server, elaborando qualora necessario i dati ricevuti in input e inoltrando le richieste agli oggetti facenti parte dei diversi componenti del \inglese{presenter}.
-
-	\item{\scshape\bfseries Componenti che ne fanno uso:}
-	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] Façade del \inglese{presenter}
 	\end{itemize}
 \end{description}
 
@@ -1823,8 +1924,6 @@ Fornire un'interfaccia unificata per un insieme di interfacce o classi presenti 
   \item{\scshape\bfseries Façade del server}\\
 L'uso di Façade permette di esporre verso i client una sorta di interfaccia semplificata nascondendo i componenti della sotto-architettura \texttt{server}, fornendo un punto di accesso centralizzato e riducendo il numero di dipendenze funzionali fra le classi del server e i componenti appartenenti a sotto-architetture esterne.
 
-  \item{\scshape\bfseries Façade del presenter}\\
-Tramite questo \inglese{design pattern} si introduce un livello di astrazione fra le sotto-architetture \texttt{clientpresenter} e \texttt{clientview}, che risultano dunque indipendenti.
 \end{description}
 
 \subsection{Factory Method}
@@ -1896,8 +1995,8 @@ Contengono le rappresentazioni delle entità della \inglese{business logic} lato
   \item{\scshape\bfseries Façade del server}\\
 Componente del server interessato dalla ricezione delle richieste da parte dei \inglese{presenter}, recupera le informazioni di cui questi ultimi necessitano e le restituisce in forma serializzata e compatiblie con il dominio applicativo dei client.
 
-  \item{\scshape\bfseries Façade del presenter}\\
-Intercetta le comunicazioni entranti verso il client a partire dal server che non hanno origine in una richiesta esplicita da parte del client come, ad esempio, gli aggiornamenti di stato dei diversi utenti.
+  \item{\scshape\bfseries Gestione remota}\\
+Intercetta le comunicazioni entranti verso il client a partire dal server che non hanno origine in una richiesta esplicita da parte del client come, ad esempio, gli aggiornamenti di stato dei diversi utenti o le chiamate in ingresso.
   
   \item{\scshape\bfseries Gestione GUI}\\
 Riceve i comandi dalla vista ed è responsabile del suo aggiornamento e dell'interrogazione del server.
@@ -1943,8 +2042,8 @@ Il pattern creazionale Singleton, garantisce che una determinata classe possa es
   \item{\scshape\bfseries Façade del server}\\
 Il \inglese{pattern} Singleton pone un limite superiore stretto al numero di istanze che possono esistere di una determinata classe e perciò è utile utilizzarlo per poter controllare il numero di oggetti \texttt{server.StandardServerFacade} che in questo caso è pari a uno. L'unicità del Façade garantisce la presenza di un solo punto di accesso alle funzionalità della sotto-architettura \texttt{server}.
 
-  \item{\scshape\bfseries Façade del presenter}\\
-Il \inglese{pattern} Singleton è altresì utile per controllare il numero di istanze attive della classe \texttt{clientpresenter.StandardPresenterFacade} per gli stessi motivi evidenziati in precedenza, ossia l'unicità del punto di accesso alle funzionalità della sotto-architettura \texttt{clientpresenter}.
+  \item{\scshape\bfseries Gestione remota}\\
+Il \inglese{pattern} Singleton è altresì utile per controllare il numero di istanze attive della classe \texttt{clientpresenter.kernel.RemoteHandler} per gli stessi motivi evidenziati in precedenza, ossia l'unicità del punto di accesso alle funzionalità della sotto-architettura \texttt{clientpresenter}.
 
   \item{\scshape\bfseries Gestione connessione}\\
 La classe \texttt{server.connection.StandardConnectionHandler} è implementata come Singleton in modo da centralizzare la responsabilità di creare nuove connessioni in risposta alle esigenze dei client.
