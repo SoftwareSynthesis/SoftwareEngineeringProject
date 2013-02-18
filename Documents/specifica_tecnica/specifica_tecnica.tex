@@ -152,6 +152,7 @@ Il presente documento è stato redatto al fine di produrre le specifiche sulla p
 \clearpage
 
 \section{Strumenti utilizzati}
+
 \subsection{Java}
 L'utilizzo del linguaggio \underline{Java} è richiesto dal proponente esclusivamente per la realizzazione della componente \underline{server}.
 
@@ -163,11 +164,39 @@ L'utilizzo del linguaggio \underline{Java} è richiesto dal proponente esclusiva
 \item[-] garantisce la portabilità del codice (a livello di bytecode), l'indipendenza dalla piattaforma fisica di esecuzione grazie alla JVM e l'integrazione nell'ambiente di esecuzione del proponente (\underline{TomCat}).
 \end{itemize}
 
-%TODO inserire sotto-sezione relativa a MySQL
+ 
+\subsection{Web server Apache}
 
-%TODO inserire sotto-sezione relativa al web server Apache
+La struttura dell'applicativo si basa su pagine web scritte in HTML5. Ciò richiede la presenza di un server web dove collocare le pagine richimabili dai browser degli utenti. A tal fine è stato scelto Apache per le seguenti motivazioni/vantaggi:
 
-%TODO inserire sotto-sezione relativa a TomCat
+\subsubsection*{Vantaggi}
+
+\begin{itemize}[noitemsep,nolistsep]
+  \item[-] diversi membri del team hanno già lavorato su tale struttura. Il costo in termini di tempo per istruire il personale è dunque ridotto al minimo;
+  \item[-] Apache offre funzioni di controllo per la sicurezza come quelli che compie il proxy;
+\end{itemize}
+  
+\subsection{RDBMS MySQL}
+
+Ogni utente avrà a disposizione diversi dati consultabili e modificabili in diverse aree dell'applicativo. Per esempio un utente sarà interessato a gestire i propri dati personali. Ciò richiede che l'applicativo sia dotato di un sistema di memorizzazione permanente dei dati. A tale scopo si è scelto di usare un RDBMS (\inglese{relational database management system}) e nello specifico  il team intende appoggiarsi ad un server MySQL
+
+\subsubsection*{Vantaggi}
+
+\begin{itemize}[noitemsep,nolistsep]
+  \item[-] come per Apache, anche per questo sistema si stima che costi per istruire i personali saranno minimi, poichè i membri del team hanno già avuto modo di utilizzare tale strumento;
+  \item[-] uno dei principali strumenti d'amministrazione di un database MySQL è phpMyAdmin. Il team conta di utilizzarlo in virtù dell'intuitività con cui è costruita l'interfaccia grafica;
+  \item[-] tale DBMS supporta le transazioni, essenziali nel nostro progetto per la manipolazione e la lettura dei dati memorizzati.
+\end{itemize}
+
+\subsection{Servlet container Tomcat}
+
+L'applicativo dovrà disporre di un lato server ed un lato client. Se da una parte il lato client è rappresentato da una pagina web fornita tramite un server apache, dall'altra l'applicativo server sarà strutturato tramite delle servlet java che, per conformità con i software usati, saranno caricate nel servlet container Tomcat. Tale sistem infatti si appoggia sul già citato Apache. L'utilizzo di tale software fornirà i seguenti vantaggi
+
+\subsubsection*{Vantaggi}
+
+\begin{itemize}[noitemsep,nolistsep]
+  \item[-] l'installazione di Tomcat automatizza anche l'installazione del web server Apache, richiedendola qual'ora l'applicativo non sia già installato nell'elaboratore;
+\end{itemize}
 
 \subsection{Hibernate}\label{sec:hibernate}
 
