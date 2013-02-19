@@ -402,18 +402,21 @@ Gli specifici programmi e \inglese{tool} per la gestione di tali servizi sono de
 Durante lo svolgimento del progetto il team utilizzerà le tecniche di analisi statica e dinamica per effettuare verifiche su software e documentazione.
 
 \subsubsection{Analisi statica} 
-L’analisi statica è un tipo di controllo basato sulla non esecuzione del codice, ma in senso lato può essere applicato a qualsiasi tipo di prodotto anche non propriamente eseguibile (ad es. la documentazione di progetto). Sono previste, in particolare, due forme di analisi statica: il controllo manuale (detto altrimenti ``desk check'') e il controllo assistito da strumenti automatici.
-Per quanto concerne il desk check, cioè il controllo realizzato unicamente da parte di un agente umano, sono previsti due metodi formali:
+L’analisi statica è un tipo di controllo basato sulla non esecuzione del codice, ma in senso lato può essere applicato a qualsiasi tipo di prodotto anche non propriamente eseguibile (ad es. la documentazione di progetto). Sono previste, in particolare, due forme di analisi statica: il controllo manuale (detto altrimenti \inglese{desk check}) e il controllo assistito da strumenti automatici.
+Per quanto concerne il \inglese{desk check}, cioè il controllo realizzato unicamente da parte di un agente umano, sono previsti due metodi formali:
 
 \begin{itemize}
-\item \textbf{\underline{walkthrough}}: implica un esame ad ampio spettro del prodotto da verificare, che è preso in considerazione nella sua totalità in modo indiscriminato e senza alcuna assunzione previa sulla natura, la posizione e la frequenza degli errori da rilevare. Si tratta notoriamente di una tecnica molto onerosa in termini sia di tempo che di sforzo e può essere essa stessa per sua natura soggetta ad errori (in particolar modo falsi negativi). Tuttavia, almeno nelle fasi iniziali del lavoro, è l’unica scelta praticabile a causa della relativa inesperienza dei membri del gruppo nella realizzazione di prodotti complessi e articolati (sia software che documentazione). Allo scopo di ridurre il costo determinato dalla ripetizione di tale attività nell’arco di tutto il ciclo di vita è previsto che durante l’analisi in walkthrough sia stilata una lista di controllo relativa agli errori più frequenti e ai contesti in cui è più probabile che si producano errori in modo da collezionare una base di esperienza comune e consolidata destinata ad alimentare le attività di ispezione.
+\item \textbf{\underline{walkthrough}}: implica un esame ad ampio spettro del prodotto da verificare, che è preso in considerazione nella sua totalità in modo indiscriminato e senza alcuna assunzione previa sulla natura, la posizione e la frequenza degli errori da rilevare. Si tratta notoriamente di una tecnica molto onerosa in termini sia di tempo che di sforzo e può essere essa stessa per sua natura soggetta ad errori (in particolar modo falsi negativi). Tuttavia, almeno nelle fasi iniziali del lavoro, è l’unica scelta praticabile a causa della relativa inesperienza dei membri del gruppo nella realizzazione di prodotti complessi e articolati (sia software che documentazione). Allo scopo di ridurre il costo determinato dalla ripetizione di tale attività nell'arco di tutto il ciclo di vita è previsto che durante l’analisi in \inglese{walkthrough} sia stilata una lista di controllo relativa agli errori più frequenti e ai contesti in cui è più probabile che si producano errori in modo da collezionare una base di esperienza comune e consolidata destinata ad alimentare le attività di ispezione.
 
-\item \textbf{\underline{inspection}}:prevede un controllo mirato avente obiettivi specifici, ristretti e stabiliti a priori \textit{prima} che la verifica abbia luogo. Si tratta di un’attività meno dispendiosa in termini di risorse perchè non presuppone l’analisi esaustiva del prodotto ma è focalizzata su determinate categorie di errori frequenti, enunciate in una lista di controllo (\inglese{checklist}) redatta sulla base dell'esperienza personale e delle attività di walkthrough precedentemente poste in essere.
+\item \textbf{\underline{inspection}}: prevede un controllo mirato avente obiettivi specifici, ristretti e stabiliti a priori \textit{prima} che la verifica abbia luogo. Si tratta di un’attività meno dispendiosa in termini di risorse perché non presuppone l’analisi esaustiva del prodotto ma è focalizzata su determinate categorie di errori frequenti, enunciate in una lista di controllo (\inglese{checklist}) redatta sulla base dell'esperienza personale e delle attività di \inglese{walkthrough} precedentemente poste in essere.
 \end{itemize}
 
 
 \subsubsection{Analisi dinamica} 
-I controlli dinamici, altrimenti definiti test, prevedono l’esecuzione del software in un ambiente controllato e con dati di input specificatamente pensati per testarne le funzionalità e l’aderenza ai requisiti mettendo in luce l’eventuale presenza di malfunzionamenti dovuti alla presenza di difetti. Caratteristica fondamentale dei test è la loro \textbf{ripetibilità}, cioè dato lo stesso set di dati in ingresso e nello stesso contesto di esecuzione, l’output deve essere deterministico e univocamente determinato. Tale proprietà, unitamente all’auspicabile utilizzo di un \inglese{logger} che ha il compito di registrare le fasi dell’esecuzione del test, consente di individuare e riconoscere in maniera più agevole i difetti presenti nel prodotto.
+I controlli dinamici, altrimenti definiti test, prevedono l’esecuzione del software in un ambiente controllato e con dati di input specificatamente pensati per testarne le funzionalità e l’aderenza ai requisiti mettendo in luce l’eventuale presenza di malfunzionamenti dovuti alla presenza di difetti.
+
+Caratteristica fondamentale dei test è la loro \textbf{ripetibilità}, cioè dato lo stesso set di dati in ingresso e nello stesso contesto di esecuzione, l’output deve essere deterministico e univocamente determinato. Tale proprietà, unitamente all'auspicabile utilizzo di un \inglese{logger} che ha il compito di registrare le fasi dell'esecuzione del test, consente di individuare e riconoscere in maniera più agevole i difetti presenti nel prodotto.
+
 In base al loro ambito di applicazione, i test possono essere suddivisi in:
 \begin {itemize}
 \item test di unità aventi come oggetto le singole unità e, oltre al modulo da verificare e ai dati d’esempio, possono coinvolgere anche componenti attive (\underline{driver}) o passive (\underline{stub}) che siano in grado di simulare le parti del sistema non ancora disponibili al momento in cui il test viene eseguito;
@@ -438,10 +441,10 @@ Al fine di evitare che la verifica della qualità sia un onere troppo gravoso in
 Il team ha quindi, dopo aver analizzato il problema che andrà ad affrontare, optato per utilizzare le seguenti tipologie di analisi statica: 
 \begin{itemize}
 
-\item \textbf{Analisi di flusso di controllo:} il prodotto sviluppato avrà caratteristiche di affidabilità e rubostezza, riducendo al minimo gli sprechi. Questa analisi ha il compito di verificare che il codice sia eseguito nella giusta sequenza, correttamente strutturato, e non siano presenti parti di codice non raggiungibili o iterazioni aventi un limite superiore non definito. A tale fine sarà necessario prestare particolare attenzione alle decisioni interne all'unità di codice e verificare che le condizioni risultino totalmente gestite.
+\item \textbf{Analisi di flusso di controllo:} il prodotto sviluppato avrà caratteristiche di affidabilità e robustezza, riducendo al minimo gli sprechi. Questa analisi ha il compito di verificare che il codice sia eseguito nella giusta sequenza, correttamente strutturato, e non siano presenti parti di codice non raggiungibili o iterazioni aventi un limite superiore non definito. A tale fine sarà necessario prestare particolare attenzione alle decisioni interne all'unità di codice e verificare che le condizioni risultino totalmente gestite.
 
 \item \textbf{Analisi di flusso dei dati:} al fine di garantire che in ogni stato in cui si trova il prodotto si riesca ad accedere correttamente ai dati richiesti dall'utente e che nessun cammino d'esecuzione acceda a variabili prive di valore. 
-Questa tipologia di analisi può rilevare anomalie quali scritture successive su una variabile senza letture intermedie. Al fine di evitare complicazioni inutili per questo tipo di analisi si opterà per sconsigliare l'uso di variabili globali in fase di progettazione e codifica.
+Questa tipologia di analisi può rilevare anomalie quali scritture successive su una variabile senza letture intermedie o la presenza di variabili \inglese{write-only}. Al fine di evitare complicazioni inutili, per questo tipo di analisi si opterà per sconsigliare l'uso di variabili globali in fase di progettazione e codifica.
 
 \item \textbf{Analisi di flusso di informazione:} per controllare il grado di accoppiamento, determinando le dipendenze tra ingressi e uscite che risultano dall'esecuzione di un'unità di codice e consentendo solo quelle previste dalla specifica degli specifici moduli.
 
@@ -450,8 +453,10 @@ Questa tipologia di analisi può rilevare anomalie quali scritture successive su
 
 \subsection{Metriche}
 \subsubsection{Metriche per il progetto}
-Per effettuare delle misure efficacemente è nesessario definire un'unità di misura, una scala metrica e il metodo per rilevare tali misure.
+Per effettuare delle misure efficacemente è necessario definire un'unità di misura, una scala metrica e il metodo per rilevare tali misure.
+
 Tali caratteristiche sono definite dettagliatamente dallo standard ISO/IEC 9126, e le metriche descritte possono essere catalogate secondo due macro categorie: metriche elementari e derivate. Le prime sono in grado di rappresentare istantaneamente un dato fenomeno, le metriche derivate al contrario sono ricavate da operazioni su altre misurazioni.
+
 Sempre in riferimento alla capacità di immediatezza di misurazione sulle caratteristiche del prodotto si possono distinguere metriche dirette, che sono rilevabili sul software senza considerare l'influenza di fattori esterni (come l'ambiente nel quale è eseguito il software), e metriche indirette che combinano nelle misurazioni sul prodotto anche misure relative a elementi ambientali.
 
 \subsubsection{Metriche per la verifica del codice}\label{sec:metrics}
@@ -477,7 +482,7 @@ Si riporta un elenco delle principali metriche, in riferimento alle quali il tea
   I := \frac{Ce}{Ca + Ce}
   \]
   \item astrattezza (a livello di progetto) dato dal rapporto fra il numero di classi astratte/interfacce e il numero totale di tipi;
-  \item la metrica relativa a metodi e procedure $SFIN - SFOUT$, dove SFIN (\inglese{Structural fan-in}) è il numero di volte che tale metodo è invocato nel corpo di altri metodi e SFOUT è il numero di invocazioni di metodi esterni all'interno del metodo stesso (corrispondono a Ca e Ce rispettivamente);
+  \item la metrica relativa a metodi e procedure $SFIN - SFOUT$, dove SFIN (\inglese{structural fan-in}) è il numero di volte che tale metodo è invocato nel corpo di altri metodi e SFOUT (\inglese{structural fan-out}) è il numero di invocazioni di metodi esterni all'interno del metodo stesso (corrispondono a Ca e Ce rispettivamente);
   \item rapporto fra righe di commenti e righe di codice.
 \end{itemize}
 
@@ -495,16 +500,16 @@ Nel ciclo di vita del software, è possibile misurare lo stato raggiunto dal pro
 \end{itemize}
 
 Vi sono diversi momenti, durante tutti il ciclo di vita del progetto, che richiedono una valutazione delle caratteristiche del software che si sta producendo:
-
 \begin{itemize}
-\item \textbf{Fase di progettazione:} prevedere eventuali problemi nel software in un periodo temporale successivo al suo rilascio ed quanto sarà facile eseguire eventuali interventi di manutenzione, valutandone l'impatto che avranno nel contesto d'utilizzo.
+\item \textbf{Fase di progettazione:} prevedere eventuali problemi nel software in un periodo temporale successivo al suo rilascio e quanto sarà facile eseguire eventuali interventi di manutenzione, valutandone l'impatto che avranno nel contesto d'utilizzo.
 
-\item \textbf{Fase di collaudo:} confrontare che quanto sarà prodotto sia coerente con le specifiche del committente, analizzando eventuali problemi che possono emergere e non sono stati considerati nell'attività di progettazione.
+\item \textbf{Fase di collaudo:} confrontare che quanto prodotto sia coerente con le specifiche del committente, analizzando eventuali problemi che possono emergere e non sono stati considerati nell'attività di progettazione.
 
 \item \textbf{Periodo successivo alla data di rilascio:} misurare l'impatto del software sull'efficienza e l'efficacia del lavoro svolto dall'utente che ne usufruisce, eventualmente confrontando il prodotto con eventuali concorrenti simili e valutandone potenziali aree di miglioramento, pianificando aggiornamenti mirati e creando, eventualmente, una versione migliorata del prodotto stesso.
 \end{itemize}
 
 Indispensabili sono inoltre delle misurazioni effettuate sia su entità semilavorate che compongono il prodotto software che sugli stati finali delle stesse. Si possono dividere tali misure in interne, che hanno una stretta dipendenza con le attività di sviluppo del prodotto, ed esterne, che non dipendono dalle fasi del ciclo di vita.
+
 Le misure interne che si possono adottare sono:
 \begin{itemize}
 
@@ -515,7 +520,7 @@ Le misure interne che si possono adottare sono:
 \item \textbf{Nel codice:} come per le misure nella fase di progettazione si hanno stime a livello economico e qualitativo, misurando il numero di linee di codice prodotto, la complessità ciclomatica dello stesso, di coesione funzionale ed eventuali misure \inglese{object oriented} che valutano l'ereditarietà, il polimorfismo, l'incapsulamento e altre caratteristiche correlate alla programmazione orientata agli oggetti.
 \end{itemize}
 
-Mentre le misure esterne sono principalmente basate sul modello di qualità di Boehm, che si sviluppa mediante approccio \inglese{top-down}: a livello gerarchico nelle parti superiori compaiono gli attributi qualitativi dal punto di vista del committente, mentre nei livelli inferiori gli attributi dal punto di vista del fornitore.
+Le misure esterne sono principalmente basate sul modello di qualità di Boehm, che si sviluppa mediante approccio \inglese{top-down}: a livello gerarchico nelle parti superiori compaiono gli attributi qualitativi dal punto di vista del committente, mentre nei livelli inferiori gli attributi dal punto di vista del fornitore.
 
 Tali qualità sono organizzate in modo gerarchico ad albero, le cui foglie sono composte dalle metriche, ovvero gli elementi direttamente osservabili e misurabili, come l'indipendenza dalla piattaforma, l'accessibilità, l'efficienza e la leggibilità.
 \clearpage
