@@ -375,6 +375,8 @@ I progettisti hanno optato per la definizione di chiavi primarie sintetiche, ovv
 
 Tale scelta è dettata dall'utilizzo del framework Hibernate che non permette la modifica del valore della chiavi primarie associate ad una istanza di un oggetto di \inglese{business}. Le chiavi saranno quindi composte da un campo a valore intero, da intendersi come un contatore che identifica univocamente i record.
 
+Nel caso particolare dei messaggi, inoltre, il campo ID\_message, oltre a rappresentare un identificatore univoco, coincide anche con il nome del file sul server in cui è memorizzato il messaggio stesso, all'interno di una \inglese{directory} predefinita e nota ai componenti del sistema.
+
 \subsubsection{Gerarchia tra classi}
 
 \begin{description}
@@ -553,6 +555,7 @@ Infine, si fa notare che i nomi di tutte le classi riportate nella presente sezi
 
 Le classi che fanno parte  di questo componente possono essere suddivise in:
 \begin{itemize}
+  \item una classe di utilità per la creazione delle sessioni di connessione al DBMS su cui saranno realizzate le transazioni;
   \item le classi \inglese{data access object} (DAO) concrete per il DBMS prescelto (MySQL) e le relative interfacce;
   \item le classi \inglese{factory} (concrete e astratte) utilizzate per ottenere le istanze delle classi DAO necessarie a supportare la persistenza dei dati del database.
 \end{itemize}
@@ -596,6 +599,7 @@ Allo scopo di rendere l'architettura facilmente estendibile a futuri ampliamenti
 	  \item[-] \texttt{dao.MySQLMessageDAO}
 	  \item[-] \texttt{dao.IUserDataDAO}
 	  \item[-] \texttt{dao.MySQLUserDataDAO}
+	  \item[-] \texttt{dao.HibernateUtil}
 	  \item[-] \texttt{call.ICall}
 	  \item[-] \texttt{call.Call}
 	  \item[-] \texttt{abook.IGroup}
@@ -910,6 +914,17 @@ Implementazione dell'interfaccia \texttt{IUserDataDAO} che fornisce una definizi
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS01 -- Gestione database}
     \item[-] \textsf{CS03 -- Gestione rubrica}
+  \end{itemize}
+\end{description}
+
+\item \texttt{HibernateUtil}
+\begin{description}
+  \item{\scshape\bfseries Descrizione:}\\
+Classe che implementa il \inglese{pattern} Singleton e che viene utilizzata dalle classi DAO specifiche per MySQL al fine di ottenere un riferimento alla sessione di connessione al DBMS tramite la quale effettuare le transazioni corrispondenti alle operazioni volte ad assicurare la persistenza dei dati.
+
+  \item{\scshape\bfseries Componenti che ne fanno uso:}
+  \begin{itemize}[noitemsep,nolistsep]
+    \item[-] \textsf{CS01 -- Gestione database}
   \end{itemize}
 \end{description}
 
@@ -2057,14 +2072,17 @@ Il pattern creazionale Singleton, garantisce che una determinata classe possa es
 
 \subsubsection{Componenti che lo implementano}
 \begin{description}
+  \item{\scshape\bfseries CS01 -- Gestione database}\\
+La classe \texttt{server.dao.HibernateUtil} è implementata come Singleton dal momento che si desidera che in ogni momento ne sia attiva un'unica istanza. Tramite i metodi che essa mette a disposizione, le classi DAO sono in grado di procurarsi un riferimento alla sessione di connessione al DBMS al fine di effettuare le transazioni di cui necessitano.
+  
+  \item{\scshape\bfseries CS02 -- Gestione connessione}\\
+La classe \texttt{server.connection.StandardCommunicationHandler} è implementata come Singleton in modo da centralizzare la responsabilità di creare nuove connessioni in risposta alle esigenze dei client.
+
   \item{\scshape\bfseries CS07 -- Façade del server}\\
 Il \inglese{pattern} Singleton pone un limite superiore stretto al numero di istanze che possono esistere di una determinata classe e perciò è utile utilizzarlo per poter controllare il numero di oggetti \texttt{server.StandardServerFacade} che in questo caso è pari a uno. L'unicità del Façade garantisce la presenza di un solo punto di accesso alle funzionalità della sotto-architettura \texttt{server}.
 
   \item{\scshape\bfseries CP04 -- Gestione remota}\\
 Il \inglese{pattern} Singleton è altresì utile per controllare il numero di istanze attive della classe \texttt{clientpresenter.kernel.RemoteHandler} per gli stessi motivi evidenziati in precedenza, ossia l'unicità del punto di accesso alle funzionalità della sotto-architettura \texttt{clientpresenter}.
-
-  \item{\scshape\bfseries CS02 -- Gestione connessione}\\
-La classe \texttt{server.connection.StandardCommunicationHandler} è implementata come Singleton in modo da centralizzare la responsabilità di creare nuove connessioni in risposta alle esigenze dei client.
 
 \end{description}
 
