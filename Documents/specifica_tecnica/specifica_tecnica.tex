@@ -1698,7 +1698,7 @@ In figura \ref{fig:gui} si riporta un abbozzo dell'interfaccia grafica utente re
 
 Per quanto riguarda la componentistica, la sotto-architettura \texttt{clientview} è costituita da:
 \begin{itemize}[noitemsep,nolistsep]
-	\item[-] GUI
+	\item[-] \textsf{CV01 -- GUI}
 \end{itemize}
 per le specifiche dei componenti sopra citati, si rimanda alla sezione successiva.
 
@@ -1713,7 +1713,7 @@ Il contenuto del \texttt{MainPanel}, invece, è destinato in relazione alla funz
 
 \subsection{Componenti evidenziati}
 
-\subsubsection{GUI}\label{sec:gui}
+\subsubsection{CV01 -- GUI}\label{sec:gui}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Questo componente si occupa della presentazione dell'interfaccia grafica presentata all'utente finale. Le classi in esso contenute servono pertanto per la visualizzazione dei punti di accesso alle funzionalità offerte dal sistema all'utente.
@@ -1752,7 +1752,7 @@ In questo pannello sono anche presenti le funzionalità di ricerca fra gli utent
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] GUI
+    \item[-] \textsf{CV01 -- GUI}
   \end{itemize}
 \end{description}
 
@@ -1763,7 +1763,7 @@ Classe padre della gerarchia di oggetti grafici che possono comparire nella sezi
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] GUI
+    \item[-] \textsf{CV01 -- GUI}
   \end{itemize}
 \end{description}
 
@@ -1774,7 +1774,7 @@ Classe che rappresenta il pannello degli strumenti della \inglese{home screen} d
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] GUI
+    \item[-] \textsf{CV01 -- GUI}
   \end{itemize}
 \end{description}
 
@@ -1787,7 +1787,7 @@ Attraverso questo pannello è inoltre possibile effettuare alcune operazioni di 
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] GUI
+    \item[-] \textsf{CV01 -- GUI}
   \end{itemize}
 \end{description}
 
@@ -1800,7 +1800,7 @@ Tramite questo elemento grafico è possibile anche riprodurre il contenuto di un
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] GUI
+    \item[-] \textsf{CV01 -- GUI}
   \end{itemize}
 \end{description}
 
@@ -1811,7 +1811,7 @@ Questa sottoclasse di \texttt{MainPanel} è impiegata per permettere da parte de
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] GUI
+    \item[-] \textsf{CV01 -- GUI}
   \end{itemize}
 \end{description}
 
@@ -1822,7 +1822,7 @@ Questa classe è utilizzata per rappresentare il \underline{\inglese{form}} che 
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] GUI
+    \item[-] \textsf{CV01 -- GUI}
   \end{itemize}
 \end{description}
 
@@ -1833,7 +1833,7 @@ Questa classe estende \texttt{MainPanel} e viene impiegata per rappresentare lo 
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] GUI
+    \item[-] \textsf{CV01 -- GUI}
   \end{itemize}
 \end{description}
 
@@ -1846,7 +1846,7 @@ Inoltre, tale entità grafica prevede anche la presenza di una o più aree di ch
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] GUI
+    \item[-] \textsf{CV01 -- GUI}
   \end{itemize}
 \end{description}
 
@@ -1902,7 +1902,7 @@ Un simile approccio garantisce che un eventuale cambiamento del dispositivo di p
 
 \subsubsection{Componenti che lo implementano}
 \begin{description}
-\item{\scshape\bfseries Gestione database}\\
+\item{\scshape\bfseries CS01 -- Gestione database}\\
 Le classi DAO consentono di isolare l'accesso alle tabelle del database dalla parte di \inglese{business logic} corrispondente alle entità TO, incapsulando in metodi di alto livello le operazioni sui record del database sottostante.
 
 Operando una distinzione di questo tipo, gli utenti esterni possono considerare gli oggetti che richiedono la mappatura nel database alla stregua di normali oggetti Java (POJO) senza preoccuparsi del meccanismo di persistenza dei dati.
@@ -1922,7 +1922,7 @@ Fornire un'interfaccia unificata per un insieme di interfacce o classi presenti 
 
 \subsubsection{Componenti che lo implementano}
 \begin{description}
-  \item{\scshape\bfseries Façade del server}\\
+  \item{\scshape\bfseries CS07 -- Façade del server}\\
 L'uso di Façade permette di esporre verso i client una sorta di interfaccia semplificata nascondendo i componenti della sotto-architettura \texttt{server}, fornendo un punto di accesso centralizzato e riducendo il numero di dipendenze funzionali fra le classi del server e i componenti appartenenti a sotto-architetture esterne.
 
 \end{description}
@@ -1941,12 +1941,12 @@ Definisce un'interfaccia per la creazione di un oggetto, lasciando alle sottocla
 
 \subsubsection{Componenti che lo implementano}
 \begin{description}
-  \item{\scshape\bfseries Façade del server}\\
+  \item{\scshape\bfseries CS07 -- Façade del server}\\
 Factory Method permette ai client di ottenere con facilità degli oggetti simili a \inglese{proxy} che siano conformi ai contratti stabiliti dalle interfacce \texttt{server.message.IMessage} e \texttt{server.abook.IUserData}.
 
 Questo permette di ridurre il traffico di rete in quanto oggetti potenzialmente di grandi dimensioni rimangono sul server e vengono scaricati solo quando se ne presenta l'effettiva necessità nonché di proteggere i dati presenti sul server (in quanto non tutte le operazioni get/set hanno effetto sui contatti utente).
 
-  \item{\scshape\bfseries Gestione connessione}\\
+  \item{\scshape\bfseries CS02 -- Gestione connessione}\\
 Gli oggetti che rappresentano connessioni, sottotipi di \texttt{server.connection.IConnection} sono ottenuti mediante un Factory Method nelle classi concrete che implementano l'interfaccia \texttt{server.connection.ICommunicationHandler}.
 
 Ciò garantisce maggiore flessibilità in quanto permette in futuro di gestire più categorie di \inglese{handler} che restituiscono diversi tipi connessione.
@@ -1987,19 +1987,19 @@ Inoltre, i componenti di questa sotto-architettura non sono vincolati a utilizza
 
 In particolare, le componenti del sistema che prendono parte alle collaborazioni previste dal \inglese{pattern} MVP sono
 \begin{description}
-  \item{\scshape\bfseries Gestione database}\\
+  \item{\scshape\bfseries CS01 -- Gestione database}\\
 Componente che ha il ruolo di gestire la persistenza dei dati sul server.
 
-  \item{\textsc{\bfseries Gestione chiamate}, \textsc{\bfseries Gestione rubrica} e \textsc{\bfseries Gestione segreteria}}\\
+  \item{\textsc{\bfseries CS06 -- Gestione chiamate}, \textsc{\bfseries Gestione rubrica} e \textsc{\bfseries Gestione segreteria}}\\
 Contengono le rappresentazioni delle entità della \inglese{business logic} lato server, che devono essere interrogate per ricavare le informazioni necessarie ai client in forma opportuna.
 
-  \item{\scshape\bfseries Façade del server}\\
+  \item{\scshape\bfseries CS07 -- Façade del server}\\
 Componente del server interessato dalla ricezione delle richieste da parte dei \inglese{presenter}, recupera le informazioni di cui questi ultimi necessitano e le restituisce in forma serializzata e compatiblie con il dominio applicativo dei client.
 
-  \item{\scshape\bfseries Gestione remota}\\
+  \item{\scshape\bfseries CP04 -- Gestione remota}\\
 Intercetta le comunicazioni entranti verso il client a partire dal server che non hanno origine in una richiesta esplicita da parte del client come, ad esempio, gli aggiornamenti di stato dei diversi utenti o le chiamate in ingresso.
   
-  \item{\scshape\bfseries Gestione GUI}\\
+  \item{\scshape\bfseries CP03 -- Gestione GUI}\\
 Riceve i comandi dalla vista ed è responsabile del suo aggiornamento e dell'interrogazione del server.
 
   \item{\scshape\bfseries GUI}\\
@@ -2020,7 +2020,7 @@ Definire una dipendenza uno a molti fra oggetti, in modo tale che se un oggetto 
 
 \subsubsection{Componenti che lo implementano}
 \begin{description}
-  \item{\scshape\bfseries Gestione stato}\\
+  \item{\scshape\bfseries CS04 -- Gestione stato}\\
 Il pattern Observer è utile in quanto permette agli utenti di osservare lo stato degli altri, ricevendo in modo automatico e trasparente una notifica nel caso in cui uno di questi ultimi subisse variazioni, essendo ogni utente sia osservato che osservatore.
 
 Al momento della connessione, infatti, ogni utente si registra come osservatore sui suoi contatti che sono online e, al contempo, li aggiunge tra i propri osservatori. In tal modo gli utenti notificano in \inglese{broadcast} le loro variazioni di stato e sono sempre aggiornati sullo stato dei contatti della loro rubrica.
@@ -2040,13 +2040,13 @@ Il pattern creazionale Singleton, garantisce che una determinata classe possa es
 
 \subsubsection{Componenti che lo implementano}
 \begin{description}
-  \item{\scshape\bfseries Façade del server}\\
+  \item{\scshape\bfseries CS07 -- Façade del server}\\
 Il \inglese{pattern} Singleton pone un limite superiore stretto al numero di istanze che possono esistere di una determinata classe e perciò è utile utilizzarlo per poter controllare il numero di oggetti \texttt{server.StandardServerFacade} che in questo caso è pari a uno. L'unicità del Façade garantisce la presenza di un solo punto di accesso alle funzionalità della sotto-architettura \texttt{server}.
 
-  \item{\scshape\bfseries Gestione remota}\\
+  \item{\scshape\bfseries CP04 -- Gestione remota}\\
 Il \inglese{pattern} Singleton è altresì utile per controllare il numero di istanze attive della classe \texttt{clientpresenter.kernel.RemoteHandler} per gli stessi motivi evidenziati in precedenza, ossia l'unicità del punto di accesso alle funzionalità della sotto-architettura \texttt{clientpresenter}.
 
-  \item{\scshape\bfseries Gestione connessione}\\
+  \item{\scshape\bfseries CS02 -- Gestione connessione}\\
 La classe \texttt{server.connection.StandardConnectionHandler} è implementata come Singleton in modo da centralizzare la responsabilità di creare nuove connessioni in risposta alle esigenze dei client.
 
 \end{description}
@@ -2065,7 +2065,7 @@ Permette ad un oggetto di cambiare il suo comportamento al variare del suo stato
 
 \subsubsection{Componenti che lo implementano}
 \begin{description}
-\item{\scshape\bfseries Gestione dello Stato}\\
+\item{\scshape\bfseries CS04 -- Gestione stato}\\
 Il \inglese{pattern} State permette di gestire gli utenti del sistema determinando un comportamento diverso per questi ultimi a seconda del loro stato.
 
 È stata definita un'apposita gerarchia di stati che permette quindi di specializzare nella maniera più adatta alle necessità del sistema le operazioni sugli utenti senza bisogno di condizionali annidati.
