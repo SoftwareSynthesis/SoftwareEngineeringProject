@@ -732,7 +732,7 @@ Le classi di questo componente hanno il ruolo di incapsulare la logica di gestio
 
 Oltre all'interfaccia \texttt{ICall} e alla sua implementazione lato server \texttt{Call}, che rappresenta il \inglese{transfer object} per la gestione del database, sono state predisposte l'interfaccia \texttt{ICallList} e la relativa implementazione \texttt{CallList} per la rappresentazione di una collezione di chiamate.
 
-Le tabelle del database che corrispondono a \texttt{CallList} e al \inglese{transfer object} \texttt{Call} sono Calls e l'entità di associazione CallLists. Pur essendo la chiave primaria in Calls (e chiave esterna in CallLists) è di tipo \texttt{BIGINT} senza segno, il team è consapevole che questo impone una limitazione dell'ordine di $\times10^{19}$ al numero di chiamate che possono essere memorizzate contemporaneamente. Una soluzione da adottarsi in futuro per evitare la perdita di dati potrebbe consistere nello spostare da database a disco parte di queste informazioni.
+Le tabelle del database che corrispondono a \texttt{CallList} e al \inglese{transfer object} \texttt{Call} sono Calls e l'entità di associazione CallLists. La chiave primaria in Calls (e chiave esterna in CallLists) è di tipo \texttt{BIGINT} senza segno, il team è consapevole che questo impone una limitazione dell'ordine di $\times10^{19}$ al numero di chiamate che possono essere memorizzate contemporaneamente. Una soluzione da adottarsi in futuro per evitare la perdita di dati potrebbe consistere nello spostare da database a disco parte di queste informazioni.
 
 Per la gestione dello storico delle chiamate lato client, invece, sono state previste le classi \texttt{clientpresenter.kernel.JSCall}, che aderisce al medesimo contratto della sua controparte server, e \texttt{JSCallList}, che rappresenta invece lo storico delle chiamate associato al client su cui risiede il \inglese{presenter}.
 
@@ -1242,21 +1242,21 @@ Questa classe Singleton è l'implementazione dell'interfaccia \texttt{IServerFac
 \section{Architettura \texttt{mytalk.clientpresenter}}\label{sec:clientpresenter}
 La sotto-architettura \texttt{clientpresenter}, nasce con lo scopo di imporre una separazione tra la logica di gestione di un client e l'interfaccia grafica visualizzata all'utente finale.
 
-Dal momento che per l'interazione con l'utente sono previste molteplici viste, è stato predisposto un \inglese{presenter} per ognuna di queste. Ogni vista detiene un riferimento al proprio \inglese{presenter} cui vengono inviate le richieste su risposta dell'interazione con l'utente, in quanto le operazioni del \inglese{presenter} sono impostati come funzioni di \inglese{callback} nell'interfaccia grafica.
-
-D'altro canto, i vari \inglese{presenter} interagiscono con le viste grazie alla conoscenza di una ``interfaccia'' per la loro manipolazione in quanto tramite JavaScript è possibile intervenire sul \underline{DOM}\@. Tali considerazioni sono conformi all'utilizzo del \inglese{design pattern} MVP, per una descrizione più dettagliata del quale si rimanda alla sezione \ref{sec:MVP}\@.
-
-La sotto-architettura \texttt{clientpresenter} corrisponde alla parte ``\inglese{presenter}'' dell'applicativo. Allo scopo di gestire le comunicazioni in ingresso dal server (ad esempio le notifiche dei cambiamenti di stato o le chiamate in ingresso) è stato predisposto un componente \textsf{Gestione remota}.
- 
-I componenti in quest'ultima sfruttano inoltre la comunicazione con il server, tramite opportune procedure di interrogazione attraverso il componente \textsf{Façade del server}, al fine di ottenere:
-\begin{itemize}
-  \item i dati contenuti nel database necessari alla composizione dell'interfaccia grafica;
-  \item le informazioni necessarie per stabilire una connessione fra client.
-\end{itemize}
-
-Mentre i primi sono rappresentati dalle strutture del componente \textsf{Rappresentazione dati} e permangono internamente al \inglese{presenter} per essere disponibili a successive interrogazioni da parte della GUI senza coinvolgere il server, i secondi sono utilizzati da \textsf{Gestione comunicazione} per instaurare e mantenere le connessioni fra client.
-
 Dal momento che il \inglese{presenter} ha la responsabilità di ricevere i comandi utente dalla vista e di sovrintendere all'aggiornamento della stessa, è prevista anche la presenza di una serie di oggetti necessari a gestire l'interazione con la vista, corrispondenti al componente \textsf{Gestione GUI}.
+
+Dal momento che per l'interazione con l'utente sono previste molteplici viste, è stato predisposto un \inglese{presenter} per ognuna di queste. Ogni vista detiene un riferimento al proprio \inglese{presenter} cui vengono inviate le richieste su risposta dell'interazione con l'utente, in quanto le operazioni del \inglese{presenter} sono impostate come funzioni di \inglese{callback} nell'interfaccia grafica.
+
+D'altro canto, i vari \inglese{presenter} interagiscono con le viste grazie alla conoscenza di una ``interfaccia'' per la loro manipolazione, in quanto tramite JavaScript è possibile intervenire sul \underline{DOM}\@. Tali considerazioni sono conformi all'utilizzo del \inglese{design pattern} MVP.\footnote{%
+  Per una descrizione più dettagliata del \inglese{pattern} MVP si rimanda alla sezione \ref{sec:MVP}\@.
+}
+
+Questo componente ha inoltre il compito di recuperare i dati presenti sul server relativi alla rubrica di un utente, la sua segreteria telefonica e lo storico delle chiamate che lo interessano. I diversi \inglese{presenter} del componente \textsf{Gestione GUI} hanno dunque anche il compito di interrogare il server al fin di procurarsi le informazioni con cui popolare l'interfaccia grafica utente.
+
+Questi sono rappresentati dalle strutture del componente \textsf{Rappresentazione dati} e permangono internamente al \inglese{presenter} per essere disponibili a successive interrogazioni da parte della GUI senza coinvolgere nuovamente il server.
+
+Inoltre, allo scopo di gestire le comunicazioni in ingresso dal server, ad esempio le notifiche dei cambiamenti di stato o le chiamate in ingresso, è stato predisposto il componente \textsf{Gestione remota}.
+
+La logica di comunicazione fra client è incapsulata all'interno delle classi facenti parte del componente \textsf{Gestione comunicazione}. Queste ultime sfruttano la comunicazione con il server, tramite opportune procedure di interrogazione attraverso il componente \textsf{Façade del server}, al fine di ottenere le informazioni necessarie per stabilire una connessione fra client.
 
 In sintesi, la sotto-architettura \texttt{clientpresenter} dispone dei seguenti componenti:
 \begin{itemize}[noitemsep,nolistsep]
@@ -1287,10 +1287,9 @@ La presenza delle interfacce, delle relazioni di implementazione e l'estensione 
 	\item{\scshape\bfseries Descrizione:}\\
 È il componente che definisce i client con cui sta comunicando o con cui desidera comunicare l'utente. Tale componente è costituito da un'interfaccia \texttt{kernel.IClient} che rappresenta un modello di client con cui interagire (possibilità di stabilire una connessione, possibilità di estendere una comunicazione e possibilità di verificare se il client è Supernodo).
 
-Il componente \textsf{Gestione comunicazione} ha inoltre il compito di procurarsi le informazioni relative alla propria connessione, contattando ad esempio un server STUN, per avere la conoscenza del proprio indirizzo IP. Quest'ultimo deve essere comunicato al server in fase di autenticazione, al fine di permettere l'avvio di connessioni in ingresso.
+Il componente \textsf{Gestione comunicazione} ha inoltre il compito di procurarsi le informazioni relative alla propria connessione, contattando ad esempio un server STUN, per avere la conoscenza del proprio indirizzo IP\@. Quest'ultimo deve essere comunicato al server in fase di autenticazione, al fine di permettere l'avvio di connessioni in ingresso.
 
-%TODO da rivedere con Rizzi questa frase!
-Quando un determinato utente (mittente) desidera stabilire una comunicazione con un altro utente (destinatario), il client associato al mittente ha il compito innanzitutto di farsi restituire dal server le informazioni necessarie ad instaurare la connessione. Una volta in possesso di tali informazioni, sarà creata un istanza di \texttt{kernel.Client} (implementazione dell'interfaccia \texttt{kernel.IClient}), dalla quale potrà essere abilitata la comunicazione.
+Quando un determinato utente (mittente) desidera stabilire una comunicazione con un altro utente (destinatario), il client associato al mittente ha il compito innanzitutto di farsi restituire dal server le informazioni necessarie ad instaurare la connessione.
 
 	\item{\scshape\bfseries Diagramma delle classi:}
   \begin{figure}[H]
@@ -1340,7 +1339,7 @@ I dati rappresentati in forma di oggetti sono necessari, in particolare, per la 
 	\item{\scshape\bfseries Descrizione:}\\
 Il componente ha il duplice ruolo di intercettare gli eventi che scaturiscono dall'interazione dell'utente con la GUI e di controllare l'aggiornamento della stessa a seguito dei cambiamenti che intervengono sul modello dei dati.
 
-Le istanze di sottotipi di \texttt{guicontrol.MainPanelPresenter} comprendono dunque, oltre ad alcune operazioni comuni (ad es. per l'inizializzazione o per la comparsa/scomparsa dell'elemento grafico associato) tutte le funzioni di \inglese{callback} richiamate dall'interfaccia grafica.
+Le istanze di sottotipi di \texttt{guicontrol.MainPanelPresenter} comprendono dunque, oltre ad alcune operazioni comuni (ad es. per l'inizializzazione o per la comparsa/scomparsa dell'elemento grafico associato), tutte le funzioni di \inglese{callback} richiamate dall'interfaccia grafica.
 
 D'altro canto, dal momento che questo componente è responsabile anche delle modifiche alle viste, le sottoclassi di \texttt{guicontrol.MainPanelPresenter} contengono anche le operazioni richiamate dall'esterno per l'aggiornamento dinamico della GUI\@.
 
@@ -1372,11 +1371,11 @@ La struttura delle classi che lo compongono mostra una corrispondenza biunivoca 
 \subsubsection{CP04 -- Gestione remota}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Rappresenta l'interfaccia d'accesso verso la sotto-architettura \texttt{clientpresenter}, in particolare per i componenti presenti nel \texttt{server}. La presenza di tale componente svincola il server dal dover conoscere l'esatta sequenza di chiamata dei metodi per portare a conseguimento una determinata procedura.
+Rappresenta l'interfaccia d'accesso verso la sotto-architettura \texttt{clientpresenter}, in particolare per i componenti presenti nel \texttt{server}. La presenza di tale componente svincola il server dal dover conoscere l'esatta sequenza di chiamata dei metodi per portare a conseguimento una determinata procedura in quanto le classi del componente \textsf{Gestione remota} hanno la cognizione dell'iter di chiamate a metodo per portare a termine correttamente le operazioni richieste dall'esterno.
 
-Le classi del componente \textsf{Gestione remota} hanno la cognizione dell'iter di chiamate a metodo per portare a termine correttamente le operazioni richieste dall'esterno. Un esempio di richiesta proveniente dal server che richiede di essere gestita in questa sede è la reazione al cambiamento di stato di un utente presente nella rubrica del client, che si traduce in una notifica in entrata dal server e ha un effetto sull'interfaccia grafica.
+Un esempio di richiesta proveniente dal server che richiede di essere gestita in questa sede è la reazione al cambiamento di stato di un utente presente nella rubrica del client, che si traduce in una notifica in entrata dal server e ha un effetto sull'interfaccia grafica.
 
-Un altro esempio è la ricezione di una chiamata in ingresso: infatti la precondizione per stabilire una comunicazione via WebRTC è che il chiamato dia l'autorizzazione per stabilire la comunicazione.
+Un altro esempio è la ricezione di una chiamata in ingresso, dal momento che la precondizione per stabilire una comunicazione via WebRTC è che il chiamato dia l'autorizzazione per stabilire la comunicazione.
 
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -1401,7 +1400,7 @@ Un altro esempio è la ricezione di una chiamata in ingresso: infatti la precond
 \item \texttt{IClient}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Interfaccia che raccoglie le operazioni astratte che è possibile invocare su un client astratto del sistema corrispondenti, ad esempio, alla ricezione di una chiamata in ingresso oppure all'interrogazione sullo stato (nodo semplice o Supernodo) di un determinato client.
+Interfaccia che raccoglie le operazioni astratte che devono essere effettuate dal client del sistema.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1435,7 +1434,7 @@ Tale classe modella una chiamata appartenente allo storico dell'utente corrente 
 \item \texttt{JSGroup}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
-Classe avente il compito di modellare un gruppo nella rubrica dell'utente corrente. In particolare ogni gruppo possiede un nome e contiene al proprio interno zero o più contatti.
+Classe avente il compito di modellare un gruppo nella rubrica dell'utente corrente; in particolare, ogni gruppo possiede un nome e contiene al proprio interno zero o più contatti.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1472,10 +1471,10 @@ In particolare, di un utente-contatto è possibile ottenere lo \inglese{username
 	\end{itemize}
 \end{description}
 
-%TODO queste devono essere descritte
 \item \texttt{JSCallList}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
+Classe che ha il compito di rappresentare la collezione di chiamate che corrisponde allo storico delle comunicazioni audio o audio/video di un determinato utente. È creata a seguito di una richiesta da \texttt{guicontrol.CallHistoryPanelPresenter} ed interrogata al fine di ottenere i dati che devono essere visualizzati nell'interfaccia grafica.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1487,6 +1486,7 @@ In particolare, di un utente-contatto è possibile ottenere lo \inglese{username
 \item \texttt{JSMessageBox}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
+Rappresentazione della segreteria telefonica di un determinato utente e che viene creata a seguito di una richiesta proveniente da \texttt{guicontrol.MessagePanelPresenter} e interrogata da quest'ultimo al fine di creare il contenuto della UI\@.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1497,6 +1497,7 @@ In particolare, di un utente-contatto è possibile ottenere lo \inglese{username
 \item \texttt{JSAddressBook}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
+Classe che ha il compito di rappresentare la rubrica associata a un determinato utente e che viene creata a seguito di una richiesta proveniente da \texttt{guicontrol.AddressBookPanelPresenter} e interrogata al fine di popolare l'interfaccia grafica con i dati corrispondenti alla rubrica utente.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1507,7 +1508,7 @@ In particolare, di un utente-contatto è possibile ottenere lo \inglese{username
 \item \texttt{IRemoteHandler}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Interfaccia che raccoglie la dichiarazione di tutte le operazioni astratte con cui si suppone che il server realizzi lo scambio di messaggi con il \inglese{presenter}. La sequenza di operazioni da eseguire che interessano i componenti del \inglese{presenter} (ad esempio Gestione GUI) saranno incapsulate nell'implementazione delle operazioni contenute in questa interfaccia.
+Interfaccia che raccoglie la dichiarazione di tutte le operazioni astratte con cui si suppone che il server realizzi lo scambio di messaggi con il \inglese{presenter}. La sequenza di operazioni da eseguire che interessano i componenti del \inglese{presenter} (ad esempio \textsf{Gestione GUI} o \textsf{Gestione comunicazione}) saranno incapsulate nell'implementazione delle operazioni contenute in questa interfaccia.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1519,7 +1520,11 @@ Interfaccia che raccoglie la dichiarazione di tutte le operazioni astratte con c
 \item \texttt{RemoteHandler}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Questa classe rappresenta un'applicazione del \inglese{design pattern} Singleton e implementa inoltre l'interfaccia \texttt{IRemoteHandler}. Fornisce pertanto dei metodi concreti utilizzati per la comunicazione fra la vista e il server, elaborando qualora necessario i dati ricevuti in input e inoltrando le richieste agli oggetti facenti parte dei diversi componenti del \inglese{presenter}.
+Questa classe rappresenta un'applicazione del \inglese{design pattern} Singleton e implementa inoltre l'interfaccia \texttt{IRemoteHandler}. Fornisce dei metodi concreti utilizzati per ricevere le notifiche proveniente dal server, elaborando qualora necessario i dati ricevuti in input e inoltrando le richieste agli oggetti facenti parte dei diversi componenti del \inglese{presenter}.
+
+Ad esempio, nel caso di una notifica di comunicazione in ingresso è necessario contattare il componente \textsf{Gestione comunicazione} al fine di recuperare l'indirizzo IP pubblico del client attraverso un server STUN e quindi comunicarlo al server. In tal caso, inoltre, è necessario aggiornare l'interfaccia grafica attraverso \textsf{Gestione GUI} per consentire all'utente di accettare la chiamata in ingresso.
+
+Nel caso di un aggiornamento di stato di un contatto presente in rubrica, invece, è necessario modificare l'interfaccia grafica in modo da rispecchiare i cambiamenti avvenuti e quindi anche in questo caso è necessario inoltrare la richiesta al componente \textsf{Gestione GUI}.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1548,6 +1553,10 @@ Tale \inglese{presenter} viene richiamato dall'elemento grafico corrispondente a
 
 Il \inglese{presenter} in questione rende inoltre possibile avviare una ricerca fra gli utenti registrati nel sistema nonché rilevare che l'operazione di ricerca è conclusa (e conseguentemente visualizzare nuovamente la rubrica). Inoltre comprende anche le funzioni di \inglese{callback} per alcune operazioni di amministrazione sulla rubrica, come la creazione e l'eliminazione di un gruppo.
 
+I dati corrispondenti alla rubrica, ovvero le corrispondenti istanze di classi definite in \textsf{Rappresentazione dati}, se non sono presenti sul client devono essere recuperati dal server ed è responsabilità di questa classe contattare il \textsf{Façade del Server} al fine di ottenere le informazioni necessarie.
+
+Infine, in modo simile sono comunicati al server gli esiti delle operazioni di amministrazione sulla rubrica che hanno un effetto sulle informazioni di modello.
+
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \textsf{CP03 -- Gestione GUI}
@@ -1558,7 +1567,9 @@ Il \inglese{presenter} in questione rende inoltre possibile avviare una ricerca 
 \item \texttt{guicontrol.CallHistoryPanelPresenter}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Questo \inglese{presenter} gestisce l'elemento corrispondente al pannello dello storico delle chiamate presente nell'interfaccia grafica, permettendo la visualizzazione di un array di chiamate corrispondenti alle comunicazioni di un determinato utente. Poiché il componente grafico supervisionato è totalmente passivo, non sono presenti operazioni di \inglese{callback} da associare alle componenti grafiche vere e proprie.
+Questo \inglese{presenter} gestisce l'elemento corrispondente al pannello dello storico delle chiamate presente nell'interfaccia grafica, permettendo la visualizzazione di un array di chiamate corrispondenti alle comunicazioni di un determinato utente.Poiché il componente grafico supervisionato è totalmente passivo, non sono presenti operazioni di \inglese{callback} da associare alle componenti grafiche vere e proprie.
+
+Qualora i dati corrispondenti allo storico delle chiamate non fossero disponibili sul client che ospita questo \inglese{presenter} è inoltre responsabilità di quest'ultimo interrogare il server (attraverso il componente \textsf{Façade del server}) al fine di ottenere le informazioni necessarie.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1588,7 +1599,9 @@ Tale \inglese{presenter} ha la responsabilità di controllare l'aggiornamento de
 
 Poiché, inoltre, a partire da tale componente grafico è possibile avviare una comunicazione, tale classe comprende al proprio interno anche le funzioni che devono essere richiamate in risposta all'azione da parte dell'utente di dare avvio a una comunicazione.
 
-Infine, poiché da \texttt{org.softwaresynthesis.mytalk.clientview.gui.ContactPanel} è possibile anche svolgere alcune attività di amministrazione della rubrica utente, in questo \inglese{presenter} sono presenti anche le funzioni di \inglese{callback} necessarie per l'aggiunta e la rimozione di un contatto particolare ad un gruppo, nonché per l'aggiunta di contatto alla rubrica se il suo profilo è stato aperto a seguito di una ricerca fra gli utenti registrati nel sistema.
+Poiché da \texttt{org.softwaresynthesis.mytalk.clientview.gui.ContactPanel} è possibile anche svolgere alcune attività di amministrazione della rubrica utente, in questo \inglese{presenter} sono presenti anche le funzioni di \inglese{callback} necessarie per l'aggiunta e la rimozione di un contatto particolare ad un gruppo, nonché per l'aggiunta di contatto alla rubrica se il suo profilo è stato aperto a seguito di una ricerca fra gli utenti registrati nel sistema.
+
+Dal momento che, infine, tali operazioni di amministrazione hanno un effetto sulle entità del modello dei dati che risiedono sul server, tale classe ha la responsabilità di notificare gli aggiornamenti sul server al fine di mantenere la consistenza delle informazioni.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1614,10 +1627,7 @@ Contiene un'unica operazione di \inglese{callback} per la grafica, che riceve la
 \item \texttt{guicontrol.MainPanelPresenter}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Classe base per i \inglese{presenter} associati ai diversi componenti dell'interfaccia grafica. Contiene i metodi necessari all'inizializzazione di questi ultimi nonché i controlli che ne attivano la comparsa o scomparsa in risposta alle preferenze di visualizzazione dell'utente.
-
-Poiché inoltre da (\texttt{org.softwaresynthesis.mytalk.clienview.gui.MainPanel} è possibile impostare il proprio stato, il \inglese{presenter} ad esso associato contiene le funzioni che notificano l'avvenuto cambiamento di stato al \texttt{PresenterMediator} e da questo al Façade del server.
-%TODO chiarire se invece la cosa deve passare prima per StandardClient perché, ad essere sincero, ho idea che nessuno sappia per davvero a che cosa serviva quella classe!
+Classe base per i \inglese{presenter} associati ai diversi componenti dell'interfaccia grafica. Contiene i metodi necessari all'inizializzazione di questi ultimi nonché i controlli che ne attivano la comparsa o scomparsa in risposta alle preferenze di visualizzazione dell'utente. Inoltre, contiene un riferimento a \texttt{PresenterMediator} per la collaborazione tra tutti i \inglese{presenter}, che è ereditato da questi ultimi in quanto sottoclassi.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1631,9 +1641,13 @@ Poiché inoltre da (\texttt{org.softwaresynthesis.mytalk.clienview.gui.MainPanel
 	\item{\scshape\bfseries Descrizione:}\\
 Tale \inglese{presenter} contiene le operazioni necessarie a visualizzare l'elenco dei messaggi presenti nella segreteria telefonica di un determinato utente.
 
-Poiché a partire dalla vista associata è possibile avviare/arrestare la riproduzione di un messaggio, questo oggetto deve contenere opportune funzioni di \inglese{callback} per rispondere alle richieste dell'utente in tal senso. La cancellazione di un messaggio, corrispondente al requisito RUFF15.4.0, è anch'essa possibile attraverso un'operazione di questo \inglese{presenter}.
+Poiché a partire dalla vista associata è possibile avviare/arrestare la riproduzione di un messaggio, questo oggetto deve contenere opportune funzioni di \inglese{callback} per rispondere alle richieste dell'utente in tal senso. La cancellazione di un messaggio, corrispondente al requisito RUFF15.4.0, è anch'essa possibile attraverso un'operazione di questo \inglese{presenter}, così come il cambiamento di stato del messaggio una volta che viene ascoltato.
 
-È invece prevista la possibilità di aggiornamento del componente grafico, in quanto la ricezione di nuovi messaggi può avvenire anche se l'utente è in linea (ad esempio se questi è impegnato in un'altra conversazione).
+È prevista inoltre la possibilità di aggiornamento del componente grafico, in quanto la ricezione di nuovi messaggi può avvenire anche se l'utente è in linea (ad esempio se questi è impegnato in un'altra conversazione).
+
+Qualora i dati corrispondenti alla segreteria telefonica di un utente non fossero disponibili sul client, è responsabilità di questa classe interrogare il server al fine di ottenere le informazioni necessarie nonché istanziare le opportune classi di \textsf{Rappresentazione dati}.
+
+Infine, per le operazioni che hanno effetto sulla rappresentazione del modello dei dati sul server, quali la cancellazione di un messaggio o il cambiamento di stato di un messaggio, devono essere notificati al server attraverso il componente \textsf{Façade del server}.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1645,7 +1659,7 @@ Poiché a partire dalla vista associata è possibile avviare/arrestare la riprod
 \item \texttt{guicontrol.PresenterMediator}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-L'istanza di tale classe ha il compito di gestire le collaborazioni fra i diversi \inglese{presenter} associati alle viste dell'interfaccia grafica e smistare i messaggi che questi si devono scambiare. A tale scopo, è necessario che tutti i \inglese{presenter} si registrino su di essa in modo da poter ricevere le successive richieste tramite chiamata di metodo.
+L'istanza di tale classe ha il compito di gestire le collaborazioni fra i diversi \inglese{presenter} associati alle viste dell'interfaccia grafica e smistare i messaggi che questi si devono scambiare. A tale scopo, è necessario che tutti i \inglese{presenter} si registrino su di essa in modo da poter ricevere le successive richieste tramite chiamata di metodo. Inoltre, questi ultimi detengono (o ereditano) un riferimento all'istanza del mediatore cui notificano gli eventi di interesse.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1660,6 +1674,9 @@ L'istanza di tale classe ha il compito di gestire le collaborazioni fra i divers
 Tramite tale \inglese{presenter} è possibile inizializzare la barra laterale degli strumenti rappresentata da \texttt{org.softwaresynthesis.mytalk.clientview.gui.ToolsPanel}. Gli aggiornamenti cui tale porzione della vista è soggetta consistono nella visualizzazione/scomparsa di uno o più strumenti su richiesta dell'utente e per ognuno di questi è prevista la presenza di un'operazione.
 
 D'altra parte, gli eventi scatenati dall'interazione dell'utente con il pannello degli strumenti che comportano la modifica dell'elemento mostrato nella regione centrale al posto del pannello principale, sono raccolti da questo \inglese{presenter} e le corrispondenti richieste sono inoltrate al \texttt{PresenterMediator} per la corretta gestione. In questo modo è possibile far comparire il pannello di gestione dei dati personali corrispondenti al proprio account, della segreteria, lo storico delle chiamate e la selezione della lingua.
+
+Poiché inoltre da (\texttt{org.softwaresynthesis.mytalk.clienview.gui.ToolsPanel} è possibile impostare il proprio stato, il \inglese{presenter} ad esso associato contiene le funzioni che notificano l'avvenuto cambiamento di stato al componente \textsf{Façade del server}.
+
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \textsf{CP03 -- Gestione GUI}
@@ -1701,12 +1718,9 @@ Per quanto riguarda la componentistica, la sotto-architettura \texttt{clientview
 \begin{itemize}[noitemsep,nolistsep]
 	\item[-] \textsf{CV01 -- GUI}
 \end{itemize}
-per le specifiche dei componenti sopra citati, si rimanda alla sezione successiva.
-
-I nomi di tutte le classi riportate nella presente sezione sono implicitamente parte del package \texttt{org.softwaresynthesis.mytalk.clientview}, pertanto tale prefisso sarà omesso nella loro denominazione.
+per le specifiche del quale si rimanda alla sezione successiva. I nomi di tutte le classi riportate nella presente sezione sono inoltre implicitamente parte del package \texttt{org.softwaresynthesis.mytalk.clientview}, pertanto tale prefisso sarà omesso nella loro denominazione.
 
 Analogamente a quanto osservato per la sotto-architettura \texttt{clientpresenter}, la rappresentazione tramite classi e oggetti è utilizzata a livello prettamente logico indipendentemente dal dominio applicativo concreto di implementazione.
-
 
 In riferimento alla bozza di interfaccia utente presentata in figura \ref{fig:gui}, la parte denominata \texttt{AddressBookPanel} conterrà la lista degli utenti nella rubrica, mentre \texttt{ToolsPanel} conterrà i componenti grafici che rappresentano tutte le funzionalità offerte dal sistema. 
 
@@ -1719,7 +1733,7 @@ Il contenuto del \texttt{MainPanel}, invece, è destinato in relazione alla funz
 	\item{\scshape\bfseries Descrizione:}\\
 Questo componente si occupa della presentazione dell'interfaccia grafica presentata all'utente finale. Le classi in esso contenute servono pertanto per la visualizzazione dei punti di accesso alle funzionalità offerte dal sistema all'utente.
 
-Si noti che tale componente demanda tutta la logica di applicazione al \inglese{presenter} ed è quindi relativo solo ed esclusivamente alla grafica. Tutti i pannelli, che corrispondono ad altrettante viste, hanno pertanto un canale di comunicazione aperto con il \inglese{presenter} loro associato, e gli eventi generati dall'utente devono essere gestiti collegando l'evento alle opportune funzioni di \inglese{callback} offerte dai presenter.
+Si noti che tale componente demanda tutta la logica di applicazione al \inglese{presenter} ed è quindi relativo solo ed esclusivamente alla grafica. Tutti i pannelli, che corrispondono ad altrettante viste, hanno pertanto un canale di comunicazione aperto con il \inglese{presenter} loro associato, e gli eventi generati dall'utente devono essere gestiti collegando l'evento alle opportune funzioni di \inglese{callback} offerte dai \inglese{presenter}.
 
 	\item{\scshape\bfseries Diagramma delle classi:}
 Il diagramma non è riportato perché, coincidendo le classi di questo componente con l'unico package della sotto-architettura \texttt{clientview}, esso verrebbe ad essere identico a quello presentato in \vref{fig:classclientiew}. Si rimanda pertanto a quest'ultimo per la rappresentazione UML del componente GUI\@.
@@ -1771,7 +1785,9 @@ Classe padre della gerarchia di oggetti grafici che possono comparire nella sezi
 \item \texttt{ToolsPanel}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Classe che rappresenta il pannello degli strumenti della \inglese{home screen} dell'applicativo, mediante il quale è possibile accedere alle funzionalità di ricerca, di segreteria telefonica, selezione della lingua, modifica dei dati dell'utente e storico delle chiamate. All'occorrenza il pannello può essere messo in secondo piano e non essere più visibile per intero nella finestra principale.
+Classe che rappresenta il pannello degli strumenti della \inglese{home screen} dell'applicativo, mediante il quale è possibile accedere alle funzionalità di ricerca, di segreteria telefonica, selezione della lingua, modifica dei dati dell'utente e storico delle chiamate.
+
+All'occorrenza il pannello può essere messo in secondo piano e non essere più visibile per intero nella finestra principale. Inoltre, in questo pannello è visualizzato lo stato corrente dell'utente ed è possibile modificarlo per passare da ``occupato'' a ``disponibile'' o per disconnettersi e passare a ``\inglese{offline}''.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -2048,7 +2064,7 @@ Il \inglese{pattern} Singleton pone un limite superiore stretto al numero di ist
 Il \inglese{pattern} Singleton è altresì utile per controllare il numero di istanze attive della classe \texttt{clientpresenter.kernel.RemoteHandler} per gli stessi motivi evidenziati in precedenza, ossia l'unicità del punto di accesso alle funzionalità della sotto-architettura \texttt{clientpresenter}.
 
   \item{\scshape\bfseries CS02 -- Gestione connessione}\\
-La classe \texttt{server.connection.StandardConnectionHandler} è implementata come Singleton in modo da centralizzare la responsabilità di creare nuove connessioni in risposta alle esigenze dei client.
+La classe \texttt{server.connection.StandardCommunicationHandler} è implementata come Singleton in modo da centralizzare la responsabilità di creare nuove connessioni in risposta alle esigenze dei client.
 
 \end{description}
 
