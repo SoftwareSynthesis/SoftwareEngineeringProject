@@ -197,7 +197,7 @@ L'applicativo dovrà disporre di un lato server ed un lato client. Se da una par
 \subsubsection*{Vantaggi}
 
 \begin{itemize}[noitemsep,nolistsep]
-  \item[-] Alcuni membri del gruppo hanno già lavorato in passato con Tomcat. LA loro esperienza potrà tornare utile velocizzando la fase d'apprendimento, da parte dei membri che ancora non lo conoscono.
+  \item[-] Alcuni membri del gruppo hanno già lavorato in passato con Tomcat; la loro esperienza potrà tornare utile velocizzando la fase d'apprendimento, da parte dei membri che ancora non lo conoscono.
 \end{itemize}
 
 \subsection{Hibernate}\label{sec:hibernate}
@@ -2020,22 +2020,25 @@ Inoltre, i componenti di questa sotto-architettura non sono vincolati a utilizza
 In particolare, le componenti del sistema che prendono parte alle collaborazioni previste dal \inglese{pattern} MVP sono
 \begin{description}
   \item{\scshape\bfseries CS01 -- Gestione database}\\
-Componente che ha il ruolo di gestire la persistenza dei dati sul server.
+Componente che ha il ruolo di gestire la persistenza dei dati sul server necessaria alla memorizzazione delle entità di interesse del modello dei dati.
 
   \item{\textsc{\bfseries CS06 -- Gestione chiamate}, \textsc{\bfseries Gestione rubrica} e \textsc{\bfseries Gestione segreteria}}\\
 Contengono le rappresentazioni delle entità della \inglese{business logic} lato server, che devono essere interrogate per ricavare le informazioni necessarie ai client in forma opportuna.
 
   \item{\scshape\bfseries CS07 -- Façade del server}\\
-Componente del server interessato dalla ricezione delle richieste da parte dei \inglese{presenter}, recupera le informazioni di cui questi ultimi necessitano e le restituisce in forma serializzata e compatiblie con il dominio applicativo dei client.
+Componente del server interessato dalla ricezione delle richieste da parte dei \inglese{presenter}, recupera le informazioni di cui questi ultimi necessitano e le restituisce in forma serializzata e compatibile con il dominio applicativo dei client.
+
+  \item{\scshape\bfseries CP01 -- Gestione comunicazione}\\
+Il componente del \inglese{presenter} che gestisce la logica di comunicazione e necessita di interfacciarsi alla sotto-architettura server nel momento in cui è necessario instaurare una connessione in uscita.
 
   \item{\scshape\bfseries CP04 -- Gestione remota}\\
 Intercetta le comunicazioni entranti verso il client a partire dal server che non hanno origine in una richiesta esplicita da parte del client come, ad esempio, gli aggiornamenti di stato dei diversi utenti o le chiamate in ingresso.
   
   \item{\scshape\bfseries CP03 -- Gestione GUI}\\
-Riceve i comandi dalla vista ed è responsabile del suo aggiornamento e dell'interrogazione del server.
+Riceve i comandi dalla vista ed è responsabile del suo aggiornamento e dell'interrogazione del server nel momento in cui i dati necessari per popolare l'interfaccia utente non siano disponibili sul client. Questo componente integra al suo interno gli oggetti \inglese{presenter} specifici per ogni vista e ne gestisce la collaborazione.
 
   \item{\scshape\bfseries GUI}\\
-Corrisponde alla vista ed è accessibile al \inglese{presenter} tramite le DOM API di JavaScript.
+Corrisponde all'insieme delle viste ed è accessibile al \inglese{presenter} tramite le DOM API di JavaScript.
 \end{description}
 
 \subsection{Observer}
