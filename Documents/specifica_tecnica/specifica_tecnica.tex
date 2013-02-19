@@ -197,8 +197,7 @@ L'applicativo dovrà disporre di un lato server ed un lato client. Se da una par
 \subsubsection*{Vantaggi}
 
 \begin{itemize}[noitemsep,nolistsep]
-%TODO siamo proprio sicuri che sia un vantaggio interessante?
-  \item[-] l'installazione di TomCat automatizza anche l'installazione del web server Apache, richiedendola qualora l'applicativo non sia già installato nell'elaboratore;
+  \item[-] Alcuni membri del gruppo hanno già lavorato in passato con Tomcat. LA loro esperienza potrà tornare utile velocizzando la fase d'apprendimento, da parte dei membri che ancora non lo conoscono.
 \end{itemize}
 
 \subsection{Hibernate}\label{sec:hibernate}
@@ -217,7 +216,7 @@ Hibernate è un \inglese{framework} Java utilizzato per facilitare l'utilizzo di
 \section{Introduzione all'architettura di sistema}\label{sec:introdesign}
 Per introdurre l'architettura proposta è essenziale mettere in evidenza le seguenti considerazioni:
 \begin{itemize}
-	\item il sistema poggia su un database nel quale sono contenuti i dati d'interesse per gli utenti (dati anagrafici, lista dei messaggi audio, lista dei messaggi audio e video, e la rubrica dei contatti);
+	\item il sistema poggia su un database nel quale sono contenuti i dati d'interesse per gli utenti (dati anagrafici, lista dei messaggi audio, lista dei messaggi audio e video, la rubrica dei contatti e lo storico delle chiamate);
 	\item il sistema proposto dal team è dotato di una parte server e una parte client;
 	\item dopo un'analisi preliminare il team ha stabilito che la progettazione del server non deve essere vincolata da quella del client in modo tale da evitare che il progetto dell'applicativo lato server abbia la cognizione di come funziona il client. Ciò permetterà un futuro riutilizzo del codice (e.g. se si desiderasse creare un nuovo applicativo di tipo \underline{VoIP} si potrà riutilizzare il server già creato);
 	\item per quanto riguarda il lato client, al fine di garantire un alto livello di riutilizzo del codice e la possibilità di eseguire manutenzioni nel minor tempo possibile, si vuole che la logica d'implementazione del client sia svincolata dalla rappresentazione grafica del medesimo.
@@ -548,6 +547,7 @@ Infine, si fa notare che i nomi di tutte le classi riportate nella presente sezi
 
 \subsection{Componenti evidenziati}
 
+
 \subsubsection{CS01 -- Gestione database}
 \begin{description}
 \item{\scshape\bfseries Descrizione:}\\
@@ -732,7 +732,7 @@ La gestione della segreteria lato client è resa più agevole dall'introduzione 
 \subsubsection{CS06 -- Gestione chiamate}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
-Le classi di questo componente hanno il ruolo di incapsulare la logica di gestione delle chiamate e di accesso ai dati relativi a una chiamata (data, mittente e $n\geq1$ dstinatari della chiamata). Tali informazioni rivestono un ruolo importante per la rappresentazione e la trasmissione ai client dello storico delle chiamate.
+Le classi di questo componente hanno il ruolo di incapsulare la logica di gestione delle chiamate e di accesso ai dati relativi a una chiamata (data, mittente e $n\geq1$ destinatari della chiamata). Tali informazioni rivestono un ruolo importante per la rappresentazione e la trasmissione ai client dello storico delle chiamate.
 
 Oltre all'interfaccia \texttt{ICall} e alla sua implementazione lato server \texttt{Call}, che rappresenta il \inglese{transfer object} per la gestione del database, sono state predisposte l'interfaccia \texttt{ICallList} e la relativa implementazione \texttt{CallList} per la rappresentazione di una collezione di chiamate.
 
@@ -1127,7 +1127,7 @@ Classe concreta della gerarchia degli stati che corrisponde alla mancata disponi
 \item \texttt{IMessageBox}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Interfaccia che rappresenta, ad alto livello, la segreteria telefonica dell'utente cui è associata. Tramite opportune operazioni permette di accedere all'elenco dei messaggi audio o audio/video che l'utente ha ricevuto nel periodo in cui era in linea o non era disponibile perché impegnato in una conversazione.
+Interfaccia che rappresenta la segreteria telefonica dell'utente cui è associata. Tramite opportune operazioni permette di accedere all'elenco dei messaggi audio o audio/video che l'utente ha ricevuto nel periodo in cui era in linea o non era disponibile perché impegnato in una conversazione.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}
