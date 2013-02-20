@@ -471,7 +471,9 @@ Si riporta un elenco delle principali metriche, in riferimento alle quali il tea
   \item indice di specializzazione (IS), definito come \[
   IS := \frac{DIT \times NORM}{NOM}
   \]
-  \item complessità ciclomatica (o complessità condizionale), un indice che misura all'interno di un metodo il numero di cammini distinti che il flusso di controllo può intraprendere nel codice sorgente incrementando un indice di 1 unità per ogni istruzione di \inglese{branch} (\verb+if+, \verb+for+, \verb+while+, \verb+do...while+, \verb+case+, \verb+catch+, operatore condizionale ternario, operatori logici cortocircuitati);
+  \item complessità ciclomatica: si basa sul concetto che un metodo può essere rappresentato come un grafo, per calcolare tale complessità vengono sommati tutti i cammini linearmente indipendenti di tale metodo: maggiore è il numero di cammini, maggiore sarà di conseguenza la complessità ciclomatica e la possibilità che in tale codice ci siano errori. Tale complessità è definita come: \textit{v(G)=E-N+P} dove \textit{E} è il numero di archi, \textit{N} il numero di nodi e \textit{P} le componenti connesse da ogni arco.\\
+Risulta essere molto utile per determinare il numero di test da effettuare su un determinato metodo per coprire tutti i cammini possibili. 
+
   \item peso della classe (WMC, \inglese{Weighted Methods per Class}) definito come la somma della complessità ciclomatica di tutti i metodi membri di una classe;
   \item mancanza di coesione dei metodi di una classe (LCOM, \inglese{Lack of Cohesion of Methods}), un indice che misura quanto i metodi di una classe fanno riferimento ai campi dati della stessa, definito se $m(A)$ è il numero di metodi che riferiscono il campo dati $A$ come \[
   LCOM := \frac{\frac{1}{NOF}\left(\displaystyle\sum_{A\;\mathrm{attributo}}{m(A)}\right) - NOM}{1-NOM}
