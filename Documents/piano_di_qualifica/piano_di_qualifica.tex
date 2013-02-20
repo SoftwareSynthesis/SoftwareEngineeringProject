@@ -452,12 +452,23 @@ Questa tipologia di analisi può rilevare anomalie quali scritture successive su
 \end{itemize}
 
 \subsection{Metriche}
-\subsubsection{Metriche per il progetto}
 Per effettuare delle misure efficacemente è necessario definire un'unità di misura, una scala metrica e il metodo per rilevare tali misure.
 
 Tali caratteristiche sono definite dettagliatamente dallo standard ISO/IEC 9126, e le metriche descritte possono essere catalogate secondo due macro categorie: metriche elementari e derivate. Le prime sono in grado di rappresentare istantaneamente un dato fenomeno, le metriche derivate al contrario sono ricavate da operazioni su altre misurazioni.
 
 Sempre in riferimento alla capacità di immediatezza di misurazione sulle caratteristiche del prodotto si possono distinguere metriche dirette, che sono rilevabili sul software senza considerare l'influenza di fattori esterni (come l'ambiente nel quale è eseguito il software), e metriche indirette che combinano nelle misurazioni sul prodotto anche misure relative a elementi ambientali.
+
+\subsubsection{Metriche per il progetto}
+Relativamente all'andamento e alla gestione del progetto il team ha stabilito di affidarsi a una serie di indicatori al fine di ottenere una stima delle caratteristiche che per loro natura non possono essere misurate in maniera esatta. L'uso di tali indicatori è stato ritenuto opportuno al fine di valutare l'insorgenza di fattori di criticità e controllare il rispetto dei vincoli in termini di risorse (tempi/costi) di progetto.
+
+Gli indicatori selezionati come candidati per l'utilizzo sono, in particolare:
+\begin{description}
+  \item{\scshape\bfseries BCWS} (\inglese{Budgeted Cost of Work Scheduled}) pari al costo preventivato in termini di ore per realizzare i \inglese{task} di progetto fino alla data corrente;
+  \item{\scshape\bfseries ACWP} (\inglese{Actual Cost of Work Performed}) dato dal costo a consuntivo in termini di ore effettivamente impiegato per lo svolgimento dei \inglese{task} di progetto alla data corrente;
+  \item{\scshape\bfseries BCWP} (\inglese{Budgeted Cost of Work Performed}) determinato dal valore delle attività terminate alla data corrente;
+  \item{\scshape\bfseries BV} (\inglese{Budget Variance}) definito come \[BV \stackrel{\Delta}{=} BCWS - ACWP \] ovvero lo scostamento fra quanto preventivato e quanto sostenuto in termini di costi alla data corrente;
+  \item{\scshape\bfseries CV} (\inglese{Cost Variance}) definito come \[BV \stackrel{\Delta}{=} BCWP - ACWP \] dato dallo scostamento fra il valore di quanto effettivamente prodotto dalle attività di progetto e il costo sostenuto.
+\end{description}
 
 \subsubsection{Metriche per la verifica del codice}\label{sec:metrics}
 
@@ -469,7 +480,7 @@ Si riporta un elenco delle principali metriche, in riferimento alle quali il tea
   \item profondità di una classe nell'albero di derivazione (DIT, \inglese{Depth of Inheritance Tree});
   \item numero di metodi ridefiniti (NORM, \inglese{Number of OverRidden Methods})
   \item indice di specializzazione (IS), definito come \[
-  IS := \frac{DIT \times NORM}{NOM}
+  IS \stackrel{\Delta}{=} \frac{DIT \times NORM}{NOM}
   \]
   \item complessità ciclomatica, basata sul concetto che un metodo può essere rappresentato come un grafo, per calcolare tale complessità vengono sommati tutti i cammini linearmente indipendenti di tale metodo: maggiore è il numero di cammini, maggiore sarà di conseguenza la complessità ciclomatica e la possibilità che in tale codice ci siano errori; tale metrica è definita come
   \[v(G)=E-N+P\]
@@ -477,12 +488,12 @@ dove $E$ è il numero di archi, $N$ il numero di nodi e $P$ le componenti connes
 
   \item peso della classe (WMC, \inglese{Weighted Methods per Class}) definito come la somma della complessità ciclomatica di tutti i metodi membri di una classe;
   \item mancanza di coesione dei metodi di una classe (LCOM, \inglese{Lack of Cohesion of Methods}), un indice che misura quanto i metodi di una classe fanno riferimento ai campi dati della stessa, definito se $m(A)$ è il numero di metodi che riferiscono il campo dati $A$ come \[
-  LCOM := \frac{\frac{1}{NOF}\left(\displaystyle\sum_{A\;\mathrm{attributo}}{m(A)}\right) - NOM}{1-NOM}
+  LCOM \stackrel{\Delta}{=} \frac{\frac{1}{NOF}\left(\displaystyle\sum_{A\;\mathrm{attributo}}{m(A)}\right) - NOM}{1-NOM}
   \]
   \item indice di utilità (Ca, \inglese{Afferent Coupling}) definito come il numero di classi esterne al package che dipendono da una determinata classe;
   \item indice di dipendenza (Ce, \inglese{Efferent Coupling}), definito come il numero delle classi interne al package che dipendono da una classe;
   \item instabilità (I) definita come \[
-  I := \frac{Ce}{Ca + Ce}
+  I \stackrel{\Delta}{=} \frac{Ce}{Ca + Ce}
   \]
   \item astrattezza (a livello di progetto) dato dal rapporto fra il numero di classi astratte/interfacce e il numero totale di tipi;
   \item la metrica relativa a metodi e procedure $SFIN - SFOUT$, dove SFIN (\inglese{structural fan-in}) è il numero di volte che tale metodo è invocato nel corpo di altri metodi e SFOUT (\inglese{structural fan-out}) è il numero di invocazioni di metodi esterni all'interno del metodo stesso (corrispondono a Ca e Ce rispettivamente);
