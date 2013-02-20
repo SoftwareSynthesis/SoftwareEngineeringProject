@@ -291,7 +291,7 @@ Con una corretta implementazione questa soluzione avrebbe permesso una migliore 
 Come già citato nella parte introduttiva all'architettura, il server si appoggia ad un database dove sono registrati i dati del sistema. La progettazione di tale database passa per due fasi (come appreso dal manuale ``Sistemi di basi di dati''): la progettazione concettuale e la progettazione logica.
 
 \subsection{Progettazione concettuale}
-Con la progettazione concettuale definiremo una struttura ``concettuale'' della base di dati. Tale struttura non rappresenta quella finale pronta per la creazione su DBMS, ma bensì un modello in grado di rappresentare il problema, svincolato da come esso debba essere logicamente rappresentato.
+Con la progettazione concettuale definiremo una struttura ``concettuale'' della base di dati. Tale struttura non rappresenta quella finale pronta per la creazione sul DBMS, ma bensì un modello in grado di rappresentare il problema, svincolato da come esso debba essere logicamente rappresentato.
 
 \subsubsection{Lista delle classi}
 
@@ -304,15 +304,27 @@ Con la progettazione concettuale definiremo una struttura ``concettuale'' della 
 \toprule
 Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule
-ID\_user & Integer & NO & PrimaryKey\\
-E-Mail & Varchar(100) & NO & Unique\\
+E\_Mail & Varchar(100) & NO & Unique\\
 Password & Password & NO &\\
 Question & Varchar(100) & NO &\\
 Answer & Varchar(100) & NO &\\
 Name & Varchar(100) & SÌ &\\
-Cognome & Varchar(100) & SÌ &\\
+Surname & Varchar(100) & SÌ &\\
 Picture & Varchar(150) & SÌ &\\
 \bottomrule
+\end{tabular}
+\end{center}
+
+	\item{\scshape\bfseries AddressBooks}: è l'entità le cui istanze rappresentano gli utenti nella nella appartenenti alla rubrica di un utente. AddressBooks è caratterizzata dai seguenti attributi:
+	
+\begin{center}
+\rowcolors{2}{lightblue}{llightblue}
+\begin{tabular}{ccc}
+\toprule
+Nome attributo & Tipo & Opzionale & Vincoli\\
+\midrule
+Owner & Bigint unsigned & NO &\\
+Blocked & Boolean & NO & \\
 \end{tabular}
 \end{center}
 
@@ -324,7 +336,6 @@ Picture & Varchar(150) & SÌ &\\
 \toprule
 Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule
-ID\_call & Integer & NO & PrimaryKey\\
 Start\_date & Datetime & NO & \\
 End\_date & Datetime & SÌ & \\
 \bottomrule
@@ -339,7 +350,6 @@ End\_date & Datetime & SÌ & \\
 \toprule
 Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule
-ID\_group & Integer & NO & PrimaryKey\\
 Name & Varchar(100) & NO &\\
 \bottomrule
 \end{tabular}
@@ -353,12 +363,8 @@ Name & Varchar(100) & NO &\\
 \toprule
 Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule
-ID\_message & Integer & NO & PrimaryKey\\
-Sender & Varchar(100) & NO & \\
-Receiver & Varchar(100) & NO & \\
 New & Boolean & NO & \\
 Start\_date & Datetime & NO & \\
-End\_date & Datetime & SÌ & \\
 \bottomrule
 \end{tabular}
 \end{center}	
@@ -386,6 +392,10 @@ Nel caso particolare dei messaggi, inoltre, il campo ID\_message, oltre a rappre
 
 \begin{description}
 	\item{\scshape\bfseries UserData - Calls (molti a molti)}: tale associazione rappresenta il legame che intercorre tra gli utenti e le chiamate. Tale associazione è del tipo molti a molti, con totalità parziale verso Calls e totalità totale verso UserData.
+	
+	\item{\scshape\bfseries UserData - AddressBooks (molti a uno): tale associazione rappresenta il legame che intercorre tra un utente e la rubrica. Tale associazione è di tipo molti a uno, con totalità parziale da AddressBooks a UserData mentre è totale da UserData a AddressBook.
+	
+	\item{\scshape\bfseries AddressBooks - UserData (uno a uno)}: Tale associazione rappresenta il proprietario di una rubrica. Tale associazione è del tipo uno 
 	
 	\item{\scshape\bfseries UserData - Groups (molti a molti)}: tale associazione rappresenta il legame che intercorre tra gli utenti ed i gruppi, per la quale si è deciso di usare un associazione molti a molti con totalità parziale solo da Groups a UserData. Ciò significa che: un utente può comparire in zero o più gruppi (in ragione del fatto che potrebbe esserci più di qualcuno che registra un dato utente nella propria rubrica), ed un utente può possedere uno o più gruppi.
 	
