@@ -305,28 +305,32 @@ Con la progettazione concettuale definiremo una struttura ``concettuale'' della 
 Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule
 E\_Mail & Varchar(100) & NO & Unique\\
-Password & Password & NO &\\
+Password & Varchar(100) & NO &\\
 Question & Varchar(100) & NO &\\
 Answer & Varchar(100) & NO &\\
 Name & Varchar(100) & SÌ &\\
 Surname & Varchar(100) & SÌ &\\
-Picture & Varchar(150) & SÌ &\\
+Picture & Varchar(150) & NO &\\
 \bottomrule
 \end{tabular}
 \end{center}
 
-	\item{\scshape\bfseries AddressBooks}: è l'entità le cui istanze rappresentano gli utenti nella nella appartenenti alla rubrica di un utente. AddressBooks è caratterizzata dai seguenti attributi:
+	\item{\scshape\bfseries AddressBooks}: è l'entità le cui istanze rappresentano gli utenti  appartenenti alla rubrica di un utente. AddressBooks è caratterizzata dai seguenti attributi:
 	
 \begin{center}
 \rowcolors{2}{lightblue}{llightblue}
-\begin{tabular}{ccc}
+\begin{tabular}{lccc}
 \toprule
 Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule
-Owner & Bigint unsigned & NO &\\
+User & UserData & NO & \\
+Owner & UserData & NO &\\
 Blocked & Boolean & NO & \\
+\bottomrule
 \end{tabular}
 \end{center}
+
+Il campo 'owner' e 'User' saranno dei puntatori allo UserData proprietario della rubrica e utente appartenente alla rubrica. Verrà spiegato nel paragrafo relativo alla progettazione logica il perché è stato scelto come tipo di dato il tipo UserData.
 
 	\item{\scshape\bfseries Calls}: è l'entità le cui istanze rappresentano le chiamate effettuate attraverso il sistema software \caName. Calls è caratterizzata dai seguenti attributi:
 
@@ -363,11 +367,15 @@ Name & Varchar(100) & NO &\\
 \toprule
 Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule
+Sender & UserData & NO &\\
+Receiver & UserData & NO &\\
 New & Boolean & NO & \\
 Start\_date & Datetime & NO & \\
 \bottomrule
 \end{tabular}
 \end{center}	
+
+Come per l'entità AddressBook verrà spiegato nel paragrafo progettazione logica il perché 'Sender' e 'Receiver' hanno tipo di dato UserData.
 	
 	\item{\scshape\bfseries AudioMessages}: è un entità che specializza Messages e rappresenta i messaggi audio lasciati nella segreteria di un utente. L'entità non è caratterizzata da alcun attributo proprio.
 	
@@ -391,15 +399,13 @@ Nel caso particolare dei messaggi, inoltre, il campo ID\_message, oltre a rappre
 \subsubsection{Associazione tra classi}
 
 \begin{description}
-	\item{\scshape\bfseries UserData - Calls (molti a molti)}: tale associazione rappresenta il legame che intercorre tra gli utenti e le chiamate. Tale associazione è del tipo molti a molti, con totalità parziale verso Calls e totalità totale verso UserData.
+	\item{\scshape\bfseries UserData - Calls (molti a molti)}: tale associazione rappresenta il legame che intercorre tra gli utenti e le chiamate. Tale associazione è del tipo molti a molti, con totalità parziale verso Calls e totalità totale verso UserData. L'associazione prevede l'attributo 'Caller' che identifica chi è stato il primo utente ad avviare la chiamata.
 	
-	\item{\scshape\bfseries UserData - AddressBooks (molti a uno): tale associazione rappresenta il legame che intercorre tra un utente e la rubrica. Tale associazione è di tipo molti a uno, con totalità parziale da AddressBooks a UserData mentre è totale da UserData a AddressBook.
+	\item{\scshape\bfseries UserData - AddressBooks (molti a uno)}: tale associazione rappresenta il legame che intercorre tra un utente e la rubrica. Tale associazione è di tipo molti a uno, con totalità parziale da entrambi i lati.
 	
-	\item{\scshape\bfseries AddressBooks - UserData (uno a uno)}: Tale associazione rappresenta il proprietario di una rubrica. Tale associazione è del tipo uno 
+	\item{\scshape\bfseries AddressBooks - UserData (uno a uno)}: Tale associazione rappresenta il proprietario di una rubrica. Tale associazione è del tipo uno a uno con totalità totale da entrambi i lati.
 	
-	\item{\scshape\bfseries UserData - Groups (molti a molti)}: tale associazione rappresenta il legame che intercorre tra gli utenti ed i gruppi, per la quale si è deciso di usare un associazione molti a molti con totalità parziale solo da Groups a UserData. Ciò significa che: un utente può comparire in zero o più gruppi (in ragione del fatto che potrebbe esserci più di qualcuno che registra un dato utente nella propria rubrica), ed un utente può possedere uno o più gruppi.
-	
-	\item{\scshape\bfseries UserData - Groups (uno a molti)}: tale associazione rappresenta il legame che intercorre tra il proprietario del gruppo e il gruppo stesso. L'associazione è del tipo uno a molti, a rappresentare come un gruppo sia visualizzabile unicamente dal proprietario, mentre un utente può avere (e di conseguenza visualizzare) più gruppi.
+	\item{\scshape\bfseries AddressBooks - Groups (molti a uno)}: tale associazione rappresenta la possibilità di suddividere la propria rubrica in gruppi. Tale associazione è del tipo molti a uno, con totalità totale da Groups ad AddressBooks mentre ha una totalità parziale da AddressBooks a Groups.
 	
 	\item{\scshape\bfseries UserData - Messages (uno a molti)}: tale associazione rappresenta il legame che intercorre tra gli utenti ed i messaggi registrati nella sua segreteria. L'associazione è del tipo uno a molti verso Messages, con totalità parziale verso Messages e totalità totale verso UserData. L'idea alla base è che un utente può avere nella propria segreteria uno o più messaggi, così come può non averne nessuno, mentre ogni messaggio della segreteria è ``visionabile'' da un unico utente, il destinatario del messaggio.
 \end{description}
@@ -418,11 +424,11 @@ Con la progettazione logica intendiamo costruire la struttura definitiva del dat
 \begin{description}
 	\item{\scshape\bfseries UserData - Calls}: tale associazione si è risolta attraverso l'introduzione dell'entità CallLists. Tale entità contiene l'attributo User come chiave esterna verso l'entità UserData e l'attributo Call\_ID come chiave esterna verso l'entità Calls. È dotata inoltre dell'attributo Caller che identifica colui che ha per primo avviato la chiamata; per ogni gruppo di ennuple aventi lo stesso Call\_ID si avrà soltanto una ennupla contrassegnata con il campo Caller a vero.
 	
-	\item{\scshape\bfseries UserData - Groups}: tale associazione si è risolta con la creazione di una terza entità denominata AddressBooks, che contiene una chiave esterna verso UserData e una chiave esterna verso Groups.
+	\item{\scshape\bfseries UserData - AddressBook}: tali associazioni si sono risolte inserendo nell'entità AddressBook due chiavi esterne verso UserData. Per questo motivo nella progettazione concettuale era stato scelto come tipo di dato 'UserData'.
 	
-	\item{\scshape\bfseries UserData - Groups}: tale associazione si è risolta trasformando l'attributo Owner in una chiave esterna verso UserData.
+	\item{\scshape\bfseries AddressBook - Groups}: tale associazione si è risolta inserendo una chiave esterna verso Groups all'interno dell'entità AddressBook.
 	
-	\item{\scshape\bfseries UserData - Messages}: tale associazione si è risolta inserendo una chiave esterna verso UserData, all'interno dell'entità Messages.
+	\item{\scshape\bfseries UserData - Messages}: tale associazione si è risolta inserendo due chiavi esterne verso UserData, all'interno dell'entità Messages. Come per l'associazione UserData - AddressBook si era scelto come tipo di dato 'UserData' nella progettazione concettuale.
 \end{description}
 
 \subsubsection{Lista delle classi}
@@ -437,9 +443,9 @@ UserData
 \toprule
 Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule
-ID\_user & Integer & NO & PrimaryKey\\
+ID\_user & Bigint unsigned & NO & PrimaryKey\\
 E-Mail & Varchar(100) & NO & Unique\\
-Password & Password & NO &\\
+Password & Varchar(100) & NO &\\
 Question & Varchar(100) & NO &\\
 Answer & Varchar(100) & NO &\\
 Name & Varchar(100) & SÌ &\\
@@ -457,7 +463,7 @@ Calls
 \toprule
 Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule
-ID\_call & Integer & NO & PrimaryKey\\
+ID\_call & Bigint unsigned & NO & PrimaryKey\\
 Start\_date & Datetime & NO & \\
 End\_date & Datetime & SÌ &\\
 \bottomrule
@@ -472,8 +478,8 @@ CallLists
 \toprule
 Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule
-ID\_call & Integer & NO & PrimaryKey e ForeignKey verso Calls\\
-ID\_user & Integer & NO & PrimaryKey e ForeignKey verso UserData \\
+ID\_call & Bigint unsigned & NO & PrimaryKey e ForeignKey verso Calls\\
+ID\_user & Bigint unsigned & NO & PrimaryKey e ForeignKey verso UserData \\
 Caller & Boolean & NO &\\
 \bottomrule
 \end{tabular}
@@ -487,8 +493,11 @@ AddressBooks
 \toprule
 Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule
-ID\_user & Integer & NO & PrimaryKey e ForeignKey verso UserData\\
-ID\_group & Integer & NO & PrimaryKey e ForeignKey verso Groups\\
+ID\_addressBooks & Bigint unsigned & NO & PrimaryKey\\
+ID\_user & Bigint unsigned & NO & ForeignKey verso UserData\\
+ID\_group & Bigint unsigned & SI & ForeignKey verso Groups\\
+Owner & Bigint unsigned & NO & \\
+Blocked & Boolean & NO & default(false)\\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -501,9 +510,8 @@ Groups
 \toprule
 Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule
-ID\_group & Integer & NO & PrimaryKey\\
+ID\_group & Bigint unsigned & NO & PrimaryKey\\
 Name & Varchar(100) & NO & \\
-Owner & Varchar(100) & NO & ForeignKey verso UserData\\
 \bottomrule
 \end{tabular}
 \end{center}	
@@ -516,13 +524,12 @@ Messages
 \toprule
 Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule
-ID\_message & Integer & NO & PrimaryKey\\
-Sender & Varchar(100) & NO & ForeignKey verso UserData \\
-Receiver & Varchar(100) & NO & ForeignKey verso UserData\\
-New & Boolean & NO & \\
-Audio & Boolean & NO & \\
-Start\_date & Datetime & NO & \\
-End\_date & Datetime & SÌ & \\
+ID\_message & Bigint unsigned & NO & PrimaryKey\\
+Sender & Bigint unsigned & NO & ForeignKey verso UserData \\
+Receiver & Bigint unsigned & NO & ForeignKey verso UserData\\
+New & Boolean & NO & default(true)\\
+Audio & Boolean & NO & default(true)\\
+Date & Datetime & NO & \\
 \bottomrule
 \end{tabular}	
 \end{center}
