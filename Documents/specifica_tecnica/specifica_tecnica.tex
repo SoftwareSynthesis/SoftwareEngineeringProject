@@ -991,6 +991,7 @@ Interfaccia per la gestione delle richieste per ottenere le informazioni necessa
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 		\begin{itemize}[noitemsep,nolistsep]
 			\item[-] \textsf{CS02 -- Gestione connessione}
+			\item[-] \textsf{CS07 -- Façade del server}
 		\end{itemize}
 \end{description}
 
@@ -1013,6 +1014,7 @@ Interfaccia che definisce un canale di comunicazione client-server. Tale canale 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 		\begin{itemize}[noitemsep,nolistsep]
 			\item[-] \textsf{CS02 -- Gestione connessione}
+			\item[-] \textsf{CS07 -- Façade del server}
 			\item[-] \textsf{CP01 -- Gestione comunicazione}
 		\end{itemize}
 \end{description}
@@ -1052,8 +1054,9 @@ Interfaccia che raccoglie le operazioni sulla rubrica di un utente e permette di
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \textsf{CS03 -- Gestione rubrica}
 	  \item[-] \textsf{CS01 -- Gestione database}
+	  \item[-] \textsf{CS03 -- Gestione rubrica}
+    \item[-] \textsf{CS07 -- Façade del server}
 	\end{itemize}
 \end{description}
 
@@ -1075,9 +1078,10 @@ Interfaccia per le classi che rappresentano gli utenti, è dotata di operazioni 
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \textsf{CS03 -- Gestione rubrica}
 	  \item[-] \textsf{CS01 -- Gestione database}
 	  \item[-] \textsf{CS02 -- Gestione connessione}
+	  \item[-] \textsf{CS03 -- Gestione rubrica}
+	  \item[-] \textsf{CS07 -- Façade del server}
 	\end{itemize}
 \end{description}
 
@@ -1100,8 +1104,9 @@ Interfaccia per i gruppi interni alla rubrica, prevede un'operazione astratta \t
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:} 
 	  \begin{itemize}[noitemsep,nolistsep]
-	    \item[-] \textsf{CS03 -- Gestione rubrica}
 	    \item[-] \textsf{CS01 -- Gestione database}
+	    \item[-] \textsf{CS03 -- Gestione rubrica}
+	    \item[-] \textsf{CS07 -- Façade del server}
 	  \end{itemize}
 \end{description}
 
@@ -1192,6 +1197,7 @@ Interfaccia che rappresenta la segreteria telefonica dell'utente cui è associat
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}
 	  \item[-] \textsf{CS05 -- Gestione segreteria}
+		\item[-] \textsf{CS07 -- Façade del server}
 	\end{itemize}
 \end{description}
 
@@ -1213,8 +1219,9 @@ Interfaccia che dichiara le operazioni astratte (get/set) necessarie ad accedere
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] \textsf{CS05 -- Gestione segreteria}
     \item[-] \textsf{CS01 -- Gestione database}
+    \item[-] \textsf{CS05 -- Gestione segreteria}
+		\item[-] \textsf{CS07 -- Façade del server}
   \end{itemize}
 \end{description}
 
@@ -1241,8 +1248,9 @@ Classe \inglese{transfer object} che rappresenta un messaggio di natura audio o 
 Interfaccia che contiene le operazioni astratte di accesso ai dati (metodi get/set) che caratterizzano le chiamate, vale a dire il chiamante, l'insieme degli utenti chiamati nonché la data e l'ora di avvio e di terminazione della chiamata.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] \textsf{CS06 -- Gestione chiamate}
     \item[-] \textsf{CS01 -- Gestione database}
+    \item[-] \textsf{CS06 -- Gestione chiamate}
+		\item[-] \textsf{CS07 -- Façade del server}
   \end{itemize}
 \end{description}
 
@@ -1263,6 +1271,7 @@ Interfaccia che permette di interrogare la collezione di oggetti che costituisce
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS06 -- Gestione chiamate}
+    \item[-] \textsf{CS07 -- Façade del server}
   \end{itemize}
 \end{description}
 
@@ -1278,27 +1287,76 @@ Implementazione dell'interfaccia \texttt{ICallList}, permette di accedere alla l
 
 \end{itemize}
 
-\subsubsection{Package \texttt{org.softwaresynthesis.mytalk.server}}
+\subsubsection{Package \texttt{org.softwaresynthesis.mytalk.server.servlet}}
 
 \begin{itemize}[leftmargin=0em]
 
-\item \texttt{IServerFacade}
+\item \texttt{AddressBookManager}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Interfaccia che contiene tutte le operazioni richieste dai componenti della sotto-architettura \texttt{clientpresenter} inerenti alla registrazione, all'autenticazione,  alla gestione della rubrica e della segreteria nonché delle connessioni con altri utenti.
+\inglese{Servlet} che ha il compito di fornire ai client un'interfaccia per la consultazione e la gestione della rubrica. Rispondendo alle richieste dei client, infatti, consente lo scaricamento della rubrica restituendo i contatti in una forma serializzata adatta allo scambio di dati.
 
-In quest'ultimo caso le operazioni richieste vengono a loro volta inoltrate al componente responsabile della gestione della connessione (\texttt{server.connection.IConnectionHandler}).
+Inoltre, questa \inglese{servlet} è in grado di recepire le richieste di modifica sui dati della rubrica di un utente che corrispondono ai RUFF$4.x$, quali l'inserimento o la cancellazione di un contatto, creazione o eliminazione di gruppi, rimozione o aggiunta di un elemento da un gruppo.
+
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \textsf{CS07 -- Façade del server}
-	  \item[-] \textsf{CP01 -- Gestione comunicazione}
 	\end{itemize}
 \end{description}
 
-\item \texttt{StandardServerFacade}
+\item \texttt{AccountManager}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Questa classe Singleton è l'implementazione dell'interfaccia \texttt{IServerFacade} e contiene, in particolare, i metodi che rendono concrete le operazioni corrispondenti ai Factory Method dichiarati nell'interfaccia citata (per la gestione dei messaggi in segreteria e degli utenti nella rubrica).
+\inglese{Servlet} mediante la quale è possibile amministrare i propri dati personali memorizzati sul server, in accordo con i RUFF3.1.0 e RUFF3.2.0. Le richieste provenienti dai client comportano pertanto la modifica dei dati di autenticazione e dei dati anagrafici facoltativi.
+
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-] \textsf{CS07 -- Façade del server}
+	\end{itemize}
+\end{description}
+
+\item \texttt{ConnectionManager}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:}\\
+\inglese{Servlet} che ha la funzione di punto di accesso al componente \textsf{Gestione connessione} grazie al quale ad autenticazione avvenuta viene instaurato un canale di comunicazione bidirezionale fra il server e il client, destinato ad essere usato per effettuare e per ricevere le comunicazioni fra client.
+
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-] \textsf{CS07 -- Façade del server}
+	\end{itemize}
+\end{description}
+
+\item \texttt{StateManager}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:}\\
+\inglese{Servlet} avente la funzione di recepire le richieste corrispondenti ai cambiamenti di stato dei client del sistema, fornendo pertanto un punto d'accesso al componente \textsf{Gestione stato}.
+
+I cambiamenti di stato hanno origine nel client tanto per esplicito intervento dell'utente (ad es. una disconnessione o un passaggio da disponibile a ``occupato'') oppure implicitamente ad esempio alla ricezione di una comunicazione audio o audio/video.
+
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-] \textsf{CS07 -- Façade del server}
+	\end{itemize}
+\end{description}
+
+\item \texttt{MessageManager}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:}\\
+\inglese{Servlet} che rappresenta il punto di accesso al componente \textsf{Gestione segreteria} e consente pertanto ai client di interrogare il server sullo stato della segreteria associata a un determinato utente.
+
+Oltre allo scaricamento dei messaggi in forma serializzata adatta allo scambio dei dati, le richieste provenienti dai client prevedono la cancellazione di un messaggio dalla segreteria (RUFF15.4.0) oppure l'impostazione dello stato del messaggio da ``non ascoltato'' ad ``ascoltato'' (RUFF15.5.0).
+
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-] \textsf{CS07 -- Façade del server}
+	\end{itemize}
+\end{description}
+
+\item \texttt{CallHistoryManager}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:}\\
+\inglese{Servlet} la cui responsabilità è intercettare le richieste aventi come oggetto lo storico delle chiamate utente, che deve essere restituito dal server al client in forma opportunamente serializzata per l'interscambio di dati. Non è previsto invece alcun tipo di operazione ``attiva'' sui dati memorizzati nel server.
+
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \textsf{CS07 -- Façade del server}
