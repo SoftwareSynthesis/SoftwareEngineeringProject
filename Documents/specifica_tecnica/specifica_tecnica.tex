@@ -601,7 +601,7 @@ Allo scopo di rendere l'architettura facilmente estendibile a futuri ampliamenti
 \begin{figure}[H]
   \centering
   \includegraphics[width=.5\textwidth]{class_gestione_database}
-  \caption{Diagramma delle classi - Gestione database}\label{fig:gestione_database}
+  \caption{Diagramma delle classi - Gestione database}\label{fig:gestionedatabase}
 \end{figure}
 
 	\item{\scshape\bfseries Classi utilizzate:}
@@ -638,7 +638,7 @@ Le specifiche di tali oggetti sono descritte dall'interfaccia \texttt{connection
 	\begin{figure}[H]
 \begin{center}
 \includegraphics[width=.8\textwidth]{class_gestione_connessione}
-\caption{Diagramma delle classi - Gestione connessione}\label{fig:gestione_connessione}
+\caption{Diagramma delle classi - Gestione connessione}\label{fig:gestioneconnessione}
 \end{center}
 \end{figure}
 	
@@ -703,7 +703,7 @@ Inoltre, i cambiamenti di stato vengono notificati a tutti gli utenti presenti i
 \begin{figure}[H]
   \centering
   \includegraphics[width=.9\textwidth]{class_gestione_stato}
-  \caption{Diagramma delle classi - Gestione stato}\label{fig:gestione_stato}
+  \caption{Diagramma delle classi - Gestione stato}\label{fig:gestionestato}
 \end{figure}
 	
 	\item{\scshape\bfseries Classi utilizzate:}\\ 
@@ -732,7 +732,7 @@ La gestione della segreteria lato client è resa più agevole dall'introduzione 
 \begin{figure}[H]
   \centering
   \includegraphics[width=.6\textwidth]{class_gestione_segreteria}
-  \caption{Diagramma delle classi - Gestione segreteria}\label{fig:gestione_segreteria}
+  \caption{Diagramma delle classi - Gestione segreteria}\label{fig:gestionesegreteria}
 \end{figure}	
 	
 	\item{\scshape\bfseries Classi utilizzate:}
@@ -786,7 +786,7 @@ Le funzionalità esposte consentono di gestire i messaggi presenti in segreteria
 \begin{figure}[H]
   \centering
   \includegraphics[width=.6\textwidth]{class_facade_server}
-  \caption{Diagramma delle classi - Façade del server}\label{fig:facade_server}
+  \caption{Diagramma delle classi - Façade del server}\label{fig:facadeserver}
 \end{figure}	
 	
 	\item{\scshape\bfseries Classi utilizzate:}\\
@@ -1267,7 +1267,7 @@ Questa classe Singleton è l'implementazione dell'interfaccia \texttt{IServerFac
 \begin{figure}[H]
   \centering
   \includegraphics[width=1\textwidth]{server_generale}
-  \caption{Diagramma delle classi - Architettura \texttt{mytalk.server}}\label{fig:server_generale}
+  \caption{Diagramma delle classi - Architettura \texttt{mytalk.server}}\label{fig:sottoarchserver}
 \end{figure}
 \clearpage
 
@@ -1409,12 +1409,13 @@ Un esempio di richiesta proveniente dal server che richiede di essere gestita in
 
 Un altro esempio è la ricezione di una chiamata in ingresso, dal momento che la precondizione per stabilire una comunicazione via WebRTC è che il chiamato dia l'autorizzazione per stabilire la comunicazione.
 
-	\item{\scshape\bfseries Diagramma delle classi:}
-\begin{figure}[H]
-\centering
-  \includegraphics[width=.8\textwidth]{facade_presenter}
-  \caption{Diagramma delle classi - Gestione remota}\label{fig:facade_presenter}
-\end{figure}
+%TODO immagine da aggiornare e riesportare
+% 	\item{\scshape\bfseries Diagramma delle classi:}
+% \begin{figure}[H]
+%   \centering
+%   \includegraphics[width=.8\textwidth]{facade_presenter}
+%   \caption{Diagramma delle classi - Gestione remota}\label{fig:gestioneremota}
+% \end{figure}
 
 	\item{\scshape\bfseries Classi utilizzate:} 
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1720,7 +1721,7 @@ Poiché inoltre da (\texttt{org.softwaresynthesis.mytalk.clienview.gui.ToolsPane
 \begin{figure}[H]
   \centering
   \includegraphics[width=.8\textwidth]{package_presenter}
-  \caption{Diagramma delle classi - Architettura \texttt{mytalk.clientpresenter}}\label{fig:package_presenter}
+  \caption{Diagramma delle classi - Architettura \texttt{mytalk.clientpresenter}}\label{fig:sottoarchpresenter}
   \end{figure}
 \clearpage
 
@@ -1763,7 +1764,7 @@ Questo componente si occupa della presentazione dell'interfaccia grafica present
 Si noti che tale componente demanda tutta la logica di applicazione al \inglese{presenter} ed è quindi relativo solo ed esclusivamente alla grafica. Tutti i pannelli, che corrispondono ad altrettante viste, hanno pertanto un canale di comunicazione aperto con il \inglese{presenter} loro associato, e gli eventi generati dall'utente devono essere gestiti collegando l'evento alle opportune funzioni di \inglese{callback} offerte dai \inglese{presenter}.
 
 	\item{\scshape\bfseries Diagramma delle classi:}
-Il diagramma non è riportato perché, coincidendo le classi di questo componente con l'intera sotto-architettura \texttt{clientview}, esso verrebbe ad essere identico a quello presentato in \vref{fig:classclientiew}. Si rimanda pertanto a quest'ultimo per la rappresentazione UML del componente GUI\@.
+Il diagramma non è riportato perché, coincidendo le classi di questo componente con l'intera sotto-architettura \texttt{clientview}, esso verrebbe ad essere identico a quello presentato in figura \vref{fig:sottoarchview}. Si rimanda pertanto a quest'ultimo per la rappresentazione UML del componente GUI\@.
 	
 	\item{\scshape\bfseries Classi utilizzate:} 
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1899,7 +1900,7 @@ Inoltre, tale entità grafica prevede anche la presenza di una o più aree di ch
 \begin{figure}[H]
   \centering
   \includegraphics[width=1\textwidth]{Package_view}
-  \caption{Diagramma delle classi - Architettura \texttt{mytalk.clientview}}\label{fig:classclientiew}
+  \caption{Diagramma delle classi - Architettura \texttt{mytalk.clientview}}\label{fig:sottoarchview}
 \end{figure}
 \clearpage
 
