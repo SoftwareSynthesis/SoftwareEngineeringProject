@@ -388,6 +388,8 @@ I progettisti hanno optato per la definizione di chiavi primarie sintetiche, ovv
 
 Tale scelta è dettata dall'utilizzo del framework Hibernate che non permette la modifica del valore della chiavi primarie associate ad una istanza di un oggetto di \inglese{business}. Le chiavi saranno quindi composte da un campo a valore intero, da intendersi come un contatore che identifica univocamente i record.
 
+La chiave primaria in Calls (e chiave esterna in CallLists) è di tipo \texttt{BIGINT} senza segno, il team è consapevole che questo impone un limite di $1,8 \times10^{19}$ al numero di chiamate che possono essere memorizzate contemporaneamente. Una soluzione da adottarsi in futuro per evitare la perdita di dati potrebbe consistere nello spostare da database a disco parte di queste informazioni.
+
 Nel caso particolare dei messaggi, inoltre, il campo ID\_message, oltre a rappresentare un identificatore univoco, coincide anche con il nome del file sul server in cui è memorizzato il messaggio stesso, all'interno di una \inglese{directory} predefinita e nota ai componenti del sistema.
 
 \subsubsection{Gerarchia tra classi}
@@ -757,8 +759,6 @@ La gestione della segreteria lato client è resa più agevole dall'introduzione 
 Le classi di questo componente hanno il ruolo di incapsulare la logica di gestione delle chiamate e di accesso ai dati relativi a una chiamata (data, mittente e $n\geq1$ destinatari della chiamata). Tali informazioni rivestono un ruolo importante per la rappresentazione e la trasmissione ai client dello storico delle chiamate.
 
 Oltre all'interfaccia \texttt{ICall} e alla sua implementazione lato server \texttt{Call}, che rappresenta il \inglese{transfer object} per la gestione del database, sono state predisposte l'interfaccia \texttt{ICallList} e la relativa implementazione \texttt{CallList} per la rappresentazione di una collezione di chiamate.
-
-Le tabelle del database che corrispondono a \texttt{CallList} e al \inglese{transfer object} \texttt{Call} sono Calls e l'entità di associazione CallLists. La chiave primaria in Calls (e chiave esterna in CallLists) è di tipo \texttt{BIGINT} senza segno, il team è consapevole che questo impone una limitazione dell'ordine di $\times10^{19}$ al numero di chiamate che possono essere memorizzate contemporaneamente. Una soluzione da adottarsi in futuro per evitare la perdita di dati potrebbe consistere nello spostare da database a disco parte di queste informazioni.
 
 Per la gestione dello storico delle chiamate lato client, invece, sono state previste le classi \texttt{clientpresenter.kernel.JSCall}, che aderisce al medesimo contratto della sua controparte server, e \texttt{JSCallList}, che rappresenta invece lo storico delle chiamate associato al client su cui risiede il \inglese{presenter}.
 
