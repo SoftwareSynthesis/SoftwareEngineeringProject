@@ -602,7 +602,7 @@ Allo scopo di rendere l'architettura facilmente estendibile a futuri ampliamenti
 \item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=.5\textwidth]{class_gestione_database}
+  \includegraphics[width=.9\textwidth]{class_gestione_database}
   \caption{Diagramma delle classi - Gestione database}\label{fig:gestionedatabase}
 \end{figure}
 
@@ -676,7 +676,7 @@ La gestione della rubrica lato client è resa inoltre più agevole modellando qu
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=.8\textwidth]{class_gestione_rubrica}
+  \includegraphics[width=.7\textwidth]{class_gestione_rubrica}
   \caption{Diagramma delle classi - Gestione rubrica}\label{fig:gestionerubrica}
 \end{figure}
 	
@@ -738,7 +738,7 @@ La gestione della segreteria lato client è resa più agevole dall'introduzione 
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=.6\textwidth]{class_gestione_segreteria}
+  \includegraphics[width=.8\textwidth]{class_gestione_segreteria}
   \caption{Diagramma delle classi - Gestione segreteria}\label{fig:gestionesegreteria}
 \end{figure}	
 	
@@ -763,12 +763,11 @@ Oltre all'interfaccia \texttt{ICall} e alla sua implementazione lato server \tex
 Per la gestione dello storico delle chiamate lato client, invece, sono state previste le classi \texttt{clientpresenter.kernel.JSCall}, che aderisce al medesimo contratto della sua controparte server, e \texttt{JSCallList}, che rappresenta invece lo storico delle chiamate associato al client su cui risiede il \inglese{presenter}.
 
   \item{\scshape\bfseries Diagramma delle classi:}
-% TODO esportare l'immagine e includerla qui
-% \begin{figure}[H]
-%   \centering
-%   \includegraphics[width=.6\textwidth]{class_gestione_chiamate}
-%   \caption{Diagramma delle classi - Gestione chiamate}\label{fig:gestionechiamate}
-% \end{figure}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.6\textwidth]{class_gestione_chiamate}
+  \caption{Diagramma delle classi - Gestione chiamate}\label{fig:gestionechiamate}
+\end{figure}
 
   \item{\scshape\bfseries Classi utilizzate:}\\
   \begin{itemize}[noitemsep,nolistsep]
@@ -813,7 +812,7 @@ L'apparente discrasia fra componenti e Façade è dovuta al fatto che, da una pa
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=.6\textwidth]{class_facade_server}
+  \includegraphics[width=.7\textwidth]{class_facade_server}
   \caption{Diagramma delle classi - Façade del server}\label{fig:facadeserver}
 \end{figure}	
 	
@@ -1374,7 +1373,7 @@ Nello specifico i due possibili iter sono:
 	\item{\scshape\bfseries Diagramma delle classi:}
   \begin{figure}[H]
     \centering
-    \includegraphics[width=.8\textwidth]{gestione_comunicazione}
+    \includegraphics[width=.7\textwidth]{class_gestione_comunicazione}
     \caption{Diagramma delle classi - Gestione comunicazione}\label{fig:gestionecomunicazione}
   \end{figure}
 
@@ -1397,12 +1396,11 @@ La disponibilità di queste informazioni sul client permette una più agevole ra
 I dati rappresentati in forma di oggetti sono necessari, in particolare, per la gestione della segreteria, dello storico delle chiamate e della rubrica lato client.
 
   \item{\scshape\bfseries Diagramma delle classi:}\\
-%TODO questo diagramma deve essere generato ed esportato
-%   \begin{figure}[H]
-%     \centering
-%     \includegraphics[width=.8\textwidth]{rappresentazione_dati}
-%     \caption{Diagramma delle classi - Rappresentazione dati}\label{fig:rappresentazionedati}
-%   \end{figure}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=.8\textwidth]{class_rappresentazione_dati}
+    \caption{Diagramma delle classi - Rappresentazione dati}\label{fig:rappresentazionedati}
+  \end{figure}
 
 	\item{\scshape\bfseries Classi utilizzate:} 
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1428,12 +1426,11 @@ D'altro canto, dal momento che questo componente è responsabile anche delle mod
 La struttura delle classi che lo compongono mostra una corrispondenza biunivoca con gli elementi grafici presentati nella sezione~\ref{sec:gui} con un \inglese{presenter} per ognuno dei pannelli, cui si aggiunge un oggetto istanza di \texttt{guicontrol.PresenterMediator}. Quest'ultimo incapsula la collaborazione fra i vari \inglese{presenter} e permette di gestire gli eventi generati da un elemento della GUI inviando a uno (o più) \inglese{presenter} i messaggi corrispondenti alle azioni da compiere.
 
 	\item{\scshape\bfseries Diagramma delle classi:}\\
-%TODO questo diagramma deve essere generato ed esportato
-%   \begin{figure}[H]
-%     \centering
-%     \includegraphics[width=.8\textwidth]{gestione_gui}
-%     \caption{Diagramma delle classi - Gestione GUI}\label{fig:gestionegui}
-%   \end{figure}
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=.9\textwidth]{class_gestione_gui}
+    \caption{Diagramma delle classi - Gestione GUI}\label{fig:gestionegui}
+  \end{figure}
 
 	\item{\scshape\bfseries Classi utilizzate:}\\
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1457,13 +1454,12 @@ Rappresenta l'interfaccia d'accesso verso la sotto-architettura \texttt{clientpr
 
 Un esempio di richiesta proveniente dal server che richiede di essere gestita in questa sede è la reazione al cambiamento di stato di un utente presente nella rubrica del client, che si traduce in una notifica in entrata dal server e ha un effetto sull'interfaccia grafica. Un altro esempio è la ricezione di un nuovo messaggio inserito nella propria segreteria.
 
-%TODO immagine da aggiornare e riesportare
-% 	\item{\scshape\bfseries Diagramma delle classi:}
-% \begin{figure}[H]
-%   \centering
-%   \includegraphics[width=.8\textwidth]{facade_presenter}
-%   \caption{Diagramma delle classi - Gestione remota}\label{fig:gestioneremota}
-% \end{figure}
+\item{\scshape\bfseries Diagramma delle classi:}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.6\textwidth]{class_gestione_remota}
+  \caption{Diagramma delle classi - Gestione remota}\label{fig:gestioneremota}
+\end{figure}
 
 	\item{\scshape\bfseries Classi utilizzate:} 
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1779,7 +1775,7 @@ Poiché inoltre da (\texttt{org.softwaresynthesis.mytalk.clienview.gui.ToolsPane
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=.8\textwidth]{package_presenter}
+  \includegraphics[width=.8\textwidth]{presenter_generale}
   \caption{Diagramma delle classi - Architettura \texttt{mytalk.clientpresenter}}\label{fig:sottoarchpresenter}
   \end{figure}
 \clearpage
@@ -1958,7 +1954,7 @@ Inoltre, tale entità grafica prevede anche la presenza di una o più aree di ch
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=1\textwidth]{Package_view}
+  \includegraphics[width=1\textwidth]{class_gui}
   \caption{Diagramma delle classi - Architettura \texttt{mytalk.clientview}}\label{fig:sottoarchview}
 \end{figure}
 \clearpage
@@ -1973,12 +1969,11 @@ Per una visione d'insieme dei componenti utilizzati da un \inglese{pattern}, e d
 Il \inglese{pattern} fornisce un'interfaccia per la creazione di famiglie di oggetti correlati, senza specificare le classi concrete ma garantendo un utilizzo coerente di prodotti appartenenti allo stesso insieme.
 
 \subsubsection{Diagramma esemplificativo}
-%TODO questo diagramma deve essere ancora fatto!
-% \begin{figure}[h]
-% \centering
-% \includegraphics[width=.8\textwidth]{abstractfactory}
-% \caption{Diagramma ad alto livello del \inglese{pattern} Abstract Factory}\label{fig:abstractfactory}
-% \end{figure}
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=.8\textwidth]{pattern_abstractfactory}
+  \caption{Applicazione del \inglese{pattern} Abstract Factory}\label{fig:abstractfactory}
+\end{figure}
 
 \subsubsection{Componenti che lo implementano}
 \begin{description}
@@ -1999,11 +1994,10 @@ A livello di implementazione del \inglese{pattern}, come esemplificato dal diagr
 
 Le ragioni di una simile scelta sono da ravvisarsi nel fatto che il linguaggio Java non consente l'ereditarietà privata e questo avrebbe creato una relazione di sottotipo non voluta fra l'Adapter (\texttt{connection.ChannelAdapter}) e l'\inglese{adaptee} (\texttt{MessageInbound}).
 
-%TODO questa immagine deve essere ancora fatta
 \begin{figure}[H]
   \centering
-%   \includegraphics[width=.8\textwidth]{adapter}
-  \caption{Diagramma ad alto livello del \inglese{pattern} Adapter}\label{fig:adapter}
+  \includegraphics[width=.8\textwidth]{pattern_adapter}
+  \caption{Applicazione del \inglese{pattern} Adapter}\label{fig:adapter}
 \end{figure}
 
 \subsubsection{Componenti che lo implementano}
@@ -2026,8 +2020,8 @@ Un simile approccio garantisce che un eventuale cambiamento del dispositivo di p
 \subsubsection{Diagramma esemplificativo}
   \begin{figure}[H]
   \centering
-  \includegraphics[width=.8\textwidth]{dao}
-  \caption{Diagramma ad alto livello del \inglese{pattern} Data Access Object}\label{fig:dao}
+  \includegraphics[width=.95\textwidth]{pattern_dao}
+  \caption{Applicazione del \inglese{pattern} Data Access Object}\label{fig:dao}
 \end{figure}
 
 \subsubsection{Componenti che lo implementano}
@@ -2043,12 +2037,13 @@ Operando una distinzione di questo tipo, gli utenti esterni possono considerare 
 \subsubsection{Scopo}
 Fornire un'interfaccia unificata per un insieme di interfacce o classi presenti in una sotto-architettura. Façade definisce inoltre un'interfaccia di livello più alto che rende la sotto-architettura più semplice da utilizzare.
 
-\subsubsection{Diagramma esemplificativo}
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=.8\textwidth]{facade}
-  \caption{Diagramma ad alto livello del \inglese{pattern} Façade}\label{fig:façade}
-\end{figure}
+%TODO esiste ancora un'applicazione di Façade? ne abbiamo cinque? ne abbiamo sei?
+% \subsubsection{Diagramma esemplificativo}
+% \begin{figure}[H]
+%   \centering
+%   \includegraphics[width=.8\textwidth]{pattern_facade}
+%   \caption{Diagramma ad alto livello del \inglese{pattern} Façade}\label{fig:façade}
+% \end{figure}
 
 \subsubsection{Componenti che lo implementano}
 \begin{description}
@@ -2065,8 +2060,8 @@ Definisce un'interfaccia per la creazione di un oggetto, lasciando alle sottocla
 \subsubsection{Diagramma esemplificativo}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=.8\textwidth]{factory_method}
-  \caption{Diagramma ad alto livello del \inglese{pattern} Factory Method}\label{fig:factory_method}
+  \includegraphics[width=.8\textwidth]{pattern_factorymethod}
+  \caption{Applicazione del \inglese{pattern} Factory Method}\label{fig:factory_method}
 \end{figure}
 
 \subsubsection{Componenti che lo implementano}
@@ -2147,8 +2142,8 @@ Definire una dipendenza uno a molti fra oggetti, in modo tale che se un oggetto 
 \subsubsection{Diagramma esemplificativo}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=.7\textwidth]{observer}
-  \caption{Diagramma ad alto livello del \inglese{pattern} Observer}\label{fig:observer}
+  \includegraphics[width=.7\textwidth]{pattern_observer}
+  \caption{Applicazione del \inglese{pattern} Observer}\label{fig:observer}
 \end{figure}
 
 \subsubsection{Componenti che lo implementano}
@@ -2166,9 +2161,21 @@ Il \inglese{pattern} creazionale Singleton, garantisce che una determinata class
 
 \subsubsection{Diagramma esemplificativo}
 \begin{figure}[H]
-\centering
-\includegraphics[width=.5\textwidth]{singleton}
-\caption{Diagramma ad alto livello del \inglese{pattern} Singleton}\label{fig:singleton}
+  \centering
+  \includegraphics[width=.6\textwidth]{pattern_singleton_connessione}
+  \caption{Applicazione del \inglese{pattern} Singleton a \textsf{Gestione connessione}}\label{fig:singleton1}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.6\textwidth]{pattern_singleton_dao}
+  \caption{Applicazione del \inglese{pattern} Singleton a \textsf{Gestione database}}\label{fig:singleton2}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.6\textwidth]{pattern_singleton_gestione_remota}
+  \caption{Applicazione del \inglese{pattern} Singleton a \textsf{Gestione remota}}\label{fig:singleton3}
 \end{figure}
 
 \subsubsection{Componenti che lo implementano}
@@ -2195,8 +2202,8 @@ Permette ad un oggetto di cambiare il suo comportamento al variare del suo stato
 \subsubsection{Diagramma esemplificativo}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=.7\textwidth]{state}
-  \caption{Diagramma ad alto livello del \inglese{pattern} State}\label{fig:state}
+  \includegraphics[width=.9\textwidth]{pattern_state}
+  \caption{Applicazione del \inglese{pattern} State}\label{fig:state}
 \end{figure}
 
 \subsubsection{Componenti che lo implementano}
