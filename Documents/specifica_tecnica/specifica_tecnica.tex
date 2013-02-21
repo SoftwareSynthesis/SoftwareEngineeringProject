@@ -631,9 +631,11 @@ Allo scopo di rendere l'architettura facilmente estendibile a futuri ampliamenti
 \subsubsection{CS02 -- Gestione connessione}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Tale componente ingloba le classi destinate a stabilire le \inglese{routine} di connessione. A tal fine è stata definita l'interfaccia di una classe Singleton \texttt{connection.ICommunicationHandler}, implementata da \texttt{connection.CommunicationHandler} che ha il compito di creare gli oggetti necessari alla connessione.
+Tale componente ingloba le classi destinate a stabilire le \inglese{routine} di connessione. A tal fine è stata definita l'interfaccia di una classe Singleton \texttt{connection.ICommunicationHandler}, implementata da \texttt{connection.CommunicationHandler} che ha il compito di creare gli oggetti necessari alla connessione e di fornire delle procedure per l'autenticazione di un utente.
 
-Le specifiche di tali oggetti sono descritte dall'interfaccia \texttt{connection.IConnection}, con la relativa implementazione \texttt{connection.WebRTCInfo}, che permette il recupero delle informazioni di cui il client necessita per instaurare la connessione. Dal momento che si tratta di informazioni per loro stessa natura volatili, non è stato predisposto per esse alcun meccanismo di memorizzazione in forma fortemente strutturata e persistente.
+La componente utilizza un particolare canale di comunicazione che risponde al contratto dell' interfaccia \texttt{connection.Ichanel}. In tale interfaccia saranno definiti i metodi per l'inizializzazione di una chiamata client-client. L'implementazione fornita dal team si attua per mezzo di un riuso di codice. Nello specifico si utilizzera la classe \texttt{org.apache.catalina.websocket.MessageInbound} fornita dalle librerie di Apache. Tale classe sarà adattata alle firme dei metodi di \texttt{connection.Ichanel} per mezzo di un pattern adapter, implementato dalla classe \texttt{connection.ChanelAdapter}. 
+
+\texttt{connection.CommunicationHandler} avrà quindi il compito di fornire al client richiedente (previa autenticazione), un istanza di \texttt{connection.ChanelAdapter}. Il client potrà usare tale istanza nel momento in cui avrà necessità di instaurare una connessione con un altro client. \texttt{connection.ChanelAdapter} infatti fungerà da canale di comunicazione con il server, fornendo una serire di metodi per avviare l'iter di connessione webRTC.
 	\item{\scshape\bfseries Diagramma delle classi:}
 	\begin{figure}[H]
 \begin{center}
@@ -646,8 +648,9 @@ Le specifiche di tali oggetti sono descritte dall'interfaccia \texttt{connection
 	\begin{itemize}[nolistsep, noitemsep]
 	  \item[-] \texttt{connection.ICommunicationHandler}
 	  \item[-] \texttt{connection.CommunicationHandler}
-	  \item[-] \texttt{connection.IConnection}
-	  \item[-] \texttt{connection.WebRTCInfo}
+	  \item[-] \texttt{connection.IChanel}
+	  \item[-] \texttt{org.apache.catalina.websocket.MessageInbound}
+	  \item[-] \texttt{connection.ChanelAdapter}
 	\end{itemize}
 \end{description}
 
@@ -954,7 +957,7 @@ Classe che implementa il \inglese{pattern} Singleton e che viene utilizzata dall
 \item \texttt{ICommunicationHandler}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Interfaccia per la gestione delle richieste per ottenere le informazioni necessarie a un client per stabilire una comunicazione con altri client. In particolare le operazioni in essa dichiarate dovranno ritornare un istanza di un oggetto che implementa \texttt{IConnection}.
+Interfaccia per la gestione delle richieste per ottenere le informazioni necessarie a un client per stabilire una comunicazione con altri client. In particolare le operazioni in essa dichiarate dovranno ritornare un istanza di un oggetto che implementa \texttt{IChanel}.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 		\begin{itemize}[noitemsep,nolistsep]
@@ -965,7 +968,7 @@ Interfaccia per la gestione delle richieste per ottenere le informazioni necessa
 \item \texttt{StandardCommunicationHandler}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Implementazione che si fornisce dell'interfaccia \texttt{ICommunicationHandler}. In tale classe, le informazioni ritornate al client sono informazioni necessarie a stabilire una connessione di tipo \underline{WebRTC} (ritorna un istanza di \texttt{WebRTCInfo}).
+Implementazione che si fornisce dell'interfaccia \texttt{ICommunicationHandler}. Tale classe avrà il compito di autenticare i client che desiderano utilizzare l'applicativo, fornendo in risposta, un istanza di \texttt{IChanel}.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 		\begin{itemize}[noitemsep,nolistsep]
@@ -973,10 +976,10 @@ Implementazione che si fornisce dell'interfaccia \texttt{ICommunicationHandler}.
 		\end{itemize}
 \end{description}
 
-\item \texttt{IConnection}
+\item \texttt{IChanel}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Interfaccia mediante la quale è possibile recuperare  i dati necessari a un client al fine di stabilire una connessione con un altro client, in particolare l'indirizzo IP e la porta.
+Interfaccia che definisce un canale di comunicazione client-server. Il canale proposto sarà usato al solo fine di processare una richiesta del client, per stabilire una connessione webRTC con un altro client.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 		\begin{itemize}[noitemsep,nolistsep]
@@ -985,10 +988,21 @@ Interfaccia mediante la quale è possibile recuperare  i dati necessari a un cli
 		\end{itemize}
 \end{description}
 
-\item \texttt{WebRTCInfo}
+\item \texttt{org.apache.catalina.websocket.MessageInbound}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Implementazione dell'interfaccia \texttt{IConnection} che rappresenta le informazioni usate da un client per stabilire una connessione WebRTC con un altro client.
+Classe presente nelle librerie Apache. Viene utilizzata dal server e da un client per garantire una comunicazione reciproca basata sullìinvio e la ricezione di opportuni messaggi. Il team intende usarla e riadattarla con un pattern adapter, per implementare l'interfaccia \texttt{connection.IChanel}.
+
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+		\begin{itemize}[noitemsep,nolistsep]
+			\item[-] \textsf{CS02 -- Gestione connessione}
+		\end{itemize}
+\end{description}
+
+\item \texttt{ChanelAdapter}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:}\\
+Classe che risolve l'utilizzo del pattern adapter tra l'interfaccia \texttt{connection.IChanel} e la classe \texttt{org.apache.catalina.websocket.MessageInbound}.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 		\begin{itemize}[noitemsep,nolistsep]
@@ -1286,9 +1300,9 @@ Questo componente ha inoltre il compito di recuperare i dati presenti sul server
 
 Questi sono rappresentati dalle strutture del componente \textsf{Rappresentazione dati} e permangono internamente al \inglese{presenter} per essere disponibili a successive interrogazioni da parte della GUI senza coinvolgere nuovamente il server.
 
-Inoltre, allo scopo di gestire le comunicazioni in ingresso dal server, ad esempio le notifiche dei cambiamenti di stato o le chiamate in ingresso, è stato predisposto il componente \textsf{Gestione remota}.
+Inoltre, allo scopo di gestire le comunicazioni in ingresso dal servern inerenti alla gestione della segreteria o della rubrica (cambiamenti di stato degli utenti), è stato predisposto il componente \textsf{Gestione remota}.
 
-La logica di comunicazione fra client è incapsulata all'interno delle classi facenti parte del componente \textsf{Gestione comunicazione}. Queste ultime sfruttano la comunicazione con il server, tramite opportune procedure di interrogazione attraverso il componente \textsf{Façade del server}, al fine di ottenere le informazioni necessarie per stabilire una connessione fra client.
+La logica di comunicazione fra client è incapsulata all'interno delle classi facenti parte del componente \textsf{Gestione comunicazione}. Queste ultime sfruttano un canale di comunicazione clinet-server per interagire con il server in merito alle richieste di comunicazione con altri client, andando a creare appositi canali di comunicazione che si avvalgono della tecnologia webRTC.
 
 In sintesi, la sotto-architettura \texttt{clientpresenter} dispone dei seguenti componenti:
 \begin{itemize}[noitemsep,nolistsep]
@@ -1317,11 +1331,15 @@ La presenza delle interfacce, delle relazioni di implementazione e l'estensione 
 
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-È il componente che definisce i client con cui sta comunicando o con cui desidera comunicare l'utente. Tale componente è costituito da un'interfaccia \texttt{kernel.IClient} che rappresenta un modello di client con cui interagire (possibilità di stabilire una connessione, possibilità di estendere una comunicazione e possibilità di verificare se il client è Supernodo).
+È il componente che rappresenta il vero cuore logico della comunicazione. In esso è presente la classe \texttt{kernel.ComunicationCenter}, il cui compito è quello di ottenere un oggetto di tipo \texttt{connection.IChanel} per comunicare con il server, e dovrà anche tener traccia delle comunicazioni aperte con i client usando la tecnologia webRTC.
 
-Il componente \textsf{Gestione comunicazione} ha inoltre il compito di procurarsi le informazioni relative alla propria connessione, contattando ad esempio un server STUN, per avere la conoscenza del proprio indirizzo IP\@. Quest'ultimo deve essere comunicato al server in fase di autenticazione, al fine di permettere l'avvio di connessioni in ingresso.
+Tali comunicazioni sono rappresentate dall'interfaccia IClientComunication che rappresenta il contratto di un oggetto utilizzabile come canale di comunicazione clinet-client. L'implementazione di tale interfaccia che utilizzerà il webRTC, prende il nome di \texttt{kernel.WebRTCComunication}. Tale classe viene istanziata da \texttt{kernel.ComunicationCenter} sulla base delle informazioni ottenute dall'istanza \texttt{connection.IChanel}. 
 
-Quando un determinato utente (mittente) desidera stabilire una comunicazione con un altro utente (destinatario), il client associato al mittente ha il compito innanzitutto di farsi restituire dal server le informazioni necessarie ad instaurare la connessione.
+Nello specifico i due possibili iter sono:
+\begin{itemize}
+	\item il server riceve una richiesta da parte di un client A per parlare con noi. Il server usa l'istanza \texttt{connection.IChanel} per processare la richiesta. \texttt{kernel.ComunicationCenter} raccoglie le informazioni dal canale di comunicazione e le usa per istanziare un \texttt{kernel.WebRTCComunication}. Al termine della procedura, l'applicativo lato client potrà comunicare usando tale istanza.
+	\item siamo noi a voler comunicare con un client A. Avanziamo la nostra richiesta al server, mediante \texttt{connection.IChanel}. Quindi man mano che otteniamo risposta, costruiamo l'oggetto WebRTCComunication per parlare con A.
+\end{itemize}
 
 	\item{\scshape\bfseries Diagramma delle classi:}
   \begin{figure}[H]
@@ -1332,8 +1350,10 @@ Quando un determinato utente (mittente) desidera stabilire una comunicazione con
 
 	\item{\scshape\bfseries Classi utilizzate:} 
 	\begin{itemize}[noitemsep,nolistsep]
-		\item[-] \texttt{kernel.IClient}
-		\item[-] \texttt{kernel.Client}
+		\item[-] \texttt{kernel.ComunicationCenter}
+		\item[-] \texttt{server.connection.IChanel}
+		\item[-] \texttt{kernel.IClientComunication}
+		\item[-] \texttt{kernel.WebRTCComunication}
 	\end{itemize}  
 \end{description}
 
@@ -1407,7 +1427,7 @@ Rappresenta l'interfaccia d'accesso verso la sotto-architettura \texttt{clientpr
 
 Un esempio di richiesta proveniente dal server che richiede di essere gestita in questa sede è la reazione al cambiamento di stato di un utente presente nella rubrica del client, che si traduce in una notifica in entrata dal server e ha un effetto sull'interfaccia grafica.
 
-Un altro esempio è la ricezione di una chiamata in ingresso, dal momento che la precondizione per stabilire una comunicazione via WebRTC è che il chiamato dia l'autorizzazione per stabilire la comunicazione.
+Un altro esempio è la ricezione di un nuovo messaggio inserito nella propria segreteria.
 
 %TODO immagine da aggiornare e riesportare
 % 	\item{\scshape\bfseries Diagramma delle classi:}
@@ -1430,10 +1450,10 @@ Un altro esempio è la ricezione di una chiamata in ingresso, dal momento che la
 
 \begin{itemize}[leftmargin=0em]
 
-\item \texttt{IClient}
+\item \texttt{ComunicationCenter}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Interfaccia che raccoglie le operazioni astratte che devono essere effettuate dal client del sistema.
+È la classe che ha il compito di gestire la comunicazione con il srver per quanto riguarda lo stabilire una comunicazione client-client di tipo webRTC.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1441,10 +1461,21 @@ Interfaccia che raccoglie le operazioni astratte che devono essere effettuate da
 	\end{itemize}
 \end{description}
 
-\item \texttt{Client}
+\item \texttt{ICLientComunication}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Implementazione dell'interfaccia \texttt{IClient} che incapsula al suo interno la logica di eventuale ritrasmissione dei dati in ingresso (nel caso in cui il client sia un Supernodo) e di invio dei dati prodotti in locale ai client con cui è stata instaurata una connessione. 
+È l'interfaccia che rappresenta un canale di comunicazione client-client.
+
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-] \textsf{CP01 -- Gestione comunicazione}
+	\end{itemize}
+\end{description}
+
+\item \texttt{WebRTCComunication}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:}\\
+È la classe che implementa l'interfaccia \texttt{IClietComunication}. In particolare tale classe rappresenta una comunicazione client-client settata per funzionare con le webRTC.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1554,9 +1585,9 @@ Interfaccia che raccoglie la dichiarazione di tutte le operazioni astratte con c
 	\item{\scshape\bfseries Descrizione:}\\
 Questa classe rappresenta un'applicazione del \inglese{design pattern} Singleton e implementa inoltre l'interfaccia \texttt{IRemoteHandler}. Fornisce dei metodi concreti utilizzati per ricevere le notifiche proveniente dal server, elaborando qualora necessario i dati ricevuti in input e inoltrando le richieste agli oggetti facenti parte dei diversi componenti del \inglese{presenter}.
 
-Ad esempio, nel caso di una notifica di comunicazione in ingresso è necessario contattare il componente \textsf{Gestione comunicazione} al fine di recuperare l'indirizzo IP pubblico del client attraverso un server STUN e quindi comunicarlo al server. In tal caso, inoltre, è necessario aggiornare l'interfaccia grafica attraverso \textsf{Gestione GUI} per consentire all'utente di accettare la chiamata in ingresso.
-
 Nel caso di un aggiornamento di stato di un contatto presente in rubrica, invece, è necessario modificare l'interfaccia grafica in modo da rispecchiare i cambiamenti avvenuti e quindi anche in questo caso è necessario inoltrare la richiesta al componente \textsf{Gestione GUI}.
+
+Invece nel caso venga inoltrato un nuovo messaggio alla segreteria del cliente, tale evento dovrà essere notificato per mezzo di questa classa.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
