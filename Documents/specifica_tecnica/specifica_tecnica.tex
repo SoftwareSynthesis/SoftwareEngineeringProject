@@ -630,14 +630,14 @@ Allo scopo di rendere l'architettura facilmente estendibile a futuri ampliamenti
 	\end{itemize}
 \end{description}
 
-\subsubsection{CS02 -- Gestione connessione}
+\subsubsection{CS02 -- Gestione connessione}\label{sec:gestioneconnessione}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Tale componente ingloba le classi destinate a stabilire le \inglese{routine} di connessione. A tal fine è stata definita l'interfaccia di una classe Singleton \texttt{connection.ICommunicationHandler}, implementata da \texttt{connection.CommunicationHandler} che ha il compito di creare gli oggetti necessari alla connessione e di fornire delle procedure per l'autenticazione di un utente.
 
 La componente utilizza un particolare canale di comunicazione che risponde al contratto dell'interfaccia \texttt{connection.IChannel}. Quest'ultima contiene le dichiarazioni dei metodi necessari all'inizializzazione di una chiamata client-client. L'implementazione fornita ha il fine di garantire la massima flessibilità e il riuso del codice.
 
-Nello specifico si utilizzerà la classe \texttt{org.apache.catalina.websocket.MessageInbound} fornita dalle librerie di Apache TomCat. Tale classe sarà adattata alle firme dei metodi dell'interfaccia \texttt{connection.IChannel} ricorrendo al \inglese{design pattern} Adapter, con l'introduzione della classe \texttt{connection.ChancelAdapter}. 
+Nello specifico si utilizzerà la classe \texttt{org.apache.catalina.websocket.MessageInbound} fornita dalle librerie di Apache TomCat. Tale classe sarà adattata alle firme dei metodi dell'interfaccia \texttt{connection.IChannel} ricorrendo al \inglese{design pattern} Adapter, con l'introduzione della classe \texttt{connection.ChannelAdapter}. 
 
 L'istanza di \texttt{connection.CommunicationHandler} avrà quindi il compito di fornire al client richiedente (previa autenticazione), un'istanza di \texttt{connection.ChannelAdapter}. Il client potrà usare tale istanza nel momento in cui avrà necessità di instaurare una connessione con un altro client. \texttt{connection.ChannelAdapter} infatti fungerà da canale di comunicazione con il server, fornendo una serie di metodi per avviare l'iter di connessione \underline{WebRTC}\@.
 
@@ -784,9 +784,32 @@ Per la gestione dello storico delle chiamate lato client, invece, sono state pre
 \subsubsection{CS07 -- Façade del server}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-L'interfaccia \texttt{IServerFacade} e la relativa implementazione \texttt{StandardServerFacade}, nella quale si è scelto di applicare il \inglese{design pattern} Singleton, forniscono una sorta di interfaccia alle funzionalità offerte dalla sotto-architettura \texttt{server} ai componenti che risiedono nel client.
+Tale componente ha il ruolo di offrire ai client una serie di punti di accesso alle funzionalità del sistema server. Dal momento che tale interazione avviene in un contesto distribuito, i punti di accesso ai componenti del server sono stati implementati come \inglese{servlet} Java destinate ad essere eseguite nell'ambiente del \inglese{servlet container} fornito da Apache TomCat.
 
-Le funzionalità esposte consentono di gestire i messaggi presenti in segreteria, le richieste di comunicazione con altri utenti, l'autenticazione o  la registrazione degli utenti.
+La mappatura fra componenti del server e le rispettive \inglese{servlet} di Façade, implementate come sottoclassi di \texttt{javax.servlet.http.HttpServlet} è illustrata dalla tabella seguente:
+\begin{center}
+\rowcolors{2}{lightblue}{llightblue}
+\begin{tabular}{>{\sffamily}l>{\ttfamily}p{.6\textwidth}}
+\toprule
+\textbf{\rmfamily Componente} & \textbf{\rmfamily Servlet di Façade}\\
+\midrule
+CS02 -- Gestione connessione & servlet.ConnectionManager\\
+CS03 -- Gestione rubrica & servlet.AddressBookManager servlet.AccountManager\\
+CS04 -- Gestione stato & servlet.StateManager\\
+CS05 -- Gestione segreteria & servlet.MessageManager\\
+CS06 -- Gestione chiamate & servlet.CallHistoryManager\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+In particolare \texttt{servlet.ConnectionManager} è coinvolto in fase di \inglese{login} e collabora con \textsf{Gestione rubrica} e \textsf{Gestione Database} per controllare la validità dell'autenticazione, quindi interagisce con \textsf{Gestione connessione} per creare un canale di comunicazione fra il server e il client, secondo le modalità illustrate nella sezione \ref{sec:gestioneconnessione}.
+
+Il compito di interfacciarsi con \textsf{Gestione rubrica} per recuperare la rubrica associata ad un utente e per riflettere sul server le operazioni di amministrazione della rubrica spetta invece a \texttt{servlet.AddressBookManager}, mentre \texttt{servlet.AccountManager} risponde alle richieste dei client per le azioni di aggiornamento e modifica delll'account personale dell'utente associato al client.
+
+I cambiamenti di stato di un utente sono invece processati da \texttt{servlet.StateManager} che fornisce un punto d'accesso al componente \textsf{Gestione stato}, mentre lo scaricamento e la gestione della segreteria telefonica (competenza di \textsf{Gestione segretira}) e dello storico delle chiamate (\textsf{Gestione chiamate}) avvengono in risposta alle richieste dei client pervenute a \texttt{servlet.MessageManager} e \texttt{servlet.CallHistoryManager} rispettivamente.
+
+L'apparente discrasia fra componenti e Façade è dovuta al fatto che, da una parte, non è prevista la presenza di alcun punto d'accesso diretto dai client a \textsf{Gestione database}, dall'altra i dati rappresentati in \textsf{Gestione rubrica} necessitano di essere trattati in maniera radicalmente differente a seconda che si tratti di informazioni relative all'utente associato al client da cui proviene la richiesta al server o a un semplice contatto della rubrica di quest'ultimo.
+
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
   \centering
@@ -796,8 +819,13 @@ Le funzionalità esposte consentono di gestire i messaggi presenti in segreteria
 	
 	\item{\scshape\bfseries Classi utilizzate:}\\
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \texttt{IServerFacade}
-	  \item[-] \texttt{StandardServerFacade}
+	  \item[-] \texttt{javax.servlet.http.HttpServlet}
+	  \item[-] \texttt{servlet.AccountManager}
+	  \item[-] \texttt{servlet.AddressBookManager}
+	  \item[-] \texttt{servlet.CallHistoryManager}
+	  \item[-] \texttt{servlet.ConnectionManager}
+	  \item[-] \texttt{servlet.MessageManager}
+	  \item[-] \texttt{servlet.StateManager}
 	\end{itemize}
 \end{description}
 
