@@ -377,15 +377,6 @@ Come per l'entità AddressBook verrà spiegato nel paragrafo progettazione logic
 	
 \end{description}
 
-\subsubsection{Chiavi primarie sintetiche}
-I progettisti hanno optato per la definizione di chiavi primarie sintetiche, ovvero chiavi generate automaticamente all'inserimento di un nuovo \inglese{record} nelle tabelle corrispondenti alle entità.
-
-Tale scelta è dettata dall'utilizzo del framework Hibernate che non permette la modifica del valore della chiavi primarie associate ad una istanza di un oggetto di \inglese{business}. Le chiavi saranno quindi composte da un campo a valore intero, da intendersi come un contatore che identifica univocamente i record.
-
-La chiave primaria in Calls (e chiave esterna in CallLists) è di tipo \texttt{BIGINT} senza segno, il team è consapevole che questo impone un limite di $1,8 \times10^{19}$ al numero di chiamate che possono essere memorizzate contemporaneamente. Una soluzione da adottarsi in futuro per evitare la perdita di dati potrebbe consistere nello spostare da database a disco parte di queste informazioni.
-
-Nel caso particolare dei messaggi, inoltre, il campo ID\_message, oltre a rappresentare un identificatore univoco, coincide anche con il nome del file sul server in cui è memorizzato il messaggio stesso, all'interno di una \inglese{directory} predefinita e nota ai componenti del sistema.
-
 \subsubsection{Gerarchia tra classi}
 
 \begin{description}
@@ -426,6 +417,16 @@ Con la progettazione logica intendiamo costruire la struttura definitiva del dat
 	
 	\item{\scshape\bfseries UserData - Messages}: tale associazione si è risolta inserendo due chiavi esterne verso UserData, all'interno dell'entità Messages. Come per l'associazione UserData - AddressBook si era scelto come tipo di dato 'UserData' nella progettazione concettuale.
 \end{description}
+
+\subsubsection{Chiavi primarie sintetiche}
+I progettisti hanno optato per la definizione di chiavi primarie sintetiche, ovvero chiavi generate automaticamente all'inserimento di un nuovo \inglese{record} nelle tabelle corrispondenti alle entità.
+
+Tale scelta è dettata dall'utilizzo del framework Hibernate che non permette la modifica del valore della chiavi primarie associate ad una istanza di un oggetto di \inglese{business}. Le chiavi saranno quindi composte da un campo a valore intero, da intendersi come un contatore che identifica univocamente i record.
+
+La chiave primaria in Calls (e chiave esterna in CallLists) è di tipo \texttt{BIGINT} senza segno, il team è consapevole che questo impone un limite di $1,8 \times10^{19}$ al numero di chiamate che possono essere memorizzate contemporaneamente. Una soluzione da adottarsi in futuro per evitare la perdita di dati potrebbe consistere nello spostare da database a disco parte di queste informazioni.
+L'introduzione di questo tipo di chiave è dovuta anche ad una semplice gestione, tramite Hibernate, di tale oggetto.
+
+Nel caso particolare dei messaggi, inoltre, il campo ID\_message, oltre a rappresentare un identificatore univoco, coincide anche con il nome del file sul server in cui è memorizzato il messaggio stesso, all'interno di una \inglese{directory} predefinita e nota ai componenti del sistema.
 
 \subsubsection{Lista delle classi}
 
