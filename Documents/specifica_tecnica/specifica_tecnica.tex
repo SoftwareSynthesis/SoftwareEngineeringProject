@@ -659,6 +659,7 @@ L'istanza di \texttt{connection.CommunicationHandler} avrà quindi il compito di
 \subsubsection{CS03 -- Gestione rubrica}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
+%TODO da rivedere per #131
 Ad ogni utente del sistema, che corrisponde a un'istanza di \texttt{abook.UserData} è associata una rubrica personale, rappresentata dall'interfaccia \texttt{abook.IAddressBook} e dalla relativa implementazione \texttt{abook.AddressBook}.
 
 I contatti in rubrica corrispondono agli utenti del sistema che il possessore ha aggiunto alla stessa. Una rubrica può contenere zero o più utenti, come si evince dalla relazione di composizione fra \texttt{abook.AddressBook} e \texttt{abook.IUserData} riportata del diagramma in figura~\ref{fig:gestionerubrica}.
@@ -725,13 +726,9 @@ Inoltre, i cambiamenti di stato vengono notificati a tutti gli utenti presenti i
 \subsubsection{CS05 -- Gestione segreteria}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Il sistema di segreteria telefonica corrisponde all'interfaccia \texttt{message.IMessageBox} e alla relativa implementazione \texttt{message.MessageBox} che permettono un accesso centralizzato all'insieme di messaggi che un determinato utente ha ricevuto.
+I messaggi in segreteria, che possono essere di natura audio o audio/video, corrispondono alle istanze dalla classe \texttt{message.Message} e sono caratterizzati da un utente mittente, da un destinatario e dalla data di registrazione. La collezione di messaggi aventi un determinato utente come destinatario può essere ottenuta tramite un'operazione dichiarata nell'interfaccia \texttt{abook.IUserData}.
 
-I messaggi di natura audio o audio/video sul server corrispondono alle istanze dalla classe \texttt{message.Message} e sono caratterizzati da mittente, destinatario, data di registrazione nella segreteria.
-
-L'onere di caricare in memoria e gestire l'intero messaggio è posticipato al momento di effettiva necessità mediante l'utilizzo lato client di una sorta di \inglese{virtual proxy} corrispondente alla classe \texttt{clientpresenter.kernel.JSMessage} che rende disponibili le medesime operazioni di \texttt{message.Message} ma consente di scaricare il contenuto del messaggio sul client solo quando effettivamente richiesto.
-
-La gestione della segreteria lato client è resa più agevole dall'introduzione della classe \texttt{clientpresenter.kernel.JSMessageBox} che rappresenta una collezione di messaggi.
+La gestione della segreteria lato client è resa più agevole dall'introduzione della classe \texttt{clientpresenter.kernel.JSMessageBox} che rappresenta una collezione di messaggi, mentre \texttt{clientpresenter.kernel.JSMessage} rende disponibili le medesime operazioni di \texttt{message.IMessage} ma costituisce una rappresentazione ad uso dei client.
 
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -742,8 +739,6 @@ La gestione della segreteria lato client è resa più agevole dall'introduzione 
 	
 	\item{\scshape\bfseries Classi utilizzate:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \texttt{message.IMessageBox}
-	  \item[-] \texttt{message.MessageBox}
 		\item[-] \texttt{message.IMessage}
 	  \item[-] \texttt{message.Message}
 	  \item[-] \texttt{org.softwaresythesis.mytalk.clientpresenter.kernel.JSMessage}
@@ -756,9 +751,9 @@ La gestione della segreteria lato client è resa più agevole dall'introduzione 
   \item{\scshape\bfseries Descrizione:}\\
 Le classi di questo componente hanno il ruolo di incapsulare la logica di gestione delle chiamate e di accesso ai dati relativi a una chiamata (data, mittente e $n\geq1$ destinatari della chiamata). Tali informazioni rivestono un ruolo importante per la rappresentazione e la trasmissione ai client dello storico delle chiamate.
 
-Oltre all'interfaccia \texttt{ICall} e alla sua implementazione lato server \texttt{Call}, che rappresenta il \inglese{transfer object} per la gestione del database, sono state predisposte l'interfaccia \texttt{ICallList} e la relativa implementazione \texttt{CallList} per la rappresentazione di una collezione di chiamate.
+Oltre all'interfaccia \texttt{ICall} e alla sua implementazione lato server \texttt{Call}, che rappresenta il \inglese{transfer object} per la rappresentazione delle chiamate che deve essere mappata nel database, sono state predisposte l'interfaccia \texttt{ICallList} e la relativa implementazione \texttt{CallList}.
 
-Per la gestione dello storico delle chiamate lato client, invece, sono state previste le classi \texttt{clientpresenter.kernel.JSCall}, che aderisce al medesimo contratto della sua controparte server, e \texttt{JSCallList}, che rappresenta invece lo storico delle chiamate associato al client su cui risiede il \inglese{presenter}.
+Per la gestione dello storico delle chiamate lato client, invece, sono state previste le classi \texttt{clientpresenter.kernel.JSCall}, che aderisce al medesimo contratto della sua controparte server, e \texttt{JSCallList}, che rappresenta invece lo storico delle chiamate associato al client su cui risiede il \inglese{presenter} e corrisponde dunque a una collezione di chiamate.
 
   \item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -1180,29 +1175,6 @@ Classe concreta della gerarchia degli stati che corrisponde alla mancata disponi
 
 \begin{itemize}[leftmargin=0pt]
 
-\item \texttt{IMessageBox}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:}\\
-Interfaccia che rappresenta la segreteria telefonica dell'utente cui è associata. Tramite opportune operazioni permette di accedere all'elenco dei messaggi audio o audio/video che l'utente ha ricevuto nel periodo in cui era in linea o non era disponibile perché impegnato in una conversazione.
-
-	\item{\scshape\bfseries Componenti che ne fanno uso:}
-	\begin{itemize}
-	  \item[-] \textsf{CS05 -- Gestione segreteria}
-		\item[-] \textsf{CS07 -- Façade del server}
-	\end{itemize}
-\end{description}
-
-\item \texttt{MessageBox}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:}\\
-Classe concreta che implementa l'interfaccia \texttt{IMessageBox} e rappresenta dunque la rubrica associata a un determinato utente.
-
-	\item{\scshape\bfseries Componenti che ne fanno uso:}
-	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \textsf{CS05 -- Gestione segreteria}
-	\end{itemize}
-\end{description}
-
 \item \texttt{IMessage}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
@@ -1258,7 +1230,8 @@ Classe \inglese{transfer object} che rappresenta le chiamate realizzate attraver
 \item \texttt{ICallList}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
-Interfaccia che permette di interrogare la collezione di oggetti che costituisce lo storico delle chiamate di un utente fornendo opportuni sistemi di scorrimento.
+%TODO da rivedere
+Interfaccia che permette di interrogare le istanze di associazione fra utenti e chiamate.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS06 -- Gestione chiamate}
@@ -1269,7 +1242,8 @@ Interfaccia che permette di interrogare la collezione di oggetti che costituisce
 \item \texttt{CallList}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
-Implementazione dell'interfaccia \texttt{ICallList}, permette di accedere alla lista delle chiamate che hanno coinvolto un utente sia in qualità di chiamante che di chiamato.
+%TODO da rivedere
+Implementazione dell'interfaccia \texttt{ICallList}.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS06 -- Gestione chiamate}
@@ -1586,8 +1560,6 @@ Classe avente il compito di modellare un gruppo nella rubrica dell'utente corren
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
 Classe che rappresenta un messaggio presente nella segreteria dell'utente corrente. I diversi \inglese{presenter} del componente Gestione GUI possono accedere al mittente del messaggio, allo stato del messaggio (ascoltato o non ascoltato), alla natura del messaggio (audio o audio/video), alla durata e, in ultima istanza, al contenuto del messaggio.
-
-Tale valore non è inizializzato allo scaricamento iniziale dei messaggi sul client, in quanto il contenuto audio o audio/video è recuperato dal server in un secondo momento solo quando è effettivamente necessario per evitare di sovraccaricare la rete senza motivi reali.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
