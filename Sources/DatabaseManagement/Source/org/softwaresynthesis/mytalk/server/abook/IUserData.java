@@ -1,5 +1,11 @@
 package org.softwaresynthesis.mytalk.server.abook;
 
+/**
+ * Utente del sistema mytalk
+ * 
+ * @author 	Andrea Meneghinello
+ * @version	%I%, %G%
+ */
 public interface IUserData 
 {
 	/**
