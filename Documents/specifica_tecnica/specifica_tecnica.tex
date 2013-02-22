@@ -775,7 +775,7 @@ Per la gestione dello storico delle chiamate lato client, invece, sono state pre
   \end{itemize}
 \end{description}
 
-\subsubsection{CS07 -- Façade del server}
+\subsubsection{CS07 -- Façade del server}\label{sec:serverfacade}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Tale componente ha il ruolo di offrire ai client una serie di punti di accesso alle funzionalità del sistema server. Dal momento che tale interazione avviene in un contesto distribuito, i punti di accesso ai componenti del server sono stati implementati come \inglese{servlet} Java destinate ad essere eseguite nell'ambiente del \inglese{servlet container} fornito da Apache TomCat.
@@ -2090,22 +2090,81 @@ Operando una distinzione di questo tipo, gli utenti esterni possono considerare 
 \subsection{Façade}
 
 \subsubsection{Scopo}
-Fornire un'interfaccia unificata per un insieme di interfacce o classi presenti in una sotto-architettura. Façade definisce inoltre un'interfaccia di livello più alto che rende la sotto-architettura più semplice da utilizzare.
-
-%TODO esiste ancora un'applicazione di Façade? ne abbiamo cinque? ne abbiamo sei?
-% \subsubsection{Diagramma esemplificativo}
-% \begin{figure}[H]
-%   \centering
-%   \includegraphics[width=.8\textwidth]{pattern_facade}
-%   \caption{Diagramma ad alto livello del \inglese{pattern} Façade}\label{fig:façade}
-% \end{figure}
+Fornire un'interfaccia unificata per un insieme di interfacce o classi presenti in una sotto-architettura, nascondendo i dettagli implementativi di quest'ultima. Façade definisce inoltre un'interfaccia di livello più alto che rende la sotto-architettura più semplice da utilizzare e riduce il numero di dipendenze funzionali fra i componenti appartenenti a sotto-architetture esterne e le classi del server.
 
 \subsubsection{Componenti che lo implementano}
 \begin{description}
   \item{\scshape\bfseries CS07 -- Façade del server}\\
-L'uso di Façade permette di esporre verso i client una sorta di interfaccia semplificata nascondendo i componenti della sotto-architettura \texttt{server}, fornendo un punto di accesso centralizzato e riducendo il numero di dipendenze funzionali fra le classi del server e i componenti appartenenti a sotto-architetture esterne.
-
+Questa componente della sotto-architettura server fornisce una serie di punti di accesso centralizzati per i componenti \textsf{Gestione rubrica}, \textsf{Gestione connessione}, \textsf{Gestione stato}, \textsf{Gestione segreteria} e \textsf{Gestione chiamate}, secondo la tabella riportata nella sezione \vref{sec:serverfacade}.
 \end{description}
+
+\subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.servlet.AccountManager}}
+La \inglese{servlet} \texttt{AccountManager} rappresenta un punto di accesso alle funzionalità del componente \textsf{Gestione rubrica} per quanto riguarda la gestione dei dati relativi al proprio account che sono memorizzati sul server.
+
+A tal fine, come illustrato in figura \ref{fig:facadeaddressbook1}, è prevista una collaborazione con l'interfaccia \texttt{abook.IUserData} per la manipolazione dei \inglese{transfer object} associati agli utenti nonché con l'interfaccia DAO \texttt{dao.IUserDataDAO}, necessaria per riflettere i cambiamenti richiesti dagli utenti su quanto memorizzato nelle tabelle del database.
+
+\begin{figure}[H]
+  \centering
+%   \includegraphics[width=.7\textwidth]{}
+  \caption{Applicazione del \inglese{pattern} Façade a \textsf{Gestione rubrica}}\label{fig:facadeaddressbook1}
+\end{figure}
+
+\subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.servlet.AddressBookManager}}
+La \inglese{servlet} \texttt{AddressBookManager} rappresenta un punto di accesso alle funzionalità del componente \textsf{Gestione rubrica} per quanto concerne le operazioni di amministrazione della rubrica che hanno come oggetto i contatti di una rubrica utente come l'inserimento/cancellazione di un contatto, la creazione/eliminazione di un gruppo o l'aggiunta/rimozione di un contatto da un determinato gruppo.
+
+A tal fine, come illustrato dal diagramma in figura \ref{fig:facadeaddressbook2}, è prevista una collaborazione fra la \inglese{servlet} \texttt{AddressBookManager} e l'interfaccia \texttt{abook.IUserData} e \texttt{abook.IGroup} nonché con \texttt{dao.IUserDataDAO} e \texttt{dao.IGroupDAO} per memorizzare nel database che risiede sul server le nuove informazioni risultanti delle interazioni con l'utente.
+
+\begin{figure}[H]
+  \centering
+%   \includegraphics[width=.7\textwidth]{}
+  \caption{Applicazione del \inglese{pattern} Façade a \textsf{Gestione rubrica}}\label{fig:facadeaddressbook2}
+\end{figure}
+
+\subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.servlet.ConnectionManager}}
+La \inglese{servlet} \texttt{ConnectionManager} fornisce un punto di accesso centralizzato alle funzionalità del componente \textsf{Gestione connessione}, per gestire la comunicazione client-server.
+
+Inoltre, poiché questa \inglese{servlet} è interrogata in fase di \inglese{login} al sistema, ha anche la responsabilità di testare i dati di autenticazione al fine di stabilire se le credenziali sono valide per effettuare l'accesso, prima di creare il canale di comunicazione bidirezionale corrispondente a \texttt{connection.IChannel}.
+
+Come illustrato dal diagramma riportato in figura \ref{fig:facadeconnection}, al fine di realizzare tali funzionalità sono previste le collaborazioni con le interfacce \texttt{abook.IUserData}, \texttt{dao.IUserDataDAO} e con \texttt{connection.ICommunicationHandler}.
+
+\begin{figure}[H]
+  \centering
+%   \includegraphics[width=.7\textwidth]{}
+  \caption{Applicazione del \inglese{pattern} Façade a \textsf{Gestione connessione}}\label{fig:facadeconnection}
+\end{figure}
+
+\subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.servlet.StateManager}}
+La \inglese{sevlet} \texttt{StateManager} rappresenta un punto di accesso centralizzato al componente del server \textsf{Gestione stato} permettendo ai client di cambiare il proprio stato.
+
+A tal fine, come illustrato dal diagramma riportato in figura \ref{fig:facadestate} è prevista la collaborazione con l'interfaccia \texttt{abook.IUserData} e con i sottotipi dell'interfaccia \texttt{state.IState}.
+
+\begin{figure}[H]
+  \centering
+%   \includegraphics[width=.7\textwidth]{}
+  \caption{Applicazione del \inglese{pattern} Façade a \textsf{Gestione stato}}\label{fig:facadestate}
+\end{figure}
+
+\subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.servlet.MessageManager}}
+La \inglese{servlet} \texttt{MessageManager} ha il compito di esporre verso i client le funzionalità del componente \textsf{Gestione segreteria} del server.
+
+A tal fine è prevista la collaborazione con le interfacce \texttt{message.IMessage} e \texttt{abook.IUserData}. Poiché inoltre il recupero dei messaggi, i cambiamenti sullo stato dei messaggi, e l'eliminazione di questi ultimi hanno degli effetti sulla rappresentazione in forma persistente dei dati sul server, è prevista inoltre una collaborazione con le implementazioni delle interfacce DAO \texttt{dao.IUserDataDAO} e \texttt{dao.IMessageDAO}.
+
+\begin{figure}[H]
+  \centering
+%   \includegraphics[width=.7\textwidth]{}
+  \caption{Applicazione del \inglese{pattern} Façade a \textsf{Gestione segreteria}}\label{fig:facademessage}
+\end{figure}
+
+\subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.CallManager}}
+La \inglese{servlet} \texttt{CallManager} ha la responsabilità di esporre ai client alcune delle funzionalità del componente \textsf{Gestione chiamate} per l'interrogazione del database in merito allo storico delle chiamate e scaricamento dei dati corrispondenti.
+
+A tal fine è prevista la collaborazione con le interfacce \texttt{IUserData}, \texttt{ICall} e \texttt{ICallList} e, per l'interrogazione del database anche con le relative interfacce DAO \texttt{IUserDataDAO} e \texttt{ICallDAO}.
+
+\begin{figure}[H]
+  \centering
+%   \includegraphics[width=.7\textwidth]{}
+  \caption{Applicazione del \inglese{pattern} Façade a \textsf{Gestione chiamate}}\label{fig:facadecall}
+\end{figure}
 
 \subsection{Factory Method}
 
