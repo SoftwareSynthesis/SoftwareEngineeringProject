@@ -1413,7 +1413,7 @@ La presenza delle interfacce, delle relazioni di implementazione e l'estensione 
 
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-È il componente che rappresenta il nucleo logico fondamentale della comunicazione. In esso è presente la classe \texttt{kernel.CommunicationCenter}, che detiene un oggetto di tipo \texttt{connection.IChannel} al fine di comunicare con il server, e che ha la responsabilità di tener traccia delle comunicazioni aperte con i client usando la tecnologia WebRTC\@.
+È il componente che rappresenta il nucleo logico fondamentale della comunicazione. In esso è presente la classe Singleton \texttt{kernel.CommunicationCenter}, che detiene un oggetto di tipo \texttt{connection.IChannel} al fine di comunicare con il server, e che ha la responsabilità di tener traccia delle comunicazioni aperte con i client usando la tecnologia WebRTC\@.
 
 Tali comunicazioni sono rappresentate dall'interfaccia \texttt{kernel.IClientCommunication} che rappresenta il contratto di un oggetto utilizzabile come canale di comunicazione client-client. L'implementazione di tale interfaccia che utilizzerà WebRTC, prende il nome di \texttt{kernel.WebRTCCommunication}. Tale classe è istanziata da \texttt{kernel.CommunicationCenter} sulla base delle informazioni ottenute dall'istanza \texttt{connection.IChannel}. 
 
@@ -1531,6 +1531,8 @@ Un esempio di richiesta proveniente dal server che richiede di essere gestita in
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 È la classe che ha il compito di gestire la comunicazione con il server reagendo gli eventi che si verificano alla ricezione di un messaggio tramite il canale \texttt{server.connection.IChannel} (nel caso di una comunicazione entrante) oppure inviando tali messaggi al server (nel caso di una comunicazione uscente), al fine di stabilire una comunicazione client-client di tipo WebRTC\@.
+
+Tale classe è inoltre stata implementata come Singleton, al fine di porre un limite superiore pari a uno al numero di istanze che sono presenti in ciascun client.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -2239,8 +2241,8 @@ La classe \texttt{server.dao.HibernateUtil} è implementata come Singleton dal m
   \item{\scshape\bfseries CS02 -- Gestione connessione}\\
 La classe \texttt{server.connection.StandardCommunicationHandler} è implementata come Singleton in modo da centralizzare la responsabilità di creare nuove connessioni in risposta alle esigenze dei client.
 
-  \item{\scshape\bfseries CS07 -- Façade del server}\\
-Il \inglese{pattern} Singleton pone un limite superiore stretto al numero di istanze che possono esistere di una determinata classe e perciò è utile utilizzarlo per poter controllare il numero di oggetti \texttt{server.StandardServerFacade} che in questo caso è pari a uno. L'unicità del Façade garantisce la presenza di un solo punto di accesso alle funzionalità della sotto-architettura \texttt{server}.
+  \item{\scshape\bfseries CP01 -- Gestione comunicazione}\\
+La classe \texttt{clientpresenter.kernel.CommunicationCenter} è implementata secondo il \inglese{pattern} Singleton in modo da limitare il numero di istanze presenti su ciascun client a una soltanto. In tal modo è possibile centralizzare la gestione delle comunicazioni in ingresso e in uscita, tanto verso il server quanto verso gli altri client.
 
   \item{\scshape\bfseries CP04 -- Gestione remota}\\
 Il \inglese{pattern} Singleton è altresì utile per controllare il numero di istanze attive della classe \texttt{clientpresenter.kernel.RemoteHandler} per gli stessi motivi evidenziati in precedenza, ossia l'unicità del punto di accesso alle funzionalità della sotto-architettura \texttt{clientpresenter}.
