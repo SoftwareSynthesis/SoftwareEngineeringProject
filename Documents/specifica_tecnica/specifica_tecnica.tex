@@ -2121,15 +2121,11 @@ Definisce un'interfaccia per la creazione di un oggetto, lasciando alle sottocla
 
 \subsubsection{Componenti che lo implementano}
 \begin{description}
-  \item{\scshape\bfseries CS07 -- Façade del server}\\
-Factory Method permette ai client di ottenere con facilità degli oggetti simili a \inglese{proxy} che siano conformi ai contratti stabiliti dalle interfacce \texttt{server.message.IMessage} e \texttt{server.abook.IUserData}.
-
-Questo permette di ridurre il traffico di rete in quanto oggetti potenzialmente di grandi dimensioni rimangono sul server e vengono scaricati solo quando se ne presenta l'effettiva necessità nonché di proteggere i dati presenti sul server (in quanto non tutte le operazioni get/set hanno effetto sui contatti utente).
 
   \item{\scshape\bfseries CS02 -- Gestione connessione}\\
-Gli oggetti che rappresentano connessioni, sottotipi di \texttt{server.connection.IConnection} sono ottenuti mediante un Factory Method nelle classi concrete che implementano l'interfaccia \texttt{server.connection.ICommunicationHandler}.
+Gli oggetti che rappresentano connessioni, sottotipi di \texttt{server.connection.IChannel} sono ottenuti mediante un Factory Method nelle classi concrete che implementano l'interfaccia \texttt{server.connection.ICommunicationHandler}.
 
-Ciò garantisce maggiore flessibilità in quanto permette in futuro di gestire più categorie di \inglese{handler} che restituiscono diversi tipi connessione.
+Ciò garantisce maggiore flessibilità in quanto permetterebbe in futuro di gestire più categorie di \inglese{handler} che restituiscono diversi tipi connessione.
 \end{description}
 
 \subsection{Model-View-Presenter}\label{sec:MVP}
