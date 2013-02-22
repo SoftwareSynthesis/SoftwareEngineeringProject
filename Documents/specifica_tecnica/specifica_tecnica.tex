@@ -782,6 +782,10 @@ Per la gestione dello storico delle chiamate lato client, invece, sono state pre
 	\item{\scshape\bfseries Descrizione:}\\
 Tale componente ha il ruolo di offrire ai client una serie di punti di accesso alle funzionalità del sistema server. Dal momento che tale interazione avviene in un contesto distribuito, i punti di accesso ai componenti del server sono stati implementati come \inglese{servlet} Java destinate ad essere eseguite nell'ambiente del \inglese{servlet container} fornito da Apache TomCat.
 
+Per questo motivo, tali Façade saranno realizzate come estensioni della classe di libreria \texttt{javax.servlet.http.HttpServlet}, al fine di creare un sistema di risposta lato server che prenderà in carico le richieste inoltrate dai client.
+
+La classe Java \texttt{HttpServlet} implementa un sistema di \inglese{listening} che permette di monitorare costantemente richieste in ingresso. Queste ultime possono essere di duplice natura e corrispondono ai metodi di invio dei dati previsti dal protocollo HTTP (\texttt{GET} e \texttt{POST}).
+
 La mappatura fra componenti del server e le rispettive \inglese{servlet} di Façade, implementate come sottoclassi di \texttt{javax.servlet.http.HttpServlet} è illustrata dalla tabella seguente:
 \begin{center}
 \rowcolors{2}{lightblue}{llightblue}
@@ -1280,7 +1284,7 @@ Implementazione dell'interfaccia \texttt{ICallList}, permette di accedere alla l
 \item \texttt{AddressBookManager}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-\inglese{Servlet} che ha il compito di fornire ai client un'interfaccia per la consultazione e la gestione della rubrica. Rispondendo alle richieste dei client, infatti, consente lo scaricamento della rubrica restituendo i contatti in una forma serializzata adatta allo scambio di dati.
+Sottoclasse di \texttt{javax.servlet.http.HttpServlet} che ha il compito di fornire ai client un'interfaccia per la consultazione e la gestione della rubrica. Rispondendo alle richieste dei client, infatti, consente lo scaricamento della rubrica restituendo i contatti in una forma serializzata adatta allo scambio di dati.
 
 Inoltre, questa \inglese{servlet} è in grado di recepire le richieste di modifica sui dati della rubrica di un utente che corrispondono ai RUFF$4.x$, quali l'inserimento o la cancellazione di un contatto, creazione o eliminazione di gruppi, rimozione o aggiunta di un elemento da un gruppo.
 
@@ -1293,7 +1297,7 @@ Inoltre, questa \inglese{servlet} è in grado di recepire le richieste di modifi
 \item \texttt{AccountManager}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-\inglese{Servlet} mediante la quale è possibile amministrare i propri dati personali memorizzati sul server, in accordo con i RUFF3.1.0 e RUFF3.2.0. Le richieste provenienti dai client comportano pertanto la modifica dei dati di autenticazione e dei dati anagrafici facoltativi.
+Sottoclasse di \texttt{javax.servlet.http.HttpServlet} mediante la quale è possibile amministrare i propri dati personali memorizzati sul server, in accordo con i RUFF3.1.0 e RUFF3.2.0. Le richieste provenienti dai client comportano pertanto la modifica dei dati di autenticazione e dei dati anagrafici facoltativi.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1304,7 +1308,7 @@ Inoltre, questa \inglese{servlet} è in grado di recepire le richieste di modifi
 \item \texttt{ConnectionManager}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-\inglese{Servlet} che ha la funzione di punto di accesso al componente \textsf{Gestione connessione} grazie al quale ad autenticazione avvenuta viene instaurato un canale di comunicazione bidirezionale fra il server e il client, destinato ad essere usato per effettuare e per ricevere le comunicazioni fra client.
+Sottoclasse di \texttt{javax.servlet.http.HttpServlet} che ha la funzione di punto di accesso al componente \textsf{Gestione connessione} grazie al quale ad autenticazione avvenuta viene instaurato un canale di comunicazione bidirezionale fra il server e il client, destinato ad essere usato per effettuare e per ricevere le comunicazioni fra client.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1315,7 +1319,7 @@ Inoltre, questa \inglese{servlet} è in grado di recepire le richieste di modifi
 \item \texttt{StateManager}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-\inglese{Servlet} avente la funzione di recepire le richieste corrispondenti ai cambiamenti di stato dei client del sistema, fornendo pertanto un punto d'accesso al componente \textsf{Gestione stato}.
+Sottoclasse di \texttt{javax.servlet.http.HttpServlet} avente la funzione di recepire le richieste corrispondenti ai cambiamenti di stato dei client del sistema, fornendo pertanto un punto d'accesso al componente \textsf{Gestione stato}.
 
 I cambiamenti di stato hanno origine nel client tanto per esplicito intervento dell'utente (ad es. una disconnessione o un passaggio da disponibile a ``occupato'') oppure implicitamente ad esempio alla ricezione di una comunicazione audio o audio/video.
 
@@ -1328,7 +1332,7 @@ I cambiamenti di stato hanno origine nel client tanto per esplicito intervento d
 \item \texttt{MessageManager}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-\inglese{Servlet} che rappresenta il punto di accesso al componente \textsf{Gestione segreteria} e consente pertanto ai client di interrogare il server sullo stato della segreteria associata a un determinato utente.
+Sottoclasse di \texttt{javax.servlet.http.HttpServlet} che rappresenta il punto di accesso al componente \textsf{Gestione segreteria} e consente pertanto ai client di interrogare il server sullo stato della segreteria associata a un determinato utente.
 
 Oltre allo scaricamento dei messaggi in forma serializzata adatta allo scambio dei dati, le richieste provenienti dai client prevedono la cancellazione di un messaggio dalla segreteria (RUFF15.4.0) oppure l'impostazione dello stato del messaggio da ``non ascoltato'' ad ``ascoltato'' (RUFF15.5.0).
 
@@ -1341,7 +1345,7 @@ Oltre allo scaricamento dei messaggi in forma serializzata adatta allo scambio d
 \item \texttt{CallHistoryManager}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-\inglese{Servlet} la cui responsabilità è intercettare le richieste aventi come oggetto lo storico delle chiamate utente, che deve essere restituito dal server al client in forma opportunamente serializzata per l'interscambio di dati. Non è previsto invece alcun tipo di operazione ``attiva'' sui dati memorizzati nel server.
+Sottoclasse di \texttt{javax.servlet.http.HttpServlet} la cui responsabilità è intercettare le richieste aventi come oggetto lo storico delle chiamate utente, che deve essere restituito dal server al client in forma opportunamente serializzata per l'interscambio di dati. Non è previsto invece alcun tipo di operazione ``attiva'' sui dati memorizzati nel server.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
