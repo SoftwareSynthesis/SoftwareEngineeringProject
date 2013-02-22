@@ -642,8 +642,7 @@ Al fine di semplificare la futura fase di verifica, nonché la leggibilità degl
 Per ogni design \inglese{pattern} utilizzato, si dovrà dare una breve descrizione indicando:
 \begin{itemize}
 \item \textbf{Scopo}: verrà proposto lo scopo generico del pattern, al fine di evidenziare subito la sua utilità;
-\item \textbf{diagramma esplicativo}: si riporterà lo schema UML rappresentante un implementazione generica del design pattern in esame;
-\item \textbf{componenti che lo implementano}: infine verranno elencati i componenti dell'architettura di sistema, che implementano il \inglese{pattern} descritto.
+\item \textbf{componenti che lo implementano}: verranno elencati i componenti dell'architettura di sistema, che implementano il \inglese{pattern} descritto. Per ogni componente verrà inoltre associato un diagramma esplicativo che ne rappresenta la struttura. 
 \end{itemize}
 
 \subsection{Convenzioni sui diagrammi}
@@ -785,9 +784,8 @@ Per la stesura di codice, si seguiranno le seguenti regole:
 \subsection{Verifica del codice}
 La verifica del codice verrà fatta, come prima cosa, durante lo sviluppo di ogni classe attraverso il proprio IDE che segnalerà gli errori più banali (errori di battitura o piccole mancanze). Lo sviluppatore, prima di caricarlo nel \inglese{repository}, deve assicurarsi che il codice compili e non dia errori o \inglese{warning}. Il verificatore successivamente dovrà assicurarsi che siano state rispettate le convenzioni descritte nella sezione ``Progettazione'' \ref{sec:progettazione} e in caso di errori dovrà aprire un ticket (rispettando sempre le norme descritte in sezione \ref{sec:creazione_ticket}) rivolto allo sviluppatore che provvederà a risolvere gli errori.
 
-\subsection{Documentare con Javadoc}
-
-Javadoc è un applicativo incluso nel Java Development Kit della Sun Microsystems, utilizzato per la generazione automatica della documentazione del codice sorgente scritto in linguaggio Java. Il team ritiene pertanto che l'utilizzo di tale strumento sia non solo consigliato, ma bensì costituisca una \inglese{best practice}. I vantaggi che si prevede di ottenere utilizzando tale strumento sono:
+\subsection{Norme sul codice Java}
+Per la parte di progetto realizzato mediante codice java sarà usato Javadoc, un applicativo incluso nel Java Development Kit della Sun Microsystems, utilizzato per la generazione automatica della documentazione (in formato HTML) del codice sorgente scritto in linguaggio Java. Il team ritiene pertanto che l'utilizzo di tale strumento sia non solo consigliato, ma bensì costituisca una \inglese{best practice}. I vantaggi che si prevede di ottenere utilizzando tale strumento sono:
 
 \begin{itemize}
 	\item imporre uno standard nella compilazione della documentazione dei sorgenti;
@@ -796,38 +794,57 @@ Javadoc è un applicativo incluso nel Java Development Kit della Sun Microsystem
 	\item nel documentare si coglie anche il vantaggio di fornire commenti utili sul codice stesso, in grado quindi di aiutare i programmatori nelle future attività di programmazione.
 \end{itemize}
 
-Detto ciò vengono proposti alcuni riferimenti utili per imparare ad usare tale strumento e le norme imposte ai programmatori nell'utilizzarlo. Si vuole sottolineare che la sotto-sezione ``Norme di Javadoc'' è da applicare con la massima precisione, al fine di garantire un formato standard comprensibile da tutti.
+Si vuole sottolineare che, al fine di garantire un formato più standardizzato possibile e quindi incline alla comprensione collettiva, le norme esposte successivamente saranno da applicare con la massima precisione.\\
+I \textit{tag} Javadoc che verranno utilizzati sono i seguenti:
+\begin{itemize}
+\item \textit{@version}: numero di versione di una classe o di un metodo;
+\item \textit{@author}: nome dello sviluppatore assegnato;
+\item \textit{@param}: definisce i parametri di un metodo;
+\item \textit{@return}: indica i valori di ritorno di un metodo (da non usare ovviamente nei metodi o costruttori con valori di ritorno \textit{void});
+\item \textit{@throws}: indica le eccezioni lanciate da un determinato metodo;
+\item \textit{@see}: indica un'associazione ad un altra classe o metodo.
+\end{itemize}
+
+Al fine di evitare la creazione di un tag Javadoc all'interno del codice in modo accidentale, sarà necessario utilizzare il codice HTML \&\#064, eliminando così ogni tipo di possibile ambiguità.
+\\
+Definiamo in conclusione le convenzioni da utilizzare per la creazione di un commento Javadoc ben strutturato ed efficace :
+
+\begin{itemize}
+	\item è sempre posto subito prima della dichiarazione della classe, interfaccia, metodo, attributo.	
+	\item è composto da due parti distinte: un tag e una descrizione. Deve iniziare con i caratteri /** e terminare con i caratteri */ , ogni riga del commento dovrà inoltre iniziare con il carattere *.
+	\item avrà ragione d'esistere solo se la sua presenza sarà utile alla comprensione del codice, con un linguaggio sintetico, privo di ambiguità e più chiaro possibile.
+	\item  è pensato allo scopo per descrivere le funzionalità o i principi di un package/ classe/ interfaccia/ metodo e non per ``spiegare'' pezzi di codice; tali commenti, anche se formattati secondo lo standard, non saranno mai estratti dal comando javadoc;
+	\item per ogni classe dovrà comprendere una descrizione delle sue funzioni, il tag \textit{@author} con associato il nome dell'autore,il tag \textit{@version} con il numero di versione di tale classe e la data di compilazione, infine il tag \textit{@return} con il tipo di oggetto restituito.
+	\item per ogni metodo, oltre ai tag già descritti e inseriti in una classe, dovrà contenere il tag \textit{@throws} per ogni tipologia di eccezione che può sollevare e un tag \textit{@param} per ogni parametro del metodo.
+\end{itemize}
 
 \subsubsection{Manuale di Javadoc}
 
-I programmatori del team di sviluppo sono richiamati a prendere visione dei seguenti riferimenti.
+I programmatori del team di sviluppo possono inoltre avvalersi di ulteriori supporti per chiarire eventuali dubbi personali, come ad esempio al seguente link:
+\begin{center}
+\url{http://wwwusers.di.uniroma1.it/~parisi/Risorse/IntroJavadoc.pdf}
+\end{center}
 
+Qualora un membro del team trovasse eventuali informazioni che ritiene coerenti e di potenziale valore sarà suo dovere avvisare l'amministratore designato che vaglierà la possibilità di introdurle in questa sezione delle norme.
+
+\subsection{Norme sul codice JavaScript}
+In fase di codifica della parte JavaScript i programmatori dovranno fare in modo che il codice prodotto sia mantenuto in file con estensione textit{.js} separati rispetto alla parte \textit{php} e \textit{html} e che in tutti i documenti \textit{html} che utilizzeranno tale codice sia inserito al loro interno, nel tag \inglese{head}, il riferimento al file JavaScript esterno.
+
+Per quanto riguarda l'assegnazione del nome a variabili, funzioni e classi:
 \begin{itemize}
-	\item \url{http://www.di.unito.it/~nunnarif/informatica_applicata/dispense/InfApplicata-05-Javadoc.pdf}
-	\item \url{http://wwwusers.di.uniroma1.it/~parisi/Risorse/IntroJavadoc.pdf}
+\item il nome delle classi potrà essere composta da una o più parole: nel primo caso solo la prima lettera del nome sarà maiuscola, nel secondo caso le parole non dovranno essere separate, bensì verranno distinte dalla prima lettera (maiuscola) che le compongono (es: AbilitaCanale);
+\item il nome delle variabili sarà scritto utilizzando solamente lettere minuscole;
+\item il nome delle funzioni come nel caso delle classi potrà essere composta da una o più parole, ma al contrario delle classi se composto ad una singola parola verrà scritta con caratteri esclusivamente minuscoli, se al contrario sarà composto da più parole verrà usata la convenzione scelta per le classi, ma la prima lettera (della prima parola) resterà minuscola;
+\item il nome delle variabili, se composto da più parole, sarà creato dalle parole congiunte mediante \inglese{underscore}, dovranno inoltre essere utilizzate parole che identifichino il ruolo o lo scopo di tali variabili al fine di agevolare la comprensione del codice.
 \end{itemize}
 
-Qualora un membro del team trovasse informazioni più adeguate in merito, è pregato di avvisare l'amministratore di turno che vaglierà la possibilità di introdurle in questa sezione delle norme.
-
-\subsubsection{Norme di Javadoc}
-
-Si informano i programmatori che:
-
+infine, per quanto concerne le normative sul codice Javascript:
 \begin{itemize}
-	\item In generale, si dovrebbe commentare tutto ciò che utile per far comprendere il proprio codice ai colleghi e, per gli aspetti più generali, agli utenti.
-	\item Un commento Javadoc è pensato solo per descrivere le funzionalità o i principi di un package/classe/interfaccia/metodo.
-	\item Un commento Javadoc non è pensato per ``spiegare'' pezzi di codice. Questi commenti, anche se sono in formato Javadoc, non sono mai estratti dal comando javadoc.
-	\item La documentazione minima dovrebbe comprendere la descrizione di ciascuna package, classe, interfaccia, metodo pubblico, attributo pubblico.
-	\item Un commento Javadoc è sempre posto subito prima della dichiarazione della classe, interfaccia, metodo, attributo.
-	\item Un commento Javadoc deve descrivere in modo sintetico lo scopo dell'oggetto che si sta documentando evitando un linguaggio eccessivamente prolisso (Che porterebbe ad inutili perdite di tempo).
-	\item In merito al formato scelto per la stampa, il team dovrà far si che le pagine di documentazione abbiano estensione html. Cosi facendo si potrà caricare la documentazione nel sito aziendale cosi da fornire un punto di visione e dotato di link ipertestuali.
+\item al termine di ogni riga di codice dovrà esse presente il carattere ``;'' ;
+\item in ogni funzione la prima parentesi dovrà essere posta a capo rispetto al nome e alla massima sinistra così come l'ultima parentesi (che identifica il termine del codice della funzione). 
+\item il codice di ogni funzione sarà anticipato da una pre-condizione che ne spieghi concisamente lo scopo.
+\item le parti di codice poco chiare o che fanno uso di funzioni specifiche dovranno essere correlate da commenti al fine di renderne comprensibile il funzionamento.
 \end{itemize}
-
-In merito alla sintassi obbligatoria da riportare:
-
-\begin{description}
-	\item 
-\end{description}
 
 \newpage
 \section{Verifica e Validazione}
