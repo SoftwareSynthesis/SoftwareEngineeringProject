@@ -632,7 +632,9 @@ Tale componente ingloba le classi destinate a stabilire le \inglese{routine} di 
 
 La componente utilizza un particolare canale di comunicazione che risponde al contratto dell'interfaccia \texttt{connection.IChannel}. Quest'ultima contiene le dichiarazioni dei metodi necessari all'inizializzazione di una chiamata client-client. L'implementazione fornita ha il fine di garantire la massima flessibilità e il riuso del codice.
 
-Nello specifico si utilizzerà la classe \texttt{org.apache.catalina.websocket.MessageInbound} fornita dalle librerie di Apache TomCat. Tale classe sarà adattata alle firme dei metodi dell'interfaccia \texttt{connection.IChannel} ricorrendo al \inglese{design pattern} Adapter, con l'introduzione della classe \texttt{connection.ChannelAdapter}. 
+Nello specifico si utilizzerà la classe \texttt{org.apache.catalina.websocket.MessageInbound} fornita dalle librerie di Apache TomCat, al fine di garantire una comunicazione bidirezionale basata sull'invio e la ricezione di opportuni messaggi.
+
+Tale classe sarà adattata alle firme dei metodi dell'interfaccia \texttt{connection.IChannel} ricorrendo al \inglese{design pattern} Adapter, con l'introduzione della classe \texttt{connection.ChannelAdapter}. 
 
 L'istanza di \texttt{connection.CommunicationHandler} avrà quindi il compito di fornire al client richiedente (previa autenticazione), un'istanza di \texttt{connection.ChannelAdapter}. Il client potrà usare tale istanza nel momento in cui avrà necessità di instaurare una connessione con un altro client. \texttt{connection.ChannelAdapter} infatti fungerà da canale di comunicazione con il server, fornendo una serie di metodi per avviare l'iter di connessione \underline{WebRTC}\@.
 
@@ -1011,17 +1013,6 @@ Interfaccia che definisce un canale di comunicazione client-server. Tale canale 
 			\item[-] \textsf{CS02 -- Gestione connessione}
 			\item[-] \textsf{CS07 -- Façade del server}
 			\item[-] \textsf{CP01 -- Gestione comunicazione}
-		\end{itemize}
-\end{description}
-
-\item \texttt{org.apache.catalina.websocket.MessageInbound}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:}\\
-Classe presente nelle librerie Apache TomCat utilizzata dal server e da un client per garantire una comunicazione bidirezionale basata sull'invio e la ricezione di opportuni messaggi. Il team intende usarla e riadattarla mediante l'utilizzo del \inglese{pattern} Adapter, per implementare l'interfaccia \texttt{connection.IChannel}.
-
-	\item{\scshape\bfseries Componenti che ne fanno uso:}
-		\begin{itemize}[noitemsep,nolistsep]
-			\item[-] \textsf{CS02 -- Gestione connessione}
 		\end{itemize}
 \end{description}
 
