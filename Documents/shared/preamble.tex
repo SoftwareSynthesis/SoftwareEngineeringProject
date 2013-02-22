@@ -15,9 +15,11 @@
 \newcommand{\email}{info@softwaresynthesis.org}           % e-mail
 \newcommand{\caName}{MyTalk}                              % titolo capitolato
 \newcommand{\manager}{SynthesisRequirementManager}        % nome del sistema di tracciamento
-\newcommand{\memberdata}[1]{\texttt{\textcolor{RedOrange}{#1}}}
-\newcommand{\method}[1]{\texttt{\textcolor{Emerald}{#1}}}
-\newcommand{\exception}[1]{\texttt{\textcolor{RedViolet}{#1}}}
+\newcommand{\memberdata}[1]{%
+  \texttt{\textcolor{RedOrange}{#1}}}                     % attributi di una classe
+\newcommand{\method}[1]{\texttt{\textcolor{Emerald}{#1}}} % metodi di una clase
+\newcommand{\exception}[1]{%
+  \texttt{\textcolor{RedViolet}{#1}}}                     % eccezione
 \newcommand{\inglese}[1]{%
   \foreignlanguage{english}{\textit{#1}}}                 % per i testi in lingua inglese
 \newcommand{\purpose}{%                                     scopo del prodotto
@@ -26,7 +28,7 @@ Con il progetto ``\caName'' si intende un sistema software di comunicazione tra 
 \newcommand{\glossaryIntro}{%                               introduzione al glossario
 Al fine di evitare incomprensioni dovute all'uso di termini tecnici nei documenti, viene redatto e allegato il documento \textit{glossario.3.0.pdf} dove vengono definiti e descritti tutti i termini marcati con una sottolineatura.%
 }
-\newcommand{\currentauthor}[1]{\textcolor{ForestGreen}{#1}}
+
 
 % **************************************************
 % Codifica e lingua dei documenti
@@ -85,7 +87,7 @@ Al fine di evitare incomprensioni dovute all'uso di termini tecnici nei document
 \usepackage{tabularx}                                     % tabelle di larghezza fissa con una o più colonne variabili
 \usepackage{multirow}                                     % colonne con colonne che si estendono per più righe
 \usepackage{booktabs}                                     % per inserire l'ambiente table e le righe orizz. nelle tabelle
-\usepackage{longtable}			                          % tabelle oltre i limiti di pagina
+\usepackage{longtable}			                              % tabelle oltre i limiti di pagina
 
 % **************************************************
 % Cross-references e collegamenti ipertestuali
@@ -106,7 +108,10 @@ Al fine di evitare incomprensioni dovute all'uso di termini tecnici nei document
 \graphicspath{{\docRoot/pics/}}                           % percorso contenente tutti i file immagini
 \usepackage{float}                                        % per rendere non flottanti gli ambienti flottanti
 \usepackage[italian]{varioref}                            % testo completo riferimenti in italiano
-% definizioni di colori
+
+% **************************************************
+% Definizioni di colori
+% **************************************************
 \definecolor{myBlue}{RGB}{1,167,236}
 \definecolor{lightblue}{RGB}{213,243,253}%{119,218,247}
 \definecolor{llightblue}{RGB}{229,255,255}
@@ -115,7 +120,6 @@ Al fine di evitare incomprensioni dovute all'uso di termini tecnici nei document
 % Altri pacchetti opzionali
 % **************************************************     
 \usepackage{lastpage}                                     % per sapere il numero totale di pagine
-\usepackage{lipsum}                                       % genera "dummy text" per prove di impaginazione
 \usepackage{eurosym}                                      % per il simbolo dell'euro usare \EUR{x} dove x è l'importo
 \usepackage{ifthen}                                       % permette la scelta di rami condizionali nella compilazione
 \usepackage{enumitem}                                     % permette di configurare gli elenchi puntati e numerati

@@ -4,18 +4,25 @@
 % documento (utile nel caso in cui decidessimo di avere anche un indice delle
 % tabelle e/o un indice delle figure).
 
+% imposta lo stile di pagina per i titoli definito nel preambolo
 \pagestyle{toc}
+% imposta i numeri di pagina romani minuscoli
 \pagenumbering{roman}
 
+% genera automaticamente l'indice di LaTeX
 \tableofcontents
 
+% se è true \INDICETABELLE allora genera l'indice delle tabelle, altrimenti non fa nulla
 \ifthenelse{\equal{\INDICETABELLE}{true}}{%
-  \clearpage
+  \clearpage % l'indice delle tabelle, se c'è, deve andare a pagina nuova
   \listoftables
 }{}
 
+% se è true |INDICEFIGURE allora genera l'indice delle figure, altrimenti non fa nulla
 \ifthenelse{\equal{\INDICEFIGURE}{true}}{%
-  \clearpage
+  \clearpage % l'indice delle figure, se c'è, deve andare a pagina nuova
   \listoffigures
 }{}
+
+%in ogni caso occorre andare a pagina nuova dopo gli indici
 \clearpage
