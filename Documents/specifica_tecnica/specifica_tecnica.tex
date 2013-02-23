@@ -569,7 +569,7 @@ Infine, si fa notare che i nomi di tutte le classi riportate nella presente sezi
 \item{\scshape\bfseries Descrizione:}\\
 È il componente che si occupa di rappresentare la struttura del database relazionale su cui poggia l'applicativo. Tramite questo componente, il sistema potrà quindi effettuare operazione di lettura e scrittura di entità all'interno del database.
 
-Nucleo logico di tale componente è la classe \texttt{org.softwaresynthesis.mytalk.server.dao}, il cui compito è creare una \inglese{factory} per le sessioni verso il database. Si voglia osservare che tali sessioni si basano sul file di configurazione di Hibernate, tra le cui informazione compare anche la tipologia di di DBMS usata.
+Nucleo logico di tale componente è la classe \texttt{HibernateUtil}, il cui compito è creare una \inglese{factory} per le sessioni verso il database. Si voglia osservare che tali sessioni si basano sul file di configurazione di Hibernate, tra le cui informazioni compare anche la tipologia di di DBMS usata.
 
 Le altre classi che fanno parte  di questo componente si dividono in due categorie:
 \begin{itemize}
@@ -582,7 +582,7 @@ Le altre classi che fanno parte  di questo componente si dividono in due categor
 		\item[-] \texttt{dao.AddressBookDAO}
 	\end{itemize}
 	
-	\item le classi che mappano le entità rappresentate nel database e sono dotate di variabili di istanza che corrispondono ai campi dei \inglese{record}. Le operazioni disponibili su questo genere di oggetti comprendono i metodi get/set associati ai campi delle tabelle del database e sono rese disponibili dalle interfacce (una per ogni entità) implementate dalle classi (per chiarezza si informa che tali classi corrispondono a quelle che nella logica di programmazione in Hibernate prendono il nome di \inglese{Trasfer Object}, TO\@).
+	\item le classi che mappano le entità rappresentate nel database e sono dotate di variabili di istanza che corrispondono ai campi dei \inglese{record}. Le operazioni disponibili su questo genere di oggetti comprendono i metodi get/set associati ai campi delle tabelle del database e sono rese disponibili dalle interfacce (una per ogni entità) implementate dalle classi (per chiarezza si informa che tali classi corrispondono a quelle che nella logica di programmazione in Hibernate prendono il nome di \inglese{Transfer Object}, TO\@).
 	\begin{itemize}
 		\item[-] \texttt{call.ICall}
 	  \item[-] \texttt{call.Call}
