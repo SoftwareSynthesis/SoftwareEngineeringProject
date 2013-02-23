@@ -306,7 +306,7 @@ Con la progettazione concettuale definiremo una struttura ``concettuale'' della 
 Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule
 E\_Mail & Varchar(100) & NO & Unique\\
-Password & Varchar(100) & NO &\\
+Password & Char(41) & NO &\\
 Question & Varchar(100) & NO &\\
 Answer & Varchar(100) & NO &\\
 Name & Varchar(100) & SÌ &\\
@@ -324,7 +324,7 @@ Picture & Varchar(150) & NO &\\
 \toprule
 Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule
-Blocked & Boolean & NO & \\
+Blocked & Boolean & NO & default(false)\\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -337,8 +337,8 @@ Blocked & Boolean & NO & \\
 \toprule
 Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule
-Start\_date & Datetime & NO & \\
-End\_date & Datetime & SÌ & \\
+Start\_date & Timestamp & NO & default(current\_timestamp)\\
+End\_date & Timestamp & SÌ & \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -365,12 +365,10 @@ Name & Varchar(100) & NO &\\
 Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule
 New & Boolean & NO & \\
-Start\_date & Datetime & NO & \\
+Start\_date & Timestamp & NO & default(current\_timestamp) \\
 \bottomrule
 \end{tabular}
 \end{center}	
-
-Come per l'entità AddressBook verrà spiegato nel paragrafo progettazione logica il perché 'Sender' e 'Receiver' hanno tipo di dato UserData.
 	
 	\item{\scshape\bfseries AudioMessages}: è un entità che specializza Messages e rappresenta i messaggi audio lasciati nella segreteria di un utente. L'entità non è caratterizzata da alcun attributo proprio.
 	
@@ -389,13 +387,13 @@ Come per l'entità AddressBook verrà spiegato nel paragrafo progettazione logic
 \begin{description}
 	\item{\scshape\bfseries UserData - Calls (molti a molti)}: tale associazione rappresenta il legame che intercorre tra gli utenti e le chiamate. Tale associazione è del tipo molti a molti, con totalità parziale verso Calls e totalità totale verso UserData. L'associazione prevede l'attributo 'Caller' che identifica chi è stato il primo utente ad avviare la chiamata.
 	
-	\item{\scshape\bfseries UserData - AddressBooks (molti a uno)}: tale associazione rappresenta il legame che intercorre tra un utente e la rubrica. Tale associazione è di tipo molti a uno, con totalità parziale da entrambi i lati.
+	\item{\scshape\bfseries UserData - AddressBooks (molti a uno)}: tale associazione rappresenta il legame che intercorre tra una rubrica e i gli utenti presenti in essa. Tale associazione è di tipo molti a uno, con totalità parziale da entrambi i lati.
 	
-	\item{\scshape\bfseries AddressBooks - UserData (uno a uno)}: Tale associazione rappresenta il proprietario di una rubrica. Tale associazione è del tipo uno a uno con totalità totale da entrambi i lati.
+	\item{\scshape\bfseries AddressBooks - UserData (uno a uno)}: Tale associazione rappresenta il proprietario di una rubrica. Tale associazione è del tipo uno a uno con totalità parziale da UserData verso AddressBook mentre ha totalità totale da AddressBook verso UserData.
 	
 	\item{\scshape\bfseries AddressBooks - Groups (molti a uno)}: tale associazione rappresenta la possibilità di suddividere la propria rubrica in gruppi. Tale associazione è del tipo molti a uno, con totalità totale da Groups ad AddressBooks mentre ha una totalità parziale da AddressBooks a Groups.
 	
-	\item{\scshape\bfseries UserData - Messages (uno a molti)}: tali associazioni rappresentano il legame che intercorre tra gli utenti ed i messaggi registrati nella propria segreteria. Le associazione sono del tipo uno a molti verso Messages, con totalità parziale verso Messages e totalità totale verso UserData. L'idea alla base è che un utente può avere nella propria segreteria uno o più messaggi, così come può non averne nessuno, mentre ogni messaggio della segreteria è ``visionabile'' da un unico utente, il destinatario del messaggio.
+	\item{\scshape\bfseries UserData - Messages (uno a molti)}: tali associazioni rappresentano il legame che intercorre tra gli utenti ed i messaggi registrati nella propria segreteria. Le associazioni sono del tipo uno a molti verso Messages, con totalità parziale verso Messages e totalità totale verso UserData. L'idea alla base è che un utente può avere nella propria segreteria uno o più messaggi, così come può non averne nessuno, mentre ogni messaggio della segreteria è ``visionabile'' da un unico utente, il destinatario del messaggio.
 \end{description}
 
 \subsection{Progettazione logica}
