@@ -568,32 +568,33 @@ Infine, si fa notare che i nomi di tutte le classi riportate nella presente sezi
 \item{\scshape\bfseries Descrizione:}\\
 È il componente che si occupa di rappresentare la struttura del database relazionale su cui poggia l'applicativo. Tramite questo componente, il sistema potrà quindi effettuare operazione di lettura e scrittura di entità all'interno del database.
 
-Le classi che fanno parte  di questo componente possono essere suddivise in:
+Nucleo logico di tale componente è la classe \texttt{org.softwaresynthesis.mytalk.server.dao}, il cui compito è creare una \inglese{factory} per le sessioni verso il database. Si voglia osservare che tali sessioni si basano sul file di configurazione di Hibernate, tra le cui informazione compare anche la tipologia di di DBMS usata.
+
+Le altre classi che fanno parte  di questo componente si dividono in due categorie:
 \begin{itemize}
-  \item una classe di utilità per la creazione delle sessioni di connessione al DBMS su cui saranno realizzate le transazioni;
-  \item le classi \inglese{data access object} (DAO) concrete per il DBMS prescelto (MySQL) e le relative interfacce;
-  \item le classi \inglese{factory} (concrete e astratte) utilizzate per ottenere le istanze delle classi DAO necessarie a supportare la persistenza dei dati del database.
+	\item le classi \inglese{data access object} (DAO). Ossia quelle classi aventi il compito di inoltrare richieste per la modifica e la lettura dei dati (Create Read Update Delete) nelle corrispettive entità del database. Tali classi sono:
+	\begin{itemize}
+		\item[-] \texttt{dao.CallDAO}
+		\item[-] \texttt{dao.GroupDAO}
+		\item[-] \texttt{dao.MessageDAO}
+		\item[-] \texttt{dao.UserDataDAO}
+		\item[-] \texttt{dao.AddressBookDAO}
+	\end{itemize}
+	
+	\item le classi che mappano le entità rappresentate nel database e sono dotate di variabili di istanza che corrispondono ai campi dei \inglese{record}. Le operazioni disponibili su questo genere di oggetti comprendono i metodi get/set associati ai campi delle tabelle del database e sono rese disponibili dalle interfacce (una per ogni entità) implementate dalle classi (per chiarezza si informa che tali classi corrispondono a quelle che nella logica di programmazione in Hibernate prendono il nome di \inglese{Trasfer Object}, TO\@).
+	\begin{itemize}
+		\item[-] \texttt{call.ICall}
+	  \item[-] \texttt{call.Call}
+	  \item[-] \texttt{abook.IGroup}
+	  \item[-] \texttt{abook.Group}
+	  \item[-] \texttt{message.IMessage}
+	  \item[-] \texttt{message.Message}
+	  \item[-] \texttt{abook.IUserData}
+	  \item[-] \texttt{abook.UserData}
+	\end{itemize}
 \end{itemize}
 
-Inoltre, sono utilizzate le classi \inglese{transfer object} (TO) esterne e le relative interfacce che modellano le entità di \inglese{business}, in particolare:
-\begin{itemize}[noitemsep,nolistsep]
-  \item[-] \texttt{call.ICall}
-	\item[-] \texttt{call.Call}
-	\item[-] \texttt{abook.IGroup}
-	\item[-] \texttt{abook.Group}
-	\item[-] \texttt{message.IMessage}
-	\item[-] \texttt{message.Message}
-	\item[-] \texttt{abook.IUserData}
-	\item[-] \texttt{abook.UserData}
-\end{itemize}
-
-In linea generale le classi TO mappano le entità rappresentate nel database e sono dotate di variabili di istanza che corrispondono ai campi dei \inglese{record}. Le operazioni disponibili su questo genere di oggetti comprendono i metodi get/set associati ai campi delle tabelle del database e sono rese disponibili dalle interfacce (una per ogni entità) implementate dalle classi TO\@.
-
-Ad ognuna delle entità è associata inoltre un'interfaccia DAO il cui contratto stabilisce la responsabilità di gestire la transizione di stato degli oggetti TO da transienti a persistenti, l'aggiornamento delle informazioni sul database, la ricerca di un elemento e la rimozione di un oggetto dallo stato persistente, realizzando le operazioni di \inglese{insert}, \inglese{update}, \inglese{find}, \inglese{select} e \inglese{delete} corrispondenti.
-
-Poiché le implementazioni delle interfacce DAO contengono istruzioni dipendenti dal DBMS utilizzato, è stato realizzato un set di classi specifiche per MySQL che si appoggiano al \inglese{framework} Hibernate per la gestione della persistenza dei dati. Inoltre, è stata introdotta una classe \inglese{factory} per MySQL (\texttt{dao.MySQLDAOFactory})responsabile della creazione degli oggetti DAO specifici per questo DBMS\@.
-
-Allo scopo di rendere l'architettura facilmente estendibile a futuri ampliamenti o cambiamenti di DBMS, è stata introdotta un'interfaccia della \inglese{factory} in cui i tipi di ritorno dei metodi sono le interfacce DAO\@. Una diversa classe \inglese{factory} che la implementi potrà pertanto restituire istanze di sottotipi delle interfacce DAO specifiche per gestori di database distinti.
+Si voglia osservare che le classi rappresentati i TO\@ vengono ad essere collocate in package diversi da \texttt{.server.dao}. Questo perchè il team ha ritenuto sensato inserirle in contesti maggiormente specializzati sul gestire quella specifica sezione del database. Ecco quindi (per esempio) che la classe rappresentante i messaggi in segreteria verrà ad essere collocata in \texttt{server.message.Message}.
 
 \item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -604,16 +605,11 @@ Allo scopo di rendere l'architettura facilmente estendibile a futuri ampliamenti
 
 	\item{\scshape\bfseries Classi utilizzate:}
 	\begin{itemize}[nolistsep, noitemsep]
-	  \item[-] \texttt{dao.IDAOFactory}
-	  \item[-] \texttt{dao.MySQLDAOFactory}
-	  \item[-] \texttt{dao.ICallDAO}
-	  \item[-] \texttt{dao.MySQLCallDAO}
-	  \item[-] \texttt{dao.IGroupDAO}
-	  \item[-] \texttt{dao.MySQLGroupDAO}
-	  \item[-] \texttt{dao.IMessageDAO}
-	  \item[-] \texttt{dao.MySQLMessageDAO}
-	  \item[-] \texttt{dao.IUserDataDAO}
-	  \item[-] \texttt{dao.MySQLUserDataDAO}
+	  \item[-] \texttt{dao.CallDAO}
+	  \item[-] \texttt{dao.GroupDAO}
+	  \item[-] \texttt{dao.MessageDAO}
+	  \item[-] \texttt{dao.UserDataDAO}
+	  \item[-] \texttt{dao.AddressBookDAO}
 	  \item[-] \texttt{dao.HibernateUtil}
 	  \item[-] \texttt{call.ICall}
 	  \item[-] \texttt{call.Call}
@@ -659,14 +655,12 @@ L'istanza di \texttt{connection.CommunicationHandler} avrà quindi il compito di
 \subsubsection{CS03 -- Gestione rubrica}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-%TODO da rivedere per #131
-Ad ogni utente del sistema, che corrisponde a un'istanza di \texttt{abook.UserData} è associata una rubrica personale, rappresentata dall'interfaccia \texttt{abook.IAddressBook} e dalla relativa implementazione \texttt{abook.AddressBook}.
+Ad ogni utente del sistema, che corrisponde a un'istanza di \texttt{abook.UserData} è associata una rubrica personale. Tale rubrica è rappresentata da una lista d'istanze del tipo \texttt{abook.IAddressBook}, per la quale il team fornisce un implementazione nominata \texttt{abook.AddressBook}. Per chiarezza possiamo dire che un istanza della classe TO \texttt{abook.AddressBook}, rappresenta una riga della rubrica di un utente.
 
-I contatti in rubrica corrispondono agli utenti del sistema che il possessore ha aggiunto alla stessa. Una rubrica può contenere zero o più utenti, come si evince dalla relazione di composizione fra \texttt{abook.AddressBook} e \texttt{abook.IUserData} riportata del diagramma in figura~\ref{fig:gestionerubrica}.
+Come si evince osservando il diagramma, la struttura della componente rispecchia la logica di funzionamento del database. Ecco quindi che ogni istanza di un oggetto di tipo \texttt{abook.IAddressBook} ``apparterrà'' ad un solo \texttt{abook.IUserData}, ed in essa è registrata un istanza di \texttt{abook.UserData} che rappresenta il contatto facente parte della rubrica.
 
 Gli utenti, inoltre, possono essere opzionalmente organizzati in gruppi: un contatto in rubrica può, in un dato momento, appartenere a uno o più gruppi oppure non appartenere a nessuno.
 
-D'altro canto, la rubrica può contenere uno o più gruppi, laddove il limite inferiore è fissato dalla presenza di default di un gruppo \inglese{blacklist} in ogni rubrica. Questo spiega la relazione di composizione fra \texttt{abook.AddressBook} e \texttt{abook.IGroup}.
 
 Infine, il passaggio dei dati corrispondenti ai contatti della rubrica al \inglese{presenter} è gestito restituendo una versione serializzata degli oggetti compatibile con il dominio applicativo dei client che rappresenta inoltre una sorta di \inglese{proxy} di protezione, corrispondente alla classe \texttt{org.softwaresynthesis.mytalk.clientpresenter.kernel.JSUserData}. Un trattamento analogo è stato riservato ai gruppi di utenti che fanno parte di una rubrica personale.
 
