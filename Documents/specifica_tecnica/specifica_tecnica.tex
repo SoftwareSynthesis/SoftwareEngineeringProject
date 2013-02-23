@@ -1987,27 +1987,6 @@ In conformità con quanto stabilito nella sezione 7.2 del documento \textit{norm
 
 Per una visione d'insieme dei componenti utilizzati da un \inglese{pattern}, e dei \inglese{pattern} utilizzati da un componente, rimandiamo alle sottosezioni ``Tracciamenti Componenti-Design Pattern'' e ``Tracciamenti Design Pattern-Componenti'' della sezione \vref{sec:tracciamenti}.
 
-\subsection{Abstract Factory}
-\subsubsection{Scopo}
-Il \inglese{pattern} fornisce un'interfaccia per la creazione di famiglie di oggetti correlati, senza specificare le classi concrete ma garantendo un utilizzo coerente di prodotti appartenenti allo stesso insieme.
-
-\subsubsection{Diagramma esemplificativo}
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=.8\textwidth]{pattern_abstractfactory}
-  \caption{Applicazione del \inglese{pattern} Abstract Factory}\label{fig:abstractfactory}
-\end{figure}
-
-\subsubsection{Componenti che lo implementano}
-\begin{description}
-  \item{\bfseries\scshape Gestione database}\\
-Il componente Gestione database sfrutta la presenza di un'interfaccia \texttt{IDAOFactory} le cui operazioni restituiscono i tipi interfaccia necessari per la gestione della persistenza dei dati (\texttt{IMessageDAO}, \texttt{IGroupDAO}, \texttt{ICallDAO} e \texttt{IUserDataDAO}).
-
-È quindi fornita un'implementazione della \inglese{factory} specifica per MySQL, mediante la quale è possibile ottenere le classi DAO in cui le implementazioni delle operazioni di inserimento, modifica e cancellazione sono specifiche per tale DBMS\@.
-
-Il vantaggio dell'utilizzo di Abstract Factory è che permette la creazione di un insieme omogeneo di oggetti specifici per MySQL che necessitano di essere utilizzati nello stesso contesto, senza però limitare la possibilità di future espansioni perché creando nuovi set di prodotti e nuove \inglese{factory} è possibile ottenere un altro insieme di oggetti da utilizzare insieme.
-\end{description}
-
 \subsection{Adapter}
 \subsubsection{Scopo}
 Rendere conforme a una determinata interfaccia una classe fornita da terze parti che espone un diverso insieme di operazioni incompatibili con quelle dell'interfaccia obiettivo.
