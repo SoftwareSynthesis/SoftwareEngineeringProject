@@ -563,7 +563,6 @@ Infine, si fa notare che i nomi di tutte le classi riportate nella presente sezi
 
 \subsection{Componenti evidenziati}
 
-
 \subsubsection{CS01 -- Gestione database}
 \begin{description}
 \item{\scshape\bfseries Descrizione:}\\
@@ -597,7 +596,7 @@ Le altre classi che fanno parte  di questo componente si dividono in due categor
 	\end{itemize}
 \end{itemize}
 
-Si voglia osservare che le classi rappresentati i TO\@ vengono ad essere collocate in package diversi da \texttt{.server.dao}. Questo perchè il team ha ritenuto sensato inserirle in contesti maggiormente specializzati sul gestire quella specifica sezione del database. Ecco quindi (per esempio) che la classe rappresentante i messaggi in segreteria verrà ad essere collocata in \texttt{server.message.Message}.
+Si voglia osservare che le classi rappresentati i TO vengono ad essere collocate in package diversi da \texttt{.server.dao}. Questo perché il team ha ritenuto sensato inserirle in contesti maggiormente specializzati sul gestire quella specifica sezione del database. Ecco quindi (per esempio) che la classe rappresentante i messaggi in segreteria verrà ad essere collocata in \texttt{server.message.Message}.
 
 \item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -614,16 +613,6 @@ Si voglia osservare che le classi rappresentati i TO\@ vengono ad essere colloca
 	  \item[-] \texttt{dao.UserDataDAO}
 	  \item[-] \texttt{dao.AddressBookDAO}
 	  \item[-] \texttt{dao.HibernateUtil}
-	  \item[-] \texttt{call.ICall}
-	  \item[-] \texttt{call.Call}
-	  \item[-] \texttt{abook.IGroup}
-	  \item[-] \texttt{abook.Group}
-	  \item[-] \texttt{message.IMessage}
-	  \item[-] \texttt{message.Message}
-	  \item[-] \texttt{abook.IUserData}
-	  \item[-] \texttt{abook.UserData}
-	  \item[-] \texttt{abook.IAddressBook}
-	  \item[-] \texttt{abook.AddressBook}
 	\end{itemize}
 \end{description}
 
@@ -652,24 +641,19 @@ L'istanza di \texttt{connection.CommunicationHandler} avrà quindi il compito di
 	  \item[-] \texttt{connection.ICommunicationHandler}
 	  \item[-] \texttt{connection.CommunicationHandler}
 	  \item[-] \texttt{connection.IChannel}
-	  \item[-] \texttt{org.apache.catalina.websocket.MessageInbound}
 	  \item[-] \texttt{connection.ChannelAdapter}
+	  \item[-] \texttt{org.apache.catalina.websocket.MessageInbound}
 	\end{itemize}
 \end{description}
 
 \subsubsection{CS03 -- Gestione rubrica}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Ad ogni utente del sistema, che corrisponde a un'istanza di \texttt{abook.UserData} è associata una rubrica personale. Tale rubrica è rappresentata da una lista d'istanze del tipo \texttt{abook.IAddressBook}, per la quale il team fornisce un implementazione nominata \texttt{abook.AddressBook}. Per chiarezza possiamo dire che un istanza della classe TO \texttt{abook.AddressBook}, rappresenta una riga della rubrica di un utente.
+A ogni utente del sistema, che corrisponde a un'istanza di \texttt{abook.UserData} è associata una rubrica personale. Tale rubrica è rappresentata da una lista di istanze del tipo \texttt{abook.IAddressBook}, per la quale si fornisce un'implementazione nominata \texttt{abook.AddressBook}. Per chiarezza possiamo dire che un istanza della classe TO \texttt{abook.AddressBook}, rappresenta un contatto della rubrica di un utente.
 
-Come si evince osservando il diagramma, la struttura della componente rispecchia la logica di funzionamento del database. Ecco quindi che ogni istanza di un oggetto di tipo \texttt{abook.IAddressBook} ``apparterrà'' ad un solo \texttt{abook.IUserData}, ed in essa è registrata un istanza di \texttt{abook.UserData} che rappresenta il contatto facente parte della rubrica.
+Come si evince osservando il diagramma riportato in figura \ref{fig:gestionerubrica}, la struttura del componente rispecchia la logica di funzionamento del database. Di conseguenza, ogni istanza di tipo \texttt{abook.IAddressBook} apparterrà a un solo \texttt{abook.IUserData} e in essa è registrata un istanza di \texttt{abook.UserData} che rappresenta il contatto facente parte della rubrica.
 
 Gli utenti, inoltre, possono essere opzionalmente organizzati in gruppi: un contatto in rubrica può, in un dato momento, appartenere a uno o più gruppi oppure non appartenere a nessuno.
-
-
-Infine, il passaggio dei dati corrispondenti ai contatti della rubrica al \inglese{presenter} è gestito restituendo una versione serializzata degli oggetti compatibile con il dominio applicativo dei client che rappresenta inoltre una sorta di \inglese{proxy} di protezione, corrispondente alla classe \texttt{org.softwaresynthesis.mytalk.clientpresenter.kernel.JSUserData}. Un trattamento analogo è stato riservato ai gruppi di utenti che fanno parte di una rubrica personale.
-
-La gestione della rubrica lato client è resa inoltre più agevole modellando quest'ultima come una collezione di contatti e gruppi, attraverso un livello di astrazione ulteriore introdotto da \texttt{clientpresenter.kernel.JSAddressBook}.
 
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -686,9 +670,6 @@ La gestione della rubrica lato client è resa inoltre più agevole modellando qu
 	  \item[-] \texttt{abook.Group}
 	  \item[-] \texttt{abook.IUserData}
 	  \item[-] \texttt{abook.UserData}
-	  \item[-] \texttt{org.softwaresynthesis.mytalk.clientpresenter.kernel.JSUserData}
-	  \item[-] \texttt{org.softwaresynthesis.mytalk.clientpresenter.kernel.JSGroup}
-	  \item[-] \texttt{org.softwaresynthesis.mytalk.clientpresenter.kernel.JSAddressBook}
 	\end{itemize}
 \end{description}
 
@@ -699,11 +680,12 @@ Le classi di tale componente sono utilizzate per gestire lo stato degli utenti, 
 
 Gli utenti che si trovano nello stato online possono trovarsi in due situazioni: ``occupato'' o ``disponibile'', rappresentati a loro volta dalle classi \texttt{state.StateOccupied} e \texttt{state.StateAvailable}.
 
-Se l'utente è impegnato in una conversazione con uno o più utenti, allora lo stato in cui si trova è ``occupato''. Tuttavia, un utente può anche impostare manualmente il proprio stato ad ``occupato'' anche per segnalare di non essere disponibile a ricevere chiamate in ingresso.
+Se l'utente è impegnato in una conversazione con uno o più utenti, allora lo stato in cui si trova è ``occupato''. Tuttavia, un utente può anche impostare manualmente il proprio stato a ``occupato'' per segnalare di non essere disponibile a ricevere chiamate in ingresso.
 	
 La chiamata viene inoltre trattata in modo differente a seconda che l'utente si trovi nello stato ``disponibile'' o ``occupato''/``\inglese{offline}'', dal momento che nel primo caso la chiamata va a buon fine mentre nel secondo verrà attivato il meccanismo di segreteria telefonica.
 	
-Inoltre, i cambiamenti di stato vengono notificati a tutti gli utenti presenti in rubrica che si trovano nello stato \inglese{online}.
+Inoltre, i cambiamenti di stato vengono notificati a tutti gli utenti presenti in rubrica che si trovano nello stato \inglese{online} attraverso il \inglese{design pattern} Observer.
+
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
   \centering
@@ -727,8 +709,6 @@ Inoltre, i cambiamenti di stato vengono notificati a tutti gli utenti presenti i
 	\item{\scshape\bfseries Descrizione:}\\
 I messaggi in segreteria, che possono essere di natura audio o audio/video, corrispondono alle istanze dalla classe \texttt{message.Message} e sono caratterizzati da un utente mittente, da un destinatario e dalla data di registrazione. La collezione di messaggi aventi un determinato utente come destinatario può essere ottenuta tramite un'operazione dichiarata nell'interfaccia \texttt{abook.IUserData}.
 
-La gestione della segreteria lato client è resa più agevole dall'introduzione della classe \texttt{clientpresenter.kernel.JSMessageBox} che rappresenta una collezione di messaggi, mentre \texttt{clientpresenter.kernel.JSMessage} rende disponibili le medesime operazioni di \texttt{message.IMessage} ma costituisce una rappresentazione ad uso dei client.
-
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
   \centering
@@ -738,10 +718,9 @@ La gestione della segreteria lato client è resa più agevole dall'introduzione 
 	
 	\item{\scshape\bfseries Classi utilizzate:}
 	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-] \texttt{abook.IUserData}
 		\item[-] \texttt{message.IMessage}
 	  \item[-] \texttt{message.Message}
-	  \item[-] \texttt{org.softwaresythesis.mytalk.clientpresenter.kernel.JSMessage}
-	  \item[-] \texttt{org.softwaresythesis.mytalk.clientpresenter.kernel.JSMessageBox}
 	\end{itemize}
 \end{description}
 
@@ -751,8 +730,6 @@ La gestione della segreteria lato client è resa più agevole dall'introduzione 
 Le classi di questo componente hanno il ruolo di incapsulare la logica di gestione delle chiamate e di accesso ai dati relativi a una chiamata (data, mittente e $n\geq1$ destinatari della chiamata). Tali informazioni rivestono un ruolo importante per la rappresentazione e la trasmissione ai client dello storico delle chiamate.
 
 La componente contiene l'interfaccia \texttt{ICall} e la sua implementazione lato server \texttt{Call}, che rappresenta il \inglese{transfer object} per la rappresentazione delle chiamate che deve essere mappata nel database.
-
-Per la gestione dello storico delle chiamate lato client, invece, sono state previste le classi \texttt{clientpresenter.kernel.JSCall}, che aderisce al medesimo contratto della sua controparte server.
 
   \item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -765,17 +742,15 @@ Per la gestione dello storico delle chiamate lato client, invece, sono state pre
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \texttt{call.ICall}
     \item[-] \texttt{call.Call}
-    \item[-] \texttt{org.softwaresythesis.mytalk.clientpresenter.kernel.JSCall}
-    \item[-] \texttt{org.softwaresythesis.mytalk.clientpresenter.kernel.JSCallList}
   \end{itemize}
 \end{description}
 
 \subsubsection{CS07 -- Façade del server}\label{sec:serverfacade}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Tale componente ha il ruolo di offrire ai client una serie di punti di accesso alle funzionalità del sistema server. Dal momento che tale interazione avviene in un contesto distribuito, i punti di accesso ai componenti del server sono stati implementati come \inglese{servlet} Java destinate ad essere eseguite nell'ambiente del \inglese{servlet container} fornito da Apache TomCat.
+Tale componente ha il ruolo di offrire ai client una serie di punti di accesso alle funzionalità del sistema server. Dal momento che tale interazione avviene in un contesto distribuito, i punti di accesso ai componenti del server sono stati implementati come \inglese{servlet} Java destinate a essere eseguite nell'ambiente del \inglese{servlet container} fornito da Apache TomCat.
 
-Per questo motivo, tali Façade saranno realizzate come estensioni della classe di libreria \texttt{javax.servlet.http.HttpServlet}, al fine di creare un sistema di risposta lato server che prenderà in carico le richieste inoltrate dai client.
+Per questo motivo, tali Façade saranno realizzate come estensioni della classe di libreria \texttt{javax.servlet.http.HttpServlet}, al fine di creare un sistema di risposta lato server che prenderà in carico le richieste provenienti dai client.
 
 La classe Java \texttt{HttpServlet} implementa un sistema di \inglese{listening} che permette di monitorare costantemente richieste in ingresso. Queste ultime possono essere di duplice natura e corrispondono ai metodi di invio dei dati previsti dal protocollo HTTP (\texttt{GET} e \texttt{POST}).
 
@@ -795,7 +770,7 @@ CS06 -- Gestione chiamate & servlet.CallHistoryManager\\
 \end{tabular}
 \end{center}
 
-In particolare \texttt{servlet.ConnectionManager} è coinvolto in fase di \inglese{login} e collabora con \textsf{Gestione rubrica} e \textsf{Gestione Database} per controllare la validità dell'autenticazione, quindi interagisce con \textsf{Gestione connessione} per creare un canale di comunicazione fra il server e il client, secondo le modalità illustrate nella sezione \ref{sec:gestioneconnessione}.
+In particolare \texttt{servlet.ConnectionManager} è coinvolto in fase di \inglese{login} e collabora con \textsf{Gestione rubrica} e \textsf{Gestione database} per controllare la validità dell'autenticazione, quindi interagisce con \textsf{Gestione connessione} per creare un canale di comunicazione fra il server e il client, secondo le modalità illustrate nella sezione \ref{sec:gestioneconnessione}.
 
 Il compito di interfacciarsi con \textsf{Gestione rubrica} per recuperare la rubrica associata ad un utente e per riflettere sul server le operazioni di amministrazione della rubrica spetta invece a \texttt{servlet.AddressBookManager}, mentre \texttt{servlet.AccountManager} risponde alle richieste dei client per le azioni di aggiornamento e modifica delll'account personale dell'utente associato al client.
 
@@ -828,9 +803,6 @@ L'apparente discrasia fra componenti e Façade è dovuta al fatto che, da una pa
 
 \begin{itemize}[leftmargin=0em]
 
-
-%Classe rappresentante il \inglese{transfer object} verso il database dell'entità Message. Ogni sua istanza rappresenta una messaggio presente nella segreteria di un utente\@.
-
 \item \texttt{CallDAO}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
@@ -840,7 +812,7 @@ Tale classe interagisce con il framework Hibernate e contiene la logica per la m
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS01 -- Gestione database}
-    \item[-] \textsf{CS06 -- Gestione chiamate}
+    \item[-] \textsf{CS07 -- Façade del server}
   \end{itemize}
 \end{description}
 
@@ -853,7 +825,7 @@ Tale classe interagisce con il framework Hibernate e contiene la logica per la m
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS01 -- Gestione database}
-    \item[-] \textsf{CS05 -- Gestione segreteria}
+    \item[-] \textsf{CS07 -- Façade del server}
   \end{itemize}
 \end{description}
 
@@ -866,7 +838,7 @@ Tale classe interagisce con il framework Hibernate e contiene la logica per la m
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS01 -- Gestione database}
-    \item[-] \textsf{CS03 -- Gestione rubrica}
+    \item[-] \textsf{CS07 -- Façade del server}
   \end{itemize}
 \end{description}
 
@@ -879,7 +851,7 @@ Tale classe interagisce con il framework Hibernate e contiene la logica per la m
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS01 -- Gestione database}
-    \item[-] \textsf{CS03 -- Gestione rubrica}
+    \item[-] \textsf{CS07 -- Façade del server}
   \end{itemize}
 \end{description}
 
@@ -892,7 +864,7 @@ Tale classe interagisce con il framework Hibernate e contiene la logica per la m
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS01 -- Gestione database}
-    \item[-] \textsf{CS03 -- Gestione rubrica}
+    \item[-] \textsf{CS07 -- Façade del server}
   \end{itemize}
 \end{description}
 
@@ -1959,7 +1931,7 @@ Questa componente della sotto-architettura server fornisce una serie di punti di
 \subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.servlet.AccountManager}}
 La \inglese{servlet} \texttt{AccountManager} rappresenta un punto di accesso alle funzionalità del componente \textsf{Gestione rubrica} per quanto riguarda la gestione dei dati relativi al proprio account che sono memorizzati sul server.
 
-A tal fine, come illustrato in figura \ref{fig:facadeaddressbook1}, è prevista una collaborazione con l'interfaccia \texttt{abook.IUserData} per la manipolazione dei \inglese{transfer object} associati agli utenti nonché con l'interfaccia DAO \texttt{dao.IUserDataDAO}, necessaria per riflettere i cambiamenti richiesti dagli utenti su quanto memorizzato nelle tabelle del database.
+A tal fine, come illustrato in figura \ref{fig:facadeaddressbook1}, è prevista una collaborazione con l'interfaccia \texttt{abook.IUserData} per la manipolazione dei \inglese{transfer object} associati agli utenti nonché con la classe DAO \texttt{dao.UserDataDAO}, necessaria per riflettere i cambiamenti richiesti dagli utenti su quanto memorizzato nelle tabelle del database.
 
 \begin{figure}[H]
   \centering
@@ -1970,7 +1942,7 @@ A tal fine, come illustrato in figura \ref{fig:facadeaddressbook1}, è prevista 
 \subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.servlet.AddressBookManager}}
 La \inglese{servlet} \texttt{AddressBookManager} rappresenta un punto di accesso alle funzionalità del componente \textsf{Gestione rubrica} per quanto concerne le operazioni di amministrazione della rubrica che hanno come oggetto i contatti di una rubrica utente come l'inserimento/cancellazione di un contatto, la creazione/eliminazione di un gruppo o l'aggiunta/rimozione di un contatto da un determinato gruppo.
 
-A tal fine, come illustrato dal diagramma in figura \ref{fig:facadeaddressbook2}, è prevista una collaborazione fra la \inglese{servlet} \texttt{AddressBookManager} e l'interfaccia \texttt{abook.IUserData} e \texttt{abook.IGroup} nonché con \texttt{dao.IUserDataDAO} e \texttt{dao.IGroupDAO} per memorizzare nel database che risiede sul server le nuove informazioni risultanti delle interazioni con l'utente.
+A tal fine, come illustrato dal diagramma in figura \ref{fig:facadeaddressbook2}, è prevista una collaborazione fra la \inglese{servlet} \texttt{AddressBookManager} e l'interfaccia \texttt{abook.IAddressBook} e \texttt{abook.IGroup} nonché con \texttt{dao.AddressBookDAO} e \texttt{dao.GroupDAO} per memorizzare nel database che risiede sul server le nuove informazioni risultanti delle interazioni con l'utente.
 
 \begin{figure}[H]
   \centering
@@ -1983,7 +1955,7 @@ La \inglese{servlet} \texttt{ConnectionManager} fornisce un punto di accesso cen
 
 Inoltre, poiché questa \inglese{servlet} è interrogata in fase di \inglese{login} al sistema, ha anche la responsabilità di testare i dati di autenticazione al fine di stabilire se le credenziali sono valide per effettuare l'accesso, prima di creare il canale di comunicazione bidirezionale corrispondente a \texttt{connection.IChannel}.
 
-Come illustrato dal diagramma riportato in figura \ref{fig:facadeconnection}, al fine di realizzare tali funzionalità sono previste le collaborazioni con le interfacce \texttt{abook.IUserData}, \texttt{dao.IUserDataDAO} e con \texttt{connection.ICommunicationHandler}.
+Come illustrato dal diagramma riportato in figura \ref{fig:facadeconnection}, al fine di realizzare tali funzionalità sono previste le collaborazioni con le interfacce \texttt{abook.IUserData} e \texttt{connection.ICommunicationHandler} nonché con la classe \texttt{dao.UserDataDAO}.
 
 \begin{figure}[H]
   \centering
@@ -2005,7 +1977,7 @@ A tal fine, come illustrato dal diagramma riportato in figura \ref{fig:facadesta
 \subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.servlet.MessageManager}}
 La \inglese{servlet} \texttt{MessageManager} ha il compito di esporre verso i client le funzionalità del componente \textsf{Gestione segreteria} del server.
 
-A tal fine è prevista la collaborazione con le interfacce \texttt{message.IMessage} e \texttt{abook.IUserData}. Poiché inoltre il recupero dei messaggi, i cambiamenti sullo stato dei messaggi, e l'eliminazione di questi ultimi hanno degli effetti sulla rappresentazione in forma persistente dei dati sul server, è prevista inoltre una collaborazione con le implementazioni delle interfacce DAO \texttt{dao.IUserDataDAO} e \texttt{dao.IMessageDAO}.
+A tal fine è prevista la collaborazione con le interfacce \texttt{message.IMessage} e \texttt{abook.IUserData}. Poiché inoltre il recupero dei messaggi, i cambiamenti sullo stato dei messaggi, e l'eliminazione di questi ultimi hanno degli effetti sulla rappresentazione in forma persistente dei dati sul server, è prevista inoltre una collaborazione con la classe DAO e \texttt{dao.MessageDAO}.
 
 \begin{figure}[H]
   \centering
@@ -2014,9 +1986,9 @@ A tal fine è prevista la collaborazione con le interfacce \texttt{message.IMess
 \end{figure}
 
 \subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.CallManager}}
-La \inglese{servlet} \texttt{CallManager} ha la responsabilità di esporre ai client alcune delle funzionalità del componente \textsf{Gestione chiamate} per l'interrogazione del database in merito allo storico delle chiamate e scaricamento dei dati corrispondenti.
+La \inglese{servlet} \texttt{CallHistoryManager} ha la responsabilità di esporre ai client alcune delle funzionalità del componente \textsf{Gestione chiamate} per l'interrogazione del database in merito allo storico delle chiamate e scaricamento dei dati corrispondenti.
 
-A tal fine è prevista la collaborazione con le interfacce \texttt{IUserData}, \texttt{ICall} e \texttt{ICallList} e, per l'interrogazione del database anche con le relative interfacce DAO \texttt{IUserDataDAO} e \texttt{ICallDAO}.
+A tal fine è prevista la collaborazione con le interfacce \texttt{IUserData}, \texttt{ICall} e, per l'interrogazione del database anche con la classe AO associata \texttt{CallDAO}.
 
 \begin{figure}[H]
   \centering
