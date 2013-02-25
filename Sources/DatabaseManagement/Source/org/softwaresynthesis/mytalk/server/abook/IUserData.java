@@ -1,12 +1,15 @@
 package org.softwaresynthesis.mytalk.server.abook;
 
+import java.util.Observer;
+import org.softwaresynthesis.mytalk.server.state.IState;
+
 /**
  * Utente del sistema mytalk
  * 
  * @author 	Andrea Meneghinello
  * @version	%I%, %G%
  */
-public interface IUserData 
+public interface IUserData extends Observer
 {
 	/**
 	 * Ottiene l'identificatore univoco di un utente del sistema mytalk
@@ -155,4 +158,22 @@ public interface IUserData
 	 * 					mytalk
 	 */
 	public void setImage(String path);
+	
+	/**
+	 * Ottiene lo stato in cui si trova un utente del sistema mytalk
+	 * 
+	 * @author	Andrea Meneghinello
+	 * @version	%I%, %G%
+	 * @return	{@link IState} in cui si trova l'utente del sistema mytalk
+	 */
+	public IState getState();
+	
+	/**
+	 * Imposta lo stato in cui si trova un utente del sistema mytalk
+	 * 
+	 * @author 	Andrea Meneghinello
+	 * @param 	state	nuovo stato in cui si trova un utente del
+	 * 					sistema mytalk
+	 */
+	public void setState(IState state);
 }
