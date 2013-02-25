@@ -569,7 +569,7 @@ Infine, si fa notare che i nomi di tutte le classi riportate nella presente sezi
 \item{\scshape\bfseries Descrizione:}\\
 È il componente che si occupa di rappresentare la struttura del database relazionale su cui poggia l'applicativo. Tramite questo componente, il sistema potrà quindi effettuare operazione di lettura e scrittura di entità all'interno del database.
 
-Nucleo logico di tale componente è la classe \texttt{HibernateUtil}, il cui compito è creare una \inglese{factory} per le sessioni verso il database. Si voglia osservare che tali sessioni si basano sul file di configurazione di Hibernate, tra le cui informazioni compare anche la tipologia di di DBMS usata.
+Nucleo logico di tale componente è la classe \texttt{HibernateUtil}, il cui compito è creare una \inglese{factory} per le sessioni verso il database. Si voglia osservare che tali sessioni si basano sul file di configurazione di Hibernate, tra le cui informazioni compare anche la tipologia di di DBMS utilizzata.
 
 Le altre classi che fanno parte  di questo componente si dividono in due categorie:
 \begin{itemize}
@@ -582,7 +582,7 @@ Le altre classi che fanno parte  di questo componente si dividono in due categor
 		\item[-] \texttt{dao.AddressBookDAO}
 	\end{itemize}
 	
-	\item le classi che mappano le entità rappresentate nel database e sono dotate di variabili di istanza che corrispondono ai campi dei \inglese{record}. Le operazioni disponibili su questo genere di oggetti comprendono i metodi get/set associati ai campi delle tabelle del database e sono rese disponibili dalle interfacce (una per ogni entità) implementate dalle classi (per chiarezza si informa che tali classi corrispondono a quelle che nella logica di programmazione in Hibernate prendono il nome di \inglese{Transfer Object}, TO\@).
+	\item le classi che mappano le entità rappresentate nel database sono dotate di variabili di istanza che corrispondono ai campi dei \inglese{record}. Le operazioni disponibili su questo genere di oggetti comprendono i metodi get/set associati ai campi delle tabelle del database e sono rese disponibili dalle interfacce (una per ogni entità) implementate dalle classi (per chiarezza si informa che tali classi corrispondono a quelle che nella logica di programmazione in Hibernate prendono il nome di \inglese{Transfer Object}, TO\@).
 	\begin{itemize}
 		\item[-] \texttt{call.ICall}
 	  \item[-] \texttt{call.Call}
@@ -592,6 +592,8 @@ Le altre classi che fanno parte  di questo componente si dividono in due categor
 	  \item[-] \texttt{message.Message}
 	  \item[-] \texttt{abook.IUserData}
 	  \item[-] \texttt{abook.UserData}
+	  \item[-] \texttt{abook.IAddressBook}
+	  \item[-] \texttt{abook.AddressBook}
 	\end{itemize}
 \end{itemize}
 
@@ -620,6 +622,8 @@ Si voglia osservare che le classi rappresentati i TO\@ vengono ad essere colloca
 	  \item[-] \texttt{message.Message}
 	  \item[-] \texttt{abook.IUserData}
 	  \item[-] \texttt{abook.UserData}
+	  \item[-] \texttt{abook.IAddressBook}
+	  \item[-] \texttt{abook.AddressBook}
 	\end{itemize}
 \end{description}
 
@@ -699,7 +703,7 @@ Se l'utente è impegnato in una conversazione con uno o più utenti, allora lo s
 	
 La chiamata viene inoltre trattata in modo differente a seconda che l'utente si trovi nello stato ``disponibile'' o ``occupato''/``\inglese{offline}'', dal momento che nel primo caso la chiamata va a buon fine mentre nel secondo verrà attivato il meccanismo di segreteria telefonica.
 	
-Inoltre, i cambiamenti di stato vengono notificati a tutti gli utenti presenti in rubrica tali che si trovano nello stato \inglese{online}.
+Inoltre, i cambiamenti di stato vengono notificati a tutti gli utenti presenti in rubrica che si trovano nello stato \inglese{online}.
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
   \centering
@@ -895,7 +899,7 @@ Tale classe interagisce con il framework Hibernate e contiene la logica per la m
 \item \texttt{HibernateUtil}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
-Classe che implementa il \inglese{pattern} Singleton e che viene utilizzata dalle classi DAO specifiche per MySQL al fine di ottenere un riferimento alla sessione di connessione al DBMS tramite la quale effettuare le transazioni corrispondenti alle operazioni volte ad assicurare la persistenza dei dati.
+Classe che implementa il \inglese{pattern} Singleton e che viene utilizzata dalle classi DAO al fine di ottenere un riferimento alla sessione di connessione al DBMS tramite la quale effettuare le transazioni corrispondenti alle operazioni volte ad assicurare la persistenza dei dati.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -965,7 +969,7 @@ Classe che risolve l'utilizzo del \inglese{pattern} Adapter tra l'interfaccia \t
 \item \texttt{IAddressBook}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Interfaccia che raccoglie le operazioni sulla rubrica di un utente e permette di controllare l'accesso alle strutture dati che la implementano ad esempio al fine di recuperare l'insieme dei contatti, dei gruppi e dei contatti in \inglese{blacklist}.
+Interfaccia che raccoglie le operazioni per la gestione di un utente appartenente alla rubrica di un altro utente.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -978,7 +982,7 @@ Interfaccia che raccoglie le operazioni sulla rubrica di un utente e permette di
 \item \texttt{AddressBook}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Classe che implementa l'interfaccia \texttt{IAddressBook} e rappresenta quindi la rubrica associata a un determinato utente. Permette di accedere ai contatti di cui si compone e ai gruppi, ivi compresa la \inglese{blacklist} di un utente.
+Classe che implementa l'interfaccia \texttt{IAddressBook} e rappresenta quindi una voce della rubrica associata a un determinato utente. Permette di accedere al contatto di cui si compone e al gruppo e se tale utente risulta essere in \inglese{blacklist}
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1028,7 +1032,7 @@ Interfaccia per i gruppi interni alla rubrica, prevede un'operazione astratta \t
 \item \texttt{Group}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Implementazione dell'interfaccia \texttt{IGroup}, che costituisce anche il \inglese{transfer object} per i gruppi di una rubrica utente. Ogni gruppo è dotato di un nome e raccoglie in sé zero o più istanze di classi sottotipo di \texttt{abook.IUserData}.
+Implementazione dell'interfaccia \texttt{IGroup}, che costituisce anche il \inglese{transfer object} per i gruppi di una rubrica utente. Ogni gruppo è dotato di un nome e raccoglie in sé uno o più istanze di classi sottotipo di \texttt{abook.IUserData}.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	  \begin{itemize}[noitemsep,nolistsep]
@@ -1189,7 +1193,7 @@ Sottoclasse di \texttt{javax.servlet.http.HttpServlet} mediante la quale è poss
 \item \texttt{ConnectionManager}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Sottoclasse di \texttt{javax.servlet.http.HttpServlet} che ha la funzione di punto di accesso al componente \textsf{Gestione connessione} grazie al quale ad autenticazione avvenuta viene instaurato un canale di comunicazione bidirezionale fra il server e il client, destinato ad essere usato per effettuare e per ricevere le comunicazioni fra client.
+Sottoclasse di \texttt{javax.servlet.http.HttpServlet} che ha la funzione di punto di accesso al componente \textsf{Gestione connessione} grazie al quale, ad autenticazione avvenuta, viene instaurato un canale di comunicazione bidirezionale fra il server e il client, destinato ad essere usato per effettuare e per ricevere le comunicazioni fra client.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
