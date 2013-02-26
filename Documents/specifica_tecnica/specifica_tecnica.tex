@@ -316,7 +316,7 @@ Picture & Varchar(150) & NO &\\
 \end{tabular}
 \end{center}
 
-	\item{\scshape\bfseries AddressBooks}: è l'entità le cui istanze rappresentano gli utenti  appartenenti alla rubrica di un utente. AddressBooks è caratterizzata dai seguenti attributi:
+	\item{\scshape\bfseries AddressBookEntries}: è l'entità le cui istanze rappresentano gli utenti  appartenenti alla rubrica di un utente. AddressBookEntries è caratterizzata dai seguenti attributi:
 	
 \begin{center}
 \rowcolors{2}{lightblue}{llightblue}
@@ -387,11 +387,11 @@ Start\_date & Timestamp & NO & default(current\_timestamp) \\
 \begin{description}
 	\item{\scshape\bfseries UserData - Calls (molti a molti)}: tale associazione rappresenta il legame che intercorre tra gli utenti e le chiamate. Tale associazione è del tipo molti a molti, con totalità parziale verso Calls e totalità totale verso UserData. L'associazione prevede l'attributo 'Caller' che identifica chi è stato il primo utente ad avviare la chiamata.
 	
-	\item{\scshape\bfseries UserData - AddressBooks (molti a uno)}: tale associazione rappresenta il legame che intercorre tra una rubrica e i gli utenti presenti in essa. Tale associazione è di tipo molti a uno, con totalità parziale da entrambi i lati.
+	\item{\scshape\bfseries UserData - AddressBookEntries (molti a uno)}: tale associazione rappresenta il legame che intercorre tra una rubrica e i gli utenti presenti in essa. Tale associazione è di tipo molti a uno, con totalità parziale da entrambi i lati.
 	
-	\item{\scshape\bfseries AddressBooks - UserData (uno a uno)}: Tale associazione rappresenta il proprietario di una rubrica. Tale associazione è del tipo uno a uno con totalità parziale da UserData verso AddressBook mentre ha totalità totale da AddressBook verso UserData.
+	\item{\scshape\bfseries AddressBookEntries - UserData (uno a uno)}: Tale associazione rappresenta il proprietario di una rubrica. Tale associazione è del tipo uno a uno con totalità parziale da UserData verso AddressBookEntries mentre ha totalità totale da AddressBookEntries verso UserData.
 	
-	\item{\scshape\bfseries AddressBooks - Groups (molti a uno)}: tale associazione rappresenta la possibilità di suddividere la propria rubrica in gruppi. Tale associazione è del tipo molti a uno, con totalità totale da Groups ad AddressBooks mentre ha una totalità parziale da AddressBooks a Groups.
+	\item{\scshape\bfseries AddressBookEntries - Groups (molti a uno)}: tale associazione rappresenta la possibilità di suddividere la propria rubrica in gruppi. Tale associazione è del tipo molti a uno, con totalità totale da Groups ad AddressBookEntries mentre ha una totalità parziale da AddressBookEntries a Groups.
 	
 	\item{\scshape\bfseries UserData - Messages (uno a molti)}: tali associazioni rappresentano il legame che intercorre tra gli utenti ed i messaggi registrati nella propria segreteria. Le associazioni sono del tipo uno a molti verso Messages, con totalità parziale verso Messages e totalità totale verso UserData. L'idea alla base è che un utente può avere nella propria segreteria uno o più messaggi, così come può non averne nessuno, mentre ogni messaggio della segreteria è ``visionabile'' da un unico utente, il destinatario del messaggio.
 \end{description}
@@ -410,9 +410,9 @@ Con la progettazione logica intendiamo costruire la struttura definitiva del dat
 \begin{description}
 	\item{\scshape\bfseries UserData - Calls}: tale associazione si è risolta attraverso l'introduzione dell'entità CallLists. Tale entità contiene l'attributo ID\_user come chiave esterna verso l'entità UserData e l'attributo ID\_call come chiave esterna verso l'entità Calls. È dotata inoltre dell'attributo ``Caller'' che identifica colui che ha per primo avviato la chiamata; per ogni gruppo di ennuple aventi lo stesso ID\_call si avrà soltanto una ennupla contrassegnata con il campo Caller a vero.
 	
-	\item{\scshape\bfseries UserData - AddressBooks}: tali associazioni si sono risolte inserendo nell'entità AddressBook due chiavi esterne verso UserData.
+	\item{\scshape\bfseries UserData - AddressBookEntries}: tali associazioni si sono risolte inserendo nell'entità AddressBookEntries due chiavi esterne verso UserData.
 	
-	\item{\scshape\bfseries AddressBooks - Groups}: tale associazione si è risolta inserendo una chiave esterna verso Groups all'interno dell'entità AddressBooks.
+	\item{\scshape\bfseries AddressBookEntries - Groups}: tale associazione si è risolta inserendo una chiave esterna verso Groups all'interno dell'entità AddressBookEntries.
 	
 	\item{\scshape\bfseries UserData - Messages}: tale associazione si è risolta inserendo due chiavi esterne verso UserData, all'interno dell'entità Messages. 
 \end{description}
@@ -483,7 +483,7 @@ Caller & Boolean & NO &\\
 \end{tabular}
 \end{center}
 
-AddressBooks
+AddressBookEntries
 
 \begin{center}
 \rowcolors{2}{lightblue}{llightblue}
@@ -491,7 +491,7 @@ AddressBooks
 \toprule
 Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule
-ID\_addressBooks & Bigint unsigned & NO & PrimaryKey\\
+ID\_addressBookEntry & Bigint unsigned & NO & PrimaryKey\\
 ID\_user & Bigint unsigned & NO & ForeignKey verso UserData\\
 ID\_group & Bigint unsigned & SI & ForeignKey verso Groups\\
 Owner & Bigint unsigned & NO & \\
@@ -551,10 +551,9 @@ Tale sotto-architettura definisce le specifiche e le funzionalità dell'applicat
 	\item[-] \textsf{CS01 -- Gestione database};
 	\item[-] \textsf{CS02 -- Gestione connessione};
 	\item[-] \textsf{CS03 -- Gestione rubrica};
-	\item[-] \textsf{CS04 -- Gestione stato};
+	\item[-] \textsf{CS04 -- Façade del server};
 	\item[-] \textsf{CS05 -- Gestione segreteria};
-	\item[-] \textsf{CS06 -- Gestione chiamate};
-	\item[-] \textsf{CS07 -- Façade del server}.
+	\item[-] \textsf{CS06 -- Gestione chiamate}.
 \end{itemize}
 
 I componenti sopracitati verranno definiti di seguito. Si sottolinea sin da ora che il server è l'unico in grado di comunicare con il database su cui regge l'applicativo.
@@ -578,7 +577,7 @@ Le altre classi che fanno parte  di questo componente si dividono in due categor
 		\item[-] \texttt{dao.GroupDAO}
 		\item[-] \texttt{dao.MessageDAO}
 		\item[-] \texttt{dao.UserDataDAO}
-		\item[-] \texttt{dao.AddressBookDAO}
+		\item[-] \texttt{dao.AddressBookEntryDAO}
 	\end{itemize}
 	
 	\item le classi che mappano le entità rappresentate nel database sono dotate di variabili di istanza che corrispondono ai campi dei \inglese{record}. Le operazioni disponibili su questo genere di oggetti comprendono i metodi get/set associati ai campi delle tabelle del database e sono rese disponibili dalle interfacce (una per ogni entità) implementate dalle classi (per chiarezza si informa che tali classi corrispondono a quelle che nella logica di programmazione in Hibernate prendono il nome di \inglese{Transfer Object}, TO\@).
@@ -591,8 +590,8 @@ Le altre classi che fanno parte  di questo componente si dividono in due categor
 	  \item[-] \texttt{message.Message}
 	  \item[-] \texttt{abook.IUserData}
 	  \item[-] \texttt{abook.UserData}
-	  \item[-] \texttt{abook.IAddressBook}
-	  \item[-] \texttt{abook.AddressBook}
+	  \item[-] \texttt{abook.IAddressBookEntry}
+	  \item[-] \texttt{abook.AddressBookEntry}
 	\end{itemize}
 \end{itemize}
 
@@ -611,7 +610,7 @@ Si voglia osservare che le classi rappresentati i TO vengono ad essere collocate
 	  \item[-] \texttt{dao.GroupDAO}
 	  \item[-] \texttt{dao.MessageDAO}
 	  \item[-] \texttt{dao.UserDataDAO}
-	  \item[-] \texttt{dao.AddressBookDAO}
+	  \item[-] \texttt{dao.AddressBookEntryDAO}
 	  \item[-] \texttt{dao.HibernateUtil}
 	\end{itemize}
 \end{description}
@@ -649,9 +648,9 @@ L'istanza di \texttt{connection.CommunicationHandler} avrà quindi il compito di
 \subsubsection{CS03 -- Gestione rubrica}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-A ogni utente del sistema, che corrisponde a un'istanza di \texttt{abook.UserData} è associata una rubrica personale. Tale rubrica è rappresentata da una lista di istanze del tipo \texttt{abook.IAddressBook}, per la quale si fornisce un'implementazione nominata \texttt{abook.AddressBook}. Per chiarezza possiamo dire che un istanza della classe TO \texttt{abook.AddressBook}, rappresenta un contatto della rubrica di un utente.
+A ogni utente del sistema, che corrisponde a un'istanza di \texttt{abook.UserData} è associata una rubrica personale. Tale rubrica è rappresentata da una lista di istanze del tipo \texttt{abook.IAddressBookEntry}, per la quale si fornisce un'implementazione nominata \texttt{abook.AddressBookEntry}. Per chiarezza possiamo dire che un istanza della classe TO \texttt{abook.AddressBookEntry}, rappresenta un contatto della rubrica di un utente.
 
-Come si evince osservando il diagramma riportato in figura \ref{fig:gestionerubrica}, la struttura del componente rispecchia la logica di funzionamento del database. Di conseguenza, ogni istanza di tipo \texttt{abook.IAddressBook} apparterrà a un solo \texttt{abook.IUserData} e in essa è registrata un istanza di \texttt{abook.UserData} che rappresenta il contatto facente parte della rubrica.
+Come si evince osservando il diagramma riportato in figura \ref{fig:gestionerubrica}, la struttura del componente rispecchia la logica di funzionamento del database. Di conseguenza, ogni istanza di tipo \texttt{abook.IAddressBookEntry} apparterrà a un solo \texttt{abook.IUserData} e in essa è registrata un istanza di \texttt{abook.UserData} che rappresenta il contatto facente parte della rubrica.
 
 Gli utenti, inoltre, possono essere opzionalmente organizzati in gruppi: un contatto in rubrica può, in un dato momento, appartenere a uno o più gruppi oppure non appartenere a nessuno.
 
@@ -664,8 +663,8 @@ Gli utenti, inoltre, possono essere opzionalmente organizzati in gruppi: un cont
 	
 	\item{\scshape\bfseries Classi utilizzate:}\\
 	\begin{itemize}[nolistsep, noitemsep]
-	  \item[-] \texttt{abook.AddressBook}
-	  \item[-] \texttt{abook.IAddressBook}
+	  \item[-] \texttt{abook.AddressBookEntry}
+	  \item[-] \texttt{abook.IAddressBookEntry}
 	  \item[-] \texttt{abook.IGroup}
 	  \item[-] \texttt{abook.Group}
 	  \item[-] \texttt{abook.IUserData}
@@ -673,41 +672,12 @@ Gli utenti, inoltre, possono essere opzionalmente organizzati in gruppi: un cont
 	\end{itemize}
 \end{description}
 
-\subsubsection{CS04 -- Gestione stato}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:}\\
-Le classi di tale componente sono utilizzate per gestire lo stato degli utenti, permettendo un comportamento diverso delle istanze di \texttt{abook.UserData} a seconda dello stato in cui si trova l'utente corrispondente. Gli stati possibili sono in prima istanza ``\inglese{online}'' e ``\inglese{offline}'', rappresentati dalle classi \texttt{state.StateOnline} e \texttt{state.StateOffline} rispettivamente.
-
-Gli utenti che si trovano nello stato online possono trovarsi in due situazioni: ``occupato'' o ``disponibile'', rappresentati a loro volta dalle classi \texttt{state.StateOccupied} e \texttt{state.StateAvailable}.
-
-Se l'utente è impegnato in una conversazione con uno o più utenti, allora lo stato in cui si trova è ``occupato''. Tuttavia, un utente può anche impostare manualmente il proprio stato a ``occupato'' per segnalare di non essere disponibile a ricevere chiamate in ingresso.
-	
-La chiamata viene inoltre trattata in modo differente a seconda che l'utente si trovi nello stato ``disponibile'' o ``occupato''/``\inglese{offline}'', dal momento che nel primo caso la chiamata va a buon fine mentre nel secondo verrà attivato il meccanismo di segreteria telefonica.
-	
-Inoltre, i cambiamenti di stato vengono notificati a tutti gli utenti presenti in rubrica che si trovano nello stato \inglese{online} attraverso il \inglese{design pattern} Observer.
-
-	\item{\scshape\bfseries Diagramma delle classi:}
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=.9\textwidth]{class_gestione_stato}
-  \caption{Diagramma delle classi - Gestione stato}\label{fig:gestionestato}
-\end{figure}
-	
-	\item{\scshape\bfseries Classi utilizzate:}\\ 
-	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \texttt{abook.UserData}
-	  \item[-] \texttt{state.IState}
-	  \item[-] \texttt{state.StateAvailable}
-	  \item[-] \texttt{state.StateOccupied}
-	  \item[-] \texttt{state.StateOffline}
-	  \item[-] \texttt{state.StateOnline}
-	\end{itemize}
-\end{description}
-
 \subsubsection{CS05 -- Gestione segreteria}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-I messaggi in segreteria, che possono essere di natura audio o audio/video, corrispondono alle istanze dalla classe \texttt{message.Message} e sono caratterizzati da un utente mittente, da un destinatario e dalla data di registrazione. La collezione di messaggi aventi un determinato utente come destinatario può essere ottenuta tramite un'operazione dichiarata nell'interfaccia \texttt{abook.IUserData}.
+I messaggi in segreteria, che possono essere di natura audio o audio/video, corrispondono alle istanze dalla classe \texttt{message.Message} e sono caratterizzati da un utente mittente, da un destinatario e dalla data di registrazione.
+
+La collezione di messaggi aventi un determinato utente come destinatario può essere ottenuta tramite un'operazione dichiarata nell'interfaccia \texttt{abook.IUserData}.
 
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -745,7 +715,7 @@ La componente contiene l'interfaccia \texttt{ICall} e la sua implementazione lat
   \end{itemize}
 \end{description}
 
-\subsubsection{CS07 -- Façade del server}\label{sec:serverfacade}
+\subsubsection{CS04 -- Façade del server}\label{sec:serverfacade}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Tale componente ha il ruolo di offrire ai client una serie di punti di accesso alle funzionalità del sistema server. Dal momento che tale interazione avviene in un contesto distribuito, i punti di accesso ai componenti del server sono stati implementati come \inglese{servlet} Java destinate a essere eseguite nell'ambiente del \inglese{servlet container} fornito da Apache TomCat.
@@ -761,9 +731,8 @@ La mappatura fra componenti del server e le rispettive \inglese{servlet} di Faç
 \toprule
 \textbf{\rmfamily Componente} & \textbf{\rmfamily Servlet di Façade}\\
 \midrule
-CS02 -- Gestione connessione & servlet.ConnectionManager\\
+CS02 -- Gestione connessione & servlet.ConnectionManager servlet.StateManager\\
 CS03 -- Gestione rubrica & servlet.AddressBookManager servlet.AccountManager\\
-CS04 -- Gestione stato & servlet.StateManager\\
 CS05 -- Gestione segreteria & servlet.MessageManager\\
 CS06 -- Gestione chiamate & servlet.CallHistoryManager\\
 \bottomrule
@@ -774,9 +743,13 @@ In particolare \texttt{servlet.ConnectionManager} è coinvolto in fase di \ingle
 
 Il compito di interfacciarsi con \textsf{Gestione rubrica} per recuperare la rubrica associata ad un utente e per riflettere sul server le operazioni di amministrazione della rubrica spetta invece a \texttt{servlet.AddressBookManager}, mentre \texttt{servlet.AccountManager} risponde alle richieste dei client per le azioni di aggiornamento e modifica delll'account personale dell'utente associato al client.
 
-I cambiamenti di stato di un utente sono invece processati da \texttt{servlet.StateManager} che fornisce un punto d'accesso al componente \textsf{Gestione stato}, mentre lo scaricamento e la gestione della segreteria telefonica (competenza di \textsf{Gestione segretira}) e dello storico delle chiamate (\textsf{Gestione chiamate}) avvengono in risposta alle richieste dei client pervenute a \texttt{servlet.MessageManager} e \texttt{servlet.CallHistoryManager} rispettivamente.
+I cambiamenti di stato di un utente sono invece processati da \texttt{servlet.StateManager} che fornisce anch'esso un punto d'accesso al componente \textsf{Gestione connessione}, mentre lo scaricamento e la gestione della segreteria telefonica (competenza di \textsf{Gestione segreteria}) e dello storico delle chiamate (\textsf{Gestione chiamate}) avvengono in risposta alle richieste dei client pervenute a \texttt{servlet.MessageManager} e \texttt{servlet.CallHistoryManager} rispettivamente.
 
-L'apparente discrasia fra componenti e Façade è dovuta al fatto che, da una parte, non è prevista la presenza di alcun punto d'accesso diretto dai client a \textsf{Gestione database}, dall'altra i dati rappresentati in \textsf{Gestione rubrica} necessitano di essere trattati in maniera radicalmente differente a seconda che si tratti di informazioni relative all'utente associato al client da cui proviene la richiesta al server o a un semplice contatto della rubrica di quest'ultimo.
+Da una parte, non è prevista la presenza di alcun punto d'accesso diretto dai client a \textsf{Gestione database}, dal momento che le informazioni contenute in quest'ultimo sono manipolate dalle classi DAO a loro volta utilizzate dagli altri Façade.
+
+Dall'altra i dati rappresentati in \textsf{Gestione rubrica} necessitano di essere trattati in maniera radicalmente differente a seconda che si tratti di informazioni relative all'utente associato al client da cui proviene la richiesta al server (tramite \texttt{servlet.AccountManager}) o a un semplice contatto della rubrica di quest'ultimo (tramite \texttt{servlet.AddressBookManager}).
+
+Inoltre, anche per il componente \textsf{Gestione connessione} è prevista la presenza di due Façade distinti, uno per instaurare il canale di comunicazione e l'altro per ricevere le richieste relative ai cambiamenti di stato provenienti dai client.
 
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -812,7 +785,7 @@ Tale classe interagisce con il framework Hibernate e contiene la logica per la m
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS01 -- Gestione database}
-    \item[-] \textsf{CS07 -- Façade del server}
+    \item[-] \textsf{CS04 -- Façade del server}
   \end{itemize}
 \end{description}
 
@@ -825,7 +798,7 @@ Tale classe interagisce con il framework Hibernate e contiene la logica per la m
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS01 -- Gestione database}
-    \item[-] \textsf{CS07 -- Façade del server}
+    \item[-] \textsf{CS04 -- Façade del server}
   \end{itemize}
 \end{description}
 
@@ -838,7 +811,7 @@ Tale classe interagisce con il framework Hibernate e contiene la logica per la m
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS01 -- Gestione database}
-    \item[-] \textsf{CS07 -- Façade del server}
+    \item[-] \textsf{CS04 -- Façade del server}
   \end{itemize}
 \end{description}
 
@@ -851,20 +824,20 @@ Tale classe interagisce con il framework Hibernate e contiene la logica per la m
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS01 -- Gestione database}
-    \item[-] \textsf{CS07 -- Façade del server}
+    \item[-] \textsf{CS04 -- Façade del server}
   \end{itemize}
 \end{description}
 
-\item \texttt{AddresBookDAO}
+\item \texttt{AddresBookEntryDAO}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
 
-Tale classe interagisce con il framework Hibernate e contiene la logica per la manipolazione dei dati (in lettura e scrittura) nella tabella AddressBook del database.
+Tale classe interagisce con il framework Hibernate e contiene la logica per la manipolazione dei dati (in lettura e scrittura) nella tabella AddressBookEntries del database.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS01 -- Gestione database}
-    \item[-] \textsf{CS07 -- Façade del server}
+    \item[-] \textsf{CS04 -- Façade del server}
   \end{itemize}
 \end{description}
 
@@ -893,11 +866,11 @@ Interfaccia per la gestione delle richieste per ottenere le informazioni necessa
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 		\begin{itemize}[noitemsep,nolistsep]
 			\item[-] \textsf{CS02 -- Gestione connessione}
-			\item[-] \textsf{CS07 -- Façade del server}
+			\item[-] \textsf{CS04 -- Façade del server}
 		\end{itemize}
 \end{description}
 
-\item \texttt{StandardCommunicationHandler}
+\item \texttt{CommunicationHandler}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Implementazione che si fornisce dell'interfaccia \texttt{ICommunicationHandler}. Tale classe avrà il compito di instaurare una connessione \inglese{full-duplex} con i client che desiderano utilizzare l'applicativo in seguito all'autenticazione, fornendo in risposta l'istanza di un opportuno sottotipo di \texttt{IChannel}.
@@ -911,12 +884,12 @@ Implementazione che si fornisce dell'interfaccia \texttt{ICommunicationHandler}.
 \item \texttt{IChannel}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Interfaccia che definisce un canale di comunicazione client-server. Tale canale sarà usato esclusivamente al fine di processare le richieste provenienti dai client (nel caso di una comunicazione in ingresso) o di indirizzare a questi ultimi (nel caso di una comunicazione in uscita) al fine di stabilire una connessione WebRTC client-client.
+Interfaccia che definisce un canale di comunicazione client-server. Tale canale sarà usato esclusivamente al fine di processare le richieste provenienti dai client (nel caso di una comunicazione in ingresso) o di indirizzarle a questi ultimi (nel caso di una comunicazione in uscita) al fine di stabilire una connessione WebRTC client-client.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 		\begin{itemize}[noitemsep,nolistsep]
 			\item[-] \textsf{CS02 -- Gestione connessione}
-			\item[-] \textsf{CS07 -- Façade del server}
+			\item[-] \textsf{CS04 -- Façade del server}
 			\item[-] \textsf{CP01 -- Gestione comunicazione}
 		\end{itemize}
 \end{description}
@@ -924,12 +897,33 @@ Interfaccia che definisce un canale di comunicazione client-server. Tale canale 
 \item \texttt{ChannelAdapter}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Classe che risolve l'utilizzo del \inglese{pattern} Adapter tra l'interfaccia \texttt{connection.IChannel} (\inglese{target} dell'adattamento) e la classe \texttt{org.apache.catalina.websocket.MessageInbound} (che corrisponde invece all'\inglese{adaptee}).
+Classe che implementa il \inglese{design pattern} Adapter, adattando la classe \texttt{org.apache.catalina.websocket.MessageInbound} (che corrisponde all'\inglese{adaptee}) all'interfaccia \texttt{connection.IChannel} (\inglese{target}).
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 		\begin{itemize}[noitemsep,nolistsep]
 			\item[-] \textsf{CS02 -- Gestione connessione}
 		\end{itemize}
+\end{description}
+
+\item \texttt{State}
+\begin{description}
+  \item{\scshape\bfseries Descrizione:}\\
+Classe che attraverso un tipo enumerativo rappresenta lo stato in cui si trova un'istanza di un sottotipo di \texttt{abook.IUserData}.
+
+La scelta di porre tale classe nella componente \textsf{Gestione connessione} deriva dalla stretta relazione che intercorre tra la possibilità di chiamare un utente e lo stato in cui si trova quest'ultimo.
+
+In una prima realizzazione del prodotto è stato scelto di implementare i seguetni stati:
+\begin{itemize}
+  \item \inglese{offline};
+  \item \inglese{online}/disponibile;
+  \item \inglese{online}/occupato.
+\end{itemize}
+  
+  \item{\scshape\bfseries Componenti che ne fanno uso:}
+  \begin{itemize}
+    \item[-] \textsf{CS02 -- Gestione connessione}
+    \item[-] \textsf{CS04 -- Façade del server}
+   \end{itemize}
 \end{description}
 
 \end{itemize}
@@ -938,23 +932,24 @@ Classe che risolve l'utilizzo del \inglese{pattern} Adapter tra l'interfaccia \t
 
 \begin{itemize}[leftmargin=0em]
 
-\item \texttt{IAddressBook}
+\item \texttt{IAddressBookEntry}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Interfaccia che raccoglie le operazioni per la gestione di un utente appartenente alla rubrica di un altro utente.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \textsf{CS01 -- Gestione database}
 	  \item[-] \textsf{CS03 -- Gestione rubrica}
-    \item[-] \textsf{CS07 -- Façade del server}
+      \item[-] \textsf{CS04 -- Façade del server}
 	\end{itemize}
 \end{description}
 
-\item \texttt{AddressBook}
+\item \texttt{AddressBookEntry}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Classe che implementa l'interfaccia \texttt{IAddressBook} e rappresenta quindi una voce della rubrica associata a un determinato utente. Permette di accedere al contatto di cui si compone e al gruppo e se tale utente risulta essere in \inglese{blacklist}
+Classe che implementa l'interfaccia \texttt{IAddressBookEntry} e rappresenta quindi una voce della rubrica associata a un determinato utente.
+
+Permette di accedere al contatto di cui si compone, al suo gruppo e di determinare se tale utente risulta essere bloccato dall'utente possessore del contatto.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -965,39 +960,38 @@ Classe che implementa l'interfaccia \texttt{IAddressBook} e rappresenta quindi u
 \item \texttt{IUserData}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Interfaccia per le classi che rappresentano gli utenti, è dotata di operazioni get/set per accedere ai dati degli utenti registrati sul sistema.
+Interfaccia per le classi che rappresentano gli utenti, è dotata di operazioni \inglese{get}/\inglese{set} per accedere ai dati degli utenti registrati sul sistema.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \textsf{CS01 -- Gestione database}
 	  \item[-] \textsf{CS02 -- Gestione connessione}
 	  \item[-] \textsf{CS03 -- Gestione rubrica}
-	  \item[-] \textsf{CS07 -- Façade del server}
+	  \item[-] \textsf{CS04 -- Façade del server}
 	\end{itemize}
 \end{description}
 
 \item \texttt{UserData}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Classe \inglese{transfer object} che implementa l'interfaccia \texttt{IUserData} le cui istanze corrispondono ai record della tabella degli utenti nel database. È caratterizzata dai campi dati che corrispondono alle proprietà degli utenti (email, password, domanda segreta e relativa risposta, nome, cognome e immagine personale).
+Classe \inglese{transfer object} che implementa l'interfaccia \texttt{IUserData} le cui istanze corrispondono ai record della tabella degli utenti nel database.
+
+È caratterizzata dai campi dati che corrispondono alle proprietà degli utenti (email, password, domanda segreta e relativa risposta, nome, cognome e immagine personale).
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-		\item[-] \textsf{CS03 -- Gestione rubrica}
-	  \item[-] \textsf{CS04 -- Gestione stato}
+	  \item[-] \textsf{CS03 -- Gestione rubrica}
 	\end{itemize}
 \end{description}
 
 \item \texttt{IGroup}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Interfaccia per i gruppi interni alla rubrica, prevede un'operazione astratta \texttt{add(IUserData)} per l'aggiunta di un nuovo contatto al gruppo e un'operazione \texttt{remove(IUserData)} per la sua rimozione di un contatto dal gruppo. Contiene anche i metodi get/set per impostare o recuperare il nome di un gruppo.
+Interfaccia per i gruppi interni alla rubrica di un utente, prevede un'operazione astratta \texttt{add(IUserData)} per l'aggiunta di un nuovo contatto al gruppo e un'operazione \texttt{remove(IUserData)} per la sua rimozione di un contatto dal gruppo. Contiene anche i metodi \inglese{get}/\inglese{set} per impostare o recuperare il nome di un gruppo.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:} 
 	  \begin{itemize}[noitemsep,nolistsep]
-	    \item[-] \textsf{CS01 -- Gestione database}
 	    \item[-] \textsf{CS03 -- Gestione rubrica}
-	    \item[-] \textsf{CS07 -- Façade del server}
+	    \item[-] \textsf{CS04 -- Façade del server}
 	  \end{itemize}
 \end{description}
 
@@ -1014,68 +1008,6 @@ Implementazione dell'interfaccia \texttt{IGroup}, che costituisce anche il \ingl
 
 \end{itemize}
 
-\subsubsection{Package \texttt{org.softwaresynthesis.mytalk.server.state}}
-
-\begin{itemize}[leftmargin=0pt]
-
-\item \texttt{IState}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:}\\
-Interfaccia padre della gerarchia di stati che gli utenti possono assumere nel corso dell'interazione con il sistema. La composizione delle istanze di \texttt{abook.UserData} con oggetti sottotipo di \texttt{IState} cui inoltrano le richieste ricevute dall'esterno permette di cambiare dinamicamente il comportamento degli oggetti che rappresentano gli utenti.
-
-	\item{\scshape\bfseries Componenti che ne fanno uso:}
-	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \textsf{CS04 -- Gestione stato}
-	  \item[-] \textsf{CS02 -- Gestione connessione}
-	\end{itemize}
-\end{description}
-
-\item \texttt{StateOnline}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:}\\
-Classe astratta che implementa l'interfaccia \texttt{IState} e viene estesa da tutti gli stati che corrispondono alla presenza \inglese{online} dell'utente. È ulteriormente specializzata dalle sottoclassi concrete \texttt{StateAvailable} e \texttt{StateOccupied}, le quali hanno facoltà di determinare il reale comportamento degli utenti \inglese{online}.
-
-	\item{\scshape\bfseries Componenti che ne fanno uso:}
-	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \textsf{CS04 -- Gestione stato}
-	\end{itemize}
-\end{description}
-
-\item \texttt{StateOffline}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:}\\
-Classe concreta della gerarchia degli stati che implementa l'interfaccia \texttt{IState} e corrisponde alla mancata presenza online dell'utente che la possiede. Un utente che si trova nello stato ``\inglese{offline}'' non può essere contattato direttamente ma solo attraverso la segreteria telefonica.
-
-	\item{\scshape\bfseries Componenti che ne fanno uso:}
-	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \textsf{CS04 -- Gestione stato}
-	\end{itemize}
-\end{description}
-
-\item \texttt{StateAvailable}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:}\\
-Classe concreta della gerarchia degli stati che corrisponde alla presenza \inglese{online} di un utente e alla sua disponibilità ad accettare comunicazioni in ingresso.
-
-	\item{\scshape\bfseries Componenti che ne fanno uso:}
-    \begin{itemize}[noitemsep,nolistsep]
-      \item[-] \textsf{CS04 -- Gestione stato}
-    \end{itemize}
-\end{description}
-
-\item \texttt{StateOccupied}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:}\\
-Classe concreta della gerarchia degli stati che corrisponde alla mancata disponibilità di un utente a ricevere ulteriori comunicazioni in ingresso dal momento che si trova impegnato in un'altra conversazione. Gli utenti che si trovano in questo stato non possono essere contattati direttamente ma solo attraverso la possibilità di lasciare un messaggio in segreteria.
-
-	\item{\scshape\bfseries Componenti che ne fanno uso:}
-	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \textsf{CS04 -- Gestione stato}
-	\end{itemize}
-\end{description}
-
-\end{itemize}
-
 \subsubsection{Package \texttt{org.softwaresynthesis.mytalk.server.message}}
 
 \begin{itemize}[leftmargin=0pt]
@@ -1083,13 +1015,12 @@ Classe concreta della gerarchia degli stati che corrisponde alla mancata disponi
 \item \texttt{IMessage}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
-Interfaccia che dichiara le operazioni astratte (get/set) necessarie ad accedere alle proprietà di un messaggio in segreteria (in particolare: mittente, destinatario, stato del messaggio e data di registrazione).
+Interfaccia che dichiara le operazioni astratte (\inglese{get}/\inglese{set}) necessarie ad accedere alle proprietà di un messaggio in segreteria (in particolare: mittente, destinatario, stato del messaggio e data di registrazione).
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] \textsf{CS01 -- Gestione database}
     \item[-] \textsf{CS05 -- Gestione segreteria}
-		\item[-] \textsf{CS07 -- Façade del server}
+	\item[-] \textsf{CS04 -- Façade del server}
   \end{itemize}
 \end{description}
 
@@ -1113,12 +1044,11 @@ Classe \inglese{transfer object} che rappresenta un messaggio di natura audio o 
 \item \texttt{ICall}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
-Interfaccia che contiene le operazioni astratte di accesso ai dati (metodi get/set) che caratterizzano le chiamate, vale a dire il chiamante, l'insieme degli utenti chiamati nonché la data e l'ora di avvio e di terminazione della chiamata.
+Interfaccia che contiene le operazioni astratte di accesso ai dati (metodi \inglese{get}/\inglese{set}) che caratterizzano le chiamate, vale a dire il chiamante, l'insieme degli utenti chiamati nonché la data e l'ora di avvio e di terminazione della chiamata.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] \textsf{CS01 -- Gestione database}
     \item[-] \textsf{CS06 -- Gestione chiamate}
-		\item[-] \textsf{CS07 -- Façade del server}
+	\item[-] \textsf{CS04 -- Façade del server}
   \end{itemize}
 \end{description}
 
@@ -1141,13 +1071,15 @@ Classe \inglese{transfer object} che rappresenta le chiamate realizzate attraver
 \item \texttt{AddressBookManager}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Sottoclasse di \texttt{javax.servlet.http.HttpServlet} che ha il compito di fornire ai client un'interfaccia per la consultazione e la gestione della rubrica. Rispondendo alle richieste dei client, infatti, consente lo scaricamento della rubrica restituendo i contatti in una forma serializzata adatta allo scambio di dati.
+Sottoclasse di \texttt{javax.servlet.http.HttpServlet} che ha il compito di fornire ai client un'interfaccia per la consultazione e la gestione della rubrica.
+
+Rispondendo alle richieste dei client, infatti, consente lo scaricamento della rubrica restituendo i contatti in una forma serializzata adatta allo scambio di dati.
 
 Inoltre, questa \inglese{servlet} è in grado di recepire le richieste di modifica sui dati della rubrica di un utente che corrispondono ai RUFF$4.x$, quali l'inserimento o la cancellazione di un contatto, creazione o eliminazione di gruppi, rimozione o aggiunta di un elemento da un gruppo.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \textsf{CS07 -- Façade del server}
+	  \item[-] \textsf{CS04 -- Façade del server}
 	\end{itemize}
 \end{description}
 
@@ -1158,31 +1090,31 @@ Sottoclasse di \texttt{javax.servlet.http.HttpServlet} mediante la quale è poss
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \textsf{CS07 -- Façade del server}
+	  \item[-] \textsf{CS04 -- Façade del server}
 	\end{itemize}
 \end{description}
 
 \item \texttt{ConnectionManager}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Sottoclasse di \texttt{javax.servlet.http.HttpServlet} che ha la funzione di punto di accesso al componente \textsf{Gestione connessione} grazie al quale, ad autenticazione avvenuta, viene instaurato un canale di comunicazione bidirezionale fra il server e il client, destinato ad essere usato per effettuare e per ricevere le comunicazioni fra client.
+Sottoclasse di \texttt{javax.servlet.http.HttpServlet} che ha la funzione di punto di accesso al componente \textsf{Gestione connessione} grazie al quale, ad autenticazione avvenuta, viene instaurato un canale di comunicazione bidirezionale fra il server e il client, destinato a essere usato per effettuare e ricevere le comunicazioni fra client.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \textsf{CS07 -- Façade del server}
+	  \item[-] \textsf{CS04 -- Façade del server}
 	\end{itemize}
 \end{description}
 
 \item \texttt{StateManager}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Sottoclasse di \texttt{javax.servlet.http.HttpServlet} avente la funzione di recepire le richieste corrispondenti ai cambiamenti di stato dei client del sistema, fornendo pertanto un punto d'accesso al componente \textsf{Gestione stato}.
+Sottoclasse di \texttt{javax.servlet.http.HttpServlet} avente la funzione di recepire le richieste corrispondenti ai cambiamenti di stato dei client del sistema.
 
-I cambiamenti di stato hanno origine nel client tanto per esplicito intervento dell'utente (ad es. una disconnessione o un passaggio da disponibile a ``occupato'') oppure implicitamente ad esempio alla ricezione di una comunicazione audio o audio/video.
+I cambiamenti di stato hanno origine nel client sia per esplicito intervento dell'utente (ad es. una disconnessione o un passaggio da disponibile a ``occupato'') sia implicitamente, ad esempio alla ricezione di una comunicazione audio o audio/video.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \textsf{CS07 -- Façade del server}
+	  \item[-] \textsf{CS04 -- Façade del server}
 	\end{itemize}
 \end{description}
 
@@ -1191,11 +1123,11 @@ I cambiamenti di stato hanno origine nel client tanto per esplicito intervento d
 	\item{\scshape\bfseries Descrizione:}\\
 Sottoclasse di \texttt{javax.servlet.http.HttpServlet} che rappresenta il punto di accesso al componente \textsf{Gestione segreteria} e consente pertanto ai client di interrogare il server sullo stato della segreteria associata a un determinato utente.
 
-Oltre allo scaricamento dei messaggi in forma serializzata adatta allo scambio dei dati, le richieste provenienti dai client prevedono la cancellazione di un messaggio dalla segreteria (RUFF15.4.0) oppure l'impostazione dello stato del messaggio da ``non ascoltato'' ad ``ascoltato'' (RUFF15.5.0).
+Oltre allo scaricamento dei messaggi in forma serializzata, le richieste provenienti dai client prevedono la cancellazione di un messaggio dalla segreteria (RUFF15.4.0) oppure l'impostazione dello stato del messaggio (RUFF15.5.0).
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \textsf{CS07 -- Façade del server}
+	  \item[-] \textsf{CS04 -- Façade del server}
 	\end{itemize}
 \end{description}
 
@@ -1206,7 +1138,7 @@ Sottoclasse di \texttt{javax.servlet.http.HttpServlet} la cui responsabilità è
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \textsf{CS07 -- Façade del server}
+	  \item[-] \textsf{CS04 -- Façade del server}
 	\end{itemize}
 \end{description}
 
@@ -1218,7 +1150,6 @@ Sottoclasse di \texttt{javax.servlet.http.HttpServlet} la cui responsabilità è
   \caption{Diagramma delle classi - Architettura \texttt{mytalk.server}}\label{fig:sottoarchserver}
 \end{figure}
 \clearpage
-
 
 \section{Architettura \texttt{mytalk.clientpresenter}}\label{sec:clientpresenter}
 La sotto-architettura \texttt{clientpresenter}, nasce con lo scopo di imporre una separazione tra la logica di gestione di un client e l'interfaccia grafica visualizzata all'utente finale.
@@ -1924,7 +1855,7 @@ Fornire un'interfaccia unificata per un insieme di interfacce o classi presenti 
 
 \subsubsection{Componenti che lo implementano}
 \begin{description}
-  \item{\scshape\bfseries CS07 -- Façade del server}\\
+  \item{\scshape\bfseries CS04 -- Façade del server}\\
 Questa componente della sotto-architettura server fornisce una serie di punti di accesso centralizzati per i componenti \textsf{Gestione rubrica}, \textsf{Gestione connessione}, \textsf{Gestione stato}, \textsf{Gestione segreteria} e \textsf{Gestione chiamate}, secondo la tabella riportata nella sezione \vref{sec:serverfacade}.
 \end{description}
 
@@ -1942,7 +1873,7 @@ A tal fine, come illustrato in figura \ref{fig:facadeaddressbook1}, è prevista 
 \subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.servlet.AddressBookManager}}
 La \inglese{servlet} \texttt{AddressBookManager} rappresenta un punto di accesso alle funzionalità del componente \textsf{Gestione rubrica} per quanto concerne le operazioni di amministrazione della rubrica che hanno come oggetto i contatti di una rubrica utente come l'inserimento/cancellazione di un contatto, la creazione/eliminazione di un gruppo o l'aggiunta/rimozione di un contatto da un determinato gruppo.
 
-A tal fine, come illustrato dal diagramma in figura \ref{fig:facadeaddressbook2}, è prevista una collaborazione fra la \inglese{servlet} \texttt{AddressBookManager} e l'interfaccia \texttt{abook.IAddressBook} e \texttt{abook.IGroup} nonché con \texttt{dao.AddressBookDAO} e \texttt{dao.GroupDAO} per memorizzare nel database che risiede sul server le nuove informazioni risultanti delle interazioni con l'utente.
+A tal fine, come illustrato dal diagramma in figura \ref{fig:facadeaddressbook2}, è prevista una collaborazione fra la \inglese{servlet} \texttt{AddressBookManager} e l'interfaccia \texttt{abook.IAddressBookEntry} e \texttt{abook.IGroup} nonché con \texttt{dao.AddressBookEntryDAO} e \texttt{dao.GroupDAO} per memorizzare nel database che risiede sul server le nuove informazioni risultanti delle interazioni con l'utente.
 
 \begin{figure}[H]
   \centering
@@ -2058,7 +1989,7 @@ Componente che ha il ruolo di gestire la persistenza dei dati sul server necessa
   \item{\textsc{\bfseries CS06 -- Gestione chiamate}, \textsc{\bfseries Gestione rubrica} e \textsc{\bfseries Gestione segreteria}}\\
 Contengono le rappresentazioni delle entità della \inglese{business logic} lato server, che devono essere interrogate per ricavare le informazioni necessarie ai client in forma opportuna.
 
-  \item{\scshape\bfseries CS07 -- Façade del server}\\
+  \item{\scshape\bfseries CS04 -- Façade del server}\\
 Componente del server interessato dalla ricezione delle richieste da parte dei \inglese{presenter}, recupera le informazioni di cui questi ultimi necessitano e le restituisce in forma serializzata e compatibile con il dominio applicativo dei client.
 
   \item{\scshape\bfseries CP01 -- Gestione comunicazione}\\
