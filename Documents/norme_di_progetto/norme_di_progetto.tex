@@ -831,6 +831,7 @@ Per la stesura di codice, si seguiranno le seguenti regole:
 \item ogni blocco di codice (tipo definizione di un metodo) va separato  con una linea bianca vuota;
 \item le parentesi graffe che delineano un blocco di codice devono iniziare nella stessa riga della parola chiave a cui appartengono e finire in una nuova riga allineata con la parola d'inizio;
 \item parole chiave e parentesi (ad esempio parentesi dovute a costrutti condizionali o ciclici) non devono essere separate da spazi.
+\item l'annotazione \verb+@override+ sarà usata per assegnare automaticamente una descrizione definita per un metodo di una interfaccia/superclasse allo stesso metodo definito nella sottoclasse; serve inoltre al compilatore per controllare il corretto uso di \inglese{overloading} e \inglese{overriding};
 \end{enumerate}
 
 \subsection{Verifica del codice}
@@ -857,13 +858,12 @@ Si vuole sottolineare che, al fine di garantire un formato più standardizzato p
 
 I \textit{tag} Javadoc che verranno utilizzati sono i seguenti:
 \begin{itemize}
-\item \textit{@version}: numero di versione di una classe o di un metodo;
-\item \textit{@author}: nome dello sviluppatore assegnato;
-\item \textit{@param}: definisce i parametri di un metodo;
-\item \textit{@return}: indica i valori di ritorno di un metodo (da non usare ovviamente nei metodi o costruttori con valori di ritorno \textit{void});
-\item \textit{@throws}: indica le eccezioni lanciate da un determinato metodo;
-\item \textit{@override}: assegna automaticamente una descrizione definita per un metodo di una interfaccia/superclasse allo stesso metodo definito nella sottoclasse; serve inoltre al compilatore per controllare il corretto uso di \inglese{overloading} e \inglese{overriding};
-\item \textit{@see}: indica un'associazione ad un altra classe o metodo.
+\item \verb+@version+: numero di versione di una classe o di un metodo;
+\item \verb+@author+: nome dello sviluppatore assegnato;
+\item \verb+@param+: definisce i parametri di un metodo;
+\item \verb+@return+: indica i valori di ritorno di un metodo (da non usare ovviamente nei metodi o costruttori con valori di ritorno \textit{void});
+\item \verb+@throws+: indica le eccezioni lanciate da un determinato metodo;
+\item \verb+@see+: indica un'associazione ad un altra classe o metodo.
 
 \end{itemize}
 
@@ -876,8 +876,8 @@ Definiamo in conclusione le convenzioni da utilizzare per la creazione di un com
 	\item è composto da due parti distinte: un tag e una descrizione. Deve iniziare con i caratteri \verb+/**+ e terminare con i caratteri \verb+*/+, ogni riga del commento dovrà inoltre iniziare con il carattere \verb+*+.
 	\item avrà ragione d'esistere solo se la sua presenza sarà utile alla comprensione del codice, con un linguaggio sintetico, privo di ambiguità e più chiaro possibile.
 	\item  è pensato allo scopo per descrivere le funzionalità o i principi di una unità (sia essa un package, una classe, un'interfaccia o un metodo) e non per ``spiegare'' pezzi di codice; tali commenti, anche se formattati secondo lo standard, non saranno mai estratti dal comando \texttt{javadoc};
-	\item per ogni classe dovrà comprendere una descrizione delle sue funzioni, il tag \textit{@author} con associato il nome dell'autore,il tag \textit{@version} con il numero di versione di tale classe e la data di compilazione, infine il tag \textit{@return} con il tipo di oggetto restituito.
-	\item per ogni metodo, oltre ai tag già descritti e inseriti in una classe, dovrà contenere il tag \textit{@throws} per ogni tipologia di eccezione che può sollevare e un tag \textit{@param} per ogni parametro del metodo (con relativa descrizione).
+	\item per ogni classe dovrà comprendere una descrizione delle sue funzioni, il tag \verb+@author+ con associato il nome dell'autore,il tag \verb+@version+ con il numero di versione di tale classe e la data di compilazione, infine il tag \verb+@return+ con il tipo di oggetto restituito.
+	\item per ogni metodo, oltre ai tag già descritti e inseriti in una classe, dovrà contenere il tag \verb+@throws+ per ogni tipologia di eccezione che può sollevare e un tag \verb+@param+ per ogni parametro del metodo (con relativa descrizione).
 \end{itemize}
 
 \subsubsection{Manuale di Javadoc}
