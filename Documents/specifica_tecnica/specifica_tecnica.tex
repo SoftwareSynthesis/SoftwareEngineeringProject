@@ -615,6 +615,7 @@ Si voglia osservare che le classi rappresentati i TO vengono ad essere collocate
 	\end{itemize}
 \end{description}
 
+%TODO decidere una volta per tutte dove sta State e spostarlo di conseguenza
 \subsubsection{CS02 -- Gestione connessione}\label{sec:gestioneconnessione}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
@@ -637,6 +638,7 @@ L'istanza di \texttt{connection.CommunicationHandler} avrà quindi il compito di
 	
 	\item{\scshape\bfseries Classi utilizzate:}
 	\begin{itemize}[nolistsep, noitemsep]
+	  \item[-] \texttt{connection.State}
 	  \item[-] \texttt{connection.ICommunicationHandler}
 	  \item[-] \texttt{connection.CommunicationHandler}
 	  \item[-] \texttt{connection.IChannel}
@@ -672,6 +674,7 @@ Gli utenti, inoltre, possono essere opzionalmente organizzati in gruppi: un cont
 	\end{itemize}
 \end{description}
 
+%TODO decidere dove mettere State
 \subsubsection{CS05 -- Gestione segreteria}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
@@ -715,6 +718,7 @@ La componente contiene l'interfaccia \texttt{ICall} e la sua implementazione lat
   \end{itemize}
 \end{description}
 
+%TODO da rivedere
 \subsubsection{CS04 -- Façade del server}\label{sec:serverfacade}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
@@ -905,6 +909,7 @@ Classe che implementa il \inglese{design pattern} Adapter, adattando la classe \
 		\end{itemize}
 \end{description}
 
+%TODO da spostare
 \item \texttt{State}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
@@ -1064,6 +1069,7 @@ Classe \inglese{transfer object} che rappresenta le chiamate realizzate attraver
 
 \end{itemize}
 
+%TODO da rivedere
 \subsubsection{Package \texttt{org.softwaresynthesis.mytalk.server.servlet}}
 
 \begin{itemize}[leftmargin=0em]
@@ -1665,6 +1671,7 @@ Il diagramma non è riportato perché, coincidendo le classi di questo component
 
 \begin{itemize}[leftmargin=0em]
 
+%TODO non dovremmo mettere anche il componente CP03 Gestione GUI su tutti questi? manipolano la vista
 \item \texttt{AddressBookPanel}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
@@ -1681,7 +1688,7 @@ In questo pannello sono anche presenti le funzionalità di ricerca fra gli utent
 \item \texttt{MainPanel}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Classe padre della gerarchia di oggetti grafici che possono comparire nella sezione principale dell'interfaccia utente. La parte comune a tutte le sottoclassi permette all'utente di impostare il proprio stato e di uscire dall'applicazione. Ogni sua specializzazione definisce un nuovo tipo di pannello che costituisce l'elemento in primo piano dell'applicazione.
+Classe padre della gerarchia di oggetti grafici che possono comparire nella sezione principale dell'interfaccia utente. Ogni sua specializzazione definisce un nuovo tipo di pannello che costituisce l'elemento in primo piano dell'applicazione.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -1835,6 +1842,7 @@ Le classi DAO consentono di isolare l'accesso alle tabelle del database dalla pa
 Operando una distinzione di questo tipo, gli utenti esterni possono considerare gli oggetti che richiedono la mappatura nel database alla stregua di normali oggetti Java (POJO) senza preoccuparsi del meccanismo di persistenza dei dati.
 \end{description}
 
+%TODO da rifare questo pezzo
 \subsection{Façade}
 
 \subsubsection{Scopo}
@@ -2006,6 +2014,7 @@ Definire una dipendenza uno a molti fra oggetti, in modo tale che se un oggetto 
 
 \subsubsection{Componenti che lo implementano}
 \begin{description}
+%TODO deve diventare gestione connessione oppure gestione rubrica
   \item{\scshape\bfseries CS04 -- Gestione stato}\\
 Il \inglese{pattern} Observer è utile in quanto permette agli utenti di osservare lo stato degli altri, ricevendo in modo automatico e trasparente una notifica nel caso in cui uno di questi ultimi subisse variazioni, essendo ogni utente sia osservato che osservatore.
 
