@@ -771,7 +771,6 @@ Infine, allo scopo di consentire ai client di accedere alle funzionalità di que
   \end{itemize}
 \end{description}
 
-%TODO da rivedere
 \subsubsection{CS07 -- Façade del server}\label{sec:cs07}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
@@ -1871,14 +1870,16 @@ Inoltre, tale entità grafica prevede anche la presenza di una o più aree di ch
 \clearpage
 
 \section{Design pattern utilizzati}
-In conformità con quanto stabilito nella sezione 7.2 del documento \textit{norme\_di\_progetto.3.0.pdf}, per ognuno dei \inglese{design pattern} sono riportati lo scopo, un diagramma esemplificativo e una descrizione del contesto di applicazione del \inglese{pattern} all'interno di una componente di sistema, evidenziando in particolar modo i vantaggi derivati.
+In conformità con quanto stabilito nella sezione 7.2 del documento \textit{norme\_di\_progetto.3.0.pdf}, per ognuno dei \inglese{design pattern} sono riportati lo scopo e una descrizione del contesto di applicazione del \inglese{pattern} all'interno di un componente, evidenziando in particolar modo i vantaggi derivati e riportando un diagramma esemplificativo.
 
-Per una visione d'insieme dei componenti utilizzati da un \inglese{pattern}, e dei \inglese{pattern} utilizzati da un componente, rimandiamo alle sottosezioni ``Tracciamenti Componenti-Design Pattern'' e ``Tracciamenti Design Pattern-Componenti'' della sezione \vref{sec:tracciamenti}.
+Per una visione d'insieme dei componenti utilizzati da un \inglese{pattern}, e dei \inglese{pattern} utilizzati da un componente, si rimanda alle sottosezioni ``Tracciamenti Componenti-Design Pattern'' e ``Tracciamenti Design Pattern-Componenti'' della sezione \vref{sec:tracciamenti}.
 
 \subsection{Data Access Object (DAO)}\label{sec:patterndao}
 
 \subsubsection{Scopo}
-Il \inglese{pattern} DAO ha lo scopo di disaccoppiare la logica di \inglese{business} dalla logica di accesso ai dati. Questo si ottiene spostando la logica di accesso ai dati dai componenti di \inglese{business} stessi ad una classe DAO ad hoc per il DBMS scelto, rendendo i componenti che implementano la \inglese{business logic} indipendenti dalla natura del dispositivo di persistenza.
+Il \inglese{pattern} DAO ha lo scopo di disaccoppiare la logica di \inglese{business} dalla logica di accesso ai dati
+
+Questo si ottiene spostando la logica di accesso ai dati dai componenti di \inglese{business} stessi ad una classe DAO ad hoc per il DBMS scelto, rendendo i componenti che implementano la \inglese{business logic} indipendenti dalla natura del dispositivo di persistenza.
 
 Un simile approccio garantisce che un eventuale cambiamento del dispositivo di persistenza non comporti modifiche sui componenti di \inglese{business}.
 
@@ -1905,7 +1906,7 @@ Fornire un'interfaccia unificata per un insieme di interfacce o classi presenti 
 \subsubsection{Componenti che lo implementano}
 \begin{description}
   \item{\scshape\bfseries CS07-- Façade del server}\\
-Questa componente della sotto-architettura server fornisce una serie di punti di accesso centralizzati per i componenti \textsf{Gestione rubrica}, \textsf{Gestione connessione}, \textsf{Gestione stato}, \textsf{Gestione segreteria} e \textsf{Gestione chiamate}, secondo la tabella riportata nella sezione \vref{sec:cs07}.
+Questa componente della sotto-architettura server fornisce una serie di punti di accesso centralizzati per i componenti \textsf{Gestione rubrica}, \textsf{Gestione connessione}, \textsf{Gestione segreteria}, \textsf{Gestione chiamate} e \textsf{Gestione autentcazione} secondo la tabella riportata nella sezione \vref{sec:cs07}.
 \end{description}
 
 \subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.servlet.AccountManager}}
@@ -1933,9 +1934,8 @@ A tal fine, come illustrato dal diagramma in figura \ref{fig:facadeaddressbook2}
 \subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.servlet.ConnectionManager}}
 La \inglese{servlet} \texttt{ConnectionManager} fornisce un punto di accesso centralizzato alle funzionalità del componente \textsf{Gestione connessione}, per gestire la comunicazione client-server.
 
-Inoltre, poiché questa \inglese{servlet} è interrogata in fase di \inglese{login} al sistema, ha anche la responsabilità di testare i dati di autenticazione al fine di stabilire se le credenziali sono valide per effettuare l'accesso, prima di creare il canale di comunicazione bidirezionale corrispondente a \texttt{connection.IChannel}.
+%TODO questa deve essere descritta per bene
 
-Come illustrato dal diagramma riportato in figura \ref{fig:facadeconnection}, al fine di realizzare tali funzionalità sono previste le collaborazioni con le interfacce \texttt{abook.IUserData} e \texttt{connection.ICommunicationHandler} nonché con la classe \texttt{dao.UserDataDAO}.
 
 \begin{figure}[H]
   \centering
@@ -1944,9 +1944,9 @@ Come illustrato dal diagramma riportato in figura \ref{fig:facadeconnection}, al
 \end{figure}
 
 \subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.servlet.StateManager}}
-La \inglese{sevlet} \texttt{StateManager} rappresenta un punto di accesso centralizzato al componente del server \textsf{Gestione stato} permettendo ai client di cambiare il proprio stato.
+La \inglese{sevlet} \texttt{StateManager} rappresenta un punto di accesso centralizzato al componente del server \textsf{Gestione rubrica} in quanto permette ai client di cambiare il proprio stato.
 
-A tal fine, come illustrato dal diagramma riportato in figura \ref{fig:facadestate} è prevista la collaborazione con l'interfaccia \texttt{abook.IUserData} e con i sottotipi dell'interfaccia \texttt{state.IState}.
+A tal fine, come illustrato dal diagramma riportato in figura \ref{fig:facadestate} è prevista la collaborazione con l'interfaccia \texttt{abook.IUserData} e con la classe \text{abook.State}.
 
 \begin{figure}[H]
   \centering
