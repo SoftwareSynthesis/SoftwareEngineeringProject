@@ -929,7 +929,7 @@ Classe che implementa il \inglese{pattern} Singleton e che viene utilizzata dall
   \item{\scshape\bfseries Descrizione:}\\
 Sottoclasse di \texttt{org.apache.catalina.websocket.MessageInbound} (e, di conseguenza sottotipo anche di \texttt{org.apache.catalina.websocket.StreamInbound}) che rappresenta il canale di comunicazione bidirezionale fra client e server realizzato mediante WebSocket.
 
-Il comportamento del server in risposta ai messaggi ricevuti dal client è determinato dall'implementazione (\inglese{overriding}) che tale classe fornisce del metodo \texttt{void onTextMessage(CharBuffer)}.
+Il comportamento della sotto-architettura server in risposta ai messaggi ricevuti dal client è completamente determinato dall'implementazione (\inglese{overriding}) che tale classe fornisce del metodo \texttt{void onTextMessage(CharBuffer)}.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -943,7 +943,7 @@ Il comportamento del server in risposta ai messaggi ricevuti dal client è deter
 	\item{\scshape\bfseries Descrizione:}\\
 Sottoclasse di \texttt{org.apache.catalina.websocket.WebSocketServlet} che ha la funzione di punto di accesso al componente \textsf{Gestione connessione} grazie al quale, ad autenticazione avvenuta, viene instaurato un canale di comunicazione fra il server e il client, destinato a essere usato per effettuare e ricevere le comunicazioni fra client.
 
-Come accennato nella sezione \vref{sec:cs02}, tramite l'\inglese{overriding} del metodo \texttt{createWebSocketInbound(String, HttpServletRequest}, la \inglese{servlet} restituisce ai client un canale di comunicazione che, per la sua natura \inglese{full-duplex}, può essere utilizzato sia dal client per trasmettere messaggi al server che viceversa.
+Come accennato nella sezione \vref{sec:cs02}, tramite un opportuno \inglese{overriding} del metodo \texttt{createWebSocketInbound(String, HttpServletRequest}, la \inglese{servlet} restituisce ai client un canale di comunicazione che, per la sua natura \inglese{full-duplex}, può essere utilizzato sia dal client per trasmettere messaggi al server che viceversa.
 
 Questo Factory Method (per la cui descrizione si rimanda alla sezione \ref{sec:patternfactorymethod}) è richiamato dal \inglese{servlet container} nel momento in cui lato client, ad autenticazione ultimata, viene invocato il costruttore di \texttt{WebSocket} passando a quest'ultimo come parametro l'URL della \inglese{servlet} \texttt{ConnectionManager}.
 
@@ -963,7 +963,7 @@ Questo Factory Method (per la cui descrizione si rimanda alla sezione \ref{sec:p
 \item \texttt{IAddressBookEntry}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Interfaccia che raccoglie le operazioni per la gestione di un utente appartenente alla rubrica di un altro utente.
+Interfaccia che raccoglie le operazioni per la gestione di un utente appartenente alla rubrica di un altro utente (metodi \inglese{get}/\inglese{set} per accedere ai dati del contatto).
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -975,7 +975,7 @@ Interfaccia che raccoglie le operazioni per la gestione di un utente appartenent
 \item \texttt{AddressBookEntry}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Classe che implementa l'interfaccia \texttt{IAddressBookEntry} e rappresenta quindi una voce della rubrica associata a un determinato utente.
+Classe che implementa l'interfaccia \texttt{IAddressBookEntry} e rappresenta quindi un contatto della rubrica associata a un determinato utente.
 
 Permette di accedere al contatto di cui si compone, al suo gruppo e di determinare se tale utente risulta essere bloccato dall'utente possessore del contatto.
 
@@ -992,9 +992,8 @@ Interfaccia per le classi che rappresentano gli utenti, è dotata di operazioni 
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \textsf{CS02 -- Gestione connessione}
 	  \item[-] \textsf{CS03 -- Gestione rubrica}
-	  \item[-] \textsf{CS07-- Façade del server}
+	  \item[-] \textsf{CS07 -- Façade del server}
 	\end{itemize}
 \end{description}
 
@@ -1037,11 +1036,13 @@ Implementazione dell'interfaccia \texttt{IGroup}, che costituisce anche il \ingl
 \item \texttt{State}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
-Classe che attraverso un tipo enumerativo rappresenta lo stato in cui si trova un'istanza di un sottotipo di \texttt{abook.IUserData}. Le istanze della classe \texttt{abook.UserData} sono composte con un'istanza di \texttt{abook.State} che rappresenta lo stato in cui si trova un determinato utente.
+Classe che attraverso un tipo enumerativo rappresenta lo stato in cui si trova un'istanza di un sottotipo di \texttt{abook.IUserData}.
+
+Le istanze della classe \texttt{abook.UserData} sono composte con un'istanza di \texttt{abook.State} che rappresenta lo stato in cui si trova un determinato utente in un determinato momento.
   
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}
-    \item[-] \textsf{CS02 -- Gestione connessione}
+    \item[-] \textsf{CS02 -- Gestione rubrica}
     \item[-] \textsf{CS07-- Façade del server}
    \end{itemize}
 \end{description}
