@@ -846,7 +846,7 @@ Dall'altra i dati rappresentati in \textsf{Gestione rubrica} necessitano di esse
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
 
-Tale classe interagisce con il framework Hibernate e contiene la logica per la manipolazione dei dati (in lettura e scrittura) nella tabella Call del database.
+Tale classe interagisce con il \inglese{framework} Hibernate e contiene la logica per la manipolazione dei dati (in lettura e scrittura) nella tabella Call del database.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -859,7 +859,7 @@ Tale classe interagisce con il framework Hibernate e contiene la logica per la m
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
 
-Tale classe interagisce con il framework Hibernate e contiene la logica per la manipolazione dei dati (in lettura e scrittura) nella tabella Message del database.
+Tale classe interagisce con il \inglese{framework} Hibernate e contiene la logica per la manipolazione dei dati (in lettura e scrittura) nella tabella Message del database.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -872,7 +872,7 @@ Tale classe interagisce con il framework Hibernate e contiene la logica per la m
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
 
-Tale classe interagisce con il framework Hibernate e contiene la logica per la manipolazione dei dati (in lettura e scrittura) nella tabella Group del database.
+Tale classe interagisce con il \inglese{framework} Hibernate e contiene la logica per la manipolazione dei dati (in lettura e scrittura) nella tabella Group del database.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -885,7 +885,7 @@ Tale classe interagisce con il framework Hibernate e contiene la logica per la m
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
 
-Tale classe interagisce con il framework Hibernate e contiene la logica per la manipolazione dei dati (in lettura e scrittura) nella tabella UserData del database.
+Tale classe interagisce con il \inglese{framework} Hibernate e contiene la logica per la manipolazione dei dati (in lettura e scrittura) nella tabella UserData del database.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -898,7 +898,7 @@ Tale classe interagisce con il framework Hibernate e contiene la logica per la m
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
 
-Tale classe interagisce con il framework Hibernate e contiene la logica per la manipolazione dei dati (in lettura e scrittura) nella tabella AddressBookEntries del database.
+Tale classe interagisce con il \inglese{framework} Hibernate e contiene la logica per la manipolazione dei dati (in lettura e scrittura) nella tabella AddressBookEntries del database.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -924,60 +924,32 @@ Classe che implementa il \inglese{pattern} Singleton e che viene utilizzata dall
 
 \begin{itemize}[leftmargin=0em]
 
-\item \texttt{ICommunicationHandler}
+\item \texttt{PushInbound}
 \begin{description}
-	\item{\scshape\bfseries Descrizione:}\\
-Interfaccia per la gestione delle richieste per ottenere le informazioni necessarie a un client per stabilire una comunicazione con altri client. In particolare le operazioni in essa dichiarate dovranno ritornare un'istanza di un oggetto che implementa l'interfaccia \texttt{IChannel}.
+  \item{\scshape\bfseries Descrizione:}\\
+Sottoclasse di \texttt{org.apache.catalina.websocket.MessageInbound} (e, di conseguenza sottotipo anche di \texttt{org.apache.catalina.websocket.StreamInbound}) che rappresenta il canale di comunicazione bidirezionale fra client e server realizzato mediante WebSocket.
 
-	\item{\scshape\bfseries Componenti che ne fanno uso:}
-		\begin{itemize}[noitemsep,nolistsep]
-			\item[-] \textsf{CS02 -- Gestione connessione}
-			\item[-] \textsf{CS07-- Façade del server}
-		\end{itemize}
-\end{description}
+Il comportamento del server in risposta ai messaggi ricevuti dal client è determinato dall'implementazione (\inglese{overriding}) che tale classe fornisce del metodo \texttt{void onTextMessage(CharBuffer)}.
 
-\item \texttt{CommunicationHandler}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:}\\
-Implementazione che si fornisce dell'interfaccia \texttt{ICommunicationHandler}. Tale classe avrà il compito di instaurare una connessione \inglese{full-duplex} con i client che desiderano utilizzare l'applicativo in seguito all'autenticazione, fornendo in risposta l'istanza di un opportuno sottotipo di \texttt{IChannel}.
-
-	\item{\scshape\bfseries Componenti che ne fanno uso:}
-		\begin{itemize}[noitemsep,nolistsep]
-			\item[-] \textsf{CS02 -- Gestione connessione}
-		\end{itemize}
-\end{description}
-
-\item \texttt{IChannel}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:}\\
-Interfaccia che definisce un canale di comunicazione client-server. Tale canale sarà usato esclusivamente al fine di processare le richieste provenienti dai client (nel caso di una comunicazione in ingresso) o di indirizzarle a questi ultimi (nel caso di una comunicazione in uscita) al fine di stabilire una connessione WebRTC client-client.
-
-	\item{\scshape\bfseries Componenti che ne fanno uso:}
-		\begin{itemize}[noitemsep,nolistsep]
-			\item[-] \textsf{CS02 -- Gestione connessione}
-			\item[-] \textsf{CS07-- Façade del server}
-			\item[-] \textsf{CP01 -- Gestione comunicazione}
-		\end{itemize}
-\end{description}
-
-\item \texttt{ChannelAdapter}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:}\\
-Classe che implementa il \inglese{design pattern} Adapter, adattando la classe \texttt{org.apache.catalina.websocket.MessageInbound} (che corrisponde all'\inglese{adaptee}) all'interfaccia \texttt{connection.IChannel} (\inglese{target}).
-
-	\item{\scshape\bfseries Componenti che ne fanno uso:}
-		\begin{itemize}[noitemsep,nolistsep]
-			\item[-] \textsf{CS02 -- Gestione connessione}
-		\end{itemize}
+  \item{\scshape\bfseries Componenti che ne fanno uso:}
+  \begin{itemize}[noitemsep,nolistsep]
+    \item[-] \textsf{CS02 -- Gestione connessione}
+    \item[-] \textsf{CS07-- Façade del server}
+  \end{itemize}
 \end{description}
 
 \item \texttt{ConnectionManager}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Sottoclasse di \texttt{javax.servlet.http.HttpServlet} che ha la funzione di punto di accesso al componente \textsf{Gestione connessione} grazie al quale, ad autenticazione avvenuta, viene instaurato un canale di comunicazione bidirezionale fra il server e il client, destinato a essere usato per effettuare e ricevere le comunicazioni fra client.
+Sottoclasse di \texttt{org.apache.catalina.websocket.WebSocketServlet} che ha la funzione di punto di accesso al componente \textsf{Gestione connessione} grazie al quale, ad autenticazione avvenuta, viene instaurato un canale di comunicazione fra il server e il client, destinato a essere usato per effettuare e ricevere le comunicazioni fra client.
+
+Come accennato nella sezione \vref{sec:cs02}, tramite l'\inglese{overriding} del metodo \texttt{createWebSocketInbound(String, HttpServletRequest}, la \inglese{servlet} restituisce ai client un canale di comunicazione che, per la sua natura \inglese{full-duplex}, può essere utilizzato sia dal client per trasmettere messaggi al server che viceversa.
+
+Questo Factory Method (per la cui descrizione si rimanda alla sezione \ref{sec:patternfactorymethod}) è richiamato dal \inglese{servlet container} nel momento in cui lato client, ad autenticazione ultimata, viene invocato il costruttore di \texttt{WebSocket} passando a quest'ultimo come parametro l'URL della \inglese{servlet} \texttt{ConnectionManager}.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-] \textsf{CS02 -- Gestione connessione}
 	  \item[-] \textsf{CS07-- Façade del server}
 	\end{itemize}
 \end{description}
