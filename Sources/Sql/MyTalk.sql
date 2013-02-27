@@ -75,9 +75,9 @@ CREATE TABLE AddressBooks
 (
 	ID_addressBooks				BIGINT UNSIGNED				NOT NULL,
 	ID_user						BIGINT UNSIGNED				NOT NULL,
-	ID_group					BIGINT UNSIGNED				NOT NULL,
+	ID_group					BIGINT UNSIGNED				,
 	Owner						BIGINT UNSIGNED				NOT NULL,
-	Blocked						TINYINT						NOT NULL			DEFAULT 1,
+	Blocked						TINYINT						NOT NULL			DEFAULT 0,
 	
 	PRIMARY KEY(ID_addressBooks),
 	FOREIGN KEY(ID_user) REFERENCES UserData(ID_user),
