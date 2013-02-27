@@ -631,16 +631,15 @@ Le classi rappresentanti i \inglese{transfer object} si trovano a essere colloca
 \subsubsection{CS02 -- Gestione connessione}\label{sec:cs02}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Tale componente ingloba le classi destinate a stabilire le \inglese{routine} di connessione. A tal fine è stata definita l'interfaccia di una classe Singleton \texttt{connection.ICommunicationHandler}, implementata da \texttt{connection.CommunicationHandler} che ha il compito di creare gli oggetti necessari alla connessione e di fornire delle procedure per l'autenticazione di un utente.
+Tale componente ingloba le classi destinate a stabilire le \inglese{routine} di connessione fra il server e i client del sistema, necessarie in un secondo momento a gestire le chiamate in ingresso e in uscita dai client.
 
-%TODO rivedere questa parte
-La componente utilizza un particolare canale di comunicazione che aderisce al contratto dell'interfaccia \texttt{connection.IChannel}. Quest'ultima contiene le dichiarazioni dei metodi necessari . L'implementazione fornita ha il fine di garantire la massima flessibilità e il riuso del codice.
+La comunicazione bidirezionale fra il server e i client è ottenuta estendendo la classe fornita dalle librerie di TomCat \texttt{org.apache.catalina.websocket.MessageInbound} mediante \texttt{connection.PushInbound}. In particolare sarà realizzato l'\inglese{overriding} del metodo \texttt{onTextMessage(CharBuffer)} in modo da permettere al componente \textsf{Gestione connessione} del server di reagire correttamente ai messaggi provenienti dal client in forma testuale.
 
-Nello specifico si utilizzerà la classe \texttt{org.apache.catalina.websocket.MessageInbound} fornita dalle librerie di Apache TomCat, al fine di garantire una comunicazione bidirezionale basata sull'invio e la ricezione di opportuni messaggi.
+Un ruolo essenziale è inoltre svolto dalla \inglese{servlet} \texttt{connection.ConnectionManager}, realizzata estendendo mediante ereditarietà la classe fornita dalle librerie di Apache TomCat \texttt{org.apache.catalina.websocket.WebSocketServlet}.
 
-Tale classe sarà adattata alle firme dei metodi dell'interfaccia \texttt{connection.IChannel} ricorrendo al \inglese{design pattern} Adapter, con l'introduzione della classe \texttt{connection.ChannelAdapter}. 
+La caratteristica fondamentale della \inglese{servlet}, che rappresenta inoltre un punto di accesso centralizzato alle funzionalità del componente \textsf{Gestione connessione}, è quella di fare \inglese{overriding} del metodo \texttt{createWebSocketInbound(String, HttpServletRequest)} al fine di restituire un opportuno sottotipo di \texttt{org.apache.catalina.websocket.StreamInbound}. Il tipo dinamico dell'oggetto ritornato da \texttt{connection.ConnectionManager} corrisponde infatti proprio a \texttt{connection.PushInbound} in modo che lato client l'invocazione del costruttore di \texttt{WebSocket} (passando come parametro l'URL della \inglese{servlet}) provochi la creazione di una connessione del tipo voluto.
 
-L'istanza di \texttt{connection.CommunicationHandler} avrà quindi il compito di fornire al client richiedente (previa autenticazione), un'istanza di \texttt{connection.ChannelAdapter}. Il client potrà usare tale istanza nel momento in cui avrà necessità di instaurare una connessione con un altro client. \texttt{connection.ChannelAdapter} infatti fungerà da canale di comunicazione con il server, fornendo una serie di metodi per avviare l'iter di connessione \underline{WebRTC}\@.
+Ne consegue che, come sarà esposto con maggiori dettagli nella sezione \vref{sec:patternfactorymethod}, \texttt{createWebSocketInbound} è un'applicazione del \inglese{design pattern} Factory Method, in quanto la sottoclasse di \texttt{WebSocketServlet} restituisce un oggetto di tipo statico \texttt{StreamInbound} ma avente il tipo dinamico adatto agli scopi dell'applicazione.
 
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -651,11 +650,10 @@ L'istanza di \texttt{connection.CommunicationHandler} avrà quindi il compito di
 	
 	\item{\scshape\bfseries Classi utilizzate:}
 	\begin{itemize}[nolistsep, noitemsep]
-	  \item[-] \texttt{connection.ICommunicationHandler}
-	  \item[-] \texttt{connection.CommunicationHandler}
-	  \item[-] \texttt{connection.IChannel}
-	  \item[-] \texttt{connection.ChannelAdapter}
+	  \item[-] \texttt{connection.ConnectionManager}
+	  \item[-] \texttt{connection.PushInbound}
 	  \item[-] \texttt{org.apache.catalina.websocket.MessageInbound}
+	  \item[-] \texttt{org.apache.catalina.websocket.WebSocketServlet}
 	\end{itemize}
 \end{description}
 
@@ -1894,7 +1892,7 @@ In tal modo, qualora la tecnologia sottostante dovesse in un secondo momento sub
 Inoltre, poiché si è scelta la variante del \inglese{pattern} basata su oggetti, è possibile utilizzare qualsiasi sottotipo dell'\inglese{adaptee} senza dover modificare nulla dell'Adapter stesso.
 \end{description}
 
-\subsection{Data Access Object (DAO)}
+\subsection{Data Access Object (DAO)}\label{sec:patterndao}
 
 \subsubsection{Scopo}
 Il \inglese{pattern} DAO ha lo scopo di disaccoppiare la logica di \inglese{business} dalla logica di accesso ai dati. Questo si ottiene spostando la logica di accesso ai dati dai componenti di \inglese{business} stessi ad una classe DAO ad hoc per il DBMS scelto, rendendo i componenti che implementano la \inglese{business logic} indipendenti dalla natura del dispositivo di persistenza.
@@ -1917,7 +1915,7 @@ Operando una distinzione di questo tipo, gli utenti esterni possono considerare 
 \end{description}
 
 %TODO da rifare questo pezzo
-\subsection{Façade}
+\subsection{Façade}\label{sec:patternfacade}
 
 \subsubsection{Scopo}
 Fornire un'interfaccia unificata per un insieme di interfacce o classi presenti in una sotto-architettura, nascondendo i dettagli implementativi di quest'ultima. Façade definisce inoltre un'interfaccia di livello più alto che rende la sotto-architettura più semplice da utilizzare e riduce il numero di dipendenze funzionali fra i componenti appartenenti a sotto-architetture esterne e le classi del server.
@@ -1996,7 +1994,9 @@ A tal fine è prevista la collaborazione con le interfacce \texttt{IUserData}, \
   \caption{Applicazione del \inglese{pattern} Façade a \textsf{Gestione chiamate}}\label{fig:facadecall}
 \end{figure}
 
-\subsection{Factory Method}
+%TODO manca descrizione di LoginManager
+
+\subsection{Factory Method}\label{sec:patternfactorymethod}
 
 \subsubsection{Scopo}
 Definisce un'interfaccia per la creazione di un oggetto, lasciando alle sottoclassi la decisione sulla classe concreta che deve essere istanziata e consente di deferire l'istanziazione di una classe alle sottoclassi.
