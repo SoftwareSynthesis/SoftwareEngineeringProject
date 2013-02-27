@@ -1875,31 +1875,6 @@ In conformità con quanto stabilito nella sezione 7.2 del documento \textit{norm
 
 Per una visione d'insieme dei componenti utilizzati da un \inglese{pattern}, e dei \inglese{pattern} utilizzati da un componente, rimandiamo alle sottosezioni ``Tracciamenti Componenti-Design Pattern'' e ``Tracciamenti Design Pattern-Componenti'' della sezione \vref{sec:tracciamenti}.
 
-\subsection{Adapter}
-\subsubsection{Scopo}
-Rendere conforme a una determinata interfaccia una classe fornita da terze parti che espone un diverso insieme di operazioni incompatibili con quelle dell'interfaccia obiettivo.
-
-\subsubsection{Diagramma esemplificativo}
-A livello di implementazione del \inglese{pattern}, come esemplificato dal diagramma in figura \ref{fig:adapter}, si è scelto l'utilizzo di un Adapter basato su oggetti, mediante la tecnica di composizione, e non su classi, cioè mediante ereditarietà.
-
-Le ragioni di una simile scelta sono da ravvisarsi nel fatto che il linguaggio Java non consente l'ereditarietà privata e questo avrebbe creato una relazione di sottotipo non voluta fra l'Adapter (\texttt{connection.ChannelAdapter}) e l'\inglese{adaptee} (\texttt{MessageInbound}).
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=.8\textwidth]{pattern_adapter}
-  \caption{Applicazione del \inglese{pattern} Adapter}\label{fig:adapter}
-\end{figure}
-
-\subsubsection{Componenti che lo implementano}
-\begin{description}
-\item{\scshape\bfseries CS02 -- Gestione connessione}\\
-L'utilizzo di un Adapter permette di riutilizzare una classe esistente, parte delle librerie di TomCat, senza fare assunzioni sulle operazioni che mette a disposizione ma attraverso un'interfaccia neutra stabilita in fase di progettazione
-
-In tal modo, qualora la tecnologia sottostante dovesse in un secondo momento subire delle variazioni, sarà sufficiente modificare l'Adapter senza dover per questo apportare cambiamenti al resto dell'applicazione. È inoltre possibile, realizzando opportuni nuovi Adapter, cambiare radicalmente la tecnologia sottostante senza ripercussioni sull'architettura.
-
-Inoltre, poiché si è scelta la variante del \inglese{pattern} basata su oggetti, è possibile utilizzare qualsiasi sottotipo dell'\inglese{adaptee} senza dover modificare nulla dell'Adapter stesso.
-\end{description}
-
 \subsection{Data Access Object (DAO)}\label{sec:patterndao}
 
 \subsubsection{Scopo}
