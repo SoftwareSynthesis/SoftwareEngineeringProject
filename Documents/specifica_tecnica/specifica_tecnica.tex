@@ -615,7 +615,6 @@ Si voglia osservare che le classi rappresentati i TO vengono ad essere collocate
 	\end{itemize}
 \end{description}
 
-%TODO decidere una volta per tutte dove sta State e spostarlo di conseguenza
 \subsubsection{CS02 -- Gestione connessione}\label{sec:gestioneconnessione}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
@@ -638,7 +637,6 @@ L'istanza di \texttt{connection.CommunicationHandler} avrà quindi il compito di
 	
 	\item{\scshape\bfseries Classi utilizzate:}
 	\begin{itemize}[nolistsep, noitemsep]
-	  \item[-] \texttt{connection.State}
 	  \item[-] \texttt{connection.ICommunicationHandler}
 	  \item[-] \texttt{connection.CommunicationHandler}
 	  \item[-] \texttt{connection.IChannel}
@@ -671,10 +669,10 @@ Gli utenti, inoltre, possono essere opzionalmente organizzati in gruppi: un cont
 	  \item[-] \texttt{abook.Group}
 	  \item[-] \texttt{abook.IUserData}
 	  \item[-] \texttt{abook.UserData}
+	  \item[-] \texttt{abook.State}
 	\end{itemize}
 \end{description}
 
-%TODO decidere dove mettere State
 \subsubsection{CS05 -- Gestione segreteria}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
@@ -909,28 +907,6 @@ Classe che implementa il \inglese{design pattern} Adapter, adattando la classe \
 		\end{itemize}
 \end{description}
 
-%TODO da spostare
-\item \texttt{State}
-\begin{description}
-  \item{\scshape\bfseries Descrizione:}\\
-Classe che attraverso un tipo enumerativo rappresenta lo stato in cui si trova un'istanza di un sottotipo di \texttt{abook.IUserData}.
-
-La scelta di porre tale classe nella componente \textsf{Gestione connessione} deriva dalla stretta relazione che intercorre tra la possibilità di chiamare un utente e lo stato in cui si trova quest'ultimo.
-
-In una prima realizzazione del prodotto è stato scelto di implementare i seguetni stati:
-\begin{itemize}
-  \item \inglese{offline};
-  \item \inglese{online}/disponibile;
-  \item \inglese{online}/occupato.
-\end{itemize}
-  
-  \item{\scshape\bfseries Componenti che ne fanno uso:}
-  \begin{itemize}
-    \item[-] \textsf{CS02 -- Gestione connessione}
-    \item[-] \textsf{CS04 -- Façade del server}
-   \end{itemize}
-\end{description}
-
 \end{itemize}
 
 \subsubsection{Package \texttt{org.softwaresynthesis.mytalk.server.abook}}
@@ -1009,6 +985,25 @@ Implementazione dell'interfaccia \texttt{IGroup}, che costituisce anche il \ingl
 	  \begin{itemize}[noitemsep,nolistsep]
 	    \item[-] \textsf{CS03 -- Gestione rubrica}
 	  \end{itemize}
+\end{description}
+
+\item \texttt{State}
+\begin{description}
+  \item{\scshape\bfseries Descrizione:}\\
+Classe che attraverso un tipo enumerativo rappresenta lo stato in cui si trova un'istanza di un sottotipo di \texttt{abook.IUserData}. Le istanze della classe \texttt{abook.UserData} sono composte con un'istanza di \texttt{abook.State} che rappresenta lo stato in cui si trova un determinato utente.
+
+In una prima realizzazione del prodotto è stato scelto di implementare i seguetni stati:
+\begin{itemize}
+  \item \inglese{offline};
+  \item \inglese{online}/disponibile;
+  \item \inglese{online}/occupato.
+\end{itemize}
+  
+  \item{\scshape\bfseries Componenti che ne fanno uso:}
+  \begin{itemize}
+    \item[-] \textsf{CS02 -- Gestione connessione}
+    \item[-] \textsf{CS04 -- Façade del server}
+   \end{itemize}
 \end{description}
 
 \end{itemize}
