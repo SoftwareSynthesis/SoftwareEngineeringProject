@@ -1882,17 +1882,16 @@ Il \inglese{pattern} DAO ha lo scopo di disaccoppiare la logica di \inglese{busi
 
 Un simile approccio garantisce che un eventuale cambiamento del dispositivo di persistenza non comporti modifiche sui componenti di \inglese{business}.
 
-\subsubsection{Diagramma esemplificativo}
-  \begin{figure}[H]
-  \centering
-  \includegraphics[width=.95\textwidth]{pattern_dao}
-  \caption{Applicazione del \inglese{pattern} Data Access Object}\label{fig:dao}
-\end{figure}
-
 \subsubsection{Componenti che lo implementano}
 \begin{description}
 \item{\scshape\bfseries CS01 -- Gestione database}\\
 Le classi DAO consentono di isolare l'accesso alle tabelle del database dalla parte di \inglese{business logic} corrispondente alle entità TO, incapsulando in metodi di alto livello le operazioni sui record del database sottostante.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.95\textwidth]{pattern_dao}
+  \caption{Applicazione del \inglese{pattern} Data Access Object}\label{fig:dao}
+\end{figure}
 
 Operando una distinzione di questo tipo, gli utenti esterni possono considerare gli oggetti che richiedono la mappatura nel database alla stregua di normali oggetti Java (POJO) senza preoccuparsi del meccanismo di persistenza dei dati.
 \end{description}
@@ -1979,23 +1978,23 @@ A tal fine è prevista la collaborazione con le interfacce \texttt{IUserData}, \
 
 %TODO manca descrizione di LoginManager
 
+%TODO da rifare per PushInbound -> StreamInbound
 \subsection{Factory Method}\label{sec:patternfactorymethod}
 
 \subsubsection{Scopo}
 Definisce un'interfaccia per la creazione di un oggetto, lasciando alle sottoclassi la decisione sulla classe concreta che deve essere istanziata e consente di deferire l'istanziazione di una classe alle sottoclassi.
-
-\subsubsection{Diagramma esemplificativo}
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=.8\textwidth]{pattern_factorymethod}
-  \caption{Applicazione del \inglese{pattern} Factory Method}\label{fig:factory_method}
-\end{figure}
 
 \subsubsection{Componenti che lo implementano}
 \begin{description}
 
   \item{\scshape\bfseries CS02 -- Gestione connessione}\\
 Gli oggetti che rappresentano connessioni, sottotipi di \texttt{server.connection.IChannel} sono ottenuti mediante un Factory Method nelle classi concrete che implementano l'interfaccia \texttt{server.connection.ICommunicationHandler}.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.8\textwidth]{pattern_factorymethod}
+  \caption{Applicazione del \inglese{pattern} Factory Method}\label{fig:factory_method}
+\end{figure}
 
 Ciò garantisce maggiore flessibilità in quanto permetterebbe in futuro di gestire più categorie di \inglese{handler} che restituiscono diversi tipi connessione.
 \end{description}
@@ -2005,7 +2004,7 @@ Ciò garantisce maggiore flessibilità in quanto permetterebbe in futuro di gest
 \subsubsection{Scopo}
 Il pattern architetturale \inglese{Model-View-Presenter} similmente a quanto accade per \inglese{Model-View-Controller} (MVC), ha lo scopo di mantenere separata la \inglese{business logic}, cioè la gestione dei dati secondo le regole di un determinato dominio e la loro memorizzazione in forma persistente, dalla presentazione e manipolazione mediante interfaccia utente.
 
-\subsubsection{Diagrammi esemplificativi}
+
 \begin{figure}[H]
   \centering
   \includegraphics[width=.8\textwidth]{mvpHLdiagram}
@@ -2062,18 +2061,18 @@ Corrisponde all'insieme delle viste ed è accessibile al \inglese{presenter} tra
 \subsubsection{Scopo}
 Definire una dipendenza uno a molti fra oggetti, in modo tale che se un oggetto cambia il suo stato tutti gli oggetti dipendenti da questo siano notificati e aggiornati automaticamente.
 
-\subsubsection{Diagramma esemplificativo}
+
+
+\subsubsection{Componenti che lo implementano}
+\begin{description}
+  \item{\scshape\bfseries CS07-- Gestione rubrica}\\
+Il \inglese{pattern} Observer è utile in quanto permette agli utenti di osservare lo stato degli altri, ricevendo in modo automatico e trasparente una notifica nel caso in cui uno di questi ultimi subisse variazioni, essendo ogni utente sia osservato che osservatore.
+
 \begin{figure}[H]
   \centering
   \includegraphics[width=.7\textwidth]{pattern_observer}
   \caption{Applicazione del \inglese{pattern} Observer}\label{fig:observer}
 \end{figure}
-
-\subsubsection{Componenti che lo implementano}
-\begin{description}
-%TODO deve diventare gestione connessione oppure gestione rubrica
-  \item{\scshape\bfseries CS07-- Gestione stato}\\
-Il \inglese{pattern} Observer è utile in quanto permette agli utenti di osservare lo stato degli altri, ricevendo in modo automatico e trasparente una notifica nel caso in cui uno di questi ultimi subisse variazioni, essendo ogni utente sia osservato che osservatore.
 
 Al momento della connessione, infatti, ogni utente si registra come osservatore sui suoi contatti che sono online e, al contempo, li aggiunge tra i propri osservatori. In tal modo gli utenti notificano in \inglese{broadcast} le loro variazioni di stato e sono sempre aggiornati sullo stato dei contatti della loro rubrica.
 \end{description}
@@ -2083,12 +2082,10 @@ Al momento della connessione, infatti, ogni utente si registra come osservatore 
 \subsubsection{Scopo}
 Il \inglese{pattern} creazionale Singleton, garantisce che una determinata classe possa essere istanziata una sola volta, e di fornirne un punto di accesso globale. Questo \inglese{pattern} va utilizzato negli ambiti in cui si ha la necessità che l'accesso ad una determinata entità sia unico, in modo da permettere la gestione ottimale della risorsa stessa.
 
-\subsubsection{Diagramma esemplificativo}
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=.6\textwidth]{pattern_singleton_connessione}
-  \caption{Applicazione del \inglese{pattern} Singleton a \textsf{Gestione connessione}}\label{fig:singleton1}
-\end{figure}
+\subsubsection{Componenti che lo implementano}
+\begin{description}
+  \item{\scshape\bfseries CS01 -- Gestione database}\\
+La classe \texttt{server.dao.HibernateUtil} è implementata come Singleton dal momento che si desidera che in ogni momento ne sia attiva un'unica istanza. Tramite i metodi che essa mette a disposizione, le classi DAO sono in grado di procurarsi un riferimento alla sessione di connessione al DBMS al fine di effettuare le transazioni di cui necessitano.
 
 \begin{figure}[H]
   \centering
@@ -2096,25 +2093,24 @@ Il \inglese{pattern} creazionale Singleton, garantisce che una determinata class
   \caption{Applicazione del \inglese{pattern} Singleton a \textsf{Gestione database}}\label{fig:singleton2}
 \end{figure}
 
+  \item{\scshape\bfseries CP01 -- Gestione comunicazione}\\
+La classe \texttt{clientpresenter.kernel.CommunicationCenter} è implementata secondo il \inglese{pattern} Singleton in modo da limitare il numero di istanze presenti su ciascun client a una soltanto. In tal modo è possibile centralizzare la gestione delle comunicazioni in ingresso e in uscita, tanto verso il server quanto verso gli altri client.
+
+\begin{figure}[H]
+  \centering
+  %TODO abbiamo questo diagramma?
+  %\includegraphics[width=.6\textwidth]{pattern_singleton_connessione}
+  \caption{Applicazione del \inglese{pattern} Singleton a \textsf{Gestione connessione}}\label{fig:singleton1}
+\end{figure}
+
+  \item{\scshape\bfseries CP04 -- Gestione remota}\\
+Il \inglese{pattern} Singleton è altresì utile per controllare il numero di istanze attive della classe \texttt{clientpresenter.kernel.RemoteHandler} per gli stessi motivi evidenziati in precedenza, ossia l'unicità del punto di accesso alle funzionalità della sotto-architettura \texttt{clientpresenter}.
+
 \begin{figure}[H]
   \centering
   \includegraphics[width=.6\textwidth]{pattern_singleton_gestione_remota}
   \caption{Applicazione del \inglese{pattern} Singleton a \textsf{Gestione remota}}\label{fig:singleton3}
 \end{figure}
-
-\subsubsection{Componenti che lo implementano}
-\begin{description}
-  \item{\scshape\bfseries CS01 -- Gestione database}\\
-La classe \texttt{server.dao.HibernateUtil} è implementata come Singleton dal momento che si desidera che in ogni momento ne sia attiva un'unica istanza. Tramite i metodi che essa mette a disposizione, le classi DAO sono in grado di procurarsi un riferimento alla sessione di connessione al DBMS al fine di effettuare le transazioni di cui necessitano.
-  
-  \item{\scshape\bfseries CS02 -- Gestione connessione}\\
-La classe \texttt{server.connection.StandardCommunicationHandler} è implementata come Singleton in modo da centralizzare la responsabilità di creare nuove connessioni in risposta alle esigenze dei client.
-
-  \item{\scshape\bfseries CP01 -- Gestione comunicazione}\\
-La classe \texttt{clientpresenter.kernel.CommunicationCenter} è implementata secondo il \inglese{pattern} Singleton in modo da limitare il numero di istanze presenti su ciascun client a una soltanto. In tal modo è possibile centralizzare la gestione delle comunicazioni in ingresso e in uscita, tanto verso il server quanto verso gli altri client.
-
-  \item{\scshape\bfseries CP04 -- Gestione remota}\\
-Il \inglese{pattern} Singleton è altresì utile per controllare il numero di istanze attive della classe \texttt{clientpresenter.kernel.RemoteHandler} per gli stessi motivi evidenziati in precedenza, ossia l'unicità del punto di accesso alle funzionalità della sotto-architettura \texttt{clientpresenter}.
 
 \end{description}
 \clearpage
