@@ -559,51 +559,56 @@ Tale sotto-architettura definisce le specifiche e le funzionalità dell'applicat
 	\item[-] \textsf{CS01 -- Gestione database};
 	\item[-] \textsf{CS02 -- Gestione connessione};
 	\item[-] \textsf{CS03 -- Gestione rubrica};
-	\item[-] \textsf{CS07-- Façade del server};
+	\item[-] \textsf{CS04 -- Gestione autenticazione};
 	\item[-] \textsf{CS05 -- Gestione segreteria};
-	\item[-] \textsf{CS06 -- Gestione chiamate}.
+	\item[-] \textsf{CS06 -- Gestione chiamate};
+	\item[-] \textsf{CS07-- Façade del server}.
 \end{itemize}
 
-I componenti sopracitati verranno definiti di seguito. Si sottolinea sin da ora che il server è l'unico in grado di comunicare con il database su cui regge l'applicativo.
+I componenti sopracitati verranno definiti, rispettivamente, nelle sottosezioni \ref{sec:cs01}, \ref{sec:cs02}, \ref{sec:cs03}, \ref{sec:cs04}, \ref{sec:cs05}, \ref{sec:cs06} e \ref{sec:cs07}. Si sottolinea sin da ora che il server è l'unico in grado di comunicare con il database su cui regge l'applicativo.
 
-Infine, si fa notare che i nomi di tutte le classi riportate nella presente sezione sono implicitamente parte del package \texttt{org.softwaresynthesis.mytalk.server} pertanto tale prefisso sarà omesso nella loro denominazione.
+Infine, si fa notare che i nomi di tutte le classi riportate nella presente sezione sono implicitamente parte del package \texttt{org.softwaresynthesis.mytalk.server}, pertanto tale prefisso sarà omesso nella loro denominazione.
 
 \subsection{Componenti evidenziati}
 
-\subsubsection{CS01 -- Gestione database}
+\subsubsection{CS01 -- Gestione database}\label{sec:cs01}
 \begin{description}
 \item{\scshape\bfseries Descrizione:}\\
 È il componente che si occupa di rappresentare la struttura del database relazionale su cui poggia l'applicativo. Tramite questo componente, il sistema potrà quindi effettuare operazione di lettura e scrittura di entità all'interno del database.
 
-Nucleo logico di tale componente è la classe \texttt{HibernateUtil}, il cui compito è creare una \inglese{factory} per le sessioni verso il database. Si voglia osservare che tali sessioni si basano sul file di configurazione di Hibernate, tra le cui informazioni compare anche la tipologia di di DBMS utilizzata.
+Nucleo logico di tale componente è la classe Singleton \texttt{HibernateUtil}, il cui compito è implementare una \inglese{factory} per le sessioni verso il database. Tali sessioni si basano sul file di configurazione di Hibernate, tra le cui informazioni compare anche la tipologia di di DBMS utilizzata.
 
-Le altre classi che fanno parte  di questo componente si dividono in due categorie:
+Le restanti classi che fanno parte  di questo componente possono essere suddivise in due categorie:
 \begin{itemize}
-	\item le classi \inglese{data access object} (DAO). Ossia quelle classi aventi il compito di inoltrare richieste per la modifica e la lettura dei dati (Create Read Update Delete) nelle corrispettive entità del database. Tali classi sono:
+	\item le classi \inglese{data access object} (DAO), che hanno il compito di inoltrare richieste per la modifica e la lettura dei dati (\inglese{Create}, \inglese{Read}, \inglese{Update} e \inglese{Delete}) nelle corrispondenti entità del database.
+	
+	Tali classi sono:
 	\begin{itemize}
+	  \item[-] \texttt{dao.AddressBookEntryDAO}
 		\item[-] \texttt{dao.CallDAO}
 		\item[-] \texttt{dao.GroupDAO}
 		\item[-] \texttt{dao.MessageDAO}
 		\item[-] \texttt{dao.UserDataDAO}
-		\item[-] \texttt{dao.AddressBookEntryDAO}
 	\end{itemize}
 	
-	\item le classi che mappano le entità rappresentate nel database sono dotate di variabili di istanza che corrispondono ai campi dei \inglese{record}. Le operazioni disponibili su questo genere di oggetti comprendono i metodi get/set associati ai campi delle tabelle del database e sono rese disponibili dalle interfacce (una per ogni entità) implementate dalle classi (per chiarezza si informa che tali classi corrispondono a quelle che nella logica di programmazione in Hibernate prendono il nome di \inglese{Transfer Object}, TO\@).
+	\item le classi che mappano le entità rappresentate nel database sono dotate di variabili di istanza che corrispondono ai campi dei \inglese{record}. Le operazioni disponibili su questo genere di oggetti comprendono i metodi \inglese{get}/\inglese{set} associati ai campi delle tabelle del database e sono rese disponibili dalle interfacce (una per ogni entità) implementate dalle classi.\footnote{%
+	Per chiarezza, si precisa che tali classi corrispondono a quelle che nella logica di programmazione in Hibernate prendono il nome di \inglese{Transfer Object} (TO)\@.
+	}
 	\begin{itemize}
-		\item[-] \texttt{call.ICall}
-	  \item[-] \texttt{call.Call}
 	  \item[-] \texttt{abook.IGroup}
 	  \item[-] \texttt{abook.Group}
-	  \item[-] \texttt{message.IMessage}
-	  \item[-] \texttt{message.Message}
-	  \item[-] \texttt{abook.IUserData}
-	  \item[-] \texttt{abook.UserData}
 	  \item[-] \texttt{abook.IAddressBookEntry}
 	  \item[-] \texttt{abook.AddressBookEntry}
+	  \item[-] \texttt{abook.IUserData}
+	  \item[-] \texttt{abook.UserData}
+		\item[-] \texttt{call.ICall}
+	  \item[-] \texttt{call.Call}
+	  \item[-] \texttt{message.IMessage}
+	  \item[-] \texttt{message.Message}
 	\end{itemize}
 \end{itemize}
 
-Si voglia osservare che le classi rappresentati i TO vengono ad essere collocate in package diversi da \texttt{.server.dao}. Questo perché il team ha ritenuto sensato inserirle in contesti maggiormente specializzati sul gestire quella specifica sezione del database. Ecco quindi (per esempio) che la classe rappresentante i messaggi in segreteria verrà ad essere collocata in \texttt{server.message.Message}.
+Le classi rappresentanti i \inglese{transfer object} si trovano a essere collocate in package diversi da \texttt{server.dao}, dal momento che si è ritenuto sensato inserirle in contesti maggiormente specializzati.Ad esempio, la classe corrispondente ai messaggi in segreteria verrà ad essere collocata in \texttt{server.message}, quella corrispondente alle chiamate in \texttt{server.call}, e così via.
 
 \item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -623,7 +628,7 @@ Si voglia osservare che le classi rappresentati i TO vengono ad essere collocate
 	\end{itemize}
 \end{description}
 
-\subsubsection{CS02 -- Gestione connessione}\label{sec:gestioneconnessione}
+\subsubsection{CS02 -- Gestione connessione}\label{sec:cs02}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Tale componente ingloba le classi destinate a stabilire le \inglese{routine} di connessione. A tal fine è stata definita l'interfaccia di una classe Singleton \texttt{connection.ICommunicationHandler}, implementata da \texttt{connection.CommunicationHandler} che ha il compito di creare gli oggetti necessari alla connessione e di fornire delle procedure per l'autenticazione di un utente.
@@ -654,7 +659,7 @@ L'istanza di \texttt{connection.CommunicationHandler} avrà quindi il compito di
 	\end{itemize}
 \end{description}
 
-\subsubsection{CS03 -- Gestione rubrica}
+\subsubsection{CS03 -- Gestione rubrica}\label{sec:cs03}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 A ogni utente del sistema, che corrisponde a un'istanza di \texttt{abook.UserData} è associata una rubrica personale. Tale rubrica è rappresentata da una lista di istanze del tipo \texttt{abook.IAddressBookEntry}, per la quale si fornisce un'implementazione nominata \texttt{abook.AddressBookEntry}. Per chiarezza possiamo dire che un istanza della classe TO \texttt{abook.AddressBookEntry}, rappresenta un contatto della rubrica di un utente.
@@ -683,7 +688,7 @@ Gli utenti, inoltre, possono essere opzionalmente organizzati in gruppi: un cont
 \end{description}
 
 %TODO da rivedere!
-\subsubsection{CS04 -- Gestione autenticazione}
+\subsubsection{CS04 -- Gestione autenticazione}\label{sec:cs04}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
 L'autenticazione passa attraverso due fasi: la richiesta di \inglese{login} e l'approvazione (\inglese{commit}). La richiesta di \inglese{login} verifica le credenziali di accesso, mentre la richiesta di \inglese{commit} permette di avere accesso all'entità utilizzata nel resto del programma.
@@ -704,7 +709,7 @@ Responsabile di entrambe le fasi è l'unica istanza di \texttt{authentication.Au
 
 \end{description}
 
-\subsubsection{CS05 -- Gestione segreteria}
+\subsubsection{CS05 -- Gestione segreteria}\label{sec:cs05}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 I messaggi in segreteria, che possono essere di natura audio o audio/video, corrispondono alle istanze dalla classe \texttt{message.Message} e sono caratterizzati da un utente mittente, da un destinatario e dalla data di registrazione.
@@ -726,7 +731,7 @@ La collezione di messaggi aventi un determinato utente come destinatario può es
 	\end{itemize}
 \end{description}
 
-\subsubsection{CS06 -- Gestione chiamate}
+\subsubsection{CS06 -- Gestione chiamate}\label{sec:cs06}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
 Le classi di questo componente hanno il ruolo di incapsulare la logica di gestione delle chiamate e di accesso ai dati relativi a una chiamata (data, mittente e $n\geq1$ destinatari della chiamata). Tali informazioni rivestono un ruolo importante per la rappresentazione e la trasmissione ai client dello storico delle chiamate.
@@ -748,7 +753,7 @@ La componente contiene l'interfaccia \texttt{ICall} e la sua implementazione lat
 \end{description}
 
 %TODO da rivedere
-\subsubsection{CS07 -- Façade del server}\label{sec:serverfacade}
+\subsubsection{CS07 -- Façade del server}\label{sec:cs07}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Tale componente ha il ruolo di offrire ai client una serie di punti di accesso alle funzionalità del sistema server. Dal momento che tale interazione avviene in un contesto distribuito, i punti di accesso ai componenti del server sono stati implementati come \inglese{servlet} Java destinate a essere eseguite nell'ambiente del \inglese{servlet container} fornito da Apache TomCat.
@@ -1920,7 +1925,7 @@ Fornire un'interfaccia unificata per un insieme di interfacce o classi presenti 
 \subsubsection{Componenti che lo implementano}
 \begin{description}
   \item{\scshape\bfseries CS07-- Façade del server}\\
-Questa componente della sotto-architettura server fornisce una serie di punti di accesso centralizzati per i componenti \textsf{Gestione rubrica}, \textsf{Gestione connessione}, \textsf{Gestione stato}, \textsf{Gestione segreteria} e \textsf{Gestione chiamate}, secondo la tabella riportata nella sezione \vref{sec:serverfacade}.
+Questa componente della sotto-architettura server fornisce una serie di punti di accesso centralizzati per i componenti \textsf{Gestione rubrica}, \textsf{Gestione connessione}, \textsf{Gestione stato}, \textsf{Gestione segreteria} e \textsf{Gestione chiamate}, secondo la tabella riportata nella sezione \vref{sec:cs07}.
 \end{description}
 
 \subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.servlet.AccountManager}}
