@@ -676,6 +676,8 @@ In una prima realizzazione del prodotto si è scelto di implementare i seguenti 
   \item \inglese{online}/occupato, quando un utente è in linea ma impegnato in una conversazione oppure ha impostato il proprio stato a non disponibile.
 \end{itemize}
 
+Infine, sono state predisposte tre \inglese{servlet} per fornire ai client l'accesso alle funzionalità di questo componente, in particolare \texttt{abook.AccountManager}, \texttt{abook.AddressBookManager} e \texttt{abook.StateManager}, che saranno descritte con maggiori dettagli nella sezione \vref{sec:cs07}.
+
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
   \centering
@@ -692,6 +694,9 @@ In una prima realizzazione del prodotto si è scelto di implementare i seguenti 
 	  \item[-] \texttt{abook.IUserData}
 	  \item[-] \texttt{abook.UserData}
 	  \item[-] \texttt{abook.State}
+	  \item[-] \texttt{abook.AccountManager}
+	  \item[-] \texttt{abook.AddressBookManager}
+	  \item[-] \texttt{abook.StateManager}
 	\end{itemize}
 \end{description}
 
@@ -724,6 +729,8 @@ I messaggi in segreteria, che possono essere di natura audio o audio/video, corr
 
 La collezione di messaggi aventi un determinato utente come destinatario può essere ottenuta tramite un'operazione dichiarata nell'interfaccia \texttt{abook.IUserData}.
 
+Per consentire ai client di accedere alle funzionalità gestite da questo componente è stata predisposta la \inglese{servlet} \texttt{MessageManager}, che sarà descritta con maggiori dettagli nella sezione \vref{sec:cs07}.
+
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
   \centering
@@ -736,6 +743,7 @@ La collezione di messaggi aventi un determinato utente come destinatario può es
 	  \item[-] \texttt{abook.IUserData}
 		\item[-] \texttt{message.IMessage}
 	  \item[-] \texttt{message.Message}
+	  \item[-] \texttt{message.MessageManager}
 	\end{itemize}
 \end{description}
 
@@ -745,6 +753,8 @@ La collezione di messaggi aventi un determinato utente come destinatario può es
 Le classi di questo componente hanno il ruolo di incapsulare la logica di gestione delle chiamate e di accesso ai dati relativi a una chiamata (data, mittente e $n\geq1$ destinatari della chiamata). Tali informazioni rivestono un ruolo importante per la rappresentazione e la trasmissione ai client dello storico delle chiamate.
 
 La componente contiene l'interfaccia \texttt{ICall} e la sua implementazione lato server \texttt{Call}, che rappresenta il \inglese{transfer object} per la rappresentazione delle chiamate che deve essere mappata nel database.
+
+Infine, allo scopo di consentire ai client di accedere alle funzionalità di questo componente, è prevista la presenza della \inglese{servlet} \texttt{call.CallHistoryManager}, il cui ruolo sarà descritto con maggiori dettagli nella sezione \vref{sec:cs07}.
 
   \item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -757,6 +767,7 @@ La componente contiene l'interfaccia \texttt{ICall} e la sua implementazione lat
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \texttt{call.ICall}
     \item[-] \texttt{call.Call}
+    \item[-] \texttt{call.CallHistoryManager}
   \end{itemize}
 \end{description}
 
