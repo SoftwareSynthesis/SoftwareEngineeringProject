@@ -231,7 +231,7 @@ Tali considerazioni di base, hanno portato il team a suddividere l'architettura 
 	\item la vista del client (\texttt{org.softwaresynthesis.mytalk.clientview}
 \end{itemize}
 
-Le specifiche di ogni sotto-architettura saranno definite in seguito, nelle relative sezioni.
+Le specifiche di ogni sotto-architettura saranno definite, rispettivamente nelle sezioni \vref{sec:database}, \vref{sec:server}, \vref{sec:clientpresenter} e \vref{sec:clientview}.
 
 Inoltre si fa presente che l'architettura generale, intesa come agglomerato delle tre sotto-architetture precedentemente elencate, fa uso del pattern MVP\@.
 
@@ -239,9 +239,9 @@ Sotto tale ottica la sotto-architettura \texttt{server} ricopre il ruolo di \ing
 
 Assegnando a ogni sotto-architettura un ruolo specifico, si garantisce un alto livello di riutilizzo del codice (e.g. la vista comunica con il \inglese{presenter} poiché non conosce la logica di \inglese{business} del sistema).
 
-Quindi in un futuro di potrebbe riprendere la vista oggi definita, e riutilizzarla in un altro progetto, andando solo a ridefinire, se necessario, un presente che riproponga una nuovo adattamento della parte logica.
+Quindi in un futuro di potrebbe riprendere la vista oggi definita, e riutilizzarla in un altro progetto, andando solo a ridefinire, se necessario, un \inglese{presenter} che riproponga una nuovo adattamento della parte logica.
 
-Di seguito verranno proposte le sotto-architetture evidenziate. Di ogni una sarà dato un elenco dettagliato dei componenti che lo interessano. Si sottolinea che per componenti non si intende i sotto-package, ma gli agglomerati di classi (potenzialmente prese da package diversi) che concorrono ad un fine comune: la definizione delle funzionalità del componente trattato.
+Nelle sezioni successive, per ogni sotto-architettura sarà fornito un elenco dettagliato dei componenti che lo interessano. Si sottolinea che per componenti non sono da intendersi i sotto-package, bensì gli agglomerati di classi (potenzialmente prese da package diversi) che concorrono ad un fine comune: la definizione delle funzionalità del componente trattato.
 
 \begin{figure}[H]
 \centering
@@ -292,7 +292,9 @@ Con una corretta implementazione questa soluzione avrebbe permesso una migliore 
 Come già citato nella parte introduttiva all'architettura, il server si appoggia ad un database dove sono registrati i dati del sistema. La progettazione di tale database passa per due fasi (come appreso dal manuale ``Sistemi di basi di dati''): la progettazione concettuale e la progettazione logica.
 
 \subsection{Progettazione concettuale}
-Con la progettazione concettuale definiremo una struttura ``concettuale'' della base di dati. Tale struttura non rappresenta quella finale pronta per la creazione sul DBMS, ma bensì un modello in grado di rappresentare il problema, svincolato da come esso debba essere logicamente rappresentato.
+Lo scopo della progettazione concettuale è definire una struttura ``concettuale'' della base di dati.
+
+Tale struttura non rappresenta quella finale pronta per la creazione sul DBMS, ma bensì un modello in grado di rappresentare il problema, svincolato da come esso debba essere logicamente rappresentato.
 
 \subsubsection{Lista delle classi}
 
@@ -316,7 +318,7 @@ Picture & Varchar(150) & NO &\\
 \end{tabular}
 \end{center}
 
-	\item{\scshape\bfseries AddressBookEntries}: è l'entità le cui istanze rappresentano gli utenti  appartenenti alla rubrica di un utente. AddressBookEntries è caratterizzata dai seguenti attributi:
+	\item{\scshape\bfseries AddressBookEntries}: è l'entità le cui istanze rappresentano i contatti appartenenti alla rubrica di un utente. AddressBookEntries è caratterizzata dai seguenti attributi:
 	
 \begin{center}
 \rowcolors{2}{lightblue}{llightblue}
@@ -370,16 +372,18 @@ Start\_date & Timestamp & NO & default(current\_timestamp) \\
 \end{tabular}
 \end{center}	
 	
-	\item{\scshape\bfseries AudioMessages}: è un entità che specializza Messages e rappresenta i messaggi audio lasciati nella segreteria di un utente. L'entità non è caratterizzata da alcun attributo proprio.
+	\item{\scshape\bfseries AudioMessages}: è un'entità che specializza Messages e rappresenta i messaggi audio lasciati nella segreteria di un utente. L'entità non è caratterizzata da alcun attributo proprio.
 	
-	\item{\scshape\bfseries AudioVideoMessages}: è un entità che specializza Messages e rappresenta i messaggi audio/video lasciati nella segreteria di un utente.  L'entità non è caratterizzata da alcun attributo proprio.	
+	\item{\scshape\bfseries AudioVideoMessages}: è un'entità che specializza Messages e rappresenta i messaggi audio/video lasciati nella segreteria di un utente.  L'entità non è caratterizzata da alcun attributo proprio.	
 	
 \end{description}
 
 \subsubsection{Gerarchia tra classi}
 
 \begin{description}
-	\item{\scshape\bfseries Messages(AudioMessages e AudioVideoMessages)}: i messaggi si suddividono logicamente in due categorie, i messaggi dotati solamente di traccia audio e quelli aventi anche una traccia video. Gli attributi contenuti in queste entità sono gli stessi. Infatti la necessità di mostrare la separazione deriva dalla volontà del team di evidenziare la distinzione tra i due oggetti, motivata dalla possibilità di gestire le istanze delle due entità in modo diverso.
+	\item{\scshape\bfseries Messages (AudioMessages e AudioVideoMessages)}: i messaggi si suddividono logicamente in due categorie, i messaggi dotati solamente di traccia audio e quelli aventi anche una traccia video. Gli attributi contenuti in queste entità sono gli stessi.
+	
+Infatti la necessità di mostrare la separazione deriva dalla volontà del team di evidenziare la distinzione tra i due oggetti, motivata dalla possibilità di gestire le istanze delle due entità in modo diverso.
 \end{description}
 
 \subsubsection{Associazione tra classi}
@@ -387,17 +391,19 @@ Start\_date & Timestamp & NO & default(current\_timestamp) \\
 \begin{description}
 	\item{\scshape\bfseries UserData - Calls (molti a molti)}: tale associazione rappresenta il legame che intercorre tra gli utenti e le chiamate. Tale associazione è del tipo molti a molti, con totalità parziale verso Calls e totalità totale verso UserData. L'associazione prevede l'attributo 'Caller' che identifica chi è stato il primo utente ad avviare la chiamata.
 	
-	\item{\scshape\bfseries UserData - AddressBookEntries (molti a uno)}: tale associazione rappresenta il legame che intercorre tra una rubrica e i gli utenti presenti in essa. Tale associazione è di tipo molti a uno, con totalità parziale da entrambi i lati.
+	\item{\scshape\bfseries UserData - AddressBookEntries (uno a molti)}: tale associazione rappresenta il legame che intercorre tra un utente, il possessore della rubrica, e l'insieme dei contatti presenti in essa. Tale associazione è di tipo uno a molti, con totalità totale verso Userdata e parziale verso AddressBookEntries.
 	
-	\item{\scshape\bfseries AddressBookEntries - UserData (uno a uno)}: Tale associazione rappresenta il proprietario di una rubrica. Tale associazione è del tipo uno a uno con totalità parziale da UserData verso AddressBookEntries mentre ha totalità totale da AddressBookEntries verso UserData.
+	\item{\scshape\bfseries AddressBookEntries - UserData (uno a uno)}: Tale associazione rappresenta il proprietario, univoco, di ogni contatto della rubrica. Tale associazione è del tipo uno a uno con totalità parziale da UserData verso AddressBookEntries mentre ha totalità totale da AddressBookEntries verso UserData.
 	
-	\item{\scshape\bfseries AddressBookEntries - Groups (molti a uno)}: tale associazione rappresenta la possibilità di suddividere la propria rubrica in gruppi. Tale associazione è del tipo molti a uno, con totalità totale da Groups ad AddressBookEntries mentre ha una totalità parziale da AddressBookEntries a Groups.
+	\item{\scshape\bfseries AddressBookEntries - Groups (molti a uno)}: tale associazione rappresenta la possibilità di suddividere la propria rubrica in gruppi di contatti. Tale associazione è del tipo molti a uno, con totalità totale da Groups ad AddressBookEntries mentre ha una totalità parziale da AddressBookEntries a Groups.
 	
-	\item{\scshape\bfseries UserData - Messages (uno a molti)}: tali associazioni rappresentano il legame che intercorre tra gli utenti ed i messaggi registrati nella propria segreteria. Le associazioni sono del tipo uno a molti verso Messages, con totalità parziale verso Messages e totalità totale verso UserData. L'idea alla base è che un utente può avere nella propria segreteria uno o più messaggi, così come può non averne nessuno, mentre ogni messaggio della segreteria è ``visionabile'' da un unico utente, il destinatario del messaggio.
+	\item{\scshape\bfseries UserData - Messages (uno a molti)}: tali associazioni rappresentano il legame che intercorre tra gli utenti ed i messaggi registrati nella propria segreteria. Le associazioni sono del tipo uno a molti verso Messages, con totalità parziale verso Messages e totalità totale verso UserData. L'idea alla base è che un utente può avere nella propria segreteria uno o più messaggi, così come può non averne nessuno, mentre ogni messaggio della segreteria è associato a un mittente e a un destinatario.
 \end{description}
 
 \subsection{Progettazione logica}
-Con la progettazione logica intendiamo costruire la struttura definitiva del database sulla base della progettazione concettuale. Quindi si deciderà come trasformare le gerarchie e in seguito le associazioni, al fine di restituire una struttura chiara e pronta per la creazione sul DBMS\@. La lista delle classi proposta, e lo schema associato, rappresentano tale struttura.
+La progettazione logica ha la finalità di costruire la struttura definitiva del database a partire da quanto stabilito in sede di progettazione concettuale.
+
+Pertanto, si deciderà come trasformare le gerarchie e in seguito le associazioni, al fine di restituire una struttura chiara e pronta per la creazione sul DBMS\@. La lista delle classi proposta e lo schema associato, rappresentano tale struttura.
 
 \subsubsection{Rappresentazione delle gerarchie}
 
@@ -414,7 +420,7 @@ Con la progettazione logica intendiamo costruire la struttura definitiva del dat
 	
 	\item{\scshape\bfseries AddressBookEntries - Groups}: tale associazione si è risolta inserendo una chiave esterna verso Groups all'interno dell'entità AddressBookEntries.
 	
-	\item{\scshape\bfseries UserData - Messages}: tale associazione si è risolta inserendo due chiavi esterne verso UserData, all'interno dell'entità Messages. 
+	\item{\scshape\bfseries UserData - Messages}: tale associazione si è risolta inserendo due chiavi esterne verso UserData all'interno dell'entità Messages. 
 \end{description}
 
 \subsubsection{Chiavi primarie sintetiche}
@@ -422,11 +428,13 @@ I progettisti hanno optato per la definizione di chiavi primarie sintetiche, ovv
 
 Tale scelta è dettata dall'utilizzo del framework Hibernate che non permette la modifica del valore della chiavi primarie associate ad una istanza di un oggetto di \inglese{business}. Le chiavi saranno quindi composte da un campo a valore intero, da intendersi come un contatore che identifica univocamente i record.
 
-La chiave sintetiche adottate sono del tipo \texttt{BIGINT} senza segno, il team è consapevole che questo impone un limite di $1,8 \times10^{19}$ al numero di voci che possono essere memorizzate contemporaneamente in ogni entità. Una soluzione da adottarsi in futuro per evitare la perdita di dati potrebbe consistere nello spostare da database a disco parte di queste informazioni.
+La chiave sintetiche adottate sono del tipo \texttt{BIGINT} senza segno, il team è consapevole che questo impone un limite di $1,8 \times10^{19}$ al numero di voci che possono essere memorizzate contemporaneamente in ogni entità.
+
+Una soluzione da adottarsi in futuro per evitare la perdita di dati potrebbe consistere nello spostare da database a disco parte di queste informazioni.
 L'introduzione di questo tipo di chiave è dovuta anche ad una semplice gestione, tramite Hibernate, di tale oggetto.
 
 Nel caso particolare dei messaggi, inoltre, il campo ID\_message, oltre a rappresentare un identificatore univoco, coincide anche con il nome del file sul server in cui è memorizzato il messaggio stesso, all'interno di una \inglese{directory} predefinita e nota ai componenti del sistema.
-\newpage
+\clearpage
 
 \subsubsection{Lista delle classi}
 
