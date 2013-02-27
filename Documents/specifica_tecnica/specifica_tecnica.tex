@@ -797,17 +797,23 @@ CS06 -- Gestione chiamate & call.CallHistoryManager\\
 \end{tabular}
 \end{center}
 
-In particolare \texttt{connection.ConnectionManager} è coinvolto in fase di \inglese{login} e collabora con \textsf{Gestione rubrica} e \textsf{Gestione database} per controllare la validità dell'autenticazione, quindi interagisce con \textsf{Gestione connessione} per creare un canale di comunicazione fra il server e il client, secondo le modalità illustrate nella sezione \ref{sec:gestioneconnessione}.
+In particolare \texttt{connection.ConnectionManager} è coinvolto dopo la fase di \inglese{login}, una volta che è stata accertata la validità dell'autenticazione, e interagisce con \textsf{Gestione connessione} allo scopo di creare un canale di comunicazione fra il server e il client, secondo le modalità illustrate nella sezione \ref{sec:cs02}.\footnote{%
+Tale classe, come anticipato nella descrizione a pagina \pageref{sec:cs02}, non è in realtà sottotipo diretto di \texttt{javax.servlet.http.HttpServlet}, ma estende \texttt{org.apache.catalina.websocket.WebSocketServlet} che a sua volta è sottoclasse di \texttt{javax.servlet.http.HttpServlet}.
+}
 
 Il compito di interfacciarsi con \textsf{Gestione rubrica} per recuperare la rubrica associata ad un utente e per riflettere sul server le operazioni di amministrazione della rubrica spetta invece a \texttt{abook.AddressBookManager}, mentre \texttt{abook.AccountManager} risponde alle richieste dei client per le azioni di aggiornamento e modifica dell'account personale dell'utente associato al client.
 
-I cambiamenti di stato di un utente sono invece processati da \texttt{abook.StateManager} che fornisce di conseguenza anch'esso un punto d'accesso al componente \textsf{Gestione rubrica}, mentre lo scaricamento e la gestione della segreteria telefonica (competenza di \textsf{Gestione segreteria}) e dello storico delle chiamate (\textsf{Gestione chiamate}) avvengono in risposta alle richieste dei client pervenute a \texttt{message.MessageManager} e \texttt{call.CallHistoryManager} rispettivamente.
+I cambiamenti di stato di un utente sono invece processati da \texttt{abook.StateManager} che fornisce di conseguenza anch'esso un punto d'accesso al componente \textsf{Gestione rubrica}.
+
+Ai fini del \inglese{login} è utilizzata invece la \inglese{servlet} \texttt{authentication.LoginManager}, che ha il compito di interfacciarsi con il sistema di autenticazione e, in particolare, con l'istanza del sottotipo di \texttt{javax.security.auth.spi.LoginModule} in uso per verificare le credenziali.
+
+Infine, lo scaricamento e la gestione della segreteria telefonica (di competenza di \textsf{Gestione segreteria}) e dello storico delle chiamate (per quanto riguarda il componente \textsf{Gestione chiamate}) avvengono in risposta alle richieste dei client pervenute a \texttt{message.MessageManager} e \texttt{call.CallHistoryManager} rispettivamente.
+
+Il fatto che siano presenti sette \inglese{servlet} a fronte di cinque compoenti di cui il server espone le funzionalità verso i client è riconducibile a due ordini di ragioni.
 
 Da una parte, non è prevista la presenza di alcun punto d'accesso diretto dai client a \textsf{Gestione database}, dal momento che le informazioni contenute in quest'ultimo sono manipolate dalle classi DAO a loro volta utilizzate dagli altri Façade.
 
-Dall'altra i dati rappresentati in \textsf{Gestione rubrica} necessitano di essere trattati in maniera radicalmente differente a seconda che si tratti di informazioni relative all'utente associato al client da cui proviene la richiesta al server (tramite \texttt{abook.AccountManager}) o a un semplice contatto della rubrica di quest'ultimo (tramite \texttt{abook.AddressBookManager}).
-
-Inoltre, anche per il componente \textsf{Gestione connessione} è prevista la presenza di due Façade distinti, uno per instaurare il canale di comunicazione e l'altro per ricevere le richieste relative ai cambiamenti di stato provenienti dai client.
+Dall'altra i dati rappresentati in \textsf{Gestione rubrica} necessitano di essere trattati in maniera radicalmente differente a seconda che si tratti di informazioni relative all'utente associato al client da cui proviene la richiesta al server (tramite \texttt{abook.AccountManager}) o a un semplice contatto della rubrica di quest'ultimo (tramite \texttt{abook.AddressBookManager}), mentre le richieste relative ai cambiamenti di stato sono gestite da \texttt{abook.StateManager}. Ciò giustifica la presenza di tre distinte \inglese{servlet} di Façade.
 
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
