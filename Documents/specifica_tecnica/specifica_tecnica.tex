@@ -551,7 +551,7 @@ Tale sotto-architettura definisce le specifiche e le funzionalità dell'applicat
 	\item[-] \textsf{CS01 -- Gestione database};
 	\item[-] \textsf{CS02 -- Gestione connessione};
 	\item[-] \textsf{CS03 -- Gestione rubrica};
-	\item[-] \textsf{CS04 -- Façade del server};
+	\item[-] \textsf{CS07-- Façade del server};
 	\item[-] \textsf{CS05 -- Gestione segreteria};
 	\item[-] \textsf{CS06 -- Gestione chiamate}.
 \end{itemize}
@@ -620,7 +620,8 @@ Si voglia osservare che le classi rappresentati i TO vengono ad essere collocate
 	\item{\scshape\bfseries Descrizione:}\\
 Tale componente ingloba le classi destinate a stabilire le \inglese{routine} di connessione. A tal fine è stata definita l'interfaccia di una classe Singleton \texttt{connection.ICommunicationHandler}, implementata da \texttt{connection.CommunicationHandler} che ha il compito di creare gli oggetti necessari alla connessione e di fornire delle procedure per l'autenticazione di un utente.
 
-La componente utilizza un particolare canale di comunicazione che risponde al contratto dell'interfaccia \texttt{connection.IChannel}. Quest'ultima contiene le dichiarazioni dei metodi necessari all'inizializzazione di una chiamata client-client. L'implementazione fornita ha il fine di garantire la massima flessibilità e il riuso del codice.
+%TODO rivedere questa parte
+La componente utilizza un particolare canale di comunicazione che aderisce al contratto dell'interfaccia \texttt{connection.IChannel}. Quest'ultima contiene le dichiarazioni dei metodi necessari . L'implementazione fornita ha il fine di garantire la massima flessibilità e il riuso del codice.
 
 Nello specifico si utilizzerà la classe \texttt{org.apache.catalina.websocket.MessageInbound} fornita dalle librerie di Apache TomCat, al fine di garantire una comunicazione bidirezionale basata sull'invio e la ricezione di opportuni messaggi.
 
@@ -673,6 +674,28 @@ Gli utenti, inoltre, possono essere opzionalmente organizzati in gruppi: un cont
 	\end{itemize}
 \end{description}
 
+%TODO da rivedere!
+\subsubsection{CS04 -- Gestione autenticazione}
+\begin{description}
+  \item{\scshape\bfseries Descrizione:}\\
+L'autenticazione passa attraverso due fasi: la richiesta di \inglese{login} e l'approvazione (\inglese{commit}). La richiesta di \inglese{login} verifica le credenziali di accesso, mentre la richiesta di \inglese{commit} permette di avere accesso all'entità utilizzata nel resto del programma.
+
+Responsabile di entrambe le fasi è l'unica istanza di \texttt{authentication.AuthenticationModule}, che si occupa di caricare le credenziali di autenticazione creando un'istanza di \texttt{authentication.CredentialLoader}. In seguito, se il \inglese{login} va a buon fine, crea un'istanza di \texttt{javax.security.auth.Subject} da cui è possibile accedere ai \texttt{javax.security.auth.Principal} (in particolare \texttt{authentication.PrincipalImpl}) che permettono di identificare in maniera univoca gli utenti del sistema.
+  
+  \item{\scshape\bfseries Diagramma delle classi:}
+  
+  \item{\scshape\bfseries Classi utilizzate}
+  \begin{itemize}
+    \item[-] \texttt{authentication.AuthenticationModule}
+	  \item[-] \texttt{authentication.CredentialLoader}
+	  \item[-] \texttt{authentication.PrincipalImpl}
+	  \item[-] \texttt{javax.security.auth.login.LoginContext}
+	  \item[-] \texttt{javax.security.auth.callback.CallbackHandler}
+	  \item[-] \texttt{javax.security.Principal}
+  \end{itemize}
+
+\end{description}
+
 \subsubsection{CS05 -- Gestione segreteria}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
@@ -717,7 +740,7 @@ La componente contiene l'interfaccia \texttt{ICall} e la sua implementazione lat
 \end{description}
 
 %TODO da rivedere
-\subsubsection{CS04 -- Façade del server}\label{sec:serverfacade}
+\subsubsection{CS07 -- Façade del server}\label{sec:serverfacade}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Tale componente ha il ruolo di offrire ai client una serie di punti di accesso alle funzionalità del sistema server. Dal momento che tale interazione avviene in un contesto distribuito, i punti di accesso ai componenti del server sono stati implementati come \inglese{servlet} Java destinate a essere eseguite nell'ambiente del \inglese{servlet container} fornito da Apache TomCat.
@@ -733,8 +756,8 @@ La mappatura fra componenti del server e le rispettive \inglese{servlet} di Faç
 \toprule
 \textbf{\rmfamily Componente} & \textbf{\rmfamily Servlet di Façade}\\
 \midrule
-CS02 -- Gestione connessione & servlet.ConnectionManager servlet.StateManager\\
-CS03 -- Gestione rubrica & servlet.AddressBookManager servlet.AccountManager\\
+CS02 -- Gestione connessione & servlet.ConnectionManager\\
+CS03 -- Gestione rubrica & servlet.AddressBookManager servlet.AccountManager servlet.StateManager\\
 CS05 -- Gestione segreteria & servlet.MessageManager\\
 CS06 -- Gestione chiamate & servlet.CallHistoryManager\\
 \bottomrule
@@ -745,7 +768,7 @@ In particolare \texttt{servlet.ConnectionManager} è coinvolto in fase di \ingle
 
 Il compito di interfacciarsi con \textsf{Gestione rubrica} per recuperare la rubrica associata ad un utente e per riflettere sul server le operazioni di amministrazione della rubrica spetta invece a \texttt{servlet.AddressBookManager}, mentre \texttt{servlet.AccountManager} risponde alle richieste dei client per le azioni di aggiornamento e modifica delll'account personale dell'utente associato al client.
 
-I cambiamenti di stato di un utente sono invece processati da \texttt{servlet.StateManager} che fornisce anch'esso un punto d'accesso al componente \textsf{Gestione connessione}, mentre lo scaricamento e la gestione della segreteria telefonica (competenza di \textsf{Gestione segreteria}) e dello storico delle chiamate (\textsf{Gestione chiamate}) avvengono in risposta alle richieste dei client pervenute a \texttt{servlet.MessageManager} e \texttt{servlet.CallHistoryManager} rispettivamente.
+I cambiamenti di stato di un utente sono invece processati da \texttt{servlet.StateManager} che fornisce di conseguenza anch'esso un punto d'accesso al componente \textsf{Gestione rubrica}, mentre lo scaricamento e la gestione della segreteria telefonica (competenza di \textsf{Gestione segreteria}) e dello storico delle chiamate (\textsf{Gestione chiamate}) avvengono in risposta alle richieste dei client pervenute a \texttt{servlet.MessageManager} e \texttt{servlet.CallHistoryManager} rispettivamente.
 
 Da una parte, non è prevista la presenza di alcun punto d'accesso diretto dai client a \textsf{Gestione database}, dal momento che le informazioni contenute in quest'ultimo sono manipolate dalle classi DAO a loro volta utilizzate dagli altri Façade.
 
@@ -787,7 +810,7 @@ Tale classe interagisce con il framework Hibernate e contiene la logica per la m
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS01 -- Gestione database}
-    \item[-] \textsf{CS04 -- Façade del server}
+    \item[-] \textsf{CS07-- Façade del server}
   \end{itemize}
 \end{description}
 
@@ -800,7 +823,7 @@ Tale classe interagisce con il framework Hibernate e contiene la logica per la m
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS01 -- Gestione database}
-    \item[-] \textsf{CS04 -- Façade del server}
+    \item[-] \textsf{CS07-- Façade del server}
   \end{itemize}
 \end{description}
 
@@ -813,7 +836,7 @@ Tale classe interagisce con il framework Hibernate e contiene la logica per la m
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS01 -- Gestione database}
-    \item[-] \textsf{CS04 -- Façade del server}
+    \item[-] \textsf{CS07-- Façade del server}
   \end{itemize}
 \end{description}
 
@@ -826,7 +849,7 @@ Tale classe interagisce con il framework Hibernate e contiene la logica per la m
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS01 -- Gestione database}
-    \item[-] \textsf{CS04 -- Façade del server}
+    \item[-] \textsf{CS07-- Façade del server}
   \end{itemize}
 \end{description}
 
@@ -839,7 +862,7 @@ Tale classe interagisce con il framework Hibernate e contiene la logica per la m
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS01 -- Gestione database}
-    \item[-] \textsf{CS04 -- Façade del server}
+    \item[-] \textsf{CS07-- Façade del server}
   \end{itemize}
 \end{description}
 
@@ -868,7 +891,7 @@ Interfaccia per la gestione delle richieste per ottenere le informazioni necessa
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 		\begin{itemize}[noitemsep,nolistsep]
 			\item[-] \textsf{CS02 -- Gestione connessione}
-			\item[-] \textsf{CS04 -- Façade del server}
+			\item[-] \textsf{CS07-- Façade del server}
 		\end{itemize}
 \end{description}
 
@@ -891,7 +914,7 @@ Interfaccia che definisce un canale di comunicazione client-server. Tale canale 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 		\begin{itemize}[noitemsep,nolistsep]
 			\item[-] \textsf{CS02 -- Gestione connessione}
-			\item[-] \textsf{CS04 -- Façade del server}
+			\item[-] \textsf{CS07-- Façade del server}
 			\item[-] \textsf{CP01 -- Gestione comunicazione}
 		\end{itemize}
 \end{description}
@@ -921,7 +944,7 @@ Interfaccia che raccoglie le operazioni per la gestione di un utente appartenent
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \textsf{CS03 -- Gestione rubrica}
-      \item[-] \textsf{CS04 -- Façade del server}
+      \item[-] \textsf{CS07-- Façade del server}
 	\end{itemize}
 \end{description}
 
@@ -947,7 +970,7 @@ Interfaccia per le classi che rappresentano gli utenti, è dotata di operazioni 
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \textsf{CS02 -- Gestione connessione}
 	  \item[-] \textsf{CS03 -- Gestione rubrica}
-	  \item[-] \textsf{CS04 -- Façade del server}
+	  \item[-] \textsf{CS07-- Façade del server}
 	\end{itemize}
 \end{description}
 
@@ -972,7 +995,7 @@ Interfaccia per i gruppi interni alla rubrica di un utente, prevede un'operazion
 	\item{\scshape\bfseries Componenti che ne fanno uso:} 
 	  \begin{itemize}[noitemsep,nolistsep]
 	    \item[-] \textsf{CS03 -- Gestione rubrica}
-	    \item[-] \textsf{CS04 -- Façade del server}
+	    \item[-] \textsf{CS07-- Façade del server}
 	  \end{itemize}
 \end{description}
 
@@ -1002,7 +1025,7 @@ In una prima realizzazione del prodotto è stato scelto di implementare i seguet
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}
     \item[-] \textsf{CS02 -- Gestione connessione}
-    \item[-] \textsf{CS04 -- Façade del server}
+    \item[-] \textsf{CS07-- Façade del server}
    \end{itemize}
 \end{description}
 
@@ -1020,7 +1043,7 @@ Interfaccia che dichiara le operazioni astratte (\inglese{get}/\inglese{set}) ne
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS05 -- Gestione segreteria}
-	\item[-] \textsf{CS04 -- Façade del server}
+	\item[-] \textsf{CS07-- Façade del server}
   \end{itemize}
 \end{description}
 
@@ -1048,7 +1071,7 @@ Interfaccia che contiene le operazioni astratte di accesso ai dati (metodi \ingl
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS06 -- Gestione chiamate}
-	\item[-] \textsf{CS04 -- Façade del server}
+	\item[-] \textsf{CS07-- Façade del server}
   \end{itemize}
 \end{description}
 
@@ -1059,6 +1082,43 @@ Classe \inglese{transfer object} che rappresenta le chiamate realizzate attraver
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS06 -- Gestione chiamate}
+  \end{itemize}
+\end{description}
+
+\end{itemize}
+
+\subsubsection{Package \texttt{org.softwaresynthesis.mytalk.authentication}}
+
+\begin{itemize}[noitemsep,nolistsep]
+
+\item \texttt{AuthenticationModule}
+\begin{description}
+  \item{\scshape\bfseries Descrizione}\\
+  
+  \item{\scshape\bfseries Componenti che ne fanno uso}
+  \begin{itemize}[noitemsep,nolistsep]
+    \item[-] \textsf{CS02 -- Gestione connessione}
+    \item[-] \textsf{CS07-- Façade del server}
+  \end{itemize}
+\end{description}
+
+\item \texttt{CredentialLoader}
+\begin{description}
+  \item{\scshape\bfseries Descrizione}\\
+  
+  \item{\scshape\bfseries Componenti che ne fanno uso}
+  \begin{itemize}[noitemsep,nolistsep]
+    \item[-] \textsf{CS02 -- Gestione connessione}
+  \end{itemize}
+\end{description}
+
+\item \texttt{PrincipalImpl}
+\begin{description}
+  \item{\scshape\bfseries Descrizione}\\
+  
+  \item{\scshape\bfseries Componenti che ne fanno uso}
+  \begin{itemize}[noitemsep,nolistsep]
+    \item[-] \textsf{CS02 -- Gestione connessione}
   \end{itemize}
 \end{description}
 
@@ -1080,7 +1140,7 @@ Inoltre, questa \inglese{servlet} è in grado di recepire le richieste di modifi
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \textsf{CS04 -- Façade del server}
+	  \item[-] \textsf{CS07-- Façade del server}
 	  \item[-] \textsf{CP03 -- Gestione GUI}
 	\end{itemize}
 \end{description}
@@ -1092,7 +1152,7 @@ Sottoclasse di \texttt{javax.servlet.http.HttpServlet} mediante la quale è poss
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \textsf{CS04 -- Façade del server}
+	  \item[-] \textsf{CS07-- Façade del server}
 	  \item[-] \textsf{CP03 -- Gestione GUI}
 	\end{itemize}
 \end{description}
@@ -1105,7 +1165,7 @@ Sottoclasse di \texttt{javax.servlet.http.HttpServlet} che ha la funzione di pun
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \textsf{CS04 -- Façade del server}
+	  \item[-] \textsf{CS07-- Façade del server}
 	\end{itemize}
 \end{description}
 
@@ -1118,7 +1178,7 @@ I cambiamenti di stato hanno origine nel client sia per esplicito intervento del
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \textsf{CS04 -- Façade del server}
+	  \item[-] \textsf{CS07-- Façade del server}
 	  \item[-] \textsf{CP03 -- Gestione GUI}
 	\end{itemize}
 \end{description}
@@ -1132,7 +1192,7 @@ Oltre allo scaricamento dei messaggi in forma serializzata, le richieste proveni
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \textsf{CS04 -- Façade del server}
+	  \item[-] \textsf{CS07-- Façade del server}
 	  \item[-] \textsf{CP03 -- Gestione GUI}
 	\end{itemize}
 \end{description}
@@ -1144,7 +1204,7 @@ Sottoclasse di \texttt{javax.servlet.http.HttpServlet} la cui responsabilità è
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \textsf{CS04 -- Façade del server}
+	  \item[-] \textsf{CS07-- Façade del server}
 	  \item[-] \textsf{CP03 -- Gestione GUI}
 	\end{itemize}
 \end{description}
@@ -1845,7 +1905,7 @@ Fornire un'interfaccia unificata per un insieme di interfacce o classi presenti 
 
 \subsubsection{Componenti che lo implementano}
 \begin{description}
-  \item{\scshape\bfseries CS04 -- Façade del server}\\
+  \item{\scshape\bfseries CS07-- Façade del server}\\
 Questa componente della sotto-architettura server fornisce una serie di punti di accesso centralizzati per i componenti \textsf{Gestione rubrica}, \textsf{Gestione connessione}, \textsf{Gestione stato}, \textsf{Gestione segreteria} e \textsf{Gestione chiamate}, secondo la tabella riportata nella sezione \vref{sec:serverfacade}.
 \end{description}
 
@@ -1979,7 +2039,7 @@ Componente che ha il ruolo di gestire la persistenza dei dati sul server necessa
   \item{\textsc{\bfseries CS06 -- Gestione chiamate}, \textsc{\bfseries Gestione rubrica} e \textsc{\bfseries Gestione segreteria}}\\
 Contengono le rappresentazioni delle entità della \inglese{business logic} lato server, che devono essere interrogate per ricavare le informazioni necessarie ai client in forma opportuna.
 
-  \item{\scshape\bfseries CS04 -- Façade del server}\\
+  \item{\scshape\bfseries CS07-- Façade del server}\\
 Componente del server interessato dalla ricezione delle richieste da parte dei \inglese{presenter}, recupera le informazioni di cui questi ultimi necessitano e le restituisce in forma serializzata e compatibile con il dominio applicativo dei client.
 
   \item{\scshape\bfseries CP01 -- Gestione comunicazione}\\
@@ -2010,7 +2070,7 @@ Definire una dipendenza uno a molti fra oggetti, in modo tale che se un oggetto 
 \subsubsection{Componenti che lo implementano}
 \begin{description}
 %TODO deve diventare gestione connessione oppure gestione rubrica
-  \item{\scshape\bfseries CS04 -- Gestione stato}\\
+  \item{\scshape\bfseries CS07-- Gestione stato}\\
 Il \inglese{pattern} Observer è utile in quanto permette agli utenti di osservare lo stato degli altri, ricevendo in modo automatico e trasparente una notifica nel caso in cui uno di questi ultimi subisse variazioni, essendo ogni utente sia osservato che osservatore.
 
 Al momento della connessione, infatti, ogni utente si registra come osservatore sui suoi contatti che sono online e, al contempo, li aggiunge tra i propri osservatori. In tal modo gli utenti notificano in \inglese{broadcast} le loro variazioni di stato e sono sempre aggiornati sullo stato dei contatti della loro rubrica.
