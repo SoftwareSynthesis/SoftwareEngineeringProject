@@ -657,11 +657,24 @@ Ne consegue che, come sarà esposto con maggiori dettagli nella sezione \vref{se
 \subsubsection{CS03 -- Gestione rubrica}\label{sec:cs03}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-A ogni utente del sistema, che corrisponde a un'istanza di \texttt{abook.UserData} è associata una rubrica personale. Tale rubrica è rappresentata da una lista di istanze del tipo \texttt{abook.IAddressBookEntry}, per la quale si fornisce un'implementazione nominata \texttt{abook.AddressBookEntry}. Per chiarezza possiamo dire che un istanza della classe TO \texttt{abook.AddressBookEntry}, rappresenta un contatto della rubrica di un utente.
+A ogni utente del sistema, che corrisponde a un'istanza di \texttt{abook.UserData} (implementazione dell'interfaccia \texttt{abook.IUserData}) è associata una rubrica personale. 
 
-Come si evince osservando il diagramma riportato in figura \ref{fig:gestionerubrica}, la struttura del componente rispecchia la logica di funzionamento del database. Di conseguenza, ogni istanza di tipo \texttt{abook.IAddressBookEntry} apparterrà a un solo \texttt{abook.IUserData} e in essa è registrata un istanza di \texttt{abook.UserData} che rappresenta il contatto facente parte della rubrica.
+ale rubrica è rappresentata da una lista di \texttt{abook.IAddressBookEntry}, per la quale si fornisce un'implementazione nominata \texttt{abook.AddressBookEntry} che rappresenta un contatto della rubrica di un utente. Come si evince dal diagramma riportato in figura \ref{fig:gestionerubrica}, la struttura del componente rispecchia la logica di funzionamento del database.
 
-Gli utenti, inoltre, possono essere opzionalmente organizzati in gruppi: un contatto in rubrica può, in un dato momento, appartenere a uno o più gruppi oppure non appartenere a nessuno.
+Di conseguenza, ogni istanza di tipo \texttt{abook.AddressBookEntry} apparterrà a un solo \texttt{abook.IUserData} e in essa è registrata un'istanza di \texttt{abook.UserData} che rappresenta il contatto facente parte della rubrica.
+
+Gli utenti, inoltre, possono essere opzionalmente organizzati in gruppi: un contatto in rubrica può, in un dato momento, appartenere a uno o più gruppi oppure non appartenere a nessuno. Per tale motivo ogni istanza di \texttt{abook.AddressBookEntry} contiente anche un riferimento di tipo \texttt{IGroup}.
+
+Tale interfaccia, congiuntamente alla sua implementazione \texttt{abookGroup}, permettono di rappresentare i gruppi della rubrica di un utente.
+
+Infine, dal momento che gli utenti del sistema sono dotati di uno stato, è prevista la presenza di un'enumerazione \texttt{abook.State} con gli le istanze di \texttt{abook.UserData} sono composte.
+
+In una prima realizzazione del prodotto si è scelto di implementare i seguenti stati:
+\begin{itemize}
+  \item \inglese{offline}, quando un utente è disconnesso;
+  \item \inglese{online}/disponibile, cioè lo stato in cui si trova un utente in linea e disponibile ad accettare comunicazioni audio o audio/video in ingresso;
+  \item \inglese{online}/occupato, quando un utente è in linea ma impegnato in una conversazione oppure ha impostato il proprio stato a non disponibile.
+\end{itemize}
 
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -1036,13 +1049,6 @@ Implementazione dell'interfaccia \texttt{IGroup}, che costituisce anche il \ingl
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
 Classe che attraverso un tipo enumerativo rappresenta lo stato in cui si trova un'istanza di un sottotipo di \texttt{abook.IUserData}. Le istanze della classe \texttt{abook.UserData} sono composte con un'istanza di \texttt{abook.State} che rappresenta lo stato in cui si trova un determinato utente.
-
-In una prima realizzazione del prodotto è stato scelto di implementare i seguetni stati:
-\begin{itemize}
-  \item \inglese{offline};
-  \item \inglese{online}/disponibile;
-  \item \inglese{online}/occupato.
-\end{itemize}
   
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}
