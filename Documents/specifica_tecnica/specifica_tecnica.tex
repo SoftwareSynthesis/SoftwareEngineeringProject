@@ -198,7 +198,8 @@ L'applicativo dovrà disporre di un lato server ed un lato client. Se da una par
 \subsubsection*{Vantaggi}
 
 \begin{itemize}[noitemsep,nolistsep]
-  \item[-] Alcuni membri del gruppo hanno già lavorato in passato con Tomcat; la loro esperienza potrà tornare utile velocizzando la fase d'apprendimento, da parte dei membri che ancora non lo conoscono.
+  \item[-] Alcuni membri del gruppo hanno già lavorato in passato con Tomcat; la loro esperienza potrà tornare utile velocizzando la fase d'apprendimento, da parte dei membri che ancora non lo conoscono;
+  \item[-] contiene le librerie WebSocket.
 \end{itemize}
 
 \subsection{Hibernate}\label{sec:hibernate}
@@ -212,6 +213,28 @@ Hibernate è un \inglese{framework} Java utilizzato per facilitare l'utilizzo di
 \item[-] essendo rilasciato sotto licenza LGPL può essere utilizzato senza restrizioni (\inglese{copyleft}) e vincoli di licenza delle opere derivate.
 \item[-] l'applicazione rimane portabile in tutti i sistemi di gestione supportati, con un basso \inglese{overhead}.
 \end{itemize}
+
+\subsection{JAAS}\label{sec:hibernate}
+
+JAAS (\inglese{Java Authentication and Authorization Service}) è un \inglese{framework} Java utilizzato per la gestione della sicurezza.
+
+\subsubsection*{Vantaggi}
+\begin{itemize}[noitemsep,nolistsep]
+	\item[-] Permette di gestire la gestire la logica di \inglese{login} indipendentemente dalla struttura dell'applicativo sottostante;
+	\item[-] la manutenzione incorpora lo stesso vantaggio presentato al punto precedente: indipendenza dall'applicativo che ne fa uso;
+	\item[-] facilità nel gestire autenticazione e autorizzazione.
+\end{itemize}
+
+\subsection{WebRTC}\label{sec:hibernate}
+
+WebRTC è il \inglese{framework} JavaScript richiesto da capitolato per gestire le comunicazioni VOIP.
+
+\subsubsection*{Vantaggi}
+\begin{itemize}[noitemsep,nolistsep]
+	\item[-] Facilita l'iter di connessione e gestione della comunicazione, evitando l'utilizzo diretto delle WebSocket;
+	\item[-] riduce il \inglese{total cost of ownership} nella creazione di applicativi VOIP (poiché non richiede l'installazione di componenti aggiuntivi e si basa esclusivamente sul browser da cui è lanciato l'applicativo).
+\end{itemize}
+
 \clearpage
 
 \section{Introduzione all'architettura di sistema}\label{sec:introdesign}
