@@ -704,7 +704,7 @@ Infine, sono state predisposte tre \inglese{servlet} per fornire ai client l'acc
 \subsubsection{CS04 -- Gestione autenticazione}\label{sec:cs04}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
-L'autenticazione passa attraverso due fasi: la richiesta di \inglese{login} e l'approvazione (\inglese{commit}). La richiesta di \inglese{login} verifica le credenziali di accesso, mentre la richiesta di \inglese{commit} permette di avere accesso all'entità utilizzata nel resto del programma.
+L'autenticazione passa attraverso due fasi: la richiesta di \inglese{login} e l'approvazione (\inglese{commit}). La richiesta di \inglese{login} verifica le credenziali di accesso con i dati memorizzati all'interno del database, mentre la richiesta di \inglese{commit} permette di avere accesso all'entità utilizzata nel resto del programma.
 
 Responsabile di entrambe le fasi è l'unica istanza di \texttt{authentication.AuthenticationModule}, che si occupa di caricare le credenziali di autenticazione creando un'istanza di \texttt{authentication.CredentialLoader}. In seguito, se il \inglese{login} va a buon fine, crea un'istanza di \texttt{javax.security.auth.Subject} da cui è possibile accedere ai \texttt{javax.security.auth.Principal} (in particolare \texttt{authentication.PrincipalImpl}) che permettono di identificare in maniera univoca gli utenti del sistema.
   
@@ -1946,7 +1946,7 @@ La \inglese{servlet} \texttt{ConnectionManager} fornisce un punto di accesso cen
 \subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.servlet.StateManager}}
 La \inglese{sevlet} \texttt{StateManager} rappresenta un punto di accesso centralizzato al componente del server \textsf{Gestione rubrica} in quanto permette ai client di cambiare il proprio stato.
 
-A tal fine, come illustrato dal diagramma riportato in figura \ref{fig:facadestate} è prevista la collaborazione con l'interfaccia \texttt{abook.IUserData} e con la classe \text{abook.State}.
+A tal fine, come illustrato dal diagramma riportato in figura \ref{fig:facadestate} è prevista la collaborazione con l'interfaccia \texttt{abook.IUserData} e con la classe \texttt{abook.State}.
 
 \begin{figure}[H]
   \centering
