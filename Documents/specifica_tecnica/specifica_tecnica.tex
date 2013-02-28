@@ -1897,11 +1897,12 @@ Le classi DAO consentono di isolare l'accesso alle tabelle del database dalla pa
 Operando una distinzione di questo tipo, gli utenti esterni possono considerare gli oggetti che richiedono la mappatura nel database alla stregua di normali oggetti Java (POJO) senza preoccuparsi del meccanismo di persistenza dei dati.
 \end{description}
 
-%TODO da rifare questo pezzo
 \subsection{Façade}\label{sec:patternfacade}
 
 \subsubsection{Scopo}
-Fornire un'interfaccia unificata per un insieme di interfacce o classi presenti in una sotto-architettura, nascondendo i dettagli implementativi di quest'ultima. Façade definisce inoltre un'interfaccia di livello più alto che rende la sotto-architettura più semplice da utilizzare e riduce il numero di dipendenze funzionali fra i componenti appartenenti a sotto-architetture esterne e le classi del server.
+Fornire un'interfaccia unificata per un insieme di interfacce o classi presenti in una sotto-architettura, nascondendo i dettagli implementativi di quest'ultima.
+
+Façade definisce inoltre un'interfaccia di livello più alto che rende la sotto-architettura più semplice da utilizzare e riduce il numero di dipendenze funzionali fra i componenti appartenenti a sotto-architetture esterne e le classi del server.
 
 \subsubsection{Componenti che lo implementano}
 \begin{description}
@@ -1909,7 +1910,7 @@ Fornire un'interfaccia unificata per un insieme di interfacce o classi presenti 
 Questa componente della sotto-architettura server fornisce una serie di punti di accesso centralizzati per i componenti \textsf{Gestione rubrica}, \textsf{Gestione connessione}, \textsf{Gestione segreteria}, \textsf{Gestione chiamate} e \textsf{Gestione autentcazione} secondo la tabella riportata nella sezione \vref{sec:cs07}.
 \end{description}
 
-\subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.servlet.AccountManager}}
+\subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.abook.AccountManager}}
 La \inglese{servlet} \texttt{AccountManager} rappresenta un punto di accesso alle funzionalità del componente \textsf{Gestione rubrica} per quanto riguarda la gestione dei dati relativi al proprio account che sono memorizzati sul server.
 
 A tal fine, come illustrato in figura \ref{fig:facadeaddressbook1}, è prevista una collaborazione con l'interfaccia \texttt{abook.IUserData} per la manipolazione dei \inglese{transfer object} associati agli utenti nonché con la classe DAO \texttt{dao.UserDataDAO}, necessaria per riflettere i cambiamenti richiesti dagli utenti su quanto memorizzato nelle tabelle del database.
@@ -1920,7 +1921,7 @@ A tal fine, come illustrato in figura \ref{fig:facadeaddressbook1}, è prevista 
   \caption{Applicazione del \inglese{pattern} Façade a \textsf{Gestione rubrica}}\label{fig:facadeaddressbook1}
 \end{figure}
 
-\subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.servlet.AddressBookManager}}
+\subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.abook.AddressBookManager}}
 La \inglese{servlet} \texttt{AddressBookManager} rappresenta un punto di accesso alle funzionalità del componente \textsf{Gestione rubrica} per quanto concerne le operazioni di amministrazione della rubrica che hanno come oggetto i contatti di una rubrica utente come l'inserimento/cancellazione di un contatto, la creazione/eliminazione di un gruppo o l'aggiunta/rimozione di un contatto da un determinato gruppo.
 
 A tal fine, come illustrato dal diagramma in figura \ref{fig:facadeaddressbook2}, è prevista una collaborazione fra la \inglese{servlet} \texttt{AddressBookManager} e l'interfaccia \texttt{abook.IAddressBookEntry} e \texttt{abook.IGroup} nonché con \texttt{dao.AddressBookEntryDAO} e \texttt{dao.GroupDAO} per memorizzare nel database che risiede sul server le nuove informazioni risultanti delle interazioni con l'utente.
@@ -1931,10 +1932,10 @@ A tal fine, come illustrato dal diagramma in figura \ref{fig:facadeaddressbook2}
   \caption{Applicazione del \inglese{pattern} Façade a \textsf{Gestione rubrica}}\label{fig:facadeaddressbook2}
 \end{figure}
 
-\subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.servlet.ConnectionManager}}
+\subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.connection.ConnectionManager}}
 La \inglese{servlet} \texttt{ConnectionManager} fornisce un punto di accesso centralizzato alle funzionalità del componente \textsf{Gestione connessione}, per gestire la comunicazione client-server.
 
-%TODO questa deve essere descritta per bene
+Tramite l'\inglese{overriding} del metodo \texttt{createWebSocketInbound(String, HttpServletRequest} presente nella sua superclasse \texttt{org.apache.catalina.websocket.WebSocketServlet} la \inglese{servlet} permette di restituire ai client un canale di comunicazione bidirezionale verso il server, che lato server è istanza di un sottotipo di \texttt{org.apache.catalina.websocket.StreamInbound}.
 
 
 \begin{figure}[H]
@@ -1943,7 +1944,7 @@ La \inglese{servlet} \texttt{ConnectionManager} fornisce un punto di accesso cen
   \caption{Applicazione del \inglese{pattern} Façade a \textsf{Gestione connessione}}\label{fig:facadeconnection}
 \end{figure}
 
-\subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.servlet.StateManager}}
+\subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.abook.StateManager}}
 La \inglese{sevlet} \texttt{StateManager} rappresenta un punto di accesso centralizzato al componente del server \textsf{Gestione rubrica} in quanto permette ai client di cambiare il proprio stato.
 
 A tal fine, come illustrato dal diagramma riportato in figura \ref{fig:facadestate} è prevista la collaborazione con l'interfaccia \texttt{abook.IUserData} e con la classe \texttt{abook.State}.
@@ -1954,7 +1955,7 @@ A tal fine, come illustrato dal diagramma riportato in figura \ref{fig:facadesta
   \caption{Applicazione del \inglese{pattern} Façade a \textsf{Gestione stato}}\label{fig:facadestate}
 \end{figure}
 
-\subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.servlet.MessageManager}}
+\subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.message.MessageManager}}
 La \inglese{servlet} \texttt{MessageManager} ha il compito di esporre verso i client le funzionalità del componente \textsf{Gestione segreteria} del server.
 
 A tal fine è prevista la collaborazione con le interfacce \texttt{message.IMessage} e \texttt{abook.IUserData}. Poiché inoltre il recupero dei messaggi, i cambiamenti sullo stato dei messaggi, e l'eliminazione di questi ultimi hanno degli effetti sulla rappresentazione in forma persistente dei dati sul server, è prevista inoltre una collaborazione con la classe DAO e \texttt{dao.MessageDAO}.
@@ -1965,7 +1966,7 @@ A tal fine è prevista la collaborazione con le interfacce \texttt{message.IMess
   \caption{Applicazione del \inglese{pattern} Façade a \textsf{Gestione segreteria}}\label{fig:facademessage}
 \end{figure}
 
-\subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.CallManager}}
+\subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.call.CallManager}}
 La \inglese{servlet} \texttt{CallHistoryManager} ha la responsabilità di esporre ai client alcune delle funzionalità del componente \textsf{Gestione chiamate} per l'interrogazione del database in merito allo storico delle chiamate e scaricamento dei dati corrispondenti.
 
 A tal fine è prevista la collaborazione con le interfacce \texttt{IUserData}, \texttt{ICall} e, per l'interrogazione del database anche con la classe AO associata \texttt{CallDAO}.
@@ -1976,7 +1977,14 @@ A tal fine è prevista la collaborazione con le interfacce \texttt{IUserData}, \
   \caption{Applicazione del \inglese{pattern} Façade a \textsf{Gestione chiamate}}\label{fig:facadecall}
 \end{figure}
 
-%TODO manca descrizione di LoginManager
+\subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.authentication.LoginManager}}
+%TODO manca questa descrizione
+
+\begin{figure}[H]
+  \centering
+%   \includegraphics[width=.7\textwidth]{}
+  \caption{Applicazione del \inglese{pattern} Façade a \textsf{Gestione autenticazione}}\label{fig:facadeauthentication}
+\end{figure}
 
 %TODO da rifare per PushInbound -> StreamInbound
 \subsection{Factory Method}\label{sec:patternfactorymethod}
