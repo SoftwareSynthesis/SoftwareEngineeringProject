@@ -408,7 +408,7 @@ Pertanto, si deciderà come trasformare le gerarchie e in seguito le associazion
 \subsubsection{Rappresentazione delle gerarchie}
 
 \begin{description}
-	\item{\scshape\bfseries Messages(AudioMessages e AudioVideoMessages)}: al fine di evidenziare la suddivisione logica tra le due tipologie di messaggi, è stato deciso di trasformare la specializzazione di Messages con una tabella unica contenente un discriminante. È rimasta esclusivamente l'entità Messages a cui è stato aggiunto l'attributo ``Audio'' con la funzione di discriminare le due tipologie di messaggi.
+	\item{\scshape\bfseries Messages(AudioMessages e AudioVideoMessages)}: al fine di evidenziare la suddivisione logica tra le due tipologie di messaggi, è stato deciso di trasformare la specializzazione di Messages con una tabella unica contenente un discriminante. È rimasta esclusivamente l'entità Messages a cui è stato aggiunto l'attributo ``Video'' con la funzione di discriminare le due tipologie di messaggi.
 \end{description}
 
 \subsubsection{Rappresentazione delle associazioni}
@@ -454,7 +454,7 @@ Question & Varchar(100) & NO &\\
 Answer & Varchar(100) & NO &\\
 Name & Varchar(100) & SÌ &\\
 Surname & Varchar(100) & SÌ &\\
-Picture & Varchar(150) & SÌ &\\
+Picture & Varchar(150) & NO &\\
 \bottomrule
 \end{tabular}
 
@@ -485,7 +485,7 @@ Nome attributo & Tipo & Opzionale & Vincoli\\
 ID\_callList & Bigint unsigned & NO & PrimaryKey\\
 ID\_call & Bigint unsigned & NO & ForeignKey verso Calls\\
 ID\_user & Bigint unsigned & NO & ForeignKey verso UserData \\
-Caller & Boolean & NO &\\
+Caller & Boolean & NO & default(false)\\
 \bottomrule
 \end{tabular}
 
@@ -533,7 +533,7 @@ ID\_message & Bigint unsigned & NO & PrimaryKey\\
 Sender & Bigint unsigned & NO & ForeignKey verso UserData \\
 Receiver & Bigint unsigned & NO & ForeignKey verso UserData\\
 New & Boolean & NO & default(true)\\
-Audio & Boolean & NO & default(true)\\
+Video & Boolean & NO & default(false)\\
 Start\_date & Datetime & NO & default(current\_timestamp)\\
 \bottomrule
 \end{tabular}

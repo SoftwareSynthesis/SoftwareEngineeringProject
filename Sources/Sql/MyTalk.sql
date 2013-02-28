@@ -23,7 +23,7 @@ CREATE TABLE UserData
 	Answer						VARCHAR(100)				NOT NULL,
 	Name						VARCHAR(100),
 	Surname						VARCHAR(100),
-	Picture						VARCHAR(100),
+	Picture						VARCHAR(100)				NOT NULL,
 	
 	PRIMARY KEY(ID_user),
 	UNIQUE(E_Mail)
@@ -52,7 +52,7 @@ CREATE TABLE Messages
 	Sender						BIGINT UNSIGNED				NOT NULL,
 	Receiver					BIGINT UNSIGNED				NOT NULL,
 	Newer						TINYINT						NOT NULL			DEFAULT 1,
-	Audio						TINYINT						NOT NULL			DEFAULT 1,
+	Video						TINYINT						NOT NULL			DEFAULT 0,
 	Start_date					TIMESTAMP					NOT NULL			DEFAULT CURRENT_TIMESTAMP,
 	
 	PRIMARY KEY(ID_message),
@@ -62,6 +62,7 @@ CREATE TABLE Messages
 
 CREATE TABLE CallLists
 (
+	ID_callList					BIGINT UNSIGNED				NOT NULL			AUTO_INCREMENT,
 	ID_call						BIGINT UNSIGNED				NOT NULL,
 	ID_user						BIGINT UNSIGNED				NOT NULL,
 	Caller						TINYINT						NOT NULL			DEFAULT 0,
@@ -71,15 +72,15 @@ CREATE TABLE CallLists
 	FOREIGN KEY(ID_user) REFERENCES UserData(ID_user)
 );
 
-CREATE TABLE AddressBooks
+CREATE TABLE AddressBookEntries
 (
-	ID_addressBooks				BIGINT UNSIGNED				NOT NULL,
+	ID_addressBookEntry			BIGINT UNSIGNED				NOT NULL			AUTO_INCREMENT,
 	ID_user						BIGINT UNSIGNED				NOT NULL,
-	ID_group					BIGINT UNSIGNED				,
+	ID_group					BIGINT UNSIGNED,
 	Owner						BIGINT UNSIGNED				NOT NULL,
 	Blocked						TINYINT						NOT NULL			DEFAULT 0,
 	
-	PRIMARY KEY(ID_addressBooks),
+	PRIMARY KEY(ID_addressBookEntry),
 	FOREIGN KEY(ID_user) REFERENCES UserData(ID_user),
 	FOREIGN KEY(ID_group) REFERENCES Groups(ID_group),
 	FOREIGN KEY(Owner) REFERENCES UserData(ID_user)
