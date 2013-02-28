@@ -265,12 +265,6 @@ Assegnando a ogni sotto-architettura un ruolo specifico, si garantisce un alto l
 Quindi in un futuro di potrebbe riprendere la vista oggi definita, e riutilizzarla in un altro progetto, andando solo a ridefinire, se necessario, un \inglese{presenter} che riproponga una nuovo adattamento della parte logica.
 
 Nelle sezioni successive, per ogni sotto-architettura sarà fornito un elenco dettagliato dei componenti che lo interessano. Si sottolinea che per componenti non sono da intendersi i sotto-package, bensì gli agglomerati di classi (potenzialmente prese da package diversi) che concorrono ad un fine comune: la definizione delle funzionalità del componente trattato.
-
-\begin{figure}[H]
-\centering
-  \includegraphics[width=.8\textwidth]{DiagrammaPackage}
-  \caption{Diagramma dei package generale}\label{fig:packagegenerale}
-\end{figure}
 \clearpage
 
 \subsection{Logica di rete}
@@ -699,9 +693,9 @@ In una prima realizzazione del prodotto si è scelto di implementare i seguenti 
   \item \inglese{online}/occupato, quando un utente è in linea ma impegnato in una conversazione oppure ha impostato il proprio stato a non disponibile.
 \end{itemize}
 
-Per permettere agli utenti dei sistema di osservare lo stato degli altri utenti e di notificare agli altri i cambiamenti del proprio, l'interfaccia \texttt{abook.IUserData} estende inoltre l'interfaccia \texttt{java.util.Observer}, mentre la classe \texttt{abook.UserData} estende \texttt{java.util.Observable}.
+Per permettere agli utenti dei sistema di osservare lo stato degli altri utenti e di notificare agli altri i cambiamenti del proprio, l'interfaccia \texttt{abook.IUserData} estende inoltre l'interfaccia \texttt{java.util.Observer}, mentre \texttt{abook.UserData} estende \texttt{java.util.Observable}.
 
-Infine, sono state predisposte tre \inglese{servlet} per fornire ai client l'accesso alle funzionalità di questo componente, in particolare \texttt{abook.AccountManager}, \texttt{abook.AddressBookManager} e \texttt{abook.StateManager}, che saranno descritte con maggiori dettagli nella sezione \vref{sec:cs07}.
+Infine, sono state predisposte tre \inglese{servlet} che estendono \texttt{javax.servlet.http.HttpServlet} per fornire ai client l'accesso alle funzionalità contenute in questo componente, in particolare \texttt{abook.AccountManager}, \texttt{abook.AddressBookManager} e \texttt{abook.StateManager}, che saranno descritte con maggiori dettagli nella sezione \vref{sec:cs07}.
 
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -724,6 +718,7 @@ Infine, sono state predisposte tre \inglese{servlet} per fornire ai client l'acc
 	  \item[-] \texttt{abook.StateManager}
 	  \item[-] \texttt{java.util.Observable}
 	  \item[-] \texttt{java.util.Observer}
+	  \item[-] \texttt{javax.servlet.http.HttpServlet}
 	\end{itemize}
 \end{description}
 
@@ -732,7 +727,7 @@ Infine, sono state predisposte tre \inglese{servlet} per fornire ai client l'acc
   \item{\scshape\bfseries Descrizione:}\\
 L'autenticazione passa attraverso due fasi: la richiesta di \inglese{login} e l'approvazione (\inglese{commit}). La richiesta di \inglese{login} verifica le credenziali di accesso con i dati memorizzati all'interno del database, mentre la richiesta di \inglese{commit} assegna, al \inglese{subject} che ha attivato al procedura di autenticazione, dei valori identificativi che permettano di identificarlo finché esso utilizza il sistema software.
 
-Quando un utente avvia la procedura di autenticazione la \inglese{servlet} crea il contesto istanziando
+Quando un utente avvia la procedura di autenticazione la \inglese{servlet} che espone le funzionalità di questo componente, \texttt{authentication.LoginManager} (che estende a sua volta \texttt{javax.servlet.http.HttpServlet}), crea il contesto di autenticazione istanziando
 \texttt{authentication.CredentialLoader} che ha il compito di caricare le credenziali di accesso e accede al file di configurazione per istanziare il giusto modulo per l'autenticazione, costituito dalla classe \texttt{authentication.AuthenticationModule}.
   
   \item{\scshape\bfseries Diagramma delle classi:}
@@ -741,11 +736,12 @@ Quando un utente avvia la procedura di autenticazione la \inglese{servlet} crea 
   \begin{itemize}
     	\item[-] \texttt{authentication.AuthenticationModule}
 	  	\item[-] \texttt{authentication.CredentialLoader}
-	 	\item[-] \texttt{authentication.PrincipalImpl}
-	 	\item[-] \texttt{authentication.AuthenticationData}
+	   	\item[-] \texttt{authentication.PrincipalImpl}
+	  	\item[-] \texttt{authentication.AuthenticationData}
 	  	\item[-] \texttt{javax.security.auth.spi.LoginModule}
 	  	\item[-] \texttt{javax.security.auth.callback.CallbackHandler}
 	  	\item[-] \texttt{javax.security.Principal}
+	  	\item[-] \texttt{javax.servlet.http.HttpServlet}
   \end{itemize}
 
 \end{description}
@@ -757,7 +753,7 @@ I messaggi in segreteria, che possono essere di natura audio o audio/video, corr
 
 La collezione di messaggi aventi un determinato utente come destinatario può essere ottenuta tramite un'operazione dichiarata nell'interfaccia \texttt{abook.IUserData}.
 
-Per consentire ai client di accedere alle funzionalità gestite da questo componente è stata predisposta la \inglese{servlet} \texttt{MessageManager}, che sarà descritta con maggiori dettagli nella sezione \vref{sec:cs07}.
+Per consentire ai client di accedere alle funzionalità gestite da questo componente è stata predisposta la \inglese{servlet} \texttt{MessageManager}, che estende \texttt{javax.servlet.http.HttpServlet} e che sarà descritta con maggiori dettagli nella sezione \vref{sec:cs07}.
 
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -772,6 +768,7 @@ Per consentire ai client di accedere alle funzionalità gestite da questo compon
 		\item[-] \texttt{message.IMessage}
 	  \item[-] \texttt{message.Message}
 	  \item[-] \texttt{message.MessageManager}
+	  \item[-] \texttt{javax.servlet.http.HttpServlet}
 	\end{itemize}
 \end{description}
 
@@ -782,7 +779,7 @@ Le classi di questo componente hanno il ruolo di incapsulare la logica di gestio
 
 La componente contiene l'interfaccia \texttt{ICall} e la sua implementazione lato server \texttt{Call}, che rappresenta il \inglese{transfer object} per la rappresentazione delle chiamate che deve essere mappata nel database.
 
-Infine, allo scopo di consentire ai client di accedere alle funzionalità di questo componente, è prevista la presenza della \inglese{servlet} \texttt{call.CallHistoryManager}, il cui ruolo sarà descritto con maggiori dettagli nella sezione \vref{sec:cs07}.
+Infine, allo scopo di consentire ai client di accedere alle funzionalità di questo componente, è prevista la presenza della \inglese{servlet} \texttt{call.CallHistoryManager}, che estende \texttt{javax.servlet.http.HttpServlet}, il cui ruolo sarà descritto con maggiori dettagli nella sezione \vref{sec:cs07}.
 
   \item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -796,6 +793,7 @@ Infine, allo scopo di consentire ai client di accedere alle funzionalità di que
     \item[-] \texttt{call.ICall}
     \item[-] \texttt{call.Call}
     \item[-] \texttt{call.CallHistoryManager}
+    \item[-] \texttt{javax.servlet.http.HttpServlet}
   \end{itemize}
 \end{description}
 
