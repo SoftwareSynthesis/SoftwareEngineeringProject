@@ -700,24 +700,25 @@ Infine, sono state predisposte tre \inglese{servlet} per fornire ai client l'acc
 	\end{itemize}
 \end{description}
 
-%TODO da rivedere!
 \subsubsection{CS04 -- Gestione autenticazione}\label{sec:cs04}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
-L'autenticazione passa attraverso due fasi: la richiesta di \inglese{login} e l'approvazione (\inglese{commit}). La richiesta di \inglese{login} verifica le credenziali di accesso con i dati memorizzati all'interno del database, mentre la richiesta di \inglese{commit} permette di avere accesso all'entità utilizzata nel resto del programma.
+L'autenticazione passa attraverso due fasi: la richiesta di \inglese{login} e l'approvazione (\inglese{commit}). La richiesta di \inglese{login} verifica le credenziali di accesso con i dati memorizzati all'interno del database, mentre la richiesta di \inglese{commit} assegna, al \inglese{subject} che ha attivato al procedura di autenticazione, dei valori identificativi che permettano di identificarlo finché esso utilizza il sistema software.
 
-Responsabile di entrambe le fasi è l'unica istanza di \texttt{authentication.AuthenticationModule}, che si occupa di caricare le credenziali di autenticazione creando un'istanza di \texttt{authentication.CredentialLoader}. In seguito, se il \inglese{login} va a buon fine, crea un'istanza di \texttt{javax.security.auth.Subject} da cui è possibile accedere ai \texttt{javax.security.auth.Principal} (in particolare \texttt{authentication.PrincipalImpl}) che permettono di identificare in maniera univoca gli utenti del sistema.
+Quando un utente avvia la procedura di autenticazione la \inglese{servlet} crea il contesto istanziando
+\texttt{authentication.CredentialLoader} che ha il compito di caricare le credenziali di accesso e accede al file di configurazione per istanziare il giusto modulo per l'autenticazione, costituito dalla classe \texttt{authentication.AuthenticationModule}.
   
   \item{\scshape\bfseries Diagramma delle classi:}
   
   \item{\scshape\bfseries Classi utilizzate}
   \begin{itemize}
-    \item[-] \texttt{authentication.AuthenticationModule}
-	  \item[-] \texttt{authentication.CredentialLoader}
-	  \item[-] \texttt{authentication.PrincipalImpl}
-	  \item[-] \texttt{javax.security.auth.login.LoginContext}
-	  \item[-] \texttt{javax.security.auth.callback.CallbackHandler}
-	  \item[-] \texttt{javax.security.Principal}
+    	\item[-] \texttt{authentication.AuthenticationModule}
+	  	\item[-] \texttt{authentication.CredentialLoader}
+	 	\item[-] \texttt{authentication.PrincipalImpl}
+	 	\item[-] \texttt{authentication.AuthenticationData}
+	  	\item[-] \texttt{javax.security.auth.spi.LoginModule}
+	  	\item[-] \texttt{javax.security.auth.callback.CallbackHandler}
+	  	\item[-] \texttt{javax.security.Principal}
   \end{itemize}
 
 \end{description}
@@ -1180,10 +1181,10 @@ Sottoclasse di \texttt{javax.servlet.http.HttpServlet} la cui responsabilità è
 \item \texttt{AuthenticationModule}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-  
+  	Implementazione dell'interfaccia \texttt{javax.security.auth.spi.LoginModule} definisce la logica di autenticazione attuata dal sistema mytalk. Se si avesse bisogno di una maggiore sicurezza per questa procedura è sufficiente fornire una nuova implementazione di questa interfaccia.
   \item{\scshape\bfseries Componenti che ne fanno uso}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] \textsf{CS02 -- Gestione connessione}
+    \item[-] \textsf{CS04 -- Gestione autenticazione}
     \item[-] \textsf{CS07-- Façade del server}
   \end{itemize}
 \end{description}
@@ -1191,30 +1192,44 @@ Sottoclasse di \texttt{javax.servlet.http.HttpServlet} la cui responsabilità è
 \item \texttt{CredentialLoader}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-  
+  	La classe ha compito di caricare le credenziali di accesso, fornite dall'utente, con lo scopo di metterle a disposizione del modulo di autenticazione \texttt{AuthenticationModule}.
   \item{\scshape\bfseries Componenti che ne fanno uso}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] \textsf{CS02 -- Gestione connessione}
+    \item[-] \textsf{CS04 -- Gestione autenticazione}
+    \item[-] \textsf{CS07 -- Façade del server}
   \end{itemize}
 \end{description}
 
 \item \texttt{PrincipalImpl}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-  
+  	La classe serve per contenere un elemento identificativo dell'utente che ha effettuato l'autenticazione, in modo che possa essere facilmente identificato nelle altre componenti del software.  
   \item{\scshape\bfseries Componenti che ne fanno uso}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] \textsf{CS02 -- Gestione connessione}
+    \item[-] \textsf{CS04 -- Gestione autenticazione}
+    \item[-] \textsf{CS07 -- Façade del server}
   \end{itemize}
+\end{description}
+
+\item \texttt{AuthenticationData}
+\begin{description}
+	\item{\scshape\bfseries Descrizione}\\
+		La classe contiene le credenziali di accesso, fornite dall'utente, ed utilizzate da \texttt{CredentialLoader}.
+	\item{\scshape\bfseries Componenti che ne fanno uso}
+		\begin{itemize}[noitemsep],nolistsep]
+			\item[-] \textsf{CS04 -- Gestione autenticazione}
+			\item[-] \textsf{CS07 -- Façade del server}
+		\end{itemize}
 \end{description}
 
 \item \texttt{LoginManager}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-  
+  Ha il compito di creare il corretto modulo di autenticazione, \texttt{AuthenticationModule}, dal file di configurazione e il corretto caricatore di credenziali, \texttt{CredentialLoader}. Dopo questa inizializzazione avvia la procedura di autenticazione.
   \item{\scshape\bfseries Componenti che ne fanno uso}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS04 -- Gestione autenticazione}
+    \item[-] \textsf{CS07 -- Façade del server}
     %TODO a questa servlet accede anche qualche componente del presenter
   \end{itemize}
 \end{description}
