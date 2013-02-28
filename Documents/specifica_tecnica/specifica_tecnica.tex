@@ -1183,8 +1183,7 @@ Sottoclasse di \texttt{javax.servlet.http.HttpServlet} la cui responsabilità è
 
 \end{itemize}
 
-%TODO queste sono tutte da descrivere
-\subsubsection{Package \texttt{org.softwaresynthesis.mytalk.authentication}}
+\subsubsection{Package \texttt{org.softwaresynthesis.mytalk.server.authentication}}
 
 \begin{itemize}[noitemsep,nolistsep]
 
@@ -1240,7 +1239,7 @@ Sottoclasse di \texttt{javax.servlet.http.HttpServlet} la cui responsabilità è
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS04 -- Gestione autenticazione}
     \item[-] \textsf{CS07 -- Façade del server}
-    %TODO a questa servlet accede anche qualche componente del presenter
+    \item[-] \textsf{CP03 -- Gestione GUI}
   \end{itemize}
 \end{description}
 
@@ -1362,13 +1361,22 @@ I dati rappresentati in forma di oggetti sono necessari, in particolare, per la 
 	\item{\scshape\bfseries Descrizione:}\\
 Il componente ha il duplice ruolo di intercettare gli eventi che scaturiscono dall'interazione dell'utente con la GUI e di controllare l'aggiornamento della stessa a seguito dei cambiamenti che intervengono sul modello dei dati.
 
-Le istanze di sottotipi di \texttt{guicontrol.MainPanelPresenter} comprendono dunque, oltre ad alcune operazioni comuni (ad es. per l'inizializzazione o per la comparsa/scomparsa dell'elemento grafico associato), tutte le funzioni di \inglese{callback} richiamate dall'interfaccia grafica.
+Per quanto riguarda l'autenticazione, è prevista la presenza di un \inglese{presenter} per l'interfaccia di \inglese{login}, corrispondente all'oggetto \texttt{guicontrol.LoginPresenter}.
 
-D'altro canto, dal momento che questo componente è responsabile anche delle modifiche alle viste, le sottoclassi di \texttt{guicontrol.MainPanelPresenter} contengono anche le operazioni richiamate dall'esterno per l'aggiornamento dinamico della GUI\@.
+Per quanto riguarda invece la pagina principale dell'applicativo, cui si accede dopo aver effettuato l'autenticazione, è prevista la presenza di tre tipi principali di \inglese{presenter}:
+\begin{itemize}[noitemsep,nolistsep]
+  \item[-] \texttt{guicontrol.AddressBookPanelPresenter}, che gestisce il pannello della rubrica presente nell'interfaccia grafica;
+  \item[-] \texttt{guicontrol.MainPanelPresenter}, alla radice di una gerarchia di \inglese{presenter} destinati a gestire gli elementi che compaiono nella parte centrale dell'interfaccia grafica, comprende alcune operazioni comuni a questi elementi grafici (ad es. per l'inizializzazione o per la comparsa/scomparsa dell'elemento grafico associato);
+  \item[-] \texttt{guicontrol.ToolsPanelPresenter}, che ha il compito di gestire il pannello degli strumenti nell'interfaccia grafica.
+\end{itemize}
 
 La struttura delle classi che lo compongono mostra una corrispondenza biunivoca con gli elementi grafici presentati nella sezione~\ref{sec:gui} con un \inglese{presenter} per ognuno dei pannelli, cui si aggiunge un oggetto istanza di \texttt{guicontrol.PresenterMediator}.
 
-Quest'ultimo incapsula la collaborazione fra i vari \inglese{presenter} e permette di gestire gli eventi generati da un elemento della GUI inviando a uno (o più) \inglese{presenter} i messaggi corrispondenti alle azioni da compiere.
+Ogni \inglese{presenter} facente parte di questo componente contiene al suo interno le funzioni di \inglese{callback} che vengono richiamate dall'elemento dell'interfaccia grafica corrispondente.
+
+D'altro canto, dal momento che il componente \textsf{Gestione GUI} è anche responsabile anche delle modifiche alle viste, le sottoclassi di \texttt{guicontrol.MainPanelPresenter} contengono anche le operazioni richiamate dall'esterno per l'aggiornamento dinamico della GUI\@.
+
+L'oggetto \texttt{PresenterMediator}, invece, incapsula la collaborazione fra i vari \inglese{presenter} associati alla grafica e permette di gestire gli eventi generati da un elemento della GUI inviando a uno (o più) \inglese{presenter} i messaggi corrispondenti alle azioni da compiere.
 
 	\item{\scshape\bfseries Diagramma delle classi:}\\
   \begin{figure}[H]
@@ -1385,6 +1393,7 @@ Quest'ultimo incapsula la collaborazione fra i vari \inglese{presenter} e permet
 	  \item[-] \texttt{guicontrol.CommunicationPanelPresenter}
 	  \item[-] \texttt{guicontrol.ContactPanelPresenter}
 	  \item[-] \texttt{guicontrol.LanguagePanelPresenter}
+	  \item[-] \texttt{guicontrol.LoginPresenter}
 	  \item[-] \texttt{guicontrol.MainPanelPresenter}
 		\item[-] \texttt{guicontrol.MessagePanelPresenter}
 		\item[-] \texttt{guicontrol.PresenterMediator}
@@ -1633,6 +1642,20 @@ Contiene un'unica operazione di \inglese{callback} per la grafica, che riceve la
 	\end{itemize}
 \end{description}
 
+\item \texttt{guicontrol.LoginPresenter}
+\begin{description}
+  \item{\scshape\bfseries Descrizione:}\\
+Tale \inglese{presenter} ha il compito di ricevere dall'interfaccia grafica i dati di autenticazione, associando un suo metodo all'evento \texttt{onSubmit} del \inglese{form} di \inglese{login}, e in seguito inoltrarli alla sotto-architettura server tramite una \inglese{servlet} del componente \textsf{Façade del server}.
+
+L'oggetto \texttt{LoginPresenter} permette semplicemente di comunicare al server i dati di \inglese{login} inseriti dall'utente.
+  
+  \item{\scshape\bfseries Componenti che ne fanno uso:}
+  \begin{itemize}[noitemsep,nolistsep]
+    \item[-] \textsf{CP03 -- Gestione GUI}
+	  \item[-] \textsf{CV02 -- Login}
+  \end{itemize}
+\end{description}
+
 \item \texttt{guicontrol.MainPanelPresenter}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
@@ -1707,7 +1730,7 @@ Poiché inoltre da \texttt{org.softwaresynthesis.mytalk.clienview.ToolsPanel} è
 \clearpage
 
 \section{Architettura \texttt{mytalk.clientview}}\label{sec:clientview}
-Come già accennato in precedenza, nella sezione \ref{sec:introdesign} e \ref{sec:clientpresenter}, \texttt{clientview} ha il compito di definire la struttura di visualizzazione dei dati costituendo la GUI del sistema lato client.
+Come accennato in precedenza, nella sezione \ref{sec:introdesign} e \ref{sec:clientpresenter}, \texttt{clientview} ha il compito di definire la struttura di visualizzazione dei dati costituendo la GUI del sistema lato client.
 
 Le motivazioni che hanno portato a separare tale sotto-architettura dalla parte logica sono da ricercare nei vantaggi di riutilizzo del codice e semplificazione della manutenzione:
 \begin{itemize}
@@ -1717,7 +1740,7 @@ Le motivazioni che hanno portato a separare tale sotto-architettura dalla parte 
 
 La sotto-architettura \texttt{clientview} rappresenta quindi una vista di \inglese{default} fornita dal team, con lo scopo di rappresentare in modo chiaro ed organizzato le possibilità di iterazione, da parte dell'utente finale, con l'applicativo \caName.
 
-Nell'utilizzare tale vista l'utente non avrà la percezione di come sia stata progettata l'architettura totale del sistema, svincolandolo cosi dal dover conoscere le procedure necessarie all'esecuzione di una determinata operazione.
+Nell'utilizzare tale vista l'utente non avrà alcuna percezione di come sia stata progettata l'architettura totale del sistema, svincolandolo cosi dal dover conoscere le procedure necessarie all'esecuzione di una determinata operazione.
 
 In figura \ref{fig:gui} si riporta un abbozzo dell'interfaccia grafica utente realizzata mediante le classi di questa sotto-architettura. In conformità con quanto stabilito dai requisiti (RSDO10.0.0) l'interfaccia si sviluppa in un'unica pagina.
 
