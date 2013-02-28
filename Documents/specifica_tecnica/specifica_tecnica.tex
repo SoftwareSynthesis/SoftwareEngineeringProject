@@ -1986,7 +1986,6 @@ A tal fine è prevista la collaborazione con le interfacce \texttt{IUserData}, \
   \caption{Applicazione del \inglese{pattern} Façade a \textsf{Gestione autenticazione}}\label{fig:facadeauthentication}
 \end{figure}
 
-%TODO da rifare per PushInbound -> StreamInbound
 \subsection{Factory Method}\label{sec:patternfactorymethod}
 
 \subsubsection{Scopo}
@@ -1996,7 +1995,7 @@ Definisce un'interfaccia per la creazione di un oggetto, lasciando alle sottocla
 \begin{description}
 
   \item{\scshape\bfseries CS02 -- Gestione connessione}\\
-Gli oggetti che rappresentano connessioni, sottotipi di \texttt{server.connection.IChannel} sono ottenuti mediante un Factory Method nelle classi concrete che implementano l'interfaccia \texttt{server.connection.ICommunicationHandler}.
+Gli oggetti che intendono rappresentare connessioni sono sottotipi di della classe di libreria \texttt{org.apache.catalina.websocket.StreamInbound} e vengono instanziati mediante un Factory Method nelle sottoclassi di \texttt{org.apache.catalina.websocket.WebSocketServlet}.
 
 \begin{figure}[H]
   \centering
@@ -2004,7 +2003,7 @@ Gli oggetti che rappresentano connessioni, sottotipi di \texttt{server.connectio
   \caption{Applicazione del \inglese{pattern} Factory Method}\label{fig:factory_method}
 \end{figure}
 
-Ciò garantisce maggiore flessibilità in quanto permetterebbe in futuro di gestire più categorie di \inglese{handler} che restituiscono diversi tipi connessione.
+In particolare, la classe \texttt{connection.ConnectionManager} restituisce un oggetto che rappresenta la connessione di tipo dinamico \texttt{connection.PushInbound} che implementa il comportamento come reazione ai messaggi in ingresso facendo a sua volta \inglese{overriding} del metodo \texttt{onTextMessage(CharBuffer)}.
 \end{description}
 
 \subsection{Model-View-Presenter}\label{sec:MVP}
@@ -2050,9 +2049,6 @@ Contengono le rappresentazioni delle entità della \inglese{business logic} lato
 
   \item{\scshape\bfseries CS07-- Façade del server}\\
 Componente del server interessato dalla ricezione delle richieste da parte dei \inglese{presenter}, recupera le informazioni di cui questi ultimi necessitano e le restituisce in forma serializzata e compatibile con il dominio applicativo dei client.
-
-  \item{\scshape\bfseries CP01 -- Gestione comunicazione}\\
-Il componente del \inglese{presenter} che gestisce la logica di comunicazione e necessita di interfacciarsi alla sotto-architettura server nel momento in cui è necessario instaurare una connessione in uscita.
 
   \item{\scshape\bfseries CP04 -- Gestione remota}\\
 Intercetta le comunicazioni entranti verso il client a partire dal server che non hanno origine in una richiesta esplicita da parte del client come, ad esempio, gli aggiornamenti di stato dei diversi utenti o le chiamate in ingresso.
