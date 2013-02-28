@@ -2083,7 +2083,9 @@ Definire una dipendenza uno a molti fra oggetti, in modo tale che se un oggetto 
 \subsubsection{Componenti che lo implementano}
 \begin{description}
   \item{\scshape\bfseries CS07-- Gestione rubrica}\\
-Il \inglese{pattern} Observer è utile in quanto permette agli utenti di osservare lo stato degli altri, ricevendo in modo automatico e trasparente una notifica nel caso in cui uno di questi ultimi subisse variazioni, essendo ogni utente sia osservato che osservatore.
+Il \inglese{pattern} Observer è utile in quanto permette agli utenti del sistema di osservare lo stato degli altri, ricevendo in modo automatico e trasparente una notifica nel caso in cui quest'ultimo subisse variazioni, essendo ogni utente sia osservato che osservatore.
+
+A tal fine l'interfaccia \texttt{abook.IUserData} estende l'interfaccia \texttt{java.util.Observer} mentre la classe \texttt{UserData}, che implementa \texttt{abook.IUserData},  estende la classe di libreria \texttt{java.util.Observable}.
 
 \begin{figure}[H]
   \centering
@@ -2091,9 +2093,11 @@ Il \inglese{pattern} Observer è utile in quanto permette agli utenti di osserva
   \caption{Applicazione del \inglese{pattern} Observer}\label{fig:observer}
 \end{figure}
 
-Al momento della connessione, infatti, ogni utente si registra come osservatore sui suoi contatti che sono \inglese{online} e, al contempo, li aggiunge tra i propri osservatori. In tal modo gli utenti notificano in \inglese{broadcast} le loro variazioni di stato e sono sempre aggiornati sullo stato dei contatti della loro rubrica.
+Al momento della connessione, ogni utente si registra come osservatore sui suoi contatti che sono \inglese{online} e, al contempo, li aggiunge tra i propri osservatori. Questo avviene tramite l'uso del metodo \texttt{addObserver(Observer)} ereditato dalla classe \texttt{java.util.Observable}.
 
-%TODO da terminare
+%TODO chi e quando chiama questi metodi e su chi
+
+In tal modo gli utenti notificano in \inglese{broadcast} le loro variazioni di stato e sono sempre aggiornati sullo stato dei contatti della loro rubrica. Tale notifica avviene sfruttando il metodo \texttt{notifyObservers(Object)} ereditato dalla classe \texttt{java.util.Observable}. L'oggetto passato come parametro corrisponde allo stato (\texttt{abook.State}) associato all'utente, in modo che gli osservatori abbiano conoscenza del nuovo stato che l'utente ha assunto.
 
 \end{description}
 
@@ -2118,9 +2122,8 @@ La classe \texttt{clientpresenter.kernel.CommunicationCenter} è implementata se
 
 \begin{figure}[H]
   \centering
-  %TODO abbiamo questo diagramma?
-  %\includegraphics[width=.6\textwidth]{pattern_singleton_connessione}
-  \caption{Applicazione del \inglese{pattern} Singleton a \textsf{Gestione connessione}}\label{fig:singleton1}
+  %\includegraphics[width=.6\textwidth]{pattern_singleton_comunicazione}
+  \caption{Applicazione del \inglese{pattern} Singleton a \textsf{Gestione comunicazione}}\label{fig:singleton1}
 \end{figure}
 
   \item{\scshape\bfseries CP04 -- Gestione remota}\\
