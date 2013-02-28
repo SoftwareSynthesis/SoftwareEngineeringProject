@@ -688,7 +688,7 @@ Di conseguenza, ogni istanza di tipo \texttt{abook.AddressBookEntry} apparterrà
 
 Gli utenti, inoltre, possono essere opzionalmente organizzati in gruppi: un contatto in rubrica può, in un dato momento, appartenere a uno o più gruppi oppure non appartenere a nessuno. Per tale motivo ogni istanza di \texttt{abook.AddressBookEntry} contiente anche un riferimento di tipo \texttt{IGroup}.
 
-Tale interfaccia, congiuntamente alla sua implementazione \texttt{abookGroup}, permettono di rappresentare i gruppi della rubrica di un utente.
+Tale interfaccia, congiuntamente alla sua implementazione \texttt{abook.Group}, permettono di rappresentare i gruppi della rubrica di un utente.
 
 Infine, dal momento che gli utenti del sistema sono dotati di uno stato, è prevista la presenza di un'enumerazione \texttt{abook.State} con gli le istanze di \texttt{abook.UserData} sono composte.
 
@@ -698,6 +698,8 @@ In una prima realizzazione del prodotto si è scelto di implementare i seguenti 
   \item \inglese{online}/disponibile, cioè lo stato in cui si trova un utente in linea e disponibile ad accettare comunicazioni audio o audio/video in ingresso;
   \item \inglese{online}/occupato, quando un utente è in linea ma impegnato in una conversazione oppure ha impostato il proprio stato a non disponibile.
 \end{itemize}
+
+Per permettere agli utenti dei sistema di osservare lo stato degli altri utenti e di notificare agli altri i cambiamenti del proprio, l'interfaccia \texttt{abook.IUserData} estende inoltre l'interfaccia \texttt{java.util.Observer}, mentre la classe \texttt{abook.UserData} estende \texttt{java.util.Observable}.
 
 Infine, sono state predisposte tre \inglese{servlet} per fornire ai client l'accesso alle funzionalità di questo componente, in particolare \texttt{abook.AccountManager}, \texttt{abook.AddressBookManager} e \texttt{abook.StateManager}, che saranno descritte con maggiori dettagli nella sezione \vref{sec:cs07}.
 
@@ -720,6 +722,8 @@ Infine, sono state predisposte tre \inglese{servlet} per fornire ai client l'acc
 	  \item[-] \texttt{abook.AccountManager}
 	  \item[-] \texttt{abook.AddressBookManager}
 	  \item[-] \texttt{abook.StateManager}
+	  \item[-] \texttt{java.util.Observable}
+	  \item[-] \texttt{java.util.Observer}
 	\end{itemize}
 \end{description}
 
@@ -1013,6 +1017,8 @@ Permette di accedere al contatto di cui si compone, al suo gruppo e di determina
 	\item{\scshape\bfseries Descrizione:}\\
 Interfaccia per le classi che rappresentano gli utenti, è dotata di operazioni \inglese{get}/\inglese{set} per accedere ai dati degli utenti registrati sul sistema.
 
+Tale interfaccia, inoltre, estende l'interfaccia \texttt{java.util.Observer} fornita dalle librerie Java, in modo da permettere agli utenti dei sistema di comportarsi da osservatori verso lo stato degli altri utenti.
+
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \textsf{CS03 -- Gestione rubrica}
@@ -1026,6 +1032,10 @@ Interfaccia per le classi che rappresentano gli utenti, è dotata di operazioni 
 Classe \inglese{transfer object} che implementa l'interfaccia \texttt{IUserData} le cui istanze corrispondono ai record della tabella degli utenti nel database.
 
 È caratterizzata dai campi dati che corrispondono alle proprietà degli utenti (email, password, domanda segreta e relativa risposta, nome, cognome e immagine personale).
+
+Poiché, indirettamente, la classe implementa l'interfaccia \texttt{java.util.Observer}, deve fornire un'implementazione dell'operazione \texttt{update(Observable, Object)} in cui il sottotipo dell'\texttt{Object} che viene passato è \texttt{State}.
+
+L'invocazione di tale metodo è in realtà automatica, cioè realizzata dall'implementazione del metodo \texttt{notifyObservers(Object)} fornita della classe \texttt{java.util.Observable} quando lo stato dell'osservatore risulta modificato.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -2106,7 +2116,9 @@ Definire una dipendenza uno a molti fra oggetti, in modo tale che se un oggetto 
 \subsubsection{Componenti che lo implementano}
 \begin{description}
   \item{\scshape\bfseries CS07-- Gestione rubrica}\\
-Il \inglese{pattern} Observer è utile in quanto permette agli utenti di osservare lo stato degli altri, ricevendo in modo automatico e trasparente una notifica nel caso in cui uno di questi ultimi subisse variazioni, essendo ogni utente sia osservato che osservatore.
+Il \inglese{pattern} Observer è utile in quanto permette agli utenti del sistema di osservare lo stato degli altri, ricevendo in modo automatico e trasparente una notifica nel caso in cui quest'ultimo subisse variazioni, essendo ogni utente sia osservato che osservatore.
+
+A tal fine l'interfaccia \texttt{abook.IUserData} estende l'interfaccia \texttt{java.util.Observer} mentre la classe \texttt{UserData}, che implementa \texttt{abook.IUserData},  estende la classe di libreria \texttt{java.util.Observable}.
 
 \begin{figure}[H]
   \centering
@@ -2114,9 +2126,11 @@ Il \inglese{pattern} Observer è utile in quanto permette agli utenti di osserva
   \caption{Applicazione del \inglese{pattern} Observer}\label{fig:observer}
 \end{figure}
 
-Al momento della connessione, infatti, ogni utente si registra come osservatore sui suoi contatti che sono \inglese{online} e, al contempo, li aggiunge tra i propri osservatori. In tal modo gli utenti notificano in \inglese{broadcast} le loro variazioni di stato e sono sempre aggiornati sullo stato dei contatti della loro rubrica.
+Al momento della connessione, ogni utente si registra come osservatore sui suoi contatti che sono \inglese{online} e, al contempo, li aggiunge tra i propri osservatori. Questo avviene tramite l'uso del metodo \texttt{addObserver(Observer)} ereditato dalla classe \texttt{java.util.Observable}.
 
-%TODO da terminare
+%TODO chi e quando chiama questi metodi e su chi
+
+In tal modo gli utenti notificano in \inglese{broadcast} le loro variazioni di stato e sono sempre aggiornati sullo stato dei contatti della loro rubrica. Tale notifica avviene sfruttando il metodo \texttt{notifyObservers(Object)} ereditato dalla classe \texttt{java.util.Observable}. L'oggetto passato come parametro corrisponde allo stato (\texttt{abook.State}) associato all'utente, in modo che gli osservatori abbiano conoscenza del nuovo stato che l'utente ha assunto.
 
 \end{description}
 
@@ -2141,9 +2155,8 @@ La classe \texttt{clientpresenter.kernel.CommunicationCenter} è implementata se
 
 \begin{figure}[H]
   \centering
-  %TODO abbiamo questo diagramma?
-  %\includegraphics[width=.6\textwidth]{pattern_singleton_connessione}
-  \caption{Applicazione del \inglese{pattern} Singleton a \textsf{Gestione connessione}}\label{fig:singleton1}
+  %\includegraphics[width=.6\textwidth]{pattern_singleton_comunicazione}
+  \caption{Applicazione del \inglese{pattern} Singleton a \textsf{Gestione comunicazione}}\label{fig:singleton1}
 \end{figure}
 
   \item{\scshape\bfseries CP04 -- Gestione remota}\\
