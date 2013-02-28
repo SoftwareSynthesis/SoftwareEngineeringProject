@@ -1,0 +1,145 @@
+% ATTENZIONE!!! 
+% Per far funzionare i collegamenti ipertestuali si raccomanda di usare
+%	\classname{nomedellaclasse}
+% per le classi dello stesso package mentre invece 
+%	\hyperref[nomedellaclasse]{\ttfamily{}nomequalificatodellaclasse}
+% per le classi che non sono dello stesso package e che hanno il nome completo
+
+% **************************************************
+% Macro specifiche per il documento corrente
+% **************************************************
+% Nome
+\newcommand{\docName}{Test e misurazioni}
+% Nome file
+\newcommand{\docFileName}{test\_e\_misurazioni.1.0.pdf}
+% Versione
+\newcommand{\docVers}{1.0}
+% Data creazione
+\newcommand{\creationDate}{2013-02-28}
+% Data ultima modifica
+\newcommand{\modificationDate}{2013-02-28}
+% Stato in {Approvato, Non approvato}
+\newcommand{\docState}{Non approvato}
+% Uso in {Interno, Esterno}
+\newcommand{\docUsage}{Esterno}
+% Destinatari da specificare come nome1\\ &nome2\\ ecc.
+\newcommand{\docDistributionList}{Prof. Tullio Vardanega\\&Prof. Riccardo Cardin\\&Dott. Gregorio Piccoli\\&Team SoftwareSynthesis}
+% Redattori da specificare come nome1\\ &nome2\\ ecc.
+\newcommand{\docAuthors}{Stefano Farronato\\&Diego Beraldin\\&Marco Schivo}
+% Approvato da
+\newcommand{\approvedBy}{Andrea Rizzi}
+% Verificatori
+\newcommand{\verifiedBy}{Stefano Farronato\\&Marco Schivo}
+% Perscorso (relativo o assoluto) che punta alla directory contenente shared/
+% come sua sottodirectory (per comodità chiamiamola 'doc root').
+\newcommand{\docRoot}{..}
+% definire se si vuole l'indice delle tabelle
+\def\INDICETABELLE{false}
+% definire se si vuole l'indice delle figure
+\def\INDICEFIGURE{false}
+
+% importa il preambolo condiviso da tutti i documenti
+\input{\docRoot/shared/preamble.tex}
+
+% macro specifiche per il documento corrente
+\newcommand{\classsection}[1]{\subsubsection{#1}\label{#1}}
+\newcommand{\classname}[1]{\hyperref[#1]{\ttfamily#1}}
+
+% Fine del preambolo e inizio del documento
+\begin{document}
+
+% Inclusione della prima pagina
+\input{\docRoot/shared/firstpage.tex}
+
+%---------------------------RUOLI----------------------------
+%FASE 1:
+%Programmatori: DIEGO, STEFANO, SCHIVO
+%FASE 2:
+%Programmatori: MENE, TRES, ELENA
+
+%Verificatore: SCHIVO, STEFANO, RIZZI, DIEGO (dobbiamo fare un sacco di test)
+%Responsabile finale supremo: RIZZI
+%------------------------------------------------------------
+
+% Storico delle modifiche
+\section*{Storia delle modifiche}
+\begin{center}
+\begin{longtable}{lp{.32\textwidth}lll}
+\toprule
+Versione & Descrizione intervento & Membro & Ruolo & Data\\
+\midrule % inserire qui il contenuto della tabella
+0.1 & Creazione del documento e stesura delle sezioni ``Introduzione'' e ``Riferimenti''. & Stefano Farronato & Verificatore & 2013-02-28\\
+\bottomrule
+\end{longtable}
+\end{center}
+\newpage
+
+% inclusione dell'indice
+\input{\docRoot/shared/toc.tex}
+
+% Alcuni aggiustamenti per le pagine
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\pagestyle{normal}
+
+% Qui ha inizio il documento vero e proprio...
+\newpage
+
+\section{Introduzione}
+\subsection{Scopo del prodotto}
+\purpose
+
+\subsection{Scopo del documento}
+Il documento ha lo scopo di definire e riportare l'esito dei test effettuati sul codice prodotto, attraverso misurazioni quantitative valutate attraverso metriche definite al fine di assicurare che la qualità del prodotto risultante sia coerente con i requisiti redatti e rispetti quanto redatto nel documento \textit{piano\_di\_qualifica.3.0.pdf}.
+I test predisposti saranno descritti esaustivamente sia nella forma che nei risultati ottenuti, al fine di renderene più chiara e oggettiva possibile la comprensione.
+
+\subsection{Glossario}
+\glossaryIntro
+\clearpage
+
+\section{Riferimenti}
+\subsection{Normativi}
+\begin{itemize}
+\item[] \textit{piano\_di\_qualifica.3.0.pdf} allegato;
+\item[] \textit{norme\_di\_progetto.3.0.pdf} allegato;
+\item[] \textit{specifica\_tecnica.2.0.pdf} allegato;
+\item[] \textit{definizione\_di\_prodotto.1.0.pdf} allegato.
+\item[] \textit{analisi\_dei\_requsiti.3.0.pdf} allegato;
+\end{itemize}
+
+\subsection{Informativi}
+\begin{itemize}
+\item[] Capitolato d'appalto: \caName{}, v1.0, redatto e rilasciato dal proponente Zucchetti s.r.l. reperibile all'indirizzo \url{http://www.math.unipd.it/~tullio/IS-1/2012/Progetto/C1.pdf};
+\item[] testo di consultazione: \textit{Software Engineering (8th edition) Ian Sommerville, Pearson Education | Addison Wesley};
+\item[] \textit{glossario.3.0.pdf} allegato.
+\end{itemize}
+\clearpage
+
+\section{Metriche sul codice}
+Prima di tutto sono state calcolate, al fine di quantificare la ``dimensione'' di una componente, due metriche: il \inglese{Number Of Classes} (NOC) e il \inglese{Number Of Method} (NOM).
+NOC rappresenta il numero totale delle classi che sono rappresentate all'interno del package, mentre il NOM rappresenta il numero dei metodi conteggiati, sempre per package.
+
+La tabella X riporta le misurazioni su tali metriche per i package del prodotto \caName{}, evidenziandone i più corposi dal punto di vista implementativo.
+\\\\
+***TABELLA NOC E NOM***
+\\\\
+Spingendosi più nel dettaglio si è deciso di esporre il \inglese{Total Line Of Code} (TLOC) e il \inglese{Method Lines Of Code} (MLOC).
+Come suggeriscono i nomi, TLOC rappresenta il numero totale di linee di codice (effettive, ovvero senza contare quelle non vuote o commentate) all'interno di un'unità di compilazione, MLOC definisce invece il numero totale di linee di codice (sempre effettive) che definiscono i corpi dei metodi. 
+
+Come per NOC e NOM riportiamo la tabella X con le misurazioni su tali metriche relative ai package di \caName{}.
+\\\\
+***TABELLA TLOC E MLOC***
+\\\\
+Coerentemente con le Norme di Progetto consultabili nel documento allegato \textit{norme\_di\_progetto.3.0.pdf} si riporta l'indice di complessità ciclomatica (media) per ogni package. Tale misura è direttamente legata al numero di cammini linearmente indipendenti che compongono il grafo di controllo di flusso. Tale indice dovrebbe essere compreso tra 0 e 10 per definire il codice nella norma.
+Infine il \inglese(Lack Of Cohesion Of Methods) (LCOM3) indica il liello (medio) di coesione dei metodi, più tale livello risulta basso migliore risulterà essere la progettazione della classe. I valori possono quindi variare tra lo 0, che indica la massima coesione possibile, e 2, che ne identifica il valore minimo.
+\\\\
+***TABELLA CC E LCOM3***
+\\\
+\section{Test e risultati}
+I test riportati hanno lo scopo di dimostrare in modo oggettivo la bontà e la qualità di quanto prodotto a livello di codice. Tali test servono inoltre a rilevare \inglese{bug} non evidenziati (o non possibili da evidenziare) durante l'analisi statica del codice e vengono effettuati sui package relativi alla parte di \inglese{Model} e \inglese{Presenter} del modello MVP generale.
+Le verifiche relative alla parte \inglese{View} saranno al contrario effettuati successivamente a quelli sul \inglese{Model} e sul \inglese{Presenter}, in quanto sarà nesessario avere la certezza che tali componenti risultino stabili e privi (per quanto possibile) di \inglese{bug}, specifichiamo inoltre che tali test saranno effettuati tramite i test di sistema specificati nel documento \textit{anilisi\_dei\_requisiti.3.0.pdf} allegato.
+
+I test per la parte \inglese{Model} sono stati predisposti ed eseguiti usufruendo della libreria JUnit, in quanto questa parte della struttura è implementata mediante codice java.
+Per il componente \inglese{Presenter} si è deciso invece di usufruire di QUnit, coerentemente con il linguaggio scelto (JavaScript) che lo implementa.
+
+\end{document}

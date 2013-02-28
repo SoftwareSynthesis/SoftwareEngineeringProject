@@ -67,8 +67,8 @@ CREATE TABLE CallLists
 	ID_user						BIGINT UNSIGNED				NOT NULL,
 	Caller						TINYINT						NOT NULL			DEFAULT 0,
 	
-	PRIMARY KEY(ID_call, ID_user),
-	FOREIGN KEY(ID_call) REFERENCES Calls(ID_call),
+	PRIMARY KEY(ID_callList),
+	FOREIGN KEY(ID_call) REFERENCES Calls(ID_call) ON DELETE CASCADE,
 	FOREIGN KEY(ID_user) REFERENCES UserData(ID_user)
 );
 
@@ -82,6 +82,6 @@ CREATE TABLE AddressBookEntries
 	
 	PRIMARY KEY(ID_addressBookEntry),
 	FOREIGN KEY(ID_user) REFERENCES UserData(ID_user),
-	FOREIGN KEY(ID_group) REFERENCES Groups(ID_group),
+	FOREIGN KEY(ID_group) REFERENCES Groups(ID_group) ON DELETE SET NULL,
 	FOREIGN KEY(Owner) REFERENCES UserData(ID_user)
 );
