@@ -91,7 +91,7 @@ public interface IAddressBookEntry
 	 * @version	%I%, %G%
 	 * @return	true se lo {@link IUserData} è sbloccato, false altrimenti
 	 */
-	public boolean getStatus();
+	public boolean isBlocked();
 	
 	/**
 	 * Imposta lo stato della entry della rubrica
@@ -100,5 +100,5 @@ public interface IAddressBookEntry
 	 * @version	%I%, %G%
 	 * @param 	status	true se lo {@link IUserData} è sbloccato, false altrimenti
 	 */
-	public void setStatus(boolean status);
+	public void setBlocked(boolean status);
 }

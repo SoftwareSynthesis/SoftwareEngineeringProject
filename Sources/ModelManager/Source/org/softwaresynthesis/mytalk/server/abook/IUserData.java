@@ -1,5 +1,7 @@
 package org.softwaresynthesis.mytalk.server.abook;
 
+import java.util.Observer;
+
 /**
  * Interfaccia rappresentante un utente del sistema
  * mytalk
@@ -7,7 +9,7 @@ package org.softwaresynthesis.mytalk.server.abook;
  * @author 	Andrea Meneghinello
  * @version %I%, %G%
  */
-public interface IUserData 
+public interface IUserData extends Observer
 {
 	/**
 	 * Restituisce l'identificatore univoco di uno
