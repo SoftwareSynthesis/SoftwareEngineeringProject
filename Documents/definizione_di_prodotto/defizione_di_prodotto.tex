@@ -143,566 +143,101 @@ Gli strumenti utilizzati per la stesura e lo sviluppo sono specificati nei docum
 
 \subsection{Package org.softwaresynthesis.mytalk.server.dao}\label{sec:dao}
 
-\classsection{IMessage}
+\subsection{Package org.softwaresynthesis.mytalk.server.abook}\label{sec:abook}
+
+\classsection{IUserData}
 
 \subsubsection*{Funzione}
-L'interfaccia rappresenta un generico messaggio della segreteria.
+Interfaccia rappresentante il comportamento di un generico utente del sistema
 
 \subsubsection*{Relazioni d'uso}
 
-\subsubsection*{Metodi}
-\begin{description}
-	\item{\method{+ isNew(): boolean}}\\
-Restituisce un valore booleano che fornisce le informazioni relative all'ascolto del messaggio: \texttt{true} se è stato ascoltato, \texttt{false} altrimenti.
-	\item{\method{+ getSender(): IUserData}}\\
-Restituisce il mittente del messaggio, sotto forma di un sottotipo (design pattern Proxy) di \classname{IUserData}.
-	\item{\method{+ getDate(): Date}}\\
-Restituisce la data di creazione del messaggio (appoggiandosi a \texttt{java.util.Date}).
-	\item{\method{+ getLength(): int}}\\
-Restituisce la lunghezza del messaggio espressa in secondi.
-	\item{\method{+ getStream(): byte[]}}\\
-Restituisce lo stream dati del messaggio.
-	\item{\method{+ getSize(): int}}\\
-Restituisce la dimensione del messaggio espressa in byte.
-	\item{\method{+ setNew(value: boolean): void}}\\
-Imposta il valore che determina se un messaggio è stato ascoltato o meno.
-
-\end{description}
-
-\classsection{AudioMessage}
-
-\subsubsection*{Interfacce implementate}
-\begin{itemize}[noitemsep,nolistsep]
-  \item[-] \classname{IMessage}
-\end{itemize}
-
-\subsubsection*{Funzionalità}
-La classe rappresenta il messaggio audio vero e proprio memorizzato nella segreteria dell'utente.
-
-\subsubsection*{Relazioni d'uso}
-
-\subsubsection*{Attributi}
-\begin{description}
-  \item{\memberdata{-- sender: IUserData}}\\
-Riferimento all'utente che costituisce il mittente del messaggio audio.
-  \item{\memberdata{-- date: Date}}\\
-Data in cui è stato creato il messaggio audio.
-  \item{\memberdata{-- path: String}}\\
-Percorso che punta alla rappresentazione in forma persistente del messaggio audio.
-  \item{\memberdata{-- new: boolean}}\\
-Flag booleano che permette di discriminare i messaggi audio ascoltati da quelli non ascoltati.
-  \item{\memberdata{-- content: byte[]}}\\
-Rappresentazione del contenuto del messaggio audio.
-\end{description}
+L'interfaccia estende \texttt{java.util.Observer}.
 
 \subsubsection*{Metodi}
-Oltre alle implementazioni dell'interfaccia \classname{IAudioMessage}, la classe contiene i seguenti metodi:
 \begin{description}
-  \item{\method{AudioMessage(path: String)}}\\
-Costruttore dell'oggetto \classname{AudioMessage}.
-\end{description}
-
-\classsection{AudioVideoMessage}
-
-\subsubsection*{Interfacce implementate}
-\begin{itemize}[noitemsep,nolistsep]
-  \item[-] \classname{IMessage}
-\end{itemize}
-
-\subsubsection*{Funzionalità}
-La classe rappresenta il messaggio audio/video vero e proprio memorizzato nella segreteria dell'utente.
-
-\subsubsection*{Relazioni d'uso}
-
-\subsubsection*{Attributi}
-\begin{description}
-  \item{\memberdata{-- sender: IUserData}}\\
-Riferimento all'utente che costituisce il mittente del messaggio audio/video.
-  \item{\memberdata{-- date: Date}}\\
-Data in cui è stato creato il messaggio audio/video.
-  \item{\memberdata{-- path: String}}\\
-Percorso che punta alla rappresentazione in forma persistente del messaggio audio/video.
-  \item{\memberdata{-- new: boolean}}\\
-Flag booleano che permette di discriminare i messaggi audio/video ascoltati da quelli non ascoltati.
-  \item{\memberdata{-- content: byte[]}}\\
-Rappresentazione del contenuto del messaggio audio/video.
-\end{description}
-
-\subsubsection*{Metodi}
-Oltre alle implementazioni dell'interfaccia \classname{IAudioVideoMessage}, la classe contiene i seguenti metodi:
-\begin{description}
-  \item{\method{AudioVideoMessage(path: String)}}\\
-Costruttore dell'oggetto \classname{AudioVideoMessagio()}.
+	\item{\method{+ getId(): Long}}\\
+	Restituisce l'identificatore univoco di uno \classname{IUserData}.
+	\item{\method{+ getEmail(): String}}\\
+	Restituisce l'indirizzo e-mail con cui uno \classname{IUserData} si è registrato nel sistema mytalk.
+	\item{\method{+ setEmail(mail: String): void}}\\ 
+	Imposta l'indirizzo e-mail con cui si registra nel sistema mytalk uno \classname{IUserData}.
+	\item{\method{+ getPassword(): String}}\\
+	Restituisce la password di accesso al sistema mytalk di uno \classname{IUserData}.
+	\item{\method{+ setPassword(password: String): void}}\\
+	Imposta la password di accesso al sistema di uno \classname{IUserData}.
+	\item{\method{+ getQuestion(): String}}\\
+	Restituisce la domanda segreta, scelta da uno \classname{IUserData}, per il recupero della password smarrita di accesso al sistema mytalk.
+	\item{\method{+ setQuestion(question: String): void}}\\
+	Imposta la domanda segreta, scelta da uno \classname{IUserData}, per il recupero della password smarrita di accesso al sistema mytalk.
+	\item{\method{+ getAnswer(): String}}\\
+	Restituisce la risposta alla domanda per il recupero della password smarrita di accesso al sistema mytalk.
+	\item{\method{+ setAnswer(answer: String): void}}\\
+	Imposta la risposta alla domanda segreta per il recupero della password di accesso al sistema mytalk.
+	\item{\method{+ getName(): String}}\\
+	Restituisce il nome di uno \classname{IUserData}.
+	\item{\method{+ setName(name: String): void}}\\
+	Imposta il nome di uno \classname{IUserData}.
+	\item{\method{+ getSurname(): String}}\\
+	Resituisce il cognome di uno \classname{IUserData}.
+	\item{\method{+ setSurname(surname: String): void}}\\
+	Imposta il cognome di uno \classname{IUserData}.
+	\item{\method{+ getPicturePath(): String}}\\
+	Restituisce una stringa con il percorso dell'immagine del profilo di uno \classname{IUserData}.
+	\item{\method{+ setPicturePath(path: String): void}}\\
+	Imposta il percorso dell'immagine profilo di uno \classname{IUserData}.
 \end{description}
 
 \classsection{IGroup}
 
-\subsubsection*{Interfacce estese}
-\begin{itemize}[noitemsep,nolistsep]
-  \item[-] \hyperref[IContact]{\ttfamily{}org.softwaresynthesis.mytalk.abook.IContact}
-\end{itemize}
-
-\subsubsection*{Funzionalità}
-
-\subsubsection*{Relazioni d'uso}
+\subsubsection*{Funzione}
+Interfaccia rappresentante un gruppo di una rubrica utente del sistema mytalk
 
 \subsubsection*{Metodi}
 \begin{description}
-	\item{\method{+ addContact(contact: IContact): void}}\\
-Aggiunge al gruppo un nuovo oggetto IContact, può essere un sottogruppo oppure un singolo utente.
+	\item{\method{+ getId(): Long}}\\
+	Restituisce l'identificativo univoco di uno gruppo di una rubrica utente.
+	\item{\method{+ getName(): String}}\\
+	Restituisce il nome di un gruppo di una rubrica utente.
+	\item{\method{+ setName(name: String): void}}\\
+	Imposta il nome di un gruppo di una rubrica utente.
+\end{description}
+
+\classsection{IAddressBookEntry}
+
+\subsubsection*{Funzione}
+Interfaccia rappresentante una entry di una rubrica utente del sistema mytalk
+
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+	\item \classname{IUserData}: l'interfaccia \classname{IAddressBookEntry} definisce più metodi che restituiscono oggetti aventi tipo di ritorno \classname{IUserData}. Tali sono i metodi \inglese{get} per ottenere il ``possessore'' della rubrica e per ottenere l'utente registrato nella rubrica. Analogamente \classname{IUserData} viene usato come parametro d'ingresso per i metodi \inglese{set} collegati ai metodi già citati.
+\end{itemize}
+
+\subsubsection*{Metodi}
+\begin{description}
+	\item{\method{+ getId(): Long}}\\
+	Resituisce l'identificativo univoco di una \inglese{entry} di una rubrica utente del sistema mytalk.
+	\item{\method{+ getEntry(): IUserData}}\\
+	Restituisce un istanza di un oggetto avente tipo \classname{IUserData}, e rappresentante un contatto della rubrica.
+	\item{\method{+ setEntry(contact: IUserData): void}}\\
+	Imposta l'utente \classname{IUserData} (passato come parametro d'ingresso) come contatto della rubrica.
+	\item{\method{+ getGroup(): IGroup}}\\
+	Restituisce il gruppo a cui appartiene lo \classname{IUserData} registrato nella rubrica.
+	\item{\method{+ setGroup(group: IGroup): void}}\\
+	Imposta il gruppo di appartenenza dello \classname{IUserData} registrato nella rubrica.
 	\item{\method{+ getOwner(): IUserData}}\\
-Restituisce l'utente proprietario del gruppo.
-	\item{\method{+ getContact(): List<IContact>}}\\
-Restituisce i contatti, sottogruppi oppure utenti, appartenenti al gruppo.
-	\item{\method{+ setOwner(user: IUserData): void}}\\
-Imposta l'utente proprietario del gruppo.
+	Restituisce lo \classname{IUserData} possesore di questa \inglese{entry} della rubrica
+	\item{\method{+ setOwner(owner: IUserData ): void}}\\
+	Imposta l'utente \classname{IUserData} possessore della entry della rubrica.
 \end{description}
-
-\classsection{StandardGroup}
-
-\subsubsection*{Interfacce implementate}
-\begin{itemize}[noitemsep,nolistsep]
-  \item[-] \hyperref[IContact]{\ttfamily{}org.softwaresynthesis.mytalk.abook.IContact}
-  \item[-] \classname{IGroup}
-\end{itemize}
-
-\subsubsection*{Funzionalità}
-
-\subsubsection*{Relazioni d'uso}
-
-\subsubsection*{Attributi}
-
-\subsubsection*{Metodi}
-
-\classsection{IUserData}
-\subsubsection*{Interfacce estese}
-\begin{itemize}[noitemsep,nolistsep]
-  \item[-] \hyperref[IContact]{\ttfamily{}org.softwaresynthesis.mytalk.abook.IContact}
-\end{itemize}
-
-\subsubsection*{Funzionalità}
-
-\subsubsection*{Relazioni d'uso}
-
-\subsubsection*{Metodi}
-\begin{description}
-	\item{\method{+ getEMail(): string}}\\
-Restituisce l'indirizzo e-mail con cui l'utente si è registrato.
-	\item{\method{+ getPassword(): string}}\\
-Restituisce la password, non criptata, dell'utente.
-	\item{\method{+ getQuestion(): string}}\\
-Restituisce la domanda, scelta dall'utente in fase di registrazione, per il recupero della password.
-	\item{\method{+ getName(): string}}\\
-Restituisce il nome dell'utente.
-	\item{\method{+ getSurname(): string}}\\
-Restituisce il cognome dell'utente.
-	\item{\method{+ getPicture(): Image}}\\
-Restituisce l'immagine che l'utente ha associato al proprio account.
-	\item{\method{+ getAddressBook(): IAddressBook}}\\
-Restituisce la rubrica dell'utente.
-	\item{\method{+ getCallList(): List<ICall>}}\\
-Restituisce la lista delle chiamate effettuate e ricevute dall'utente.
-	\item{\method{+ getMessages(): List<IMessage>}}\\
-Restituisce la lista di tutti i messaggi memorizzati nella segreteria dell'utente
-	\item{\method{+ getMessages(news: Boolean): List<IMessage>}}\\
-Restituisce la lista dei nuovi messaggi, in segreteria, se news è impostato a true altrimenti ritorna tutti quelli memorizzati.
-	\item{\method{+ setEMail(mail: string): void}}\\
-Imposta l'indirizzo e-mail di un utente.
-	\item{\method{+ setPassword(password): void}}\\
-Imposta la password che l'utente utilizza per accedere al sistema \caName.
-	\item{\method{+ setQuestion(question: string): void}}\\
-Imposta la domanda, scelta dall'utente utilizzata nella procedura di recupero della password.
-	\item{\method{+ setAnswer(answer: string): void}}\\
-Imposta la risposta alla domanda segreta utilizzata per la procedura di recupero della password.
-	\item{\method{+ setName(name: string): void}}\\
-Imposta il nome dell'utente.
-	\item{\method{+ setSurname(surname: string): void}}\\
-Imposta il cognome dell'utente.
-	\item{\method{+ setPicture(image: Image): void}}\\
-Imposta l'immagine relativa all'utente.
-\end{description}
-
-\classsection{StandardUserData}
-\subsubsection*{Interfacce implementate}
-\begin{itemize}[noitemsep,nolistsep]
-  \item[-] \hyperref[IContact]{\ttfamily{}org.softwaresynthesis.mytalk.abook.IContact}
-  \item[-] \classname{IUserData}
-\end{itemize}
-
-\subsection{Package org.softwaresynthesis.mytalk.server.connection}\label{sec:connection}
-
-\classsection{ICommunicationHandler}
-
-\subsubsection*{Funzionalità}
-
-\subsubsection*{Relazioni d'uso}
-
-
-\subsubsection*{Metodi}
-
-\classsection{StandardCommunicationHandler}
-
-\subsubsection*{Interfacce implementate}
-\begin{itemize}[noitemsep,nolistsep]
-  \item[-] \classname{ICommunicationHandler}
-\end{itemize}
-
-\subsubsection*{Funzionalità}
-
-\subsubsection*{Relazioni d'uso}
-
-\subsubsection*{Attributi}
-
-\subsubsection*{Metodi}
-
-\classsection{IConnection}
-
-\subsubsection*{Funzionalità}
-
-\subsubsection*{Relazioni d'uso}
-
-\subsubsection*{Metodi}
-
-\classsection{WebRTCInfo}
-
-\subsubsection*{Interfacce implementate}
-\begin{itemize}[noitemsep,nolistsep]
-  \item[-] \classname{IConnection}
-\end{itemize}
-
-\subsubsection*{Funzionalità}
-
-\subsubsection*{Relazioni d'uso}
-
-\subsubsection*{Attributi}
-
-\subsubsection*{Metodi}
-
-\subsection{Package org.softwaresynthesis.mytalk.server.abook}\label{sec:abook}
-
-\classsection{IContact}
-
-\subsubsection*{Funzionalità}
-
-\subsubsection*{Relazioni d'uso}
-
-\subsubsection*{Metodi}
-\begin{description}
-  \item{\method{+ getName(): String}}\\
-Restituisce il nome del contatto.
-  \item{\method{+ setName(String name): void}}\\
-Imposta il nome del contatto.
-  \item{\method{+ getChildrenNumber(): int}}\\
-Restituisce il numero di figli di un determinato nodo.
-  \item{\method{+ addChild(contact: IContact): voi}}\\
-Aggiunge un contatto (utente singolo o gruppo) come figlio del nodo selezionato.
-  \item{\method{+ deleteChild(contact: IContact): void}}\\
-Cancella dai figli del contatto di invocazione il contatto \texttt{contact}.
-\end{description}
-
-\classsection{IAddressBook}
-
-\subsubsection*{Funzionalità}
-
-\subsubsection*{Relazioni d'uso}
-
-\subsubsection*{Metodi}
-
-\classsection{AddressBook}
-
-\subsubsection*{Interfacce implementate}
-\begin{itemize}[noitemsep,nolistsep]
-  \item[-] \classname{IAddressBook}
-\end{itemize}
-
-\subsubsection*{Funzionalità}
-
-\subsubsection*{Relazioni d'uso}
-
-\subsubsection*{Attributi}
-
-\subsubsection*{Metodi}
-
-\classsection{UserDataProxy}
-
-\subsubsection*{Interfacce implementate}
-\begin{itemize}[noitemsep,nolistsep]
-  \item[-] \hyperref[IUserData]{\ttfamily{}org.softwaresynthesis.mytalk.server.dao.IUserData}
-\end{itemize}
-
-\subsubsection*{Funzionalità}
-
-\subsubsection*{Relazioni d'uso}
-
-\subsubsection*{Attributi}
-
-\subsubsection*{Metodi}
-
-\subsection{Package org.softwaresynthesis.mytalk.server.state}\label{sec:state}
-
-\classsection{IState}
-
-\subsubsection*{Funzionalità}
-
-\subsubsection*{Relazioni d'uso}
-
-\subsubsection*{Metodi}
-
-\classsection{StateOnline}
-
-\subsubsection*{Interfacce implementate}
-\begin{itemize}[noitemsep,nolistsep]
-  \item[-] \classname{IState}
-\end{itemize}
-
-\subsubsection*{Funzionalità}
-
-\subsubsection*{Relazioni d'uso}
-
-\subsubsection*{Attributi}
-
-\subsubsection*{Metodi}
-
-\classsection{StateOffline}
-
-\subsubsection*{Interfacce implementate}
-\begin{itemize}[noitemsep,nolistsep]
-  \item[-] \classname{IState}
-\end{itemize}
-
-\subsubsection*{Funzionalità}
-
-\subsubsection*{Relazioni d'uso}
-
-\subsubsection*{Attributi}
-
-\subsubsection*{Metodi}
-
-\classsection{StateAvailable}
-
-\subsubsection*{Interfacce implementate}
-\begin{itemize}[noitemsep,nolistsep]
-  \item[-] \classname{IState}
-\end{itemize}
-
-\subsubsection*{Funzionalità}
-
-\subsubsection*{Relazioni d'uso}
-
-\subsubsection*{Attributi}
-
-\subsubsection*{Metodi}
-
-\classsection{StateOccupied}
-
-\subsubsection*{Interfacce implementate}
-\begin{itemize}[noitemsep,nolistsep]
-  \item[-] \classname{IState}
-\end{itemize}
-
-\subsubsection*{Funzionalità}
-
-\subsubsection*{Relazioni d'uso}
-
-\subsubsection*{Attributi}
-
-\subsubsection*{Metodi}
-
-\subsection{Package org.softwaresynthesis.mytalk.server.message}\label{sec:message}
-
-\classsection{IMessageBox}
-
-\subsubsection*{Funzionalità}
-
-\subsubsection*{Relazioni d'uso}
-
-\subsubsection*{Metodi}
-
-\classsection{StandardMessageBox}
-
-\subsubsection*{Interfacce implementate}
-\begin{itemize}[noitemsep,nolistsep]
-  \item[-] \classname{IMessageBox}
-\end{itemize}
-
-\subsubsection*{Funzionalità}
-
-\subsubsection*{Relazioni d'uso}
-
-\subsubsection*{Attributi}
-
-\subsubsection*{Metodi}
-
-\classsection{AudioMessageProxy}
-
-\subsubsection*{Interfacce implementate}
-\begin{itemize}[noitemsep,nolistsep]
-  \item[-] \hyperref[IAudioMessage]{\ttfamily{}org.softwaresynthesis.mytalk.IAudioMessage}
-\end{itemize}
-
-\subsubsection*{Funzionalità}
-
-\subsubsection*{Relazioni d'uso}
-
-\subsubsection*{Attributi}
-\begin{description}
-  \item{\memberdata{-- sender: IUserData}}\\
-Riferimento all'utente che costituisce il mittente del messaggio audio.
-  \item{\memberdata{-- date: Date}}\\
-Data in cui è stato creato il messaggio audio.
-  \item{\memberdata{-- path: String}}\\
-Percorso che punta alla rappresentazione in forma persistente del messaggio audio.
-  \item{\memberdata{-- new: boolean}}\\
-Flag booleano che permette di discriminare i messaggi audio ascoltati da quelli non ascoltati.
-  \item{\memberdata{-- msg: AudioMessage}}\\
-Riferimento di tipo \hyperref[AudioMessage]{\texttt{org.softwaresynthesis.mytalk.server.dao.AudioMessage}} al messaggio reale  costruito mediante la tecnica di lazy initialization.
-\end{description}
-
-\subsubsection*{Metodi}
-Oltre alle implementazioni dell'interfaccia \texttt{org.mytalk.server.dao.IAudioMessage}, la classe prevede i seguenti metodi:
-\begin{description}
-\item{\method{+ AudioMessageProxy(path: String)}}\\
-\end{description}
-
-\classsection{AudioVideoMessageProxy}
-
-\subsubsection*{Interfacce implementate}
-\begin{itemize}[noitemsep,nolistsep]
-  \item[-] \hyperref[IAudioVideoMessage]{\ttfamily{}org.softwaresynthesis.mytalk.IAudioVideoMessage}
-\end{itemize}
-
-\subsubsection*{Funzionalità}
-
-\subsubsection*{Relazioni d'uso}
-
-\subsubsection*{Attributi}
-\begin{description}
-  \item{\memberdata{-- sender: IUserData}}\\
-Riferimento all'utente che costituisce il mittente del messaggio audio/video.
-  \item{\memberdata{-- date: Date}}\\
-Data in cui è stato creato il messaggio audio/video.
-  \item{\memberdata{-- path: String}}\\
-Percorso che punta alla rappresentazione in forma persistente del messaggio audio/video.
-  \item{\memberdata{-- new: boolean}}\\
-Flag booleano che permette di discriminare i messaggi audio/video ascoltati da quelli non ascoltati.
-  \item{\memberdata{-- msg: AudioVideoMessage}}\\
-Riferimento di tipo \hyperref[AudioVideoMessage]{\ttfamily{}org.softwaresynthesis.mytalk.server.dao.AudioVideoMessage} al messaggio reale costruito mediante la tecnica di lazy initialization.
-\end{description}
-
-\subsubsection*{Metodi}
-Oltre alle implementazioni dell'interfaccia \hyperref[IAudioVideoMessage]{\ttfamily{}org.mytalk.server.dao.IAudioVideoMessage}, la classe prevede i seguenti metodi:
-\begin{description}
-\item{\method{+ AudioMessageProxy(path: String)}}\\
-\end{description}
-
-\subsection{Package org.softwaresynthesis.mytalk.server}\label{sec:server}
-
-\classsection{IServerFacade}
-
-\subsubsection*{Funzionalità}
-
-\subsubsection*{Relazioni d'uso}
-
-\subsubsection*{Metodi}
-
-\classsection{StandardServerFacade}
-
-\subsubsection*{Interfacce implementate}
-\begin{itemize}[noitemsep,nolistsep]
-  \item[-] \classname{IServerFacade}
-\end{itemize}
-
-\subsubsection*{Funzionalità}
-
-\subsubsection*{Relazioni d'uso}
-
-\subsubsection*{Attributi}
-
-\subsubsection*{Metodi}
 
 \clearpage
 
-\section{Specifica sotto-archiettura clientpresenter}\label{clientpresenterarchitecture}
-
-\subsection{Package org.softwaresynthesis.mytalk.clientpresenter}\label{sec:clientpresetner}
-
-\classsection{IClient}
-
-\subsubsection*{Funzionalità}
-
-\subsubsection*{Relazioni d'uso}
-
-\subsubsection*{Metodi}
-
-\classsection{StandardClient}
-
-\subsubsection*{Interfacce implementate}
-\begin{itemize}[noitemsep,nolistsep]
-  \item[-] \classname{IClient}
-\end{itemize}
-
-\subsubsection*{Funzionalità}
-
-\subsubsection*{Relazioni d'uso}
-
-\subsubsection*{Attributi}
-
-\subsubsection*{Metodi}
-
-\classsection{IPresenterFacade}
-
-\subsubsection*{Funzionalità}
-
-\subsubsection*{Relazioni d'uso}
-
-\subsubsection*{Metodi}
-
-\classsection{StandardPresenterFacade}
-
-\subsubsection*{Interfacce implementate}
-\begin{itemize}[noitemsep,nolistsep]
-  \item[-] \classname{IPresenterFacade}
-\end{itemize}
-
-\subsubsection*{Funzionalità}
-
-\subsubsection*{Relazioni d'uso}
-
-\subsubsection*{Attributi}
-
-\subsubsection*{Metodi}
+\section{Specifica sotto-architettura clientpresenter}\label{sec:clientpresenterarchitecture}
 
 \clearpage
 
 \section{Specifica sotto-architettura clientview}\label{sec:clientviewarchitecture}
-
-\subsection{Package org.softwaresynthesis.mytalk.clientview}\label{sec:clientview}
-
-\classsection{IViewFacade}
-
-\classsection{StandardViewFacade}
-
-\subsection{Package org.softwaresynthesis.clientview.gui}\label{sec:gui}
-
-\classsection{GUIHandler}
-
-\classsection{AddressBookPanel}
-
-\classsection{MainPanel}
-
-\classsection{ToolsPanel}
-
-\classsection{SearchResultPanel}
-
-\classsection{ContactPanel}
-
-\classsection{MessagePanel}
-
-\classsection{LanguagePanel}
-
-\classsection{AccountSettingsPanel}
-
-\classsection{CallHistoryPanel}
 
 \clearpage
 
