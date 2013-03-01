@@ -22,7 +22,7 @@ public interface IUserData
 	
 	/**
 	 * Restituisce l'indirizzo e-mail con cui
-	 * uno IUserData si è registrato nel sistema
+	 * uno IUserData si Ã¨ registrato nel sistema
 	 * mytalk
 	 * 
 	 * @author	Andrea Meneghinello

@@ -43,4 +43,15 @@ public interface IAddressBookEntry
 	 * 					rubrica
 	 */
 	public void setEntry(IUserData contact);
+	
+	/**
+	 * Restituisce il gruppo a cui appartiene lo {@link IUserData}
+	 * 
+	 * @author	Andrea Meneghinello
+	 * @version	%I%, %G%
+	 * @return	{@link IGroup} a cui appartiene lo {@link IUserData}
+	 * 			oppure null se lo {@IUserData} non appartiene ad
+	 * 			alcun gruppo 
+	 */
+	public IGroup getGroup();
 }
