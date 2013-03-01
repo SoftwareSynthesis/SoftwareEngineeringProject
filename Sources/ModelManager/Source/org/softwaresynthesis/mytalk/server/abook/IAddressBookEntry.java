@@ -54,4 +54,51 @@ public interface IAddressBookEntry
 	 * 			alcun gruppo 
 	 */
 	public IGroup getGroup();
+	
+	/**
+	 * Imposta il gruppo di appartenenza dello {@link IUserData}
+	 * 
+	 * @author	Andrea Meneghinello
+	 * @version	%I%, %G%
+	 * @param 	group	{@link IGroup} di appartenenza dello
+	 * 					{@link IUserData}
+	 */
+	public void setGroup(IGroup group);
+	
+	/**
+	 * Restituisce lo {@link IUserData} possesore di questa entry
+	 * della rubrica
+	 * 
+	 * @author	Andrea Meneghinello
+	 * @version	%I%, %G%
+	 * @return	{@link IUserData} possessore della entry della rubrica
+	 */
+	public IUserData getOwner();
+	
+	/**
+	 * Imposta lo {@link IUserData} possessore della entry della rubrica
+	 * 
+	 * @author	Andrea Meneghinello
+	 * @version	%I%, %G%
+	 * @param 	owner	{@link IUserData} possessore delle entry
+	 */
+	public void setOwner(IUserData owner);
+	
+	/**
+	 * Restituisce lo stato della entry della rubrica
+	 * 
+	 * @author	Andrea Meneghinello
+	 * @version	%I%, %G%
+	 * @return	true se lo {@link IUserData} è sbloccato, false altrimenti
+	 */
+	public boolean getStatus();
+	
+	/**
+	 * Imposta lo stato della entry della rubrica
+	 * 
+	 * @author	Andrea Meneghinello
+	 * @version	%I%, %G%
+	 * @param 	status	true se lo {@link IUserData} è sbloccato, false altrimenti
+	 */
+	public void setStatus(boolean status);
 }
