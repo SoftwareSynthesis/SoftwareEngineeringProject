@@ -1,5 +1,6 @@
 package org.softwaresynthesis.mytalk.server.message;
 
+import java.util.Date;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
 
 /**
@@ -99,4 +100,26 @@ public interface IMessage
 	 * @param 	video	true
 	 */
 	public void setVideo(boolean video);
+	
+	/**
+	 * Restituisce la data in cui il mittente ha lasciato il messaggio
+	 * nella segreteria del destinatario
+	 * 
+	 * @author	Andrea Meneghinello
+	 * @version	%I%, %G%
+	 * @return	{@link Date} in cui è stato lasciato il messaggio nella
+	 * 			segreteria
+	 */
+	public Date getDate();
+	
+	/**
+	 * Imposta la data in cui il mittente ha lasciato il messaggio nella
+	 * segreteria del destinatario
+	 * 
+	 * @author	Andrea Meneghinello
+	 * @version	%I%, %G%
+	 * @param 	date	{@link Date} in cui è stato lasciato il messaggio
+	 * 					in segreteria
+	 */
+	public void setDate(Date date);
 }
