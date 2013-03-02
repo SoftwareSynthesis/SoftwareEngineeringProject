@@ -68,4 +68,35 @@ public interface IMessage
 	 * 			altrimenti
 	 */
 	public boolean isNew();
+	
+	/**
+	 * Imposta se il messaggio deve risultare come già ascoltato
+	 * o meno
+	 * 
+	 * @author 	Andrea Meneghinello
+	 * @version	%I%, %G%
+	 * @param 	status	true se si vuole impostare il messaggio come
+	 * 					non ascoltato, false altrimenti
+	 */
+	public void setNew(boolean status);
+	
+	/**
+	 * Restituisce un booleano che determina se si tratta di un messaggio
+	 * audio oppure audio-video
+	 * 
+	 * @author	Andrea Meneghinello
+	 * @version	%I%, %G%
+	 * @return	true se si tratta di un messaggio audio-video, false se 
+	 * 			si tratta di un messaggio audio
+	 */
+	public boolean isVideo();
+	
+	/**
+	 * Imposta se un messaggio è di tipo audio oppure audio-video
+	 * 
+	 * @author	Andrea Meneghinello
+	 * @version	%I%, %G%
+	 * @param 	video	true
+	 */
+	public void setVideo(boolean video);
 }
