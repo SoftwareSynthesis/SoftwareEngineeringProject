@@ -59,7 +59,7 @@ public class PrincipalImpl implements Principal, Serializable
 	{
 		boolean result = false;
 		PrincipalImpl principal = null;
-		if(obj instanceof PrincipalImpl)
+		if (obj instanceof PrincipalImpl)
 		{
 			principal = (PrincipalImpl)obj;
 			result = this.mail.equals(principal.mail);

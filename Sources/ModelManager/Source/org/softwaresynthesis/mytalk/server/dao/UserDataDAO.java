@@ -46,15 +46,18 @@ public class UserDataDAO
 		}
 		catch (RuntimeException ex)
 		{
-			if(transaction != null)
+			if (transaction != null)
 			{
 				transaction.rollback();
 			}
 		}
 		finally
 		{
-			session.flush();
-			session.close();
+			if (session != null)
+			{
+				session.flush();
+				session.close();
+			}
 		}
 		return flag;
 	}
@@ -88,15 +91,18 @@ public class UserDataDAO
 		}
 		catch (RuntimeException ex)
 		{
-			if(transaction != null)
+			if (transaction != null)
 			{
 				transaction.rollback();
 			}
 		}
 		finally
 		{
-			session.flush();
-			session.close();
+			if (session != null)
+			{
+				session.flush();
+				session.close();
+			}
 		}
 		return flag;
 	}
@@ -130,15 +136,18 @@ public class UserDataDAO
 		}
 		catch (RuntimeException ex)
 		{
-			if(transaction != null)
+			if (transaction != null)
 			{
 				transaction.rollback();
 			}
 		}
 		finally
 		{
-			session.flush();
-			session.close();
+			if (session != null)
+			{
+				session.flush();
+				session.close();
+			}
 		}
 		return flag;
 	} 
@@ -175,15 +184,18 @@ public class UserDataDAO
 		}
 		catch (RuntimeException ex)
 		{
-			if(transaction != null)
+			if (transaction != null)
 			{
 				transaction.rollback();
 			}
 		}
 		finally
 		{
-			session.flush();
-			session.close();
+			if (session != null)
+			{
+				session.flush();
+				session.close();
+			}
 		}
 		return list;
 	}

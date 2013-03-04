@@ -3,6 +3,7 @@ package org.softwaresynthesis.mytalk.server.authentication;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.Map;
+import java.util.Set;
 import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.callback.NameCallback;
@@ -65,7 +66,7 @@ public class AuthenticationModule implements LoginModule
 	{
 		Callback[] callbacks = null;
 		char[] tmpPassword = null;
-		if(this.handler == null)
+		if (this.handler == null)
 		{
 			throw new LoginException("Nessun handler definito per la procedura di login");
 		}
@@ -109,9 +110,10 @@ public class AuthenticationModule implements LoginModule
 	public boolean commit() throws LoginException
 	{
 		this.principal = new PrincipalImpl(this.username);
-		if(!(this.subject.getPrincipals().contains(this.principal)))
+		Set<Principal> principals = this.subject.getPrincipals();
+		if (principals.contains(this.principal) == false)
 		{
-			this.subject.getPrincipals().add(this.principal);
+			principals.add(this.principal);
 		}
 		this.username = null;
 		this.password = null;
@@ -130,13 +132,13 @@ public class AuthenticationModule implements LoginModule
 	 */
 	public boolean abort() throws LoginException
 	{
-		if(this.login == false)
+		if (this.login == false)
 		{
 			return false;
 		}
 		else
 		{
-			if(this.login == true && this.commit == true)
+			if (this.commit == true)
 			{
 				this.login = false;
 				this.username = null;
@@ -161,7 +163,8 @@ public class AuthenticationModule implements LoginModule
 	 */
 	public boolean logout() throws LoginException
 	{
-		this.subject.getPrincipals().remove(this.principal);
+		Set<Principal> principals = this.subject.getPrincipals();
+		principals.remove(this.principal);
 		this.login = false;
 		this.commit = false;
 		this.username = null;
