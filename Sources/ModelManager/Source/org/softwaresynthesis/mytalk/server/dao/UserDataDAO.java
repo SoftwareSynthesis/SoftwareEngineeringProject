@@ -1,5 +1,7 @@
 package org.softwaresynthesis.mytalk.server.dao;
 
+import java.util.List;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -19,6 +21,7 @@ public class UserDataDAO
 	 * sistema mytalk
 	 * 
 	 * @author	Andrea Meneghinello
+	 * @version	%I%, %G%
 	 * @param 	user	{@link IUserData} che deve essere
 	 * 					eliminato
 	 * @return	true se l'operazione di cancellazione è andata
@@ -61,6 +64,7 @@ public class UserDataDAO
 	 * sistema mytalk
 	 * 
 	 * @author	Andrea Meneghinello
+	 * @version	%I%, %G%
 	 * @param 	user	{@link IUserData} da aggiornare
 	 * @return	true se l'operazione di aggiornamento è
 	 * 			andata a buon fine, false altrimenti
@@ -102,6 +106,7 @@ public class UserDataDAO
 	 * sistema del sistema mytalk
 	 * 
 	 * @author 	Andrea Meneghinello
+	 * @version	%I%, %G%
 	 * @param 	user	{@link IUserData} da inserire
 	 * @return	true se l'operazione di inserimento è
 	 * 			andata a buon fine, false altrimenti
@@ -136,5 +141,57 @@ public class UserDataDAO
 			session.close();
 		}
 		return flag;
+	}
+	
+	/**
+	 * Restituisce lo {@link IUserData} a cui corrisponde
+	 * l'e-mail data in input
+	 * 
+	 * @author	Andrea Meneghinello
+	 * @version	%I%, %G%
+	 * @param 	mail	stringa rappresentante l'indirizzo
+	 * 					e-mail dell'utente da ricercare
+	 * @return	{@link IUserData} se esiste un utente con l'e-mail
+	 * 			ricevuta in input altrimenti null
+	 */
+	@SuppressWarnings("rawtypes")
+	public IUserData getByEmail(String mail)
+	{
+		HibernateUtil util = null;
+		List user = null;
+		Session session = null;
+		SessionFactory factory = null;
+		String hqlQuery = "from UserData as u where = u.mail = :mail";
+		Transaction transaction = null;
+		try
+		{
+			util = HibernateUtil.getInstance();
+			factory = util.getSessionFactory();
+			session = factory.openSession();
+			transaction = session.beginTransaction();
+			Query query = session.createQuery(hqlQuery);
+			query.setString("mail", mail);
+			user = query.list();
+		}
+		catch (RuntimeException ex)
+		{
+			if(transaction != null)
+			{
+				transaction.rollback();
+			}
+		}
+		finally
+		{
+			session.flush();
+			session.close();
+		}
+		if(user != null && user.size() == 1)
+		{
+			return (IUserData)user.get(0);
+		}
+		else
+		{
+			return null;
+		}
 	}
 }
