@@ -399,6 +399,84 @@ Oggetto che permette di identificate univocamente uno IUserData memorizzato nel 
 	Restituisce l'istanza dell'oggetto sotto forma di stringa. In particolare evidenziando l'indirizzo e-mail dell'utente.
 \end{description}
 
+\classsection{AuthenticationData}
+
+\subsubsection*{Funzione}
+Oggetto contenente i dati di accesso utilizzati da un utente che vuole accedere al sistema mytalk.
+
+\subsubsection*{Relazioni d'uso}
+
+Nessuna relazione evidenziata.
+
+\subsubsection*{Attributi}
+\begin{description}
+  \item{\memberdata{-- username: String}}\\
+	Attributo contenente l'username dell'utente che richiede l'autenticazione.
+  \item{\memberdata{-- password: String}}\\
+	Attributo contenente la password dell'utente che richiede l'autenticazione.
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+	\item{\method{+ AuthenticationData(username: String, password: String)}}\\
+	Costruttore pubblico che per creare un istanza di AuthenticationData, si basa sulla password e lo username dell'utente da autenticare.
+
+	\item{\method{+ getUsername(): String}}\\
+	Metodo che restituisce lo username dell'oggetto di autenticazione.
+	
+	\item{\method{+ getPassword(): String}}\\
+	Metodo che Restituisce la password dell'utente che sta effettuando la prodedura di login.
+
+	\item{\method{+ hashCode(): int}}\\
+	Restituisce il codice hash di questa istanza.
+	
+	\item{\method{+ equals(Object obj): boolean}}\\
+	Determina l'uguaglianza di due istanze, effettuando un confronto tra l'oggetto stesso da cui è chiamato il metodo, e un Object obj ricevuto come parametro d'ingresso.
+	
+	\item{\method{+ toString: String}}\\
+	Metodo che Restituisce l'istanza sotto forma di stringa. Si osservi che il metodo non dovrà ritornare la password, ma solo lo username dell'utente da autenticare.
+
+\end{description}
+
+\classsection{CredentialLoader}
+
+\subsubsection*{Funzione}
+Permette di caricare le credenziali di autenticazione, fornite dall'utente, per preparare la fase di login.
+
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+	\item \texttt{java.io.IOException}:
+	\item \texttt{javax.security.auth.callback.Callback}:
+	\item \texttt{javax.security.auth.callback.CallbackHandler}:
+	\item \texttt{javax.security.auth.callback.NameCallback}:
+	\item \texttt{javax.security.auth.callback.PasswordCallback}:
+	\item \texttt{javax.security.auth.callback.UnsupportedCallbackException}:
+\end{itemize}
+
+\subsubsection*{Attributi}
+\begin{description}
+  \item{\memberdata{-- credential: AuthenticationData}}\\
+  Attributo contenente i dati da autenticare per la login dell'utente.
+  \item{\memberdata{-- security: ISecurityStrategy}}\\
+  Attributo che contiene un oggetto che definisce un algoritmo di criptazione per i dati. Necessario per criptare i dati di autenticazione.
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+	\item{\method{+ CredentialLoader(credential: AuthenticationData, security: ISecurityStrategy)}}\\
+	Costruttore pubblico. Crea un istanza con le credenziali fornite dall'utente (fornite in fase di login).
+
+	\item{\method{+ handle(callbacks: Callback[]): void}}\\
+	Effettua il caricamento e crittografa le credenziali fornite dall'utente per la fase di login\\\\
+	Il metodo può lanciare eccezioni:
+	\begin{itemize}
+		\item \exception{IOException}
+		\item \exception{UnsupportedCallbackException}
+	\end{itemize}
+
+\end{description}
+
+
 \clearpage
 
 \section{Specifica sotto-architettura clientpresenter}\label{sec:clientpresenterarchitecture}
