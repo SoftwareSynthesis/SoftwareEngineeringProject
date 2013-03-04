@@ -79,7 +79,7 @@ public class AuthenticationData
 	{
 		boolean result = false;
 		AuthenticationData credential = null;
-		if(obj instanceof AuthenticationData)
+		if (obj instanceof AuthenticationData)
 		{
 			credential = (AuthenticationData)obj;
 			result = this.username.equals(credential.username) && this.password.equals(credential.password);

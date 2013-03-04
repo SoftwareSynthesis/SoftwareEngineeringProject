@@ -18,9 +18,12 @@ public class HibernateUtil
 	
 	private HibernateUtil()
 	{
+		Configuration configuration = null;
 		try
 		{
-			this.sessionFactory = new Configuration().configure().buildSessionFactory();
+			configuration = new Configuration();
+			configuration = configuration.configure();
+			this.sessionFactory = configuration.buildSessionFactory();
 		}
 		catch (Throwable ex)
 		{

@@ -231,6 +231,298 @@ Interfaccia rappresentante una entry di una rubrica utente del sistema mytalk
 	Imposta l'utente \classname{IUserData} possessore della entry della rubrica.
 \end{description}
 
+\subsection{Package org.softwaresynthesis.mytalk.server.call}\label{sec:call}
+
+\classsection{ICall}
+
+\subsubsection*{Funzione}
+Interfaccia che rappresenta una chiamata effettuata dal sistema mytalk. Si ricorda che gli oggetti che implementano tale interfaccia vengono usati per rappresentare lo storico delle chiamate di un utente.
+
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+	\item \texttt{java.util.Date}: tipo utilizzato per definire la data d'inizio e fine di una chiamata.
+\end{itemize}
+
+\subsubsection*{Metodi}
+\begin{description}
+	\item{\method{+ getId(): Long}}\\
+	Restituisce l'identificativo univoco della chiamata.
+	\item{\method{+ getStartDate(): Date}}\\
+	Restituisce un istanza di \texttt{java.util.Date} di avvio della chiamata.
+	\item{\method{+ setStartDate(startDate: Date): void}}\\
+	Imposta la data di avvio della chiamata.
+	\item{\method{+ getEndDate(): Date}}\\
+	Restituisce la data di terminazione della chiamata
+	\item{\method{+ setEndDate(endDate: Date): void}}\\
+	Imposta la data di terminazione della chiamata.
+\end{description}
+
+\subsection{Package org.softwaresynthesis.mytalk.server.message}\label{sec:message}
+
+\classsection{IMessage}
+
+\subsubsection*{Funzione}
+Interfaccia che rappresenta un messaggio di segreteria del sistema mytalk.
+
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+	\item \texttt{java.util.Date}: tipo utilizzato per definire la data in cui è stato registrato un messaggio.
+	\item \classname{abook.IUserData}: usata per rappresentare il mittente e il destinatario del messaggio di segreteria.
+\end{itemize}
+
+\subsubsection*{Metodi}
+\begin{description}
+	\item{\method{+ getId(): Long}}\\
+	Restituisce l'identificativo univoco del messaggio.
+	\item{\method{+ getSender(): IUserData}}\\
+	Restituisce un istanza di tipo classname{abook.IUserData} che rappresenta il mittente del messaggio.
+	\item{\method{+ setSender(sender: IUserData): void}}\\
+	Imposta il mittente del messaggio.
+	\item{\method{+ getReceiver(): IUserData}}\\
+	Restituisce un istanza di tipo classname{abook.IUserData} che rappresenta il destinatario del messaggio.
+	\item{\method{+ setReceiver(receiver: IUserData): void}}\\
+	Imposta il destinatario del messaggio.
+	\item{\method{+ isNew(): boolean}}\\
+	Imposta se il messaggio deve risultare come già ascoltato o meno.
+	\item{\method{+ setNew(status: boolean): void}}\\
+	Imposta il messaggio come ``già letto'' o come ``da leggere''.
+	\item{\method{+ isVideo(): boolean}}\\
+	Restituisce un booleano che determina se si tratta di un messaggio audio oppure audio-video.
+	\item{\method{+ setVideo(video: boolean): void }}\\	
+	Imposta il messaggio come messaggio audio-video.
+	\item{\method{+ getDate(): Date}}\\
+	Restituisce la data in cui il mittente ha lasciato il messaggio nella segreteria del destinatario.
+	\item{\method{+ setDate(date: Date): void}}\\
+	Imposta la data in cui il mittente ha lasciato il messaggio nella segreteria del destinatario.
+
+\end{description}
+
+\subsection{Package org.softwaresynthesis.mytalk.server.authentication}\label{sec:authentication}
+
+\classsection{ISecurityStrategy}
+
+\subsubsection*{Funzione}
+Interfaccia che identifica il comportamento di una strategia generica di crittografia dei dati.
+
+\subsubsection*{Relazioni d'uso}
+Nessuna relazione d'uso evidenziata.
+
+\subsubsection*{Metodi}
+\begin{description}
+	\item{\method{+ encrypt(plainText: String): String}}\\
+	Cripta la stringa di testo ricevuta come parametro.\\\\
+	Il metodo può lanciare eccezioni:
+	\begin{itemize}
+		\item \exception{Exception}: il metodo può lanciare un'eccezione generica.
+	\end{itemize}
+	\item{\method{+ decrypt(encryptedText: String)}}\\
+	Decripta la stringa di testo ricevuta come parametro.\\\\
+	Il metodo può lanciare eccezioni:
+	\begin{itemize}
+		\item \exception{Exception}: il metodo può lanciare un'eccezione generica.
+	\end{itemize}
+\end{description}
+
+\classsection{AESAlgorithm}
+
+\subsubsection*{Funzione}
+Implementazione della strategia di codifica/decodifica con l'uso dell'algoritmo AES a 128bit.
+
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+	\item \classname{ISecurityStrategy}: interfaccia d'imlementazione
+	\item \texttt{java.security.Key}: usata per creare un istanza di una chiave durante il processo di criptazione.
+	\item \texttt{javax.crypto.Cipher}: usata per creare un istanza di un oggetto di criptazione che implementa l'algoritmo AES a 128 bit.
+	\item \texttt{javax.crypto.spec.SecretKeySpec}: usata dall'algoritmo di per costruire una chiave segreta a partire da un array di byte.
+	\item \texttt{sun.misc.BASE64Encoder}: utilizzata per eseguire una trasformazione da stringa a byte.
+	\item \texttt{sun.misc.BASE64Decoder}: utilizzata per eseguire una trasformazione da byte in stringa.
+\end{itemize}
+
+\subsubsection*{Attributi}
+\begin{description}
+  \item{\memberdata{-- \{frozen\} \underline{keyValue}: byte[]}}\\
+  Array di byte usato per definire il valore della chiave su cui si basa l'algoritmo AES di criptazione. La chiave effettiva sarà creata a partire da tale attributo, per mezzo della classe \texttt{javax.crypto.spec.SecretKeySpec}.
+  \item{\memberdata{-- \{frozen\} \underline{algorithm}: String}}\\
+  Stringa costante che identifica il nominativo dell'algoritmo usato, e che dovrà essere specificato durante l'uso di \texttt{javax.crypto.Cipher}. l'attributo avrà valore ``AES''.
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+	\item{\method{- generateKey(): Key}}\\
+	Metodo che restituisce una chiave di tipo \texttt{java.security.Key}, a partire dall'array \memberdata{keyValue}. Per fare ciò, il metodo usa il costruttore di \texttt{javax.crypto.spec.SecretKeySpec}.
+	Il metodo può lanciare eccezioni:
+	\begin{itemize}
+		\item \exception{Exception}: il metodo può lanciare un'eccezione generica.
+	\end{itemize}
+	\item{\method{+ encrypt(plainText: String): String}}\\
+	Metodo usato per criptare un testo di tipo String passato come parametro d'ingresso. Il metodo usa una chiave ottenuta a partire dal metodo \method{generateKey()} in associazione alla classe \texttt{javax.crypto.Cipher} per criptare il testo tramite l'algoritmo AES.
+	\begin{itemize}
+		\item \exception{Exception}: il metodo può lanciare un'eccezione generica.
+	\end{itemize}
+	\item{\method{+ decrypt(encryptedText: String)}}\\
+	Decripta la stringa di testo ricevuta come parametro, attuando una procedura inversa a quella presentata nel metodo \method{encrypt(plainText: String)}\\\\
+	Il metodo può lanciare eccezioni:
+	\begin{itemize}
+		\item \exception{Exception}: il metodo può lanciare un'eccezione generica.
+	\end{itemize}
+\end{description}
+
+\classsection{PrincipalImpl}
+
+\subsubsection*{Funzione}
+Oggetto che permette di identificate univocamente uno IUserData memorizzato nel database del sistema mytalk.
+
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+	\item \texttt{java.io.Serializable}: interfaccia d'implementazione usata per rendere serializzabili le istanze della classe.
+	\item \texttt{java.security.Principal}: interfaccia d'implementazione usata per rendere caratterizzante le istanze della classe.
+\end{itemize}
+
+\subsubsection*{Attributi}
+\begin{description}
+  \item{\memberdata{-- \{frozen\} \underline{serialVersionUID}: long}}\\
+  Identificativo univoco per la classe, usato al fine di rendere l'oggetto serializzabile.
+  \item{\memberdata{-- mail: String}}\\
+  Attributo che rappresenta l'indirizzo e-mail dell'utente.
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+	\item{\method{+ PrincipalImpl(mail: String)}}\\
+	Classe costruttore. crea un oggetto PrincipalImpl che permetterà di determinare univocamente lo IUserData che ha effettuato il login.
+	\item{\method{+ getName(): String}}\\
+	Restituisce l'elemento identificativo (mail dell'utente) dello IUserData che ha effettuato la procedura di login.
+	\item{\method{+ equals(obj: Object): boolean}}\\
+	Verifica l'uguaglianza di due oggetti PrincipalImpl sulla base di un confronto tra gli indirizzi mail degli utenti confrontati.
+	\item{\method{+ hashCode(): int}}\\
+	Restituisc eil codice hash dell'oggetto di invocazione.				\item{\method{+ toString(): String}}\\
+	Restituisce l'istanza dell'oggetto sotto forma di stringa. In particolare evidenziando l'indirizzo e-mail dell'utente.
+\end{description}
+
+\classsection{AuthenticationData}
+
+\subsubsection*{Funzione}
+Oggetto contenente i dati di accesso utilizzati da un utente che vuole accedere al sistema mytalk.
+
+\subsubsection*{Relazioni d'uso}
+
+Nessuna relazione evidenziata.
+
+\subsubsection*{Attributi}
+\begin{description}
+  \item{\memberdata{-- username: String}}\\
+	Attributo contenente l'username dell'utente che richiede l'autenticazione.
+  \item{\memberdata{-- password: String}}\\
+	Attributo contenente la password dell'utente che richiede l'autenticazione.
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+	\item{\method{+ AuthenticationData(username: String, password: String)}}\\
+	Costruttore pubblico che per creare un istanza di AuthenticationData, si basa sulla password e lo username dell'utente da autenticare.
+
+	\item{\method{+ getUsername(): String}}\\
+	Metodo che restituisce lo username dell'oggetto di autenticazione.
+	
+	\item{\method{+ getPassword(): String}}\\
+	Metodo che Restituisce la password dell'utente che sta effettuando la prodedura di login.
+
+	\item{\method{+ hashCode(): int}}\\
+	Restituisce il codice hash di questa istanza.
+	
+	\item{\method{+ equals(Object obj): boolean}}\\
+	Determina l'uguaglianza di due istanze, effettuando un confronto tra l'oggetto stesso da cui è chiamato il metodo, e un Object obj ricevuto come parametro d'ingresso.
+	
+	\item{\method{+ toString: String}}\\
+	Metodo che Restituisce l'istanza sotto forma di stringa. Si osservi che il metodo non dovrà ritornare la password, ma solo lo username dell'utente da autenticare.
+
+\end{description}
+
+\classsection{AuthenticationModule}
+
+\subsubsection*{Funzione}
+Modulo di autenticazione utilizzato dal sistema mytalk.
+
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+	\item \texttt{java.io.IOException}:
+	\item \texttt{java.security.Principal}:
+	\item \texttt{java.util.Map}:
+	\item \texttt{javax.security.auth.callback.Callback}:
+	\item \texttt{javax.security.auth.callback.CallbackHandler}:
+	\item \texttt{javax.security.auth.callback.NameCallback}:
+	\item \texttt{javax.security.auth.callback.PasswordCallback}:
+	\item \texttt{javax.security.auth.callback.UnsupportedCallbackException}:
+	\item \texttt{javax.security.auth.login.FailedLoginException}:
+	\item \texttt{javax.security.auth.login.LoginException}:
+	\item \texttt{javax.security.auth.spi.LoginModule}:
+	\item \texttt{javax.security.auth.Subject}:
+\end{itemize}
+
+\subsubsection*{Attributi}
+\begin{description}
+  \item{\memberdata{-- login: boolean}}\\
+  \item{\memberdata{-- commit: boolean}}\\
+  \item{\memberdata{-- handler: CallbackHandler}}\\
+  \item{\memberdata{-- password: char[]}}\\
+  \item{\memberdata{-- username: String}}\\
+  \item{\memberdata{-- principal: Principal}}\\
+  \item{\memberdata{-- subject: Subject}}\\
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+	\item{\method{+ initialize(subject: Subject, handler: CallbackHandler, sharedState: Map, option: Map): void }}\\
+
+	\item{\method{+ login(): boolean throws LoginException}}\\
+	
+	\item{\method{+ commit(): boolean throws LoginException}}\\
+	
+	\item{\method{+ abort(): boolean throws LoginException}}\\
+	
+	\item{\method{+ logout(): boolean throws LoginException}}\\
+
+\end{description}
+
+\classsection{CredentialLoader}
+
+\subsubsection*{Funzione}
+Permette di caricare le credenziali di autenticazione, fornite dall'utente, per preparare la fase di login.
+
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+	\item \texttt{javax.security.auth.callback.Callback}: usato durante la procedura di inserimento dati.
+	\item \texttt{javax.security.auth.callback.CallbackHandler}: Interfaccia implementata dalla classe.
+	\item \texttt{javax.security.auth.callback.NameCallback}: tipo di dato richiesto in ingresso per completare la parte di login.
+	\item \texttt{javax.security.auth.callback.PasswordCallback}: tipo di dato richiesto in ingresso per completare la parte di login.
+	\item \texttt{java.io.IOException}: eccezione che può essere lanciata dal metodo handle definito dall'interfaccia \texttt{javax.security.auth.callback.CallbackHandler}.
+	\item \texttt{javax.security.auth.callback.UnsupportedCallbackException}: eccezione che può essere lanciata dal metodo handle definito dall'interfaccia \texttt{javax.security.auth.callback.CallbackHandler}.
+\end{itemize}
+
+\subsubsection*{Attributi}
+\begin{description}
+  \item{\memberdata{-- credential: AuthenticationData}}\\
+  Attributo contenente i dati da autenticare per la login dell'utente.
+  \item{\memberdata{-- security: ISecurityStrategy}}\\
+  Attributo che contiene un oggetto che definisce un algoritmo di criptazione per i dati. Necessario per criptare i dati di autenticazione.
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+	\item{\method{+ CredentialLoader(credential: AuthenticationData, security: ISecurityStrategy)}}\\
+	Costruttore pubblico. Crea un istanza con le credenziali fornite dall'utente (fornite in fase di login).
+
+	\item{\method{+ handle(callbacks: Callback[]): void}}\\
+	Effettua il caricamento e crittografa le credenziali fornite dall'utente per la fase di login\\\\
+	Il metodo può lanciare eccezioni:
+	\begin{itemize}
+		\item \exception{IOException}
+		\item \exception{UnsupportedCallbackException}
+	\end{itemize}
+
+\end{description}
+
+
 \clearpage
 
 \section{Specifica sotto-architettura clientpresenter}\label{sec:clientpresenterarchitecture}

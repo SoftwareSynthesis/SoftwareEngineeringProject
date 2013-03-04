@@ -51,7 +51,7 @@ public class CredentialLoader implements CallbackHandler
 		PasswordCallback pc = null;
 		for(int i = 0; i < callbacks.length; i++)
 		{
-			if(callbacks[i] instanceof NameCallback)
+			if (callbacks[i] instanceof NameCallback)
 			{
 				nc = (NameCallback)callbacks[i];
 				try
@@ -67,7 +67,7 @@ public class CredentialLoader implements CallbackHandler
 			}
 			else
 			{
-				if(callbacks[i] instanceof PasswordCallback)
+				if (callbacks[i] instanceof PasswordCallback)
 				{
 					pc = (PasswordCallback)callbacks[i];
 					try
