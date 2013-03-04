@@ -172,6 +172,7 @@ public class UserDataDAO
 			Query query = session.createQuery(hqlQuery);
 			query.setString("mail", mail);
 			user = query.list();
+			transaction.commit();
 		}
 		catch (RuntimeException ex)
 		{
