@@ -1,4 +1,4 @@
-package org.softwaresysnthesis.mytalk.server.authentication;
+package org.softwaresynthesis.mytalk.server.authentication;
 
 /**
  * Oggetto contenente i dati di accesso utilizzati da

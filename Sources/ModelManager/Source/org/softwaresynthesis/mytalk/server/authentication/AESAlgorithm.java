@@ -1,4 +1,4 @@
-package org.softwaresysnthesis.mytalk.server.authentication;
+package org.softwaresynthesis.mytalk.server.authentication;
 
 import java.security.Key;
 import javax.crypto.Cipher;

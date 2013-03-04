@@ -1,4 +1,4 @@
-package org.softwaresysnthesis.mytalk.server.authentication;
+package org.softwaresynthesis.mytalk.server.authentication;
 
 /**
  * Strategia generica di crittografia dei dati

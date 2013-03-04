@@ -1,4 +1,4 @@
-package org.softwaresysnthesis.mytalk.server.authentication;
+package org.softwaresynthesis.mytalk.server.authentication;
 
 import java.io.IOException;
 import javax.security.auth.callback.Callback;
