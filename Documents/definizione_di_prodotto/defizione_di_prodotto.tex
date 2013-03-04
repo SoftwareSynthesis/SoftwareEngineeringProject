@@ -438,6 +438,52 @@ Nessuna relazione evidenziata.
 
 \end{description}
 
+\classsection{AuthenticationModule}
+
+\subsubsection*{Funzione}
+Modulo di autenticazione utilizzato dal sistema mytalk.
+
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+	\item \texttt{java.io.IOException}:
+	\item \texttt{java.security.Principal}:
+	\item \texttt{java.util.Map}:
+	\item \texttt{javax.security.auth.callback.Callback}:
+	\item \texttt{javax.security.auth.callback.CallbackHandler}:
+	\item \texttt{javax.security.auth.callback.NameCallback}:
+	\item \texttt{javax.security.auth.callback.PasswordCallback}:
+	\item \texttt{javax.security.auth.callback.UnsupportedCallbackException}:
+	\item \texttt{javax.security.auth.login.FailedLoginException}:
+	\item \texttt{javax.security.auth.login.LoginException}:
+	\item \texttt{javax.security.auth.spi.LoginModule}:
+	\item \texttt{javax.security.auth.Subject}:
+\end{itemize}
+
+\subsubsection*{Attributi}
+\begin{description}
+  \item{\memberdata{-- login: boolean}}\\
+  \item{\memberdata{-- commit: boolean}}\\
+  \item{\memberdata{-- handler: CallbackHandler}}\\
+  \item{\memberdata{-- password: char[]}}\\
+  \item{\memberdata{-- username: String}}\\
+  \item{\memberdata{-- principal: Principal}}\\
+  \item{\memberdata{-- subject: Subject}}\\
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+	\item{\method{+ initialize(subject: Subject, handler: CallbackHandler, sharedState: Map, option: Map): void }}\\
+
+	\item{\method{+ login(): boolean throws LoginException}}\\
+	
+	\item{\method{+ commit(): boolean throws LoginException}}\\
+	
+	\item{\method{+ abort(): boolean throws LoginException}}\\
+	
+	\item{\method{+ logout(): boolean throws LoginException}}\\
+
+\end{description}
+
 \classsection{CredentialLoader}
 
 \subsubsection*{Funzione}
@@ -445,12 +491,12 @@ Permette di caricare le credenziali di autenticazione, fornite dall'utente, per 
 
 \subsubsection*{Relazioni d'uso}
 \begin{itemize}
-	\item \texttt{java.io.IOException}:
-	\item \texttt{javax.security.auth.callback.Callback}:
-	\item \texttt{javax.security.auth.callback.CallbackHandler}:
-	\item \texttt{javax.security.auth.callback.NameCallback}:
-	\item \texttt{javax.security.auth.callback.PasswordCallback}:
-	\item \texttt{javax.security.auth.callback.UnsupportedCallbackException}:
+	\item \texttt{javax.security.auth.callback.Callback}: usato durante la procedura di inserimento dati.
+	\item \texttt{javax.security.auth.callback.CallbackHandler}: Interfaccia implementata dalla classe.
+	\item \texttt{javax.security.auth.callback.NameCallback}: tipo di dato richiesto in ingresso per completare la parte di login.
+	\item \texttt{javax.security.auth.callback.PasswordCallback}: tipo di dato richiesto in ingresso per completare la parte di login.
+	\item \texttt{java.io.IOException}: eccezione che può essere lanciata dal metodo handle definito dall'interfaccia \texttt{javax.security.auth.callback.CallbackHandler}.
+	\item \texttt{javax.security.auth.callback.UnsupportedCallbackException}: eccezione che può essere lanciata dal metodo handle definito dall'interfaccia \texttt{javax.security.auth.callback.CallbackHandler}.
 \end{itemize}
 
 \subsubsection*{Attributi}
