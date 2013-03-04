@@ -1,5 +1,7 @@
 package org.softwaresynthesis.mytalk.server.dao;
 
+import java.util.List;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -136,5 +138,44 @@ public class UserDataDAO
 			session.close();
 		}
 		return flag;
+	}
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 */
+  @SuppressWarnings("unchecked")
+  public List<IUserData> getByNameAndSurname(String name, String surname) {
+	  List<IUserData> list = null;
+	  HibernateUtil util = null;
+	  Session session = null;
+	  SessionFactory factory = null;
+	  Transaction transaction = null;
+	  try
+	  {
+	    util = HibernateUtil.getInstance();
+	    factory = util.getSessionFactory();
+	    session = factory.openSession();
+	    transaction = session.beginTransaction();
+	    String hqlquery = "from UserData as u where u.name = :name or u.surname = :surname";
+	    Query q = session.createQuery(hqlquery);
+	    q.setString("name", name);
+	    q.setString("surname", surname);
+	    list = (List<IUserData>) q.list();
+	    transaction.commit();
+	  }
+	  catch (RuntimeException ex)
+	  {
+	    if(transaction != null)
+	    {
+	      transaction.rollback();
+	    }
+	  }
+	  finally
+	  {
+	    session.flush();
+	    session.close();
+	  }
+	  return list;
 	}
 }
