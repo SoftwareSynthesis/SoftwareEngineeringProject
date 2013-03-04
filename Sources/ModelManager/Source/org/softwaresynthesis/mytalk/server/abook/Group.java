@@ -2,7 +2,7 @@ package org.softwaresynthesis.mytalk.server.abook;
 /**
  * Implementazione dell'interfaccia {@link IGroup}
  * @version	%I%, %G%
- * @author diego
+ * @author Diego Beraldin
  */
 public class Group implements IGroup
 {
