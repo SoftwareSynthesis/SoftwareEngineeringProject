@@ -231,6 +231,72 @@ Interfaccia rappresentante una entry di una rubrica utente del sistema mytalk
 	Imposta l'utente \classname{IUserData} possessore della entry della rubrica.
 \end{description}
 
+\subsection{Package org.softwaresynthesis.mytalk.server.call}\label{sec:call}
+
+\classsection{ICall}
+
+\subsubsection*{Funzione}
+Interfaccia che rappresenta una chiamata effettuata dal sistema mytalk. Si ricorda che gli oggetti che implementano tale interfaccia vengono usati per rappresentare lo storico delle chiamate di un utente.
+
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+	\item \texttt{java.util.Date}: tipo utilizzato per definire la data d'inizio e fine di una chiamata.
+\end{itemize}
+
+\subsubsection*{Metodi}
+\begin{description}
+	\item{\method{+ getId(): Long}}\\
+	Restituisce l'identificativo univoco della chiamata.
+	\item{\method{+ getStartDate(): Date}}\\
+	Restituisce un istanza di \texttt{java.util.Date} di avvio della chiamata.
+	\item{\method{+ setStartDate(startDate: Date): void}}\\
+	Imposta la data di avvio della chiamata.
+	\item{\method{+ getEndDate(): Date}}\\
+	Restituisce la data di terminazione della chiamata
+	\item{\method{+ setEndDate(endDate: Date): void}}\\
+	Imposta la data di terminazione della chiamata.
+\end{description}
+
+\subsection{Package org.softwaresynthesis.mytalk.server.message}\label{sec:message}
+
+\classsection{IMessage}
+
+\subsubsection*{Funzione}
+Interfaccia che rappresenta un messaggio di segreteria del sistema mytalk.
+
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+	\item \texttt{java.util.Date}: tipo utilizzato per definire la data in cui è stato registrato un messaggio.
+	\item \classname{abook.IUserData}: usata per rappresentare il mittente e il destinatario del messaggio di segreteria.
+\end{itemize}
+
+\subsubsection*{Metodi}
+\begin{description}
+	\item{\method{+ getId(): Long}}\\
+	Restituisce l'identificativo univoco del messaggio.
+	\item{\method{+ getSender(): IUserData}}\\
+	Restituisce un istanza di tipo classname{abook.IUserData} che rappresenta il mittente del messaggio.
+	\item{\method{+ setSender(sender: IUserData): void}}\\
+	Imposta il mittente del messaggio.
+	\item{\method{+ getReceiver(): IUserData}}\\
+	Restituisce un istanza di tipo classname{abook.IUserData} che rappresenta il destinatario del messaggio.
+	\item{\method{+ setReceiver(receiver: IUserData): void}}\\
+	Imposta il destinatario del messaggio.
+	\item{\method{+ isNew(): boolean}}\\
+	Imposta se il messaggio deve risultare come già ascoltato o meno.
+	\item{\method{+ setNew(status: boolean): void}}\\
+	Imposta il messaggio come ``già letto'' o come ``da leggere''.
+	\item{\method{+ isVideo(): boolean}}\\
+	Restituisce un booleano che determina se si tratta di un messaggio audio oppure audio-video.
+	\item{\method{+ setVideo(video: boolean): void }}\\	
+	Imposta il messaggio come messaggio audio-video.
+	\item{\method{+ getDate(): Date}}\\
+	Restituisce la data in cui il mittente ha lasciato il messaggio nella segreteria del destinatario.
+	\item{\method{+ setDate(date: Date): void}}\\
+	Imposta la data in cui il mittente ha lasciato il messaggio nella segreteria del destinatario.
+
+\end{description}
+
 \clearpage
 
 \section{Specifica sotto-architettura clientpresenter}\label{sec:clientpresenterarchitecture}
