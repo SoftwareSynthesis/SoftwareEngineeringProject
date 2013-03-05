@@ -231,6 +231,109 @@ Interfaccia rappresentante una entry di una rubrica utente del sistema mytalk
 	Imposta l'utente \classname{IUserData} possessore della entry della rubrica.
 \end{description}
 
+\classsection{UserData}
+%TODO chiedere a mene se questa classe usa ancora observ
+\subsubsection*{Funzione}
+\subsubsection*{Relazioni d'uso}
+\subsubsection*{Attributi}
+\subsubsection*{Metodi}
+
+\classsection{Group}
+
+\subsubsection*{Funzione}
+Implementazione dell'interfaccia \classname{IGroup}.
+
+\subsubsection*{Relazioni d'uso}
+
+\begin{itemize}
+	\item \classname{IGroup}: interfaccia d'implementazione.
+\end{itemize}
+
+\subsubsection*{Attributi}
+
+\begin{itemize}
+	\item{\memberdata{-- id: long}}
+	Attributo del codice identificativo del gruppo.
+	\item{\memberdata{-- name: String}}:
+	Attributo del nome del gruppo.
+\end{itemize}
+
+\subsubsection*{Metodi}
+
+\begin{description}
+	\item{\method{+ getId(): Long}}\\
+	Restituisce l'identificativo univoco di uno gruppo di una rubrica utente.
+	\item{\method{+ getName(): String}}\\
+	Restituisce il nome di un gruppo di una rubrica utente.
+	\item{\method{+ setName(name: String): void}}\\
+	Imposta il nome di un gruppo di una rubrica utente.
+\end{description}
+
+\classsection{AddressBookEntry}
+
+\subsubsection*{Funzione}
+Implementazione dell'interfaccia IAddressBookEntry.
+
+\subsubsection*{Relazioni d'uso}
+
+\begin{itemize}
+	\item \classname{IAddressBookEntry}: interfaccia d'implementazione della classe.
+	\item \classname{IUserData}: usata per definire gli attributi destinati a identificare il possessore dell'istanza di \classname{AddressBookEntry} e il relativo contatto in essa registrato.
+\end{itemize}
+
+\subsubsection*{Attributi}
+
+\begin{itemize}
+	\item{\memberdata{-- id: long}}
+	Attributo del codice identificativo della classe.
+	\item{\memberdata{-- group: IGroup}}
+	Attributo destinato a identificare il gruppo a cui appartiene il contatto \classname{IUserName} registrato nella classe. Si ricorda che il contatto può anche non appartenere ad alcun gruppo.
+	\item{\memberdata{-- contact: IUserData}}
+	Attributo destinato ad identificare il contatto registrato nell'istanza di \classname{AddressBookEntry}.
+	\item{\memberdata{-- owner: IUserData}}:
+	Attributo destinato ad identificare il possessore dell'istanza di \classname{AddressBookEntry}.
+	\item{\memberdata{-- blocked: boolean}}
+	Attributo booleano necessario per bloccare il contatto. Tale blocco avviene settando l'attributo a \inglese{true}.
+\end{itemize}
+
+
+\subsubsection*{Metodi}
+
+\begin{description}
+	\item{\method{+ getId(): Long}}\\
+	Restituisce l'identificativo univoco della \inglese{entry} di una rubrica utente del sistema mytalk. Nello specifico restituisce il contenuto dell'attributo \memberdata{id}.
+	\item{\method{+ getEntry(): IUserData}}\\
+	Restituisce il contenuto dell'attributo \memberdata{contact}.
+	\item{\method{+ setEntry(contact: IUserData): void}}\\
+	Imposta l'utente \classname{IUserData} (passato come parametro d'ingresso) come contatto della rubrica. Nello specifico imposta il contenuto dell'attributo \memberdata{contact}.
+	\item{\method{+ getGroup(): IGroup}}\\
+	Restituisce il gruppo a cui appartiene lo \classname{IUserData} registrato nella rubrica. Nello specifico restituisce il contenuto dell'attributo \memberdata{group}.
+	\item{\method{+ setGroup(group: IGroup): void}}\\
+	Imposta il gruppo di appartenenza dello \classname{IUserData} registrato nella rubrica. Nello specifico imposta il contenuto dell'attributo \memberdata{group}.
+	\item{\method{+ getOwner(): IUserData}}\\
+	Restituisce lo \classname{IUserData} possesore di questa \inglese{entry} della rubrica. Nello specifico restituisce il contenuto dell'attributo \memberdata{owner}.
+	\item{\method{+ setOwner(owner: IUserData ): void}}\\
+	Imposta l'utente \classname{IUserData} possessore della entry della rubrica. Nello specifico imposta il contenuto dell'attributo \memberdata{owner}.
+\end{description}
+
+\classsection{State}
+
+%TODO come cazzo definisco un tipo enumerativo??? è un 
+
+\subsubsection*{Funzione}
+Semplice classe che definisce tramite un tipo enumerativo i possibili stati in cui può trovarsi un contatto.
+
+\subsubsection*{Relazioni d'uso}
+Nessuna relazione d'uso evidenziata.
+
+\subsubsection*{Attributi}
+Nessun attributo evidenziato.
+
+\subsubsection*{Metodi}
+\begin{description}
+	\item{\memberdata{+ state(): enum}}
+\end{description}
+
 \subsection{Package org.softwaresynthesis.mytalk.server.call}\label{sec:call}
 
 \classsection{ICall}
@@ -255,6 +358,41 @@ Interfaccia che rappresenta una chiamata effettuata dal sistema mytalk. Si ricor
 	Restituisce la data di terminazione della chiamata
 	\item{\method{+ setEndDate(endDate: Date): void}}\\
 	Imposta la data di terminazione della chiamata.
+\end{description}
+
+\classsection{Call}
+
+\subsubsection*{Funzione}
+Classe che implementa l'interfaccia \classname{ICall}.
+
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+	\item \texttt{java.util.Date}: tipo utilizzato per definire la data d'inizio e fine di una chiamata.
+\end{itemize}
+
+\subsubsection*{Attributi}
+
+\begin{itemize}
+	\item{\memberdata{-- id: long}}
+	Attributo contenente il codice identificativo della chiamata.
+	\item{\memberdata{-- startDate: Date}}
+	Attributo di tipo \texttt{java.util.Date} contenente la data (compresa l'ora) d'inizio della chiamata.
+	\item{\memberdata{-- endDate: Date}}
+	Attributo di tipo \texttt{java.util.Date} contenente la data (compresa l'ora) in cui la chiamata è terminata.
+\end{itemize}
+
+\subsubsection*{Metodi}
+\begin{description}
+	\item{\method{+ getId(): Long}}\\
+	Restituisce l'identificativo univoco della chiamata ritornando il contenuto dell'attributo \memberdata{id}.
+	\item{\method{+ getStartDate(): Date}}\\
+	Restituisce il contenuto del campo \memberdata{startDate}.
+	\item{\method{+ setStartDate(startDate: Date): void}}\\
+	Imposta la data di avvio della chiamata, sovrascrivendo il contenuto \memberdata{startData}.
+	\item{\method{+ getEndDate(): Date}}\\
+	Restituisce il contenuto del campo \memberdata{endDate}.
+	\item{\method{+ setEndDate(endDate: Date): void}}\\
+	Imposta la data di avvio della chiamata, sovrascrivendo il contenuto \memberdata{endData}.
 \end{description}
 
 \subsection{Package org.softwaresynthesis.mytalk.server.message}\label{sec:message}
