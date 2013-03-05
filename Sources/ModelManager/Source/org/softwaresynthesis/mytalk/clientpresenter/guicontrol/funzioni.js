@@ -21,20 +21,31 @@ var ToolsPannel = new toolsPannelPresenter(document.getElementById("ToolsPannel"
  * @author Tresoldi Riccardo
  */
 function getAddressBookContacts() {
-	//eseguo la richiesta dei contatti al server
-	var addressBookRequest = new Array("", idutente);
-	//websocket.send(JSON.stringify(addressBookRequest));
-
-	//ricevo e parso il JSON ricevuto dal server contenente la rubrica
-	//TODO: DA CAPIRE COME RICEVERE I DATI, E ANCHE COME INVIARLI
-
-	//salvo i contatti ricevuti nella variabile AddressBookList
-	for (var contact in AddressBookList) {
-		//ciclo i contatti
-		for (var contactField in contact) {
-			//ciclo i campi di ogni contatto
-		}
+	//da configurare con url giusta 
+	var urlServlet= "http://localhost:8080/nomeservlet";
+	var request = new XMLHttpRequest();
+	
+	//il server ritorna Nome, Cognome, Status, Email, Id, Image
+	//esempio
+	/*
+	{
+		"1":{"nome": "Marco", "cognome": "Schivo", "email": "marcoskivo@gmail.com", "ID": "1", "Image": "sfdsfsd.jpg", "Status": "Avaible"},
+		"2":{"nome": "Andrea", "cognome": "Rizzi", "email": "asondjs@gmail.com", "ID": "2", "Image": "sad.jpg", "Status": "Not Avaible"}
 	}
+	*/
+	request.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			//ricevo un JSON contenente tutti i contatti della mia rubrica e li inserisco nell'array dichiarato globalmente "AddresssBookList"
+			AddressBookList= JSON.parse(request.responseText);
+		}
+	};
+	
+	request.open("POST", urlServlet, "true");
+	request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	//se c'è bisogno di passare piu parametri, agganciarli con &
+	//id deve essere dichiarata variabili globale
+	request.send("id=" + idUser);
+	
 }
 
 /**
@@ -50,12 +61,12 @@ function setAddressBook() {
 	AddressBookPannel.inizialize();
 	
 	//estraggo l'<ul> del Addressbook
-	var ulList = AddressBookPannel.getElementById("AddressBookList");
+	var ulList = AddressBookPannel.element.getElementById("AddressBookList");
 	
 	//<ul id="AddressBookList"></ul>
 	for (var contact in AddressBookList) {
 		//ciclo i contatti e agiungo un <li> per ogni contatto.
-		ulList.addListItem(AddressBookList(contact));
+		ulList.addListItem(AddressBookList[contact]);
 	}
 }
 
@@ -149,18 +160,18 @@ function addListItem(AddressBookContact) {
 	var item = document.createElement("li");
 
 	//creo le variabili contenenti i dati del contatto da attribuire all'li
-	var name;
-	if (AddressBookContact['name'] != null)
-		name += AddressBookContact['name'];
-	if (AddressBookContact['surname'] != null) {
-		if (name != null)
+	var name="";
+	if (AddressBookContact.name != null)
+		name += AddressBookContact.name;
+	if (AddressBookContact.surname != null) {
+		if (name != "")
 			name += " ";
-		name += AddressBookContact['surname'];
+		name += AddressBookContact.surname;
 	}
-	if (name == null)
-		name += AddressBookContact['email'];
+	if (name == "")
+		name += AddressBookContact.email;
 	var status;
-	var avatar = AddressBookContact['image'];
+	var avatar = AddressBookContact.image;
 
 	//imposto gli attributi corretti
 	item.setAttribute("attributeName", "attributeValue");
@@ -197,7 +208,7 @@ function addListItem(AddressBookContact) {
  */
 function DOMElement(element) {
 	this.element = element;
-	this.assListItem = addListItem;
+	this.addListItem = addListItem;
 }
 
 
