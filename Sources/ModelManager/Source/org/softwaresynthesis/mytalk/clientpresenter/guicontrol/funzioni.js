@@ -7,9 +7,9 @@
 var idUser;
 var AddressBookList = new Array();
 
-var AddressBookPannel = new addressBookPannelPresenter(document.getElementById("AddressBookPannel"));
+/*var AddressBookPannel = new addressBookPannelPresenter(document.getElementById("AddressBookPannel"));
 var MainPannel = new mainPannelPresenter(document.getElementById("MainPannel"));
-var ToolsPannel = new toolsPannelPresenter(document.getElementById("ToolsPannel"));
+var ToolsPannel = new toolsPannelPresenter(document.getElementById("ToolsPannel"));*/
 /*****************************************************************************/
 /*****************************************************************************/
 
@@ -68,7 +68,7 @@ function setAddressBook() {
  * @author Tresoldi Riccardo
  */
 function inizialize() {
-	var invocatedElementId = this.element.getAttribute('id');
+	var invocatedElementId = this.element.getAttribute("id");
 	if (invocatedElementId == "AddressBookPannel") {
 		this.inizializeAddressBookPannel();
 	} else if (invocatedElementId == "MainPannel") {
@@ -85,7 +85,35 @@ function inizialize() {
  * @author Tresoldi Riccardo
  */
 function inizializeAddressBookPannel() {
-
+	//creo i tre div principali
+	var divSearch = document.createElement('div');
+	var divSort = document.createElement('div');
+	var divList = document.createElement('div');
+	
+	//creo contenuto divSearch
+	var inputText = document.createElement('input');
+	inputText.setAttribute("type", "text");
+	var inputButton = document.createElement('input');
+	inputText.setAttribute("type", "image");
+	
+	//creo contenuto divSort
+	var select = document.createElement('select');
+	select.setAttribute("id", "selectSort");
+	
+	//creo contenuto divList
+	var ul = document.createElement('ul');
+	select.setAttribute("id", "AddressBookList");
+	
+	//appendo i sottonodi ai nodi principali
+	divSearch.appendChild(inputText);
+	divSearch.appendChild(inputButton);
+	divSort.appendChild(select);
+	divList.appendChild(ul);
+	
+	//apendo il sottoalbero al DOM
+	this.element.appendChild(divSearch);
+	this.element.appendChild(divSort);
+	this.element.appendChild(divList);
 }
 
 /**
@@ -170,7 +198,6 @@ function addListItem(AddressBookContact) {
 function DOMElement(element) {
 	this.element = element;
 	this.assListItem = addListItem;
-	this.inizialize = inizialize;
 }
 
 
