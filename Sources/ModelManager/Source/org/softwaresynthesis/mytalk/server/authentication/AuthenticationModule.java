@@ -13,6 +13,8 @@ import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
 import javax.security.auth.spi.LoginModule;
 import javax.security.auth.Subject;
+import org.softwaresynthesis.mytalk.server.abook.IUserData;
+import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
 
 /**
  * Modulo di autenticazione utilizzato dal sistema
@@ -68,6 +70,9 @@ public class AuthenticationModule implements LoginModule
 	{
 		Callback[] callbacks = null;
 		char[] tmpPassword = null;
+		IUserData user = null;
+		String userPass = null;
+		UserDataDAO userDAO = null;
 		if (this.handler == null)
 		{
 			throw new LoginException("Nessun handler definito per la procedura di login");
@@ -94,7 +99,24 @@ public class AuthenticationModule implements LoginModule
 			this.password = new char[tmpPassword.length];
 			System.arraycopy(tmpPassword, 0, this.password, 0, tmpPassword.length);
 			((PasswordCallback)callbacks[1]).clearPassword();
-			//TODO VERIFICA DELLE CREDENZIALI INSERITE ATTRAVERSO L'USO DI UserDataDAO
+			userDAO = new UserDataDAO();
+			user = userDAO.getByEmail(this.username);
+			if(user != null)
+			{
+				userPass = user.getPassword();
+				if (userPass.equals(this.password))
+				{
+					this.login = true;
+					return true;
+				}
+				else
+				{
+					this.login = false;
+					this.username = null;
+					this.password = null;
+					throw new FailedLoginException("Credenziali di accesso non corrette, riprovare.");
+				}
+			}
 		}
 		return false;
 	}
