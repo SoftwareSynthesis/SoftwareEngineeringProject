@@ -421,17 +421,71 @@ Interfaccia che rappresenta un messaggio di segreteria del sistema mytalk.
 	\item{\method{+ setReceiver(receiver: IUserData): void}}\\
 	Imposta il destinatario del messaggio.
 	\item{\method{+ isNew(): boolean}}\\
-	Imposta se il messaggio deve risultare come già ascoltato o meno.
+	Restituisce un valore booleano che identifica lo stato del messaggio (``già letto'' se il valore ritornato è \inglese{true}, ``da leggere'' se il valore ritornato è \inglese{false}).
 	\item{\method{+ setNew(status: boolean): void}}\\
-	Imposta il messaggio come ``già letto'' o come ``da leggere''.
+	Imposta il messaggio come ``già ascoltato'' o come ``da ascoltare''.
 	\item{\method{+ isVideo(): boolean}}\\
 	Restituisce un booleano che determina se si tratta di un messaggio audio oppure audio-video.
 	\item{\method{+ setVideo(video: boolean): void }}\\	
-	Imposta il messaggio come messaggio audio-video.
+	Imposta il messaggio come messaggio audio-video o come messaggio contenente solamente una traccia audio.
 	\item{\method{+ getDate(): Date}}\\
 	Restituisce la data in cui il mittente ha lasciato il messaggio nella segreteria del destinatario.
 	\item{\method{+ setDate(date: Date): void}}\\
 	Imposta la data in cui il mittente ha lasciato il messaggio nella segreteria del destinatario.
+\end{description}
+
+\classsection{Message}
+
+\subsubsection*{Funzione}
+Classe che implementa l'interfaccia \classname{IMessage}.
+
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+	\item \texttt{java.util.Date}: tipo utilizzato per definire la data in cui è stato registrato un messaggio.
+	\item \classname{abook.IUserData}: usata per rappresentare il mittente e il destinatario del messaggio di segreteria.
+\end{itemize}
+
+\subsubsection*{Attributi}
+
+\begin{itemize}
+	\item{\memberdata{-- id: long}}
+	Attributo contenente il codice identificativo del messaggio.
+	\item{\memberdata{-- sender: IUserData}}
+	Attributo contenente lo \classname{IUserData} che rappresenta il destinatario del messaggio.
+	\item{\memberdata{-- receiver: IUserData}}
+	Attributo contenente lo \classname{IUserData} che rappresenta il destinatario del messaggio.
+	\item{\memberdata{-- status: boolean}}
+	Attributo contenente un valore booleano che identifica se il messaggio è stato visionato/ascoltato o meno. L'attributo se impostato a \inglese{true}, designa il messaggio come ``ascoltato''. Invece se impostato a false identifica il messaggio come ``ancora da ascoltare''.
+	\item{\memberdata{-- video: boolean}}
+	Attributo che stabilisce se il messaggio contiene o meno una traccia video. Si ricorda che ogni messaggio contiene (di \inglese{default}) una traccia audio. Se tale attributo è impostato a \inglese{true} allora il messaggio contiene una traccia video.
+	\item{\memberdata{-- date: Date}}
+	Attributo che definisce l'orario di invio del messaggio.
+\end{itemize}
+
+\subsubsection*{Metodi}
+\begin{description}
+	\item{\method{+ getId(): Long}}\\
+	Restituisce l'identificativo univoco del messaggio, ritornando il contenuto di \memberdata{id}.
+	\item{\method{+ getSender(): IUserData}}\\
+	Restituisce un istanza di tipo classname{abook.IUserData} che rappresenta il mittente del messaggio. Nello specifico il metodo ritorna l'attributo \memberdata{sender}.
+	\item{\method{+ setSender(sender: IUserData): void}}\\
+	Imposta il mittente del messaggio, sovrascrivendo il contenuto dell'attributo \memberdata{sender}.
+	\item{\method{+ getReceiver(): IUserData}}\\
+	Restituisce un istanza di tipo classname{abook.IUserData} che rappresenta il destinatario del messaggio. Nello specifico il metodo ritorna l'attributo \memberdata{receiver}.
+	\item{\method{+ setReceiver(receiver: IUserData): void}}\\
+	Imposta il destinatario del messaggio, sovrascrivendo il contenuto dell'attributo \memberdata{receiver}.
+	\item{\method{+ isNew(): boolean}}\\
+	Metodo che ritorna il contenuto dell'attributo \memberdata{status}.
+	\item{\method{+ setNew(status: boolean): void}}\\
+	Imposta il messaggio come ``già ascoltato'' o come ``da ascoltare'', sovrascrivendo il contenuto dell'attributo \memberdata{status}.
+	\item{\method{+ isVideo(): boolean}}\\
+	Restituisce il contenuto dell'attributo \memberdata{video}.
+	\item{\method{+ setVideo(video: boolean): void }}\\	
+	Metodo usato per impostare la ``natura'' del messaggio. Nello specifico il metodo imposta il contenuto dell'attributo \memberdata{video} mettendolo a \inglese{true} se il messaggio contiene una traccia video, oppure a \inglese{false} se non la contiene.
+	\item{\method{+ getDate(): Date}}\\
+	Restituisce la data in cui il mittente ha lasciato il messaggio nella segreteria del destinatario, ritornando il contenuto dell'attributo \memberdata{date}.
+	\item{\method{+ setDate(date: Date): void}}\\
+	Imposta la data in cui il mittente ha lasciato il messaggio nella segreteria del destinatario, sovrascrivendo il contenuto dell'attributo \memberdata{date}.
 
 \end{description}
 
