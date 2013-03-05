@@ -62,6 +62,7 @@ public class AuthenticationData
 	 * @version	%I%, %G%
 	 * @return 	codice hash dell'istanza
 	 */
+	@Override
 	public int hashCode()
 	{
 		return this.username.hashCode() + this.password.hashCode();
@@ -75,6 +76,7 @@ public class AuthenticationData
 	 * @param	obj		istanza di cui si vuole verificare l'uguaglianza
 	 * @return	true se le due istanze sono uguali, false altrimenti
 	 */
+	@Override
 	public boolean equals(Object obj)
 	{
 		boolean result = false;
@@ -94,6 +96,7 @@ public class AuthenticationData
 	 * @version	%I%, %G%
 	 * @return	stringa rappresentante l'istanza di questo oggetto	
 	 */
+	@Override
 	public String toString()
 	{
 		return String.format("Credenziali di accesso dell'utente: %s", this.username);

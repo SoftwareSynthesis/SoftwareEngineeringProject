@@ -55,6 +55,7 @@ public class PrincipalImpl implements Principal, Serializable
 	 * @return	true se obj e l'oggetto di invocazione sono
 	 * 			uguali, altrimenti false
 	 */
+	@Override
 	public boolean equals(Object obj)
 	{
 		boolean result = false;
@@ -74,6 +75,7 @@ public class PrincipalImpl implements Principal, Serializable
 	 * @version	%I%, %G%
 	 * @return	codice hash dell'oggetto di invocazione
 	 */
+	@Override
 	public int hashCode()
 	{
 		return this.mail.hashCode();
@@ -87,6 +89,7 @@ public class PrincipalImpl implements Principal, Serializable
 	 * @version	%I%, %G%
 	 * @return	stringa rappresentante l'istanza dell'oggetto
 	 */
+	@Override
 	public String toString()
 	{
 		return String.format("Elemento identificativo: %s", this.mail);

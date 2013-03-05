@@ -44,6 +44,7 @@ public class CredentialLoader implements CallbackHandler
 	 * @throws	{@link IOException} se ci sono problemi di input
 	 * 			{@link UnsupportedCallbackException} se ci sono callback non supportati
 	 */
+	@Override
 	public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException
 	{
 		String cryptedValue = null;

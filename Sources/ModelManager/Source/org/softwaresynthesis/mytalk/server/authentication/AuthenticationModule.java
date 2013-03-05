@@ -43,6 +43,7 @@ public class AuthenticationModule implements LoginModule
 	 * @param	option		opzioni settate nel file di configurazione per il modulo di login
 	 */
 	@SuppressWarnings("rawtypes")
+	@Override
 	public void initialize(Subject subject, CallbackHandler handler, Map sharedState, Map option)
 	{
 		this.login = false;
@@ -62,6 +63,7 @@ public class AuthenticationModule implements LoginModule
 	 * @throws	{@link LoginException} se l'operazione è fallita
 	 * 			{@link FailedLoginException} se le credenziali non corrispondono a nessun utente
 	 */
+	@Override
 	public boolean login() throws LoginException
 	{
 		Callback[] callbacks = null;
@@ -107,6 +109,7 @@ public class AuthenticationModule implements LoginModule
 	 * @return	true se l'operazione ha avuto successo
 	 * @throws	{@link LoginException} se l'operazione ha riscontrato errori
 	 */
+	@Override
 	public boolean commit() throws LoginException
 	{
 		this.principal = new PrincipalImpl(this.username);
@@ -130,6 +133,7 @@ public class AuthenticationModule implements LoginModule
 	 * @return	true se l'operazione è andata a buon fine
 	 * @throws	{@link LoginException} se l'operazione ha riscontrato errori
 	 */
+	@Override
 	public boolean abort() throws LoginException
 	{
 		if (this.login == false)
