@@ -10,6 +10,19 @@ package org.softwaresynthesis.mytalk.server.abook;
 public interface IUserData
 {
 	/**
+	 * Possibili stati offerti all'utente
+	 * del sistema mytalk
+	 * @author 	Diego Beraldin
+	 * @version %I%, %G%
+	 */
+	public static enum State
+	{
+		AVAILABLE,
+		OFFLINE,
+		OCCUPIED;
+	};
+
+	/**
 	 * Restituisce l'identificatore univoco di uno
 	 * IUserData
 	 * 
