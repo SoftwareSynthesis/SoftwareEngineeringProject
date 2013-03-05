@@ -32,36 +32,36 @@ public class UserDataDAOTest
 		assertTrue(tester.insert(user));
 	}
 	
-//	@Test
-//	public void testGetByEmail()
-//	{
-//		IUserData retrieved = tester.getByEmail("indirizzo4@dominio.it");
-//		String email = retrieved.getEmail();
-//		assertEquals(email, "indirizzo4@dominio.it");
-//	}
-//	
-//	@Test
-//	public void testGetByNameAndSurname()
-//	{
-//		List<IUserData> list = tester.getByNameAndSurname("Piero", "Pelu");
-//		assertNotNull(list);
-//		assertFalse(list.isEmpty());
-//		IUserData retrieved = list.get(0);
-//		assertEquals(retrieved.getName(), "Piero");
-//		assertEquals(retrieved.getSurname(), "Pelu");
-//	}
-//	
-//	@Test
-//	public void testUpdate()
-//	{
-//		user.setName("Fiorella");
-//		user.setSurname("Mannoia");
-//		assertTrue(tester.update(user));
-//	}
-//
-//	@Test
-//	public void testDelete()
-//	{
-//		assertTrue(tester.delete(user));
-//	}
+	@Test
+	public void testGetByEmail()
+	{
+		IUserData retrieved = tester.getByEmail("indirizzo4@dominio.it");
+		String email = retrieved.getEmail();
+		assertEquals(email, "indirizzo4@dominio.it");
+	}
+	
+	@Test
+	public void testGetByNameAndSurname()
+	{
+		List<IUserData> list = tester.getByNameAndSurname("Piero", "Pelu");
+		assertNotNull(list);
+		assertFalse(list.isEmpty());
+		IUserData retrieved = list.get(0);
+		assertEquals(retrieved.getName(), "Piero");
+		assertEquals(retrieved.getSurname(), "Pelu");
+	}
+	
+	@Test
+	public void testUpdate()
+	{
+		user.setName("Fiorella");
+		user.setSurname("Mannoia");
+		assertTrue(tester.update(user));
+	}
+
+	@Test
+	public void testDelete()
+	{
+		assertTrue(tester.delete(user));
+	}
 }

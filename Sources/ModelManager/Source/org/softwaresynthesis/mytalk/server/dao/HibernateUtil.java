@@ -4,7 +4,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 /**
- * Inializza un unica factory per le sessioni, utilizzate da Hibernate,
+ * Inizializza un unica factory per le sessioni, utilizzate da Hibernate,
  * per comunicare con il database
  * 
  * @author	Andrea Meneghinello
