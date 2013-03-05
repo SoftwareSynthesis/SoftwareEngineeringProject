@@ -177,4 +177,23 @@ public interface IUserData
 	 * 					salvare l'immagine profilo di uno IUserData
 	 */
 	public void setPicturePath(String path);
+	
+	/**
+	 * Restituisce lo stato in cui si trova lo IUserData
+	 * 
+	 * @author	Andrea Meneghinello
+	 * @version	%I%, %G%
+	 * @return	{@link State} dello IUserData
+	 */
+	public State getState();
+	
+	/**
+	 * Imposta lo stato in cui si trova lo IUserData
+	 * 
+	 * @author	Andrea Meneghinello
+	 * @version %I%, %G%
+	 * @param 	state	nuovo {@link IState} in cui
+	 * 					si trova lo IUserData
+	 */
+	public void setState(State state);
 }

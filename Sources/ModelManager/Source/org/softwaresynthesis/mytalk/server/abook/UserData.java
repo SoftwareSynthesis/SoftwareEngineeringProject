@@ -15,6 +15,7 @@ public class UserData implements IUserData
 	private String name;
 	private String surname;
 	private String path;
+	private State state;
 
 	@Override
 	public Long getId() 
@@ -104,5 +105,17 @@ public class UserData implements IUserData
 	public void setPicturePath(String path) 
 	{
 		this.path = path;
+	}
+	
+	@Override
+	public State getState()
+	{
+		return this.state;
+	}
+	
+	@Override
+	public void setState(State state)
+	{
+		this.state = state;
 	}
 }
