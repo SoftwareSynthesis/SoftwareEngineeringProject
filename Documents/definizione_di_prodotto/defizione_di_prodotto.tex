@@ -148,11 +148,13 @@ Gli strumenti utilizzati per la stesura e lo sviluppo sono specificati nei docum
 \classsection{IUserData}
 
 \subsubsection*{Funzione}
-Interfaccia rappresentante il comportamento di un generico utente del sistema
+Interfaccia rappresentante il comportamento di un generico utente del sistema. L'interfaccia dovrà definire dei metodi di tipo get e set per i dati d'interesse.
 
 \subsubsection*{Relazioni d'uso}
 
-Nessuna relazione d'uso evidenziata
+\begin{itemize}
+	\item \classname{State}: classe interna di tipo enumerativo che definisce i possibili stati in cui può trovarsi un utente. Nello specifico tale classe dovrà definire come uniche voci di scelta, i valori: ONLINE, OFFLINE e AVAILABLE.
+\end{itemize}
 
 \subsubsection*{Metodi}
 \begin{description}
@@ -186,6 +188,10 @@ Nessuna relazione d'uso evidenziata
 	Restituisce una stringa con il percorso dell'immagine del profilo di uno \classname{IUserData}.
 	\item{\method{+ setPicturePath(path: String): void}}\\
 	Imposta il percorso dell'immagine profilo di uno \classname{IUserData}.
+	\item{\method{+ getState(): State}}\\
+	Restituisce un istanza di tipo State che definisce lo stato attuale dell'utente.
+	\item{\method{+ setState(state: State): void}}\\
+	Imposta lo stato in cui si trova l'utente.
 \end{description}
 
 \classsection{IGroup}
@@ -258,6 +264,8 @@ Nessuna relazione d'uso evidenziata.
 	Attributo che definisce il cognome dell'utente.
 	\item{\memberdata{-- path: String}}
 	Attributo che definisce il percorso (su server) in cui è memorizzata l'immagine del profilo dell'utente.
+	\item{\memberdata{-- state: State}}
+	Attributo che definisce lo stato in cui si trova l'utente.
 	
 \end{itemize}
 
@@ -294,6 +302,10 @@ Nessuna relazione d'uso evidenziata.
 	Restituisce una stringa con il percorso dell'immagine del profilo dell'utente, ritornando il contenuto dell'attributo \memberdata{path}.
 	\item{\method{+ setPicturePath(path: String): void}}\\
 	Imposta il percorso dell'immagine profilo di un utente, sovrascrivendo il contenuto dell'attributo \memberdata{path} con il valore tipo String passato al metodo come parametro d'ingresso
+	\item{\method{+ getState(): State}}\\
+	Restituisce lo stato in cui si trova l'utente, ritornando il contenuto dell'attributo \memberdata{state}.
+	\item{\method{+ setState(state: State): void}}\\
+	Imposta lo stato in cui si trova l'utente, sovrascrivendo il contenuto dell'attributo \memberdata{state} con il valore ricevuto come parametro d'ingresso.
 \end{description}
 
 \classsection{Group}
