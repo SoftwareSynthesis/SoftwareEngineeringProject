@@ -79,7 +79,7 @@ function setAddressBook() {
  * @author Tresoldi Riccardo
  */
 function inizialize() {
-	var invocatedElementId = this.element.getAttribute("id");
+	var invocatedElementId = this.element.getAttribute('id')
 	if (invocatedElementId == "AddressBookPannel") {
 		this.inizializeAddressBookPannel();
 	} else if (invocatedElementId == "MainPannel") {
@@ -122,6 +122,7 @@ function inizializeAddressBookPannel() {
 	divList.appendChild(ul);
 	
 	//apendo il sottoalbero al DOM
+	this.element.innerHTML = "";
 	this.element.appendChild(divSearch);
 	this.element.appendChild(divSort);
 	this.element.appendChild(divList);
@@ -224,6 +225,7 @@ function DOMElement(element) {
 function addressBookPannelPresenter(pannel) {
 	this.element = pannel;
 	this.inizialize = inizialize;
+	this.inizializeAddressBookPannel = inizializeAddressBookPannel;
 }
 
 
@@ -238,6 +240,7 @@ function addressBookPannelPresenter(pannel) {
 function mainPannelPresenter(pannel) {
 	this.element = pannel;
 	this.inizialize = inizialize;
+	this.inizializeMainPannel = inizializeMainPannel;
 }
 
 
@@ -252,4 +255,5 @@ function mainPannelPresenter(pannel) {
 function toolsPannelPresenter(pannel) {
 	this.element = pannel;
 	this.inizialize = inizialize;
+	this.inizializeToolsPannel = inizializeToolsPannel;
 }
