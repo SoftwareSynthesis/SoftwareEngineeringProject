@@ -1,7 +1,5 @@
 package org.softwaresynthesis.mytalk.server.abook;
 
-import java.util.Observable;
-
 /**
  * Implementazione dell'interfaccia {@link IUserData}
  * @author 	Andrea Meneghinello
@@ -17,20 +15,6 @@ public class UserData implements IUserData
 	private String name;
 	private String surname;
 	private String path;
-	
-	/**
-	 * Metodo richiamato quanto un osservato esegue il nofifyObservers()
-	 * 
-	 * @author 	Andrea Meneghinello
-	 * @version	%I%, %G%
-	 * @param	user 	{@link IUserData} che ha cambiato stato
-	 * @param	state	nuovo stato assunto dallo {@link IUserData}
-	 */
-	@Override
-	public void update(Observable user, Object state) 
-	{
-		// TODO Auto-generated method stub
-	}
 
 	@Override
 	public Long getId() 
