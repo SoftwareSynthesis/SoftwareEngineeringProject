@@ -4,12 +4,12 @@
 /*****                                  **************************************/
 /*****************************************************************************/
 //Inizializzare le variabili di DOM [da posizionare nel <script> della pagina]
-var idUser = "";
+var idUser;
 var AddressBookList = new Array();
 
-var AddressBookPannel = new DOMElement(document.getElementById("AddressBookPannel"));
-var MainPannel = new DOMElement(document.getElementById("MainPannel"));
-var ToolsPannel = new DOMElement(document.getElementById("ToolsPannel"));
+var AddressBookPannel = new addressBookPannelPresenter(document.getElementById("AddressBookPannel"));
+var MainPannel = new mainPannelPresenter(document.getElementById("MainPannel"));
+var ToolsPannel = new toolsPannelPresenter(document.getElementById("ToolsPannel"));
 /*****************************************************************************/
 /*****************************************************************************/
 
@@ -170,5 +170,48 @@ function addListItem(AddressBookContact) {
 function DOMElement(element) {
 	this.element = element;
 	this.assListItem = addListItem;
+	this.inizialize = inizialize;
+}
+
+
+
+/**
+ * Costruttore dell'elemento addressBookPannelPresenter passato come parametro
+ *
+ * HowToUse:	var ExemplePannel = new addressBookPannelPresenter(document.getElementById("elementId"));
+ *
+ * @author Tresoldi Riccardo
+ * @param pannel Elemento DOM rappresentante il pannello a cui associare l'oggetto
+ */
+function addressBookPannelPresenter(pannel) {
+	this.element = pannel;
+	this.inizialize = inizialize;
+}
+
+
+/**
+ * Costruttore dell'elemento mainPannelPresenter passato come parametro
+ *
+ * HowToUse:	var ExemplePannel = new mainPannelPresenter(document.getElementById("elementId"));
+ *
+ * @author Tresoldi Riccardo
+ * @param pannel Elemento DOM rappresentante il pannello a cui associare l'oggetto
+ */
+function mainPannelPresenter(pannel) {
+	this.element = pannel;
+	this.inizialize = inizialize;
+}
+
+
+/**
+ * Costruttore dell'elemento toolsPannelPresenter passato come parametro
+ *
+ * HowToUse:	var ExemplePannel = new toolsPannelPresenter(document.getElementById("elementId"));
+ *
+ * @author Tresoldi Riccardo
+ * @param pannel Elemento DOM rappresentante il pannello a cui associare l'oggetto
+ */
+function toolsPannelPresenter(pannel) {
+	this.element = pannel;
 	this.inizialize = inizialize;
 }
