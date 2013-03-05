@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name = "org.softwaresynthesis.mytalk.server.abook.UserData" table = "UserData">
+	
+	  <id name = "id" type = "Long" column = "ID_user">
+	  	  <generator class = "identity" />
+	  </id>
+	  
+	  <property name = "mail" column ="E_Mail" type = "" unique = "true" update = "false" not-null="true" />
+	  
+	  <property name = "password"column ="Password" type = "String" not-null="true" />
+	  
+	  <property name = "question"column ="Question" type = "String" not-null="true" />
+	  
+	  <property name = "answer"column ="Answer" type = "String" not-null="true" />
+	  
+	  <property name = "name"column ="Name" type = "String" not-null="false" />
+	  
+	  <property name = "surname"column ="Surname" type = "String" not-null="false" />
+	  
+	  <property name = "path"column ="Picture" type = "String" not-null="true" />
+	</class>
+</hibernate-mapping>
