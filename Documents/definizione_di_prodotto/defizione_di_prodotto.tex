@@ -152,7 +152,7 @@ Interfaccia rappresentante il comportamento di un generico utente del sistema
 
 \subsubsection*{Relazioni d'uso}
 
-L'interfaccia estende \texttt{java.util.Observer}.
+Nessuna relazione d'uso evidenziata
 
 \subsubsection*{Metodi}
 \begin{description}
@@ -232,11 +232,69 @@ Interfaccia rappresentante una entry di una rubrica utente del sistema mytalk
 \end{description}
 
 \classsection{UserData}
-%TODO chiedere a mene se questa classe usa ancora observ
+
 \subsubsection*{Funzione}
+Implementazione dell'interfaccia \classname{IUserData}. Un istanza della classe dovrà rappresentare un generico utente del sistema, definendone gli attributi e i metodi per impostare ed ottenere il contenuto dei medesimi.
+
 \subsubsection*{Relazioni d'uso}
+Nessuna relazione d'uso evidenziata.
+
 \subsubsection*{Attributi}
+
+\begin{itemize}
+	\item{\memberdata{-- id: long}}
+	Attributo che definisce il codice identificativo con il quale l'utente è registrato nel database del sistema.
+	\item{\memberdata{-- mail: String}}
+	Attributo che definisce l'indirizzo e-mail con il quale l'utente si è registrato nel sistema.
+	\item{\memberdata{-- password: String}}
+	Attributo che definisce la password per il login dell'utente nel sistema.
+	\item{\memberdata{-- question: String}}
+	Attributo che definisce la domanda segreta usata dall'utente in caso di smarrimento della password.
+	\item{\memberdata{-- answer: String}}
+	Attributo che definisce la risposta alla domanda segreta definita nell'attributo \memberdata{question}.
+	\item{\memberdata{-- name: String}}
+	Attributo che definisce il nome dell'utente.
+	\item{\memberdata{-- surname: String}}
+	Attributo che definisce il cognome dell'utente.
+	\item{\memberdata{-- path: String}}
+	Attributo che definisce il percorso (su server) in cui è memorizzata l'immagine del profilo dell'utente.
+	
+\end{itemize}
+
 \subsubsection*{Metodi}
+
+\begin{description}
+	\item{\method{+ getId(): Long}}\\
+	Restituisce l'identificatore univoco di un utente, ritornando l'attributo \memberdata{id}.
+	\item{\method{+ getEmail(): String}}\\
+	Restituisce l'indirizzo e-mail con cui uno l'utente si è registrato nel sistema mytalk, ritornando il contenuto dell'attributo \memberdata{mail}.
+	\item{\method{+ setEmail(mail: String): void}}\\ 
+	Imposta l'indirizzo e-mail con cui l'utente si registra nel sistema mytalk. Il metodo non fa altro che sovrascrivere il contenuto dell'attributo \memberdata{mail} con il valore tipo String ricevuto come parametro d'ingresso.
+	\item{\method{+ getPassword(): String}}\\
+	Restituisce la password dell'utente, ritornando il valore contenuto nell'attributo \memberdata{password}.
+	\item{\method{+ setPassword(password: String): void}}\\
+	Imposta la password di accesso al sistema, sovrascrivendo il contenuto dell'attributo \memberdata{password} con il valore di tipo String ricevuto come parametro d'ingresso.
+	\item{\method{+ getQuestion(): String}}\\
+	Restituisce la domanda segreta, scelta dall'utente, per il recupero della password (smarrita) di accesso al sistema mytalk. Nello specifico il metodo ritorna il contenuto dell'attributo \memberdata{question}.
+	\item{\method{+ setQuestion(question: String): void}}\\
+	Imposta la domanda segreta da inserire in caso di smarrimento della password. Il metodo sovrascrive il contenuto dell'attributo \memberdata{question} con il valore tipo String ricevuto come parametro d'ingresso
+	\item{\method{+ getAnswer(): String}}\\
+	Restituisce la risposta alla domanda per il recupero della password (smarrita) di accesso al sistema mytalk. Il metodo non fa altro che ritornare il contenuto dell'attributo \memberdata{answer}.
+	\item{\method{+ setAnswer(answer: String): void}}\\
+	Imposta la risposta alla domanda segreta per il recupero della password. Il metodo non fa altro che sovrascrivere il contenuto dell'attributo \memberdata{answer} con il valore tipo String passato come parametro d'ingresso.
+	\item{\method{+ getName(): String}}\\
+	Restituisce il nome dell'utente ritornando il contenuto dell'attributo \memberdata{name}.
+	\item{\method{+ setName(name: String): void}}\\
+	Imposta il nome dell'utente sovrascrivendo il contenuto dell'attributo \memberdata{name} con il valore tipo String passato al metodo come parametro d'ingresso.
+	\item{\method{+ getSurname(): String}}\\
+	Restituisce il cognome dell'utente ritornando il contenuto dell'attributo \memberdata{surname}.
+	\item{\method{+ setSurname(surname: String): void}}\\
+	Imposta il cognome dell'utente sovrascrivendo il contenuto dell'attributo \memberdata{surnamename} con il valore tipo String passato al metodo come parametro d'ingresso.
+	\item{\method{+ getPicturePath(): String}}\\
+	Restituisce una stringa con il percorso dell'immagine del profilo dell'utente, ritornando il contenuto dell'attributo \memberdata{path}.
+	\item{\method{+ setPicturePath(path: String): void}}\\
+	Imposta il percorso dell'immagine profilo di un utente, sovrascrivendo il contenuto dell'attributo \memberdata{path} con il valore tipo String passato al metodo come parametro d'ingresso
+\end{description}
 
 \classsection{Group}
 
@@ -314,24 +372,6 @@ Implementazione dell'interfaccia IAddressBookEntry.
 	Restituisce lo \classname{IUserData} possesore di questa \inglese{entry} della rubrica. Nello specifico restituisce il contenuto dell'attributo \memberdata{owner}.
 	\item{\method{+ setOwner(owner: IUserData ): void}}\\
 	Imposta l'utente \classname{IUserData} possessore della entry della rubrica. Nello specifico imposta il contenuto dell'attributo \memberdata{owner}.
-\end{description}
-
-\classsection{State}
-
-%TODO come cazzo definisco un tipo enumerativo??? è un 
-
-\subsubsection*{Funzione}
-Semplice classe che definisce tramite un tipo enumerativo i possibili stati in cui può trovarsi un contatto.
-
-\subsubsection*{Relazioni d'uso}
-Nessuna relazione d'uso evidenziata.
-
-\subsubsection*{Attributi}
-Nessun attributo evidenziato.
-
-\subsubsection*{Metodi}
-\begin{description}
-	\item{\memberdata{+ state(): enum}}
 \end{description}
 
 \subsection{Package org.softwaresynthesis.mytalk.server.call}\label{sec:call}
