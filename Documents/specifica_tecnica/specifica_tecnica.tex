@@ -576,7 +576,7 @@ Tale sotto-architettura definisce le specifiche e le funzionalità dell'applicat
 	\item[-] \textsf{CS04 -- Gestione autenticazione};
 	\item[-] \textsf{CS05 -- Gestione segreteria};
 	\item[-] \textsf{CS06 -- Gestione chiamate};
-	\item[-] \textsf{CS07-- Façade del server}.
+	\item[-] \textsf{CS07 -- Façade del server}.
 \end{itemize}
 
 I componenti sopracitati verranno definiti, rispettivamente, nelle sottosezioni \ref{sec:cs01}, \ref{sec:cs02}, \ref{sec:cs03}, \ref{sec:cs04}, \ref{sec:cs05}, \ref{sec:cs06} e \ref{sec:cs07}. Si sottolinea sin da ora che il server è l'unico in grado di comunicare con il database su cui regge l'applicativo.
@@ -590,7 +590,7 @@ Infine, si fa notare che i nomi di tutte le classi riportate nella presente sezi
 \item{\scshape\bfseries Descrizione:}\\
 È il componente che si occupa di rappresentare la struttura del database relazionale su cui poggia l'applicativo. Tramite questo componente, il sistema potrà quindi effettuare operazione di lettura e scrittura di entità all'interno del database.
 
-Nucleo logico di tale componente è la classe Singleton \texttt{HibernateUtil}, il cui compito è implementare una \inglese{factory} per le sessioni verso il database. Tali sessioni si basano sul file di configurazione di Hibernate, tra le cui informazioni compare anche la tipologia di di DBMS utilizzata.
+Nucleo logico di tale componente è la classe Singleton \texttt{HibernateUtil}, il cui compito è implementare una \inglese{factory} per le sessioni verso il database. Tali sessioni si basano sul file di configurazione di Hibernate, tra le cui informazioni compare anche la tipologia di DBMS utilizzata.
 
 Le restanti classi che fanno parte  di questo componente possono essere suddivise in due categorie:
 \begin{itemize}
@@ -676,15 +676,15 @@ Ne consegue che, come sarà esposto con maggiori dettagli nella sezione \vref{se
 	\item{\scshape\bfseries Descrizione:}\\
 A ogni utente del sistema, che corrisponde a un'istanza di \texttt{abook.UserData} (implementazione dell'interfaccia \texttt{abook.IUserData}) è associata una rubrica personale. 
 
-ale rubrica è rappresentata da una lista di \texttt{abook.IAddressBookEntry}, per la quale si fornisce un'implementazione nominata \texttt{abook.AddressBookEntry} che rappresenta un contatto della rubrica di un utente. Come si evince dal diagramma riportato in figura \ref{fig:gestionerubrica}, la struttura del componente rispecchia la logica di funzionamento del database.
+La rubrica è rappresentata da una lista di \texttt{abook.IAddressBookEntry}, per la quale si fornisce un'implementazione nominata \texttt{abook.AddressBookEntry} che rappresenta un contatto della rubrica di un utente. Come si evince dal diagramma riportato in figura \ref{fig:gestionerubrica}, la struttura del componente rispecchia la logica di funzionamento del database.
 
 Di conseguenza, ogni istanza di tipo \texttt{abook.AddressBookEntry} apparterrà a un solo \texttt{abook.IUserData} e in essa è registrata un'istanza di \texttt{abook.UserData} che rappresenta il contatto facente parte della rubrica.
 
-Gli utenti, inoltre, possono essere opzionalmente organizzati in gruppi: un contatto in rubrica può, in un dato momento, appartenere a uno o più gruppi oppure non appartenere a nessuno. Per tale motivo ogni istanza di \texttt{abook.AddressBookEntry} contiente anche un riferimento di tipo \texttt{IGroup}.
+Gli utenti, inoltre, possono essere opzionalmente organizzati in gruppi: un contatto in rubrica può, in un dato momento, appartenere a uno o più gruppi oppure non appartenere a nessuno. Per tale motivo ogni istanza di \texttt{abook.AddressBookEntry} contiene anche un riferimento di tipo \texttt{IGroup}.
 
 Tale interfaccia, congiuntamente alla sua implementazione \texttt{abook.Group}, permettono di rappresentare i gruppi della rubrica di un utente.
 
-Infine, dal momento che gli utenti del sistema sono dotati di uno stato, è prevista la presenza di un'enumerazione \texttt{abook.State} con gli le istanze di \texttt{abook.UserData} sono composte.
+Infine, dal momento che gli utenti del sistema sono dotati di uno stato, è prevista la presenza di un'enumerazione \texttt{abook.State} all'interno delle istanze di \texttt{abook.UserData}.
 
 In una prima realizzazione del prodotto si è scelto di implementare i seguenti stati:
 \begin{itemize}
@@ -693,9 +693,9 @@ In una prima realizzazione del prodotto si è scelto di implementare i seguenti 
   \item \inglese{online}/occupato, quando un utente è in linea ma impegnato in una conversazione oppure ha impostato il proprio stato a non disponibile.
 \end{itemize}
 
-Per permettere agli utenti dei sistema di osservare lo stato degli altri utenti e di notificare agli altri i cambiamenti del proprio, l'interfaccia \texttt{abook.IUserData} estende inoltre l'interfaccia \texttt{java.util.Observer}, mentre \texttt{abook.UserData} estende \texttt{java.util.Observable}.
+Per permettere agli utenti dei sistema di osservare lo stato degli altri utenti e di notificare agli altri i cambiamenti del proprio, ad ogni cambio di stato, l'utente non farà altro che notificare l'evento alla servlet \texttt{connection.ConnectionManager}. Quest'ultima si preoccuperà di aggiornare gli utenti aventi in rubrica l'utente il cui stato è cambiato.
 
-Infine, sono state predisposte tre \inglese{servlet} che estendono \texttt{javax.servlet.http.HttpServlet} per fornire ai client l'accesso alle funzionalità contenute in questo componente, in particolare \texttt{abook.AccountManager}, \texttt{abook.AddressBookManager} e \texttt{abook.StateManager}, che saranno descritte con maggiori dettagli nella sezione \vref{sec:cs07}.
+Infine, sono state predisposte due \inglese{servlet} che estendono \texttt{javax.servlet.http.HttpServlet} per fornire ai client l'accesso alle funzionalità contenute in questo componente, in particolare \texttt{abook.AccountManager}, \texttt{abook.AddressBookManager} che saranno descritte con maggiori dettagli nella sezione \vref{sec:cs07}.
 
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -716,8 +716,6 @@ Infine, sono state predisposte tre \inglese{servlet} che estendono \texttt{javax
 	  \item[-] \texttt{abook.AccountManager}
 	  \item[-] \texttt{abook.AddressBookManager}
 	  \item[-] \texttt{abook.StateManager}
-	  \item[-] \texttt{java.util.Observable}
-	  \item[-] \texttt{java.util.Observer}
 	  \item[-] \texttt{javax.servlet.http.HttpServlet}
 	\end{itemize}
 \end{description}
@@ -725,10 +723,10 @@ Infine, sono state predisposte tre \inglese{servlet} che estendono \texttt{javax
 \subsubsection{CS04 -- Gestione autenticazione}\label{sec:cs04}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
-L'autenticazione passa attraverso due fasi: la richiesta di \inglese{login} e l'approvazione (\inglese{commit}). La richiesta di \inglese{login} verifica le credenziali di accesso con i dati memorizzati all'interno del database, mentre la richiesta di \inglese{commit} assegna, al \inglese{subject} che ha attivato al procedura di autenticazione, dei valori identificativi che permettano di identificarlo finché esso utilizza il sistema software.
+L'autenticazione passa attraverso due fasi: la richiesta di \inglese{login} e l'approvazione (\inglese{commit}). La richiesta di \inglese{login} verifica le credenziali di accesso con i dati memorizzati all'interno del database, mentre la richiesta di \inglese{commit} assegna, al \inglese{subject} che ha attivato la procedura di autenticazione, dei valori identificativi che permettano di identificarlo finché esso utilizza il sistema software.
 
-Quando un utente avvia la procedura di autenticazione la \inglese{servlet} che espone le funzionalità di questo componente, \texttt{authentication.LoginManager} (che estende a sua volta \texttt{javax.servlet.http.HttpServlet}), crea il contesto di autenticazione istanziando
-\texttt{authentication.CredentialLoader} che ha il compito di caricare le credenziali di accesso e accede al file di configurazione per istanziare il giusto modulo per l'autenticazione, costituito dalla classe \texttt{authentication.AuthenticationModule}.
+Quando un utente avvia la procedura di autenticazione la \inglese{servlet} che espone le funzionalità di questo componente, \texttt{authentication.LoginManager} (che estende a sua volta \texttt{javax.servlet.http.HttpServlet}), crea il contesto di autenticazione generando un istanza di
+\texttt{authentication.CredentialLoader}, che ha il compito di caricare le credenziali di accesso e accede al file di configurazione per istanziare il giusto modulo per l'autenticazione, costituito dalla classe \texttt{authentication.AuthenticationModule}.
   
   \item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -755,7 +753,7 @@ Quando un utente avvia la procedura di autenticazione la \inglese{servlet} che e
 \subsubsection{CS05 -- Gestione segreteria}\label{sec:cs05}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-I messaggi in segreteria, che possono essere di natura audio o audio/video, corrispondono alle istanze dalla classe \texttt{message.Message} e sono caratterizzati da un utente mittente, da un destinatario e dalla data di registrazione.
+I messaggi in segreteria, che possono essere di natura audio o audio/video, corrispondono alle istanze dalla classe \texttt{message.Message} (implementazione dell'interfaccia \texttt{message.IMessage}) e sono caratterizzati da un utente mittente, da un destinatario e dalla data di registrazione.
 
 La collezione di messaggi aventi un determinato utente come destinatario può essere ottenuta tramite un'operazione dichiarata nell'interfaccia \texttt{abook.IUserData}.
 
@@ -781,7 +779,7 @@ Per consentire ai client di accedere alle funzionalità gestite da questo compon
 \subsubsection{CS06 -- Gestione chiamate}\label{sec:cs06}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
-Le classi di questo componente hanno il ruolo di incapsulare la logica di gestione delle chiamate e di accesso ai dati relativi a una chiamata (data, mittente e $n\geq1$ destinatari della chiamata). Tali informazioni rivestono un ruolo importante per la rappresentazione e la trasmissione ai client dello storico delle chiamate.
+Le classi di questo componente hanno il ruolo di definire una strutturata   per definire lo storico delle chiamate di un utente e, conseguentemente, l'accesso ai dati relativi a una chiamata (data, mittente e $n\geq1$ destinatari della chiamata).
 
 La componente contiene l'interfaccia \texttt{ICall} e la sua implementazione lato server \texttt{Call}, che rappresenta il \inglese{transfer object} per la rappresentazione delle chiamate che deve essere mappata nel database.
 
@@ -820,7 +818,7 @@ La mappatura fra componenti del server e le rispettive \inglese{servlet} di Faç
 \textbf{\rmfamily Componente} & \textbf{\rmfamily Servlet di Façade}\\
 \midrule
 CS02 -- Gestione connessione & connection.ConnectionManager\\
-CS03 -- Gestione rubrica & abook.AddressBookManager abook.AccountManager abook.StateManager\\
+CS03 -- Gestione rubrica & abook.AddressBookManager abook.AccountManager\\
 CS04 -- Gestione autenticazione & authentication.LoginManager\\
 CS05 -- Gestione segreteria & message.MessageManager\\
 CS06 -- Gestione chiamate & call.CallHistoryManager\\
@@ -834,7 +832,7 @@ Tale classe, come anticipato nella descrizione a pagina \pageref{sec:cs02}, non 
 
 Il compito di interfacciarsi con \textsf{Gestione rubrica} per recuperare la rubrica associata ad un utente e per riflettere sul server le operazioni di amministrazione della rubrica spetta invece a \texttt{abook.AddressBookManager}, mentre \texttt{abook.AccountManager} risponde alle richieste dei client per le azioni di aggiornamento e modifica dell'account personale dell'utente associato al client.
 
-I cambiamenti di stato di un utente sono invece processati da \texttt{abook.StateManager} che fornisce di conseguenza anch'esso un punto d'accesso al componente \textsf{Gestione rubrica}.
+I cambiamenti di stato di un utente sono invece processati da \texttt{connection.ConnectionManager} che fornisce di conseguenza anch'esso un punto d'accesso al componente \textsf{Gestione rubrica}.
 
 Ai fini del \inglese{login} è utilizzata invece la \inglese{servlet} \texttt{authentication.LoginManager}, che ha il compito di interfacciarsi con il sistema di autenticazione e, in particolare, con l'istanza del sottotipo di \texttt{javax.security.auth.spi.LoginModule} in uso per verificare le credenziali.
 
@@ -844,7 +842,7 @@ Il fatto che siano presenti sette \inglese{servlet} a fronte di cinque component
 
 Da una parte, non è prevista la presenza di alcun punto d'accesso diretto dai client a \textsf{Gestione database}, dal momento che le informazioni contenute in quest'ultimo sono manipolate dalle classi DAO a loro volta utilizzate dagli altri Façade.
 
-Dall'altra i dati rappresentati in \textsf{Gestione rubrica} necessitano di essere trattati in maniera radicalmente differente a seconda che si tratti di informazioni relative all'utente associato al client da cui proviene la richiesta al server (tramite \texttt{abook.AccountManager}) o a un semplice contatto della rubrica di quest'ultimo (tramite \texttt{abook.AddressBookManager}), mentre le richieste relative ai cambiamenti di stato sono gestite da \texttt{abook.StateManager}. Ciò giustifica la presenza di tre distinte \inglese{servlet} di Façade.
+Dall'altra i dati rappresentati in \textsf{Gestione rubrica} necessitano di essere trattati in maniera radicalmente differente a seconda che si tratti di informazioni relative all'utente associato al client da cui proviene la richiesta al server (tramite \texttt{abook.AccountManager}) o a un semplice contatto della rubrica di quest'ultimo (tramite \texttt{abook.AddressBookManager}), mentre le richieste relative ai cambiamenti di stato sono gestite da \texttt{connection.ConnectionManager}. Ciò giustifica la presenza di tre distinte \inglese{servlet} di Façade.
 
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -863,7 +861,6 @@ Esse sono altresì riportate nel diagramma \vref{fig:sottoarchserver} relativo a
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \texttt{abook.AccountManager}
 	  \item[-] \texttt{abook.AddressBookManager}
-	  \item[-] \texttt{abook.StateManager}
 	  \item[-] \texttt{call.CallHistoryManager}
 	  \item[-] \texttt{connection.ConnectionManager}
 	  \item[-] \texttt{message.MessageManager}
@@ -984,9 +981,12 @@ Come accennato nella sezione \vref{sec:cs02}, tramite un opportuno \inglese{over
 
 Questo Factory Method (per la cui descrizione si rimanda alla sezione \ref{sec:patternfactorymethod}) è richiamato dal \inglese{servlet container} nel momento in cui lato client, ad autenticazione ultimata, viene invocato il costruttore di \texttt{WebSocket} passando a quest'ultimo come parametro l'URL della \inglese{servlet} \texttt{ConnectionManager}.
 
+In ultima, la \inglese{servlet} si occupa di notificare i cambiamenti di stato degli utenti presenti nella rubrica di ogni altro utente.
+
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \textsf{CS02 -- Gestione connessione}
+	  \item[-] \textsf{CS03 -- Gestione rubrica}
 	  \item[-] \textsf{CS07-- Façade del server}
 	\end{itemize}
 \end{description}
@@ -1085,7 +1085,7 @@ Le istanze della classe \texttt{abook.UserData} sono composte con un'istanza di 
   
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}
-    \item[-] \textsf{CS02 -- Gestione rubrica}
+    \item[-] \textsf{CS03 -- Gestione rubrica}
     \item[-] \textsf{CS07-- Façade del server}
    \end{itemize}
 \end{description}
@@ -1101,7 +1101,7 @@ Inoltre, questa \inglese{servlet} è in grado di recepire le richieste di modifi
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \textsf{CS07-- Façade del server}
+	  \item[-] \textsf{CS07 -- Façade del server}
 	  \item[-] \textsf{CP03 -- Gestione GUI}
 	\end{itemize}
 \end{description}
@@ -1110,20 +1110,6 @@ Inoltre, questa \inglese{servlet} è in grado di recepire le richieste di modifi
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Sottoclasse di \texttt{javax.servlet.http.HttpServlet} mediante la quale è possibile amministrare i propri dati personali memorizzati sul server, in accordo con i RUFF3.1.0 e RUFF3.2.0. Le richieste provenienti dai client comportano pertanto la modifica dei dati di autenticazione e dei dati anagrafici facoltativi.
-
-	\item{\scshape\bfseries Componenti che ne fanno uso:}
-	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \textsf{CS07-- Façade del server}
-	  \item[-] \textsf{CP03 -- Gestione GUI}
-	\end{itemize}
-\end{description}
-
-\item \texttt{StateManager}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:}\\
-Sottoclasse di \texttt{javax.servlet.http.HttpServlet} avente la funzione di recepire le richieste corrispondenti ai cambiamenti di stato dei client del sistema.
-
-I cambiamenti di stato hanno origine nel client sia per esplicito intervento dell'utente (ad es. una disconnessione o un passaggio da disponibile a ``occupato'') sia implicitamente, ad esempio alla ricezione di una comunicazione audio o audio/video.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
