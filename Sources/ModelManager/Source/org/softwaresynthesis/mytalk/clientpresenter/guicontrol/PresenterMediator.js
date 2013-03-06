@@ -16,6 +16,8 @@ function PresenterMediator() {
   /**
    * Inizializza l'interfaccia grafica delegando ai presenter il compito di
    * disegnare gli elementi
+   * 
+   * @author Diego Beraldin
    */
    this.buildUI = function() {
      for (key in this.presenters) {
@@ -25,6 +27,7 @@ function PresenterMediator() {
   
   /** Funzione da scatenare nel momento in cui è selezionato un contatto
    * 
+   * @author Diego Beraldin
    * @param contact contatto che deve essere visualizzato
    */
   this.onContactSelected = function(contact) {
@@ -33,3 +36,4 @@ function PresenterMediator() {
 }
 
 mediator = new PresenterMediator();
+mediator.buildUI();
