@@ -5,7 +5,7 @@ VALUES 	(1, 'indirizzo1@dominio.it', 'password', 'Come mi chiamo', 'Pippo', 'pip
 		(2, 'indirizzo2@dominio.it', 'password', 'Come mi chiamo', 'Marco', 'marco', 'verdi', ' '),
 		(3, 'indirizzo3@dominio.it', 'password', 'Come mi chiamo', 'Luigi', 'luigi', 'gialli', ' '),
 		(4, 'indirizzo4@dominio.it', 'password', 'Come mi chiamo', 'Piero', 'piero', 'pelu', ' '),
-		(5, 'indirizzo5@dominio.it', 'password', 'Come mi chiamo', 'Luigi', 'luigi', 'mannoio', ' ');
+		(5, 'indirizzo5@dominio.it', 'tQJu8lEBkXWy+YuqNKZsqA==', 'Come mi chiamo', 'Luigi', 'luigi', 'mannoio', ' ');
 		
 INSERT INTO Groups (ID_group, Name)
 VALUES	(1, 'Gruppo 1'),
