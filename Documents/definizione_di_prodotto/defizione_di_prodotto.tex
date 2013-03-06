@@ -175,6 +175,34 @@ Inizializza un'unica \inglese{factory} per le sessioni, utilizzate da Hibernate,
 	Metodo che ritorna l'attributo \memberdata{sessionFactory}.
 \end{description}
 
+\classsection{UserDataDAO}
+
+\subsubsection*{Funzione}
+Classe implementante il pattern DAO. Definisce le procedure d'inserimento, eliminazione ed aggiornamento di \inglese{entry} inerenti la tabella UserData. La classe fornisce anche metodi per interrogare il database ed ottenere i dati utente con i quali costruire istanze di oggetti di tipo \classname{abook.IUserData}.
+
+\subsubsection*{Relazioni d'uso}
+
+\begin{itemize}
+	\item \texttt{java.util.List}: usata per memorizzare e ritornare i dati restituiti dalle interrogazioni a database.
+	\item \classname{org.hibernate.Query}: classe rappresentante le query d'interrogazione verso il database
+	\item \texttt{org.hibernate.Session}: classe che rappresenta la sessione di ``lavoro'' verso il database.
+	\item \texttt{org.hibernate.SessionFactory}: classe avente compito d'istanziare nuove sessioni.
+	\item \texttt{org.hibernate.Transaction}: classe che rappresenta una transazione del database.
+	\item \classname{abook.IUserData}: interfaccia del package abook, usata per definire un generico utente. La classe può ritornare istanze di tipo \classname{abook.IUserData} come risposta a delle query d'interrogazione al database.
+	
+\end{itemize}
+
+\subsubsection*{Attributi}
+
+Nessun attributo evidenziato.
+
+\subsubsection*{Metodi}
+
+\begin{description}
+	\item{\method{+ getId(): Long}}\\
+	
+\end{description}
+
 \subsection{Package org.softwaresynthesis.mytalk.server.abook}\label{sec:abook}
 
 \classsection{IUserData}
@@ -306,6 +334,8 @@ Nessuna relazione d'uso evidenziata.
 \begin{description}
 	\item{\method{+ getId(): Long}}\\
 	Restituisce l'identificatore univoco di un utente, ritornando l'attributo \memberdata{id}.
+	\item{\method{\# setId(id: long): void}}\\
+	Imposta l'indirizzo l'id con cui l'utente si registra nel sistema mytalk. Il metodo non fa altro che sovrascrivere il contenuto dell'attributo \memberdata{id} con il valore tipo long ricevuto come parametro d'ingresso. ritornando l'attributo \memberdata{id}.
 	\item{\method{+ getEmail(): String}}\\
 	Restituisce l'indirizzo e-mail con cui uno l'utente si è registrato nel sistema mytalk, ritornando il contenuto dell'attributo \memberdata{mail}.
 	\item{\method{+ setEmail(mail: String): void}}\\ 
