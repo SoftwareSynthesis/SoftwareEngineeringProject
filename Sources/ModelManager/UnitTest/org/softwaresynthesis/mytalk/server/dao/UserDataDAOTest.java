@@ -24,6 +24,7 @@ public class UserDataDAOTest
 		user.setSurname("Goretti");
 		user.setQuestion("Come mi chiamo");
 		user.setAnswer("Maria");
+		user.setPicturePath("Image/MyImage.png");
 	}
 	
 	@Test

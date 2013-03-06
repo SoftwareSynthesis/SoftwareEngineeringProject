@@ -33,6 +33,11 @@ public class AuthenticationModule implements LoginModule
 	private Principal principal;
 	private Subject subject;
 	
+	static 
+	{
+		System.setProperty("java.security.auth.login.config", "AuthenticationModule.conf");
+	}
+	
 	/**
 	 * Inizializzazione dello stato interno del modulo
 	 * di autenticazione del sistema mytalk
