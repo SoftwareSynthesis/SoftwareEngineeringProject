@@ -131,4 +131,17 @@ public class UserData implements IUserData
 	{
 		this.state = state;
 	}
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		UserData user = null;
+		if(obj instanceof UserData)
+		{
+			user = (UserData)obj;
+			return this.mail.equals(user.mail);
+		}
+		else
+			return false;
+	}
 }

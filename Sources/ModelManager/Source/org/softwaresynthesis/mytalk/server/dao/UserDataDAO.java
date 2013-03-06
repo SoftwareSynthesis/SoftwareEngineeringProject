@@ -166,8 +166,10 @@ public class UserDataDAO
 	public List<IUserData> getByNameAndSurname(String name, String surname) {
 		List<IUserData> list = null;
 		HibernateUtil util = null;
+		Query query = null;
 		Session session = null;
 		SessionFactory factory = null;
+		String hqlQuery = "from UserData as u where u.name = :name or u.surname = :surname";
 		Transaction transaction = null;
 		try
 		{
@@ -175,11 +177,10 @@ public class UserDataDAO
 			factory = util.getSessionFactory();
 			session = factory.openSession();
 			transaction = session.beginTransaction();
-			String hqlquery = "from UserData as u where u.name = :name or u.surname = :surname";
-			Query q = session.createQuery(hqlquery);
-			q.setString("name", name);
-			q.setString("surname", surname);
-			list = (List<IUserData>) q.list();
+			query = session.createQuery(hqlQuery);
+			query.setString("name", name);
+			query.setString("surname", surname);
+			list = (List<IUserData>) query.list();
 			transaction.commit();
 		}
 		catch (RuntimeException ex)
@@ -212,11 +213,12 @@ public class UserDataDAO
 	 * @return	{@link IUserData} se esiste un utente con l'e-mail
 	 * 			ricevuta in input altrimenti null
 	 */
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public IUserData getByEmail(String mail)
 	{
 		HibernateUtil util = null;
 		List user = null;
+		Query query = null;
 		Session session = null;
 		SessionFactory factory = null;
 		String hqlQuery = "from UserData as u where u.mail = :mail";
@@ -227,9 +229,9 @@ public class UserDataDAO
 			factory = util.getSessionFactory();
 			session = factory.openSession();
 			transaction = session.beginTransaction();
-			Query query = session.createQuery(hqlQuery);
+			query = session.createQuery(hqlQuery);
 			query.setString("mail", mail);
-			user = query.list();
+			user = (List<IUserData>)query.list();
 			transaction.commit();
 		}
 		catch (RuntimeException ex)
@@ -252,5 +254,56 @@ public class UserDataDAO
 		{
 			return null;
 		}
+	}
+	
+	/**
+	 * Avvia una ricerca che ritorna valori che eseguono un match
+	 * con il cognome oppure con il nome oppure con l'indirizzo
+	 * e-mail
+	 * 
+	 * @author	Andrea Meneghinello
+	 * @param 	value	valore da ricercare nel database
+	 * @return	{@link List} di {@link IUserData} se esiste qualche
+	 * 			match altrimenti null;
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public List<IUserData> searchGeneric(String value)
+	{
+		HibernateUtil util = null;
+		List users = null;
+		Query query = null;
+		Session session = null;
+		SessionFactory factory = null;
+		String hqlQuery = "from UserData as u where u.mail like :mail or u.name like :name or u.surname like :surname";
+		Transaction transaction = null;
+		try
+		{
+			util = HibernateUtil.getInstance();
+			factory = util.getSessionFactory();
+			session = factory.openSession();
+			transaction = session.beginTransaction();
+			query = session.createQuery(hqlQuery);
+			query.setString("mail", value);
+			query.setString("name", value);
+			query.setString("surname", value);
+			users = (List<IUserData>)query.list();
+			transaction.commit();
+		}
+		catch (RuntimeException ex)
+		{
+			if (transaction != null)
+			{
+				transaction.rollback();
+			}
+		}
+		finally
+		{
+			if (session != null)
+			{
+				session.flush();
+				session.close();
+			}
+		}
+		return users;
 	}
 }

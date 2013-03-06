@@ -18,7 +18,7 @@ public class UserDataDAOTest
 	{
 		tester = new UserDataDAO();
 		user = new UserData();
-		user.setMail("indirizzo5@dominio.it");
+		user.setMail("indirizzo6@dominio.it");
 		user.setPassword("password");
 		user.setName("Maria");
 		user.setSurname("Goretti");
@@ -44,12 +44,12 @@ public class UserDataDAOTest
 	@Test
 	public void testGetByNameAndSurname()
 	{
-		List<IUserData> list = tester.getByNameAndSurname("Piero", "Pelu");
+		List<IUserData> list = tester.getByNameAndSurname("piero", "pelu");
 		assertNotNull(list);
 		assertFalse(list.isEmpty());
 		IUserData retrieved = list.get(0);
-		assertEquals(retrieved.getName(), "Piero");
-		assertEquals(retrieved.getSurname(), "Pelu");
+		assertEquals(retrieved.getName(), "piero");
+		assertEquals(retrieved.getSurname(), "pelu");
 	}
 	
 	@Test
@@ -64,5 +64,16 @@ public class UserDataDAOTest
 	public void testDelete()
 	{
 		assertTrue(tester.delete(user));
+	}
+	
+	@Test
+	public void testSearchGeneric()
+	{
+		IUserData test = new UserData();
+		test.setMail("indirizzo3@dominio.it");
+		List<IUserData> list = tester.searchGeneric("Luigi");
+		assertNotNull(list);
+		assertFalse(list.isEmpty());
+		assertTrue(list.contains(test));
 	}
 }
