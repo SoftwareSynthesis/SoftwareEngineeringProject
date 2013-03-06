@@ -143,6 +143,38 @@ Gli strumenti utilizzati per la stesura e lo sviluppo sono specificati nei docum
 
 \subsection{Package org.softwaresynthesis.mytalk.server.dao}\label{sec:dao}
 
+\classsection{HibernateUtil}
+
+\subsubsection*{Funzione}
+Inizializza un'unica \inglese{factory} per le sessioni, utilizzate da Hibernate, per comunicare con il database.
+
+\subsubsection*{Relazioni d'uso}
+
+\begin{itemize}
+	\item \classname{org.hibernate.SessionFactory}: necessaria per interrogare il database.
+	\item \classname{org.hibernate.cfg.Configuration}: definisce i parametri necessari per la connessione con il database. Inoltre definisce i mapping necessari tra le classi \inglese{transfer object} e le relative tabelle nel database.
+\end{itemize}
+
+\subsubsection*{Attributi}
+
+\begin{itemize}
+	\item{\memberdata{-- \underline{instance}: HibernateUtil}}\\
+	Attributo usato per implementare il \inglese{pattern} singleton. Tale istanza verrà inizializzata tramite il metodo statico \method{getIstance()}, che si assicura che l'attributo non sia già stato inizializzato in precedenza.
+	\item{\memberdata{-- \underline{sessionFactory}: SessionFactory}}\\
+	Attributo contenente la \inglese{factory} delle sessioni verso il database.
+\end{itemize}
+
+\subsubsection*{Metodi}
+
+\begin{description}
+	\item{\method{-- HibernateUtil()}}\\
+	Costruttore privato della classe. Si osservi che il costruttore è stato definito \inglese{private} in correlazione all'applicazione del \inglese{pattern} singleton.
+	\item{\method{+ getInstance(): HibernateUtil}}\\
+	Metodo pubblico che ritorna l'istanza \memberdata{istance}. Il metodo controlla se \memberdata{istance} è già stata inizializzata. Nel caso non lo sia il metodo dovrà generare un istanza di HibernateUtil richiamando il costruttore privato \method{HibernateUtil()} assegnare il valore ritornato all'attributo \memberdata{istance}. Il programma termina restituendo \memberdata{istance}.
+	\item{\method{+ getSessionFactory(): SessionFactory}}\\
+	Metodo che ritorna l'attributo \memberdata{sessionFactory}.
+\end{description}
+
 \subsection{Package org.softwaresynthesis.mytalk.server.abook}\label{sec:abook}
 
 \classsection{IUserData}
