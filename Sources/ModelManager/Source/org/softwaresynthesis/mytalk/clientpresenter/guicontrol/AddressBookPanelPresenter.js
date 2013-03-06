@@ -1,11 +1,12 @@
 /**
- * Presenter incaricatdi gestire il pannello della rubrica, contiene le funzioni
+ * Presenter incaricato di gestire il pannello della rubrica, contiene le funzioni
  * associate ai widget grafici della vista relativi alla rubrica e ha la
  * responsabilità di aggiornare la vista sulla base dei dati ricevuti dal server
  * 
  * @author Marco Schivo
  * @author Riccardo Tresoldi
  * @author Diego Beraldin
+ * @param mediator  riferimento al mediatore che gestisce la collaborazione fra i presenter
  */
 function AddressBookPanelPresenter(mediator) {
   //FIXME please! Questo ci è stato vietato da ricCARDINo
@@ -18,7 +19,7 @@ function AddressBookPanelPresenter(mediator) {
   this.contacts = new Array();
   
   /**
-   * Inizializza il <div> AddressBookPannel e popola i contatti della rubrica
+   * Inizializza 'AddressBookPannel' e lo popola con i contatti della rubrica
    *
    * @author Riccardo Tresoldi
    */
@@ -61,7 +62,7 @@ function AddressBookPanelPresenter(mediator) {
     };
   
  /**
-  * Funzione per ottenere i contatti della proipria rubrica dal server
+  * Recupera i contatti della proipria rubrica dal server tramite AJAX
   *
   * @author Marco Schivo
   */
@@ -70,8 +71,8 @@ function AddressBookPanelPresenter(mediator) {
     //il server ritorna Nome, Cognome, Status, Email, Id, Image ad esempio:
     /*
     [
-      {"nome": "Marco", "cognome": "Schivo", "email": "marcoskivo@gmail.com", "ID": "1", "Image": "sfdsfsd.jpg", "Status": "Avaible"},
-      {"nome": "Andrea", "cognome": "Rizzi", "email": "asondjs@gmail.com", "ID": "2", "Image": "sad.jpg", "Status": "Not Avaible"}
+      {"nome": "Marco", "cognome": "Schivo", "email": "marcoskivo@gmail.com", "id": "1", "image": "sfdsfsd.jpg", "status": "Avaible"},
+      {"nome": "Andrea", "cognome": "Rizzi", "email": "asondjs@gmail.com", "id": "2", "image": "sad.jpg", "status": "Not Avaible"}
     ]
     */
     request.onreadystatechange = function() {
@@ -92,8 +93,8 @@ function AddressBookPanelPresenter(mediator) {
 
     
   /**
-   * Funzione per inserire i contatti estratti dal server all'interno della lista
-   * 'AddressBookList' all'interno di 'AddressBookPannel'
+   * Inserisce i contatti estratti dal server all'interno della lista
+   * 'AddressBookList' all'interno di 'AddressBookPanel'
    *
    * @author Riccardo Tresoldi
    */
@@ -104,13 +105,14 @@ function AddressBookPanelPresenter(mediator) {
 	
       //<ul id="AddressBookList"></ul>
       for (var contact in this.contacts) {
-        //ciclo i contatti e agiungo un <li> per ogni contatto.
-        addListItem(ulList, this.contacts[contact]);
+        //ciclo i contatti e agiungo un <li> per ogni contatto
+        //QUESTA È LA SINTASSI PER ARRAY ASSOCIATIVI MA ORA È UN ARRAY NORMALE: addListItem(ulList, this.contacts[contact]);
+        this.addListItem(ulList, contact);
       }
     };
    
   /**
-   * Popola la lista AddressBookList con la lista ricevuta come parametro
+   * Popola la 'AddressBookList' con la lista ricevuta come parametro
    * 
    * @param list  lista di contatti che deve essere stampata
    * @author Diego Beraldin
@@ -121,13 +123,14 @@ function AddressBookPanelPresenter(mediator) {
       ulList.innerHTML = "";
 	
       for (var contact in list) {
-        //ciclo i contatti e agiungo un <li> per ogni contatto.
-        addListItem(ulist, list[contact]);
+        //ciclo i contatti e agiungo un <li> per ogni contatto
+        //QUESTA È LA SINTASSI PER ARRAY ASSOCIATIVI MA ORA È UN ARRAY NORMALE: addListItem(ulist, list[contact]);
+        this.addListItem(ulList, contact)
       }
     };
     
    /**
-    * Aggiunge un list item ad una lista
+    * Aggiunge una voce di rubrica a una lista
     *
     * @author Riccardo Tresoldi
     * @param list lista cui il contatto deve essere aggiunto
@@ -162,15 +165,15 @@ function AddressBookPanelPresenter(mediator) {
       //genero i valori da attribuire all'<li>
       var avatarNode = document.createElement('img');
       avatarNode.setAttribute("src", avatar);
-      avatarNode.setAttribute("id", "");
-      avatarNode.setAttribute("class", "");
+      //~avatarNode.setAttribute("id", "");
+      //~avatarNode.setAttribute("class", "");
       
       var textNode = document.createTextNode(name);
       
       var statusNode = document.createElement('img');
       statusNode.setAttribute("src", "");
-      statusNode.setAttribute("id", "");
-      statusNode.setAttribute("class", "");
+      //~statusNode.setAttribute("id", "");
+      //~statusNode.setAttribute("class", "");
     
       //imposto il valore dell'<li>
       item.appendChild(avatarNode);
@@ -180,4 +183,10 @@ function AddressBookPanelPresenter(mediator) {
       //aggiungo il <li> al elemento <ul> dell'oggetto ulList su cui viene invocata la funzione
       list.appendChild(item);
     };
+    
+  /* TODO:
+   * - gestire le ricerche nella rubrica
+   * - aggiungere un gruppo alla rubrica
+   * - rimuovere un gruppo dalla rubrica
+   */    
 }

@@ -4,17 +4,31 @@
  * @author Diego Beraldin
  */
 function PresenterMediator() {
+  // array associativo contentente i riferimenti a tutti i presenter
+  this.presenters = new Array();
   // presenter del pannello della rubrica
-  var addressbookpp = new AddressBookPanelPresenter(this);
+  this.presenters[addressbookpp] = new AddressBookPanelPresenter(this);
+  //presenter del pannello degli strumenti
+  this.presenters[toolspp] = new ToolsPanelPresenter(this);
   // presenter del pannello del contatto
-  var contactpp = new ContactPanelPresenter(this);
+  this.presenters[contactpp] = new ContactPanelPresenter(this);
   
-  /* Funzione da scatenare nel momento in cui è selezionato un contatto
+  /**
+   * Inizializza l'interfaccia grafica delegando ai presenter il compito di
+   * disegnare gli elementi
+   */
+   this.buildUI = function() {
+     for (key in this.presenters) {
+       this.presenters[key].initialize();
+     }
+   };
+  
+  /** Funzione da scatenare nel momento in cui è selezionato un contatto
    * 
    * @param contact contatto che deve essere visualizzato
    */
   this.onContactSelected = function(contact) {
-    contactpp.display(contact);
+    this.contactpp.display(contact);
   };
 }
 
