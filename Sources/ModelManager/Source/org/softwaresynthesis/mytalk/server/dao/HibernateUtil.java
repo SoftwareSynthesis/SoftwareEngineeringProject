@@ -27,6 +27,8 @@ public class HibernateUtil
 		}
 		catch (Throwable ex)
 		{
+			System.err.println(ex.toString());
+			ex.printStackTrace();
 			throw new ExceptionInInitializerError("Errore durante la creazione della Session Factory. Impossibile comunicare con la base di dati");
 		}
 	}

@@ -43,7 +43,7 @@ public interface IUserData
 	 * @return 	stringa rappresentante l'indirizzo
 	 * 			e-mail
 	 */
-	public String getEmail();
+	public String getMail();
 	
 	/**
 	 * Imposta l'indirizzo e-mail con cui si registra
@@ -54,7 +54,7 @@ public interface IUserData
 	 * @param	mail	stringa rappresentante l'indirizzo
 	 * 					e-mail
 	 */
-	public void setEmail(String mail);
+	public void setMail(String mail);
 	
 	/**
 	 * Restituisce la password di accesso al sistema mytalk

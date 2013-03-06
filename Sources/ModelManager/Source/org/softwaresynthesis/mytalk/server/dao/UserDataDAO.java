@@ -219,7 +219,7 @@ public class UserDataDAO
 		List user = null;
 		Session session = null;
 		SessionFactory factory = null;
-		String hqlQuery = "from UserData as u where = u.mail = :mail";
+		String hqlQuery = "from UserData as u where u.mail = :mail";
 		Transaction transaction = null;
 		try
 		{

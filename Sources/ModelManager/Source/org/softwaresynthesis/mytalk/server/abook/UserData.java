@@ -14,7 +14,7 @@ public class UserData implements IUserData
 	private String answer;
 	private String name;
 	private String surname;
-	private String path;
+	private String picturePath;
 	private State state;
 
 	@Override
@@ -22,15 +22,28 @@ public class UserData implements IUserData
 	{
 		return this.id;
 	}
+	
+	/**
+	 * Permette alle sottoclassi di settare un id
+	 * per lo UserData
+	 * 
+	 * @author	Andrea Meneghinello
+	 * @version	%I%, %G%
+	 * @param 	id	Nuovo id da assegnare all'utente
+	 */
+	protected void setId(Long id)
+	{
+		this.id = id;
+	}
 
 	@Override
-	public String getEmail() 
+	public String getMail() 
 	{
 		return this.mail;
 	}
 
 	@Override
-	public void setEmail(String mail) 
+	public void setMail(String mail) 
 	{
 		this.mail = mail;
 	}
@@ -98,13 +111,13 @@ public class UserData implements IUserData
 	@Override
 	public String getPicturePath() 
 	{
-		return this.path;
+		return this.picturePath;
 	}
 
 	@Override
 	public void setPicturePath(String path) 
 	{
-		this.path = path;
+		this.picturePath = path;
 	}
 	
 	@Override
