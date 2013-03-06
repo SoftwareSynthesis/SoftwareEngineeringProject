@@ -199,7 +199,15 @@ Nessun attributo evidenziato.
 \subsubsection*{Metodi}
 
 \begin{description}
-	\item{\method{+ getId(): Long}}\\
+	\item{\method{+ delete(user: IUserData): boolean}}\\
+	Metodo usato per eliminare un utente registrato nel sistema. Il metodo riceve come parametro un istanza di un oggetto \classname{abook.IUserData}. Il metodo dovrà eseguire nell'ordine le seguenti operazioni:
+		\begin{itemize}
+			\item[1)] ottenere dalla classe \classname{HibernateUtil} l'istanza tramite il metodo statico \method{getIstance()};
+			\item[2)] ottenere dall'istanza ottenuta al punto precedente, un oggetto di tipo \texttt{org.hibernate.SessionFactory}, tramite il metodo \method{getSessionFactory()};
+			\item[3)] aprire la sessione ottenuta al punto precedente;
+			\item[4)] avviare una transizione a partire dall'istanza \texttt{org.hibernate.SessionFactory} dl punto 2. Tale oggetto va memorizzato in un opportuno attributo di tipo \texttt{org.hibernate.Transaction}.
+			\item[5)] eseguire il comando \inglese{delete} a partire dalla sessione aperta e passando come parametro l'attributo \memberdata{user}.
+		\end{itemize}
 	
 \end{description}
 
