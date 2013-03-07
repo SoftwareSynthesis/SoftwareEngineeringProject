@@ -15,6 +15,18 @@ public class Group implements IGroup
 	{
 		return this.id;
 	}
+	
+	/**
+	 * Definisce un identificatore per il gruppo
+	 * 
+	 * @author	Andrea Meneghinello
+	 * @version	%I%, %G%
+	 * @param 	id	identificatore del gruppo
+	 */
+	protected void setId(Long id)
+	{
+		this.id = id;
+	}
 
 	@Override
 	public String getName()
