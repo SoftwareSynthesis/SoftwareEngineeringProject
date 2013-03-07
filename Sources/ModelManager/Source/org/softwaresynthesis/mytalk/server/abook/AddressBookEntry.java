@@ -19,6 +19,19 @@ public class AddressBookEntry implements IAddressBookEntry
 	{
 		return this.id;
 	}
+	
+	/**
+	 * Imposta l'id di una entry della rubrica del
+	 * sistema mytalk
+	 * 
+	 * @author	Andrea Meneghinello
+	 * @version	%I%, %G%
+	 * @param 	id	Identificatore della entry
+	 */
+	protected void setId(Long id)
+	{
+		this.id = id;
+	}
 
 	@Override
 	public IUserData getEntry() 
