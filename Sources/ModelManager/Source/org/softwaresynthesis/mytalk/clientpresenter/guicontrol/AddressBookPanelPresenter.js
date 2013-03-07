@@ -107,7 +107,7 @@ function AddressBookPanelPresenter(mediator) {
       for (var contact in this.contacts) {
         //ciclo i contatti e agiungo un <li> per ogni contatto
         //QUESTA È LA SINTASSI PER ARRAY ASSOCIATIVI MA ORA È UN ARRAY NORMALE: addListItem(ulList, this.contacts[contact]);
-        this.addListItem(ulList, contact);
+        this.addListItem(ulList, this.contacts);
       }
     };
    
