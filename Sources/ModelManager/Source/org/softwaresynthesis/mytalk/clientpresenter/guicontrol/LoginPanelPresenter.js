@@ -25,7 +25,7 @@ function LoginPanelPresenter() {
     
     //creazione dell'elemento <ul> contenuto nel form
     var ulData = document.createElement('ul');
-	ulData.style.listStyleType="none";
+	ulData.style.listStyleType = "none";
     
     //creazione dell'item per lo username
     var liUserName = document.createElement('li');
@@ -91,7 +91,7 @@ function LoginPanelPresenter() {
     user = JSON.parse(data);
     if (user != null) {
       //TODO decidere cosa fare quando il login ha successo
-      //TODO settare i campi
+      communicationcenter.my = user;
       window.location = "success.html";
     }
   };
@@ -117,6 +117,6 @@ function LoginPanelPresenter() {
     };
     request.open("POST", this.servletURL, true);
     request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-    request.send("username=" + username + "&password=" + password);
+    request.send("username=" + username + "&password=" + password + "&operation=1");
   };
 }
