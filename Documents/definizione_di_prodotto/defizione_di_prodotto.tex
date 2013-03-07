@@ -199,16 +199,98 @@ Nessun attributo evidenziato.
 \subsubsection*{Metodi}
 
 \begin{description}
+
+	\item{\method{+ insert(user: IUserData): boolean}}\\
+	Metodo usato per inserire un utente registrato nel sistema. Il metodo riceve come parametro un istanza di un oggetto \classname{abook.IUserData}. Il metodo dovrà eseguire nell'ordine le seguenti operazioni:
+		\begin{itemize}
+			\item[1)] ottenere dalla classe \classname{HibernateUtil} l'istanza tramite il metodo statico \method{getIstance()};
+			\item[2)] ottenere dall'istanza di tipo \classname{HibernateUtil}(ottenuta al punto precedente), un oggetto di tipo \texttt{org.hibernate.SessionFactory}, tramite il metodo \method{getSessionFactory()};
+			\item[3)] aprire la sessione ottenuta al punto precedente;
+			\item[4)] avviare una transizione a partire dall'istanza \texttt{org.hibernate.SessionFactory} del punto 2. Tale istanza va memorizzato in un opportuno attributo (interno al metodo stesso) di tipo \texttt{org.hibernate.Transaction};
+			\item[5)] eseguire il comando \inglese{save} a partire dalla sessione aperta e passando come parametro l'attributo \memberdata{user}.
+			\item[6)] eseguire il comando \inglese{commit} per confermare l'operazione del punto precedente.
+		\end{itemize}
+		
+Poiché l'iter presentato può scatenare il lancio di eccezione, il codice dovrà essere gestito in un blocco \inglese{try-catch}. Nel caso incorra il lancio di un eccezione, il flusso di processo dovrà ristabilire la situazione iniziale richiamando il metodo \texttt{rollback()} dell'istanza di tipo \texttt{org.hibernate.Transaction} creata al punto 4 dell'iter. In ogni caso il metodo deve terminare chiudendo la sessione aperta al punto 2.
+
 	\item{\method{+ delete(user: IUserData): boolean}}\\
 	Metodo usato per eliminare un utente registrato nel sistema. Il metodo riceve come parametro un istanza di un oggetto \classname{abook.IUserData}. Il metodo dovrà eseguire nell'ordine le seguenti operazioni:
 		\begin{itemize}
 			\item[1)] ottenere dalla classe \classname{HibernateUtil} l'istanza tramite il metodo statico \method{getIstance()};
-			\item[2)] ottenere dall'istanza ottenuta al punto precedente, un oggetto di tipo \texttt{org.hibernate.SessionFactory}, tramite il metodo \method{getSessionFactory()};
+			\item[2)] ottenere dall'istanza di tipo \classname{HibernateUtil}(ottenuta al punto precedente), un oggetto di tipo \texttt{org.hibernate.SessionFactory}, tramite il metodo \method{getSessionFactory()};
 			\item[3)] aprire la sessione ottenuta al punto precedente;
-			\item[4)] avviare una transizione a partire dall'istanza \texttt{org.hibernate.SessionFactory} dl punto 2. Tale oggetto va memorizzato in un opportuno attributo di tipo \texttt{org.hibernate.Transaction}.
+			\item[4)] avviare una transizione a partire dall'istanza \texttt{org.hibernate.SessionFactory} del punto 2. Tale istanza va memorizzato in un opportuno attributo (interno al metodo stesso) di tipo \texttt{org.hibernate.Transaction};
 			\item[5)] eseguire il comando \inglese{delete} a partire dalla sessione aperta e passando come parametro l'attributo \memberdata{user}.
+			\item[6)] eseguire il comando \inglese{commit} per confermare l'operazione del punto precedente.
 		\end{itemize}
+		
+Poiché l'iter presentato può scatenare il lancio di eccezione, il codice dovrà essere gestito in un blocco \inglese{try-catch}. Nel caso incorra il lancio di un eccezione, il flusso di processo dovrà ristabilire la situazione iniziale richiamando il metodo \texttt{rollback()} dell'istanza di tipo \texttt{org.hibernate.Transaction} creata al punto 4 dell'iter. In ogni caso il metodo deve terminare chiudendo la sessione aperta al punto 2.
+
+\item{\method{+ update(user: IUserData): boolean}}\\
+	Metodo usato per modificare i dati di un utente registrato nel sistema. Il metodo riceve come parametro un istanza di un oggetto \classname{abook.IUserData}. Il metodo dovrà eseguire nell'ordine le seguenti operazioni:
+		\begin{itemize}
+			\item[1)] ottenere dalla classe \classname{HibernateUtil} l'istanza tramite il metodo statico \method{getIstance()};
+			\item[2)] ottenere dall'istanza di tipo \classname{HibernateUtil}(ottenuta al punto precedente), un oggetto di tipo \texttt{org.hibernate.SessionFactory}, tramite il metodo \method{getSessionFactory()};
+			\item[3)] aprire la sessione ottenuta al punto precedente;
+			\item[4)] avviare una transizione a partire dall'istanza \texttt{org.hibernate.SessionFactory} del punto 2. Tale istanza va memorizzato in un opportuno attributo (interno al metodo stesso) di tipo \texttt{org.hibernate.Transaction};
+			\item[5)] eseguire il comando \inglese{update} a partire dalla sessione aperta e passando come parametro l'attributo \memberdata{user}.
+			\item[6)] eseguire il comando \inglese{commit} per confermare l'operazione del punto precedente.
+		\end{itemize}
+		
+Poiché l'iter presentato può scatenare il lancio di eccezione, il codice dovrà essere gestito in un blocco \inglese{try-catch}. Nel caso incorra il lancio di un eccezione, il flusso di processo dovrà ristabilire la situazione iniziale richiamando il metodo \texttt{rollback()} dell'istanza di tipo \texttt{org.hibernate.Transaction} creata al punto 4 dell'iter. In ogni caso il metodo deve terminare chiudendo la sessione aperta al punto 2.
+
+	\item{\method{+ getByNameAndSurname(name: String, surname: String): List<IUserData>}}\\
+	Metodo usato per eseguire un interrogazione al database atta ad ottenere la lista degli utenti aventi un determinato nome e cognome. Il metodo riceve come parametro il nome e il cognome da ricercare. Il metodo dovrà eseguire nell'ordine le seguenti operazioni:
+		\begin{itemize}
+			\item[1)] ottenere dalla classe \classname{HibernateUtil} l'istanza tramite il metodo statico \method{getIstance()};
+			\item[2)] ottenere dall'istanza di tipo \classname{HibernateUtil}(ottenuta al punto precedente), un oggetto di tipo \texttt{org.hibernate.SessionFactory}, tramite il metodo \method{getSessionFactory()};
+			\item[3)] aprire la sessione ottenuta al punto precedente;
+			\item[4)] eseguire il comando \inglese{createQuery()} a partire dall'istanza che definisce la sessione, passando come parametro una stringa rappresentante la \inglese{query} d'interrogazione al database (la \inglese{query} deve restituire dati validi e conformi alle aspettative presentate nell'introduzione di questo metodo). Una prima analisi evidenzia che una \inglese{query} corretta è: 
+\begin{verbatim}
+from UserData as u where u.name = :name or u.surname = :surname
+\end{verbatim}
+			\item[5)] eseguire una serie di comandi di tipo \texttt{setString} per ogni ``variabile'' presente nella \inglese{query} d'interrogazione (per variabile si intende ogni valore di filtraggio presente nelle clausole \inglese{where} delle \inglese{query} HQL, segnato come \texttt{:nome\_variabile}).
+			\item[6)] eseguire il comando \inglese{commit} per eseguire l'interrogazione a database ed ottenere la lista di valori da ritornare.
+		\end{itemize}
+		
+Il metodo deve terminare chiudendo la sessione aperta al punto 2.
 	
+	\item{\method{+ getByEmail(mail: String): IUserData}}\\
+	Metodo usato per eseguire un interrogazione al database atta ad ottenere l'utente avente un determinato indirizzo e-mail. Il metodo riceve come parametro l'indirizzo e-mail da ricercare. Il metodo dovrà eseguire nell'ordine le seguenti operazioni:
+		\begin{itemize}
+			\item[1)] ottenere dalla classe \classname{HibernateUtil} l'istanza tramite il metodo statico \method{getIstance()};
+			\item[2)] ottenere dall'istanza di tipo \classname{HibernateUtil}(ottenuta al punto precedente), un oggetto di tipo \texttt{org.hibernate.SessionFactory}, tramite il metodo \method{getSessionFactory()};
+			\item[3)] aprire la sessione ottenuta al punto precedente;
+			\item[4)] eseguire il comando \inglese{createQuery()} a partire dall'istanza che definisce la sessione, passando come parametro una stringa rappresentante la \inglese{query} d'interrogazione al database (la \inglese{query} deve restituire dati validi e conformi alle aspettative presentate nell'introduzione di questo metodo). Una prima analisi evidenzia che una \inglese{query} corretta è: 
+\begin{verbatim}
+from UserData as u where u.mail = :mail
+\end{verbatim}
+			\item[5)] eseguire una serie di comandi di tipo \texttt{setString} per ogni ``variabile'' presente nella \inglese{query} d'interrogazione (per variabile si intende ogni valore di filtraggio presente nelle clausole \inglese{where} delle \inglese{query} HQL, segnato come \texttt{:nome\_variabile}).
+			\item[6)] eseguire il comando \inglese{commit} per eseguire l'interrogazione a database ed ottenere la lista di valori da ritornare.
+		\end{itemize}
+		
+Il metodo deve terminare chiudendo la sessione aperta al punto 2.	
+	
+	
+	\item{\method{+ searchGeneric(value: String): List<IUserData>}}\\
+		Metodo usato per eseguire un interrogazione generica al database atta ad ottenere una lista di utenti aventi: o un determinato indirizzo e-mail, o un determinato nome o un determinato cognome. Il metodo riceve come parametro la stringa da ricercare. Il metodo dovrà eseguire nell'ordine le seguenti operazioni:
+		\begin{itemize}
+			\item[1)] ottenere dalla classe \classname{HibernateUtil} l'istanza tramite il metodo statico \method{getIstance()};
+			\item[2)] ottenere dall'istanza di tipo \classname{HibernateUtil}(ottenuta al punto precedente), un oggetto di tipo \texttt{org.hibernate.SessionFactory}, tramite il metodo \method{getSessionFactory()};
+			\item[3)] aprire la sessione ottenuta al punto precedente;
+			\item[4)] eseguire il comando \inglese{createQuery()} a partire dall'istanza che definisce la sessione, passando come parametro una stringa rappresentante la \inglese{query} d'interrogazione al database (la \inglese{query} deve restituire dati validi e conformi alle aspettative presentate nell'introduzione di questo metodo). Una prima analisi evidenzia che una \inglese{query} corretta è: 
+\begin{verbatim}
+from UserData as u where u.mail like :mail or u.name like :name or
+\end{verbatim}
+\begin{verbatim}
+u.surname like :surname
+\end{verbatim}
+			\item[5)] eseguire una serie di comandi di tipo \texttt{setString} per ogni ``variabile'' presente nella \inglese{query} d'interrogazione (per variabile si intende ogni valore di filtraggio presente nelle clausole \inglese{where} delle \inglese{query} HQL, segnato come \texttt{:nome\_variabile}).
+			\item[6)] eseguire il comando \inglese{commit} per eseguire l'interrogazione a database ed ottenere la lista di valori da ritornare.
+		\end{itemize}
+		
+Il metodo deve terminare chiudendo la sessione aperta al punto 2.
+
 \end{description}
 
 \subsection{Package org.softwaresynthesis.mytalk.server.abook}\label{sec:abook}
