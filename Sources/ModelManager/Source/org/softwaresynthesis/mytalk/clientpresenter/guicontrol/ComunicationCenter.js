@@ -9,14 +9,13 @@ function ComunicationCenter() {
     this.openChat = new Array();
     //oggetto che contiene i dati dell'utente
     this.my = Array();
-    
-    
+
     /*
-     * TODO
-     * -connect  [se cade riaprire]
-     * -disconect
-     * -
-     */
-    
+    * TODO
+    * -connect  [se cade riaprire]
+    * -disconect
+    * -
+    */
+
     //TODO Uno solo websoket al posto di due [duqneu una sola servlet]
 }

@@ -20,7 +20,7 @@ function MainPanelPresenter(mediator) {
         var img = document.createElement("img");
         //FIXME: Sistema l'SRC dell'immagine
         img.setAttribute("src", "");
-        
+
         this.element.appendChild(img);
     };
 }
