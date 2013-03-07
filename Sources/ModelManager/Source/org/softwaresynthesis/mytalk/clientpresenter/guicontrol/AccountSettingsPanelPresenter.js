@@ -15,7 +15,11 @@ function AccountSettingsPanelPresenter() {
      */
     this.initialize = function() {
         var ulData = document.createElement('ul');
-
+        
+        /* Tutti gli elementi qui mostrati sono recuperati tramite
+         * il riferimento al communicationcenter e la proprietà my in
+         * esso contenuta, dove sono memorizzati i dati relativi all'utente.
+         */
         var name = document.createElement('li');
         name.innerHTML = communicationcenter.my.name;
         
@@ -30,8 +34,8 @@ function AccountSettingsPanelPresenter() {
 
         var change = document.createElement('button');
         change.setAttribute("type", "button");
-        //TODO il bottone 'change' che cosa dovrebbe fare?
-
+        //TODO attaccare comportamento al bottone 'change'
+        
         //appende i sottonodi ai nodi principali
         ulData.appendChild(name);
         ulData.appendChild(surname);
