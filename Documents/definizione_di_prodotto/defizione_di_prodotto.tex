@@ -928,6 +928,50 @@ Permette di caricare le credenziali di autenticazione, fornite dall'utente, per 
 
 \section{Specifica sotto-architettura clientpresenter}\label{sec:clientpresenterarchitecture}
 
+La \texttt{sotto-architettura clientpresenter}, a livello di definizione di prodotto, richiede una trattazione speciale a causa del particolare dominio tecnologico coinvolto. Essa è infatti definita con il linguaggio JavaScript. Tale linguaggio pur essendo definito come linguaggio orientato agli oggetti, non permette di definire classi. A ciò si aggiunge il fatto che JavaScript è debolmente tipizzato. In ragione di ciò, al fine di facilitare al programmatore la comprensione del progetto (pesando quindi alle varie entità come a classi) senza però confonderlo in fase di stesura del codice, si è pensato di adoperare la seguente terminologia.
+
+\begin{description}
+	\item Attributi: saranno definiti con una sintassi simile a quella già usata. Quindi al nome dell'attributo sarà associato il tipo ``logico'' che idealmente rappresenta. In particolare emergono i seguenti casi:
+		\begin{itemize}
+			\item Nodi DOM: come si vedrà alcuni attributi rappresentano nodi DOM già esistenti nella pagina HTML che definisce l'interfaccia utente, e modificati (a run-time) sulla base di informazioni ottenute dal server. Tali attributi dovranno essere codificati come:
+			
+			\begin{verbatim}
+				this.mio_attributo = document.getElementById(``id_DOM'');
+			\end{verbatim}
+			
+			Tali attributi saranno indicati con il formalismo:
+			
+			\begin{verbatim}
+				(+, -, #) nome_atributo: Nodo_DOM
+			\end{verbatim}
+		\end{itemize}
+\end{description}
+
+\classsection{AddressBookPanelPresenter}
+
+\subsubsection*{Funzione}
+Presenter incaricato di gestire il pannello della rubrica, contiene le funzioni associate ai \inglese{widget} grafici della vista relativi alla rubrica e ha la responsabilità di aggiornare la vista sulla base dei dati ricevuti dal server.
+
+\subsubsection*{Relazioni d'uso}
+Nessuna relazione d'uso evidenziata.
+
+\subsubsection*{Attributi}
+\begin{description}
+  \item{\memberdata{-- element: DOM\_node}}\\
+  \item{\memberdata{-- urServlet: Sting}}\\
+  \item{\memberdata{-- contacts: Array()}}\\
+
+
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+
+	\item{\method{+ login(): boolean throws LoginException}}\\
+	
+
+\end{description}
+
 \clearpage
 
 \section{Specifica sotto-architettura clientview}\label{sec:clientviewarchitecture}
