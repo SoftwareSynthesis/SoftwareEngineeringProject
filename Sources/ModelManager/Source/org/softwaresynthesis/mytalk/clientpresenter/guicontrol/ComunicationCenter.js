@@ -5,5 +5,7 @@
  * @author Riccardo Tresoldi
  */
 function ComunicationCenter(){
+    this.videoComunication;
+    this.openChat = new Array();
     
 }
