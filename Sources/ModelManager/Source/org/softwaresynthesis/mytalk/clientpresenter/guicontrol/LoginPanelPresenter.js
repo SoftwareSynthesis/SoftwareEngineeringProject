@@ -25,6 +25,7 @@ function LoginPanelPresenter() {
     
     //creazione dell'elemento <ul> contenuto nel form
     var ulData = document.createElement('ul');
+	ulData.style.listStyleType="none";
     
     //creazione dell'item per lo username
     var liUserName = document.createElement('li');
@@ -119,6 +120,3 @@ function LoginPanelPresenter() {
     request.send("username=" + username + "&password=" + password);
   };
 }
-
-loginpp = new LoginPanelPresenter();
-loginpp.initialize()
