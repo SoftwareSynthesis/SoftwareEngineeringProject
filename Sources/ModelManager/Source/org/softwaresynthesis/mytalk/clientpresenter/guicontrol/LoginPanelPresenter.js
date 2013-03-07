@@ -59,14 +59,21 @@ function LoginPanelPresenter() {
         liPassword.appendChild(labelPassword);
         liPassword.appendChild(inputPassword);
 
-        //creazione dell'item per i pulsanti
-        var liButtons = document.createElement('li');
+
+        //pulsante di login
         var inputLogin = document.createElement('input');
         inputLogin.setAttribute("type", "submit");
         inputLogin.setAttribute("value", "Login");
+        inputLogin.onclick = this.login();
+        //pulsante di registrazione
         var inputRegister = document.createElement('input');
         inputRegister.setAttribute("type", "submit");
         inputRegister.setAttribute("value", "Registrati");
+        //TODO deve essere globale il registrationpp
+        inputRegister.onclick = registrationpp.register();
+
+        //creazione dell'item per i pulsanti
+        var liButtons = document.createElement('li');
         liButtons.appendChild(inputLogin);
         liButtons.appendChild(inputRegister);
 
@@ -90,8 +97,8 @@ function LoginPanelPresenter() {
         //salva i dati ricevuti dal server in una variabile globale
         user = JSON.parse(data);
         if (user != null) {
-            //TODO decidere cosa fare quando il login ha successo
             communicationcenter.my = user;
+            //FIXME questo è solo per i test, in realtà se il login ha successo occorre fare altro
             window.location = "success.html";
         }
     };

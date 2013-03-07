@@ -154,7 +154,13 @@ function AddressBookPanelPresenter() {
         item.setAttribute("id", contact.id);
         item.setAttribute("class", contact.status);
         //la variabile 'mediator' è una variabile globale
-        item.setAttribute("onclick", mediator.onContactSelected(contact));
+        //TODO controllare questa chiusura!!
+        item.onclick = function(c) {
+        	return function() {
+        		mediator.onContactSelected(c);
+        	};
+        } (contact);
+        }
 
         //genero i valori da attribuire all'<li>
         var avatarNode = document.createElement('img');
