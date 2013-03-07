@@ -7,7 +7,9 @@ public class MyMain
 		try
 		{
 			AESAlgorithm aes = new AESAlgorithm();
-			System.out.println(aes.encrypt("password"));
+			String cr = aes.encrypt("ciao");
+			System.out.println(cr);
+			System.out.println(cr.length());
 		}
 		catch (Exception ex) {}
 	}

@@ -1,6 +1,8 @@
 package org.softwaresynthesis.mytalk.server.authentication;
 
 import static org.junit.Assert.*;
+import java.security.Principal;
+import java.util.Set;
 import javax.security.auth.Subject;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
@@ -14,8 +16,8 @@ public class AuthenticationModuleTest
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception 
 	{
-		System.setProperty("java.security.auth.login.config", "LoginConf.conf");
-		AuthenticationData data = new AuthenticationData("indirizzo5@dominio.it", "password");
+		System.setProperty("java.security.auth.login.config", "C:\\Users\\Andrea\\Documents\\GitHub\\SoftwareEngineeringProject\\Sources\\ModelManager\\Source\\LoginConf.conf");
+		AuthenticationData data = new AuthenticationData("indirizzo5@dominio.it", "ciao");
 		CredentialLoader loader = new CredentialLoader(data, new AESAlgorithm());
 		tester = new LoginContext("LoginConf", loader);
 	}
@@ -24,11 +26,18 @@ public class AuthenticationModuleTest
 	public void testLogin()
 	{
 		Subject subject = null;
+		Object[] principalsArray = null;
+		Set<Principal> principals = null;
+		String data = null;
 		try
 		{
 			tester.login();
 			subject = tester.getSubject();
-			assertEquals("indirizzo5@dominio.it", subject.toString());
+			principals = subject.getPrincipals();
+			assertNotNull(principals);
+			principalsArray = principals.toArray();
+			data = principalsArray[0].toString();
+			assertEquals("indirizzo5@dominio.it", data);
 		}
 		catch (LoginException ex)
 		{

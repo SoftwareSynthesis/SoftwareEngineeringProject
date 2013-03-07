@@ -92,6 +92,6 @@ public class PrincipalImpl implements Principal, Serializable
 	@Override
 	public String toString()
 	{
-		return String.format("Elemento identificativo: %s", this.mail);
+		return this.mail;
 	}
 }
