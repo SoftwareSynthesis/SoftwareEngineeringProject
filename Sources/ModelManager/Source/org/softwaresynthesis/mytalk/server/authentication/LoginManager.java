@@ -19,7 +19,7 @@ import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
 @WebServlet(description = "Servlet che offre le funzionalità di login", urlPatterns = { "/LoginManager" })
 public class LoginManager extends HttpServlet 
 {
-	private static final Long serialVersionUID = 100L;
+	private static final long serialVersionUID = 100L;
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
 	{
