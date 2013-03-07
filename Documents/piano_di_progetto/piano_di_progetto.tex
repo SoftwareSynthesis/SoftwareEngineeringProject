@@ -741,11 +741,93 @@ Orario & 721& \textcolor{green}{712} \\
 Economico & \EUR{13.211,00} &\textcolor{green}{\EUR{13.176,00}}\\
 \hline
 \end{tabular}
-\caption{costo e ore preventivo a finire}\label{tab:conspa}
+\caption{costo e ore preventivo a finire PA}\label{tab:conspa}
 \end{table}
 
 \subsection{Progettazione di Dettaglio e Codifica}
-\subsubsection{Preventivo a finire - PDC}
+L'attività di progettazione di dettaglio e codifica è stata leggermente modificata a livello tempistico delle singole attività, in quanto non era stata correttamente pianificata la data di consegna effettiva della documentazione.
+Inoltre la modifica dell'architettura ad alto livello come segnalato in sedi di RP ha compromesso l'inizio delle stesse, facendo slittare l'inizio dell'attività vera e propria di due settimane (precisamente al 2013/02/21) .
+Tale imprevisto ha costretto il team a posticipare la data pianificata per il termine del lavoro, non riuscendo pertanto a rendersi disponibile per la consegna fissata in data 2013/02/27.
+Nelle settimane di revisione della progettazione di alto livello non sono state ovviamente impiegate tutte le risorse del team in tale attività. Le rimanenti sono state indirizzate alla correzione della documentazione parzialmente errata e allo studio delle tecnologie indispensabili per l'implementazione del sistema (WebRTC e JavaScript su tutte), riuscendo a produrre un prototipo embrionale di comunicazione con tali tecnologie.
+Si sono verificate inoltre ulteriori difficoltà che hanno rallentato l'avanzamento del progetto nel passaggio tra progettazione di dettaglio e la codifica vera e propria, in quanto i programmatori hanno sollevato alcune perplessità in merito alla mancanza (o alla errata implementazione) di alcuni metodi delle classi pianificate. Tale iterazione non dovrebbe idealmente essere presente, ne tanto meno resa necessaria in seguito alla segnalazione dei programmatori (che al contrario hanno solo il compito di tradurre il progetto in codice, non verificarlo), tuttavia la scarsa esperienza generale del gruppo di progettazione ha generato la ``spiacevole'' situazione.
+La nuova versione del Gantt progettuale riportata in seguito (figura \ref{fig:ganttpdcconsuntivo}) rivede quanto pianificato nelle fasi preliminari del progetto, aggiornandolo allo stato attuale d'avanzamento e adeguando la durata temporale delle singole attività a quanto effettivamente svolto, che verranno terminate in data 2013/03/15.
+
+\begin{figure}[h]
+  \includegraphics[width=\textwidth]{Consuntivo_PDC}
+\caption{Gantt della Progettazione di Dettaglio e Codifica}\label{fig:ganttpdcconsuntivo}
+\end{figure}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|c|c|c|c|c|c|c|c|}
+\hline
+\multirow{2}{*}{Componente}& RE& AM& AN& PRO& PRG&VER& PRG& VER \\
+					      &    &     &      &        & fase1&fase1&fase2&fase2\\
+\hline
+Diego Beraldin & \textcolor{green}{6(-3)}& & & & 24& & & \textcolor{red}{18(+3)}\\
+Stefano Farronato & & 5& & \textcolor{red}{(+3)13}&14 & & & 18\\
+Andrea Meneghinello & & & & & & 25& 19& \\
+Andrea Rizzi & 9& & & 22& & & 12& \\
+Marco Schivo & & & &\textcolor{red}{(+2)18}& 10& & & 20\\
+Riccardo Tresoldi & & 7& & & & 20& \textcolor{red}{22(+2)}& \\
+Elena Zecchinato & & & & 25& & & \textcolor{red}{22(+2)}& \\
+\hline
+Totale & \textcolor{green}{15(-3)}& 12& 0& \textcolor{red}{(+5)78}& 48& 45& \textcolor{red}{(+4)75}& \textcolor{red}{(+3)56}\\
+\hline
+\end{tabular}
+\caption{consuntivo orario dei ruoli nell'attività di Progettazione di Dettaglio e Codifica}\label{tab:consruolipdc}
+\end{table}
+
+Passando ad analizzare le ore produttive per ogni componente del team di progetto, si può notare uno scostamento stimato attorno ad un 6\% in eccesso per l'attività di progettazione di dettaglio e per la codifica, le cui motivazioni sono state descritte poche righe sopra, un 2\% per l'attività di verifica e un risparmio di circa il 15\% per l'attività svolta dal responsabile. 
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c c c c c c|c|}
+\hline
+Componente		& RE&   AM&   AN&  PRO& PRG& VER & TOTALE\\
+\hline
+Ore Preventivate	& 18&    12&   0&  73& 119&    98  & 320\\
+Ore Effettive       	& \textcolor{green}{15} &   12&   0&  \textcolor{red}{78}& \textcolor{red}{123}&     \textcolor{red}{101} & \textcolor{red}{329}\\
+\hline
+TOTALE			& \textcolor{green}{-3}&    0&    0&    \textcolor{red}{+5}&\textcolor{red}{+4}& \textcolor{red}{+3}& \textcolor{red}{+9}\\
+\hline
+\end{tabular}
+\caption{comparazione preventivo/consuntivo ore dell'attività di PDC}\label{tab:consorepdc}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c c c c c c|c|}
+\hline
+Componente		& RE&   AM&   AN&  PRO& PRG& VER & TOTALE \\
+\hline
+Costo Preventivato  & \EUR{540}& \EUR{240}& \EUR{0}&\EUR{1606}& \EUR{1785}& \EUR{1470} & \EUR{5641}\\
+Costo Effettivo	       & \EUR{450}& \EUR{240}& \EUR{0}& \EUR{1716}&\EUR{1845}& \EUR{1515}& \EUR{5766}\\
+\hline
+TOTALE			& \textcolor{green}{\EUR{-90}} &    \EUR{0}&\EUR{0}&   \textcolor{red}{\EUR{+110}}&\textcolor{red}{\EUR{+60}}&    \textcolor{red}{\EUR{+45}} &\textcolor{red}{\EUR{+125}}\\
+\hline
+\end{tabular}
+\caption{comparazione preventivo/consuntivo costi dell'attività di PDC}\label{tab:conscostipdc}
+\end{table}
+
+Le tabelle \ref{tab:consorepdc} e \ref{tab:conscostipdc} aggiornano il consumo di risorse temporali ed economiche. Si può notare un discostamento da quanto preventivato di 9 ore lavorative in eccesso e \EUR{125} da sommare a consuntivo, tali deficit vengono parzialmente sopperiti dalle risorse risparmiate durante l'attività di progettazione architetturale (9 ore - \EUR{35}) portando pertanto l'investimento temporale al pareggio e un eventuale ulteriore esborso economico per il committente di \EUR{90}.
+
+\subsubsection{Preventivo a finire -- PDC}
+In base a quanto riscontrato durante l'attività di progettazione di dettaglio e codifica il team ha appreso e assorbito le problematiche legate ad una progettazione architetturale di alto livello non sufficientemente corretta e dettagliata. Tale esperienza ha fatto riflettere il gruppo sugli impegni che sarà chiamato ad osservare per l'ultima attività di validazione finale.\\
+Se la codifica sarà ritenuta di buon livello implementativo, l'attività finale non dovrebbe discostarsi significativamente da quanto pianificato, al contrario se il committente riterrà opportune modifiche più o meno rilevanti potrebbe comportare un lieve ritardo di consegna.\\
+Concludiamo ancora una volta la sezione aggiornando il costo e le ore destinate al progetto che il committente ha accettato in revisione dei requisiti.
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|c|c|}
+\hline
+Tipologia&Preventivo iniziale& Prevetivo a finire \\
+\hline
+Orario & 721& 721 \\
+Economico & \EUR{13.211,00} &\textcolor{red}{\EUR{13.301,00}}\\
+\hline
+\end{tabular}
+\caption{costo e ore preventivo a finire PDC}\label{tab:conspdc}
+\end{table}
 
 \clearpage
 
