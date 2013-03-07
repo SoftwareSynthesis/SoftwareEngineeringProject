@@ -52,7 +52,7 @@ function LoginPanelPresenter() {
         var inputPassword = document.createElement('input');
         inputPassword.setAttribute("type", "email");
         inputPassword.setAttribute("id", "password");
-        inputPassword.setAttribute("name", "username");
+        inputPassword.setAttribute("name", "password");
         inputPassword.setAttribute("placeholder", "password");
         inputPassword.setAttribute("required", "required");
         //costruisce il list item con la label e l'input

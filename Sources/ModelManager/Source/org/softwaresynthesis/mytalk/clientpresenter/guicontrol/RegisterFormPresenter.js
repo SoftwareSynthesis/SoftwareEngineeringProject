@@ -52,7 +52,7 @@ function RegisterFormPresenter() {
         var inputPassword = document.createElement('input');
         inputPassword.setAttribute("type", "email");
         inputPassword.setAttribute("id", "password");
-        inputPassword.setAttribute("name", "username");
+        inputPassword.setAttribute("name", "password");
         inputPassword.setAttribute("placeholder", "password");
         inputPassword.setAttribute("required", "required");
         //costruisce il list item con la label e l'input
@@ -63,12 +63,12 @@ function RegisterFormPresenter() {
         var liSecretQ = document.createElement('li');
         //label
         var labelSecretQ = document.createElement('label');
-        labelSecretQ.setAttribute("for", "SecretQ");
+        labelSecretQ.setAttribute("for", "question");
         //input
         var inputSecretQs = document.createElement('input');
         inputSecretQ.setAttribute("type", "string");
         inputSecretQ.setAttribute("id", "question");
-        inputSecretQ.setAttribute("name", "Domanda segreta");
+        inputSecretQ.setAttribute("name", "question");
         inputSecretQ.setAttribute("placeholder", "colore del gatto");
         inputSecretQ.setAttribute("required", "required");
         //costruisce il list item con la label e l'input
@@ -79,12 +79,12 @@ function RegisterFormPresenter() {
         var liAnswerSQ = document.createElement('li');
         //label
         var labelAnswerSQ = document.createElement('label');
-        labelAnswerSQ.setAttribute("for", "username");
+        labelAnswerSQ.setAttribute("for", "answer");
         //input
         var inputAnswerSQ = document.createElement('input');
         inputAnswerSQ.setAttribute("type", "");
-        inputAnswerSQ.setAttribute("id", "Question");
-        inputAnswerSQ.setAttribute("name", "Risposta");
+        inputAnswerSQ.setAttribute("id", "answer");
+        inputAnswerSQ.setAttribute("name", "answer");
         inputAnswerSQ.setAttribute("placeholder", "blallo");
         inputAnswerSQ.setAttribute("required", "required");
         //costruisce il list item con la label e l'input
@@ -95,12 +95,12 @@ function RegisterFormPresenter() {
         var liFirstName = document.createElement('li');
         //label
         var labelFirstName = document.createElement('label');
-        labelFirsName.setAttribute("for", "firstname");
+        labelFirsName.setAttribute("for", "name");
         //input
         var inputFirstName = document.createElement('input');
-        inputFirstName.setAttribute("type", "");
+        inputFirstName.setAttribute("type", "text");
         inputFirstName.setAttribute("id", "name");
-        inputFirstName.setAttribute("name", "Nome");
+        inputFirstName.setAttribute("name", "name");
         inputFirstName.setAttribute("placeholder", "il tuo nome");
         //costruisce il list item con la label e l'input
         liUserName.appendChild(labelFirstName);
@@ -110,12 +110,12 @@ function RegisterFormPresenter() {
         var liFirstName = document.createElement('li');
         //label
         var labelFirstName = document.createElement('label');
-        labelLastName.setAttribute("for", "lastname");
+        labelLastName.setAttribute("for", "surname");
         //input
         var inputLastName = document.createElement('input');
-        inputLastName.setAttribute("type", "");
-        inputLastName.setAttribute("id", "lastname");
-        inputLastName.setAttribute("name", "Cognome");
+        inputLastName.setAttribute("type", "text");
+        inputLastName.setAttribute("id", "surname");
+        inputLastName.setAttribute("name", "surname");
         inputLastName.setAttribute("placeholder", "il tuo cognome");
         //costruisce il list item con la label e l'input
         liUserName.appendChild(labelLastName);
@@ -147,13 +147,12 @@ function RegisterFormPresenter() {
      *
      * @author Stefano Farronato
      */
-    this.testCredentials = function(data) {
+
+    this.test = function(data) {
         //salva i dati ricevuti dal server in una variabile globale
         user = JSON.parse(data);
         if (user != null) {
             //TODO decidere cosa fare quando la registrazione ha successo
-            //TODO settare i campi
-            window.location = "success.html";
         }
     };
 
@@ -163,7 +162,7 @@ function RegisterFormPresenter() {
      *
      * @author Stefano Farronato
      */
-    this.login = function() {
+    this.register = function() {
         //recupera le credenziali dall'interfaccia grafica
         var username = document.getElementById("usermail").value;
         var password = document.getElementById("password").value;
@@ -177,7 +176,7 @@ function RegisterFormPresenter() {
         var that = this;
         request.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                that.testCredentials(request.responseText);
+                that.test(request.responseText);
             }
         };
         request.open("POST", this.servletURL, true);
