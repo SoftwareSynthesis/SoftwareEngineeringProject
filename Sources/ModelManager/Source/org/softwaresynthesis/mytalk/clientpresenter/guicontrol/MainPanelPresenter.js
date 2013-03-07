@@ -3,9 +3,8 @@
  *
  * @author Elena Zecchinato
  * @author Diego Beraldin
- * @param mediator  riferimento al mediatore che gestisce la collaborazione fra i presenter
  */
-function MainPanelPresenter(mediator) {
+function MainPanelPresenter() {
     //FIXME please! Questo ci è stato vietato da ricCARDINo
     this.mediator = mediator;
     //elemento controllato da questo presenter

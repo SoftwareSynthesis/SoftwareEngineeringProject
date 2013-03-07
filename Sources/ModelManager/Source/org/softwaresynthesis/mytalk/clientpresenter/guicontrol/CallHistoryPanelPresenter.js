@@ -2,11 +2,8 @@
  *
  * @author Elena Zecchinato
  * @author Diego Beraldin
- * @param mediator  riferimento al mediatore che gestisce la collaborazione fra i presenter
  */
-function CallHistoryPanel(mediator) {
-    //FIXME please! Questo ci è stato vietato da ricCARDINo
-    this.mediator = mediator;
+function CallHistoryPanel() {
     //elemento controllato da questo presenter
     this.element = document.getElementById("CallHistoryPanel");
 

@@ -4,11 +4,8 @@
  * @author Diego Beraldin
  * @author Stefano Farronato
  * @author Elena Zecchinato
- * @param mediator  riferimento al mediatore che gestisce la collaborazione fra i presenter
  */
 function ContactPanelPresenter(mediator) {
-  //FIXME please! Questo ci è stato vietato da ricCARDINo
-  this.mediator = mediator;
   //elemento controllato da questo presenter
   this.element = document.getElementById("ContactPanel");
   

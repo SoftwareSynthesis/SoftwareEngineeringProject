@@ -6,9 +6,8 @@
  * @author Marco Schivo
  * @author Riccardo Tresoldi
  * @author Diego Beraldin
- * @param mediator  riferimento al mediatore che gestisce la collaborazione fra i presenter
  */
-function AddressBookPanelPresenter(mediator) {
+function AddressBookPanelPresenter() {
     //elemento controllato da questo presenter
     this.element = document.getElementById("AddressBookPanel");
     //da configurare con url della servlet

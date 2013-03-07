@@ -5,7 +5,7 @@
  * @author Riccardo Tresoldi
  */
 function ComunicationCenter() {
-    this.videoComunication
+    this.videoComunication;
     this.openChat = new Array();
     //oggetto che contiene i dati dell'utente
     this.my = Array();

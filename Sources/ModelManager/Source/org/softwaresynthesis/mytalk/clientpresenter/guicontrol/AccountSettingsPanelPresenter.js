@@ -1,36 +1,45 @@
 /**
+ * Presenter incaricato di gestire il pannello delle impostazioni dell'utente
+ * 
+ * @author Elena Zecchinato
+ * @author Diego Beraldin
  */
-function AccountSettingsPanelPresenter(mediator) {
-    //FIXME please! Questo ci è stato vietato da ricCARDINo
-    this.mediator = mediator;
+function AccountSettingsPanelPresenter() {
     //elemento controllato da questo presenter
     this.element = document.getElementById("AccountSettingsPanel");
 
     /**
-     * TODO: da riguardare
+     * Inizializza il pannello costruendone i widget grafici interni
+     * 
      * @author Elena Zecchinato
      */
     this.initialize = function() {
-        var ulDati = document.createElement('ul');
+        var ulData = document.createElement('ul');
 
-        var nome = document.createElement('li');
-        var cognome = document.createElement('li');
+        var name = document.createElement('li');
+        name.innerHTML = communicationcenter.my.name;
+        
+        var surname = document.createElement('li');
+        surname.innerHTML = communicationcenter.my.surname;
+        
         var mail = document.createElement('li');
+        mail.innerHTML = communicationcenter.my.email;
 
-        var immagine = document.createElement('img');
-        immagine.setAttribute("src");
+        var picure = document.createElement('img');
+        picture.setAttribute("src", communicationcenter.my.picture);
 
-        var cambia = document.createElement('button');
-        chiama.setAttribute("type", "button");
+        var change = document.createElement('button');
+        change.setAttribute("type", "button");
+        //TODO il bottone 'change' che cosa dovrebbe fare?
 
-        //appendo i sottonodi ai nodi principali
-        ulDati.appendChild(nome);
-        ulDati.appendChild(cognome);
-        ulDati.appendChild(mail);
+        //appende i sottonodi ai nodi principali
+        ulData.appendChild(name);
+        ulData.appendChild(surname);
+        ulData.appendChild(mail);
 
-        //apendo il sottoalbero al DOM
-        this.element.appendChild(immagine);
-        this.element.appendChild(ulDati);
-        this.element.appendChild(cambia);
+        //appende il sottoalbero al DOM
+        this.element.appendChild(picture);
+        this.element.appendChild(ulData);
+        this.element.appendChild(change);
     };
 }
