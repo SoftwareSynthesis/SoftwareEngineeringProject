@@ -17,7 +17,7 @@ function LoginPanelPresenter() {
    */
   this.initialize = function() {
     //creazione dell'elemento form
-    var loginform = document.createElement('form');
+    var loginForm = document.createElement('form');
     loginForm.setAttribute("name", "login");
     loginForm.setAttribute("action", "");
     loginForm.setAttribute("method", "");
@@ -37,13 +37,13 @@ function LoginPanelPresenter() {
     inputUserName.setAttribute("id", "username");
     inputUserName.setAttribute("name", "username");
     inputUserName.setAttribute("placeholder", "yourname@email.com");
-    inputUserName.setAttribute("required");//FIXME potenziale problema perché richiede che ci siano due stringhe
+    inputUserName.setAttribute("required", "required");
     //costruisce il list item con la label e l'input
     liUserName.appendChild(labelUserName);
     liUserName.appendChild(inputUserName);
     
     //crea l'item per la password
-    var liPassword = documente.createElement('li');
+    var liPassword = document.createElement('li');
     //label
     var labelPassword = document.createElement('label');
     labelPassword.setAttribute("for", "password");
@@ -53,10 +53,10 @@ function LoginPanelPresenter() {
     inputPassword.setAttribute("id", "password");
     inputPassword.setAttribute("name", "username");
     inputPassword.setAttribute("placeholder", "password");
-    inputPassword.setAttribute("required");//FIXME potenziale problema perché richiede che ci siano due stringhe
+    inputPassword.setAttribute("required", "required");
     //costruisce il list item con la label e l'input
     liPassword.appendChild(labelPassword);
-    liPasswrod.appendChild(inputPassword);
+    liPassword.appendChild(inputPassword);
     
     //creazione dell'item per i pulsanti
     var liButtons = document.createElement('li');
@@ -76,7 +76,7 @@ function LoginPanelPresenter() {
     loginForm.appendChild(ulData);
     
     //appende il form al DOM della pagin
-    this.element.appendChild(loginform);
+    this.element.appendChild(loginForm);
   };
   
   /**
@@ -90,6 +90,8 @@ function LoginPanelPresenter() {
     user = JSON.parse(data);
     if (user != null) {
       //TODO decidere cosa fare quando il login ha successo
+      //TODO settare i campi
+      window.location = "success.html";
     }
   };
   
@@ -112,8 +114,11 @@ function LoginPanelPresenter() {
         that.testCredentials(request.responseText);
       }
     };
-    request.open("POST", servletURL, true);
+    request.open("POST", this.servletURL, true);
     request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
     request.send("username=" + username + "&password=" + password);
   };
 }
+
+loginpp = new LoginPanelPresenter();
+loginpp.initialize()
