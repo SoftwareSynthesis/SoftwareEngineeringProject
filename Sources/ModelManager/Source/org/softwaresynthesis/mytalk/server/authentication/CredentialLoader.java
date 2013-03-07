@@ -55,16 +55,7 @@ public class CredentialLoader implements CallbackHandler
 			if (callbacks[i] instanceof NameCallback)
 			{
 				nc = (NameCallback)callbacks[i];
-				try
-				{
-					cryptedValue = security.encrypt(this.credential.getUsername());
-				}
-				catch (Exception ex)
-				{
-					throw new IOException("Errori durante la conversione dello username");
-				}
-				nc.setName(cryptedValue);
-				cryptedValue = null;
+				nc.setName(this.credential.getUsername());
 			}
 			else
 			{

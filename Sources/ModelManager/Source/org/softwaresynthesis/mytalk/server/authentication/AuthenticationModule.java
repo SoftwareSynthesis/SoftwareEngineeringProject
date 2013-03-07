@@ -104,7 +104,7 @@ public class AuthenticationModule implements LoginModule
 			if(user != null)
 			{
 				userPass = user.getPassword();
-				if (userPass.equals(this.password))
+				if (userPass.equals(new String(this.password)))
 				{
 					this.login = true;
 					return true;
