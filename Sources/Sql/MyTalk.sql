@@ -18,7 +18,7 @@ CREATE TABLE UserData
 (
 	ID_user						BIGINT UNSIGNED				NOT NULL			AUTO_INCREMENT,
 	E_Mail						VARCHAR(100)				NOT NULL,
-	Password					CHAR(41)					NOT NULL,
+	Password					VARCHAR(100)				NOT NULL,
 	Question					VARCHAR(100)				NOT NULL,
 	Answer						VARCHAR(100)				NOT NULL,
 	Name						VARCHAR(100),
