@@ -9,8 +9,6 @@
  * @param mediator  riferimento al mediatore che gestisce la collaborazione fra i presenter
  */
 function AddressBookPanelPresenter(mediator) {
-  //FIXME please! Questo ci è stato vietato da ricCARDINo
-  this.mediator = mediator;
   //elemento controllato da questo presenter
   this.element = document.getElementById("AddressBookPanel");
   //da configurare con url della servlet 
@@ -55,14 +53,12 @@ function AddressBookPanelPresenter(mediator) {
       this.element.appendChild(divSort);
       this.element.appendChild(divList);
       
-      //scarica la rubrica dal server
-      getAddressBookContacts();
       //visualizza i contatti nel pannello
       setup();
     };
   
  /**
-  * Recupera i contatti della proipria rubrica dal server tramite AJAX
+  * Recupera i contatti della propria rubrica dal server tramite AJAX
   *
   * @author Marco Schivo
   */
@@ -86,11 +82,8 @@ function AddressBookPanelPresenter(mediator) {
     request.open("POST", urlServlet, "true");
     request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
     //se c'è bisogno di passare piu parametri, agganciarli con &
-    //idUser deve essere dichiarata variabile globale
-    request.send("id=" + idUser);
+    request.send("id=" + communicationcenter.my.id);
     }
-    
-
     
   /**
    * Inserisce i contatti estratti dal server all'interno della lista
@@ -159,8 +152,9 @@ function AddressBookPanelPresenter(mediator) {
       var avatar = contact.image;
     
       //imposto gli attributi corretti
-      item.setAttribute("id", contact.ID);
+      item.setAttribute("id", contact.id);
       item.setAttribute("class", contact.status);
+      //la variabile 'mediator' è una variabile globale
       item.setAttribute("onclick", mediator.onContactSelected(contact));
     
       //genero i valori da attribuire all'<li>
