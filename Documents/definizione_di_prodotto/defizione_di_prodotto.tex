@@ -928,10 +928,12 @@ Permette di caricare le credenziali di autenticazione, fornite dall'utente, per 
 
 \section{Specifica sotto-architettura clientpresenter}\label{sec:clientpresenterarchitecture}
 
+\subsection{Normativa sulla codifica del presenter}\label{sec:authentication}
+
 La \texttt{sotto-architettura clientpresenter}, a livello di definizione di prodotto, richiede una trattazione speciale a causa del particolare dominio tecnologico coinvolto. Essa è infatti definita con il linguaggio JavaScript. Tale linguaggio pur essendo definito come linguaggio orientato agli oggetti, non permette di definire classi. A ciò si aggiunge il fatto che JavaScript è debolmente tipizzato. In ragione di ciò, al fine di facilitare al programmatore la comprensione del progetto (pesando quindi alle varie entità come a classi) senza però confonderlo in fase di stesura del codice, si è pensato di adoperare la seguente terminologia.
 
 \begin{description}
-	\item Attributi: saranno definiti con una sintassi simile a quella già usata. Quindi al nome dell'attributo sarà associato il tipo ``logico'' che idealmente rappresenta. In particolare emergono i seguenti casi:
+	\item{\scshape\bfseries Attributi}: saranno definiti con una sintassi simile a quella già usata. Quindi al nome dell'attributo sarà associato il tipo ``logico'' che idealmente rappresenta. In particolare emergono i seguenti casi:
 		\begin{itemize}
 			\item Nodi DOM: come si vedrà alcuni attributi rappresentano nodi DOM già esistenti nella pagina HTML che definisce l'interfaccia utente, e modificati (a run-time) sulla base di informazioni ottenute dal server. Tali attributi dovranno essere codificati come:
 			
@@ -944,8 +946,29 @@ La \texttt{sotto-architettura clientpresenter}, a livello di definizione di prod
 			\begin{verbatim}
 				(+, -, #) nome_atributo: Nodo_DOM
 			\end{verbatim}
+			
+			\item String: se l'attributo è destinato a contenere esclusivamente valori di tipo String sarà segnato nel documento come:
+			
+			\begin{verbatim}
+				(+, -, #) nome_atributo: String
+			\end{verbatim}
+			
+			\item Array: se l'attributo è un Array, che in JavaScript non chiede di essere definito per tipo di valori contenibili, nel documento sarà precisato come:
+			
+			\begin{verbatim}
+				(+, -, #) nome_atributo: Tipo[]
+			\end{verbatim}
 		\end{itemize}
+	\item{\scshape\bfseries Metodi}: la sintassi usata dal programmatore per definire un metodo in JavaScript dovrà essere la seguente:
+		\begin{verbatim}
+			var nome_metodo = function(){ contenuto }
+		\end{verbatim}
+		
+		mentre la sintassi usata nel documento per definirne la firma, resta la stessa usata in precedenza.
+	
 \end{description}
+
+\subsection{Package org.softwaresynthesis.mytalk.clientpresenter.guicontrol}\label{sec:authentication}
 
 \classsection{AddressBookPanelPresenter}
 
@@ -957,18 +980,40 @@ Nessuna relazione d'uso evidenziata.
 
 \subsubsection*{Attributi}
 \begin{description}
-  \item{\memberdata{-- element: DOM\_node}}\\
-  \item{\memberdata{-- urServlet: Sting}}\\
-  \item{\memberdata{-- contacts: Array()}}\\
 
+  \item{\memberdata{-- element: DOM\_node}}\\
+  Attributo che definisce il contenuto del nodo DOM inerente alla rappresentazione della rubrica. Nello specifico tale nodo corrisponde ad un \texttt{div} con id \texttt{AddressBookPanel}.
+  \item{\memberdata{-- urServlet: Sting}}\\
+  Attributo che definisce l'URL dal quale è richiamabile la servlet usata per interagire con l'apparato server del sistema.
+  \item{\memberdata{-- contacts: String[]}}\\
+  Attributo che definisce la lista degli utenti presenti nella mia rubrica.
 
 \end{description}
 
 \subsubsection*{Metodi}
 \begin{description}
 
-	\item{\method{+ login(): boolean throws LoginException}}\\
+	\item{\method{+ inizialize(): void}}\\
+	Metodo per inizializzare  ``AddressBookPannel'' e lo popolarlo con i contatti della rubrica. Il metodo modifica il DOM creando tre div: divSearch, divSort e divList. Quindi sequenzialmente ne crea il contenuto:
+		\begin{itemize}
+			\item divSearch: in esso si dovrà definire un campo per l'input testuale e un bottone per ricercare nella lista un utente avente avete tra le parole chiave, una con valore uguale a quello inserito nel campo d'input.
+			\item divSort: in esso crea delle \inglese{select} per specificare le tipologie di ordinamento attuabili sulla lista degli utenti.
+			\item divList: div che viene popolato con i nomi degli utenti presenti nella rubrica dell'utente che l'ha richiamata.
+		\end{itemize}
+
+Quindi dopo aver creato questi elementi il metodo procede inserendo nel DOM il ``sotto-albero'' cosi creato.
+
+	\item{\method{+ getAddressBookContacts(): void}}\\
+Metodo che recupera i contatti della propria rubrica dal server usando la tecnologia AJAX. Il metodo crea una variabile contenente un istanza \texttt{XMLHttpRequest()}. Quindi con metodo \inglese{POST} inoltra la richiesta alla servlet richiamandola al URL salvato nell'attributo \memberdata{urlServlet}. Quindi elabora i dati ottenuti mediante il metodo \texttt{JSON.parse()} e li salva nell'array \memberdata{contact}.
 	
+	\item{\method{+ setup(): void}}\\
+	Inserisce i contatti estratti dal server all'interno della lista ``AddressBookList'' all'interno di ``AddressBookPanel''
+	
+	\item{\method{+ displayContactList(contact: String[]): void}}\\
+	Metodo usato per visualizzare la lista dei contatti utente. Il metodo crea un elemento di markup \inglese{ul} popolandolo richiamando il metodo \method{addListItem()}.
+	
+	\item{\method{-- addListItem(contact: String[]): void}}\\
+	Metodo richiamato da \method{dysplayContactList()} per visualizzare i contatti presenti all'array \memberdata{contact} (passato come parametro). Il metodo crea le variabili contenenti i dati del contatto da attribuire al tag di markup \texttt{li}. Tali variabili sono quelle tipiche di un oggetti \classname{JSUserData} (nome, cognome, email, status e immagine).
 
 \end{description}
 
