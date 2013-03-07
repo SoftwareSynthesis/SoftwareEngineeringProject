@@ -8,8 +8,76 @@ function LoginPanelPresenter() {
   this.servletURL = "localhost:8080/LoginManager";
   //elemento controllato da questo presenter
   this.element = document.getElementById("LoginPanel");
-  //
-  this.successURL = "";
+  
+  /**
+   * Inizializzazione del pannello di login con la creazione di tutti i
+   * widget grafici che sono contenuti al suo interno
+   * 
+   * @author Diego Beraldin
+   */
+  this.initialize = function() {
+    //creazione dell'elemento form
+    var loginform = document.createElement('form');
+    loginForm.setAttribute("name", "login");
+    loginForm.setAttribute("action", "");
+    loginForm.setAttribute("method", "");
+    loginForm.setAttribute("accept-charset", "utf-8");
+    
+    //creazione dell'elemento <ul> contenuto nel form
+    var ulData = document.createElement('ul');
+    
+    //creazione dell'item per lo username
+    var liUserName = document.createElement('li');
+    //label
+    var labelUserName = document.createElement('label');
+    labelUserName.setAttribute("for", "username");
+    //input
+    var inputUserName = document.createElement('input');
+    inputUserName.setAttribute("type", "email");
+    inputUserName.setAttribute("id", "username");
+    inputUserName.setAttribute("name", "username");
+    inputUserName.setAttribute("placeholder", "yourname@email.com");
+    inputUserName.setAttribute("required");//FIXME potenziale problema perché richiede che ci siano due stringhe
+    //costruisce il list item con la label e l'input
+    liUserName.appendChild(labelUserName);
+    liUserName.appendChild(inputUserName);
+    
+    //crea l'item per la password
+    var liPassword = documente.createElement('li');
+    //label
+    var labelPassword = document.createElement('label');
+    labelPassword.setAttribute("for", "password");
+    //input
+    var inputPassword = document.createElement('input');
+    inputPassword.setAttribute("type", "email");
+    inputPassword.setAttribute("id", "password");
+    inputPassword.setAttribute("name", "username");
+    inputPassword.setAttribute("placeholder", "password");
+    inputPassword.setAttribute("required");//FIXME potenziale problema perché richiede che ci siano due stringhe
+    //costruisce il list item con la label e l'input
+    liPassword.appendChild(labelPassword);
+    liPasswrod.appendChild(inputPassword);
+    
+    //creazione dell'item per i pulsanti
+    var liButtons = document.createElement('li');
+    var inputLogin = document.createElement('input');
+    inputLogin.setAttribute("type", "submit");
+    inputLogin.setAttribute("value", "Login");
+    var inputRegister = document.createElement('input');
+    inputRegister.setAttribute("type", "submit");
+    inputRegister.setAttribute("value", "Registrati");
+    liButtons.appendChild(inputLogin);
+    liButtons.appendChild(inputRegister);
+    
+    //appende tutti gli elementi al form
+    ulData.appendChild(liUserName);
+    ulData.appendChild(liPassword);
+    ulData.appendChild(liButtons);
+    loginForm.appendChild(ulData);
+    
+    //appende il form al DOM della pagin
+    this.element.appendChild(loginform);
+  };
   
   /**
    * Testa quanto ricevuto dal server e, in caso di login avvenuto correttamente

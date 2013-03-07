@@ -136,6 +136,7 @@ function AddressBookPanelPresenter(mediator) {
     * @param list lista cui il contatto deve essere aggiunto
     * @param contact  contatto da aggiungere
     */
+    //TODO deve diventare un metodo privato
     this.addListItem = function(list, contact) {
       //creo l'elemento <li>
       var item = document.createElement("li");
