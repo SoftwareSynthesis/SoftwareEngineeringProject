@@ -13,17 +13,17 @@ function ToolsPanelPresenter() {
      */
     this.initialize = function() {
         //creo i due div principali
-        var divState = document.createElement('div')
+        var divState = document.createElement('div');
         var divFunction = document.createElement('div');
 
         //creo contenuto divFunction
-        var ulFuntion = document.createElement('ul');
+        var ulFunction = document.createElement('ul');
         select.setAttribute("id", "ToolsList");
 
-        var liAnswering = document.createElement('li')
-        var liSetting = document.createElement('li')
-        var liCallList = document.createElement('li')
-        var liLanguage = document.createElement('li')
+        var liAnswering = document.createElement('li');
+        var liSetting = document.createElement('li');
+        var liCallList = document.createElement('li');
+        var liLanguage = document.createElement('li');
 
         //creo contenuto divState
         var state = document.createElement('select');
@@ -32,7 +32,7 @@ function ToolsPanelPresenter() {
         //appendo i sottonodi ai nodi principali
         ulFunction.appendChild(liAnswering);
         ulFunction.appendChild(liSetting);
-        ulFunction.appendChild(liCallist);
+        ulFunction.appendChild(liCallList);
         ulFunction.appendChild(liLanguage);
 
         divFunction.appendChild(ulFunction);

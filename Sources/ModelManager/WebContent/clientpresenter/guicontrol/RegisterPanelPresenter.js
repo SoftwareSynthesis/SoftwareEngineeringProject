@@ -3,7 +3,7 @@
  *
  * @author Stefano Farronato
  */
-function RegisterFormPresenter() {
+function RegisterPanelPresenter() {
     //url della servlet che deve gestire la registrazione
     this.servletURL = "localhost:8080/RegisterManager";
     //elemento controllato da questo presenter
@@ -65,7 +65,7 @@ function RegisterFormPresenter() {
         var labelSecretQ = document.createElement('label');
         labelSecretQ.setAttribute("for", "question");
         //input
-        var inputSecretQs = document.createElement('input');
+        var inputSecretQ = document.createElement('input');
         inputSecretQ.setAttribute("type", "text");
         inputSecretQ.setAttribute("id", "question");
         inputSecretQ.setAttribute("name", "question");
@@ -109,7 +109,7 @@ function RegisterFormPresenter() {
         //creazione dell'item per il cognome
         var liFirstName = document.createElement('li');
         //label
-        var labelFirstName = document.createElement('label');
+        var labelLastName = document.createElement('label');
         labelLastName.setAttribute("for", "lastname");
         //input
         var inputLastName = document.createElement('input');

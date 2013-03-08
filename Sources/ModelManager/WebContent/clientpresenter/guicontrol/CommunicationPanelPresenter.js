@@ -11,8 +11,7 @@ function CommunicationPanelPresenter(mediator) {
      *
      * @author Elena Zecchinato
      */
-    this
-    initialize = function() {
+    this.initialize = function() {
         //azzero il div
         this.element.innerHTML = "";
         //creo div contenente la chiamata vera e propria

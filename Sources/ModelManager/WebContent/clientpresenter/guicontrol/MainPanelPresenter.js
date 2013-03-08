@@ -5,8 +5,6 @@
  * @author Diego Beraldin
  */
 function MainPanelPresenter() {
-    //FIXME please! Questo ci è stato vietato da ricCARDINo
-    this.mediator = mediator;
     //elemento controllato da questo presenter
     this.element = document.getElementById("MainPanel");
 

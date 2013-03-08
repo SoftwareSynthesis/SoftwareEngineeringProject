@@ -106,8 +106,7 @@ function MessagePanelPresenter() {
         for (var message in this.messages) {
             //ciclo i messaggi e agiungo un <li> per ogni contatto
             //TODO togliere il commento seguente!
-            //QUESTA È LA SINTASSI PER ARRAY ASSOCIATIVI MA ORA È UN ARRAY NORMALE: addListItem(ulList, this.contacts[contact]);
-            this.addListItem(ulList, this.messages);
+            this.addListItem(ulList, message);
         }
     };
 
