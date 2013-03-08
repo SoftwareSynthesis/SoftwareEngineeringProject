@@ -18,8 +18,7 @@ public class AuthenticationModuleTest
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception 
 	{
-		//System.setProperty("java.security.auth.login.config", System.getenv("MyTalkAuthentication"));
-		System.setProperty("java.security.auth.login.config", "LoginConf.conf");
+		System.setProperty("java.security.auth.login.config", System.getenv("MyTalkAuthentication"));
 		AuthenticationData data = new AuthenticationData("indirizzo5@dominio.it", "ciao");
 		CredentialLoader loader = new CredentialLoader(data, new AESAlgorithm());
 		tester = new LoginContext("LoginConf", loader);
