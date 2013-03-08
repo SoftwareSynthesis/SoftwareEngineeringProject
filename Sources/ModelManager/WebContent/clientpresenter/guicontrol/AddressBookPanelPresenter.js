@@ -53,7 +53,7 @@ function AddressBookPanelPresenter() {
         this.element.appendChild(divList);
 
         //visualizza i contatti nel pannello
-        setup();
+        this.setup();
     };
 
     /**

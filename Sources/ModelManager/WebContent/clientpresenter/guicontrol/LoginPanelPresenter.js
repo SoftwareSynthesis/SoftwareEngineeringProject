@@ -67,9 +67,13 @@ function LoginPanelPresenter() {
         inputLogin.onclick = this.login;
         //pulsante di registrazione
         var inputRegister = document.createElement('input');
-        inputRegister.setAttribute("type", "submit");
+        inputRegister.setAttribute("type", "button");
         inputRegister.setAttribute("value", "Registrati");
-        inputRegister.onclick = this.hidePanel;
+        // non c'è altro verso di impostare un metodo come callback
+        var self = this;
+        inputRegister.onclick = function() {
+        	self.hidePanel();
+        };
         //FIXME manca il pulsante per recuperare la password
 
         //creazione dell'item per i pulsanti
@@ -83,7 +87,7 @@ function LoginPanelPresenter() {
         ulData.appendChild(liButtons);
         loginForm.appendChild(ulData);
 
-        //appende il form al DOM della pagin
+        //appende il form al DOM della pagina
         this.element.appendChild(loginForm);
     };
 
@@ -116,10 +120,10 @@ function LoginPanelPresenter() {
 
         //invia la richiesta AJAX al server
         var request = new XMLHttpRequest();
-        var that = this;
+        var self = this;
         request.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                that.testCredentials(request.responseText);
+                self.testCredentials(request.responseText);
             }
         };
         request.open("POST", this.servletURL, true);

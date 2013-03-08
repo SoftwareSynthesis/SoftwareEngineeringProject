@@ -7,7 +7,7 @@ function RegisterPanelPresenter() {
     //url della servlet che deve gestire la registrazione
     this.servletURL = "localhost:8080/RegisterManager";
     //elemento controllato da questo presenter
-    this.element = document.getElementById("RegisterForm");
+    this.element = document.getElementById("RegisterPanel");
 
     /**
      * Inizializzazione dellla form di registrazione con la creazione di tutti i
@@ -95,7 +95,7 @@ function RegisterPanelPresenter() {
         var liFirstName = document.createElement('li');
         //label
         var labelFirstName = document.createElement('label');
-        labelFirsName.setAttribute("for", "firtname");
+        labelFirstName.setAttribute("for", "firtname");
         //input
         var inputFirstName = document.createElement('input');
         inputFirstName.setAttribute("type", "text");
@@ -107,7 +107,7 @@ function RegisterPanelPresenter() {
         liFirstName.appendChild(inputFirstName);
 
         //creazione dell'item per il cognome
-        var liFirstName = document.createElement('li');
+        var liLastName = document.createElement('li');
         //label
         var labelLastName = document.createElement('label');
         labelLastName.setAttribute("for", "lastname");
