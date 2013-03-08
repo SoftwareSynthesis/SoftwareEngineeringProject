@@ -64,7 +64,7 @@ function LoginPanelPresenter() {
         var inputLogin = document.createElement('input');
         inputLogin.setAttribute("type", "submit");
         inputLogin.setAttribute("value", "Login");
-        inputLogin.onclick = this.login();
+        inputLogin.onclick = this.login;
         //pulsante di registrazione
         var inputRegister = document.createElement('input');
         inputRegister.setAttribute("type", "submit");
