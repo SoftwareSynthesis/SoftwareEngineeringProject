@@ -9,7 +9,6 @@ function ToolsPanelPresenter() {
     this.element = document.getElementById("ToolsPanel");
 
     /**
-     * TODO: da riguardare
      * @author Elena Zecchinato
      */
     this.initialize = function() {
@@ -44,4 +43,10 @@ function ToolsPanelPresenter() {
         this.element.appendChild(divFunction);
         this.element.appendChild(divState);
     };
+    
+/*
+ * TODO:
+ * - implementare la ricerca degli utenti sul sistema
+ * - aggiunta utente [resultpannel->mediator->aBpresenter]
+ */    
 }
