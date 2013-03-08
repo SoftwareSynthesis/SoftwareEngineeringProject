@@ -34,7 +34,7 @@ function AccountSettingsPanelPresenter() {
         mailNode.setAttribute("id", "mail");
         mailNode.innerHTML = communicationcenter.my.email;
 
-        var picureNode = document.createElement('img');
+        var pictureNode = document.createElement('img');
         pictureNode.setAttribute("id", "picture");
         pictureNode.setAttribute("src", communicationcenter.my.picture);
 

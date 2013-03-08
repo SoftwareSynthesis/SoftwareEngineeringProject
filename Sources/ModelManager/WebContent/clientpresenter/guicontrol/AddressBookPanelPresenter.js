@@ -83,7 +83,8 @@ function AddressBookPanelPresenter() {
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         //se c'è bisogno di passare piu parametri, agganciarli con &
         request.send("id=" + communicationcenter.my.id);
-    }
+    };
+    
     /**
      * Inserisce i contatti estratti dal server all'interno della lista
      * 'AddressBookList' all'interno di 'AddressBookPanel'
@@ -99,7 +100,7 @@ function AddressBookPanelPresenter() {
         for (var contact in this.contacts) {
             //ciclo i contatti e agiungo un <li> per ogni contatto
             //QUESTA È LA SINTASSI PER ARRAY ASSOCIATIVI MA ORA È UN ARRAY NORMALE: addListItem(ulList, this.contacts[contact]);
-            this.addListItem(ulList, this.contacts);
+            this.addListItem(ulList, contact);
         }
     };
 
@@ -117,7 +118,7 @@ function AddressBookPanelPresenter() {
         for (var contact in list) {
             //ciclo i contatti e agiungo un <li> per ogni contatto
             //QUESTA È LA SINTASSI PER ARRAY ASSOCIATIVI MA ORA È UN ARRAY NORMALE: addListItem(ulist, list[contact]);
-            this.addListItem(ulList, contact)
+            this.addListItem(ulList, contact);
         }
     };
 
@@ -134,7 +135,7 @@ function AddressBookPanelPresenter() {
         var item = document.createElement("li");
 
         /* creo le variabili contenenti i dati del contatto da attribuire
-         * al li, dove le proprietà name, surname e presenter sono le
+         * al 'li', dove le proprietà name, surname e presenter sono le
          * tipiche degli oggetti JSUserData
          */
         var name = "";
@@ -166,6 +167,7 @@ function AddressBookPanelPresenter() {
 
     var textNode = document.createTextNode(name);
 
+    //TODO questo deve essere fatto usando le informazioni salvate nella variabile status
     var statusNode = document.createElement('img');
     statusNode.setAttribute("src", "");
     //statusNode.setAttribute("id", "");

@@ -16,6 +16,6 @@ function CallHistoryPanel() {
 
         //apendo il sottoalbero al MainPanel
         this.element.innerHTML = "";
-        this.element.appendChild(ulHisotry);
+        this.element.appendChild(ulHistory);
     };
 }
