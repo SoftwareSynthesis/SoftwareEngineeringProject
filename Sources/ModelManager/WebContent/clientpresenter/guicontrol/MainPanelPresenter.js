@@ -9,15 +9,28 @@ function MainPanelPresenter() {
     this.element = document.getElementById("MainPanel");
 
     /**
+     * Costruisce il pannello principale dell'applicazione che occupa il posto
+     * centrale della finestra
+     * 
      * @author Elena Zecchinato
      */
     this.initialize = function() {
         this.element.innerHTML = "";
-        //immagine di spondo per MainPannel vuoto
+        //immagine di spondo per quando il pannello è vuoto
         var img = document.createElement("img");
-        //FIXME: Sistema l'SRC dell'immagine
-        img.setAttribute("src", "");
+        img.setAttribute("src", "img/mytalk.png");
 
         this.element.appendChild(img);
+    };
+    
+    /**
+     * Visualizza un elemento interno al pannello principale
+     * 
+     * @param node 'div' che deve essere visualizzato all'interno del pannello principale
+     * @author Diego Beraldin
+     */
+    this.displayChildPanel = function(node) {
+    	this.element.innerHTML = "";
+    	this.element.appendChild(node);
     };
 }
