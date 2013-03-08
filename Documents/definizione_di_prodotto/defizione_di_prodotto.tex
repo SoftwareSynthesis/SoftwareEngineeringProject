@@ -928,6 +928,44 @@ Permette di caricare le credenziali di autenticazione, fornite dall'utente, per 
 
 \section{Specifica sotto-architettura clientpresenter}\label{sec:clientpresenterarchitecture}
 
+La \texttt{sotto-architettura clientpresenter}, a livello di definizione di prodotto, richiede una trattazione speciale a causa del particolare dominio tecnologico coinvolto. Essa è infatti definita con il linguaggio JavaScript. Tale linguaggio pur essendo definito come linguaggio orientato agli oggetti, non permette di definire classi. A ciò si aggiunge il fatto che JavaScript è debolmente tipizzato. In ragione di ciò, al fine di facilitare al programmatore la comprensione del progetto (pesando quindi alle varie entità come a classi) senza però confonderlo in fase di stesura del codice, si è pensato di adoperare la seguente terminologia.
+
+\begin{description}
+	\item{\scshape\bfseries Attributi}: saranno definiti con una sintassi simile a quella già usata. Quindi al nome dell'attributo sarà associato il tipo ``logico'' che idealmente rappresenta. In particolare emergono i seguenti casi:
+		\begin{itemize}
+			\item Nodi DOM: come si vedrà alcuni attributi rappresentano nodi DOM già esistenti nella pagina HTML che definisce l'interfaccia utente, e modificati (a run-time) sulla base di informazioni ottenute dal server. Tali attributi dovranno essere codificati come:
+			
+			\begin{verbatim}
+				this.mio_attributo = document.getElementById(``id_DOM'');
+			\end{verbatim}
+			
+			Tali attributi saranno indicati con il formalismo:
+			
+			\begin{verbatim}
+				(+, -, #) nome_atributo: Nodo_DOM
+			\end{verbatim}
+			
+			\item String: se l'attributo è destinato a contenere esclusivamente valori di tipo String sarà segnato nel documento come:
+			
+			\begin{verbatim}
+				(+, -, #) nome_atributo: String
+			\end{verbatim}
+			
+			\item Array: se l'attributo è un Array, che in JavaScript non chiede di essere definito per tipo di valori contenibili, nel documento sarà precisato come:
+			
+			\begin{verbatim}
+				(+, -, #) nome_atributo: Tipo[]
+			\end{verbatim}
+		\end{itemize}
+	\item{\scshape\bfseries Metodi}: la sintassi usata dal programmatore per definire un metodo in JavaScript dovrà essere la seguente:
+		\begin{verbatim}
+			var nome_metodo = function(){ contenuto }
+		\end{verbatim}
+		
+		mentre la sintassi usata nel documento per definirne la firma, resta la stessa usata in precedenza.
+	
+\end{description}
+
 \subsection{Package org.softwaresynthesis.mytalk.clientpresenter.guicontrol}\label{sec:authentication}
 
 \classsection{AddressBookPanelPresenter}
