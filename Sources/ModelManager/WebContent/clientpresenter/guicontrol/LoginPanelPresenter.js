@@ -32,6 +32,7 @@ function LoginPanelPresenter() {
         //label
         var labelUserName = document.createElement('label');
         labelUserName.setAttribute("for", "username");
+        labelUserName.innerHTML = "Nome utente: ";
         //input
         var inputUserName = document.createElement('input');
         inputUserName.setAttribute("type", "email");
@@ -48,6 +49,7 @@ function LoginPanelPresenter() {
         //label
         var labelPassword = document.createElement('label');
         labelPassword.setAttribute("for", "password");
+        labelPassword.innerHTML = "Password: ";
         //input
         var inputPassword = document.createElement('input');
         inputPassword.setAttribute("type", "password");

@@ -5,7 +5,7 @@
  */
 function RegisterPanelPresenter() {
     //url della servlet che deve gestire la registrazione
-    this.servletURL = "localhost:8080/RegisterManager";
+    this.servletURL = "localhost:8080/LoginManager";
     //elemento controllato da questo presenter
     this.element = document.getElementById("RegisterPanel");
 
@@ -32,6 +32,7 @@ function RegisterPanelPresenter() {
         //label
         var labelUserName = document.createElement('label');
         labelUserName.setAttribute("for", "username");
+        labelUserName.innerHTML = "Indirizzo email: ";
         //input
         var inputUserName = document.createElement('input');
         inputUserName.setAttribute("type", "email");
@@ -48,6 +49,7 @@ function RegisterPanelPresenter() {
         //label
         var labelPassword = document.createElement('label');
         labelPassword.setAttribute("for", "password");
+        labelPassword.innerHTML = "Password: ";
         //input
         var inputPassword = document.createElement('input');
         inputPassword.setAttribute("type", "email");
@@ -64,6 +66,7 @@ function RegisterPanelPresenter() {
         //label
         var labelSecretQ = document.createElement('label');
         labelSecretQ.setAttribute("for", "question");
+        labelSecretQ.innerHTML = "Domanda segreta: ";
         //input
         var inputSecretQ = document.createElement('input');
         inputSecretQ.setAttribute("type", "text");
@@ -80,6 +83,7 @@ function RegisterPanelPresenter() {
         //label
         var labelAnswerSQ = document.createElement('label');
         labelAnswerSQ.setAttribute("for", "answer");
+        labelAnswerSQ.innerHTML = "Risposta: ";
         //input
         var inputAnswerSQ = document.createElement('input');
         inputAnswerSQ.setAttribute("type", "text");
@@ -96,6 +100,7 @@ function RegisterPanelPresenter() {
         //label
         var labelFirstName = document.createElement('label');
         labelFirstName.setAttribute("for", "firtname");
+        labelFirstName.innerHTML = "Nome: ";
         //input
         var inputFirstName = document.createElement('input');
         inputFirstName.setAttribute("type", "text");
@@ -111,6 +116,7 @@ function RegisterPanelPresenter() {
         //label
         var labelLastName = document.createElement('label');
         labelLastName.setAttribute("for", "lastname");
+        labelLastName.innerHTML = "Cognome: ";
         //input
         var inputLastName = document.createElement('input');
         inputLastName.setAttribute("type", "text");
@@ -125,6 +131,10 @@ function RegisterPanelPresenter() {
         var inputRegister = document.createElement('input');
         inputRegister.setAttribute("type", "submit");
         inputRegister.setAttribute("value", "Registrati");
+        var self = this;
+        inputRegister.onclick = function() {
+        	self.register();
+        };
         var liButtons=document.createElement('li');
 		liButtons.appendChild(inputRegister);
 
@@ -140,5 +150,15 @@ function RegisterPanelPresenter() {
 
         //appende il form al DOM della pagin
         this.element.appendChild(registerForm);
+    };
+    
+    /**
+     * Invia i dati ricevuti alla servlet per la creazione di un nuovo utente
+     * 
+     * @author Diego Beraldin
+     */
+    //TODO da completare questa funzione
+    this.register = function() {
+    	
     };
 }
