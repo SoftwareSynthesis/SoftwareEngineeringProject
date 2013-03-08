@@ -940,6 +940,8 @@ Si riporta a continuazione un elenco dei principali strumenti per la verifica di
   \item il plugin \textbf{FindBugs} per Eclipse, al fine di effettuare analisi statica del codice a livello di bytecode alla ricerca di potenziali cause di \underline{malfunzionamento} (\inglese{bug patterns}) o adozione inconsapevole di ``\inglese{worst practices}'' (\url{http://findbugs.sourceforge.net});
   \item \textbf{JUnit} come framework per i test di unità da effettuarsi relativamente alla parte server dell'applicazione (\url{http://www.junit.org}).
   \item \textbf{QUnit} come framework per i test di unità di codice \inglese{JavaScript}. 
+  \item \textbf{JSCoverage}, un \inglese{tool} per la misurazione del \inglese{Code Coverage} di programmi \inglese{JavaScript}. Per testare il codice prima di eseguirlo sul \inglese{browser} aggiunge istruzioni di analisi di copertura al codice stesso.  
+
 \end{itemize}
 
 \subsection{Tecniche di verifica}
@@ -976,12 +978,7 @@ La validazione dei test di sistema verrà svolta basandosi sui test specificati 
 
 L'esecuzione dei test avverrà mediante l'utilizzo di \textit{Selenium}, un \inglese{tool} che permette di impostare ed eseguire automaticamente i test per la dimostrazione delle funzionalità del sistema.
 
-Per i test di unità al contrario la verifica dovrà basarsi sulle specifiche relative test di unità e di integrazione prodotte dalle attività di progettazione architetturale e di dettaglio.
-
-Tali modalità sono specificate in maniera esauriente nel documento \textit{piano\_di\_qualifica.3.0.pdf} allegato. Verranno svolti tramite \textit{Eclispe} tramite il \textit{framework} JUnit e QUnit descritti nella sezione relativa agli strumenti di verifica.
-
-%TODO: specificare test e come utilizzare gli strumenti nel piano di qualifica.
-
+Per i test di unità al contrario la verifica dovrà basarsi sulle specifiche relative test di unità e di integrazione prodotte dalle attività di progettazione architetturale e di dettaglio, e verranno effettuati tramite i \textit{framework} Junit (per il codice java della parte server) e QUnit (per i test relativi al codice JavaScript).\\
 Verrà successivamente redatto un documento riassuntivo contenente l'esito dei test in formato tabellare con specificati per ogni tipologia di test effettuati:
 \begin{itemize}
 \item ambiente in cui è stato svolto il test;
@@ -990,5 +987,30 @@ Verrà successivamente redatto un documento riassuntivo contenente l'esito dei t
 \item descrizione del test effettuato;
 \item eventuali errori evidenziati dal test.
 \end{itemize}
+
+\subsubsection{JUnit}
+\textit{JUnit} è una libreria Java utilizzata per la creazione delle classi delegate ai test funzionali di metodi (o unità) di una determinata classe da analizzare.
+Per la creazione di tali test sarà necessario importare la libreria all'interno del progetto desiderato e successivamente creare un file che conterrà la classe con il codice effettivo del test.
+All'interno di tale classe è possibile creare diversi metodi, che saranno preceduti dalle annotazioni proprie di \textit{JUnit}. Le più comuni sono:
+\begin{itemize}
+\item \textbf{@Test}: identifica i metodi utilizzati dalla classe per eseguire i test
+\item \textbf{@Before} e \textbf{@After}: un metodo preceduto da tali annotazioni viene eseguito prima (o dopo) ogni esecuzione di un metodo contrassegnato da \textit{@Test}.
+\item \textbf{@Beforeclass} e \textbf{@Afterclass}: il metodo viene eseguito solo una volta prima (o dopo) l'esecuzione della classe testata.
+\end{itemize}
+E' possibile inoltre creare classi ``suite'' che contengono più classi di test allo scopo di eseguirle in sequenza senza la necessità di avviarle singolarmente.\\\\
+Concludiamo citando i metodi contraddistinti dal prefisso \textit{assert}, che hanno lo scopo di confrontare un valore preimpostato con il valore ritornato da un metodo restituendo \textit{true} o \textit{false} in base all'esito del test, risultando quindi molto utili per verificare la correttezza dello stesso.
+
+\subsubsection{QUnit e JSCoverage}
+Come accennato in precedenza, \textit{QUnit} è un framework per i test di unità del codice \inglese{JavaScript}. La sua esecuzione richiede una pagina \textit{HTML} all'interno della quale vengono inclusi i file \textit{qunit.js, css,js} e i file \textit{JavaScript} contenenti i test da eseguire.\\
+Questi file dovranno riferire ad una specifica classe da testare e in particolare le funzioni ``test'', realizzae in modo da verificare che il valore di ritorno sia corretto (e quindi atteso) con specificate:
+\begin{itemize}
+\item una stringa che indica il compito della funzione;
+\item la funzione che verrà richiamata all'avvio del test.
+\end{itemize}
+
+Le funzioni richiamate all'interno delle funzioni di \textit{test} sono offerte da \textit{QUnit} e specificano determinate azioni standard. 
+Per una descrizione dettagliata di tali funzioni e del loro specifico compito si rimanda al sito di riferimento \url{http://docs.jquery.com/Qunit#Using_QUnit}.\\\\
+\textit{JSCoverage} al contrario è un \inglese{tool} per valutare il {Code Coverage} integrabile con \textit{QUnit} in modo da ottenere contemporaneamente sia le informazioni relative al risultato dei test che quelle relative alla loro copertura in un unica pagina \textit{HTML} denominata \textit{jscoverage.html}.
+
 
 \end{document}
