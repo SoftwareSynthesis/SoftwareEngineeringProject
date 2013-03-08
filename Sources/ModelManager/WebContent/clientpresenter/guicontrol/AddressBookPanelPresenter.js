@@ -157,7 +157,7 @@ function AddressBookPanelPresenter() {
         item.onclick = function() {
             mediator.onContactSelected(contact);
         };
-    }
+    
     //genero i valori da attribuire all'<li>
     var avatarNode = document.createElement('img');
     avatarNode.setAttribute("src", avatar);
@@ -178,7 +178,7 @@ function AddressBookPanelPresenter() {
 
     //aggiungo il <li> al elemento <ul> dell'oggetto ulList su cui viene invocata la funzione
     list.appendChild(item);
-};
+    };
 
 /* TODO:
  * - gestire le ricerche nella rubrica

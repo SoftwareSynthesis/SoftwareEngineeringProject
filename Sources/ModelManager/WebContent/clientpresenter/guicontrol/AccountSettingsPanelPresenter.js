@@ -90,11 +90,11 @@ function AccountSettingsPanelPresenter() {
     this.onSubmitChange = function() {
     	// recupera i dati dal form e li memorizza in un oggetto
     	var data = new Object();
-    	var data.name = document.getElementById("name").innerHTML;
-    	var data.surname = document.getElementById("surname").innerHTML;
-    	var data.mail = document.getElementById("mail").innerHTML;
-    	//FIXME bisogna far cambiare l'immagine del profilo
-    	var data.picture = "";
+    	data.name = document.getElementById("name").innerHTML;
+    	data.surname = document.getElementById("surname").innerHTML;
+    	data.mail = document.getElementById("mail").innerHTML;
+    	// cosa fare con l'immagine del profilo
+    	data.picture = "";
     	
     	// verifica se è cambiato qualcosa e agisce di conseguenza
     	if (this.hasSomethingChanged(data)) {
