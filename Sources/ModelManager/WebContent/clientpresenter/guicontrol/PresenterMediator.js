@@ -7,11 +7,11 @@ function PresenterMediator() {
     // array associativo contentente i riferimenti a tutti i presenter
     this.presenters = new Array();
     // presenter del pannello della rubrica
-    this.presenters[addressbookpp] = new AddressBookPanelPresenter();
+    this.presenters["addressbookpp"] = new AddressBookPanelPresenter();
     //presenter del pannello degli strumenti
-    this.presenters[toolspp] = new ToolsPanelPresenter();
+    this.presenters["toolspp"] = new ToolsPanelPresenter();
     // presenter del pannello del contatto
-    this.presenters[contactpp] = new ContactPanelPresenter();
+    this.presenters["contactpp"] = new ContactPanelPresenter();
 
     /**
      * Inizializza l'interfaccia grafica delegando ai presenter il compito di
@@ -34,6 +34,3 @@ function PresenterMediator() {
         this.contactpp.display(contact);
     };
 }
-
-mediator = new PresenterMediator();
-mediator.buildUI();

@@ -1,29 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>MyTalk Login</title>
-	<link rel="stylesheet" href="style.css">
+<title>MyTalk Login</title>
+<link rel="stylesheet" href="style.css">
+<script type="text/javascript"
+	src="clientpresenter/guicontrol/LoginPanelPresenter.js"></script>
+<script type="text/javascript"
+	src="clientpresenter/guicontrol/RegisterPanelPresenter.js"></script>
+<script type="text/javascript"
+	src="clientpresenter/guicontrol/PresenterMediator.js"></script>
+<script type="text/javascript"
+	src="clientpresenter/kernel/CommunicationCenter.js"></script>
+<script type="text/javascript"
+	src="clientpresenter/guicontrol/AddressBookPanelPresenter"></script>
+<script type="text/javascript"
+	src="clientpresenter/guicontrol/ToolsPanelPresenter"></script>
+<script type="text/javascript"
+	src="clientpresenter/guicontrol/ContactPanelPresenter"></script>
 </head>
 
 <body>
 	<header>
-	<div id="header">
-	<img src="img/mytalk.png" alt="">
-		<div id="menu_head">
-			<ul>
-				<li>
-					<input type="submit" value="aiuto">
-				</li>
-			</ul>
-		</div>		
-	</div>
-</header>
+		<div id="header">
+			<img src="img/mytalk.png" alt="">
+			<div id="menu_head">
+				<ul>
+					<li><input type="submit" value="aiuto"></li>
+				</ul>
+			</div>
+		</div>
+	</header>
 
 
-	<div id="logo">
-		</div>	
-	<div id="loginform">
-		<form name="login" action="" method="" accept-charset="utf-8">
+	<div id="logo"></div>
+	
+	<div id="LoginPanel">
+		<!-- 		<form name="login" action="" method="" accept-charset="utf-8">
 			<ul>
 				<li>
 					<label  for="usermail">Username</label>
@@ -38,8 +50,9 @@
 				</li>
 			</ul>
 		</form>
+-->
 	</div>
-<!--
+	<!--
 	
 	<div id="contenuto">
 	
@@ -97,8 +110,8 @@
 
 
 
-<!--CALLHISTORY PANEL-->
-<!--
+	<!--CALLHISTORY PANEL-->
+	<!--
 	<div id="CallHistoryPanel">
 		<h1>CallHistory Panel</h1>
 		<table>
@@ -113,8 +126,8 @@
 -->
 
 
-<!--CONTACT PANEL-->
-<!--
+	<!--CONTACT PANEL-->
+	<!--
 	<div id="ContactPanel">
 	<h1>Contact Panel</h1>
 	<fieldset> <legend>FUNZIONI</legend>
@@ -131,8 +144,8 @@
 </div>
 -->
 
-<!--ACCOUNT SETTING PANEL-->
-<!--
+	<!--ACCOUNT SETTING PANEL-->
+	<!--
 <div id="AccountSettingPanel">
 	<h1>Setting Panel</h1>
 	<fieldset> <legend>Impostazioni Account</legend>
@@ -152,8 +165,8 @@
 
 
 
-<!-- COMMUNICATION PANEL-->
-<!--
+	<!-- COMMUNICATION PANEL-->
+	<!--
 	<div id="CommunicationPanel">
 		<h1>CommunicationPanel</h1>
 		<div id="profile">
@@ -168,11 +181,17 @@
 	
 <!--END COMMUNICATION PANEL-->
 
-	
-	
+	<script>
+		loginpp = new LoginPanelPresenter();
+		registrationpp = new RegisterPanelPresenter();
+		mediator = new PresenterMediator();
+		communicationcenter = new CommunicationCenter();
+		loginpp.initialize();
+	</script>
+
 	<footer>
-			<img src="img/logo_foot.png" alt="" />
+		<img src="img/logo_foot.png" alt="" />
 	</footer>
-	
+
 </body>
 </html>

@@ -50,7 +50,7 @@ function LoginPanelPresenter() {
         labelPassword.setAttribute("for", "password");
         //input
         var inputPassword = document.createElement('input');
-        inputPassword.setAttribute("type", "email");
+        inputPassword.setAttribute("type", "password");
         inputPassword.setAttribute("id", "password");
         inputPassword.setAttribute("name", "password");
         inputPassword.setAttribute("placeholder", "password");
@@ -69,8 +69,8 @@ function LoginPanelPresenter() {
         var inputRegister = document.createElement('input');
         inputRegister.setAttribute("type", "submit");
         inputRegister.setAttribute("value", "Registrati");
-        //TODO deve essere globale il registrationpp
-        inputRegister.onclick = registrationpp.register();
+        inputRegister.onclick = this.hidePanel;
+        //FIXME manca il pulsante per recuperare la password
 
         //creazione dell'item per i pulsanti
         var liButtons = document.createElement('li');
@@ -94,8 +94,8 @@ function LoginPanelPresenter() {
      * @author Diego Beraldin
      */
     this.testCredentials = function(data) {
-        //salva i dati ricevuti dal server in una variabile globale
-        user = JSON.parse(data);
+        // 'communicationcenter' deve essere una variabile globale
+        var user = JSON.parse(data);
         if (user != null) {
             communicationcenter.my = user;
             //FIXME questo è solo per i test, in realtà se il login ha successo occorre fare altro
@@ -111,7 +111,7 @@ function LoginPanelPresenter() {
      */
     this.login = function() {
         //recupera le credenziali dall'interfaccia grafica
-        var username = document.getElementById("usermail").value;
+        var username = document.getElementById("username").value;
         var password = document.getElementById("password").value;
 
         //invia la richiesta AJAX al server
@@ -125,5 +125,17 @@ function LoginPanelPresenter() {
         request.open("POST", this.servletURL, true);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         request.send("username=" + username + "&password=" + password + "&operation=1");
+    };
+    
+    /**
+     * Nasconde il form di autenticazione e richiama il presenter del pannello di
+     * registrazione affinché visualizzi il nuovo form sulla finestra del browser
+     * 
+     * @author Diego Beraldin
+     */
+    this.hidePanel = function() {
+    	this.element.style.display = "none";
+        //TODO 'registrationpp' deve essere una variabile globale
+    	registrationpp.initialize();
     };
 }
