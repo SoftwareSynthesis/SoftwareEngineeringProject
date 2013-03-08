@@ -154,39 +154,35 @@ function AddressBookPanelPresenter() {
         item.setAttribute("id", contact.id);
         item.setAttribute("class", contact.status);
         //la variabile 'mediator' è una variabile globale
-        //TODO controllare questa chiusura!!
-        item.onclick = function(c) {
-        	return function() {
-        		mediator.onContactSelected(c);
-        	};
-        } (contact);
-        }
+        item.onclick = function() {
+            mediator.onContactSelected(contact);
+        };
+    }
+    //genero i valori da attribuire all'<li>
+    var avatarNode = document.createElement('img');
+    avatarNode.setAttribute("src", avatar);
+    //avatarNode.setAttribute("id", "");
+    //avatarNode.setAttribute("class", "");
 
-        //genero i valori da attribuire all'<li>
-        var avatarNode = document.createElement('img');
-        avatarNode.setAttribute("src", avatar);
-        //avatarNode.setAttribute("id", "");
-        //avatarNode.setAttribute("class", "");
+    var textNode = document.createTextNode(name);
 
-        var textNode = document.createTextNode(name);
+    var statusNode = document.createElement('img');
+    statusNode.setAttribute("src", "");
+    //statusNode.setAttribute("id", "");
+    //statusNode.setAttribute("class", "");
 
-        var statusNode = document.createElement('img');
-        statusNode.setAttribute("src", "");
-        //statusNode.setAttribute("id", "");
-        //statusNode.setAttribute("class", "");
+    //imposto il valore dell'<li>
+    item.appendChild(avatarNode);
+    item.appendChild(textNode);
+    item.appendChild(statusNode);
 
-        //imposto il valore dell'<li>
-        item.appendChild(avatarNode);
-        item.appendChild(textNode);
-        item.appendChild(statusNode);
+    //aggiungo il <li> al elemento <ul> dell'oggetto ulList su cui viene invocata la funzione
+    list.appendChild(item);
+};
 
-        //aggiungo il <li> al elemento <ul> dell'oggetto ulList su cui viene invocata la funzione
-        list.appendChild(item);
-    };
-
-    /* TODO:
-     * - gestire le ricerche nella rubrica
-     * - aggiungere un gruppo alla rubrica
-     * - rimuovere un gruppo dalla rubrica
-     */
+/* TODO:
+ * - gestire le ricerche nella rubrica
+ * - aggiungere un gruppo alla rubrica
+ * - rimuovere un gruppo dalla rubrica
+ */
 }
