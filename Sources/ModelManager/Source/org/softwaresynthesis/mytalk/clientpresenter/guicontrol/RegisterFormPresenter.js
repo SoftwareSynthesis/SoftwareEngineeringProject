@@ -4,7 +4,7 @@
  * @author Stefano Farronato
  */
 function RegisterFormPresenter() {
-    //url della servlet che deve gestire il login
+    //url della servlet che deve gestire la registrazione
     this.servletURL = "localhost:8080/RegisterManager";
     //elemento controllato da questo presenter
     this.element = document.getElementById("RegisterForm");
@@ -66,14 +66,14 @@ function RegisterFormPresenter() {
         labelSecretQ.setAttribute("for", "question");
         //input
         var inputSecretQs = document.createElement('input');
-        inputSecretQ.setAttribute("type", "string");
+        inputSecretQ.setAttribute("type", "text");
         inputSecretQ.setAttribute("id", "question");
         inputSecretQ.setAttribute("name", "question");
         inputSecretQ.setAttribute("placeholder", "colore del gatto");
         inputSecretQ.setAttribute("required", "required");
         //costruisce il list item con la label e l'input
-        liUserName.appendChild(labelSecretQ);
-        liUserName.appendChild(inputSecretQ);
+        liSecretQ.appendChild(labelSecretQ);
+        liSecretQ.appendChild(inputSecretQ);
 
         //creazione dell'item per la risposta alla domanda segreta
         var liAnswerSQ = document.createElement('li');
@@ -82,105 +82,63 @@ function RegisterFormPresenter() {
         labelAnswerSQ.setAttribute("for", "answer");
         //input
         var inputAnswerSQ = document.createElement('input');
-        inputAnswerSQ.setAttribute("type", "");
+        inputAnswerSQ.setAttribute("type", "text");
         inputAnswerSQ.setAttribute("id", "answer");
         inputAnswerSQ.setAttribute("name", "answer");
         inputAnswerSQ.setAttribute("placeholder", "blallo");
         inputAnswerSQ.setAttribute("required", "required");
         //costruisce il list item con la label e l'input
-        liUserName.appendChild(labelAnswerSQ);
-        liUserName.appendChild(inputAnswerSQ);
+        liAnswerSQ.appendChild(labelAnswerSQ);
+        liAnswerSQ.appendChild(inputAnswerSQ);
 
         //creazione dell'item per il nome
         var liFirstName = document.createElement('li');
         //label
         var labelFirstName = document.createElement('label');
-        labelFirsName.setAttribute("for", "name");
+        labelFirsName.setAttribute("for", "firtname");
         //input
         var inputFirstName = document.createElement('input');
         inputFirstName.setAttribute("type", "text");
-        inputFirstName.setAttribute("id", "name");
-        inputFirstName.setAttribute("name", "name");
+        inputFirstName.setAttribute("id", "firstname");
+        inputFirstName.setAttribute("name", "firstname");
         inputFirstName.setAttribute("placeholder", "il tuo nome");
         //costruisce il list item con la label e l'input
-        liUserName.appendChild(labelFirstName);
-        liUserName.appendChild(inputFirstName);
+        liFirstName.appendChild(labelFirstName);
+        liFirstName.appendChild(inputFirstName);
 
         //creazione dell'item per il cognome
         var liFirstName = document.createElement('li');
         //label
         var labelFirstName = document.createElement('label');
-        labelLastName.setAttribute("for", "surname");
+        labelLastName.setAttribute("for", "lastname");
         //input
         var inputLastName = document.createElement('input');
         inputLastName.setAttribute("type", "text");
-        inputLastName.setAttribute("id", "surname");
-        inputLastName.setAttribute("name", "surname");
+        inputLastName.setAttribute("id", "lastname");
+        inputLastName.setAttribute("name", "lastname");
         inputLastName.setAttribute("placeholder", "il tuo cognome");
         //costruisce il list item con la label e l'input
-        liUserName.appendChild(labelLastName);
-        liUserName.appendChild(inputLastName);
+        liLastName.appendChild(labelLastName);
+        liLastName.appendChild(inputLastName);
 
-        //creazione dell'item per il pulsante di registrazione
+        //pulsante di registrazione
         var inputRegister = document.createElement('input');
+        inputRegister.setAttribute("type", "submit");
         inputRegister.setAttribute("value", "Registrati");
-        liButtons.appendChild(inputRegister);
+        var liButtons=document.createElement('li');
+		liButtons.appendChild(inputRegister);
 
         //appende tutti gli elementi al form
         ulData.appendChild(liUserName);
         ulData.appendChild(liPassword);
-        ulData.appendChild(liSecretQ);
         ulData.appendChild(liAnswerSQ);
         ulData.appendChild(liSecretQ);
         ulData.appendChild(liFirstName);
         ulData.appendChild(liLastName);
         ulData.appendChild(liButtons);
-        loginForm.appendChild(ulData);
+        registerForm.appendChild(ulData);
 
         //appende il form al DOM della pagin
         this.element.appendChild(registerForm);
-    };
-
-    /**
-     * Testa quanto ricevuto dal server e, in caso di registrazione avvenuta correttamente
-     * reindirizza il browser nella pagina finale dopo aver salvato i dati dell'utente
-     *
-     * @author Stefano Farronato
-     */
-
-    this.test = function(data) {
-        //salva i dati ricevuti dal server in una variabile globale
-        user = JSON.parse(data);
-        if (user != null) {
-            //TODO decidere cosa fare quando la registrazione ha successo
-        }
-    };
-
-    /**
-     * Procedura che esegue il login prelevando le credenziali inserite nel
-     * form e inviando al server i dati di autenticazione
-     *
-     * @author Stefano Farronato
-     */
-    this.register = function() {
-        //recupera le credenziali dall'interfaccia grafica
-        var username = document.getElementById("usermail").value;
-        var password = document.getElementById("password").value;
-        var question = document.getElementById("question").value;
-        var answer = document.getElementById("answer").value;
-        var firstname = document.getElementById("firtname").value;
-        var lastname = document.getElementById("lastname").value;
-
-        //invia la richiesta AJAX al server
-        var request = new XMLHttpRequest();
-        var that = this;
-        request.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                that.test(request.responseText);
-            }
-        };
-        request.open("POST", this.servletURL, true);
-        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        request.send("username=" + username + "&password=" + password + "&question" + question + "&answer" + answer + "&firstname" + firsname + "&lastname" + lastname);
     };
 }
