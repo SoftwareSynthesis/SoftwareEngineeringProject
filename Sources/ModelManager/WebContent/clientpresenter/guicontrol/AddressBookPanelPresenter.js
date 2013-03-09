@@ -21,8 +21,8 @@ function AddressBookPanelPresenter() {
      * @author Riccardo Tresoldi
      */
     this.initialize = function() {
-    	// mi imposto come visibile
-    	this.element.style.display = "block";
+        // mi imposto come visibile
+        this.element.style.display = "block";
         //creo i tre div principali
         var divSearch = document.createElement('div');
         var divSort = document.createElement('div');
@@ -79,7 +79,7 @@ function AddressBookPanelPresenter() {
         //se c'è bisogno di passare piu parametri, agganciarli con &
         request.send("id=" + communicationcenter.my.id);
     };
-    
+
     /**
      * Inserisce i contatti estratti dal server all'interno della lista
      * 'AddressBookList' all'interno di 'AddressBookPanel'
@@ -153,51 +153,72 @@ function AddressBookPanelPresenter() {
         item.onclick = function() {
             mediator.onContactSelected(contact);
         };
-    
-    //genero i valori da attribuire all'<li>
-    var avatarNode = document.createElement('img');
-    avatarNode.setAttribute("src", avatar);
-    //avatarNode.setAttribute("class", "");
 
-    var textNode = document.createTextNode(name);
+        //genero i valori da attribuire all'<li>
+        var avatarNode = document.createElement('img');
+        avatarNode.setAttribute("src", avatar);
+        //avatarNode.setAttribute("class", "");
 
-    var stateNode = document.createElement('img');
-    var statePictureUrl;
-    switch (state) {
-    case "available":
-    	statePictureUrl = "img/stateavailable.png";
-    	break;
-    case "occupied":
-    	statePictureUrl = "img/stateoccupied.png";
-    	break;
-    default:
-    	statePictureUrl = "img/stateoffline.png";
-        break;
-    }
-    stateNode.setAttribute("src", statePictureUrl);
-    //stateNdoe.setAttribute("class", "");
+        var textNode = document.createTextNode(name);
 
-    //imposto il valore dell'<li>
-    item.appendChild(avatarNode);
-    item.appendChild(textNode);
-    item.appendChild(statusNode);
+        var stateNode = document.createElement('img');
+        var statePictureUrl;
+        switch (state) {
+            case "available":
+                statePictureUrl = "img/stateavailable.png";
+                break;
+            case "occupied":
+                statePictureUrl = "img/stateoccupied.png";
+                break;
+            default:
+                statePictureUrl = "img/stateoffline.png";
+                break;
+        }
+        stateNode.setAttribute("src", statePictureUrl);
+        //stateNdoe.setAttribute("class", "");
 
-    //aggiungo il <li> al elemento <ul> dell'oggetto ulList su cui viene invocata la funzione
-    list.appendChild(item);
+        //imposto il valore dell'<li>
+        item.appendChild(avatarNode);
+        item.appendChild(textNode);
+        item.appendChild(statusNode);
+
+        //aggiungo il <li> al elemento <ul> dell'oggetto ulList su cui viene invocata la funzione
+        list.appendChild(item);
     };
-    
+
     /**
      * Rende invisibile in pannello
-     * 
+     *
      * @author Diego Beraldin
      */
     this.hide = function() {
-    	this.element.style.display = "none";
+        this.element.style.display = "none";
     };
+    
+    
+    /**
+     * Aggiunge un contatto alla rubrica se non già presente
+     * 
+     * @author Riccardo Tresoldi
+     * @param contact rappresenta l'id del contatto da aggiungere
+     */
+    this.addContact = function(contact){
+        //controllo che non sia già presente nella rubrica [controllo da fare anche lato server]
+        
+        //invio la richiesta al server e attendo il risultato
+        
+        //visualizzio l'esito della richiesta
+        
+        //se esito positivo refresh della rubrica
+    }
 
-/* TODO:
- * - gestire le ricerche nella rubrica
- * - aggiungere un gruppo alla rubrica
- * - rimuovere un gruppo dalla rubrica
- */
+    /* TODO:
+     * - aggiunta di un contratto alla rubrica
+     * - eliminazione di un contatto
+     * - aggiungere un utente a un gruppo
+     * - rimuovere un utente da un gruppo
+     * - gestire le ricerche nella rubrica
+     * - aggiungere un gruppo alla rubrica
+     * - rimuovere un gruppo dalla rubrica
+     */
 }

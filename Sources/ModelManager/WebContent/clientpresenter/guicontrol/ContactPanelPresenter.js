@@ -75,10 +75,6 @@ function ContactPanelPresenter(mediator) {
   };
   
   /* TODO:
-   * - aggiunta di un contratto alla rubrica
-   * - eliminazione di un contatto
-   * - aggiungere un utente a un gruppo
-   * - rimuovere un utente da un gruppo
    * - contattare il CommunicationCenter per avviare una chiamata
    */
 }
