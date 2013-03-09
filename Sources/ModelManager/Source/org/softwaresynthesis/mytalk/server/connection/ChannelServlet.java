@@ -1,4 +1,4 @@
-package myServlet;
+package org.softwaresynthesis.mytalk.server.connection;
 
 import java.util.Vector;
 
@@ -7,7 +7,6 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
-
 import org.apache.catalina.websocket.StreamInbound;
 import org.apache.catalina.websocket.WebSocketServlet;
 

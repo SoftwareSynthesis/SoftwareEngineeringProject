@@ -1,4 +1,4 @@
-package myServlet;
+package org.softwaresynthesis.mytalk.server.connection;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
