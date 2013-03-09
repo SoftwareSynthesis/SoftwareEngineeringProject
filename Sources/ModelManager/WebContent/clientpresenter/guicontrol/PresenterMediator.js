@@ -1,6 +1,8 @@
 /**
  * Mediatore che gestisce la collaborazione fra i vari sotto-presenter
  *
+ * @constructor
+ * @this {PresenterMediator}
  * @author Diego Beraldin
  */
 function PresenterMediator() {

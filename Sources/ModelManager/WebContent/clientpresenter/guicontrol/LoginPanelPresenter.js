@@ -1,6 +1,8 @@
 /**
  * Presenter incaricato di gestire il pannello di login
  *
+ * @constructor
+ * @this {LoginPanelPresenter}
  * @author Diego Beraldin
  */
 function LoginPanelPresenter() {
@@ -74,7 +76,9 @@ function LoginPanelPresenter() {
         // non c'è altro verso di impostare un metodo come callback
         var self = this;
         inputRegister.onclick = function() {
-        	self.hidePanel();
+        	self.hide();
+            //'registrationpp' deve essere una variabile globale
+        	registrationpp.initialize();
         };
         //FIXME manca il pulsante per recuperare la password
 
@@ -97,6 +101,7 @@ function LoginPanelPresenter() {
      * Testa quanto ricevuto dal server e, in caso di login avvenuto correttamente
      * reindirizza il browser nella pagina finale dopo aver salvato i dati dell'utente
      *
+     * @param {String} data la stringa restituita dalla servlet a seguito del login
      * @author Diego Beraldin
      */
     this.testCredentials = function(data) {
@@ -119,6 +124,10 @@ function LoginPanelPresenter() {
         //recupera le credenziali dall'interfaccia grafica
         var username = document.getElementById("username").value;
         var password = document.getElementById("password").value;
+        
+        if (!username || username == "" || !password || password == "") {
+        	return;
+        }
 
         //invia la richiesta AJAX al server
         var request = new XMLHttpRequest();
@@ -134,14 +143,12 @@ function LoginPanelPresenter() {
     };
     
     /**
-     * Nasconde il form di autenticazione e richiama il presenter del pannello di
-     * registrazione affinché visualizzi il nuovo form sulla finestra del browser
+     * Nasconde il form di autenticazione per lasciare spazio nella finestra a
+     * altri elementi grafici come la schermata principale o il pannello di registrazione
      * 
      * @author Diego Beraldin
      */
-    this.hidePanel = function() {
+    this.hide = function() {
     	this.element.style.display = "none";
-        //TODO 'registrationpp' deve essere una variabile globale
-    	registrationpp.initialize();
     };
 }

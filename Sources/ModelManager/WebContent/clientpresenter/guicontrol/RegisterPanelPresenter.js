@@ -1,6 +1,8 @@
 /**
  * Presenter incaricato di gestire la form di registrazione
  *
+ * @constructor
+ * @this {RegisterPanelPresenter}
  * @author Stefano Farronato
  */
 function RegisterPanelPresenter() {
@@ -53,7 +55,7 @@ function RegisterPanelPresenter() {
         labelPassword.innerHTML = "Password: ";
         //input
         var inputPassword = document.createElement('input');
-        inputPassword.setAttribute("type", "email");
+        inputPassword.setAttribute("type", "password");
         inputPassword.setAttribute("id", "password");
         inputPassword.setAttribute("name", "password");
         inputPassword.setAttribute("placeholder", "password");
@@ -127,6 +129,8 @@ function RegisterPanelPresenter() {
         //costruisce il list item con la label e l'input
         liLastName.appendChild(labelLastName);
         liLastName.appendChild(inputLastName);
+        
+        //TODO manca l'immagine, se deve essere caricata qui
 
         //pulsante di registrazione
         var inputRegister = document.createElement('input');
@@ -158,8 +162,73 @@ function RegisterPanelPresenter() {
      * 
      * @author Diego Beraldin
      */
-    //TODO da completare questa funzione
     this.register = function() {
+    	//recupera i dati obbligatori dal form
+    	var data = new Array();
+    	data["username"] = document.getElementById("username").value;
+    	data["password"] = document.getElementById("password").value;
+    	data["question"]= document.getElementById("question").value;
+    	data["answer"] = document.getElementById("answer").value;
+    	//verifica la presenza dei dati (e salta il resto se non sono presenti)
+    	var ok = true;
+    	for (var key in data) {
+    		if (!data[key] || data[key] == "") {
+    			ok = false;
+    		}
+    	}
+    	if (!ok) {
+    		return;
+    	}
     	
+    	//costruisce la stringa di cueri con i dati obbligatori
+    	var querystring = "";
+    	var i = 0;
+    	for (var key in data) {
+    		querystring = querystring + key + "=" + data[key];
+    		if (i < data.length - 1) {
+    			querystring += "&";
+    		}
+    		i++;
+    	}
+    	
+    	//recupera i dati facoltativi e li accoda alla stringa di cueri
+    	var name = document.getElementById("firstname").value;
+    	var surname = document.getElementById("lastname").value;
+    	if (name  && name.length) {
+    		querystring += "&name=" + name;
+    	}
+    	if (surname && surname.length) {
+    		querystring += "&surname0" + surname;
+    	}
+    	//imposta l'operazione che la servlet deve fare (2 = registrazione nuovo utente)
+    	querystring += "&operation=2";
+    	
+    	//invia la richiesta AJAX al server
+    	var request = new XMLHttpRequest();
+    	var self = this;
+    	request.onreadystatechange = function() {
+    		if (this.readyState == 4 && this.status == 200) {
+    			//la servlet deve restituire l'utente appena creato
+    			var user = JSON.parse(this.responseText);
+    			if (user != null) {
+    				communicationcenter.my = user;
+    				self.hide();
+    				mediator.buildUI();
+    			}
+    		}
+    	};
+    	request.open("POST", "prova.php", true);
+    	request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    	request.send(querystring);
+    };
+    
+    /**
+     * Nasconde il form di registrazione per lasciare spazio alla schermata principale
+     * dell'applicativo (che deve essere costruita dal PresenterMediator)
+     * 
+     * @author Diego Beraldin
+     */
+    this.hide = function() {
+    	this.element.style.display = "none";
     };
 }
