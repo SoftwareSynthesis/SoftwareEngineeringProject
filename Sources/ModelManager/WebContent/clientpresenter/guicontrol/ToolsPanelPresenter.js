@@ -12,6 +12,8 @@ function ToolsPanelPresenter() {
      * @author Elena Zecchinato
      */
     this.initialize = function() {
+    	// mi rendo visibile
+    	this.element.style.display = "block";
         //creo i due div principali
         var divState = document.createElement('div');
         var divFunction = document.createElement('div');
@@ -42,6 +44,15 @@ function ToolsPanelPresenter() {
         this.element.innerHTML = "";
         this.element.appendChild(divFunction);
         this.element.appendChild(divState);
+    };
+    
+    /**
+     * Rende invisibile il pannello degli strumenti
+     * 
+     * @author Diego Beraldin
+     */
+    this.hide = function() {
+    	this.element.style.display = "none";
     };
     
 /*

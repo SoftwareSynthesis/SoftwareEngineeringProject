@@ -10,11 +10,13 @@
 <script type="text/javascript"
 	src="clientpresenter/guicontrol/PresenterMediator.js"></script>
 <script type="text/javascript"
-	src="clientpresenter/kernel/CommunicationCenter.js"></script>
-<script type="text/javascript"
 	src="clientpresenter/guicontrol/AddressBookPanelPresenter"></script>
 <script type="text/javascript"
+	src="clientpresenter/guicontrol/MainPanelPresenter"></script>
+<script type="text/javascript"
 	src="clientpresenter/guicontrol/ToolsPanelPresenter"></script>
+<script type="text/javascript"
+	src="clientpresenter/kernel/CommunicationCenter.js"></script>
 <script type="text/javascript"
 	src="clientpresenter/guicontrol/ContactPanelPresenter"></script>
 </head>
@@ -33,9 +35,16 @@
 
 
 	<div id="logo"></div>
-	
+
+	<div id="LoginPanel"></div>
+	<div id="RegisterPanel"></div>
+	<div id="AddressBookPanel"></div>
+	<div id="MainPanel"></div>
+	<div id="ToolsPanel"></div>
+
+<!--
 	<div id="LoginPanel">
-		<!-- 		<form name="login" action="" method="" accept-charset="utf-8">
+ 		<form name="login" action="" method="" accept-charset="utf-8">
 			<ul>
 				<li>
 					<label  for="usermail">Username</label>
@@ -50,9 +59,9 @@
 				</li>
 			</ul>
 		</form>
--->
 	</div>
-	<div id="RegisterPanel"></div>
+-->
+
 	<!--
 	
 	<div id="contenuto">
@@ -183,10 +192,15 @@
 <!--END COMMUNICATION PANEL-->
 
 	<script>
+		/* queste sono VARIABILI GLOBALI per le quali i programmatori 
+		 * dovrebbero essere scorticati vivi
+		 */
 		loginpp = new LoginPanelPresenter();
 		registrationpp = new RegisterPanelPresenter();
 		mediator = new PresenterMediator();
 		communicationcenter = new CommunicationCenter();
+		
+		// costruisce il form di autenticazione
 		loginpp.initialize();
 	</script>
 

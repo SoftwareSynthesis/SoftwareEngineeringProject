@@ -18,6 +18,7 @@ function LoginPanelPresenter() {
      * @author Diego Beraldin
      */
     this.initialize = function() {
+    	this.element.style.display = "block";
         //creazione dell'elemento form
         var loginForm = document.createElement('form');
         loginForm.setAttribute("name", "login");
@@ -27,6 +28,7 @@ function LoginPanelPresenter() {
 
         //creazione dell'elemento <ul> contenuto nel form
         var ulData = document.createElement('ul');
+        //TODO da spostare nel CSS
         ulData.style.listStyleType = "none";
 
         //creazione dell'item per lo username
@@ -109,8 +111,8 @@ function LoginPanelPresenter() {
         var user = JSON.parse(data);
         if (user != null) {
             communicationcenter.my = user;
-            //FIXME questo è solo per i test, in realtà se il login ha successo occorre fare altro
-            window.location = "success.html";
+            this.hide();
+            mediator.buildUI();
         }
     };
 
@@ -139,7 +141,7 @@ function LoginPanelPresenter() {
         };
         request.open("POST", this.servletURL, true);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        request.send("username=" + username + "&password=" + password + "&operation=1");
+        request.send("username=" + encodeURIComponent(username) + "&password=" + encodeURIComponent(password) + "&operation=1");
     };
     
     /**

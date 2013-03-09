@@ -28,6 +28,7 @@ function RegisterPanelPresenter() {
 
         //creazione dell'elemento <ul> contenuto nel form
         var ulData = document.createElement('ul');
+        //TODO da spostare nel CSS
         ulData.style.listStyleType = "none";
 
         //creazione dell'item per lo username
@@ -163,6 +164,27 @@ function RegisterPanelPresenter() {
      * @author Diego Beraldin
      */
     this.register = function() {
+    	//invia la richiesta AJAX al server
+    	var request = new XMLHttpRequest();
+    	var self = this;
+    	request.onreadystatechange = function() {
+    		if (this.readyState == 4 && this.status == 200) {
+    			self.testRegistration(request.responseText);
+    		}
+    	};
+    	request.open("POST", this.servletURL, true);
+    	request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    	request.send(this.buildQueryString());
+    };
+    
+    /**
+     * Costruisce una stringa adatta per essere passata alla servlet al fine di effettuare
+     * la registrazione al sistema
+     * 
+     * @returns {String} la stringa di cueri che deve essere spedita alla servlet
+     * @author Diego Beraldin
+     */
+    this.buildQueryString = function() {
     	//recupera i dati obbligatori dal form
     	var data = new Array();
     	data["username"] = document.getElementById("username").value;
@@ -183,7 +205,7 @@ function RegisterPanelPresenter() {
     	//costruisce la stringa di cueri con i dati obbligatori
     	var querystring = "";
     	for (var key in data) {
-    		querystring = querystring + key + "=" + data[key] + "&";
+    		querystring = querystring + key + "=" + encodeURIComponent(data[key]) + "&";
     	}
     	//elimina il carattere '&' finale non necessario
     	querystring = querystring.substring(0, querystring.length-1);
@@ -192,31 +214,32 @@ function RegisterPanelPresenter() {
     	var name = document.getElementById("firstname").value;
     	var surname = document.getElementById("lastname").value;
     	if (name  && name.length) {
-    		querystring += "&name=" + name;
+    		querystring += "&name=" + encodeURIComponent(name);
     	}
     	if (surname && surname.length) {
-    		querystring += "&surname0" + surname;
+    		querystring += "&surname0" + encodeURIComponent(surname);
     	}
     	//imposta l'operazione che la servlet deve fare (2 = registrazione nuovo utente)
     	querystring += "&operation=2";
-    	
-    	//invia la richiesta AJAX al server
-    	var request = new XMLHttpRequest();
-    	var self = this;
-    	request.onreadystatechange = function() {
-    		if (this.readyState == 4 && this.status == 200) {
-    			//la servlet deve restituire l'utente appena creato
-    			var user = JSON.parse(this.responseText);
-    			if (user != null) {
-    				communicationcenter.my = user;
-    				self.hide();
-    				mediator.buildUI();
-    			}
-    		}
-    	};
-    	request.open("POST", this.servletURL, true);
-    	request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    	request.send(querystring);
+    	return querystring;
+    };
+    
+    /**
+     * Verifica che la registrazione al sistema abbia avuto successo in base alla stringa
+     * ottenuta dalla servlet. Se questa corrisponde a un utente, allora viene memorizzato
+     * sul client e si accede alla home screen dell'applicativo
+     * 
+     * @param {String} data testo di risposta della servlet di autenticazione
+     * che deve corrispondere all'utente creato dalla registrazione
+     * @author Diego Beraldin
+     */
+    this.testRegistration = function(data) {
+    	var user = JSON.parse(data);
+    	if (user != null) {
+    		communicationcenter.my = user;
+    		this.hide();
+    		mediator.buildUI();
+    	}    	
     };
     
     /**

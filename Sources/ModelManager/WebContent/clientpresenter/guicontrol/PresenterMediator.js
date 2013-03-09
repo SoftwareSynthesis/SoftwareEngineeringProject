@@ -6,24 +6,25 @@
  * @author Diego Beraldin
  */
 function PresenterMediator() {
-    // array associativo contentente i riferimenti a tutti i presenter
+    // array associativo contentente i riferimenti ai presenter di primo livello
     this.presenters = new Array();
-    // presenter del pannello della rubrica
-    this.presenters["addressbookpp"] = new AddressBookPanelPresenter();
-    //presenter del pannello degli strumenti
-    this.presenters["toolspp"] = new ToolsPanelPresenter();
-    // presenter del pannello del contatto
-    this.presenters["contactpp"] = new ContactPanelPresenter();
+    this.presenters["addressbook"] = new AddressBookPanelPresenter();
+    this.presenters["tools"] = new ToolsPanelPresenter();
+    this.presenters["main"] = new MainPanelPresenter();
+    
+    //presenter di secondo livello (pannelli contenuti nel MainPanel)
+    this.contactpp = new ContactPanelPresenter();
+    //TODO aggiungere anche gli altri che devono essere anche inclusi in index.html
 
     /**
      * Inizializza l'interfaccia grafica delegando ai presenter il compito di
-     * disegnare gli elementi
+     * disegnare gli elementi principali dell'interfaccia
      *
      * @author Diego Beraldin
      */
     this.buildUI = function() {
-        for (key in this.presenters) {
-            this.presenters[key].initialize();
+        for (var key in presenters) {
+        	presenters[key].initialize();
         }
     };
 

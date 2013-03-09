@@ -21,6 +21,8 @@ function AddressBookPanelPresenter() {
      * @author Riccardo Tresoldi
      */
     this.initialize = function() {
+    	// mi imposto come visibile
+    	this.element.style.display = "block";
         //creo i tre div principali
         var divSearch = document.createElement('div');
         var divSort = document.createElement('div');
@@ -180,6 +182,15 @@ function AddressBookPanelPresenter() {
 
     //aggiungo il <li> al elemento <ul> dell'oggetto ulList su cui viene invocata la funzione
     list.appendChild(item);
+    };
+    
+    /**
+     * Rende invisibile in pannello
+     * 
+     * @author Diego Beraldin
+     */
+    this.hide = function() {
+    	this.element.style.display = "none";
     };
 
 /* TODO:
