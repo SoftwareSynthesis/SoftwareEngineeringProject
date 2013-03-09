@@ -182,14 +182,11 @@ function RegisterPanelPresenter() {
     	
     	//costruisce la stringa di cueri con i dati obbligatori
     	var querystring = "";
-    	var i = 0;
     	for (var key in data) {
-    		querystring = querystring + key + "=" + data[key];
-    		if (i < data.length - 1) {
-    			querystring += "&";
-    		}
-    		i++;
+    		querystring = querystring + key + "=" + data[key] + "&";
     	}
+    	//elimina il carattere '&' finale non necessario
+    	querystring = querystring.substring(0, querystring.length-1);
     	
     	//recupera i dati facoltativi e li accoda alla stringa di cueri
     	var name = document.getElementById("firstname").value;
@@ -217,7 +214,7 @@ function RegisterPanelPresenter() {
     			}
     		}
     	};
-    	request.open("POST", "prova.php", true);
+    	request.open("POST", this.servletURL, true);
     	request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     	request.send(querystring);
     };
