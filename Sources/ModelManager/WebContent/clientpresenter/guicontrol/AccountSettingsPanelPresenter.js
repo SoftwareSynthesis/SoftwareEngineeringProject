@@ -3,6 +3,8 @@
 /**
  * Presenter incaricato di gestire il pannello delle impostazioni dell'utente
  * 
+ * @constructor
+ * @this {AccountSettingsPanelPresenter}
  * @author Elena Zecchinato
  * @author Diego Beraldin
  */

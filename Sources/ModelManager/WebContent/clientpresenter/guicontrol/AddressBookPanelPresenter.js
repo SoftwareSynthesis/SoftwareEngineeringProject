@@ -161,9 +161,20 @@ function AddressBookPanelPresenter() {
 
     var textNode = document.createTextNode(name);
 
-    //TODO questo deve essere fatto usando le informazioni salvate nella variabile state
     var stateNode = document.createElement('img');
-    stateNode.setAttribute("src", "");
+    var statePictureUrl;
+    switch (state) {
+    case "available":
+    	statePictureUrl = "img/stateavailable.png";
+    	break;
+    case "occupied":
+    	statePictureUrl = "img/stateoccupied.png";
+    	break;
+    default:
+    	statePictureUrl = "img/stateoffline.png";
+        break;
+    }
+    stateNode.setAttribute("src", statePictureUrl);
     //stateNdoe.setAttribute("class", "");
 
     //imposto il valore dell'<li>

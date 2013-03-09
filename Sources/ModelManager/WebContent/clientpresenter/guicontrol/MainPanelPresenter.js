@@ -43,6 +43,6 @@ function MainPanelPresenter() {
      * @author Diego Beraldin
      */
     this.hide = function() {
-    	this.element.style.display = "none"
+    	this.element.style.display = "none";
     };
 }
