@@ -32,16 +32,19 @@ function AccountSettingsPanelPresenter() {
         
         var mailNode = document.createElement('li');
         mailNode.setAttribute("id", "mail");
-        mailNode.innerHTML = communicationcenter.my.email;
+        mailNode.innerHTML = communicationcenter.my.mail;
 
         var pictureNode = document.createElement('img');
         pictureNode.setAttribute("id", "picture");
-        pictureNode.setAttribute("src", communicationcenter.my.picture);
+        pictureNode.setAttribute("src", communicationcenter.my.picturePath);
 
         var changeButton = document.createElement('button');
         changeButton.setAttribute("type", "button");
         changeButton.innerHTML = "Modifica dati";
-        changeButton.onclick = this.onChange;
+        var self = this;
+        changeButton.onclick = function() {
+        	self.onChange();
+        };
         
         //appende i sottonodi ai nodi principali
         var ulData = document.createElement('ul');

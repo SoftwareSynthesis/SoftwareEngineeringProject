@@ -65,13 +65,6 @@ function AddressBookPanelPresenter() {
      */
     this.getAddressBookContacts = function() {
         var request = new XMLHttpRequest();
-        //il server ritorna Nome, Cognome, Status, Email, Id, Image ad esempio:
-        /*
-         [
-         {"nome": "Marco", "cognome": "Schivo", "email": "marcoskivo@gmail.com", "id": "1", "image": "sfdsfsd.jpg", "status": "Avaible"},
-         {"nome": "Andrea", "cognome": "Rizzi", "email": "asondjs@gmail.com", "id": "2", "image": "sad.jpg", "status": "Not Avaible"}
-         ]
-         */
         request.onreadystatechange = function() {
             //var that = this;
             if (this.readyState == 4 && this.status == 200) {
@@ -149,9 +142,9 @@ function AddressBookPanelPresenter() {
             name += contact.surname;
         }
         if (name == "")
-            name += contact.email;
-        var status = contact.status;
-        var avatar = contact.image;
+            name += contact.mail;
+        var state = contact.state;
+        var avatar = contact.picturePath;
 
         //imposto gli attributi corretti
         item.setAttribute("id", contact.id);
@@ -164,16 +157,14 @@ function AddressBookPanelPresenter() {
     //genero i valori da attribuire all'<li>
     var avatarNode = document.createElement('img');
     avatarNode.setAttribute("src", avatar);
-    //avatarNode.setAttribute("id", "");
     //avatarNode.setAttribute("class", "");
 
     var textNode = document.createTextNode(name);
 
-    //TODO questo deve essere fatto usando le informazioni salvate nella variabile status
-    var statusNode = document.createElement('img');
-    statusNode.setAttribute("src", "");
-    //statusNode.setAttribute("id", "");
-    //statusNode.setAttribute("class", "");
+    //TODO questo deve essere fatto usando le informazioni salvate nella variabile state
+    var stateNode = document.createElement('img');
+    stateNode.setAttribute("src", "");
+    //stateNdoe.setAttribute("class", "");
 
     //imposto il valore dell'<li>
     item.appendChild(avatarNode);
