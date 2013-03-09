@@ -16,6 +16,7 @@ function RegisterPanelPresenter() {
      * @author Stefano Farronato
      */
     this.initialize = function() {
+    	this.element.style.display = "block";
         //creazione dell'elemento form
         var registerForm = document.createElement('form');
         registerForm.setAttribute("name", "register");
@@ -72,7 +73,7 @@ function RegisterPanelPresenter() {
         inputSecretQ.setAttribute("type", "text");
         inputSecretQ.setAttribute("id", "question");
         inputSecretQ.setAttribute("name", "question");
-        inputSecretQ.setAttribute("placeholder", "colore del gatto");
+        inputSecretQ.setAttribute("placeholder", "il colore del mio gatto");
         inputSecretQ.setAttribute("required", "required");
         //costruisce il list item con la label e l'input
         liSecretQ.appendChild(labelSecretQ);
@@ -141,8 +142,8 @@ function RegisterPanelPresenter() {
         //appende tutti gli elementi al form
         ulData.appendChild(liUserName);
         ulData.appendChild(liPassword);
-        ulData.appendChild(liAnswerSQ);
         ulData.appendChild(liSecretQ);
+        ulData.appendChild(liAnswerSQ);
         ulData.appendChild(liFirstName);
         ulData.appendChild(liLastName);
         ulData.appendChild(liButtons);
