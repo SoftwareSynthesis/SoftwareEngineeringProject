@@ -194,6 +194,23 @@ function AddressBookPanelPresenter() {
     this.hide = function() {
         this.element.style.display = "none";
     };
+    
+    
+    /**
+     * Aggiunge un contatto alla rubrica se non già presente
+     * 
+     * @author Riccardo Tresoldi
+     * @param contact rappresenta l'id del contatto da aggiungere
+     */
+    this.addContact = function(contact){
+        //controllo che non sia già presente nella rubrica [controllo da fare anche lato server]
+        
+        //invio la richiesta al server e attendo il risultato
+        
+        //visualizzio l'esito della richiesta
+        
+        //se esito positivo refresh della rubrica
+    }
 
     /* TODO:
      * - aggiunta di un contratto alla rubrica
