@@ -40,7 +40,88 @@ function AccountSettingsPanelPresenter() {
      * @author Diego Beraldin
      */
     function onChangeButtonPressed() {
-    	//TODO da terminare!
+    	element.innerHTML = "";
+    	var ulData = document.createElement("ul");
+    	// list item per il nome
+    	var liName = document.createElement("li");
+    	var labelName = document.createElement("label");
+    	labelName.setAttribute("for", "name");
+    	var inputName = document.createElement("input");
+    	inputName.setAttribute("id", "name");
+    	inputName.setAttribute("name", "name");
+    	inputName.setAttribute("value", communicationcenter.my.name);
+    	liName.appendChild(labelName);
+    	liName.appendChild(inputName);
+    	
+    	// list item per il cognome
+    	var liSurname = document.createElement("li");
+    	var labelSurname = document.createElement("label");
+    	labelSurname.setAttribute("for", "surname");
+    	var inputSurname = document.createElement("input");
+    	inputSurname.setAttribute("id", "surname");
+    	inputSurname.setAttribute("name", "surname");
+    	inputSurname.setAttribute("value", communicationcenter.my.surname);
+    	liName.appendChild(labelSurname);
+    	liName.appendChild(inputSurname);
+    	
+    	// list item per l'email
+    	var liMail = document.createElement("li");
+    	var labelMail = document.createElement("label");
+    	labelMail.setAttribute("for", "mail");
+    	var inputMail = document.createElement("input");
+    	inputMail.setAttribute("id", "mail");
+    	inputMail.setAttribute("name", "mail");
+    	inputMail.setAttribute("value", communicationcenter.my.mail);
+    	liName.appendChild(labelMail);
+    	liName.appendChild(inputMail);
+    	
+    	// list item per l'immagine
+    	var liPicture = document.getElementById("li");
+    	var labelPicture = document.createElement("label");
+    	labelPicture.setAttribute("for", "picture");
+    	var inputPicture = document.createElement("input");
+    	inputPicture.setAttribute("type", "file");
+    	inputPicture.setAttribute("id", "picture");
+    	inputPicture.setAttribute("name", "picture");
+    	inputPicture.setAttribute("value", communicationcenter.my.picturePath);
+    	liName.appendChild(labelPicture);
+    	liName.appendChild(inputPicture);
+    	
+    	//FIXME se cambiano anche password, domanda segreta e risposta va aggiunto qui
+    	
+    	// aggiunge tutti i nodi alla lista
+    	ulData.appendChild(liName);
+    	ulData.appendChild(liSurname);
+    	ulData.appendChild(liMail);
+    	ulData.appendChild(liPicture);
+    	
+    	// pulsante per processare i dati
+    	var submitButton = document.createElement("input");
+    	submitButton.setAttribute("type", "submit");
+    	submitButton.setAttribute("value", "OK");
+    	submitButton.onclick = onSubmitChange;
+    	
+    	// aggiunge il tutto al sottoalbero del DOM
+    	var formData = document.createElement("form");
+    	formData.appendChild(ulData);
+    	formData.appendChild(submitButton);
+    	element.appendChild(formData);
+    }
+    
+    /**
+     * Costruisce la stringa di cueri che deve essere spedita alla servlet
+     * per portare a termine la richiesta di cambiamento dei dati personali
+     * 
+     * @param {Object} data i dati che sono stati raccolti dal form
+     * @returns {String} la stringa da inviare alla servlet
+     * @author Diego Beraldin
+     */
+    function buildQueryString(data) {
+    	querystring = "";
+    	for (var key in data) {
+    		querystring += key + "=" + encodeURIComponent(data.key) + "&";
+    	}
+    	return querystring;
     }
     
     /**
@@ -52,15 +133,23 @@ function AccountSettingsPanelPresenter() {
     function onSubmitChange() {
     	// recupera i dati dal form e li memorizza in un oggetto
     	var data = new Object();
-    	data.name = document.getElementById("name").innerHTML;
-    	data.surname = document.getElementById("surname").innerHTML;
-    	data.mail = document.getElementById("mail").innerHTML;
-    	// cosa fare con l'immagine del profilo
-    	data.picture = "";
+    	data.name = document.getElementById("name").getAttribute("value");
+    	data.surname = document.getElementById("surname").getAttribute("value");
+    	data.mail = document.getElementById("mail").getAttribute("value");
+    	data.picture = document.getElementById("picture").getAttribute("value");
     	
     	// verifica se è cambiato qualcosa e agisce di conseguenza
     	if (this.hasSomethingChanged(data)) {
-    		//TODO contattare la servlet con una richiesta AJAX
+    		var request = new XMLHttpRequest();
+    		request.onreadystatechange = function() {
+    			if (this.readystate == 4 && this.status == 200) {
+    				element.innerHTML = "";
+    				initialize();
+    			}
+    		};
+    		request.open("POST", servletURL, "true");
+    		request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    		request.send(buildQueryString(data));
     	}
     }
     
@@ -71,6 +160,7 @@ function AccountSettingsPanelPresenter() {
      * Inizializza il pannello costruendone i widget grafici interni
      * 
      * @author Elena Zecchinato
+     * @author Diego Beraldin
      */
     this.initialize = function() {  
     	element.style.display = "block";
@@ -80,15 +170,15 @@ function AccountSettingsPanelPresenter() {
          */
         var nameNode = document.createElement('li');
         nameNode.setAttribute("id", "name");
-        nameNode.innerHTML = communicationcenter.my.name;
+        nameNode.appendChild(document.createTextNode(communicationcenter.my.name));
         
         var surnameNode = document.createElement('li');
         nameNode.setAttribute("id", "surname");
-        surnameNode.innerHTML = communicationcenter.my.surname;
+        surnameNode.appendChild(document.createTextNode(communicationcenter.my.surname));
         
         var mailNode = document.createElement('li');
         mailNode.setAttribute("id", "mail");
-        mailNode.innerHTML = communicationcenter.my.mail;
+        mailNode.appendChild(document.createTextNode(communicationcenter.my.mail));
 
         var pictureNode = document.createElement('img');
         pictureNode.setAttribute("id", "picture");
@@ -96,8 +186,10 @@ function AccountSettingsPanelPresenter() {
 
         var changeButton = document.createElement('button');
         changeButton.setAttribute("type", "button");
-        changeButton.innerHTML = "Modifica dati";
+        changeButton.appendChild(document.createTextNode("Modifica dati"));
         changeButton.onclick = onChangeButtonPressed;
+        
+        //FIXME possono cambiare anche password, domanda segreta e risposta!
         
         //appende i sottonodi ai nodi principali
         var ulData = document.createElement('ul');
