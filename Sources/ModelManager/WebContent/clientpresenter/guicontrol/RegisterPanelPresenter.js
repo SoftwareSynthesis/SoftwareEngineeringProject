@@ -6,11 +6,107 @@
  * @author Stefano Farronato
  */
 function RegisterPanelPresenter() {
+/**********************************************************
+                     VARIABILI PRIVATE
+***********************************************************/
     //url della servlet che deve gestire la registrazione
-    this.servletURL = "localhost:8080/LoginManager";
+    var servletURL = "localhost:8080/LoginManager";
     //elemento controllato da questo presenter
-    this.element = document.getElementById("RegisterPanel");
+    var element = document.getElementById("RegisterPanel");
 
+/**********************************************************
+                     METODI PRIVATI
+***********************************************************/
+    /**
+     * Invia i dati ricevuti alla servlet per la creazione di un nuovo utente
+     * 
+     * @author Diego Beraldin
+     */
+    function register() {
+    	//invia la richiesta AJAX al server
+    	var request = new XMLHttpRequest();
+    	request.onreadystatechange = function() {
+    		if (this.readyState == 4 && this.status == 200) {
+    			testRegistration(this.responseText);
+    		}
+    	};
+    	request.open("POST", servletURL, true);
+    	request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    	request.send(buildQueryString());
+    }
+    
+    /**
+     * Costruisce una stringa adatta per essere passata alla servlet al fine di effettuare
+     * la registrazione al sistema
+     * 
+     * @returns {String} la stringa di cueri che deve essere spedita alla servlet
+     * @author Diego Beraldin
+     */
+    function buildQueryString() {
+    	//recupera i dati obbligatori dal form
+    	var data = new Array();
+    	data["username"] = document.getElementById("username").getAttribute("value");
+    	data["password"] = document.getElementById("password").getAttribute("value");
+    	data["question"]= document.getElementById("question").getAttribute("value");
+    	data["answer"] = document.getElementById("answer").getAttribute("value");
+    	//verifica la presenza dei dati (e salta il resto se non sono presenti)
+    	var ok = true;
+    	for (var key in data) {
+    		if (!data[key] || data[key] == "") {
+    			ok = false;
+    		}
+    	}
+    	if (!ok) {
+    		return;
+    	}
+    	
+    	//costruisce la stringa di cueri con i dati obbligatori
+    	var querystring = "";
+    	for (var key in data) {
+    		querystring = querystring + key + "=" + encodeURIComponent(data[key]) + "&";
+    	}
+    	//elimina il carattere '&' finale non necessario
+    	querystring = querystring.substring(0, querystring.length-1);
+    	
+    	//recupera i dati facoltativi e li accoda alla stringa di cueri
+    	var name = document.getElementById("firstname").getAttribute("value");
+    	var surname = document.getElementById("lastname").getAttribute("value");
+    	var picture = document.getElementById("picture").getAttribute("value");
+    	if (name  && name.length) {
+    		querystring += "&name=" + encodeURIComponent(name);
+    	}
+    	if (surname && surname.length) {
+    		querystring += "&surname=" + encodeURIComponent(surname);
+    	}
+    	if (picture) {
+    		querystring += "&picturePath=" + encodeURIComponent(picture);
+    	}
+    	//imposta l'operazione che la servlet deve fare (2 = registrazione nuovo utente)
+    	querystring += "&operation=2";
+    	return querystring;
+    }
+    
+    /**
+     * Verifica che la registrazione al sistema abbia avuto successo in base alla stringa
+     * ottenuta dalla servlet. Se questa corrisponde a un utente, allora viene memorizzato
+     * sul client e si accede alla home screen dell'applicativo
+     * 
+     * @param {String} data testo di risposta della servlet di autenticazione
+     * che deve corrispondere all'utente creato dalla registrazione
+     * @author Diego Beraldin
+     */
+    function testRegistration(data) {
+    	var user = JSON.parse(data);
+    	if (user != null) {
+    		communicationcenter.my = user;
+    		this.hide();
+    		mediator.buildUI();
+    	}    	
+    }
+    
+/**********************************************************
+                     METODI PUBBLICI
+***********************************************************/
     /**
      * Inizializzazione dellla form di registrazione con la creazione di tutti i
      * widget grafici che sono contenuti al suo interno
@@ -18,7 +114,7 @@ function RegisterPanelPresenter() {
      * @author Stefano Farronato
      */
     this.initialize = function() {
-    	this.element.style.display = "block";
+    	element.style.display = "block";
         //creazione dell'elemento form
         var registerForm = document.createElement('form');
         registerForm.setAttribute("name", "register");
@@ -131,17 +227,27 @@ function RegisterPanelPresenter() {
         liLastName.appendChild(labelLastName);
         liLastName.appendChild(inputLastName);
         
-        //TODO manca l'immagine, se deve essere caricata qui
+        //crazione dell'item per l'immagine
+        var liPicture = document.createElement("li");
+        //label
+        var labelPicture = document.createElement("label");
+        labelPicture.setAttribute("for", "picture");
+        labelPicture.innerHTML = "Immagine del profilo: ";
+        //input
+        var inputPicture = document.createElement("input");
+        inputPicture.setAttribute("type", "file");
+        inputPicture.setAttribute("name", "picture");
+        inputPicture.setAttribute("id", "picture");
+        //costruisce il list item con label e input
+        liPicture.appendChild(labelPicture);
+        liPicture.appendChild(inputPicture);
 
         //pulsante di registrazione
         var inputRegister = document.createElement('input');
         inputRegister.setAttribute("type", "submit");
         inputRegister.setAttribute("value", "Registrati");
-        var self = this;
-        inputRegister.onclick = function() {
-        	self.register();
-        };
-        var liButtons=document.createElement('li');
+        inputRegister.onclick = register;
+        var liButtons = document.createElement('li');
 		liButtons.appendChild(inputRegister);
 
         //appende tutti gli elementi al form
@@ -151,97 +257,14 @@ function RegisterPanelPresenter() {
         ulData.appendChild(liAnswerSQ);
         ulData.appendChild(liFirstName);
         ulData.appendChild(liLastName);
+        ulData.appendChild(liPicture);
         ulData.appendChild(liButtons);
         registerForm.appendChild(ulData);
 
         //appende il form al DOM della pagin
-        this.element.appendChild(registerForm);
+        element.appendChild(registerForm);
     };
-    
-    /**
-     * Invia i dati ricevuti alla servlet per la creazione di un nuovo utente
-     * 
-     * @author Diego Beraldin
-     */
-    this.register = function() {
-    	//invia la richiesta AJAX al server
-    	var request = new XMLHttpRequest();
-    	var self = this;
-    	request.onreadystatechange = function() {
-    		if (this.readyState == 4 && this.status == 200) {
-    			self.testRegistration(request.responseText);
-    		}
-    	};
-    	request.open("POST", this.servletURL, true);
-    	request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    	request.send(this.buildQueryString());
-    };
-    
-    /**
-     * Costruisce una stringa adatta per essere passata alla servlet al fine di effettuare
-     * la registrazione al sistema
-     * 
-     * @returns {String} la stringa di cueri che deve essere spedita alla servlet
-     * @author Diego Beraldin
-     */
-    this.buildQueryString = function() {
-    	//recupera i dati obbligatori dal form
-    	var data = new Array();
-    	data["username"] = document.getElementById("username").value;
-    	data["password"] = document.getElementById("password").value;
-    	data["question"]= document.getElementById("question").value;
-    	data["answer"] = document.getElementById("answer").value;
-    	//verifica la presenza dei dati (e salta il resto se non sono presenti)
-    	var ok = true;
-    	for (var key in data) {
-    		if (!data[key] || data[key] == "") {
-    			ok = false;
-    		}
-    	}
-    	if (!ok) {
-    		return;
-    	}
-    	
-    	//costruisce la stringa di cueri con i dati obbligatori
-    	var querystring = "";
-    	for (var key in data) {
-    		querystring = querystring + key + "=" + encodeURIComponent(data[key]) + "&";
-    	}
-    	//elimina il carattere '&' finale non necessario
-    	querystring = querystring.substring(0, querystring.length-1);
-    	
-    	//recupera i dati facoltativi e li accoda alla stringa di cueri
-    	var name = document.getElementById("firstname").value;
-    	var surname = document.getElementById("lastname").value;
-    	if (name  && name.length) {
-    		querystring += "&name=" + encodeURIComponent(name);
-    	}
-    	if (surname && surname.length) {
-    		querystring += "&surname0" + encodeURIComponent(surname);
-    	}
-    	//imposta l'operazione che la servlet deve fare (2 = registrazione nuovo utente)
-    	querystring += "&operation=2";
-    	return querystring;
-    };
-    
-    /**
-     * Verifica che la registrazione al sistema abbia avuto successo in base alla stringa
-     * ottenuta dalla servlet. Se questa corrisponde a un utente, allora viene memorizzato
-     * sul client e si accede alla home screen dell'applicativo
-     * 
-     * @param {String} data testo di risposta della servlet di autenticazione
-     * che deve corrispondere all'utente creato dalla registrazione
-     * @author Diego Beraldin
-     */
-    this.testRegistration = function(data) {
-    	var user = JSON.parse(data);
-    	if (user != null) {
-    		communicationcenter.my = user;
-    		this.hide();
-    		mediator.buildUI();
-    	}    	
-    };
-    
+
     /**
      * Nasconde il form di registrazione per lasciare spazio alla schermata principale
      * dell'applicativo (che deve essere costruita dal PresenterMediator)
@@ -249,6 +272,6 @@ function RegisterPanelPresenter() {
      * @author Diego Beraldin
      */
     this.hide = function() {
-    	this.element.style.display = "none";
+    	element.style.display = "none";
     };
 }

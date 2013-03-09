@@ -32,7 +32,7 @@ function LoginPanelPresenter() {
             this.hide();
             mediator.buildUI();
         }
-    };
+    }
     
     /**
      * Invia la risposta alla domanda segreta al server
@@ -127,8 +127,8 @@ function LoginPanelPresenter() {
         request.open("POST", this.servletURL, true);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         request.send("username=" + encodeURIComponent(username) + "&password=" + encodeURIComponent(password) + "&operation=1");
-    };
-    
+    }
+
 /**********************************************************
                        METODI PUBBLICI
 ***********************************************************/
