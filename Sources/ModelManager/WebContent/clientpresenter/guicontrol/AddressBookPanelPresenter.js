@@ -3,129 +3,53 @@
  * associate ai widget grafici della vista relativi alla rubrica e ha la
  * responsabilità di aggiornare la vista sulla base dei dati ricevuti dal server
  *
+ * @constructor
+ * @this {AddressBookPanelPresenter}
  * @author Marco Schivo
  * @author Riccardo Tresoldi
  * @author Diego Beraldin
  */
 function AddressBookPanelPresenter() {
-    //elemento controllato da questo presenter
-    this.element = document.getElementById("AddressBookPanel");
-    //da configurare con url della servlet
-    this.urlServlet = "http://localhost:8080/AddressBookManager";
-    //array dei contatti della rubrica dell'utente
-    this.contacts = new Array();
+/**********************************************************
+                     VARIABILI PRIVATE
+***********************************************************/
+    // elemento controllato da questo presenter
+    var element = document.getElementById("AddressBookPanel");
+    // da configurare con url della servlet
+    var urlServlet = "http://localhost:8080/AddressBookManager";
+    // array dei contatti della rubrica dell'utente
+	//FIXME avrebbe più senso salvare i contatti i communicationcenter.my
+    var contacts = new Array();
 
-    /**
-     * Inizializza 'AddressBookPannel' e lo popola con i contatti della rubrica
-     *
-     * @author Riccardo Tresoldi
-     */
-    this.initialize = function() {
-        // mi imposto come visibile
-        this.element.style.display = "block";
-        //creo i tre div principali
-        var divSearch = document.createElement('div');
-        var divSort = document.createElement('div');
-        var divList = document.createElement('div');
-
-        //creo contenuto divSearch
-        var inputText = document.createElement('input');
-        inputText.setAttribute("type", "text");
-        var inputButton = document.createElement('input');
-        inputText.setAttribute("type", "image");
-
-        //creo contenuto divSort
-        var select = document.createElement('select');
-        select.setAttribute("id", "selectSort");
-
-        //creo contenuto divList
-        var ul = document.createElement('ul');
-        select.setAttribute("id", "AddressBookList");
-
-        //appendo i sottonodi ai nodi principali
-        divSearch.appendChild(inputText);
-        divSearch.appendChild(inputButton);
-        divSort.appendChild(select);
-        divList.appendChild(ul);
-
-        //appendo il sottoalbero al DOM
-        this.element.innerHTML = "";
-        this.element.appendChild(divSearch);
-        this.element.appendChild(divSort);
-        this.element.appendChild(divList);
-
-        //visualizza i contatti nel pannello
-        this.setup();
-    };
-
+/**********************************************************
+                        METODI PRIVATI
+***********************************************************/
     /**
      * Recupera i contatti della propria rubrica dal server tramite AJAX
      *
      * @author Marco Schivo
      */
-    this.getAddressBookContacts = function() {
+    function getAddressBookContacts() {
         var request = new XMLHttpRequest();
         request.onreadystatechange = function() {
-            //var that = this;
             if (this.readyState == 4 && this.status == 200) {
-                //ricevo un JSON contenente tutti i contatti della mia rubrica e li inserisco nell'array dichiarato globalmente "AddresssBookList"
                 contacts = JSON.parse(request.responseText);
-                // probabile problema: risolvere con that.contacts
             }
         };
 
         request.open("POST", urlServlet, "true");
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        //se c'è bisogno di passare piu parametri, agganciarli con &
         request.send("id=" + communicationcenter.my.id);
-    };
-
-    /**
-     * Inserisce i contatti estratti dal server all'interno della lista
-     * 'AddressBookList' all'interno di 'AddressBookPanel'
-     *
-     * @author Riccardo Tresoldi
-     */
-    this.setup = function() {
-        //estraggo l'<ul> del Addressbook e lo inizializzo
-        var ulList = this.element.getElementById("AddressBookList");
-        ulList.innerHTML = "";
-
-        //<ul id="AddressBookList"></ul>
-        for (var contact in this.contacts) {
-            //ciclo i contatti e agiungo un <li> per ogni contatto
-            //QUESTA È LA SINTASSI PER ARRAY ASSOCIATIVI MA ORA È UN ARRAY NORMALE: addListItem(ulList, this.contacts[contact]);
-            this.addListItem(ulList, contact);
-        }
-    };
-
-    /**
-     * Popola la 'AddressBookList' con la lista ricevuta come parametro
-     *
-     * @param list  lista di contatti che deve essere stampata
-     * @author Diego Beraldin
-     */
-    this.displayContactList = function(list) {
-        //estraggo l'<ul> del Addressbook e lo inizializzo
-        var ulList = this.element.getElementById("AddressBookList");
-        ulList.innerHTML = "";
-
-        for (var contact in list) {
-            //ciclo i contatti e agiungo un <li> per ogni contatto
-            //QUESTA È LA SINTASSI PER ARRAY ASSOCIATIVI MA ORA È UN ARRAY NORMALE: addListItem(ulist, list[contact]);
-            this.addListItem(ulList, contact);
-        }
-    };
-
+    }
+    
     /**
      * Aggiunge una voce di rubrica a una lista
      *
      * @author Riccardo Tresoldi
-     * @param list lista cui il contatto deve essere aggiunto
-     * @param contact  contatto da aggiungere
+     * @param {HTMLUListElement} list lista cui il contatto deve essere aggiunto
+     * @param {Object} contact  contatto da aggiungere
      */
-    //TODO deve diventare un metodo privato
-    this.addListItem = function(list, contact) {
+    function addListItem(list, contact) {
         //creo l'elemento <li>
         var item = document.createElement("li");
 
@@ -184,10 +108,92 @@ function AddressBookPanelPresenter() {
 
         //aggiungo il <li> al elemento <ul> dell'oggetto ulList su cui viene invocata la funzione
         list.appendChild(item);
+    }
+    
+/**********************************************************
+                        METODI PUBBLICI
+***********************************************************/
+    /**
+     * Inizializza 'AddressBookPanel' e lo popola con i contatti della rubrica
+     *
+     * @author Riccardo Tresoldi
+     */
+    this.initialize = function() {
+        // mi imposto come visibile
+        element.style.display = "block";
+        //creo i tre div principali
+        var divSearch = document.createElement('div');
+        var divSort = document.createElement('div');
+        var divList = document.createElement('div');
+
+        // creo contenuto divSearch
+        var inputText = document.createElement('input');
+        inputText.setAttribute("type", "text");
+        var inputButton = document.createElement('input');
+        inputText.setAttribute("type", "image");
+
+        // creo contenuto divSort
+        var select = document.createElement('select');
+        select.setAttribute("id", "selectSort");
+
+        // creo contenuto divList
+        var ul = document.createElement('ul');
+        select.setAttribute("id", "AddressBookList");
+
+        // appendo i sottonodi ai nodi principali
+        divSearch.appendChild(inputText);
+        divSearch.appendChild(inputButton);
+        divSort.appendChild(select);
+        divList.appendChild(ul);
+
+        //appendo il sottoalbero al DOM
+        this.element.innerHTML = "";
+        this.element.appendChild(divSearch);
+        this.element.appendChild(divSort);
+        this.element.appendChild(divList);
+
+    	// scarica i contatti dal server
+    	getAddressBookContacts();
+        // visualizza i contatti nel pannello
+        this.setup();
     };
 
     /**
-     * Rende invisibile in pannello
+     * Inserisce i contatti estratti dal server all'interno della lista
+     * 'AddressBookList' all'interno di 'AddressBookPanel'
+     *
+     * @author Riccardo Tresoldi
+     */
+    this.setup = function() {	
+        // estraggo l'<ul> del Addressbook e lo inizializzo
+        var ulList = this.element.getElementById("AddressBookList");
+        ulList.innerHTML = "";
+
+        for (var contact in contacts) {
+            //ciclo i contatti e agiungo un <li> per ogni contatto
+            addListItem(ulList, contact);
+        }
+    };
+
+    /**
+     * Popola la 'AddressBookList' con la lista ricevuta come parametro
+     *
+     * @param {Array} list  lista di contatti che deve essere stampata
+     * @author Diego Beraldin
+     */
+    this.displayContactList = function(list) {
+        //estraggo l'<ul> del Addressbook e lo inizializzo
+        var ulList = this.element.getElementById("AddressBookList");
+        ulList.innerHTML = "";
+
+        for (var contact in list) {
+            //ciclo i contatti e agiungo un <li> per ogni contatto
+            addListItem(ulList, contact);
+        }
+    };
+
+    /**
+     * Rende invisibile il pannello della rubrica all'occorrenza
      *
      * @author Diego Beraldin
      */
@@ -200,7 +206,7 @@ function AddressBookPanelPresenter() {
      * Aggiunge un contatto alla rubrica se non già presente
      * 
      * @author Riccardo Tresoldi
-     * @param contact rappresenta l'id del contatto da aggiungere
+     * @param {Object} contact rappresenta l'id del contatto da aggiungere
      */
     this.addContact = function(contact){
         //controllo che non sia già presente nella rubrica [controllo da fare anche lato server]
@@ -210,7 +216,7 @@ function AddressBookPanelPresenter() {
         //visualizzio l'esito della richiesta
         
         //se esito positivo refresh della rubrica
-    }
+    };
 
     /* TODO:
      * - aggiunta di un contratto alla rubrica
