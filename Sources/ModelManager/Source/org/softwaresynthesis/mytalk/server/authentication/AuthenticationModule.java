@@ -17,13 +17,13 @@ import org.softwaresynthesis.mytalk.server.abook.IUserData;
 import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
 
 /**
- * Modulo di autenticazione utilizzato dal sistema
- * mytalk
+ * Modulo di autenticazione al sistema mytalk. Offre
+ * le operazione di accesso ed uscita dal sistema
  * 
  * @author 	Andrea Meneghinello
  * @version	%I%, %G%
  */
-public class AuthenticationModule implements LoginModule 
+public class AuthenticationModule implements LoginModule
 {
 	private boolean login;
 	private boolean commit;
@@ -34,15 +34,14 @@ public class AuthenticationModule implements LoginModule
 	private Subject subject;
 	
 	/**
-	 * Inizializzazione dello stato interno del modulo
-	 * di autenticazione del sistema mytalk
+	 * Inizializzazione del modulo di login
 	 * 
-	 * @author 	Andrea Meneghinello
+	 * @author	Andrea Meneghinello
 	 * @version	%I%, %G%
-	 * @param 	subject		soggetto che deve essere autenticato
-	 * @param	handler		carica le credenziali di accesso per la procedura
-	 * @param	sharedState	stato condiviso con altri moduli di login
-	 * @param	option		opzioni settate nel file di configurazione per il modulo di login
+	 * @param	subject		{@link Subject} che deve essere autenticato
+	 * @param	handler		{@link CallbackHandler} per il caricamento delle credenzialie
+	 * @param	shareState	{@link Map} con lo stato condiviso
+	 * @param	option		{@link Map} con le opzioni
 	 */
 	@SuppressWarnings("rawtypes")
 	@Override
@@ -52,18 +51,19 @@ public class AuthenticationModule implements LoginModule
 		this.commit = false;
 		this.handler = handler;
 		this.subject = subject;
-		this.password = null;
+		this.principal = null;
 		this.username = null;
+		this.password = null;
 	}
 	
 	/**
-	 * Esegue la procedura di login con le credenziali fornite
+	 * Effettua il login con le credenziali
+	 * di accesso fornite da un utente
 	 * 
 	 * @author	Andrea Meneghinello
 	 * @version	%I%, %G%
-	 * @return 	true se l'operazione di login è andata a buon fine
-	 * @throws	{@link LoginException} se l'operazione è fallita
-	 * 			{@link FailedLoginException} se le credenziali non corrispondono a nessun utente
+	 * @throws	{@link LoginException} se le credenziali
+	 * 			di accesso sono errate
 	 */
 	@Override
 	public boolean login() throws LoginException
@@ -71,13 +71,9 @@ public class AuthenticationModule implements LoginModule
 		Callback[] callbacks = null;
 		char[] tmpPassword = null;
 		IUserData user = null;
-		String userPass = null;
+		String userPassword = null;
 		UserDataDAO userDAO = null;
-		if (this.handler == null)
-		{
-			throw new LoginException("Nessun handler definito per la procedura di login");
-		}
-		else
+		if (this.handler != null)
 		{
 			callbacks = new Callback[2];
 			callbacks[0] = new NameCallback("username");
@@ -88,7 +84,7 @@ public class AuthenticationModule implements LoginModule
 			}
 			catch (IOException ex)
 			{
-				throw new LoginException(ex.getMessage());
+				throw new LoginException("Errori durante il caricamento delle credenziali di accesso");
 			}
 			catch (UnsupportedCallbackException ex)
 			{
@@ -99,12 +95,13 @@ public class AuthenticationModule implements LoginModule
 			this.password = new char[tmpPassword.length];
 			System.arraycopy(tmpPassword, 0, this.password, 0, tmpPassword.length);
 			((PasswordCallback)callbacks[1]).clearPassword();
+			tmpPassword = null;
 			userDAO = new UserDataDAO();
 			user = userDAO.getByEmail(this.username);
-			if(user != null)
+			if (user != null)
 			{
-				userPass = user.getPassword();
-				if (userPass.equals(new String(this.password)))
+				userPassword = user.getPassword();
+				if (userPassword.equals(new String(this.password)))
 				{
 					this.login = true;
 					return true;
@@ -114,22 +111,29 @@ public class AuthenticationModule implements LoginModule
 					this.login = false;
 					this.username = null;
 					this.password = null;
-					throw new FailedLoginException("Credenziali di accesso non corrette, riprovare.");
+					throw new FailedLoginException("Password errata");
 				}
 			}
+			else
+			{
+				throw new FailedLoginException("Username errato");
+			}
 		}
-		return false;
+		else
+		{
+			throw new LoginException("Nessun handler definito per la procedura di login");
+		}
 	}
 	
 	/**
-	 * Aggiunge le caratteristiche identificative al subject
-	 * in modo che la sua identità possa essere facilmente
-	 * ritrovata nel resto del sistema mytalk
+	 * Aggiunge le caratteristiche identificative al
+	 * {@link Subject} in modo che la sua identità
+	 * possa essere facilmente ritrovata
 	 * 
 	 * @author	Andrea Meneghinello
 	 * @version	%I%, %G%
-	 * @return	true se l'operazione ha avuto successo
-	 * @throws	{@link LoginException} se l'operazione ha riscontrato errori
+	 * @throws	{@link LoginException} se l'operazione
+	 * 			non dovessere andare a buon fine
 	 */
 	@Override
 	public boolean commit() throws LoginException
@@ -147,15 +151,15 @@ public class AuthenticationModule implements LoginModule
 	}
 	
 	/**
-	 * Termina la procedura di login cancellando tutti i dati di
-	 * elaborazione
+	 * Termina la procedura di login cancellando
+	 * tutti i dati di elaborazione, comprese le 
+	 * credenziali
 	 * 
 	 * @author	Andrea Meneghinello
 	 * @version	%I%, %G%
-	 * @return	true se l'operazione è andata a buon fine
-	 * @throws	{@link LoginException} se l'operazione ha riscontrato errori
+	 * @throws	{@link LoginException} se l'operazione
+	 * 			non dovesse andare a buon fine
 	 */
-	@Override
 	public boolean abort() throws LoginException
 	{
 		if (this.login == false)
@@ -180,12 +184,14 @@ public class AuthenticationModule implements LoginModule
 	}
 	
 	/**
-	 * Effettua il logout dal sistema mytalk
+	 * Effettua il logout di un utente cancellando
+	 * le credenziali di accesso e le informazioni
+	 * che permettono di ricondurre a lui
 	 * 
 	 * @author	Andrea Meneghinello
 	 * @version	%I%, %G%
-	 * @return 	true se l'operazione è andata a buon fine
-	 * @throws	{@link LoginException} se l'operazione ha riscontrato errori
+	 * @throws 	{@link LoginException} se l'operazione
+	 * 			non dovesse andare a buon fine
 	 */
 	public boolean logout() throws LoginException
 	{

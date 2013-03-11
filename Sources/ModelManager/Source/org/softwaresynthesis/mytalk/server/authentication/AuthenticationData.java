@@ -1,25 +1,24 @@
 package org.softwaresynthesis.mytalk.server.authentication;
 
 /**
- * Oggetto contenente i dati di accesso utilizzati da
- * un utente che vuole accedere al sistema mytalk
+ * Oggetto utilizzato in fase di autenticazione
+ * per validare un utente
  * 
  * @author 	Andrea Meneghinello
- * @version	%I%, %G%
+ * @version %I%, %G%
  */
-public class AuthenticationData 
+public class AuthenticationData
 {
 	private String username;
 	private String password;
 	
 	/**
-	 * Crea un istanza di AuthenticationData, con i dati
-	 * forniti dall'utente che sarà utilizzata per la
-	 * procedura di login
+	 * Crea l'oggetto per la fase di login
 	 * 
 	 * @author	Andrea Meneghinello
-	 * @param 	username	username dell'utente
-	 * @param 	password	password dell'utente
+	 * @version	%I%, %G%
+	 * @param 	username	{@link String} username dell'utente
+	 * @param 	password	{@link String} password dell'utente
 	 */
 	public AuthenticationData(String username, String password)
 	{
@@ -28,13 +27,12 @@ public class AuthenticationData
 	}
 	
 	/**
-	 * Restituisce lo username dell'utente che sta effettuando
-	 * la procedura di login
+	 * Restituisce lo username dell'utente
 	 * 
 	 * @author	Andrea Meneghinello
 	 * @version	%I%, %G%
-	 * @return	stringa rappresentante lo username dell'utente
-	 * 			che sta effettuando il login.
+	 * @return	{@link String} con lo username inserito in fase
+	 * 			di autenticazione
 	 */
 	public String getUsername()
 	{
@@ -42,13 +40,12 @@ public class AuthenticationData
 	}
 	
 	/**
-	 * Restituisce la password dell'utente che sta effettuando
-	 * la prodedura di login
+	 * Restituisce la password dell'utente
 	 * 
 	 * @author	Andrea Meneghinello
 	 * @version	%I%, %G%
-	 * @return	stringa rappresentante la password dell'utente
-	 * 			che sta effettuando il login
+	 * @return	{@link String} con la password inserita in fase
+	 * 			di autenticazione
 	 */
 	public String getPassword()
 	{
@@ -56,49 +53,36 @@ public class AuthenticationData
 	}
 	
 	/**
-	 * Restituisce il codice hash di questa istanza
+	 * Determina se due istanze di AuthenticationData sono uguali
 	 * 
 	 * @author	Andrea Meneghinello
 	 * @version	%I%, %G%
-	 * @return 	codice hash dell'istanza
-	 */
-	@Override
-	public int hashCode()
-	{
-		return this.username.hashCode() + this.password.hashCode();
-	}
-	
-	/**
-	 * Determina l'uguaglianza di due istanze
-	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
-	 * @param	obj		istanza di cui si vuole verificare l'uguaglianza
+	 * @param	toCompare	{@link Object} oggetto da confrontare
 	 * @return	true se le due istanze sono uguali, false altrimenti
 	 */
 	@Override
-	public boolean equals(Object obj)
+	public boolean equals(Object toCompare)
 	{
-		boolean result = false;
 		AuthenticationData credential = null;
-		if (obj instanceof AuthenticationData)
+		boolean result = false;
+		if (toCompare instanceof AuthenticationData)
 		{
-			credential = (AuthenticationData)obj;
-			result = this.username.equals(credential.username) && this.password.equals(credential.password);
+			credential = (AuthenticationData)toCompare;
+			result =  this.username.equals(credential.username);
 		}
 		return result;
 	}
 	
 	/**
-	 * Resituisce l'istanza sotto forma di stringa
+	 * Restituisce l'oggetto sotto forma di {@link String}
 	 * 
 	 * @author	Andrea Meneghinello
 	 * @version	%I%, %G%
-	 * @return	stringa rappresentante l'istanza di questo oggetto	
+	 * @return	{@link String} rappresentante l'istanza dell'oggetto
 	 */
-	@Override
 	public String toString()
 	{
-		return String.format("Credenziali di accesso dell'utente: %s", this.username);
+		String instance = String.format("AuthenticationData[username: %s]", this.username);
+		return instance;
 	}
 }

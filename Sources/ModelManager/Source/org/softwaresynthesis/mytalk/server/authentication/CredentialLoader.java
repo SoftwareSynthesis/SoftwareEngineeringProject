@@ -7,77 +7,79 @@ import javax.security.auth.callback.NameCallback;
 import javax.security.auth.callback.PasswordCallback;
 import javax.security.auth.callback.UnsupportedCallbackException;
 
-/**
- * Permette di caricare le credenziali di autenticazione,
- * fornite dall'utente, per preparare la fase di login
- * 
- * @author 	Andrea Meneghinello
- * @version	%I%, %G%
- */
-public class CredentialLoader implements CallbackHandler
+public class CredentialLoader implements CallbackHandler 
 {
 	private AuthenticationData credential;
-	private ISecurityStrategy security;
-	
+	private ISecurityStrategy strategy;
+
 	/**
-	 * Crea un istanza con le credenziali fornite dall'utente
+	 * Crea un istanza di un oggetto che ha il compito
+	 * di preparare le credenziali per la fase di login
 	 * 
 	 * @author 	Andrea Meneghinello
-	 * @version	%I%, %G%
-	 * @param 	credential	credenziali di accesso fornite dall'utente
+	 * @param 	credential	{@link String} credenziali di accesso
+	 * 						fornite dall'utente
+	 * @param 	strategy	{@link ISecurityStrategy} di codifica
+	 * 						da utilizzare
 	 */
-	public CredentialLoader(AuthenticationData credential, ISecurityStrategy security)
+	public CredentialLoader(AuthenticationData credential, ISecurityStrategy strategy)
 	{
 		this.credential = credential;
-		this.security = security;
+		this.strategy = strategy;
 	}
 	
 	/**
-	 * Effettua il caricamento e la crittografa le credenziali
-	 * fornite dall'utente per la fase di login
+	 * Prepara le credenziali di accesso fonrite per la
+	 * procedura di login
 	 * 
-	 * @author 	Andrea Meneghinello
+	 * @author	Andrea Meneghinello
 	 * @version	%I%, %G%
-	 * @param	callbacks	contiene la tipologia di dati richiesti
-	 * 						dalla procedura di login che vengonono
-	 * 						popolati in questa procedura
-	 * @throws	{@link IOException} se ci sono problemi di input
-	 * 			{@link UnsupportedCallbackException} se ci sono callback non supportati
+	 * @param	vettore {@link Callback} da popolare con
+	 * 			le credenziali
 	 */
 	@Override
-	public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException
+	public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException 
 	{
+		char[] cryptedStringArray = null;
 		String cryptedValue = null;
-		NameCallback nc = null;
-		PasswordCallback pc = null;
-		for(int i = 0; i < callbacks.length; i++)
+		NameCallback name = null;
+		PasswordCallback password = null;
+		if (this.credential == null)
+		{
+			throw new IOException("Nessuna credenziale di accesso reperita");
+		}
+		for (int i = 0; i < callbacks.length; i++)
 		{
 			if (callbacks[i] instanceof NameCallback)
 			{
-				nc = (NameCallback)callbacks[i];
-				nc.setName(this.credential.getUsername());
+				name = (NameCallback)callbacks[i];
+				name.setName(this.credential.getUsername());
 			}
 			else
 			{
 				if (callbacks[i] instanceof PasswordCallback)
 				{
-					pc = (PasswordCallback)callbacks[i];
+					password = (PasswordCallback)callbacks[i];
 					try
 					{
-						cryptedValue = security.encrypt(this.credential.getPassword());
+						cryptedValue = this.strategy.encode(this.credential.getPassword());
 					}
 					catch (Exception ex)
 					{
-						throw new IOException("Errori durante la conversione della password");
+						throw new IOException("Errori durante la codifica");
 					}
-					pc.setPassword(cryptedValue.toCharArray());
+					cryptedStringArray = cryptedValue.toCharArray();
+					password.setPassword(cryptedStringArray);
+					cryptedStringArray = null;
 					cryptedValue = null;
 				}
 				else
 				{
-					throw new UnsupportedCallbackException(callbacks[i], "Callback non supportato");
+					throw new UnsupportedCallbackException(callbacks[i], "Callback non supportata dal sistema");
 				}
 			}
 		}
+		this.credential = null;
 	}
+
 }

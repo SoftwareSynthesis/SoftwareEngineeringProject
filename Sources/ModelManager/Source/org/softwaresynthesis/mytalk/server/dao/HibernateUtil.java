@@ -3,42 +3,36 @@ package org.softwaresynthesis.mytalk.server.dao;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-/**
- * Inizializza un unica factory per le sessioni, utilizzate da Hibernate,
- * per comunicare con il database
- * 
- * @author	Andrea Meneghinello
- * @version	%I%, %G%
- */
-public class HibernateUtil 
+public class HibernateUtil
 {
 	private static HibernateUtil instance = null;
 	
-	private SessionFactory sessionFactory;
+	private SessionFactory factory;
 	
 	private HibernateUtil()
 	{
-		Configuration configuration = null;
+		Configuration conf = null;
 		try
 		{
-			configuration = new Configuration();
-			configuration = configuration.configure();
-			this.sessionFactory = configuration.buildSessionFactory();
+			conf = new Configuration();
+			conf = conf.configure();
+			this.factory = conf.buildSessionFactory();
 		}
 		catch (Throwable ex)
 		{
-			System.err.println(ex.toString());
-			ex.printStackTrace();
-			throw new ExceptionInInitializerError("Errore durante la creazione della Session Factory. Impossibile comunicare con la base di dati");
+			throw new ExceptionInInitializerError("Errore durante la creazione della factory per le sessioni");
 		}
 	}
 	
 	/**
-	 * Punto di accesso per l'unica istanza alla classe HibernateUtil
+	 * Punto di accesso all'unica instanza
+	 * della classe
 	 * 
-	 * @author 	Andrea Meneghinello
+	 * @author	Andrea Meneghinello
 	 * @version	%I%, %G%
-	 * @return	istanza della classe HibernateUtil
+	 * @return 	Istanza della classe
+	 * @throw	{@link ExceptionInInitializerError} se l'inizializzazione
+	 * 			da problemi
 	 */
 	public static HibernateUtil getInstance()
 	{
@@ -48,17 +42,17 @@ public class HibernateUtil
 	}
 	
 	/**
-	 * Restituisce una {@link SessionFactory} configurata per la
-	 * comunicazione con il database mytalk
+	 * Restituisce una factory di tipo {@link SessionFactory}
+	 * per creare ed avviare sessioni di comunicazione con il
+	 * database
 	 * 
-	 * @author 	Andrea Meneghinello
+	 * @author	Andrea Meneghinello
 	 * @version	%I%, %G%
-	 * @return	istanza della classe {@link SessionFactory} per
-	 * 			la comunicazione con il database del sistema
-	 * 			mytalk
+	 * @return	{@link SessionFactory} per creare sessioni con
+	 * 			il database
 	 */
-	public SessionFactory getSessionFactory()
+	public SessionFactory getFactory()
 	{
-		return this.sessionFactory;
+		return this.factory;
 	}
 }
