@@ -511,7 +511,7 @@ function AddressBookPanelPresenter() {
     };
 
     /* TODO:
-     * - no todo
+     * - bloccare un utente
      */
 
     /*FILE JSON CHE RAFFIGURA LA RUBRICA
