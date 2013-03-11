@@ -36,4 +36,15 @@ function PresenterMediator() {
     this.onContactSelected = function(contact) {
         this.contactpp.display(contact);
     };
+    
+    /**
+     * Funzione di callback richiamata dai pulsanti di SearchResultPanel
+     * che comunica all'AddressBookPanelPresenter di aggiungere un contatto
+     * 
+     * @param {Number} userID id dell'utente che deve essere aggiunto alla rubrica
+     * @author Diego Beraldin
+     */
+    this.onContactAdded = function(userID) {
+    	this.presenters["addressbook"].addContact(userID);
+    };
 }

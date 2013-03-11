@@ -1,5 +1,4 @@
-/**
- * Presenter incaricato di gestire il pannello della rubrica, contiene le funzioni
+/* Presenter incaricato di gestire il pannello della rubrica, contiene le funzioni
  * associate ai widget grafici della vista relativi alla rubrica e ha la
  * responsabilità di aggiornare la vista sulla base dei dati ricevuti dal server
  *

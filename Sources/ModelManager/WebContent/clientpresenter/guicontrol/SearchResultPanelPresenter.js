@@ -47,6 +47,14 @@ function SearchResultPanelPresenter() {
         item.appendChild(avatarNode);
         item.appendChild(textNode);
         item.appendChild(statusNode);
+        // TODO verificare
+        var button = document.createElement("button");
+        button.innerHTML = "+";
+        button.onclick = function() {
+        	mediator.onAddedContact(contact.id);
+        };
+        item.appendChild(button);
+        
 		// aggiunge il 'li' alla lista ricevuta come parametro
 		list.appendChild(item);
 	}

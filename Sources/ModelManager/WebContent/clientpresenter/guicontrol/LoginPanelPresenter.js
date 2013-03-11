@@ -43,18 +43,51 @@ function LoginPanelPresenter() {
      */
     function sendAnswer(username, answer) {
     	var request = XMLHttpRequest();
+    	request.onclick = function() {
+    		if (this.readyState == 4 && this.status == 200) {
+    			if (JSON.parse(request.responseText)) {
+    				correctAnswer();
+    			} else {
+    				incorrectAnswer();
+    			}
+    		}
+    	};
     	request.open("POST", servletURL, true);
     	request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     	request.send("username=" + encodeURIComponent(username) + "&answer=" + encodeURIComponent(answer) + "&operation=4");
-    	/* FIXME questo va contro 10.000 diagrammi di attività, bisognerebbe attendere la risposta 
-    	 * dal server e differenziare il comportamento del client a seconda che i dati siano corretti o errati!
-    	 */
-		var form = document.getElementById("passwordretrieval");
-		var message = document.createElement("p");
-		message.innerHTML = "La richiesta &egrave; stata inoltrata, " +
-				"se hai inserito la risposta corretta riceverai via email la password.";
-		element.removeChild(form);
-		element.appendChild(message);
+    }
+    
+    /**
+     * Rimuove il form di recupero della password, visualizza un
+     * messaggio di conferma per 2 secondi quindi rimuove anche
+     * questo e lascia il controllo al form di login.
+     * 
+     * @author Diego Beraldin
+     */
+    function correctAnswer() {
+    	var formRetrievePassword = document.getElementById("passwordretrieval");
+    	element.removeChild(formRetrievePassword);
+    	var message = document.createElement("p");
+    	var text = document.createTextNode("Recupero password avvenuto correttamente." +
+    			"Ti è stata inviata un'email contenente i dati richiesti.");
+    	message.appendChild(text);
+    	element.appendChild(message);
+    	window.setTimeout(function(){ element.removeChild(message); }, 2000);
+    }
+    
+    /**
+     * In caso di inserimento della risposta non corretta alla domanda segreta
+     * visualizza un messaggio di avvertimento all'utente per 2 secondi quindi lascia il
+     * controllo al form di inserimento della risposta alla domanda segreta.
+     * 
+     * @author Diego Beraldin
+     */
+    function incorrectAnswer() {
+    	var message = document.createElement("p");
+    	var text = document.createTextNode("Dati non corretti. Inserire nuovamente la risposta.");
+    	message.appendChild(text);
+    	element.appendChild(message);
+    	window.setTimeout(function(){ element.removeChild(message); }, 2000);
     }
     
     /**
