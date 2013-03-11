@@ -20,8 +20,8 @@ public class AESAlgorithmTest {
 	{
 		try 
 		{
-		String encryptedText = tester.encrypt(plainText);
-		assertTrue(plainText.equals(tester.decrypt(encryptedText)));
+		String encryptedText = tester.encode(plainText);
+		assertTrue(plainText.equals(tester.decode(encryptedText)));
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
