@@ -1,4 +1,5 @@
-/* Presenter incaricato di gestire il pannello della rubrica, contiene le funzioni
+/**
+ * Presenter incaricato di gestire il pannello della rubrica, contiene le funzioni
  * associate ai widget grafici della vista relativi alla rubrica e ha la
  * responsabilità di aggiornare la vista sulla base dei dati ricevuti dal server
  *
@@ -19,28 +20,41 @@ function AddressBookPanelPresenter() {
     // array dei contatti della rubrica dell'utente
     var contacts = new Array();
     // array dei gruppi della rubrica
-    //FIXME fare funzione per aggiornare il seguente array
     var groups = new Array();
 
     /**********************************************************
      METODI PRIVATI
      ***********************************************************/
     /**
-     * Recupera i contatti della propria rubrica dal server tramite AJAX
+     * Recupera i contatti e i gruppi della propria rubrica dal server tramite AJAX
      *
      * @author Marco Schivo
+     * @author Riccardo Tresoldi
      */
     function getAddressBookContacts() {
-        var request = new XMLHttpRequest();
-        request.onreadystatechange = function() {
+        //apro due XMLHttprequest rispettivamente per contatti e gruppi
+        var contactRequest = new XMLHttpRequest();
+        var groupRequest = new XMLHttpRequest();
+
+        //gestisco l'evento di restituzione dei dati
+        contactRequest.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 contacts = JSON.parse(request.responseText);
             }
         };
+        groupRequest.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                groups = JSON.parse(request.responseText);
+            }
+        };
 
-        request.open("POST", urlServlet, "true");
-        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        request.send("id=" + communicationcenter.my.id);
+        //effettuo la richiesta vera e propria
+        contactRequest.open("POST", urlServlet, "true");
+        contactRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        contactRequest.send("operation=" + 0 + "&myId=" + communicationcenter.my.id);
+        groupRequest.open("POST", urlServlet, "true");
+        groupRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        groupRequest.send("operation=" + 7 + "&myId=" + communicationcenter.my.id);
     }
 
     /**
@@ -140,7 +154,7 @@ function AddressBookPanelPresenter() {
         var ulList = this.element.getElementById("AddressBookList");
         ulList.innerHTML = "";
 
-        //aggiungere una label per avvisare che i campi visualizzati sono filtrati
+        //TODO aggiungere una label per avvisare che i campi visualizzati sono filtrati
 
         for (var contact in filtredContacts) {
             //ciclo i contatti e agiungo un <li> per ogni contatto
@@ -324,7 +338,6 @@ function AddressBookPanelPresenter() {
      */
     this.addContactInGroup = function(contact, group) {
         //controllo che il contatto non sia già presente nel gruppo
-        //TODO funzione per controllare se esiste contatto in un determinato gruppo
         if (contactExistInGroup(contact, group))
             return false;
 
@@ -360,7 +373,6 @@ function AddressBookPanelPresenter() {
      */
     this.deleteContactFromGroup = function(contact, group) {
         //controllo che il contatto non sia già presente nel gruppo
-        //TODO funzione per controllare se esiste contatto in un determinato gruppo
         if (!contactExistInGroup(contact, group))
             return false;
 
@@ -462,14 +474,18 @@ function AddressBookPanelPresenter() {
      */
     this.applyFilterByString = function(param) {
         //creo array di utenti filtrati
-        
+        var filtred = new Array();
+
         //specifico aspessione regolare
         var pattern = new RegExp(param);
-        if (pattern.test(/*campoSuCuiCercare*/)) {
-            //aggiungi ad array l'utente
+        for (var contact in contacts) {
+            if ((pattern.test(contacts[contact].name)) || (pattern.test(contacts[contact].surname)) || (pattern.test(contacts[contact].mail))) {
+                filtred.push(contact);
+            }
         }
-        
+
         //visualizzo l'utente filtrato
+        showFilter(filtred);
     };
 
     /**
@@ -481,6 +497,8 @@ function AddressBookPanelPresenter() {
     this.applyFilterByGroup = function(idGroup) {
         //mi creo un array di contatti filtrati
         var filtred = new Array();
+
+        //ciclo i contatti e cerco quelli appartenenti al gruppo popolando con essi l'array
         for (var contact in contacts) {
             for (var group in contacts[contact].groups) {
                 if (group == idGroup)
@@ -493,19 +511,7 @@ function AddressBookPanelPresenter() {
     };
 
     /* TODO:
-     * - gestire le ricerche nella rubrica
-     * - filtraggio per gruppi
-     */
-
-    /*FIXME
-     * operation:
-     * - 0 = ottieni la rubrica
-     * - 1 = aggiungi contatto ad una rubrica
-     * - 2 = elimina contatto da una rubrica
-     * - 3 = aggiunge un contatto ad un gruppo
-     * - 4 = eliminare un contatto da un gruppo
-     * - 5 = aggiunta di un gruppo
-     * - 6 = eliminazione di un gruppo
+     * - no todo
      */
 
     /*FILE JSON CHE RAFFIGURA LA RUBRICA
