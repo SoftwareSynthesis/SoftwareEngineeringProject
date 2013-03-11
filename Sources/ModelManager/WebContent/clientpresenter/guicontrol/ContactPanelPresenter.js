@@ -1,11 +1,14 @@
 /**
  * Presenter incaricato di gestire il pannello che visualizza le informazioni del contatto
  * 
+ * @constructor
+ * @this {ContactPanelPresenter}
  * @author Diego Beraldin
+ * @author Riccardo tresoldi
  * @author Stefano Farronato
  * @author Elena Zecchinato
  */
-function ContactPanelPresenter(mediator) {
+function ContactPanelPresenter() {
   //elemento controllato da questo presenter
   this.element = document.getElementById("ContactPanel");
   
@@ -58,23 +61,20 @@ function ContactPanelPresenter(mediator) {
    * 
    * @param contact il concatto le cui informazioni devono essere visualizzates
    * @author Diego Beraldin
+   * @author Riccardo Tresoldi
    */
   this.display = function(contact) {
     //FIXME: si può fare con un ciclo, se imposto una classe?
-    var name = document.getElementById("contactName");
-    name.innerHTML = contact.name;
-    
-    var surname = document.getElementById("contactSurname");
-    surname.innerHTML = contact.surname;
-    
-    var email = document.getElementById("contactEmail");
-    email.innerHTML = contact.email;
-    
-    var avatar = document.getElementById("contactAvatar");
-    avatar.setAttribute("src", contact.image);
+    document.getElementById("contactName").appendChild(createTextNode(contact.name));
+    document.getElementById("contactSurname").appendChild(createTextNode(contact.surname));
+    document.getElementById("contactEmail").appendChild(createTextNode(contact.mail));
+    document.getElementById("contactAvatar").setAttribute("src", contact.image);
   };
   
   /* TODO:
    * - contattare il CommunicationCenter per avviare una chiamata
+   * - contattare il PresenterMediatoer per ottenere il contatto da visualizzare [serve?]
+   * - implementare metodo che aggiunge l'utente visualizato alla rubrica
+   * - implementare metodo che blocca l'utente visualizzato 
    */
 }
