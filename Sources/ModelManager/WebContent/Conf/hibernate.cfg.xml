@@ -1,0 +1,34 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+	
+		<!-- Impostazione per la connessione al database -->
+		<property name = "connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name = "connection.url">jdbc:mysql://localhost/MyTalk</property>
+		<property name = "connection.username">root</property>
+		<property name = "connection.password">root</property>
+	
+		<!-- pool di connessioni JDBC (utilizzare quello gia integrato) -->
+		<property name = "connection.pool_size">1</property>
+	
+		<!-- Dialettica SQL generata -->
+		<property name = "dialect">org.hibernate.dialect.MySQLDialect</property>
+		
+		<!-- Abilitazione della gestione del constesto delle sessioni automatico -->
+		<property name = "current_session_context_class">thread</property>
+		
+		<!-- Disabilitazione della cache di secondo livello -->
+		<property name = "cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
+		
+		<!-- Visualizzazione del codice SQL generato sullo standard output -->
+		<property name = "show_sql">true</property>
+		
+		<!-- Validazione dello schema del database -->
+		<property name = "hbm2ddl.auto">update</property>
+		
+		<!-- File di mapping tra classi ed entità -->
+		<mapping resource = "abook.hbm.xml" />
+		
+	</session-factory>
+</hibernate-configuration>

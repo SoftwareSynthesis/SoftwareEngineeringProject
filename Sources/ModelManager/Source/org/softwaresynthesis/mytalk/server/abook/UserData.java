@@ -1,24 +1,73 @@
 package org.softwaresynthesis.mytalk.server.abook;
 
-import org.softwaresynthesis.mytalk.server.IMyTalkObject;
+import org.softwaresynthesis.mytalk.server.abook.IUserData.State;
+import org.softwaresynthesis.mytalk.server.authentication.ISecurityStrategy;
 
 /**
- * Rappresentazione di un utente del sistema
- * mytalk
- * 
+ * Rappresentazione dell'utente del sistema mytalk
+ *
  * @author 	Andrea Meneghinello
  * @version	%I%, %G%
  */
-public interface IUserData extends IMyTalkObject
+public class UserData implements IUserData 
 {
+	private Long id;
+	private State state;
+	private String mail;
+	private String password;
+	private String question;
+	private String answer;
+	private String name;
+	private String surname;
+	private String path;
+	
 	/**
-	 * Stati disponibilni nel sistema mytalk
+	 * Crea un utente privo di dati
+	 * 
+	 * @author	Andrea Meneghinello
+	 * @version	%I%, %G%
+	 */
+	public UserData()
+	{
+	}
+	
+	/**
+	 * Crea un utente con un particolare
+	 * identificativo, che però verrà ignorato
+	 * nelle operazioni di insert nel database
+	 * 
+	 * @author	Andrea Meneghinello
+	 * @version	%I%, %G%
+	 * @param 	identifier	{@link Long} che identifica
+	 * 						un utente
+	 */
+	public UserData(Long identifier)
+	{
+		this.setId(identifier);
+	}
+	
+	/**
+	 * Restituisce l'istanza sottoforma di stringa
+	 * JSON in modo che possa essere utilizzata
+	 * nella parte client
 	 * 
 	 * @author 	Andrea Meneghinello
-	 * @version %I%, %G% 
+	 * @version	%I%, %G%
+	 * @return	{@link String} in formato JSON
+	 * 			dell'istanza
 	 */
-	public static enum State {AVAILABLE, OCCUPIED, OFFLINE; };
-	
+	@Override
+	public String toJson() 
+	{
+		String result = "{\"name\":\"" + this.getName() + "\"";
+		result += ", \"surname\":\"" + this.getSurname() + "\"";
+		result += ", \"mail\":\"" + this.getEmail() + "\"";
+		result += ", \"state\":\"" + this.getState() + "\"";
+		result += ", \"picturePath\":\"" + this.getPicturePath() + "\"";
+		result += ", \"id\":\"" + this.getId() + "\"}";
+		return result;
+	}
+
 	/**
 	 * Restituisce l'identificativo univoco
 	 * dell'utente del sistema mytalk
@@ -28,8 +77,26 @@ public interface IUserData extends IMyTalkObject
 	 * @return	identificativo dell'utente di
 	 * 			tipo {@link Long}
 	 */
-	public Long getId();
+	@Override
+	public Long getId() 
+	{
+		return this.id;
+	}
 	
+	/**
+	 * Imposta l'identificativo univoco di un
+	 * utente
+	 * 
+	 * @author	Andrea Meneghinello
+	 * @version	%I%, %G%
+	 * @param 	identifier	{@link Long} che identifica
+	 * 						un utente
+	 */
+	protected void setId(Long identifier)
+	{
+		this.id = identifier;
+	}
+
 	/**
 	 * Restituisce l'indirizzo e-mail con cui
 	 * si è registrato un utente nel sistema
@@ -40,8 +107,12 @@ public interface IUserData extends IMyTalkObject
 	 * @return	{@link String} rappresentante
 	 * 			l'indirizzo e-mail dell'utente
 	 */
-	public String getEmail();
-	
+	@Override
+	public String getEmail() 
+	{
+		return this.mail;
+	}
+
 	/**
 	 * Imposta l'indirizzo e-mail con cui
 	 * l'utente si vuole registrare nel 
@@ -53,8 +124,12 @@ public interface IUserData extends IMyTalkObject
 	 * 					l'e-mail con cui vuole
 	 * 					registrarsi l'utente
 	 */
-	public void setEmail(String eMail);
-	
+	@Override
+	public void setEmail(String eMail) 
+	{
+		this.mail = eMail;
+	}
+
 	/**
 	 * Restituisce la password, crittografata
 	 * secondo la strategia {@link ISecurityStrategy},
@@ -65,8 +140,12 @@ public interface IUserData extends IMyTalkObject
 	 * @return	{@link String} con la password
 	 * 			dell'utente
 	 */
-	public String getPassword();
-	
+	@Override
+	public String getPassword() 
+	{
+		return password;
+	}
+
 	/**
 	 * Imposta la password che l'utente utilizzerà
 	 * per accedere al sistema mytalk
@@ -75,8 +154,12 @@ public interface IUserData extends IMyTalkObject
 	 * @param 	password	{@link String} con la
 	 * 						password scelta dall'utente
 	 */
-	public void setPassword(String password);
-	
+	@Override
+	public void setPassword(String password)
+	{
+		this.password = password;
+	}
+
 	/**
 	 * Restituisce la domanda segreta che l'utente
 	 * ha impostato per il recupero della password
@@ -85,8 +168,12 @@ public interface IUserData extends IMyTalkObject
 	 * @version	%I%, %G%
 	 * @return	{@link String} con la domanda segreta
 	 */
-	public String getQuestion();
-	
+	@Override
+	public String getQuestion() 
+	{
+		return this.question;
+	}
+
 	/**
 	 * Imposta la domanda segreta utilizzata dall'utente
 	 * per il recupero della propria password
@@ -96,8 +183,12 @@ public interface IUserData extends IMyTalkObject
 	 * @param 	question	{@link String} con la domanda
 	 * 						segreta scelta dall'utente
 	 */
-	public void setQuestion(String question);
-	
+	@Override
+	public void setQuestion(String question) 
+	{
+		this.question = question;
+	}
+
 	/**
 	 * Restituisce la risposta alla domanda segreta
 	 * per il recupero della password di accesso
@@ -108,8 +199,12 @@ public interface IUserData extends IMyTalkObject
 	 * @return	{@link String} con la risposta alla
 	 * 			domanda segreta
 	 */
-	public String getAnswer();
-	
+	@Override
+	public String getAnswer() 
+	{
+		return this.answer;
+	}
+
 	/**
 	 * Imposta la risposta alla domanda segreta
 	 * per il recupero della password di accesso
@@ -121,8 +216,12 @@ public interface IUserData extends IMyTalkObject
 	 * 					risposta alla domanda segreta
 	 * 					per il recupero della password
 	 */
-	public void setAnswer(String answer);
-	
+	@Override
+	public void setAnswer(String answer) 
+	{
+		this.answer = answer;
+	}
+
 	/**
 	 * Restituisce il nome dell'utente
 	 * 
@@ -130,8 +229,12 @@ public interface IUserData extends IMyTalkObject
 	 * @version	%I%, %G%
 	 * @return	{@link String} con il nome dell'utente
 	 */
-	public String getName();
-	
+	@Override
+	public String getName()
+	{
+		return this.name;
+	}
+
 	/**
 	 * Imposta il nome dell'utente
 	 * 
@@ -139,8 +242,12 @@ public interface IUserData extends IMyTalkObject
 	 * @version	%I%, %G%
 	 * @param 	name {@link String} con il nome dell'utente
 	 */
-	public void setName(String name);
-	
+	@Override
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+
 	/**
 	 * Restituisce il cognome dell'utente
 	 * 
@@ -148,8 +255,12 @@ public interface IUserData extends IMyTalkObject
 	 * @version	%I%, %G%
 	 * @return	{@link String} con il cognome dell'utente
 	 */
-	public String getSurname();
-	
+	@Override
+	public String getSurname() 
+	{
+		return this.surname;
+	}
+
 	/**
 	 * Imposta il cognome dell'utente
 	 * 
@@ -157,8 +268,12 @@ public interface IUserData extends IMyTalkObject
 	 * @param 	surname	{@link String} con il cognome
 	 * 					dell'utnete
 	 */
-	public void setSurname(String surname);
-	
+	@Override
+	public void setSurname(String surname)
+	{
+		this.surname = surname;
+	}
+
 	/**
 	 * Restituisce il link all'immagine profilo scelta
 	 * dall'utente
@@ -168,8 +283,12 @@ public interface IUserData extends IMyTalkObject
 	 * @return	{@link String} con il percorso realativo
 	 * 			all'immagine profilo dell'utente
 	 */
-	public String getPicturePath();
-	
+	@Override
+	public String getPicturePath() 
+	{
+		return this.path;
+	}
+
 	/**
 	 * Imposta il percorso dell'immagine profilo scelta
 	 * dall'utente
@@ -180,7 +299,11 @@ public interface IUserData extends IMyTalkObject
 	 * 					dove sarà salvata nel server
 	 * 					l'immagine profilo
 	 */
-	public void setPicturePath(String path);
+	@Override
+	public void setPicturePath(String path)
+	{
+		this.path = path;
+	}
 	
 	/**
 	 * Restituisce lo stato in cui si trova un
@@ -191,7 +314,10 @@ public interface IUserData extends IMyTalkObject
 	 * @return 	{@link State} in cui si trova
 	 * 			l'utente
 	 */
-	public State getState();
+	public State getState()
+	{
+		return this.state;
+	}
 	
 	/**
 	 * Imposta lo stato in cui si trova un utente
@@ -202,5 +328,8 @@ public interface IUserData extends IMyTalkObject
 	 * 					lo stato in cui si è spostato
 	 * 					l'utente
 	 */
-	public void setState(State state);
+	public void setState(State state)
+	{
+		this.state = state;
+	}
 }
