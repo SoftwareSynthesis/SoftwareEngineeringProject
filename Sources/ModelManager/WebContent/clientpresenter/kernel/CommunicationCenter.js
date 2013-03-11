@@ -69,6 +69,10 @@ function CommunicationCenter() {
                 } else {
                     pc.setRemoteDescription(new RTCSessionDescription(signal));
                 }
+            }else if(type=="5"){
+                var idUserChange = JSON.parse(str[1]);
+                var statusUserChange = JSON.parse(str[2]); //può avere tre stati [available | offline | occupied]
+                //TODO modificare classe <li> dell'utente.
             }
         };
 

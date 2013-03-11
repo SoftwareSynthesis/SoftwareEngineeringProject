@@ -1,199 +1,206 @@
 package org.softwaresynthesis.mytalk.server.abook;
 
+import org.softwaresynthesis.mytalk.server.IMyTalkObject;
+
 /**
- * Interfaccia rappresentante un utente del sistema
+ * Rappresentazione di un utente del sistema
  * mytalk
  * 
  * @author 	Andrea Meneghinello
- * @version %I%, %G%
+ * @version	%I%, %G%
  */
-public interface IUserData
+public interface IUserData extends IMyTalkObject
 {
 	/**
-	 * Possibili stati offerti all'utente
-	 * del sistema mytalk
-	 * @author 	Diego Beraldin
-	 * @version %I%, %G%
+	 * Stati disponibilni nel sistema mytalk
+	 * 
+	 * @author 	Andrea Meneghinello
+	 * @version %I%, %G% 
 	 */
-	public static enum State
-	{
-		AVAILABLE,
-		OFFLINE,
-		OCCUPIED;
-	};
-
+	public static enum State {AVAILABLE, OCCUPIED, OFFLINE; };
+	
 	/**
-	 * Restituisce l'identificatore univoco di uno
-	 * IUserData
+	 * Restituisce l'identificativo univoco
+	 * dell'utente del sistema mytalk
 	 * 
 	 * @author	Andrea Meneghinello
 	 * @version	%I%, %G%
-	 * @return	long rappresentante l'identificatore
-	 * 			univoco di uno IUserData
+	 * @return	identificativo dell'utente di
+	 * 			tipo {@link Long}
 	 */
 	public Long getId();
 	
 	/**
 	 * Restituisce l'indirizzo e-mail con cui
-	 * uno IUserData si è registrato nel sistema
+	 * si è registrato un utente nel sistema
 	 * mytalk
 	 * 
 	 * @author	Andrea Meneghinello
 	 * @version	%I%, %G%
-	 * @return 	stringa rappresentante l'indirizzo
-	 * 			e-mail
+	 * @return	{@link String} rappresentante
+	 * 			l'indirizzo e-mail dell'utente
 	 */
-	public String getMail();
+	public String getEmail();
 	
 	/**
-	 * Imposta l'indirizzo e-mail con cui si registra
-	 * nel sistema mytalk uno IUserData
+	 * Imposta l'indirizzo e-mail con cui
+	 * l'utente si vuole registrare nel 
+	 * sistema mytalk
 	 * 
 	 * @author 	Andrea Meneghinello
 	 * @version	%I%, %G%
-	 * @param	mail	stringa rappresentante l'indirizzo
-	 * 					e-mail
+	 * @param 	eMail	{@link String} con
+	 * 					l'e-mail con cui vuole
+	 * 					registrarsi l'utente
 	 */
-	public void setMail(String mail);
+	public void setEmail(String eMail);
 	
 	/**
-	 * Restituisce la password di accesso al sistema mytalk
-	 * di uno IUserData
+	 * Restituisce la password, crittografata
+	 * secondo la strategia {@link ISecurityStrategy},
+	 * con l'utente accede al sistema
 	 * 
-	 * @author	Andrea Meneghinello
+	 * @author 	Andrea Meneghinello
 	 * @version	%I%, %G%
-	 * @return 	stringa rappresentante la password di accesso
+	 * @return	{@link String} con la password
+	 * 			dell'utente
 	 */
 	public String getPassword();
 	
 	/**
-	 * Imposta la password di accesso al sistema di uno IUserData
+	 * Imposta la password che l'utente utilizzerà
+	 * per accedere al sistema mytalk
 	 * 
 	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
-	 * @param 	password	stringa rappresentante la password di
-	 * 						accesso al sistema mytalk
+	 * @param 	password	{@link String} con la
+	 * 						password scelta dall'utente
 	 */
 	public void setPassword(String password);
 	
 	/**
-	 * Restituisce la domanda segreta, scelta da uno IUserData,
-	 * per il recupero della password smarrita di accesso al
-	 * sistema mytalk
+	 * Restituisce la domanda segreta che l'utente
+	 * ha impostato per il recupero della password
 	 * 
-	 * @author	Andrea Meneghinello
+	 * @author 	Andrea Meneghinello
 	 * @version	%I%, %G%
-	 * @return 	stringa rappresentante la domanda segreta
+	 * @return	{@link String} con la domanda segreta
 	 */
 	public String getQuestion();
 	
 	/**
-	 * Imposta la domanda segreta, scelta da uno IUserData,
-	 * per il recupero della password smarrita di accesso
-	 * al sistema mytalk
+	 * Imposta la domanda segreta utilizzata dall'utente
+	 * per il recupero della propria password
 	 * 
 	 * @author	Andrea Meneghinello
-	 * @param 	question	stringa rappresentante la domanda
-	 * 						segreta
+	 * @version %I%, %G%
+	 * @param 	question	{@link String} con la domanda
+	 * 						segreta scelta dall'utente
 	 */
 	public void setQuestion(String question);
 	
 	/**
-	 * Restituisce la risposta alla domanda per il recupero
-	 * della password smarrita di accesso al sistema mytalk.
+	 * Restituisce la risposta alla domanda segreta
+	 * per il recupero della password di accesso
+	 * al sistema mytalk
 	 * 
 	 * @author	Andrea Meneghinello
 	 * @version	%I%, %G%
-	 * @return	stringa rappresentante la risposta alla
+	 * @return	{@link String} con la risposta alla
 	 * 			domanda segreta
 	 */
 	public String getAnswer();
 	
 	/**
-	 * Imposta la risposta alla domanda segreta per il recupero
-	 * della password di accesso al sistema mytalk
+	 * Imposta la risposta alla domanda segreta
+	 * per il recupero della password di accesso
+	 * al sistema mytalk
 	 * 
 	 * @author	Andrea Meneghinello
 	 * @version	%I%, %G%
-	 * @param 	answer	stringa rappresentante la risposta
-	 * 					alla domanda per il recupero della
-	 * 					password di accesso al sistema mytalk
+	 * @param 	answer	{@link String} con la
+	 * 					risposta alla domanda segreta
+	 * 					per il recupero della password
 	 */
 	public void setAnswer(String answer);
 	
 	/**
-	 * Restituisce il nome di uno IUserData
+	 * Restituisce il nome dell'utente
 	 * 
 	 * @author	Andrea Meneghinello
 	 * @version	%I%, %G%
-	 * @return	stringa rappresentante il nome di uno IUserData
+	 * @return	{@link String} con il nome dell'utente
 	 */
 	public String getName();
 	
 	/**
-	 * Imposta il nome di uno IUserData
+	 * Imposta il nome dell'utente
 	 * 
 	 * @author	Andrea Meneghinello
-	 * @param 	name	stringa rappresentante il nome di uno
-	 * 					IUserData
+	 * @version	%I%, %G%
+	 * @param 	name {@link String} con il nome dell'utente
 	 */
 	public void setName(String name);
 	
 	/**
-	 * Resituisce il cognome di uno IUserData
+	 * Restituisce il cognome dell'utente
 	 * 
 	 * @author	Andrea Meneghinello
 	 * @version	%I%, %G%
-	 * @return	stringa rappresentante il cognome di uno IUserData
+	 * @return	{@link String} con il cognome dell'utente
 	 */
 	public String getSurname();
 	
 	/**
-	 * Imposta il cognome di uno IUserData
+	 * Imposta il cognome dell'utente
 	 * 
 	 * @author	Andrea Meneghinello
-	 * @version %I%, %G%
-	 * @param 	surname	stringa rappresentante il cognome di uno
-	 * 					IUserData
+	 * @param 	surname	{@link String} con il cognome
+	 * 					dell'utnete
 	 */
 	public void setSurname(String surname);
 	
 	/**
-	 * Restituisce una stringa con il percorso dell'immagine
-	 * del profilo di uno IUserData
+	 * Restituisce il link all'immagine profilo scelta
+	 * dall'utente
 	 * 
 	 * @author	Andrea Meneghinello
 	 * @version	%I%, %G%
-	 * @return	stringa con il percorso dell'immagine del profilo
-	 * 			di uno IUserData
+	 * @return	{@link String} con il percorso realativo
+	 * 			all'immagine profilo dell'utente
 	 */
 	public String getPicturePath();
 	
 	/**
-	 * Imposta il percorso dell'immagine profilo di uno IUserData
+	 * Imposta il percorso dell'immagine profilo scelta
+	 * dall'utente
 	 * 
 	 * @author	Andrea Meneghinello
-	 * @param 	path	stringa rappresentante il percorso dove
-	 * 					salvare l'immagine profilo di uno IUserData
+	 * @version	%I%, %G%
+	 * @param 	path	{@link String} con il percorso
+	 * 					dove sarà salvata nel server
+	 * 					l'immagine profilo
 	 */
 	public void setPicturePath(String path);
 	
 	/**
-	 * Restituisce lo stato in cui si trova lo IUserData
+	 * Restituisce lo stato in cui si trova un
+	 * utente
 	 * 
-	 * @author	Andrea Meneghinello
+	 * @author 	Andrea Meneghinello
 	 * @version	%I%, %G%
-	 * @return	{@link State} dello IUserData
+	 * @return 	{@link State} in cui si trova
+	 * 			l'utente
 	 */
 	public State getState();
 	
 	/**
-	 * Imposta lo stato in cui si trova lo IUserData
+	 * Imposta lo stato in cui si trova un utente
 	 * 
 	 * @author	Andrea Meneghinello
-	 * @version %I%, %G%
-	 * @param 	state	nuovo {@link IState} in cui
-	 * 					si trova lo IUserData
+	 * @version	%I%, %G%
+	 * @param 	state	{@link State} che rappresenta
+	 * 					lo stato in cui si è spostato
+	 * 					l'utente
 	 */
 	public void setState(State state);
 }

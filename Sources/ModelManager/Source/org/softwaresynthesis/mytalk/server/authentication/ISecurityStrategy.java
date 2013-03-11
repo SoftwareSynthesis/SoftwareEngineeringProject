@@ -1,30 +1,34 @@
 package org.softwaresynthesis.mytalk.server.authentication;
 
 /**
- * Strategia generica di crittografia dei dati
+ * Strategia di crittografia adottata dal sistema
+ * mytalk
  * 
  * @author 	Andrea Meneghinello
- * @version %I%, %G%
+ * @version	%I%, %G%
  */
 public interface ISecurityStrategy 
 {
 	/**
-	 * Cripta la stringa di testo ricevuta come parametro
+	 * Codifica un testo in chiaro
 	 * 
 	 * @author	Andrea Meneghinello
-	 * @param 	plainText	testo in chiaro da codificare
-	 * @return	testo codificato
-	 * @throws 	{@link Exception} se si riscontrano errori durante il crypting
+	 * @param 	plainText	{@link String} testo in chiaro
+	 * 						da codificare
+	 * @return	{@link String} con il testo codificato
+	 * @throws 	{@link Exception} in caso di fallimento della codifica
 	 */
-	public String encrypt(String plainText) throws Exception;
+	public String encode(String plainText) throws Exception;
 	
 	/**
-	 * Decripta la stringa di testo ricevuta come parametro
+	 * Decodifica un testo codificato tramite questa
+	 * strategia
 	 * 
 	 * @author	Andrea Meneghinello
-	 * @param 	encryptedText	testo codificato da decriptare
-	 * @return	testo decriptato
-	 * @throws	{@link Exception} se si riscontrano errori durante il decrypting
+	 * @param 	encodedTest	{@link String} testo codificato
+	 * 						da decodificare
+	 * @return	{@link String} con il testo decodificato
+	 * @throws	{@link Exception} in caso di fallimento della decofica
 	 */
-	public String decrypt(String encryptedText) throws Exception;
+	public String decode(String encodedTest) throws Exception;
 }

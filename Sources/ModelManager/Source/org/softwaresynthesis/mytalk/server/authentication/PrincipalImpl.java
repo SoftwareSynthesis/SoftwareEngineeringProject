@@ -4,94 +4,79 @@ import java.io.Serializable;
 import java.security.Principal;
 
 /**
- * Oggetto che permette di identificate univocamente
- * uno {@link IUserData} memorizzato nel database del
- * sistema mytalk
+ * Oggetto che rappresenta una caratteristica identificativa
+ * dell'utente che ha superato la fase di login
  * 
  * @author 	Andrea Meneghinello
  * @version	%I%, %G%
  */
-public class PrincipalImpl implements Principal, Serializable
+public class PrincipalImpl implements Principal, Serializable 
 {
-	private static final long serialVersionUID = 19981017L;
-	private String mail;
+	private static final long serialVersionUID = 19981917L;
+	private String element;
 	
 	/**
-	 * Crea un oggetto PrincipalImpl che permetterà
-	 * di determinare univocamente lo {@link IUserData}
-	 * che ha effettuato il login
+	 * Crea un oggetto contentente una caratteristica
+	 * identificativa dell'utente che ha superato la
+	 * procedura di autenticazione
 	 * 
 	 * @author	Andrea Meneghinello
 	 * @version	%I%, %G%
-	 * @param 	mail	indirizzo e-mail dello {@link IUserData}
-	 * 					che ha effettuato la procedura di login
+	 * @param 	element	{@link String} con l'elemento
+	 * 					identificativo
 	 */
-	public PrincipalImpl(String mail)
+	public PrincipalImpl(String element)
 	{
-		this.mail = mail;
+		this.element = element;
 	}
 	
 	/**
-	 * Restituisce l'elemento identificativo dello {@link IUserData}
-	 * che ha effettuato la procedura di login
+	 * Restituisce la caratteristica identificativa
+	 * dell'utente
 	 * 
-	 * @author	Andrea Meneghinello
+	 * @author 	Andrea Meneghinello
 	 * @version	%I%, %G%
-	 * @return	stringa rappresentante l'elemento identificativo
+	 * @return	{@link String} con la caratteristica
+	 * 			identificativa
 	 */
 	@Override
 	public String getName()
 	{
-		return this.mail;
+		return this.element;
 	}
 	
 	/**
-	 * Verifica l'uguaglianza di due oggetti PrincipalImpl
+	 * Compara due istanze di PrincipalImpl
 	 * 
 	 * @author	Andrea Meneghinello
 	 * @version	%I%, %G%
-	 * @param	obj	Oggetto di cui si vuole verificare
-	 * 				l'uguaglianza
-	 * @return	true se obj e l'oggetto di invocazione sono
-	 * 			uguali, altrimenti false
+	 * @param	toCompare	{@link Object} da confrontare
+	 * @return	true se le due istanze sono uguali, false
+	 * 			altrimenti
 	 */
-	@Override
-	public boolean equals(Object obj)
+	public boolean equals(Object toCompare)
 	{
-		boolean result = false;
 		PrincipalImpl principal = null;
-		if (obj instanceof PrincipalImpl)
+		boolean result = false;
+		if (toCompare instanceof PrincipalImpl)
 		{
-			principal = (PrincipalImpl)obj;
-			result = this.mail.equals(principal.mail);
+			principal = (PrincipalImpl)toCompare;
+			result = this.element.equals(principal.element);
 		}
 		return result;
 	}
 	
 	/**
-	 * Restituisc eil codice hash dell'oggetto di invocazione
+	 * Ritorna l'istanza di PrincipalImpl sotto forma
+	 * di {@link String}
 	 * 
 	 * @author	Andrea Meneghinello
 	 * @version	%I%, %G%
-	 * @return	codice hash dell'oggetto di invocazione
+	 * @return	{@link String} rappresentante l'istanza
 	 */
-	@Override
-	public int hashCode()
-	{
-		return this.mail.hashCode();
-	}
-	
-	/**
-	 * Restituisce l'istanza dell'oggetto sotto forma di
-	 * stringa
-	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
-	 * @return	stringa rappresentante l'istanza dell'oggetto
-	 */
-	@Override
 	public String toString()
 	{
-		return this.mail;
+		String result = String.format("PrincipalImpl[element: %s]", this.element);
+		return result;
 	}
 }

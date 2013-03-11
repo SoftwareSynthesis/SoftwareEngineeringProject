@@ -7,6 +7,7 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.catalina.websocket.StreamInbound;
 import org.apache.catalina.websocket.WebSocketServlet;
 
@@ -38,9 +39,9 @@ public class ChannelServlet extends WebSocketServlet implements Servlet {
 	    return channelClient;
 	}
 	
-	public static PushInbound findClient(String c){
+	public static PushInbound findClient(Long n){
 		for(int i=0; i<clients.size(); i++){
-			if(((clients.get(i)).getId()).equals(c)){
+			if(((clients.get(i)).getId())==n){
 				return clients.get(i);
 			}
 		}
