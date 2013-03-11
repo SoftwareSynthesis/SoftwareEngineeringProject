@@ -22,10 +22,12 @@ function AccountSettingsPanelPresenter() {
      * Verifica che sia effettivamente cambiato qualcosa rispetto a quanto contenuto
      * in communicationcenter.my nell'oggetto data che viene passato come paramtro
      * 
+     * @param {Object} data array contenente i dati raccolti dal form
      * @author Diego Beraldin
      */
     function hasSomethingChanged(data) {
     	var my = communicationcenter.my;
+    	// FIXME se cambiano anche domanda, risposta e password occorre aggiungere qui i test
     	if (my.name != data.name || my.surname != data.surname || my.picture != data.picture) {
     		return true;
     	}

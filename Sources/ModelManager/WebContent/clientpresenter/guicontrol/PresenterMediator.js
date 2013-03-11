@@ -31,7 +31,7 @@ function PresenterMediator() {
     /** Funzione da scatenare nel momento in cui è selezionato un contatto
      *
      * @author Diego Beraldin
-     * @param contact contatto che deve essere visualizzato
+     * @param {Object} contact contatto che deve essere visualizzato
      */
     this.onContactSelected = function(contact) {
         this.contactpp.display(contact);

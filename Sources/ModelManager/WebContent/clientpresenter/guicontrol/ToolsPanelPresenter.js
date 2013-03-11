@@ -1,49 +1,92 @@
 /**
  * Presenter incaricato di gestire il pannello degli strumenti
  *
+ * @constructor
+ * @this {ToolsPanelPresenter}
  * @author Elena Zecchinato
  * @author Diego Beraldin
  */
 function ToolsPanelPresenter() {
+    /**********************************************************
+    VARIABILI PRIVATE
+    ***********************************************************/
     //elemento controllato da questo presenter
-    this.element = document.getElementById("ToolsPanel");
+    var element = document.getElementById("ToolsPanel");
+    
+    /**********************************************************
+    METODI PRIVATI
+    ***********************************************************/
 
+    /**********************************************************
+    METODI PUBBLICI
+    ***********************************************************/
     /**
+     * Inizializza il pannello degli strumenti dell'applicazione
+     * 
      * @author Elena Zecchinato
+     * @author Diego Beraldin
      */
     this.initialize = function() {
-    	// mi rendo visibile
-    	this.element.style.display = "block";
-        //creo i due div principali
-        var divState = document.createElement('div');
-        var divFunction = document.createElement('div');
+    	// imposta il pannello come visibile
+    	element.style.display = "block";
+        
 
-        //creo contenuto divFunction
-        var ulFunction = document.createElement('ul');
-        select.setAttribute("id", "ToolsList");
-
-        var liAnswering = document.createElement('li');
-        var liSetting = document.createElement('li');
-        var liCallList = document.createElement('li');
-        var liLanguage = document.createElement('li');
-
-        //creo contenuto divState
-        var state = document.createElement('select');
-        select.setAttribute("state", "selectState");
-
-        //appendo i sottonodi ai nodi principali
+        // contenuto del '<div>' delle funzionalità
+        var divFunction = document.createElement("div");
+        var ulFunction = document.createElement("ul");
+        //select.setAttribute("id", "ToolsList");
+        // funzione messaggi
+        var liAnswering = document.createElement("li");
+        var buttonAnswering = document.createElement("button");
+        buttonAnswering.appendChild(document.createTextNode("Segreteria"));
+        liAnswering.appendChild(buttonAnswering);
+        //TODO attaccare comportamento al pulsante
+        
+        // funzione impostazioni account
+        var liSetting = document.createElement("li");
+        var buttonSetting = document.createElement("button");
+        buttonSetting.appendChild(document.createTextNode("Impostazioni"));
+        liSetting.appendChild(buttonSetting);
+        //TODO attaccare comportamento al pulsante
+        
+        // funzione lista chiamate
+        var liCallList = document.createElement("li");
+        var buttonCallList = document.createElement("button");
+        buttonCalList.appendChild(document.createTextNode("Lista chiamate"));
+        liCallList.appendChild(buttonCallList);
+        // TODO attaccare il comportamento al pulsante
+        
+        // funzione selezione lingua
+        var liLanguage = document.createElement("li");
+        var selectLanguage = document.createElement("select");
+        var optionItalian = document.createElement("option");
+        optionItalian.setAttribute("value", "italian");
+        optionItalian.appendChild(document.createTextNode("Italiano"));
+        var optionEnglish = document.createElement("option");
+        optionEnglish.setAttribute("value", "english");
+        optionEnglish.appendChild(document.createTextNode("Inglese"));
+        selectLanguage.appendChild(optionItalian);
+        selectLanguage.appendChild(optionEnglish);
+        liLanguage.appendChild(selectLanguage);
+        // TODO attaccare il comportamento all'elemento '<select>'
+        selectLanguage.onchange = function() {};
+        
+        // costruisce la lista aggiungendo tutti gli elementi
         ulFunction.appendChild(liAnswering);
         ulFunction.appendChild(liSetting);
         ulFunction.appendChild(liCallList);
         ulFunction.appendChild(liLanguage);
-
         divFunction.appendChild(ulFunction);
+
+        // contenuto del '<div>' per gli stati dell'utente
+        var divState = document.createElement("div");
+        var state = document.createElement("select");
+        select.setAttribute("state", "selectState");
         divState.appendChild(state);
 
-        //appendo il sottoalbero al DOM
-        this.element.innerHTML = "";
-        this.element.appendChild(divFunction);
-        this.element.appendChild(divState);
+        // aggiunge il sottoalbero al DOM dell'elemento controllato
+        element.appendChild(divState);
+        element.appendChild(divFunction);
     };
     
     /**
