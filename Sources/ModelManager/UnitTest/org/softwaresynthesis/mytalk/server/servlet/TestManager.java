@@ -15,7 +15,7 @@ import org.softwaresynthesis.mytalk.server.authentication.AESAlgorithmTest;
 import org.softwaresynthesis.mytalk.server.authentication.AuthenticationModuleTest;
 import org.softwaresynthesis.mytalk.server.dao.UserDataDAOTest;
 /**
- * 
+ * Servlet utilizzata per stampare la pagina contenente l'esito dei test per la parte server
  * 
  * @author Elena Zecchinato
  * @version %I%,%G%
@@ -24,7 +24,7 @@ import org.softwaresynthesis.mytalk.server.dao.UserDataDAOTest;
 public class TestManager extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
-	// insieme di classi da effettuare (leggermente esoterico)
+	// insieme di classi di test da effettuare (leggermente esoterico)
 	private Class<?>[] tests = {
 			AESAlgorithmTest.class,
 			AuthenticationModuleTest.class,
@@ -46,6 +46,8 @@ public class TestManager extends HttpServlet {
 	}
 
 	/**
+	 * @author Elena Zecchinato
+	 * @author Diego Beraldin
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 * @version %I%,%G%
 	 */

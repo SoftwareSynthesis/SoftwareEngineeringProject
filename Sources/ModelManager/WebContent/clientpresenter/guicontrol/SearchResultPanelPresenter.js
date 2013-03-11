@@ -47,7 +47,7 @@ function SearchResultPanelPresenter() {
         item.appendChild(avatarNode);
         item.appendChild(textNode);
         item.appendChild(statusNode);
-        // TODO verificare
+        // pulsante per aggiungere un contatto alla rubrica
         var button = document.createElement("button");
         button.innerHTML = "+";
         button.onclick = function() {
