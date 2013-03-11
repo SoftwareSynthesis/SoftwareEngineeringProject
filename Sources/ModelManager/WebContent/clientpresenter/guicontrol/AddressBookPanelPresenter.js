@@ -130,6 +130,25 @@ function AddressBookPanelPresenter() {
         return exist;
     }
 
+    /**
+     * Elimina il contenuto preesistente e visualizza il nuovo contenuto filtrato della <ul> dei contatti
+     *
+     * @author Ricardo tresoldi
+     * @param {Array} filtredContacts Array di contrati
+     */
+    function showFilter(filtredContacts) {
+        // estraggo l'<ul> del Addressbook e lo inizializzo
+        var ulList = this.element.getElementById("AddressBookList");
+        ulList.innerHTML = "";
+
+        //aggiungere una label per avvisare che i campi visualizzati sono filtrati
+
+        for (var contact in filtredContacts) {
+            //ciclo i contatti e agiungo un <li> per ogni contatto
+            addListItem(ulList, filtredContacts[contact]);
+        }
+    };
+
     /**********************************************************
      METODI PUBBLICI
      ***********************************************************/
@@ -436,10 +455,47 @@ function AddressBookPanelPresenter() {
         }
     };
 
+    /**
+     * Dato una stringa in ingresso questa funzione mostra gli utenti filtrati per quel parametro
+     *
+     * @author Riccardo Tresoldi
+     * @param {String} param string da cercare tra i contatti
+     */
+    this.applyFilterByString = function(param) {
+        //creo array di utenti filtrati
+        
+        //specifico aspessione regolare
+        var pattern = new RegExp(param);
+        if (pattern.test(/*campoSuCuiCercare*/)) {
+            //aggiungi ad array l'utente
+        }
+        
+        //visualizzo l'utente filtrato
+    };
+
+    /**
+     * Dato l'id di un gruppo in ingresso questa funzione mostra gli utenti filtrati
+     *
+     * @author Riccardo Tresoldi
+     * @param {Number} idGroup id del gruppo su cui filtrare i contatti
+     */
+    this.applyFilterByGroup = function(idGroup) {
+        //mi creo un array di contatti filtrati
+        var filtred = new Array();
+        for (var contact in contacts) {
+            for (var group in contacts[contact].groups) {
+                if (group == idGroup)
+                    filtred.push(contact);
+            }
+        }
+
+        //chiamo la funzione che dato un array di contatti mi ripopola l'<ul>
+        showFilter(filtred);
+    };
+
     /* TODO:
      * - gestire le ricerche nella rubrica
      * - filtraggio per gruppi
-     * - contactExistInGroup()
      */
 
     /*FIXME
