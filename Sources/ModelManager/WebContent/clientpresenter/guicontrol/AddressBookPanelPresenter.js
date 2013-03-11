@@ -10,20 +10,22 @@
  * @author Diego Beraldin
  */
 function AddressBookPanelPresenter() {
-/**********************************************************
-                     VARIABILI PRIVATE
-***********************************************************/
+    /**********************************************************
+     VARIABILI PRIVATE
+     ***********************************************************/
     // elemento controllato da questo presenter
     var element = document.getElementById("AddressBookPanel");
     // da configurare con url della servlet
     var urlServlet = "http://localhost:8080/AddressBookManager";
     // array dei contatti della rubrica dell'utente
-	//FIXME avrebbe più senso salvare i contatti i communicationcenter.my
     var contacts = new Array();
+    // array dei gruppi della rubrica
+    //FIXME fare funzione per aggiornare il seguente array
+    var groups = new Array();
 
-/**********************************************************
-                        METODI PRIVATI
-***********************************************************/
+    /**********************************************************
+     METODI PRIVATI
+     ***********************************************************/
     /**
      * Recupera i contatti della propria rubrica dal server tramite AJAX
      *
@@ -41,7 +43,7 @@ function AddressBookPanelPresenter() {
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         request.send("id=" + communicationcenter.my.id);
     }
-    
+
     /**
      * Aggiunge una voce di rubrica a una lista
      *
@@ -72,7 +74,7 @@ function AddressBookPanelPresenter() {
 
         //imposto gli attributi corretti
         item.setAttribute("id", contact.id);
-        item.setAttribute("class", contact.status);
+        item.setAttribute("class", contact.state);
         //la variabile 'mediator' è una variabile globale
         item.onclick = function() {
             mediator.onContactSelected(contact);
@@ -109,10 +111,28 @@ function AddressBookPanelPresenter() {
         //aggiungo il <li> al elemento <ul> dell'oggetto ulList su cui viene invocata la funzione
         list.appendChild(item);
     }
-    
-/**********************************************************
-                        METODI PUBBLICI
-***********************************************************/
+
+    /**
+     * Controlla se un contatto è presente un un gruppo
+     *
+     * @author Riccardo Tresoldi
+     * @param {Number} idContact id del contatto da verificare se presente nel gruppo
+     * @param {Number} idGroup id del gruppo su cui verificare
+     * @return {Boolean} ritorna true solo se il contatto è presente nel gruppo
+     */
+    function contactExistInGroup(idContact, idGroup) {
+        //FIXME controllare che sia corretta
+        var exist = false;
+        for (var contactsGroup in contacts[idContact]) {
+            if (contactsGroup == idGroup)
+                exist = true;
+        }
+        return exist;
+    }
+
+    /**********************************************************
+     METODI PUBBLICI
+     ***********************************************************/
     /**
      * Inizializza 'AddressBookPanel' e lo popola con i contatti della rubrica
      *
@@ -152,8 +172,8 @@ function AddressBookPanelPresenter() {
         this.element.appendChild(divSort);
         this.element.appendChild(divList);
 
-    	// scarica i contatti dal server
-    	getAddressBookContacts();
+        // scarica i contatti dal server
+        getAddressBookContacts();
         // visualizza i contatti nel pannello
         this.setup();
     };
@@ -164,14 +184,14 @@ function AddressBookPanelPresenter() {
      *
      * @author Riccardo Tresoldi
      */
-    this.setup = function() {	
+    this.setup = function() {
         // estraggo l'<ul> del Addressbook e lo inizializzo
         var ulList = this.element.getElementById("AddressBookList");
         ulList.innerHTML = "";
 
         for (var contact in contacts) {
             //ciclo i contatti e agiungo un <li> per ogni contatto
-            addListItem(ulList, contact);
+            addListItem(ulList, contacts[contact]);
         }
     };
 
@@ -200,31 +220,243 @@ function AddressBookPanelPresenter() {
     this.hide = function() {
         this.element.style.display = "none";
     };
-    
-    
+
     /**
      * Aggiunge un contatto alla rubrica se non già presente
-     * 
+     *
      * @author Riccardo Tresoldi
-     * @param {Object} contact rappresenta l'id del contatto da aggiungere
+     * @param {Number} contact rappresenta l'id del contatto da aggiungere
+     * @returns {Boolean} true solo se l'aggiunta ha avuto successo
      */
-    this.addContact = function(contact){
-        //controllo che non sia già presente nella rubrica [controllo da fare anche lato server]
-        
+    this.addContact = function(contact) {
+        //controllo che non sia già presente nella rubrica
+        for (var AddressBookContact in contacts) {
+            //ciclo i contatti per controllo
+            if (AddressBookContact.id == contact)
+                return false;
+        }
+
         //invio la richiesta al server e attendo il risultato
-        
-        //visualizzio l'esito della richiesta
-        
-        //se esito positivo refresh della rubrica
+        var request = new XMLHttpRequest();
+        request.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                result = JSON.parse(request.responseText);
+            }
+        };
+        request.open("POST", urlServlet, "true");
+        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        request.send("operation=" + 1 + "&myId=" + communicationcenter.my.id + "&contactId=" + contact);
+
+        //visualizzio l'esito della richiesta. Se esito positivo refresh della rubrica
+        if (result == true) {
+            getAddressBookContacts();
+            this.setup();
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    /**
+     * Eliminare un contatto alla rubrica se presente
+     *
+     * @author Riccardo Tresoldi
+     * @param {Number} contact rappresenta l'id del contatto da eliminare
+     * @returns {Boolean} true solo se l'eliminazione ha avuto successo
+     */
+    this.deleteContact = function(contact) {
+        //controllo se presente nella rubrica
+        var existContact = false;
+        for (var AddressBookContact in contacts) {
+            //ciclo i contatti per controllo
+            if (AddressBookContact.id == contact)
+                existContact = true;
+        }
+        if (!existContact)
+            return false;
+
+        //invio la richiesta al server e attendo il risultato
+        var request = new XMLHttpRequest();
+        request.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                result = JSON.parse(request.responseText);
+            }
+        };
+        request.open("POST", urlServlet, "true");
+        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        request.send("operation=" + 2 + "&myId=" + communicationcenter.my.id + "&contactId=" + contact);
+
+        //visualizzio l'esito della richiesta. Se esito positivo refresh della rubrica
+        if (result == true) {
+            getAddressBookContacts();
+            this.setup();
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    /**
+     * Aggiungere un contatto della propria rubrica ad un proprio gruppo
+     *
+     * @author Riccardo Tresoldi
+     * @param {Number} contact rappresenta l'id del contatto da aggiungere al gruppo
+     * @param {Number} group rappresenta l'id del gruppo in cui aggiungere il contatto
+     * @returns {Boolean} true solo se l'aggiunta ha avuto successo
+     */
+    this.addContactInGroup = function(contact, group) {
+        //controllo che il contatto non sia già presente nel gruppo
+        //TODO funzione per controllare se esiste contatto in un determinato gruppo
+        if (contactExistInGroup(contact, group))
+            return false;
+
+        //invio la richiesta al server e attendo il risultato
+        var request = new XMLHttpRequest();
+        request.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                //deve tornare true o false
+                result = JSON.parse(request.responseText);
+            }
+        };
+        request.open("POST", urlServlet, "true");
+        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        request.send("operation=" + 3 + "&myId=" + communicationcenter.my.id + "&contactId=" + contact + "&groupId=" + group);
+
+        //visualizzio l'esito della richiesta. Se esito positivo refresh della rubrica
+        if (result == true) {
+            getAddressBookContacts();
+            this.setup();
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    /**
+     * Elimina un contatto della propria rubrica ad un proprio gruppo
+     *
+     * @author Riccardo Tresoldi
+     * @param {Number} contact rappresenta l'id del contatto da eliminare al gruppo
+     * @param {Number} group rappresenta l'id del gruppo in cui eliminare il contatto
+     * @returns {Boolean} true solo se l'eliminazione ha avuto successo
+     */
+    this.deleteContactFromGroup = function(contact, group) {
+        //controllo che il contatto non sia già presente nel gruppo
+        //TODO funzione per controllare se esiste contatto in un determinato gruppo
+        if (!contactExistInGroup(contact, group))
+            return false;
+
+        //invio la richiesta al server e attendo il risultato
+        var request = new XMLHttpRequest();
+        request.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                result = JSON.parse(request.responseText);
+            }
+        };
+        request.open("POST", urlServlet, "true");
+        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        request.send("operation=" + 4 + "&myId=" + communicationcenter.my.id + "&contactId=" + contact + "&groupId=" + group);
+
+        //visualizzio l'esito della richiesta. Se esito positivo refresh della rubrica
+        if (result == true) {
+            getAddressBookContacts();
+            this.setup();
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    /**
+     * Aggiunge un gruppo alla rubrica
+     *
+     * @author Riccardo Tresoldi
+     * @param {String} name rappresenta il nome del gruppo da aggiungere
+     * @returns {Boolean} true solo se l'aggiunta ha avuto successo
+     */
+    this.addGroup = function(name) {
+        //TODO può avere senso fare una funzione per controllare che il nome non esista già [andrebbe qua]
+
+        //invio la richiesta al server e attendo il risultato
+        var request = new XMLHttpRequest();
+        request.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                result = JSON.parse(request.responseText);
+            }
+        };
+        request.open("POST", urlServlet, "true");
+        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        request.send("operation=" + 5 + "&myId=" + communicationcenter.my.id + "&groupName=" + name);
+
+        //visualizzio l'esito della richiesta. Se esito positivo refresh della rubrica
+        if (result == true) {
+            getAddressBookContacts();
+            this.setup();
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    /**
+     * Rimuovere un gruppo alla rubrica, gli utenti appartenenti a quel gruppo non verranno eliminati
+     *
+     * @author Riccardo Tresoldi
+     * @param {Number} idGroup rappresenta l'id del gruppo da eliminare
+     * @returns {Boolean} true solo se la rimozione ha avuto successo
+     */
+    this.deleteGroup = function(idGroup) {
+        //controllo che il gruppo esista
+        var existGroup = false;
+        for (var group in groups) {
+            if (group.id == idGroup)
+                existGroup = true;
+        }
+        if (!existGroup)
+            return false;
+
+        //invio la richiesta al server e attendo il risultato
+        var request = new XMLHttpRequest();
+        request.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                result = JSON.parse(request.responseText);
+            }
+        };
+        request.open("POST", urlServlet, "true");
+        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        request.send("operation=" + 6 + "&myId=" + communicationcenter.my.id + "&groupId=" + idGroup);
+
+        //visualizzio l'esito della richiesta. Se esito positivo refresh della rubrica
+        if (result == true) {
+            getAddressBookContacts();
+            this.setup();
+            return true;
+        } else {
+            return false;
+        }
     };
 
     /* TODO:
-     * - aggiunta di un contratto alla rubrica
-     * - eliminazione di un contatto
-     * - aggiungere un utente a un gruppo
-     * - rimuovere un utente da un gruppo
      * - gestire le ricerche nella rubrica
-     * - aggiungere un gruppo alla rubrica
-     * - rimuovere un gruppo dalla rubrica
+     * - filtraggio per gruppi
+     * - contactExistInGroup()
+     */
+
+    /*FIXME
+     * operation:
+     * - 0 = ottieni la rubrica
+     * - 1 = aggiungi contatto ad una rubrica
+     * - 2 = elimina contatto da una rubrica
+     * - 3 = aggiunge un contatto ad un gruppo
+     * - 4 = eliminare un contatto da un gruppo
+     * - 5 = aggiunta di un gruppo
+     * - 6 = eliminazione di un gruppo
+     */
+
+    /*FILE JSON CHE RAFFIGURA LA RUBRICA
+     * {
+     *      "idUser1":{"campo1": "valore", "campo2": "valore", "campo3": "valore", "campo4": "valore"},
+     *      "idUser2":{"campo1": "valore", "campo2": "valore", "campo3": "valore", "campo4": "valore"},
+     * }
      */
 }
