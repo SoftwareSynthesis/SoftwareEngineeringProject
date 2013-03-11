@@ -12,10 +12,11 @@ public class HibernateUtil
 	private HibernateUtil()
 	{
 		Configuration conf = null;
+		String confDirectory = System.getenv("MyTalkConfiguration") + "hibernate.cfg.xml";
 		try
 		{
 			conf = new Configuration();
-			conf = conf.configure();
+			conf = conf.configure(confDirectory);
 			this.factory = conf.buildSessionFactory();
 		}
 		catch (Throwable ex)
