@@ -11,7 +11,7 @@ function AccountSettingsPanelPresenter() {
                       VARIABILI PRIVATE
 ***********************************************************/
     //elemento controllato da questo presenter
-    var element = document.getElementById("AccountSettingsPanel");
+    //var element = document.getElementById("AccountSettingsPanel");
     //url della servlet con cui il presenter deve comunicare
     var servletURL = "http://localhost:8080/AccountManager";
 
@@ -42,7 +42,7 @@ function AccountSettingsPanelPresenter() {
      * @author Diego Beraldin
      */
     function onChangeButtonPressed() {
-    	element.innerHTML = "";
+    	var element = document.getElementById("AccountSettingsPanel");
     	var ulData = document.createElement("ul");
     	// list item per il nome
     	var liName = document.createElement("li");
@@ -69,11 +69,11 @@ function AccountSettingsPanelPresenter() {
     	// list item per l'email
     	var liMail = document.createElement("li");
     	var labelMail = document.createElement("label");
-    	labelMail.setAttribute("for", "mail");
+    	labelMail.setAttribute("for", "email");
     	var inputMail = document.createElement("input");
-    	inputMail.setAttribute("id", "mail");
-    	inputMail.setAttribute("name", "mail");
-    	inputMail.setAttribute("value", communicationcenter.my.mail);
+    	inputMail.setAttribute("id", "email");
+    	inputMail.setAttribute("name", "email");
+    	inputMail.setAttribute("value", communicationcenter.my.email);
     	liName.appendChild(labelMail);
     	liName.appendChild(inputMail);
     	
@@ -134,6 +134,7 @@ function AccountSettingsPanelPresenter() {
      */
     function onSubmitChange() {
     	// recupera i dati dal form e li memorizza in un oggetto
+    	var element = document.getElementById("AccountSettingsPanel");
     	var data = new Object();
     	data.name = document.getElementById("name").getAttribute("value");
     	data.surname = document.getElementById("surname").getAttribute("value");
@@ -159,12 +160,17 @@ function AccountSettingsPanelPresenter() {
                       METODI PUBBLICI
 ***********************************************************/
     /**
-     * Inizializza il pannello costruendone i widget grafici interni
+     * Inizializza il pannello costruendone i widget grafici interni e lo
+     * restituisce in modo che possa essere inserito all'interno del 
+     * pannello principale
      * 
+     * @returns {HTMLDivElement} pannello delle impostazioni
      * @author Elena Zecchinato
      * @author Diego Beraldin
      */
-    this.initialize = function() {  
+    this.cratePanel = function() {
+    	var element = document.createElement("div");
+    	element.setAttribute("id", "AccountSettingsPanel");
     	element.style.display = "block";
         /* Tutti gli elementi qui mostrati sono recuperati tramite
          * il riferimento al communicationcenter e la proprietà my in
@@ -204,6 +210,8 @@ function AccountSettingsPanelPresenter() {
         element.appendChild(pictureNode);
         element.appendChild(ulData);
         element.appendChild(changeButton);
+        //FIXME non capisco questo warning, la conversione a me sembra legale!
+        return element;
     };
     
     /**

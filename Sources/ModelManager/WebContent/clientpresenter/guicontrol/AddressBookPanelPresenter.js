@@ -81,7 +81,7 @@ function AddressBookPanelPresenter() {
             name += contact.surname;
         }
         if (name == "")
-            name += contact.mail;
+            name += contact.email;
         var state = contact.state;
         var avatar = contact.picturePath;
 
@@ -479,7 +479,7 @@ function AddressBookPanelPresenter() {
         //specifico aspessione regolare
         var pattern = new RegExp(param);
         for (var contact in contacts) {
-            if ((pattern.test(contacts[contact].name)) || (pattern.test(contacts[contact].surname)) || (pattern.test(contacts[contact].mail))) {
+            if ((pattern.test(contacts[contact].name)) || (pattern.test(contacts[contact].surname)) || (pattern.test(contacts[contact].email))) {
                 filtred.push(contact);
             }
         }
