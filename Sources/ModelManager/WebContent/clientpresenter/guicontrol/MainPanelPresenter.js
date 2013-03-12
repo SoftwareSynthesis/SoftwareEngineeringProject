@@ -7,9 +7,15 @@
  * @author Diego Beraldin
  */
 function MainPanelPresenter() {
+	/**********************************************************
+    VARIABILI PRIVATE
+    ***********************************************************/
     //elemento controllato da questo presenter
-    this.element = document.getElementById("MainPanel");
-
+    var element = document.getElementById("MainPanel");
+    
+	/**********************************************************
+    METODI PUBBICI
+    ***********************************************************/
     /**
      * Costruisce il pannello principale dell'applicazione che occupa il posto
      * centrale della finestra
@@ -17,8 +23,8 @@ function MainPanelPresenter() {
      * @author Elena Zecchinato
      */
     this.initialize = function() {
-    	this.element.style.display = "block";
-        this.element.innerHTML = "";
+    	element.style.display = "block";
+        element.innerHTML = "";
         //immagine di spondo per quando il pannello è vuoto
         var img = document.createElement("img");
         img.setAttribute("src", "img/mytalk.png");
@@ -29,12 +35,12 @@ function MainPanelPresenter() {
     /**
      * Visualizza un elemento interno al pannello principale
      * 
-     * @param {Element} node 'div' che deve essere visualizzato all'interno del pannello principale
+     * @param {HTMLDivElement} nodo che deve essere visualizzato all'interno del pannello principale
      * @author Diego Beraldin
      */
     this.displayChildPanel = function(node) {
-    	this.element.innerHTML = "";
-    	this.element.appendChild(node);
+    	element.innerHTML = "";
+    	element.appendChild(node);
     };
     
     /**
@@ -43,6 +49,6 @@ function MainPanelPresenter() {
      * @author Diego Beraldin
      */
     this.hide = function() {
-    	this.element.style.display = "none";
+    	element.style.display = "none";
     };
 }

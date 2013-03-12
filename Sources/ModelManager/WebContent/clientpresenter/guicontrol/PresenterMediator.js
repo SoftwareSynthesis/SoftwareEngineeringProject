@@ -6,19 +6,33 @@
  * @author Diego Beraldin
  */
 function PresenterMediator() {
+	/**********************************************************
+    VARIABILI PRIVATE
+    ***********************************************************/
     // array associativo contentente i riferimenti ai presenter di primo livello
-    this.presenters = new Array();
-    this.presenters["addressbook"] = new AddressBookPanelPresenter();
-    this.presenters["tools"] = new ToolsPanelPresenter();
-    this.presenters["main"] = new MainPanelPresenter();
+    var presenters = new Array();
+    presenters["addressbook"] = new AddressBookPanelPresenter();
+    presenters["tools"] = new ToolsPanelPresenter();
+    presenters["main"] = new MainPanelPresenter();
 
     //presenter di secondo livello (pannelli contenuti nel MainPanel)
-    this.contactpp = new ContactPanelPresenter();
-    //TODO aggiungere anche gli altri che devono essere anche inclusi in index.html
+    var accountsettingspp = new AccountSettingsPanelPresenter();
+    var communicationpp = new CommunicationPanelPresenter();
+    var contactpp = new ContactPanelPresenter();
+    var callhistorypp = new CallHistoryPanelPresenger();
+    var messagepp = new MessagePanelPresenter();
+    var searchresultpp = new SearchResultPanelPresenter();
+    var toolspp = new ToolsPanelPresenter();
+    //TODO deve esistere anche GroupPanelPresenter?
+    
+    /**********************************************************
+    METODI PRIVATI
+    ***********************************************************/
 
     /**
      * Inizializza l'interfaccia grafica delegando ai presenter il compito di
-     * disegnare gli elementi principali dell'interfaccia
+     * disegnare gli elementi principali dell'interfaccia, incaricando i presenter
+     * di primo livello di creare e popolare i rispettivi pannelli
      *
      * @author Diego Beraldin
      */
@@ -28,13 +42,14 @@ function PresenterMediator() {
         }
     };
 
-    /** Funzione da scatenare nel momento in cui è selezionato un contatto
+    /** Funzione da scatenare nel momento in cui è selezionato un contatto,
+     * ne provoca la visualizzazione nel pannello dei contatti
      *
      * @author Diego Beraldin
      * @param {Object} contact contatto che deve essere visualizzato
      */
     this.onContactSelected = function(contact) {
-        this.contactpp.display(contact);
+        contactpp.display(contact);
     };
 
     /**
@@ -103,5 +118,20 @@ function PresenterMediator() {
      */
     this.onContactAddeddInGroup = function(contact, group) {
         this.presenters["addressbook"].removeContactFromGroup(contact, group);
+    };
+    
+    /**
+     * Provoca la creazione del pannello della segreteria e la sua visualizzazione
+     * all'interno del MainPanel come elemento figlio.
+     * La costruzione del pannello è affidata al metodo createPanel che viene reso
+     * disponibile da tutti i presenter di secondo livello
+     * 
+     * @see MainPanel#displayChildPanel({HTMLDivElement})
+     * @see MessagePanel#createPanel()
+     * @author Diego Beraldin
+     */
+    this.displayMessagePanel = function() {
+    	var messagePanel = messagepp.createPanel();
+    	presenters["main"].displayChildPanel(messagePanel);
     };
 }

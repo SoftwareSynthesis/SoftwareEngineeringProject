@@ -5,19 +5,52 @@
  * @author Diego Beraldin
  */
 function MessagePanelPresenter() {
-    //elemento controllato da questo presenter
-    this.element = document.getElementById("MessagePanel");
+	/**********************************************************
+    VARIABILI PRIVATE
+    ***********************************************************/
+    // elemento controllato da questo presenter
+	// non serve più perché è creato al volo in createPanel()
+    //var element = document.getElementById("MessagePanel");
     //array di messaggi
-    this.messages = new Array;
+    var messages = new Array();
     //url della servlet da contattare per i messaggi
-    this.urlServlet = "http://localhost:8080/MessageManager";
-
+    var urlServlet = "http://localhost:8080/MessageManager";
+    
+    /**********************************************************
+    METODI PRIVATI
+    ***********************************************************/
     /**
+     * Aggiunge un messaggio a una lista per creare l'elenco della 
+     * segreteria telefonica
+     * 
+     * TODO eliminerei il paramtro lista perché in questo metodo privato
+     * è scontato che si tratta della lista interna al '<div>' contenuto
+     * nel pannello della segreteria telefonica.
+     * TODO questa funzione è da completare
+     * 
+     * @param {HTMLUListElement} list
+     * @param {Object} message
+     */
+    function addListItem(list, message) {
+    	
+    }
+    
+	/**********************************************************
+    METODI PUBBLICI
+    ***********************************************************/
+    /**
+     * Costruisce il pannello della segreteria telefonica, che deve essere visualizzato
+     * all'interno del MainPanel dell'applicazione quando è selezionata la funzione corsispondente
+     * dal pannello degli strumenti.
+     * Il MessagePanel è costituito da un elemento video seguito da un 'div' che a sua volta
+     * contiene una lista di messaggi.
+     * 
+     * @returns {HTMLDivElement} il pannello contenente la segreteria telefonica
      * @author Riccardo Tresoldi
      */
-    this.initialize = function() {
-        //azzero il MessagePanel
-        this.element.innerHTML = "";
+    this.createPanel = function() {
+        var element = document.createElement("div");
+        element.setAttribute("id", "MessagePanel");
 
         //creo elemento <video>, <audio> e <img>(nel caso non ci sia video)
         var video = document.createElement("video");
@@ -34,10 +67,12 @@ function MessagePanelPresenter() {
         var messageList = document.createElement("ul");
         messageList.setAttribute("id", "messageList");
         divMessageList.appendChild(messageList);
+        //FIXME non dovremmo aggiungere i '<li>' a questa lista?
 
         //appendo al this.element
-        this.element.appendChild(video);
-        this.element.appendChild(divMessageList);
+        element.appendChild(video);
+        element.appendChild(divMessageList);
+        return element;
     };
 
     /**
@@ -60,7 +95,6 @@ function MessagePanelPresenter() {
         //se c'è bisogno di passare piu parametri, agganciarli con &
         //idUser deve essere dichiarata variabile globale
         request.send("idUser=" + idUser + "&idMessage=" + idMessage + "&read=" + valueToSet);
-
     };
 
     /**
@@ -100,12 +134,11 @@ function MessagePanelPresenter() {
      */
     this.setup = function() {
         //estraggo l'<ul> della lista messaggi e lo inizializzo
-        var ulList = this.element.getElementById("messageList");
+        var ulList = element.getElementById("messageList");
         ulList.innerHTML = "";
 
         for (var message in this.messages) {
-            //ciclo i messaggi e agiungo un <li> per ogni contatto
-            //TODO togliere il commento seguente!
+            //ciclo i messaggi e aggiungo un <li> per ogni contatto
             this.addListItem(ulList, message);
         }
     };

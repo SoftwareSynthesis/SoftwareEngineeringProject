@@ -39,8 +39,10 @@ function ToolsPanelPresenter() {
         var liAnswering = document.createElement("li");
         var buttonAnswering = document.createElement("button");
         buttonAnswering.appendChild(document.createTextNode("Segreteria"));
+        buttonAnswering.onclick = function() {
+        	mediator.displayMessagePanel();
+        };
         liAnswering.appendChild(buttonAnswering);
-        //TODO attaccare comportamento al pulsante
         
         // funzione impostazioni account
         var liSetting = document.createElement("li");
