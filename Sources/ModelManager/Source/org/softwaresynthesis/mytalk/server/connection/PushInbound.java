@@ -1,5 +1,7 @@
 package org.softwaresynthesis.mytalk.server.connection;
 
+import ISecurityStrategy;
+
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
@@ -7,9 +9,6 @@ import java.util.List;
 
 import org.apache.catalina.websocket.MessageInbound;
 import com.google.gson.*;
-import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
-import org.softwaresynthesis.mytalk.server.abook.IUserData;
-import org.softwaresynthesis.mytalk.server.abook.IUserData.State;
 
 public class PushInbound extends MessageInbound {
 
@@ -20,9 +19,16 @@ private Long id;
 
 	@Override
 	protected void onBinaryMessage(ByteBuffer arg0) throws IOException {
-		// TODO Auto-generated method stub
 	}
 
+	/**
+	 * Metodo invocato al momento della ricezione di un
+	 * messaggio da parte del client
+	 * 
+	 * @author 	Marco Schivo
+	 * @param 	message		{@link CharBuffer} rappresenta il messaggio
+	 * 						sotto forma di testo
+	 */
 	@Override
 	protected void onTextMessage(CharBuffer message) throws IOException {
 		String text=message.toString();
@@ -62,7 +68,7 @@ private Long id;
 		//notifica cambio stato ad utenti della rubrica
 		//array[1]= email, array[2]={available|||offline||occupied} per stato
 		else if (type.equals("5")){
-			UserDataDAO database= new UserDataDAO();
+			UserDataDAO database= new UserDataDao();
 			String email= gson.fromJson(array.get(1), String.class);
 			String state= gson.fromJson(array.get(2), String.class);
 			IUserData utente= database.getByEmail(email);

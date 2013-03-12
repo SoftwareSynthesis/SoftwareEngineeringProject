@@ -1,5 +1,6 @@
 package org.softwaresynthesis.mytalk.server.connection;
 
+import java.nio.CharBuffer;
 import java.util.Vector;
 
 import javax.servlet.Servlet;
@@ -21,17 +22,22 @@ public class ChannelServlet extends WebSocketServlet implements Servlet {
 
     public ChannelServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	public void init(ServletConfig config) throws ServletException {
-		// TODO Auto-generated method stub
-	}
+	public void init(ServletConfig config) throws ServletException {}
 
 	public void destroy() {
 		// TODO Auto-generated method stub
 	}
-
+	
+	/**
+	 * Crea una websocket, la salva nel vettore di connessioni 
+	 * attive e la ritorna al client
+	 * 
+	 * @author 	Marco Schivo
+	 * @param 	subProtocol		{@link String} protocollo usato per la connessione
+	 * @param 	request		{@link HttpServletRequest} oggetto per la richiesta
+	 */
 	@Override
 	protected StreamInbound createWebSocketInbound(String subProtocol, HttpServletRequest request) {
 		PushInbound channelClient = new PushInbound();
@@ -39,6 +45,12 @@ public class ChannelServlet extends WebSocketServlet implements Servlet {
 	    return channelClient;
 	}
 	
+	/**
+	 * Ricerca una connessione client dato l'identificativo
+	 * 
+	 * @author 	Marco Schivo
+	 * @param 	n		{@link Long} identificativo del canale
+	 */
 	public static PushInbound findClient(Long n){
 		for(int i=0; i<clients.size(); i++){
 			if(((clients.get(i)).getId())==n){
@@ -48,6 +60,12 @@ public class ChannelServlet extends WebSocketServlet implements Servlet {
 		return null;
 	}
 	
+	/**
+	 * Rimuove una connessione client
+	 * 
+	 * @author 	Marco Schivo
+	 * @param 	n		{@link PushInbound} canale da rimuovere
+	 */
 	public static void removeClient(PushInbound c){
 		for(int i=0; i<clients.size(); i++){
 			if((clients.get(i)==c)){
