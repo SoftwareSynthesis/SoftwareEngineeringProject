@@ -121,6 +121,7 @@ public final class LoginManager extends HttpServlet
 	 * 
 	 * @author	Andrea Meneghinello
 	 * @version	%I%, %G%
+	 * @param	session		{@link HttpSession} sessione con il client
 	 * @param 	username	{@link String} username dell'utete
 	 * @param 	password	{@link String} password dell'utete
 	 * @return	{@link String} con l'utente in formato JSON se
@@ -152,6 +153,15 @@ public final class LoginManager extends HttpServlet
 		return result;
 	}
 	
+	/**
+	 * Esegue il logout di un utente dal sistema
+	 * 
+	 * @author	Andrea Meneghinello
+	 * @version	%I%, %G%
+	 * @param 	session	{@link HttpSessionSession}
+	 * 					sessione aperta con il client
+	 * 					in fase di login
+	 */
 	private void doLogout(HttpSession session)
 	{
 		LoginContext context = null;
