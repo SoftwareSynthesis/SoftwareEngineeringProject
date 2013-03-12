@@ -923,6 +923,42 @@ Permette di caricare le credenziali di autenticazione, fornite dall'utente, per 
 
 \end{description}
 
+\classsection{LoginManager}
+
+%TODO da completare
+
+\subsubsection*{Funzione}
+\inglese{Servlet} per da richiamare per effettuare la login e la corrispettiva autenticazione dell'utente.
+
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+	\item \texttt{java.io.IOException}
+	\item \texttt{java.io.PrintWriter}
+	\item \texttt{javax.security.auth.login.LoginContext}
+	\item \texttt{javax.servlet.ServletException}
+	\item \texttt{javax.servlet.http.HttpServlet}
+	\item \texttt{javax.servlet.http.HttpServletRequest}
+	\item \texttt{javax.servlet.http.HttpServletResponse}
+	\item \texttt{javax.servlet.http.HttpSession}
+	\item \classname{abook.IUserData}
+	\item \classname{dao.UserDataDAO}
+\end{itemize}
+
+\subsubsection*{Attributi}
+\begin{description}
+  \item{\memberdata{\underline{-- {frozen} serialVersionUID: long}}}\\
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+	\item{\method{+ LoginManager()}}\\
+	\item{\method{\# doGet(request: HttpServletRequest, response: HttpServletResponse): void}}\\
+	\item{\method{\# doPost(request: HttpServletRequest, response: HttpServletResponse): void}}\\
+	\item{\method{-- doLogin(session: HttpSession, username: String, password: String): String}}\\
+	\item{\method{-- doLogout(session: HttpSession)}}\\
+
+\end{description}
+
 \subsection{Package org.softwaresynthesis.mytalk.server.connection}\label{sec:connection}
 
 \classsection{PushInbound}
