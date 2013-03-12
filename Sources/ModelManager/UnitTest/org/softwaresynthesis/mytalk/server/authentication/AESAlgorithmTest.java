@@ -6,8 +6,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Test per l'agoritmo di crittografia AES
- * utilizzato dal sistema mytalk
+ * Test dei metodi della classe {@link AESAlgorithm}
  * 
  * @author 	Andrea Meneghinello
  * @version	%I%, %G%
