@@ -925,7 +925,7 @@ Permette di caricare le credenziali di autenticazione, fornite dall'utente, per 
 
 \classsection{LoginManager}
 
-%TODO da completare
+%TODO da completare doLogin, doLogout
 
 \subsubsection*{Funzione}
 \inglese{Servlet} per da richiamare per effettuare la login e la corrispettiva autenticazione dell'utente.
@@ -947,14 +947,26 @@ Permette di caricare le credenziali di autenticazione, fornite dall'utente, per 
 \subsubsection*{Attributi}
 \begin{description}
   \item{\memberdata{\underline{-- {frozen} serialVersionUID: long}}}\\
+  Utilizzato come ID univoco per identificare un oggetto serializzabile.
 \end{description}
 
 \subsubsection*{Metodi}
 \begin{description}
 	\item{\method{+ LoginManager()}}\\
+	Costruttore della classe. Richiama il costruttore della classe padre \texttt{HttpServlet}.
+	
 	\item{\method{\# doGet(request: HttpServletRequest, response: HttpServletResponse): void}}\\
+	Metodo di delega che richiama \method{doPost()} passando gli stessi dati in input.
+	
 	\item{\method{\# doPost(request: HttpServletRequest, response: HttpServletResponse): void}}\\
+	Metodo che costituisce il kernel logico di risposta della \inglese{servlet}. Il metodo inizia caricando un istanza di Object i parametri ricevuti mediante \texttt{HttpServletRequest}. Quindi verifica che il parametro ricevuto sia un istanza di \texttt{Integer}, e procede valutando il valore in essa contenuto. La logica di sistema considera 2 possibili valori:
+	\begin{itemize}
+		\item[•]type = 0: corrisponde ad una richiesta di logout e si attua impostando a false la sessione contenuta nell'oggetto HttopServletRequest request. Quindi si passa tale sessione (come parametro d'ingresso) al metodo \method{doLogout()}. Il metodo termina invalidando la sessione richiamando il metodo \texttt{invalidate()} di HttpSession.
+		\item[•]type = 1: corrisponde ad una richiesta di login e si attua impostando due campi String con i dati ottenuti da una chiamata a \texttt{getParameter(``username'')} e \texttt{getParameter(``password'')} . Quindi si crea un istanza di \texttt{HttpSession} tramite il metodo \texttt{getSession(true)} del parametro request. Il metodo prosegue controllando se l'username e la password precedentemente ottenute hanno valore diverso da null. Nel caso il flusso principale continua richiamando \method{doLogin()}.
+	\end{itemize}
+	
 	\item{\method{-- doLogin(session: HttpSession, username: String, password: String): String}}\\
+	
 	\item{\method{-- doLogout(session: HttpSession)}}\\
 
 \end{description}
