@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Test</title>
+</head>
+<body>
+<script type="text/javascript">
+var servletURL = "http://localhost:8080/org/softwaresythesis/mytalk/server/servlet/TestManager";
+doTest= function(){
+	var request= new XMLHttpRequest();
+	request.onreadystatechange= function(){
+		if (request.readyState==4 && request.status ==200){
+			document.getElementById("myDiv").innerHTML=request.responseText;
+		}
+	}
+	request.open("POST", servletURL, "true");
+	request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	request.send();
+}
+</script>
+
+<h1>TEST</h1>
+
+<input type="button" onClick="doTest()" value="VAI CON I TEST!"/>
+<div id="myDiv"></div>
+
+</body>
+</html>
