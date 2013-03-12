@@ -1,6 +1,5 @@
 package org.softwaresynthesis.mytalk.server.connection;
 
-import java.nio.CharBuffer;
 import java.util.Vector;
 
 import javax.servlet.Servlet;
