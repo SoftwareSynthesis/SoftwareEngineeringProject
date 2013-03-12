@@ -290,13 +290,13 @@ function AddressBookPanelPresenter() {
     };
 
     /**
-     * Eliminare un contatto alla rubrica se presente
+     * Rimovere un contatto alla rubrica se presente
      *
      * @author Riccardo Tresoldi
      * @param {Number} contact rappresenta l'id del contatto da eliminare
      * @returns {Boolean} true solo se l'eliminazione ha avuto successo
      */
-    this.deleteContact = function(contact) {
+    this.removeContact = function(contact) {
         //controllo se presente nella rubrica
         var existContact = false;
         for (var AddressBookContact in contacts) {
