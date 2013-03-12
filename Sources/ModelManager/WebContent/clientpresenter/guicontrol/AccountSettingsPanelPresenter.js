@@ -164,7 +164,7 @@ function AccountSettingsPanelPresenter() {
      * restituisce in modo che possa essere inserito all'interno del 
      * pannello principale
      * 
-     * @returns {HTMLDivElement} pannello delle impostazioni
+     * @returns {HTMLDivElementk} pannello delle impostazioni
      * @author Elena Zecchinato
      * @author Diego Beraldin
      */
@@ -197,7 +197,7 @@ function AccountSettingsPanelPresenter() {
         changeButton.appendChild(document.createTextNode("Modifica dati"));
         changeButton.onclick = onChangeButtonPressed;
         
-        //FIXME possono cambiare anche password, domanda segreta e risposta!
+        //FIXME possono cambiare anche password, domanda segreta e risposta!?
         
         //appende i sottonodi ai nodi principali
         var ulData = document.createElement('ul');
@@ -210,7 +210,6 @@ function AccountSettingsPanelPresenter() {
         element.appendChild(pictureNode);
         element.appendChild(ulData);
         element.appendChild(changeButton);
-        //FIXME non capisco questo warning, la conversione a me sembra legale!
         return element;
     };
     

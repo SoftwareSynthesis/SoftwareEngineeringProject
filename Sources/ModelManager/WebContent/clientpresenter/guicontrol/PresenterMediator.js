@@ -127,11 +127,37 @@ function PresenterMediator() {
      * disponibile da tutti i presenter di secondo livello
      * 
      * @see MainPanel#displayChildPanel({HTMLDivElement})
-     * @see MessagePanel#createPanel()
+     * @see MessagePanelPresenter#createPanel()
      * @author Diego Beraldin
      */
     this.displayMessagePanel = function() {
     	var messagePanel = messagepp.createPanel();
     	presenters["main"].displayChildPanel(messagePanel);
+    };
+    
+    /**
+     * Provoca la creazione del pannello delle impostazioni dell'utente e la sua
+     * visualizzazione all'interno del MainPanel.
+     * 
+     * @see MainPanel#displayChildPanel({HTMLDivElement})
+     * @see AccountSettingsPanelPresenter#createPanel()
+     * @author Diego Beraldin
+     */
+    this.displayAccountSettingsPanel = function() {
+    	var accountSettingsPanel = accountsettingspp.createPanel();
+    	presenters["main"].displayChildPanel(accountSettingsPanel);
+    };
+    
+    /**
+     * Provoca la creazione del pannello dello storico delle chiamate e la sua
+     * visualizzazione all'interno del MainPanel.
+     * 
+     * @see MainPanel#displayChildPanel({HTMLDivElement})
+     * @see AccountSettingsPanelPresenter#createPanel()
+     * @author Diego Beraldin
+     */
+    this.displayAccountSettingsPanel = function() {
+    	var callHistoryPanel = callhistorypp.createPanel();
+    	presenters["main"].displayChildPanel(callHistoryPanel);
     };
 }

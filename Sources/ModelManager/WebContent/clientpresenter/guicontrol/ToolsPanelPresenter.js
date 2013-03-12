@@ -48,15 +48,19 @@ function ToolsPanelPresenter() {
         var liSetting = document.createElement("li");
         var buttonSetting = document.createElement("button");
         buttonSetting.appendChild(document.createTextNode("Impostazioni"));
+        buttonSetting.onclick = function() {
+        	mediator.displayAccountSettingsPanel();
+        };
         liSetting.appendChild(buttonSetting);
-        //TODO attaccare comportamento al pulsante
         
         // funzione lista chiamate
         var liCallList = document.createElement("li");
         var buttonCallList = document.createElement("button");
-        buttonCalList.appendChild(document.createTextNode("Lista chiamate"));
+        buttonCallList.appendChild(document.createTextNode("Lista chiamate"));
+        buttonCallList.onclick = function() {
+        	mediator.displayCallHistoryPanel();
+        };
         liCallList.appendChild(buttonCallList);
-        // TODO attaccare il comportamento al pulsante
         
         // funzione selezione lingua
         var liLanguage = document.createElement("li");
