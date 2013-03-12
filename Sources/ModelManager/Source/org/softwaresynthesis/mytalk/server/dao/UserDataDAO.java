@@ -251,4 +251,57 @@ public class UserDataDAO
 			return null;
 		}
 	}
+	
+	/**
+	 * Avvia una ricerca generica, cercando
+	 * se il parametro fonrito in ingresso
+	 * ha qualche corrispondenza o con la
+	 * mail o con il nome oppure con il cognome
+	 * di uno {@link IUserData} nel database
+	 * del sistema mytalk
+	 * 
+	 * @author	Andrea Meneghinello
+	 * @version %I%, %G%
+	 * @param 	parameter	parametro di tipo
+	 * 						{@link String} con
+	 * 						cui effettuare la
+	 * 						ricerca
+	 * @return	Una {@link List} con gli {@link IUserData}
+	 * 			che hanno almeno un match con il parametro
+	 * 			in ingresso
+	 */
+	@SuppressWarnings("unchecked")
+	public List<IUserData> searchGeneric(String parameter)
+	{
+		HibernateUtil util = null;
+		List<IUserData> users = null;
+		Query query = null;
+		Session session = null;
+		SessionFactory factory = null;
+		String hqlQuery = "from UserData as us where u.mail like :mail or u.name like :name or u.surname like :surname";
+		try
+		{
+			util = HibernateUtil.getInstance();
+			factory = util.getFactory();
+			session = factory.openSession();
+			query = session.createQuery(hqlQuery);
+			query.setString("mail", parameter);
+			query.setString("name", parameter);
+			query.setString("surname", parameter);
+			users = (List<IUserData>)query.list();
+		}
+		catch (Exception ex)
+		{
+			users = null;
+		}
+		finally
+		{
+			if (session != null)
+			{
+				session.flush();
+				session.close();
+			}
+		}
+		return users;
+	}
 }

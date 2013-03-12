@@ -332,4 +332,26 @@ public class UserData implements IUserData
 	{
 		this.state = state;
 	}
+	
+	/**
+	 * Verifica se due istanze sono uguali
+	 * 
+	 * @author	Andrea Meneghinello
+	 * @version	%I%, %G%
+	 * @param	obj	{@link Object} con cui effettuare
+	 * 				confronto
+	 * @return 	true se le due istanze sono uguali,
+	 * 			false altrimenti
+	 */
+	public boolean equals(Object obj)
+	{
+		boolean result = false;
+		UserData user = null;
+		if (obj instanceof UserData)
+		{
+			user = (UserData)obj;
+			result = this.mail.equals(user.mail);
+		}
+		return result;
+	}
 }
