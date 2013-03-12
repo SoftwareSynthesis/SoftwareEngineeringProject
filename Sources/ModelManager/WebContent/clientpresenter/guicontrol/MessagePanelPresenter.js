@@ -86,12 +86,9 @@ function MessagePanelPresenter() {
                 messages = JSON.parse(request.responseText);
             }
         };
-
         request.open("POST", urlServlet, "true");
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        //se c'è bisogno di passare piu parametri, agganciarli con &
-        //idUser deve essere dichiarata variabile globale
-        request.send("id=" + idUser);
+        request.send("id=" + connectionmanager.my.id);
     };
     
 	/**********************************************************
@@ -124,8 +121,7 @@ function MessagePanelPresenter() {
         var messageList = document.createElement("ul");
         messageList.setAttribute("id", "messageList");
         divMessageList.appendChild(messageList);
-        //FIXME non dovremmo aggiungere i '<li>' a questa lista?
-
+        this.setup(messageList);
         //appendo al this.element
         element.appendChild(video);
         element.appendChild(divMessageList);
