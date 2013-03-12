@@ -62,6 +62,9 @@ function ToolsPanelPresenter() {
         };
         liCallList.appendChild(buttonCallList);
         
+        // funzione gestione contatti
+        //TODO aggiungere amministrazione dei gruppi
+        
         // funzione selezione lingua
         var liLanguage = document.createElement("li");
         var selectLanguage = document.createElement("select");

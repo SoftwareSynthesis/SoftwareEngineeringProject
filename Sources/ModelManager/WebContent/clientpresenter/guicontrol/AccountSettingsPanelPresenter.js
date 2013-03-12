@@ -7,17 +7,15 @@
  * @author Diego Beraldin
  */
 function AccountSettingsPanelPresenter() {
-/**********************************************************
-                      VARIABILI PRIVATE
-***********************************************************/
-    //elemento controllato da questo presenter
-    //var element = document.getElementById("AccountSettingsPanel");
+    /**********************************************************
+    VARIABILI PRIVATE
+    ***********************************************************/
     //url della servlet con cui il presenter deve comunicare
     var servletURL = "http://localhost:8080/AccountManager";
 
-/**********************************************************
-                      METODI PRIVATI
-***********************************************************/
+    /**********************************************************
+    METODI PRIVATI
+    ***********************************************************/
     /**
      * Verifica che sia effettivamente cambiato qualcosa rispetto a quanto contenuto
      * in communicationcenter.my nell'oggetto data che viene passato come paramtro
@@ -101,6 +99,7 @@ function AccountSettingsPanelPresenter() {
     	var submitButton = document.createElement("input");
     	submitButton.setAttribute("type", "submit");
     	submitButton.setAttribute("value", "OK");
+    	//TODO da testare il comportamento quando viene premuto il pulsante
     	submitButton.onclick = onSubmitChange;
     	
     	// aggiunge il tutto al sottoalbero del DOM
@@ -138,7 +137,7 @@ function AccountSettingsPanelPresenter() {
     	var data = new Object();
     	data.name = document.getElementById("name").getAttribute("value");
     	data.surname = document.getElementById("surname").getAttribute("value");
-    	data.mail = document.getElementById("mail").getAttribute("value");
+    	data.mail = document.getElementById("email").getAttribute("value");
     	data.picture = document.getElementById("picture").getAttribute("value");
     	
     	// verifica se è cambiato qualcosa e agisce di conseguenza
@@ -164,14 +163,12 @@ function AccountSettingsPanelPresenter() {
      * restituisce in modo che possa essere inserito all'interno del 
      * pannello principale
      * 
-     * @returns {HTMLDivElementk} pannello delle impostazioni
+     * @param {HTMLDivElement} element pannello che deve essere inizializzato
+     * @returns {HTMLDivElementk} pannello delle impostazioni inizializzato
      * @author Elena Zecchinato
      * @author Diego Beraldin
      */
-    this.cratePanel = function() {
-    	var element = document.createElement("div");
-    	element.setAttribute("id", "AccountSettingsPanel");
-    	element.style.display = "block";
+    this.createPanel = function(element) {
         /* Tutti gli elementi qui mostrati sono recuperati tramite
          * il riferimento al communicationcenter e la proprietà my in
          * esso contenuta, dove sono memorizzati i dati relativi all'utente.
@@ -195,6 +192,7 @@ function AccountSettingsPanelPresenter() {
         var changeButton = document.createElement('button');
         changeButton.setAttribute("type", "button");
         changeButton.appendChild(document.createTextNode("Modifica dati"));
+        //TODO da testare il funzionamento quando viene premuto il pulsante
         changeButton.onclick = onChangeButtonPressed;
         
         //FIXME possono cambiare anche password, domanda segreta e risposta!?
@@ -211,14 +209,5 @@ function AccountSettingsPanelPresenter() {
         element.appendChild(ulData);
         element.appendChild(changeButton);
         return element;
-    };
-    
-    /**
-     * Rende invisibile il pannello delle impostazioni
-     * 
-     * @author Diego Beraldin
-     */
-    this.hide = function() {
-    	element.style.display = "none";
     };
 }

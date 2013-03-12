@@ -4,23 +4,20 @@
  * @author Diego Beraldin
  */
 function CallHistoryPanelPresenter() {
-    //elemento controllato da questo presenter
-    //this.element = document.getElementById("CallHistoryPanel");
-
+	/**********************************************************
+    METODI PUBBLICI
+    ***********************************************************/
     /**
      * Crea il pannello dello storico delle chiamate che deve essere
      * visualizzato all'interno del MainPanel come elemento figlio
      * 
-     * @returns {HTMLDivElement}
+     * @param {HTMLDivElement} element	'<div>' destinato a diventare il pannello dello storico delle chiamate
+     * @returns {HTMLDivElement} il pannello dello storico delle chiamate inizializzato
      * @author Elena Zecchinato
      */
-    this.createPanel = function() {
-    	var element = document.createElement("div");
+    this.createPanel = function(element) {
         // creo contenuto di CallHistory
         var ulHistory = document.createElement('ul');
-
-        //apendo il sottoalbero al MainPanel
-        element.innerHTML = "";
         element.appendChild(ulHistory);
         return element;
     };
