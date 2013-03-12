@@ -7,7 +7,7 @@ package org.softwaresynthesis.mytalk.server.authentication;
  * @author 	Andrea Meneghinello
  * @version %I%, %G%
  */
-public class AuthenticationData
+public class AuthenticationData implements IAuthenticationData
 {
 	private String username;
 	private String password;

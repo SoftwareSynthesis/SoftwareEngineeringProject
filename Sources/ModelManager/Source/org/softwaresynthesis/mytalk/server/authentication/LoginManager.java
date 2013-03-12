@@ -129,7 +129,7 @@ public final class LoginManager extends HttpServlet
 	 */
 	private String doLogin(HttpSession session, String username, String password)
 	{
-		AuthenticationData credential = new AuthenticationData(username, password);
+		IAuthenticationData credential = new AuthenticationData(username, password);
 		CredentialLoader loader = null;
 		IUserData user = null;
 		LoginContext context = null;

@@ -10,7 +10,7 @@ import org.junit.Test;
  * @author 	Andrea Meneghinello
  * @version %I%, %G%
  */
-public class AuthenticationDataTest 
+public class AuthenticationDataTest
 {
 	/**
 	 * Effettua il test di uguaglianza di

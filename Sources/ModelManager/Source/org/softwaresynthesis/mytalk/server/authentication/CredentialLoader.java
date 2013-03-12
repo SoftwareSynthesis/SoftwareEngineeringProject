@@ -9,7 +9,7 @@ import javax.security.auth.callback.UnsupportedCallbackException;
 
 public class CredentialLoader implements CallbackHandler 
 {
-	private AuthenticationData credential;
+	private IAuthenticationData credential;
 	private ISecurityStrategy strategy;
 
 	/**
@@ -22,7 +22,7 @@ public class CredentialLoader implements CallbackHandler
 	 * @param 	strategy	{@link ISecurityStrategy} di codifica
 	 * 						da utilizzare
 	 */
-	public CredentialLoader(AuthenticationData credential, ISecurityStrategy strategy)
+	public CredentialLoader(IAuthenticationData credential, ISecurityStrategy strategy)
 	{
 		this.credential = credential;
 		this.strategy = strategy;
