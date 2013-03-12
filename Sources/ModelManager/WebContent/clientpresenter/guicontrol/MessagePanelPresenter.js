@@ -22,14 +22,25 @@ function MessagePanelPresenter() {
      * 
      * TODO eliminerei il paramtro lista perché in questo metodo privato
      * è scontato che si tratta della lista interna al '<div>' contenuto
-     * nel pannello della segreteria telefonica.
+     * nel pannello della segreteria telefonica
+     * 
      * TODO questa funzione è da completare
      * 
      * @param {HTMLUListElement} list
      * @param {Object} message
      */
+    
+    /**
+     * Elimina un messaggio dalla segreteria
+     * 
+     * @param {Number} idMessage id del messaggio che deve essere cancellato
+     */
+    function deleteMessage(idMessage) {
+    	//TODO da finire
+    }
+    
     function addListItem(list, message) {
-    	
+    	//TODO da finire questa cosa
     }
     
     /**
@@ -57,7 +68,7 @@ function MessagePanelPresenter() {
     };
     
     /**
-     * Ottenere i messaggi di segreteria dal server
+     * Ottiene i messaggi di segreteria dal server
      *
      * @author Riccardo Tresoldi
      */
@@ -93,11 +104,12 @@ function MessagePanelPresenter() {
      * Il MessagePanel è costituito da un elemento video seguito da un 'div' che a sua volta
      * contiene una lista di messaggi.
      * 
-     * @param {HTMLDivElement} il pannello contenente la segreteria telefonica
+     * @param {HTMLDivElement} il pannello che deve diventare la segreteria telefonica
+     * @returns {HTMLDivElement} pannello contenente la segreteria telefonica
      * @author Riccardo Tresoldi
      */
     this.createPanel = function(element) {
-        //creo elemento <video>, <audio> e <img>(nel caso non ci sia video)
+        // creo elemento <video>, <audio> e <img> (nel caso non ci sia video)
         var video = document.createElement("video");
         video.setAttribute("id", "messageVideo");
         video.setAttribute("controls", "controls");
@@ -121,23 +133,18 @@ function MessagePanelPresenter() {
     };
     
     /**
-     * Settare la lista dei messaggi
+     * Costruisce la lista dei messaggi in segreteria e la appende all'elemento in input
      *
-     * @param {HTMLDivElement} element
-     * @returns {HTMLDivElement}
+     * @param {HTMLDivElement} element elemento cui appendere la lista dei messaggi in segreteria
      * @author Riccardo Tresoldi
      */
     this.setup = function(element) {
         var ulMessages = document.createElement("ul");
+        getMessages();
         for (var message in messages) {
-            //ciclo i messaggi e aggiungo un <li> per ogni contatto
+            // ciclo i messaggi e aggiungo un <li> per ogni contatto
             this.addListItem(ulMessages, message);
         }
         element.appendChild(ulMessages);
-        return element;
     };
-
-    /* TODO
-     * -eliminazione di un messaggio
-     */
 }
