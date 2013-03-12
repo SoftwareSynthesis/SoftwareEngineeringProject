@@ -3,7 +3,7 @@
  * @author Elena Zecchinato
  * @author Diego Beraldin
  */
-function CallHistoryPanel() {
+function CallHistoryPanelPresenter() {
     //elemento controllato da questo presenter
     //this.element = document.getElementById("CallHistoryPanel");
 
