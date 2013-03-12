@@ -26,9 +26,7 @@ public class ChannelServlet extends WebSocketServlet implements Servlet {
 
 	public void init(ServletConfig config) throws ServletException {}
 
-	public void destroy() {
-		// TODO Auto-generated method stub
-	}
+	public void destroy() {}
 	
 	/**
 	 * Crea una websocket, la salva nel vettore di connessioni 

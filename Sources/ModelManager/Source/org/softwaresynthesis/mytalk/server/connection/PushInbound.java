@@ -19,6 +19,7 @@ private Long id;
 
 	@Override
 	protected void onBinaryMessage(ByteBuffer arg0) throws IOException {
+		throw(new Exception("Metodo non implementato"));
 	}
 
 	/**
