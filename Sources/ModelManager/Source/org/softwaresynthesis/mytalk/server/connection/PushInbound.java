@@ -1,7 +1,5 @@
 package org.softwaresynthesis.mytalk.server.connection;
 
-import ISecurityStrategy;
-
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
@@ -9,6 +7,10 @@ import java.util.List;
 
 import org.apache.catalina.websocket.MessageInbound;
 import com.google.gson.*;
+
+import org.softwaresynthesis.mytalk.server.abook.IUserData;
+import org.softwaresynthesis.mytalk.server.abook.IUserData.State;
+import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
 
 public class PushInbound extends MessageInbound {
 
@@ -19,7 +21,7 @@ private Long id;
 
 	@Override
 	protected void onBinaryMessage(ByteBuffer arg0) throws IOException {
-		throw(new Exception("Metodo non implementato"));
+		throw new IOException("Metodo non implementato");
 	}
 
 	/**
@@ -69,7 +71,7 @@ private Long id;
 		//notifica cambio stato ad utenti della rubrica
 		//array[1]= email, array[2]={available|||offline||occupied} per stato
 		else if (type.equals("5")){
-			UserDataDAO database= new UserDataDao();
+			UserDataDAO database= new UserDataDAO();
 			String email= gson.fromJson(array.get(1), String.class);
 			String state= gson.fromJson(array.get(2), String.class);
 			IUserData utente= database.getByEmail(email);

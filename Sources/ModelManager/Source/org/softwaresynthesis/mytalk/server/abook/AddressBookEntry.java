@@ -28,11 +28,9 @@ public class AddressBookEntry implements IAddressBookEntry
 	public String toJson() 
 	{
 		String contactJSON = this.contact.toJson();
-		String ownerJSON = this.owner.toJson();
 		String groupJSON = this.group.toJson();
 		String result = "{\"id\":\"" + this.getId() + "\"";
 		result += "\"contact\":\"" + contactJSON + "\"";
-		result += "\"owner\":\"" + ownerJSON + "\"";
 		result += "\"group\":\"" + groupJSON + "\"";
 		result += "\"blocked\":\"" + this.blocked + "\"";
 		return result;

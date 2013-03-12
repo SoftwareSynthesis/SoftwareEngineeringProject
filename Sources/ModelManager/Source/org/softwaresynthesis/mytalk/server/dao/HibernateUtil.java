@@ -12,7 +12,7 @@ public class HibernateUtil
 	private HibernateUtil()
 	{
 		Configuration conf = null;
-		String confDirectory = System.getenv("MyTalkConfiguration") + "hibernate.cfg.xml";
+		String confDirectory = System.getenv("MyTalkConfiguration") + "\\hibernate.cfg.xml";
 		try
 		{
 			conf = new Configuration();
