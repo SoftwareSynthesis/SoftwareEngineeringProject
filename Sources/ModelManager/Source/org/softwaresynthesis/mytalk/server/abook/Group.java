@@ -40,8 +40,8 @@ public class Group implements IGroup
 	@Override
 	public String toJson() 
 	{
-		String result = "{\"id\":" + this.getId() + "\"";
-		result += "\"name\":" + this.getName() + "\"}";
+		String result = "{\"id\":\"" + this.getId() + "\"";
+		result += "\"name\":\"" + this.getName() + "\"}";
 		return result;
 	}
 
