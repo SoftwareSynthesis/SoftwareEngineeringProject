@@ -8,9 +8,6 @@ function MessagePanelPresenter() {
 	/**********************************************************
     VARIABILI PRIVATE
     ***********************************************************/
-    // elemento controllato da questo presenter
-	// non serve più perché è creato al volo in createPanel()
-    //var element = document.getElementById("MessagePanel");
     //array di messaggi
     var messages = new Array();
     //url della servlet da contattare per i messaggi
@@ -35,6 +32,57 @@ function MessagePanelPresenter() {
     	
     }
     
+    /**
+     * Rende lo stato di un messaggio "letto" oppure "non letto"
+     *
+     * @author Riccardo Tresoldi
+     * @param idMessage il messaggio che deve essere modificato
+     * @param valueToSet [true: "letto"] oppure [false: "non letto"]
+     * @throws {String} un errore se il non è stato possibile cambiare lo stato del messaggio
+     */
+    function setAsRead(idMessage, valueToSet) {
+        var request = new XMLHttpRequest();
+        request.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                //ricevo un JSON contenente l'esito del
+                outcome = JSON.parse(request.responseText);
+            }
+        };
+        request.open("POST", urlServlet, "true");
+        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        request.send("idUser=" + communicationcenter.my.id + "&idMessage=" + idMessage + "&read=" + valueToSet);
+        if (!outcome) {
+        	throw "Impossibile impostare lo stato del messaggio a " + (valueToSet? " letto " : " non letto") + "!";
+        }
+    };
+    
+    /**
+     * Ottenere i messaggi di segreteria dal server
+     *
+     * @author Riccardo Tresoldi
+     */
+    function getMessages() {
+        var request = new XMLHttpRequest();
+        //il server ritorna i messaggi di segreteria dal server:
+        /*
+        [
+        {"id": "1", "src": "/messages/1.ogg", "mittente": "Tres", "tipo": "audio", "stato": "letto"},
+        {"id": "2", "src": "/messages/2.ogg", "mittente": "Mene", "tipo": "video", "stato": "non_letto"}
+        ]
+        */
+        request.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                messages = JSON.parse(request.responseText);
+            }
+        };
+
+        request.open("POST", urlServlet, "true");
+        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        //se c'è bisogno di passare piu parametri, agganciarli con &
+        //idUser deve essere dichiarata variabile globale
+        request.send("id=" + idUser);
+    };
+    
 	/**********************************************************
     METODI PUBBLICI
     ***********************************************************/
@@ -45,13 +93,10 @@ function MessagePanelPresenter() {
      * Il MessagePanel è costituito da un elemento video seguito da un 'div' che a sua volta
      * contiene una lista di messaggi.
      * 
-     * @returns {HTMLDivElement} il pannello contenente la segreteria telefonica
+     * @param {HTMLDivElement} il pannello contenente la segreteria telefonica
      * @author Riccardo Tresoldi
      */
-    this.createPanel = function() {
-        var element = document.createElement("div");
-        element.setAttribute("id", "MessagePanel");
-
+    this.createPanel = function(element) {
         //creo elemento <video>, <audio> e <img>(nel caso non ci sia video)
         var video = document.createElement("video");
         video.setAttribute("id", "messageVideo");
@@ -74,73 +119,22 @@ function MessagePanelPresenter() {
         element.appendChild(divMessageList);
         return element;
     };
-
-    /**
-     * Rende lo stato di un messaggio "letto" oppure "non letto"
-     *
-     * @author Riccardo Tresoldi
-     * @param idMessage il messaggio che deve essere modificato
-     * @param valueToSet [true: "letto"] oppure [false: "non letto"]
-     */
-    this.setAsRead = function(idMessage, valueToSet) {
-        var request = new XMLHttpRequest();
-        request.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                //ricevo un JSON contenente l'esito del
-                outcome = JSON.parse(requesto.responseText);
-            }
-        };
-        request.open("POST", urlServlet, "true");
-        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        //se c'è bisogno di passare piu parametri, agganciarli con &
-        //idUser deve essere dichiarata variabile globale
-        request.send("idUser=" + idUser + "&idMessage=" + idMessage + "&read=" + valueToSet);
-    };
-
-    /**
-     * Ottenere i messaggi di segreteria dal server
-     *
-     * @author Riccardo Tresoldi
-     */
-    this.getMessages = function() {
-        var request = new XMLHttpRequest();
-        //il server ritorna i messaggi di segreteria dal server:
-        /*
-        [
-        {"id": "1", "src": "/messages/1.ogg", "mittente": "Tres", "tipo": "audio", "stato": "letto"},
-        {"id": "2", "src": "/messages/2.ogg", "mittente": "Mene", "tipo": "video", "stato": "non_letto"}
-        ]
-        */
-        //var that = this;
-        request.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                //ricevo un JSON contenente tutti i contatti della mia rubrica e li inserisco nell'array dichiarato globalmente "AddresssBookList"
-                messages = JSON.parse(request.responseText);
-                // probabile problema: risolvere con that.contacts
-            }
-        };
-
-        request.open("POST", urlServlet, "true");
-        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        //se c'è bisogno di passare piu parametri, agganciarli con &
-        //idUser deve essere dichiarata variabile globale
-        request.send("id=" + idUser);
-    };
-
+    
     /**
      * Settare la lista dei messaggi
      *
+     * @param {HTMLDivElement} element
+     * @returns {HTMLDivElement}
      * @author Riccardo Tresoldi
      */
-    this.setup = function() {
-        //estraggo l'<ul> della lista messaggi e lo inizializzo
-        var ulList = element.getElementById("messageList");
-        ulList.innerHTML = "";
-
-        for (var message in this.messages) {
+    this.setup = function(element) {
+        var ulMessages = document.createElement("ul");
+        for (var message in messages) {
             //ciclo i messaggi e aggiungo un <li> per ogni contatto
-            this.addListItem(ulList, message);
+            this.addListItem(ulMessages, message);
         }
+        element.appendChild(ulMessages);
+        return element;
     };
 
     /* TODO

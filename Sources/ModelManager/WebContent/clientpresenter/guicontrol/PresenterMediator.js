@@ -131,8 +131,10 @@ function PresenterMediator() {
      * @author Diego Beraldin
      */
     this.displayMessagePanel = function() {
-    	var messagePanel = messagepp.createPanel();
-    	presenters["main"].displayChildPanel(messagePanel);
+    	var element = document.createElement("div");
+    	element.setAttribute("id", "MessagePanel");
+    	element = messagepp.createPanel(element);
+    	presenters["main"].displayChildPanel(element);
     };
     
     /**
@@ -140,12 +142,14 @@ function PresenterMediator() {
      * visualizzazione all'interno del MainPanel.
      * 
      * @see MainPanel#displayChildPanel({HTMLDivElement})
-     * @see AccountSettingsPanelPresenter#createPanel()
+     * @see AccountSettingsPanelPresenter#createPanel({HTMLDivElement})
      * @author Diego Beraldin
      */
     this.displayAccountSettingsPanel = function() {
-    	var accountSettingsPanel = accountsettingspp.createPanel();
-    	presenters["main"].displayChildPanel(accountSettingsPanel);
+    	var element = document.createElement("div");
+    	element.setAttribute("id", "AccountSettingsPanel");
+    	element = callhistorypp.createPanel(element);
+    	presenters["main"].displayChildPanel(element);
     };
     
     /**
@@ -153,11 +157,13 @@ function PresenterMediator() {
      * visualizzazione all'interno del MainPanel.
      * 
      * @see MainPanel#displayChildPanel({HTMLDivElement})
-     * @see AccountSettingsPanelPresenter#createPanel()
+     * @see AccountSettingsPanelPresenter#createPanel({HTMLDivElement})
      * @author Diego Beraldin
      */
-    this.displayAccountSettingsPanel = function() {
-    	var callHistoryPanel = callhistorypp.createPanel();
-    	presenters["main"].displayChildPanel(callHistoryPanel);
+    this.displayCallHistoryPanel= function() {
+    	var element = document.createElement("div");
+    	element.setAttribute("id", "CallHistoryPanel");
+    	element = callhistorypp.createPanel(element);
+    	presenters["main"].displayChildPanel(element);
     };
 }
