@@ -142,4 +142,65 @@ Le verifiche relative alla parte \inglese{View} saranno al contrario effettuati 
 I test per la parte \inglese{Model} sono stati predisposti ed eseguiti usufruendo della libreria JUnit, in quanto questa parte della struttura è implementata mediante codice java.
 Per il componente \inglese{Presenter} si è deciso invece di usufruire di QUnit, coerentemente con il linguaggio scelto (JavaScript) che lo implementa.
 
+\subsection{Model}
+I test su questa parte del sistema mirano a verificare che la persistenza dei dati all'interno del server sia gestita correttamente dal database.
+Per l'esecuzione di questi test si è usata, coerentemente con le norme di progetto, la libreria \textit{JUnit}.
+Ogni test è inoltre stato eseguito più volte in modo da avere uno spettro più ampio di misurazioni e produrre una verifica più stabile e oggettiva possibile.
+
+\subsubsection{AESAlgorithmTest.java}
+L'obbiettivo di questo test è assicurare che l'algrotimo di cittografia AES utilizzato dal sistema \caName risulti affidabile e riesca a codificare e decodificare una stringa passata.
+Tale test si compone di un solo metodo:
+
+\begin{itemize}
+\item \textit{testEncodeAndDecode() } effettua la codifica di una stringa passata, effettua successivamente la decodifica della stessa e la controlla con l'originale per verificarne l'uguaglianza.
+\end{itemize}
+\textbf{Risultato del test:} non sono stati rilevati errori.
+
+\begin{table}
+\end{table}
+
+\subsubsection{AuthenticationDataTest.java}
+L'obbiettivo di questo test è assicurare l'uguaglianza tra due oggetti che rappresentano le credenziali dell'utente inserite volutamente con gli stessi dati. Successivamente verrà effettuata anche una negazione di tale test per assicurarne l'efficacia.
+Tale test si compone di due metodi:
+\begin{itemize}
+\item \textit{equalsTest() } testa che due oggetti diversi contenenti gli stessi dati passati al metodo restituiscano \textit{true} solo se sono effettivamente uguali.
+\item \textit{differentTest()}testa che due oggetti diversi contenenti diversi dati passati al metodo restituiscano \textit{true} solo se sono effettivamente differenti.
+\end{itemize}
+\textbf{Risultato del test:} non sono stati rilevati errori.
+
+\begin{table}
+\end{table}
+
+\subsubsection{AuthenticationModuleTest.java}
+*Descrizione*
+Tale test si compone di X metodi:
+\begin{itemize}
+\item \textit{loginTest() }
+\item \textit{logoutTest() }
+\item \textit{abortTest() }
+\end{itemize}
+\textbf{Risultato del test:} non sono stati rilevati errori.
+
+\begin{table}
+\end{table}
+
+\subsubsection{CredentialLoaderTest.java}
+L'obbiettivo di questo test è assicurare che il vettore in cui celle contiente tutte le credenziali d'accesso dell'utente (coppia \textit{username-password}) venga popolato correttamente.
+Tale test si compone di un solo metodo metodi:
+\begin{itemize}
+\item \textit{testloarder() } tale metodo carica nel vettore i campi \textit{username} e \textit{password} e controlla che siano effettivamente stati inseriti e i dati siano coerenti (uguali) con quelli iniziali.
+\end{itemize}
+\textbf{Risultato del test:} non sono stati rilevati errori.
+
+
+\subsubsection{1}
+*Descrizione*
+Tale test si compone di X metodi:
+\begin{itemize}
+\item \textit{() }
+\end{itemize}
+Nella tabella seguente sono riportati i dati rilevati in fase di test.
+
+
+
 \end{document}
