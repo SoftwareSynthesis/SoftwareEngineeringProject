@@ -53,13 +53,6 @@ public class TestManager extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter writer = response.getWriter();
-		writer.println("<DOCTYPE html>");
-		writer.println("<html lang=\"it\">");
-		writer.println("  <head>");
-		writer.println("    <title>Test</title>");
-		writer.println("    <meta charset=\"UTF-8\" />");
-		writer.println("  </heady>");
-		writer.println("  <body>");
 		writer.println("<ul>");
 		for (int i = 0; i < tests.length; i++) {
 			Result result = JUnitCore.runClasses(tests[i]);
@@ -74,8 +67,6 @@ public class TestManager extends HttpServlet {
 			}
 		}
 		writer.println("</ul>");
-		writer.println("  </body>");
-		writer.println("</html>");
 	}
 
 }
