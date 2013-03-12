@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
 import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
 
@@ -20,8 +21,6 @@ import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
 public final class LoginManager extends HttpServlet
 {
 	private static final long serialVersionUID = 10000123L;
-	
-	private LoginContext context;
        
     /**
      * Inizializza la servlet, definendo eventuali
@@ -33,7 +32,6 @@ public final class LoginManager extends HttpServlet
     public LoginManager() 
     {
         super();
-        context = null;
     }
 
 	/**
@@ -66,6 +64,7 @@ public final class LoginManager extends HttpServlet
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		Integer type = -1;
+		HttpSession session = null;
 		Object operation = request.getParameter("operation");
 		PrintWriter writer = null;
 		String result = null;
@@ -77,15 +76,18 @@ public final class LoginManager extends HttpServlet
 		{
 			case 0:
 			{
-				
+				session = request.getSession(false);
+				this.doLogout(session);
+				session.invalidate();
 			}break;
 			case 1:
 			{
 				String username = request.getParameter("username");
 				String password = request.getParameter("password");
+				session = request.getSession(true);
 				if (username != null && password != null)
 				{
-					result = this.doLogin(username, password);
+					result = this.doLogin(session, username, password);
 				}
 				else
 				{
@@ -124,11 +126,12 @@ public final class LoginManager extends HttpServlet
 	 * @return	{@link String} con l'utente in formato JSON se
 	 * 			il login è superato, altrimenti "null"
 	 */
-	private String doLogin(String username, String password)
+	private String doLogin(HttpSession session, String username, String password)
 	{
 		AuthenticationData credential = new AuthenticationData(username, password);
 		CredentialLoader loader = null;
 		IUserData user = null;
+		LoginContext context = null;
 		String pathFileConfig = System.getenv("MyTalkConfiguration") + "\\LoginConfiguration.conf";
 		String result = null;
 		UserDataDAO userDAO = null;
@@ -138,6 +141,7 @@ public final class LoginManager extends HttpServlet
 			context = new LoginContext(pathFileConfig, loader);
 			userDAO = new UserDataDAO();
 			context.login();
+			session.setAttribute("LoginContext", context);
 			user = userDAO.getByEmail(username);
 			result = user.toJson();
 		}
@@ -146,5 +150,26 @@ public final class LoginManager extends HttpServlet
 			result = "null";
 		}
 		return result;
+	}
+	
+	private void doLogout(HttpSession session)
+	{
+		LoginContext context = null;
+		Object objContext = null;
+		if (session != null)
+		{
+			objContext = session.getAttribute("LoginContext");
+			if (objContext instanceof LoginContext)
+			{
+				context = (LoginContext)objContext;
+				try
+				{
+					context.logout();
+				}
+				catch (Exception ex)
+				{
+				}
+			}
+		}
 	}
 }
