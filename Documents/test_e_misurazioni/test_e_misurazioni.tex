@@ -147,10 +147,10 @@ I test su questa parte del sistema mirano a verificare che la persistenza dei da
 Per l'esecuzione di questi test si è usata, coerentemente con le norme di progetto, la libreria \textit{JUnit}.
 Ogni test è inoltre stato eseguito più volte in modo da avere uno spettro più ampio di misurazioni e produrre una verifica più stabile e oggettiva possibile.
 
-\subsubsection{AESAlgorithmTest.java}
-L'obbiettivo di questo test è assicurare che l'algrotimo di cittografia AES utilizzato dal sistema \caName risulti affidabile e riesca a codificare e decodificare una stringa passata.
+\subsubsection{AESAlgorithmTest}
+\textbf{Verifica la Classe:}\textit{AESAlgorithm}.\\
+\textbf{Descrizione}:l'obbiettivo di questo test è assicurare che l'algrotimo di cittografia AES utilizzato dal sistema \caName risulti affidabile e riesca a codificare e decodificare una stringa passata.
 Tale test si compone di un solo metodo:
-
 \begin{itemize}
 \item \textit{testEncodeAndDecode() } effettua la codifica di una stringa passata, effettua successivamente la decodifica della stessa e la controlla con l'originale per verificarne l'uguaglianza.
 \end{itemize}
@@ -159,11 +159,12 @@ Tale test si compone di un solo metodo:
 \begin{table}
 \end{table}
 
-\subsubsection{AuthenticationDataTest.java}
-L'obbiettivo di questo test è assicurare l'uguaglianza tra due oggetti che rappresentano le credenziali dell'utente inserite volutamente con gli stessi dati. Successivamente verrà effettuata anche una negazione di tale test per assicurarne l'efficacia.
+\subsubsection{AuthenticationDataTest}
+\textbf{Verifica la Classe:} \textit{AuthenticationData}.\\
+\textbf{Descrizione}:l'obbiettivo di questo test è assicurare l'uguaglianza tra due oggetti che rappresentano le credenziali dell'utente inserite volutamente con gli stessi dati. Successivamente verrà effettuata anche una negazione di tale test per assicurarne l'efficacia.
 Tale test si compone di due metodi:
 \begin{itemize}
-\item \textit{equalsTest() } testa che due oggetti diversi contenenti gli stessi dati passati al metodo restituiscano \textit{true} solo se sono effettivamente uguali.
+\item \textit{equalsTest() } testa che due oggetti diversi contenenti gli stessi dati passati al metodo restituiscano \textit{true} solo se sono effettivamente uguali;
 \item \textit{differentTest()}testa che due oggetti diversi contenenti diversi dati passati al metodo restituiscano \textit{true} solo se sono effettivamente differenti.
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
@@ -171,7 +172,7 @@ Tale test si compone di due metodi:
 \begin{table}
 \end{table}
 
-\subsubsection{AuthenticationModuleTest.java}
+\subsubsection{AuthenticationModuleTest}
 *Descrizione*
 Tale test si compone di X metodi:
 \begin{itemize}
@@ -184,11 +185,87 @@ Tale test si compone di X metodi:
 \begin{table}
 \end{table}
 
-\subsubsection{CredentialLoaderTest.java}
-L'obbiettivo di questo test è assicurare che il vettore in cui celle contiente tutte le credenziali d'accesso dell'utente (coppia \textit{username-password}) venga popolato correttamente.
+\subsubsection{CredentialLoaderTest}
+\textbf{Verifica la Classe:} \textit{CredentialLoarder}.\\
+\textbf{Descrizione}:l'obbiettivo di questo test è assicurare che il vettore in cui celle contiente tutte le credenziali d'accesso dell'utente (coppia \textit{username-password}) venga popolato correttamente.
 Tale test si compone di un solo metodo metodi:
 \begin{itemize}
 \item \textit{testloarder() } tale metodo carica nel vettore i campi \textit{username} e \textit{password} e controlla che siano effettivamente stati inseriti e i dati siano coerenti (uguali) con quelli iniziali.
+\end{itemize}
+\textbf{Risultato del test:} non sono stati rilevati errori.
+
+
+\subsubsection{UserDataDAOTest}
+\textbf{Verifica la Classe:} \textit{UserDataDAO}.\\
+\textbf{Descrizione}:l'obbiettivo di questo test è assicurare la corretta esecuzione delle operazioni CRUD (\textit{Create, Read, Update, Delete}) per gli oggetti di tipo \textit{UserData} verso il database. 
+Tale test si compone di 5 metodi:
+\begin{itemize}
+\item \textit{testInsert()} tale metodo ha lo scopo di verificare il corretto inserimento di uno \textit{userdata} all'interno del database;
+\item \textit{testGetByEmail()} ha lo scopo di verificare il prelevamento dal database di uno \textit{userdata} tramite l'indirizzo mail con cui si è registrato nel sistema;
+\item \textit{testUpdate() } verifica se le modifiche ad un oggetto \textit{userdata} siano effettive nel database;
+\item \textit{testDelete() } verifica l'effettiva cancellazione di uno \textit{userdata} dal database.
+\item \textit{testSearchGeneric()} verifica che sia presente uno \textit{userdata} nel database mediante la ricerca fatta cercando un parametro di input che ha una corrispondenza con uno o più campi tra \textit{nome, cognome, email}.
+\end{itemize}
+\textbf{Risultato del test:} non sono stati rilevati errori.
+
+
+\subsubsection{HybernateUtilTest}
+\textbf{Verifica la Classe:} \textit{HybernateUtil}.\\
+\textbf{Descrizione}:l'obbiettivo di questo test è assicurare la corretta esecuzione dei metodi della classe \textit{HibernateUtil}. 
+Tale test si compone di due metodi:
+\begin{itemize}
+\item \textit{testIstance() } l'obbiettivo di questo test è testare l'effettiva presenza di un unica istanza della classe textit{HibernateUtil} mediante la creazione di due istanze e verificando che entrambi puntino alla stessa istanza dell'oggetto;
+\item \textit{testGetFactory()} ha lo scopo di verifcare la presenza di una \textit{sessionFactory} configurata correttamente per la comunicazione con il database.
+\end{itemize}
+\textbf{Risultato del test:} non sono stati rilevati errori.
+
+
+\subsubsection{AdressBookEntryTest}
+\textbf{Verifica la Classe:} \textit{AdressBookEntry}.\\
+L\textbf{Descrizione}:l'obbiettivo di questo test è verificare la corretta conversione di un istanza di \textit{AddressBookEntry}.
+Tale test si compone di un solo metodo:
+\begin{itemize}
+\item \textit{testToJson() } tale metodo riceve una stringa in formato json di una 	\textit{entry} della rubrica e verifica che quest'ultima sia equivalente a quella ottenuta dalla chiamata al metodo \textit{ToJson} sull'istanza della classe \textit{AddressBookEntry}.
+\item{testEquals()} viene creato un oggetto \textit{AdressBookEntry} e viene confrontato con l'istanza dell'oggetto che ha invocato il metodo, restituendo \textit{true} se e solo se sono uguali.
+\end{itemize}
+\textbf{Risultato del test:} non sono stati rilevati errori.
+
+
+\subsubsection{GroupTest}
+\textbf{Verifica la Classe:} \textit{Group}.\\
+\textbf{Descrizione}:l'obbiettivo di questo test è verificare la corretta conversione di un istanza di \textit{Group}.
+Tale test si compone di un solo metodo:
+\begin{itemize}
+\item \textit{testToJson() } tale metodo riceve una stringa in formato json di una 	\textit{entry} della rubrica e verifica che quest'ultima sia equivalente a quella ottenuta dalla chiamata al metodo \textit{ToJson} sull'istanza della classe \textit{Group}.
+\item \textit{testId() } verifica l'effettivo inserimento del campo \textit{id} mediante il metodo \textit{getId()};
+\item \textit{testName() } verifica l'effettivo inserimento del campo \textit{name} mediante il metodo \textit{getName()};
+\item{testEquals()} viene creato un oggetto \textit{AdressBookEntry} e viene confrontato con l'istanza dell'oggetto che ha invocato il metodo, restituendo \textit{true} se e solo se sono uguali.
+\end{itemize}
+\textbf{Risultato del test:} non sono stati rilevati errori.
+
+\subsubsection{UserDataTest}
+\textbf{Verifica la Classe:} \textit{UserData}.\\
+\textbf{Descrizione}:l'obbiettivo di questo test è verificare la corretta conversione di un istanza di \textit{DataTest}. La classe inizializza inoltre un istanza di tale classe, impostandone i campi membro attraverso i metodi \textit{set}. Successivamente mediante i metodi \textit{get} vengono verificati gli effettivi inserimenti.
+Tale test si compone di otto metodi:
+\begin{itemize}
+\item \textit{testToJson() } tale metodo riceve una stringa in formato json di una 	\textit{entry} della rubrica e verifica che quest'ultima sia equivalente a quella ottenuta dalla chiamata al metodo \textit{ToJson} sull'istanza della classe \textit{DataTest};
+\item \textit{testId() } verifica l'effettivo inserimento del campo \textit{id} mediante il metodo \textit{getId()};
+\item \textit{testEmail() } verifica l'effettivo inserimento del campo \textit{email} mediante il metodo \textit{getEmail()};
+\item \textit{testPassword() } verifica l'effettivo inserimento del campo \textit{password} mediante il metodo \textit{getPassword()};
+\item \textit{testQuestion() } verifica l'effettivo inserimento del campo \textit{question} mediante il metodo \textit{getQuestion()};
+\item \textit{testAnswer() } verifica l'effettivo inserimento del campo \textit{answer} mediante il metodo \textit{getAnswer()};
+\item \textit{testName() } verifica l'effettivo inserimento del campo \textit{name} mediante il metodo \textit{getName()};
+\item \textit{testSurname() } verifica l'effettivo inserimento del campo \textit{surname} mediante il metodo \textit{getSurname()};
+\item \textit{testPicturePath() } verifica l'effettivo inserimento del campo \textit{picturePath} mediante il metodo \textit{getPicturePath()};
+\item{testEquals()} verranno creati due oggetti \textit{UserData} contenenti gli stessi dati, tale metodo restituirà \textit{true} se e solo se sono effettivamente uguali.
+\end{itemize}
+\textbf{Risultato del test:} non sono stati rilevati errori.
+
+\subsubsection{}
+*Descrizione*
+Tale test si compone di X metodi:
+\begin{itemize}
+\item \textit{() }
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
@@ -199,8 +276,7 @@ Tale test si compone di X metodi:
 \begin{itemize}
 \item \textit{() }
 \end{itemize}
-Nella tabella seguente sono riportati i dati rilevati in fase di test.
-
+\textbf{Risultato del test:} non sono stati rilevati errori.
 
 
 \end{document}
