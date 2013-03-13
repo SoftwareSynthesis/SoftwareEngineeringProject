@@ -1,11 +1,9 @@
 module ("Test di AccontSettingsPanelPresenter", {
     setup:
         function() {
-			communicationcenter=new Object();
-			communicationcenter.my={name:"Maria",surname:"Goretti",email:"margor@email.it",picturePath:"xx.png"};
-			test=new AccountSettingsPanelPresenter();
-			element=document.createElement("div");				
-									},
+			communicationcenter = new Object();
+			communicationcenter.my = {name:"Maria", surname:"Goretti", email:"margor@email.it", picturePath:"xx.png"};
+			test = new AccountSettingsPanelPresenter();								},
 	teardown: 
 		function(){}
 	}
@@ -13,13 +11,53 @@ module ("Test di AccontSettingsPanelPresenter", {
 
 /* dentro setup le variabili DEVONO esssere GLOBALI*/
 
-test("Test della funzione CreatePanel()",
+test("Test della funzione createPanel()",
     function () {
-		expect(1);
-		var x=test.createPanel(element);
-		var list=x.childNodes;
-	
-		equal(list.length,3,"lunghezza � 3");
-	
+		var i = 0;
+		
+		// creo l'elemento 'AccountSettingsPanel'
+		var element = test.createPanel();
+		// estraggo la lista dei figli di questo pannello
+		var list = element.childNodes;
+		// controllo che abbia esattamente tre figli
+		equal(list.length,3,"il numero di figli dell'elemento restituito e' 3");
+		i++;
+		
+		// controllo che il primo figlio sia la mia immagine personale
+		equal(list[0].nodeName, "IMG", "il primo figlio dell'emenento e' un'immagine");
+		i++;
+		
+		// controllo che il secondo figlio sia una lista
+		equal(list[1].nodeName, "UL", "il primo figlio dell'emenento e' una lista");
+		i++;
+		
+		// controllo che il terzo elemento sia un bottone
+		equal(list[2].nodeName, "BUTTON", "il primo figlio dell'emenento e' un bottone");
+		i++;
+		
+		// estraggo la lista dei dati personali e testo tutti i suoi nodi
+		var items = list[1].childNodes;
+		equal(items.length, 3, "i dati personali sono 4 elementi");
+		i++;
+		var name = items[0].innerHTML;// estraggo il <li>Maria</li>
+		equal(name, "Maria", "il nome è corretto");
+		i++;
+		var surname = items[1].innerHTML;
+		equal(surname, "Goretti", "il cognome è corretto");
+		i++;
+		var email = items[2].innerHTML;
+		equal(email, "margor@email.it", "l'email è corretta");
+		i++;
+		
+		// testo l'immagine
+		var picture = list[0].getAttribute("src");
+		equal(picture, "xx.png", "l'immagine ha il percorso corretto");
+		i++;
+		
+		// testo il contenuto del bottone
+		var text = list[2].innerHTML;
+		equal(text, "Modifica dati", "il testo del bottone è corretto");
+		i++;
+		expect(i);
     });
 

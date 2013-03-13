@@ -146,8 +146,6 @@ function PresenterMediator() {
      * @author Diego Beraldin
      */
     this.displayAccountSettingsPanel = function() {
-    	//var element = document.createElement("div");
-    	//element.setAttribute("id", "AccountSettingsPanel");
     	var element = callhistorypp.createPanel();
     	presenters["main"].displayChildPanel(element);
     };
