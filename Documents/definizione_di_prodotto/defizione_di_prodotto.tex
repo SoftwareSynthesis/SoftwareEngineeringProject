@@ -925,23 +925,21 @@ Permette di caricare le credenziali di autenticazione, fornite dall'utente, per 
 
 \classsection{LoginManager}
 
-%TODO da completare doLogin, doLogout
-
 \subsubsection*{Funzione}
-\inglese{Servlet} per da richiamare per effettuare la login e la corrispettiva autenticazione dell'utente.
+\inglese{Servlet} da richiamare per effettuare la login e la corrispettiva autenticazione dell'utente.
 
 \subsubsection*{Relazioni d'uso}
 \begin{itemize}
-	\item \texttt{java.io.IOException}
-	\item \texttt{java.io.PrintWriter}
-	\item \texttt{javax.security.auth.login.LoginContext}
-	\item \texttt{javax.servlet.ServletException}
-	\item \texttt{javax.servlet.http.HttpServlet}
-	\item \texttt{javax.servlet.http.HttpServletRequest}
-	\item \texttt{javax.servlet.http.HttpServletResponse}
-	\item \texttt{javax.servlet.http.HttpSession}
-	\item \classname{abook.IUserData}
-	\item \classname{dao.UserDataDAO}
+	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
+	\item \texttt{javax.security.auth.login.LoginContext}: classe usata in \method{doPost()} per avviare la login dell'utente.
+	\item \texttt{javax.servlet.ServletException}: eccezione rilancibile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{LoginManager}.
+	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
+	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la servlet (inoltra i dati in uscita dalla chiamata a servlet).
+	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
+	\item \classname{abook.IUserData}: usata per definire un utente.
+	\item \classname{dao.UserDataDAO}: usata per comunicare tramite Hibernate con la tabella UserData della base di dati.
 \end{itemize}
 
 \subsubsection*{Attributi}
@@ -966,8 +964,30 @@ Permette di caricare le credenziali di autenticazione, fornite dall'utente, per 
 	\end{itemize}
 	
 	\item{\method{-- doLogin(session: HttpSession, username: String, password: String): String}}\\
+	Metodo per l'autenticazione dei dati utente e il completamento della fase di login. Il metodo inizia creando un'istanza di \classname{AutenthicationData} (denominata credential) a partire dai parametri username e password ricevuti da input. Quindi si carica la path del file di configurazione in un apposita stringa \texttt{pathFileConfig}, tramite la chiamata a metodo:\\
+	
+\verb|System.getenv("MyTalkConfiguration") + "\\LoginConfiguration.conf"|.\\
+
+Il flusso principale prosegue all'interno di un blocco \texttt{try-catch} creando:
+	\begin{itemize}
+		\item[•] un \classname{CredentialLoader} (loader);
+		\item[•] un \classname{LoginContext} (context);
+		\item[•] un \classname{dao.UserDataDao} (user);
+	\end{itemize}
+Quindi tramite context si esegue il login e si impostano gli attributi di sessione come segue: 
+
+\texttt{session.setAttribute("LoginContext", context);}
+
+Infine si carica in user un istanza di \classname{dao.UserDataDAO} ottenuta dalla chiamata a metodo \method{UserDataDAO.getByEmail()}, e restituendo user in un formato di formattazione \texttt{Json} (\texttt{user.toJson()}).
 	
 	\item{\method{-- doLogout(session: HttpSession)}}\\
+	Metodo richiamato da un client per eseguire il logout dal sistema. Il metodo deve iniziare tramite la definizione di un istanza  di \texttt{LoginContext} denominata context. Quindi il metodo procede effettuando la memorizzazione dell'oggetto ritornato da una chiamata
+\\
+\verb|session.getAttribute("LoginContext");|
+\\
+
+L'oggetto cosi ottenuto dovrà essere controllato, ovvero si dovrà accertare che il tipo dinamico è conforme al tipo \texttt{LoginContext} (il programmatore dovrà obbligatoriamente usare   la primitiva \texttt{istanceof}). Quindi si sovrascrive il contenuto di context con quanto ottenuto dalla chiamata a metodo sopracitata, e si richiama il metodo \texttt{logout()} a partire dall'oggetto context.
+
 
 \end{description}
 
