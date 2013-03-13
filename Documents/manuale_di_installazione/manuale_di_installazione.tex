@@ -1,0 +1,76 @@
+% **************************************************
+% Macro specifiche per il documento corrente
+% **************************************************
+% Nome
+\newcommand{\docName}{Manuale di installazione}
+% Nome file
+\newcommand{\docFileName}{manuale_di_installazione}
+% Versione
+\newcommand{\docVers}{1.0}
+% Data creazione
+\newcommand{\creationDate}{2013-03-13}
+% Data ultima modifica
+\newcommand{\modificationDate}{2013-03-15}
+% Stato in {Approvato, Non approvato}
+\newcommand{\docState}{Approvato}
+% Uso in {Interno, Esterno}
+\newcommand{\docUsage}{Esterno}
+% Destinatari da specificare come nome1\\ &nome2\\ ecc.
+\newcommand{\docDistributionList}{Installatore del sistema}
+% Redattori da specificare come nome1\\ &nome2\\ ecc.
+\newcommand{\docAuthors}{Stefano Farronato}
+% Approvato da
+\newcommand{\approvedBy}{Andrea Rizzi}
+% Verificatori
+\newcommand{\verifiedBy}{}
+% Perscorso (relativo o assoluto) che punta alla directory contenente shared/
+% come sua sottodirectory (per comodità chiamiamola 'doc root').
+\newcommand{\docRoot}{..}
+% definire se si vuole l'indice delle tabelle
+\def\INDICETABELLE{false}
+% definire se si vuole l'indice delle figure
+\def\INDICEFIGURE{false}
+
+% importa il preambolo condiviso da tutti i documenti
+\input{\docRoot/shared/preamble.tex}
+
+% Fine del preambolo e inizio del documento
+\begin{document}
+
+% Inclusione della prima pagina
+\input{\docRoot/shared/firstpage.tex}
+
+% Storico delle modifiche
+\section*{Storia delle modifiche}
+
+\begin{tabularx}{\textwidth}{lXlll}
+\toprule
+Versione & Descrizione intervento & Redattore & Ruolo & Data\\
+\midrule % inserire qui il contenuto della tabella
+0.1 & Prima stesura documento & Stefano Farronato & Amministratore & 2013-03-13\\
+\bottomrule
+\end{tabularx}
+\newpage
+
+% inclusione dell'indice
+\input{\docRoot/shared/toc.tex}
+
+% Alcuni aggiustamenti per le pagine
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\pagestyle{normal}
+
+\section{Introduzione}
+\subsection{Scopo del prodotto}
+Il prodotto ``MyTalk'' è un sistema software di comunicazione tra utenti mediante \underline{browser} internet, senza la necessità di installazione di \underline{plugin} e/o software esterni. Gli utenti avranno la possibilità di interagire mediante una comunicazione audio - audio/video - testuale ottenendo le statistiche sull'attività in tempo reale.
+
+\subsection{Scopo del Manuale}
+Lo scopo del presente manuale è quello di fornire una guida per l'installazione dell'applicazione. Tale documento contiene la descrizione delle operazioni da eseguire per portare a termine correttamente la fase di installazione e rendere quindi l'applicativo funzionante.
+
+\subsection{Destinatario del manuale}
+Questo manuale è rivolto agli installatori di sistema.
+
+\subsection{Prerequisiti}
+L'installatore deve avere a disposizione un server con installato Tomcat 7 e il DBMS MySQL.
+
+\end{document}
