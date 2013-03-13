@@ -1,23 +1,17 @@
-module ("Test di AccontSettingsPanelPresenter", {
+module ("Test di CallHistoryPanelPresenter", {
     setup:
         function() {
-			communicationcenter = new Object();
-			communicationcenter.my = {name:"Maria", surname:"Goretti", email:"margor@email.it", picturePath:"xx.png"};
-			test = new AccountSettingsPanelPresenter();								},
+			test = new HistoryPanelPresenter();								},
 	teardown: 
 		function(){}
 	}
 );
 
-/* dentro setup le variabili DEVONO esssere GLOBALI*/
-
-/*Tale test controlla il buon funzionamento dell'inizializzazione AccountSettingPanel
-controlla che l'albero sia stato costruito correttamente e per i vari nodi controlla che il loro contenuto sia stato inserito correttamente*/
 test("Test della funzione createPanel()",
     function () {
 		var i = 0;
 		
-		// creo l'elemento 'AccountSettingsPanel'
+		// creo l'elemento 'CallHistoryPanel'
 		var element = test.createPanel();
 		// estraggo la lista dei figli di questo pannello
 		var list = element.childNodes;
@@ -25,7 +19,7 @@ test("Test della funzione createPanel()",
 		equal(list.length,3,"il numero di figli dell'elemento restituito e' 3");
 		i++;
 		
-		// controllo che il primo figlio sia la mia immagine personale
+	/*	// controllo che il primo figlio sia la mia immagine personale
 		equal(list[0].nodeName, "IMG", "il primo figlio dell'elemento e' un'immagine");
 		i++;
 		
@@ -59,7 +53,7 @@ test("Test della funzione createPanel()",
 		// testo il contenuto del bottone
 		var text = list[2].innerHTML;
 		equal(text, "Modifica dati", "il testo del bottone è corretto");
-		i++;
+		i++;*/
 		expect(i);
     });
 
