@@ -4,14 +4,14 @@
  * @author Diego Beraldin
  */
 function CommunicationPanelPresenter(mediator) {
-    //elemento controllato da questo presenter
-    this.element = document.getElementById("CommunicationPanel");
-
     /**
      *
      * @author Elena Zecchinato
      */
-    this.initialize = function() {
+    this.createPanel = function() {
+    	var element = document.createElement("div");
+    	element.setAttribute("id", "CommunicationPanel");
+    	
         //azzero il div
         this.element.innerHTML = "";
         //creo div contenente la chiamata vera e propria
@@ -22,7 +22,9 @@ function CommunicationPanelPresenter(mediator) {
         divProfile.setAttribute("id", "divProfile");
 
         //apendo il sottoalbero al DOM
-        this.element.appendChild(divProfile);
-        this.element.appendChild(divChat);
+        element.appendChild(divProfile);
+        element.appendChild(divChat);
+        
+        return element;
     };
 }

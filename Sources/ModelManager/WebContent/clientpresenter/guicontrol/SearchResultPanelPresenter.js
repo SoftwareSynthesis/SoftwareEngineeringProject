@@ -67,11 +67,13 @@ function SearchResultPanelPresenter() {
 	 * 
 	 * @author Diego Beraldin
 	 */
-	this.initialize = function() {
-		element.display.style = "block";
+	this.createPanel = function() {
+		var element = document.createElement("div");
+		element.setAttribute("id", "SearchResultPanel");
 		userList = document.createElement("ul");
 		// aggiunge al sottoalbero il nuovo elemento
 		element.appendChild(userList);
+		return element;
 	};
 	
 	/**

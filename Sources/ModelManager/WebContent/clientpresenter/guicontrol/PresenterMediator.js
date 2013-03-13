@@ -131,9 +131,7 @@ function PresenterMediator() {
      * @author Diego Beraldin
      */
     this.displayMessagePanel = function() {
-    	var element = document.createElement("div");
-    	element.setAttribute("id", "MessagePanel");
-    	element = messagepp.createPanel(element);
+    	var element = messagepp.createPanel();
     	presenters["main"].displayChildPanel(element);
     };
     
@@ -159,9 +157,7 @@ function PresenterMediator() {
      * @author Diego Beraldin
      */
     this.displayCallHistoryPanel= function() {
-    	var element = document.createElement("div");
-    	element.setAttribute("id", "CallHistoryPanel");
-    	element = callhistorypp.createPanel(element);
+    	var element = callhistorypp.createPanel();
     	presenters["main"].displayChildPanel(element);
     };
 }

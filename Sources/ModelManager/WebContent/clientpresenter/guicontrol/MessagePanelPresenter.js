@@ -106,6 +106,8 @@ function MessagePanelPresenter() {
      * @author Riccardo Tresoldi
      */
     this.createPanel = function(element) {
+    	var element = document.createElement("div");
+    	element.setAttribute("id", "MessagePanel");
         // creo elemento <video>, <audio> e <img> (nel caso non ci sia video)
         var video = document.createElement("video");
         video.setAttribute("id", "messageVideo");

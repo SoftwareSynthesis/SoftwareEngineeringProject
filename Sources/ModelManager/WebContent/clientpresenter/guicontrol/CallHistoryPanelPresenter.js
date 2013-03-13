@@ -16,6 +16,8 @@ function CallHistoryPanelPresenter() {
      * @author Elena Zecchinato
      */
     this.createPanel = function(element) {
+    	var element = document.createElement("div");
+    	element.setAttribute("id", "CallHistoryPanel");
         // creo contenuto di CallHistory
         var ulHistory = document.createElement('ul');
         element.appendChild(ulHistory);

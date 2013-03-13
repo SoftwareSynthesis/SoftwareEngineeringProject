@@ -9,15 +9,16 @@
  * @author Elena Zecchinato
  */
 function ContactPanelPresenter() {
-  //elemento controllato da questo presenter
-  this.element = document.getElementById("ContactPanel");
-  
+ 
   /**
    * Inizializza il pannello che mostra le informazioni dei contatti
    * 
    * @author Elena Zecchinato
    */
-  this.initialize = function() {
+  this.createPanel = function() {
+	var element = document.createElement("div");
+	element.setAttribute("id", "ContactPanel");
+	
     var name = document.createElement('li');
     name.setAttribute("id", "contactName");
     
@@ -52,7 +53,8 @@ function ContactPanelPresenter() {
     
     
     //apendo il sottoalbero al DOM
-    this.element.appendChild(ulData);
+    element.appendChild(ulData);
+    return element;
   };
   
   /**
