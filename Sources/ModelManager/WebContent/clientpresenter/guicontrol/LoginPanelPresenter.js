@@ -139,17 +139,43 @@ function LoginPanelPresenter() {
                        METODI PUBBLICI
 ***********************************************************/
     /**
-     * Procedura che esegue il login prelevando le credenziali inserite nel
-     * form e inviando al server i dati di autenticazione
+     * Recupera lo username dall'interfaccia grafica utente
+     * 
+     * NOTA PER I VERIFICATORI
+     * Richiede che il 'document' abbia al suo interno un elemento di
+     * tipo '<input>' con 'id' uguale a 'username' contenente l'indirizzo
+     * email dell'utente che intende autenticarsi al sistema
+     * 
+     * @returns {String} lo username dell'utente
+     */
+    this.getUsername = function() {
+    	return document.getElementById("username").value;;
+    };
+    
+    /**
+     * Recupera lo username dall'interfaccia grafica utente
+     * 
+     * NOTA PER I VERIFICATORI
+     * Richiede che il 'document' abbia al suo interno un elemento di
+     * tipo '<input>' con 'id' uguale a 'password' contenente la password
+     * dell'utente che intende autenticarsi al sistema
+     * 
+     * @returns {String} lo username dell'utente
+     */
+    this.getPassword = function() {
+    	return document.getElementById("password").value;;
+    };
+    
+    
+    /**
+     * Procedura che esegue il login inviando al server i dati di autenticazione
      *
+     * @param {Object} un oggetto con proprietà 'username' e 'password'
+     * @returns {String} la string di query che viene inviata alla servlet
      * @author Diego Beraldin
      */
-    this.login = function() {
-        //recupera le credenziali dall'interfaccia grafica
-        var username = document.getElementById("username").value;
-        var password = document.getElementById("password").value;
-        
-        if (!username || username == "" || !password || password == "") {
+    this.login = function(data) {
+        if (!data.username || data.username == "" || !data.password || data.password == "") {
         	return;
         }
 
@@ -162,9 +188,10 @@ function LoginPanelPresenter() {
         };
         request.open("POST", this.servletURL, true);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        request.send("username=" + encodeURIComponent(username) +
-        		"&password=" + encodeURIComponent(password) +
-        		"&operation=1");
+        var querystring = "username=" + encodeURIComponent(data.username) +
+        				  "&password=" + encodeURIComponent(data.password) + "&operation=1";
+        request.send(querystring);
+        return querystring;
     };
     
     /**
@@ -242,7 +269,10 @@ function LoginPanelPresenter() {
         inputLogin.setAttribute("value", "Login");
         var self = this;
         inputLogin.onclick = function() {
-        	self.login();
+        	var data = new Object();
+        	data.username = self.getUsername();
+        	data.password = self.getPassword();
+        	self.login(data);
         };
         //pulsante di registrazione
         var inputRegister = document.createElement('input');
@@ -258,6 +288,7 @@ function LoginPanelPresenter() {
         inputRetrievePassword.setAttribute("type", "submit");
         inputRetrievePassword.setAttribute("value", "Recupera password");
         inputRetrievePassword.onclick = function() {
+        	// TODO questo deve diventare un qualcosa di pubblico
         	retrievePassword(inputUserName.getAttribute("value"));
         };
 
