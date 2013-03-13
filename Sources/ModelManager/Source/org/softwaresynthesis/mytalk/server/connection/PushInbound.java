@@ -14,10 +14,15 @@ import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
 
 public class PushInbound extends MessageInbound {
 
-private Long id;
+	public static enum State {AVAILABLE, OCCUPIED;};
+	
+	private Long id;
+	private State state;
 	
 	public void setId(Long n){id=n;}
 	public Long getId(){return id;}
+	public State getState()	{return state;}
+	public void setState(State stato) {state = stato;}
 
 	@Override
 	protected void onBinaryMessage(ByteBuffer arg0) throws IOException {
@@ -73,11 +78,10 @@ private Long id;
 		else if (type.equals("5")){
 			UserDataDAO database= new UserDataDAO();
 			String email= gson.fromJson(array.get(1), String.class);
-			String state= gson.fromJson(array.get(2), String.class);
+			String status= gson.fromJson(array.get(2), String.class);
 			IUserData utente= database.getByEmail(email);
-			if(state.equals("available")){utente.setState(State.AVAILABLE);}
-			if(state.equals("offline")){utente.setState(State.OFFLINE);}						
-			if(state.equals("occupied")){utente.setState(State.OCCUPIED);}
+			if(status.equals("available")){setState(State.AVAILABLE);}					
+			if(status.equals("occupied")){setState(State.OCCUPIED);}
 			
 			//ricavo tutti gli amici con metodo da definire
 			List<IUserData> friends= utente.getAddressBook();

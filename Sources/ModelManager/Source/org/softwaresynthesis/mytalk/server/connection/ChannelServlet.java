@@ -17,7 +17,7 @@ import org.apache.catalina.websocket.WebSocketServlet;
 @WebServlet(description = "Signaling channel", urlPatterns = { "/ChannelServlet" })
 public class ChannelServlet extends WebSocketServlet implements Servlet {
 	private static final long serialVersionUID = 1L;
-	private static Vector<PushInbound> clients= new Vector<PushInbound>();
+	private static Map<String, PushInbound> clients= new HashMap<>();
 
     public ChannelServlet() {
         super();
@@ -38,7 +38,8 @@ public class ChannelServlet extends WebSocketServlet implements Servlet {
 	@Override
 	protected StreamInbound createWebSocketInbound(String subProtocol, HttpServletRequest request) {
 		PushInbound channelClient = new PushInbound();
-		clients.add(channelClient);
+		clients.put(channelClient.getId(), channelClient);
+		channelClient.setState(State.AVAILABLE);
 	    return channelClient;
 	}
 	
@@ -49,12 +50,11 @@ public class ChannelServlet extends WebSocketServlet implements Servlet {
 	 * @param 	n		{@link Long} identificativo del canale
 	 */
 	public static PushInbound findClient(Long n){
-		for(int i=0; i<clients.size(); i++){
-			if(((clients.get(i)).getId())==n){
-				return clients.get(i);
-			}
-		}
-		return null;
+		PushInbound client= clients.get(c);
+		if(client)
+			return client;
+		else
+			return null;
 	}
 	
 	/**
@@ -64,9 +64,9 @@ public class ChannelServlet extends WebSocketServlet implements Servlet {
 	 * @param 	n		{@link PushInbound} canale da rimuovere
 	 */
 	public static void removeClient(PushInbound c){
-		for(int i=0; i<clients.size(); i++){
-			if((clients.get(i)==c)){
-				clients.remove(i);
+		for (String key : clients.keySet()) {
+			if (clients.get(key)==c) {
+				clients.remove(key) ;
 			}
 		}
 	}
