@@ -11,9 +11,7 @@ import org.junit.Test;
  * @version %I%, %G%
  */
 public class HibernateUtilTest 
-{
-	private static HibernateUtil tester;
-	
+{	
 	/**
 	 * Testa l'effettiva presenza di un unica
 	 * istanza della classe
@@ -24,11 +22,10 @@ public class HibernateUtilTest
 	@Test
 	public void testInstance()
 	{
-		HibernateUtil instance = null;
-		tester = HibernateUtil.getInstance();
-		instance = HibernateUtil.getInstance();
-		assertNotNull(tester);
-		assertNotNull(instance);
-		assertEquals(tester, instance);
+		HibernateUtil instance1 = HibernateUtil.getInstance();
+		HibernateUtil instance2 = HibernateUtil.getInstance();
+		assertNotNull(instance1);
+		assertNotNull(instance2);
+		assertEquals(instance1, instance2);
 	}
 }
