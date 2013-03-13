@@ -184,7 +184,7 @@ function AccountSettingsPanelPresenter() {
         
         var mailNode = document.createElement('li');
         mailNode.setAttribute("id", "mail");
-        mailNode.appendChild(document.createTextNode(communicationcenter.my.mail));
+        mailNode.appendChild(document.createTextNode(communicationcenter.my.email));
 
         var pictureNode = document.createElement('img');
         pictureNode.setAttribute("id", "picture");
