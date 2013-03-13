@@ -795,14 +795,31 @@ Oggetto che permette di identificate univocamente uno IUserData memorizzato nel 
 	Restituisce l'istanza dell'oggetto sotto forma di stringa. In particolare evidenziando l'indirizzo e-mail dell'utente.
 \end{description}
 
+\classsection{IAuthenticationData}
+
+\subsubsection*{Funzione}
+Interfaccia che identifica il comportamento di un oggetto adatto alla definizione dei dati di autenticazione di un utente.
+
+\subsubsection*{Relazioni d'uso}
+Nessuna relazione d'uso evidenziata.
+
+\subsubsection*{Metodi}
+\begin{description}
+	\item{\method{+ getUsername(): String}}\\
+Restituisce lo username fornito in input dall'utente durante la procedura di login.
+	\item{\method{+ getPassword(): String}}\\
+Restituisce la password fornita in input dall'utente durante la procedura di login
+\end{description}
+
 \classsection{AuthenticationData}
 
 \subsubsection*{Funzione}
 Oggetto contenente i dati di accesso utilizzati da un utente che vuole accedere al sistema mytalk.
 
 \subsubsection*{Relazioni d'uso}
-
-Nessuna relazione evidenziata.
+\begin{itemize}
+	\item \classname{IAuthenticationData}: interfaccia da implementare.
+\end{itemize}
 
 \subsubsection*{Attributi}
 \begin{description}
