@@ -26,7 +26,7 @@ function PresenterMediator() {
     //TODO deve esistere anche GroupPanelPresenter?
     
     /**********************************************************
-    METODI PRIVATI
+    METODI PUBBLICI
     ***********************************************************/
 
     /**

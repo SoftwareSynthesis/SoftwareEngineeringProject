@@ -12,7 +12,10 @@ function ContactPanelPresenter() {
  
   /**
    * Inizializza il pannello che mostra le informazioni dei contatti
+   * della rubrica, quando ne viene selezionato uno dal pannello 
+   * della rubrica
    * 
+   * @returns {HTMLDivElement} pannello 'ContactPanel' costruito
    * @author Elena Zecchinato
    */
   this.createPanel = function() {
@@ -59,7 +62,12 @@ function ContactPanelPresenter() {
   
   /**
    * Visualizza un contatto nel pannello principale popolando il contenuto
-   * dei <li> del pannello oppure impostando il percorso dell'immagine
+   * dei <li> del pannello oppure impostando il percorso dell'immagine.
+   * NOTA PER I VERIFICATORI:
+   * Richiede la presenza di una lista ul con dei list item che abbiano
+   * id rispettivametne 'contactName', 'contactSurname', 'contactEmail',
+   * un elemento 'img' che abbia id 'contactAvatar' (di cui viene settato 
+   * l'attributo 'src')
    * 
    * @param contact il concatto le cui informazioni devono essere visualizzates
    * @author Diego Beraldin

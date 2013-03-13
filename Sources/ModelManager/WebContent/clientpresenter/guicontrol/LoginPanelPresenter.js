@@ -134,14 +134,17 @@ function LoginPanelPresenter() {
     	formRetrievePassword.appendChild(inputAnswer);
     	element.appendChild(formRetrievePassword);
     }
-    
+
+/**********************************************************
+                       METODI PUBBLICI
+***********************************************************/
     /**
      * Procedura che esegue il login prelevando le credenziali inserite nel
      * form e inviando al server i dati di autenticazione
      *
      * @author Diego Beraldin
      */
-    function login() {
+    this.login = function() {
         //recupera le credenziali dall'interfaccia grafica
         var username = document.getElementById("username").value;
         var password = document.getElementById("password").value;
@@ -159,12 +162,11 @@ function LoginPanelPresenter() {
         };
         request.open("POST", this.servletURL, true);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        request.send("username=" + encodeURIComponent(username) + "&password=" + encodeURIComponent(password) + "&operation=1");
-    }
-
-/**********************************************************
-                       METODI PUBBLICI
-***********************************************************/
+        request.send("username=" + encodeURIComponent(username) +
+        		"&password=" + encodeURIComponent(password) +
+        		"&operation=1");
+    };
+    
     /**
      * Nasconde il form di autenticazione per lasciare spazio nella finestra a
      * altri elementi grafici come la schermata principale o il pannello di registrazione
@@ -178,6 +180,10 @@ function LoginPanelPresenter() {
     /**
      * Inizializzazione del pannello di login con la creazione di tutti i
      * widget grafici che sono contenuti al suo interno
+     * 
+     * NOTA PER I VERIFICATORI:
+     * Richiede che nel 'document' sia presente un elemento '<div>' che
+     * abbia come attributo 'id' il valore 'LoginPanel'
      *
      * @author Diego Beraldin
      */
@@ -234,12 +240,14 @@ function LoginPanelPresenter() {
         var inputLogin = document.createElement('input');
         inputLogin.setAttribute("type", "submit");
         inputLogin.setAttribute("value", "Login");
-        inputLogin.onclick = login;
+        var self = this;
+        inputLogin.onclick = function() {
+        	self.login();
+        };
         //pulsante di registrazione
         var inputRegister = document.createElement('input');
         inputRegister.setAttribute("type", "submit");
         inputRegister.setAttribute("value", "Registrati");
-        var self = this;
         inputRegister.onclick = function() {
         	self.hide();
             //'registrationpp' deve essere una variabile globale

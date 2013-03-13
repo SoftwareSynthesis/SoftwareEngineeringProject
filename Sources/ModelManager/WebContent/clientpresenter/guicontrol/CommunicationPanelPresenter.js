@@ -5,7 +5,10 @@
  */
 function CommunicationPanelPresenter(mediator) {
     /**
+     * Presenter incaricato di gestire il pannello delle comunicazioni,
+     * siano esse di natura testuale oppure di natura audio o audio/video
      *
+     * @returns {HTMLDivElement} il 'CommunicationPanel'
      * @author Elena Zecchinato
      */
     this.createPanel = function() {

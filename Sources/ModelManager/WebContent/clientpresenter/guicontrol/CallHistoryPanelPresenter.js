@@ -11,11 +11,10 @@ function CallHistoryPanelPresenter() {
      * Crea il pannello dello storico delle chiamate che deve essere
      * visualizzato all'interno del MainPanel come elemento figlio
      * 
-     * @param {HTMLDivElement} element	'<div>' destinato a diventare il pannello dello storico delle chiamate
      * @returns {HTMLDivElement} il pannello dello storico delle chiamate inizializzato
      * @author Elena Zecchinato
      */
-    this.createPanel = function(element) {
+    this.createPanel = function() {
     	var element = document.createElement("div");
     	element.setAttribute("id", "CallHistoryPanel");
         // creo contenuto di CallHistory
