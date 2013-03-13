@@ -163,12 +163,13 @@ function AccountSettingsPanelPresenter() {
      * restituisce in modo che possa essere inserito all'interno del 
      * pannello principale
      * 
-     * @param {HTMLDivElement} element pannello che deve essere inizializzato
      * @returns {HTMLDivElementk} pannello delle impostazioni inizializzato
      * @author Elena Zecchinato
      * @author Diego Beraldin
      */
-    this.createPanel = function(element) {
+    this.createPanel = function() {
+    	var element = document.createElement("div");
+    	element.setAttribute("id", "AccountSettingsPanel");
         /* Tutti gli elementi qui mostrati sono recuperati tramite
          * il riferimento al communicationcenter e la proprietà my in
          * esso contenuta, dove sono memorizzati i dati relativi all'utente.
