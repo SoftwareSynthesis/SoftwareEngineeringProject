@@ -30,9 +30,9 @@ public class AddressBookEntry implements IAddressBookEntry
 		String contactJSON = this.contact.toJson();
 		String groupJSON = this.group.toJson();
 		String result = "{\"id\":\"" + this.getId() + "\"";
-		result += "\"contact\":\"" + contactJSON + "\"";
-		result += "\"group\":\"" + groupJSON + "\"";
-		result += "\"blocked\":\"" + this.blocked + "\"";
+		result += ", \"contact\":\"" + contactJSON + "\"";
+		result += ", \"group\":\"" + groupJSON + "\"";
+		result += ", \"blocked\":\"" + this.blocked + "\"}";
 		return result;
 	}
 

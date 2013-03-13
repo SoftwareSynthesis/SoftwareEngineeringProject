@@ -20,7 +20,7 @@ public class HibernateUtilTest
 	 * @version	%I%, %G%
 	 */
 	@Test
-	public void testInstance()
+	public static void testInstance()
 	{
 		HibernateUtil instance1 = HibernateUtil.getInstance();
 		HibernateUtil instance2 = HibernateUtil.getInstance();

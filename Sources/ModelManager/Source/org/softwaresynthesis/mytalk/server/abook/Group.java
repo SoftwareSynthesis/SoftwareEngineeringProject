@@ -41,7 +41,7 @@ public class Group implements IGroup
 	public String toJson() 
 	{
 		String result = "{\"id\":\"" + this.getId() + "\"";
-		result += "\"name\":\"" + this.getName() + "\"}";
+		result += ", \"name\":\"" + this.getName() + "\"}";
 		return result;
 	}
 
