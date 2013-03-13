@@ -1,40 +1,37 @@
-module ("Test di AccontSettingsPanelPresenter", {
+/*module ("Test di LoginPanelPresenter", {
     setup:
         function() {
-			communicationcenter = new Object();
-			communicationcenter.my = {name:"Maria", surname:"Goretti", email:"margor@email.it", picturePath:"xx.png"};
-			test = new AccountSettingsPanelPresenter();								},
+											},
 	teardown: 
 		function(){}
 	}
 );
+*/
 
-/* dentro setup le variabili DEVONO esssere GLOBALI*/
-
-/*Tale test controlla il buon funzionamento dell'inizializzazione AccountSettingPanel
-controlla che l'albero sia stato costruito correttamente e per i vari nodi controlla che il loro contenuto sia stato inserito correttamente*/
-test("Test della funzione createPanel()",
+test("Test della funzione initialize()",
     function () {
+	
+	var test = new LoginPanelPresenter();
 		var i = 0;
 		
-		// creo l'elemento 'AccountSettingsPanel'
-		var element = test.createPanel();
+		// creo l'elemento 'LoginPanel'
+		var element = test.initialize();
 		// estraggo la lista dei figli di questo pannello
 		var list = element.childNodes;
 		// controllo che abbia esattamente tre figli
 		equal(list.length,3,"il numero di figli dell'elemento restituito e' 3");
 		i++;
 		
-		// controllo che il primo figlio sia la mia immagine personale
-		equal(list[0].nodeName, "IMG", "il primo figlio dell'elemento e' un'immagine");
+	/*	// controllo che il primo figlio sia la mia immagine personale
+		equal(list[0].nodeName, "IMG", "il primo figlio dell'emenento e' un'immagine");
 		i++;
 		
 		// controllo che il secondo figlio sia una lista
-		equal(list[1].nodeName, "UL", "il primo figlio dell'elemento e' una lista");
+		equal(list[1].nodeName, "UL", "il primo figlio dell'emenento e' una lista");
 		i++;
 		
 		// controllo che il terzo elemento sia un bottone
-		equal(list[2].nodeName, "BUTTON", "il primo figlio dell'elemento e' un bottone");
+		equal(list[2].nodeName, "BUTTON", "il primo figlio dell'emenento e' un bottone");
 		i++;
 		
 		// estraggo la lista dei dati personali e testo tutti i suoi nodi
@@ -59,7 +56,7 @@ test("Test della funzione createPanel()",
 		// testo il contenuto del bottone
 		var text = list[2].innerHTML;
 		equal(text, "Modifica dati", "il testo del bottone è corretto");
-		i++;
+		i++;*/
 		expect(i);
     });
 

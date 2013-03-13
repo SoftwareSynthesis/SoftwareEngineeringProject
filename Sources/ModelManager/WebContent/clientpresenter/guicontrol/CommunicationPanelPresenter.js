@@ -18,14 +18,14 @@ function CommunicationPanelPresenter(mediator) {
         //azzero il div
         this.element.innerHTML = "";
         //creo div contenente la chiamata vera e propria
-        var divProfile = document.createElement('div');
-        divProfile.setAttribute("id", "divProfile");
+        var divCall = document.createElement('div');
+        divCall.setAttribute("id", "divCall");
         //creo div contenente le chat testuali
         var divChat = document.createElement('div');
-        divProfile.setAttribute("id", "divProfile");
+        divChat.setAttribute("id", "divChat");
 
         //apendo il sottoalbero al DOM
-        element.appendChild(divProfile);
+        element.appendChild(divCall);
         element.appendChild(divChat);
         
         return element;
