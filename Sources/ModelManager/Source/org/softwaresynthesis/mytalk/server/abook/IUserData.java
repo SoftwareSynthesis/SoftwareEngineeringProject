@@ -10,15 +10,7 @@ import org.softwaresynthesis.mytalk.server.IMyTalkObject;
  * @version	%I%, %G%
  */
 public interface IUserData extends IMyTalkObject
-{
-	/**
-	 * Stati disponibilni nel sistema mytalk
-	 * 
-	 * @author 	Andrea Meneghinello
-	 * @version %I%, %G% 
-	 */
-	public static enum State {AVAILABLE, OCCUPIED, OFFLINE; };
-	
+{	
 	/**
 	 * Restituisce l'identificativo univoco
 	 * dell'utente del sistema mytalk
@@ -181,26 +173,4 @@ public interface IUserData extends IMyTalkObject
 	 * 					l'immagine profilo
 	 */
 	public void setPicturePath(String path);
-	
-	/**
-	 * Restituisce lo stato in cui si trova un
-	 * utente
-	 * 
-	 * @author 	Andrea Meneghinello
-	 * @version	%I%, %G%
-	 * @return 	{@link State} in cui si trova
-	 * 			l'utente
-	 */
-	public State getState();
-	
-	/**
-	 * Imposta lo stato in cui si trova un utente
-	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
-	 * @param 	state	{@link State} che rappresenta
-	 * 					lo stato in cui si è spostato
-	 * 					l'utente
-	 */
-	public void setState(State state);
 }

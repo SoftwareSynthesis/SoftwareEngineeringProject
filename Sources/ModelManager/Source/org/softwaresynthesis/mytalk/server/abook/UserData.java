@@ -1,8 +1,5 @@
 package org.softwaresynthesis.mytalk.server.abook;
 
-import org.softwaresynthesis.mytalk.server.abook.IUserData.State;
-import org.softwaresynthesis.mytalk.server.authentication.ISecurityStrategy;
-
 /**
  * Rappresentazione dell'utente del sistema mytalk
  *
@@ -12,7 +9,6 @@ import org.softwaresynthesis.mytalk.server.authentication.ISecurityStrategy;
 public class UserData implements IUserData 
 {
 	private Long id;
-	private State state;
 	private String mail;
 	private String password;
 	private String question;
@@ -61,8 +57,7 @@ public class UserData implements IUserData
 	{
 		String result = "{\"name\":\"" + this.getName() + "\"";
 		result += ", \"surname\":\"" + this.getSurname() + "\"";
-		result += ", \"mail\":\"" + this.getEmail() + "\"";
-		result += ", \"state\":\"" + this.getState() + "\"";
+		result += ", \"email\":\"" + this.getEmail() + "\"";
 		result += ", \"picturePath\":\"" + this.getPicturePath() + "\"";
 		result += ", \"id\":\"" + this.getId() + "\"}";
 		return result;
@@ -306,34 +301,6 @@ public class UserData implements IUserData
 	}
 	
 	/**
-	 * Restituisce lo stato in cui si trova un
-	 * utente
-	 * 
-	 * @author 	Andrea Meneghinello
-	 * @version	%I%, %G%
-	 * @return 	{@link State} in cui si trova
-	 * 			l'utente
-	 */
-	public State getState()
-	{
-		return this.state;
-	}
-	
-	/**
-	 * Imposta lo stato in cui si trova un utente
-	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
-	 * @param 	state	{@link State} che rappresenta
-	 * 					lo stato in cui si è spostato
-	 * 					l'utente
-	 */
-	public void setState(State state)
-	{
-		this.state = state;
-	}
-	
-	/**
 	 * Verifica se due istanze sono uguali
 	 * 
 	 * @author	Andrea Meneghinello
@@ -343,6 +310,7 @@ public class UserData implements IUserData
 	 * @return 	true se le due istanze sono uguali,
 	 * 			false altrimenti
 	 */
+	@Override
 	public boolean equals(Object obj)
 	{
 		boolean result = false;

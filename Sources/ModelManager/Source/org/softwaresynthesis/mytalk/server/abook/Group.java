@@ -101,4 +101,27 @@ public class Group implements IGroup
 	{
 		this.name = name;
 	}
+	
+	/**
+	 * Compare due istanze di Group
+	 * 
+	 * @author	Andrea Meneghinello
+	 * @version	%I%, %G%
+	 * @param	obj	{@link Object} che deve
+	 * 				essere comparato
+	 * @result	true se le due istanze rappresentano
+	 * 			lo stesso oggetto, false altrimenti 
+	 */
+	@Override
+	public boolean equals(Object obj)
+	{
+		boolean result = false;
+		Group group = null;
+		if (obj instanceof Group)
+		{
+			group = (Group)obj;
+			result = this.id.equals(group.id);
+		}
+		return result;
+	}
 }
