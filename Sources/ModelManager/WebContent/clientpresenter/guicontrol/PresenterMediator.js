@@ -119,7 +119,6 @@ function PresenterMediator() {
     this.onContactAddeddInGroup = function(contact, group) {
         this.presenters["addressbook"].removeContactFromGroup(contact, group);
     };
-<<<<<<< HEAD
     
     /**
      * Provoca la creazione del pannello della segreteria e la sua visualizzazione
@@ -160,7 +159,6 @@ function PresenterMediator() {
     this.displayCallHistoryPanel= function() {
     	var element = callhistorypp.createPanel();
     	presenters["main"].displayChildPanel(element);
-=======
 
     /**
      * Funzione di callback richiamata dai pulsanti di SearchResultPanel
@@ -182,6 +180,5 @@ function PresenterMediator() {
      */
     this.onFiltredApplyedByGroup = function(group) {
         this.presenters["addressbook"].applyFilterByGroup(group);
->>>>>>> UPDATE ContactPanelPresenter.js
     };
 }
