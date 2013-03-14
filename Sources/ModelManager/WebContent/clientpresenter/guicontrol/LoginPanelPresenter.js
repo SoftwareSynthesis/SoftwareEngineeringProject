@@ -156,6 +156,7 @@ function LoginPanelPresenter() {
      * tipo '<input>' con 'id' uguale a 'username' contenente l'indirizzo
      * email dell'utente che intende autenticarsi al sistema
      * 
+     * @author Diego Beraldin
      * @returns {String} lo username dell'utente
      */
     this.getUsername = function() {
@@ -170,6 +171,7 @@ function LoginPanelPresenter() {
      * tipo '<input>' con 'id' uguale a 'password' contenente la password
      * dell'utente che intende autenticarsi al sistema
      * 
+     * @author Diego Beraldin
      * @returns {String} lo username dell'utente
      */
     this.getPassword = function() {
