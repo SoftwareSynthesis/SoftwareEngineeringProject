@@ -79,7 +79,7 @@ function PresenterMediator() {
      * che comunica all'AddressBookPanelPresenter di aggiungere un gruppo
      *
      * @author Riccardo Tresoldi
-     * @param {Number} name rappresenta il nome del gruppo da aggiungere
+     * @param {String} name rappresenta il nome del gruppo da aggiungere
      */
     this.onGroupAdded = function(name) {
         this.presenters["addressbook"].addGroup(name);
@@ -119,6 +119,7 @@ function PresenterMediator() {
     this.onContactAddeddInGroup = function(contact, group) {
         this.presenters["addressbook"].removeContactFromGroup(contact, group);
     };
+<<<<<<< HEAD
     
     /**
      * Provoca la creazione del pannello della segreteria e la sua visualizzazione
@@ -159,5 +160,28 @@ function PresenterMediator() {
     this.displayCallHistoryPanel= function() {
     	var element = callhistorypp.createPanel();
     	presenters["main"].displayChildPanel(element);
+=======
+
+    /**
+     * Funzione di callback richiamata dai pulsanti di SearchResultPanel
+     * che comunica all'AddressBookPanelPresenter di filtrare la lista dei contatti secondo un parametro
+     *
+     * @author Riccardo Tresoldi
+     * @param {String} contact rappresenta l'id del contato da rimuovere
+     */
+    this.onFiltredApplyedByParam = function(param) {
+        this.presenters["addressbook"].applyFilterByString(param);
+    };
+
+    /**
+     * Funzione di callback richiamata dai pulsanti di SearchResultPanel
+     * che comunica all'AddressBookPanelPresenter di filtrare la lista dei contatti appartenenti al gruppo passato
+     *
+     * @author Riccardo Tresoldi
+     * @param {String} contact rappresenta l'id del contato da rimuovere
+     */
+    this.onFiltredApplyedByGroup = function(group) {
+        this.presenters["addressbook"].applyFilterByGroup(group);
+>>>>>>> UPDATE ContactPanelPresenter.js
     };
 }
