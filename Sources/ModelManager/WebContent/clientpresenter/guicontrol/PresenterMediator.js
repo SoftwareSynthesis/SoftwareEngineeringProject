@@ -11,6 +11,8 @@ function PresenterMediator() {
     ***********************************************************/
     // array associativo contentente i riferimenti ai presenter di primo livello
     var presenters = new Array();
+    presenters["login"] = new LoginPanelPresenter();
+    presenter["register"] = new RegisterPanelPresenter();
     presenters["addressbook"] = new AddressBookPanelPresenter();
     presenters["tools"] = new ToolsPanelPresenter();
     presenters["main"] = new MainPanelPresenter();
@@ -41,12 +43,37 @@ function PresenterMediator() {
             presenters[key].initialize();
         }
     };
+    
+    /**
+     * Visualizza l'interfaccia di autenticazione al sistema, che comprende il form
+     * di login (a.k.a. LoginPanel), chiamando in causa il {@link LoginPanelPresenter}
+     * per la sua costruzione
+     * 
+     * @see LoginPanelPresenter#initialize()
+     * @author Diego Beraldin
+     */
+    this.buildLoginUI = function() {
+    	presenters["login"].initialize();
+    };
+    
+    /**
+     * Visualizza il form di registrazione (a.k.a. RegisterPanel) al sistema per gli utenti
+     * che devono creare un nuovo account, demandando al {@link RegisterPanelPresenter} il
+     * compito di creare il pannello per l'inserimento dei dati di registrazione
+     * 
+     * @see RegisterPanelPresenter#initialize()
+     * @author Diego Beraldin
+     */
+    this.buildRegistrationUI = function() {
+    	presenter["register"].initialize();
+    };
 
     /** Funzione da scatenare nel momento in cui è selezionato un contatto,
      * ne provoca la visualizzazione nel pannello dei contatti
      *
-     * @author Diego Beraldin
+     * @see ContactPanelPresenter#display()
      * @param {Object} contact contatto che deve essere visualizzato
+     * @author Diego Beraldin
      */
     this.onContactSelected = function(contact) {
         contactpp.display(contact);
@@ -56,6 +83,7 @@ function PresenterMediator() {
      * Funzione di callback richiamata dai pulsanti di SearchResultPanel
      * che comunica all'AddressBookPanelPresenter di aggiungere un contatto
      *
+     * @see AddressBookPanelPresenter#addContact({Number})
      * @param {Number} userID id dell'utente che deve essere aggiunto alla rubrica
      * @author Diego Beraldin
      */
@@ -159,6 +187,7 @@ function PresenterMediator() {
     this.displayCallHistoryPanel= function() {
     	var element = callhistorypp.createPanel();
     	presenters["main"].displayChildPanel(element);
+    };
 
     /**
      * Funzione di callback richiamata dai pulsanti di SearchResultPanel
