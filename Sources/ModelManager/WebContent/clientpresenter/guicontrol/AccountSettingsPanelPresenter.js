@@ -163,7 +163,7 @@ function AccountSettingsPanelPresenter() {
      * restituisce in modo che possa essere inserito all'interno del 
      * pannello principale
      * 
-     * @returns {HTMLDivElementk} pannello delle impostazioni inizializzato
+     * @returns {HTMLDivElement} pannello delle impostazioni inizializzato
      * @author Elena Zecchinato
      * @author Diego Beraldin
      */
