@@ -29,7 +29,7 @@ public class UserData implements IUserData
 	 */
 	public UserData()
 	{
-		addressBook = new HashSet<AddressBookEntry>();
+		this.addressBook = new HashSet<AddressBookEntry>();
 	}
 	
 	/**
@@ -327,7 +327,7 @@ public class UserData implements IUserData
 	 * @version	%I%, %G%
 	 */
 	@Override
-	public void addAddressBook(AddressBookEntry entry)
+	public void setAddressBook(AddressBookEntry entry)
 	{
 		this.addressBook.add(entry);
 		entry.setOwner(this);

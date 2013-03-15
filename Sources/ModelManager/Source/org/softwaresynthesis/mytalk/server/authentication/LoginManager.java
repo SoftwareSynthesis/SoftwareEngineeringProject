@@ -25,9 +25,6 @@ public final class LoginManager extends HttpServlet
     /**
      * Inizializza la servlet, definendo eventuali
      * configurazioni
-     * 
-     * @author	Andrea Meneghinello
-     * @version	%I%, %G%
      */
     public LoginManager() 
     {
@@ -39,12 +36,10 @@ public final class LoginManager extends HttpServlet
 	 * come se fosse stata richiamata con
 	 * il metodo POST
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
-	 * @param	request 	{@link HttpServletRequest} richieste
+	 * @param	request 	{@link HttpServletRequest} con i dati
 	 * 						provenienti dal client
-	 * @param	response	{@link HttpServletResponse} contenente
-	 * 						le risposte da fornire al client
+	 * @param	response	{@link HttpServletResponse} con i dati
+	 * 						da fornire al client
 	 * @see 	LoginManager#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
@@ -59,7 +54,12 @@ public final class LoginManager extends HttpServlet
 	 * 2 - Registrazione;
 	 * 3 - Proposta domanda di recupero password;
 	 * 4 - Verifica risposta ed invio mail con password;
-	 * passare 
+	 * passare
+	 * 
+	 *  @param	request		{@link HttpServletRequest} con i dati
+	 *  					provenienti dal client
+	 *  @param	response	{@link	HttpServletRequest} con i dati
+	 *  					da fornire al client
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
@@ -119,8 +119,6 @@ public final class LoginManager extends HttpServlet
 	 * Esegue la procedura di login per autenticare
 	 * un utente al sistema
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @param	session		{@link HttpSession} sessione con il client
 	 * @param 	username	{@link String} username dell'utete
 	 * @param 	password	{@link String} password dell'utete
@@ -149,6 +147,10 @@ public final class LoginManager extends HttpServlet
 		catch (Exception ex)
 		{
 			result = "null1";
+			if (session != null)
+			{
+				session.invalidate();
+			}
 		}
 		return result;
 	}
@@ -156,8 +158,6 @@ public final class LoginManager extends HttpServlet
 	/**
 	 * Esegue il logout di un utente dal sistema
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @param 	session	{@link HttpSessionSession}
 	 * 					sessione aperta con il client
 	 * 					in fase di login
@@ -181,5 +181,15 @@ public final class LoginManager extends HttpServlet
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Restituisce l'istanza nella forma {@link String}
+	 * 
+	 * @return	{@link String} rappresentante l'istanza
+	 */
+	public String toString()
+	{
+		return "LoginManager";
 	}
 }

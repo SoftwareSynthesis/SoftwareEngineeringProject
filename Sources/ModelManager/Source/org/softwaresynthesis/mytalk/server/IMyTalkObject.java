@@ -15,8 +15,6 @@ public interface IMyTalkObject
 	 * Converte l'oggetto di invocazione in una
 	 * stringa json interpretabile dai client
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	rappresentazione in {@link String}
 	 * 			dell'oggetto di invocazione 
 	 */

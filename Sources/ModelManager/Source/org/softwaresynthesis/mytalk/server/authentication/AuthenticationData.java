@@ -15,8 +15,6 @@ public class AuthenticationData implements IAuthenticationData
 	/**
 	 * Crea l'oggetto per la fase di login
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @param 	username	{@link String} username dell'utente
 	 * @param 	password	{@link String} password dell'utente
 	 */
@@ -29,8 +27,6 @@ public class AuthenticationData implements IAuthenticationData
 	/**
 	 * Restituisce lo username dell'utente
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	{@link String} con lo username inserito in fase
 	 * 			di autenticazione
 	 */
@@ -42,8 +38,6 @@ public class AuthenticationData implements IAuthenticationData
 	/**
 	 * Restituisce la password dell'utente
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	{@link String} con la password inserita in fase
 	 * 			di autenticazione
 	 */
@@ -55,8 +49,6 @@ public class AuthenticationData implements IAuthenticationData
 	/**
 	 * Determina se due istanze di AuthenticationData sono uguali
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @param	toCompare	{@link Object} oggetto da confrontare
 	 * @return	true se le due istanze sono uguali, false altrimenti
 	 */
@@ -76,10 +68,9 @@ public class AuthenticationData implements IAuthenticationData
 	/**
 	 * Restituisce l'oggetto sotto forma di {@link String}
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	{@link String} rappresentante l'istanza dell'oggetto
 	 */
+	@Override
 	public String toString()
 	{
 		String instance = String.format("AuthenticationData[username: %s]", this.username);

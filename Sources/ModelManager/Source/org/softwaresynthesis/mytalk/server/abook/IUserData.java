@@ -193,5 +193,5 @@ public interface IUserData extends IMyTalkObject
 	 * @version	%I%, %G%
 	 * @param entry
 	 */
-	public void addAddressBook(AddressBookEntry entry);
+	public void setAddressBook(Set<AddressBookEntry> entry);
 }

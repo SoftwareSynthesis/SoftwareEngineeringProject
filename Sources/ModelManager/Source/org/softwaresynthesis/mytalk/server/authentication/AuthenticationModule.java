@@ -36,8 +36,6 @@ public class AuthenticationModule implements LoginModule
 	/**
 	 * Inizializzazione del modulo di login
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @param	subject		{@link Subject} che deve essere autenticato
 	 * @param	handler		{@link CallbackHandler} per il caricamento delle credenzialie
 	 * @param	shareState	{@link Map} con lo stato condiviso
@@ -60,8 +58,6 @@ public class AuthenticationModule implements LoginModule
 	 * Effettua il login con le credenziali
 	 * di accesso fornite da un utente
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @throws	{@link LoginException} se le credenziali
 	 * 			di accesso sono errate
 	 */
@@ -130,8 +126,6 @@ public class AuthenticationModule implements LoginModule
 	 * {@link Subject} in modo che la sua identità
 	 * possa essere facilmente ritrovata
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @throws	{@link LoginException} se l'operazione
 	 * 			non dovessere andare a buon fine
 	 */
@@ -155,8 +149,6 @@ public class AuthenticationModule implements LoginModule
 	 * tutti i dati di elaborazione, comprese le 
 	 * credenziali
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @throws	{@link LoginException} se l'operazione
 	 * 			non dovesse andare a buon fine
 	 */
@@ -188,8 +180,6 @@ public class AuthenticationModule implements LoginModule
 	 * le credenziali di accesso e le informazioni
 	 * che permettono di ricondurre a lui
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @throws 	{@link LoginException} se l'operazione
 	 * 			non dovesse andare a buon fine
 	 */
@@ -202,5 +192,16 @@ public class AuthenticationModule implements LoginModule
 		this.username = null;
 		this.password = null;
 		return true;
+	}
+	
+	/**
+	 * Restituisce l'istanza in formato {@link String}
+	 * 
+	 * @return	{@link String} rappresentante l'istanza
+	 */
+	@Override
+	public String toString()
+	{
+		return String.format("AuthenticationModule[username: %s]", this.username);
 	}
 }

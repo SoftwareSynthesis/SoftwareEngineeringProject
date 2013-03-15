@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
+import org.softwaresynthesis.mytalk.server.abook.UserData;
 
 /**
  * Espone le funzione per la manipolazione di oggetti
@@ -167,17 +168,22 @@ public class UserDataDAO
 	public IUserData getByEmail(String mail)
 	{
 		HibernateUtil util = null;
-		List<IUserData> users = null;
+		List<UserData> users = null;
 		Query query = null;
 		Session session = null;
 		SessionFactory factory = null;
 		String hqlQuery = "from UserData as u where u.mail = :mail";
 		Transaction transaction = null;
+		
+		java.io.File file;
+		java.io.FileOutputStream s;
+		java.io.PrintStream str = null;
+		
 		try
 		{
-				java.io.File file = new java.io.File("Output.txt");
-				java.io.FileOutputStream s = new java.io.FileOutputStream(file);
-				java.io.PrintStream str = new java.io.PrintStream(s);
+				file = new java.io.File("Output.txt");
+				s = new java.io.FileOutputStream(file);
+				str = new java.io.PrintStream(s);
 				str.println("AVVIO");
 			util = HibernateUtil.getInstance();
 			str.println("ISTANZA");
@@ -189,20 +195,24 @@ public class UserDataDAO
 			str.println("TRANS");
 			query = session.createQuery(hqlQuery);
 			query.setString("mail", mail);
+			str.println(query.toString());
+			str.println(mail);
 			str.println("QUERY");
-			users = (List<IUserData>)query.list();
+			query.list();
 			str.println("ESECUZIONE");
 			transaction.commit();
 		}
 		catch (RuntimeException ex)
 		{
+			ex.printStackTrace(str);
 			if (transaction != null)
 			{
 				transaction.rollback();
 			}
+			
 		}catch (Exception ex){}
 		finally
-		{
+		{str.close();
 			if (session != null)
 			{
 				session.flush();

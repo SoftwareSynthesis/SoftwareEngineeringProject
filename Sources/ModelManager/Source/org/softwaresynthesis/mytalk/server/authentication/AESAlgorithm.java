@@ -22,8 +22,6 @@ public class AESAlgorithm implements ISecurityStrategy
 	 * Codifica un stringa attraverso l'algoritmo
 	 * AES a 128 bit
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @param 	plainText	{@link String} testo in chiaro
 	 * 						da codificare con AES
 	 * @return	{@link String} con il testo codificato
@@ -49,8 +47,6 @@ public class AESAlgorithm implements ISecurityStrategy
 	 * Decodifica una stringa attraverso l'algoritmo AES
 	 * a 128 bit
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @param	encodedTest	{@link String} testo codificato
 	 * 						da decodificare con AEAS
 	 * @return 	{@link String} con il testo decodificato
@@ -72,7 +68,32 @@ public class AESAlgorithm implements ISecurityStrategy
 		decryptedValue = new String(decodedValue);
 		return decryptedValue;
 	}
+	
+	/**
+	 * Restituisce l'istanza dell'oggetto in
+	 * forma di {@link String}
+	 * 
+	 * @return	{@link String} rappresentante
+	 * 			l'istanza
+	 */
+	@Override
+	public String toString()
+	{
+		return "Algoritmo di crittografia AES a 128 bit";
+	}
 
+	/**
+	 * Usa la chiave impostata dal programmatore
+	 * per la generazione di una chiave segreta
+	 * da utilizzare durante il processo di
+	 * encode/decode
+	 * 
+	 * @return	{@link SecretKeySpec} rappresentante
+	 * 			la chiave utilizzata dall'algoritmo
+	 * @throws 	Exception	se la lunghezza della chiave
+	 * 						in input non è di 128 bit
+	 * 						(16 caratteri)
+	 */
 	private Key generateKey() throws Exception
 	{
 		Key key = new SecretKeySpec(AESAlgorithm.key, AESAlgorithm.algorithm);

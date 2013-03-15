@@ -17,9 +17,6 @@ public class AddressBookEntry implements IAddressBookEntry
 	
 	/**
 	 * Crea un AddressBookEntry vuoto
-	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 */
 	public AddressBookEntry()
 	{
@@ -30,8 +27,6 @@ public class AddressBookEntry implements IAddressBookEntry
 	 * Crea un AddressBookEntry con un ID
 	 * associato
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @param 	identifier	{@link Long} che identifica
 	 * 						l'AddressBookEntry
 	 */
@@ -44,8 +39,6 @@ public class AddressBookEntry implements IAddressBookEntry
 	 * Restituisce l'istanza sotto forma di
 	 * {@link String} in formato JSON
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	{@link String} in formato JSON
 	 * 			dell'istanza
 	 */
@@ -65,8 +58,6 @@ public class AddressBookEntry implements IAddressBookEntry
 	 * Restituisce l'identificatore univoco del
 	 * contatto
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	{@link Long} che identifica il contatto
 	 */
 	@Override
@@ -78,8 +69,6 @@ public class AddressBookEntry implements IAddressBookEntry
 	/**
 	 * Imposta l'identificatore dell'istanze
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @param 	identifier	{@link Long} che identifica
 	 * 						l'istanza
 	 */
@@ -91,8 +80,6 @@ public class AddressBookEntry implements IAddressBookEntry
 	/**
 	 * Restituisce il contatto della entry
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	contatto della rubrica di tipo
 	 * 			{@link IUserData}
 	 */
@@ -105,8 +92,6 @@ public class AddressBookEntry implements IAddressBookEntry
 	/**
 	 * Imposta il contatto della rubrica
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version %I%, %G%
 	 * @param	contatc	{@link IUserData} contatto
 	 * 					della rubrica
 	 */
@@ -120,8 +105,6 @@ public class AddressBookEntry implements IAddressBookEntry
 	 * Restituisce il gruppo a cui appartiene
 	 * il contatto
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version %I%, %G%
 	 * @return	{@link IGroup} a cui appartiene il
 	 * 			contatto, null se non appartiene a
 	 * 			nessun gruppo
@@ -135,8 +118,6 @@ public class AddressBookEntry implements IAddressBookEntry
 	/**
 	 * Imposta il gruppo a cui appartiene il contatto
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @param	group 	{@link IGroup} a cui appartiene
 	 * 					il contatto	
 	 */
@@ -150,8 +131,6 @@ public class AddressBookEntry implements IAddressBookEntry
 	 * Restituisce il proprietario della
 	 * rubrica
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	{@link IUserData} proprietario
 	 * 			del contatto
 	 */
@@ -164,8 +143,6 @@ public class AddressBookEntry implements IAddressBookEntry
 	/**
 	 * Imposta il proprietario del contatto
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @param	owner	{@link IUserData} proprietario
 	 * 					del contatto
 	 */
@@ -179,8 +156,6 @@ public class AddressBookEntry implements IAddressBookEntry
 	 * Restituisce un valore booleano che informa
 	 * se il contatto è bloccato
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	true se il contatto è bloccato, false
 	 * 			altrimenti
 	 */
@@ -194,8 +169,6 @@ public class AddressBookEntry implements IAddressBookEntry
 	 * Imposta se un contatto è bloccato o
 	 * meno
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @param	blocked	true se si vuole bloccare,
 	 * 					false altrimenti
 	 */
@@ -208,8 +181,6 @@ public class AddressBookEntry implements IAddressBookEntry
 	/**
 	 * Testa l'uguaglianza di due istanze
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @param	obj	{@link Object} che deve essere
 	 * 				confrontato
 	 * @return	true se le due istanze sono uguali,

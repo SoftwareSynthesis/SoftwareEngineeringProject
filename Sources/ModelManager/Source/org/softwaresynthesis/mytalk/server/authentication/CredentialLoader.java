@@ -7,6 +7,15 @@ import javax.security.auth.callback.NameCallback;
 import javax.security.auth.callback.PasswordCallback;
 import javax.security.auth.callback.UnsupportedCallbackException;
 
+/**
+ * Ha il compito di caricare e convertire
+ * le credenziali di accesso in modo che
+ * possano essere utilizzate correttamente
+ * dalla procedura di login
+ * 
+ * @author Andrea
+ * @version %I%, %G%
+ */
 public class CredentialLoader implements CallbackHandler 
 {
 	private IAuthenticationData credential;
@@ -16,7 +25,6 @@ public class CredentialLoader implements CallbackHandler
 	 * Crea un istanza di un oggetto che ha il compito
 	 * di preparare le credenziali per la fase di login
 	 * 
-	 * @author 	Andrea Meneghinello
 	 * @param 	credential	{@link String} credenziali di accesso
 	 * 						fornite dall'utente
 	 * @param 	strategy	{@link ISecurityStrategy} di codifica
@@ -32,8 +40,6 @@ public class CredentialLoader implements CallbackHandler
 	 * Prepara le credenziali di accesso fonrite per la
 	 * procedura di login
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @param	vettore {@link Callback} da popolare con
 	 * 			le credenziali
 	 */
@@ -82,4 +88,13 @@ public class CredentialLoader implements CallbackHandler
 		this.credential = null;
 	}
 
+	/**
+	 * Restituisce l'istanza in formato {@link String}
+	 * 
+	 * @return	{@link String} rappresentante l'istanza
+	 */
+	public String toString()
+	{
+		return "CredentialLoader";
+	}
 }

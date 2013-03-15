@@ -20,8 +20,6 @@ public class PrincipalImpl implements Principal, Serializable
 	 * identificativa dell'utente che ha superato la
 	 * procedura di autenticazione
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @param 	element	{@link String} con l'elemento
 	 * 					identificativo
 	 */
@@ -34,8 +32,6 @@ public class PrincipalImpl implements Principal, Serializable
 	 * Restituisce la caratteristica identificativa
 	 * dell'utente
 	 * 
-	 * @author 	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	{@link String} con la caratteristica
 	 * 			identificativa
 	 */
@@ -48,8 +44,6 @@ public class PrincipalImpl implements Principal, Serializable
 	/**
 	 * Compara due istanze di PrincipalImpl
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @param	toCompare	{@link Object} da confrontare
 	 * @return	true se le due istanze sono uguali, false
 	 * 			altrimenti
@@ -67,11 +61,9 @@ public class PrincipalImpl implements Principal, Serializable
 	}
 	
 	/**
-	 * Ritorna l'istanza di PrincipalImpl sotto forma
+	 * Restituisce l'istanza di PrincipalImpl sotto forma
 	 * di {@link String}
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	{@link String} rappresentante l'istanza
 	 */
 	public String toString()
