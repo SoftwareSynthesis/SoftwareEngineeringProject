@@ -127,8 +127,8 @@ test("getUsernameTest()", function() {
 	document.body.appendChild(form);
 	var username = tester.getUsername();
 	equal(username, "laurapausini@gmail.com", "nome utente recuperato correttamente");
-	i++;
 	document.body.removeChild(form);
+	//TODO prova inserire username sbagliato/vuoto (aggiornare doc test)
 });
 
 test("getPasswordTest()", function() {
@@ -142,6 +142,6 @@ test("getPasswordTest()", function() {
 	document.body.appendChild(form);
 	var password = tester.getPassword();
 	equal(password, "opera", "password recuperata correttamente");
-	i++;
 	document.body.removeChild(form);
+	//TODO prova inserire password sbagliata/vuota (aggiornare doc test) 
 });
