@@ -322,6 +322,7 @@ Interfaccia rappresentante il comportamento di un generico utente del sistema. L
 
 \begin{itemize}
 	\item \texttt{org.softwaresynthesis.mytalk.server.IMyTalkObject}: interfaccia da estendere. Ogni oggetto che implementerà l'interfaccia \classname{IUserData} dovrà essere in grado di convertire il proprio contenuto informativo in formato Json.
+	\item \classname{AddressBookEntry}: l'interfacci definisce dei metodi per la manipolazione di dati \classname{AddressBookEntry}.
 \end{itemize}
 
 \subsubsection*{Metodi}
@@ -356,6 +357,10 @@ Interfaccia rappresentante il comportamento di un generico utente del sistema. L
 	Restituisce una stringa con il percorso dell'immagine del profilo di uno \classname{IUserData}.
 	\item{\method{+ setPicturePath(path: String): void}}\\
 	Imposta il percorso dell'immagine profilo di uno \classname{IUserData}.
+	\item{\method{+ getAddressBook(): Set<AddressBookEntry>}}\\
+	Metodo che ritorna il la rubrica dell'utente sotto forma d'insieme di \classname{AddressBookEntry}.
+	\item{\method{+ addAddressBookEntry(entry: AddressBookEntry): void}}\\
+	Metodo usato per aggiungere una nuova \classname{AddressBookEntry} all'insieme di entry che costituisce la rubrica utente.
 \end{description}
 
 \classsection{IGroup}
@@ -438,6 +443,8 @@ Implementazione dell'interfaccia \classname{IUserData}. Un istanza della classe 
 	Attributo che definisce il cognome dell'utente.
 	\item{\memberdata{-- path: String}}
 	Attributo che definisce il percorso (su server) in cui è memorizzata l'immagine del profilo dell'utente.
+	\item{\memberdata{-- addressBook: Set<AddressBookEntry>}}
+	Attributo che definisce l'insieme di \classname{AddressBookEntry} che costituiscono la rubrica utente.
 	
 \end{itemize}
 
@@ -480,6 +487,10 @@ Implementazione dell'interfaccia \classname{IUserData}. Un istanza della classe 
 	Restituisce lo stato in cui si trova l'utente, ritornando il contenuto dell'attributo \memberdata{state}.
 	\item{\method{+ setState(state: State): void}}\\
 	Imposta lo stato in cui si trova l'utente, sovrascrivendo il contenuto dell'attributo \memberdata{state} con il valore ricevuto come parametro d'ingresso.
+	\item{\method{+ getAddressBook(): Set<AddressBookEntry>}}\\
+	Metodo ritorna il contenuto di \memberdata{addressBook}.
+	\item{\method{+ addAddressBookEntry(entry: AddressBookEntry): void}}\\
+	Metodo usato per aggiungere a \memberdata{addressBook} una nuova \classname{AddressBookEntry} passata come parametro d'ingresso.
 	\item{\method{+ toJson(): String}}\\
 	Metodo usato per ritornare il contenuto di un istanza di \classname{UserData} sottoforma di stringa formattata in Json. La stringa ritornata deve corrispondere al seguente formato:\\\\
 	\verb|{name:"mio_nome",surname:"mio_cognome",email:"mia_mail"|\\\verb|,picturePath:"mia_immagine",id:"mio_id"}|\\
