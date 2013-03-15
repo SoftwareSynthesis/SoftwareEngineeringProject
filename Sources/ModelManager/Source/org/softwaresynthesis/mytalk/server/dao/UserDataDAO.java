@@ -196,7 +196,6 @@ public class UserDataDAO
 		}
 		catch (RuntimeException ex)
 		{
-			ex.printStackTrace(str);
 			if (transaction != null)
 			{
 				transaction.rollback();
