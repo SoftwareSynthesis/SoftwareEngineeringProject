@@ -209,4 +209,46 @@ function PresenterMediator() {
     this.onFiltredApplyedByGroup = function(group) {
         this.presenters["addressbook"].applyFilterByGroup(group);
     };
+    
+    /**
+     * Provoca la visualizzazione del pannello per i risultati di una ricerca
+     * fra gli utenti del sistema (a.k.a. SearchResultPanel) nel pannello principale
+     * delegando a quest'ultimo tramite {@link MainPanelPresenter} la visualizzazione
+     * 
+     * @see SearchResultPanelPresenter#createPanel()
+     * @see MainPanelPresenter#displayChildPanel({HTMLDivElement}
+     * @author Diego Beraldin
+     */
+    this.displaySearchResultPanel = function() {
+    	var element = searchresultpp.createPanel();
+    	presenters["main"].displayChildPanel(element);
+    };
+    
+    /**
+     * Provoca la visualizzazione del pannello delle impostazioni del proprio account
+     * (a.k.a. AccountSettingsPanel) nel pannello principale delegando a quest'ultimo
+     * tramite {@link MainPanelPresenter} la sua visualizzazione
+     * 
+     * @see AccountSettingsPanelPresenter#createPanel()
+     * @see MainPanelPresenter#displayChildPanel({HTMLDivElement})
+     * @author Diego Beraldin
+     */
+    this.displayAccountSettingsPanel = function() {
+    	var element = accountsettingspp.createPanel();
+    	presenter["main"].displayChildPanel(element);
+    };
+    
+    /**
+     * Provoca la visualizzazione del pannello delle comunicazioni
+     * (a.k.a. CommunicationPanel) nel pannello principale delegando a quest'ultimo
+     * tramite {@link MainPanelPresenter} la sua visualizzazione
+     * 
+     * @see CommunicationPanelPresenter#createPanel()
+     * @see MainPanelPresenter#displayChildPanel({HTMLDivElement})
+     * @author Diego Beraldin
+     */
+    this.displayCommunicationPanel = function() {
+    	var element = communicationpp.createPanel();
+    	presenter["main"].displayChildPanel(element);
+    };
 }
