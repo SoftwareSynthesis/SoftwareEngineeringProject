@@ -189,15 +189,16 @@ function AddressBookPanelPresenter(url) {
         var selectGroup = document.createElement('select');
         selectGroup.id = "selectGroup";
         //attribuisco gli eventi per la ricerca
+        var self = this;
         inputButton.onclick = function() {
             var serchField = inputText.value;
-            var filtredContacts = applyFilterByString(serchField);
-            showFilter(filtredContacts);
+            var filtredContacts = self.applyFilterByString(serchField);
+            self.showFilter(filtredContacts);
         }
         selectGroup.onchange = function() {
             var idGroupSelected = selectGroup.options[selectGroup.selectedIndex].value;
-            var filtredContacts = applyFilterByGroup(idGroupSelected);
-            showFilter(filtredContacts);
+            var filtredContacts = self.applyFilterByGroup(idGroupSelected);
+            self.showFilter(filtredContacts);
         }
         // creo contenuto divSort
         var selectSort = document.createElement('select');
@@ -236,33 +237,22 @@ function AddressBookPanelPresenter(url) {
      * @author Riccardo Tresoldi
      */
     this.setup = function() {
+        //popolo la parte dei contatti
         // estraggo l'<ul> del Addressbook e lo inizializzo
         var ulList = this.element.getElementById("AddressBookList");
         ulList.innerHTML = "";
-// ciclo i contatti e agiungo un <li> per ogni contatto
+        // ciclo i contatti e agiungo un <li> per ogni contatto
         for (var contact in contacts) {
             addListItem(ulList, contacts[contact]);
         }
-    };
 
-    /**
-     * Popola la 'AddressBookList' con la lista ricevuta come parametro
-     *
-     * NOTA PER I VERIFICATORI
-     * Richiede che il 'document' abbia al suo interno un elemento di
-     * tipo '<ul>' con 'id' uguale a 'AddressBookList'
-     *
-     * @param {Array} list  lista di contatti che deve essere stampata
-     * @author Diego Beraldin
-     */
-    this.displayContactList = function(list) {
-        //estraggo l'<ul> del Addressbook e lo inizializzo
-        var ulList = this.element.getElementById("AddressBookList");
-        ulList.innerHTML = "";
-
-        for (var contact in list) {
-            //ciclo i contatti e agiungo un <li> per ogni contatto
-            addListItem(ulList, contact);
+        //popolo la parte dei gruppi
+        //estraggo la <select> dal DOM e la inizializzo
+        var selectGroup = this.element.getElementById("selectGroup");
+        selectGroup.innerHTML = "";
+        //ciclo i gruppi e li aggiungo alla <select>
+        for (var group in groups) {
+            addOptionToSelect(selectGroup, groups[group].id, groups[group].name)
         }
     };
 
@@ -544,7 +534,7 @@ function AddressBookPanelPresenter(url) {
      * @author Ricardo tresoldi
      * @param {Array} filtredContacts Array di contrati
      */
-    function showFilter(filtredContacts) {
+    this.showFilter = function(filtredContacts) {
         // estraggo l'<ul> del Addressbook e lo inizializzo
         var ulList = this.element.getElementById("AddressBookList");
         ulList.innerHTML = "";
@@ -561,7 +551,7 @@ function AddressBookPanelPresenter(url) {
      * - bloccare un utente
      * - ordinamento rubrica
      * - popolare la select dei gruppi
-     * - 
+     * -
      */
 
     /* OPERATION ON SERVER:
@@ -580,8 +570,12 @@ function AddressBookPanelPresenter(url) {
 
     /*FILE JSON CHE RAFFIGURA LA RUBRICA
      * {
-     *      "idUser1":{"campo1": "valore", "campo2": "valore", "campo3": "valore", "campo4": "valore"},
-     *      "idUser2":{"campo1": "valore", "campo2": "valore", "campo3": "valore", "campo4": "valore"},
+     *      "idUser1":{"nome": "uno", "gruppi": {1:"gruppo1", 2:"gruppo2", 3:"gruppo3"}, "campo3": "valore", "campo4": "valore"},
+     *      "idUser2":{"nome": "uno", "gruppi": {1:"gruppo1", 2:"gruppo2", 3:"gruppo3"}, "campo3": "valore", "campo4": "valore"},
+     * }
+     *
+     * {
+     *
      * }
      */
 }
