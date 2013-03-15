@@ -1,13 +1,14 @@
-module ("Test di CallHistoryPanelPresenter", {
+module ("CallHistoryPanelPresenterTest", {
     setup:
         function() {
-			test = new CallHistoryPanelPresenter();					},
+		//oggetto da testare
+			test = new CallHistoryPanelPresenter();	},
 	teardown: 
 		function(){}
 	}
 );
 
-test("Test della funzione createPanel()",
+test("createPanelTest()",
     function () {
 		var i = 0;
 		

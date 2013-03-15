@@ -1,4 +1,4 @@
-module ("Test di MessagePanelPresenter", {
+module ("MessagePanelPresenterTest", {
     setup:
         function() {
 		
@@ -10,7 +10,7 @@ module ("Test di MessagePanelPresenter", {
 
 /*PRECONDIZIONE: la funzione setup deve essere corretta*/
 
-test("Test della funzione createPanel()",
+test("createPanelTest()",
    function () {
 	var i = 0;
 		

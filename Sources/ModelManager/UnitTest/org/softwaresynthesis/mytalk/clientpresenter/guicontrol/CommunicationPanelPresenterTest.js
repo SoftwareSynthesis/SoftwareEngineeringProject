@@ -1,19 +1,16 @@
-module ("Test di AccontSettingsPanelPresenter", {
+module ("CommunicationPanelPresenter", {
     setup:
         function() {
 			test = new CommunicationPanelPresenter();
 			test.element = new Object();
 			test.element.innerHTML = "";
-
-
-	
 			},
 	teardown: 
 		function(){}
 	}
 );
 
-test("Test della funzione createPanel()",
+test("createPanelTest()",
     function () {
 		var i = 0;
 		

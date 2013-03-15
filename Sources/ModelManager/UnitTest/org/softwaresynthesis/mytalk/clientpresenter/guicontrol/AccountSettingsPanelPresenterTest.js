@@ -1,4 +1,4 @@
-module ("Test di AccontSettingsPanelPresenter", {
+module ("AccontSettingsPanelPresenterTest", {
     setup:
         function() {
 			communicationcenter = new Object();
@@ -13,7 +13,7 @@ module ("Test di AccontSettingsPanelPresenter", {
 
 /*Tale test controlla il buon funzionamento dell'inizializzazione AccountSettingPanel
 controlla che l'albero sia stato costruito correttamente e per i vari nodi controlla che il loro contenuto sia stato inserito correttamente*/
-test("Test della funzione createPanel()",
+test("createPanelTest()",
     function () {
 		var i = 0;
 		

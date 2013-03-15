@@ -1,4 +1,4 @@
-module ("Test di ContactPanelPresenter", {
+module ("ContactPanelPresenterTest", {
   setup:
        function() {
 			test = new ContactPanelPresenter();								},
@@ -6,7 +6,7 @@ module ("Test di ContactPanelPresenter", {
 		function(){}
 	});
 
-test("Test della funzione createPanel()",
+test("createPanelTest()",
     function () {
 		var i = 0;
 		
