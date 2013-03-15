@@ -1064,17 +1064,18 @@ L'oggetto cosi ottenuto dovrà essere controllato, ovvero si dovrà accertare ch
 \subsubsection*{Funzione}
 Classe per la definizione di un apposito canale di comunicazione client-server. La classe è un'estensione di \texttt{org.apache.catalina.websocket.MessageInbound}, che verrà usata poi in \classname{ChannelServlet}. Si osservi che l'associazione tra un istanza di \classname{PushInbound} e un utente del sistema è univoca: fintanto che connesso un utente ha un proprio \classname{PushInbound} presente sul server, che è suo e suo soltanto.
 
-%TODO terminar definizione lista di relazioni d'uso.
-
 \subsubsection*{Relazioni d'uso}
 \begin{itemize}
-	\item \texttt{java.io.IOException}:
-	\item \texttt{java.nio.ByteBuffer}:
-	\item \texttt{java.nio.CharBuffer}:
-	\item \texttt{java.util.List}:
-	\item \texttt{org.apache.catalina.websocket.MessageInbound}:
-	\item \texttt{com.google.gson.*}:
+	\item \texttt{java.io.IOException}: Eccezione lanciabile dal metodo \method{OnTextMessage()}.
+	\item \texttt{java.nio.CharBuffer}: tipologia di buffer usata per memorizzare il messaggio ricevuto come parametro d'ingresso.
+	\item \texttt{java.util.Iterator}: usata per scorrere il contenuto dell'insieme di \classname{AddressBookEntry}
+	\item \texttt{java.util.Set}: struttura dati usata per memorizzare le \inglese{entry} (\classname{AddressBookEntry}) che costituiscono la rubrica dell'utente.
+	\item \texttt{org.apache.catalina.websocket.MessageInbound}: classe da estendere. Aggiunge alla classe \classname{PushInbound} le funzionalità necessarie per fare di lei un ``canale di comunicazione'' usabile dai client.
+	\item \texttt{com.google.gson.*}: usata per convertire i dati interni in una stringa formato json.
 	\item \classname{State}: classe interna utilizzata per rappresentare lo stato dell'utente a cui è associata l'istanza di \classname{PushInbound}. Un utente ha uno stato fintanto che è connesso (quindi fintanto che esiste sul server un'istanza di \classname{PushInbound}  ad esso associata). Gli stati possibili sono: AVAILABLE (utente connesso e libero, quindi disposto a ricevere chiamate) e OCCUPIED (utente connesso ma attualmente occupato in un'altra conversazione).
+	\item \classname{abook.AddressBookEntry}: usata per definire la rubrica dell'utente, richiamata dal metodo \method{onTextMessage} nel momento in cui c'è la necessità di aggiornare lo stato dell'utente e renderlo visibile ai suoi contatti.
+	\item \classname{abook.IUserData}: usata per riferire un istanza della classe ad un particolare utente.
+	\item \classname{dao.UserDataDAO}: usata per riferire un istanza della classe ad un particolare utente.
 
 \end{itemize}
 
