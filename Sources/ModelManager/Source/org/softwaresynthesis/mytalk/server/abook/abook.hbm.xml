@@ -3,6 +3,7 @@
 
 <hibernate-mapping package = "org.softwaresynthesis.mytalk.server.abook">
 	<class name = "UserData" table = "UserData">
+	
 		<id name = "id" type = "long" column = "ID_user" unsaved-value = "null">
 	  	  	<generator class = "identity"/>
 	 	</id>
@@ -18,6 +19,7 @@
 	  		<one-to-many class = "AddressBookEntry"/>
 	  	</set>
 	</class>
+	
 	<class name = "Group" table = "Groups">
 		<id name = "id" type = "long" column = "ID_group" unsaved-value = "null">
 			<generator class = "identity"/>
@@ -28,6 +30,7 @@
 			<one-to-many class = "AddressBookEntry"/>
 		</set>
 	</class>
+	
 	<class name = "AddressBookEntry" table = "AddressBookEntries">
 		<id name = "id" type = "long" column = "ID_addressBookEntry" unsaved-value = "null">
 			<generator class = "identity"/>

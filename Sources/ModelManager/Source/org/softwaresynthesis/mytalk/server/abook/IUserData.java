@@ -16,8 +16,6 @@ public interface IUserData extends IMyTalkObject
 	 * Restituisce l'identificativo univoco
 	 * dell'utente del sistema mytalk
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	identificativo dell'utente di
 	 * 			tipo {@link Long}
 	 */
@@ -28,8 +26,6 @@ public interface IUserData extends IMyTalkObject
 	 * si è registrato un utente nel sistema
 	 * mytalk
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	{@link String} rappresentante
 	 * 			l'indirizzo e-mail dell'utente
 	 */
@@ -40,8 +36,6 @@ public interface IUserData extends IMyTalkObject
 	 * l'utente si vuole registrare nel 
 	 * sistema mytalk
 	 * 
-	 * @author 	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @param 	eMail	{@link String} con
 	 * 					l'e-mail con cui vuole
 	 * 					registrarsi l'utente
@@ -53,8 +47,6 @@ public interface IUserData extends IMyTalkObject
 	 * secondo la strategia {@link ISecurityStrategy},
 	 * con l'utente accede al sistema
 	 * 
-	 * @author 	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	{@link String} con la password
 	 * 			dell'utente
 	 */
@@ -64,7 +56,6 @@ public interface IUserData extends IMyTalkObject
 	 * Imposta la password che l'utente utilizzerà
 	 * per accedere al sistema mytalk
 	 * 
-	 * @author	Andrea Meneghinello
 	 * @param 	password	{@link String} con la
 	 * 						password scelta dall'utente
 	 */
@@ -74,8 +65,6 @@ public interface IUserData extends IMyTalkObject
 	 * Restituisce la domanda segreta che l'utente
 	 * ha impostato per il recupero della password
 	 * 
-	 * @author 	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	{@link String} con la domanda segreta
 	 */
 	public String getQuestion();
@@ -84,8 +73,6 @@ public interface IUserData extends IMyTalkObject
 	 * Imposta la domanda segreta utilizzata dall'utente
 	 * per il recupero della propria password
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version %I%, %G%
 	 * @param 	question	{@link String} con la domanda
 	 * 						segreta scelta dall'utente
 	 */
@@ -96,8 +83,6 @@ public interface IUserData extends IMyTalkObject
 	 * per il recupero della password di accesso
 	 * al sistema mytalk
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	{@link String} con la risposta alla
 	 * 			domanda segreta
 	 */
@@ -108,8 +93,6 @@ public interface IUserData extends IMyTalkObject
 	 * per il recupero della password di accesso
 	 * al sistema mytalk
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @param 	answer	{@link String} con la
 	 * 					risposta alla domanda segreta
 	 * 					per il recupero della password
@@ -119,8 +102,6 @@ public interface IUserData extends IMyTalkObject
 	/**
 	 * Restituisce il nome dell'utente
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	{@link String} con il nome dell'utente
 	 */
 	public String getName();
@@ -128,8 +109,6 @@ public interface IUserData extends IMyTalkObject
 	/**
 	 * Imposta il nome dell'utente
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @param 	name {@link String} con il nome dell'utente
 	 */
 	public void setName(String name);
@@ -137,8 +116,6 @@ public interface IUserData extends IMyTalkObject
 	/**
 	 * Restituisce il cognome dell'utente
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	{@link String} con il cognome dell'utente
 	 */
 	public String getSurname();
@@ -146,7 +123,6 @@ public interface IUserData extends IMyTalkObject
 	/**
 	 * Imposta il cognome dell'utente
 	 * 
-	 * @author	Andrea Meneghinello
 	 * @param 	surname	{@link String} con il cognome
 	 * 					dell'utnete
 	 */
@@ -156,8 +132,6 @@ public interface IUserData extends IMyTalkObject
 	 * Restituisce il link all'immagine profilo scelta
 	 * dall'utente
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	{@link String} con il percorso realativo
 	 * 			all'immagine profilo dell'utente
 	 */
@@ -167,8 +141,6 @@ public interface IUserData extends IMyTalkObject
 	 * Imposta il percorso dell'immagine profilo scelta
 	 * dall'utente
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @param 	path	{@link String} con il percorso
 	 * 					dove sarà salvata nel server
 	 * 					l'immagine profilo
@@ -178,8 +150,6 @@ public interface IUserData extends IMyTalkObject
 	/**
 	 * Restituisce la rubrica dell'utente
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	{@link Set} contente le entry
 	 * 			della rubrica
 	 */
@@ -189,9 +159,23 @@ public interface IUserData extends IMyTalkObject
 	 * Aggiunge alla rubrica personale un
 	 * nuovo contatto
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
-	 * @param entry
+	 * @param 	addressBook	{@link Set} contentente
+	 * 						la rubrica utente
 	 */
-	public void setAddressBook(Set<AddressBookEntry> entry);
+	public void setAddressBook(Set<AddressBookEntry> addressBook);
+	
+	/**
+	 * Aggiunge un nuovo contatto alla rubrica
+	 * 
+	 * @param	entry	{@link AddressBookEntry}
+	 * 					da aggiungere alla rubrica
+	 */
+	public void addAddressBookEntry(AddressBookEntry entry);
+	
+	/**
+	 * Rimuove un contatto dalla rubrica
+	 * 
+	 * @param 	entry	{@link AddressBookEntry} da rimuovere
+	 */
+	public void removeAddressBookEntry(AddressBookEntry entry);
 }

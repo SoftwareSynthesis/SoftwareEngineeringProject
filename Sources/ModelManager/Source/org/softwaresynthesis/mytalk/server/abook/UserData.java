@@ -23,9 +23,6 @@ public class UserData implements IUserData
 	
 	/**
 	 * Crea un utente privo di dati
-	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 */
 	public UserData()
 	{
@@ -37,8 +34,6 @@ public class UserData implements IUserData
 	 * identificativo, che però verrà ignorato
 	 * nelle operazioni di insert nel database
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @param 	identifier	{@link Long} che identifica
 	 * 						un utente
 	 */
@@ -53,8 +48,6 @@ public class UserData implements IUserData
 	 * JSON in modo che possa essere utilizzata
 	 * nella parte client
 	 * 
-	 * @author 	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	{@link String} in formato JSON
 	 * 			dell'istanza
 	 */
@@ -64,8 +57,7 @@ public class UserData implements IUserData
 		String result = "{\"name\":\"" + this.getName() + "\"";
 		result += ", \"surname\":\"" + this.getSurname() + "\"";
 		result += ", \"email\":\"" + this.getMail() + "\"";
-		result += ", \"picturePath\":\"" + this.getPath() + "\"";
-		result += ", \"id\":\"" + this.getId() + "\"}";
+		result += ", \"picturePath\":\"" + this.getPath() + "\"}";
 		return result;
 	}
 
@@ -73,8 +65,6 @@ public class UserData implements IUserData
 	 * Restituisce l'identificativo univoco
 	 * dell'utente del sistema mytalk
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	identificativo dell'utente di
 	 * 			tipo {@link Long}
 	 */
@@ -88,8 +78,6 @@ public class UserData implements IUserData
 	 * Imposta l'identificativo univoco di un
 	 * utente
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @param 	identifier	{@link Long} che identifica
 	 * 						un utente
 	 */
@@ -103,8 +91,6 @@ public class UserData implements IUserData
 	 * si è registrato un utente nel sistema
 	 * mytalk
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	{@link String} rappresentante
 	 * 			l'indirizzo e-mail dell'utente
 	 */
@@ -119,8 +105,6 @@ public class UserData implements IUserData
 	 * l'utente si vuole registrare nel 
 	 * sistema mytalk
 	 * 
-	 * @author 	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @param 	eMail	{@link String} con
 	 * 					l'e-mail con cui vuole
 	 * 					registrarsi l'utente
@@ -136,8 +120,6 @@ public class UserData implements IUserData
 	 * secondo la strategia {@link ISecurityStrategy},
 	 * con l'utente accede al sistema
 	 * 
-	 * @author 	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	{@link String} con la password
 	 * 			dell'utente
 	 */
@@ -151,7 +133,6 @@ public class UserData implements IUserData
 	 * Imposta la password che l'utente utilizzerà
 	 * per accedere al sistema mytalk
 	 * 
-	 * @author	Andrea Meneghinello
 	 * @param 	password	{@link String} con la
 	 * 						password scelta dall'utente
 	 */
@@ -165,8 +146,6 @@ public class UserData implements IUserData
 	 * Restituisce la domanda segreta che l'utente
 	 * ha impostato per il recupero della password
 	 * 
-	 * @author 	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	{@link String} con la domanda segreta
 	 */
 	@Override
@@ -179,8 +158,6 @@ public class UserData implements IUserData
 	 * Imposta la domanda segreta utilizzata dall'utente
 	 * per il recupero della propria password
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version %I%, %G%
 	 * @param 	question	{@link String} con la domanda
 	 * 						segreta scelta dall'utente
 	 */
@@ -195,8 +172,6 @@ public class UserData implements IUserData
 	 * per il recupero della password di accesso
 	 * al sistema mytalk
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	{@link String} con la risposta alla
 	 * 			domanda segreta
 	 */
@@ -211,8 +186,6 @@ public class UserData implements IUserData
 	 * per il recupero della password di accesso
 	 * al sistema mytalk
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @param 	answer	{@link String} con la
 	 * 					risposta alla domanda segreta
 	 * 					per il recupero della password
@@ -226,8 +199,6 @@ public class UserData implements IUserData
 	/**
 	 * Restituisce il nome dell'utente
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	{@link String} con il nome dell'utente
 	 */
 	@Override
@@ -239,8 +210,6 @@ public class UserData implements IUserData
 	/**
 	 * Imposta il nome dell'utente
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @param 	name {@link String} con il nome dell'utente
 	 */
 	@Override
@@ -252,8 +221,6 @@ public class UserData implements IUserData
 	/**
 	 * Restituisce il cognome dell'utente
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	{@link String} con il cognome dell'utente
 	 */
 	@Override
@@ -265,7 +232,6 @@ public class UserData implements IUserData
 	/**
 	 * Imposta il cognome dell'utente
 	 * 
-	 * @author	Andrea Meneghinello
 	 * @param 	surname	{@link String} con il cognome
 	 * 					dell'utnete
 	 */
@@ -279,8 +245,6 @@ public class UserData implements IUserData
 	 * Restituisce il link all'immagine profilo scelta
 	 * dall'utente
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	{@link String} con il percorso realativo
 	 * 			all'immagine profilo dell'utente
 	 */
@@ -294,8 +258,6 @@ public class UserData implements IUserData
 	 * Imposta il percorso dell'immagine profilo scelta
 	 * dall'utente
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @param 	path	{@link String} con il percorso
 	 * 					dove sarà salvata nel server
 	 * 					l'immagine profilo
@@ -309,8 +271,6 @@ public class UserData implements IUserData
 	/**
 	 * Restituisce la rubrica dell'utente
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	{@link Set} con la rubrica
 	 * 			dell'utente
 	 */
@@ -321,16 +281,41 @@ public class UserData implements IUserData
 	}
 	
 	/**
-	 * Inserisce un nuovo contatto alla rubrica
+	 * Inserisce la rubrica di un contatto
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
+	 * param	addressBook	{@link Set} con la rubrica
+	 * 						utente
 	 */
 	@Override
-	public void setAddressBook(AddressBookEntry entry)
+	public void setAddressBook(Set<AddressBookEntry> addressBook)
+	{
+		this.addressBook = addressBook;
+	}
+	
+	/**
+	 * Inserisce un nuovo contatto nella rubrica
+	 * dell'utente
+	 * 
+	 * @param 	entry	{@link AddressBookEntry}
+	 * 					con il nuovo contatto da
+	 * 					aggiungere
+	 */
+	@Override
+	public void addAddressBookEntry(AddressBookEntry entry)
 	{
 		this.addressBook.add(entry);
 		entry.setOwner(this);
+	}
+	
+	/**
+	 * Rimove un contatto dalla rubrica
+	 * 
+	 * @param	entry	{@link AddressBookEntry} da rimuovere
+	 */
+	public void removeAddressBookEntry(AddressBookEntry entry)
+	{
+		this.addressBook.remove(entry);
+		entry.setOwner(null);
 	}
 	
 	/**
@@ -354,5 +339,16 @@ public class UserData implements IUserData
 			result = this.mail.equals(user.mail);
 		}
 		return result;
+	}
+	
+	/**
+	 * Restituisce l'istanza nel formato {@link String}
+	 * 
+	 * @return	{@link String} rappresentante l'istanza
+	 */
+	@Override
+	public String toString()
+	{
+		return String.format("UserData[id: %s, mail: %s", this.id.toString(), this.mail);
 	}
 }

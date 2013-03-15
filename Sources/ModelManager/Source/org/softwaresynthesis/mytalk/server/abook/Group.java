@@ -19,15 +19,18 @@ public class Group implements IGroup
 	/**
 	 * Crea un oggetto gruppo privo
 	 * di valori
-	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 */
 	public Group()
 	{
 		this.addressBook = new HashSet<AddressBookEntry>();
 	}
 	
+	/**
+	 * Crea un gruppo assegnandogli un identificatore
+	 * 
+	 * @param 	identifier	{@link Long} che identificherà
+	 * 						l'istanza
+	 */
 	public Group(Long identifier)
 	{
 		this();
@@ -38,8 +41,6 @@ public class Group implements IGroup
 	 * Restituisce l'istanza dell'oggetto
 	 * come stringa in formato JSON
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	{@link String} dell'istanza
 	 * 			in formato JSON
 	 */
@@ -55,8 +56,6 @@ public class Group implements IGroup
 	 * Restituisce l'identificatore univoco
 	 * del gruppo
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	{@link Long} che identifica univocamente
 	 * 			il gruppo
 	 */
@@ -70,8 +69,6 @@ public class Group implements IGroup
 	 * Imposta l'identificatore univoco
 	 * del gruppo
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @param 	identifier	{@link Long} idenficatore
 	 * 						del gruppo
 	 */
@@ -83,8 +80,6 @@ public class Group implements IGroup
 	/**
 	 * Restituisce il nome del gruppo
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	{@link String} con il nome
 	 * 			del gruppo
 	 */
@@ -97,8 +92,6 @@ public class Group implements IGroup
 	/**
 	 * Imposta il nome del gruppo
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @param	name	{@link String} nome del
 	 * 					gruppo
 	 */
@@ -112,8 +105,6 @@ public class Group implements IGroup
 	 * Restituisce i contatti appartenenti
 	 * al gruppo
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	{@link Set} con i contatti del
 	 * 			gruppo
 	 */
@@ -126,23 +117,44 @@ public class Group implements IGroup
 	/**
 	 * Aggiunge un nuovo contatto al gruppo
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
+	 * @param	addressBook	{@link AddressBookEntry} da
+	 * 						aggiungere al gruppo
+	 */
+	@Override
+	public void setAddressBook(Set<AddressBookEntry> addressBook)
+	{
+		this.addressBook = addressBook;
+	}
+	
+	/**
+	 * Aggiunge un contatto al gruppo
+	 * 
 	 * @param	entry	{@link AddressBookEntry} da
 	 * 					aggiungere al gruppo
 	 */
 	@Override
-	public void setAddressBook(AddressBookEntry entry)
+	public void addAddressBookEntry(AddressBookEntry entry)
 	{
 		this.addressBook.add(entry);
 		entry.setGroup(this);
 	}
 	
 	/**
+	 * Rimuove un contatto dal gruppo
+	 * 
+	 * @param	entry	{@link AddressBookEntry} da
+	 * 					rimuovere dal gruppo
+	 */
+	@Override
+	public void removeAddressBookEntry(AddressBookEntry entry)
+	{
+		this.addressBook.remove(entry);
+		entry.setGroup(null);
+	}
+	
+	/**
 	 * Compare due istanze di Group
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @param	obj	{@link Object} che deve
 	 * 				essere comparato
 	 * @result	true se le due istanze rappresentano
@@ -159,5 +171,16 @@ public class Group implements IGroup
 			result = this.id.equals(group.id);
 		}
 		return result;
+	}
+	
+	/**
+	 * Restituisce l'istanza in formato {@link String}
+	 * 
+	 * @return	{@link String} rappresentante l'istanza
+	 */
+	@Override
+	public String toString()
+	{
+		return String.format("Group[id: %s, name: %s]", this.id.toString(), this.name);
 	}
 }

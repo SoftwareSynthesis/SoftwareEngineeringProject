@@ -59,8 +59,25 @@ public interface IGroup extends IMyTalkObject
 	 * 
 	 * @author	Andrea Meneghinello
 	 * @version	%I%, %G%
-	 * @param 	entry	{@link AddressBookEntry} da
-	 * 					aggiungere al gruppo
+	 * @param 	addressBook	{@link AddressBookEntry} da
+	 * 						aggiungere al gruppo
 	 */
-	public void setAddressBook(AddressBookEntry entry);
+	public void setAddressBook(Set<AddressBookEntry> addressBook);
+	
+	/**
+	 * Aggiunge un contatto al gruppo
+	 * 
+	 * @param 	entry 	{@link AddressBookEntry}
+	 * 					da aggiungere al gruppo
+	 */
+	public void addAddressBookEntry(AddressBookEntry entry);
+	
+	/**
+	 * Rimuove un contatto dal gruppo
+	 * 
+	 * @param	entry	{@link AddressBookEntry}
+	 * 					da rimuovere dal gruppo
+	 * @param entry
+	 */
+	public void removeAddressBookEntry(AddressBookEntry entry);
 }

@@ -197,4 +197,14 @@ public class AddressBookEntry implements IAddressBookEntry
 		}
 		return result;
 	}
+	
+	/**
+	 * Restituisce l'istanza in forma di {@link String}
+	 * 
+	 * @return	{@link String} rappresentante l'istanza	
+	 */
+	public String toString()
+	{
+		return String.format("AddressBookEntry[contact: %s, owner: %s, group: %s]", this.contact, this.owner, this.group);
+	}
 }

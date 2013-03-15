@@ -15,8 +15,6 @@ public interface IAddressBookEntry extends IMyTalkObject
 	 * Restituisce l'identificatore univoco
 	 * del contatto della rubrica
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version %I%, %G%
 	 * @return	{@link Long} che identifica
 	 * 			il contatto
 	 */
@@ -25,8 +23,6 @@ public interface IAddressBookEntry extends IMyTalkObject
 	/**
 	 * Restituisce il contatto della rubrica
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version %I%, %G%
 	 * @return	{@link IUserData} che rappresenta
 	 * 			il contatto della rubrica
 	 */
@@ -35,8 +31,6 @@ public interface IAddressBookEntry extends IMyTalkObject
 	/**
 	 * Imposta il contatto della rubrica
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * param	contact	{@link IUserData} contatto da
 	 * 					settare
 	 */
@@ -45,8 +39,6 @@ public interface IAddressBookEntry extends IMyTalkObject
 	/**
 	 * Restituisce il gruppo a cui appertiene l'utente
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	oggetto {@link IGroup} a cui appartiene
 	 * 			il contatto altrimenti null
 	 */
@@ -55,8 +47,6 @@ public interface IAddressBookEntry extends IMyTalkObject
 	/**
 	 * Imposta il gruppo a cui appartiene l'utente
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @param 	group	{@link IGroup} a cui deve
 	 * 					appartenere l'utente
 	 */
@@ -65,8 +55,6 @@ public interface IAddressBookEntry extends IMyTalkObject
 	/**
 	 * Restituisce il proprietario del contatto
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	{@link IUserData} proprietario
 	 * 			del contatto
 	 */
@@ -75,8 +63,6 @@ public interface IAddressBookEntry extends IMyTalkObject
 	/**
 	 * Imposta il proprietario del contatto
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @param	owner	{@link IUserData} proprietario
 	 * 					del contatto
 	 */
@@ -86,8 +72,6 @@ public interface IAddressBookEntry extends IMyTalkObject
 	 * Restituisce se il contatto è bloccato
 	 * e non quindi contattarci
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	true se il contatto è bloccato,
 	 * 			false altrimenti
 	 */
@@ -96,8 +80,6 @@ public interface IAddressBookEntry extends IMyTalkObject
 	/**
 	 * Imposta un contatto come bloccato o meno
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @param 	blocked	true se l'utente deve essere bloccato,
 	 * 					false altrimenti
 	 */
