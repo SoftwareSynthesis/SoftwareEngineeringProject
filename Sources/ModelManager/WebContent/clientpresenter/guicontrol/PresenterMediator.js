@@ -38,9 +38,11 @@ function PresenterMediator() {
      * @author Diego Beraldin
      */
     this.buildUI = function() {
-        for (var key in presenters) {
-            presenters[key].initialize();
-        }
+    	presenters["register"].hide();
+    	presenters["login"].hide();
+        presenters["addressbook"].initialize();
+        presenters["main"].initialize();
+        presenters["tools"].intialize();
     };
     
     /**

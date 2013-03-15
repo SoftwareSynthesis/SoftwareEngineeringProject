@@ -7,107 +7,146 @@
  * @author Stefano Farronato
  */
 function RegisterPanelPresenter(url) {
-/**********************************************************
-                     VARIABILI PRIVATE
-***********************************************************/
+    /**********************************************************
+    VARIABILI PRIVATE
+    ***********************************************************/
     //url della servlet che deve gestire la registrazione
     var servletURL = url;
     //elemento controllato da questo presenter
     var element = document.getElementById("RegisterPanel");
-
-/**********************************************************
-                     METODI PRIVATI
-***********************************************************/
+    
+    /**********************************************************
+    METODI PUBBLICI
+    ***********************************************************/
     /**
-     * Invia i dati ricevuti alla servlet per la creazione di un nuovo utente
+     * Estrae dal form il valore del cognome del nuovo utente
      * 
+     * @returns {String} il cognome dell'utente
      * @author Diego Beraldin
      */
-    function register() {
+    this.getSurname = function() {
+    	var surname = document.getElementById("lastname").value;
+    	return surname;
+    };
+    
+    /**
+     * Estrae dal form il valore del nome del nuovo utente
+     * 
+     * @returns {String} il nome dell'utente
+     * @author Diego Beraldin
+     */
+    this.getName = function() {
+    	var name = document.getElementById("firstname").value;
+    	return name;
+    };
+    
+    /**
+     * Estrae dal form la risposta alla domanda segreta associata al nuovo utente
+     * 
+     * @throws {String} messaggio di errore in caso di dati mancanti
+     * @returns {String} la risposta alla domanda
+     * @author Diego Beraldin
+     */
+    this.getAnswer = function() {
+    	var answer = document.getElementById("answer").value;
+    	if (!answer || answer.length == 0) {
+    		throw "valore non specificato";
+    	}
+    	return answer;
+    };
+    
+    /**
+     * Estrae dal form la domanda segreta associata al nuovo utente
+     * 
+     * @throws {String} messaggio di errore in caso di dati mancanti
+     * @returns {String} la domanda segreta
+     * @author Diego Beraldin
+     */
+    this.getQuestion = function() {
+    	var question = document.getElementById("question").value;
+    	return question;
+    };
+    
+    /**
+     * Estrae dal form la password associata al nuovo utente
+     * 
+     * @throws {String} messaggio d'errore in caso di dati mancanti
+     * @returns {String} la password
+     * @author Diego Beraldin
+     */
+    this.getPassword = function() {
+    	var password = document.getElementById("password").value;
+    	return password;
+    };
+    
+    /**
+     * Estrae dal form lo username del nuovo utente
+     * 
+     * @throws {String} messaggio d'errore in caso di dati mancanti
+     * @returns {String} lo username
+     * @author Diego Beraldin
+     */
+    this.getUsername = function() {
+    	var username = document.getElementById("username").value;
+    	return username;
+    };
+    
+    /**
+     * Estrae dal form il percorso dell'immagine del nuovo profilo utente
+     * 
+     * @returns {String} il percorso locale del file da caricare
+     * @author Diego Beraldin
+     */
+    this.getPicturePath = function() {
+    	var picturePath = document.getElementById("picture").value;
+    	return picturePath;
+    };
+    
+    /**
+     * Invia i dati ricevuti alla servlet per la creazione di un nuovo account utente
+     * 
+     * NOTE PER I VERIFICATORI
+     * Richiede la presenza di communicationcenter.my globale e al termine di questo metodo
+     * se le operazioni sono andate a buon fine my deve essere configurato con i dati di
+     * un utente valido
+     * Richiede un oggetto mediator globale con una proprietà buildUI() che deve essere simulata
+     * 
+     * @param {Object} userData array associativo contenente i dati dell'utente recuperati dal form
+     * @returns {String} la stringa di query che viene inviata al server
+     * @author Diego Beraldin
+     */
+    this.register = function(userData) {
     	//invia la richiesta AJAX al server
     	var request = new XMLHttpRequest();
     	request.onreadystatechange = function() {
     		if (this.readyState == 4 && this.status == 200) {
-    			testRegistration(this.responseText);
+    	    	var user = JSON.parse(this.responseText);
+    	    	if (user != null) {
+    	    		communicationcenter.my = user;
+    	    		mediator.buildUI();
+    	    	}	
     		}
     	};
     	request.open("POST", servletURL, true);
     	request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    	request.send(buildQueryString());
-    }
-    
-    /**
-     * Costruisce una stringa adatta per essere passata alla servlet al fine di effettuare
-     * la registrazione al sistema
-     * 
-     * @returns {String} la stringa di cueri che deve essere spedita alla servlet
-     * @author Diego Beraldin
-     */
-    function buildQueryString() {
-    	//recupera i dati obbligatori dal form
-    	var data = new Array();
-    	data["username"] = document.getElementById("username").getAttribute("value");
-    	data["password"] = document.getElementById("password").getAttribute("value");
-    	data["question"]= document.getElementById("question").getAttribute("value");
-    	data["answer"] = document.getElementById("answer").getAttribute("value");
-    	//verifica la presenza dei dati (e salta il resto se non sono presenti)
-    	var ok = true;
-    	for (var key in data) {
-    		if (!data[key] || data[key] == "") {
-    			ok = false;
-    		}
+    	var querystring = "username=" + encodeURIComponent(userData.username) +
+    	                  "&password=" + encodeURIComponent(userData.password) +
+    	                  "&question=" + encodeURIComponent(userData.question) +
+    	                  "&answer=" + encodeURIComponent(userData.answer);
+    	if (userData.name && userData.name.length > 0) {
+    		querystring += ("&name=" + encodeURIComponent(userData.name));
     	}
-    	if (!ok) {
-    		return;
+    	if (userData.surname && userData.surname.length > 0) {
+    		querystring += ("&surname=" + encodeURIComponent(userData.surname));
     	}
-    	
-    	//costruisce la stringa di cueri con i dati obbligatori
-    	var querystring = "";
-    	for (var key in data) {
-    		querystring = querystring + key + "=" + encodeURIComponent(data[key]) + "&";
+    	if (userData.picturePath && userData.picturePath.length > 0) {
+    		querystring += ("&picturePath=" + encodeURIComponent(userData.picturePath));
     	}
-    	//elimina il carattere '&' finale non necessario
-    	querystring = querystring.substring(0, querystring.length-1);
-    	
-    	//recupera i dati facoltativi e li accoda alla stringa di cueri
-    	var name = document.getElementById("firstname").getAttribute("value");
-    	var surname = document.getElementById("lastname").getAttribute("value");
-    	var picture = document.getElementById("picture").getAttribute("value");
-    	if (name  && name.length) {
-    		querystring += "&name=" + encodeURIComponent(name);
-    	}
-    	if (surname && surname.length) {
-    		querystring += "&surname=" + encodeURIComponent(surname);
-    	}
-    	if (picture) {
-    		querystring += "&picturePath=" + encodeURIComponent(picture);
-    	}
-    	//imposta l'operazione che la servlet deve fare (2 = registrazione nuovo utente)
     	querystring += "&operation=2";
+    	request.send(querystring);
     	return querystring;
-    }
+    };
     
-    /**
-     * Verifica che la registrazione al sistema abbia avuto successo in base alla stringa
-     * ottenuta dalla servlet. Se questa corrisponde a un utente, allora viene memorizzato
-     * sul client e si accede alla home screen dell'applicativo
-     * 
-     * @param {String} data testo di risposta della servlet di autenticazione
-     * che deve corrispondere all'utente creato dalla registrazione
-     * @author Diego Beraldin
-     */
-    function testRegistration(data) {
-    	var user = JSON.parse(data);
-    	if (user != null) {
-    		communicationcenter.my = user;
-    		this.hide();
-    		mediator.buildUI();
-    	}    	
-    }
-    
-/**********************************************************
-                     METODI PUBBLICI
-***********************************************************/
     /**
      * Inizializzazione dellla form di registrazione con la creazione di tutti i
      * widget grafici che sono contenuti al suo interno
@@ -200,7 +239,7 @@ function RegisterPanelPresenter(url) {
         var liFirstName = document.createElement('li');
         //label
         var labelFirstName = document.createElement('label');
-        labelFirstName.setAttribute("for", "firtname");
+        labelFirstName.setAttribute("for", "firstname");
         labelFirstName.innerHTML = "Nome: ";
         //input
         var inputFirstName = document.createElement('input');
@@ -247,7 +286,18 @@ function RegisterPanelPresenter(url) {
         var inputRegister = document.createElement('input');
         inputRegister.setAttribute("type", "submit");
         inputRegister.setAttribute("value", "Registrati");
-        inputRegister.onclick = register;
+        var self = this;
+        inputRegister.onclick = function() {
+        	var data = new Object();
+        	data.username = self.getUsername();
+        	data.password = self.getPassword();
+        	data.question = self.getQuetion();
+        	data.answer = self.getAnswer();
+        	data.name = self.getName();
+        	data.surname = self.getSurname();
+        	data.picturePath = self.getPicturePath();
+        	self.register(data);
+        };
         var liButtons = document.createElement('li');
 		liButtons.appendChild(inputRegister);
 

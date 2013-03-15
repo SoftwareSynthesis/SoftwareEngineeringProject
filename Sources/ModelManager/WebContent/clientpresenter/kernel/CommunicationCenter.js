@@ -9,7 +9,7 @@ function CommunicationCenter() {
     this.openChat = new Array();
     var urlServlet = "http://localhost:8080/.................";
     //oggetto che contiene i dati dell'utente
-    this.my = Array();
+    this.my = new Object();
     //dichiaro i due elementi <video>
     var myVideo, otherVideo;
 
