@@ -7,35 +7,17 @@
  * @author Stefano Farronato
  */
 function RegisterPanelPresenter(url) {
-/**********************************************************
-                     VARIABILI PRIVATE
-***********************************************************/
+    /**********************************************************
+    VARIABILI PRIVATE
+    ***********************************************************/
     //url della servlet che deve gestire la registrazione
     var servletURL = url;
     //elemento controllato da questo presenter
     var element = document.getElementById("RegisterPanel");
 
-/**********************************************************
-                     METODI PRIVATI
-***********************************************************/
-    /**
-     * Invia i dati ricevuti alla servlet per la creazione di un nuovo utente
-     * 
-     * @author Diego Beraldin
-     */
-    function register() {
-    	//invia la richiesta AJAX al server
-    	var request = new XMLHttpRequest();
-    	request.onreadystatechange = function() {
-    		if (this.readyState == 4 && this.status == 200) {
-    			testRegistration(this.responseText);
-    		}
-    	};
-    	request.open("POST", servletURL, true);
-    	request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    	request.send(buildQueryString());
-    }
-    
+    /**********************************************************
+    METODI PRIVATI
+    ***********************************************************/
     /**
      * Costruisce una stringa adatta per essere passata alla servlet al fine di effettuare
      * la registrazione al sistema
@@ -105,9 +87,35 @@ function RegisterPanelPresenter(url) {
     	}    	
     }
     
-/**********************************************************
-                     METODI PUBBLICI
-***********************************************************/
+    /**********************************************************
+    METODI PUBBLICI
+    ***********************************************************/
+    /**
+     * Invia i dati ricevuti alla servlet per la creazione di un nuovo utente
+     * 
+     * NOTE PER I VERIFICATORI
+     * Richiede la presenza di communicationcenter.my globale e al termine di questo metodo
+     * se le operazioni sono andate a buon fine my deve essere configurato con i dati di
+     * un utente valido
+     * 
+     * @returns {String} la stringa di query che viene inviata al server
+     * @author Diego Beraldin
+     */
+    function register() {
+    	//invia la richiesta AJAX al server
+    	var request = new XMLHttpRequest();
+    	request.onreadystatechange = function() {
+    		if (this.readyState == 4 && this.status == 200) {
+    			testRegistration(this.responseText);
+    		}
+    	};
+    	request.open("POST", servletURL, true);
+    	request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    	var querystring = buildQueryString();
+    	request.send(querystring);
+    	return querystring;
+    }
+    
     /**
      * Inizializzazione dellla form di registrazione con la creazione di tutti i
      * widget grafici che sono contenuti al suo interno
@@ -247,7 +255,10 @@ function RegisterPanelPresenter(url) {
         var inputRegister = document.createElement('input');
         inputRegister.setAttribute("type", "submit");
         inputRegister.setAttribute("value", "Registrati");
-        inputRegister.onclick = register;
+        var self = this;
+        inputRegister.onclick = function() {
+        	self.register();
+        };
         var liButtons = document.createElement('li');
 		liButtons.appendChild(inputRegister);
 
