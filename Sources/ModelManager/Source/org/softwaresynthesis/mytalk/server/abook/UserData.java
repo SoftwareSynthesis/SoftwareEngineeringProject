@@ -1,7 +1,7 @@
 package org.softwaresynthesis.mytalk.server.abook;
 
-import org.softwaresynthesis.mytalk.server.abook.IUserData.State;
-import org.softwaresynthesis.mytalk.server.authentication.ISecurityStrategy;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Rappresentazione dell'utente del sistema mytalk
@@ -12,7 +12,7 @@ import org.softwaresynthesis.mytalk.server.authentication.ISecurityStrategy;
 public class UserData implements IUserData 
 {
 	private Long id;
-	private State state;
+	private Set<AddressBookEntry> addressBook;
 	private String mail;
 	private String password;
 	private String question;
@@ -29,6 +29,7 @@ public class UserData implements IUserData
 	 */
 	public UserData()
 	{
+		addressBook = new HashSet<AddressBookEntry>();
 	}
 	
 	/**
@@ -43,6 +44,7 @@ public class UserData implements IUserData
 	 */
 	public UserData(Long identifier)
 	{
+		this();
 		this.setId(identifier);
 	}
 	
@@ -61,8 +63,7 @@ public class UserData implements IUserData
 	{
 		String result = "{\"name\":\"" + this.getName() + "\"";
 		result += ", \"surname\":\"" + this.getSurname() + "\"";
-		result += ", \"mail\":\"" + this.getEmail() + "\"";
-		result += ", \"state\":\"" + this.getState() + "\"";
+		result += ", \"email\":\"" + this.getEmail() + "\"";
 		result += ", \"picturePath\":\"" + this.getPicturePath() + "\"";
 		result += ", \"id\":\"" + this.getId() + "\"}";
 		return result;
@@ -306,31 +307,30 @@ public class UserData implements IUserData
 	}
 	
 	/**
-	 * Restituisce lo stato in cui si trova un
-	 * utente
-	 * 
-	 * @author 	Andrea Meneghinello
-	 * @version	%I%, %G%
-	 * @return 	{@link State} in cui si trova
-	 * 			l'utente
-	 */
-	public State getState()
-	{
-		return this.state;
-	}
-	
-	/**
-	 * Imposta lo stato in cui si trova un utente
+	 * Restituisce la rubrica dell'utente
 	 * 
 	 * @author	Andrea Meneghinello
 	 * @version	%I%, %G%
-	 * @param 	state	{@link State} che rappresenta
-	 * 					lo stato in cui si è spostato
-	 * 					l'utente
+	 * @return	{@link Set} con la rubrica
+	 * 			dell'utente
 	 */
-	public void setState(State state)
+	@Override
+	public Set<AddressBookEntry> getAddressBook()
 	{
-		this.state = state;
+		return this.addressBook;
+	}
+	
+	/**
+	 * Inserisce un nuovo contatto alla rubrica
+	 * 
+	 * @author	Andrea Meneghinello
+	 * @version	%I%, %G%
+	 */
+	@Override
+	public void addAddressBookEntry(AddressBookEntry entry)
+	{
+		this.addressBook.add(entry);
+		entry.setOwner(this);
 	}
 	
 	/**
@@ -343,6 +343,7 @@ public class UserData implements IUserData
 	 * @return 	true se le due istanze sono uguali,
 	 * 			false altrimenti
 	 */
+	@Override
 	public boolean equals(Object obj)
 	{
 		boolean result = false;

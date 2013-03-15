@@ -1,5 +1,6 @@
 package org.softwaresynthesis.mytalk.server.abook;
 
+import java.util.Set;
 import org.softwaresynthesis.mytalk.server.IMyTalkObject;
 
 /**
@@ -10,15 +11,7 @@ import org.softwaresynthesis.mytalk.server.IMyTalkObject;
  * @version	%I%, %G%
  */
 public interface IUserData extends IMyTalkObject
-{
-	/**
-	 * Stati disponibilni nel sistema mytalk
-	 * 
-	 * @author 	Andrea Meneghinello
-	 * @version %I%, %G% 
-	 */
-	public static enum State {AVAILABLE, OCCUPIED, OFFLINE; };
-	
+{	
 	/**
 	 * Restituisce l'identificativo univoco
 	 * dell'utente del sistema mytalk
@@ -183,24 +176,22 @@ public interface IUserData extends IMyTalkObject
 	public void setPicturePath(String path);
 	
 	/**
-	 * Restituisce lo stato in cui si trova un
-	 * utente
-	 * 
-	 * @author 	Andrea Meneghinello
-	 * @version	%I%, %G%
-	 * @return 	{@link State} in cui si trova
-	 * 			l'utente
-	 */
-	public State getState();
-	
-	/**
-	 * Imposta lo stato in cui si trova un utente
+	 * Restituisce la rubrica dell'utente
 	 * 
 	 * @author	Andrea Meneghinello
 	 * @version	%I%, %G%
-	 * @param 	state	{@link State} che rappresenta
-	 * 					lo stato in cui si è spostato
-	 * 					l'utente
+	 * @return	{@link Set} contente le entry
+	 * 			della rubrica
 	 */
-	public void setState(State state);
+	public Set<AddressBookEntry> getAddressBook();
+	
+	/**
+	 * Aggiunge alla rubrica personale un
+	 * nuovo contatto
+	 * 
+	 * @author	Andrea Meneghinello
+	 * @version	%I%, %G%
+	 * @param entry
+	 */
+	public void addAddressBookEntry(AddressBookEntry entry);
 }

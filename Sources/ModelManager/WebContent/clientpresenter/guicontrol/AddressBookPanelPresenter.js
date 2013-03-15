@@ -5,18 +5,19 @@
  *
  * @constructor
  * @this {AddressBookPanelPresenter}
+ * @param {String} url URL della servlet con cui il presenter deve comunicare
  * @author Marco Schivo
  * @author Riccardo Tresoldi
  * @author Diego Beraldin
  */
-function AddressBookPanelPresenter() {
+function AddressBookPanelPresenter(url) {
     /**********************************************************
      VARIABILI PRIVATE
      ***********************************************************/
     // elemento controllato da questo presenter
     var element = document.getElementById("AddressBookPanel");
     // da configurare con url della servlet
-    var urlServlet = "http://localhost:8080/AddressBookManager";
+    var urlServlet = url;
     // array dei contatti della rubrica dell'utente
     var contacts = new Array();
     // array dei gruppi della rubrica

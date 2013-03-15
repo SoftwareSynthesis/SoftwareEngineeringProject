@@ -1,6 +1,7 @@
 package org.softwaresynthesis.mytalk.server.connection;
 
-import java.util.Vector;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
@@ -11,13 +12,15 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.catalina.websocket.StreamInbound;
 import org.apache.catalina.websocket.WebSocketServlet;
 
+import org.softwaresynthesis.mytalk.server.connection.PushInbound.State;
+
 /**
  * Servlet implementation class ChannelServlet
  */ 
 @WebServlet(description = "Signaling channel", urlPatterns = { "/ChannelServlet" })
 public class ChannelServlet extends WebSocketServlet implements Servlet {
 	private static final long serialVersionUID = 1L;
-	private static Map<String, PushInbound> clients= new HashMap<>();
+	private static Map<Long, PushInbound> clients= new HashMap<Long, PushInbound>();
 
     public ChannelServlet() {
         super();
@@ -50,8 +53,8 @@ public class ChannelServlet extends WebSocketServlet implements Servlet {
 	 * @param 	n		{@link Long} identificativo del canale
 	 */
 	public static PushInbound findClient(Long n){
-		PushInbound client= clients.get(c);
-		if(client)
+		PushInbound client= clients.get(n);
+		if(client != null)
 			return client;
 		else
 			return null;
@@ -64,7 +67,7 @@ public class ChannelServlet extends WebSocketServlet implements Servlet {
 	 * @param 	n		{@link PushInbound} canale da rimuovere
 	 */
 	public static void removeClient(PushInbound c){
-		for (String key : clients.keySet()) {
+		for (Long key : clients.keySet()) {
 			if (clients.get(key)==c) {
 				clients.remove(key) ;
 			}

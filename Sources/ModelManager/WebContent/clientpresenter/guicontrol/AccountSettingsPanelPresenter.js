@@ -3,15 +3,16 @@
  * 
  * @constructor
  * @this {AccountSettingsPanelPresenter}
+ * @param {String} url URL della servlet con cui il presenter deve comunicare
  * @author Elena Zecchinato
  * @author Diego Beraldin
  */
-function AccountSettingsPanelPresenter() {
+function AccountSettingsPanelPresenter(url) {
     /**********************************************************
     VARIABILI PRIVATE
     ***********************************************************/
     //url della servlet con cui il presenter deve comunicare
-    var servletURL = "http://localhost:8080/AccountManager";
+    var servletURL = url;
 
     /**********************************************************
     METODI PRIVATI
@@ -163,7 +164,7 @@ function AccountSettingsPanelPresenter() {
      * restituisce in modo che possa essere inserito all'interno del 
      * pannello principale
      * 
-     * @returns {HTMLDivElementk} pannello delle impostazioni inizializzato
+     * @returns {HTMLDivElement} pannello delle impostazioni inizializzato
      * @author Elena Zecchinato
      * @author Diego Beraldin
      */

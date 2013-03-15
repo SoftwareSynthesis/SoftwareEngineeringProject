@@ -137,10 +137,20 @@ Infine il \inglese(Lack Of Cohesion Of Methods) (LCOM3) indica il liello (medio)
 \\\
 \section{Test e risultati}
 I test riportati hanno lo scopo di dimostrare in modo oggettivo la bontà e la qualità di quanto prodotto a livello di codice. Tali test servono inoltre a rilevare \inglese{bug} non evidenziati (o non possibili da evidenziare) durante l'analisi statica del codice e vengono effettuati sui package relativi alla parte di \inglese{Model} e \inglese{Presenter} del modello MVP generale.
-Le verifiche relative alla parte \inglese{View} saranno al contrario effettuati successivamente a quelli sul \inglese{Model} e sul \inglese{Presenter}, in quanto sarà nesessario avere la certezza che tali componenti risultino stabili e privi (per quanto possibile) di \inglese{bug}, specifichiamo inoltre che tali test saranno effettuati tramite i test di sistema specificati nel documento \textit{anilisi\_dei\_requisiti.3.0.pdf} allegato.
+Le verifiche relative alla parte \inglese{View} saranno al contrario effettuati successivamente a quelli sui componenti sopracitati, in quanto sarà necessario avere la certezza che tali componenti risultino stabili e privi (per quanto possibile) di \inglese{bug}. 
+Specifichiamo inoltre che tali verifiche saranno effettuati tramite i test di sistema specificati nel documento \textit{anilisi\_dei\_requisiti.3.0.pdf} allegato.
+
+Il team ha seguito la seguente sequenza di passi per la realizzazione e l'utilizzo delle varie funzioni di test:
+\begin{itemize}
+\item individuazione preliminare delle funzionalità da testare;
+\item analisi, progettazione e successiva implementazione delle funzioni di test per le funzionalità individuate, stabilendo i dati di input e specificati gli output attesi;
+\item esecuzione delle funzioni di test create.
+\item analisi dei risultati dei test, confrontato i risultati con quelli attesi ed effettuato la correzione di eventuali anomalie riscontrate, verificata infine la ripetibilità del test stesso;
+\item registrati i risultati ottenuti.
+\end{itemize}
 
 I test per la parte \inglese{Model} sono stati predisposti ed eseguiti usufruendo della libreria JUnit, in quanto questa parte della struttura è implementata mediante codice java.
-Per il componente \inglese{Presenter} si è deciso invece di usufruire di QUnit, coerentemente con il linguaggio scelto (JavaScript) che lo implementa.
+Per il componente \inglese{Presenter} si è deciso invece di usufruire di QUnit, coerentemente con il linguaggio scelto (JavaScript) che lo implementa. Tale \underline{franework} risulta pratico in quanto permette di individuare facilmente quale metodo analizzato ha portato al fallimento del test, inoltre permette una netta separazione tra codice testato e i test effettivi.
 
 \subsection{Model}
 I test su questa parte del sistema mirano a verificare che la persistenza dei dati all'interno del server sia gestita correttamente dal database.
@@ -277,6 +287,10 @@ Tale test si compone di X metodi:
 \item \textit{() }
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
+
+\subsection{Presenter}
+I test sul \textit{presenter} sono mirati a verificare che le classi di tale componente rispettino il comportamento atteso, interagendo i dati tramite l'interazione con il \textit{model}, componente testato nella sezione precedente. Questa serie di test, come anticipato nelle prime pagine del documento, è stata eseguita mediante il \textit{framework} \textit{Qunit}. Tali verifiche sono stati implementate allo scopo di non testare soltanto il comportamento della specifica funzione, ma anche verificare lo stato di avanzamento del prodotto e il numero di bug evidenziati ancora esistenti.
+Ovviamente al termine di tali verifiche il risultato dovrà risultare positivo, ovvero i test dovranno essere \textit{tutti} superati.
 
 
 \end{document}

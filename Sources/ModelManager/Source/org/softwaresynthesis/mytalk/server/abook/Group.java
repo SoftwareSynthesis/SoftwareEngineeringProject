@@ -1,5 +1,8 @@
 package org.softwaresynthesis.mytalk.server.abook;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Rappresenta un gruppo di una rubrica
  * utente
@@ -10,6 +13,7 @@ package org.softwaresynthesis.mytalk.server.abook;
 public class Group implements IGroup 
 {
 	private Long id;
+	private Set<AddressBookEntry> addressBook;
 	private String name;
 	
 	/**
@@ -21,10 +25,12 @@ public class Group implements IGroup
 	 */
 	public Group()
 	{
+		this.addressBook = new HashSet<AddressBookEntry>();
 	}
 	
 	public Group(Long identifier)
 	{
+		this();
 		this.setId(identifier);
 	}
 
@@ -100,5 +106,58 @@ public class Group implements IGroup
 	public void setName(String name) 
 	{
 		this.name = name;
+	}
+	
+	/**
+	 * Restituisce i contatti appartenenti
+	 * al gruppo
+	 * 
+	 * @author	Andrea Meneghinello
+	 * @version	%I%, %G%
+	 * @return	{@link Set} con i contatti del
+	 * 			gruppo
+	 */
+	@Override
+	public Set<AddressBookEntry> getAddressBook()
+	{
+		return this.addressBook;
+	}
+	
+	/**
+	 * Aggiunge un nuovo contatto al gruppo
+	 * 
+	 * @author	Andrea Meneghinello
+	 * @version	%I%, %G%
+	 * @param	entry	{@link AddressBookEntry} da
+	 * 					aggiungere al gruppo
+	 */
+	@Override
+	public void addAddressBookEntry(AddressBookEntry entry)
+	{
+		this.addressBook.add(entry);
+		entry.setGroup(this);
+	}
+	
+	/**
+	 * Compare due istanze di Group
+	 * 
+	 * @author	Andrea Meneghinello
+	 * @version	%I%, %G%
+	 * @param	obj	{@link Object} che deve
+	 * 				essere comparato
+	 * @result	true se le due istanze rappresentano
+	 * 			lo stesso oggetto, false altrimenti 
+	 */
+	@Override
+	public boolean equals(Object obj)
+	{
+		boolean result = false;
+		Group group = null;
+		if (obj instanceof Group)
+		{
+			group = (Group)obj;
+			result = this.id.equals(group.id);
+		}
+		return result;
 	}
 }

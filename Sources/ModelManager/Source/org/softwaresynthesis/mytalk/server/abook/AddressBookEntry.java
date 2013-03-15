@@ -16,6 +16,31 @@ public class AddressBookEntry implements IAddressBookEntry
 	private boolean blocked;
 	
 	/**
+	 * Crea un AddressBookEntry vuoto
+	 * 
+	 * @author	Andrea Meneghinello
+	 * @version	%I%, %G%
+	 */
+	public AddressBookEntry()
+	{
+		this.blocked = false;
+	}
+	
+	/**
+	 * Crea un AddressBookEntry con un ID
+	 * associato
+	 * 
+	 * @author	Andrea Meneghinello
+	 * @version	%I%, %G%
+	 * @param 	identifier	{@link Long} che identifica
+	 * 						l'AddressBookEntry
+	 */
+	public AddressBookEntry(Long identifier)
+	{
+		this.setId(identifier);
+	}
+	
+	/**
 	 * Restituisce l'istanza sotto forma di
 	 * {@link String} in formato JSON
 	 * 
@@ -48,6 +73,19 @@ public class AddressBookEntry implements IAddressBookEntry
 	public Long getId()
 	{
 		return this.id;
+	}
+	
+	/**
+	 * Imposta l'identificatore dell'istanze
+	 * 
+	 * @author	Andrea Meneghinello
+	 * @version	%I%, %G%
+	 * @param 	identifier	{@link Long} che identifica
+	 * 						l'istanza
+	 */
+	protected void setId(Long identifier)
+	{
+		this.id = identifier;
 	}
 
 	/**
@@ -165,5 +203,27 @@ public class AddressBookEntry implements IAddressBookEntry
 	public void setBlocked(boolean blocked) 
 	{
 		this.blocked = blocked;
+	}
+	
+	/**
+	 * Testa l'uguaglianza di due istanze
+	 * 
+	 * @author	Andrea Meneghinello
+	 * @version	%I%, %G%
+	 * @param	obj	{@link Object} che deve essere
+	 * 				confrontato
+	 * @return	true se le due istanze sono uguali,
+	 * 			false altrimenti
+	 */
+	public boolean equals(Object obj)
+	{
+		boolean result = false;
+		AddressBookEntry entry = null;
+		if (obj instanceof AddressBookEntry)
+		{
+			entry = (AddressBookEntry)obj;
+			result = this.id.equals(entry.id);
+		}
+		return result;
 	}
 }

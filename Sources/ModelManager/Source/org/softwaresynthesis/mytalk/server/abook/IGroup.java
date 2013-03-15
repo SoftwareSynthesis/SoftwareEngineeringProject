@@ -1,5 +1,6 @@
 package org.softwaresynthesis.mytalk.server.abook;
 
+import java.util.Set;
 import org.softwaresynthesis.mytalk.server.IMyTalkObject;
 
 /**
@@ -41,4 +42,25 @@ public interface IGroup extends IMyTalkObject
 	 * 					il nome del gruppo
 	 */
 	public void setName(String name);
+	
+	/**
+	 * Restituisce i contatti appartenenti
+	 * al gruppo
+	 * 
+	 * @author	Andrea Meneghinello
+	 * @version	%I%, %G%
+	 * @return	{@link Set} con i contatti
+	 * 			del gruppo
+	 */
+	public Set<AddressBookEntry> getAddressBook();
+	
+	/**
+	 * Aggiunge un contatto al gruppo
+	 * 
+	 * @author	Andrea Meneghinello
+	 * @version	%I%, %G%
+	 * @param 	entry	{@link AddressBookEntry} da
+	 * 					aggiungere al gruppo
+	 */
+	public void addAddressBookEntry(AddressBookEntry entry);
 }

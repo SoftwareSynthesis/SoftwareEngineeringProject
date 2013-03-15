@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package = "org.softwaresynthesis.mytalk.server.abook">
+	<class name = "UserData" table = "UserData">
+		<id name = "id" type = "long" column = "ID_user" unsaved-value = "null">
+	  	  	<generator class = "identity"/>
+	 	</id>
+	  	<property name = "mail" column = "E_Mail" type = "string" unique = "true" update = "false" not-null = "true"/>
+	  	<property name = "password" column = "Password" type = "string" not-null = "true"/>
+	  	<property name = "question" column = "Question" type = "string" not-null = "true"/>
+	  	<property name = "answer" column = "Answer" type = "string" not-null = "true"/>
+	  	<property name = "name" column = "Name" type = "string" not-null = "false"/>
+	  	<property name = "surname" column = "Surname" type = "string" not-null = "false"/>
+	  	<property name = "picturePath" column = "Picture" type = "string" not-null = "true"/>
+	  	<set name = "addressBook" table = "AddressBookEntries" lazy = "true" inverse = "false">
+	  		<key column = "Owner" not-null = "true"/>
+	  		<one-to-many class = "AddressBoonEntry"/>
+	  	</set>
+	</class>
+	<class name = "Group" table = "Groups">
+		<id name = "id" type = "long" column = "ID_group" unsaved-value = "null">
+			<generator class = "identity"/>
+		</id>
+		<property name = "name" column = "Name" type = "string" not-null = "true"/>
+		<set name = "AddressBook" table = "AddressBookEntries" lazy = "true" inverse = "false">
+			<key column = "ID_group" not-null = "true"/>
+			<one-to-many class = "AddressBookEntry"/>
+		</set>
+	</class>
+	<class name = "AddressBookEntry" table = "AddressBookEntries">
+		<id name = "id" type = "long" column = "ID_addressBookEntry" unsaved-value = "null">
+			<generator class = "identity"/>
+		</id>
+		<property name = "blocked" column = "Blocked" type = "NumericBooleanType" not-null = "true"/>
+		<many-to-one name = "contact" class = "UserData" column = "ID_user" not-null = "true"/>
+		<many-to-one name = "owner" class = "UserData" column = "Owner" not-null = "true"/>
+		<many-to-one name = "group" class = "Group" column = "ID_group" not-null = "true"/>
+	</class>
+</hibernate-mapping> 

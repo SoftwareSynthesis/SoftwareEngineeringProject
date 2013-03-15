@@ -3,14 +3,15 @@
  *
  * @constructor
  * @this {LoginPanelPresenter}
+ * @param {String} url URL della servlet con cui il presenter deve comunicare
  * @author Diego Beraldin
  */
-function LoginPanelPresenter() {
+function LoginPanelPresenter(url) {
 /**********************************************************
                      VARIABILI PRIVATE
 ***********************************************************/
     // url della servlet che deve gestire il login
-    var servletURL = "localhost:8080/LoginManager";
+    var servletURL = url;
     // elemento controllato da questo presenter
     var element = document.getElementById("LoginPanel");
     
@@ -91,31 +92,44 @@ function LoginPanelPresenter() {
     }
     
     /**
-     * Attiva la proocedura del recupero passoword per l'utente
+     * Recupera la domanda segreta con una richiesta asincrona al server
      * 
-     * @param {String} username l'email dell'utente
+     * @returns {String} la domanda segreta impostata dall'utente
      * @author Diego Beraldin
      */
-    function retrievePassword(username) {
-    	//invia la richiesta AJAX al server per ottenere la domanda segreta
+    function getSecretQuestion() {
+    	var userID = this.getUsername();
     	var question = "";
     	var request = new XMLHttpRequest();
     	request.onreadystatechange = function() {
     		if (this.readyState == 4 && this.status == 200) {
-    			question = request.responseText;
+    			question = this.responseText;
     		}
     	};
-    	request.open("POST", servletURL, "true");
-    	request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    	request.send("username=" + encodeURIComponent(username) + "&operation=3");
-    	
+    	request.open("POST", servletURL, true);
+    	request.send("username=" + encodeURIComponent(userID) + "operation=3");
+    	return question;
+    }
+
+/**********************************************************
+                       METODI PUBBLICI
+***********************************************************/
+    /**
+     * Costruisce il form per il recupero della password dell'utente
+     * 
+     * @param {String} username l'email dell'utente
+     * @returns {HTMLFormElement} il form per il recupero della password
+     * @author Diego Beraldin
+     */
+    this.buildRetrievePasswordForm = function() {
     	// costruisce il form con il valore ottenuto
     	var formRetrievePassword = document.createElement("fieldset");
     	formRetrievePassword.setAttribute("id", "passwordretrieval");
     	// etichetta con la domanda
     	var labelQuestion = document.createElement("label");
     	labelQuestion.setAttribute("for", "inputanswer");
-    	labelQuestion.innerHTML = question;
+    	var question = document.createTextNode(getSecretQuestion());
+    	labelQuestion.appendChild(question);
     	// campo di immissione
     	var inputAnswer = document.createElement("input");
     	inputAnswer.setAttribute("id", "inputanswer");
@@ -132,12 +146,9 @@ function LoginPanelPresenter() {
     	
     	formRetrievePassword.appendChild(labelQuestion);
     	formRetrievePassword.appendChild(inputAnswer);
-    	element.appendChild(formRetrievePassword);
-    }
-
-/**********************************************************
-                       METODI PUBBLICI
-***********************************************************/
+    	return formRetrievePassword;
+    };
+    
     /**
      * Recupera lo username dall'interfaccia grafica utente
      * 
@@ -146,6 +157,7 @@ function LoginPanelPresenter() {
      * tipo '<input>' con 'id' uguale a 'username' contenente l'indirizzo
      * email dell'utente che intende autenticarsi al sistema
      * 
+     * @author Diego Beraldin
      * @returns {String} lo username dell'utente
      */
     this.getUsername = function() {
@@ -160,6 +172,7 @@ function LoginPanelPresenter() {
      * tipo '<input>' con 'id' uguale a 'password' contenente la password
      * dell'utente che intende autenticarsi al sistema
      * 
+     * @author Diego Beraldin
      * @returns {String} lo username dell'utente
      */
     this.getPassword = function() {
@@ -176,7 +189,7 @@ function LoginPanelPresenter() {
      */
     this.login = function(data) {
         if (!data.username || data.username == "" || !data.password || data.password == "") {
-        	return;
+        	return "";
         }
 
         //invia la richiesta AJAX al server
@@ -280,16 +293,15 @@ function LoginPanelPresenter() {
         inputRegister.setAttribute("value", "Registrati");
         inputRegister.onclick = function() {
         	self.hide();
-            //'registrationpp' deve essere una variabile globale
-        	registrationpp.initialize();
+            mediator.buildRegistrationUI();
         };
         //pulsante per recuperare la password
         var inputRetrievePassword = document.createElement("input");
         inputRetrievePassword.setAttribute("type", "submit");
         inputRetrievePassword.setAttribute("value", "Recupera password");
         inputRetrievePassword.onclick = function() {
-        	// TODO questo deve diventare un qualcosa di pubblico
-        	retrievePassword(inputUserName.getAttribute("value"));
+        	var form = self.buildRetrievePasswordForm();
+        	element.appendChild(form);
         };
 
         //creazione dell'item per i pulsanti
