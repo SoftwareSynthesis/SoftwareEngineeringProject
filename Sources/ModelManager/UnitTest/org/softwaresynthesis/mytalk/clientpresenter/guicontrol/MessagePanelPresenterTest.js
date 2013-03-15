@@ -40,7 +40,7 @@ test("createPanelTest()",
 		i++;
 		
 		
-		// estraggo la lista dei figli del di
+		// estraggo la lista dei figli del di div
 	var items_uno = list[1].childNodes;
 	equal(items_uno.length, 1, "il div ha un figlio");
 	i++;

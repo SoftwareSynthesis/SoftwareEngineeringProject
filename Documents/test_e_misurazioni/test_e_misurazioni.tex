@@ -307,10 +307,11 @@ Tale verifica è composta da un solo test:
 
 \subsubsection{AccountSettingsPanelPresenterTest}
 \textbf{Verifica l'oggetto:} \textit{AccountSettingsPanelPresenter}.\\
-\textbf{Descrizione}: verifica la corretta inizializzazione di \textit{AccountSettingPanel}, che l'albero sia stato costruito correttamente e che il contenuto dei vari nodi sia stato inserito coerentemente.\\
+\textbf{Descrizione}: verifica la corretta inizializzazione di \textit{AccountSettingPanel}, ovvero che l'albero sia stato costruito correttamente, e che il contenuto dei vari nodi sia stato inserito coerentemente.\\
 Tale verifica è composta da un solo test:
 \begin{itemize}
-\item \textit{createPanelTest() } crea l'elemento \textit{AccountSettingPanel}, estrae la lista dei suoi figli e controlla per ogni figlio che le informazioni siano coerenti con quelle inserite in input.
+\item \textit{createPanelTest() } crea l'elemento \textit{AccountSettingPanel}, estrae la lista dei suoi figli, ne controlla il numero (deve essere \textit{tre} ) e che il primo sia un immagine, il secondo una lista e il terzo un \inglese{button}.
+Successivamente controlla che gli elementi della lista vengano visualizzati correttamente.
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
@@ -320,20 +321,22 @@ Tale verifica è composta da un solo test:
 \textbf{Descrizione}: l'obbiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \textit{MessagePanel} e che il contenuto dei vari nodi sia stato inserito coerentemente.\\
 Tale verifica è composta da un solo test:
 \begin{itemize}
-\item \textit{createPanelTest()} crea l'elemento \textit{MessagePanel} e estrae la lista dei figli del pannello verificando che i dati siano coerenti con quelli inseriti in input.
+\item \textit{createPanelTest()} crea l'elemento \textit{MessagePanel} e estrae la lista dei figli del pannello verificando che contenga due figli:il primo dev'essere di tipo \textit{video} mentre il secondo di tipo \textit{div}.
+Successivamente estraggo la lista dei figli del primo figlio (il suo figlio deve essere \textit{source}) e del secondo figlio (il cui figlio deve essere \textit{ul}).
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
 
 \subsubsection{LoginPanelPresenterTest}
 \textbf{Verifica l'oggetto:} \textit{LoginPanelPresenter}.\\
-\textbf{Descrizione}: l'obbiettivo di questo test è verificare la corretta istanziazione del \textit{LoginPanel} popolato con dei dati coerenti rispetto allo scopo del \inglese{form}.
-Tale verifica è composta da un quattro test:
+\textbf{Descrizione}: l'obbiettivo di questo test è verificare la corretta istanziazione del \textit{LoginPanel} popolato con dei dati coerenti rispetto allo scopo della \inglese{form}.
+Tale verifica è composta da quattro test:
 \begin{itemize} 
-\item \textit{initializeTest() } mediante diversi metodi \textit{equal} controlla l'effettiva correttezza della form creata, sia nella forma che nel funzionamento;
+\item \textit{initializeTest() } mediante diversi metodi \textit{equal} controlla l'effettiva correttezza della \inglese{form} creata, sia nella forma che nel funzionamento;
 \item \textit{loginTest() } effettua una prova di login, mediante l'inserimento di uno \textit{username} e una \textit{password} corretti, verificando che tali dati siano accettati correttamente;
 \item \textit{getUsernameTest() } verifica che, dato uno \textit{username} in input corretto generato come \inglese{stub}, sia possibile recuperarlo correttamente.
 \item \textit{getPasswordTest() } verifica che, data una \textit{password} in input corretta generata come \inglese{stub}, sia possibile recuperarla correttamente.
+\item \textit{hideTest()} controlla che venga correttamente nascosto il \inglese{form} di \textit{login} dopo l'effettiva autenticazione o di richiesta di registrazione.
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 

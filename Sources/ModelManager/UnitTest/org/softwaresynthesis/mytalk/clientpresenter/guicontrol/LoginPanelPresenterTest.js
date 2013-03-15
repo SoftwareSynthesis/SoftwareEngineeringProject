@@ -145,3 +145,5 @@ test("getPasswordTest()", function() {
 	document.body.removeChild(form);
 	//TODO prova inserire password sbagliata/vuota (aggiornare doc test) 
 });
+//TODO
+//test("buildRetrievePasswordFormTest()", function() 
