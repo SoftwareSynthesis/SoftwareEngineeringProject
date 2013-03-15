@@ -14,27 +14,6 @@ function RegisterPanelPresenter(url) {
     var servletURL = url;
     //elemento controllato da questo presenter
     var element = document.getElementById("RegisterPanel");
-
-    /**********************************************************
-    METODI PRIVATI
-    ***********************************************************/
-    /**
-     * Verifica che la registrazione al sistema abbia avuto successo in base alla stringa
-     * ottenuta dalla servlet. Se questa corrisponde a un utente, allora viene memorizzato
-     * sul client e si accede alla home screen dell'applicativo
-     * 
-     * @param {String} data testo di risposta della servlet di autenticazione
-     * che deve corrispondere all'utente creato dalla registrazione
-     * @author Diego Beraldin
-     */
-    function testRegistration(data) {
-    	var user = JSON.parse(data);
-    	if (user != null) {
-    		communicationcenter.my = user;
-    		this.hide();
-    		mediator.buildUI();
-    	}    	
-    }
     
     /**********************************************************
     METODI PUBBLICI
@@ -131,24 +110,27 @@ function RegisterPanelPresenter(url) {
      * se le operazioni sono andate a buon fine my deve essere configurato con i dati di
      * un utente valido
      * Richiede un oggetto mediator globale con una proprietà buildUI() che deve essere simulata
-     * (oppure verificare che sia richiamata)
      * 
      * @param {Object} userData array associativo contenente i dati dell'utente recuperati dal form
      * @returns {String} la stringa di query che viene inviata al server
      * @author Diego Beraldin
      */
-    function register(userData) {
+    this.register = function(userData) {
     	//invia la richiesta AJAX al server
     	var request = new XMLHttpRequest();
     	request.onreadystatechange = function() {
     		if (this.readyState == 4 && this.status == 200) {
-    			testRegistration(this.responseText);
+    	    	var user = JSON.parse(this.responseText);
+    	    	if (user != null) {
+    	    		communicationcenter.my = user;
+    	    		mediator.buildUI();
+    	    	}	
     		}
     	};
     	request.open("POST", servletURL, true);
     	request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     	var querystring = "username=" + encodeURIComponent(userData.username) +
-    	                  "&password=" + encodeURIComponente(userData.password) +
+    	                  "&password=" + encodeURIComponent(userData.password) +
     	                  "&question=" + encodeURIComponent(userData.question) +
     	                  "&answer=" + encodeURIComponent(userData.answer);
     	if (userData.name && userData.name.length > 0) {
@@ -163,7 +145,7 @@ function RegisterPanelPresenter(url) {
     	querystring += "&operation=2";
     	request.send(querystring);
     	return querystring;
-    }
+    };
     
     /**
      * Inizializzazione dellla form di registrazione con la creazione di tutti i
@@ -257,7 +239,7 @@ function RegisterPanelPresenter(url) {
         var liFirstName = document.createElement('li');
         //label
         var labelFirstName = document.createElement('label');
-        labelFirstName.setAttribute("for", "firtname");
+        labelFirstName.setAttribute("for", "firstname");
         labelFirstName.innerHTML = "Nome: ";
         //input
         var inputFirstName = document.createElement('input');
