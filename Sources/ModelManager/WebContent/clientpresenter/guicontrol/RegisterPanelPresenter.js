@@ -3,14 +3,15 @@
  *
  * @constructor
  * @this {RegisterPanelPresenter}
+ * @param {String} url URL della servlet con cui il presenter deve comunicare
  * @author Stefano Farronato
  */
-function RegisterPanelPresenter() {
+function RegisterPanelPresenter(url) {
 /**********************************************************
                      VARIABILI PRIVATE
 ***********************************************************/
     //url della servlet che deve gestire la registrazione
-    var servletURL = "localhost:8080/LoginManager";
+    var servletURL = url;
     //elemento controllato da questo presenter
     var element = document.getElementById("RegisterPanel");
 

@@ -11,18 +11,19 @@ function PresenterMediator() {
     ***********************************************************/
     // array associativo contentente i riferimenti ai presenter di primo livello
     var presenters = new Array();
-    presenters["login"] = new LoginPanelPresenter();
-    presenter["register"] = new RegisterPanelPresenter();
-    presenters["addressbook"] = new AddressBookPanelPresenter();
+    presenters["login"] = new LoginPanelPresenter("http://localhost:8080/LoginManager");
+    presenter["register"] = new RegisterPanelPresenter("http://localhost:8080/LoginManager");
+    presenters["addressbook"] = new AddressBookPanelPresenter("http://localhost:8080/AddressBookManager");
     presenters["tools"] = new ToolsPanelPresenter();
     presenters["main"] = new MainPanelPresenter();
 
     //presenter di secondo livello (pannelli contenuti nel MainPanel)
-    var accountsettingspp = new AccountSettingsPanelPresenter();
+    var accountsettingspp = new AccountSettingsPanelPresenter("http://localhost:8080/AccountManager");
     var communicationpp = new CommunicationPanelPresenter();
     var contactpp = new ContactPanelPresenter();
-    var callhistorypp = new CallHistoryPanelPresenter();
-    var messagepp = new MessagePanelPresenter();
+    var callhistorypp = new CallHistoryPanelPresenter("http://localhost:8080/CallHistoryManager");
+    var messagepp = new MessagePanelPresenter("http://localhost:8080/MessageManager");
+    //FIXME il SearchResultPanelPresenter deve interfacciarsi con qualche servlet?
     var searchresultpp = new SearchResultPanelPresenter();
     var toolspp = new ToolsPanelPresenter();
     //TODO deve esistere anche GroupPanelPresenter?
