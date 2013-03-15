@@ -11,20 +11,19 @@ function PresenterMediator() {
     ***********************************************************/
     // array associativo contentente i riferimenti ai presenter di primo livello
     var presenters = new Array();
-    presenters["login"] = new LoginPanelPresenter();
-    presenter["register"] = new RegisterPanelPresenter();
-    presenters["addressbook"] = new AddressBookPanelPresenter();
+    presenters["login"] = new LoginPanelPresenter("http://localhost:8080/LoginManager");
+    presenter["register"] = new RegisterPanelPresenter("http://localhost:8080/LoginManager");
+    presenters["addressbook"] = new AddressBookPanelPresenter("http://localhost:8080/AddressBookManager");
     presenters["tools"] = new ToolsPanelPresenter();
     presenters["main"] = new MainPanelPresenter();
 
     //presenter di secondo livello (pannelli contenuti nel MainPanel)
-    var accountsettingspp = new AccountSettingsPanelPresenter();
+    var accountsettingspp = new AccountSettingsPanelPresenter("http://localhost:8080/AccountManager");
     var communicationpp = new CommunicationPanelPresenter();
     var contactpp = new ContactPanelPresenter();
-    var callhistorypp = new CallHistoryPanelPresenter();
-    var messagepp = new MessagePanelPresenter();
-    var searchresultpp = new SearchResultPanelPresenter();
-    var toolspp = new ToolsPanelPresenter();
+    var callhistorypp = new CallHistoryPanelPresenter("http://localhost:8080/CallHistoryManager");
+    var messagepp = new MessagePanelPresenter("http://localhost:8080/MessageManager");
+    var searchresultpp = new SearchResultPanelPresenter("http://localhost:8080/AddressBookManager");
     //TODO deve esistere anche GroupPanelPresenter?
     
     /**********************************************************
@@ -209,5 +208,47 @@ function PresenterMediator() {
      */
     this.onFiltredApplyedByGroup = function(group) {
         this.presenters["addressbook"].applyFilterByGroup(group);
+    };
+    
+    /**
+     * Provoca la visualizzazione del pannello per i risultati di una ricerca
+     * fra gli utenti del sistema (a.k.a. SearchResultPanel) nel pannello principale
+     * delegando a quest'ultimo tramite {@link MainPanelPresenter} la visualizzazione
+     * 
+     * @see SearchResultPanelPresenter#createPanel()
+     * @see MainPanelPresenter#displayChildPanel({HTMLDivElement}
+     * @author Diego Beraldin
+     */
+    this.displaySearchResultPanel = function() {
+    	var element = searchresultpp.createPanel();
+    	presenters["main"].displayChildPanel(element);
+    };
+    
+    /**
+     * Provoca la visualizzazione del pannello delle impostazioni del proprio account
+     * (a.k.a. AccountSettingsPanel) nel pannello principale delegando a quest'ultimo
+     * tramite {@link MainPanelPresenter} la sua visualizzazione
+     * 
+     * @see AccountSettingsPanelPresenter#createPanel()
+     * @see MainPanelPresenter#displayChildPanel({HTMLDivElement})
+     * @author Diego Beraldin
+     */
+    this.displayAccountSettingsPanel = function() {
+    	var element = accountsettingspp.createPanel();
+    	presenter["main"].displayChildPanel(element);
+    };
+    
+    /**
+     * Provoca la visualizzazione del pannello delle comunicazioni
+     * (a.k.a. CommunicationPanel) nel pannello principale delegando a quest'ultimo
+     * tramite {@link MainPanelPresenter} la sua visualizzazione
+     * 
+     * @see CommunicationPanelPresenter#createPanel()
+     * @see MainPanelPresenter#displayChildPanel({HTMLDivElement})
+     * @author Diego Beraldin
+     */
+    this.displayCommunicationPanel = function() {
+    	var element = communicationpp.createPanel();
+    	presenter["main"].displayChildPanel(element);
     };
 }

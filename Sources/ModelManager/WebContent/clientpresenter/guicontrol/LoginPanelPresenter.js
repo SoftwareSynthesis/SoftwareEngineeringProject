@@ -3,14 +3,15 @@
  *
  * @constructor
  * @this {LoginPanelPresenter}
+ * @param {String} url URL della servlet con cui il presenter deve comunicare
  * @author Diego Beraldin
  */
-function LoginPanelPresenter() {
+function LoginPanelPresenter(url) {
 /**********************************************************
                      VARIABILI PRIVATE
 ***********************************************************/
     // url della servlet che deve gestire il login
-    var servletURL = "localhost:8080/LoginManager";
+    var servletURL = url;
     // elemento controllato da questo presenter
     var element = document.getElementById("LoginPanel");
     

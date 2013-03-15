@@ -1,17 +1,18 @@
 /**
  * Presenter incaricato di gestire i messaggi in segreteria
  *
+ * @param {String} url URL della servlet con cui il presenter deve comunicare
  * @author Elena Zecchinato
  * @author Diego Beraldin
  */
-function MessagePanelPresenter() {
+function MessagePanelPresenter(url) {
 	/**********************************************************
     VARIABILI PRIVATE
     ***********************************************************/
     //array di messaggi
     var messages = new Array();
     //url della servlet da contattare per i messaggi
-    var urlServlet = "http://localhost:8080/MessageManager";
+    var urlServlet = url;
     
     /**********************************************************
     METODI PRIVATI

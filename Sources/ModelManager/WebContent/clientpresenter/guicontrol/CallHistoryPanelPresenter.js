@@ -1,9 +1,16 @@
 /**
+ * Presenter incaricato di gestire lo storico delle chiamate
  *
+ * @param {String} url URL della servlet con cui il presenter deve comunicare
  * @author Elena Zecchinato
  * @author Diego Beraldin
  */
-function CallHistoryPanelPresenter() {
+function CallHistoryPanelPresenter(url) {
+	/**********************************************************
+    VARIABILI PRIVATE
+    ***********************************************************/
+	var servletURL = url;
+    
 	/**********************************************************
     METODI PUBBLICI
     ***********************************************************/
