@@ -12,15 +12,20 @@ public class HibernateUtil
 	private HibernateUtil()
 	{
 		Configuration conf = null;
-		String confDirectory = System.getenv("MyTalkConfiguration") + "\\hibernate.cfg.xml";
 		try
 		{
 			conf = new Configuration();
-			conf = conf.configure(confDirectory);
+			System.out.println("1");
+			conf = conf.configure();
+			System.out.println("2");
 			this.factory = conf.buildSessionFactory();
+			System.out.println("3");
 		}
 		catch (Throwable ex)
 		{
+			System.out.println(ex.getMessage());
+			System.out.println("------");
+			ex.printStackTrace();
 			throw new ExceptionInInitializerError("Errore durante la creazione della factory per le sessioni");
 		}
 	}

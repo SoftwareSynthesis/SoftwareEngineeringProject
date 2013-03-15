@@ -12,7 +12,7 @@ function PresenterMediator() {
     // array associativo contentente i riferimenti ai presenter di primo livello
     var presenters = new Array();
     presenters["login"] = new LoginPanelPresenter("http://localhost:8080/LoginManager");
-    presenter["register"] = new RegisterPanelPresenter("http://localhost:8080/LoginManager");
+    presenters["register"] = new RegisterPanelPresenter("http://localhost:8080/LoginManager");
     presenters["addressbook"] = new AddressBookPanelPresenter("http://localhost:8080/AddressBookManager");
     presenters["tools"] = new ToolsPanelPresenter();
     presenters["main"] = new MainPanelPresenter();

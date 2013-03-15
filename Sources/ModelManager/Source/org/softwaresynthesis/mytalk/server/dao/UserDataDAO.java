@@ -172,18 +172,35 @@ public class UserDataDAO
 		Session session = null;
 		SessionFactory factory = null;
 		String hqlQuery = "from UserData as u where u.mail = :mail";
+		Transaction transaction = null;
 		try
 		{
+				java.io.File file = new java.io.File("Output.txt");
+				java.io.FileOutputStream s = new java.io.FileOutputStream(file);
+				java.io.PrintStream str = new java.io.PrintStream(s);
+				str.println("AVVIO");
 			util = HibernateUtil.getInstance();
+			str.println("ISTANZA");
 			factory = util.getFactory();
+			str.println("FACTORY");
 			session = factory.openSession();
+			str.println("SESSIONE");
+			transaction = session.beginTransaction();
+			str.println("TRANS");
 			query = session.createQuery(hqlQuery);
 			query.setString("mail", mail);
+			str.println("QUERY");
 			users = (List<IUserData>)query.list();
+			str.println("ESECUZIONE");
+			transaction.commit();
 		}
 		catch (RuntimeException ex)
 		{
-		}
+			if (transaction != null)
+			{
+				transaction.rollback();
+			}
+		}catch (Exception ex){}
 		finally
 		{
 			if (session != null)

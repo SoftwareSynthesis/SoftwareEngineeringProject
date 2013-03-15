@@ -63,8 +63,8 @@ public class UserData implements IUserData
 	{
 		String result = "{\"name\":\"" + this.getName() + "\"";
 		result += ", \"surname\":\"" + this.getSurname() + "\"";
-		result += ", \"email\":\"" + this.getEmail() + "\"";
-		result += ", \"picturePath\":\"" + this.getPicturePath() + "\"";
+		result += ", \"email\":\"" + this.getMail() + "\"";
+		result += ", \"picturePath\":\"" + this.getPath() + "\"";
 		result += ", \"id\":\"" + this.getId() + "\"}";
 		return result;
 	}
@@ -109,7 +109,7 @@ public class UserData implements IUserData
 	 * 			l'indirizzo e-mail dell'utente
 	 */
 	@Override
-	public String getEmail() 
+	public String getMail() 
 	{
 		return this.mail;
 	}
@@ -126,7 +126,7 @@ public class UserData implements IUserData
 	 * 					registrarsi l'utente
 	 */
 	@Override
-	public void setEmail(String eMail) 
+	public void setMail(String eMail) 
 	{
 		this.mail = eMail;
 	}
@@ -285,7 +285,7 @@ public class UserData implements IUserData
 	 * 			all'immagine profilo dell'utente
 	 */
 	@Override
-	public String getPicturePath() 
+	public String getPath() 
 	{
 		return this.path;
 	}
@@ -301,7 +301,7 @@ public class UserData implements IUserData
 	 * 					l'immagine profilo
 	 */
 	@Override
-	public void setPicturePath(String path)
+	public void setPath(String path)
 	{
 		this.path = path;
 	}
@@ -327,7 +327,7 @@ public class UserData implements IUserData
 	 * @version	%I%, %G%
 	 */
 	@Override
-	public void addAddressBookEntry(AddressBookEntry entry)
+	public void addAddressBook(AddressBookEntry entry)
 	{
 		this.addressBook.add(entry);
 		entry.setOwner(this);

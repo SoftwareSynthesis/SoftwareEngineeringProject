@@ -1,29 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="it">
 <head>
-<meta charset="ISO-8859-1">
-<title>Test</title>
+<title>LOGIN</title>
+<meta charset="UTF-8" />
+
 </head>
 <body>
-<script type="text/javascript">
-var servletURL = "http://localhost:8080/org/softwaresythesis/mytalk/server/servlet/TestManager";
-doTest= function(){
-	var request= new XMLHttpRequest();
-	request.onreadystatechange= function(){
-		if (request.readyState==4 && request.status ==200){
-			document.getElementById("myDiv").innerHTML=request.responseText;
+  <fieldset id="loginbox">
+    <ul>
+      <li>
+        <label for="username">Username:</label>
+        <input type="text" id="username" value="" />
+      </li>
+      <li>
+        <label for="password">Password:</label>
+        <input type="password" id="password" value="" />
+      </li>
+       <!-- Il bottone qui sotto � associato a una chiamata di metodo! -->
+      <li id="loginbutton" class="action" onClick="load()"><button>Accedi</button></li>
+    </ul>
+  </fieldset>
+  
+  <script type="text/javascript">
+	function load() {
+	
+	var servletURL = "http://localhost:8080/MyTalk/Login";
+	var successURL = "success.html";
+	
+	var username = document.getElementById("username").value;
+	var password = document.getElementById("password").value;
+
+
+
+	var request = new XMLHttpRequest();
+	request.onreadystatechange = function() {
+		if (request.readyState == 4 && request.status == 200) {
+			//var dati= JSON.parse(request.responseText);
+			alert(request.responseText);
 		}
-	}
+	};
+	// apre la richiesta e la invia
 	request.open("POST", servletURL, "true");
-	request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	request.send();
+	request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	request.send("username=" + username + "&password=" + password + "&operation=1");
 }
-</script>
-
-<h1>TEST</h1>
-
-<input type="button" onClick="doTest()" value="VAI CON I TEST!"/>
-<div id="myDiv"></div>
-
+  </script>
 </body>
 </html>

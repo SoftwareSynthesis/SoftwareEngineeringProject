@@ -132,7 +132,7 @@ public class Group implements IGroup
 	 * 					aggiungere al gruppo
 	 */
 	@Override
-	public void addAddressBookEntry(AddressBookEntry entry)
+	public void addAddressBook(AddressBookEntry entry)
 	{
 		this.addressBook.add(entry);
 		entry.setGroup(this);

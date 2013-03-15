@@ -13,9 +13,9 @@
 	  	<property name = "name" column = "Name" type = "string" not-null = "false"/>
 	  	<property name = "surname" column = "Surname" type = "string" not-null = "false"/>
 	  	<property name = "picturePath" column = "Picture" type = "string" not-null = "true"/>
-	  	<set name = "addressBook" table = "AddressBookEntries" lazy = "true" inverse = "false">
+	  	<set name = "addressBook" table = "AddressBookEntries" lazy = "true" inverse = "true">
 	  		<key column = "Owner" not-null = "true"/>
-	  		<one-to-many class = "AddressBoonEntry"/>
+	  		<one-to-many class = "AddressBookEntry"/>
 	  	</set>
 	</class>
 	<class name = "Group" table = "Groups">
@@ -23,7 +23,7 @@
 			<generator class = "identity"/>
 		</id>
 		<property name = "name" column = "Name" type = "string" not-null = "true"/>
-		<set name = "AddressBook" table = "AddressBookEntries" lazy = "true" inverse = "false">
+		<set name = "addressBook" table = "AddressBookEntries" lazy = "true" inverse = "true">
 			<key column = "ID_group" not-null = "true"/>
 			<one-to-many class = "AddressBookEntry"/>
 		</set>
@@ -32,7 +32,7 @@
 		<id name = "id" type = "long" column = "ID_addressBookEntry" unsaved-value = "null">
 			<generator class = "identity"/>
 		</id>
-		<property name = "blocked" column = "Blocked" type = "NumericBooleanType" not-null = "true"/>
+		<property name = "blocked" column = "Blocked" type = "boolean" not-null = "true"/>
 		<many-to-one name = "contact" class = "UserData" column = "ID_user" not-null = "true"/>
 		<many-to-one name = "owner" class = "UserData" column = "Owner" not-null = "true"/>
 		<many-to-one name = "group" class = "Group" column = "ID_group" not-null = "true"/>

@@ -62,5 +62,5 @@ public interface IGroup extends IMyTalkObject
 	 * @param 	entry	{@link AddressBookEntry} da
 	 * 					aggiungere al gruppo
 	 */
-	public void addAddressBookEntry(AddressBookEntry entry);
+	public void addAddressBook(AddressBookEntry entry);
 }

@@ -33,7 +33,7 @@ public interface IUserData extends IMyTalkObject
 	 * @return	{@link String} rappresentante
 	 * 			l'indirizzo e-mail dell'utente
 	 */
-	public String getEmail();
+	public String getMail();
 	
 	/**
 	 * Imposta l'indirizzo e-mail con cui
@@ -46,7 +46,7 @@ public interface IUserData extends IMyTalkObject
 	 * 					l'e-mail con cui vuole
 	 * 					registrarsi l'utente
 	 */
-	public void setEmail(String eMail);
+	public void setMail(String eMail);
 	
 	/**
 	 * Restituisce la password, crittografata
@@ -161,7 +161,7 @@ public interface IUserData extends IMyTalkObject
 	 * @return	{@link String} con il percorso realativo
 	 * 			all'immagine profilo dell'utente
 	 */
-	public String getPicturePath();
+	public String getPath();
 	
 	/**
 	 * Imposta il percorso dell'immagine profilo scelta
@@ -173,7 +173,7 @@ public interface IUserData extends IMyTalkObject
 	 * 					dove sarà salvata nel server
 	 * 					l'immagine profilo
 	 */
-	public void setPicturePath(String path);
+	public void setPath(String path);
 	
 	/**
 	 * Restituisce la rubrica dell'utente
@@ -193,5 +193,5 @@ public interface IUserData extends IMyTalkObject
 	 * @version	%I%, %G%
 	 * @param entry
 	 */
-	public void addAddressBookEntry(AddressBookEntry entry);
+	public void addAddressBook(AddressBookEntry entry);
 }

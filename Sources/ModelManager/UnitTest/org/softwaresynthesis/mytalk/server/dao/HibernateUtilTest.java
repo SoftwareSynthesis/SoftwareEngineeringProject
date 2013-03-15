@@ -21,7 +21,7 @@ public class HibernateUtilTest
 	 * @version	%I%, %G%
 	 */
 	@Test
-	public static void testInstance()
+	public void testInstance()
 	{
 		HibernateUtil instance1 = HibernateUtil.getInstance();
 		HibernateUtil instance2 = HibernateUtil.getInstance();
@@ -38,7 +38,8 @@ public class HibernateUtilTest
 	 * @author	Andrea Meneghinello
 	 * @version	%I%, %G%
 	 */
-	public static void testGetFactory()
+	@Test
+	public void testGetFactory()
 	{
 		HibernateUtil instance = HibernateUtil.getInstance();
 		SessionFactory factory = instance.getFactory();

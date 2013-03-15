@@ -40,7 +40,7 @@ public interface IAddressBookEntry extends IMyTalkObject
 	 * param	contact	{@link IUserData} contatto da
 	 * 					settare
 	 */
-	public void setContatct(IUserData contact);
+	public void setContact(IUserData contact);
 	
 	/**
 	 * Restituisce il gruppo a cui appertiene l'utente
@@ -91,7 +91,7 @@ public interface IAddressBookEntry extends IMyTalkObject
 	 * @return	true se il contatto è bloccato,
 	 * 			false altrimenti
 	 */
-	public boolean isBlocked();
+	public boolean getBlocked();
 	
 	/**
 	 * Imposta un contatto come bloccato o meno

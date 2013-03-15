@@ -111,7 +111,7 @@ public class AddressBookEntry implements IAddressBookEntry
 	 * 					della rubrica
 	 */
 	@Override
-	public void setContatct(IUserData contact) 
+	public void setContact(IUserData contact) 
 	{
 		this.contact = contact;
 	}
@@ -185,7 +185,7 @@ public class AddressBookEntry implements IAddressBookEntry
 	 * 			altrimenti
 	 */
 	@Override
-	public boolean isBlocked()
+	public boolean getBlocked()
 	{
 		return this.blocked;
 	}

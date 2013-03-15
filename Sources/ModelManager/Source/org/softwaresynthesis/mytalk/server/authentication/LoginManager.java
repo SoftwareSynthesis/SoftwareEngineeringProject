@@ -65,12 +65,12 @@ public final class LoginManager extends HttpServlet
 	{
 		Integer type = -1;
 		HttpSession session = null;
-		Object operation = request.getParameter("operation");
+		String operation = request.getParameter("operation");
 		PrintWriter writer = null;
 		String result = null;
 		if(operation != null)
 		{
-			type = (Integer)operation;
+			type = Integer.parseInt(operation);
 		}
 		switch (type)
 		{
@@ -129,17 +129,17 @@ public final class LoginManager extends HttpServlet
 	 */
 	private String doLogin(HttpSession session, String username, String password)
 	{
+		System.setProperty("java.security.auth.login.config", System.getenv("MyTalkConfiguration") + "\\MyTalk\\Conf\\LoginConfiguration.conf");
 		IAuthenticationData credential = new AuthenticationData(username, password);
 		CredentialLoader loader = null;
 		IUserData user = null;
 		LoginContext context = null;
-		String pathFileConfig = System.getenv("MyTalkConfiguration") + "\\LoginConfiguration.conf";
 		String result = null;
 		UserDataDAO userDAO = null;
 		try
 		{
 			loader = new CredentialLoader(credential, new AESAlgorithm());
-			context = new LoginContext(pathFileConfig, loader);
+			context = new LoginContext("Configuration", loader);
 			userDAO = new UserDataDAO();
 			context.login();
 			session.setAttribute("LoginContext", context);
@@ -148,7 +148,7 @@ public final class LoginManager extends HttpServlet
 		}
 		catch (Exception ex)
 		{
-			result = "null";
+			result = "null1";
 		}
 		return result;
 	}
