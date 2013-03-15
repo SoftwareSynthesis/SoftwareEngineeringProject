@@ -20,8 +20,6 @@ public class UserDataDAO
 	/**
 	 * Cancella lo {@link IUserData} dal database se presente
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @param 	user	{@link IUserData} che deve essere eliminato
 	 * 					dal database
 	 * @return	true se l'operazione è andata a buon fine, false altrimenti
@@ -64,8 +62,6 @@ public class UserDataDAO
 	/**
 	 * Aggiorna uno {@link IUserData} nel database
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @param 	user	{@link IUserData} che deve
 	 * 					essere aggiornato
 	 * @return	true se l'operazione è andata buon fine,
@@ -109,8 +105,6 @@ public class UserDataDAO
 	/**
 	 * Inserisce un nuovo {@link IUserData} nel database
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @param 	user	{@link IUserData} da inserire}
 	 * @return	true se l'operazione va a buon fine, false
 	 * 			altrimenti
@@ -155,8 +149,6 @@ public class UserDataDAO
 	 * {@link IUserData} che si è registrato con la
 	 * mail fornita in input
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @param 	mail	{@link String} indirizzo mail
 	 * 					con cui si è registrato l'utente
 	 * @return	istanza di {@link IUserData} che si è
@@ -198,7 +190,7 @@ public class UserDataDAO
 			str.println(query.toString());
 			str.println(mail);
 			str.println("QUERY");
-			query.list();
+			users = (List<UserData>)query.list();
 			str.println("ESECUZIONE");
 			transaction.commit();
 		}
@@ -209,6 +201,7 @@ public class UserDataDAO
 			{
 				transaction.rollback();
 			}
+			users = null;
 			
 		}catch (Exception ex){}
 		finally
@@ -233,8 +226,6 @@ public class UserDataDAO
 	 * Interroga il database per ottenere un istanza 
 	 * {@link IUserData} che ha quell'identificatore
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @param 	identifier	idenficatore dello {@link IUserData}
 	 * @return	istanza di {@link IUserData} che è
 	 * 			registrato con l'identificatore fornito
@@ -249,6 +240,7 @@ public class UserDataDAO
 		Session session = null;
 		SessionFactory factory = null;
 		String hqlQuery = "from UserData as u where u.id = :id";
+		Transaction transaction = null;
 		try
 		{
 			util = HibernateUtil.getInstance();
@@ -256,10 +248,17 @@ public class UserDataDAO
 			session = factory.openSession();
 			query = session.createQuery(hqlQuery);
 			query.setString("id", identifier.toString());
+			transaction = session.beginTransaction();
 			users = (List<IUserData>)query.list();
+			transaction.commit();
 		}
 		catch (RuntimeException ex)
 		{
+			if (transaction != null)
+			{
+				transaction.rollback();
+			}
+			users = null;
 		}
 		finally
 		{
@@ -287,8 +286,6 @@ public class UserDataDAO
 	 * di uno {@link IUserData} nel database
 	 * del sistema mytalk
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version %I%, %G%
 	 * @param 	parameter	parametro di tipo
 	 * 						{@link String} con
 	 * 						cui effettuare la
@@ -306,6 +303,7 @@ public class UserDataDAO
 		Session session = null;
 		SessionFactory factory = null;
 		String hqlQuery = "from UserData as us where u.mail like :mail or u.name like :name or u.surname like :surname";
+		Transaction transaction = null;
 		try
 		{
 			util = HibernateUtil.getInstance();
@@ -315,10 +313,16 @@ public class UserDataDAO
 			query.setString("mail", parameter);
 			query.setString("name", parameter);
 			query.setString("surname", parameter);
+			transaction = session.beginTransaction();
 			users = (List<IUserData>)query.list();
+			transaction.commit();
 		}
 		catch (Exception ex)
 		{
+			if (session != null)
+			{
+				transaction.rollback();
+			}
 			users = null;
 		}
 		finally
@@ -330,5 +334,15 @@ public class UserDataDAO
 			}
 		}
 		return users;
+	}
+	
+	/**
+	 * Restituisce l'istanza in forma di {@link String}
+	 * 
+	 * @return	{@link String} rappresentante l'istanza
+	 */
+	public String toString()
+	{
+		return "UserDataDAO";
 	}
 }

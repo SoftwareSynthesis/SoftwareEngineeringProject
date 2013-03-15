@@ -9,22 +9,23 @@ public class HibernateUtil
 	
 	private SessionFactory factory;
 	
+	/**
+	 * Inizializza l'unica istanza della
+	 * classe HibernateUtil configurando
+	 * la {@link SessionFactory} per la
+	 * comunicazione con il database
+	 */
 	private HibernateUtil()
 	{
 		Configuration conf = null;
 		try
 		{
 			conf = new Configuration();
-			System.out.println("1");
 			conf = conf.configure();
-			System.out.println("2");
 			this.factory = conf.buildSessionFactory();
-			System.out.println("3");
 		}
 		catch (Throwable ex)
 		{
-			System.out.println(ex.getMessage());
-			System.out.println("------");
 			ex.printStackTrace();
 			throw new ExceptionInInitializerError("Errore durante la creazione della factory per le sessioni");
 		}
@@ -34,8 +35,6 @@ public class HibernateUtil
 	 * Punto di accesso all'unica instanza
 	 * della classe
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return 	Istanza della classe
 	 * @throw	{@link ExceptionInInitializerError} se l'inizializzazione
 	 * 			da problemi
@@ -52,8 +51,6 @@ public class HibernateUtil
 	 * per creare ed avviare sessioni di comunicazione con il
 	 * database
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	{@link SessionFactory} per creare sessioni con
 	 * 			il database
 	 */
