@@ -133,14 +133,16 @@ function MessagePanelPresenter() {
     /**
      * Costruisce la lista dei messaggi in segreteria e la appende all'elemento in input
      *
-     * @param {HTMLUlElement} list lista a cui aggiungere i messaggi
+     * @param {HTMLDivElement} element elemento cui appendere la lista dei messaggi in segreteria
      * @author Riccardo Tresoldi
      */
-    this.setup = function(list) {
+    this.setup = function(element) {
+        var ulMessages = document.createElement("ul");
         getMessages();
         for (var message in messages) {
             // ciclo i messaggi e aggiungo un <li> per ogni contatto
-            this.addListItem(list, message);
+            this.addListItem(ulMessages, message);
         }
+        element.appendChild(ulMessages);
     };
 }
