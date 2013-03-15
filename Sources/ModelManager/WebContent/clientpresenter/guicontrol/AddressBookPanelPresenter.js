@@ -221,8 +221,6 @@ function AddressBookPanelPresenter(url) {
         // estraggo l'<ul> del Addressbook e lo inizializzo
         var ulList = this.element.getElementById("AddressBookList");
         ulList.innerHTML = "";
-        
-        //FIXME dovrebbe richiamare la funzione per riscaricare la rubrica?
 
         for (var contact in contacts) {
             //ciclo i contatti e agiungo un <li> per ogni contatto
