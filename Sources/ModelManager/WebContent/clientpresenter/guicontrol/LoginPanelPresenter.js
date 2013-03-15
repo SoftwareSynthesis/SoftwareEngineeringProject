@@ -214,7 +214,9 @@ function LoginPanelPresenter(url) {
      * @author Diego Beraldin
      */
     this.hide = function() {
-    	element.style.display = "none";
+    	if (element) {
+    	    element.style.display = "none";
+    	}
     };
 
     /**
