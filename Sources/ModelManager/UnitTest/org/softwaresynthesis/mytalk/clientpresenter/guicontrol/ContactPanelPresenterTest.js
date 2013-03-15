@@ -10,7 +10,7 @@ test("createPanelTest()",
     function () {
 		var i = 0;
 		
-		// creo l'elemento 'AccountSettingsPanel'
+		// creo l'elemento 'ContactPanel'
 		var element = test.createPanel();
 		// estraggo la lista dei figli di questo pannello
 		var list = element.childNodes;
@@ -18,7 +18,7 @@ test("createPanelTest()",
 		equal(list.length,5,"il numero di figli dell'elemento restituito e' 5");
 		i++;
 		
-		// controllo che il primo figlio sia la mia immagine personale
+		// controllo che il primo figlio sia l'immagine personale
 		equal(list[0].nodeName, "IMG", "il primo figlio dell'elemento e' un'immagine");
 		i++;
 		
