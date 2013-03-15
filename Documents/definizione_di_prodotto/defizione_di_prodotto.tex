@@ -1223,9 +1223,9 @@ Nessuna relazione d'uso evidenziata.
   Attributo che definisce il contenuto del nodo DOM inerente alla rappresentazione della rubrica. Nello specifico tale nodo corrisponde ad un \texttt{div} con id \texttt{AddressBookPanel}.
   \item{\memberdata{-- urServlet: String}}\\
   Attributo che definisce l'URL dal quale è richiamabile la servlet usata per interagire con l'apparato server del sistema.
-  \item{\memberdata{-- contacts: String[]}}\\
+  \item{\memberdata{-- contacts: Array()}}\\
   Attributo che definisce la lista degli utenti presenti nella rubrica dell'utente che ha effettuato l'autenticazione.
-   \item{\memberdata{-- group: String[]}}\\
+   \item{\memberdata{-- group: Array()}}\\
   Attributo che definisce la lista dei gruppi presenti nella rubrica dell'utente che ha effettuato l'autenticazione.
 
 \end{description}
@@ -1234,7 +1234,7 @@ Nessuna relazione d'uso evidenziata.
 \begin{description}
 
 	\item{\method{+ inizialize(): void}}\\
-	Metodo per inizializzare  ``AddressBookPannel'' e lo popolarlo con i contatti della rubrica. Il metodo modifica il DOM creando tre div: divSearch, divSort e divList. Quindi sequenzialmente ne crea il contenuto:
+	Metodo per inizializzare  ``AddressBookPanel'' e lo popolarlo con i contatti della rubrica. Il metodo modifica il DOM creando tre div: divSearch, divSort e divList. Quindi sequenzialmente ne crea il contenuto:
 		\begin{itemize}
 			\item divSearch: in esso si dovrà definire un campo per l'input testuale e un bottone per ricercare nella lista un utente avente avete tra le parole chiave, una con valore uguale a quello inserito nel campo d'input.
 			\item divSort: in esso crea delle \inglese{select} per specificare le tipologie di ordinamento attuabili sulla lista degli utenti.
@@ -1275,6 +1275,65 @@ Metodo il cui funzionamento è analogo a quello precedentemente definito. Il met
 	
 	\item{\method{+ contactExistInGroup(idContact: int, idGroup: int): boolean}}\\
 Metodo che verifica l'esistenza di un contato in un determinato gruppo. Il metodo restituisce un feedback booleano per confermare o meno l'esistenza dell'utente ricercato nel gruppo designato.
+
+\end{description}
+
+\classsection{LoginPanelPresenter}
+
+\subsubsection*{Funzione}
+Presenter incaricato di gestire il pannello di login. Tale funzionalità è svolta prendendo in carica i dati inseriti dall'utente (username e password), e passandoli al server per eseguire l'autenticazione. La \inglese{servlet} usata a tale scopo è LoginManager.
+
+Il presenter si occupa anche di fornire delle funzionalità per il recupero della password.
+
+\subsubsection*{Relazioni d'uso}
+
+\subsubsection*{Attributi}
+\begin{description}
+
+  \item{\memberdata{-- element: DOM\_node}}\\
+  Attributo che definisce il contenuto del nodo DOM inerente alla schermata di login. Nello specifico tale nodo corrisponde ad un \texttt{<div>} con id \texttt{LoginPanel}.
+  \item{\memberdata{-- urServlet: String}}\\
+  Attributo contenente l'url della servlet incaricata di gestire il login.
+
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+
+	\item{\method{-- testCredentials(data: String): void}}\\
+Metodo che testa quanto ricevuto dal server e, in caso di login avvenuto correttamente reindirizza il browser nella pagina finale dopo aver salvato i dati dell'utente. Il metodo inizia salvando, in una variabile avente nome user, il contenuto di data trattato attraverso una chiamata \texttt{JSON.parse(data)}. Quindi se il contenuto di user non è nullo si procede richiamando il \texttt{communicationcenter} e impostando il valore di \texttt{communicationcenter.my} a user. Il metodo termina richiamando  il metodo \method{hide()} e avviando la costruzione della UI mediante una chiamata \method{medietor.buildUI()}.
+	
+	\item{\method{-- sendAnswer(username: String, answer: String): void}}\\
+	Metodo per inviare la risposta alla domanda segreta al server. Il metodo riceve 2 parametri d'ingresso: lo username dell'utente e la risposta (answer) da inviare al server. Come primo passo viene creata un istanza di \texttt{XMLHttpRequest} salvata in una variabile avente nome request. Quindi associo all'evento onclick di request, una funzione avente il compito di inviare la richiesta AJAX al server, e di richiamare in risposta uno dei seguenti metodi:
+	\begin{itemize}
+		\item \method{correctAnswer()} nel caso la risposta inviata sia corretta;
+		\item \method{incorrectAnswer()} se invece la risposta inviata dall'utente è errata.
+	\end{itemize}
+	
+	\item{\method{- correctAnswer(): void}}\\
+	Metodo usato per modificare il nodo DOM salvato in \memberdata{element}, per comunicare all'utente che la risposta da lui inserita (per il recupero password) è corretta. Il metodo deve rimuovere il figlio ``passwordretrieval'' da \memberdata{element}. quindi salva in una variabile avente nome message, il contenuto di una chiamata \verb|document.createElement("p")|. Successivamente si procede caricando su message (usando il metodo \texttt{appendChild(var\_figlio)}) il messaggio da visualizzare per notificare all'utente il successo dell'operazione. Il messaggio visualizzato dovrà essere: \\
+	
+	\verb|Recupero password avvenuto correttamente.|\\
+	\verb|Ti è stata inviata un'email contenente i dati richiesti.|\\
+	
+il messaggio sopracitato è temporaneo e dovrà essere rimosso allo scadere di un timeout di durata 2000 millisecondi (usare la funzione \texttt{window.setTimeout(nome\_funzione))}.
+	
+	\item{\method{- incorrectAnswer(): void}}\\
+	Metodo che In caso di inserimento della risposta non corretta alla domanda segreta, visualizza un messaggio di avvertimento all'utente per 2 secondi quindi lascia il controllo al form di inserimento della risposta alla domanda segreta.
+	
+	Il metodo deve cerare un elemento (\texttt{document.createElement("p")}) per la visualizzazione del messaggio:\\
+	
+	\verb|Dati non corretti. Inserire nuovamente la risposta.|\\
+	
+	Quindi si visualizza il messaggio con una procedura identica a quella usata in \method{correctAnswer()}.
+		
+	\item{\method{- getSecretQuestion(): void}}\\
+	Metodo che recupera la domanda segreta con una richiesta asincrona al server. Il metodo imposta una variabile userID con il valore ritornato da una chiamata \method{getUsername()}. Quindi avvia una richiesta AJAX inizializzando un oggetto \texttt{XMLHttpRequest}. La variabile request contenente tale istanza dovrà associare all'evento \texttt{onreadystatechange} una funzione che si occupa di catturare la stringa ritornata dal server (uso obbligatorio di \texttt{question = this.responseText}). Il metodo termina restituendo  il valore contenuto in question.
+	
+	\item{\method{+ inizialize(): void}}\\
+	\item{\method{+ inizialize(): void}}\\
+	\item{\method{+ inizialize(): void}}\\
+	
 
 \end{description}
 
