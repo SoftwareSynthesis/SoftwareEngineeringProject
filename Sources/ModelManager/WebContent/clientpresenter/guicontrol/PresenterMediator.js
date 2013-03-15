@@ -23,9 +23,7 @@ function PresenterMediator() {
     var contactpp = new ContactPanelPresenter();
     var callhistorypp = new CallHistoryPanelPresenter("http://localhost:8080/CallHistoryManager");
     var messagepp = new MessagePanelPresenter("http://localhost:8080/MessageManager");
-    //FIXME il SearchResultPanelPresenter deve interfacciarsi con qualche servlet?
-    var searchresultpp = new SearchResultPanelPresenter();
-    var toolspp = new ToolsPanelPresenter();
+    var searchresultpp = new SearchResultPanelPresenter("http://localhost:8080/AddressBookManager");
     //TODO deve esistere anche GroupPanelPresenter?
     
     /**********************************************************

@@ -3,11 +3,16 @@
  * 
  * @constructor
  * @this {SearchResultPanelPresenter}
+ * @param {String} url URL della servlet con cui il presenter deve parlare
+ * @author Marco Schivo
+ * @author Diego Beraldin
  */
-function SearchResultPanelPresenter() {
+function SearchResultPanelPresenter(url) {
 /**********************************************************
                       VARIABILI PRIVATE
 ***********************************************************/
+	// indirizzo della servlet con cui il presenter deve interfacciarsi
+	var servletURL = url;
 	// elemento controllato da questo presenter
 	var element = document.getElementById("SearchResultPanel");
 	// lista di elementi controllata
@@ -23,6 +28,8 @@ function SearchResultPanelPresenter() {
 	 * 
 	 * @param {HTMLUListElement} list
 	 * @param {Object} contact
+	 * @author Marco Schivo
+	 * @author Diego Beraldin
 	 */
 	function addListItem(list, contact) {
 		var item = document.createElement("li");
