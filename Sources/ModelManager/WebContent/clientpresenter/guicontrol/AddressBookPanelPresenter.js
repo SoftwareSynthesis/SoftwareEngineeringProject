@@ -56,7 +56,7 @@ function AddressBookPanelPresenter(url) {
         groupRequest.open("POST", urlServlet, "true");
         groupRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         groupRequest.send("operation=" + 7 + "&myId=" + communicationcenter.my.id);
-    }
+    };
 
     /**
      * Aggiunge una voce di rubrica a una lista
@@ -124,7 +124,25 @@ function AddressBookPanelPresenter(url) {
 
         //aggiungo il <li> al elemento <ul> dell'oggetto ulList su cui viene invocata la funzione
         list.appendChild(item);
-    }
+    };
+
+    /**
+     * Aggiungere una <option> ad una Select
+     *
+     * @author Riccardo Tresoldi
+     * @param {HTMLSelectElement} select rappresenta la select a cui aggiungere la <option>
+     * @param {String} value rappresenta il valore da attribuire alla nuova <option>
+     * @param {String} text rappresenta il testo da attribuire alla nuova <option>
+     */
+    function addOptionToSelect(select, value, text) {
+        //creo la option
+        var option = document.createElement("option");
+        option.value = value;
+        option.appendChild(document.createTextNode(text));
+
+        //appendo la nuova option alla select
+        select.appendChild(option);
+    };
 
     /**
      * Controlla se un contatto è presente un un gruppo
@@ -142,25 +160,6 @@ function AddressBookPanelPresenter(url) {
                 exist = true;
         }
         return exist;
-    }
-
-    /**
-     * Elimina il contenuto preesistente e visualizza il nuovo contenuto filtrato della <ul> dei contatti
-     *
-     * @author Ricardo tresoldi
-     * @param {Array} filtredContacts Array di contrati
-     */
-    function showFilter(filtredContacts) {
-        // estraggo l'<ul> del Addressbook e lo inizializzo
-        var ulList = this.element.getElementById("AddressBookList");
-        ulList.innerHTML = "";
-
-        //TODO aggiungere una label per avvisare che i campi visualizzati sono filtrati
-
-        for (var contact in filtredContacts) {
-            //ciclo i contatti e agiungo un <li> per ogni contatto
-            addListItem(ulList, filtredContacts[contact]);
-        }
     };
 
     /**********************************************************
@@ -174,34 +173,49 @@ function AddressBookPanelPresenter(url) {
     this.initialize = function() {
         // mi imposto come visibile
         element.style.display = "block";
-        //creo i tre div principali
-        var divSearch = document.createElement('div');
+        // creo i tre div principali
+        var divFilter = document.createElement('div');
         var divSort = document.createElement('div');
         var divList = document.createElement('div');
+        divFilter.id = "divFilter";
+        divSort.id = "divSort";
+        divList.id = "divList";
 
-        // creo contenuto divSearch
+        // creo contenuto divFilter
         var inputText = document.createElement('input');
-        inputText.setAttribute("type", "text");
+        inputText.type = "text";
         var inputButton = document.createElement('input');
-        inputText.setAttribute("type", "image");
-
+        inputButton.type = "image";
+        var selectGroup = document.createElement('select');
+        selectGroup.id = "selectGroup";
+        //attribuisco gli eventi per la ricerca
+        inputButton.onclick = function() {
+            var serchField = inputText.value;
+            var filtredContacts = applyFilterByString(serchField);
+            showFilter(filtredContacts);
+        }
+        selectGroup.onchange = function() {
+            var idGroupSelected = selectGroup.options[selectGroup.selectedIndex].value;
+            var filtredContacts = applyFilterByGroup(idGroupSelected);
+            showFilter(filtredContacts);
+        }
         // creo contenuto divSort
-        var select = document.createElement('select');
-        select.setAttribute("id", "selectSort");
+        var selectSort = document.createElement('select');
+        selectSort.id = "selectSort";
 
         // creo contenuto divList
         var ul = document.createElement('ul');
-        select.setAttribute("id", "AddressBookList");
+        select.id = "AddressBookList";
 
         // appendo i sottonodi ai nodi principali
-        divSearch.appendChild(inputText);
-        divSearch.appendChild(inputButton);
+        divFilter.appendChild(inputText);
+        divFilter.appendChild(inputButton);
         divSort.appendChild(select);
         divList.appendChild(ul);
 
         //appendo il sottoalbero al DOM
         this.element.innerHTML = "";
-        this.element.appendChild(divSearch);
+        this.element.appendChild(divFilter);
         this.element.appendChild(divSort);
         this.element.appendChild(divList);
 
@@ -212,8 +226,12 @@ function AddressBookPanelPresenter(url) {
     };
 
     /**
-     * Inserisce i contatti estratti dal server all'interno della lista
-     * 'AddressBookList' all'interno di 'AddressBookPanel'
+     * Inserisce i contatti estratti dal server all'interno della lista 'AddressBookList'
+     * all'interno di 'AddressBookPanel'
+     *
+     * NOTA PER I VERIFICATORI
+     * Richiede che il 'document' abbia al suo interno un elemento di
+     * tipo '<ul>' con 'id' uguale a 'AddressBookList'
      *
      * @author Riccardo Tresoldi
      */
@@ -221,15 +239,18 @@ function AddressBookPanelPresenter(url) {
         // estraggo l'<ul> del Addressbook e lo inizializzo
         var ulList = this.element.getElementById("AddressBookList");
         ulList.innerHTML = "";
-
+// ciclo i contatti e agiungo un <li> per ogni contatto
         for (var contact in contacts) {
-            //ciclo i contatti e agiungo un <li> per ogni contatto
             addListItem(ulList, contacts[contact]);
         }
     };
 
     /**
      * Popola la 'AddressBookList' con la lista ricevuta come parametro
+     *
+     * NOTA PER I VERIFICATORI
+     * Richiede che il 'document' abbia al suo interno un elemento di
+     * tipo '<ul>' con 'id' uguale a 'AddressBookList'
      *
      * @param {Array} list  lista di contatti che deve essere stampata
      * @author Diego Beraldin
@@ -468,10 +489,11 @@ function AddressBookPanelPresenter(url) {
     };
 
     /**
-     * Dato una stringa in ingresso questa funzione mostra gli utenti filtrati per quel parametro
+     * Dato una stringa in ingresso questa funzione filtra i contatti presenti in locale
      *
      * @author Riccardo Tresoldi
      * @param {String} param string da cercare tra i contatti
+     * @returns {Array} lista di contatti filtrata
      */
     this.applyFilterByString = function(param) {
         //creo array di utenti filtrati
@@ -486,14 +508,15 @@ function AddressBookPanelPresenter(url) {
         }
 
         //visualizzo l'utente filtrato
-        showFilter(filtred);
+        return filtred;
     };
 
     /**
-     * Dato l'id di un gruppo in ingresso questa funzione mostra gli utenti filtrati
+     * Dato l'id di un gruppo in ingresso questa funzione filtra i contatti presenti in locale
      *
      * @author Riccardo Tresoldi
      * @param {Number} idGroup id del gruppo su cui filtrare i contatti
+     * @returns {Array} lista di contatti filtrata
      */
     this.applyFilterByGroup = function(idGroup) {
         //mi creo un array di contatti filtrati
@@ -508,11 +531,51 @@ function AddressBookPanelPresenter(url) {
         }
 
         //chiamo la funzione che dato un array di contatti mi ripopola l'<ul>
-        showFilter(filtred);
+        return filtred;
+    };
+
+    /**
+     * Elimina il contenuto preesistente e visualizza il nuovo contenuto filtrato della <ul> dei contatti
+     *
+     * NOTA PER I VERIFICATORI
+     * Richiede che il 'document' abbia al suo interno un elemento di
+     * tipo '<ul>' con 'id' uguale a 'AddressBookList'
+     *
+     * @author Ricardo tresoldi
+     * @param {Array} filtredContacts Array di contrati
+     */
+    function showFilter(filtredContacts) {
+        // estraggo l'<ul> del Addressbook e lo inizializzo
+        var ulList = this.element.getElementById("AddressBookList");
+        ulList.innerHTML = "";
+
+        //TODO aggiungere una label per avvisare che i campi visualizzati sono filtrati
+
+        for (var contact in filtredContacts) {
+            //ciclo i contatti e agiungo un <li> per ogni contatto
+            addListItem(ulList, filtredContacts[contact]);
+        }
     };
 
     /* TODO:
      * - bloccare un utente
+     * - ordinamento rubrica
+     * - popolare la select dei gruppi
+     * - 
+     */
+
+    /* OPERATION ON SERVER:
+     * -  0 = ottieni i contatti della rubrica
+     * -  1 = aggiungi contatto ad una rubrica
+     * -  2 = elimina contatto da una rubrica
+     * -  3 = aggiunge un contatto ad un gruppo
+     * -  4 = eliminare un contatto da un gruppo
+     * -  5 = aggiunta di un gruppo
+     * -  6 = eliminazione di un gruppo
+     * -  7 = ottieni i gruppi della rubrica
+     * -  8 = bloccare un utente
+     * -  9 = sbloccare un utente
+     * - 10 = restituire una ricerca
      */
 
     /*FILE JSON CHE RAFFIGURA LA RUBRICA
