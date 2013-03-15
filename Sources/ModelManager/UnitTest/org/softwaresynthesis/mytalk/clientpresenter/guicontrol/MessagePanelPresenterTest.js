@@ -1,20 +1,19 @@
 module ("MessagePanelPresenterTest", {
     setup:
         function() {
-		
-		connectionmanager = new Object();
-		connectionmanager.my = {name:"Maria", surname:"Goretti", email:"margor@email.it", picturePath:"xx.png"};		test = new MessagePanelPresenter();			},
-		teardown: 
+			communicationcenter = new Object();
+			communicationcenter.my = {id:"01"};
+			test = new MessagePanelPresenter("MessageManager.php");								},
+	teardown: 
 		function(){}
-		};
+	}
+);
 
-/*PRECONDIZIONE: la funzione setup deve essere corretta*/
 
 test("createPanelTest()",
-   function () {
-	var i = 0;
-		
-	// creo l'elemento 'MessagePanel'
+    function () {
+		var i = 0;
+		// creo l'elemento 'MessagePanel'
 		var element = test.createPanel();
 		// estraggo la lista dei figli di questo pannello
 	var list = element.childNodes;
@@ -35,7 +34,7 @@ test("createPanelTest()",
 		// estraggo la lista dei figli di video
 		var items = list[0].childNodes;
 		equal(items.length, 1, "il video ha un figlio");
-	i++;
+		i++;
 		//controllo che il figlio di video sia source
 		equal(items[0].nodeName, "SOURCE", "il figlio di video e' source ");
 		i++;
@@ -44,14 +43,13 @@ test("createPanelTest()",
 		// estraggo la lista dei figli del di
 	var items_uno = list[1].childNodes;
 	equal(items_uno.length, 1, "il div ha un figlio");
+	i++;
 		//controllo che il figlio di div sia ul
 	equal(items_uno[0].nodeName, "UL", "il figlio di video e' ul ");
 		i++;
 		
 		
+		
 		expect(i);
-   });
-	
-
-/*TODO setup verrà testato se e quando assolveremo ai requisiti opzionali*/
+    });
 

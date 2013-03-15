@@ -89,7 +89,7 @@ function MessagePanelPresenter(url) {
         };
         request.open("POST", urlServlet, "true");
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        request.send("id=" + connectionmanager.my.id);
+        request.send("id=" + communicationcenter.my.id);
     };
     
 	/**********************************************************
