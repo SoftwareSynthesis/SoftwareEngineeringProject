@@ -141,6 +141,24 @@ Gli strumenti utilizzati per la stesura e lo sviluppo sono specificati nei docum
 
 \section{Specifica sotto-architettura sever}\label{sec:serverarchitecture}
 
+\subsection{Package org.softwaresynthesis.mytalk.server}\label{sec:server}
+
+\classsection{HibernateUtil}
+
+\subsubsection*{Funzione}
+Interfaccia usata per dichiarare che l'oggetto che la implementa ha la possibilità di essere convertito in formato json in modo da poter essere trasferito al client.
+
+\subsubsection*{Relazioni d'uso}
+
+Nessuna relazione evidenziata.
+
+\subsubsection*{Metodi}
+
+\begin{description}
+	\item{\method{+ toJson()}}\\
+	Converte l'oggetto di invocazione in una stringa json interpretabile dai client.
+\end{description}
+
 \subsection{Package org.softwaresynthesis.mytalk.server.dao}\label{sec:dao}
 
 \classsection{HibernateUtil}
@@ -303,7 +321,7 @@ Interfaccia rappresentante il comportamento di un generico utente del sistema. L
 \subsubsection*{Relazioni d'uso}
 
 \begin{itemize}
-	\item \classname{State}: classe interna di tipo enumerativo che definisce i possibili stati in cui può trovarsi un utente. Nello specifico tale classe dovrà definire come uniche voci di scelta, i valori: ONLINE, OFFLINE e AVAILABLE.
+	\item \texttt{org.softwaresynthesis.mytalk.server.IMyTalkObject}: interfaccia da estendere. Ogni oggetto che implementerà l'interfaccia \classname{IUserData} dovrà essere in grado di convertire il proprio contenuto informativo in formato Json.
 \end{itemize}
 
 \subsubsection*{Metodi}
@@ -338,16 +356,18 @@ Interfaccia rappresentante il comportamento di un generico utente del sistema. L
 	Restituisce una stringa con il percorso dell'immagine del profilo di uno \classname{IUserData}.
 	\item{\method{+ setPicturePath(path: String): void}}\\
 	Imposta il percorso dell'immagine profilo di uno \classname{IUserData}.
-	\item{\method{+ getState(): State}}\\
-	Restituisce un istanza di tipo State che definisce lo stato attuale dell'utente.
-	\item{\method{+ setState(state: State): void}}\\
-	Imposta lo stato in cui si trova l'utente.
 \end{description}
 
 \classsection{IGroup}
 
 \subsubsection*{Funzione}
 Interfaccia rappresentante un gruppo di una rubrica utente del sistema mytalk
+
+\subsubsection*{Relazioni d'uso}
+
+\begin{itemize}
+		\item \texttt{org.softwaresynthesis.mytalk.server.IMyTalkObject}: interfaccia da estendere. Ogni oggetto che implementerà l'interfaccia \classname{IGroup} dovrà essere in grado di convertire il proprio contenuto informativo in formato Json.
+\end{itemize}
 
 \subsubsection*{Metodi}
 \begin{description}
@@ -366,6 +386,7 @@ Interfaccia rappresentante una entry di una rubrica utente del sistema mytalk
 
 \subsubsection*{Relazioni d'uso}
 \begin{itemize}
+	\item \texttt{org.softwaresynthesis.mytalk.server.IMyTalkObject}: interfaccia da estendere. Ogni oggetto che implementerà l'interfaccia \classname{IAddressBookEntry} dovrà essere in grado di convertire il proprio contenuto informativo in formato Json.
 	\item \classname{IUserData}: l'interfaccia \classname{IAddressBookEntry} definisce più metodi che restituiscono oggetti aventi tipo di ritorno \classname{IUserData}. Tali sono i metodi \inglese{get} per ottenere il ``possessore'' della rubrica e per ottenere l'utente registrato nella rubrica. Analogamente \classname{IUserData} viene usato come parametro d'ingresso per i metodi \inglese{set} collegati ai metodi già citati.
 \end{itemize}
 
@@ -393,7 +414,10 @@ Interfaccia rappresentante una entry di una rubrica utente del sistema mytalk
 Implementazione dell'interfaccia \classname{IUserData}. Un istanza della classe dovrà rappresentare un generico utente del sistema, definendone gli attributi e i metodi per impostare ed ottenere il contenuto dei medesimi.
 
 \subsubsection*{Relazioni d'uso}
-Nessuna relazione d'uso evidenziata.
+
+\begin{itemize}
+	\item{IUserData}: interfaccia da implementare.
+\end{itemize}
 
 \subsubsection*{Attributi}
 
@@ -414,8 +438,6 @@ Nessuna relazione d'uso evidenziata.
 	Attributo che definisce il cognome dell'utente.
 	\item{\memberdata{-- path: String}}
 	Attributo che definisce il percorso (su server) in cui è memorizzata l'immagine del profilo dell'utente.
-	\item{\memberdata{-- state: State}}
-	Attributo che definisce lo stato in cui si trova l'utente.
 	
 \end{itemize}
 
@@ -458,6 +480,11 @@ Nessuna relazione d'uso evidenziata.
 	Restituisce lo stato in cui si trova l'utente, ritornando il contenuto dell'attributo \memberdata{state}.
 	\item{\method{+ setState(state: State): void}}\\
 	Imposta lo stato in cui si trova l'utente, sovrascrivendo il contenuto dell'attributo \memberdata{state} con il valore ricevuto come parametro d'ingresso.
+	\item{\method{+ toJson(): String}}\\
+	Metodo usato per ritornare il contenuto di un istanza di \classname{UserData} sottoforma di stringa formattata in Json. La stringa ritornata deve corrispondere al seguente formato:\\\\
+	\verb|{name:"mio_nome",surname:"mio_cognome",email:"mia_mail"|\\\verb|,picturePath:"mia_immagine",id:"mio_id"}|\\
+	
+	dove i valori tra virgolette rappresentano il contenuto dei rispettivi campi dati contenuti nella classe.
 \end{description}
 
 \classsection{Group}
@@ -489,6 +516,11 @@ Implementazione dell'interfaccia \classname{IGroup}.
 	Restituisce il nome di un gruppo di una rubrica utente.
 	\item{\method{+ setName(name: String): void}}\\
 	Imposta il nome di un gruppo di una rubrica utente.
+	\item{\method{+ toJson(): String}}\\
+	Metodo usato per ritornare il contenuto di un istanza di \classname{Group} sottoforma di stringa formattata in Json. La stringa ritornata deve corrispondere al seguente formato:\\\\
+	\verb|{id:"mio_id",name:"mio_nome"}|\\
+	
+	dove i valori tra virgolette rappresentano il contenuto dei rispettivi campi dati contenuti nella classe.
 \end{description}
 
 \classsection{AddressBookEntry}
@@ -536,6 +568,12 @@ Implementazione dell'interfaccia IAddressBookEntry.
 	Restituisce lo \classname{IUserData} possesore di questa \inglese{entry} della rubrica. Nello specifico restituisce il contenuto dell'attributo \memberdata{owner}.
 	\item{\method{+ setOwner(owner: IUserData ): void}}\\
 	Imposta l'utente \classname{IUserData} possessore della entry della rubrica. Nello specifico imposta il contenuto dell'attributo \memberdata{owner}.
+	\item{\method{+ toJson(): String}}\\
+	Metodo usato per ritornare il contenuto di un istanza di \classname{AddressBookEntry} sottoforma di stringa formattata in Json. La stringa ritornata deve corrispondere al seguente formato:\\\\
+	\verb|{id:"mio_id",contact:"mio_contatto",group:"mia_gruppo",blocked:"bloccato"}|\\
+	
+	dove i valori tra virgolette rappresentano il contenuto dei rispettivi campi dati contenuti nella classe.
+
 \end{description}
 
 \subsection{Package org.softwaresynthesis.mytalk.server.call}\label{sec:call}
@@ -1013,7 +1051,9 @@ L'oggetto cosi ottenuto dovrà essere controllato, ovvero si dovrà accertare ch
 \classsection{PushInbound}
 
 \subsubsection*{Funzione}
-Classe per la definizione di un apposito canale di comunicazione client-server. La classe è un'estensione di \texttt{org.apache.catalina.websocket.MessageInbound}, che verrà usata poi in \classname{ChannelServlet}.
+Classe per la definizione di un apposito canale di comunicazione client-server. La classe è un'estensione di \texttt{org.apache.catalina.websocket.MessageInbound}, che verrà usata poi in \classname{ChannelServlet}. Si osservi che l'associazione tra un istanza di \classname{PushInbound} e un utente del sistema è univoca: fintanto che connesso un utente ha un proprio \classname{PushInbound} presente sul server, che è suo e suo soltanto.
+
+%TODO terminar definizione lista di relazioni d'uso.
 
 \subsubsection*{Relazioni d'uso}
 \begin{itemize}
@@ -1023,6 +1063,7 @@ Classe per la definizione di un apposito canale di comunicazione client-server. 
 	\item \texttt{java.util.List}:
 	\item \texttt{org.apache.catalina.websocket.MessageInbound}:
 	\item \texttt{com.google.gson.*}:
+	\item \classname{State}: classe interna utilizzata per rappresentare lo stato dell'utente a cui è associata l'istanza di \classname{PushInbound}. Un utente ha uno stato fintanto che è connesso (quindi fintanto che esiste sul server un'istanza di \classname{PushInbound}  ad esso associata). Gli stati possibili sono: AVAILABLE (utente connesso e libero, quindi disposto a ricevere chiamate) e OCCUPIED (utente connesso ma attualmente occupato in un'altra conversazione).
 
 \end{itemize}
 
@@ -1030,6 +1071,8 @@ Classe per la definizione di un apposito canale di comunicazione client-server. 
 \begin{description}
   \item{\memberdata{-- id: Long}}\\
   Identificativo di tipo Long, del canale di comunicazione associato ad un client univoco.
+  \item{\memberdata{-- state: State}}\\
+  Attributo usato per memorizzare lo stato dell'utente ``proprietario'' del \classname{PushInbound}.
 \end{description}
 
 %TODO da rivedere.
@@ -1059,7 +1102,7 @@ Classe per la definizione di un apposito canale di comunicazione client-server. 
 		\item[•]Se la richiesta inoltrata è del tipo 2: il metodo procede con le istruzioni necessarie a scambiare i dati per la chiamata. Nello specifico viene salvato in un attributo di tipo \texttt{Long}, l'id del client che desidero chiamare. Quindi ricerco l'oggetto \texttt{PushInbound} associato al client che desidero contattare, e gli inoltro il messaggio ricevuto come parametro d'ingresso.
 		\item[•]Se la richiesta inoltrata è del tipo 3: il metodo comunica al client ``destinatario'' della chiamata, l'id del client chiamante. La procedura è analoga a quella identificata nel punto precedente, con la specifica che il messaggio inoltrato è l'identificativo del cliente che desidera avviare la chiamata.
 		\item[•]Se la richiesta inoltrata è del tipo 4: il metodo si occupa dell'eliminazione della webSocket, contattando l'istanza \classname{ChannelServlet} associata a questo \texttt{PushInbound}.
-		\item[•]Se la richiesta inoltrata è del tipo 5: il metodo viene usato per modificare lo stato dell'utente, con il valore passato tramite messaggio. Dopo la ricezione del messaggio, il metodo si occupa di riscaricare l'oggetto \classname{abook.IUserData} dal database, quindi cambia il valore del campo \texttt{state} associato, con il valore ricevuto come parametro d'ingresso. Quindi procedo ricavando la lista degli ``amici'' dell'utente che ha cambiato stato, e comunico loro che è avvenuto un cambiamento di stato.
+		\item[•]Se la richiesta inoltrata è del tipo 5: il metodo viene usato per modificare lo stato dell'utente, con il valore passato tramite messaggio. Dopo la ricezione del messaggio, il metodo cambia il valore del campo \texttt{state} con il valore ricevuto come parametro d'ingresso. Quindi procede ricavando la lista degli ``amici'' dell'utente che ha cambiato stato, e comunica loro che è avvenuto un cambiamento di stato.
 	\end{itemize}
 \end{description}
 
