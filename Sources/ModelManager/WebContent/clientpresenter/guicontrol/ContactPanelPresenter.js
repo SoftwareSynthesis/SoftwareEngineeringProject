@@ -19,6 +19,7 @@ function ContactPanelPresenter() {
    * @author Elena Zecchinato
    */
   this.createPanel = function() {
+  
 	var element = document.createElement("div");
 	element.setAttribute("id", "ContactPanel");
 	
@@ -56,7 +57,12 @@ function ContactPanelPresenter() {
     
     
     //apendo il sottoalbero al DOM
-    element.appendChild(ulData);
+    element.appendChild(avatar);
+	element.appendChild(ulData);
+	element.appendChild(callButton);
+	element.appendChild(videoCallButton);
+	element.appendChild(chatButton);
+	
     return element;
   };
   
