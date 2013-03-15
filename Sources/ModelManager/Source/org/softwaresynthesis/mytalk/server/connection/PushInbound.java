@@ -9,7 +9,6 @@ import org.apache.catalina.websocket.MessageInbound;
 import com.google.gson.*;
 
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
-import org.softwaresynthesis.mytalk.server.abook.IUserData.State;
 import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
 
 public class PushInbound extends MessageInbound {

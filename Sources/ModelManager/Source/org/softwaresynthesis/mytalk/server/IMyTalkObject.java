@@ -1,7 +1,7 @@
 package org.softwaresynthesis.mytalk.server;
 
 /**
- * Definisce che l'oggetto che la eredita ha la
+ * Definisce che l'oggetto che la implementa ha la
  * possibilità di essere convertito in formato
  * json in modo da poter essere trasferito al
  * client
