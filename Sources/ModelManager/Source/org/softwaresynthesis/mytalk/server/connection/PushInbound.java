@@ -3,11 +3,13 @@ package org.softwaresynthesis.mytalk.server.connection;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
-import java.util.List;
+import java.util.Iterator;
+import java.util.Set;
 
 import org.apache.catalina.websocket.MessageInbound;
 import com.google.gson.*;
 
+import org.softwaresynthesis.mytalk.server.abook.AddressBookEntry;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
 import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
 
@@ -83,9 +85,12 @@ public class PushInbound extends MessageInbound {
 			if(status.equals("occupied")){setState(State.OCCUPIED);}
 			
 			//ricavo tutti gli amici con metodo da definire
-			List<IUserData> friends= utente.getAddressBook();
-			for(int i=0; i<friends.size(); i++){
-				Long idFriend=(friends.get(i)).getId();
+			Set<AddressBookEntry> friends= utente.getAddressBook();
+			Iterator<AddressBookEntry> iter = friends.iterator();
+			while(iter.hasNext())
+			{
+				AddressBookEntry entry = (AddressBookEntry)iter.next();
+				Long idFriend=entry.getContact().getId();
 				PushInbound sendTo= ChannelServlet.findClient(idFriend);
 				String msg = "5|" + id + "|" + state;
 				sendTo.getWsOutbound().writeTextMessage(CharBuffer.wrap(msg));

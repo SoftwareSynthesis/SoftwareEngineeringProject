@@ -1,5 +1,8 @@
 package org.softwaresynthesis.mytalk.server.abook;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Rappresentazione dell'utente del sistema mytalk
  *
@@ -9,6 +12,7 @@ package org.softwaresynthesis.mytalk.server.abook;
 public class UserData implements IUserData 
 {
 	private Long id;
+	private Set<AddressBookEntry> addressBook;
 	private String mail;
 	private String password;
 	private String question;
@@ -25,6 +29,7 @@ public class UserData implements IUserData
 	 */
 	public UserData()
 	{
+		addressBook = new HashSet<AddressBookEntry>();
 	}
 	
 	/**
@@ -39,6 +44,7 @@ public class UserData implements IUserData
 	 */
 	public UserData(Long identifier)
 	{
+		this();
 		this.setId(identifier);
 	}
 	
@@ -298,6 +304,33 @@ public class UserData implements IUserData
 	public void setPicturePath(String path)
 	{
 		this.path = path;
+	}
+	
+	/**
+	 * Restituisce la rubrica dell'utente
+	 * 
+	 * @author	Andrea Meneghinello
+	 * @version	%I%, %G%
+	 * @return	{@link Set} con la rubrica
+	 * 			dell'utente
+	 */
+	@Override
+	public Set<AddressBookEntry> getAddressBook()
+	{
+		return this.addressBook;
+	}
+	
+	/**
+	 * Inserisce un nuovo contatto alla rubrica
+	 * 
+	 * @author	Andrea Meneghinello
+	 * @version	%I%, %G%
+	 */
+	@Override
+	public void addAddressBookEntry(AddressBookEntry entry)
+	{
+		this.addressBook.add(entry);
+		entry.setOwner(this);
 	}
 	
 	/**

@@ -1,5 +1,6 @@
 package org.softwaresynthesis.mytalk.server.abook;
 
+import java.util.Set;
 import org.softwaresynthesis.mytalk.server.IMyTalkObject;
 
 /**
@@ -173,4 +174,24 @@ public interface IUserData extends IMyTalkObject
 	 * 					l'immagine profilo
 	 */
 	public void setPicturePath(String path);
+	
+	/**
+	 * Restituisce la rubrica dell'utente
+	 * 
+	 * @author	Andrea Meneghinello
+	 * @version	%I%, %G%
+	 * @return	{@link Set} contente le entry
+	 * 			della rubrica
+	 */
+	public Set<AddressBookEntry> getAddressBook();
+	
+	/**
+	 * Aggiunge alla rubrica personale un
+	 * nuovo contatto
+	 * 
+	 * @author	Andrea Meneghinello
+	 * @version	%I%, %G%
+	 * @param entry
+	 */
+	public void addAddressBookEntry(AddressBookEntry entry);
 }

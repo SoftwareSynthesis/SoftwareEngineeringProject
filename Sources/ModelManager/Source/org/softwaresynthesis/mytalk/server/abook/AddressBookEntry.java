@@ -23,6 +23,7 @@ public class AddressBookEntry implements IAddressBookEntry
 	 */
 	public AddressBookEntry()
 	{
+		this.blocked = false;
 	}
 	
 	/**
