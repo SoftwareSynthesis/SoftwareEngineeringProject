@@ -40,14 +40,23 @@ function ContactPanelPresenter() {
         var callButton = document.createElement('button');
         callButton.setAttribute("type", "button");
         callButton.setAttribute("id", "callButton");
+        callButton.onclick = function() {
+            //TODO inserire il codice per effettuare la chiamata con il contatto selezionato
+        };
 
         var videoCallButton = document.createElement('button');
         videoCallButton.setAttribute("type", "button");
         videoCallButton.setAttribute("id", "videoCallButton");
+        videoCallButton.onclick = function() {
+            //TODO inserire il codice per effettuare la chiamata con il contatto selezionato
+        };
 
         var chatButton = document.createElement('button');
         chatButton.setAttribute("type", "button");
         chatButton.setAttribute("id", "chatButton");
+        chatButton.onclick = function() {
+            //TODO inserire il codice per effettuare la chiamata con il contatto selezionato
+        };
 
         //appendo i sottonodi alla lista dei dati dell'utente
         var ulData = document.createElement('ul');
@@ -57,11 +66,11 @@ function ContactPanelPresenter() {
 
         //apendo il sottoalbero al DOM
         element.appendChild(avatar);
-		element.appendChild(ulData);
-		element.appendChild(callButton);
-		element.appendChild(videoCallButton);
-		element.appendChild(chatButton);
-		
+        element.appendChild(ulData);
+        element.appendChild(callButton);
+        element.appendChild(videoCallButton);
+        element.appendChild(chatButton);
+
         return element;
     };
 
