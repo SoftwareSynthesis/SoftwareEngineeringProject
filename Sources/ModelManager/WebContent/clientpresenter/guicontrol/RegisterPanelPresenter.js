@@ -126,18 +126,9 @@ function RegisterPanelPresenter(url) {
      * @author Diego Beraldin
      */
     this.register = function(userData) {
-    	//invia la richiesta AJAX al server
     	var request = new XMLHttpRequest();
-    	request.onreadystatechange = function() {
-    		if (this.readyState == 4 && this.status == 200) {
-    	    	var user = JSON.parse(this.responseText);
-    	    	if (user != null) {
-    	    		communicationcenter.my = user;
-    	    		mediator.buildUI();
-    	    	}	
-    		}
-    	};
-    	request.open("POST", servletURL, true);
+    	// invia una richiesta SINCRONA al server (terzo parametro 'false')
+    	request.open("POST", servletURL, false);
     	request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     	var querystring = "username=" + encodeURIComponent(userData.username) +
     	                  "&password=" + encodeURIComponent(userData.password) +
@@ -154,6 +145,11 @@ function RegisterPanelPresenter(url) {
     	}
     	querystring += "&operation=2";
     	request.send(querystring);
+    	var user = JSON.parse(request.responseText);
+    	if (user != null) {
+    		communicationcenter.my = user;
+    		mediator.buildUI();
+    	}	
     	return querystring;
     };
     

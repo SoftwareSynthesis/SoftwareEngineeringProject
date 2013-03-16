@@ -9,6 +9,7 @@
   } elseif ($operation == 2) {
     $user = array();
     $user["username"] = $username;
+    $user["id"] = 0;
     if (isset($_POST["name"])) {
       $user["name"] = $_POST["name"];
     }
@@ -16,7 +17,7 @@
       $user["surname"] = $_POST["surname"];
     }
     if (isset($_POST["picturePath"])) {
-      $user["picturePath"] = $_POST["picturePath"];
+      $user["picturePath"] = "http://softwaresynthesis.org/pictures/" . $_POST["picturePath"];
     }
     echo json_encode($user, JSON_PRETTY_PRINT);
   }

@@ -7,7 +7,6 @@ module("RegisterPanelPresenterTest", {
 		document.body.appendChild(element);
 		mediator = {buildUI: function() {}};
 		communicationcenter = new Object();
-		communicationcenter.my = {name: null, surname: null, username: null, picturePath: null};
 		tester = new RegisterPanelPresenter("LoginManager.php");
 	},
 	teardown: function() {
@@ -125,8 +124,13 @@ test("registerTest()", function() {
 	equal(querystring,
 			"username=flabacco%40gmail.com&password=farfalla&question=di%20che%20colore%20e'%20la%20mia%20gatta%3F&answer=tricolore&name=Flavia&surname=Bacco&picturePath=flavietta.png&operation=2",
 			"stringa di query generata correttamente"); i++;
-    //FIXME non riesco a farlo andare!
-    equal(communicationcenter.my.name, "Flavia", "ha effettuato l'accesso al sistema"); i++;
+    equal(communicationcenter.my.name, "Flavia", "nome registrato correttamente"); i++;
+    equal(communicationcenter.my.surname, "Bacco", "cognome registrato correttamente"); i++;
+    equal(communicationcenter.my.username, "flabacco@gmail.com", "username registrato correttamente"); i++;
+    equal(communicationcenter.my.id, 0, "id del nuovo utente impostato correttamente"); i++;
+    equal(communicationcenter.my.picturePath,
+    		"http://softwaresynthesis.org/pictures/flavietta.png",
+    		"immagine del nuovo utente salvata correttamente"); i++;
 	
 	expect(i);
 });
