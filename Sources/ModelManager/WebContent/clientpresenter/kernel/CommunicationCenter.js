@@ -7,6 +7,7 @@
 function CommunicationCenter() {
     this.videoComunication
     this.openChat = new Array();
+    //TODO sistemare discorso della servlet in modo che se la prende dal mediator
     var urlServlet = "http://localhost:8080/.................";
     //oggetto che contiene i dati dell'utente
     this.my = new Object();
@@ -69,9 +70,10 @@ function CommunicationCenter() {
                 } else {
                     pc.setRemoteDescription(new RTCSessionDescription(signal));
                 }
-            }else if(type=="5"){
+            } else if (type == "5") {
                 var idUserChange = JSON.parse(str[1]);
-                var statusUserChange = JSON.parse(str[2]); //può avere tre stati [available | offline | occupied]
+                var statusUserChange = JSON.parse(str[2]);
+                //può avere tre stati [available | offline | occupied]
                 //TODO modificare classe <li> dell'utente.
             }
         };
@@ -310,7 +312,7 @@ function CommunicationCenter() {
 
     /**
      * Funzione per l'estrazione dei dati dal oggetto delle statistiche
-     * 
+     *
      * @author Marco Schivo
      */
     function dumpStats(obj) {
