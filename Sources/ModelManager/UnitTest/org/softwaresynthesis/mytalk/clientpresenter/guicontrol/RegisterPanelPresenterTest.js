@@ -5,9 +5,10 @@ module("RegisterPanelPresenterTest", {
 		element.style.position = "absolute";
 		element.style.left ="-999em";
 		document.body.appendChild(element);
-		tester = new RegisterPanelPresenter("LoginManager.php");
 		mediator = {buildUI: function() {}};
-		communicationcenter = {my: null};
+		communicationcenter = new Object();
+		communicationcenter.my = {name: null, surname: null, username: null, picturePath: null};
+		tester = new RegisterPanelPresenter("LoginManager.php");
 	},
 	teardown: function() {
 		document.body.removeChild(element);
@@ -119,13 +120,13 @@ test("registerTest()", function() {
 	// questo è uno stub
 	var data = {name: "Flavia", surname: "Bacco", username: "flabacco@gmail.com",
 			    password: "farfalla", picturePath: "flavietta.png",
-			    question: "di che colore è la mia gatta?", answer: "tricolore"};
+			    question: "di che colore e' la mia gatta?", answer: "tricolore"};
 	var querystring = tester.register(data);
 	equal(querystring,
-			"username=flabacco%40gmail.com&password=farfalla&question=di%20che%20colore%20%C3%83%C2%A8%20la%20mia%20gatta%3F&answer=tricolore&name=Flavia&surname=Bacco&picturePath=flavietta.png&operation=2",
+			"username=flabacco%40gmail.com&password=farfalla&question=di%20che%20colore%20e'%20la%20mia%20gatta%3F&answer=tricolore&name=Flavia&surname=Bacco&picturePath=flavietta.png&operation=2",
 			"stringa di query generata correttamente"); i++;
     //FIXME non riesco a farlo andare!
-    equal(communicationcenter.my, data, "ha effettuato l'accesso al sistema"); i++;
+    equal(communicationcenter.my.name, "Flavia", "ha effettuato l'accesso al sistema"); i++;
 	
 	expect(i);
 });

@@ -64,6 +64,9 @@ function RegisterPanelPresenter(url) {
      */
     this.getQuestion = function() {
     	var question = document.getElementById("question").value;
+    	if (!question || question.length == 0) {
+    		throw "valore non specificato";
+    	}
     	return question;
     };
     
@@ -76,6 +79,9 @@ function RegisterPanelPresenter(url) {
      */
     this.getPassword = function() {
     	var password = document.getElementById("password").value;
+    	if (!password || password.length == 0) {
+    		throw "valore non specificato";
+    	}
     	return password;
     };
     
@@ -88,6 +94,10 @@ function RegisterPanelPresenter(url) {
      */
     this.getUsername = function() {
     	var username = document.getElementById("username").value;
+    	if (!username || username.length == 0) {
+    		throw "valore non specificato";
+    	}
+    	//TODO verificare che sia un indirizzo email corretto
     	return username;
     };
     

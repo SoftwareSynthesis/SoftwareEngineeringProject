@@ -9,9 +9,6 @@
   } elseif ($operation == 2) {
     $user = array();
     $user["username"] = $username;
-    $user["password"] = $password;
-    $user["question"] = $_POST["question"];
-    $user["answer"] = $_POST["answer"];
     if (isset($_POST["name"])) {
       $user["name"] = $_POST["name"];
     }
