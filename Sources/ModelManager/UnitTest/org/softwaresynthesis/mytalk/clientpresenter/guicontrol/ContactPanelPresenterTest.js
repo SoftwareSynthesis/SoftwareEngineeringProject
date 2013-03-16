@@ -1,17 +1,17 @@
 module ("ContactPanelPresenterTest", {
   setup:
        function() {
-			test = new ContactPanelPresenter();								},
+			tester = new ContactPanelPresenter();								},
 	teardown: 
-		function(){}
+		function() {}
 	});
 
-test("createPanelTest()",
+test("testCreatePanel()",
     function () {
 		var i = 0;
 		
 		// creo l'elemento 'ContactPanel'
-		var element = test.createPanel();
+		var element = tester.createPanel();
 		// estraggo la lista dei figli di questo pannello
 		var list = element.childNodes;
 		// controllo che abbia esattamente quattro figli

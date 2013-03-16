@@ -2,18 +2,18 @@ module ("CallHistoryPanelPresenterTest", {
     setup:
         function() {
 		//oggetto da testare
-			test = new CallHistoryPanelPresenter();	},
+			tester = new CallHistoryPanelPresenter();	},
 	teardown: 
 		function(){}
 	}
 );
 
-test("createPanelTest()",
+test("testCreatePanel()",
     function () {
 		var i = 0;
 		
 		// creo l'elemento 'CallHistoryPanel'
-		var element = test.createPanel();
+		var element = tester.createPanel();
 		// estraggo la lista dei figli di questo pannello
 		var list = element.childNodes;
 		// controllo che abbia esattamente un figlio

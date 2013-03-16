@@ -17,7 +17,7 @@ module ("LoginPanelPresenterTest", {
 );
 
 
-test("initializeTest()", function () {
+test("testInitialize()", function () {
 	var i = 0;
 	tester.initialize();
 	
@@ -97,7 +97,7 @@ test("initializeTest()", function () {
 	expect(i);
 });
 
-test("hideTest()", function() {
+test("testHide()", function() {
 	var i = 0;
 	tester.hide();
 	
@@ -107,7 +107,8 @@ test("hideTest()", function() {
 	expect(i);
 });
 
-test("loginTest()", function() {
+//TODO da testare in maniera più approfondita
+test("testLogin()", function() {
 	var loginData = new Object();
 	loginData.username = "laurapausini@gmail.com";
 	loginData.password = "opera";
@@ -116,7 +117,7 @@ test("loginTest()", function() {
 });
 
 
-test("getUsernameTest()", function() {
+test("testGetUsername()", function() {
 	// questo è uno stub
 	var form = document.createElement("form");
 	form.style.display = "none";
@@ -131,7 +132,7 @@ test("getUsernameTest()", function() {
 	//TODO prova inserire username sbagliato/vuoto (aggiornare doc test)
 });
 
-test("getPasswordTest()", function() {
+test("testGetPassword()", function() {
 	// questo è uno stub
 	var form = document.createElement("form");
 	form.style.display = "none";
@@ -145,5 +146,6 @@ test("getPasswordTest()", function() {
 	document.body.removeChild(form);
 	//TODO prova inserire password sbagliata/vuota (aggiornare doc test) 
 });
+
 //TODO
 //test("buildRetrievePasswordFormTest()", function() 

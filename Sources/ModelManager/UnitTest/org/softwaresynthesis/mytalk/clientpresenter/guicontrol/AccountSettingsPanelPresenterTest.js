@@ -3,9 +3,9 @@ module ("AccontSettingsPanelPresenterTest", {
         function() {
 			communicationcenter = new Object();
 			communicationcenter.my = {name:"Maria", surname:"Goretti", email:"margor@email.it", picturePath:"xx.png"};
-			test = new AccountSettingsPanelPresenter();								},
+			tester = new AccountSettingsPanelPresenter();								},
 	teardown: 
-		function(){}
+		function() {}
 	}
 );
 
@@ -13,12 +13,12 @@ module ("AccontSettingsPanelPresenterTest", {
 
 /*Tale test controlla il buon funzionamento dell'inizializzazione AccountSettingPanel
 controlla che l'albero sia stato costruito correttamente e per i vari nodi controlla che il loro contenuto sia stato inserito correttamente*/
-test("createPanelTest()",
+test("testCreatePanel()",
     function () {
 		var i = 0;
 		
 		// creo l'elemento 'AccountSettingsPanel'
-		var element = test.createPanel();
+		var element = tester.createPanel();
 		// estraggo la lista dei figli di questo pannello
 		var list = element.childNodes;
 		// controllo che abbia esattamente tre figli
@@ -60,6 +60,7 @@ test("createPanelTest()",
 		var text = list[2].innerHTML;
 		equal(text, "Modifica dati", "il testo del bottone è corretto");
 		i++;
+		
 		expect(i);
     });
 

@@ -16,7 +16,7 @@ function CommunicationPanelPresenter(mediator) {
     	element.setAttribute("id", "CommunicationPanel");
     	
         //azzero il div
-        this.element.innerHTML = "";
+        element.innerHTML = "";
         //creo div contenente la chiamata vera e propria
         var divCall = document.createElement('div');
         divCall.setAttribute("id", "divCall");

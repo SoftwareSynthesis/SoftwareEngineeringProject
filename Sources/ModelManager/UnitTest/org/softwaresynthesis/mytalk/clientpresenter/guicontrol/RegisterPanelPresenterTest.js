@@ -15,7 +15,7 @@ module("RegisterPanelPresenterTest", {
 });
 
 
-test("initializeTest()", function() {
+test("testInitialize()", function() {
 	var i = 0;
 	tester.initialize();
 	ok(element, "l'elemento esiste ancora"); i++;
@@ -108,13 +108,13 @@ test("initializeTest()", function() {
 	expect(i);
 });
 
-test("hideTest()", function() {
+test("testHide()", function() {
 	tester.hide();
 	equal(element.style.display, "none", "il pannello è stato correttamente nascosto");
 });
 
 // richiede di essere in un WEB SERVER per essere eseguito (altrimenti non interpreta lo script PHP)
-test("registerTest()", function() {
+test("testRegister()", function() {
 	var i = 0;
 	// questo è uno stub
 	var data = {name: "Flavia", surname: "Bacco", username: "flabacco@gmail.com",
@@ -134,3 +134,4 @@ test("registerTest()", function() {
 	
 	expect(i);
 });
+

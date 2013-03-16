@@ -1,21 +1,19 @@
 module ("CommunicationPanelPresenter", {
     setup:
         function() {
-			test = new CommunicationPanelPresenter();
-			test.element = new Object();
-			test.element.innerHTML = "";
+			tester = new CommunicationPanelPresenter();
 			},
 	teardown: 
 		function(){}
 	}
 );
 
-test("createPanelTest()",
+test("testCreatePanel()",
     function () {
 		var i = 0;
 		
 		// creo l'elemento 'CommunicationPanel'
-		var ele = test.createPanel();
+		var ele = tester.createPanel();
 		// estraggo la lista dei figli di questo pannello
 		var list = ele.childNodes;
 		// controllo che abbia esattamente due figli
@@ -37,7 +35,6 @@ test("createPanelTest()",
 		var divChat =list[1].getAttribute("id");
 		equal(divChat, "divChat", "l'd del div è divChat");
 		i++;
-		
 		
 		expect(i);
     });
