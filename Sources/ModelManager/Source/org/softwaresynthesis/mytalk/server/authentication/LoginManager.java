@@ -146,11 +146,11 @@ public final class LoginManager extends HttpServlet
 		}
 		catch (Exception ex)
 		{
-			result = "null1";
 			if (session != null)
 			{
 				session.invalidate();
 			}
+			result = "null";
 		}
 		return result;
 	}
