@@ -1,12 +1,18 @@
 module("RegisterPanelPresenterTest", {
 	setup: function() {
+		// questo è uno stub
 		element = document.createElement("div");
 		element.setAttribute("id", "RegisterPanel");
 		element.style.position = "absolute";
 		element.style.left ="-999em";
 		document.body.appendChild(element);
+		// anche questo è uno stub
 		mediator = {buildUI: function() {}};
+		// altro stub
 		communicationcenter = new Object();
+		/* oggetto da testare, lo script PHP che sta al posto della servlet
+		 * LoginManager è anch'esso, ebbene sì, uno stub!
+		 */
 		tester = new RegisterPanelPresenter("LoginManager.php");
 	},
 	teardown: function() {
@@ -116,7 +122,7 @@ test("testHide()", function() {
 // richiede di essere in un WEB SERVER per essere eseguito (altrimenti non interpreta lo script PHP)
 test("testRegister()", function() {
 	var i = 0;
-	// questo è uno stub
+	// questo è uno stub (simula i dati recuperati dal form dell'interfaccia)
 	var data = {name: "Flavia", surname: "Bacco", username: "flabacco@gmail.com",
 			    password: "farfalla", picturePath: "flavietta.png",
 			    question: "di che colore e' la mia gatta?", answer: "tricolore"};
@@ -131,6 +137,55 @@ test("testRegister()", function() {
     equal(communicationcenter.my.picturePath,
     		"http://softwaresynthesis.org/pictures/flavietta.png",
     		"immagine del nuovo utente salvata correttamente"); i++;
+	
+	expect(i);
+});
+
+test("testGetPicturePath()", function() {
+	// crea lo stub di interfaccia grafica
+	var inputPicture = document.createElement("input");
+	inputPicture.type ="file";
+	inputPicture.id = "picture";
+	inputPicture.setAttribute("value", "home/flavia/Immagini/flavietta.png");
+	element.appendChild(inputPicture);
+	
+	// invoca il metodo da testare
+	var picturePath = tester.getPicturePath();
+	equal(picturePath, inputPicture.value, "percorso dell'immagine recuperato correttamente");
+});
+
+test("testGetUsername()", function() {
+	var i = 0;
+	
+	// crea lo stub di interfaccia grafica
+	var inputUsername = document.createElement("input");
+	inputUsername.type ="email";
+	inputUsername.id = "username";
+	inputUsername.setAttribute("value", "flabacco@gmail.com");
+	element.appendChild(inputUsername);
+	
+	// invoca il metodo da testare la prima volta
+	var username = tester.getUsername();
+	equal(username, inputUsername.value, "percorso dell'immagine recuperato correttamente"); i++;
+	
+	// controlla che il campo sia compilato corrrettamente
+	inputUsername.setAttribute("value", "");
+	try {
+		tester.getUsername();
+		ok(false, "non rilevato username mancante"); i++;
+	} catch (err) {
+		equal(err, "valore non specificato", "username mancante rilevato correttamente"); i++;
+	}
+	
+	// crea un indirizzo email non valido
+	inputUsername.setAttribute("value", "flabacco.gmail.com");
+	try {
+		tester.getUsername();
+		// se arriva qui significa che il metodo non rileva l'errore
+		ok(false, "non rilevato indirizzo email malformato"); i++;
+	} catch (err) {
+		equal(err, "indirizzo email non valido", "email malformato rilevato correttamente"); i++;
+	}
 	
 	expect(i);
 });
