@@ -6,9 +6,9 @@
  * @author Diego Beraldin
  */
 function PresenterMediator() {
-	/**********************************************************
-    VARIABILI PRIVATE
-    ***********************************************************/
+    /**********************************************************
+     VARIABILI PRIVATE
+     ***********************************************************/
     // array associativo contentente i riferimenti ai presenter di primo livello
     var presenters = new Array();
     presenters["login"] = new LoginPanelPresenter("http://localhost:8080/LoginManager");
@@ -25,10 +25,10 @@ function PresenterMediator() {
     var messagepp = new MessagePanelPresenter("http://localhost:8080/MessageManager");
     var searchresultpp = new SearchResultPanelPresenter("http://localhost:8080/AddressBookManager");
     //TODO deve esistere anche GroupPanelPresenter?
-    
+
     /**********************************************************
-    METODI PUBBLICI
-    ***********************************************************/
+     METODI PUBBLICI
+     ***********************************************************/
 
     /**
      * Inizializza l'interfaccia grafica delegando ai presenter il compito di
@@ -38,35 +38,35 @@ function PresenterMediator() {
      * @author Diego Beraldin
      */
     this.buildUI = function() {
-    	presenters["register"].hide();
-    	presenters["login"].hide();
+        presenters["register"].hide();
+        presenters["login"].hide();
         presenters["addressbook"].initialize();
         presenters["main"].initialize();
         presenters["tools"].intialize();
     };
-    
+
     /**
      * Visualizza l'interfaccia di autenticazione al sistema, che comprende il form
      * di login (a.k.a. LoginPanel), chiamando in causa il {@link LoginPanelPresenter}
      * per la sua costruzione
-     * 
+     *
      * @see LoginPanelPresenter#initialize()
      * @author Diego Beraldin
      */
     this.buildLoginUI = function() {
-    	presenters["login"].initialize();
+        presenters["login"].initialize();
     };
-    
+
     /**
      * Visualizza il form di registrazione (a.k.a. RegisterPanel) al sistema per gli utenti
      * che devono creare un nuovo account, demandando al {@link RegisterPanelPresenter} il
      * compito di creare il pannello per l'inserimento dei dati di registrazione
-     * 
+     *
      * @see RegisterPanelPresenter#initialize()
      * @author Diego Beraldin
      */
     this.buildRegistrationUI = function() {
-    	presenter["register"].initialize();
+        presenter["register"].initialize();
     };
 
     /** Funzione da scatenare nel momento in cui è selezionato un contatto,
@@ -148,46 +148,46 @@ function PresenterMediator() {
     this.onContactAddeddInGroup = function(contact, group) {
         this.presenters["addressbook"].removeContactFromGroup(contact, group);
     };
-    
+
     /**
      * Provoca la creazione del pannello della segreteria e la sua visualizzazione
      * all'interno del MainPanel come elemento figlio.
      * La costruzione del pannello è affidata al metodo createPanel che viene reso
      * disponibile da tutti i presenter di secondo livello
-     * 
+     *
      * @see MainPanel#displayChildPanel({HTMLDivElement})
      * @see MessagePanelPresenter#createPanel()
      * @author Diego Beraldin
      */
     this.displayMessagePanel = function() {
-    	var element = messagepp.createPanel();
-    	presenters["main"].displayChildPanel(element);
+        var element = messagepp.createPanel();
+        presenters["main"].displayChildPanel(element);
     };
-    
+
     /**
      * Provoca la creazione del pannello delle impostazioni dell'utente e la sua
      * visualizzazione all'interno del MainPanel.
-     * 
+     *
      * @see MainPanel#displayChildPanel({HTMLDivElement})
      * @see AccountSettingsPanelPresenter#createPanel({HTMLDivElement})
      * @author Diego Beraldin
      */
     this.displayAccountSettingsPanel = function() {
-    	var element = callhistorypp.createPanel();
-    	presenters["main"].displayChildPanel(element);
+        var element = callhistorypp.createPanel();
+        presenters["main"].displayChildPanel(element);
     };
-    
+
     /**
      * Provoca la creazione del pannello dello storico delle chiamate e la sua
      * visualizzazione all'interno del MainPanel.
-     * 
+     *
      * @see MainPanel#displayChildPanel({HTMLDivElement})
      * @see AccountSettingsPanelPresenter#createPanel({HTMLDivElement})
      * @author Diego Beraldin
      */
-    this.displayCallHistoryPanel= function() {
-    	var element = callhistorypp.createPanel();
-    	presenters["main"].displayChildPanel(element);
+    this.displayCallHistoryPanel = function() {
+        var element = callhistorypp.createPanel();
+        presenters["main"].displayChildPanel(element);
     };
 
     /**
@@ -197,6 +197,7 @@ function PresenterMediator() {
      * @author Riccardo Tresoldi
      * @param {String} contact rappresenta l'id del contato da rimuovere
      */
+    //FIXME non so se serve questa funzione dato che l'applicazione dei filtri avviene tra AddressBookPP e se stesso
     this.onFiltredApplyedByParam = function(param) {
         this.presenters["addressbook"].applyFilterByString(param);
     };
@@ -208,49 +209,63 @@ function PresenterMediator() {
      * @author Riccardo Tresoldi
      * @param {String} contact rappresenta l'id del contato da rimuovere
      */
+    //FIXME non so se serve questa funzione dato che l'applicazione dei filtri avviene tra AddressBookPP e se stesso
     this.onFiltredApplyedByGroup = function(group) {
         this.presenters["addressbook"].applyFilterByGroup(group);
     };
-    
+
     /**
      * Provoca la visualizzazione del pannello per i risultati di una ricerca
      * fra gli utenti del sistema (a.k.a. SearchResultPanel) nel pannello principale
      * delegando a quest'ultimo tramite {@link MainPanelPresenter} la visualizzazione
-     * 
+     *
      * @see SearchResultPanelPresenter#createPanel()
      * @see MainPanelPresenter#displayChildPanel({HTMLDivElement}
      * @author Diego Beraldin
      */
     this.displaySearchResultPanel = function() {
-    	var element = searchresultpp.createPanel();
-    	presenters["main"].displayChildPanel(element);
+        var element = searchresultpp.createPanel();
+        presenters["main"].displayChildPanel(element);
     };
-    
+
     /**
      * Provoca la visualizzazione del pannello delle impostazioni del proprio account
      * (a.k.a. AccountSettingsPanel) nel pannello principale delegando a quest'ultimo
      * tramite {@link MainPanelPresenter} la sua visualizzazione
-     * 
+     *
      * @see AccountSettingsPanelPresenter#createPanel()
      * @see MainPanelPresenter#displayChildPanel({HTMLDivElement})
      * @author Diego Beraldin
      */
     this.displayAccountSettingsPanel = function() {
-    	var element = accountsettingspp.createPanel();
-    	presenter["main"].displayChildPanel(element);
+        var element = accountsettingspp.createPanel();
+        presenter["main"].displayChildPanel(element);
     };
-    
+
     /**
      * Provoca la visualizzazione del pannello delle comunicazioni
      * (a.k.a. CommunicationPanel) nel pannello principale delegando a quest'ultimo
      * tramite {@link MainPanelPresenter} la sua visualizzazione
-     * 
+     *
      * @see CommunicationPanelPresenter#createPanel()
      * @see MainPanelPresenter#displayChildPanel({HTMLDivElement})
      * @author Diego Beraldin
      */
     this.displayCommunicationPanel = function() {
-    	var element = communicationpp.createPanel();
-    	presenter["main"].displayChildPanel(element);
+        var element = communicationpp.createPanel();
+        presenter["main"].displayChildPanel(element);
     };
+    
+    /**
+     * Provoca la visualizzazione della scheda di un contatto nel ComunicationPanelPresenter
+     * 
+     * @see ???
+     * @see ???
+     * @author Riccardo Tresoldi
+     * @param {Object} contact il contatto da visualizzare
+     */
+    this.displayContact=function(contact){
+        this.displayCommunicationPanel();
+        contactpp.display(contact);
+    }
 }
