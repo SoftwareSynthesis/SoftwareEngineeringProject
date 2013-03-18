@@ -97,7 +97,6 @@ function RegisterPanelPresenter(url) {
     	if (!username || username.length == 0) {
     		throw "valore non specificato";
     	}
-    	//TODO verificare che sia un indirizzo email corretto
     	var emailRegex = new RegExp("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$", "i");
     	if (!emailRegex.test(username)) {
     		throw "indirizzo email non valido";

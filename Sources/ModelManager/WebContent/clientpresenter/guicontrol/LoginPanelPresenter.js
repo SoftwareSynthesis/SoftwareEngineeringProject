@@ -161,7 +161,15 @@ function LoginPanelPresenter(url) {
      * @returns {String} lo username dell'utente
      */
     this.getUsername = function() {
-    	return document.getElementById("username").value;;
+    	var username = document.getElementById("username").value;
+    	if (!username || username.length == 0) {
+    		throw "valore non specificato";
+    	}
+    	var emailRegex = new RegExp("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$", "i");
+    	if (!emailRegex.test(username)) {
+    		throw "indirizzo email non valido";
+    	}
+    	return username;
     };
     
     /**
@@ -176,7 +184,11 @@ function LoginPanelPresenter(url) {
      * @returns {String} lo username dell'utente
      */
     this.getPassword = function() {
-    	return document.getElementById("password").value;;
+    	var password = document.getElementById("password").value;
+    	if (!password || password.length == 0) {
+    		throw "valore non specificato";
+    	}
+    	return password;
     };
     
     
