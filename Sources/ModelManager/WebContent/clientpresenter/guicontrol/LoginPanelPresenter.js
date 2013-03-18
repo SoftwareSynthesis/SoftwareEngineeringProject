@@ -7,17 +7,19 @@
  * @author Diego Beraldin
  */
 function LoginPanelPresenter(url) {
-/**********************************************************
-                     VARIABILI PRIVATE
-***********************************************************/
+    /**********************************************************
+    VARIABILI PRIVATE
+    ***********************************************************/
     // url della servlet che deve gestire il login
     var servletURL = url;
     // elemento controllato da questo presenter
     var element = document.getElementById("LoginPanel");
+    // questo è leggermente esoterico
+    var self = this;
     
-/**********************************************************
-                      METODI PRIVATI
-***********************************************************/
+    /**********************************************************
+    METODI PRIVATI
+    ***********************************************************/
     /**
      * Testa quanto ricevuto dal server e, in caso di login avvenuto correttamente
      * reindirizza il browser nella pagina finale dopo aver salvato i dati dell'utente
@@ -30,32 +32,9 @@ function LoginPanelPresenter(url) {
         if (user != null) {
             // 'communicationcenter' deve essere una variabile globale
             communicationcenter.my = user;
-            this.hide();
+            self.hide();
             mediator.buildUI();
         }
-    }
-    
-    /**
-     * Invia la risposta alla domanda segreta al server
-     * 
-     * @param {String} username nome utente associato alla domanda segreta
-     * @param {String} answer risposta alla domanda segreta
-     * @author Diego Beraldin
-     */
-    function sendAnswer(username, answer) {
-    	var request = XMLHttpRequest();
-    	request.onclick = function() {
-    		if (this.readyState == 4 && this.status == 200) {
-    			if (JSON.parse(request.responseText)) {
-    				correctAnswer();
-    			} else {
-    				incorrectAnswer();
-    			}
-    		}
-    	};
-    	request.open("POST", servletURL, true);
-    	request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    	request.send("username=" + encodeURIComponent(username) + "&answer=" + encodeURIComponent(answer) + "&operation=4");
     }
     
     /**
@@ -97,20 +76,36 @@ function LoginPanelPresenter(url) {
      * @returns {String} la domanda segreta impostata dall'utente
      * @author Diego Beraldin
      */
-    var self = this; // (leggermente esoterico)
     function getSecretQuestion() {
     	var userID = self.getUsername();
     	var question = "";
     	var request = new XMLHttpRequest();
     	request.open("POST", servletURL, false);
+    	request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     	request.send("username=" + encodeURIComponent(userID) + "&operation=3");
     	question = request.responseText;
     	return question;
     }
 
-/**********************************************************
-                       METODI PUBBLICI
-***********************************************************/
+    /**********************************************************
+     METODI PUBBLICI
+     ***********************************************************/
+    /**
+     * Invia la risposta alla domanda segreta al server
+     * 
+     * @param {String} username nome utente associato alla domanda segreta
+     * @param {String} answer risposta alla domanda segreta
+     * @returns {Boolean} true se la risposta è corretta, false altrimenti
+     * @author Diego Beraldin
+     */
+    this.hasAnsweredCorrectly = function(username, answer) {
+    	var request = new XMLHttpRequest();
+    	request.open("POST", servletURL, false);
+    	request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    	request.send("username=" + encodeURIComponent(username) + "&answer=" + encodeURIComponent(answer) + "&operation=4");
+    	return JSON.parse(request.responseText);
+    };
+    
     /**
      * Costruisce il form per il recupero della password dell'utente
      * 
@@ -140,7 +135,12 @@ function LoginPanelPresenter(url) {
     	submitButton.setAttribute("type", "submit");
     	submitButton.setAttribute("value", "OK");
     	submitButton.onClick = function() {
-    		sendAnswer(username, inputAnswer.getAttribute("value"));
+    		//Answer(username, inputAnswer.getAttribute("value"));
+    		if (hasAnsweredCorrectly(username, inputAnswer.getAttribute("value"))) {
+    			correctAnswer();
+    		} else {
+    			incorrectAnswer();
+    		}
     	};
     	
     	formRetrievePassword.appendChild(labelQuestion);
@@ -194,16 +194,15 @@ function LoginPanelPresenter(url) {
     
     /**
      * Procedura che esegue il login inviando al server i dati di autenticazione
+     * 
+     * NOTE PER I VERIFICATORI
+     * Testare communicationcenter.my al termine della procedura di login!!!
      *
      * @param {Object} un oggetto con proprietà 'username' e 'password'
      * @returns {String} la string di query che viene inviata alla servlet
      * @author Diego Beraldin
      */
     this.login = function(data) {
-        if (!data.username || data.username == "" || !data.password || data.password == "") {
-        	return "";
-        }
-
         //invia la richiesta AJAX al server
         var request = new XMLHttpRequest();
         request.onreadystatechange = function() {
@@ -211,7 +210,7 @@ function LoginPanelPresenter(url) {
                 testCredentials(request.responseText);
             }
         };
-        request.open("POST", this.servletURL, true);
+        request.open("POST", servletURL, true);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         var querystring = "username=" + encodeURIComponent(data.username) +
         				  "&password=" + encodeURIComponent(data.password) + "&operation=1";
