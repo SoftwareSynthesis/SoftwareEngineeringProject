@@ -57,9 +57,18 @@ function CommunicationPanelPresenter(mediator) {
         divCall.appendChild(otherVideo);
         divCall.appendChild(closeButton);
         divCall.appendChild(muteButton);
-        
+
         //creo gli elementi per la chat testuale
-        //TODO decidere come strutturare la chat testuale
+        //creo l'<ul> per le schede delle chat aperte
+        var ulOpenChat = document.createElement('ul');
+        ulOpenChat.id = "ulOpenChat";
+        //creo il div per la visualizzazione della chat selezionata.
+        var divContainerChat = document.createElement('div');
+        divContainerChat.id = "divContainerChat";
+
+        //appendo i child alla divChat
+        divChat.appendChild(ulOpenChat);
+        divChat.appendChild(divContainerChat);
 
         //apendo il sottoalbero al DOM
         element.appendChild(divCall);

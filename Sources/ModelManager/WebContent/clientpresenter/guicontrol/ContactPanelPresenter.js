@@ -127,10 +127,6 @@ function ContactPanelPresenter() {
             document.getElementById("addToAddressBookButton").style.display = "none";
     };
 
-    /* TODO:
-     * - contattare il CommunicationCenter per avviare una chiamata
-     * - contattare il PresenterMediatoer per ottenere il contatto da visualizzare [serve?]
-     * - implementare metodo che aggiunge l'utente visualizato alla rubrica
-     * - implementare metodo che blocca l'utente visualizzato
+    /* TODO
      */
 }

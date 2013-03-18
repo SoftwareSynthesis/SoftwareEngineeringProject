@@ -6,6 +6,7 @@
  */
 function CommunicationCenter() {
     this.videoComunication
+    //E' un array di HTMLTextAreaElement
     this.openChat = new Array();
     //TODO sistemare discorso della servlet in modo che se la prende dal mediator
     var urlServlet = "http://localhost:8080/.................";
