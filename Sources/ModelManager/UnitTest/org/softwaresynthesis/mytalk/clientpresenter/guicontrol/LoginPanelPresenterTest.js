@@ -106,7 +106,6 @@ test("testHide()", function() {
 	expect(i);
 });
 
-//TODO da testare in maniera più approfondita
 test("testLogin()", function() {
 	var loginData = new Object();
 	loginData.username = "laurapausini@gmail.com";
@@ -182,5 +181,37 @@ test("testGetPassword()", function() {
 	expect(i);
 });
 
-//TODO
-//test("buildRetrievePasswordFormTest()", function() 
+//TODO completare questo test
+test("testBuildRetrievePasswordForm()", function() {
+	var i = 0;
+	
+	// stub di interfaccia grafica
+	var input = document.createElement("input");
+	input.id = "username";
+	input.type = "email";
+	input.value = "laupau@gmail.com";
+	element.appendChild(input);
+	
+	var form = tester.buildRetrievePasswordForm();
+	
+	var children = form.childNodes;
+	equal(children.length, 3, "il form contiene esattamente tre figli"); i++;
+	
+	var labelQuestion = children[0];
+	var inputAnswer = children[1];
+	var submitButton = children[2];
+	equal(labelQuestion.nodeName, "LABEL", "tipo della label corretta"); i++;
+	equal(inputAnswer.nodeName, "INPUT", "tipo del campo di test corretto"); i++;
+	equal(submitButton.nodeName, "INPUT", "tipo del pulsante corretto"); i++;
+	equal(labelQuestion.getAttribute("for"), inputAnswer.id, "attributo for della label settato correttamente"); i++;
+	equal(submitButton.type, "submit", "attributo type del pulsante corretto"); i++;
+	equal(submitButton.value, "OK", "testo del pulsante corretto"); i++;
+	equal(inputAnswer.required, true, "input per la risposta settato come obbligatorio"); i++;
+	
+	//si appella allo stub della servlet per vedere se la domanda viene creata correttamente
+	equal(labelQuestion.innerHTML,
+			"Come si chiama la mia gatta?",
+			"testo della domanda recuperato correttamente"); i++;
+	
+	expect(i);
+});

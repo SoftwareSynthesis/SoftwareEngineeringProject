@@ -97,17 +97,14 @@ function LoginPanelPresenter(url) {
      * @returns {String} la domanda segreta impostata dall'utente
      * @author Diego Beraldin
      */
+    var self = this; // (leggermente esoterico)
     function getSecretQuestion() {
-    	var userID = this.getUsername();
+    	var userID = self.getUsername();
     	var question = "";
     	var request = new XMLHttpRequest();
-    	request.onreadystatechange = function() {
-    		if (this.readyState == 4 && this.status == 200) {
-    			question = this.responseText;
-    		}
-    	};
-    	request.open("POST", servletURL, true);
-    	request.send("username=" + encodeURIComponent(userID) + "operation=3");
+    	request.open("POST", servletURL, false);
+    	request.send("username=" + encodeURIComponent(userID) + "&operation=3");
+    	question = request.responseText;
     	return question;
     }
 
@@ -128,7 +125,9 @@ function LoginPanelPresenter(url) {
     	// etichetta con la domanda
     	var labelQuestion = document.createElement("label");
     	labelQuestion.setAttribute("for", "inputanswer");
-    	var question = document.createTextNode(getSecretQuestion());
+    	// procura il testo della domanda segreta
+    	var text = getSecretQuestion();
+    	var question = document.createTextNode(text);
     	labelQuestion.appendChild(question);
     	// campo di immissione
     	var inputAnswer = document.createElement("input");
@@ -146,6 +145,7 @@ function LoginPanelPresenter(url) {
     	
     	formRetrievePassword.appendChild(labelQuestion);
     	formRetrievePassword.appendChild(inputAnswer);
+    	formRetrievePassword.appendChild(submitButton);
     	return formRetrievePassword;
     };
     

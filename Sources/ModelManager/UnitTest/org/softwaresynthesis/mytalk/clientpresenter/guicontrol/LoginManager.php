@@ -20,6 +20,8 @@
       $user["picturePath"] = "http://softwaresynthesis.org/pictures/" . $_POST["picturePath"];
     }
     echo json_encode($user, JSON_PRETTY_PRINT);
+  } elseif ($operation == 3) {
+  	echo "Come si chiama la mia gatta?";
   }
 
 ?>

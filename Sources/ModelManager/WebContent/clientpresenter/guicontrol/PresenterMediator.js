@@ -11,19 +11,19 @@ function PresenterMediator() {
      ***********************************************************/
     // array associativo contentente i riferimenti ai presenter di primo livello
     var presenters = new Array();
-    presenters["login"] = new LoginPanelPresenter("http://localhost:8080/LoginManager");
-    presenters["register"] = new RegisterPanelPresenter("http://localhost:8080/LoginManager");
-    presenters["addressbook"] = new AddressBookPanelPresenter("http://localhost:8080/AddressBookManager");
+    presenters["login"] = new LoginPanelPresenter("http://localhost:8080/MyTalk/LoginManager");
+    presenters["register"] = new RegisterPanelPresenter("http://localhost:8080/MyTalk/LoginManager");
+    presenters["addressbook"] = new AddressBookPanelPresenter("http://localhost:8080/MyTalk/AddressBookManager");
     presenters["tools"] = new ToolsPanelPresenter();
     presenters["main"] = new MainPanelPresenter();
 
     //presenter di secondo livello (pannelli contenuti nel MainPanel)
-    var accountsettingspp = new AccountSettingsPanelPresenter("http://localhost:8080/AccountManager");
+    var accountsettingspp = new AccountSettingsPanelPresenter("http://localhost:8080/MyTalk/AccountManager");
     var communicationpp = new CommunicationPanelPresenter();
     var contactpp = new ContactPanelPresenter();
-    var callhistorypp = new CallHistoryPanelPresenter("http://localhost:8080/CallHistoryManager");
-    var messagepp = new MessagePanelPresenter("http://localhost:8080/MessageManager");
-    var searchresultpp = new SearchResultPanelPresenter("http://localhost:8080/AddressBookManager");
+    var callhistorypp = new CallHistoryPanelPresenter("http://localhost:8080/MyTalk/CallHistoryManager");
+    var messagepp = new MessagePanelPresenter("http://localhost:8080/MyTalk/MessageManager");
+    var searchresultpp = new SearchResultPanelPresenter("http://localhost:8080/MyTalk/AddressBookManager");
     //TODO deve esistere anche GroupPanelPresenter?
 
     /**********************************************************
