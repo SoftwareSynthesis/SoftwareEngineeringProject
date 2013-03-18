@@ -145,7 +145,7 @@ function PresenterMediator() {
      * @param {Number} contact rappresenta l'id del contato da rimuovere
      * @param {Number} group rappresenta l'id del gruppo da cui rimuovere il contatto
      */
-    this.onContactAddeddInGroup = function(contact, group) {
+    this.onContactRemovedFromGroup = function(contact, group) {
         this.presenters["addressbook"].removeContactFromGroup(contact, group);
     };
 
