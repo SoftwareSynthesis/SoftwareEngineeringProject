@@ -161,15 +161,15 @@ test("testGetUsername()", function() {
 	var inputUsername = document.createElement("input");
 	inputUsername.type ="email";
 	inputUsername.id = "username";
-	inputUsername.setAttribute("value", "flabacco@gmail.com");
+	inputUsername.value = "flabacco@gmail.com";
 	element.appendChild(inputUsername);
 	
 	// invoca il metodo da testare la prima volta
 	var username = tester.getUsername();
-	equal(username, inputUsername.value, "percorso dell'immagine recuperato correttamente"); i++;
+	equal(username, inputUsername.value, "usename recuperato correttamente"); i++;
 	
 	// controlla che il campo sia compilato corrrettamente
-	inputUsername.setAttribute("value", "");
+	inputUsername.value = "";
 	try {
 		tester.getUsername();
 		ok(false, "non rilevato username mancante"); i++;
@@ -178,7 +178,7 @@ test("testGetUsername()", function() {
 	}
 	
 	// crea un indirizzo email non valido
-	inputUsername.setAttribute("value", "flabacco.gmail.com");
+	inputUsername.value = "flabacco.gmail.com";
 	try {
 		tester.getUsername();
 		// se arriva qui significa che il metodo non rileva l'errore
@@ -190,3 +190,103 @@ test("testGetUsername()", function() {
 	expect(i);
 });
 
+
+test("testGetPassword()", function() {
+	var i = 0;
+	
+	// crea lo stub di interfaccia grafica
+	var inputPassword = document.createElement("input");
+	inputPassword.type = "password";
+	inputPassword.id = "password";
+	inputPassword.value = "farfalla";
+	element.appendChild(inputPassword);
+	
+	// invoca il metodo da testare con una password legale
+	var password = tester.getPassword();
+	equal(password, inputPassword.value, "password recuperata correttamente"); i++;
+	
+	// verifica se rileva password mancante
+	inputPassword.value = "";
+	try {
+		tester.getPassword();
+		ok(false, "non rilevata la password mancante");
+	} catch (err) {
+		equal(err, "valore non specificato", "password mancante rilevata correttamente"); i++;
+	}
+	
+	expect(i);
+});
+
+test("testGetQuestion()", function() {
+	var i = 0;
+	
+	// crea lo stub di interfaccia grafica
+	var inputSecretQ = document.createElement("input");
+	inputSecretQ.id = "question";
+	inputSecretQ.value = "Di che colore è il mio gatto?";
+	element.appendChild(inputSecretQ);
+	
+	// invoca il metodo da testare con una password legale
+	var question = tester.getQuestion();
+	equal(question, inputSecretQ.value, "domanda segreta recuperata correttamente"); i++;
+	
+	// verifica se rileva password mancante
+	inputSecretQ.value = "";
+	try {
+		tester.getQuestion();
+		ok(false, "non rilevata la domanda segreta mancante");
+	} catch (err) {
+		equal(err, "valore non specificato", "domanda segreta mancante rilevata correttamente"); i++;
+	}
+	
+	expect(i);
+});
+
+test("testGetAnswer()", function() {
+	var i = 0;
+	
+	// crea lo stub di interfaccia grafica
+	var inputAnswer = document.createElement("input");
+	inputAnswer.id = "answer";
+	inputAnswer.value = "tricolore";
+	element.appendChild(inputAnswer);
+	
+	// invoca il metodo da testare con una password legale
+	var answer = tester.getAnswer();
+	equal(answer, inputAnswer.value, "risposta recuperata correttamente"); i++;
+	
+	// verifica se rileva password mancante
+	inputAnswer.value = "";
+	try {
+		tester.getAnswer();
+		ok(false, "non rilevata la risposta mancante");
+	} catch (err) {
+		equal(err, "valore non specificato", "risposta mancante rilevata correttamente"); i++;
+	}
+	
+	expect(i);
+});
+
+test("testGetName()", function() {
+	// crea lo stub di interfaccia grafica
+	var inputName = document.createElement("input");
+	inputName.id = "firstname";
+	inputName.value = "Flavia";
+	element.appendChild(inputName);
+	
+	// invoca il metodo da testare
+	var name = tester.getName();
+	equal(name, inputName.value, "nome recuperato correttamente");
+});
+
+test("testGetSurame()", function() {
+	// crea lo stub di interfaccia grafica
+	var inputSurname = document.createElement("input");
+	inputSurname.id = "lastname";
+	inputSurname.value = "Bacco";
+	element.appendChild(inputSurname);
+	
+	// invoca il metodo da testare
+	var surname = tester.getSurname();
+	equal(surname, inputSurname.value, "cognome recuperato correttamente");
+});
