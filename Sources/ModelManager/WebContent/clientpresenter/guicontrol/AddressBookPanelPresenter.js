@@ -274,11 +274,8 @@ function AddressBookPanelPresenter(url) {
      */
     this.addContact = function(contact) {
         //controllo che non sia già presente nella rubrica
-        for (var AddressBookContact in contacts) {
-            //ciclo i contatti per controllo
-            if (AddressBookContact.id == contact)
-                return false;
-        }
+        if (this.contactAlreadyPresent(contact))
+            return false;
 
         //invio la richiesta al server e attendo il risultato
         var request = new XMLHttpRequest();
@@ -296,9 +293,8 @@ function AddressBookPanelPresenter(url) {
             getAddressBookContacts();
             this.setup();
             return true;
-        } else {
-            return false;
         }
+        return false;
     };
 
     /**
@@ -310,13 +306,7 @@ function AddressBookPanelPresenter(url) {
      */
     this.removeContact = function(contact) {
         //controllo se presente nella rubrica
-        var existContact = false;
-        for (var AddressBookContact in contacts) {
-            //ciclo i contatti per controllo
-            if (AddressBookContact.id == contact)
-                existContact = true;
-        }
-        if (!existContact)
+        if (!this.contactAlreadyPresent(contact))
             return false;
 
         //invio la richiesta al server e attendo il risultato
@@ -335,9 +325,8 @@ function AddressBookPanelPresenter(url) {
             getAddressBookContacts();
             this.setup();
             return true;
-        } else {
-            return false;
         }
+        return false;
     };
 
     /**
@@ -554,7 +543,7 @@ function AddressBookPanelPresenter(url) {
      * @param {Object} contact contatto da verificare
      * @return {Boolean} true solo se presente in rubrica
      */
-    this.checkIfAlreadyPresent = function(contact) {
+    this.contactAlreadyPresent = function(contact) {
         //riscarco la rubrica
         getAddressBookContacts();
         //scorro la rubrica e controllo se contact.id=rubrica.contact.id. ritorno true solo se presente
