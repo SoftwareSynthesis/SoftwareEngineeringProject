@@ -296,7 +296,7 @@ function AddressBookPanelPresenter(url) {
             this.setup();
             return true;
         }
-        throw "Errore sconosciuto nel server.";
+        throw "Ops... qualcosa è andato storto nel server.";
     };
 
     /**
@@ -552,6 +552,78 @@ function AddressBookPanelPresenter(url) {
         }
     };
 
+    /**
+     * Funzione che blocca l'utente passato per parametro
+     *
+     * @author Riccardo Tresoldi
+     * @param {Object} contact contatto da bloccare
+     * @return {Boolean} true solo se l'utente è stato bloccato correttemente
+     */
+    this.blockUser = function(contact) {
+        //controllo che sia presente nella rubrica
+        if (!this.contactAlreadyPresent(contact)) {
+            throw "Contatto non presente nella rubrica.";
+        }
+        if(contact.blocked){
+            throw "Contatto già bloccato.";
+        }
+
+        //invio la richiesta di bloccaggio dell'utente
+        var request = new XMLHttpRequest();
+        request.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                result = JSON.parse(request.responseText);
+            }
+        };
+        request.open("POST", urlServlet, "true");
+        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        request.send("operation=" + 8 + "&contactId=" + contact.id);
+
+        //controllo il risultato
+        if (result == true) {
+            getAddressBookContacts();
+            this.setup();
+            return true;
+        }
+        throw "Ops... qualcosa è andato storto nel server.";
+    };
+    
+    /**
+     * Funzione che sblocca l'utente passato per parametro
+     *
+     * @author Riccardo Tresoldi
+     * @param {Object} contact contatto da sbloccare
+     * @return {Boolean} true solo se l'utente è stato sbloccato correttemente
+     */
+    this.unlockUser = function(contact) {
+        //controllo che sia presente nella rubrica
+        if (!this.contactAlreadyPresent(contact)) {
+            throw "Contatto non presente nella rubrica.";
+        }
+        if(!contact.blocked){
+            throw "Contatto già sbloccato.";
+        }
+
+        //invio la richiesta di bloccaggio dell'utente
+        var request = new XMLHttpRequest();
+        request.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                result = JSON.parse(request.responseText);
+            }
+        };
+        request.open("POST", urlServlet, "true");
+        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        request.send("operation=" + 9 + "&contactId=" + contact.id);
+
+        //controllo il risultato
+        if (result == true) {
+            getAddressBookContacts();
+            this.setup();
+            return true;
+        }
+        throw "Ops... qualcosa è andato storto nel server.";
+    };
+
     /* TODO:
      * - bloccare un utente
      * - ordinamento rubrica
@@ -578,9 +650,10 @@ function AddressBookPanelPresenter(url) {
      *      "idUser1":{ "name": "",
      *                  "surname": "",
      *                  "email": "",
-     *                  "id": ""
-     *                  "picturePath": ""
-     *                  "state": ""
+     *                  "id": "",
+     *                  "picturePath": "",
+     *                  "state": "",
+     *                  "blocked": "true|false"
      *                },
      *
      *      "idUser2": {.......},
