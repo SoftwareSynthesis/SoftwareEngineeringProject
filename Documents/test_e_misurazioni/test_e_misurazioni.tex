@@ -71,7 +71,7 @@ Versione & Descrizione intervento & Membro & Ruolo & Data\\
 1.0 & Approvazione documento& Andrea Rizzi & Responsabile & 2013-02-28\\
 0.8 & correzione errori segnalati dal verificatore& Stefano Farronato & Verificatore & 2013-02-28\\
 0.7 & verifica correttezza lessico ortografica e corrispondenza test con quanto descritto& Diego Beraldin & Verificatore & 2013-02-28\\
-0.6 & aggiunti test su capitolo 4.2& Stefano Farronato & Verificatore & 2013-02-28\\
+0.6 & aggiunti test su capitolo 4.2 e test coverage& Stefano Farronato & Verificatore & 2013-02-28\\
 0.5 & stesura capitoli sui test di sistema e di utilizzo, aggiunti test su capitolo 4.1& Stefano Farronato & Verificatore & 2013-02-28\\
 0.4 & stesura capitolo 4.2, relativo ai test sul \textit{presenter} & Stefano Farronato & Verificatore & 2013-02-28\\
 0.3 & stesura capitolo 4.1, relativo ai test sul \textit{model} & Stefano Farronato & Verificatore & 2013-02-28\\
@@ -388,6 +388,12 @@ Tale verifica è composta da un solo test:
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
+\section{Test Coverage}
+Tale test è stato effettuato mediante il \textit{plugin} per Eclipse \textit{eclemma} per la parte Java (quindi nel \textit{Model}) e con \textit{JSCoverage} per la parte \textit{javaScript} (per il \textit{Presenter}) definendo quindi le percentuali di codice che è stato sottoposto a test per i singoli componenti dell'applicazione.\\\\
+
+%TABELLA COVERAGE PER COMPONENTE
+
+La percentuale di copertura rilevata è relativamente bassa nella parte \textit{Model}, tale risultato si giustifica dal numero elevato di metodi \textit{getter} e \textit{setter} che non sono stati tutti analizzati tramite test di unità (ma prelevati e verificati a campione), ma solo tramite analisi statica del codice. Per la parte \textit{Presenter} al contrario si può ricondurre il risultato alle numerose funzioni anonime impossibili da testare e invocate soltanto durante l'effettivo funzionamento dell'applicazione.
 
 \section{Test di Sistema}
 Nell'attività di validazione che verrà affrontata nella successiva (e ultima) fase del progetto, saranno effettuati i test per accertare le effettive funzionalità offerte dal prodotto \caName.\\ Tali verifiche sono state definite e pianificate già durante l'attività di analisi dei requisiti e sono reperibili nel documento relativo allegato (\textit{analisi\_dei\_requisiti.3.0.pdf}) in cui sono elencati in una pratica tabella che ne descrive (per ognuno) le modalità di verifica e i requisiti ad essi associati. In questo modo verrà assicurato il tracciamento tra requisiti e test, pertanto tutti i requisiti soddisfatti saranno verificati mediante un test specifico.
