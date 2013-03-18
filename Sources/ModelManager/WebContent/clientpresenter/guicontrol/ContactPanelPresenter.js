@@ -37,25 +37,49 @@ function ContactPanelPresenter() {
         avatar.setAttribute("id", "contactAvatar");
         avatar.setAttribute("src", "");
 
+        //pulsante per chiamata audio
         var callButton = document.createElement('button');
-        callButton.setAttribute("type", "button");
-        callButton.setAttribute("id", "callButton");
+        callButton.type = "button";
+        callButton.id = "callButton";
+        callButton.appendChild(document.createTextNode("Chiama"));
         callButton.onclick = function() {
             //TODO inserire il codice per effettuare la chiamata con il contatto selezionato
         };
 
+        //pulsante per chiamata audio/video
         var videoCallButton = document.createElement('button');
-        videoCallButton.setAttribute("type", "button");
-        videoCallButton.setAttribute("id", "videoCallButton");
+        videoCallButton.type = "button";
+        videoCallButton.id = "videoCallButton";
+        videoCallButton.appendChild(document.createTextNode("Video-chiama"));
         videoCallButton.onclick = function() {
             //TODO inserire il codice per effettuare la chiamata con il contatto selezionato
         };
 
+        //pulsante per chat testuale
         var chatButton = document.createElement('button');
-        chatButton.setAttribute("type", "button");
-        chatButton.setAttribute("id", "chatButton");
+        chatButton.type = "button";
+        chatButton.id = "chatButton";
+        chatButton.appendChild(document.createTextNode("Avvia Chat Testuale"));
         chatButton.onclick = function() {
             //TODO inserire il codice per effettuare la chiamata con il contatto selezionato
+        };
+
+        //pulsante per agiungere utente alla rubrica
+        var addToAddressBookButton = document.createElement('button');
+        addToAddressBookButton.type = "button";
+        addToAddressBookButton.id = "addToAddressBookButton";
+        addToAddressBookButton.appendChild(document.createTextNode("Aggiungi in Rubrica"));
+        addToAddressBookButton.onclick = function() {
+            //TODO codice per aggiunere un utente alla rubrica
+        };
+
+        //pulsante per bloccare utente
+        var blockButton = document.createElement('button');
+        blockButton.type = "button";
+        blockButton.id = "blockButton";
+        blockButton.appendChild(document.createTextNode("Blocca"));
+        blockButton.onclick = function() {
+            //TODO codice per bloccare utente [se non presente prima agigungerlo alla rubrica]
         };
 
         //appendo i sottonodi alla lista dei dati dell'utente
@@ -70,6 +94,8 @@ function ContactPanelPresenter() {
         element.appendChild(callButton);
         element.appendChild(videoCallButton);
         element.appendChild(chatButton);
+        element.appendChild(addToAddressBookButton);
+        element.appendChild(blockButton);
 
         return element;
     };
@@ -93,6 +119,12 @@ function ContactPanelPresenter() {
         document.getElementById("contactSurname").appendChild(createTextNode(contact.surname));
         document.getElementById("contactEmail").appendChild(createTextNode(contact.mail));
         document.getElementById("contactAvatar").setAttribute("src", contact.image);
+
+        //sistemare pulsanti
+
+        //tolgo la possibilità di aggiungere un utente se già presente
+        if (mediator.contactAlreadyPresent(contact))
+            document.getElementById("addToAddressBookButton").style.display = "none";
     };
 
     /* TODO:
