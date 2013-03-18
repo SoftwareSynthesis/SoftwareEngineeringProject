@@ -105,6 +105,13 @@ function ContactPanelPresenter() {
         document.getElementById("contactEmail").appendChild(createTextNode(contact.mail));
         document.getElementById("contactAvatar").src = contact.image;
 
+        //recupero i bottoni per associargli i metodi
+        var addToAddressBookButton = getElementById("addToAddressBookButton");
+        var blockButton = getElementById("blockButton");
+        var chatButton = getElementById("chatButton");
+        var videoCallButton = getElementById("videoCallButton");
+        var callButton = getElementById("callButton");
+
         //associo gli eventi onClick ai bottoni
         addToAddressBookButton.onclick = function() {
             if (!mediator.onContactAdded(contact))
