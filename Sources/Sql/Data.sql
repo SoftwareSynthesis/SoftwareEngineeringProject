@@ -1,4 +1,4 @@
-USE mytalk;
+USE MyTalk;
 
 INSERT INTO UserData(ID_user, E_Mail, Password, Question, Answer, Name, Surname, Picture)
 VALUES 	(1, 'indirizzo1@dominio.it', 'password', 'Come mi chiamo', 'Pippo', 'pippo', 'rossi', ' '),
