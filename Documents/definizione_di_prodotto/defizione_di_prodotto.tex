@@ -1492,7 +1492,27 @@ Nessuna relazione d'uso evidenziata.
 	Il metodo termina restituendo il contenuto di querystring.
 	
 	\item{\method{+ initialize(): void}}\\
-	Metodo che si occupa di inizializzare la form di registrazione con la creazione di tutti i \inglese{widget} grafici che sono contenuti al suo interno.
+	Metodo che si occupa di inizializzare la form di registrazione con la creazione di tutti i \inglese{widget} grafici che sono contenuti al suo interno. Nello il metodo esegue i seguenti passi:
+	\begin{itemize}
+		\item[•] creazione dell'elemento form;
+		\item[•] creazione dell'elemento <ul> contenuto nel form;		
+		\item[•] creazione dell'item per lo username, definito mediante una label riportante la frase ``Indirizzo email: '', e di un campo input di tipo email per l'inserimento della email dell'utente;
+		\item[•] costruisce il list item con la label e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
+		\item[•] crea l'item per la password, definendo una label riportante la frase ``Password: '' e un oggetto input di tipi password;			
+		\item[•] costruisce il list item con la label e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
+		\item[•] creazione dell'item per la domanda segreta definito mediante una label avente valore ``Domanda segreta: '' e un oggetto input di tipo text;
+		\item[•] costruisce il list item con la label e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
+		\item[•] creazione dell'item per la risposta alla domanda segreta, definito mediante una label avente valore ``Risposta: '' e un oggetto input di tipo text;
+		\item[•] costruisce il list item con la label e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
+		\item[•] creazione dell'item per il nome, definito mediante una label avente valore ``Nome: '' e un oggetto input di tipo text;
+		\item[•] costruisce il list item con la label e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
+		\item[•] creazione dell'item per il cognome, definito mediante una label avente valore ``Cognome: '' e un oggetto input di tipo text;
+		\item[•] costruisce il list item con la label e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
+		\item[•] creazione dell'item per inserire l'immagine utente, definito mediante una label avente valore ``Immagine del profilo: '' e un oggetto input di tipo text;
+		\item[•] costruisce il list item con la label e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
+		\item[•] creazione di un pulsante di registrazione (oggetto input di tipo submit e value ``Registrati'').
+		\item[•] operazione finale per ``appendere'' tutti  gli oggetti creati al \texttt{registerForm}.
+	\end{itemize}
 	
 	\item{\method{+ hide(): void}}\\
 	Nasconde il form di registrazione per lasciare spazio alla schermata principale dell'applicativo (che deve essere costruita dal PresenterMediator).
