@@ -7,14 +7,16 @@ module ("LoginPanelPresenterTest", {
     	element.style.left ="-999em";
     	document.body.appendChild(element);
     	tester = new LoginPanelPresenter("LoginManager.php");
+    	
+    	communicationcenter = {my: null};
+    	mediator = {buildUI: function() {}};
+
     },
 	teardown: 
 		function(){
 		document.body.removeChild(element);
 	}
-}
-);
-
+});
 
 test("testInitialize()", function () {
 	var i = 0;
@@ -97,13 +99,8 @@ test("testInitialize()", function () {
 });
 
 test("testHide()", function() {
-	var i = 0;
 	tester.hide();
-	
 	equal(element.style.display, "none", "la proprietà display è stata settata correttamente");
-	i++;
-
-	expect(i);
 });
 
 test("testLogin()", function() {
@@ -112,6 +109,9 @@ test("testLogin()", function() {
 	loginData.password = "opera";
 	var string = tester.login(loginData);
 	equal(string, "username=laurapausini%40gmail.com&password=opera&operation=1");
+	//TODO da testare communicationcenter.my
+	// che dopo il login dovrebbe essere stato settato
+	// console.debug(communicationcenter.my);
 });
 
 
@@ -181,7 +181,6 @@ test("testGetPassword()", function() {
 	expect(i);
 });
 
-//TODO completare questo test
 test("testBuildRetrievePasswordForm()", function() {
 	var i = 0;
 	
@@ -209,9 +208,19 @@ test("testBuildRetrievePasswordForm()", function() {
 	equal(inputAnswer.required, true, "input per la risposta settato come obbligatorio"); i++;
 	
 	//si appella allo stub della servlet per vedere se la domanda viene creata correttamente
-	equal(labelQuestion.innerHTML,
-			"Come si chiama la mia gatta?",
-			"testo della domanda recuperato correttamente"); i++;
+	var question = labelQuestion.innerHTML;
+	equal(question,
+		  "Come si chiama la mia gatta?",
+		  "testo della domanda recuperato correttamente"); i++;
 	
 	expect(i);
+});
+
+test("testhasAnsweredCorrectly()", function() {
+	var result = tester.hasAnsweredCorrectly("laupau@gmail.com", "tricolore");
+	equal(result, true, "risposta corretta ricevuta correttamente");
+//	result = tester.hasAnsweredCorrectly("laupau@gmail.com", "rossa");
+//	equal(result, false, "risposta errata ricevuta correttamente");
+//	expect(2);
+	
 });
