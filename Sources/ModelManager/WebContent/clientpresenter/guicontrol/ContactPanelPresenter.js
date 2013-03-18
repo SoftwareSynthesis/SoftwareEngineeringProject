@@ -114,8 +114,7 @@ function ContactPanelPresenter() {
 
         //associo gli eventi onClick ai bottoni
         addToAddressBookButton.onclick = function() {
-            if (!mediator.onContactAdded(contact))
-                alert("Contatto già presente nella rubrica, oppure è occorso un errore!");
+            mediator.onContactAdded(contact.id);
         };
         blockButton.onclick = function() {
             //TODO codice per bloccare utente [se non presente prima agigungerlo alla rubrica]
