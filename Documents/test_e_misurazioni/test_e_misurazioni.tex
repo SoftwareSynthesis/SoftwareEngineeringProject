@@ -174,8 +174,8 @@ Tale test si compone di un solo metodo:
 \textbf{Descrizione}:l'obbiettivo di questo test è assicurare l'uguaglianza tra due oggetti che rappresentano le credenziali dell'utente inserite volutamente con gli stessi dati. Successivamente verrà effettuata anche una negazione di tale test per assicurarne l'efficacia.\\
 Tale test si compone di due metodi:
 \begin{itemize}
-\item \textit{equalsTest() } testa che due oggetti diversi contenenti gli stessi dati passati al metodo restituiscano \textit{true} solo se sono effettivamente uguali;
-\item \textit{differentTest()}testa che due oggetti diversi contenenti diversi dati passati al metodo restituiscano \textit{true} solo se sono effettivamente differenti.
+\item \textit{testEquals() } testa che due oggetti diversi contenenti gli stessi dati passati al metodo restituiscano \textit{true} solo se sono effettivamente uguali;
+\item \textit{testDifferent()}testa che due oggetti diversi contenenti diversi dati passati al metodo restituiscano \textit{true} solo se sono effettivamente differenti.
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
@@ -186,9 +186,9 @@ Tale test si compone di due metodi:
 *Descrizione*
 Tale test si compone di X metodi:
 \begin{itemize}
-\item \textit{loginTest() }
-\item \textit{logoutTest() }
-\item \textit{abortTest() }
+\item \textit{testLogin() }
+\item \textit{testLogout() }
+\item \textit{testAbort() }
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
@@ -200,7 +200,7 @@ Tale test si compone di X metodi:
 \textbf{Descrizione}:l'obbiettivo di questo test è assicurare che il vettore in cui celle contiente tutte le credenziali d'accesso dell'utente (coppia \textit{username-password}) venga popolato correttamente.\\
 Tale test si compone di un solo metodo metodi:
 \begin{itemize}
-\item \textit{testloarder() } tale metodo carica nel vettore i campi \textit{username} e \textit{password} e controlla che siano effettivamente stati inseriti e i dati siano coerenti (uguali) con quelli iniziali.
+\item \textit{testLoarder() } tale metodo carica nel vettore i campi \textit{username} e \textit{password} e controlla che siano effettivamente stati inseriti e i dati siano coerenti (uguali) con quelli iniziali.
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
@@ -329,13 +329,13 @@ Successivamente estraggo la lista dei figli del primo figlio (il suo figlio deve
 
 \subsubsection{LoginPanelPresenterTest}
 \textbf{Verifica l'oggetto:} \textit{LoginPanelPresenter}.\\
-\textbf{Descrizione}: l'obbiettivo di questo test è verificare la corretta istanziazione del \textit{LoginPanel} popolato con dei dati coerenti rispetto allo scopo della \inglese{form}.
+\textbf{Descrizione}: l'obbiettivo di questo test è verificare la corretta istanziazione del \textit{testLoginPanel} popolato con dei dati coerenti rispetto allo scopo della \inglese{form}.
 Tale verifica è composta da quattro test:
 \begin{itemize} 
 \item \textit{testInitialize() } mediante diversi metodi \textit{equal} controlla l'effettiva correttezza della \inglese{form} creata, sia nella forma che nel funzionamento;
-\item \textit{loginTest() } effettua una prova di login, mediante l'inserimento di uno \textit{username} e una \textit{password} corretti, verificando che tali dati siano accettati correttamente;
-\item \textit{testGetUsername() } verifica che, dato uno \textit{username} in input corretto generato come \inglese{stub}, sia possibile recuperarlo correttamente.
-\item \textit{getPasswordTest() } verifica che, data una \textit{password} in input corretta generata come \inglese{stub}, sia possibile recuperarla correttamente.
+\item \textit{testlogin() } effettua una prova di login, mediante l'inserimento di uno \textit{username} e una \textit{password} corretti, verificando che tali dati siano accettati correttamente;
+\item \textit{testGetUsername() } verifica che, dato uno \textit{username} in input corretto generato come \inglese{stub}, sia possibile recuperarlo correttamente. Se lo \textit{username} non è una mail valida, o non è inserito nella \textit{form}, solleva un'eccezione.
+\item \textit{testGetPassword() } verifica che, data una \textit{password} in input corretta generata come \inglese{stub}, sia possibile recuperarla correttamente.Se la \textit{password} non è inserita nella \textit{form}, solleva un'eccezione.
 \item \textit{testHide()} controlla che venga correttamente nascosto il \inglese{form} di \textit{login} dopo l'effettiva autenticazione o di richiesta di registrazione.
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
@@ -347,6 +347,26 @@ Tale verifica è composta da quattro test:
 Tale verifica è composta da un solo test:
 \begin{itemize}
 \item \textit{testCreatePanel() }crea l'elemento \textit{ContactPanel}, estrae la lista dei suoi figli e controlla per ogni figlio che le informazioni siano coerenti con quelle inserite in input.
+\end{itemize}
+\textbf{Risultato del test:} non sono stati rilevati errori.
+
+
+\subsubsection{RegisterPanelPresenterTest}
+\textbf{Verifica l'oggetto:} \textit{RegisterPanelPresenter}.\\
+\textbf{Descrizione}:l'obbiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \textit{RegisterPanel}, la possibilità di nascondere correttamente l'elemento \textit{RegisterPanel}, il corretto recupero dei dati inseriti nella \textit{form} d'iscrizione e infine i test relativi al recupero delle singole informazioni passate in fase di registrazione.\\
+Tale verifica è composta da dieci test:
+\begin{itemize}
+\item \textit{testInitialize() } mediante diversi metodi \textit{equal} controlla l'effettiva correttezza della \inglese{form} creata, sia nella forma che nel funzionamento;
+\item \textit{testHide() } controlla che venga correttamente nascosto il \inglese{form} di \textit{login} dopo l'effettiva richiesta di registrazione.
+\item \textit{testRegister() } mediante diversi metodi \textit{equal} controlla l'effettiva registrazione dei dati inseriti nella \inglese{form}, confrontandoli con quelli passati in ingresso;
+\item \textit{testGetPicturePath() } 
+\item \textit{testGetUsername() }
+\item \textit{testGetPassword() }
+\item \textit{testGetQuestion() }
+\item \textit{testGetAnswer() }
+\item \textit{testGetName() }
+\item \textit{testGetSurname() }
+
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
