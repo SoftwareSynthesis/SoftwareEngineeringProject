@@ -229,11 +229,11 @@ test("testGetQuestion()", function() {
 	inputSecretQ.value = "Di che colore è il mio gatto?";
 	element.appendChild(inputSecretQ);
 	
-	// invoca il metodo da testare con una password legale
+	// invoca il metodo da testare con una domanda legale
 	var question = tester.getQuestion();
 	equal(question, inputSecretQ.value, "domanda segreta recuperata correttamente"); i++;
 	
-	// verifica se rileva password mancante
+	// verifica se rileva domanda mancante
 	inputSecretQ.value = "";
 	try {
 		tester.getQuestion();
@@ -255,11 +255,11 @@ test("testGetAnswer()", function() {
 	inputAnswer.value = "tricolore";
 	element.appendChild(inputAnswer);
 	
-	// invoca il metodo da testare con una password legale
+	// invoca il metodo da testare con una risposta legale
 	var answer = tester.getAnswer();
 	equal(answer, inputAnswer.value, "risposta recuperata correttamente"); i++;
 	
-	// verifica se rileva password mancante
+	// verifica se rileva risposta mancante
 	inputAnswer.value = "";
 	try {
 		tester.getAnswer();

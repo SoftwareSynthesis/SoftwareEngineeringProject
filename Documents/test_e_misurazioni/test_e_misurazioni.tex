@@ -25,11 +25,11 @@
 % Destinatari da specificare come nome1\\ &nome2\\ ecc.
 \newcommand{\docDistributionList}{Prof. Tullio Vardanega\\&Prof. Riccardo Cardin\\&Dott. Gregorio Piccoli\\&Team SoftwareSynthesis}
 % Redattori da specificare come nome1\\ &nome2\\ ecc.
-\newcommand{\docAuthors}{Stefano Farronato\\&Diego Beraldin\\&Marco Schivo}
+\newcommand{\docAuthors}{Stefano Farronato}
 % Approvato da
 \newcommand{\approvedBy}{Andrea Rizzi}
 % Verificatori
-\newcommand{\verifiedBy}{Stefano Farronato\\&Marco Schivo}
+\newcommand{\verifiedBy}{Diego Beraldin}
 % Perscorso (relativo o assoluto) che punta alla directory contenente shared/
 % come sua sottodirectory (per comodità chiamiamola 'doc root').
 \newcommand{\docRoot}{..}
@@ -68,6 +68,14 @@
 \toprule
 Versione & Descrizione intervento & Membro & Ruolo & Data\\
 \midrule % inserire qui il contenuto della tabella
+1.0 & Approvazione documento& Andrea Rizzi & Responsabile & 2013-02-28\\
+0.8 & correzione errori segnalati dal verificatore& Stefano Farronato & Verificatore & 2013-02-28\\
+0.7 & verifica correttezza lessico ortografica e corrispondenza test con quanto descritto& Diego Beraldin & Verificatore & 2013-02-28\\
+0.6 & aggiunti test su capitolo 4.2& Stefano Farronato & Verificatore & 2013-02-28\\
+0.5 & stesura capitoli sui test di sistema e di utilizzo, aggiunti test su capitolo 4.1& Stefano Farronato & Verificatore & 2013-02-28\\
+0.4 & stesura capitolo 4.2, relativo ai test sul \textit{presenter} & Stefano Farronato & Verificatore & 2013-02-28\\
+0.3 & stesura capitolo 4.1, relativo ai test sul \textit{model} & Stefano Farronato & Verificatore & 2013-02-28\\
+0.2 & stesura introduzione con ``metriche sul codice'' e preambolo su ``test e risultati''& Stefano Farronato & Verificatore & 2013-02-28\\
 0.1 & Creazione del documento e stesura delle sezioni ``Introduzione'' e ``Riferimenti''. & Stefano Farronato & Verificatore & 2013-02-28\\
 \bottomrule
 \end{longtable}
@@ -174,8 +182,8 @@ Tale test si compone di un solo metodo:
 \textbf{Descrizione}:l'obbiettivo di questo test è assicurare l'uguaglianza tra due oggetti che rappresentano le credenziali dell'utente inserite volutamente con gli stessi dati. Successivamente verrà effettuata anche una negazione di tale test per assicurarne l'efficacia.\\
 Tale test si compone di due metodi:
 \begin{itemize}
-\item \textit{equalsTest() } testa che due oggetti diversi contenenti gli stessi dati passati al metodo restituiscano \textit{true} solo se sono effettivamente uguali;
-\item \textit{differentTest()}testa che due oggetti diversi contenenti diversi dati passati al metodo restituiscano \textit{true} solo se sono effettivamente differenti.
+\item \textit{testEquals() } testa che due oggetti diversi contenenti gli stessi dati passati al metodo restituiscano \textit{true} solo se sono effettivamente uguali;
+\item \textit{testDifferent()}testa che due oggetti diversi contenenti diversi dati passati al metodo restituiscano \textit{true} solo se sono effettivamente differenti.
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
@@ -186,9 +194,9 @@ Tale test si compone di due metodi:
 *Descrizione*
 Tale test si compone di X metodi:
 \begin{itemize}
-\item \textit{loginTest() }
-\item \textit{logoutTest() }
-\item \textit{abortTest() }
+\item \textit{testLogin() }
+\item \textit{testLogout() }
+\item \textit{testAbort() }
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
@@ -200,7 +208,7 @@ Tale test si compone di X metodi:
 \textbf{Descrizione}:l'obbiettivo di questo test è assicurare che il vettore in cui celle contiente tutte le credenziali d'accesso dell'utente (coppia \textit{username-password}) venga popolato correttamente.\\
 Tale test si compone di un solo metodo metodi:
 \begin{itemize}
-\item \textit{testloarder() } tale metodo carica nel vettore i campi \textit{username} e \textit{password} e controlla che siano effettivamente stati inseriti e i dati siano coerenti (uguali) con quelli iniziali.
+\item \textit{testLoarder() } tale metodo carica nel vettore i campi \textit{username} e \textit{password} e controlla che siano effettivamente stati inseriti e i dati siano coerenti (uguali) con quelli iniziali.
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
@@ -329,13 +337,13 @@ Successivamente estraggo la lista dei figli del primo figlio (il suo figlio deve
 
 \subsubsection{LoginPanelPresenterTest}
 \textbf{Verifica l'oggetto:} \textit{LoginPanelPresenter}.\\
-\textbf{Descrizione}: l'obbiettivo di questo test è verificare la corretta istanziazione del \textit{LoginPanel} popolato con dei dati coerenti rispetto allo scopo della \inglese{form}.
+\textbf{Descrizione}: l'obbiettivo di questo test è verificare la corretta istanziazione del \textit{testLoginPanel} popolato con dei dati coerenti rispetto allo scopo della \inglese{form}.
 Tale verifica è composta da quattro test:
 \begin{itemize} 
 \item \textit{testInitialize() } mediante diversi metodi \textit{equal} controlla l'effettiva correttezza della \inglese{form} creata, sia nella forma che nel funzionamento;
-\item \textit{loginTest() } effettua una prova di login, mediante l'inserimento di uno \textit{username} e una \textit{password} corretti, verificando che tali dati siano accettati correttamente;
-\item \textit{testGetUsername() } verifica che, dato uno \textit{username} in input corretto generato come \inglese{stub}, sia possibile recuperarlo correttamente.
-\item \textit{getPasswordTest() } verifica che, data una \textit{password} in input corretta generata come \inglese{stub}, sia possibile recuperarla correttamente.
+\item \textit{testlogin() } effettua una prova di login, mediante l'inserimento di uno \textit{username} e una \textit{password} corretti, verificando che tali dati siano accettati correttamente;
+\item \textit{testGetUsername() } verifica che, dato uno \textit{username} in input corretto generato come \inglese{stub}, sia possibile recuperarlo correttamente. Se lo \textit{username} non è una mail valida, o non è inserito nella \textit{form}, solleva un'eccezione.
+\item \textit{testGetPassword() } verifica che, data una \textit{password} in input corretta generata come \inglese{stub}, sia possibile recuperarla correttamente.Se la \textit{password} non è inserita nella \textit{form}, solleva un'eccezione.
 \item \textit{testHide()} controlla che venga correttamente nascosto il \inglese{form} di \textit{login} dopo l'effettiva autenticazione o di richiesta di registrazione.
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
@@ -351,6 +359,26 @@ Tale verifica è composta da un solo test:
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
 
+\subsubsection{RegisterPanelPresenterTest}
+\textbf{Verifica l'oggetto:} \textit{RegisterPanelPresenter}.\\
+\textbf{Descrizione}:l'obbiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \textit{RegisterPanel}, la possibilità di nascondere correttamente l'elemento \textit{RegisterPanel}, il corretto recupero dei dati inseriti nella \textit{form} d'iscrizione e infine i test relativi al recupero delle singole informazioni passate in fase di registrazione.\\
+Tale verifica è composta da dieci test:
+\begin{itemize}
+\item \textit{testInitialize() } mediante diversi metodi \textit{equal} controlla l'effettiva correttezza della \inglese{form} creata, sia nella forma che nel funzionamento;
+\item \textit{testHide() } controlla che venga correttamente nascosto il \inglese{form} di \textit{login} dopo l'effettiva richiesta di registrazione.
+\item \textit{testRegister() } mediante diversi metodi \textit{equal} controlla l'effettiva registrazione dei dati inseriti nella \inglese{form}, confrontandoli con quelli passati in ingresso;
+\item \textit{testGetPicturePath() } crea una form compilata correttamente con l'immagine utente da inserire, successivamente prova a recuperarla mediante \textit{GetPicturePath}, verificando se è stata inserita correttamente (o meno). 
+\item \textit{testGetUsername() } crea una form compilata correttamente con lo \textit{username}, e prova a recuperarlo mediante \textit{GetUsername}, verificando se è stato inserito correttamente (o meno).
+\item \textit{testGetPassword() } crea una form compilata correttamente con il campo \textit{password}, e prova a recuperarlo mediante \textit{GetPassword}, verificando se è stata inserita correttamente (o meno).
+\item \textit{testGetQuestion() }  crea una form compilata correttamente con il campo \textit{question}, e prova a recuperarlo mediante \textit{GetQuestion}, verificando se è stata inserita correttamente (o meno).
+\item \textit{testGetAnswer() } crea una form compilata correttamente con il campo \textit{answer}, e prova a recuperarlo mediante \textit{GetAnswer}, verificando se è stata inserita correttamente (o meno).
+\item \textit{testGetName() }  crea una form compilata correttamente con il campo \textit{name}, e prova a recuperarlo mediante \textit{GetName}, verificando se è stato inserito correttamente (o meno).
+\item \textit{testGetSurname() }  crea una form compilata correttamente con il campo \textit{surname}, e prova a recuperarlo mediante \textit{GetSurname}, verificando se è stata inserita correttamente (o meno).
+
+\end{itemize}
+\textbf{Risultato del test:} non sono stati rilevati errori.
+
+
 \subsubsection{}
 \textbf{Verifica l'oggetto:} \textit{}.\\
 \textbf{Descrizione}:\\
@@ -361,5 +389,10 @@ Tale verifica è composta da un solo test:
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
 
+\section{Test di Sistema}
+Nell'attività di validazione che verrà affrontata nella successiva (e ultima) fase del progetto, saranno effettuati i test per accertare le effettive funzionalità offerte dal prodotto \caName.\\ Tali verifiche sono state definite e pianificate già durante l'attività di analisi dei requisiti e sono reperibili nel documento relativo allegato (\textit{analisi\_dei\_requisiti.3.0.pdf}) in cui sono elencati in una pratica tabella che ne descrive (per ognuno) le modalità di verifica e i requisiti ad essi associati. In questo modo verrà assicurato il tracciamento tra requisiti e test, pertanto tutti i requisiti soddisfatti saranno verificati mediante un test specifico.
 
+\section{Test di Utilizzo}
+Al fine di verificare che l'interfaccia del prodotto sia più intuitiva e \inglese{user-friendly} possibile, sono stati predisposte delle simulazioni da proporre ad un campione di utenza selezionata (cinque persone con conoscenze informatiche medio-basse).
+Essendo test non oggettivi non verranno catalogati come vere e proprie verifiche, ma saranno semplici \inglese{feedback} su come migliorare o confermare la parte visiva di \caName in base ai comportamenti assunti dai \inglese{tester} durante la prova.
 \end{document}

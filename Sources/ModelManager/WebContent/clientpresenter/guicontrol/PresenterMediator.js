@@ -255,17 +255,25 @@ function PresenterMediator() {
         var element = communicationpp.createPanel();
         presenter["main"].displayChildPanel(element);
     };
-    
+
     /**
      * Provoca la visualizzazione della scheda di un contatto nel ComunicationPanelPresenter
-     * 
-     * @see ???
-     * @see ???
+     *
      * @author Riccardo Tresoldi
      * @param {Object} contact il contatto da visualizzare
      */
-    this.displayContact=function(contact){
+    this.displayContact = function(contact) {
         this.displayCommunicationPanel();
         contactpp.display(contact);
-    }
+    };
+
+    /**
+     * Controllo se un utente è rpesente nella rubrica
+     *
+     * @author Riccardo Tresoldi
+     * @param {Object} contact il contatto da controllare
+     */
+    this.contactAlreadyPresent = function(contact) {
+        return presenters["addressbook"].contactAlreadyPresent(contact);
+    };
 }
