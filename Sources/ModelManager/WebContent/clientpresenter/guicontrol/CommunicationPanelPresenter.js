@@ -39,10 +39,10 @@ function CommunicationPanelPresenter(mediator) {
         otherVideo.id = "otherVideo";
         otherVideo.setAttribute("autoplay", "autoplay");
         //creo i bottoni per per la gestione della chiamata
-        var closeButton = document.createElement('input');
+        var closeButton = document.createElement('button');
         closeButton.type = "button";
         closeButton.id = "closeButton";
-        var muteButton = document.createElement('input');
+        var muteButton = document.createElement('button');
         muteButton.type = "button";
         muteButton.id = "muteButton";
         closeButton.onclick = function() {
