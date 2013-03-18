@@ -200,9 +200,6 @@ function LoginPanelPresenter(url) {
      * @author Diego Beraldin
      */
     this.login = function(data) {
-        if (!data.username || data.username == "" || !data.password || data.password == "") {
-        	return "";
-        }
 
         //invia la richiesta AJAX al server
         var request = new XMLHttpRequest();
@@ -211,7 +208,7 @@ function LoginPanelPresenter(url) {
                 testCredentials(request.responseText);
             }
         };
-        request.open("POST", this.servletURL, true);
+        request.open("POST", servletURL, true);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         var querystring = "username=" + encodeURIComponent(data.username) +
         				  "&password=" + encodeURIComponent(data.password) + "&operation=1";
@@ -244,11 +241,8 @@ function LoginPanelPresenter(url) {
     this.initialize = function() {
     	element.style.display = "block";
         //creazione dell'elemento form
-        var loginForm = document.createElement('form');
-        loginForm.setAttribute("name", "login");
-        loginForm.setAttribute("action", "");
-        loginForm.setAttribute("method", "");
-        loginForm.setAttribute("accept-charset", "utf-8");
+        var loginForm = document.createElement('fieldset');
+        loginForm.id="loginForm";
 
         //creazione dell'elemento <ul> contenuto nel form
         var ulData = document.createElement('ul');
@@ -291,9 +285,9 @@ function LoginPanelPresenter(url) {
 
 
         //pulsante di login
-        var inputLogin = document.createElement('input');
-        inputLogin.setAttribute("type", "submit");
-        inputLogin.setAttribute("value", "Login");
+        var inputLogin = document.createElement('button');
+        inputLogin.type="button";
+        inputLogin.appendChild(document.createTextNode('Login'));
         var self = this;
         inputLogin.onclick = function() {
         	var data = new Object();
@@ -302,17 +296,17 @@ function LoginPanelPresenter(url) {
         	self.login(data);
         };
         //pulsante di registrazione
-        var inputRegister = document.createElement('input');
-        inputRegister.setAttribute("type", "submit");
-        inputRegister.setAttribute("value", "Registrati");
+        var inputRegister = document.createElement('button');
+        inputRegister.type = "button";
+        inputRegister.appendChild(document.createTextNode('Registrazione'));
         inputRegister.onclick = function() {
         	self.hide();
             mediator.buildRegistrationUI();
         };
         //pulsante per recuperare la password
-        var inputRetrievePassword = document.createElement("input");
-        inputRetrievePassword.setAttribute("type", "submit");
-        inputRetrievePassword.setAttribute("value", "Recupera password");
+        var inputRetrievePassword = document.createElement("button");
+        inputRetrievePassword.type="button";
+        inputRetrievePassword.appendChild(document.createTextNode('Recupera password'));
         inputRetrievePassword.onclick = function() {
         	var form = self.buildRetrievePasswordForm();
         	element.appendChild(form);
