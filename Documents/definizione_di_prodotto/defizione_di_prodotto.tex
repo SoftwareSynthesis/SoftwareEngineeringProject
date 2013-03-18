@@ -90,16 +90,16 @@ Versione & Descrizione intervento & Membro & Ruolo & Data\\
 \purpose
 
 \subsection{Scopo del documento}
-Il presente documento presenta una descrizione dettagliata dell'architettura del sistema software destinata a costituire il prodotto \caName{}, coerentemente con la progettazione ad alto livello contenuta nell'allegato \textit{specifica\_tecnica.2.0.pdf}.
+Il presente documento presenta una descrizione dettagliata dell'architettura del sistema software destinata alla realizzazione del prodotto \caName{}, coerentemente con la progettazione ad alto livello descritta nell'allegato \textit{specifica\_tecnica.2.0.pdf}.
 
-A tal fine, si riporta per ognuno dei componenti definiti nel documento di specifica tecnica una descrizione delle classi in termini di operazioni disponibili, proprietà, responsabilità e collaborazioni. Il contenuto del presente documento ha inoltre valore vincolante per i programmatori, che avranno l'obbligo di attenersi alle disposizioni in esso contenute senza alcuna possibilità di deroga.
+A tal fine si riporta per ognuno dei componenti definiti nel documento di specifica tecnica una descrizione delle classi in termini di operazioni disponibili, proprietà, responsabilità e collaborazioni. Il contenuto del presente documento ha inoltre valore vincolante per i programmatori, pertanto avranno l'obbligo di attenersi alle disposizioni in esso contenute senza alcuna possibilità di deroga.
 
 \subsection{Glossario}
 \glossaryIntro
 
 \subsection{Convenzioni di scrittura}
 % vedere issue #56 al riguardo
-Al fine di rendere quanto più agevole possibile la consultazione di questo documento da parte dei programmatori e del committente, è stata adottata una serie di accorgimenti sia a livello di riferimenti sulla nomenclatura delle classi sia a livello cromatico per campi dati e metodi. 
+Al fine di rendere quanto più agevole possibile la consultazione del documento da parte dei programmatori e del committente, è stata adottata una serie di accorgimenti sia a livello di riferimenti sulla nomenclatura delle classi sia a livello cromatico per campi dati e metodi. 
 Tali norme possono essere consultate in dettaglio nel documento \textit{norme\_di\_progetto.3.0.pdf} allegato.
 \clearpage
 
@@ -146,7 +146,7 @@ Gli strumenti utilizzati per la stesura e lo sviluppo sono specificati nei docum
 \classsection{HibernateUtil}
 
 \subsubsection*{Funzione}
-Interfaccia usata per dichiarare che l'oggetto che la implementa ha la possibilità di essere convertito in formato json in modo da poter essere trasferito al client.
+Interfaccia usata per dichiarare che l'oggetto che la implementa ha la possibilità di essere convertito in formato \textit{json} in modo da poter essere trasferito al client.
 
 \subsubsection*{Relazioni d'uso}
 
@@ -156,7 +156,7 @@ Nessuna relazione evidenziata.
 
 \begin{description}
 	\item{\method{+ toJson()}}\\
-	Converte l'oggetto di invocazione in una stringa json interpretabile dai client.
+	Converte l'oggetto di invocazione in una stringa \textit{json} interpretabile dai client.
 \end{description}
 
 \subsection{Package org.softwaresynthesis.mytalk.server.dao}\label{sec:dao}
@@ -164,20 +164,20 @@ Nessuna relazione evidenziata.
 \classsection{HibernateUtil}
 
 \subsubsection*{Funzione}
-Inizializza un'unica \inglese{factory} per le sessioni, utilizzate da Hibernate, per comunicare con il database.
+Inizializza un'unica \inglese{factory} per le sessioni, utilizzate da \textit{Hibernate}, per comunicare con il database.
 
 \subsubsection*{Relazioni d'uso}
 
 \begin{itemize}
 	\item \classname{org.hibernate.SessionFactory}: necessaria per interrogare il database.
-	\item \classname{org.hibernate.cfg.Configuration}: definisce i parametri necessari per la connessione con il database. Inoltre definisce i mapping necessari tra le classi \inglese{transfer object} e le relative tabelle nel database.
+	\item \classname{org.hibernate.cfg.Configuration}: definisce i parametri necessari per la connessione con il database. Inoltre definisce i \textit{mapping} necessari tra le classi \inglese{transfer object} e le relative tabelle nel database.
 \end{itemize}
 
 \subsubsection*{Attributi}
 
 \begin{itemize}
 	\item{\memberdata{-- \underline{instance}: HibernateUtil}}\\
-	Attributo usato per implementare il \inglese{pattern} singleton. Tale istanza verrà inizializzata tramite il metodo statico \method{getIstance()}, che si assicura che l'attributo non sia già stato inizializzato in precedenza.
+	Attributo usato per implementare il \inglese{pattern} singleton. Tale istanza verrà inizializzata tramite il metodo statico \method{getIstance()}, assicurando che l'attributo non sia già stato inizializzato in precedenza.
 	\item{\memberdata{-- \underline{sessionFactory}: SessionFactory}}\\
 	Attributo contenente la \inglese{factory} delle sessioni verso il database.
 \end{itemize}
@@ -186,9 +186,9 @@ Inizializza un'unica \inglese{factory} per le sessioni, utilizzate da Hibernate,
 
 \begin{description}
 	\item{\method{-- HibernateUtil()}}\\
-	Costruttore privato della classe. Si osservi che il costruttore è stato definito \inglese{private} in correlazione all'applicazione del \inglese{pattern} singleton.
+	Costruttore privato della classe, definito \inglese{private} in correlazione all'applicazione del \inglese{pattern} singleton.
 	\item{\method{+ getInstance(): HibernateUtil}}\\
-	Metodo pubblico che ritorna l'istanza \memberdata{istance}. Il metodo controlla se \memberdata{istance} è già stata inizializzata. Nel caso non lo sia il metodo dovrà generare un istanza di HibernateUtil richiamando il costruttore privato \method{HibernateUtil()} assegnare il valore ritornato all'attributo \memberdata{istance}. Il programma termina restituendo \memberdata{istance}.
+	Metodo pubblico che ritorna l'istanza \memberdata{istance}. Il metodo controlla se \memberdata{istance} è già stata inizializzata, nel caso in cui non lo sia il metodo dovrà generare un istanza di HibernateUtil richiamando il costruttore privato \method{HibernateUtil()} e assegnare il valore ritornato all'attributo \memberdata{istance}. Il programma termina restituendo \memberdata{istance}.
 	\item{\method{+ getSessionFactory(): SessionFactory}}\\
 	Metodo che ritorna l'attributo \memberdata{sessionFactory}.
 \end{description}
@@ -196,17 +196,17 @@ Inizializza un'unica \inglese{factory} per le sessioni, utilizzate da Hibernate,
 \classsection{UserDataDAO}
 
 \subsubsection*{Funzione}
-Classe implementante il pattern DAO. Definisce le procedure d'inserimento, eliminazione ed aggiornamento di \inglese{entry} inerenti la tabella UserData. La classe fornisce anche metodi per interrogare il database ed ottenere i dati utente con i quali costruire istanze di oggetti di tipo \classname{abook.IUserData}.
+Classe che implementa il pattern DAO. Definisce le procedure d'inserimento, eliminazione ed aggiornamento di \inglese{entry} inerenti alla tabella UserData. La classe inoltre fornisce metodi per interrogare il database ed ottenere i dati utente con i quali costruire istanze di oggetti di tipo \classname{abook.IUserData}.
 
 \subsubsection*{Relazioni d'uso}
 
 \begin{itemize}
 	\item \texttt{java.util.List}: usata per memorizzare e ritornare i dati restituiti dalle interrogazioni a database.
-	\item \classname{org.hibernate.Query}: classe rappresentante le query d'interrogazione verso il database
+	\item \classname{org.hibernate.Query}: classe rappresentante le \textit{query} d'interrogazione verso il database
 	\item \texttt{org.hibernate.Session}: classe che rappresenta la sessione di ``lavoro'' verso il database.
-	\item \texttt{org.hibernate.SessionFactory}: classe avente compito d'istanziare nuove sessioni.
+	\item \texttt{org.hibernate.SessionFactory}: classe avente compito di instanziare nuove sessioni.
 	\item \texttt{org.hibernate.Transaction}: classe che rappresenta una transazione del database.
-	\item \classname{abook.IUserData}: interfaccia del package abook, usata per definire un generico utente. La classe può ritornare istanze di tipo \classname{abook.IUserData} come risposta a delle query d'interrogazione al database.
+	\item \classname{abook.IUserData}: interfaccia del package \textit{abook} usata per definire un generico utente. La classe può ritornare istanze di tipo \classname{abook.IUserData} come risposta a delle \textit{query} d'interrogazione al database.
 	
 \end{itemize}
 
@@ -219,20 +219,20 @@ Nessun attributo evidenziato.
 \begin{description}
 
 	\item{\method{+ insert(user: IUserData): boolean}}\\
-	Metodo usato per inserire un utente registrato nel sistema. Il metodo riceve come parametro un istanza di un oggetto \classname{abook.IUserData}. Il metodo dovrà eseguire nell'ordine le seguenti operazioni:
+	Metodo usato per inserire un utente registrato nel sistema, riceve come parametro un istanza di un oggetto \classname{abook.IUserData}. Il metodo dovrà eseguire nell'ordine le seguenti operazioni:
 		\begin{itemize}
 			\item[1)] ottenere dalla classe \classname{HibernateUtil} l'istanza tramite il metodo statico \method{getIstance()};
-			\item[2)] ottenere dall'istanza di tipo \classname{HibernateUtil}(ottenuta al punto precedente), un oggetto di tipo \texttt{org.hibernate.SessionFactory}, tramite il metodo \method{getSessionFactory()};
+			\item[2)] ottenere dall'istanza di tipo \classname{HibernateUtil} (ottenuta al punto precedente), un oggetto di tipo \texttt{org.hibernate.SessionFactory}, tramite il metodo \method{getSessionFactory()};
 			\item[3)] aprire la sessione ottenuta al punto precedente;
-			\item[4)] avviare una transizione a partire dall'istanza \texttt{org.hibernate.SessionFactory} del punto 2. Tale istanza va memorizzato in un opportuno attributo (interno al metodo stesso) di tipo \texttt{org.hibernate.Transaction};
+			\item[4)] avviare una transizione a partire dall'istanza \texttt{org.hibernate.SessionFactory} del punto 2. Tale istanza va memorizzata in un opportuno attributo (interno al metodo stesso) di tipo \texttt{org.hibernate.Transaction};
 			\item[5)] eseguire il comando \inglese{save} a partire dalla sessione aperta e passando come parametro l'attributo \memberdata{user}.
 			\item[6)] eseguire il comando \inglese{commit} per confermare l'operazione del punto precedente.
 		\end{itemize}
 		
-Poiché l'iter presentato può scatenare il lancio di eccezione, il codice dovrà essere gestito in un blocco \inglese{try-catch}. Nel caso incorra il lancio di un eccezione, il flusso di processo dovrà ristabilire la situazione iniziale richiamando il metodo \texttt{rollback()} dell'istanza di tipo \texttt{org.hibernate.Transaction} creata al punto 4 dell'iter. In ogni caso il metodo deve terminare chiudendo la sessione aperta al punto 2.
+Poiché l'iter presentato potrà causare il lancio di un'eccezione, il codice dovrà essere gestito in un blocco \inglese{try-catch}. Nel caso incorra tale evento, il flusso di processo dovrà ristabilire la situazione iniziale richiamando il metodo \texttt{rollback()} dell'istanza di tipo \texttt{org.hibernate.Transaction} creata al punto 4 dell'iter. In ogni caso il metodo deve terminare chiudendo la sessione aperta al punto 2.
 
 	\item{\method{+ delete(user: IUserData): boolean}}\\
-	Metodo usato per eliminare un utente registrato nel sistema. Il metodo riceve come parametro un istanza di un oggetto \classname{abook.IUserData}. Il metodo dovrà eseguire nell'ordine le seguenti operazioni:
+	Metodo usato per eliminare un utente registrato nel sistema, riceve come parametro un istanza di un oggetto \classname{abook.IUserData}. Il metodo dovrà eseguire nell'ordine le seguenti operazioni:
 		\begin{itemize}
 			\item[1)] ottenere dalla classe \classname{HibernateUtil} l'istanza tramite il metodo statico \method{getIstance()};
 			\item[2)] ottenere dall'istanza di tipo \classname{HibernateUtil}(ottenuta al punto precedente), un oggetto di tipo \texttt{org.hibernate.SessionFactory}, tramite il metodo \method{getSessionFactory()};
@@ -242,10 +242,10 @@ Poiché l'iter presentato può scatenare il lancio di eccezione, il codice dovr�
 			\item[6)] eseguire il comando \inglese{commit} per confermare l'operazione del punto precedente.
 		\end{itemize}
 		
-Poiché l'iter presentato può scatenare il lancio di eccezione, il codice dovrà essere gestito in un blocco \inglese{try-catch}. Nel caso incorra il lancio di un eccezione, il flusso di processo dovrà ristabilire la situazione iniziale richiamando il metodo \texttt{rollback()} dell'istanza di tipo \texttt{org.hibernate.Transaction} creata al punto 4 dell'iter. In ogni caso il metodo deve terminare chiudendo la sessione aperta al punto 2.
+Poiché l'iter presentato può causare il lancio di un'eccezione, il codice dovrà essere gestito in un blocco \inglese{try-catch}. Nel caso incorra tale evento, il flusso di processo dovrà ristabilire la situazione iniziale richiamando il metodo \texttt{rollback()} dell'istanza di tipo \texttt{org.hibernate.Transaction} creata al punto 4 dell'iter. In ogni caso il metodo deve terminare chiudendo la sessione aperta al punto 2.
 
 \item{\method{+ update(user: IUserData): boolean}}\\
-	Metodo usato per modificare i dati di un utente registrato nel sistema. Il metodo riceve come parametro un istanza di un oggetto \classname{abook.IUserData}. Il metodo dovrà eseguire nell'ordine le seguenti operazioni:
+	Metodo usato per modificare i dati di un utente registrato nel sistema, riceve come parametro un istanza di un oggetto \classname{abook.IUserData}. Il metodo dovrà eseguire nell'ordine le seguenti operazioni:
 		\begin{itemize}
 			\item[1)] ottenere dalla classe \classname{HibernateUtil} l'istanza tramite il metodo statico \method{getIstance()};
 			\item[2)] ottenere dall'istanza di tipo \classname{HibernateUtil}(ottenuta al punto precedente), un oggetto di tipo \texttt{org.hibernate.SessionFactory}, tramite il metodo \method{getSessionFactory()};
@@ -255,20 +255,20 @@ Poiché l'iter presentato può scatenare il lancio di eccezione, il codice dovr�
 			\item[6)] eseguire il comando \inglese{commit} per confermare l'operazione del punto precedente.
 		\end{itemize}
 		
-Poiché l'iter presentato può scatenare il lancio di eccezione, il codice dovrà essere gestito in un blocco \inglese{try-catch}. Nel caso incorra il lancio di un eccezione, il flusso di processo dovrà ristabilire la situazione iniziale richiamando il metodo \texttt{rollback()} dell'istanza di tipo \texttt{org.hibernate.Transaction} creata al punto 4 dell'iter. In ogni caso il metodo deve terminare chiudendo la sessione aperta al punto 2.
+Poiché l'iter presentato può causare il lancio di un'eccezione, il codice dovrà essere gestito in un blocco \inglese{try-catch}. Nel caso incorra il lancio tale evento, il flusso di processo dovrà ristabilire la situazione iniziale richiamando il metodo \texttt{rollback()} dell'istanza di tipo \texttt{org.hibernate.Transaction} creata al punto 4 dell'iter. In ogni caso il metodo deve terminare chiudendo la sessione aperta al punto 2.
 
 	\item{\method{+ getByNameAndSurname(name: String, surname: String): List<IUserData>}}\\
-	Metodo usato per eseguire un interrogazione al database atta ad ottenere la lista degli utenti aventi un determinato nome e cognome. Il metodo riceve come parametro il nome e il cognome da ricercare. Il metodo dovrà eseguire nell'ordine le seguenti operazioni:
+	Metodo usato per eseguire un interrogazione al database atta ad ottenere la lista degli utenti aventi un determinato nome e cognome, riceve come parametro il nome e il cognome da ricercare. Il metodo dovrà eseguire nell'ordine le seguenti operazioni:
 		\begin{itemize}
 			\item[1)] ottenere dalla classe \classname{HibernateUtil} l'istanza tramite il metodo statico \method{getIstance()};
 			\item[2)] ottenere dall'istanza di tipo \classname{HibernateUtil}(ottenuta al punto precedente), un oggetto di tipo \texttt{org.hibernate.SessionFactory}, tramite il metodo \method{getSessionFactory()};
 			\item[3)] aprire la sessione ottenuta al punto precedente;
-			\item[4)] eseguire il comando \inglese{createQuery()} a partire dall'istanza che definisce la sessione, passando come parametro una stringa rappresentante la \inglese{query} d'interrogazione al database (la \inglese{query} deve restituire dati validi e conformi alle aspettative presentate nell'introduzione di questo metodo). Una prima analisi evidenzia che una \inglese{query} corretta è: 
+			\item[4)] eseguire il comando \inglese{createQuery()} a partire dall'istanza che definisce la sessione, passando come parametro una stringa rappresentante la \inglese{query} d'interrogazione al database (la \inglese{query} deve restituire dati validi ad essere passati a tale metodo). Una prima analisi evidenzia che la \inglese{query} corretta è: 
 \begin{verbatim}
 from UserData as u where u.name = :name or u.surname = :surname
 \end{verbatim}
-			\item[5)] eseguire una serie di comandi di tipo \texttt{setString} per ogni ``variabile'' presente nella \inglese{query} d'interrogazione (per variabile si intende ogni valore di filtraggio presente nelle clausole \inglese{where} delle \inglese{query} HQL, segnato come \texttt{:nome\_variabile}).
-			\item[6)] eseguire il comando \inglese{commit} per eseguire l'interrogazione a database ed ottenere la lista di valori da ritornare.
+			\item[5)] eseguire una serie di comandi di tipo \texttt{setString} per ogni elemento della \inglese{query} d'interrogazione (dove per elemento si intende ogni valore di filtraggio presente nelle clausole \inglese{where} delle \inglese{query} HQL, segnato come \texttt{:nome\_variabile}).
+			\item[6)] eseguire il comando \inglese{commit} per l'interrogare il database ed ottenere la lista di valori da ritornare.
 		\end{itemize}
 		
 Il metodo deve terminare chiudendo la sessione aperta al punto 2.
