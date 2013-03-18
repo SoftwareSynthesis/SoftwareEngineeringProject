@@ -309,7 +309,7 @@ function AddressBookPanelPresenter(url) {
     this.removeContact = function(contact) {
         //controllo se presente nella rubrica
         if (!this.contactAlreadyPresent(contact))
-            return false;
+            throw "Non puoi eliminare un contatto non presente in rubrica.";
 
         //invio la richiesta al server e attendo il risultato
         var request = new XMLHttpRequest();
@@ -328,7 +328,7 @@ function AddressBookPanelPresenter(url) {
             this.setup();
             return true;
         }
-        return false;
+        throw "Ops... qualcosa è andato storto nel server.";
     };
 
     /**
@@ -342,7 +342,7 @@ function AddressBookPanelPresenter(url) {
     this.addContactInGroup = function(contact, group) {
         //controllo che il contatto non sia già presente nel gruppo
         if (contactExistInGroup(contact, group))
-            return false;
+            throw "Il contatto è già presente nel gruppo.";
 
         //invio la richiesta al server e attendo il risultato
         var request = new XMLHttpRequest();
@@ -362,11 +362,11 @@ function AddressBookPanelPresenter(url) {
             this.setup();
             return true;
         }
-        return false;
+        throw "Ops... qualcosa è andato storto nel server.";
     };
 
     /**
-     * Elimina un contatto della propria rubrica ad un proprio gruppo
+     * Elimina un contatto della propria rubrica da un proprio gruppo
      *
      * @author Riccardo Tresoldi
      * @param {Number} contact rappresenta l'id del contatto da eliminare al gruppo
@@ -374,9 +374,9 @@ function AddressBookPanelPresenter(url) {
      * @returns {Boolean} true solo se l'eliminazione ha avuto successo
      */
     this.deleteContactFromGroup = function(contact, group) {
-        //controllo che il contatto non sia già presente nel gruppo
+        //controllo che il contatto sia presente nel gruppo
         if (!contactExistInGroup(contact, group))
-            return false;
+            throw "Il contatto non è presente nel gruppo.";
 
         //invio la richiesta al server e attendo il risultato
         var request = new XMLHttpRequest();
@@ -395,7 +395,7 @@ function AddressBookPanelPresenter(url) {
             this.setup();
             return true;
         }
-        return false;
+        throw "Ops... qualcosa è andato storto nel server.";
     };
 
     /**
@@ -425,7 +425,7 @@ function AddressBookPanelPresenter(url) {
             this.setup();
             return true;
         }
-        return false;
+        throw "Ops... qualcosa è andato storto nel server.";
     };
 
     /**
@@ -443,7 +443,7 @@ function AddressBookPanelPresenter(url) {
                 existGroup = true;
         }
         if (!existGroup)
-            return false;
+            throw "Il gruppo che stai cercando di eliminare non esiste.";
 
         //invio la richiesta al server e attendo il risultato
         var request = new XMLHttpRequest();
@@ -462,7 +462,7 @@ function AddressBookPanelPresenter(url) {
             this.setup();
             return true;
         }
-        return false;
+        throw "Ops... qualcosa è andato storto nel server.";
     };
 
     /**
@@ -564,7 +564,7 @@ function AddressBookPanelPresenter(url) {
         if (!this.contactAlreadyPresent(contact)) {
             throw "Contatto non presente nella rubrica.";
         }
-        if(contact.blocked){
+        if (contact.blocked) {
             throw "Contatto già bloccato.";
         }
 
@@ -587,7 +587,7 @@ function AddressBookPanelPresenter(url) {
         }
         throw "Ops... qualcosa è andato storto nel server.";
     };
-    
+
     /**
      * Funzione che sblocca l'utente passato per parametro
      *
@@ -600,7 +600,7 @@ function AddressBookPanelPresenter(url) {
         if (!this.contactAlreadyPresent(contact)) {
             throw "Contatto non presente nella rubrica.";
         }
-        if(!contact.blocked){
+        if (!contact.blocked) {
             throw "Contatto già sbloccato.";
         }
 
@@ -623,12 +623,6 @@ function AddressBookPanelPresenter(url) {
         }
         throw "Ops... qualcosa è andato storto nel server.";
     };
-
-    /* TODO:
-     * - bloccare un utente
-     * - ordinamento rubrica
-     * - popolare la select dei gruppi
-     */
 
     /* OPERATION ON SERVER:
      * -  0 = ottieni i contatti della rubrica
@@ -662,6 +656,7 @@ function AddressBookPanelPresenter(url) {
      * FILE JSON CHE RAFFIGURA I GRUPPI
      * {
      *      "idGruppo1":{   "name": "",
+     *                      "id": "",
      *                      "contacts": [
      *                                      1,
      *                                      2,
