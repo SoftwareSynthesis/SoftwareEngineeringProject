@@ -66,7 +66,7 @@ function PresenterMediator() {
      * @author Diego Beraldin
      */
     this.buildRegistrationUI = function() {
-        presenter["register"].initialize();
+        presenters["register"].initialize();
     };
 
     /** Funzione da scatenare nel momento in cui è selezionato un contatto,
@@ -89,7 +89,11 @@ function PresenterMediator() {
      * @author Diego Beraldin
      */
     this.onContactAdded = function(userID) {
-        this.presenters["addressbook"].addContact(userID);
+        try {
+            presenters["addressbook"].addContact(userID);
+        } catch(err) {
+            alert(err);
+        }
     };
 
     /**
@@ -100,7 +104,7 @@ function PresenterMediator() {
      * @param {Number} userID rappresenta l'id del contato da rimuovere
      */
     this.onContactRemoved = function(userID) {
-        this.presenters["addressbook"].removeContact(userID);
+        presenters["addressbook"].removeContact(userID);
     };
 
     /**
@@ -111,7 +115,7 @@ function PresenterMediator() {
      * @param {String} name rappresenta il nome del gruppo da aggiungere
      */
     this.onGroupAdded = function(name) {
-        this.presenters["addressbook"].addGroup(name);
+        presenters["addressbook"].addGroup(name);
     };
 
     /**
@@ -122,7 +126,7 @@ function PresenterMediator() {
      * @param {Number} group rappresenta l'id del gruppo da rimuovere
      */
     this.onGroupRemoved = function(group) {
-        this.presenters["addressbook"].removeGroup(contact);
+        presenters["addressbook"].removeGroup(contact);
     };
 
     /**
@@ -134,7 +138,7 @@ function PresenterMediator() {
      * @param {Number} group rappresenta l'id del gruppo in cui aggiungere il contatto
      */
     this.onContactAddeddInGroup = function(contact, group) {
-        this.presenters["addressbook"].addContactInGroup(contact, group);
+        presenters["addressbook"].addContactInGroup(contact, group);
     };
 
     /**
@@ -146,7 +150,7 @@ function PresenterMediator() {
      * @param {Number} group rappresenta l'id del gruppo da cui rimuovere il contatto
      */
     this.onContactRemovedFromGroup = function(contact, group) {
-        this.presenters["addressbook"].removeContactFromGroup(contact, group);
+        presenters["addressbook"].removeContactFromGroup(contact, group);
     };
 
     /**
@@ -199,7 +203,7 @@ function PresenterMediator() {
      */
     //FIXME non so se serve questa funzione dato che l'applicazione dei filtri avviene tra AddressBookPP e se stesso
     this.onFiltredApplyedByParam = function(param) {
-        this.presenters["addressbook"].applyFilterByString(param);
+        presenters["addressbook"].applyFilterByString(param);
     };
 
     /**
@@ -211,7 +215,7 @@ function PresenterMediator() {
      */
     //FIXME non so se serve questa funzione dato che l'applicazione dei filtri avviene tra AddressBookPP e se stesso
     this.onFiltredApplyedByGroup = function(group) {
-        this.presenters["addressbook"].applyFilterByGroup(group);
+        presenters["addressbook"].applyFilterByGroup(group);
     };
 
     /**

@@ -5,7 +5,12 @@
   $password = isset($_POST["password"])? $_POST["password"]: "";
   
   if ($operation == 1) {
-    echo "";
+  	$user = array();
+  	$user["name"] = "Laura";
+  	$user["surname"] = "Pausini";
+  	$user["picturePath"] = "xxx.png";
+  	$user["id"] = 0;
+    echo json_encode($user, JSON_PRETTY_PRINT);
   } elseif ($operation == 2) {
     $user = array();
     $user["username"] = $username;
@@ -22,6 +27,12 @@
     echo json_encode($user, JSON_PRETTY_PRINT);
   } elseif ($operation == 3) {
   	echo "Come si chiama la mia gatta?";
+  } elseif ($operation == 4) {
+    if ($username == "laupau@gmail.com" && $_POST["answer"] == "tricolore") {
+      echo "true";
+    } else {
+      echo "false";
+    }
   }
 
 ?>

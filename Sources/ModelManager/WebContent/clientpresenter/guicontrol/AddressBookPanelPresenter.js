@@ -114,8 +114,8 @@ function AddressBookPanelPresenter(url) {
                 statePictureUrl = "img/stateoffline.png";
                 break;
         }
-        stateNode.setAttribute("src", statePictureUrl);
-        //stateNdoe.setAttribute("class", "");
+        stateNode.src = statePictureUrl;
+        //stateNdoe.class="";
 
         //imposto il valore dell'<li>
         item.appendChild(avatarNode);
@@ -145,7 +145,7 @@ function AddressBookPanelPresenter(url) {
     };
 
     /**
-     * Controlla se un contatto è presente un un gruppo
+     * Controlla se un contatto è presente nel gruppo passato come parametro
      *
      * @author Riccardo Tresoldi
      * @param {Number} idContact id del contatto da verificare se presente nel gruppo
@@ -153,18 +153,19 @@ function AddressBookPanelPresenter(url) {
      * @return {Boolean} ritorna true solo se il contatto è presente nel gruppo
      */
     function contactExistInGroup(idContact, idGroup) {
-        //FIXME controllare che sia corretta
-        var exist = false;
-        for (var contactsGroup in contacts[idContact]) {
-            if (contactsGroup == idGroup)
-                exist = true;
+        //FIXME controllare che sia logicamente corretta
+        var group = groups[idGroup];
+        for (var contact in group.contacts) {
+            if (contacts == idContacts)
+                return true;
         }
-        return exist;
+        return false;
     };
 
     /**********************************************************
      METODI PUBBLICI
      ***********************************************************/
+
     /**
      * Inizializza 'AddressBookPanel' e lo popola con i contatti della rubrica
      *
@@ -252,7 +253,7 @@ function AddressBookPanelPresenter(url) {
         selectGroup.innerHTML = "";
         //ciclo i gruppi e li aggiungo alla <select>
         for (var group in groups) {
-            addOptionToSelect(selectGroup, groups[group].id, groups[group].name)
+            addOptionToSelect(selectGroup, group, groups[group].name);
         }
     };
 
@@ -274,8 +275,9 @@ function AddressBookPanelPresenter(url) {
      */
     this.addContact = function(contact) {
         //controllo che non sia già presente nella rubrica
-        if (this.contactAlreadyPresent(contact))
-            return false;
+        if (this.contactAlreadyPresent(contact)) {
+            throw "Contatto già presente nella rubrica.";
+        }
 
         //invio la richiesta al server e attendo il risultato
         var request = new XMLHttpRequest();
@@ -294,7 +296,7 @@ function AddressBookPanelPresenter(url) {
             this.setup();
             return true;
         }
-        return false;
+        throw "Errore sconosciuto nel server.";
     };
 
     /**
@@ -359,9 +361,8 @@ function AddressBookPanelPresenter(url) {
             getAddressBookContacts();
             this.setup();
             return true;
-        } else {
-            return false;
         }
+        return false;
     };
 
     /**
@@ -393,9 +394,8 @@ function AddressBookPanelPresenter(url) {
             getAddressBookContacts();
             this.setup();
             return true;
-        } else {
-            return false;
         }
+        return false;
     };
 
     /**
@@ -424,9 +424,8 @@ function AddressBookPanelPresenter(url) {
             getAddressBookContacts();
             this.setup();
             return true;
-        } else {
-            return false;
         }
+        return false;
     };
 
     /**
@@ -440,7 +439,7 @@ function AddressBookPanelPresenter(url) {
         //controllo che il gruppo esista
         var existGroup = false;
         for (var group in groups) {
-            if (group.id == idGroup)
+            if (group == idGroup)
                 existGroup = true;
         }
         if (!existGroup)
@@ -462,9 +461,8 @@ function AddressBookPanelPresenter(url) {
             getAddressBookContacts();
             this.setup();
             return true;
-        } else {
-            return false;
         }
+        return false;
     };
 
     /**
@@ -574,14 +572,31 @@ function AddressBookPanelPresenter(url) {
      * - 10 = restituire una ricerca
      */
 
-    /*FILE JSON CHE RAFFIGURA LA RUBRICA
+    /*
+     * FILE JSON CHE RAFFIGURA LA RUBRICA
      * {
-     *      "idUser1":{"nome": "uno", "gruppi": {1:"gruppo1", 2:"gruppo2", 3:"gruppo3"}, "campo3": "valore", "campo4": "valore"},
-     *      "idUser2":{"nome": "uno", "gruppi": {1:"gruppo1", 2:"gruppo2", 3:"gruppo3"}, "campo3": "valore", "campo4": "valore"},
+     *      "idUser1":{ "name": "",
+     *                  "surname": "",
+     *                  "email": "",
+     *                  "id": ""
+     *                  "picturePath": ""
+     *                  "state": ""
+     *                },
+     *
+     *      "idUser2": {.......},
      * }
      *
+     * FILE JSON CHE RAFFIGURA I GRUPPI
      * {
+     *      "idGruppo1":{   "name": "",
+     *                      "contacts": [
+     *                                      1,
+     *                                      2,
+     *                                      3
+     *                                  ]
+     *                 },
      *
+     *      "idGruppo2": {........}.
      * }
      */
 }

@@ -684,17 +684,6 @@ Gli utenti, inoltre, possono essere opzionalmente organizzati in gruppi: un cont
 
 Tale interfaccia, congiuntamente alla sua implementazione \texttt{abook.Group}, permettono di rappresentare i gruppi della rubrica di un utente.
 
-Infine, dal momento che gli utenti del sistema sono dotati di uno stato, è prevista la presenza di un'enumerazione \texttt{abook.State} all'interno delle istanze di \texttt{abook.UserData}.
-
-In una prima realizzazione del prodotto si è scelto di implementare i seguenti stati:
-\begin{itemize}
-  \item \inglese{offline}, quando un utente è disconnesso;
-  \item \inglese{online}/disponibile, cioè lo stato in cui si trova un utente in linea e disponibile ad accettare comunicazioni audio o audio/video in ingresso;
-  \item \inglese{online}/occupato, quando un utente è in linea ma impegnato in una conversazione oppure ha impostato il proprio stato a non disponibile.
-\end{itemize}
-
-Per permettere agli utenti dei sistema di osservare lo stato degli altri utenti e di notificare agli altri i cambiamenti del proprio, ad ogni cambio di stato, l'utente non farà altro che notificare l'evento alla servlet \texttt{connection.ConnectionManager}. Quest'ultima si preoccuperà di aggiornare gli utenti aventi in rubrica l'utente il cui stato è cambiato.
-
 Infine, sono state predisposte due \inglese{servlet} che estendono \texttt{javax.servlet.http.HttpServlet} per fornire ai client l'accesso alle funzionalità contenute in questo componente, in particolare \texttt{abook.AccountManager}, \texttt{abook.AddressBookManager} che saranno descritte con maggiori dettagli nella sezione \vref{sec:cs07}.
 
 	\item{\scshape\bfseries Diagramma delle classi:}
@@ -712,10 +701,8 @@ Infine, sono state predisposte due \inglese{servlet} che estendono \texttt{javax
 	  \item[-] \texttt{abook.Group}
 	  \item[-] \texttt{abook.IUserData}
 	  \item[-] \texttt{abook.UserData}
-	  \item[-] \texttt{abook.State}
 	  \item[-] \texttt{abook.AccountManager}
 	  \item[-] \texttt{abook.AddressBookManager}
-	  \item[-] \texttt{abook.StateManager}
 	  \item[-] \texttt{javax.servlet.http.HttpServlet}
 	\end{itemize}
 \end{description}
@@ -817,7 +804,7 @@ La mappatura fra componenti del server e le rispettive \inglese{servlet} di Faç
 \toprule
 \textbf{\rmfamily Componente} & \textbf{\rmfamily Servlet di Façade}\\
 \midrule
-CS02 -- Gestione connessione & connection.ConnectionManager\\
+CS02 -- Gestione connessione & connection.ChannelServlet\\
 CS03 -- Gestione rubrica & abook.AddressBookManager abook.AccountManager\\
 CS04 -- Gestione autenticazione & authentication.LoginManager\\
 CS05 -- Gestione segreteria & message.MessageManager\\
@@ -826,7 +813,7 @@ CS06 -- Gestione chiamate & call.CallHistoryManager\\
 \end{tabular}
 \end{center}
 
-In particolare \texttt{connection.ConnectionManager} è coinvolto dopo la fase di \inglese{login}, una volta che è stata accertata la validità dell'autenticazione, e interagisce con \textsf{Gestione connessione} allo scopo di creare un canale di comunicazione fra il server e il client, secondo le modalità illustrate nella sezione \ref{sec:cs02}.\footnote{%
+In particolare \texttt{connection.ChannelServlet} è coinvolto dopo la fase di \inglese{login}, una volta che è stata accertata la validità dell'autenticazione, e interagisce con \textsf{Gestione connessione} allo scopo di creare un canale di comunicazione fra il server e il client, secondo le modalità illustrate nella sezione \ref{sec:cs02}.\footnote{%
 Tale classe, come anticipato nella descrizione a pagina \pageref{sec:cs02}, non è in realtà sottotipo diretto di \texttt{javax.servlet.http.HttpServlet}, ma estende \texttt{org.apache.catalina.websocket.WebSocketServlet} che a sua volta è sottoclasse di \texttt{javax.servlet.http.HttpServlet}.
 }
 
@@ -843,6 +830,7 @@ Il fatto che siano presenti sette \inglese{servlet} a fronte di cinque component
 Da una parte, non è prevista la presenza di alcun punto d'accesso diretto dai client a \textsf{Gestione database}, dal momento che le informazioni contenute in quest'ultimo sono manipolate dalle classi DAO a loro volta utilizzate dagli altri Façade.
 
 Dall'altra i dati rappresentati in \textsf{Gestione rubrica} necessitano di essere trattati in maniera radicalmente differente a seconda che si tratti di informazioni relative all'utente associato al client da cui proviene la richiesta al server (tramite \texttt{abook.AccountManager}) o a un semplice contatto della rubrica di quest'ultimo (tramite \texttt{abook.AddressBookManager}), mentre le richieste relative ai cambiamenti di stato sono gestite da \texttt{connection.ConnectionManager}. Ciò giustifica la presenza di tre distinte \inglese{servlet} di Façade.
+Si noti che al componente non è dedicato un package, infatti ognuna delle \inglese{servlet} è contenuta nel package del componente di cui è il Façade.  
 
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -853,7 +841,7 @@ Dall'altra i dati rappresentati in \textsf{Gestione rubrica} necessitano di esse
 
 Il diagramma in figura \ref{fig:facadeserver} rappresenta la gerarchia delle \inglese{servlet} di Façade ma non mostra in dettaglio le dipendenze fra ognuna di queste e i componenti interni ai sotto-package \texttt{abook}, \texttt{authentication}, \texttt{call}, \texttt{connection} e \texttt{message} per non appesantire troppo la notazione.
 
-Tali dipendenze, di fondamentale importanza per l'architettura, sono però riportate nei diagrammi in figura \vref{fig:gestioneconnessione} per il componente \textsf{Gestione connessione}, figura \vref{fig:gestionerubrica} per \textsf{Gesione rubrica}, figura \vref{fig:gestioneautenticazione} per \textsf{Gestione autenticazione}, figura \vref{fig:gestionesegreteria} per \textsf{Gesione segreteria} e figura \vref{fig:gestionechiamate} per \textsf{Gestione chiamate}.
+Tali dipendenze, di fondamentale importanza per l'architettura, sono però riportate nei diagrammi in figura \vref{fig:gestioneconnessione} per il componente \textsf{Gestione connessione}, figura \vref{fig:gestionerubrica} per \textsf{Gestione rubrica}, figura \vref{fig:gestioneautenticazione} per \textsf{Gestione autenticazione}, figura \vref{fig:gestionesegreteria} per \textsf{Gestione segreteria} e figura \vref{fig:gestionechiamate} per \textsf{Gestione chiamate}.
 
 Esse sono altresì riportate nel diagramma \vref{fig:sottoarchserver} relativo all'intera sotto-architettura server, e compaiono anche in tutti i diagrammi della sezione \vref{sec:patternfacade} in cui è descritta con maggiori dettagli l'applicazione del \inglese{design pattern} Façade.
 	
@@ -862,7 +850,7 @@ Esse sono altresì riportate nel diagramma \vref{fig:sottoarchserver} relativo a
 	  \item[-] \texttt{abook.AccountManager}
 	  \item[-] \texttt{abook.AddressBookManager}
 	  \item[-] \texttt{call.CallHistoryManager}
-	  \item[-] \texttt{connection.ConnectionManager}
+	  \item[-] \texttt{connection.ChannelServlet}
 	  \item[-] \texttt{message.MessageManager}
     \item[-] \texttt{authentication.LoginManager}
 	  \item[-] \texttt{javax.servlet.http.HttpServlet}
