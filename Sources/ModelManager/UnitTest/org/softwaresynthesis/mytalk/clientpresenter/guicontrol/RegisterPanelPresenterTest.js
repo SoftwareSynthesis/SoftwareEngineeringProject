@@ -285,7 +285,7 @@ test("testGetName()", function() {
 	element.removeChild(inputName);
 });
 
-test("testGetSurame()", function() {
+test("testGetSurname()", function() {
 	// crea lo stub di interfaccia grafica
 	var inputSurname = document.createElement("input");
 	inputSurname.id = "lastname";
