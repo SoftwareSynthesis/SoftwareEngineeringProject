@@ -152,6 +152,7 @@ test("testGetPicturePath()", function() {
 	// invoca il metodo da testare
 	var picturePath = tester.getPicturePath();
 	equal(picturePath, inputPicture.value, "percorso dell'immagine recuperato correttamente");
+	element.removeChild(inputPicture);
 });
 
 test("testGetUsername()", function() {
@@ -187,6 +188,7 @@ test("testGetUsername()", function() {
 		equal(err, "indirizzo email non valido", "email malformato rilevato correttamente"); i++;
 	}
 	
+	element.removeChild(inputUsername);
 	expect(i);
 });
 
@@ -214,6 +216,7 @@ test("testGetPassword()", function() {
 		equal(err, "valore non specificato", "password mancante rilevata correttamente"); i++;
 	}
 	
+	element.removeChild(inputPassword);
 	expect(i);
 });
 
@@ -239,6 +242,7 @@ test("testGetQuestion()", function() {
 		equal(err, "valore non specificato", "domanda segreta mancante rilevata correttamente"); i++;
 	}
 	
+	element.removeChild(inputSecretQ);
 	expect(i);
 });
 
@@ -264,6 +268,7 @@ test("testGetAnswer()", function() {
 		equal(err, "valore non specificato", "risposta mancante rilevata correttamente"); i++;
 	}
 	
+	element.removeChild(inputAnswer);
 	expect(i);
 });
 
@@ -277,6 +282,7 @@ test("testGetName()", function() {
 	// invoca il metodo da testare
 	var name = tester.getName();
 	equal(name, inputName.value, "nome recuperato correttamente");
+	element.removeChild(inputName);
 });
 
 test("testGetSurame()", function() {
@@ -289,4 +295,5 @@ test("testGetSurame()", function() {
 	// invoca il metodo da testare
 	var surname = tester.getSurname();
 	equal(surname, inputSurname.value, "cognome recuperato correttamente");
+	element.removeChild(inputSurname);
 });

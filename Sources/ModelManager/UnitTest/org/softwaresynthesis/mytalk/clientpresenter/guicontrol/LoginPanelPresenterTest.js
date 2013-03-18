@@ -3,7 +3,6 @@ module ("LoginPanelPresenterTest", {
         function() {
     	element = document.createElement("div");
     	element.setAttribute("id", "LoginPanel");
-    	// grazie Ombretta
     	element.style.position = "absolute";
     	element.style.left ="-999em";
     	document.body.appendChild(element);
@@ -118,7 +117,9 @@ test("testLogin()", function() {
 
 
 test("testGetUsername()", function() {
-	// questo è uno stub
+	var i = 0;
+	
+	// questo è uno stub di interfaccia grafica
 	var form = document.createElement("form");
 	form.style.display = "none";
 	var input = document.createElement("input");
@@ -126,13 +127,35 @@ test("testGetUsername()", function() {
 	input.value = "laurapausini@gmail.com";
 	form.appendChild(input);
 	document.body.appendChild(form);
+	
+	// invoca il metodo da testare
 	var username = tester.getUsername();
-	equal(username, "laurapausini@gmail.com", "nome utente recuperato correttamente");
+	equal(username, "laurapausini@gmail.com", "nome utente recuperato correttamente"); i++;
+	
+	// verifica se rileva username mancante
+	input.value = "";
+	try {
+		tester.getUsername();
+		ok(false, "indirizzo email mancante non rilevato"); i++;
+	} catch (err) {
+		equal(err, "valore non specificato", "indirizzo email mancante rilevato correttamente"); i++;
+	}
+	
+	//verifica se rileva indirizzo email malformato
+	input.value = "laupau-gmail.com";
+	try {
+		tester.getUsername();
+		ok(false, "indirizzo email malformato non rilevato"); i++;
+	} catch (err) {
+		equal(err, "indirizzo email non valido"); i++;
+	}
+	
 	document.body.removeChild(form);
-	//TODO prova inserire username sbagliato/vuoto (aggiornare doc test)
+	expect(i);
 });
 
 test("testGetPassword()", function() {
+	var i = 0;
 	// questo è uno stub
 	var form = document.createElement("form");
 	form.style.display = "none";
@@ -141,10 +164,22 @@ test("testGetPassword()", function() {
 	input.value = "opera";
 	form.appendChild(input);
 	document.body.appendChild(form);
+	
+	// invoca il metodo da testare
 	var password = tester.getPassword();
-	equal(password, "opera", "password recuperata correttamente");
+	equal(password, "opera", "password recuperata correttamente"); i++;
+	
+	// verifica se rileva password mancante
+	input.value = "";
+	try {
+		tester.getPassword();
+		ok(false, "password mancante non rilevata"); i++;
+	} catch (err) {
+		equal(err, "valore non specificato", "password mancante rilevata correttamente"); i++;
+	}
+	
 	document.body.removeChild(form);
-	//TODO prova inserire password sbagliata/vuota (aggiornare doc test) 
+	expect(i);
 });
 
 //TODO
