@@ -40,7 +40,6 @@ public final class LoginManager extends HttpServlet
 	 * 						provenienti dal client
 	 * @param	response	{@link HttpServletResponse} con i dati
 	 * 						da fornire al client
-	 * @see 	LoginManager#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
@@ -140,8 +139,9 @@ public final class LoginManager extends HttpServlet
 			context = new LoginContext("Configuration", loader);
 			userDAO = new UserDataDAO();
 			context.login();
-			session.setAttribute("LoginContext", context);
 			user = userDAO.getByEmail(username);
+			session.setAttribute("LoginContext", context);
+			session.setAttribute("User", user);
 			result = user.toJson();
 		}
 		catch (Exception ex)

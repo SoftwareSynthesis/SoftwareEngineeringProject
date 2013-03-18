@@ -39,6 +39,7 @@ public class ChannelServlet extends WebSocketServlet implements Servlet {
 	 * @param 	request		{@link HttpServletRequest} oggetto per la richiesta
 	 */
 	@Override
+	
 	protected StreamInbound createWebSocketInbound(String subProtocol, HttpServletRequest request) {
 		PushInbound channelClient = new PushInbound();
 		clients.put(channelClient.getId(), channelClient);
@@ -74,4 +75,28 @@ public class ChannelServlet extends WebSocketServlet implements Servlet {
 		}
 	}
 
+	/**
+	 * Restituisce lo stato di un utente
+	 * 
+	 * @param 	identifier	{@link Long} identificatore
+	 * 						dello {@link IUserData}
+	 * @return	{@link String} con lo stato
+	 */
+	public static String getState(Long identifier)
+	{
+		PushInbound ps = null;
+		State state = null;
+		String result = null;
+		ps = clients.get(identifier);
+		if (ps != null)
+		{
+			state = ps.getState();
+			result = state.toString();
+		}
+		else
+		{
+			result = "offline";
+		}
+		return result;
+	}
 }

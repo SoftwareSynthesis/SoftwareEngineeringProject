@@ -153,7 +153,7 @@ public interface IUserData extends IMyTalkObject
 	 * @return	{@link Set} contente le entry
 	 * 			della rubrica
 	 */
-	public Set<AddressBookEntry> getAddressBook();
+	public Set<IAddressBookEntry> getAddressBook();
 	
 	/**
 	 * Aggiunge alla rubrica personale un
@@ -162,7 +162,7 @@ public interface IUserData extends IMyTalkObject
 	 * @param 	addressBook	{@link Set} contentente
 	 * 						la rubrica utente
 	 */
-	public void setAddressBook(Set<AddressBookEntry> addressBook);
+	public void setAddressBook(Set<IAddressBookEntry> addressBook);
 	
 	/**
 	 * Aggiunge un nuovo contatto alla rubrica

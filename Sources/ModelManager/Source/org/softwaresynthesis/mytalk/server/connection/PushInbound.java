@@ -9,7 +9,7 @@ import java.util.Set;
 import org.apache.catalina.websocket.MessageInbound;
 import com.google.gson.*;
 
-import org.softwaresynthesis.mytalk.server.abook.AddressBookEntry;
+import org.softwaresynthesis.mytalk.server.abook.IAddressBookEntry;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
 import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
 
@@ -85,11 +85,11 @@ public class PushInbound extends MessageInbound {
 			if(status.equals("occupied")){setState(State.OCCUPIED);}
 			
 			//ricavo tutti gli amici con metodo da definire
-			Set<AddressBookEntry> friends= utente.getAddressBook();
-			Iterator<AddressBookEntry> iter = friends.iterator();
+			Set<IAddressBookEntry> friends= utente.getAddressBook();
+			Iterator<IAddressBookEntry> iter = friends.iterator();
 			while(iter.hasNext())
 			{
-				AddressBookEntry entry = (AddressBookEntry)iter.next();
+				IAddressBookEntry entry = (IAddressBookEntry)iter.next();
 				Long idFriend=entry.getContact().getId();
 				PushInbound sendTo= ChannelServlet.findClient(idFriend);
 				String msg = "5|" + id + "|" + state;

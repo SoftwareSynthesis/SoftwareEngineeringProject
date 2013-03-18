@@ -193,7 +193,7 @@ public class AddressBookEntry implements IAddressBookEntry
 		if (obj instanceof AddressBookEntry)
 		{
 			entry = (AddressBookEntry)obj;
-			result = this.id.equals(entry.id);
+			result = this.contact.equals(entry.contact) && this.owner.equals(entry.owner);
 		}
 		return result;
 	}

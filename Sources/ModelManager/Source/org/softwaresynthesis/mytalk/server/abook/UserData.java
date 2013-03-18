@@ -12,7 +12,7 @@ import java.util.Set;
 public class UserData implements IUserData 
 {
 	private Long id;
-	private Set<AddressBookEntry> addressBook;
+	private Set<IAddressBookEntry> addressBook;
 	private String mail;
 	private String password;
 	private String question;
@@ -26,7 +26,7 @@ public class UserData implements IUserData
 	 */
 	public UserData()
 	{
-		this.addressBook = new HashSet<AddressBookEntry>();
+		this.addressBook = new HashSet<IAddressBookEntry>();
 	}
 	
 	/**
@@ -275,7 +275,7 @@ public class UserData implements IUserData
 	 * 			dell'utente
 	 */
 	@Override
-	public Set<AddressBookEntry> getAddressBook()
+	public Set<IAddressBookEntry> getAddressBook()
 	{
 		return this.addressBook;
 	}
@@ -287,7 +287,7 @@ public class UserData implements IUserData
 	 * 						utente
 	 */
 	@Override
-	public void setAddressBook(Set<AddressBookEntry> addressBook)
+	public void setAddressBook(Set<IAddressBookEntry> addressBook)
 	{
 		this.addressBook = addressBook;
 	}
