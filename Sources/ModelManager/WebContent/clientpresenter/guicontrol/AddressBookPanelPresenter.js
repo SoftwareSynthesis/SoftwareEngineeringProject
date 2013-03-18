@@ -547,11 +547,28 @@ function AddressBookPanelPresenter(url) {
         }
     };
 
+    /**
+     * Dato un contatto verifica se appartiene alla rubrica
+     *
+     * @author Riccardo Tresoldi
+     * @param {Object} contact contatto da verificare
+     * @return {Boolean} true solo se presente in rubrica
+     */
+    this.checkIfAlreadyPresent = function(contact) {
+        //riscarco la rubrica
+        getAddressBookContacts();
+        //scorro la rubrica e controllo se contact.id=rubrica.contact.id. ritorno true solo se presente
+        for (var AddressBookContact in contacts) {
+            if (AddressBookContact == contact.id)
+                return true;
+            return false;
+        }
+    };
+
     /* TODO:
      * - bloccare un utente
      * - ordinamento rubrica
      * - popolare la select dei gruppi
-     * -
      */
 
     /* OPERATION ON SERVER:
