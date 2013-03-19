@@ -1002,6 +1002,7 @@ Permette di caricare le credenziali di autenticazione, fornite dall'utente, per 
 	\item \texttt{javax.servlet.ServletException}: eccezione rilancibile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{LoginManager}.
 	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
+	\item \texttt{javax.security.auth.login.LoginContext}: classe usata in \method{doPost()} per eseguite la logout dal sistema.
 	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la servlet (inoltra i dati in uscita dalla chiamata a servlet).
 	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
 	\item \classname{abook.IUserData}: usata per definire un utente.
@@ -1023,7 +1024,7 @@ Permette di caricare le credenziali di autenticazione, fornite dall'utente, per 
 	Metodo di delega che richiama \method{doPost()} passando gli stessi dati in input.
 	
 	\item{\method{\# doPost(request: HttpServletRequest, response: HttpServletResponse): void}}\\
-	Metodo che costituisce il kernel logico di risposta della \inglese{servlet}. Il metodo inizia caricando un istanza di Object i parametri ricevuti mediante \texttt{HttpServletRequest}. Una chiamata a tale \inglese{servlet} corrisponde ad una richiesta di logout e si attua impostando a false la sessione contenuta nell'oggetto HttopServletRequest request. Il metodo procede con la creazione di un istanza  di \texttt{LoginContext} denominata context. Quindi viene effettuata la memorizzazione dell'oggetto ritornato da una chiamata:
+	Metodo che costituisce il kernel logico di risposta della \inglese{servlet}. Il metodo inizia caricando i parametri ricevuti mediante \texttt{HttpServletRequest}. Una chiamata a tale \inglese{servlet} corrisponde ad una richiesta di logout e si attua impostando a false la sessione contenuta nell'oggetto HttopServletRequest request. Il metodo procede con la creazione di un istanza  di \texttt{LoginContext} denominata context. Quindi viene effettuata la memorizzazione dell'oggetto ritornato da una chiamata:
 \\
 \verb|session.getAttribute("LoginContext");|
 \\
@@ -1346,12 +1347,14 @@ Il presenter si occupa anche di fornire delle funzionalità per il recupero dell
 	\item{\method{-- testCredentials(data: String): void}}\\
 Metodo che testa quanto ricevuto dal server e, in caso di login avvenuto correttamente reindirizza il browser nella pagina finale dopo aver salvato i dati dell'utente. Il metodo inizia salvando, in una variabile avente nome user, il contenuto di data trattato attraverso una chiamata \texttt{JSON.parse(data)}. Quindi se il contenuto di user non è nullo si procede richiamando il \texttt{communicationcenter} e impostando il valore di \texttt{communicationcenter.my} a user. Il metodo termina richiamando  il metodo \method{hide()} e avviando la costruzione della UI mediante una chiamata \method{medietor.buildUI()}.
 	
-	\item{\method{+ hasAnsweredCorrectly(username: String, answer: String): boolean}}\\
-Metodo utilizzato per verificare se la risposta alla domanda segreta fornita dall'utente corrisponde a quella impostata in fase di registrazione al sistema. Il metodo riceve 2 parametri d'ingresso: lo username dell'utente e la risposta (answer) da inviare al server. Come primo passo viene creata un istanza di \texttt{XMLHttpRequest} salvata in una variabile avente nome request.
-
-La richiesta al server dovrà avere carattere sincrono e, al ritorno, il testo della risposta dovrà essere recuperato sotto forma di stringa, convertito in un valore JavaScript (\texttt{true} o \texttt{false}) e quindi restituito al chiamante.
+	\item{\method{+ sendAnswer(username: String, answer: String): void}}\\
+	Metodo per inviare la risposta alla domanda segreta al server. Il metodo riceve 2 parametri d'ingresso: lo username dell'utente e la risposta (answer) da inviare al server. Come primo passo viene creata un istanza di \texttt{XMLHttpRequest} salvata in una variabile avente nome request. Quindi associo all'evento onclick di request, una funzione avente il compito di inviare la richiesta AJAX al server, e di richiamare in risposta uno dei seguenti metodi:
+	\begin{itemize}
+		\item \method{correctAnswer()} nel caso la risposta inviata sia corretta;
+		\item \method{incorrectAnswer()} se invece la risposta inviata dall'utente è errata.
+	\end{itemize}
 	
-	\item{\method{- correctAnswer(): void}}\\
+	\item{\method{+ correctAnswer(): void}}\\
 	Metodo usato per modificare il nodo DOM salvato in \memberdata{element}, per comunicare all'utente che la risposta da lui inserita (per il recupero password) è corretta. Il metodo deve rimuovere il figlio ``passwordretrieval'' da \memberdata{element}. quindi salva in una variabile avente nome message, il contenuto di una chiamata \verb|document.createElement("p")|. Successivamente si procede caricando su message (usando il metodo \texttt{appendChild(var\_figlio)}) il messaggio da visualizzare per notificare all'utente il successo dell'operazione. Il messaggio visualizzato dovrà essere: \\
 	
 	\verb|Recupero password avvenuto correttamente.|\\
@@ -1359,7 +1362,7 @@ La richiesta al server dovrà avere carattere sincrono e, al ritorno, il testo d
 	
 il messaggio sopracitato è temporaneo e dovrà essere rimosso allo scadere di un timeout di durata 2000 millisecondi (usare la funzione \texttt{window.setTimeout(nome\_funzione))}.
 	
-	\item{\method{- incorrectAnswer(): void}}\\
+	\item{\method{+ incorrectAnswer(): void}}\\
 	Metodo che In caso di inserimento della risposta non corretta alla domanda segreta, visualizza un messaggio di avvertimento all'utente per 2 secondi quindi lascia il controllo al form di inserimento della risposta alla domanda segreta.
 	
 	Il metodo deve cerare un elemento (\texttt{document.createElement("p")}) per la visualizzazione del messaggio:\\
