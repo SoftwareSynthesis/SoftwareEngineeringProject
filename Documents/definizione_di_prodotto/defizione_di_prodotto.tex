@@ -258,7 +258,7 @@ Poiché l'iter presentato può causare il lancio di un'eccezione, il codice dovr
 Poiché l'iter presentato può causare il lancio di un'eccezione, il codice dovrà essere gestito in un blocco \inglese{try-catch}. Nel caso incorra il lancio tale evento, il flusso di processo dovrà ristabilire la situazione iniziale richiamando il metodo \texttt{rollback()} dell'istanza di tipo \texttt{org.hibernate.Transaction} creata al punto 4 dell'iter. In ogni caso il metodo deve terminare chiudendo la sessione aperta al punto 2.
 
 	\item{\method{+ getByNameAndSurname(name: String, surname: String): List<IUserData>}}\\
-	Metodo usato per eseguire un interrogazione al database atta ad ottenere la lista degli utenti aventi un determinato nome e cognome, riceve come parametro il nome e il cognome da ricercare. Il metodo dovrà eseguire nell'ordine le seguenti operazioni:
+	Metodo usato per effettuare un interrogazione al database atta ad ottenere la lista degli utenti aventi un determinato nome e cognome, riceve come parametri il nome e il cognome da ricercare. Il metodo dovrà eseguire nell'ordine le seguenti operazioni:
 		\begin{itemize}
 			\item[1)] ottenere dalla classe \classname{HibernateUtil} l'istanza tramite il metodo statico \method{getIstance()};
 			\item[2)] ottenere dall'istanza di tipo \classname{HibernateUtil}(ottenuta al punto precedente), un oggetto di tipo \texttt{org.hibernate.SessionFactory}, tramite il metodo \method{getSessionFactory()};
@@ -274,16 +274,16 @@ from UserData as u where u.name = :name or u.surname = :surname
 Il metodo deve terminare chiudendo la sessione aperta al punto 2.
 	
 	\item{\method{+ getByEmail(mail: String): IUserData}}\\
-	Metodo usato per eseguire un interrogazione al database atta ad ottenere l'utente avente un determinato indirizzo e-mail. Il metodo riceve come parametro l'indirizzo e-mail da ricercare. Il metodo dovrà eseguire nell'ordine le seguenti operazioni:
+	Metodo usato per eseguire un interrogazione al database atta ad ottenere l'utente avente un determinato indirizzo e-mail, esso riceve come parametro l'indirizzo e-mail da ricercare. Il metodo dovrà eseguire nell'ordine le seguenti operazioni:
 		\begin{itemize}
 			\item[1)] ottenere dalla classe \classname{HibernateUtil} l'istanza tramite il metodo statico \method{getIstance()};
 			\item[2)] ottenere dall'istanza di tipo \classname{HibernateUtil}(ottenuta al punto precedente), un oggetto di tipo \texttt{org.hibernate.SessionFactory}, tramite il metodo \method{getSessionFactory()};
 			\item[3)] aprire la sessione ottenuta al punto precedente;
-			\item[4)] eseguire il comando \inglese{createQuery()} a partire dall'istanza che definisce la sessione, passando come parametro una stringa rappresentante la \inglese{query} d'interrogazione al database (la \inglese{query} deve restituire dati validi e conformi alle aspettative presentate nell'introduzione di questo metodo). Una prima analisi evidenzia che una \inglese{query} corretta è: 
+			\item[4)] eseguire il comando \inglese{createQuery()} a partire dall'istanza che definisce la sessione, passando come parametro una stringa rappresentante la \inglese{query} d'interrogazione al database (la \inglese{query} deve restituire dati validi ad essere passati a tale metodo). Una prima analisi evidenzia che la \inglese{query} corretta è: 
 \begin{verbatim}
 from UserData as u where u.mail = :mail
 \end{verbatim}
-			\item[5)] eseguire una serie di comandi di tipo \texttt{setString} per ogni ``variabile'' presente nella \inglese{query} d'interrogazione (per variabile si intende ogni valore di filtraggio presente nelle clausole \inglese{where} delle \inglese{query} HQL, segnato come \texttt{:nome\_variabile}).
+			\item[5)] eseguire una serie di comandi di tipo \texttt{setString} per ogni elemento della \inglese{query} d'interrogazione (per elemento si intende ogni valore di filtraggio presente nelle clausole \inglese{where} delle \inglese{query} HQL, segnato come \texttt{:nome\_variabile}).
 			\item[6)] eseguire il comando \inglese{commit} per eseguire l'interrogazione a database ed ottenere la lista di valori da ritornare.
 		\end{itemize}
 		
@@ -291,19 +291,19 @@ Il metodo deve terminare chiudendo la sessione aperta al punto 2.
 	
 	
 	\item{\method{+ searchGeneric(value: String): List<IUserData>}}\\
-		Metodo usato per eseguire un interrogazione generica al database atta ad ottenere una lista di utenti aventi: o un determinato indirizzo e-mail, o un determinato nome o un determinato cognome. Il metodo riceve come parametro la stringa da ricercare. Il metodo dovrà eseguire nell'ordine le seguenti operazioni:
+		Metodo usato per eseguire un interrogazione generica al database atta ad ottenere una lista di utenti aventi: o un determinato indirizzo e-mail, o un determinato nome o un determinato cognome; riceve come parametro la stringa da ricercare e dovrà eseguire nell'ordine le seguenti operazioni:
 		\begin{itemize}
 			\item[1)] ottenere dalla classe \classname{HibernateUtil} l'istanza tramite il metodo statico \method{getIstance()};
 			\item[2)] ottenere dall'istanza di tipo \classname{HibernateUtil}(ottenuta al punto precedente), un oggetto di tipo \texttt{org.hibernate.SessionFactory}, tramite il metodo \method{getSessionFactory()};
 			\item[3)] aprire la sessione ottenuta al punto precedente;
-			\item[4)] eseguire il comando \inglese{createQuery()} a partire dall'istanza che definisce la sessione, passando come parametro una stringa rappresentante la \inglese{query} d'interrogazione al database (la \inglese{query} deve restituire dati validi e conformi alle aspettative presentate nell'introduzione di questo metodo). Una prima analisi evidenzia che una \inglese{query} corretta è: 
+			\item[4)] eseguire il comando \inglese{createQuery()} a partire dall'istanza che definisce la sessione, passando come parametro una stringa rappresentante la \inglese{query} d'interrogazione al database (la \inglese{query} deve restituire dati validi ad essere passati a tale metodo). Una prima analisi evidenzia che la \inglese{query} corretta è: 
 \begin{verbatim}
 from UserData as u where u.mail like :mail or u.name like :name or
 \end{verbatim}
 \begin{verbatim}
 u.surname like :surname
 \end{verbatim}
-			\item[5)] eseguire una serie di comandi di tipo \texttt{setString} per ogni ``variabile'' presente nella \inglese{query} d'interrogazione (per variabile si intende ogni valore di filtraggio presente nelle clausole \inglese{where} delle \inglese{query} HQL, segnato come \texttt{:nome\_variabile}).
+			\item[5)] eseguire una serie di comandi di tipo \texttt{setString} per ogni elemento della \inglese{query} d'interrogazione (per elemento si intende ogni valore di filtraggio presente nelle clausole \inglese{where} delle \inglese{query} HQL, segnato come \texttt{:nome\_variabile}).
 			\item[6)] eseguire il comando \inglese{commit} per eseguire l'interrogazione a database ed ottenere la lista di valori da ritornare.
 		\end{itemize}
 		
@@ -322,7 +322,7 @@ Interfaccia rappresentante il comportamento di un generico utente del sistema. L
 
 \begin{itemize}
 	\item \texttt{org.softwaresynthesis.mytalk.server.IMyTalkObject}: interfaccia da estendere. Ogni oggetto che implementerà l'interfaccia \classname{IUserData} dovrà essere in grado di convertire il proprio contenuto informativo in formato Json.
-	\item \classname{AddressBookEntry}: l'interfacci definisce dei metodi per la manipolazione di dati \classname{AddressBookEntry}.
+	\item \classname{AddressBookEntry}: l'interfaccia definisce dei metodi per la manipolazione di dati \classname{AddressBookEntry}.
 \end{itemize}
 
 \subsubsection*{Metodi}
@@ -330,27 +330,27 @@ Interfaccia rappresentante il comportamento di un generico utente del sistema. L
 	\item{\method{+ getId(): Long}}\\
 	Restituisce l'identificatore univoco di uno \classname{IUserData}.
 	\item{\method{+ getEmail(): String}}\\
-	Restituisce l'indirizzo e-mail con cui uno \classname{IUserData} si è registrato nel sistema mytalk.
+	Restituisce l'indirizzo e-mail con cui uno \classname{IUserData} si è registrato nel sistema \caName.
 	\item{\method{+ setEmail(mail: String): void}}\\ 
-	Imposta l'indirizzo e-mail con cui si registra nel sistema mytalk uno \classname{IUserData}.
+	Imposta l'indirizzo e-mail con cui si registra nel sistema \caName uno \classname{IUserData}.
 	\item{\method{+ getPassword(): String}}\\
-	Restituisce la password di accesso al sistema mytalk di uno \classname{IUserData}.
+	Restituisce la password di accesso al sistema \caName di uno \classname{IUserData}.
 	\item{\method{+ setPassword(password: String): void}}\\
 	Imposta la password di accesso al sistema di uno \classname{IUserData}.
 	\item{\method{+ getQuestion(): String}}\\
-	Restituisce la domanda segreta, scelta da uno \classname{IUserData}, per il recupero della password smarrita di accesso al sistema mytalk.
+	Restituisce la domanda segreta, scelta da uno \classname{IUserData}, per il recupero della \textit{password} smarrita di accesso al sistema \caName.
 	\item{\method{+ setQuestion(question: String): void}}\\
-	Imposta la domanda segreta, scelta da uno \classname{IUserData}, per il recupero della password smarrita di accesso al sistema mytalk.
+	Imposta la domanda segreta, scelta da uno \classname{IUserData}, per il recupero della \textit{password} smarrita di accesso al sistema \caName.
 	\item{\method{+ getAnswer(): String}}\\
-	Restituisce la risposta alla domanda per il recupero della password smarrita di accesso al sistema mytalk.
+	Restituisce la risposta alla domanda per il recupero della \textit{password} smarrita di accesso al sistema \caName.
 	\item{\method{+ setAnswer(answer: String): void}}\\
-	Imposta la risposta alla domanda segreta per il recupero della password di accesso al sistema mytalk.
+	Imposta la risposta alla domanda segreta per il recupero della \textit{password} di accesso al sistema \caName.
 	\item{\method{+ getName(): String}}\\
 	Restituisce il nome di uno \classname{IUserData}.
 	\item{\method{+ setName(name: String): void}}\\
 	Imposta il nome di uno \classname{IUserData}.
 	\item{\method{+ getSurname(): String}}\\
-	Resituisce il cognome di uno \classname{IUserData}.
+	Restituisce il cognome di uno \classname{IUserData}.
 	\item{\method{+ setSurname(surname: String): void}}\\
 	Imposta il cognome di uno \classname{IUserData}.
 	\item{\method{+ getPicturePath(): String}}\\
@@ -360,18 +360,18 @@ Interfaccia rappresentante il comportamento di un generico utente del sistema. L
 	\item{\method{+ getAddressBook(): Set<AddressBookEntry>}}\\
 	Metodo che ritorna il la rubrica dell'utente sotto forma d'insieme di \classname{AddressBookEntry}.
 	\item{\method{+ addAddressBookEntry(entry: AddressBookEntry): void}}\\
-	Metodo usato per aggiungere una nuova \classname{AddressBookEntry} all'insieme di entry che costituisce la rubrica utente.
+	Metodo usato per aggiungere una nuova \classname{AddressBookEntry} all'insieme di \inglese{entry} che costituisce la rubrica utente.
 \end{description}
 
 \classsection{IGroup}
 
 \subsubsection*{Funzione}
-Interfaccia rappresentante un gruppo di una rubrica utente del sistema mytalk
+Interfaccia rappresentante un gruppo di una rubrica utente del sistema \caName.
 
 \subsubsection*{Relazioni d'uso}
 
 \begin{itemize}
-		\item \texttt{org.softwaresynthesis.mytalk.server.IMyTalkObject}: interfaccia da estendere. Ogni oggetto che implementerà l'interfaccia \classname{IGroup} dovrà essere in grado di convertire il proprio contenuto informativo in formato Json.
+		\item \texttt{org.softwaresynthesis.mytalk.server.IMyTalkObject}: interfaccia da estendere. Ogni oggetto che implementerà l'interfaccia \classname{IGroup} dovrà essere in grado di convertire il proprio contenuto informativo in formato \textit{Json}.
 \end{itemize}
 
 \subsubsection*{Metodi}
@@ -387,20 +387,20 @@ Interfaccia rappresentante un gruppo di una rubrica utente del sistema mytalk
 \classsection{IAddressBookEntry}
 
 \subsubsection*{Funzione}
-Interfaccia rappresentante una entry di una rubrica utente del sistema mytalk
+Interfaccia rappresentante una \textit{entry} di una rubrica utente del sistema mytalk.
 
 \subsubsection*{Relazioni d'uso}
 \begin{itemize}
-	\item \texttt{org.softwaresynthesis.mytalk.server.IMyTalkObject}: interfaccia da estendere. Ogni oggetto che implementerà l'interfaccia \classname{IAddressBookEntry} dovrà essere in grado di convertire il proprio contenuto informativo in formato Json.
-	\item \classname{IUserData}: l'interfaccia \classname{IAddressBookEntry} definisce più metodi che restituiscono oggetti aventi tipo di ritorno \classname{IUserData}. Tali sono i metodi \inglese{get} per ottenere il ``possessore'' della rubrica e per ottenere l'utente registrato nella rubrica. Analogamente \classname{IUserData} viene usato come parametro d'ingresso per i metodi \inglese{set} collegati ai metodi già citati.
+	\item \texttt{org.softwaresynthesis.mytalk.server.IMyTalkObject}: interfaccia da estendere. Ogni oggetto che implementerà l'interfaccia \classname{IAddressBookEntry} dovrà essere in grado di convertire il proprio contenuto informativo in formato \textit{Json}.
+	\item \classname{IUserData}: l'interfaccia \classname{IAddressBookEntry} definisce più metodi che restituiscono oggetti aventi tipo di ritorno \classname{IUserData}, essi sono i metodi \inglese{get} per ottenere il ``proprietario'' della rubrica e per ottenere l'utente registrato nella rubrica. Analogamente \classname{IUserData} viene usato come parametro d'ingresso per i metodi \inglese{set} collegati ai metodi già citati.
 \end{itemize}
 
 \subsubsection*{Metodi}
 \begin{description}
 	\item{\method{+ getId(): Long}}\\
-	Resituisce l'identificativo univoco di una \inglese{entry} di una rubrica utente del sistema mytalk.
+	Restituisce l'identificativo univoco di una \inglese{entry} di una rubrica utente del sistema \caName.
 	\item{\method{+ getEntry(): IUserData}}\\
-	Restituisce un istanza di un oggetto avente tipo \classname{IUserData}, e rappresentante un contatto della rubrica.
+	Restituisce un istanza di un oggetto avente tipo \classname{IUserData} rappresentante un contatto della rubrica.
 	\item{\method{+ setEntry(contact: IUserData): void}}\\
 	Imposta l'utente \classname{IUserData} (passato come parametro d'ingresso) come contatto della rubrica.
 	\item{\method{+ getGroup(): IGroup}}\\
@@ -408,15 +408,15 @@ Interfaccia rappresentante una entry di una rubrica utente del sistema mytalk
 	\item{\method{+ setGroup(group: IGroup): void}}\\
 	Imposta il gruppo di appartenenza dello \classname{IUserData} registrato nella rubrica.
 	\item{\method{+ getOwner(): IUserData}}\\
-	Restituisce lo \classname{IUserData} possesore di questa \inglese{entry} della rubrica
+	Restituisce lo \classname{IUserData} possessore dell'\inglese{entry} corrente della rubrica
 	\item{\method{+ setOwner(owner: IUserData ): void}}\\
-	Imposta l'utente \classname{IUserData} possessore della entry della rubrica.
+	Imposta l'utente \classname{IUserData} possessore della \inglese{entry} della rubrica.
 \end{description}
 
 \classsection{UserData}
 
 \subsubsection*{Funzione}
-Implementazione dell'interfaccia \classname{IUserData}. Un istanza della classe dovrà rappresentare un generico utente del sistema, definendone gli attributi e i metodi per impostare ed ottenere il contenuto dei medesimi.
+Implementazione dell'interfaccia \classname{IUserData}. Un istanza della classe dovrà rappresentare un generico utente del sistema definendone gli attributi e i metodi per impostare ed ottenere il contenuto dei medesimi.
 
 \subsubsection*{Relazioni d'uso}
 
@@ -432,7 +432,7 @@ Implementazione dell'interfaccia \classname{IUserData}. Un istanza della classe 
 	\item{\memberdata{-- mail: String}}
 	Attributo che definisce l'indirizzo e-mail con il quale l'utente si è registrato nel sistema.
 	\item{\memberdata{-- password: String}}
-	Attributo che definisce la password per il login dell'utente nel sistema.
+	Attributo che definisce la password per il \inglese{login} dell'utente nel sistema.
 	\item{\memberdata{-- question: String}}
 	Attributo che definisce la domanda segreta usata dall'utente in caso di smarrimento della password.
 	\item{\memberdata{-- answer: String}}
@@ -442,9 +442,9 @@ Implementazione dell'interfaccia \classname{IUserData}. Un istanza della classe 
 	\item{\memberdata{-- surname: String}}
 	Attributo che definisce il cognome dell'utente.
 	\item{\memberdata{-- path: String}}
-	Attributo che definisce il percorso (su server) in cui è memorizzata l'immagine del profilo dell'utente.
+	Attributo che definisce il percorso (sul server) in cui è memorizzata l'immagine del profilo dell'utente.
 	\item{\memberdata{-- addressBook: Set<AddressBookEntry>}}
-	Attributo che definisce l'insieme di \classname{AddressBookEntry} che costituiscono la rubrica utente.
+	Attributo che definisce l'insieme di \classname{AddressBookEntry} che costituiscono la rubrica dell'utente.
 	
 \end{itemize}
 
@@ -454,45 +454,45 @@ Implementazione dell'interfaccia \classname{IUserData}. Un istanza della classe 
 	\item{\method{+ getId(): Long}}\\
 	Restituisce l'identificatore univoco di un utente, ritornando l'attributo \memberdata{id}.
 	\item{\method{\# setId(id: long): void}}\\
-	Imposta l'indirizzo l'id con cui l'utente si registra nel sistema mytalk. Il metodo non fa altro che sovrascrivere il contenuto dell'attributo \memberdata{id} con il valore tipo long ricevuto come parametro d'ingresso. ritornando l'attributo \memberdata{id}.
+	Imposta l'indirizzo \textit{id} con cui l'utente si registra nel sistema \caName. Il metodo sovrascrive il contenuto dell'attributo \memberdata{id} con il valore tipo \texttt{long} ricevuto come parametro d'ingresso. ritornando l'attributo \memberdata{id}.
 	\item{\method{+ getEmail(): String}}\\
-	Restituisce l'indirizzo e-mail con cui uno l'utente si è registrato nel sistema mytalk, ritornando il contenuto dell'attributo \memberdata{mail}.
+	Restituisce l'indirizzo e-mail con cui uno l'utente si è registrato nel sistema \caName, ritornando il contenuto dell'attributo \memberdata{mail}.
 	\item{\method{+ setEmail(mail: String): void}}\\ 
-	Imposta l'indirizzo e-mail con cui l'utente si registra nel sistema mytalk. Il metodo non fa altro che sovrascrivere il contenuto dell'attributo \memberdata{mail} con il valore tipo String ricevuto come parametro d'ingresso.
+	Imposta l'indirizzo e-mail con cui l'utente si registra nel sistema \caName. Il metodo non fa altro che sovrascrivere il contenuto dell'attributo \memberdata{mail} con il valore tipo \texttt{String} ricevuto come parametro d'ingresso.
 	\item{\method{+ getPassword(): String}}\\
 	Restituisce la password dell'utente, ritornando il valore contenuto nell'attributo \memberdata{password}.
 	\item{\method{+ setPassword(password: String): void}}\\
-	Imposta la password di accesso al sistema, sovrascrivendo il contenuto dell'attributo \memberdata{password} con il valore di tipo String ricevuto come parametro d'ingresso.
+	Imposta la password di accesso al sistema, sovrascrivendo il contenuto dell'attributo \memberdata{password} con il valore di tipo \texttt{String} ricevuto come parametro d'ingresso.
 	\item{\method{+ getQuestion(): String}}\\
-	Restituisce la domanda segreta, scelta dall'utente, per il recupero della password (smarrita) di accesso al sistema mytalk. Nello specifico il metodo ritorna il contenuto dell'attributo \memberdata{question}.
+	Restituisce la domanda segreta, scelta dall'utente, per il recupero della password di accesso al sistema \caName. Nello specifico il metodo restituisce il contenuto dell'attributo \memberdata{question}.
 	\item{\method{+ setQuestion(question: String): void}}\\
-	Imposta la domanda segreta da inserire in caso di smarrimento della password. Il metodo sovrascrive il contenuto dell'attributo \memberdata{question} con il valore tipo String ricevuto come parametro d'ingresso
+	Imposta la domanda segreta da inserire in caso di smarrimento della password. Il metodo sovrascrive il contenuto dell'attributo \memberdata{question} con il valore tipo \texttt{String} ricevuto come parametro d'ingresso
 	\item{\method{+ getAnswer(): String}}\\
-	Restituisce la risposta alla domanda per il recupero della password (smarrita) di accesso al sistema mytalk. Il metodo non fa altro che ritornare il contenuto dell'attributo \memberdata{answer}.
+	Restituisce la risposta alla domanda per il recupero della password (smarrita) di accesso al sistema \caName. Il metodo ritorna il contenuto dell'attributo \memberdata{answer}.
 	\item{\method{+ setAnswer(answer: String): void}}\\
-	Imposta la risposta alla domanda segreta per il recupero della password. Il metodo non fa altro che sovrascrivere il contenuto dell'attributo \memberdata{answer} con il valore tipo String passato come parametro d'ingresso.
+	Imposta la risposta alla domanda segreta per il recupero della password. Il metodo sovrascrive il contenuto dell'attributo \memberdata{answer} con il valore tipo \texttt{String} passato come parametro d'ingresso.
 	\item{\method{+ getName(): String}}\\
 	Restituisce il nome dell'utente ritornando il contenuto dell'attributo \memberdata{name}.
 	\item{\method{+ setName(name: String): void}}\\
-	Imposta il nome dell'utente sovrascrivendo il contenuto dell'attributo \memberdata{name} con il valore tipo String passato al metodo come parametro d'ingresso.
+	Imposta il nome dell'utente sovrascrivendo il contenuto dell'attributo \memberdata{name} con il valore tipo \texttt{String} passato al metodo come parametro d'ingresso.
 	\item{\method{+ getSurname(): String}}\\
-	Restituisce il cognome dell'utente ritornando il contenuto dell'attributo \memberdata{surname}.
+	Restituisce il cognome dell'utente restituendo il contenuto dell'attributo \memberdata{surname}.
 	\item{\method{+ setSurname(surname: String): void}}\\
-	Imposta il cognome dell'utente sovrascrivendo il contenuto dell'attributo \memberdata{surnamename} con il valore tipo String passato al metodo come parametro d'ingresso.
+	Imposta il cognome dell'utente sovrascrivendo il contenuto dell'attributo \memberdata{surnamename} con il valore tipo \texttt{String} passato al metodo come parametro d'ingresso.
 	\item{\method{+ getPicturePath(): String}}\\
-	Restituisce una stringa con il percorso dell'immagine del profilo dell'utente, ritornando il contenuto dell'attributo \memberdata{path}.
+	Restituisce una stringa con il percorso dell'immagine del profilo dell'utente, restituendo il contenuto dell'attributo \memberdata{path}.
 	\item{\method{+ setPicturePath(path: String): void}}\\
-	Imposta il percorso dell'immagine profilo di un utente, sovrascrivendo il contenuto dell'attributo \memberdata{path} con il valore tipo String passato al metodo come parametro d'ingresso
+	Imposta il percorso dell'immagine profilo di un utente, sovrascrivendo il contenuto dell'attributo \memberdata{path} con il valore tipo \texttt{String} passato al metodo come parametro d'ingresso.
 	\item{\method{+ getState(): State}}\\
 	Restituisce lo stato in cui si trova l'utente, ritornando il contenuto dell'attributo \memberdata{state}.
 	\item{\method{+ setState(state: State): void}}\\
 	Imposta lo stato in cui si trova l'utente, sovrascrivendo il contenuto dell'attributo \memberdata{state} con il valore ricevuto come parametro d'ingresso.
 	\item{\method{+ getAddressBook(): Set<AddressBookEntry>}}\\
-	Metodo ritorna il contenuto di \memberdata{addressBook}.
+	Metodo che ritorna il contenuto di \memberdata{addressBook}.
 	\item{\method{+ addAddressBookEntry(entry: AddressBookEntry): void}}\\
-	Metodo usato per aggiungere a \memberdata{addressBook} una nuova \classname{AddressBookEntry} passata come parametro d'ingresso.
+	Metodo usato per aggiungere ad \memberdata{addressBook} una nuova \classname{AddressBookEntry} passata come parametro d'ingresso.
 	\item{\method{+ toJson(): String}}\\
-	Metodo usato per ritornare il contenuto di un istanza di \classname{UserData} sottoforma di stringa formattata in Json. La stringa ritornata deve corrispondere al seguente formato:\\\\
+	Metodo usato per ritornare il contenuto di un istanza di \classname{UserData} sotto forma di stringa formattata in \textit{Json}. La stringa ritornata deve corrispondere al seguente formato:\\\\
 	\verb|{name:"mio_nome",surname:"mio_cognome",email:"mia_mail"|\\\verb|,picturePath:"mia_immagine",id:"mio_id"}|\\
 	
 	dove i valori tra virgolette rappresentano il contenuto dei rispettivi campi dati contenuti nella classe.
@@ -528,7 +528,7 @@ Implementazione dell'interfaccia \classname{IGroup}.
 	\item{\method{+ setName(name: String): void}}\\
 	Imposta il nome di un gruppo di una rubrica utente.
 	\item{\method{+ toJson(): String}}\\
-	Metodo usato per ritornare il contenuto di un istanza di \classname{Group} sottoforma di stringa formattata in Json. La stringa ritornata deve corrispondere al seguente formato:\\\\
+	Metodo usato per ritornare il contenuto di un istanza di \classname{Group} sotto forma di stringa formattata in \textit{Json}. La stringa ritornata deve corrispondere al seguente formato:\\\\
 	\verb|{id:"mio_id",name:"mio_nome"}|\\
 	
 	dove i valori tra virgolette rappresentano il contenuto dei rispettivi campi dati contenuti nella classe.
@@ -558,7 +558,7 @@ Implementazione dell'interfaccia IAddressBookEntry.
 	\item{\memberdata{-- owner: IUserData}}:
 	Attributo destinato ad identificare il possessore dell'istanza di \classname{AddressBookEntry}.
 	\item{\memberdata{-- blocked: boolean}}
-	Attributo booleano necessario per bloccare il contatto. Tale blocco avviene settando l'attributo a \inglese{true}.
+	Attributo booleano necessario per bloccare il contatto. Tale blocco avviene impostando l'attributo a \texttt{true}.
 \end{itemize}
 
 
@@ -566,21 +566,21 @@ Implementazione dell'interfaccia IAddressBookEntry.
 
 \begin{description}
 	\item{\method{+ getId(): Long}}\\
-	Restituisce l'identificativo univoco della \inglese{entry} di una rubrica utente del sistema mytalk. Nello specifico restituisce il contenuto dell'attributo \memberdata{id}.
+	Restituisce l'identificativo univoco della \inglese{entry} di una rubrica utente del sistema \caName, nello specifico il contenuto dell'attributo \memberdata{id}.
 	\item{\method{+ getEntry(): IUserData}}\\
 	Restituisce il contenuto dell'attributo \memberdata{contact}.
 	\item{\method{+ setEntry(contact: IUserData): void}}\\
-	Imposta l'utente \classname{IUserData} (passato come parametro d'ingresso) come contatto della rubrica. Nello specifico imposta il contenuto dell'attributo \memberdata{contact}.
+	Imposta l'utente \classname{IUserData} (passato come parametro d'ingresso) come contatto della rubrica, nello specifico il contenuto dell'attributo \memberdata{contact}.
 	\item{\method{+ getGroup(): IGroup}}\\
-	Restituisce il gruppo a cui appartiene lo \classname{IUserData} registrato nella rubrica. Nello specifico restituisce il contenuto dell'attributo \memberdata{group}.
+	Restituisce il gruppo a cui appartiene lo \classname{IUserData} registrato nella rubrica, nello specifico il contenuto dell'attributo \memberdata{group}.
 	\item{\method{+ setGroup(group: IGroup): void}}\\
-	Imposta il gruppo di appartenenza dello \classname{IUserData} registrato nella rubrica. Nello specifico imposta il contenuto dell'attributo \memberdata{group}.
+	Imposta il gruppo di appartenenza dello \classname{IUserData} registrato nella rubrica, nello specifico il contenuto dell'attributo \memberdata{group}.
 	\item{\method{+ getOwner(): IUserData}}\\
-	Restituisce lo \classname{IUserData} possesore di questa \inglese{entry} della rubrica. Nello specifico restituisce il contenuto dell'attributo \memberdata{owner}.
+	Restituisce lo \classname{IUserData} possesore di questa \inglese{entry} della rubrica, nello specifico il contenuto dell'attributo \memberdata{owner}.
 	\item{\method{+ setOwner(owner: IUserData ): void}}\\
-	Imposta l'utente \classname{IUserData} possessore della entry della rubrica. Nello specifico imposta il contenuto dell'attributo \memberdata{owner}.
+	Imposta l'utente \classname{IUserData} possessore della \textit{entry} della rubrica, nello specifico il contenuto dell'attributo \memberdata{owner}.
 	\item{\method{+ toJson(): String}}\\
-	Metodo usato per ritornare il contenuto di un istanza di \classname{AddressBookEntry} sottoforma di stringa formattata in Json. La stringa ritornata deve corrispondere al seguente formato:\\\\
+	Metodo usato per ritornare il contenuto di un istanza di \classname{AddressBookEntry} sotto forma di stringa formattata in \textit{Json}. La stringa ritornata deve corrispondere al seguente formato:\\\\
 	\verb|{id:"mio_id",contact:"mio_contatto",group:"mia_gruppo",blocked:"bloccato"}|\\
 	
 	dove i valori tra virgolette rappresentano il contenuto dei rispettivi campi dati contenuti nella classe.
@@ -592,7 +592,7 @@ Implementazione dell'interfaccia IAddressBookEntry.
 \classsection{ICall}
 
 \subsubsection*{Funzione}
-Interfaccia che rappresenta una chiamata effettuata dal sistema mytalk. Si ricorda che gli oggetti che implementano tale interfaccia vengono usati per rappresentare lo storico delle chiamate di un utente.
+Interfaccia che rappresenta una chiamata effettuata dal sistema \caName. Gli oggetti che implementano tale interfaccia vengono usati per rappresentare lo storico delle chiamate di un utente.
 
 \subsubsection*{Relazioni d'uso}
 \begin{itemize}
@@ -608,9 +608,9 @@ Interfaccia che rappresenta una chiamata effettuata dal sistema mytalk. Si ricor
 	\item{\method{+ setStartDate(startDate: Date): void}}\\
 	Imposta la data di avvio della chiamata.
 	\item{\method{+ getEndDate(): Date}}\\
-	Restituisce la data di terminazione della chiamata
+	Restituisce la data in cui termina la chiamata
 	\item{\method{+ setEndDate(endDate: Date): void}}\\
-	Imposta la data di terminazione della chiamata.
+	Imposta la data in cui termina la chiamata.
 \end{description}
 
 \classsection{Call}
@@ -653,7 +653,7 @@ Classe che implementa l'interfaccia \classname{ICall}.
 \classsection{IMessage}
 
 \subsubsection*{Funzione}
-Interfaccia che rappresenta un messaggio di segreteria del sistema mytalk.
+Interfaccia che rappresenta un messaggio di segreteria del sistema \caName.
 
 \subsubsection*{Relazioni d'uso}
 \begin{itemize}
@@ -674,7 +674,7 @@ Interfaccia che rappresenta un messaggio di segreteria del sistema mytalk.
 	\item{\method{+ setReceiver(receiver: IUserData): void}}\\
 	Imposta il destinatario del messaggio.
 	\item{\method{+ isNew(): boolean}}\\
-	Restituisce un valore booleano che identifica lo stato del messaggio (``già letto'' se il valore ritornato è \inglese{true}, ``da leggere'' se il valore ritornato è \inglese{false}).
+	Restituisce un valore booleano che identifica lo stato del messaggio (``già letto'' se il valore ritornato è \texttt{true}, ``da leggere'' se il valore ritornato è \texttt{false}).
 	\item{\method{+ setNew(status: boolean): void}}\\
 	Imposta il messaggio come ``già ascoltato'' o come ``da ascoltare''.
 	\item{\method{+ isVideo(): boolean}}\\
@@ -708,9 +708,9 @@ Classe che implementa l'interfaccia \classname{IMessage}.
 	\item{\memberdata{-- receiver: IUserData}}
 	Attributo contenente lo \classname{IUserData} che rappresenta il destinatario del messaggio.
 	\item{\memberdata{-- status: boolean}}
-	Attributo contenente un valore booleano che identifica se il messaggio è stato visionato/ascoltato o meno. L'attributo se impostato a \inglese{true}, designa il messaggio come ``ascoltato''. Invece se impostato a false identifica il messaggio come ``ancora da ascoltare''.
+	Attributo contenente un valore booleano che identifica se il messaggio è stato visionato/ascoltato o meno. L'attributo se impostato a \texttt{true}, designa il messaggio come \textit{ascoltato}. Invece se impostato a \texttt{false} identifica il messaggio come \textit{ancora da ascoltare}.
 	\item{\memberdata{-- video: boolean}}
-	Attributo che stabilisce se il messaggio contiene o meno una traccia video. Si ricorda che ogni messaggio contiene (di \inglese{default}) una traccia audio. Se tale attributo è impostato a \inglese{true} allora il messaggio contiene una traccia video.
+	Attributo che stabilisce se il messaggio contiene o meno una traccia video. Si ricorda che ogni messaggio contiene (di \inglese{default}) una traccia audio. Se tale attributo è impostato a \texttt{true} allora il messaggio contiene una traccia video.
 	\item{\memberdata{-- date: Date}}
 	Attributo che definisce l'orario di invio del messaggio.
 \end{itemize}
@@ -734,7 +734,7 @@ Classe che implementa l'interfaccia \classname{IMessage}.
 	\item{\method{+ isVideo(): boolean}}\\
 	Restituisce il contenuto dell'attributo \memberdata{video}.
 	\item{\method{+ setVideo(video: boolean): void }}\\	
-	Metodo usato per impostare la ``natura'' del messaggio. Nello specifico il metodo imposta il contenuto dell'attributo \memberdata{video} mettendolo a \inglese{true} se il messaggio contiene una traccia video, oppure a \inglese{false} se non la contiene.
+	Metodo usato per impostare la ``natura'' del messaggio, impostando il contenuto dell'attributo \memberdata{video} mettendolo a \texttt{true} se il messaggio contiene una traccia video, oppure a \texttt{false} se non la contiene.
 	\item{\method{+ getDate(): Date}}\\
 	Restituisce la data in cui il mittente ha lasciato il messaggio nella segreteria del destinatario, ritornando il contenuto dell'attributo \memberdata{date}.
 	\item{\method{+ setDate(date: Date): void}}\\
@@ -758,13 +758,13 @@ Nessuna relazione d'uso evidenziata.
 	Cripta la stringa di testo ricevuta come parametro.\\\\
 	Il metodo può lanciare eccezioni:
 	\begin{itemize}
-		\item \exception{Exception}: il metodo può lanciare un'eccezione generica.
+		\item \exception{Exception}: il metodo lancia un'eccezione.
 	\end{itemize}
 	\item{\method{+ decrypt(encryptedText: String)}}\\
 	Decripta la stringa di testo ricevuta come parametro.\\\\
 	Il metodo può lanciare eccezioni:
 	\begin{itemize}
-		\item \exception{Exception}: il metodo può lanciare un'eccezione generica.
+		\item \exception{Exception}: il metodo lancia un'eccezione.
 	\end{itemize}
 \end{description}
 
@@ -775,7 +775,7 @@ Implementazione della strategia di codifica/decodifica con l'uso dell'algoritmo 
 
 \subsubsection*{Relazioni d'uso}
 \begin{itemize}
-	\item \classname{ISecurityStrategy}: interfaccia d'imlementazione
+	\item \classname{ISecurityStrategy}: interfaccia d'implementazione
 	\item \texttt{java.security.Key}: usata per creare un istanza di una chiave durante il processo di criptazione.
 	\item \texttt{javax.crypto.Cipher}: usata per creare un istanza di un oggetto di criptazione che implementa l'algoritmo AES a 128 bit.
 	\item \texttt{javax.crypto.spec.SecretKeySpec}: usata dall'algoritmo di per costruire una chiave segreta a partire da un array di byte.
@@ -800,9 +800,9 @@ Implementazione della strategia di codifica/decodifica con l'uso dell'algoritmo 
 		\item \exception{Exception}: il metodo può lanciare un'eccezione generica.
 	\end{itemize}
 	\item{\method{+ encrypt(plainText: String): String}}\\
-	Metodo usato per criptare un testo di tipo String passato come parametro d'ingresso. Il metodo usa una chiave ottenuta a partire dal metodo \method{generateKey()} in associazione alla classe \texttt{javax.crypto.Cipher} per criptare il testo tramite l'algoritmo AES.
+	Metodo usato per criptare un testo di tipo \texttt{String} passato come parametro d'ingresso. Il metodo usa una chiave ottenuta a partire dal metodo \method{generateKey()} in associazione alla classe \texttt{javax.crypto.Cipher} per criptare il testo tramite l'algoritmo AES.
 	\begin{itemize}
-		\item \exception{Exception}: il metodo può lanciare un'eccezione generica.
+		\item \exception{Exception}: il metodo lancia un'eccezione.
 	\end{itemize}
 	\item{\method{+ decrypt(encryptedText: String)}}\\
 	Decripta la stringa di testo ricevuta come parametro, attuando una procedura inversa a quella presentata nel metodo \method{encrypt(plainText: String)}\\\\
@@ -815,12 +815,12 @@ Implementazione della strategia di codifica/decodifica con l'uso dell'algoritmo 
 \classsection{PrincipalImpl}
 
 \subsubsection*{Funzione}
-Oggetto che permette di identificate univocamente uno IUserData memorizzato nel database del sistema mytalk.
+Oggetto che permette di identificate univocamente uno \texttt{IUserData} memorizzato nel database del sistema \caName.
 
 \subsubsection*{Relazioni d'uso}
 \begin{itemize}
 	\item \texttt{java.io.Serializable}: interfaccia d'implementazione usata per rendere serializzabili le istanze della classe.
-	\item \texttt{java.security.Principal}: interfaccia d'implementazione usata per rendere caratterizzante le istanze della classe.
+	\item \texttt{java.security.Principal}: interfaccia d'implementazione usata per rendere caratterizzate le istanze della classe.
 \end{itemize}
 
 \subsubsection*{Attributi}
@@ -834,13 +834,13 @@ Oggetto che permette di identificate univocamente uno IUserData memorizzato nel 
 \subsubsection*{Metodi}
 \begin{description}
 	\item{\method{+ PrincipalImpl(mail: String)}}\\
-	Classe costruttore. crea un oggetto PrincipalImpl che permetterà di determinare univocamente lo IUserData che ha effettuato il login.
+	Classe costruttore. crea un oggetto \texttt{PrincipalImpl} che permette di determinare univocamente lo \texttt{IUserData} che ha effettuato il login.
 	\item{\method{+ getName(): String}}\\
-	Restituisce l'elemento identificativo (mail dell'utente) dello IUserData che ha effettuato la procedura di login.
+	Restituisce l'elemento identificativo (mail dell'utente) dello \texttt{IUserData} che ha effettuato la procedura di login.
 	\item{\method{+ equals(obj: Object): boolean}}\\
-	Verifica l'uguaglianza di due oggetti PrincipalImpl sulla base di un confronto tra gli indirizzi mail degli utenti confrontati.
+	Verifica l'uguaglianza di due oggetti \texttt{PrincipalImpl} sulla base di un confronto tra gli indirizzi mail degli utenti confrontati.
 	\item{\method{+ hashCode(): int}}\\
-	Restituisc eil codice hash dell'oggetto di invocazione.				\item{\method{+ toString(): String}}\\
+	Restituisce il codice hash dell'oggetto di invocazione.				\item{\method{+ toString(): String}}\\
 	Restituisce l'istanza dell'oggetto sotto forma di stringa. In particolare evidenziando l'indirizzo e-mail dell'utente.
 \end{description}
 
@@ -863,7 +863,7 @@ Restituisce la password fornita in input dall'utente durante la procedura di log
 \classsection{AuthenticationData}
 
 \subsubsection*{Funzione}
-Oggetto contenente i dati di accesso utilizzati da un utente che vuole accedere al sistema mytalk.
+Oggetto contenente i dati di accesso utilizzati da un utente che vuole accedere al sistema \caName.
 
 \subsubsection*{Relazioni d'uso}
 \begin{itemize}
@@ -881,19 +881,19 @@ Oggetto contenente i dati di accesso utilizzati da un utente che vuole accedere 
 \subsubsection*{Metodi}
 \begin{description}
 	\item{\method{+ AuthenticationData(username: String, password: String)}}\\
-	Costruttore pubblico che per creare un istanza di AuthenticationData, si basa sulla password e lo username dell'utente da autenticare.
+	Costruttore pubblico che per creare un istanza di \texttt{AuthenticationData}, si basa sulla password e lo username dell'utente da autenticare.
 
 	\item{\method{+ getUsername(): String}}\\
 	Metodo che restituisce lo username dell'oggetto di autenticazione.
 	
 	\item{\method{+ getPassword(): String}}\\
-	Metodo che Restituisce la password dell'utente che sta effettuando la prodedura di login.
+	Metodo che Restituisce la password dell'utente che sta effettuando la procedura di login.
 
 	\item{\method{+ hashCode(): int}}\\
 	Restituisce il codice hash di questa istanza.
 	
 	\item{\method{+ equals(Object obj): boolean}}\\
-	Determina l'uguaglianza di due istanze, effettuando un confronto tra l'oggetto stesso da cui è chiamato il metodo, e un Object obj ricevuto come parametro d'ingresso.
+	Determina l'uguaglianza di due istanze, effettuando un confronto tra l'oggetto stesso da cui è chiamato il metodo, e un Object \textit{obj} ricevuto come parametro d'ingresso.
 	
 	\item{\method{+ toString: String}}\\
 	Metodo che Restituisce l'istanza sotto forma di stringa. Si osservi che il metodo non dovrà ritornare la password, ma solo lo username dell'utente da autenticare.
@@ -905,7 +905,7 @@ Oggetto contenente i dati di accesso utilizzati da un utente che vuole accedere 
 %TODO definire questa parte tramite intervista a Mene.
 
 \subsubsection*{Funzione}
-Modulo di autenticazione utilizzato dal sistema mytalk.
+Modulo di autenticazione utilizzato dal sistema \caName.
 
 \subsubsection*{Relazioni d'uso}
 \begin{itemize}
@@ -962,8 +962,8 @@ Permette di caricare le credenziali di autenticazione, fornite dall'utente, per 
 	\item \texttt{javax.security.auth.callback.CallbackHandler}: Interfaccia implementata dalla classe.
 	\item \texttt{javax.security.auth.callback.NameCallback}: tipo di dato richiesto in ingresso per completare la parte di login.
 	\item \texttt{javax.security.auth.callback.PasswordCallback}: tipo di dato richiesto in ingresso per completare la parte di login.
-	\item \texttt{java.io.IOException}: eccezione che può essere lanciata dal metodo handle definito dall'interfaccia \texttt{javax.security.auth.callback.CallbackHandler}.
-	\item \texttt{javax.security.auth.callback.UnsupportedCallbackException}: eccezione che può essere lanciata dal metodo handle definito dall'interfaccia \texttt{javax.security.auth.callback.CallbackHandler}.
+	\item \texttt{java.io.IOException}: eccezione che può essere lanciata dal metodo \texttt{handle} definito dall'interfaccia \texttt{javax.security.auth.callback.CallbackHandler}.
+	\item \texttt{javax.security.auth.callback.UnsupportedCallbackException}: eccezione che può essere lanciata dal metodo \texttt{handle} definito dall'interfaccia \texttt{javax.security.auth.callback.CallbackHandler}.
 \end{itemize}
 
 \subsubsection*{Attributi}
@@ -980,7 +980,7 @@ Permette di caricare le credenziali di autenticazione, fornite dall'utente, per 
 	Costruttore pubblico. Crea un istanza con le credenziali fornite dall'utente (fornite in fase di login).
 
 	\item{\method{+ handle(callbacks: Callback[]): void}}\\
-	Effettua il caricamento e crittografa le credenziali fornite dall'utente per la fase di login\\\\
+	Effettua il caricamento e crittografa delle credenziali fornite dall'utente per la fase di login\\\\
 	Il metodo può lanciare eccezioni:
 	\begin{itemize}
 		\item \exception{IOException}
@@ -1036,20 +1036,20 @@ L'oggetto cosi ottenuto dovrà essere controllato, ovvero si dovrà accertare ch
 \classsection{LoginServlet}
 
 \subsubsection*{Funzione}
-\inglese{Servlet} da richiamare per effettuare la login e la corrispettiva autenticazione dell'utente.
+\inglese{Servlet} da richiamare per effettuare l'autenticazione dell'utente.
 
 \subsubsection*{Relazioni d'uso}
 \begin{itemize}
 	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
 	\item \texttt{javax.security.auth.login.LoginContext}: classe usata in \method{doPost()} per avviare la login dell'utente.
-	\item \texttt{javax.servlet.ServletException}: eccezione rilancibile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{javax.servlet.ServletException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{LoginManager}.
-	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
-	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la servlet (inoltra i dati in uscita dalla chiamata a servlet).
+	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
+	\item \texttt{javax.servlet.http.HttpServletResponse}: classe usata per la comunicazione con la \inglese{servlet} (inoltra i dati in uscita dalla chiamata a \inglese{servlet}).
 	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
 	\item \classname{abook.IUserData}: usata per definire un utente.
-	\item \classname{dao.UserDataDAO}: usata per comunicare tramite Hibernate con la tabella UserData della base di dati.
+	\item \classname{dao.UserDataDAO}: usata per comunicare tramite Hibernate con la tabella \texttt{UserData} della base di dati.
 \end{itemize}
 
 \subsubsection*{Attributi}
@@ -1064,10 +1064,21 @@ L'oggetto cosi ottenuto dovrà essere controllato, ovvero si dovrà accertare ch
 	Costruttore della classe. Richiama il costruttore della classe padre \texttt{HttpServlet}.
 	
 	\item{\method{\# doGet(request: HttpServletRequest, response: HttpServletResponse): void}}\\
-	Metodo di delega che richiama \method{doPost()} passando gli stessi dati in input.
+	Metodo che richiama \method{doPost()} passando gli stessi dati in input.
 	
 	\item{\method{\# doPost(request: HttpServletRequest, response: HttpServletResponse): void}}\\
+<<<<<<< HEAD
 	Metodo che costituisce il kernel logico di risposta della \inglese{servlet}. Il metodo inizia caricando i parametri ricevuti mediante \texttt{HttpServletRequest}. Una chiamata a tale metodo corrisponde ad una richiesta di login e si attua impostando due campi String con i dati ottenuti da una chiamata a \texttt{getParameter(``username'')} e \texttt{getParameter(``password'')} . Quindi si crea un istanza di \texttt{HttpSession} tramite il metodo \texttt{getSession(true)} del parametro request. Il metodo prosegue controllando se l'username e la password precedentemente ottenute hanno valore diverso da null. Nel caso il flusso principale continua creando un'istanza di \classname{AutenthicationData} (denominata credential) a partire dai parametri username e password. Quindi si carica la path del file di configurazione in un apposita stringa \texttt{pathFileConfig}, tramite la chiamata a metodo:\\
+=======
+	Metodo che costituisce il \inglese{kernel} logico di risposta della \inglese{servlet}. Il metodo inizia caricando un istanza di \textit{Object} i parametri ricevuti mediante \texttt{HttpServletRequest}, quindi verifica che il parametro ricevuto sia un istanza di \texttt{Integer}, e procede valutando il valore in essa contenuto. La logica di sistema considera 2 possibili valori:
+	\begin{itemize}
+		\item[•]type = 0: corrisponde ad una richiesta di \inglese{logout} e si attua impostando a \texttt{false} la sessione contenuta nell'oggetto \texttt{HttopServletRequest request}. Quindi si passa tale sessione (come parametro d'ingresso) al metodo \method{doLogout()}. Il metodo termina invalidando la sessione richiamando il metodo \texttt{invalidate()} di \texttt{HttpSession}.
+		\item[•]type = 1: corrisponde ad una richiesta di login e si attua impostando due campi \texttt{String} con i dati ottenuti da una chiamata a \texttt{getParameter(``username'')} e \texttt{getParameter(``password'')} . Quindi si crea un istanza di \texttt{HttpSession} tramite il metodo \texttt{getSession(true)} del parametro \texttt{request}. Il metodo prosegue controllando se lo username e la password precedentemente ottenute hanno valore diverso da \texttt{null}, in questo caso il flusso principale continua richiamando \method{doLogin()}.
+	\end{itemize}
+	
+	\item{\method{-- doLogin(session: HttpSession, username: String, password: String): String}}\\
+	Metodo per l'autenticazione dei dati utente e il completamento della fase di login. Il metodo inizia creando un'istanza di \classname{AutenthicationData} (denominata \texttt{credential}) a partire dai parametri username e password ricevuti da input. Quindi si carica la \textit{path} del file di configurazione in un apposita stringa \texttt{pathFileConfig}, tramite la chiamata a metodo:\\
+>>>>>>> correzione ORRORI di Rizzi (girone due)
 	
 \verb|System.getenv("MyTalkConfiguration") + "\\LoginConfiguration.conf"|.\\
 
@@ -1081,7 +1092,20 @@ Quindi tramite context si esegue il login e si impostano gli attributi di sessio
 
 \texttt{session.setAttribute("LoginContext", context);}
 
+<<<<<<< HEAD
 Infine si carica in user un istanza di \classname{dao.UserDataDAO} ottenuta dalla chiamata a metodo \method{UserDataDAO.getByEmail()}, e restituendo user in un formato di formattazione \texttt{Json} (\texttt{user.toJson()}).
+=======
+infine si carica in \textit{user} un istanza di \classname{dao.UserDataDAO} ottenuta dalla chiamata a metodo \method{UserDataDAO.getByEmail()} e restituendo \textit{user} in un formato di formattazione \texttt{Json} (\texttt{user.toJson()}).
+	
+	\item{\method{-- doLogout(session: HttpSession)}}\\
+	Metodo richiamato da un client per eseguire il \textit{logout} dal sistema. Il metodo deve iniziare tramite la definizione di un istanza  di \texttt{LoginContext} denominata \textit{context}. Quindi il metodo procede effettuando la memorizzazione dell'oggetto ritornato da una chiamata
+\\
+\verb|session.getAttribute("LoginContext");|
+\\
+
+L'oggetto cosi ottenuto dovrà essere controllato, ovvero si dovrà accertare che il tipo dinamico è conforme al tipo \texttt{LoginContext} (il programmatore dovrà obbligatoriamente utilizzare la primitiva \texttt{istanceof}). Quindi si sovrascrive il contenuto di \texttt{context} con quanto ottenuto dalla chiamata a metodo sopracitata, e si richiama il metodo \texttt{logout()} a partire dall'oggetto \texttt{context}.
+
+>>>>>>> correzione ORRORI di Rizzi (girone due)
 
 \end{description}
 
@@ -1090,18 +1114,18 @@ Infine si carica in user un istanza di \classname{dao.UserDataDAO} ottenuta dall
 \classsection{PushInbound}
 
 \subsubsection*{Funzione}
-Classe per la definizione di un apposito canale di comunicazione client-server. La classe è un'estensione di \texttt{org.apache.catalina.websocket.MessageInbound}, che verrà usata poi in \classname{ChannelServlet}. Si osservi che l'associazione tra un istanza di \classname{PushInbound} e un utente del sistema è univoca: fintanto che connesso un utente ha un proprio \classname{PushInbound} presente sul server, che è suo e suo soltanto.
+Classe per la definizione di un apposito canale di comunicazione client-server. La classe è un'estensione di \texttt{org.apache.catalina.websocket.MessageInbound} che verrà usata poi in \classname{ChannelServlet}. Si osservi che l'associazione tra un istanza di \classname{PushInbound} e un utente del sistema è univoca: fintanto che connesso un utente ha un proprio \classname{PushInbound} presente sul server.
 
 \subsubsection*{Relazioni d'uso}
 \begin{itemize}
-	\item \texttt{java.io.IOException}: Eccezione lanciabile dal metodo \method{OnTextMessage()}.
-	\item \texttt{java.nio.CharBuffer}: tipologia di buffer usata per memorizzare il messaggio ricevuto come parametro d'ingresso.
+	\item \texttt{java.io.IOException}: Eccezione che può lanciare il metodo \method{OnTextMessage()}.
+	\item \texttt{java.nio.CharBuffer}: tipologia di \textit{buffer} usata per memorizzare il messaggio ricevuto come parametro d'ingresso.
 	\item \texttt{java.util.Iterator}: usata per scorrere il contenuto dell'insieme di \classname{AddressBookEntry}
 	\item \texttt{java.util.Set}: struttura dati usata per memorizzare le \inglese{entry} (\classname{AddressBookEntry}) che costituiscono la rubrica dell'utente.
-	\item \texttt{org.apache.catalina.websocket.MessageInbound}: classe da estendere. Aggiunge alla classe \classname{PushInbound} le funzionalità necessarie per fare di lei un ``canale di comunicazione'' usabile dai client.
-	\item \texttt{com.google.gson.*}: usata per convertire i dati interni in una stringa formato json.
-	\item \classname{State}: classe interna utilizzata per rappresentare lo stato dell'utente a cui è associata l'istanza di \classname{PushInbound}. Un utente ha uno stato fintanto che è connesso (quindi fintanto che esiste sul server un'istanza di \classname{PushInbound}  ad esso associata). Gli stati possibili sono: AVAILABLE (utente connesso e libero, quindi disposto a ricevere chiamate) e OCCUPIED (utente connesso ma attualmente occupato in un'altra conversazione).
-	\item \classname{abook.AddressBookEntry}: usata per definire la rubrica dell'utente, richiamata dal metodo \method{onTextMessage} nel momento in cui c'è la necessità di aggiornare lo stato dell'utente e renderlo visibile ai suoi contatti.
+	\item \texttt{org.apache.catalina.websocket.MessageInbound}: classe da estendere, aggiunge alla classe \classname{PushInbound} le funzionalità necessarie per renderla un ``canale di comunicazione'' utilizzabile dai client.
+	\item \texttt{com.google.gson.*}: converte i dati interni in una stringa formato json.
+	\item \classname{State}: classe interna utilizzata per rappresentare lo stato dell'utente a cui è associata l'istanza di \classname{PushInbound}. Un utente ha uno stato fintanto che è connesso (quindi fintanto che esiste sul server un'istanza di \classname{PushInbound}  ad esso associata). Gli stati possibili sono: \texttt{available} (utente connesso e libero, quindi disposto a ricevere chiamate) e \texttt{occupied} (utente connesso ma attualmente occupato in un'altra conversazione).
+	\item \classname{abook.AddressBookEntry}: usata per definire la rubrica dell'utente, richiamata dal metodo \method{onTextMessage} nel momento in cui si presenta la necessità di aggiornare lo stato dell'utente e renderlo visibile ai suoi contatti.
 	\item \classname{abook.IUserData}: usata per riferire un istanza della classe ad un particolare utente.
 	\item \classname{dao.UserDataDAO}: usata per riferire un istanza della classe ad un particolare utente.
 
@@ -1110,7 +1134,7 @@ Classe per la definizione di un apposito canale di comunicazione client-server. 
 \subsubsection*{Attributi}
 \begin{description}
   \item{\memberdata{-- id: Long}}\\
-  Identificativo di tipo Long, del canale di comunicazione associato ad un client univoco.
+  Identificativo di tipo \textit{Long} del canale di comunicazione associato ad un client univoco.
   \item{\memberdata{-- state: State}}\\
   Attributo usato per memorizzare lo stato dell'utente ``proprietario'' del \classname{PushInbound}.
 \end{description}
@@ -1127,22 +1151,23 @@ Classe per la definizione di un apposito canale di comunicazione client-server. 
 	Metodo che ritorna il contenuto dell'attributo \memberdata{id}.
 	
 	\item{\method{+ onTextMessage(message: CharBuffer): void}}\\
-	Metodo invocato al momento della ricezione di un messaggio da parte del client. Il metodo riceve in input un oggetto di tipo \texttt{CharBuffer} contenente il messaggio inviato dal client.	Inizialmente il metodo crea un istanza per ognuno dei seguenti oggetti:
+	Metodo invocato al momento della ricezione di un messaggio da parte del client. Il metodo riceve in input un oggetto di tipo \texttt{CharBuffer} contenente il messaggio inviato dal client.
+Inizialmente il metodo crea un istanza per ognuno dei seguenti oggetti:
 	\begin{itemize}
-		\item[•]\texttt{Gson}: tipo di Json ``particolare'' definito da google;
-		\item[•]\texttt{JsonParser}: parser usato per scorrere il contenuto di una stringa Json;
+		\item[•]\texttt{Gson}: tipo di \textit{Json} definito da \textit{Google};
+		\item[•]\texttt{JsonParser}: \textit{parser} usato per scorrere il contenuto di una stringa \textit{Json};
 		\item[•]\texttt{JsonArray}: array popolato a partire dal \inglese{parsing} della stringa di messaggio data in input.
 	\end{itemize}
 	
-	Prima di procedere si voglia considerare quanto segue: il metodo dopo aver ``segmentato'' il messaggio ricevuto in input, si occupa di esaminarne il contenuto che può essere di 5 tipologie, ciascuna identificata tramite un valore intero positivo da 1 a 5. Tale valore viene deve essere salvato nell'istanza di \texttt{JsonArray}
-	Detto ciò, tornando a definire il flusso principale del metodo, si osservi che il :
+	Prima di procedere si voglia considerare quanto segue: il metodo dopo aver ``segmentato'' il messaggio ricevuto in input, si occupa di esaminarne il contenuto che può essere di 5 tipologie, ciascuna identificata tramite un valore intero positivo da 1 a 5. Tale valore deve essere salvato nell'istanza di \texttt{JsonArray}
+	Detto ciò, tornando a definire il flusso principale del metodo, si osservi che:
 
 	\begin{itemize}
-		\item[•]Se la richiesta inoltrata è del tipo 1: il metodo prende in lettura il messaggio e imposta il contenuto di \memberdata{id} con il valore letto mediante procedura di parsing, analoga a quella definita al passo precedente. Per farlo utilizza il metodo \texttt{fromJson} richiamato dall'istanza gsonObj di tipo \texttt{Gson} creata al passo precedente. A tale metodo passa il contenuto dell'array, e in particolare ciò che è salvato nella posizione 1 (utilizzo di metodo \texttt{get(int i)}).
-		\item[•]Se la richiesta inoltrata è del tipo 2: il metodo procede con le istruzioni necessarie a scambiare i dati per la chiamata. Nello specifico viene salvato in un attributo di tipo \texttt{Long}, l'id del client che desidero chiamare. Quindi ricerco l'oggetto \texttt{PushInbound} associato al client che desidero contattare, e gli inoltro il messaggio ricevuto come parametro d'ingresso.
-		\item[•]Se la richiesta inoltrata è del tipo 3: il metodo comunica al client ``destinatario'' della chiamata, l'id del client chiamante. La procedura è analoga a quella identificata nel punto precedente, con la specifica che il messaggio inoltrato è l'identificativo del cliente che desidera avviare la chiamata.
-		\item[•]Se la richiesta inoltrata è del tipo 4: il metodo si occupa dell'eliminazione della webSocket, contattando l'istanza \classname{ChannelServlet} associata a questo \texttt{PushInbound}.
-		\item[•]Se la richiesta inoltrata è del tipo 5: il metodo viene usato per modificare lo stato dell'utente, con il valore passato tramite messaggio. Dopo la ricezione del messaggio, il metodo cambia il valore del campo \texttt{state} con il valore ricevuto come parametro d'ingresso. Quindi procede ricavando la lista degli ``amici'' dell'utente che ha cambiato stato, e comunica loro che è avvenuto un cambiamento di stato.
+		\item[•]Se la richiesta inoltrata è del tipo 1: il metodo prende in lettura il messaggio e imposta il contenuto di \memberdata{id} con il valore letto mediante procedura di \inglese{parsing} analoga a quella definita al passo precedente. Per farlo utilizza il metodo \texttt{fromJson} richiamato dall'istanza \texttt{gsonObj} di tipo \texttt{Gson} creata al passo precedente. A tale metodo passa il contenuto dell'array e in particolare ciò che è salvato nella posizione 1 (utilizzo di metodo \texttt{get(int i)}).
+		\item[•]Se la richiesta inoltrata è del tipo 2: il metodo procede con le istruzioni necessarie a scambiare i dati per la chiamata. Nello specifico viene salvato in un attributo di tipo \texttt{Long}, l'\texttt{id} del client che desidero chiamare, quindi ricerco l'oggetto \texttt{PushInbound} associato al client che desidero contattare, e gli inoltro il messaggio ricevuto come parametro d'ingresso.
+		\item[•]Se la richiesta inoltrata è del tipo 3: il metodo comunica al client ``destinatario'' della chiamata, l'\texttt{id} del client chiamante. La procedura è analoga a quella identificata nel punto precedente, con la specifica che il messaggio inoltrato è l'identificativo del cliente che desidera avviare la chiamata.
+		\item[•]Se la richiesta inoltrata è del tipo 4: il metodo si occupa dell'eliminazione della \textit{webSocket}, contattando l'istanza \classname{ChannelServlet} associata a questo \texttt{PushInbound}.
+		\item[•]Se la richiesta inoltrata è del tipo 5: il metodo viene usato per modificare lo stato dell'utente, con il valore passato tramite messaggio. Dopo la ricezione del messaggio, il metodo cambia il valore del campo \texttt{state} con il valore ricevuto come parametro d'ingresso. Quindi procede ricavando la lista degli utenti nella rubrica dell'utente che ha cambiato stato e comunica loro che è avvenuto un cambiamento di stato.
 	\end{itemize}
 \end{description}
 
@@ -1157,7 +1182,7 @@ Classe per la definizione di un apposito canale di comunicazione client-server. 
 	\item \texttt{javax.servlet.Servlet}: interfaccia d'implementazione. Necessaria per definire la classe come \inglese{servlet}.
 	\item \texttt{javax.servlet.ServletConfig}: classe per la configura della \inglese{servlet}. 
 	\item \texttt{javax.servlet.ServletException}: eccezione richiesta per la firma del metodo \method{init} (metodo richiesto per implementazione dell'interfaccia \texttt{javax.servlet.Servlet}.
-	\item \texttt{javax.servlet.annotation.WebServlet}: necessaria per definire la servlet come \texttt{WebServlet}.
+	\item \texttt{javax.servlet.annotation.WebServlet}: necessaria per definire la \inglese{servlet} come \texttt{WebServlet}.
 	\item \texttt{javax.servlet.http.HttpServletRequest}: necessaria per definire le richieste inoltrate alla classe (richieste a \inglese{servlet}).
 	\item \classname{org.apache.catalina.websocket.StreamInbound}: classe utilizzata per definire un canale di comunicazione server-client.
 	\item \classname{org.apache.catalina.websocket.WebSocketServlet}: classe da estendere per utilizzare i metodi di comunicazione tramite \inglese{webSocket}.
@@ -1174,34 +1199,36 @@ Classe per la definizione di un apposito canale di comunicazione client-server. 
 \subsubsection*{Metodi}
 \begin{description}
 	\item{\method{+ ChannelServlet()}}\\
-	Costruttore della Servlet. Richiama \method{super()}.
+	Costruttore della \textit{servlet}. Richiama \method{super()}.
 	
 	\item{\method{\# createWebSocketInbound(subProtocol: String, request: HttpServletRequest): StreamInbound}}\\
-	Metodo per la creazione di una websocket. Il metodo ha anche il compito di salvare nel vettore di connessioni attive e la ritorna al client. Nello specifico il server segue l'iter:
+	Metodo per la creazione di una \textit{websocket}. Il metodo ha anche il compito di salvare nel vettore di connessioni attive e la ritorna al client. Nello specifico il server segue l'iter:
 	
 	\begin{itemize}
-		\item[1)] creazione di un PushInbound;
-		\item[2)] aggiungo l'oggetto creato al punto precedente, al vettore di PushInbound \memberdata{clients};
-		\item[3)] il metodo termina ritornando l'istanza di PushInbound creata al punto 1.
+		\item[1)] creazione di un \textit{PushInbound};
+		\item[2)] aggiungo l'oggetto creato al punto precedente, al vettore di \textit{PushInbound} \memberdata{clients};
+		\item[3)] il metodo termina ritornando l'istanza di \textit{PushInbound} creata al punto 1.
 	\end{itemize}
 	
 	\item{\method{\underline{ + findClient(n: Long): PushInbound}}}\\
-	Metodo per la ricerca di una connessione client, dato l'identificativo dell'utente. Il metodo esegue una ricerca (mediante ciclo for) all'interno del vettore \memberdata{clients}. Ad ogni iterazione verifica se l'istanza i-esima presa in esame, ha un campo id che corrisponde a quello dato in input come parametro di ricerca. Il metodo termina ritornando il PushInbound associato al client, se si verifica l'effettiva essitenza di un client con id uguale a quello passato in input, \inglese{null} altrimenti.
+	Metodo per la ricerca di una connessione client dato l'identificativo dell'utente, esegue una ricerca (mediante ciclo \inglese{for}) all'interno del vettore \memberdata{clients} e ad ogni iterazione verifica se l'istanza i-esima presa in esame ha un campo id che corrisponde a quello dato in input come parametro di ricerca.
+Il metodo termina ritornando il \textit{PushInbound} associato al client, se si verifica l'effettiva esitenza di un client con \texttt{id} uguale a quello passato in input, \texttt{null} altrimenti.
 	
 	\item{\method{\underline{ + removeClient(c: PushInbound): void}}}\\
-	Metodo per la rimozione di un oggetto PushInbound dal vettore \memberdata{clients}. Il metodo esegue una ricerca tramite ciclo for (analoga a quella eseguita nel metodo \method{findClient}. Se la ricerca ha esito positivo il metodo termina eseguendo la rimozione dell'istanza dall'oggetto \memberdata{clients} tramite la chiamata a metodo \texttt{remove}.
+	Metodo per la rimozione di un oggetto \texttt{PushInbound} dal vettore \memberdata{clients}. Il metodo esegue una ricerca tramite ciclo \inglese{for} (analoga a quella eseguita nel metodo \method{findClient}. Se la ricerca ha esito positivo il metodo termina eseguendo la rimozione dell'istanza dall'oggetto \memberdata{clients} tramite la chiamata a metodo \texttt{remove}.
 \end{description}
 
 \clearpage
 
 \section{Specifica sotto-architettura clientpresenter}\label{sec:clientpresenterarchitecture}
 
-La \texttt{sotto-architettura clientpresenter}, a livello di definizione di prodotto, richiede una trattazione speciale a causa del particolare dominio tecnologico coinvolto. Essa è infatti definita con il linguaggio JavaScript. Tale linguaggio pur essendo definito come linguaggio orientato agli oggetti, non permette di definire classi. A ciò si aggiunge il fatto che JavaScript è debolmente tipizzato. In ragione di ciò, al fine di facilitare al programmatore la comprensione del progetto (pesando quindi alle varie entità come a classi) senza però confonderlo in fase di stesura del codice, si è pensato di adoperare la seguente terminologia.
+La sotto-architettura \texttt{clientpresenter}, a livello di definizione di prodotto, richiede una trattazione speciale a causa del particolare dominio tecnologico coinvolto. Essa è infatti definita con il linguaggio \textit{JavaScript} che pur essendo definito come linguaggio orientato agli oggetti non permette di definire classi. A ciò si aggiunge il fatto che \textit{JavaScript} è debolmente tipizzato.
+ In ragione di ciò, al fine di facilitare al programmatore la comprensione del progetto (pesando quindi alle varie entità come a classi) senza però confonderlo in fase di stesura del codice, si è pensato di adoperare la seguente terminologia.
 
 \begin{description}
 	\item{\scshape\bfseries Attributi}: saranno definiti con una sintassi simile a quella già usata. Quindi al nome dell'attributo sarà associato il tipo ``logico'' che idealmente rappresenta. In particolare emergono i seguenti casi:
 		\begin{itemize}
-			\item Nodi DOM: come si vedrà alcuni attributi rappresentano nodi DOM già esistenti nella pagina HTML che definisce l'interfaccia utente, e modificati (a run-time) sulla base di informazioni ottenute dal server. Tali attributi dovranno essere codificati come:
+			\item Nodi DOM: come si vedrà alcuni attributi rappresentano nodi DOM già esistenti nella pagina HTML che definisce l'interfaccia utente e modificati (a \textit{run-time}) sulla base di informazioni ottenute dal server. Tali attributi dovranno essere codificati come:
 			
 			\begin{verbatim}
 				this.mio_attributo = document.getElementById(``id_DOM'');
@@ -1210,22 +1237,22 @@ La \texttt{sotto-architettura clientpresenter}, a livello di definizione di prod
 			Tali attributi saranno indicati con il formalismo:
 			
 			\begin{verbatim}
-				(+, -, #) nome_atributo: Nodo_DOM
+				(+, -, #) nome_attributo: Nodo_DOM
 			\end{verbatim}
 			
-			\item String: se l'attributo è destinato a contenere esclusivamente valori di tipo String sarà segnato nel documento come:
+			\item String: se l'attributo è destinato a contenere esclusivamente valori di tipo \texttt{String} sarà segnato nel documento come:
 			
 			\begin{verbatim}
 				(+, -, #) nome_atributo: String
 			\end{verbatim}
 			
-			\item Array: se l'attributo è un Array, che in JavaScript non chiede di essere definito per tipo di valori contenibili, nel documento sarà precisato come:
+			\item Array: se l'attributo è un array, che in \textit{JavaScript} non chiede di essere definito per tipo di valori contenibili, nel documento sarà precisato come:
 			
 			\begin{verbatim}
 				(+, -, #) nome_atributo: Tipo[]
 			\end{verbatim}
 		\end{itemize}
-	\item{\scshape\bfseries Metodi}: la sintassi usata dal programmatore per definire un metodo in JavaScript dovrà essere la seguente:
+	\item{\scshape\bfseries Metodi}: la sintassi usata dal programmatore per definire un metodo in \textit{JavaScript} dovrà essere la seguente:
 		\begin{verbatim}
 			var nome_metodo = function(){ contenuto }
 		\end{verbatim}
@@ -1239,7 +1266,7 @@ La \texttt{sotto-architettura clientpresenter}, a livello di definizione di prod
 \classsection{AddressBookPanelPresenter}
 
 \subsubsection*{Funzione}
-Presenter incaricato di gestire il pannello della rubrica, contiene le funzioni associate ai \inglese{widget} grafici della vista relativi alla rubrica e ha la responsabilità di aggiornare la vista sulla base dei dati ricevuti dal server.
+Presenter incaricato di gestire il pannello della rubrica, contiene le funzioni associate ai \inglese{widget} grafici della vista relativi a quest'ultima e ha la responsabilità di aggiornare la vista sulla base dei dati ricevuti dal server.
 
 \subsubsection*{Relazioni d'uso}
 Nessuna relazione d'uso evidenziata.
@@ -1250,7 +1277,7 @@ Nessuna relazione d'uso evidenziata.
   \item{\memberdata{-- element: DOM\_node}}\\
   Attributo che definisce il contenuto del nodo DOM inerente alla rappresentazione della rubrica. Nello specifico tale nodo corrisponde ad un \texttt{div} con id \texttt{AddressBookPanel}.
   \item{\memberdata{-- urServlet: String}}\\
-  Attributo che definisce l'URL dal quale è richiamabile la servlet usata per interagire con l'apparato server del sistema.
+  Attributo che definisce l'URL dal quale è richiamabile la \textit{servlet} usata per interagire con l'apparato server del sistema.
   \item{\memberdata{-- contacts: Array()}}\\
   Attributo che definisce la lista degli utenti presenti nella rubrica dell'utente che ha effettuato l'autenticazione.
    \item{\memberdata{-- groups: Array()}}\\
@@ -1262,44 +1289,60 @@ Nessuna relazione d'uso evidenziata.
 \begin{description}	
 	
 	\item{\method{+ inizialize(): void}}\\
-	Metodo per inizializzare  ``AddressBookPanel'' e lo popolarlo con i contatti della rubrica. Il metodo modifica il DOM creando tre div: divSearch, divSort e divList. Quindi sequenzialmente ne crea il contenuto:
+	Metodo per inizializzare  \texttt{AddressBookPane}' e popolarlo con i contatti della rubrica. Il metodo modifica il DOM creando tre div: divSearch, divSort e divList. Quindi sequenzialmente ne crea il contenuto:
 		\begin{itemize}
-			\item divSearch: in esso si dovrà definire un campo per l'input testuale e un bottone per ricercare nella lista un utente avente avete tra le parole chiave, una con valore uguale a quello inserito nel campo d'input.
-			\item divSort: in esso crea delle \inglese{select} per specificare le tipologie di ordinamento attuabili sulla lista degli utenti.
+			\item divSearch: definisce un campo per l'input testuale e un bottone per ricercare nella lista un utente avente avete tra le parole chiave, una con valore uguale a quello inserito nel campo d'input.
+			\item divSort: crea delle \inglese{select} per specificare le tipologie di ordinamento attuabili sulla lista degli utenti.
 			\item divList: div che viene popolato con i nomi degli utenti presenti nella rubrica dell'utente che l'ha richiamata.
 		\end{itemize}
 
 Quindi dopo aver creato questi elementi il metodo procede inserendo nel DOM il ``sotto-albero'' cosi creato.
 
 	\item{\method{+ getAddressBookContacts(): void}}\\
+<<<<<<< HEAD
 Metodo che recupera i contatti e i gruppi della propria rubrica dal server usando la tecnologia AJAX. Il metodo crea una variabile contenente un istanza \texttt{XMLHttpRequest()}. Quindi con metodo \inglese{POST} inoltra la richiesta alla \inglese{servlet} richiamandola al URL salvato nell'attributo \memberdata{urlServlet}. Quindi elabora i dati ottenuti mediante il metodo \texttt{JSON.parse()} e li salva negli array \memberdata{contacts} e \memberdata{groups}.
+=======
+Metodo che recupera i contatti della propria rubrica dal server usando la tecnologia \textit{AJAX}. Il metodo crea una variabile contenente un istanza \texttt{XMLHttpRequest()}quindi, con metodo \inglese{POST}, inoltra la richiesta alla \inglese{servlet} richiamandola all'URL salvato nell'attributo \memberdata{urlServlet}. 
+Infine elabora i dati ottenuti mediante il metodo \texttt{JSON.parse()} e li salva nell'array \memberdata{contact}.
+>>>>>>> correzione ORRORI di Rizzi (girone due)
 	
 	\item{\method{+ setup(): void}}\\
-	Inserisce i contatti estratti dal server all'interno della lista ``AddressBookList'' all'interno di ``AddressBookPanel''.
+	Inserisce i contatti estratti dal server all'interno della lista \texttt{AddressBookList} all'interno di \texttt{AddressBookPanel}.
 	
 	\item{\method{+ displayContactList(contact: String[]): void}}\\
 	Metodo usato per visualizzare la lista dei contatti utente. Il metodo prende il nodo DOM (già esistente) e destinato a contenere la lista dei contatti, popolandolo richiamando il metodo \method{addListItem()}.
 	
 	\item{\method{-- addListItem(contact: String[]): void}}\\
+<<<<<<< HEAD
 	Metodo richiamato da \method{dysplayContactList()} per visualizzare i contatti presenti all'array \memberdata{contacts} (passato come parametro). Il metodo crea le variabili contenenti i dati del contatto da attribuire al tag di markup \texttt{li}. Tali variabili sono quelle tipiche di un oggetti \classname{JSUserData} (nome, cognome, email, status e immagine).
+=======
+	Metodo richiamato da \method{dysplayContactList()} per visualizzare i contatti presenti all'array \memberdata{contact} (passato come parametro). Crea le variabili contenenti i dati del contatto da attribuire al tag di \inglese{markup} \texttt{li}. Tali variabili sono quelle tipiche di un oggetti \classname{JSUserData} (nome, cognome, email, status e immagine).
+>>>>>>> correzione ORRORI di Rizzi (girone due)
 	
 	\item{\method{+ addContact(idContact: int): boolean}}\\
-	Metodo per l'aggiunta di un contatto alla rubrica. Il metodo riceve come parametro una stringa che definisce l'id dell'utente da inserire nella propria rubrica. Per assicurarsi di non introdurre ridondanza ed aggiungere un contatto già presente, il metodo esegue due controlli: uno lato client e uno lato server. Per il controllo lato client, si scorre la lista \memberdata{contact} alla ricerca di un id che fa match con idContact. Nel caso già presente il metodo termina ritornando false. Per eseguire il controllo lato server il metodo contatta il server mediante la \inglese{servlet} AddressBookManager. Questa verificherà se l'utente avente id idContact è già presente nella rubrica. Nel caso l'utente non sia presente si occuperà di creare la nuova istanza di AddressBookEntry e la registrerà nel database. In caso contrario non fa niente. La chiamata a servlet ritorna un valore booleano. Tale valore sarà true se l'inserimento ha avuto successo, false altrimenti. Se l'inserimento ha avuto successo il flusso principale prosegue eseguendo l'aggiornamento della rubrica in locale tramite la chiamata a metodo \method{getAddressBookContacts()} seguita da \method{setup()}. Il metodo termina ritornando true se è stato aggiunto l'utente, false altrimenti.
+	Metodo per l'aggiunta di un contatto alla rubrica, riceve come parametro una stringa che definisce l'\texttt{id} dell'utente da inserire nella propria rubrica. 
+Per assicurarsi di non introdurre ridondanza ed aggiungere un contatto già presente, il metodo esegue due controlli: uno lato client e uno lato server. 
+Il controllo lato client, si scorre la lista \memberdata{contact} alla ricerca di un \texttt{id} che fa \inglese{match} con \texttt{idContact}. Nel caso già presente il metodo termina ritornando false. Per eseguire il controllo lato server il metodo contatta il server mediante la \inglese{servlet} \texttt{AddressBookManager}. Questa verificherà se l'utente avente \texttt{id} idContact è già presente nella rubrica, nel caso non lo sia  si occuperà di creare la nuova istanza di \texttt{AddressBookEntry} e la registrerà nel database, in caso contrario non esegue operazioni. 
+La chiamata a servlet ritorna un valore booleano che sarà \texttt{true} se l'inserimento ha avuto successo, \texttt{false} altrimenti. 
+Se l'inserimento ha avuto successo il flusso principale prosegue eseguendo l'aggiornamento della rubrica in locale tramite la chiamata a metodo \method{getAddressBookContacts()} seguita da \method{setup()}. Il metodo termina infine ritornando \texttt{true} se è stato aggiunto l'utente, \texttt{false} altrimenti.
 
 	\item{\method{+ deleteContact(idContact: int): boolean}}\\
-Metodo il cui funzionamento è analogo a quello precedentemente definito. Il metodo si occupa di eliminare un contatto conoscendone l'id, passato per parametro d'ingresso. Il flusso principale esegue due controlli per verificare la presenza dell'utente nella rubrica (analogamente a quanto visto nel caso precedente). Dopo tale verifica, se il contatto è realmente presente nella rubrica, allora la \inglese{servlet} AddressBookManager avrà eseguito la cancellazione come conseguenza al match effettuato in fase di verifica. Quindi nel caso il metodo richiama \method{getAddressBookContacts()} seguito da \method{setup()} per rieseguire l'aggiornamento della rubrica. Il metodo ritorna \inglese{true} se effettivamente il contatto era presente ed è stato eliminato, \inglese{false} altrimenti.
+Metodo il cui funzionamento è analogo a quello precedentemente definito, si occupa di eliminare un contatto conoscendone l'\texttt{id} passato per parametro d'ingresso. Il flusso principale esegue due controlli per verificare la presenza dell'utente nella rubrica (analogamente a quanto visto nel caso precedente). 
+Dopo tale verifica, se il contatto è realmente presente nella rubrica la \inglese{servlet} \texttt{AddressBookManager} avrà eseguito la cancellazione come conseguenza al match effettuato in fase di verifica, nel caso il metodo richiama \method{getAddressBookContacts()} seguito da \method{setup()} per rieseguire l'aggiornamento della rubrica. Il metodo ritorna infine \texttt{true} se effettivamente il contatto era presente ed è stato eliminato, \texttt{false} altrimenti.
 
 	\item{\method{+ addGroup(name: String): boolean}}\\
-	Metodo per l'aggiunta di un nuovo gruppo nella rubrica. Il metodo permette l'aggiunta di gruppi con nomi duplicati, ossia nomi di gruppi già presenti nella rubrica. Il flusso principale richiama la \inglese{servlet} AddressBookManager passandogli il nome del gruppo da creare. Quindi il metodo richiama prima \method{getAddressBookContacts()} seguito da \method{setup()} per aggiornare la rubrica in locale. Il metodo ritorna un \inglese{feedback} booleano per dare notifica sull'esito dell'operazione: \inglese{true} se è stato creato il nuovo gruppo, \inglese{false} altrimenti.
+	Metodo per l'aggiunta di un nuovo gruppo nella rubrica, permette l'aggiunta di gruppi con nomi duplicati (ossia nomi di gruppi già presenti nella rubrica). Il flusso principale richiama la \inglese{servlet} \texttt{AddressBookManager} con il nome del gruppo da creare, quindi richiama prima \method{getAddressBookContacts()} seguito da \method{setup()} per aggiornare la rubrica in locale. Il metodo ritorna infine un \inglese{feedback} booleano per dare notifica sull'esito dell'operazione: \texttt{true} se è stato creato il nuovo gruppo, \texttt{false} altrimenti.
 	
 	\item{\method{+ deleteGroup(idGroup: int): boolean}}\\
-	Metodo per l'eliminazione di un nuovo gruppo presente nella rubrica. Il metodo riceve come parametro d'ingresso l'id del gruppo da eliminare. Il flusso principale richiama la \inglese{servlet} AddressBookManager passandogli l'id del gruppo candidato all'eliminazione. Quindi, se la servlet notifica l'effettiva esistenza di un gruppo con tale id, essa si occupa dell'eliminazione e il flusso principale ritorna al metodo \method{deleteGroup} che richiama \method{getAddressBookContacts()} seguito da \method{setup()} per aggiornare la rubrica in locale. Il metodo ritorna un \inglese{feedback} booleano per dare notifica sull'esito dell'operazione: \inglese{true} se è stato creato il nuovo gruppo, \inglese{false} altrimenti.
+	Metodo per l'eliminazione di un nuovo gruppo presente nella rubrica, riceve come parametro d'ingresso l'\texttt{id} del gruppo da eliminare. Il flusso principale richiama la \inglese{servlet} \texttt{AddressBookManager} passandogli l'\texttt{id} del gruppo candidato all'eliminazione. Quindi, se la \inglese{servlet} notifica l'effettiva esistenza di un gruppo con tale \texttt{id}, essa si occupa dell'eliminazione e il flusso principale ritorna al metodo \method{deleteGroup} che richiama \method{getAddressBookContacts()} seguito da \method{setup()} per aggiornare la rubrica in locale. Il metodo ritorna un \inglese{feedback} booleano per dare notifica sull'esito dell'operazione: \texttt{true} se è stato creato il nuovo gruppo, \texttt{false} altrimenti.
 	
 	\item{\method{+ addContactInGroup(idContact: int, name: String): boolean}}\\
-	Metodo per l'aggiunta di un contatto in un gruppo ben definito. Il metodo riceve come parametro d'ingresso il nome del gruppo e l'id del contatto da aggiungervi. Il metodo richiama da prima \method{contactExistInGroup}, poi Il flusso principale richiama la \inglese{servlet} AddressBookManager passandogli i parametri d'ingresso. Quindi, se la \inglese{servlet} notifica l'effettiva esistenza di un gruppo con il nome ricevuto, essa si occupa di aggiungervi il contatto e il flusso principale ritorna al metodo \method{addContactInGroup} che richiama \method{getAddressBookContacts()} seguito da  \method{setup()} per aggiornare la rubrica in locale. Il metodo ritorna un \inglese{feedback} booleano per dare notifica sull'esito dell'operazione: \inglese{true} se è stato creato il nuovo gruppo, \inglese{false} altrimenti.	
+	Metodo per l'aggiunta di un contatto in un gruppo ben definito, riceve come parametro d'ingresso il nome del gruppo e l'\texttt{id} del contatto da aggiungervi. 
+Il metodo richiama da prima \method{contactExistInGroup}, successivamente il flusso principale richiama la \inglese{servlet} \texttt{AddressBookManager} passandogli i parametri d'ingresso, quindi se la \inglese{servlet} notifica l'effettiva esistenza di un gruppo con il nome ricevuto, essa si occupa di aggiungervi il contatto e il flusso principale ritorna al metodo \method{addContactInGroup} che richiama \method{getAddressBookContacts()} seguito da  \method{setup()} per aggiornare la rubrica in locale. Il metodo ritorna infine un \inglese{feedback} booleano per dare notifica sull'esito dell'operazione: \texttt{true} se è stato creato il nuovo gruppo, \texttt{false} altrimenti.	
 	
 	\item{\method{+ deleteContactInGroup(idContact: int, name: String): boolean}}\\
-	Metodo per l'eliminazione di un contatto presente in un gruppo. Il metodo riceve come parametro d'ingresso il nome del gruppo, su cui effettuare la ricerca del contatto da eliminare, e l'id di tale contatto. Il metodo richiama da prima \method{contactExistInGroup}, poi Il flusso principale richiama la \inglese{servlet} AddressBookManager passandogli i parametri d'ingresso. Quindi, se la \inglese{servlet} notifica l'effettiva esistenza di un gruppo con il nome ricevuto che contiene il contatto candidato all'eliminazione, essa si occupa dell'eliminazione e il flusso principale ritorna al metodo \method{deleteContactInGroup} che richiama \method{getAddressBookContacts()} seguito da  \method{setup()} per aggiornare la rubrica in locale. Il metodo ritorna un \inglese{feedback} booleano per dare notifica sull'esito dell'operazione: \inglese{true} se è stato creato il nuovo gruppo, \inglese{false} altrimenti.
+	Metodo per l'eliminazione di un contatto presente in un gruppo, riceve come parametro d'ingresso il nome del gruppo su cui effettuare la ricerca del contatto da eliminare e l'\texttt{id} di tale contatto. 
+Il metodo richiama da prima \method{contactExistInGroup}, poi Il flusso principale richiama la \inglese{servlet} \texttt{AddressBookManager} passandogli i parametri d'ingresso, la \inglese{servlet} notifica l'effettiva esistenza di un gruppo con il nome ricevuto che contiene il contatto candidato all'eliminazione, essa si occupa dell'eliminazione e il flusso principale ritorna al metodo \method{deleteContactInGroup} che richiama \method{getAddressBookContacts()} seguito da  \method{setup()} per aggiornare la rubrica in locale. Il metodo ritorna infine un \inglese{feedback} booleano per dare notifica sull'esito dell'operazione: \texttt{true} se è stato creato il nuovo gruppo, \texttt{false} altrimenti.
 	
 	\item{\method{+ contactExistInGroup(idContact: int, idGroup: int): boolean}}\\
 Metodo che verifica l'esistenza di un contato in un determinato gruppo. Il metodo restituisce un feedback booleano per confermare o meno l'esistenza dell'utente ricercato nel gruppo designato.
@@ -1309,7 +1352,7 @@ Metodo che verifica l'esistenza di un contato in un determinato gruppo. Il metod
 \classsection{LoginPanelPresenter}
 
 \subsubsection*{Funzione}
-Presenter incaricato di gestire il pannello di login. Tale funzionalità è svolta prendendo in carica i dati inseriti dall'utente (username e password), e passandoli al server per eseguire l'autenticazione. La \inglese{servlet} usata a tale scopo è LoginManager.
+Presenter incaricato di gestire il pannello di \textit{login}. prende in carica i dati inseriti dall'utente (username e password) passandoli al server per eseguire l'autenticazione. La \inglese{servlet} usata a tale scopo è \texttt{LoginManager}.
 
 Il presenter si occupa anche di fornire delle funzionalità per il recupero della password.
 
@@ -1319,9 +1362,9 @@ Il presenter si occupa anche di fornire delle funzionalità per il recupero dell
 \begin{description}
 
   \item{\memberdata{-- element: DOM\_node}}\\
-  Attributo che definisce il contenuto del nodo DOM inerente alla schermata di login. Nello specifico tale nodo corrisponde ad un \texttt{<div>} con id \texttt{LoginPanel}.
+  Attributo che definisce il contenuto del nodo DOM inerente alla schermata di \inglese{login}, nello specifico tale nodo corrisponde ad un \texttt{<div>} con id \texttt{LoginPanel}.
   \item{\memberdata{-- urServlet: String}}\\
-  Attributo contenente l'url della servlet incaricata di gestire il login.
+  Attributo contenente l'url della \inglese{servlet} incaricata di gestire il \inglese{login}.
 
 \end{description}
 
@@ -1329,17 +1372,19 @@ Il presenter si occupa anche di fornire delle funzionalità per il recupero dell
 \begin{description}
 
 	\item{\method{-- testCredentials(data: String): void}}\\
-Metodo che testa quanto ricevuto dal server e, in caso di login avvenuto correttamente reindirizza il browser nella pagina finale dopo aver salvato i dati dell'utente. Il metodo inizia salvando, in una variabile avente nome user, il contenuto di data trattato attraverso una chiamata \texttt{JSON.parse(data)}. Quindi se il contenuto di user non è nullo si procede richiamando il \texttt{communicationcenter} e impostando il valore di \texttt{communicationcenter.my} a user. Il metodo termina richiamando  il metodo \method{hide()} e avviando la costruzione della UI mediante una chiamata \method{medietor.buildUI()}.
+Metodo che testa quanto ricevuto dal server e, in caso di login avvenuto correttamente, reindirizza il browser nel presenter finale dopo aver salvato i dati dell'utente. Il metodo inizia salvando in una variabile avente nome \inglese{user} il contenuto di data trattato attraverso una chiamata \texttt{JSON.parse(data)}, quindi se il contenuto di user non è nullo si procede richiamando il \texttt{communicationcenter} e impostando il valore di \texttt{communicationcenter.my} a \inglese{user}. Il metodo termina richiamando il metodo \method{hide()} e avviando la costruzione della UI mediante una chiamata \method{medietor.buildUI()}.
 	
 	\item{\method{+ sendAnswer(username: String, answer: String): void}}\\
-	Metodo per inviare la risposta alla domanda segreta al server. Il metodo riceve 2 parametri d'ingresso: lo username dell'utente e la risposta (answer) da inviare al server. Come primo passo viene creata un istanza di \texttt{XMLHttpRequest} salvata in una variabile avente nome request. Quindi associo all'evento onclick di request, una funzione avente il compito di inviare la richiesta AJAX al server, e di richiamare in risposta uno dei seguenti metodi:
+	Metodo per inviare la risposta alla domanda segreta al server, riceve 2 parametri d'ingresso: lo username dell'utente e la risposta (answer) da inviare al server. Come primo passo viene creata un istanza di \texttt{XMLHttpRequest} salvata in una variabile avente nome request, successivamente si associa all'evento \texttt{onclick} di \textit{request} una funzione avente il compito di inviare la richiesta \textit{AJAX} al server, e di richiamare in risposta uno dei seguenti metodi:
 	\begin{itemize}
 		\item \method{correctAnswer()} nel caso la risposta inviata sia corretta;
 		\item \method{incorrectAnswer()} se invece la risposta inviata dall'utente è errata.
 	\end{itemize}
 	
 	\item{\method{+ correctAnswer(): void}}\\
-	Metodo usato per modificare il nodo DOM salvato in \memberdata{element}, per comunicare all'utente che la risposta da lui inserita (per il recupero password) è corretta. Il metodo deve rimuovere il figlio ``passwordretrieval'' da \memberdata{element}. quindi salva in una variabile avente nome message, il contenuto di una chiamata \verb|document.createElement("p")|. Successivamente si procede caricando su message (usando il metodo \texttt{appendChild(var\_figlio)}) il messaggio da visualizzare per notificare all'utente il successo dell'operazione. Il messaggio visualizzato dovrà essere: \\
+	Metodo usato per modificare il nodo DOM salvato in \memberdata{element} per comunicare all'utente che la risposta da lui inserita (per il recupero password) è corretta. 
+Il metodo deve rimuovere il figlio ``passwordretrieval'' da \memberdata{element} quindi salva in una variabile avente nome message il contenuto di una chiamata \verb|document.createElement("p")|. 
+Successivamente procede caricando su message (usando il metodo \texttt{appendChild(var\_figlio)}) il messaggio da visualizzare per notificare all'utente il successo dell'operazione. Il messaggio visualizzato sarà: \\
 	
 	\verb|Recupero password avvenuto correttamente.|\\
 	\verb|Ti è stata inviata un'email contenente i dati richiesti.|\\
@@ -1347,19 +1392,19 @@ Metodo che testa quanto ricevuto dal server e, in caso di login avvenuto corrett
 il messaggio sopracitato è temporaneo e dovrà essere rimosso allo scadere di un timeout di durata 2000 millisecondi (usare la funzione \texttt{window.setTimeout(nome\_funzione))}.
 	
 	\item{\method{+ incorrectAnswer(): void}}\\
-	Metodo che In caso di inserimento della risposta non corretta alla domanda segreta, visualizza un messaggio di avvertimento all'utente per 2 secondi quindi lascia il controllo al form di inserimento della risposta alla domanda segreta.
+	Metodo che In caso di inserimento della risposta non corretta alla domanda segreta visualizza un messaggio di avvertimento all'utente per 2 secondi quindi lascia il controllo al \inglese{form} di inserimento della risposta alla domanda segreta.
 	
-	Il metodo deve cerare un elemento (\texttt{document.createElement("p")}) per la visualizzazione del messaggio:\\
+	Il metodo deve cercare un elemento (\texttt{document.createElement("p")}) per la visualizzazione del messaggio:\\
 	
 	\verb|Dati non corretti. Inserire nuovamente la risposta.|\\
 	
 	Quindi si visualizza il messaggio con una procedura identica a quella usata in \method{correctAnswer()}.
 		
 	\item{\method{+ getSecretQuestion(): void}}\\
-	Metodo che recupera la domanda segreta con una richiesta asincrona al server. Il metodo imposta una variabile userID con il valore ritornato da una chiamata \method{getUsername()}. Quindi avvia una richiesta AJAX inizializzando un oggetto \texttt{XMLHttpRequest}. La variabile request contenente tale istanza dovrà associare all'evento \texttt{onreadystatechange} una funzione che si occupa di catturare la stringa ritornata dal server (uso obbligatorio di \texttt{question = this.responseText}). Il metodo termina restituendo  il valore contenuto in question.
+	Metodo che recupera la domanda segreta con una richiesta asincrona al server. Esso imposta una variabile \texttt{userID} con il valore ritornato da una chiamata \method{getUsername()}, quindi avvia una richiesta \textit{AJAX} inizializzando un oggetto \texttt{XMLHttpRequest}. La variabile \texttt{request} contenente tale istanza dovrà associare all'evento \texttt{onreadystatechange} una funzione che si occupa di catturare la stringa ritornata dal server (uso obbligatorio di \texttt{question = this.responseText}). Il metodo termina infine restituendo il valore contenuto in question.
 	
 	\item{\method{+ buildRetrievePasswordForm(): nodo\_DOM}}\\
-	Metodo usato per costruire il form per il recupero della password utente. Il metodo inizia costruendo il form con il valore ottenuto mediante una chiamata \verb|document.createElement("fieldset")|. Quindi a partire dalla variabile in cui ha memorizzato il dato ritornato con il metodo precedente, impostando l'attributo ``id'' con ``passwordretrieval''. Definisce quindi una label con la domanda (utilizzare \verb|document.createElement("label")| e imposta l'attributo ``for'' con ``inputanswer''). Il metodo procede impostando il campo d'immissione della domanda. Successivamente si impostano i seguenti attributi:
+	Metodo usato per costruire la \inglese{form} per il recupero della password utente, inizia costruendo la citata \inglese{form} con il valore ottenuto mediante una chiamata \verb|document.createElement("fieldset")|, quindi a partire dalla variabile in cui ha memorizzato il dato ritornato con il metodo precedente, imposta l'attributo ``id'' con ``passwordretrieval''. Definisce quindi una \inglese{label} con la domanda (utilizzare \verb|document.createElement("label")| e imposta l'attributo \texttt{for} con \textit{inputanswer}). Il metodo procede impostando il campo d'immissione della domanda e successivamente si impostano i seguenti attributi:
 	\begin{itemize}
 		\item attributo id con ``inputanswer'';
 		\item attributo name con ``inputanswer'';
@@ -1373,9 +1418,9 @@ il messaggio sopracitato è temporaneo e dovrà essere rimosso allo scadere di u
 		\item attributo value con ``OK'';
 	\end{itemize}
 	
-	Associare all'evento click del bottone, una funzione che richiami \method{sendAnswer()} passando come attributi \memberdata{username} e  il valore contenuto nell'elemento \texttt{inputAnswer}.
+	Associare all'evento \texttt{click} del bottone una funzione che richiami \method{sendAnswer()} passando come attributi \memberdata{username} e il valore contenuto nell'elemento \texttt{inputAnswer}.
 	
-	In ultima si usa \texttt{appendChild} per agganciare al nodo DOM la label e \texttt{inputAnswer}. Il metodo termina ritornando il nodo DOM.
+	In ultima si usa \texttt{appendChild} per agganciare al nodo DOM la \inglese{label} e \texttt{inputAnswer}. Il metodo termina ritornando il nodo DOM.
 	
 	\item{\method{+ getUsername(): String}}\\
 	Metodo  per il recupero dello username dall'interfaccia grafica. Per tale operazione il metodo deve usare l'istruzione:\\
@@ -1383,33 +1428,33 @@ il messaggio sopracitato è temporaneo e dovrà essere rimosso allo scadere di u
 	\verb|var username = document.getElementById("username").value;|
 	\\
 	
-	Quindi verifica se il contenuto di username è vuoto o no. Nel caso lo sia termina. Altrimenti procede nel verificare se l'email inserita rispetta l'espressione regolare:\\
+	quindi verifica se il contenuto di username è vuoto o no: nel caso lo sia, termina, altrimenti procede nel verificare se l'email inserita rispetta l'espressione regolare:\\
 	
 	\verb|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$|
 	\\
 	
-	Il metodo termina ritornando username.	
+	il metodo termina ritornando username.	
 	
 	\item{\method{+ getPassword(data: array()): String}}\\
-	Metodo che esegue il login inviando al server i dati di autenticazione. Il metodo riceve come parametro d'ingresso un array associativo contenente ``username'' e ``password''.
+	Metodo che esegue il \inglese{login} inviando al server i dati di autenticazione. Il metodo riceve come parametro d'ingresso un array associativo contenente \textit{username} e \textit{password}.
 	
-	Il flusso principale inizia verificando il che il contenuto di \texttt{data.username} e di \texttt{data.password} non sia vuoto. Quindi invia una richiesta AJAX al server (come sempre in questo caso è d'obbligo usare \verb|var request = new XMLHttpRequest();|).
-	Il programmatore dovrà associare all'evento \texttt{onreadystatechange} una funzione che si occupa di richiamare il metodo \method{testCredentials()}. Il passo successivo consiste ``nell'aprire'' la richiesta request con un istruzione open() che riceve come parametro l'url della \inglese{servlet} associata (valore presente in \memberdata{servletURL}). A questo punto di usa un istruzione \texttt{setRequestHeader()} passando i seguenti parametri:
+	Il flusso principale inizia verificando il che il contenuto di \texttt{data.username} e di \texttt{data.password} non sia vuoto, quindi invia una richiesta \textit{AJAX} al server (come sempre in questo caso è d'obbligo usare \verb|var request = new XMLHttpRequest();|).
+	Il programmatore dovrà associare all'evento \texttt{onreadystatechange} una funzione che si occupa di richiamare il metodo \method{testCredentials()}. Il passo successivo consiste ``nell'aprire'' la richiesta request con un istruzione open() che riceve come parametro l'url della \inglese{servlet} associata (valore presente in \memberdata{servletURL}), successivamente viene usata un istruzione \texttt{setRequestHeader()} passando i seguenti parametri:
 	\begin{itemize}
 		\item[•] ``content-type'';
 		\item[•] ``application/x-www-form-urlencoded'';
 	\end{itemize}
-	In ultima va creata la querystring da inviare (tramite istruzione request.send()). Tale query deve essere obbligatoriamente impostata a:\\
+	infine va creata la \textit{querystring} da inviare (tramite istruzione request.send()). Tale \inglese{query} deve essere obbligatoriamente impostata a:\\
 	
 	\verb|"username=" + encodeURIComponent(data.username) +|\\ \verb|"&password=" + encodeURIComponent(data.password) + "&operation=1"|\\
 	
-	Il metodo termina ritornando la querystring.
+	Il metodo termina ritornando la \textit{querystring}.
 
 	\item{\method{+ hide(): void}}\\
-	Metodo usato per nascondere il form di autenticazione, per lasciare spazio nella finestra ad altri elementi grafici come la schermata principale o il pannello di registrazione.
+	Metodo usato per nascondere il \inglese{form} di autenticazione, per lasciare spazio nella finestra ad altri elementi grafici come la schermata principale o il pannello di registrazione.
 	
 	\item{\method{+ initialize(): void}}\\
-	Metodo usato per inizializzazione del pannello di login con la creazione di tutti i widget grafici che sono contenuti al suo interno. Nello specifico il metodo esegue la creazione (nell'ordine proposto) dei seguenti elementi:
+	Metodo usato per inizializzazione del pannello di login con la creazione di tutti i \inglese{widget} grafici che sono contenuti al suo interno. Nello specifico il metodo esegue la creazione (nell'ordine proposto) dei seguenti elementi:
 	\begin{itemize}
 		\item form, con attributi:
 		\begin{itemize}
@@ -1460,7 +1505,7 @@ il messaggio sopracitato è temporaneo e dovrà essere rimosso allo scadere di u
 \classsection{RegisterPanelPresenter}
 
 \subsubsection*{Funzione}
-Presenter incaricato di gestire la form di registrazione
+Presenter incaricato di gestire la \inglese{form} di registrazione
 
 \subsubsection*{Relazioni d'uso}
 
@@ -1470,9 +1515,9 @@ Nessuna relazione d'uso evidenziata.
 \begin{description}
 
   \item{\memberdata{-- servletURL: String}}\\
-  Url della servlet che deve gestire la registrazione.
+  Url della \inglese{servlet} che deve gestire la registrazione.
   \item{\memberdata{-- element: DOM\_node}}\\
-  Elemento (inteso come nodo DOM) controllato da questo presenter.
+  Elemento (inteso come nodo DOM) controllato da questo Presenter.
 
 \end{description}
 
@@ -1480,22 +1525,22 @@ Nessuna relazione d'uso evidenziata.
 \begin{description}
 
 	\item{\method{+ getSurname(): String}}\\
-	Metodo che estrae dal form il valore del cognome del nuovo utente e lo restituisce.
+	Metodo che estrae dalla \inglese{form} il valore del cognome del nuovo utente e lo restituisce.
 	
 	\item{\method{+ getName(): String}}\\
-	Metodo che estrae dal form il valore del nome del nuovo utente e lo restituisce.
+	Metodo che estrae dalla \inglese{form} il valore del nome del nuovo utente e lo restituisce.
 	
 	\item{\method{+ getAnswer(): String}}\\
-	Metodo che estrae dal form la risposta alla domanda segreta associata al nuovo utente e lo restituisce.	
+	Metodo che estrae dal \inglese{form} la risposta alla domanda segreta associata al nuovo utente e la restituisce.	
 		
 	\item{\method{+ getQuestion(): String}}\\
-	Metodo che estrae dal form la domanda segreta associata al nuovo utente e lo restituisce.
+	Metodo che estrae dalla \inglese{form} la domanda segreta associata al nuovo utente e la restituisce.
 	
 	\item{\method{+ getPassword(): String}}\\
-	Metodo che estrae dal form la password associata al nuovo utente e la restituisce.
+	Metodo che estrae dalla \inglese{form} la password associata al nuovo utente e la restituisce.
 	
 	\item{\method{+ getUsername(): String}}\\
-	Metodo che estrae dal form lo username del nuovo utente (per username si intende l'indirizzo email dell'utente). Si osservi che il metodo dovrà verificare che la mail restituita sia ben formattata secondo l'espressione regolare:\\
+	Metodo che estrae dalla \inglese{form} lo username del nuovo utente (per username si intende l'indirizzo email dell'utente). Si osservi che il metodo dovrà verificare che la mail restituita sia ben formattata secondo l'espressione regolare:\\
 	
 	\verb|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$|
 	\\
@@ -1503,47 +1548,47 @@ Nessuna relazione d'uso evidenziata.
 	Se la mail è valida il metodo termina ritornandone il valore.
 	
 	\item{\method{+ getPicturePath(): String}}\\
-	Metodo che estrae dal form il percorso dell'immagine del nuovo profilo utente e lo restituisce.
+	Metodo che estrae dalla \inglese{form} il percorso dell'immagine del nuovo profilo utente e lo restituisce.
 	
 	\item{\method{+ register(userData: Arrey()): String}}\\
-	Metodo che Invia i dati ricevuti alla \inglese{servlet} per la creazione di un nuovo account utente. Il metodo inizia creando un istanza (request) di \texttt{XMLHttpRequest} usata per comunicare con la \inglese{servlet}. Quindi il metodo abilita request ad inviare un richiesta sincrona al server, usando l'istruzione:\\
+	Metodo che Invia i dati ricevuti alla \inglese{servlet} per la creazione di un nuovo account utente. Tale metodo inizia creando un istanza (\inglese{request}) di \texttt{XMLHttpRequest} usata per comunicare con la \inglese{servlet}. Quindi il metodo abilita \textit{request} ad inviare un richiesta sincrona al server, usando l'istruzione:\\
 	
 	\verb|request.open("POST", servletURL, false)|\\
 	
-	Il metodo procede definendo la stringa da usare come query per da inviare alla \inglese{servlet}. Tale querystring dovrà contenere:\\
+	Il metodo procede definendo la stringa da usare come \textit{query} per da inviare alla \inglese{servlet}. Tale \textit{querystring} contiene:\\
 	
 	\verb|"username=" + encodeURIComponent(userData.username) +|\\
 	\verb|"&password=" + encodeURIComponent(userData.password) +|\\
 	\verb|"&question=" + encodeURIComponent(userData.question) +|\\
 	\verb|"&answer=" + encodeURIComponent(userData.answer)|\\
 	
-	Il metodo termina restituendo il contenuto di querystring.
+	Il metodo termina restituendo il contenuto di \textit{querystring}.
 	
 	\item{\method{+ initialize(): void}}\\
-	Metodo che si occupa di inizializzare la form di registrazione con la creazione di tutti i \inglese{widget} grafici che sono contenuti al suo interno. Nello il metodo esegue i seguenti passi:
+	Metodo che si occupa di inizializzare la \inglese{form} di registrazione con la creazione di tutti i \inglese{widget} grafici che sono contenuti al suo interno. Nello specifico il metodo esegue i seguenti passi:
 	\begin{itemize}
-		\item[•] creazione dell'elemento form;
-		\item[•] creazione dell'elemento <ul> contenuto nel form;		
-		\item[•] creazione dell'item per lo username, definito mediante una label riportante la frase ``Indirizzo email: '', e di un campo input di tipo email per l'inserimento della email dell'utente;
-		\item[•] costruisce il list item con la label e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
-		\item[•] crea l'item per la password, definendo una label riportante la frase ``Password: '' e un oggetto input di tipi password;			
-		\item[•] costruisce il list item con la label e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
-		\item[•] creazione dell'item per la domanda segreta definito mediante una label avente valore ``Domanda segreta: '' e un oggetto input di tipo text;
-		\item[•] costruisce il list item con la label e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
-		\item[•] creazione dell'item per la risposta alla domanda segreta, definito mediante una label avente valore ``Risposta: '' e un oggetto input di tipo text;
-		\item[•] costruisce il list item con la label e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
-		\item[•] creazione dell'item per il nome, definito mediante una label avente valore ``Nome: '' e un oggetto input di tipo text;
-		\item[•] costruisce il list item con la label e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
-		\item[•] creazione dell'item per il cognome, definito mediante una label avente valore ``Cognome: '' e un oggetto input di tipo text;
-		\item[•] costruisce il list item con la label e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
-		\item[•] creazione dell'item per inserire l'immagine utente, definito mediante una label avente valore ``Immagine del profilo: '' e un oggetto input di tipo text;
-		\item[•] costruisce il list item con la label e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
+		\item[•] creazione dell'elemento \inglese{form};
+		\item[•] creazione dell'elemento <ul> contenuto nel \inglese{form};		
+		\item[•] creazione dell'item per lo username, definito mediante una \inglese{label} riportante la frase ``Indirizzo email: '', e di un campo input di tipo email per l'inserimento della email dell'utente;
+		\item[•] costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
+		\item[•] crea l'item per la password, definendo una \inglese{label} riportante la frase ``Password: '' e un oggetto input di tipi password;			
+		\item[•] costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
+		\item[•] creazione dell'item per la domanda segreta definito mediante una \inglese{label} avente valore ``Domanda segreta: '' e un oggetto input di tipo \texttt{text};
+		\item[•] costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
+		\item[•] creazione dell'item per la risposta alla domanda segreta, definito mediante una \inglese{label} avente valore ``Risposta: '' e un oggetto input di tipo \texttt{text};
+		\item[•] costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
+		\item[•] creazione dell'item per il nome, definito mediante una \inglese{label} avente valore ``Nome: '' e un oggetto input di tipo text;
+		\item[•] costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
+		\item[•] creazione dell'item per il cognome, definito mediante una \inglese{label} avente valore ``Cognome: '' e un oggetto input di tipo \texttt{text};
+		\item[•] costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
+		\item[•] creazione dell'item per inserire l'immagine utente, definito mediante una \inglese{label} avente valore ``Immagine del profilo: '' e un oggetto input di tipo \texttt{text};
+		\item[•] costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
 		\item[•] creazione di un pulsante di registrazione (oggetto input di tipo submit e value ``Registrati'').
 		\item[•] operazione finale per ``appendere'' tutti  gli oggetti creati al \texttt{registerForm}.
 	\end{itemize}
 	
 	\item{\method{+ hide(): void}}\\
-	Nasconde il form di registrazione per lasciare spazio alla schermata principale dell'applicativo (che deve essere costruita dal PresenterMediator).
+	Nasconde il \inglese{form} di registrazione per lasciare spazio alla schermata principale dell'applicativo (che deve essere costruita dal PresenterMediator).
 
 \end{description}
 
