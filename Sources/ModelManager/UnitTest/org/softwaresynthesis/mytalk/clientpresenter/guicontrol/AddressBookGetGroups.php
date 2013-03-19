@@ -1,5 +1,5 @@
 <?php
- 	// scarica i gruppi come array associativo
+ 	// scarica l'insieme dei gruppi come array associativo
 	
 	$groups = array(
 	  1 => array(
