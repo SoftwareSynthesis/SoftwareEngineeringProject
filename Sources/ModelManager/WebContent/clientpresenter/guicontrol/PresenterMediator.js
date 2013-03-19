@@ -11,8 +11,8 @@ function PresenterMediator() {
      ***********************************************************/
     // array associativo contentente i riferimenti ai presenter di primo livello
     var presenters = new Array();
-    presenters["login"] = new LoginPanelPresenter("http://localhost:8080/MyTalk/Login");
-    presenters["register"] = new RegisterPanelPresenter("http://localhost:8080/MyTalk/Login");
+    presenters["login"] = new LoginPanelPresenter("http://localhost:8080/MyTalk/LoginManager");
+    presenters["register"] = new RegisterPanelPresenter("http://localhost:8080/MyTalk/LoginManager");
     presenters["addressbook"] = new AddressBookPanelPresenter("http://localhost:8080/MyTalk/AddressBook");
     presenters["tools"] = new ToolsPanelPresenter();
     presenters["main"] = new MainPanelPresenter();
