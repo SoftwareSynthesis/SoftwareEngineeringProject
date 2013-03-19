@@ -19,8 +19,9 @@ function AddressBookPanelPresenter(url, ext) {
     // da configurare con url della servlet
     var urlServlet = url;
     // suffisso da concatenere agli URL
-    var suffix = (ext == null? ".php" : "");
-    
+    var suffix = (ext == null ? ".php" : "");
+
+    var operations = new Array("GetContacts", "DoAddContact", "DoDeleteContact", "DoInsertInGroup", "DoRemoveFromGroup", "DoCreateGroup", "DoDeleteGroup", "GetGroups", "DoBlock", "DoUnblock", "DoSearch");
     /* OPERATION ON SERVER:
      * -  0 = ottieni i contatti della rubrica
      * -  1 = aggiungi contatto ad una rubrica
@@ -34,17 +35,7 @@ function AddressBookPanelPresenter(url, ext) {
      * -  9 = sbloccare un utente
      * - 10 = restituire una ricerca
      */
-    var operations = ["GetContacts",
-                      "DoAddContact",
-                      "DoDeleteContact",
-                      "DoInsertInGroup",
-                      "DoRemoveFromGroup",
-                      "DoCreateGroup",
-                      "DoDeleteGroup",
-                      "GetGroups",
-                      "DoBlock",
-                      "DoUnblock",
-                      "DoSearch"];
+    
     // array dei contatti della rubrica dell'utente
     var contacts = new Array();
     // array dei gruppi della rubrica
