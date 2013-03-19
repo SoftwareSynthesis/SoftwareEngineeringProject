@@ -14,7 +14,7 @@ function PresenterMediator() {
     presenters["login"] = new LoginPanelPresenter("http://localhost:8080/MyTalk/Login");
     presenters["register"] = new RegisterPanelPresenter("http://localhost:8080/MyTalk/Login");
     presenters["addressbook"] = new AddressBookPanelPresenter("http://localhost:8080/MyTalk/AddressBook");
-    presenters["tools"] = new ToolsPanelPresenter();
+    presenters["tools"] = new ToolsPanelPresenter("http://localhost:8080/MyTalk/Login");
     presenters["main"] = new MainPanelPresenter();
 
     //presenter di secondo livello (pannelli contenuti nel MainPanel)

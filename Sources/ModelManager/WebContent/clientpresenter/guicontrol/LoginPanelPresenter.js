@@ -98,7 +98,7 @@ function LoginPanelPresenter(url) {
         var request = new XMLHttpRequest();
         request.open("POST", servletURL + operation[2], false);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        request.send("username=" + encodeURIComponent(userID) + "&operation=3");
+        request.send();
         question = request.responseText;
         return question;
     }
@@ -116,9 +116,9 @@ function LoginPanelPresenter(url) {
      */
     this.hasAnsweredCorrectly = function(username, answer) {
         var request = new XMLHttpRequest();
-        request.open("POST", servletURL, false);
+        request.open("POST", servletURL + operation[3], false);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        request.send("username=" + encodeURIComponent(username) + "&answer=" + encodeURIComponent(answer) + "&operation=4");
+        request.send("answer=" + encodeURIComponent(answer));
         return JSON.parse(request.responseText);
     };
 
@@ -225,10 +225,9 @@ function LoginPanelPresenter(url) {
                 testCredentials(request.responseText);
             }
         };
-        request.open("POST", servletURL, true);
+        request.open("POST", servletURL+operation[0], true);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        var querystring = "username=" + encodeURIComponent(data.username) + "&password=" + encodeURIComponent(data.password) + "&operation=1";
-        request.send(querystring);
+        request.send("username=" + encodeURIComponent(data.username) + "&password=" + encodeURIComponent(data.password));
         return querystring;
     };
 
