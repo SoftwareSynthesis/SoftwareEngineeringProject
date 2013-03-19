@@ -12,12 +12,7 @@ function LoginPanelPresenter(url) {
      ***********************************************************/
     // url della servlet che deve gestire il login
     var servletURL = url;
-    var operation = new Array();
-    operation.push("Autentication");
-    operation.push("Close");
-    operation.push("GetSecretQuestion");
-    operation.push("DoSecretAnswer");
-    operation.push("DoRegistration");
+    var operation = new Array("Autentication", "Close", "GetSecretQuestion", "DoSecretAnswer", "DoRegistration");
     /*
     * 0 = LoginAutentication
     * 1 = LoginClose
