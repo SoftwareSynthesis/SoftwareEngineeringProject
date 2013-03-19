@@ -19,7 +19,7 @@ function AddressBookPanelPresenter(url, ext) {
     // da configurare con url della servlet
     var urlServlet = url;
     // suffisso da concatenere agli URL
-    var suffix = (ext == null ? ".php" : "");
+    var suffix = (ext == null? "" : ext);
 
     var operations = new Array("GetContacts", "DoAddContact", "DoDeleteContact", "DoInsertInGroup", "DoRemoveFromGroup", "DoCreateGroup", "DoDeleteGroup", "GetGroups", "DoBlock", "DoUnblock", "DoSearch");
     /* OPERATION ON SERVER:
