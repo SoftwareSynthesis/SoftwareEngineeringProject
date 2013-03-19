@@ -989,6 +989,49 @@ Permette di caricare le credenziali di autenticazione, fornite dall'utente, per 
 
 \end{description}
 
+%TODO da rivedere nella definizione dei metodi! 
+\classsection{LogoutServlet}
+
+\subsubsection*{Funzione}
+\inglese{Servlet} da richiamare per effettuare il logout dal sistema.
+
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
+	\item \texttt{javax.servlet.ServletException}: eccezione rilancibile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{LoginManager}.
+	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
+	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la servlet (inoltra i dati in uscita dalla chiamata a servlet).
+	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
+	\item \classname{abook.IUserData}: usata per definire un utente.
+	\item \classname{dao.UserDataDAO}: usata per comunicare tramite Hibernate con la tabella UserData della base di dati.
+\end{itemize}
+
+\subsubsection*{Attributi}
+\begin{description}
+  \item{\memberdata{\underline{-- {frozen} serialVersionUID: long}}}\\
+  Utilizzato come ID univoco per identificare un oggetto serializzabile.
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+	\item{\method{+ LogoutServlet()}}\\
+	Costruttore della classe. Richiama il costruttore della classe padre \texttt{HttpServlet}.
+	
+	\item{\method{\# doGet(request: HttpServletRequest, response: HttpServletResponse): void}}\\
+	Metodo di delega che richiama \method{doPost()} passando gli stessi dati in input.
+	
+	\item{\method{\# doPost(request: HttpServletRequest, response: HttpServletResponse): void}}\\
+	Metodo che costituisce il kernel logico di risposta della \inglese{servlet}. Il metodo inizia caricando un istanza di Object i parametri ricevuti mediante \texttt{HttpServletRequest}. Una chiamata a tale \inglese{servlet} corrisponde ad una richiesta di logout e si attua impostando a false la sessione contenuta nell'oggetto HttopServletRequest request. Il metodo procede con la creazione di un istanza  di \texttt{LoginContext} denominata context. Quindi viene effettuata la memorizzazione dell'oggetto ritornato da una chiamata:
+\\
+\verb|session.getAttribute("LoginContext");|
+\\
+
+L'oggetto cosi ottenuto dovrà essere controllato, ovvero si dovrà accertare che il tipo dinamico è conforme al tipo \texttt{LoginContext} (il programmatore dovrà obbligatoriamente usare   la primitiva \texttt{istanceof}). Quindi si sovrascrive il contenuto di context con quanto ottenuto dalla chiamata a metodo sopracitata, e si richiama il metodo \texttt{logout()} a partire dall'oggetto context. Il metodo termina invalidando la sessione richiamando il metodo \texttt{invalidate()} di HttpSession.
+
+\end{description}
+
 \classsection{LoginManager}
 
 \subsubsection*{Funzione}
@@ -1225,14 +1268,14 @@ Nessuna relazione d'uso evidenziata.
   Attributo che definisce l'URL dal quale è richiamabile la servlet usata per interagire con l'apparato server del sistema.
   \item{\memberdata{-- contacts: Array()}}\\
   Attributo che definisce la lista degli utenti presenti nella rubrica dell'utente che ha effettuato l'autenticazione.
-   \item{\memberdata{-- group: Array()}}\\
-  Attributo che definisce la lista dei gruppi presenti nella rubrica dell'utente che ha effettuato l'autenticazione.
+   \item{\memberdata{-- groups: Array()}}\\
+  Attributo che definisce la lista dei gruppi presenti nella rubrica dell'utente che ha effettuato l'autenticazione. Pero ogni gruppo sono  elencati i contatti contenuti in esso.
 
 \end{description}
 
 \subsubsection*{Metodi}
-\begin{description}
-
+\begin{description}	
+	
 	\item{\method{+ inizialize(): void}}\\
 	Metodo per inizializzare  ``AddressBookPanel'' e lo popolarlo con i contatti della rubrica. Il metodo modifica il DOM creando tre div: divSearch, divSort e divList. Quindi sequenzialmente ne crea il contenuto:
 		\begin{itemize}
@@ -1244,7 +1287,7 @@ Nessuna relazione d'uso evidenziata.
 Quindi dopo aver creato questi elementi il metodo procede inserendo nel DOM il ``sotto-albero'' cosi creato.
 
 	\item{\method{+ getAddressBookContacts(): void}}\\
-Metodo che recupera i contatti della propria rubrica dal server usando la tecnologia AJAX. Il metodo crea una variabile contenente un istanza \texttt{XMLHttpRequest()}. Quindi con metodo \inglese{POST} inoltra la richiesta alla servlet richiamandola al URL salvato nell'attributo \memberdata{urlServlet}. Quindi elabora i dati ottenuti mediante il metodo \texttt{JSON.parse()} e li salva nell'array \memberdata{contact}.
+Metodo che recupera i contatti e i gruppi della propria rubrica dal server usando la tecnologia AJAX. Il metodo crea una variabile contenente un istanza \texttt{XMLHttpRequest()}. Quindi con metodo \inglese{POST} inoltra la richiesta alla \inglese{servlet} richiamandola al URL salvato nell'attributo \memberdata{urlServlet}. Quindi elabora i dati ottenuti mediante il metodo \texttt{JSON.parse()} e li salva negli array \memberdata{contacts} e \memberdata{groups}.
 	
 	\item{\method{+ setup(): void}}\\
 	Inserisce i contatti estratti dal server all'interno della lista ``AddressBookList'' all'interno di ``AddressBookPanel''.
@@ -1253,7 +1296,7 @@ Metodo che recupera i contatti della propria rubrica dal server usando la tecnol
 	Metodo usato per visualizzare la lista dei contatti utente. Il metodo prende il nodo DOM (già esistente) e destinato a contenere la lista dei contatti, popolandolo richiamando il metodo \method{addListItem()}.
 	
 	\item{\method{-- addListItem(contact: String[]): void}}\\
-	Metodo richiamato da \method{dysplayContactList()} per visualizzare i contatti presenti all'array \memberdata{contact} (passato come parametro). Il metodo crea le variabili contenenti i dati del contatto da attribuire al tag di markup \texttt{li}. Tali variabili sono quelle tipiche di un oggetti \classname{JSUserData} (nome, cognome, email, status e immagine).
+	Metodo richiamato da \method{dysplayContactList()} per visualizzare i contatti presenti all'array \memberdata{contacts} (passato come parametro). Il metodo crea le variabili contenenti i dati del contatto da attribuire al tag di markup \texttt{li}. Tali variabili sono quelle tipiche di un oggetti \classname{JSUserData} (nome, cognome, email, status e immagine).
 	
 	\item{\method{+ addContact(idContact: int): boolean}}\\
 	Metodo per l'aggiunta di un contatto alla rubrica. Il metodo riceve come parametro una stringa che definisce l'id dell'utente da inserire nella propria rubrica. Per assicurarsi di non introdurre ridondanza ed aggiungere un contatto già presente, il metodo esegue due controlli: uno lato client e uno lato server. Per il controllo lato client, si scorre la lista \memberdata{contact} alla ricerca di un id che fa match con idContact. Nel caso già presente il metodo termina ritornando false. Per eseguire il controllo lato server il metodo contatta il server mediante la \inglese{servlet} AddressBookManager. Questa verificherà se l'utente avente id idContact è già presente nella rubrica. Nel caso l'utente non sia presente si occuperà di creare la nuova istanza di AddressBookEntry e la registrerà nel database. In caso contrario non fa niente. La chiamata a servlet ritorna un valore booleano. Tale valore sarà true se l'inserimento ha avuto successo, false altrimenti. Se l'inserimento ha avuto successo il flusso principale prosegue eseguendo l'aggiornamento della rubrica in locale tramite la chiamata a metodo \method{getAddressBookContacts()} seguita da \method{setup()}. Il metodo termina ritornando true se è stato aggiunto l'utente, false altrimenti.
