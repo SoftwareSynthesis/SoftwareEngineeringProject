@@ -91,7 +91,7 @@ function LoginPanelPresenter(url) {
      METODI PUBBLICI
      ***********************************************************/
     /**
-     * Invia la risposta alla domanda segreta al server
+     * Testa se l'utente ha dato la risposta corretta alla domanda segreta
      * 
      * @param {String} username nome utente associato alla domanda segreta
      * @param {String} answer risposta alla domanda segreta
