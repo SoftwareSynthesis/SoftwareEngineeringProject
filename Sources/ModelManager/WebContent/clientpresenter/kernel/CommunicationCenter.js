@@ -22,14 +22,14 @@ function CommunicationCenter() {
     */
 
     //FIXME da sistemare la funzione associata all'event heandler onbeforeunload
-    window.onbeforeunload = function() {
+    /*window.onbeforeunload = function() {
         if (pc != null) {
             setTimeout(function() {
                 endCall();
             }, 3000);
         }
         disconnect();
-    }
+    }*/
     /**
      * Funzione per la connessione del client al server utilizzando una WebSoket.
      * Questa funzione gestisce anche la ricezione di dati da parte del server
@@ -292,7 +292,7 @@ function CommunicationCenter() {
     }
 
     //Visualizzazione statistiche chiamata
-    var statCollector = setInterval(function() {
+    /*var statCollector = setInterval(function() {
         if (pc && pc.getRemoteStreams()[0]) {
             if (pc.getStats) {
                 pc.getStats(function(stats) {
@@ -309,7 +309,7 @@ function CommunicationCenter() {
                 //da gestire dove voler visualizzare l'errore
             }
         }
-    }, 1000);
+    }, 1000);*/
 
     /**
      * Funzione per l'estrazione dei dati dal oggetto delle statistiche
