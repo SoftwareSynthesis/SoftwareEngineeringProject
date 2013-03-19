@@ -10,7 +10,7 @@
  * @author Riccardo Tresoldi
  * @author Diego Beraldin
  */
-function AddressBookPanelPresenter(url) {
+function AddressBookPanelPresenter(url, ext) {
     /**********************************************************
      VARIABILI PRIVATE
      ***********************************************************/
@@ -18,6 +18,8 @@ function AddressBookPanelPresenter(url) {
     var element = document.getElementById("AddressBookPanel");
     // da configurare con url della servlet
     var urlServlet = url;
+    // suffisso da concatenere agli URL
+    var suffix = (ext == null? ".php" : "");
     
     /* OPERATION ON SERVER:
      * -  0 = ottieni i contatti della rubrica
@@ -65,20 +67,20 @@ function AddressBookPanelPresenter(url) {
         //gestisco l'evento di restituzione dei dati
         contactRequest.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                contacts = JSON.parse(request.responseText);
+                contacts = JSON.parse(this.responseText);
             }
         };
         groupRequest.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                groups = JSON.parse(request.responseText);
+                groups = JSON.parse(this.responseText);
             }
         };
 
         //effettuo la richiesta vera e propria
-        contactRequest.open("POST", urlServlet + operations[0], "true");
+        contactRequest.open("POST", urlServlet + operations[0] + suffix, "true");
         contactRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         contactRequest.send();
-        groupRequest.open("POST", urlServlet + operations[7], "true");
+        groupRequest.open("POST", urlServlet + operations[7] + suffix, "true");
         groupRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         groupRequest.send();
     };
@@ -237,14 +239,14 @@ function AddressBookPanelPresenter(url) {
         // appendo i sottonodi ai nodi principali
         divFilter.appendChild(inputText);
         divFilter.appendChild(inputButton);
-        divSort.appendChild(select);
+        divSort.appendChild(selectSort);
         divList.appendChild(ul);
 
         //appendo il sottoalbero al DOM
-        this.element.innerHTML = "";
-        this.element.appendChild(divFilter);
-        this.element.appendChild(divSort);
-        this.element.appendChild(divList);
+        element.innerHTML = "";
+        element.appendChild(divFilter);
+        element.appendChild(divSort);
+        element.appendChild(divList);
 
         // scarica i contatti dal server
         getAddressBookContacts();
@@ -265,7 +267,7 @@ function AddressBookPanelPresenter(url) {
     this.setup = function() {
         //popolo la parte dei contatti
         // estraggo l'<ul> del Addressbook e lo inizializzo
-        var ulList = this.element.getElementById("AddressBookList");
+        var ulList = document.getElementById("AddressBookList");
         ulList.innerHTML = "";
         // ciclo i contatti e agiungo un <li> per ogni contatto
         for (var contact in contacts) {
@@ -274,7 +276,7 @@ function AddressBookPanelPresenter(url) {
 
         //popolo la parte dei gruppi
         //estraggo la <select> dal DOM e la inizializzo
-        var selectGroup = this.element.getElementById("selectGroup");
+        var selectGroup = document.getElementById("selectGroup");
         selectGroup.innerHTML = "";
         //ciclo i gruppi e li aggiungo alla <select>
         for (var group in groups) {
@@ -311,7 +313,7 @@ function AddressBookPanelPresenter(url) {
                 result = JSON.parse(request.responseText);
             }
         };
-        request.open("POST", urlServlet + operations[1], "true");
+        request.open("POST", urlServlet + operations[1] + suffix, "true");
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         request.send("contactId=" + contact);
 
@@ -377,7 +379,7 @@ function AddressBookPanelPresenter(url) {
                 result = JSON.parse(request.responseText);
             }
         };
-        request.open("POST", urlServlet + operations[3], "true");
+        request.open("POST", urlServlet + operations[3] + suffix, "true");
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         request.send("contactId=" + contact + "&groupId=" + group);
 
@@ -440,7 +442,7 @@ function AddressBookPanelPresenter(url) {
                 result = JSON.parse(request.responseText);
             }
         };
-        request.open("POST", urlServlet + operations[5], "true");
+        request.open("POST", urlServlet + operations[5] + suffix, "true");
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         request.send("groupName=" + name);
 
@@ -477,7 +479,7 @@ function AddressBookPanelPresenter(url) {
                 result = JSON.parse(request.responseText);
             }
         };
-        request.open("POST", urlServlet + operations[6], "true");
+        request.open("POST", urlServlet + operations[6] + suffix, "true");
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         request.send("groupId=" + idGroup);
 
@@ -600,7 +602,7 @@ function AddressBookPanelPresenter(url) {
                 result = JSON.parse(request.responseText);
             }
         };
-        request.open("POST", urlServlet + operations[8], "true");
+        request.open("POST", urlServlet + operations[8] + suffix, "true");
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         request.send("contactId=" + contact.id);
 
@@ -636,7 +638,7 @@ function AddressBookPanelPresenter(url) {
                 result = JSON.parse(request.responseText);
             }
         };
-        request.open("POST", urlServlet + operations[9], "true");
+        request.open("POST", urlServlet + operations[9] + suffix, "true");
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         request.send("contactId=" + contact.id);
 
