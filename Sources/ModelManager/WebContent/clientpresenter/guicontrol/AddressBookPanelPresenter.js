@@ -18,6 +18,31 @@ function AddressBookPanelPresenter(url) {
     var element = document.getElementById("AddressBookPanel");
     // da configurare con url della servlet
     var urlServlet = url;
+    
+    /* OPERATION ON SERVER:
+     * -  0 = ottieni i contatti della rubrica
+     * -  1 = aggiungi contatto ad una rubrica
+     * -  2 = elimina contatto da una rubrica
+     * -  3 = aggiunge un contatto ad un gruppo
+     * -  4 = eliminare un contatto da un gruppo
+     * -  5 = aggiunta di un gruppo
+     * -  6 = eliminazione di un gruppo
+     * -  7 = ottieni i gruppi della rubrica
+     * -  8 = bloccare un utente
+     * -  9 = sbloccare un utente
+     * - 10 = restituire una ricerca
+     */
+    var operations = ["GetContacts",
+                      "DoAddContact",
+                      "DoDeleteContact",
+                      "DoInsertInGroup",
+                      "DoRemoveFromGroup",
+                      "DoCreateGroup",
+                      "DoDeleteGroup",
+                      "GetGroups",
+                      "DoBlock",
+                      "DoUnblock",
+                      "DoSearch"];
     // array dei contatti della rubrica dell'utente
     var contacts = new Array();
     // array dei gruppi della rubrica
@@ -50,12 +75,12 @@ function AddressBookPanelPresenter(url) {
         };
 
         //effettuo la richiesta vera e propria
-        contactRequest.open("POST", urlServlet, "true");
+        contactRequest.open("POST", urlServlet + operations[0], "true");
         contactRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        contactRequest.send("operation=" + 0 + "&myId=" + communicationcenter.my.id);
-        groupRequest.open("POST", urlServlet, "true");
+        contactRequest.send();
+        groupRequest.open("POST", urlServlet + operations[7], "true");
         groupRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        groupRequest.send("operation=" + 7 + "&myId=" + communicationcenter.my.id);
+        groupRequest.send();
     };
 
     /**
@@ -207,7 +232,7 @@ function AddressBookPanelPresenter(url) {
 
         // creo contenuto divList
         var ul = document.createElement('ul');
-        select.id = "AddressBookList";
+        selectSort.id = "AddressBookList";
 
         // appendo i sottonodi ai nodi principali
         divFilter.appendChild(inputText);
@@ -286,11 +311,11 @@ function AddressBookPanelPresenter(url) {
                 result = JSON.parse(request.responseText);
             }
         };
-        request.open("POST", urlServlet, "true");
+        request.open("POST", urlServlet + operations[1], "true");
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        request.send("operation=" + 1 + "&myId=" + communicationcenter.my.id + "&contactId=" + contact);
+        request.send("contactId=" + contact);
 
-        //visualizzio l'esito della richiesta. Se esito positivo refresh della rubrica
+        //visualizzo l'esito della richiesta. Se esito positivo refresh della rubrica
         if (result == true) {
             getAddressBookContacts();
             this.setup();
@@ -318,11 +343,11 @@ function AddressBookPanelPresenter(url) {
                 result = JSON.parse(request.responseText);
             }
         };
-        request.open("POST", urlServlet, "true");
+        request.open("POST", urlServlet + operations[2], "true");
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        request.send("operation=" + 2 + "&myId=" + communicationcenter.my.id + "&contactId=" + contact);
+        request.send("contactId=" + contact);
 
-        //visualizzio l'esito della richiesta. Se esito positivo refresh della rubrica
+        //visualizzo l'esito della richiesta. Se esito positivo refresh della rubrica
         if (result == true) {
             getAddressBookContacts();
             this.setup();
@@ -352,9 +377,9 @@ function AddressBookPanelPresenter(url) {
                 result = JSON.parse(request.responseText);
             }
         };
-        request.open("POST", urlServlet, "true");
+        request.open("POST", urlServlet + operations[3], "true");
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        request.send("operation=" + 3 + "&myId=" + communicationcenter.my.id + "&contactId=" + contact + "&groupId=" + group);
+        request.send("contactId=" + contact + "&groupId=" + group);
 
         //visualizzio l'esito della richiesta. Se esito positivo refresh della rubrica
         if (result == true) {
@@ -385,9 +410,9 @@ function AddressBookPanelPresenter(url) {
                 result = JSON.parse(request.responseText);
             }
         };
-        request.open("POST", urlServlet, "true");
+        request.open("POST", urlServlet + operations[4], "true");
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        request.send("operation=" + 4 + "&myId=" + communicationcenter.my.id + "&contactId=" + contact + "&groupId=" + group);
+        request.send("contactId=" + contact + "&groupId=" + group);
 
         //visualizzio l'esito della richiesta. Se esito positivo refresh della rubrica
         if (result == true) {
@@ -415,9 +440,9 @@ function AddressBookPanelPresenter(url) {
                 result = JSON.parse(request.responseText);
             }
         };
-        request.open("POST", urlServlet, "true");
+        request.open("POST", urlServlet + operations[5], "true");
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        request.send("operation=" + 5 + "&myId=" + communicationcenter.my.id + "&groupName=" + name);
+        request.send("groupName=" + name);
 
         //visualizzio l'esito della richiesta. Se esito positivo refresh della rubrica
         if (result == true) {
@@ -452,9 +477,9 @@ function AddressBookPanelPresenter(url) {
                 result = JSON.parse(request.responseText);
             }
         };
-        request.open("POST", urlServlet, "true");
+        request.open("POST", urlServlet + operations[6], "true");
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        request.send("operation=" + 6 + "&myId=" + communicationcenter.my.id + "&groupId=" + idGroup);
+        request.send("groupId=" + idGroup);
 
         //visualizzio l'esito della richiesta. Se esito positivo refresh della rubrica
         if (result == true) {
@@ -575,9 +600,9 @@ function AddressBookPanelPresenter(url) {
                 result = JSON.parse(request.responseText);
             }
         };
-        request.open("POST", urlServlet, "true");
+        request.open("POST", urlServlet + operations[8], "true");
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        request.send("operation=" + 8 + "&contactId=" + contact.id);
+        request.send("contactId=" + contact.id);
 
         //controllo il risultato
         if (result == true) {
@@ -611,9 +636,9 @@ function AddressBookPanelPresenter(url) {
                 result = JSON.parse(request.responseText);
             }
         };
-        request.open("POST", urlServlet, "true");
+        request.open("POST", urlServlet + operations[9], "true");
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        request.send("operation=" + 9 + "&contactId=" + contact.id);
+        request.send("contactId=" + contact.id);
 
         //controllo il risultato
         if (result == true) {
@@ -623,20 +648,6 @@ function AddressBookPanelPresenter(url) {
         }
         throw "Ops... qualcosa è andato storto nel server.";
     };
-
-    /* OPERATION ON SERVER:
-     * -  0 = ottieni i contatti della rubrica
-     * -  1 = aggiungi contatto ad una rubrica
-     * -  2 = elimina contatto da una rubrica
-     * -  3 = aggiunge un contatto ad un gruppo
-     * -  4 = eliminare un contatto da un gruppo
-     * -  5 = aggiunta di un gruppo
-     * -  6 = eliminazione di un gruppo
-     * -  7 = ottieni i gruppi della rubrica
-     * -  8 = bloccare un utente
-     * -  9 = sbloccare un utente
-     * - 10 = restituire una ricerca
-     */
 
     /*
      * FILE JSON CHE RAFFIGURA LA RUBRICA
