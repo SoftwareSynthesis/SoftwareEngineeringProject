@@ -1236,6 +1236,8 @@ La \texttt{sotto-architettura clientpresenter}, a livello di definizione di prod
 
 \subsection{Package org.softwaresynthesis.mytalk.clientpresenter.guicontrol}\label{sec:authentication}
 
+%TODO da rivedere in modo BRUTALEEEEEEEEEEEEEEEEEEE!
+
 \classsection{AddressBookPanelPresenter}
 
 \subsubsection*{Funzione}
@@ -1255,6 +1257,21 @@ Nessuna relazione d'uso evidenziata.
   Attributo che definisce la lista degli utenti presenti nella rubrica dell'utente che ha effettuato l'autenticazione.
    \item{\memberdata{-- groups: Array()}}\\
   Attributo che definisce la lista dei gruppi presenti nella rubrica dell'utente che ha effettuato l'autenticazione. Pero ogni gruppo sono  elencati i contatti contenuti in esso.
+   \item{\memberdata{-- operations: String[]}}\\ 
+   Array di stringhe usato per memorizzare i nomi delle istruzioni eseguibili. Tali nomi rappresentano una parte del nome della servlet incaricata a risolvere l'operazione descritta (e.g. GetContacts rappresenta l'operazione svolta dalla servlet avente nome: \memberdata{urlServlet} concatenato a ``GetContactsServlet''). I valori con i quali si dovrà caricare \memberdata{operations}) sono:
+   \begin{itemize}
+   	\item GetContacts;
+    \item DoAddContact;
+    \item DoDeleteContact;
+    \item DoInsertInGroup;
+    \item DoRemoveFromGroup;
+    \item DoCreateGroup;
+    \item DoDeleteGroup;
+    \item GetGroups;
+    \item DoBlock;
+    \item DoUnblock;
+    \item DoSearch;
+   \end{itemize}
 
 \end{description}
 
