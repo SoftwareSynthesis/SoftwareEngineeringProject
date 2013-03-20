@@ -1361,6 +1361,19 @@ Metodo usato per l'eliminare il contenuto preesistente nella rubrica e visualizz
 \item{\method{+ contactAlredyPresent(contact: Array()): boolean}}\\
 Metodo che dato un contatto verifica se appartiene alla rubrica. Per compiere tale azione viene da prima riscaricata la rubrica, mediante una chiamata a metodo \method{getAddressBookContacts()}. Quindi si usa un ciclo for per scorrere l'intera lista precedentemente ottenuta e ad ogni ciclo si controlla se il contatto i-esimo ha id uguale a quello del contatto ricevuto come parametro d'ingresso (\texttt{contact.id}). Se tale confronto ha esito positivo, il metodo termina ritornando \inglese{true}, altrimenti il metodo termina al termine del ciclo for ritornando \inglese{false}.
 
+\item{\method{+ blockUser(contact: Array()): boolean}}\\
+Metodo utilizzato per bloccare (all'interno della rubrica utente) il contatto contact passato come parametro d'ingresso. Il primo step consiste nell'eseguire il controllo sul parametro ricevuto. Per farlo si osserva il valore ritornato da una chiamata a metodo \method{constactAlradyPresent()} passando come parametro d'ingresso contact. Se il valore di ritorno è \inglese{false} il metodo termina con l'eccezione ``Contatto non presente nella rubrica''. Altrimenti il controllo passa allo step successivo, in cui si verifica se l'attributo blocked di contact è impostato a \inglese{true}. Nel caso il metodo termina con l'eccezione ``Contatto già bloccato''. Se il flusso principale ha superato i test precedenti, allora viene creata un istanza di request \texttt{XMLHttpRequest()} usata per contattare la \inglese{servlet} avente nome:\\
+
+\verb|urlServlet + operations[8] + suffix|\\
+
+Per tale richiesta deve essere associata, all'evento \texttt{onreadystatechange}, una funzione che salva in un array il contenuto di una chiamata:\\
+
+\verb|JSON.parse(request.responseText)|\\
+
+Il flusso principale prosegue aprendo la request cosi definita (uso del metodo \texttt{open("POST", urlServlet + operations[8] + suffix, "true")}) e inviando il contatto mediante una chiamata \texttt{request.send("contactId=" + contact.id)}.
+
+Il metodo termina eseguendo un controllo. Se il risultato result della chiamata a \inglese{servlet} ha valore \inglese{true} allora il metodo termina aggiornando la rubrica mediante una chiamata \method{setup()} e ritornando \inglese{true}. In caso contrario il metodo termina con un eccezione.
+
 \end{description}
 
 \classsection{LoginPanelPresenter}
