@@ -587,6 +587,47 @@ Implementazione dell'interfaccia IAddressBookEntry.
 
 \end{description}
 
+\classsection{AddressBookDoAddContactServlet}
+java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServlet;
+import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
+
+\subsubsection*{Funzione}
+Servlet cha ha il compito di aggiungere alla rubrica un nuovo contatto.
+
+\subsubsection*{Relazioni d'uso}
+
+\begin{itemize}
+	\item \texttt{java.io.IOException}:
+	\item \texttt{java.io.PrintWriter}:
+	\item \texttt{javax.servlet.ServletException}:
+	\item \texttt{javax.servlet.http.HttpSession}:
+	\item \texttt{javax.servlet.http.HttpServletResponse}:
+	\item \texttt{javax.servlet.http.HttpServletRequest}:
+	\item \texttt{javax.servlet.http.HttpServlet}:
+	\item \classname{org.softwaresynthesis.mytalk.server.dao.UserDataDAO}:
+\end{itemize}
+
+\subsubsection*{Attributi}
+
+\begin{itemize}
+	\item{\underline{\memberdata{-- \{frozen\} serialVersionUID: long}}}
+	Attributo contenente l'id per la serializzazione dei dati. Il valore di creazione deve essere \texttt{10012L}.
+\end{itemize}
+
+\subsubsection*{Metodi}
+
+\begin{description}
+	\item{\method{+ AddressBookDoAddContactServlet()}}\\
+	\item{\method{+ diGet(request HttpServletRequest, response HttpServletResponse): void}}\\
+	\item{\method{+ doPost(request HttpServletRequest, response HttpServletResponse): void}}\\		
+\end{description}
+
 \subsection{Package org.softwaresynthesis.mytalk.server.call}\label{sec:call}
 
 \classsection{ICall}
@@ -1239,8 +1280,6 @@ La sotto-architettura \texttt{clientpresenter}, a livello di definizione di prod
 \end{description}
 
 \subsection{Package org.softwaresynthesis.mytalk.clientpresenter.guicontrol}\label{sec:authentication}
-
-%TODO da rivedere in modo BRUTALEEEEEEEEEEEEEEEEEEE!
 
 \classsection{AddressBookPanelPresenter}
 
