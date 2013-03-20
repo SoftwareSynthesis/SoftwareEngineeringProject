@@ -1374,6 +1374,13 @@ Il flusso principale prosegue aprendo la request cosi definita (uso del metodo \
 
 Il metodo termina eseguendo un controllo. Se il risultato result della chiamata a \inglese{servlet} ha valore \inglese{true} allora il metodo termina aggiornando la rubrica mediante una chiamata \method{setup()} e ritornando \inglese{true}. In caso contrario il metodo termina con un eccezione.
 
+\item{\method{+ unlockUser(contact: Array()): boolean}}\\
+Metodo usato per sbloccare un utente all'interno di una rubrica. Il metodo ha un funzionamento analogo al precedente. Nello specifico vengono attuati gli stessi controlli prima tramite \method{contactAlradyPresent()} e poi tramite la verifica del contenuto del di contact.block. Successivamente si crea una XMLHttpRequest che si appoggia alla \inglese{servlet} definita dalla stringa:\\
+
+\verb|urlServlet + operations[9] + suffix|\\
+
+Tale server ha il compito di sbloccare il contatto contact. Quindi il metodo termina eseguendo un controllo sul tipo di risultato. Se l'operazione precedente è avvenuta con successo allora si procede aggiornando la rubrica (chiamata a metodo \method{setup()}). Altrimenti il metodo termina con un eccezione.
+
 \end{description}
 
 \classsection{LoginPanelPresenter}
