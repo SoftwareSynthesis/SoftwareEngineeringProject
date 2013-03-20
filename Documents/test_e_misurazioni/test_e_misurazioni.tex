@@ -128,21 +128,50 @@ Prima di tutto sono state calcolate, al fine di quantificare la ``dimensione'' d
 NOC rappresenta il numero totale delle classi che sono rappresentate all'interno del package, mentre il NOM rappresenta il numero dei metodi conteggiati, sempre per package.
 
 La tabella X riporta le misurazioni su tali metriche per i package del prodotto \caName{}, evidenziandone i più corposi dal punto di vista implementativo.
-\\\\
-***TABELLA NOC E NOM***
-\\\\
+
+
+\begin{center}
+\rowcolors{2}{lightblue}{llightblue}\begin{longtable}{p{.55\textwidth}ll}
+\toprule Package & TLOC  & MLOC\\
+nome.package.esaminato & XXXX & XXXX\\
+\midrule
+
+\bottomrule
+\end{longtable}
+\end{center}
+
+
 Spingendosi più nel dettaglio si è deciso di esporre il \inglese{Total Line Of Code} (TLOC) e il \inglese{Method Lines Of Code} (MLOC).
 Come suggeriscono i nomi, TLOC rappresenta il numero totale di linee di codice (effettive, ovvero senza contare quelle non vuote o commentate) all'interno di un'unità di compilazione, MLOC definisce invece il numero totale di linee di codice (sempre effettive) che definiscono i corpi dei metodi. 
 
 Come per NOC e NOM riportiamo la tabella X con le misurazioni su tali metriche relative ai package di \caName{}.
-\\\\
-***TABELLA TLOC E MLOC***
-\\\\
+
+
+\begin{center}
+\rowcolors{2}{lightblue}{llightblue}\begin{longtable}{p{.55\textwidth}ll}
+\toprule Package & NOC  & NOM\\
+\midrule
+nome.package.esaminato& XXXX & XXXX\\
+\bottomrule
+\end{longtable}
+\end{center}
+
+
 Coerentemente con le Norme di Progetto consultabili nel documento allegato \textit{norme\_di\_progetto.3.0.pdf} si riporta l'indice di complessità ciclomatica (media) per ogni package. Tale misura è direttamente legata al numero di cammini linearmente indipendenti che compongono il grafo di controllo di flusso. Tale indice dovrebbe essere compreso tra 0 e 10 per definire il codice nella norma.
 Infine il \inglese(Lack Of Cohesion Of Methods) (LCOM3) indica il liello (medio) di coesione dei metodi, più tale livello risulta basso migliore risulterà essere la progettazione della classe. I valori possono quindi variare tra lo 0, che indica la massima coesione possibile, e 2, che ne identifica il valore minimo.
-\\\\
-***TABELLA CC E LCOM3***
-\\\
+
+
+\begin{center}
+\rowcolors{2}{lightblue}{llightblue}\begin{longtable}{p{.55\textwidth}ll}
+\toprule Package & CC  & LCOM3\\
+nome.package.esaminato& XXXX & XXXX\\
+\midrule
+
+\bottomrule
+\end{longtable}
+\end{center}
+
+
 \section{Test e risultati}
 I test riportati hanno lo scopo di dimostrare in modo oggettivo la bontà e la qualità di quanto prodotto a livello di codice. Tali test servono inoltre a rilevare \inglese{bug} non evidenziati (o non possibili da evidenziare) durante l'analisi statica del codice e vengono effettuati sui package relativi alla parte di \inglese{Model} e \inglese{Presenter} del modello MVP generale.
 Le verifiche relative alla parte \inglese{View} saranno al contrario effettuati successivamente a quelli sui componenti sopracitati, in quanto sarà necessario avere la certezza che tali componenti risultino stabili e privi (per quanto possibile) di \inglese{bug}. 
@@ -176,6 +205,16 @@ Tale test si compone di un solo metodo:
 
 \begin{table}
 \end{table}
+
+\subsubsection{AdressBookEntryTest}
+\textbf{Verifica la Classe:} \textit{AdressBookEntry}.\\
+\textbf{Descrizione}:l'obbiettivo di questo test è verificare la corretta conversione di un istanza di \textit{AddressBookEntry}.\\
+Tale test si compone di un solo metodo:
+\begin{itemize}
+\item \textit{testToJson() } tale metodo riceve una stringa in formato json di una 	\textit{entry} della rubrica e verifica che quest'ultima sia equivalente a quella ottenuta dalla chiamata al metodo \textit{ToJson} sull'istanza della classe \textit{AddressBookEntry}.
+\item{testEquals()} viene creato un oggetto \textit{AdressBookEntry} e viene confrontato con l'istanza dell'oggetto che ha invocato il metodo, restituendo \textit{true} se e solo se sono uguali.
+\end{itemize}
+\textbf{Risultato del test:} non sono stati rilevati errori.
 
 \subsubsection{AuthenticationDataTest}
 \textbf{Verifica la Classe:} \textit{AuthenticationData}.\\
@@ -212,20 +251,17 @@ Tale test si compone di un solo metodo metodi:
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
-
-\subsubsection{UserDataDAOTest}
-\textbf{Verifica la Classe:} \textit{UserDataDAO}.\\
-\textbf{Descrizione}:l'obbiettivo di questo test è assicurare la corretta esecuzione delle operazioni CRUD (\textit{Create, Read, Update, Delete}) per gli oggetti di tipo \textit{UserData} verso il database. \\
-Tale test si compone di 5 metodi:
+\subsubsection{GroupTest}
+\textbf{Verifica la Classe:} \textit{Group}.\\
+\textbf{Descrizione}:l'obbiettivo di questo test è verificare la corretta conversione di un istanza di \textit{Group}.\\
+Tale test si compone di un solo metodo:
 \begin{itemize}
-\item \textit{testInsert()} tale metodo ha lo scopo di verificare il corretto inserimento di uno \textit{userdata} all'interno del database;
-\item \textit{testGetByEmail()} ha lo scopo di verificare il prelevamento dal database di uno \textit{userdata} tramite l'indirizzo mail con cui si è registrato nel sistema;
-\item \textit{testUpdate() } verifica se le modifiche ad un oggetto \textit{userdata} siano effettive nel database;
-\item \textit{testDelete() } verifica l'effettiva cancellazione di uno \textit{userdata} dal database.
-\item \textit{testSearchGeneric()} verifica che sia presente uno \textit{userdata} nel database mediante la ricerca fatta cercando un parametro di input che ha una corrispondenza con uno o più campi tra \textit{nome, cognome, email}.
+\item \textit{testToJson() } tale metodo riceve una stringa in formato json di una 	\textit{entry} della rubrica e verifica che quest'ultima sia equivalente a quella ottenuta dalla chiamata al metodo \textit{ToJson} sull'istanza della classe \textit{Group}.
+\item \textit{testId() } verifica l'effettivo inserimento del campo \textit{id} mediante il metodo \textit{getId()};
+\item \textit{testName() } verifica l'effettivo inserimento del campo \textit{name} mediante il metodo \textit{getName()};
+\item{testEquals()} viene creato un oggetto \textit{AdressBookEntry} e viene confrontato con l'istanza dell'oggetto che ha invocato il metodo, restituendo \textit{true} se e solo se sono uguali.
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
-
 
 \subsubsection{HybernateUtilTest}
 \textbf{Verifica la Classe:} \textit{HybernateUtil}.\\
@@ -237,27 +273,16 @@ Tale test si compone di due metodi:
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
-
-\subsubsection{AdressBookEntryTest}
-\textbf{Verifica la Classe:} \textit{AdressBookEntry}.\\
-\textbf{Descrizione}:l'obbiettivo di questo test è verificare la corretta conversione di un istanza di \textit{AddressBookEntry}.\\
-Tale test si compone di un solo metodo:
+\subsubsection{UserDataDAOTest}
+\textbf{Verifica la Classe:} \textit{UserDataDAO}.\\
+\textbf{Descrizione}:l'obbiettivo di questo test è assicurare la corretta esecuzione delle operazioni CRUD (\textit{Create, Read, Update, Delete}) per gli oggetti di tipo \textit{UserData} verso il database. \\
+Tale test si compone di 5 metodi:
 \begin{itemize}
-\item \textit{testToJson() } tale metodo riceve una stringa in formato json di una 	\textit{entry} della rubrica e verifica che quest'ultima sia equivalente a quella ottenuta dalla chiamata al metodo \textit{ToJson} sull'istanza della classe \textit{AddressBookEntry}.
-\item{testEquals()} viene creato un oggetto \textit{AdressBookEntry} e viene confrontato con l'istanza dell'oggetto che ha invocato il metodo, restituendo \textit{true} se e solo se sono uguali.
-\end{itemize}
-\textbf{Risultato del test:} non sono stati rilevati errori.
-
-
-\subsubsection{GroupTest}
-\textbf{Verifica la Classe:} \textit{Group}.\\
-\textbf{Descrizione}:l'obbiettivo di questo test è verificare la corretta conversione di un istanza di \textit{Group}.\\
-Tale test si compone di un solo metodo:
-\begin{itemize}
-\item \textit{testToJson() } tale metodo riceve una stringa in formato json di una 	\textit{entry} della rubrica e verifica che quest'ultima sia equivalente a quella ottenuta dalla chiamata al metodo \textit{ToJson} sull'istanza della classe \textit{Group}.
-\item \textit{testId() } verifica l'effettivo inserimento del campo \textit{id} mediante il metodo \textit{getId()};
-\item \textit{testName() } verifica l'effettivo inserimento del campo \textit{name} mediante il metodo \textit{getName()};
-\item{testEquals()} viene creato un oggetto \textit{AdressBookEntry} e viene confrontato con l'istanza dell'oggetto che ha invocato il metodo, restituendo \textit{true} se e solo se sono uguali.
+\item \textit{testInsert()} tale metodo ha lo scopo di verificare il corretto inserimento di uno \textit{userdata} all'interno del database;
+\item \textit{testGetByEmail()} ha lo scopo di verificare il prelevamento dal database di uno \textit{userdata} tramite l'indirizzo mail con cui si è registrato nel sistema;
+\item \textit{testUpdate() } verifica se le modifiche ad un oggetto \textit{userdata} siano effettive nel database;
+\item \textit{testDelete() } verifica l'effettiva cancellazione di uno \textit{userdata} dal database.
+\item \textit{testSearchGeneric()} verifica che sia presente uno \textit{userdata} nel database mediante la ricerca fatta cercando un parametro di input che ha una corrispondenza con uno o più campi tra \textit{nome, cognome, email}.
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
@@ -293,26 +318,6 @@ Tale test si compone di X metodi:
 I test sul \textit{presenter} sono mirati a verificare che le classi di tale componente rispettino il comportamento atteso, interagendo i dati tramite l'interazione con il \textit{model}, componente testato nella sezione precedente. Questa serie di test, come anticipato nelle prime pagine del documento, è stata eseguita mediante il \underline{\textit{framework}} \textit{Qunit}. Tali verifiche sono stati implementate allo scopo di non testare soltanto il comportamento della specifica funzione, ma anche verificare lo stato di avanzamento del prodotto e il numero di bug evidenziati ancora esistenti.
 Ovviamente al termine di tali verifiche il risultato dovrà risultare positivo, ovvero i test dovranno essere \textit{tutti} superati.
 
-\subsubsection{CallHistoryPanelPresenterTest}
-\textbf{Verifica l'oggetto:} \textit{CallHistoryPanelPresenter}.\\
-\textbf{Descrizione}: l'obbiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \textit{CallHistoryPanel}.\\
-Tale verifica è composta da un solo test:
-\begin{itemize}
-\item \textit{testCreatePanel() } controlla che CallHistoryPanel abbia un unico figlio, e che quest'ultimo sia effettivamente una lista.
-\end{itemize}
-\textbf{Risultato del test:} non sono stati rilevati errori.
-
-
-\subsubsection{ComunicationPanelPresenterTest}
-\textbf{Verifica l'oggetto:} \textit{ComunicationPanelPresenter}.\\
-\textbf{Descrizione}: l'obbiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \textit{ComunicationPanel}.\\
-Tale verifica è composta da un solo test:
-\begin{itemize}
-\item \textit{testCreatePanel() } controlla che il numero dei figli del \textit{ComunicationPanel} siano esattamente due, che entrambi siano \textit{<div>} e che il valore dell'attributo \textit{id} del primo figlio sia ``divCall''. mentre del secondo ``divChat''. 
-\end{itemize}
-\textbf{Risultato del test:} non sono stati rilevati errori.
-
-
 \subsubsection{AccountSettingsPanelPresenterTest}
 \textbf{Verifica l'oggetto:} \textit{AccountSettingsPanelPresenter}.\\
 \textbf{Descrizione}: verifica la corretta inizializzazione di \textit{AccountSettingPanel}, ovvero che l'albero sia stato costruito correttamente, e che il contenuto dei vari nodi sia stato inserito coerentemente.\\
@@ -323,17 +328,52 @@ Successivamente controlla che gli elementi della lista vengano visualizzati corr
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
-
-\subsubsection{MessagePanelPresenterTest}
-\textbf{Verifica l'oggetto:} \textit{MessagePanelPresenter}.\\
-\textbf{Descrizione}: l'obbiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \textit{MessagePanel} e che il contenuto dei vari nodi sia stato inserito coerentemente.\\
+\subsubsection{AddressBookPanelPresenterTest}
+\textbf{Verifica l'oggetto:} \textit{AdressBookPanelPresenter}.\\
+\textbf{Descrizione}:\\
 Tale verifica è composta da un solo test:
 \begin{itemize}
-\item \textit{testCreatePanel()} crea l'elemento \textit{MessagePanel} e estrae la lista dei figli del pannello verificando che contenga due figli:il primo dev'essere di tipo \textit{video} mentre il secondo di tipo \textit{div}.
-Successivamente estraggo la lista dei figli del primo figlio (il suo figlio deve essere \textit{source}) e del secondo figlio (il cui figlio deve essere \textit{ul}).
+\item \textit{() }
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
+\subsubsection{CallHistoryPanelPresenterTest}
+\textbf{Verifica l'oggetto:} \textit{CallHistoryPanelPresenter}.\\
+\textbf{Descrizione}: l'obbiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \textit{CallHistoryPanel}.\\
+Tale verifica è composta da un solo test:
+\begin{itemize}
+\item \textit{testCreatePanel() } controlla che CallHistoryPanel abbia un unico figlio, e che quest'ultimo sia effettivamente una lista.
+\end{itemize}
+\textbf{Risultato del test:} non sono stati rilevati errori.
+
+\subsubsection{ComunicationPanelPresenterTest}
+\textbf{Verifica l'oggetto:} \textit{ComunicationPanelPresenter}.\\
+\textbf{Descrizione}: l'obbiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \textit{ComunicationPanel}.\\
+Tale verifica è composta da un solo test:
+\begin{itemize}
+\item \textit{testCreatePanel() } controlla che il numero dei figli del \textit{ComunicationPanel} siano esattamente due, che entrambi siano \textit{<div>} e che il valore dell'attributo \textit{id} del primo figlio sia ``divCall''. mentre del secondo ``divChat''. 
+\item \textit{()} %TODO MANCANO TEST
+\end{itemize}
+\textbf{Risultato del test:} non sono stati rilevati errori.
+
+\subsubsection{ContactPanelPresenterTest}
+\textbf{Verifica l'oggetto:} \textit{ContactPanelPresenter}.\\
+\textbf{Descrizione}: l'obbiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \textit{ContactPanel}.\\
+Tale verifica è composta da un solo test:
+\begin{itemize}
+\item \textit{testCreatePanel() }crea l'elemento \textit{ContactPanel}, estrae la lista dei suoi figli e controlla per ogni figlio che le informazioni siano coerenti con quelle inserite in input.
+\item \textit{()} %TODO MANCANO TEST
+\end{itemize}
+\textbf{Risultato del test:} non sono stati rilevati errori.
+
+\subsubsection{GroupPanelPresenterTest}
+\textbf{Verifica l'oggetto:} \textit{GroupPanelPresenter}.\\
+\textbf{Descrizione}:\\
+Tale verifica è composta da un solo test:
+\begin{itemize}
+\item \textit{() } %TODO MANCANO TEST
+\end{itemize}
+\textbf{Risultato del test:} non sono stati rilevati errori.
 
 \subsubsection{LoginPanelPresenterTest}
 \textbf{Verifica l'oggetto:} \textit{LoginPanelPresenter}.\\
@@ -346,20 +386,27 @@ Tale verifica è composta da quattro test:
 \item \textit{testGetPassword() } verifica che, data una \textit{password} in input corretta generata come \inglese{stub}, sia possibile recuperarla correttamente.Se la \textit{password} non è inserita nella \inglese{form}, solleva un'eccezione.
 \item \textit{testHide()} controlla che venga correttamente nascosto il \inglese{form} di \textit{login} dopo l'effettiva autenticazione o di richiesta di registrazione.
 \item \textit{testBuildRetrivePasswordForm()} tale test verifica la corretta creazione della form richiamata per il recupero della password tramite risposta segreta, successivamente controlla che venga richiamata la domanda correttamente impostata a cui rispondere.
-\item \textit{testSendAnswer} %TODO
+\item \textit{testSendAnswer} %TODO DA DESCRIVERE
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
-
-\subsubsection{ContactPanelPresenterTest}
-\textbf{Verifica l'oggetto:} \textit{ContactPanelPresenter}.\\
-\textbf{Descrizione}: l'obbiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \textit{ContactPanel}.\\
+\subsubsection{MainPanelPresenterTest}
+\textbf{Verifica l'oggetto:} \textit{MainPanelPresenter}.\\
+\textbf{Descrizione}:\\
 Tale verifica è composta da un solo test:
 \begin{itemize}
-\item \textit{testCreatePanel() }crea l'elemento \textit{ContactPanel}, estrae la lista dei suoi figli e controlla per ogni figlio che le informazioni siano coerenti con quelle inserite in input.
+\item \textit{() } %TODO MANCANO TEST
+\end{itemize}
+
+\subsubsection{MessagePanelPresenterTest}
+\textbf{Verifica l'oggetto:} \textit{MessagePanelPresenter}.\\
+\textbf{Descrizione}: l'obbiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \textit{MessagePanel} e che il contenuto dei vari nodi sia stato inserito coerentemente.\\
+Tale verifica è composta da un solo test:
+\begin{itemize}
+\item \textit{testCreatePanel()} crea l'elemento \textit{MessagePanel} e estrae la lista dei figli del pannello verificando che contenga due figli:il primo dev'essere di tipo \textit{video} mentre il secondo di tipo \textit{div}.
+Successivamente estraggo la lista dei figli del primo figlio (il suo figlio deve essere \textit{source}) e del secondo figlio (il cui figlio deve essere \textit{ul}).
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
-
 
 \subsubsection{RegisterPanelPresenterTest}
 \textbf{Verifica l'oggetto:} \textit{RegisterPanelPresenter}.\\
@@ -380,20 +427,35 @@ Tale verifica è composta da dieci test:
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
-
-\subsubsection{}
-\textbf{Verifica l'oggetto:} \textit{}.\\
+\subsubsection{SearchResultPanelPresenterTest}
+\textbf{Verifica l'oggetto:} \textit{SearchResultPanelPresenter}.\\
 \textbf{Descrizione}:\\
 Tale verifica è composta da un solo test:
 \begin{itemize}
-\item \textit{() }
+\item \textit{() } %TODO MANCANO TEST
 \end{itemize}
-\textbf{Risultato del test:} non sono stati rilevati errori.
+
+\subsubsection{ToolsPanelPresenterTest}
+\textbf{Verifica l'oggetto:} \textit{ToolsPanelPresenter}.\\
+\textbf{Descrizione}:\\
+Tale verifica è composta da un solo test:
+\begin{itemize}
+\item \textit{() } %TODO MANCANO TEST
+\end{itemize}
+
 
 \section{Test Coverage}
 Tale test è stato effettuato mediante il \underline{\inglese{plugin}} per Eclipse \textit{eclemma} per la parte Java (quindi nel \textit{Model}) e con \textit{JSCoverage} per la parte \textit{JavaScript} (per il \textit{Presenter}) definendo quindi le percentuali di codice che è stato sottoposto a test per i singoli componenti dell'applicazione.\\\\
 
-%TABELLA COVERAGE PER COMPONENTE
+\begin{center}
+\rowcolors{2}{lightblue}{llightblue}\begin{longtable}{p{.30\textwidth}ll}
+\toprule Componente & Copertura\\
+\midrule
+Model & X\%\\
+Controller & X\% \\
+\bottomrule
+\end{longtable}
+\end{center}
 
 La percentuale di copertura rilevata è relativamente bassa nella parte \textit{Model}, tale risultato si giustifica dal numero elevato di metodi \textit{getter} e \textit{setter} che non sono stati tutti analizzati tramite test di unità (ma prelevati e verificati a campione), ma solo tramite analisi statica del codice. Per la parte \textit{Presenter} al contrario si può ricondurre il risultato alle numerose funzioni anonime impossibili da testare e invocate soltanto durante l'effettivo funzionamento dell'applicazione.
 
