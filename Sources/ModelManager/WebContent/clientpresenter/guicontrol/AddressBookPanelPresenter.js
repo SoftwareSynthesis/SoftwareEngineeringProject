@@ -265,6 +265,7 @@ function AddressBookPanelPresenter(url, ext) {
      */
     this.setup = function() {
         // scarica i contatti dal server
+		console.debug(contacts);
         getAddressBookContacts();
 
         //popolo la parte dei contatti
