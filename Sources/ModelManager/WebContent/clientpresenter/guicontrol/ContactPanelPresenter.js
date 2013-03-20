@@ -1,5 +1,6 @@
 /**
- * Presenter incaricato di gestire il pannello che visualizza le informazioni del contatto
+ * Presenter incaricato di gestire il pannello che visualizza le informazioni del
+ * contatto
  *
  * @constructor
  * @this {ContactPanelPresenter}
@@ -23,6 +24,11 @@ function ContactPanelPresenter() {
     this.createPanel = function() {
         var element = document.createElement("div");
         element.setAttribute("id", "ContactPanel");
+
+        var displayBlockedDiv = document.createElement("div");
+        displayBlockedDiv.id = "displayBlockedDiv";
+        displayBlockedDiv.appendChild(document.createTextNode("Contatto Bloccato"));
+        displayBlockedDiv.style.display = "none";
 
         var name = document.createElement('li');
         name.setAttribute("id", "contactName");
@@ -105,6 +111,10 @@ function ContactPanelPresenter() {
         document.getElementById("contactEmail").appendChild(createTextNode(contact.mail));
         document.getElementById("contactAvatar").src = contact.image;
 
+        if (contact.blocked) {
+            document.getElementById("displayBlockedDiv").style.display = "block";
+        }
+
         //recupero i bottoni per associargli i metodi
         var addToAddressBookButton = getElementById("addToAddressBookButton");
         var blockButton = getElementById("blockButton");
@@ -117,20 +127,33 @@ function ContactPanelPresenter() {
             mediator.onContactAdded(contact.id);
         };
         blockButton.onclick = function() {
-            //TODO codice per bloccare utente [se non presente prima agigungerlo alla rubrica]
+            mediator.onBlockContact(contact.id);
+
         };
         chatButton.onclick = function() {
-            //TODO inserire il codice per effettuare la chiamata con il contatto selezionato
+            //TODO inserire il codice per effettuare la chiamata con il contatto
+            // selezionato
         };
         videoCallButton.onclick = function() {
-            //TODO inserire il codice per effettuare la chiamata con il contatto selezionato
+            //TODO inserire il codice per effettuare la chiamata con il contatto
+            // selezionato
         };
         callButton.onclick = function() {
-            //TODO inserire il codice per effettuare la chiamata con il contatto selezionato
+            //TODO inserire il codice per effettuare la chiamata con il contatto
+            // selezionato
         };
 
         //tolgo la possibilità di aggiungere un utente se già presente
         if (mediator.contactAlreadyPresent(contact))
             document.getElementById("addToAddressBookButton").style.display = "none";
     };
+
+    /**
+     * Funzione che controlla se il contatto passato come parametro è bloccato o
+     * no sistemando la vista in modo da lasciare consistente la visualizzazione
+     * del contatto con lo stato dello stesso
+     * 
+     * @author Riccardo Tresoldi
+     * @param {Object} contact Contatto da controllare
+     */
 }
