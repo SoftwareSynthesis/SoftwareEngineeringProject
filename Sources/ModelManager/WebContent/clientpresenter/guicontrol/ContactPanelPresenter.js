@@ -10,9 +10,38 @@
  * @author Elena Zecchinato
  */
 function ContactPanelPresenter() {
+    /**********************************************************
+     VARIABILI PRIVATE
+     ***********************************************************/
     //elemento controllato da questo presenter
     this.element = document.getElementById("ContactPanel");
 
+    /**********************************************************
+     METODI PRIVATI
+     ***********************************************************/
+    /**
+     * Funzione che controlla se il contatto passato come parametro è bloccato o
+     * no sistemando la vista in modo da lasciare consistente la visualizzazione
+     * del contatto con lo stato dello stesso
+     *
+     * @author Riccardo Tresoldi
+     * @param {Object} contact Contatto da controllare
+     */
+    function adjustBlockButtonDisplay(contact) {
+        if (contact.blocked) {
+            document.getElementById("displayBlockedDiv").style.display = "block";
+            document.getElementById("blockButton").style.display = "none";
+            document.getElementById("unlockButton").style.display = "inline";
+        } else {
+            document.getElementById("displayBlockedDiv").style.display = "none";
+            document.getElementById("blockButton").style.display = "inline";
+            document.getElementById("unlockButton").style.display = "none";
+        }
+    }
+
+    /**********************************************************
+     METODI PUBBLICI
+     ***********************************************************/
     /**
      * Inizializza il pannello che mostra le informazioni dei contatti
      * della rubrica, quando ne viene selezionato uno dal pannello
@@ -67,11 +96,19 @@ function ContactPanelPresenter() {
         addToAddressBookButton.id = "addToAddressBookButton";
         addToAddressBookButton.appendChild(document.createTextNode("Aggiungi in Rubrica"));
 
-        //pulsante per bloccare utente
+        //pulsante per bloccare l'utente
         var blockButton = document.createElement('button');
         blockButton.type = "button";
         blockButton.id = "blockButton";
+        blockButton.style.display = "none";
         blockButton.appendChild(document.createTextNode("Blocca"));
+
+        //pulsante per sbloccare l'utente
+        var unlockButton = document.createElement('button');
+        unlockButton.type = "button";
+        unlockButton.id = "unlockButton";
+        unlockButton.style.display = "none";
+        unlockButton.appendChild(document.createTextNode("Sblocca"));
 
         //appendo i sottonodi alla lista dei dati dell'utente
         var ulData = document.createElement('ul');
@@ -111,24 +148,25 @@ function ContactPanelPresenter() {
         document.getElementById("contactEmail").appendChild(createTextNode(contact.mail));
         document.getElementById("contactAvatar").src = contact.image;
 
-        if (contact.blocked) {
-            document.getElementById("displayBlockedDiv").style.display = "block";
-        }
-
         //recupero i bottoni per associargli i metodi
         var addToAddressBookButton = getElementById("addToAddressBookButton");
         var blockButton = getElementById("blockButton");
+        var unlockButton = getElementById("unlockButton");
         var chatButton = getElementById("chatButton");
         var videoCallButton = getElementById("videoCallButton");
         var callButton = getElementById("callButton");
+
+        adjustBlockButtonDisplay(contact);
 
         //associo gli eventi onClick ai bottoni
         addToAddressBookButton.onclick = function() {
             mediator.onContactAdded(contact.id);
         };
         blockButton.onclick = function() {
-            mediator.onBlockContact(contact.id);
-
+            mediator.onBlockContact(contact);
+        };
+        unlockButton.onclick = function() {
+            mediator.onUnlockContact(contact);
         };
         chatButton.onclick = function() {
             //TODO inserire il codice per effettuare la chiamata con il contatto
@@ -147,13 +185,4 @@ function ContactPanelPresenter() {
         if (mediator.contactAlreadyPresent(contact))
             document.getElementById("addToAddressBookButton").style.display = "none";
     };
-
-    /**
-     * Funzione che controlla se il contatto passato come parametro è bloccato o
-     * no sistemando la vista in modo da lasciare consistente la visualizzazione
-     * del contatto con lo stato dello stesso
-     * 
-     * @author Riccardo Tresoldi
-     * @param {Object} contact Contatto da controllare
-     */
 }
