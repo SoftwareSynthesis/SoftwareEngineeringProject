@@ -1358,6 +1358,9 @@ Metodo usato per l'eliminare il contenuto preesistente nella rubrica e visualizz
 \verb|addListItem(/*nome della variabile contenente il nodo dom AddressBookList*/,|\\
 \verb|filtredContacts[contact])|\\
 
+\item{\method{+ contactAlredyPresent(contact: Array()): boolean}}\\
+Metodo che dato un contatto verifica se appartiene alla rubrica. Per compiere tale azione viene da prima riscaricata la rubrica, mediante una chiamata a metodo \method{getAddressBookContacts()}. Quindi si usa un ciclo for per scorrere l'intera lista precedentemente ottenuta e ad ogni ciclo si controlla se il contatto i-esimo ha id uguale a quello del contatto ricevuto come parametro d'ingresso (\texttt{contact.id}). Se tale confronto ha esito positivo, il metodo termina ritornando \inglese{true}, altrimenti il metodo termina al termine del ciclo for ritornando \inglese{false}.
+
 \end{description}
 
 \classsection{LoginPanelPresenter}
