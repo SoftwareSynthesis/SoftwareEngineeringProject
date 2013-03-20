@@ -8,29 +8,29 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.softwaresynthesis.mytalk.server.dao.GroupDAO;
-import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
 
 /**
- * Servlet cha ha il compito di rimuovere
- * un contatto da un gruppo
+ * Servlet che ha il compito di inserire
+ * un nuovo gruppo nella rubrica di un utente
  * 
  * @author 	Andrea Meneghinello
  * @version	%I%, %G%
  */
-public final class AddressBookDoRemoveFromGroupServlet extends HttpServlet {
-	private static final long serialVersionUID = 10015L;
-       
-    /**
-     * Inizializza la servlet
-     */
-    public AddressBookDoRemoveFromGroupServlet() 
-    {
-        super();
-    }
-
-    /**
-	 * Esegue la richiesta di per la rimozione di un
-	 * contatto da un gruppo tramite richiesta HTTP GET
+public final class AddressBookDoCreateGroupServlet extends HttpServlet 
+{
+	private final static long serialVersionUID = 10016L;
+	
+	/**
+	 * Inizializza la servlet
+	 */
+	public AddressBookDoCreateGroupServlet()
+	{
+		super();
+	}
+	
+	/**
+	 * Esegue la richiesta di per l'inserimento di un
+	 * nuovo gruppo tramite richiesta HTTP GET
 	 * 
 	 * @param	request		contiene i parametri di input
 	 * 						per il corretto svolgimento dell'operazione	
@@ -41,14 +41,14 @@ public final class AddressBookDoRemoveFromGroupServlet extends HttpServlet {
 	 * @throws	{@link ServletException} se si verificano errori
 	 * 			interni alla servlet
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
 	{
 		this.doPost(request, response);
 	}
-
+	
 	/**
-	 * Esegue la richiesta di per la rimozione di un
-	 * contatto da un gruppo tramite richiesta HTTP POST
+	 * Esegue la richiesta di per l'inserimento di un
+	 * nuovo gruppo tramite richiesta HTTP POST
 	 * 
 	 * @param	request		contiene i parametri di input
 	 * 						per il corretto svolgimento dell'operazione	
@@ -59,35 +59,26 @@ public final class AddressBookDoRemoveFromGroupServlet extends HttpServlet {
 	 * @throws	{@link ServletException} se si verificano errori
 	 * 			interni alla servlet
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
 	{
 		GroupDAO groupDAO = new GroupDAO();
 		HttpSession session = null;
-		IAddressBookEntry entry = null;
 		IGroup group = null;
-		IUserData friend = null;
 		IUserData user = null;
-		Long contactId = null;
-		Long groupId = null;
 		PrintWriter writer = response.getWriter();
+		String name = null;
 		String result = null;
-		UserDataDAO userDAO = new UserDataDAO();
 		try
 		{
 			session = request.getSession(false);
 			user = (IUserData)session.getAttribute("user");
-			contactId = Long.parseLong(request.getParameter("contactId"));
-			groupId = Long.parseLong(request.getParameter("groupId"));
-			friend = userDAO.getByID(contactId);
-			group = groupDAO.getByID(groupId);
-			if (group != null)
+			name = request.getParameter("groupName");
+			if(name != null && name.equals("") == false)
 			{
-				entry = new AddressBookEntry();
-				entry.setBlocked(false);
-				entry.setContact(friend);
-				entry.setGroup(group);
-				user.removeAddressBookEntry(entry);
-				userDAO.update(user);
+				group = new Group();
+				group.setName(name);
+				group.setOwner(user);
+				groupDAO.insert(group);
 				result = "true";
 			}
 			else

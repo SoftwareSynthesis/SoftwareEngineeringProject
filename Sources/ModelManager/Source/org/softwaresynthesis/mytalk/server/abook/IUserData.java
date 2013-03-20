@@ -44,7 +44,7 @@ public interface IUserData extends IMyTalkObject
 	
 	/**
 	 * Restituisce la password, crittografata
-	 * secondo la strategia {@link ISecurityStrategy},
+	 * secondo la strategia {@link org.softwaresynthesis.mytalk.server.authentication.ISecurityStrategy}
 	 * con l'utente accede al sistema
 	 * 
 	 * @return	{@link String} con la password
