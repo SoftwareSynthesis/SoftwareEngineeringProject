@@ -187,6 +187,22 @@ function PresenterMediator() {
     };
 
     /**
+     * Funzione di callback richiamata per eseguire l'operazione che comunica
+     * all'AddressBookPanelPresenter lo sblocco di un utente
+     *
+     * @author Riccardo Tresoldi
+     * @param {Object} contact reppresenta il contatto da bloccare
+     * @return {Boolean} true solo se il contatto è stato sbloccato con successo
+     */
+    this.onUnlockContact = function(contact) {
+        try {
+            return presenters["addressbook"].unlockUser(contact);
+        } catch(err) {
+            alert(err);
+        }
+    };
+
+    /**
      * Provoca la creazione del pannello della segreteria e la sua
      * visualizzazione all'interno del MainPanel come elemento figlio.
      * La costruzione del pannello è affidata al metodo createPanel che viene
