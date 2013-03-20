@@ -43,20 +43,12 @@ function CommunicationPanelPresenter() {
         var closeButton = document.createElement('button');
         closeButton.type = "button";
         closeButton.id = "closeButton";
-        var muteButton = document.createElement('button');
-        muteButton.type = "button";
-        muteButton.id = "muteButton";
         closeButton.onclick = communicationcenter.endCall;
-        muteButton.onclick = function() {
-        	//TODO questa cosa dovrebbe farla il communicationcenter
-        	// il bottone deve cambiare aspetto a seconda
-        }
 
         //appendo i child al divCall
         divCall.appendChild(myVideo);
         divCall.appendChild(otherVideo);
         divCall.appendChild(closeButton);
-        divCall.appendChild(muteButton);
 
         //creo gli elementi per la chat testuale
         //creo l'<ul> per le schede delle chat aperte
