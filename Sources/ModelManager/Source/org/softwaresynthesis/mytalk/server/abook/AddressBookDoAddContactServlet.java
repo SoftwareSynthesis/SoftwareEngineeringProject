@@ -17,7 +17,7 @@ import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
  * @author 	Andrea Meneghinello
  * @version	%I%, %G%
  */
-public class AddressBookDoAddContactServlet extends HttpServlet 
+public final class AddressBookDoAddContactServlet extends HttpServlet 
 {
 	private static final long serialVersionUID = 10012L;
 	
@@ -38,6 +38,10 @@ public class AddressBookDoAddContactServlet extends HttpServlet
 	 * 						per il corretto svolgimento dell'operazione	
 	 * @param	response	contiene le risposte prodotte dalla
 	 * 						servlet che verranno inviate ai client
+	 * @throws	{@link IOException} se si verificano errori durante
+	 * 			operazioni di IO
+	 * @throws	{@link ServletException} se si verificano errori
+	 * 			interni alla servlet
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
 	{
@@ -53,6 +57,10 @@ public class AddressBookDoAddContactServlet extends HttpServlet
 	 * 						per il corretto svolgimento dell'operazione	
 	 * @param	response	contiene le risposte prodotte dalla
 	 * 						servlet che verranno inviate ai client
+	 * @throws	{@link IOException} se si verificano errori durante
+	 * 			operazioni di IO
+	 * @throws	{@link ServletException} se si verificano errori
+	 * 			interni alla servlet
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
 	{
