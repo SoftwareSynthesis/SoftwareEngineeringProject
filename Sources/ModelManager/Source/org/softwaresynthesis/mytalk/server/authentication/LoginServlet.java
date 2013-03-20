@@ -11,10 +11,21 @@ import javax.servlet.http.HttpSession;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
 import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
 
+/**
+ * Servlet cha ha il compito di autorizzare l'accesso
+ * al sistema mytalk un determinato untente
+ * 
+ * @author 	Andrea Meneghinello
+ * @version	%I%, %G%
+ */
 public class LoginServlet extends HttpServlet 
 {
 	private static final long serialVersionUID = 10002L;
 	
+	/**
+	 * Crea la servlet inizializzandole
+	 * i parametri per il corretto funzionamento
+	 */
 	public LoginServlet()
 	{
 		super();
@@ -23,11 +34,31 @@ public class LoginServlet extends HttpServlet
 		System.setProperty("java.security.auth.login.config", path);
 	}
 	
+	/**
+	 * Esegue la richiesta di login ricevuta
+	 * tramite richiesta HTTP GET
+	 * 
+	 * @param	request		contiene i parametri di input
+	 * 						(username, password) per il
+	 * 						corretto svolgimento dell'operazione	
+	 * @param	response	contiene le risposte prodotte dalla
+	 * 						servlet che verranno inviate ai client
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
 	{
 		this.doPost(request, response);
 	}
 	
+	/**
+	 * Esegue la richiesta di login ricevuta
+	 * tramite richiesta HTTP POST
+	 * 
+	 * @param	request		contiene i parametri di input
+	 * 						(username, password) per il
+	 * 						corretto svolgimento dell'operazione	
+	 * @param	response	contiene le risposte prodotte dalla
+	 * 						servlet che verranno inviate ai client
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
 	{
 		CredentialLoader loader = null;

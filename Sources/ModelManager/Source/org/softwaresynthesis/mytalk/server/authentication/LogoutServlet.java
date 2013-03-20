@@ -10,22 +10,49 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class LogoutServlet
+ * Servlete che ha il compito di terminare
+ * l'accesso al sistema mytalk di un utente
+ * 
+ * @author	Andrea Meneghinello
+ * @version	%I%, %G%
  */
 public class LogoutServlet extends HttpServlet 
 {
 	private static final long serialVersionUID = 10001L;
 	
+	/**
+	 * Inizializza la servlet
+	 */
 	public LogoutServlet()
 	{
 		super();
 	}
 
+	/**
+	 * Esegue la richiesta di logout ricevuta
+	 * tramite richiesta HTTP GET
+	 * 
+	 * @param	request		contiene i parametri di input
+	 * 						(username, password) per il
+	 * 						corretto svolgimento dell'operazione	
+	 * @param	response	contiene le risposte prodotte dalla
+	 * 						servlet che verranno inviate ai client
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		this.doPost(request, response);
 	}
 
+	/**
+	 * Esegue la richiesta di logout ricevuta
+	 * tramite richiesta HTTP POST
+	 * 
+	 * @param	request		contiene i parametri di input
+	 * 						(username, password) per il
+	 * 						corretto svolgimento dell'operazione	
+	 * @param	response	contiene le risposte prodotte dalla
+	 * 						servlet che verranno inviate ai client
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		HttpSession session = request.getSession(false);
