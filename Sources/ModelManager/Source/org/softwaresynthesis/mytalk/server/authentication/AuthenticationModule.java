@@ -38,7 +38,7 @@ public class AuthenticationModule implements LoginModule
 	 * 
 	 * @param	subject		{@link Subject} che deve essere autenticato
 	 * @param	handler		{@link CallbackHandler} per il caricamento delle credenzialie
-	 * @param	shareState	{@link Map} con lo stato condiviso
+	 * @param	sharedState	{@link Map} con lo stato condiviso
 	 * @param	option		{@link Map} con le opzioni
 	 */
 	@SuppressWarnings("rawtypes")

@@ -321,8 +321,6 @@ public class UserData implements IUserData
 	/**
 	 * Verifica se due istanze sono uguali
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @param	obj	{@link Object} con cui effettuare
 	 * 				confronto
 	 * @return 	true se le due istanze sono uguali,

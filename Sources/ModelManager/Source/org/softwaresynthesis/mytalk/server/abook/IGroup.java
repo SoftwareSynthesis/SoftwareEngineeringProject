@@ -16,8 +16,6 @@ public interface IGroup extends IMyTalkObject
 	 * Restituisce l'identificatore univoco
 	 * del gruppo
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	{@link Long} che identifica
 	 * 			univocamente il gruppo
 	 */
@@ -26,8 +24,6 @@ public interface IGroup extends IMyTalkObject
 	/**
 	 * Restituisce il nome del gruppo
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	{@link String} con il
 	 * 			nome del gruppo
 	 */
@@ -36,8 +32,6 @@ public interface IGroup extends IMyTalkObject
 	/**
 	 * Imposta il nome del gruppo
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @param 	name	{@link String} con
 	 * 					il nome del gruppo
 	 */
@@ -64,8 +58,6 @@ public interface IGroup extends IMyTalkObject
 	 * Restituisce i contatti appartenenti
 	 * al gruppo
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @return	{@link Set} con i contatti
 	 * 			del gruppo
 	 */
@@ -74,8 +66,6 @@ public interface IGroup extends IMyTalkObject
 	/**
 	 * Aggiunge un contatto al gruppo
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 * @param 	addressBook	{@link AddressBookEntry} da
 	 * 						aggiungere al gruppo
 	 */
@@ -94,7 +84,6 @@ public interface IGroup extends IMyTalkObject
 	 * 
 	 * @param	entry	{@link AddressBookEntry}
 	 * 					da rimuovere dal gruppo
-	 * @param entry
 	 */
 	public void removeAddressBookEntry(IAddressBookEntry entry);
 }

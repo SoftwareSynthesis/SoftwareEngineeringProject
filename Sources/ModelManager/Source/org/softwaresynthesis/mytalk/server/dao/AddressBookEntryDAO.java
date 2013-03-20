@@ -17,7 +17,7 @@ public class AddressBookEntryDAO
 	/**
 	 * Cancella l' {@link IAddressBookEntry} dal database se presente
 	 * 
-	 * @param 	group	{@link IAddressBookEntry} che deve essere eliminato
+	 * @param 	entry	{@link IAddressBookEntry} che deve essere eliminato
 	 * 					dal database
 	 * @return	true se l'operazione è andata a buon fine, false altrimenti
 	 */
@@ -59,7 +59,7 @@ public class AddressBookEntryDAO
 	/**
 	 * Aggiorna un {@link IAddressBookEntry} nel database
 	 * 
-	 * @param 	group	{@link IAddressBookEntry} che deve
+	 * @param 	entry	{@link IAddressBookEntry} che deve
 	 * 					essere aggiornato
 	 * @return	true se l'operazione è andata buon fine,
 	 * 			false altrimenti
@@ -102,7 +102,7 @@ public class AddressBookEntryDAO
 	/**
 	 * Inserisce un nuovo {@link IAddressBookEntry} nel database
 	 * 
-	 * @param 	user	{@link IAddressBookEntry} da inserire}
+	 * @param 	entry	{@link IAddressBookEntry} da inserire}
 	 * @return	true se l'operazione va a buon fine, false
 	 * 			altrimenti
 	 */

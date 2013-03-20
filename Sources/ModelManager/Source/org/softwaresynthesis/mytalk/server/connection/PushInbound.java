@@ -34,7 +34,6 @@ public class PushInbound extends MessageInbound {
 	 * Metodo invocato al momento della ricezione di un
 	 * messaggio da parte del client
 	 * 
-	 * @author 	Marco Schivo
 	 * @param 	message		{@link CharBuffer} rappresenta il messaggio
 	 * 						sotto forma di testo
 	 */

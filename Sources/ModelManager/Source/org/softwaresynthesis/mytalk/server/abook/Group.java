@@ -183,7 +183,7 @@ public class Group implements IGroup
 	 * 
 	 * @param	obj	{@link Object} che deve
 	 * 				essere comparato
-	 * @result	true se le due istanze rappresentano
+	 * return	true se le due istanze rappresentano
 	 * 			lo stesso oggetto, false altrimenti 
 	 */
 	@Override

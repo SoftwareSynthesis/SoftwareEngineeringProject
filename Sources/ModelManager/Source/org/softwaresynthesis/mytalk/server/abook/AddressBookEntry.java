@@ -92,7 +92,7 @@ public class AddressBookEntry implements IAddressBookEntry
 	/**
 	 * Imposta il contatto della rubrica
 	 * 
-	 * @param	contatc	{@link IUserData} contatto
+	 * @param	contact	{@link IUserData} contatto
 	 * 					della rubrica
 	 */
 	@Override

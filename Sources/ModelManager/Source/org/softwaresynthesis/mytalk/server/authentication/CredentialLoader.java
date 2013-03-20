@@ -40,8 +40,8 @@ public class CredentialLoader implements CallbackHandler
 	 * Prepara le credenziali di accesso fonrite per la
 	 * procedura di login
 	 * 
-	 * @param	vettore {@link Callback} da popolare con
-	 * 			le credenziali
+	 * @param	callbacks	vettore  di {@link Callback} da
+	 * 						popolare con le credenziali
 	 */
 	@Override
 	public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException 
