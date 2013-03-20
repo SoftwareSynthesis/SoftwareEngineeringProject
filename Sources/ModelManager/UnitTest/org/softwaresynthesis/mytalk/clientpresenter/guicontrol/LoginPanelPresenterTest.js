@@ -6,7 +6,7 @@ module ("LoginPanelPresenterTest", {
     	element.style.position = "absolute";
     	element.style.left ="-999em";
     	document.body.appendChild(element);
-    	tester = new LoginPanelPresenter("LoginManager.php");
+    	tester = new LoginPanelPresenter("php_stubs/Login");
     	
     	communicationcenter = {my: null};
     	mediator = {buildUI: function() {}};
@@ -30,7 +30,7 @@ test("testInitialize()", function () {
 	i++;
 	
 	var loginForm = children[0];
-	equal(loginForm.nodeName, "FORM", "l'elemento contenuto è un <form>");
+	equal(loginForm.nodeName, "FIELDSET", "l'elemento contenuto è un <form>");
 	i++;
 	
 	children = loginForm.childNodes;
