@@ -235,8 +235,9 @@ function LoginPanelPresenter(url, ext) {
 		request.open("POST", servletURL + operations[0] + suffix, true);
 		request.setRequestHeader("Content-type",
 				"application/x-www-form-urlencoded");
-		request.send("username=" + encodeURIComponent(data.username)
-				+ "&password=" + encodeURIComponent(data.password));
+		var querystring = "username=" + encodeURIComponent(data.username)
+		+ "&password=" + encodeURIComponent(data.password);
+		request.send(querystring);
 		return querystring;
 	};
 
