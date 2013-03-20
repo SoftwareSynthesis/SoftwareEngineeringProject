@@ -11,15 +11,51 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.softwaresynthesis.mytalk.server.connection.ChannelServlet;
 
+/**
+ * Servlet che ha il compito di fornire
+ * la rubrica di un utente del sistema
+ * mytalk
+ * 
+ * @author 	Andrea Meneghinello
+ * @version	%I%, %G%
+ */
 public class AddressBookGetContactsServlet extends HttpServlet 
 {
 	private static final long serialVersionUID = 10011L;
 	
+	/**
+	 * Inizializza la servlet
+	 */
+	public AddressBookGetContactsServlet()
+	{
+		super();
+	}
+	
+	/**
+	 * Esegue la richiesta di per il download
+	 * della rubrica ricevuta tramite richiesta
+	 * HTTP GET
+	 * 
+	 * @param	request		contiene i parametri di input
+	 * 						per il corretto svolgimento dell'operazione	
+	 * @param	response	contiene le risposte prodotte dalla
+	 * 						servlet che verranno inviate ai client
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
 	{
 		this.doPost(request, response);
 	}
 	
+	/**
+	 * Esegue la richiesta di per il download
+	 * della rubrica ricevuta tramite richiesta
+	 * HTTP POST
+	 * 
+	 * @param	request		contiene i parametri di input
+	 * 						per il corretto svolgimento dell'operazione	
+	 * @param	response	contiene le risposte prodotte dalla
+	 * 						servlet che verranno inviate ai client
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
 	{
 		boolean next = false;

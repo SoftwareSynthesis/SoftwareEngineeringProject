@@ -10,15 +10,50 @@ import javax.servlet.http.HttpServlet;
 
 import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
 
+/**
+ * Servlet cha ha il compito di aggiungere
+ * alla rubrica un nuovo contatto
+ * 
+ * @author 	Andrea Meneghinello
+ * @version	%I%, %G%
+ */
 public class AddressBookDoAddContactServlet extends HttpServlet 
 {
 	private static final long serialVersionUID = 10012L;
 	
+	/**
+	 * Inizializza la servlet
+	 */
+	public AddressBookDoAddContactServlet()
+	{
+		super();
+	}
+	
+	/**
+	 * Esegue la richiesta di per l'aggiunta di un
+	 * nuovo contatto alla rubrica ricevuta tramite
+	 * richiesta HTTP GET
+	 * 
+	 * @param	request		contiene i parametri di input
+	 * 						per il corretto svolgimento dell'operazione	
+	 * @param	response	contiene le risposte prodotte dalla
+	 * 						servlet che verranno inviate ai client
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
 	{
 		this.doPost(request, response);
 	}
 	
+	/**
+	 * Esegue la richiesta di per l'aggiunta di un
+	 * nuovo contatto alla rubrica ricevuta tramite
+	 * richiesta HTTP POST
+	 * 
+	 * @param	request		contiene i parametri di input
+	 * 						per il corretto svolgimento dell'operazione	
+	 * @param	response	contiene le risposte prodotte dalla
+	 * 						servlet che verranno inviate ai client
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
 	{
 		AddressBookEntry myEntry = null;
