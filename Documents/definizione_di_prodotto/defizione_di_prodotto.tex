@@ -1067,18 +1067,8 @@ L'oggetto cosi ottenuto dovrà essere controllato, ovvero si dovrà accertare ch
 	Metodo che richiama \method{doPost()} passando gli stessi dati in input.
 	
 	\item{\method{\# doPost(request: HttpServletRequest, response: HttpServletResponse): void}}\\
-<<<<<<< HEAD
-	Metodo che costituisce il kernel logico di risposta della \inglese{servlet}. Il metodo inizia caricando i parametri ricevuti mediante \texttt{HttpServletRequest}. Una chiamata a tale metodo corrisponde ad una richiesta di login e si attua impostando due campi String con i dati ottenuti da una chiamata a \texttt{getParameter(``username'')} e \texttt{getParameter(``password'')} . Quindi si crea un istanza di \texttt{HttpSession} tramite il metodo \texttt{getSession(true)} del parametro request. Il metodo prosegue controllando se l'username e la password precedentemente ottenute hanno valore diverso da null. Nel caso il flusso principale continua creando un'istanza di \classname{AutenthicationData} (denominata credential) a partire dai parametri username e password. Quindi si carica la path del file di configurazione in un apposita stringa \texttt{pathFileConfig}, tramite la chiamata a metodo:\\
-=======
-	Metodo che costituisce il \inglese{kernel} logico di risposta della \inglese{servlet}. Il metodo inizia caricando un istanza di \textit{Object} i parametri ricevuti mediante \texttt{HttpServletRequest}, quindi verifica che il parametro ricevuto sia un istanza di \texttt{Integer}, e procede valutando il valore in essa contenuto. La logica di sistema considera 2 possibili valori:
-	\begin{itemize}
-		\item[•]type = 0: corrisponde ad una richiesta di \inglese{logout} e si attua impostando a \texttt{false} la sessione contenuta nell'oggetto \texttt{HttopServletRequest request}. Quindi si passa tale sessione (come parametro d'ingresso) al metodo \method{doLogout()}. Il metodo termina invalidando la sessione richiamando il metodo \texttt{invalidate()} di \texttt{HttpSession}.
-		\item[•]type = 1: corrisponde ad una richiesta di login e si attua impostando due campi \texttt{String} con i dati ottenuti da una chiamata a \texttt{getParameter(``username'')} e \texttt{getParameter(``password'')} . Quindi si crea un istanza di \texttt{HttpSession} tramite il metodo \texttt{getSession(true)} del parametro \texttt{request}. Il metodo prosegue controllando se lo username e la password precedentemente ottenute hanno valore diverso da \texttt{null}, in questo caso il flusso principale continua richiamando \method{doLogin()}.
-	\end{itemize}
-	
-	\item{\method{-- doLogin(session: HttpSession, username: String, password: String): String}}\\
-	Metodo per l'autenticazione dei dati utente e il completamento della fase di login. Il metodo inizia creando un'istanza di \classname{AutenthicationData} (denominata \texttt{credential}) a partire dai parametri username e password ricevuti da input. Quindi si carica la \textit{path} del file di configurazione in un apposita stringa \texttt{pathFileConfig}, tramite la chiamata a metodo:\\
->>>>>>> correzione ORRORI di Rizzi (girone due)
+
+Metodo che costituisce il kernel logico di risposta della \inglese{servlet}. Il metodo inizia caricando i parametri ricevuti mediante \texttt{HttpServletRequest}. Una chiamata a tale metodo corrisponde ad una richiesta di login e si attua impostando due campi String con i dati ottenuti da una chiamata a \texttt{getParameter(``username'')} e \texttt{getParameter(``password'')} . Quindi si crea un istanza di \texttt{HttpSession} tramite il metodo \texttt{getSession(true)} del parametro request. Il metodo prosegue controllando se l'username e la password precedentemente ottenute hanno valore diverso da null. Nel caso il flusso principale continua creando un'istanza di \classname{AutenthicationData} (denominata credential) a partire dai parametri username e password. Quindi si carica la path del file di configurazione in un apposita stringa \texttt{pathFileConfig}, tramite la chiamata a metodo:\\
 	
 \verb|System.getenv("MyTalkConfiguration") + "\\LoginConfiguration.conf"|.\\
 
@@ -1092,20 +1082,7 @@ Quindi tramite context si esegue il login e si impostano gli attributi di sessio
 
 \texttt{session.setAttribute("LoginContext", context);}
 
-<<<<<<< HEAD
 Infine si carica in user un istanza di \classname{dao.UserDataDAO} ottenuta dalla chiamata a metodo \method{UserDataDAO.getByEmail()}, e restituendo user in un formato di formattazione \texttt{Json} (\texttt{user.toJson()}).
-=======
-infine si carica in \textit{user} un istanza di \classname{dao.UserDataDAO} ottenuta dalla chiamata a metodo \method{UserDataDAO.getByEmail()} e restituendo \textit{user} in un formato di formattazione \texttt{Json} (\texttt{user.toJson()}).
-	
-	\item{\method{-- doLogout(session: HttpSession)}}\\
-	Metodo richiamato da un client per eseguire il \textit{logout} dal sistema. Il metodo deve iniziare tramite la definizione di un istanza  di \texttt{LoginContext} denominata \textit{context}. Quindi il metodo procede effettuando la memorizzazione dell'oggetto ritornato da una chiamata
-\\
-\verb|session.getAttribute("LoginContext");|
-\\
-
-L'oggetto cosi ottenuto dovrà essere controllato, ovvero si dovrà accertare che il tipo dinamico è conforme al tipo \texttt{LoginContext} (il programmatore dovrà obbligatoriamente utilizzare la primitiva \texttt{istanceof}). Quindi si sovrascrive il contenuto di \texttt{context} con quanto ottenuto dalla chiamata a metodo sopracitata, e si richiama il metodo \texttt{logout()} a partire dall'oggetto \texttt{context}.
-
->>>>>>> correzione ORRORI di Rizzi (girone due)
 
 \end{description}
 
@@ -1316,12 +1293,7 @@ Nessuna relazione d'uso evidenziata.
 Quindi dopo aver creato questi elementi il metodo procede inserendo nel DOM il ``sotto-albero'' cosi creato.
 
 	\item{\method{+ getAddressBookContacts(): void}}\\
-<<<<<<< HEAD
 Metodo che recupera i contatti e i gruppi della propria rubrica dal server usando la tecnologia AJAX. Il metodo crea una variabile contenente un istanza \texttt{XMLHttpRequest()}. Quindi con metodo \inglese{POST} inoltra la richiesta alla \inglese{servlet} richiamandola al URL salvato nell'attributo \memberdata{urlServlet}. Quindi elabora i dati ottenuti mediante il metodo \texttt{JSON.parse()} e li salva negli array \memberdata{contacts} e \memberdata{groups}.
-=======
-Metodo che recupera i contatti della propria rubrica dal server usando la tecnologia \textit{AJAX}. Il metodo crea una variabile contenente un istanza \texttt{XMLHttpRequest()}quindi, con metodo \inglese{POST}, inoltra la richiesta alla \inglese{servlet} richiamandola all'URL salvato nell'attributo \memberdata{urlServlet}. 
-Infine elabora i dati ottenuti mediante il metodo \texttt{JSON.parse()} e li salva nell'array \memberdata{contact}.
->>>>>>> correzione ORRORI di Rizzi (girone due)
 	
 	\item{\method{+ setup(): void}}\\
 	Inserisce i contatti estratti dal server all'interno della lista \texttt{AddressBookList} all'interno di \texttt{AddressBookPanel}.
@@ -1330,11 +1302,9 @@ Infine elabora i dati ottenuti mediante il metodo \texttt{JSON.parse()} e li sal
 	Metodo usato per visualizzare la lista dei contatti utente. Il metodo prende il nodo DOM (già esistente) e destinato a contenere la lista dei contatti, popolandolo richiamando il metodo \method{addListItem()}.
 	
 	\item{\method{-- addListItem(contact: String[]): void}}\\
-<<<<<<< HEAD
-	Metodo richiamato da \method{dysplayContactList()} per visualizzare i contatti presenti all'array \memberdata{contacts} (passato come parametro). Il metodo crea le variabili contenenti i dati del contatto da attribuire al tag di markup \texttt{li}. Tali variabili sono quelle tipiche di un oggetti \classname{JSUserData} (nome, cognome, email, status e immagine).
-=======
-	Metodo richiamato da \method{dysplayContactList()} per visualizzare i contatti presenti all'array \memberdata{contact} (passato come parametro). Crea le variabili contenenti i dati del contatto da attribuire al tag di \inglese{markup} \texttt{li}. Tali variabili sono quelle tipiche di un oggetti \classname{JSUserData} (nome, cognome, email, status e immagine).
->>>>>>> correzione ORRORI di Rizzi (girone due)
+
+Metodo richiamato da \method{dysplayContactList()} per visualizzare i contatti presenti all'array \memberdata{contacts} (passato come parametro). Il metodo crea le variabili contenenti i dati del contatto da attribuire al tag di markup \texttt{li}. Tali variabili sono quelle tipiche di un oggetti \classname{JSUserData} (nome, cognome, email, status e immagine).
+
 	
 	\item{\method{+ addContact(idContact: int): boolean}}\\
 	Metodo per l'aggiunta di un contatto alla rubrica, riceve come parametro una stringa che definisce l'\texttt{id} dell'utente da inserire nella propria rubrica. 
