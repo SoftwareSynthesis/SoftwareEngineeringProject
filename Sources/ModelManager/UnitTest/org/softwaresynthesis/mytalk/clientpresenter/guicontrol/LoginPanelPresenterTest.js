@@ -6,7 +6,7 @@ module ("LoginPanelPresenterTest", {
     	element.style.position = "absolute";
     	element.style.left ="-999em";
     	document.body.appendChild(element);
-    	tester = new LoginPanelPresenter("php_stubs/Login");
+    	tester = new LoginPanelPresenter("php_stubs/Login", ".php");
     	
     	communicationcenter = {my: null};
     	mediator = {buildUI: function() {}};
@@ -82,17 +82,17 @@ test("testInitialize()", function () {
 	var loginButton = liButtons.childNodes[0];
 	var registerButton = liButtons.childNodes[1];
 	var retrievePasswordButton = liButtons.childNodes[2];
-	equal(loginButton.type, "submit", "il pulsante di login è corretto");
+	equal(loginButton.type, "button", "il pulsante di login è corretto");
 	i++;
-	equal(loginButton.value, "Login", "testo del pulsante di login è corretto");
+	equal(loginButton.innerHTML, "Login", "testo del pulsante di login è corretto");
 	i++;
-	equal(registerButton.type, "submit", "il pulsante di registrazione è corretto");
+	equal(registerButton.type, "button", "il pulsante di registrazione è corretto");
 	i++;
-	equal(registerButton.value, "Registrati", "il testo del pulsante di registrazione è corretto");
+	equal(registerButton.innerHTML, "Registrazione", "il testo del pulsante di registrazione è corretto");
 	i++;
-	equal(retrievePasswordButton.type, "submit", "il tipo del pulsante di recupero password è corretto");
+	equal(retrievePasswordButton.type, "button", "il tipo del pulsante di recupero password è corretto");
 	i++;
-	equal(retrievePasswordButton.value, "Recupera password", "il testo del pulsante di recupero password è corretto");
+	equal(retrievePasswordButton.innerHTML, "Recupera password", "il testo del pulsante di recupero password è corretto");
 	i++;
 	
 	expect(i);
@@ -108,7 +108,7 @@ test("testLogin()", function() {
 	loginData.username = "laurapausini@gmail.com";
 	loginData.password = "opera";
 	var string = tester.login(loginData);
-	equal(string, "username=laurapausini%40gmail.com&password=opera&operation=1");
+	equal(string, "username=laurapausini%40gmail.com&password=opera");
 	//TODO da testare communicationcenter.my
 	// che dopo il login dovrebbe essere stato settato
 	// console.debug(communicationcenter.my);
