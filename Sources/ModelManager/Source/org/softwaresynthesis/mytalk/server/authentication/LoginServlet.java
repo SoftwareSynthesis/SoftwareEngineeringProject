@@ -13,7 +13,7 @@ import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
 
 /**
  * Servlet cha ha il compito di autorizzare l'accesso
- * al sistema mytalk un determinato untente
+ * al sistema mytalk richiesto da un utente
  * 
  * @author 	Andrea Meneghinello
  * @version	%I%, %G%

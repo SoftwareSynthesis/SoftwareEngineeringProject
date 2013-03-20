@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlete che ha il compito di terminare
+ * Servlet che ha il compito di terminare
  * l'accesso al sistema mytalk di un utente
  * 
  * @author	Andrea Meneghinello

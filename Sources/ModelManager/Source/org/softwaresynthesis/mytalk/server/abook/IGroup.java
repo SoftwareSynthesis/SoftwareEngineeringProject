@@ -69,7 +69,7 @@ public interface IGroup extends IMyTalkObject
 	 * @return	{@link Set} con i contatti
 	 * 			del gruppo
 	 */
-	public Set<AddressBookEntry> getAddressBook();
+	public Set<IAddressBookEntry> getAddressBook();
 	
 	/**
 	 * Aggiunge un contatto al gruppo
@@ -79,7 +79,7 @@ public interface IGroup extends IMyTalkObject
 	 * @param 	addressBook	{@link AddressBookEntry} da
 	 * 						aggiungere al gruppo
 	 */
-	public void setAddressBook(Set<AddressBookEntry> addressBook);
+	public void setAddressBook(Set<IAddressBookEntry> addressBook);
 	
 	/**
 	 * Aggiunge un contatto al gruppo
@@ -87,7 +87,7 @@ public interface IGroup extends IMyTalkObject
 	 * @param 	entry 	{@link AddressBookEntry}
 	 * 					da aggiungere al gruppo
 	 */
-	public void addAddressBookEntry(AddressBookEntry entry);
+	public void addAddressBookEntry(IAddressBookEntry entry);
 	
 	/**
 	 * Rimuove un contatto dal gruppo
@@ -96,5 +96,5 @@ public interface IGroup extends IMyTalkObject
 	 * 					da rimuovere dal gruppo
 	 * @param entry
 	 */
-	public void removeAddressBookEntry(AddressBookEntry entry);
+	public void removeAddressBookEntry(IAddressBookEntry entry);
 }

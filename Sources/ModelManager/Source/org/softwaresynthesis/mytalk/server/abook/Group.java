@@ -14,7 +14,7 @@ public class Group implements IGroup
 {
 	private IUserData owner;
 	private Long id;
-	private Set<AddressBookEntry> addressBook;
+	private Set<IAddressBookEntry> addressBook;
 	private String name;
 	
 	/**
@@ -23,7 +23,7 @@ public class Group implements IGroup
 	 */
 	public Group()
 	{
-		this.addressBook = new HashSet<AddressBookEntry>();
+		this.addressBook = new HashSet<IAddressBookEntry>();
 	}
 	
 	/**
@@ -135,7 +135,7 @@ public class Group implements IGroup
 	 * 			gruppo
 	 */
 	@Override
-	public Set<AddressBookEntry> getAddressBook()
+	public Set<IAddressBookEntry> getAddressBook()
 	{
 		return this.addressBook;
 	}
@@ -147,7 +147,7 @@ public class Group implements IGroup
 	 * 						aggiungere al gruppo
 	 */
 	@Override
-	public void setAddressBook(Set<AddressBookEntry> addressBook)
+	public void setAddressBook(Set<IAddressBookEntry> addressBook)
 	{
 		this.addressBook = addressBook;
 	}
@@ -159,7 +159,7 @@ public class Group implements IGroup
 	 * 					aggiungere al gruppo
 	 */
 	@Override
-	public void addAddressBookEntry(AddressBookEntry entry)
+	public void addAddressBookEntry(IAddressBookEntry entry)
 	{
 		this.addressBook.add(entry);
 		entry.setGroup(this);
@@ -172,7 +172,7 @@ public class Group implements IGroup
 	 * 					rimuovere dal gruppo
 	 */
 	@Override
-	public void removeAddressBookEntry(AddressBookEntry entry)
+	public void removeAddressBookEntry(IAddressBookEntry entry)
 	{
 		this.addressBook.remove(entry);
 		entry.setGroup(null);
