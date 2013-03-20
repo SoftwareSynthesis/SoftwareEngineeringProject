@@ -7,12 +7,12 @@ VALUES 	(1, 'indirizzo1@dominio.it', 'password', 'Come mi chiamo', 'Pippo', 'pip
 		(4, 'indirizzo4@dominio.it', 'password', 'Come mi chiamo', 'Piero', 'piero', 'pelu', ' '),
 		(5, 'indirizzo5@dominio.it', 'tQJu8lEBkXWy+YuqNKZsqA==', 'Come mi chiamo', 'Luigi', 'luigi', 'mannoio', ' ');
 		
-INSERT INTO Groups (ID_group, Name)
-VALUES	(1, 'Gruppo 1'),
-		(2, 'Groupo 2'),
-		(3, 'Gruppo 3'),
-		(4, 'Gruppo 4'),
-		(5, 'Gruppo 5');
+INSERT INTO Groups (ID_group, Name, ID_user)
+VALUES	(1, 'Gruppo 1', 5),
+		(2, 'Groupo 2', 2),
+		(3, 'Gruppo 3', 3),
+		(4, 'Gruppo 4', 3),
+		(5, 'Gruppo 5', 3);
 		
 INSERT INTO AddressBookEntries (ID_addressBookEntry, ID_user, ID_group, Owner, Blocked)
 VALUES	(1, 2, NULL, 1, 0),

@@ -42,8 +42,10 @@ CREATE TABLE Groups
 (
 	ID_group					BIGINT UNSIGNED				NOT NULL			AUTO_INCREMENT,
 	Name						VARCHAR(100)				NOT NULL,
+	ID_user						BIGINT UNSIGNED				NOT NULL,
 	
-	PRIMARY KEY(ID_group)
+	PRIMARY KEY(ID_group),
+	FOREIGN KEY(ID_user) REFERENCES UserData(ID_user)
 );
 
 CREATE TABLE Messages

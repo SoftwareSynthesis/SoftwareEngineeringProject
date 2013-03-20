@@ -12,6 +12,7 @@ import java.util.Set;
  */
 public class Group implements IGroup 
 {
+	private IUserData owner;
 	private Long id;
 	private Set<AddressBookEntry> addressBook;
 	private String name;
@@ -99,6 +100,31 @@ public class Group implements IGroup
 	public void setName(String name) 
 	{
 		this.name = name;
+	}
+	
+	/**
+	 * Restituisce il proprietario del
+	 * gruppo
+	 * 
+	 * @return	{@link IUserData} proprietario
+	 * 			del gruppo
+	 */
+	@Override
+	public IUserData getOwner()
+	{
+		return this.owner;
+	}
+	
+	/**
+	 * Imposta il proprietario di un gruppo
+	 * 
+	 * @param 	owner	{@link IUserData} proprietario
+	 * 					del gruppo
+	 */
+	@Override
+	public void setOwner(IUserData owner)
+	{
+		this.owner = owner;
 	}
 	
 	/**
