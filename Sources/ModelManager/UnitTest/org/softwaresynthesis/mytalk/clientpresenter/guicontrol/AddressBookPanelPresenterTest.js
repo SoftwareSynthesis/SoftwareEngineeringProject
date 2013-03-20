@@ -9,7 +9,7 @@ module("AddressBookPanelPresenterTest", {
     	document.body.appendChild(element);
     	
     	// oggetto da testare
-		tester = new AddressBookPanelPresenter("AddressBook");
+		tester = new AddressBookPanelPresenter("php_stubs/AddressBook");
 	},
 	teardown: function() {}
 });
