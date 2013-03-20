@@ -6,6 +6,7 @@
     	<welcome-file>index.html</welcome-file>
   	</welcome-file-list>
   	
+  	<!-- DEFINZIONE DELLE SERVLET -->
   	<servlet>
   		<servlet-name>Login</servlet-name>
   		<servlet-class>org.softwaresynthesis.mytalk.server.authentication.LoginServlet</servlet-class>
@@ -20,10 +21,18 @@
   		<servlet-name>getContacts</servlet-name>
   		<servlet-class>org.softwaresynthesis.mytalk.server.abook.AddressBookGetContactsServlet</servlet-class>
   	</servlet>
+  	
   	<servlet>
   		<servlet-name>addContact</servlet-name>
   		<servlet-class>org.softwaresynthesis.mytalk.server.abook.AddressBookDoAddContactServlet</servlet-class>
   	</servlet>
+  	
+  	<servlet>
+  		<servlet-name>removeContact</servlet-name>
+  		<servlet-class>org.softwaresynthesis.mytalk.server.abook.AddressBookDoRemoveContactServlet</servlet-class>
+  	</servlet>
+  	
+  	<!-- MAPPING DELLE SERVLET CON GLI URL -->
   	
   	<servlet-mapping>
     	<servlet-name>Login</servlet-name>
@@ -42,6 +51,11 @@
   	
   	<servlet-mapping>
   		<servlet-name>addContact</servlet-name>
-  		<url-pattern>/addressBookAddContact</url-pattern>
+  		<url-pattern>/addressBookDoAddContact</url-pattern>
+  	</servlet-mapping>
+  	
+  	<servlet-mapping>
+  		<servlet-name>removeContact</servlet-name>
+  		<url-pattern>/addressBookDoRemoveContact</url-pattern>
   	</servlet-mapping>
 </web-app>

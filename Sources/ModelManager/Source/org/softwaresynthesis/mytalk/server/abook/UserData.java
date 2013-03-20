@@ -301,7 +301,7 @@ public class UserData implements IUserData
 	 * 					aggiungere
 	 */
 	@Override
-	public void addAddressBookEntry(AddressBookEntry entry)
+	public void addAddressBookEntry(IAddressBookEntry entry)
 	{
 		this.addressBook.add(entry);
 		entry.setOwner(this);
@@ -312,7 +312,7 @@ public class UserData implements IUserData
 	 * 
 	 * @param	entry	{@link AddressBookEntry} da rimuovere
 	 */
-	public void removeAddressBookEntry(AddressBookEntry entry)
+	public void removeAddressBookEntry(IAddressBookEntry entry)
 	{
 		this.addressBook.remove(entry);
 		entry.setOwner(null);

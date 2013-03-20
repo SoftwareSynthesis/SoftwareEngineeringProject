@@ -170,12 +170,12 @@ public interface IUserData extends IMyTalkObject
 	 * @param	entry	{@link AddressBookEntry}
 	 * 					da aggiungere alla rubrica
 	 */
-	public void addAddressBookEntry(AddressBookEntry entry);
+	public void addAddressBookEntry(IAddressBookEntry entry);
 	
 	/**
 	 * Rimuove un contatto dalla rubrica
 	 * 
 	 * @param 	entry	{@link AddressBookEntry} da rimuovere
 	 */
-	public void removeAddressBookEntry(AddressBookEntry entry);
+	public void removeAddressBookEntry(IAddressBookEntry entry);
 }
