@@ -14,9 +14,14 @@ module("AddressBookPanelPresenterTest", {
 	teardown: function() {}
 });
 
+test("testSetup()", function() {
+	tester.setup();
+
+	expect(0);
+});
+
 test("testInitialize()", function() {
 	tester.initialize();
 
-	console.debug(tester.contacts);
 	expect(0);
 });

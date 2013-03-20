@@ -183,7 +183,7 @@ function AddressBookPanelPresenter(url, ext) {
 		//FIXME controllare che sia logicamente corretta
 		var group = groups[idGroup];
 		for ( var contact in group.contacts) {
-			if (contacts == idContacts)
+			if (contact == idContacts)
 				return true;
 		}
 		return false;
@@ -223,12 +223,12 @@ function AddressBookPanelPresenter(url, ext) {
 			var serchField = inputText.value;
 			var filtredContacts = self.applyFilterByString(serchField);
 			self.showFilter(filtredContacts);
-		}
+		};
 		selectGroup.onchange = function() {
 			var idGroupSelected = selectGroup.options[selectGroup.selectedIndex].value;
 			var filtredContacts = self.applyFilterByGroup(idGroupSelected);
 			self.showFilter(filtredContacts);
-		}
+		};
 		// creo contenuto divSort
 		var selectSort = document.createElement('select');
 		selectSort.id = "selectSort";
@@ -249,23 +249,26 @@ function AddressBookPanelPresenter(url, ext) {
 		element.appendChild(divSort);
 		element.appendChild(divList);
 
-		// scarica i contatti dal server
-		getAddressBookContacts();
 		// visualizza i contatti nel pannello
 		this.setup();
 	};
 
 	/**
-	 * Inserisce i contatti estratti dal server all'interno della lista 'AddressBookList'
+	 * Scarica la rubrica dal server popolando la lista dei contatti, quindi
+	 * inserisce i contatti estratti dal server all'interno della lista 
 	 * all'interno di 'AddressBookPanel'
 	 *
 	 * NOTA PER I VERIFICATORI
 	 * Richiede che il 'document' abbia al suo interno un elemento di
 	 * tipo '<ul>' con 'id' uguale a 'AddressBookList'
+	 * Al termine della funzione la lista dei contatti contacts deve essere
+	 * popolata con i contatti che passa lo stub
 	 *
 	 * @author Riccardo Tresoldi
 	 */
 	this.setup = function() {
+		// scarica i contatti dal server
+		getAddressBookContacts();
 		//popolo la parte dei contatti
 		// estraggo l'<ul> del Addressbook e lo inizializzo
 		var ulList = document.getElementById("AddressBookList");
@@ -321,7 +324,6 @@ function AddressBookPanelPresenter(url, ext) {
 
 		//visualizzo l'esito della richiesta. Se esito positivo refresh della rubrica
 		if (result == true) {
-			getAddressBookContacts();
 			this.setup();
 			return true;
 		}
@@ -354,7 +356,6 @@ function AddressBookPanelPresenter(url, ext) {
 
 		//visualizzo l'esito della richiesta. Se esito positivo refresh della rubrica
 		if (result == true) {
-			getAddressBookContacts();
 			this.setup();
 			return true;
 		}
@@ -389,7 +390,6 @@ function AddressBookPanelPresenter(url, ext) {
 
 		//visualizzio l'esito della richiesta. Se esito positivo refresh della rubrica
 		if (result == true) {
-			getAddressBookContacts();
 			this.setup();
 			return true;
 		}
@@ -423,7 +423,6 @@ function AddressBookPanelPresenter(url, ext) {
 
 		//visualizzio l'esito della richiesta. Se esito positivo refresh della rubrica
 		if (result == true) {
-			getAddressBookContacts();
 			this.setup();
 			return true;
 		}
@@ -454,7 +453,6 @@ function AddressBookPanelPresenter(url, ext) {
 
 		//visualizzio l'esito della richiesta. Se esito positivo refresh della rubrica
 		if (result == true) {
-			getAddressBookContacts();
 			this.setup();
 			return true;
 		}
@@ -492,7 +490,6 @@ function AddressBookPanelPresenter(url, ext) {
 
 		//visualizzio l'esito della richiesta. Se esito positivo refresh della rubrica
 		if (result == true) {
-			getAddressBookContacts();
 			this.setup();
 			return true;
 		}
@@ -618,7 +615,6 @@ function AddressBookPanelPresenter(url, ext) {
 
 		//controllo il risultato
 		if (result == true) {
-			getAddressBookContacts();
 			this.setup();
 			return true;
 		}
@@ -655,7 +651,6 @@ function AddressBookPanelPresenter(url, ext) {
 
 		//controllo il risultato
 		if (result == true) {
-			getAddressBookContacts();
 			this.setup();
 			return true;
 		}
