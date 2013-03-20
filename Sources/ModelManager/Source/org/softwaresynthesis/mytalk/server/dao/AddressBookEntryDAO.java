@@ -5,10 +5,17 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.softwaresynthesis.mytalk.server.abook.IAddressBookEntry;
 
+/**
+ * Espone le funzione per la manipolazione di oggetti
+ * di tipo {@link IAddressBookEntry} con il database
+ * 
+ * @author 	Andrea Meneghinello
+ * @version	%I%, %G%
+ */
 public class AddressBookEntryDAO 
 {
 	/**
-	 * Cancella il {@link IAddressBookEntry} dal database se presente
+	 * Cancella l' {@link IAddressBookEntry} dal database se presente
 	 * 
 	 * @param 	group	{@link IAddressBookEntry} che deve essere eliminato
 	 * 					dal database
