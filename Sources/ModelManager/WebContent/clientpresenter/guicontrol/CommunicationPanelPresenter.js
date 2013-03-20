@@ -5,7 +5,7 @@
  * @author Elena Zecchinato
  * @author Diego Beraldin
  */
-function CommunicationPanelPresenter(mediator) {
+function CommunicationPanelPresenter() {
     /**********************************************************
      METODI PUBBLICI
      ***********************************************************/
@@ -38,6 +38,7 @@ function CommunicationPanelPresenter(mediator) {
         var otherVideo = document.createElement('video');
         otherVideo.id = "otherVideo";
         otherVideo.setAttribute("autoplay", "autoplay");
+        
         //creo i bottoni per per la gestione della chiamata
         var closeButton = document.createElement('button');
         closeButton.type = "button";
@@ -45,12 +46,11 @@ function CommunicationPanelPresenter(mediator) {
         var muteButton = document.createElement('button');
         muteButton.type = "button";
         muteButton.id = "muteButton";
-        closeButton.onclick = function() {
-            //TODO creare la funzione per la chiusura della chiamata
-        };
+        closeButton.onclick = communicationcenter.endCall;
         muteButton.onclick = function() {
-            //TODO creo la funzione per mettere in mute e togliere dal mute la chiamata
-        };
+        	//TODO questa cosa dovrebbe farla il communicationcenter
+        	// il bottone deve cambiare aspetto a seconda
+        }
 
         //appendo i child al divCall
         divCall.appendChild(myVideo);
@@ -62,9 +62,12 @@ function CommunicationPanelPresenter(mediator) {
         //creo l'<ul> per le schede delle chat aperte
         var ulOpenChat = document.createElement('ul');
         ulOpenChat.id = "ulOpenChat";
+        //TODO funzione per popolare l'<ul> delle chat con le chat aperte
+        
         //creo il div per la visualizzazione della chat selezionata.
         var divContainerChat = document.createElement('div');
         divContainerChat.id = "divContainerChat";
+        //TODO funzione per mostrare una chat particolare
 
         //appendo i child alla divChat
         divChat.appendChild(ulOpenChat);
@@ -76,4 +79,5 @@ function CommunicationPanelPresenter(mediator) {
 
         return element;
     };
+    
 }

@@ -269,7 +269,7 @@ function CommunicationCenter() {
      *
      * @author Marco Schivo
      */
-    function endCall() {
+    this.endCall = function() {
         pc.removeStream(localStream);
         localStream.stop();
         pc.createOffer(gotDescription);
@@ -281,7 +281,7 @@ function CommunicationCenter() {
             pc.close();
             pc = null;
         }, 1000);
-    }
+    };
 
     //imposto la mia descrizione e la invio all'altro peer
     function gotDescription(desc) {
@@ -332,4 +332,11 @@ function CommunicationCenter() {
     }
 
     //TODO Uno solo websoket al posto di due [duqneu una sola servlet]
+    /**
+     * @param {Boolean} true se la chiamata deve essere impostata a muto, false altrimenti
+     * @author Riccardo Tresoldi
+     */
+    this.mute = function(value) {
+    	
+    };
 }
