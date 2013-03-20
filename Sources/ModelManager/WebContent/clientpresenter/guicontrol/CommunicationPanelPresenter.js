@@ -7,6 +7,20 @@
  */
 function CommunicationPanelPresenter() {
     /**********************************************************
+    VARIABILI PRIVATE
+    ***********************************************************/
+	// array associativo di tutte le chat che ho aperte in un dato momento
+    // gli elementi memorizzati in questo array sono {HTMLDivElements}
+	var chatElements = new Object();
+	
+    /**********************************************************
+    METODI PRIVATI
+    ***********************************************************/
+	function populateChatUl(ul) {
+		//TODO da terminare questa funzione
+	}
+	
+    /**********************************************************
      METODI PUBBLICI
      ***********************************************************/
     /**
@@ -54,12 +68,11 @@ function CommunicationPanelPresenter() {
         //creo l'<ul> per le schede delle chat aperte
         var ulOpenChat = document.createElement('ul');
         ulOpenChat.id = "ulOpenChat";
-        //TODO funzione per popolare l'<ul> delle chat con le chat aperte
+        populateChatUl(ulOpenChat);
         
         //creo il div per la visualizzazione della chat selezionata.
         var divContainerChat = document.createElement('div');
         divContainerChat.id = "divContainerChat";
-        //TODO funzione per mostrare una chat particolare
 
         //appendo i child alla divChat
         divChat.appendChild(ulOpenChat);
@@ -71,5 +84,7 @@ function CommunicationPanelPresenter() {
 
         return element;
     };
+    
+    
     
 }
