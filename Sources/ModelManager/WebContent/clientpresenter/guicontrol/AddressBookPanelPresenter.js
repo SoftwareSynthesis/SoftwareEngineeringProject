@@ -78,8 +78,6 @@ function AddressBookPanelPresenter(url, ext) {
         groupRequest.send();
     }
 
-    ;
-
     /**
      * Aggiunge una voce di rubrica a una lista
      *
@@ -149,8 +147,6 @@ function AddressBookPanelPresenter(url, ext) {
         list.appendChild(item);
     }
 
-    ;
-
     /**
      * Aggiungere una <option> ad una Select
      *
@@ -172,8 +168,6 @@ function AddressBookPanelPresenter(url, ext) {
         select.appendChild(option);
     }
 
-    ;
-
     /**
      * Controlla se un contatto è presente nel gruppo passato come parametro
      *
@@ -192,8 +186,6 @@ function AddressBookPanelPresenter(url, ext) {
         }
         return false;
     }
-
-    ;
 
     /**********************************************************
      METODI PUBBLICI
@@ -631,6 +623,7 @@ function AddressBookPanelPresenter(url, ext) {
         //controllo il risultato
         if (result == true) {
             this.setup();
+            mediator.displayContact(contact);
             return true;
         }
         throw "Ops... qualcosa è andato storto nel server.";
@@ -666,6 +659,7 @@ function AddressBookPanelPresenter(url, ext) {
         //controllo il risultato
         if (result == true) {
             this.setup();
+            mediator.displayContact(contact);
             return true;
         }
         throw "Ops... qualcosa è andato storto nel server.";
