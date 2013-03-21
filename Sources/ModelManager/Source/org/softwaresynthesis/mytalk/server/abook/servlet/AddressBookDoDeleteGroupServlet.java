@@ -20,7 +20,7 @@ import org.softwaresynthesis.mytalk.server.dao.GroupDAO;
  * @author 	Andrea Meneghinello
  * @version	1.0
  */
-public class AddressBookDoDeleteGroupServlet extends HttpServlet 
+public final class AddressBookDoDeleteGroupServlet extends HttpServlet 
 {
 	private static final long serialVersionUID = 10016L;
 	

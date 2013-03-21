@@ -20,7 +20,7 @@ import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
  * @author  Andrea Meneghinello
  * @version	1.0
  */
-public class AddressBookDoBlockServlet extends HttpServlet 
+public final class AddressBookDoBlockServlet extends HttpServlet 
 {
 	private static final long serialVersionUID = 10018L;
 	
