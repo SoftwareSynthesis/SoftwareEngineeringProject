@@ -697,6 +697,67 @@ Servlet cha ha il compito di aggiungere alla rubrica un nuovo contatto.
 	Se invece si è osservato che l'oggetto contenente l'amico da rimuovere, ha valore uguale a null, allora il metodo termina scrivendo \inglese{false} all'intero della dello stesso \texttt{PrintWriter} già citato.
 \end{description}
 
+%TODO da verificare
+
+\classsection{AddressBookDoCreateGroupServlet}
+
+\subsubsection*{Funzione}
+\inglese{Servlet} richiamata dal client per creare un nuovo gruppo nella propria rubrica.
+
+\subsubsection*{Relazioni d'uso}
+
+\begin{itemize}
+	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
+	\item \texttt{javax.servlet.ServletException}: eccezione rilancibile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{LoginManager}.
+	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
+	\item \texttt{javax.security.auth.login.LoginContext}: classe usata in \method{doPost()} per eseguite la logout dal sistema.
+	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la servlet (inoltra i dati in uscita dalla chiamata a servlet).
+	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
+	\item \classname{org.softwaresynthesis.mytalk.server.dao.UserDataDAO}: classe usata per comunicare tramite Hibernate con la tabella UserData della base di dati.
+\end{itemize}
+
+\subsubsection*{Attributi}
+
+\begin{itemize}
+	\item{\memberdata{\underline{-- \{frozen\} serialVersionUID: long}}}
+	Attributo contenente l'id per la serializzazione dei dati. Il valore di creazione deve essere \texttt{10013L}.
+\end{itemize}
+
+\subsubsection*{Metodi}
+
+\begin{description}
+	\item{\method{+ AddressBookDoCreateGroupServlet()}}\\
+	Costruttore pubblico della \inglese{servlet}. Richiama il costruttore della classe padre (chiamata a \texttt{super}).
+	
+	\item{\method{\# doGet(request HttpServletRequest, response HttpServletResponse): void}}\\
+	Metodo usato per eseguire la richiesta di creazione di un gruppo (eseguito in risposta ad una richiesta HTTP con metodo \texttt{GET}). Poiché intendiamo gestire in modo univoco una richiesta a tale servlet (indifferentemente dalla tipologia d'invio dati) il metodo reindirizza il flusso principale al metodo \method{doPost()}.
+	
+	\item{\method{\# doPost(request HttpServletRequest, response HttpServletResponse): void}}\\	
+	Metodo usato per eseguire la richiesta di creazione di un gruppo (eseguito in risposta ad una richiesta HTTP con metodo \texttt{POST}). Nell'ordine proposto, devono essere eseguite le seguenti operazioni:
+	\begin{itemize}
+		\item creazione di un oggetto \classname{dao.GroupDAO} avente nome groupDAO;
+		\item creazione di un oggetto \texttt{HttpSession} avente nome session;
+		\item creazione di un oggetto \classname{abook.IGroup} avente nome group;
+		\item creazione di un oggetto \classname{abook.IUserData} avente nome user;
+		\item creazione di un oggetto \texttt{PrinterWriter} avente nome writer;
+		\item creazione di due stringhe, name e result;
+	\end{itemize}
+	A questo punto viene creato un blocco try catch. Il blocco catch non fa altro che impostare la stringa result a ``\inglese{false}''. Nel blocco try invece si dovrà seguire il seguente iter:
+	\begin{itemize}
+		\item si imposta session con il valore ritornato da una chiamata:\\
+		\verb|request.getSession(false)|;
+		\item si imposta la variabile user con il valore presente nell'attributo user di sessione (usare l'istruzione \verb|session.getAttribute("user")|;
+		\item impostare name con il contenuto del parametro ``groupName'' presente nell'oggetto request;
+		\item verificare se name è null o vuoto. Nel caso procedere impostando result a false e uscendo dal blocco try.
+		\item altrimenti, se name contiene un nome valido si crea un nuovo gruppo (salvandolo nella variabile group), e impostando il nome e l'utente proprietario.
+		\item richiamare \method{insert()} a partire dall'istanza groupDAO, passando come parametro group (che ora conterrà in gruppo da inserire nel database). Viene impostato result a ``\inglese{true}''
+	Il metodo termina scrivendo su write (usando l'omonimo metodo) il valore contenuto in result. 		
+	\end{itemize}
+	
+\end{description}
+
 \subsection{Package org.softwaresynthesis.mytalk.server.call}\label{sec:call}
 
 \classsection{ICall}
