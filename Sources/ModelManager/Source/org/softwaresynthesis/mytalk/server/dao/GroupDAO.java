@@ -203,7 +203,7 @@ public class GroupDAO
 	 * Interroga il database per ottenere un istanza 
 	 * {@link IGroup} che ha quell'identificatore
 	 * 
-	 * @param 	identifier	idenficatore dello {@link IGroup}
+	 * @param 	owner	idenficatore dello {@link IGroup}
 	 * @return	istanza di {@link IGroup} che è
 	 * 			registrato con l'identificatore fornito
 	 * 			in input, altrimenti null

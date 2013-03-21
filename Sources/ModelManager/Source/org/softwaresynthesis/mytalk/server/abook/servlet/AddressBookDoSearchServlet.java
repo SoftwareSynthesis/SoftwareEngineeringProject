@@ -3,40 +3,36 @@ package org.softwaresynthesis.mytalk.server.abook.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Iterator;
-import java.util.Set;
+import java.util.List;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import org.softwaresynthesis.mytalk.server.abook.IAddressBookEntry;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServlet;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
-import org.softwaresynthesis.mytalk.server.connection.ChannelServlet;
+import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
 
 /**
- * Servlet che ha il compito di fornire
- * la rubrica di un utente del sistema
- * mytalk
+ * Servlet cha ha il compito di effetture una
+ * ricerca di utenti nel database
  * 
  * @author 	Andrea Meneghinello
  * @version	1.0
  */
-public final class AddressBookGetContactsServlet extends HttpServlet 
+public class AddressBookDoSearchServlet extends HttpServlet 
 {
-	private static final long serialVersionUID = 10010L;
+	private static final long serialVersionUID = 100110L;
 	
-	/**
+	/*
 	 * Inizializza la servlet
 	 */
-	public AddressBookGetContactsServlet()
+	public AddressBookDoSearchServlet()
 	{
 		super();
 	}
 	
 	/**
-	 * Esegue la richiesta di per il download
-	 * della rubrica ricevuta tramite richiesta
-	 * HTTP GET
+	 * Esegue la richiesta di per la ricerca di
+	 * utenti ricevuta tramite richiesta HTTP GET
 	 * 
 	 * @param	request		contiene i parametri di input
 	 * 						per il corretto svolgimento dell'operazione	
@@ -53,9 +49,8 @@ public final class AddressBookGetContactsServlet extends HttpServlet
 	}
 	
 	/**
-	 * Esegue la richiesta di per il download
-	 * della rubrica ricevuta tramite richiesta
-	 * HTTP POST
+	 * Esegue la richiesta di per la ricerca di
+	 * utenti ricevuta tramite richiesta HTTP POST
 	 * 
 	 * @param	request		contiene i parametri di input
 	 * 						per il corretto svolgimento dell'operazione	
@@ -68,33 +63,31 @@ public final class AddressBookGetContactsServlet extends HttpServlet
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
 	{
-		HttpSession session = null;
-		IAddressBookEntry entry = null;
-		Iterator<IAddressBookEntry> iterator = null;
-		IUserData user = null;
-		IUserData friend = null;
-		PrintWriter writer = response.getWriter();
-		Set<IAddressBookEntry> contacts = null;
+		Iterator<IUserData> iterator = null;
+		IUserData entry = null;
+		List<IUserData> users = null;
+		PrintWriter writer = null;
+		String parameter = null;
 		String result = null;
+		UserDataDAO userDAO = null;
 		try
 		{
-			session = request.getSession(false);
-			user = (IUserData)session.getAttribute("user");
-			contacts = user.getAddressBook();
-			iterator = contacts.iterator();
+			parameter = request.getParameter("param");
+			userDAO = new UserDataDAO();
+			users = userDAO.searchGeneric(parameter);
+			iterator = users.iterator();
 			result = "{";
 			while(iterator.hasNext() == true)
 			{
 				entry = iterator.next();
-				friend = entry.getContact();
-				result += "\"" + friend.getId() + "\":";
-				result += "{\"name\":\"" + friend.getName() + "\"";
-				result += ", \"surname\":\"" + friend.getSurname() + "\"";
-				result += ", \"email\":\"" + friend.getMail() + "\"";
-				result += ", \"id\":\"" + friend.getId() + "\"";
-				result += ", \"picturePath\":\"" + friend.getPath() + "\"";
-				result += ", \"state\":\"" + ChannelServlet.getState(friend.getId()) + "\"";
-				result += ", \"blocked\":\"" + entry.getBlocked() + "\"}";
+				result += "\"" + entry.getId() + "\":";
+				result += "{\"name\":\"" + entry.getName() + "\"";
+				result += ", \"surname\":\"" + entry.getSurname() + "\"";
+				result += ", \"email\":\"" + entry.getMail() + "\"";
+				result += ", \"id\":\"" + entry.getId() + "\"";
+				result += ", \"picturePath\":\"" + entry.getPath() + "\"";
+				result += ", \"state\":\"offline\"";
+				result += ", \"blocked\":\"false\"}";
 				if (iterator.hasNext() == true)
 				{
 					result += ",";
@@ -104,8 +97,9 @@ public final class AddressBookGetContactsServlet extends HttpServlet
 		}
 		catch (Exception ex)
 		{
-			result = "null";
+			result = "false";
 		}
+		writer = response.getWriter();
 		writer.write(result);
 	}
 }
