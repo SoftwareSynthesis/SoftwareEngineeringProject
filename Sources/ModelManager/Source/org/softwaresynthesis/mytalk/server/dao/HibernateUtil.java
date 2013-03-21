@@ -44,7 +44,7 @@ public class HibernateUtil
 	 * della classe
 	 * 
 	 * @return 	Istanza della classe
-	 * @throw	{@link ExceptionInInitializerError} se l'inizializzazione
+	 * @throws	{@link ExceptionInInitializerError} se l'inizializzazione
 	 * 			da problemi
 	 */
 	public static HibernateUtil getInstance()

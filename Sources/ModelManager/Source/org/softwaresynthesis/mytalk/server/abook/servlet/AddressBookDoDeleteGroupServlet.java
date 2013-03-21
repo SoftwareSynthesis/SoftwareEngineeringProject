@@ -1,37 +1,33 @@
-package org.softwaresynthesis.mytalk.server.abook;
+package org.softwaresynthesis.mytalk.server.abook.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Iterator;
+import java.util.Set;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServlet;
-import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
+import org.softwaresynthesis.mytalk.server.abook.IAddressBookEntry;
+import org.softwaresynthesis.mytalk.server.abook.IGroup;
+import org.softwaresynthesis.mytalk.server.dao.AddressBookEntryDAO;
+import org.softwaresynthesis.mytalk.server.dao.GroupDAO;
 
-/**
- * Servlet cha ha il compito di aggiungere
- * alla rubrica un nuovo contatto
- * 
- * @author 	Andrea Meneghinello
- * @version	%I%, %G%
- */
-public final class AddressBookDoAddContactServlet extends HttpServlet 
+public class AddressBookDoDeleteGroupServlet extends HttpServlet 
 {
-	private static final long serialVersionUID = 10012L;
+	private static final long serialVersionUID = 10017L;
 	
 	/**
-	 * Inizializza la servlet
+	 * Inizializzazione della servlet
 	 */
-	public AddressBookDoAddContactServlet()
+	public AddressBookDoDeleteGroupServlet()
 	{
 		super();
 	}
 	
 	/**
-	 * Esegue la richiesta di per l'aggiunta di un
-	 * nuovo contatto alla rubrica ricevuta tramite
-	 * richiesta HTTP GET
+	 * Esegue la richiesta di per l'eliminazione di un
+	 * gruppo tramite richiesta HTTP GET
 	 * 
 	 * @param	request		contiene i parametri di input
 	 * 						per il corretto svolgimento dell'operazione	
@@ -48,9 +44,8 @@ public final class AddressBookDoAddContactServlet extends HttpServlet
 	}
 	
 	/**
-	 * Esegue la richiesta di per l'aggiunta di un
-	 * nuovo contatto alla rubrica ricevuta tramite
-	 * richiesta HTTP POST
+	 * Esegue la richiesta di per l'eliminazione di un
+	 * gruppo tramite richiesta HTTP POST
 	 * 
 	 * @param	request		contiene i parametri di input
 	 * 						per il corretto svolgimento dell'operazione	
@@ -63,35 +58,30 @@ public final class AddressBookDoAddContactServlet extends HttpServlet
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
 	{
-		AddressBookEntry myEntry = null;
-		AddressBookEntry frEntry = null;
-		HttpSession session = null;
-		long contactId = -1L;
-		IUserData user = null;
-		IUserData friend = null;
+		AddressBookEntryDAO entryDAO = new AddressBookEntryDAO();
+		GroupDAO groupDAO = new GroupDAO();
+		IGroup group = null;
+		IAddressBookEntry entry = null;
+		Iterator<IAddressBookEntry> iterator = null;
+		Long groupId = null;
 		PrintWriter writer = response.getWriter();
-		UserDataDAO userDAO = new UserDataDAO();
+		Set<IAddressBookEntry> entrys = null;
 		String result = null;
 		try
 		{
-			session = request.getSession(false);
-			contactId = Long.parseLong(request.getParameter("contactId"));
-			user = (IUserData)session.getAttribute("user");
-			friend = userDAO.getByID(contactId);
-			if (friend != null)
+			groupId = Long.parseLong(request.getParameter("groupId"));
+			group = groupDAO.getByID(groupId);
+			if (group != null)
 			{
-				myEntry = new AddressBookEntry();
-				frEntry = new AddressBookEntry();
-				myEntry.setBlocked(false);
-				myEntry.setContact(friend);
-				myEntry.setGroup(null);
-				frEntry.setBlocked(false);
-				frEntry.setContact(user);
-				frEntry.setGroup(null);
-				user.addAddressBookEntry(myEntry);
-				friend.addAddressBookEntry(frEntry);
-				userDAO.update(user);
-				userDAO.update(friend);
+				entrys = group.getAddressBook();
+				iterator = entrys.iterator();
+				while (iterator.hasNext() == true)
+				{
+					entry = iterator.next();
+					entry.setGroup(null);
+					entryDAO.update(entry);
+				}
+				groupDAO.delete(group);
 				result = "true";
 			}
 			else

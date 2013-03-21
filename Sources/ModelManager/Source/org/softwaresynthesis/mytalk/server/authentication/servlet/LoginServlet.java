@@ -1,4 +1,4 @@
-package org.softwaresynthesis.mytalk.server.authentication;
+package org.softwaresynthesis.mytalk.server.authentication.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,6 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
 import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
+import org.softwaresynthesis.mytalk.server.authentication.AESAlgorithm;
+import org.softwaresynthesis.mytalk.server.authentication.AuthenticationData;
+import org.softwaresynthesis.mytalk.server.authentication.CredentialLoader;
+import org.softwaresynthesis.mytalk.server.authentication.IAuthenticationData;
+import org.softwaresynthesis.mytalk.server.authentication.ISecurityStrategy;
 
 /**
  * Servlet cha ha il compito di autorizzare l'accesso
@@ -20,7 +25,7 @@ import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
  */
 public final class LoginServlet extends HttpServlet 
 {
-	private static final long serialVersionUID = 10002L;
+	private static final long serialVersionUID = 10001L;
 	
 	/**
 	 * Crea la servlet inizializzandole
@@ -35,7 +40,7 @@ public final class LoginServlet extends HttpServlet
 	}
 	
 	/**
-	 * Esegue la richiesta di login ricevuta
+	 * Esegue la richiesta di login per un utente ricevuta
 	 * tramite richiesta HTTP GET
 	 * 
 	 * @param	request		contiene i parametri di input
@@ -54,7 +59,7 @@ public final class LoginServlet extends HttpServlet
 	}
 	
 	/**
-	 * Esegue la richiesta di login ricevuta
+	 * Esegue la richiesta di login per un utente ricevuta
 	 * tramite richiesta HTTP POST
 	 * 
 	 * @param	request		contiene i parametri di input
@@ -69,12 +74,13 @@ public final class LoginServlet extends HttpServlet
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
 	{
+		ISecurityStrategy algorithm = null;
 		CredentialLoader loader = null;
 		HttpSession session = null;
-		IAuthenticationData credential;
+		IAuthenticationData credential = null;
 		IUserData user = null;
 		LoginContext context = null;
-		PrintWriter writer = response.getWriter();
+		PrintWriter writer = null;
 		String password = null;
 		String result = null;
 		String username = null;
@@ -85,14 +91,22 @@ public final class LoginServlet extends HttpServlet
 			username = request.getParameter("username");
 			password = request.getParameter("password");
 			credential = new AuthenticationData(username, password);
-			loader = new CredentialLoader(credential, new AESAlgorithm());
+			algorithm = new AESAlgorithm();
+			loader = new CredentialLoader(credential, algorithm);
 			context = new LoginContext("Configuration", loader);
 			context.login();
 			userDAO = new UserDataDAO();
 			user = userDAO.getByEmail(username);
-			session.setAttribute("context", context);
-			session.setAttribute("user", user);
-			result = user.toJson();
+			if (user != null)
+			{
+				session.setAttribute("context", context);
+				session.setAttribute("user", user);
+				result = user.toJson();
+			}
+			else
+			{
+				result = "null";
+			}
 		}
 		catch (Exception ex)
 		{
@@ -102,6 +116,13 @@ public final class LoginServlet extends HttpServlet
 			}
 			result = "null";
 		}
-		writer.write(result);
+		finally
+		{
+			context = null;
+			credential = null;
+			loader = null;
+			writer = response.getWriter();
+			writer.write(result);
+		}
 	}
 }

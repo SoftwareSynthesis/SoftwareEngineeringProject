@@ -1,4 +1,4 @@
-package org.softwaresynthesis.mytalk.server.abook;
+package org.softwaresynthesis.mytalk.server.abook.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -9,32 +9,33 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.softwaresynthesis.mytalk.server.connection.ChannelServlet;
+import org.softwaresynthesis.mytalk.server.abook.IAddressBookEntry;
+import org.softwaresynthesis.mytalk.server.abook.IUserData;
+import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
 
 /**
- * Servlet che ha il compito di fornire
- * la rubrica di un utente del sistema
- * mytalk
+ * Servlet che ha il compito di bloccare un
+ * contatto della rubrica
  * 
- * @author 	Andrea Meneghinello
+ * @author  Andrea Meneghinello
  * @version	%I%, %G%
  */
-public final class AddressBookGetContactsServlet extends HttpServlet 
+public class AddressBookDoBlockServlet extends HttpServlet 
 {
-	private static final long serialVersionUID = 10011L;
+	private static final long serialVersionUID = 10018L;
 	
 	/**
 	 * Inizializza la servlet
 	 */
-	public AddressBookGetContactsServlet()
+	public AddressBookDoBlockServlet()
 	{
 		super();
 	}
 	
 	/**
-	 * Esegue la richiesta di per il download
-	 * della rubrica ricevuta tramite richiesta
-	 * HTTP GET
+	 * Esegue la richiesta di per il blocco di un
+	 * contatto alla rubrica ricevuta tramite
+	 * richiesta HTTP GET
 	 * 
 	 * @param	request		contiene i parametri di input
 	 * 						per il corretto svolgimento dell'operazione	
@@ -51,9 +52,9 @@ public final class AddressBookGetContactsServlet extends HttpServlet
 	}
 	
 	/**
-	 * Esegue la richiesta di per il download
-	 * della rubrica ricevuta tramite richiesta
-	 * HTTP POST
+	 * Esegue la richiesta di per il blocco di un
+	 * contatto alla rubrica ricevuta tramite
+	 * richiesta HTTP POST
 	 * 
 	 * @param	request		contiene i parametri di input
 	 * 						per il corretto svolgimento dell'operazione	
@@ -66,44 +67,45 @@ public final class AddressBookGetContactsServlet extends HttpServlet
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
 	{
-		boolean next = false;
 		HttpSession session = null;
 		IAddressBookEntry entry = null;
 		Iterator<IAddressBookEntry> iterator = null;
 		IUserData user = null;
 		IUserData friend = null;
+		Long contactId = null;
 		PrintWriter writer = response.getWriter();
-		Set<IAddressBookEntry> contacts = null;
+		Set<IAddressBookEntry> entrys = null;
 		String result = null;
+		UserDataDAO userDAO = new UserDataDAO();
 		try
 		{
 			session = request.getSession(false);
 			user = (IUserData)session.getAttribute("user");
-			contacts = user.getAddressBook();
-			iterator = contacts.iterator();
-			result = "{";
-			while(next = iterator.hasNext())
+			contactId = Long.parseLong(request.getParameter("contactId"));
+			friend = userDAO.getByID(contactId);
+			if (friend != null)
 			{
-				entry = iterator.next();
-				friend = entry.getContact();
-				result += "\"" + friend.getId() + "\":";
-				result += "{\"name\":\"" + friend.getName() + "\"";
-				result += ", \"surname\":\"" + friend.getSurname() + "\"";
-				result += ", \"email\":\"" + friend.getMail() + "\"";
-				result += ", \"id\":\"" + friend.getId() + "\"";
-				result += ", \"picturePath\":\"" + friend.getPath() + "\"";
-				result += ", \"state\":\"" + ChannelServlet.getState(friend.getId()) + "\"";
-				result += ", \"blocked\":\"" + entry.getBlocked() + "\"}";
-				if (next == true)
+				entrys = user.getAddressBook();
+				iterator = entrys.iterator();
+				while (iterator.hasNext() == true)
 				{
-					result += ",";
+					entry = iterator.next();
+					if (entry.getContact().equals(friend) == true && entry.getOwner().equals(user) == true)
+					{
+						entry.setBlocked(true);
+					}
 				}
+				userDAO.update(user);
+				result = "true";
 			}
-			result = "}";
+			else
+			{
+				result = "false";
+			}
 		}
 		catch (Exception ex)
 		{
-			result = "null";
+			result = "false";
 		}
 		writer.write(result);
 	}

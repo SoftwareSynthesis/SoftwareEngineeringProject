@@ -104,7 +104,7 @@ public class GroupDAO
 	/**
 	 * Inserisce un nuovo {@link IGroup} nel database
 	 * 
-	 * @param 	user	{@link IGroup} da inserire}
+	 * @param 	group	{@link IGroup} da inserire}
 	 * @return	true se l'operazione va a buon fine, false
 	 * 			altrimenti
 	 */

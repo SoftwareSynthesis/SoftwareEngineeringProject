@@ -1,4 +1,4 @@
-package org.softwaresynthesis.mytalk.server.authentication;
+package org.softwaresynthesis.mytalk.server.authentication.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
  */
 public final class LogoutServlet extends HttpServlet 
 {
-	private static final long serialVersionUID = 10001L;
+	private static final long serialVersionUID = 10000L;
 	
 	/**
 	 * Inizializza la servlet
@@ -70,8 +70,15 @@ public final class LogoutServlet extends HttpServlet
 		try
 		{
 			context = (LoginContext)session.getAttribute("context");
-			context.logout();
-			result = "true";
+			if (context != null)
+			{
+				context.logout();
+				result = "true";
+			}
+			else
+			{
+				result = "false";
+			}
 		}
 		catch (Exception ex)
 		{

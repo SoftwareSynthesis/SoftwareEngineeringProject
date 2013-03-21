@@ -34,7 +34,6 @@ public class ChannelServlet extends WebSocketServlet implements Servlet {
 	 * Crea una websocket, la salva nel vettore di connessioni 
 	 * attive e la ritorna al client
 	 * 
-	 * @author 	Marco Schivo
 	 * @param 	subProtocol		{@link String} protocollo usato per la connessione
 	 * @param 	request		{@link HttpServletRequest} oggetto per la richiesta
 	 */
@@ -50,7 +49,6 @@ public class ChannelServlet extends WebSocketServlet implements Servlet {
 	/**
 	 * Ricerca una connessione client dato l'identificativo
 	 * 
-	 * @author 	Marco Schivo
 	 * @param 	n		{@link Long} identificativo del canale
 	 */
 	public static PushInbound findClient(Long n){
@@ -64,8 +62,7 @@ public class ChannelServlet extends WebSocketServlet implements Servlet {
 	/**
 	 * Rimuove una connessione client
 	 * 
-	 * @author 	Marco Schivo
-	 * @param 	n		{@link PushInbound} canale da rimuovere
+	 * @param 	c		{@link PushInbound} canale da rimuovere
 	 */
 	public static void removeClient(PushInbound c){
 		for (Long key : clients.keySet()) {
@@ -79,7 +76,7 @@ public class ChannelServlet extends WebSocketServlet implements Servlet {
 	 * Restituisce lo stato di un utente
 	 * 
 	 * @param 	identifier	{@link Long} identificatore
-	 * 						dello {@link IUserData}
+	 * 						dello {@link org.softwaresynthesis.mytalk.server.abook.IUserData}
 	 * @return	{@link String} con lo stato
 	 */
 	public static String getState(Long identifier)

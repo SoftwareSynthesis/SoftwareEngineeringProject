@@ -1,4 +1,4 @@
-package org.softwaresynthesis.mytalk.server.abook;
+package org.softwaresynthesis.mytalk.server.abook.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -7,31 +7,34 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.softwaresynthesis.mytalk.server.abook.AddressBookEntry;
+import org.softwaresynthesis.mytalk.server.abook.IAddressBookEntry;
+import org.softwaresynthesis.mytalk.server.abook.IGroup;
+import org.softwaresynthesis.mytalk.server.abook.IUserData;
+import org.softwaresynthesis.mytalk.server.dao.GroupDAO;
 import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
 
 /**
  * Servlet cha ha il compito di rimuovere
- * un contatto dalla rubrica di un utente
+ * un contatto da un gruppo
  * 
  * @author 	Andrea Meneghinello
  * @version	%I%, %G%
  */
-public final class AddressBookDoRemoveContactServlet extends HttpServlet 
-{
-	private static final long serialVersionUID = 10013L;
-	
-	/**
-	 * Inizializza la servlet
-	 */
-	public AddressBookDoRemoveContactServlet()
-	{
-		super();
-	}
-	
-	/**
-	 * Esegue la richiesta di per l'eliminazione
-	 * di un conttatto della rubrica ricevuta tramite
-	 * richiesta HTTP GET
+public final class AddressBookDoRemoveFromGroupServlet extends HttpServlet {
+	private static final long serialVersionUID = 10015L;
+       
+    /**
+     * Inizializza la servlet
+     */
+    public AddressBookDoRemoveFromGroupServlet() 
+    {
+        super();
+    }
+
+    /**
+	 * Esegue la richiesta di per la rimozione di un
+	 * contatto da un gruppo tramite richiesta HTTP GET
 	 * 
 	 * @param	request		contiene i parametri di input
 	 * 						per il corretto svolgimento dell'operazione	
@@ -42,15 +45,14 @@ public final class AddressBookDoRemoveContactServlet extends HttpServlet
 	 * @throws	{@link ServletException} se si verificano errori
 	 * 			interni alla servlet
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		this.doPost(request, response);
 	}
-	
+
 	/**
-	 * Esegue la richiesta di per l'eliminazione
-	 * di un conttatto della rubrica ricevuta tramite
-	 * richiesta HTTP POST
+	 * Esegue la richiesta di per la rimozione di un
+	 * contatto da un gruppo tramite richiesta HTTP POST
 	 * 
 	 * @param	request		contiene i parametri di input
 	 * 						per il corretto svolgimento dell'operazione	
@@ -61,14 +63,16 @@ public final class AddressBookDoRemoveContactServlet extends HttpServlet
 	 * @throws	{@link ServletException} se si verificano errori
 	 * 			interni alla servlet
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
+		GroupDAO groupDAO = new GroupDAO();
 		HttpSession session = null;
-		IAddressBookEntry myEntry = null;
-		IAddressBookEntry frEntry = null;
-		IUserData user = null;
+		IAddressBookEntry entry = null;
+		IGroup group = null;
 		IUserData friend = null;
+		IUserData user = null;
 		Long contactId = null;
+		Long groupId = null;
 		PrintWriter writer = response.getWriter();
 		String result = null;
 		UserDataDAO userDAO = new UserDataDAO();
@@ -77,19 +81,18 @@ public final class AddressBookDoRemoveContactServlet extends HttpServlet
 			session = request.getSession(false);
 			user = (IUserData)session.getAttribute("user");
 			contactId = Long.parseLong(request.getParameter("contactId"));
+			groupId = Long.parseLong(request.getParameter("groupId"));
 			friend = userDAO.getByID(contactId);
-			if (friend != null)
+			group = groupDAO.getByID(groupId);
+			if (group != null)
 			{
-				myEntry = new AddressBookEntry();
-				frEntry = new AddressBookEntry();
-				myEntry.setContact(friend);
-				myEntry.setOwner(user);
-				frEntry.setContact(user);
-				frEntry.setOwner(friend);
-				user.removeAddressBookEntry(frEntry);
-				friend.removeAddressBookEntry(myEntry);
+				entry = new AddressBookEntry();
+				entry.setBlocked(false);
+				entry.setOwner(user);
+				entry.setContact(friend);
+				entry.setGroup(group);
+				user.removeAddressBookEntry(entry);
 				userDAO.update(user);
-				userDAO.update(friend);
 				result = "true";
 			}
 			else
