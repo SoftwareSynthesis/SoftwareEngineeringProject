@@ -1,36 +1,41 @@
-package org.softwaresynthesis.mytalk.server.abook;
+package org.softwaresynthesis.mytalk.server.abook.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.softwaresynthesis.mytalk.server.dao.GroupDAO;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServlet;
+import org.softwaresynthesis.mytalk.server.abook.AddressBookEntry;
+import org.softwaresynthesis.mytalk.server.abook.Group;
+import org.softwaresynthesis.mytalk.server.abook.IGroup;
+import org.softwaresynthesis.mytalk.server.abook.IUserData;
+import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
 
 /**
- * Servlet che ha il compito di inserire
- * un nuovo gruppo nella rubrica di un utente
+ * Servlet cha ha il compito di aggiungere
+ * alla rubrica un nuovo contatto
  * 
  * @author 	Andrea Meneghinello
  * @version	%I%, %G%
  */
-public final class AddressBookDoCreateGroupServlet extends HttpServlet 
+public final class AddressBookDoAddContactServlet extends HttpServlet 
 {
-	private final static long serialVersionUID = 10016L;
+	private static final long serialVersionUID = 10012L;
 	
 	/**
 	 * Inizializza la servlet
 	 */
-	public AddressBookDoCreateGroupServlet()
+	public AddressBookDoAddContactServlet()
 	{
 		super();
 	}
 	
 	/**
-	 * Esegue la richiesta di per l'inserimento di un
-	 * nuovo gruppo tramite richiesta HTTP GET
+	 * Esegue la richiesta di per l'aggiunta di un
+	 * nuovo contatto alla rubrica ricevuta tramite
+	 * richiesta HTTP GET
 	 * 
 	 * @param	request		contiene i parametri di input
 	 * 						per il corretto svolgimento dell'operazione	
@@ -47,8 +52,9 @@ public final class AddressBookDoCreateGroupServlet extends HttpServlet
 	}
 	
 	/**
-	 * Esegue la richiesta di per l'inserimento di un
-	 * nuovo gruppo tramite richiesta HTTP POST
+	 * Esegue la richiesta di per l'aggiunta di un
+	 * nuovo contatto alla rubrica ricevuta tramite
+	 * richiesta HTTP POST
 	 * 
 	 * @param	request		contiene i parametri di input
 	 * 						per il corretto svolgimento dell'operazione	
@@ -61,24 +67,39 @@ public final class AddressBookDoCreateGroupServlet extends HttpServlet
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
 	{
-		GroupDAO groupDAO = new GroupDAO();
-		HttpSession session = null;
+		AddressBookEntry myEntry = null;
+		AddressBookEntry frEntry = null;
 		IGroup group = null;
+		HttpSession session = null;
+		long contactId = -1L;
 		IUserData user = null;
+		IUserData friend = null;
 		PrintWriter writer = response.getWriter();
-		String name = null;
+		UserDataDAO userDAO = new UserDataDAO();
 		String result = null;
 		try
 		{
 			session = request.getSession(false);
+			contactId = Long.parseLong(request.getParameter("contactId"));
 			user = (IUserData)session.getAttribute("user");
-			name = request.getParameter("groupName");
-			if(name != null && name.equals("") == false)
+			friend = userDAO.getByID(contactId);
+			if (friend != null)
 			{
+				myEntry = new AddressBookEntry();
+				frEntry = new AddressBookEntry();
 				group = new Group();
-				group.setName(name);
+				group.setName("addrBookEntry");
 				group.setOwner(user);
-				groupDAO.insert(group);
+				myEntry.setBlocked(false);
+				myEntry.setContact(friend);
+				myEntry.setGroup(group);
+				frEntry.setBlocked(false);
+				frEntry.setContact(user);
+				frEntry.setGroup(null);
+				user.addAddressBookEntry(myEntry);
+				friend.addAddressBookEntry(frEntry);
+				userDAO.update(user);
+				userDAO.update(friend);
 				result = "true";
 			}
 			else

@@ -1,40 +1,39 @@
-package org.softwaresynthesis.mytalk.server.abook;
+package org.softwaresynthesis.mytalk.server.abook.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Iterator;
-import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.softwaresynthesis.mytalk.server.connection.ChannelServlet;
+import org.softwaresynthesis.mytalk.server.abook.Group;
+import org.softwaresynthesis.mytalk.server.abook.IGroup;
+import org.softwaresynthesis.mytalk.server.abook.IUserData;
+import org.softwaresynthesis.mytalk.server.dao.GroupDAO;
 
 /**
- * Servlet che ha il compito di fornire
- * la rubrica di un utente del sistema
- * mytalk
+ * Servlet che ha il compito di inserire
+ * un nuovo gruppo nella rubrica di un utente
  * 
  * @author 	Andrea Meneghinello
  * @version	%I%, %G%
  */
-public final class AddressBookGetContactsServlet extends HttpServlet 
+public final class AddressBookDoCreateGroupServlet extends HttpServlet 
 {
-	private static final long serialVersionUID = 10011L;
+	private final static long serialVersionUID = 10016L;
 	
 	/**
 	 * Inizializza la servlet
 	 */
-	public AddressBookGetContactsServlet()
+	public AddressBookDoCreateGroupServlet()
 	{
 		super();
 	}
 	
 	/**
-	 * Esegue la richiesta di per il download
-	 * della rubrica ricevuta tramite richiesta
-	 * HTTP GET
+	 * Esegue la richiesta di per l'inserimento di un
+	 * nuovo gruppo tramite richiesta HTTP GET
 	 * 
 	 * @param	request		contiene i parametri di input
 	 * 						per il corretto svolgimento dell'operazione	
@@ -51,9 +50,8 @@ public final class AddressBookGetContactsServlet extends HttpServlet
 	}
 	
 	/**
-	 * Esegue la richiesta di per il download
-	 * della rubrica ricevuta tramite richiesta
-	 * HTTP POST
+	 * Esegue la richiesta di per l'inserimento di un
+	 * nuovo gruppo tramite richiesta HTTP POST
 	 * 
 	 * @param	request		contiene i parametri di input
 	 * 						per il corretto svolgimento dell'operazione	
@@ -66,44 +64,34 @@ public final class AddressBookGetContactsServlet extends HttpServlet
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
 	{
-		boolean next = false;
+		GroupDAO groupDAO = new GroupDAO();
 		HttpSession session = null;
-		IAddressBookEntry entry = null;
-		Iterator<IAddressBookEntry> iterator = null;
+		IGroup group = null;
 		IUserData user = null;
-		IUserData friend = null;
 		PrintWriter writer = response.getWriter();
-		Set<IAddressBookEntry> contacts = null;
+		String name = null;
 		String result = null;
 		try
 		{
 			session = request.getSession(false);
 			user = (IUserData)session.getAttribute("user");
-			contacts = user.getAddressBook();
-			iterator = contacts.iterator();
-			result = "{";
-			while(next = iterator.hasNext())
+			name = request.getParameter("groupName");
+			if(name != null && name.equals("") == false)
 			{
-				entry = iterator.next();
-				friend = entry.getContact();
-				result += "\"" + friend.getId() + "\":";
-				result += "{\"name\":\"" + friend.getName() + "\"";
-				result += ", \"surname\":\"" + friend.getSurname() + "\"";
-				result += ", \"email\":\"" + friend.getMail() + "\"";
-				result += ", \"id\":\"" + friend.getId() + "\"";
-				result += ", \"picturePath\":\"" + friend.getPath() + "\"";
-				result += ", \"state\":\"" + ChannelServlet.getState(friend.getId()) + "\"";
-				result += ", \"blocked\":\"" + entry.getBlocked() + "\"}";
-				if (next == true)
-				{
-					result += ",";
-				}
+				group = new Group();
+				group.setName(name);
+				group.setOwner(user);
+				groupDAO.insert(group);
+				result = "true";
 			}
-			result = "}";
+			else
+			{
+				result = "false";
+			}
 		}
 		catch (Exception ex)
 		{
-			result = "null";
+			result = "false";
 		}
 		writer.write(result);
 	}

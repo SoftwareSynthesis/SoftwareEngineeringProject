@@ -1,4 +1,4 @@
-package org.softwaresynthesis.mytalk.server.abook;
+package org.softwaresynthesis.mytalk.server.abook.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -7,6 +7,10 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServlet;
+import org.softwaresynthesis.mytalk.server.abook.AddressBookEntry;
+import org.softwaresynthesis.mytalk.server.abook.IAddressBookEntry;
+import org.softwaresynthesis.mytalk.server.abook.IGroup;
+import org.softwaresynthesis.mytalk.server.abook.IUserData;
 import org.softwaresynthesis.mytalk.server.dao.GroupDAO;
 import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
 
@@ -85,7 +89,9 @@ public final class AddressBookDoInsertInGroupServlet extends HttpServlet
 			{
 				entry = new AddressBookEntry();
 				entry.setBlocked(false);
+				entry.setOwner(user);
 				entry.setContact(friend);
+				entry.setGroup(group);
 				user.addAddressBookEntry(entry);
 				userDAO.update(user);
 				result = "true";

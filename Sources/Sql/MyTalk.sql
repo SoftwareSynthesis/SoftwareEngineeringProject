@@ -78,7 +78,7 @@ CREATE TABLE AddressBookEntries
 (
 	ID_addressBookEntry			BIGINT UNSIGNED				NOT NULL			AUTO_INCREMENT,
 	ID_user						BIGINT UNSIGNED				NOT NULL,
-	ID_group					BIGINT UNSIGNED,
+	ID_group					BIGINT UNSIGNED				NOT NULL,
 	Owner						BIGINT UNSIGNED				NOT NULL,
 	Blocked						TINYINT						NOT NULL			DEFAULT 0,
 	
