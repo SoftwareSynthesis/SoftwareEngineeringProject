@@ -5,15 +5,25 @@
  * @author Riccardo Tresoldi
  */
 function CommunicationCenter() {
+    /**********************************************************
+     VARIABILI PUBBLICHE
+     ***********************************************************/
+    //TODO Contiene i dati della videochiamata
     this.videoComunication
     //E' un array di HTMLTextAreaElement
     this.openChat = new Array();
+
+    /**********************************************************
+     VARIABILI PRIVATE
+     ***********************************************************/
     //TODO sistemare discorso della servlet in modo che se la prende dal mediator
-    var urlServlet = "http://localhost:8080/.................";
+    var urlServlet = "http://localhost:8080/MyTalk/ChannelServlet";
     //oggetto che contiene i dati dell'utente
     this.my = new Object();
     //dichiaro i due elementi <video>
     var myVideo, otherVideo;
+    //dichiaro globale la websocket per lo scambio di dati con la servlet
+    var websocket;
 
     //codice che dovrebbe rendere usabile webRTC da ogni browser che lo supporti DA TESTARE
     /*
@@ -21,192 +31,9 @@ function CommunicationCenter() {
     RTCPeerConnection = RTCPeerConnection || webkitRTCPeerConnection || mozRTCPeerConnection || msRTCPeerConnection;
     */
 
-    //FIXME da sistemare la funzione associata all'event heandler onbeforeunload
-    /*window.onbeforeunload = function() {
-        if (pc != null) {
-            setTimeout(function() {
-                endCall();
-            }, 3000);
-        }
-        disconnect();
-    }*/
-    /**
-     * Funzione per la connessione del client al server utilizzando una WebSoket.
-     * Questa funzione gestisce anche la ricezione di dati da parte del server
-     *
-     * @author Marco Schivo
-     */
-    function connect() {
-        //TODO Sistemare la funzione in modo che se si disconnette senza rischiesta si riconnetta automaticamente
-        websocket = new WebSocket(urlServlet);
-
-        websocket.onopen = function(evt) {
-            //creo l'array da passare alla servlet per la connessione e l'invio
-            var ar = new Array("1", my.id);
-            websocket.send(JSON.stringify(ar));
-
-            //eventuale segnale di avvenuta connessione con la servlet [per esempio spia verde o rossa]
-        };
-
-        websocket.onclose = function(evt) {
-            //disconnessione dalla servlet
-            //[se necessario segnalare qua cabiando l'eventale spia da verde a rossa]
-        };
-
-        websocket.onmessage = function(evt) {
-            //split del messaggio ricevuto e estrazione del tipo di messaggio
-            var str = evt.data.split("|");
-            var type = str[0];
-
-            if (type == "3") {
-                idOther = str[1];
-            } else if (type == "2") {
-                var signal = JSON.parse(str[1]);
-
-                if (pc == null)
-                    call(false);
-
-                if ((signal.sdp) == null) {
-                    pc.addIceCandidate(new RTCIceCandidate(signal));
-                } else {
-                    pc.setRemoteDescription(new RTCSessionDescription(signal));
-                }
-            } else if (type == "5") {
-                var idUserChange = JSON.parse(str[1]);
-                var statusUserChange = JSON.parse(str[2]);
-                //può avere tre stati [available | offline | occupied]
-                //TODO modificare classe <li> dell'utente.
-            }
-        };
-
-        websocket.onerror = function(evt) {
-            //nel caso la servlet restituisse un errore
-            alert("È avvenuto un problema nel serve che tuttavia potrebbe non compromettere la chiamata se già avviata.");
-        };
-    }
-
-    //FUNZIONE connect() ORIGINALE
-    /*function connect() {
-    websocket = new WebSocket("ws://localhost:8080/channel/ChannelServlet");
-
-    websocket.onopen = function(evt) {
-    var id= document.getElementById("id").value;
-    idutente=id;
-    var ar= new Array("1", idutente);
-    websocket.send(JSON.stringify(ar));
-    var text= document.createTextNode("Connesso con id " + idutente);
-    document.getElementById("label").innerHTML='';
-    document.getElementById("label").appendChild(text);
-    };
-
-    websocket.onclose = function(evt) {
-    var text= document.createTextNode("Disconnesso");
-    document.getElementById("label").innerHTML='';
-    document.getElementById("label").appendChild(text);
-    };
-
-    websocket.onmessage = function (evt) {
-    var str= evt.data.split("|");
-    var type= str[0];
-
-    if(type=="3"){
-    idOther= str[1];
-    }
-    else if(type=="2"){
-    var signal= JSON.parse(str[1]);
-
-    if (pc==null)
-    call(false);
-
-    if ((signal.sdp)==null){
-    pc.addIceCandidate(new RTCIceCandidate(signal));
-    }
-    else{
-    pc.setRemoteDescription(new RTCSessionDescription(signal));
-    }
-    }
-    };
-
-    websocket.onerror = function(evt) {
-    alert("ERRORE");
-    };
-    }*/
-
-    /**
-     * Funzione per la disconnessione del client dal server.
-     *
-     * @author Marco Schivo
-     */
-    function disconnect() {
-        //creo array per inviare la rischiesta di disconnessione e lo invio
-        var ar = new Array("4", my.id);
-        websocket.send(JSON.stringify(ar));
-        websocket.close();
-    }
-
-    /**
-     * Funzione per la vera e propria chiamata attraverso webRTC
-     *
-     * @author Marco Schivo
-     */
-    function call(isCaller) {
-        //creo l'oggetto di configurazione della RTCPeerConnection con l'indirizzo del server STUN
-        var configuration = {
-            "iceServers" : [{
-                "url" : "stun:stun.l.google.com:19302"
-            }]
-        };
-        //FIXME da togliere il prefisso webkit quando saremo certi che funzioni [RTCPeerConnection = webkitRTCPeerConnection]
-        pc = new webkitRTCPeerConnection(configuration);
-
-        //invio tutti gli ICECandidate agli altri peer
-        pc.onicecandidate = function(evt) {
-            var json = JSON.stringify(evt.candidate);
-            var ar = new Array("2", idOther, json);
-            websocket.send(JSON.stringify(ar));
-        };
-
-        //quando arriva un remoteStream lo visualizo nell corrispettivo elemento <video>
-        pc.onaddstream = function(evt) {
-            otherVideo.src = URL.createObjectURL(evt.stream);
-
-            //da modificare dove visualizzare il timer
-            timer = setInterval(function() {
-                time++;
-                var now = formatTime(time);
-                document.getElementById("timer").value = now;
-            }, 1000);
-        };
-
-        //quando il remoteStream viene tolto lo eliminio dal mio client
-        pc.onremovestream = function() {
-            localStream.stop();
-            stopTimer();
-            myVideo.src = "";
-            otherVideo.src = "";
-            pc.close();
-            pc = null;
-        };
-
-        //prende lo stream video locale, lo visualizza sul corrispetivo <video> e lo invia agli altri peer
-        navigator.webkitGetUserMedia({
-            "audio" : true,
-            "video" : true
-        }, function(stream) {
-            myVideo.src = URL.createObjectURL(stream);
-            localStream = stream;
-            pc.addStream(stream);
-
-            if (isCaller == true) {
-                idOther = document.getElementById("idutente").value;
-                var ar = new Array("3", idOther);
-                websocket.send(JSON.stringify(ar));
-                pc.createOffer(gotDescription);
-            } else
-                pc.createAnswer(gotDescription);
-        });
-    }
-
+    /**********************************************************
+     METODI PRIVATI
+     ***********************************************************/
     /**
      * Funzione per formattare i bytes ricevuti.
      *
@@ -265,51 +92,13 @@ function CommunicationCenter() {
     }
 
     /**
-     * Funzione per la chiusura della chiamata tra due client.
+     * Funzione per fermare la ricezione delle statistiche
      *
      * @author Marco Schivo
      */
-    this.endCall = function() {
-        pc.removeStream(localStream);
-        localStream.stop();
-        pc.createOffer(gotDescription);
-        stopTimer();
-        myVideo.src = "";
-        otherVideo.src = "";
-        //aspetto un secondo che pc finisca di comunicare la nuova offerta
-        setTimeout(function() {
-            pc.close();
-            pc = null;
-        }, 1000);
-    };
-
-    //imposto la mia descrizione e la invio all'altro peer
-    function gotDescription(desc) {
-        pc.setLocalDescription(desc);
-        var json = JSON.stringify(desc);
-        var ar = new Array("2", idOther, json);
-        websocket.send(JSON.stringify(ar));
+    function stopStat() {
+        clearInterval(statCollector);
     }
-
-    //Visualizzazione statistiche chiamata
-    /*var statCollector = setInterval(function() {
-        if (pc && pc.getRemoteStreams()[0]) {
-            if (pc.getStats) {
-                pc.getStats(function(stats) {
-                    var statsString = '';
-                    var results = stats.result();
-                    for (var i = 0; i < results.length; ++i) {
-                        var res = results[i];
-                        if (res.local) {
-                            dumpStats(res.local);
-                        }
-                    }
-                });
-            } else {
-                //da gestire dove voler visualizzare l'errore
-            }
-        }
-    }, 1000);*/
 
     /**
      * Funzione per l'estrazione dei dati dal oggetto delle statistiche
@@ -331,12 +120,264 @@ function CommunicationCenter() {
         }
     }
 
-    //TODO Uno solo websoket al posto di due [duqneu una sola servlet]
     /**
-     * @param {Boolean} true se la chiamata deve essere impostata a muto, false altrimenti
+     * Imposto la mia descrizione e la invio all'altro peer
+     *
+     * @author Marco Schivo
+     */
+    function gotDescription(desc) {
+        pc.setLocalDescription(desc);
+        var json = JSON.stringify(desc);
+        var ar = new Array("2", idOther, json);
+        websocket.send(JSON.stringify(ar));
+    }
+
+    /**********************************************************
+     METODI PUBBLICI
+     ***********************************************************/
+    /**
+     * Funzione per la connessione del client al server utilizzando una WebSoket.
+     * Questa funzione gestisce anche la ricezione di dati da parte del server
+     *
+     * @author Marco Schivo
+     */
+    this.connect = function() {
+        /*TODO Sistemare la funzione in modo che se si disconnette senza
+         * rischiesta si riconnetta automaticamente
+         */
+        websocket = new WebSocket(urlServlet);
+        //event handle per gestire l'apertura della socket
+        websocket.onopen = function(evt) {
+            //creo l'array da passare alla servlet per la connessione e l'invio
+            var ar = new Array("1", my.id);
+            websocket.send(JSON.stringify(ar));
+
+            //eventuale segnale di avvenuta connessione con la servlet [per
+            // esempio spia verde o rossa]
+        };
+        //event handle per gestire la chiusura della socket
+        websocket.onclose = function(evt) {
+            //disconnessione dalla servlet
+        };
+        //event handle per gestire l'arrivo di un messaggio da parte della socket
+        websocket.onmessage = function(evt) {
+            //split del messaggio ricevuto e estrazione del tipo di messaggio
+            var str = evt.data.split("|");
+            var type = str[0];
+            //controllo che tipo di messaggio ho ricevuto
+            /*{ 3 : ottengo id della persona che mi sta chiamando,
+             *  2 : quando inizia la chiamata,
+             *  5 : cambio stato altri utenti
+             *} */
+            if (type == "3") {
+                idOther = str[1];
+            } else if (type == "2") {
+                var signal = JSON.parse(str[1]);
+                if (pc == null)
+                    call(false);
+                if ((signal.sdp) == null) {
+                    pc.addIceCandidate(new RTCIceCandidate(signal));
+                } else {
+                    pc.setRemoteDescription(new RTCSessionDescription(signal));
+                }
+            } else if (type == "5") {
+                var idUserChange = JSON.parse(str[1]);
+                var statusUserChange = JSON.parse(str[2]);
+                //può avere tre stati [available | occupied]
+                //TODO modificare classe <li> dell'utente.
+            }
+        };
+        //event handle per gestire gli errori avvenuti della socket
+        websocket.onerror = function(evt) {
+            //nel caso la servlet restituisse un errore
+            alert("È avvenuto un problema nel serve che tuttavia potrebbe non compromettere la chiamata se già avviata.");
+        };
+    };
+
+    //FUNZIONE connect() ORIGINALE
+    /*function connect() {
+    websocket = new WebSocket("ws://localhost:8080/channel/ChannelServlet");
+
+    websocket.onopen = function(evt) {
+    var id= document.getElementById("id").value;
+    idutente=id;
+    var ar= new Array("1", idutente);
+    websocket.send(JSON.stringify(ar));
+    var text= document.createTextNode("Connesso con id " + idutente);
+    document.getElementById("label").innerHTML='';
+    document.getElementById("label").appendChild(text);
+    };
+
+    websocket.onclose = function(evt) {
+    var text= document.createTextNode("Disconnesso");
+    document.getElementById("label").innerHTML='';
+    document.getElementById("label").appendChild(text);
+    };
+
+    websocket.onmessage = function (evt) {
+    var str= evt.data.split("|");
+    var type= str[0];
+
+    if(type=="3"){
+    idOther= str[1];
+    }
+    else if(type=="2"){
+    var signal= JSON.parse(str[1]);
+
+    if (pc==null)
+    call(false);
+
+    if ((signal.sdp)==null){
+    pc.addIceCandidate(new RTCIceCandidate(signal));
+    }
+    else{
+    pc.setRemoteDescription(new RTCSessionDescription(signal));
+    }
+    }
+    };
+
+    websocket.onerror = function(evt) {
+    alert("ERRORE");
+    };
+    }*/
+
+    /**
+     * Funzione per la disconnessione del client dal server.
+     *
+     * @author Marco Schivo
+     */
+    this.disconnect = function() {
+        //creo array per inviare la rischiesta di disconnessione e lo invio
+        var ar = new Array("4", my.id);
+        websocket.send(JSON.stringify(ar));
+        websocket.close();
+    };
+
+    /**
+     * Funzione per la vera e propria chiamata attraverso webRTC
+     *
+     * @author Marco Schivo
+     */
+    this.call = function(isCaller) {
+        //creo l'oggetto di configurazione della RTCPeerConnection con
+        // l'indirizzo del server STUN
+        var configuration = {
+            "iceServers" : [{
+                "url" : "stun:stun.l.google.com:19302"
+            }]
+        };
+        //FIXME da togliere il prefisso webkit quando saremo certi che funzioni
+        // [RTCPeerConnection = webkitRTCPeerConnection]
+        pc = new webkitRTCPeerConnection(configuration);
+
+        //invio tutti gli ICECandidate agli altri peer
+        pc.onicecandidate = function(evt) {
+            var json = JSON.stringify(evt.candidate);
+            var ar = new Array("2", idOther, json);
+            websocket.send(JSON.stringify(ar));
+        };
+
+        //quando arriva un remoteStream lo visualizo nell corrispettivo elemento
+        // <video>
+        pc.onaddstream = function(evt) {
+            otherVideo.src = URL.createObjectURL(evt.stream);
+
+            //da modificare dove visualizzare il timer
+            timer = setInterval(function() {
+                time++;
+                var now = formatTime(time);
+                document.getElementById("timer").value = now;
+            }, 1000);
+        };
+
+        //quando il remoteStream viene tolto lo eliminio dal mio client
+        pc.onremovestream = function() {
+            localStream.stop();
+            stopTimer();
+            stopStat();
+            myVideo.src = "";
+            otherVideo.src = "";
+            pc.close();
+            pc = null;
+        };
+
+        //prende lo stream video locale, lo visualizza sul corrispetivo <video> e
+        // lo invia agli altri peer
+        navigator.webkitGetUserMedia({
+            "audio" : true,
+            "video" : true
+        }, function(stream) {
+            myVideo.src = URL.createObjectURL(stream);
+            localStream = stream;
+            pc.addStream(stream);
+
+            if (isCaller == true) {
+                idOther = document.getElementById("idutente").value;
+                var ar = new Array("3", idOther);
+                websocket.send(JSON.stringify(ar));
+                pc.createOffer(gotDescription);
+            } else
+                pc.createAnswer(gotDescription);
+        });
+
+        //Visualizzazione statistiche chiamata
+        var statCollector = setInterval(function() {
+            if (pc && pc.getRemoteStreams()[0]) {
+                if (pc.getStats) {
+                    pc.getStats(function(stats) {
+                        var statsString = '';
+                        var results = stats.result();
+                        for (var i = 0; i < results.length; ++i) {
+                            var res = results[i];
+                            if (res.local) {
+                                dumpStats(res.local);
+                            }
+                        }
+                    });
+                } else {
+                    //da gestire dove voler visualizzare l'errore
+                }
+            }
+        }, 1000);
+    };
+
+    /**
+     * Funzione per la chiusura della chiamata tra due client.
+     *
+     * @author Marco Schivo
+     */
+    this.endCall = function() {
+        pc.removeStream(localStream);
+        localStream.stop();
+        pc.createOffer(gotDescription);
+        stopTimer();
+        myVideo.src = "";
+        otherVideo.src = "";
+        //aspetto un secondo che pc finisca di comunicare la nuova offerta
+        setTimeout(function() {
+            pc.close();
+            pc = null;
+        }, 1000);
+    };
+
+    //FIXME da sistemare la funzione associata all'event heandler onbeforeunload
+    /*window.onbeforeunload = function() {
+    if (pc != null) {
+    setTimeout(function() {
+    endCall();
+    }, 3000);
+    }
+    disconnect();
+    }*/
+
+    /**
+     * Mette in muto la conversazione
+     *
+     * @param {Boolean} true se la chiamata deve essere impostata a muto, false
+     * altrimenti
      * @author Riccardo Tresoldi
      */
     this.mute = function(value) {
-    	
+
     };
 }

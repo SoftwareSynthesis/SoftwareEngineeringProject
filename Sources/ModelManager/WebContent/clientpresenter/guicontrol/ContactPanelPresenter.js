@@ -72,6 +72,9 @@ function ContactPanelPresenter() {
         avatar.setAttribute("id", "contactAvatar");
         avatar.setAttribute("src", "");
 
+        var groupsDiv = document.createElement("div");
+        groupsDiv.id = "groupsId";
+
         //pulsante per chiamata audio
         var callButton = document.createElement('button');
         callButton.type = "button";
@@ -157,6 +160,8 @@ function ContactPanelPresenter() {
         var callButton = getElementById("callButton");
 
         adjustBlockButtonDisplay(contact);
+        
+        //TODO popolare groupsDiv
 
         //associo gli eventi onClick ai bottoni
         addToAddressBookButton.onclick = function() {
@@ -185,4 +190,6 @@ function ContactPanelPresenter() {
         if (mediator.contactAlreadyPresent(contact))
             document.getElementById("addToAddressBookButton").style.display = "none";
     };
+    
+    //TODO fare funzuone che popola groupsDiv
 }
