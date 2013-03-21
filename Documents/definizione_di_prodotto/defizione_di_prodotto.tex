@@ -722,7 +722,7 @@ Servlet cha ha il compito di aggiungere alla rubrica un nuovo contatto.
 
 \begin{itemize}
 	\item{\memberdata{\underline{-- \{frozen\} serialVersionUID: long}}}
-	Attributo contenente l'id per la serializzazione dei dati. Il valore di creazione deve essere \texttt{10013L}.
+	Attributo contenente l'id per la serializzazione dei dati. Il valore di creazione deve essere \texttt{10015L}.
 \end{itemize}
 
 \subsubsection*{Metodi}
@@ -757,6 +757,69 @@ Servlet cha ha il compito di aggiungere alla rubrica un nuovo contatto.
 	\end{itemize}
 	
 \end{description}
+
+%TODO da verificare
+
+\classsection{AddressBookDoDeleteGroupServlet}
+
+\subsubsection*{Funzione}
+\inglese{Servlet} richiamata dal client per eliminare un gruppo da una rubrica.
+
+\subsubsection*{Relazioni d'uso}
+
+\begin{itemize}
+	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
+	\item \texttt{javax.servlet.ServletException}: eccezione rilancibile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{LoginManager}.
+	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
+	\item \texttt{javax.security.auth.login.LoginContext}: classe usata in \method{doPost()} per eseguite la logout dal sistema.
+	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la servlet (inoltra i dati in uscita dalla chiamata a servlet).
+	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
+	\item \classname{org.softwaresynthesis.mytalk.server.dao.UserDataDAO}: classe usata per comunicare tramite Hibernate con la tabella UserData della base di dati.
+\end{itemize}
+
+\subsubsection*{Attributi}
+
+\begin{itemize}
+	\item{\memberdata{\underline{-- \{frozen\} serialVersionUID: long}}}
+	Attributo contenente l'id per la serializzazione dei dati. Il valore di creazione deve essere \texttt{10015L}.
+\end{itemize}
+
+\subsubsection*{Metodi}
+
+\begin{description}
+	\item{\method{+ AddressBookDoDeleteGroupServlet()}}\\
+	Costruttore pubblico della \inglese{servlet}. Richiama il costruttore della classe padre (chiamata a \texttt{super}).
+	
+	\item{\method{\# doGet(request HttpServletRequest, response HttpServletResponse): void}}\\
+	Metodo usato per eseguire la richiesta di eliminazione di un gruppo (eseguito in risposta ad una richiesta HTTP con metodo \texttt{GET}). Poiché intendiamo gestire in modo univoco una richiesta a tale servlet (indifferentemente dalla tipologia d'invio dati) il metodo reindirizza il flusso principale al metodo \method{doPost()}.
+	
+	\item{\method{\# doPost(request HttpServletRequest, response HttpServletResponse): void}}\\	
+	Metodo usato per eseguire la richiesta di eliminazione di un gruppo (eseguito in risposta ad una richiesta HTTP con metodo \texttt{POST}). Nell'ordine proposto, devono essere eseguite le seguenti operazioni:
+	\begin{itemize}
+		\item creazione di un'istanza di \classname{dao.AddressBookEntryDAO} denominata entryDAO;
+		\item creazione di un \classname{dao.GroupDAO} denominata groupDAO.
+		\item creazione di un'istanza di \classname{abook.IGroup} denominata group;
+		\item creazione di un istanza di \classname{abook.IAddressBookEntry} denominata entry;
+		\item creazione di un istanza di \texttt{Iterator<IAddressBookEntry>} denominata iterator;
+		\item creazione di un istanza di \texttt{PrintWriter} denominata writer;
+		\item creazione di un \texttt{Set<IAddressBookEntry>} denominato entrys;
+		\item creazione di una stringa denominata result (utilizzata per registrare il messaggio da stampare sul writer);
+	\end{itemize} 
+	A questo punto deve essere definito un blocco try catch. Dentro il blocco catch si dovrà impostare result con il valore ``\inglese{false}''. Invece per quanto riguarda il blocco try, il programmatore dovrà definire il seguente iter:
+	\begin{itemize}
+		\item salvare in group il valore ritornato da una chiamata \method{getByID} a cui passo l'identificativo del gruppo (\texttt{request.getParameter("groupId")}) a partire dall'oggetto groupDAO.
+		\item quindi si esegue una verifica sul contenuto di group. Se group == null allora si imposta result a ``\inglese{false}''. Altrimenti si carica in entry l'oggetto ritornato da una chiamata \method{getAddressBook()} a partire da group.
+		\item a tal punto (sempre dentro al costrutto condizionale if(group != null)) si crea un iteratore tramite entrys.iterator() e ciclando con tale iteratore si va a modificare la voce ``gruppo'' di tutti i contati che nella mia rubrica appartengono a tale gruppo (cosi facendo l'eliminazione del gruppo non porterà all'eliminazione dei contatti presenti in tale gruppo).
+		\item dunque si esegue la chiamata:
+		\verb|groupDAO.delete(group)|\\
+		e si imposta result a ``\inglese{true}''.
+	\end{itemize}
+	Il metodo termina scrivendo su writer il contenuto di result.
+	
+\end{description}
+
 
 \subsection{Package org.softwaresynthesis.mytalk.server.call}\label{sec:call}
 
