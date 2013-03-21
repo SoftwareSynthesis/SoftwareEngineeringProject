@@ -587,15 +587,11 @@ Implementazione dell'interfaccia IAddressBookEntry.
 
 \end{description}
 
+\subsection{Package org.softwaresynthesis.mytalk.server.abook.servlet}\label{sec:call}
+
+%TODO da verificare
+
 \classsection{AddressBookDoAddContactServlet}
-java.io.IOException;
-import java.io.PrintWriter;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServlet;
-import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
 
 \subsubsection*{Funzione}
 Servlet cha ha il compito di aggiungere alla rubrica un nuovo contatto.
@@ -603,20 +599,21 @@ Servlet cha ha il compito di aggiungere alla rubrica un nuovo contatto.
 \subsubsection*{Relazioni d'uso}
 
 \begin{itemize}
-	\item \texttt{java.io.IOException}:
-	\item \texttt{java.io.PrintWriter}:
-	\item \texttt{javax.servlet.ServletException}:
-	\item \texttt{javax.servlet.http.HttpSession}:
-	\item \texttt{javax.servlet.http.HttpServletResponse}:
-	\item \texttt{javax.servlet.http.HttpServletRequest}:
-	\item \texttt{javax.servlet.http.HttpServlet}:
-	\item \classname{org.softwaresynthesis.mytalk.server.dao.UserDataDAO}:
+	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
+	\item \texttt{javax.servlet.ServletException}: eccezione rilancibile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{LoginManager}.
+	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
+	\item \texttt{javax.security.auth.login.LoginContext}: classe usata in \method{doPost()} per eseguite la logout dal sistema.
+	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la servlet (inoltra i dati in uscita dalla chiamata a servlet).
+	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
+	\item \classname{org.softwaresynthesis.mytalk.server.dao.UserDataDAO}: classe usata per comunicare tramite Hibernate con la tabella UserData della base di dati.
 \end{itemize}
 
 \subsubsection*{Attributi}
 
 \begin{itemize}
-	\item{\underline{\memberdata{-- \{frozen\} serialVersionUID: long}}}
+	\item{\memberdata{\underline{-- \{frozen\} serialVersionUID: long}}}
 	Attributo contenente l'id per la serializzazione dei dati. Il valore di creazione deve essere \texttt{10012L}.
 \end{itemize}
 
@@ -624,8 +621,80 @@ Servlet cha ha il compito di aggiungere alla rubrica un nuovo contatto.
 
 \begin{description}
 	\item{\method{+ AddressBookDoAddContactServlet()}}\\
-	\item{\method{+ diGet(request HttpServletRequest, response HttpServletResponse): void}}\\
-	\item{\method{+ doPost(request HttpServletRequest, response HttpServletResponse): void}}\\		
+	Costruttore pubblico della \inglese{servlet}. Richiama il costruttore della classe padre (chiamata a \texttt{super}).
+	
+	\item{\method{\# doGet(request HttpServletRequest, response HttpServletResponse): void}}\\
+	Metodo usato per eseguire la richiesta di aggiungere un nuovo contatto all'interno della rubrica (eseguito in risposta ad una richiesta HTTP con metodo \texttt{GET}). Poiché intendiamo gestire in modo univoco una richiesta a tale servlet (indifferentemente dalla tipologia d'invio dati) il metodo reindirizza il flusso principale al metodo \method{doPost()}.
+	
+	\item{\method{\# doPost(request HttpServletRequest, response HttpServletResponse): void}}\\	
+	Metodo usato per eseguire la richiesta di aggiungere un nuovo contatto all'interno della rubrica (eseguito in risposta ad una richiesta HTTP con metodo \texttt{POST}). Il flusso principale inizia  con la creazione di un oggetto \classname{dao.UserDataDAO} avente nome UserDAO. Quindi viene aperto un blocco try catch in cui si salva in un istanza di tipo \texttt{HttpSession}, l'oggetto ritornato da una chiamata \verb|request.getSession(false)|. I passi successivi sono (nell'ordine):
+	\begin{itemize}
+		\item salvare in attributo di tipo long, contactID, l'id dell'utente. Tale id dovrà essere ottenuto con una chiamata:\\
+		\verb|request.getParameter("contactId")|;\\
+		
+		\item si crea un istanza di tipo \classname{IUserData} a partire da una chiamata a metodo:\\
+		\verb|session.getAttribute("user")|;
+		
+		\item si crea un istanza di tipo \classname{IUserData} che conterrà ``l'utente'' che dovrà essere registrato nella rubrica del chiamante. L'oggetto dovrà essere istanziato in seguito ad una chiamata:\\
+		\verb|userDAO.getByID(contactId)|;
+	\end{itemize}
+	Quindi se l'amico (che dovrò andare a registrare) è stato correttamente istanziato (amico != null) allora il flusso principale procede creando e impostando un istanza di \classname{AddressBookEntry}. Il metodo termina ``scrivendo'' \inglese{true} all'interno di un istanza di \texttt{PrintWriter} creata a partire da \texttt{response.getWriter()} ed eseguendo il metodo \method{addAddressBookEntry()} (passando l'entry creata in precedenza) a partire dall'istanza che rappresenta l'utente richiedente.
+	
+	Se invece si è osservato che l'oggetto contenente l'amico da aggiungere, ha valore uguale a null, allora il metodo termina scrivendo \inglese{false} all'intero della dello stesso \texttt{PrintWriter} già citato.
+\end{description}
+
+%TODO da verificare
+
+\classsection{AddressBookDoRemoveContactServlet}
+
+\subsubsection*{Funzione}
+\inglese{Servlet} richiamata dal client per eseguire l'eliminazione di un contatto presente nella propria rubrica.
+
+\subsubsection*{Relazioni d'uso}
+
+\begin{itemize}
+	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
+	\item \texttt{javax.servlet.ServletException}: eccezione rilancibile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{LoginManager}.
+	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
+	\item \texttt{javax.security.auth.login.LoginContext}: classe usata in \method{doPost()} per eseguite la logout dal sistema.
+	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la servlet (inoltra i dati in uscita dalla chiamata a servlet).
+	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
+	\item \classname{org.softwaresynthesis.mytalk.server.dao.UserDataDAO}: classe usata per comunicare tramite Hibernate con la tabella UserData della base di dati.
+\end{itemize}
+
+\subsubsection*{Attributi}
+
+\begin{itemize}
+	\item{\memberdata{\underline{-- \{frozen\} serialVersionUID: long}}}
+	Attributo contenente l'id per la serializzazione dei dati. Il valore di creazione deve essere \texttt{10013L}.
+\end{itemize}
+
+\subsubsection*{Metodi}
+
+\begin{description}
+	\item{\method{+ AddressBookDoRemoveContactServlet()}}\\
+	Costruttore pubblico della \inglese{servlet}. Richiama il costruttore della classe padre (chiamata a \texttt{super}).
+	
+	\item{\method{\# doGet(request HttpServletRequest, response HttpServletResponse): void}}\\
+	Metodo usato per eseguire la richiesta di eliminazione di un contatto presente all'interno della rubrica (eseguito in risposta ad una richiesta HTTP con metodo \texttt{GET}). Poiché intendiamo gestire in modo univoco una richiesta a tale servlet (indifferentemente dalla tipologia d'invio dati) il metodo reindirizza il flusso principale al metodo \method{doPost()}.
+	
+	\item{\method{\# doPost(request HttpServletRequest, response HttpServletResponse): void}}\\	
+	Metodo usato per eseguire la richiesta di eliminazione di un contatto presente all'interno della rubrica (eseguito in risposta ad una richiesta HTTP con metodo \texttt{POST}). In breve il metodo deve creare un istanza di \texttt{AddressBookEntry} con i dati relativi alla entry da eliminare, quindi richiamerà il metodo \method{removeAddressBookEntry()} a partire dalle due istanze di \texttt{IUserData} (quella che rappresenta l'utente richiedete e quella che rappresenta l'utente da eliminare) passando come parametro l'entry definita in precedenza. Più nello specifico Il flusso principale inizia  con la creazione di un oggetto \classname{dao.UserDataDAO} avente nome UserDAO. Quindi viene aperto un blocco try catch in cui si salva in un istanza di tipo \texttt{HttpSession}, l'oggetto ritornato da una chiamata \verb|request.getSession(false)|. I passi successivi sono (nell'ordine):
+	\begin{itemize}
+		\item salvare in attributo di tipo long, contactID, l'id dell'utente. Tale id dovrà essere ottenuto con una chiamata:\\
+		\verb|request.getParameter("contactId")|;\\
+		
+		\item si crea un istanza di tipo \classname{IUserData} a partire da una chiamata a metodo:\\
+		\verb|session.getAttribute("user")|;
+		
+		\item si crea un istanza di tipo \classname{IUserData} che conterrà ``l'utente'' che dovrà essere eliminato dalla rubrica del chiamante. L'oggetto dovrà essere istanziato in seguito ad una chiamata:\\
+		\verb|userDAO.getByID(contactId)|;
+	\end{itemize}
+	Quindi se l'amico (che dovrò andare a cancellare dalla lista) è stato correttamente istanziato (amico != null) allora il flusso principale procede creando e impostando un istanza di \classname{AddressBookEntry}. Quindi a partire dall'oggetto che rappresenta l'utente richiedente, viene richiamato il metodo \method{removeAddressBookEntry()}. Il metodo termina ``scrivendo'' \inglese{true} all'interno di un istanza di \texttt{PrintWriter} creata a partire da \texttt{response.getWriter()}.
+	
+	Se invece si è osservato che l'oggetto contenente l'amico da rimuovere, ha valore uguale a null, allora il metodo termina scrivendo \inglese{false} all'intero della dello stesso \texttt{PrintWriter} già citato.
 \end{description}
 
 \subsection{Package org.softwaresynthesis.mytalk.server.call}\label{sec:call}

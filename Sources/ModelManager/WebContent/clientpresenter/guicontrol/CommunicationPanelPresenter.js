@@ -7,6 +7,20 @@
  */
 function CommunicationPanelPresenter() {
     /**********************************************************
+    VARIABILI PRIVATE
+    ***********************************************************/
+	// array associativo di tutte le chat che ho aperte in un dato momento
+    // gli elementi memorizzati in questo array sono {HTMLDivElements}
+	var chatElements = new Object();
+	
+    /**********************************************************
+    METODI PRIVATI
+    ***********************************************************/
+	function populateChatUl(ul) {
+		//TODO da terminare questa funzione
+	}
+	
+    /**********************************************************
      METODI PUBBLICI
      ***********************************************************/
     /**
@@ -43,31 +57,22 @@ function CommunicationPanelPresenter() {
         var closeButton = document.createElement('button');
         closeButton.type = "button";
         closeButton.id = "closeButton";
-        var muteButton = document.createElement('button');
-        muteButton.type = "button";
-        muteButton.id = "muteButton";
         closeButton.onclick = communicationcenter.endCall;
-        muteButton.onclick = function() {
-        	//TODO questa cosa dovrebbe farla il communicationcenter
-        	// il bottone deve cambiare aspetto a seconda
-        }
 
         //appendo i child al divCall
         divCall.appendChild(myVideo);
         divCall.appendChild(otherVideo);
         divCall.appendChild(closeButton);
-        divCall.appendChild(muteButton);
 
         //creo gli elementi per la chat testuale
         //creo l'<ul> per le schede delle chat aperte
         var ulOpenChat = document.createElement('ul');
         ulOpenChat.id = "ulOpenChat";
-        //TODO funzione per popolare l'<ul> delle chat con le chat aperte
+        populateChatUl(ulOpenChat);
         
         //creo il div per la visualizzazione della chat selezionata.
         var divContainerChat = document.createElement('div');
         divContainerChat.id = "divContainerChat";
-        //TODO funzione per mostrare una chat particolare
 
         //appendo i child alla divChat
         divChat.appendChild(ulOpenChat);
@@ -79,5 +84,7 @@ function CommunicationPanelPresenter() {
 
         return element;
     };
+    
+    
     
 }

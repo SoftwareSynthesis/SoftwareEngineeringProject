@@ -3,6 +3,14 @@ package org.softwaresynthesis.mytalk.server.dao;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+/**
+ * Punto di accesso per la creazione
+ * di sessioni di comunicazione con il
+ * database
+ * 
+ * @author 	Andrea Meneghinello
+ * @version	%I%, %G%
+ */
 public class HibernateUtil
 {
 	private static HibernateUtil instance = null;

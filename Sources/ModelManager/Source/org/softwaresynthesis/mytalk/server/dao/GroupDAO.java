@@ -7,6 +7,13 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.softwaresynthesis.mytalk.server.abook.IGroup;
 
+/**
+ * Espone le funzione per la manipolazione di oggetti
+ * di tipo {@link IGroup} con il database
+ * 
+ * @author 	Andrea Meneghinello
+ * @version	%I%, %G%
+ */
 public class GroupDAO 
 {
 	/**

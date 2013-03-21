@@ -8,20 +8,32 @@ module("AddressBookPanelPresenterTest", {
     	
     	document.body.appendChild(element);
     	
+		
     	// oggetto da testare
-		tester = new AddressBookPanelPresenter("php_stubs/AddressBook");
+		tester = new AddressBookPanelPresenter("php_stubs/AddressBook", ".php");
+		
+		
 	},
 	teardown: function() {}
 });
 
 test("testSetup()", function() {
+		
+	var ulList = document.createElement('ul');
+		ulList.id="AddressBookList";
+		element.appendChild(ulList);
+		var gr=document.createElement("select");
+		gr.id="selectGroup";
+		element.appendChild(gr);
+	
 	tester.setup();
-
-	expect(0);
+	//controllo che abbia scaricato tutti contatti dal server
+	equal(ulList.childNodes.length, 3, "");
+	expect(1);
 });
-
+/*
 test("testInitialize()", function() {
 	tester.initialize();
 
 	expect(0);
-});
+});*/
