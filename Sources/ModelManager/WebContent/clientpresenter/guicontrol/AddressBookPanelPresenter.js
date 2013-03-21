@@ -56,26 +56,14 @@ function AddressBookPanelPresenter(url, ext) {
         //apro due XMLHttprequest rispettivamente per contatti e gruppi
         var contactRequest = new XMLHttpRequest();
         var groupRequest = new XMLHttpRequest();
-
-        //gestisco l'evento di restituzione dei dati
-        contactRequest.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                contacts = JSON.parse(this.responseText);
-            }
-        };
-        groupRequest.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                groups = JSON.parse(this.responseText);
-            }
-        };
-
-        //effettuo la richiesta vera e propria
-        contactRequest.open("POST", urlServlet + operations[0] + suffix, "true");
+        contactRequest.open("POST", urlServlet + operations[0] + suffix, false);
         contactRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         contactRequest.send();
-        groupRequest.open("POST", urlServlet + operations[7] + suffix, "true");
+        contacts = JSON.parse(contactRequest.responseText);
+        groupRequest.open("POST", urlServlet + operations[7] + suffix, false);
         groupRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         groupRequest.send();
+        group = JSON.parse(groupRequest.responseText);
     }
 
     /**
@@ -140,7 +128,7 @@ function AddressBookPanelPresenter(url, ext) {
         //imposto il valore dell'<li>
         item.appendChild(avatarNode);
         item.appendChild(textNode);
-        item.appendChild(statusNode);
+        item.appendChild(stateNode);
 
         //aggiungo il <li> al elemento <ul> dell'oggetto ulList su cui viene
         // invocata la funzione
@@ -181,7 +169,7 @@ function AddressBookPanelPresenter(url, ext) {
         //FIXME controllare che sia logicamente corretta
         var group = groups[idGroup];
         for (var contact in group.contacts) {
-            if (contacts == idContacts)
+            if (contact == idContact)
                 return true;
         }
         return false;
@@ -220,12 +208,12 @@ function AddressBookPanelPresenter(url, ext) {
             var serchField = inputText.value;
             var filtredContacts = self.applyFilterByString(serchField);
             self.showFilter(filtredContacts);
-        }
+        };
         selectGroup.onchange = function() {
             var idGroupSelected = selectGroup.options[selectGroup.selectedIndex].value;
             var filtredContacts = self.applyFilterByGroup(idGroupSelected);
             self.showFilter(filtredContacts);
-        }
+        };
         // creo contenuto divSort
         var selectSort = document.createElement('select');
         selectSort.id = "selectSort";
@@ -310,17 +298,13 @@ function AddressBookPanelPresenter(url, ext) {
 
         //invio la richiesta al server e attendo il risultato
         var request = new XMLHttpRequest();
-        request.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                result = JSON.parse(request.responseText);
-            }
-        };
-        request.open("POST", urlServlet + operations[1] + suffix, "true");
+        request.open("POST", urlServlet + operations[1] + suffix, false);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         request.send("contactId=" + contact);
 
         //visualizzo l'esito della richiesta. Se esito positivo refresh della
         // rubrica
+        result = JSON.parse(request.responseText);
         if (result == true) {
             this.setup();
             return true;
@@ -342,17 +326,13 @@ function AddressBookPanelPresenter(url, ext) {
 
         //invio la richiesta al server e attendo il risultato
         var request = new XMLHttpRequest();
-        request.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                result = JSON.parse(request.responseText);
-            }
-        };
-        request.open("POST", urlServlet + operations[2], "true");
+        request.open("POST", urlServlet + operations[2], false);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         request.send("contactId=" + contact);
 
         //visualizzo l'esito della richiesta. Se esito positivo refresh della
         // rubrica
+        result = JSON.parse(request.responseText);
         if (result == true) {
             this.setup();
             return true;
@@ -377,18 +357,13 @@ function AddressBookPanelPresenter(url, ext) {
 
         //invio la richiesta al server e attendo il risultato
         var request = new XMLHttpRequest();
-        request.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                //deve tornare true o false
-                result = JSON.parse(request.responseText);
-            }
-        };
-        request.open("POST", urlServlet + operations[3] + suffix, "true");
+        request.open("POST", urlServlet + operations[3] + suffix, false);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         request.send("contactId=" + contact + "&groupId=" + group);
 
-        //visualizzio l'esito della richiesta. Se esito positivo refresh della
+        //visualizzo l'esito della richiesta. Se esito positivo refresh della
         // rubrica
+        result = JSON.parse(request.responseText);
         if (result == true) {
             this.setup();
             return true;
@@ -413,17 +388,13 @@ function AddressBookPanelPresenter(url, ext) {
 
         //invio la richiesta al server e attendo il risultato
         var request = new XMLHttpRequest();
-        request.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                result = JSON.parse(request.responseText);
-            }
-        };
-        request.open("POST", urlServlet + operations[4], "true");
+        request.open("POST", urlServlet + operations[4] + suffix, false);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         request.send("contactId=" + contact + "&groupId=" + group);
 
-        //visualizzio l'esito della richiesta. Se esito positivo refresh della
+        //visualizzo l'esito della richiesta. Se esito positivo refresh della
         // rubrica
+        result = JSON.parse(request.responseText);
         if (result == true) {
             this.setup();
             return true;
@@ -444,17 +415,13 @@ function AddressBookPanelPresenter(url, ext) {
 
         //invio la richiesta al server e attendo il risultato
         var request = new XMLHttpRequest();
-        request.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                result = JSON.parse(request.responseText);
-            }
-        };
-        request.open("POST", urlServlet + operations[5] + suffix, "true");
+        request.open("POST", urlServlet + operations[5] + suffix, false);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         request.send("groupName=" + name);
 
-        //visualizzio l'esito della richiesta. Se esito positivo refresh della
+        //visualizzo l'esito della richiesta. Se esito positivo refresh della
         // rubrica
+        result = JSON.parse(request.responseText);
         if (result == true) {
             this.setup();
             return true;
@@ -482,17 +449,13 @@ function AddressBookPanelPresenter(url, ext) {
 
         //invio la richiesta al server e attendo il risultato
         var request = new XMLHttpRequest();
-        request.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                result = JSON.parse(request.responseText);
-            }
-        };
-        request.open("POST", urlServlet + operations[6] + suffix, "true");
+        request.open("POST", urlServlet + operations[6] + suffix, false);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         request.send("groupId=" + idGroup);
 
-        //visualizzio l'esito della richiesta. Se esito positivo refresh della
+        //visualizzo l'esito della richiesta. Se esito positivo refresh della
         // rubrica
+        result = JSON.parse(request.responseText);
         if (result == true) {
             this.setup();
             return true;
@@ -611,16 +574,12 @@ function AddressBookPanelPresenter(url, ext) {
 
         //invio la richiesta di bloccaggio dell'utente
         var request = new XMLHttpRequest();
-        request.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                result = JSON.parse(request.responseText);
-            }
-        };
-        request.open("POST", urlServlet + operations[8] + suffix, "true");
+        request.open("POST", urlServlet + operations[8] + suffix, false);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         request.send("contactId=" + contact.id);
 
         //controllo il risultato
+        result = JSON.parse(request.responseText);
         if (result == true) {
             this.setup();
             mediator.displayContact(contact);
@@ -647,16 +606,12 @@ function AddressBookPanelPresenter(url, ext) {
 
         //invio la richiesta di bloccaggio dell'utente
         var request = new XMLHttpRequest();
-        request.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                result = JSON.parse(request.responseText);
-            }
-        };
-        request.open("POST", urlServlet + operations[9] + suffix, "true");
+        request.open("POST", urlServlet + operations[9] + suffix, false);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         request.send("contactId=" + contact.id);
 
         //controllo il risultato
+        result = JSON.parse(request.responseText);
         if (result == true) {
             this.setup();
             mediator.displayContact(contact);

@@ -20,15 +20,15 @@ module("AddressBookPanelPresenterTest", {
 test("testSetup()", function() {
 		
 	var ulList = document.createElement('ul');
-		ulList.id="AddressBookList";
-		element.appendChild(ulList);
-		var gr=document.createElement("select");
-		gr.id="selectGroup";
-		element.appendChild(gr);
+	ulList.id="AddressBookList";
+	element.appendChild(ulList);
+	var gr=document.createElement("select");
+	gr.id="selectGroup";
+	element.appendChild(gr);
 	
 	tester.setup();
 	//controllo che abbia scaricato tutti contatti dal server
-	equal(ulList.childNodes.length, 3, "");
+	equal(ulList.childNodes.length, 2, "numero corretto di contatti nella rubrica");
 	expect(1);
 });
 /*
