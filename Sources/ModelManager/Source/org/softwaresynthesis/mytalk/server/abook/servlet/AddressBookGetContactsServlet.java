@@ -23,7 +23,7 @@ import org.softwaresynthesis.mytalk.server.connection.ChannelServlet;
  */
 public final class AddressBookGetContactsServlet extends HttpServlet 
 {
-	private static final long serialVersionUID = 10011L;
+	private static final long serialVersionUID = 10010L;
 	
 	/**
 	 * Inizializza la servlet

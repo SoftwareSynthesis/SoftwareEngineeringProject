@@ -15,7 +15,7 @@ import org.softwaresynthesis.mytalk.server.dao.GroupDAO;
 
 public class AddressBookDoDeleteGroupServlet extends HttpServlet 
 {
-	private static final long serialVersionUID = 10017L;
+	private static final long serialVersionUID = 10016L;
 	
 	/**
 	 * Inizializzazione della servlet

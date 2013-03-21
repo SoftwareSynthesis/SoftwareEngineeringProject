@@ -22,7 +22,7 @@ import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
  */
 public final class AddressBookDoAddContactServlet extends HttpServlet 
 {
-	private static final long serialVersionUID = 10012L;
+	private static final long serialVersionUID = 10011L;
 	
 	/**
 	 * Inizializza la servlet

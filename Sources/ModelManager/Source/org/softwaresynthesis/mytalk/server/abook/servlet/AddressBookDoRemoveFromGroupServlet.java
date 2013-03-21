@@ -22,7 +22,7 @@ import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
  * @version	%I%, %G%
  */
 public final class AddressBookDoRemoveFromGroupServlet extends HttpServlet {
-	private static final long serialVersionUID = 10015L;
+	private static final long serialVersionUID = 10014L;
        
     /**
      * Inizializza la servlet

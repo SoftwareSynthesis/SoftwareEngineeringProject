@@ -21,7 +21,7 @@ import org.softwaresynthesis.mytalk.server.dao.GroupDAO;
  */
 public final class AddressBookDoCreateGroupServlet extends HttpServlet 
 {
-	private final static long serialVersionUID = 10016L;
+	private final static long serialVersionUID = 10015L;
 	
 	/**
 	 * Inizializza la servlet

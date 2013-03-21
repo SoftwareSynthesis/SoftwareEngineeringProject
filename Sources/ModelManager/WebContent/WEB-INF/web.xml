@@ -25,40 +25,50 @@
   	
   	<servlet>
   		<servlet-name>getContacts</servlet-name>
-  		<servlet-class>org.softwaresynthesis.mytalk.server.abook.AddressBookGetContactsServlet</servlet-class>
+  		<servlet-class>org.softwaresynthesis.mytalk.server.abook.servlet.AddressBookGetContactsServlet</servlet-class>
   	</servlet>
   	
   	<servlet>
   		<servlet-name>addContact</servlet-name>
-  		<servlet-class>org.softwaresynthesis.mytalk.server.abook.AddressBookDoAddContactServlet</servlet-class>
+  		<servlet-class>org.softwaresynthesis.mytalk.server.abook.servlet.AddressBookDoAddContactServlet</servlet-class>
   	</servlet>
   	
   	<servlet>
   		<servlet-name>removeContact</servlet-name>
-  		<servlet-class>org.softwaresynthesis.mytalk.server.abook.AddressBookDoRemoveContactServlet</servlet-class>
+  		<servlet-class>org.softwaresynthesis.mytalk.server.abook.servlet.AddressBookDoRemoveContactServlet</servlet-class>
   	</servlet>
   	
   	<servlet>
   		<servlet-name>addInGroup</servlet-name>
-  		<servlet-class>org.softwaresynthesis.mytalk.server.abook.AddressBookDoInsertInGroupServlet</servlet-class>
+  		<servlet-class>org.softwaresynthesis.mytalk.server.abook.servlet.AddressBookDoInsertInGroupServlet</servlet-class>
   	</servlet>
   	
   	<servlet>
   		<servlet-name>removeFromGroup</servlet-name>
-  		<servlet-class>org.softwaresynthesis.mytalk.server.abook.AddressBookDoRemoveFromGroupServlet</servlet-class>
+  		<servlet-class>org.softwaresynthesis.mytalk.server.abook.servlet.AddressBookDoRemoveFromGroupServlet</servlet-class>
   	</servlet>
   	
   	<servlet>
   		<servlet-name>createGroup</servlet-name>
-  		<servlet-class>org.softwaresynthesis.mytalk.server.abook.AddressBookDoCreateGroupServlet</servlet-class>
+  		<servlet-class>org.softwaresynthesis.mytalk.server.abook.servlet.AddressBookDoCreateGroupServlet</servlet-class>
   	</servlet>
   	
   	<servlet>
   		<servlet-name>deleteGroup</servlet-name>
-  		<servlet-class>org.softwaresynthesis.mytalk.server.abook.AddressBookDoDeleteGroupServlet</servlet-class>
+  		<servlet-class>org.softwaresynthesis.mytalk.server.abook.servlet.AddressBookDoDeleteGroupServlet</servlet-class>
   	</servlet>
   	
-  	<!-- MAPPING DELLE SERVLET CON GLI URL -->
+  	<servlet>
+  		<servlet-name>blockContact</servlet-name>
+  		<servlet-class>org.softwaresynthesis.mytalk.server.abook.servlet.AddressBookDoBlockServlet</servlet-class>
+  	</servlet>
+  	
+  	<servlet>
+  		<servlet-name>unblockContact</servlet-name>
+  		<servlet-class>org.softwaresynthesis.mytalk.server.abook.servlet.AddressBookDoUnblockServlet</servlet-class>
+  	</servlet>
+  	
+  	<!-- MAPPING DELLE SERVLET CON GLI URL PER IL LOGIN -->
   	
   	<servlet-mapping>
     	<servlet-name>Login</servlet-name>
@@ -69,6 +79,8 @@
   		<servlet-name>Logout</servlet-name>
     	<url-pattern>/LoginClose</url-pattern>
   	</servlet-mapping>
+  	
+  	<!-- MAPPING DELLE SERVLET CON GLI URL PER LA GESTIONE RUBRICA -->
   	
   	<servlet-mapping>
   		<servlet-name>getContacts</servlet-name>
@@ -103,5 +115,15 @@
   	<servlet-mapping>
   		<servlet-name>deleteGroup</servlet-name>
   		<url-pattern>/addressBookDoDeleteGroup</url-pattern>
+  	</servlet-mapping>
+  	
+  	<servlet-mapping>
+  		<servlet-name>blockContact</servlet-name>
+  		<url-pattern>/addressBookDoBlock</url-pattern>
+  	</servlet-mapping>
+  	
+  	<servlet-mapping>
+  		<servlet-name>unblockContact</servlet-name>
+  		<url-pattern>/addressBookDoUnblock</url-pattern>
   	</servlet-mapping>
 </web-app>
