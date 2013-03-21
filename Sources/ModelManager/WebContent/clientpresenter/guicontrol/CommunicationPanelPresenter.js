@@ -37,30 +37,19 @@ function CommunicationPanelPresenter() {
 		return title;
 	}
 
-	/**
-	 * 
-	 * @param {HTMLUListElement}
-	 *            ul lista che deve essere popolata con i nomi delle chat attive
-	 * @author Diego Beraldin
-	 */
-	function populateChatUl(ul) {
-		for ( var chat in communicationcenter.openChat) {
-			var item = document.createElement("li");
-			// costruisce il list item
-			var user = chat.user;
-			item.id = user.id;
-
-			item.appendChild(document.createTextNode(createLabel(user)));
-			item.onclick = function() {
-				// operazione da svolgere al click su un list item
-				var divChat = document.getElementById("divChat");
-				var divContainerChat = document
-						.getElementById("divContainerChat");
-				divChat.removeChild(divContainerChat);
-				divChat.appendChild(chatElements[user.id]);
-			};
-			ul.appendChild(item);
-		}
+	function createChatItem(chat) {
+		var item = document.createElement("li");
+		var user = chat.user;
+		item.id = user.id;
+		item.appendChild(document.createTextNode(createLabel(user)));
+		item.onclick = function() {
+			// operazione da svolgere al click su un list item
+			var divChat = document.getElementById("divChat");
+			var container = document.getElementById("divContainerChat");
+			divChat.removeChild(container);
+			divChat.appendChild(chatElements[user.id]);
+		};
+		return item;
 	}
 
 	/**
@@ -70,20 +59,33 @@ function CommunicationPanelPresenter() {
 	 *            memorizzate nel CommunicationCenter. In particolare, ogni chat
 	 *            è dotata di una proprietà 'user' che corrisponde all'utente
 	 *            con cui la comunicazione è instaurata
-	 * @returns
+	 * @returns {HTMLDivElement}
+	 * @author Diego Beraldin
 	 */
 	function createChatElement(chat) {
 		var element = document.createElement("div");
 		element.id = "divContainerChat";
 		var form = document.createElement("form");
+		// crea l'area di testo
 		var textArea = document.createElement("textarea");
 		form.appendChild(textArea);
-
+		// crea il campo per l'immissioen del testo
 		var input = document.createElement("input");
 		input.id = "text";
 		input.name = "text";
 		form.appendChild(input);
-		// TODO creare il pulsante
+
+		// crea il pulsante
+		var sendButton = document.createElement("button");
+		sendButton.appendChild(document.createTextNode("Invia"));
+		
+		// aggancia la funzione di callback al pulsante
+		sendButton.onclick = function() {
+			var text = input.value;
+			textArea.value += (text + "\n");
+			communicationcenter.send(text);
+		};
+		form.appendChild(sendButton);
 
 		element.appendChild(form);
 		return element;
@@ -92,6 +94,40 @@ function CommunicationPanelPresenter() {
 	/***************************************************************************
 	 * METODI PUBBLICI
 	 **************************************************************************/
+	/**
+	 * 
+	 * PRE: POST:
+	 * 
+	 * @param {Object}
+	 *            chat chat testuale che deve essere aggiunta al controllo di
+	 *            questo presenter
+	 * @author Diego Beraldin
+	 */
+	this.addChat = function(chat) {
+		var element = createChatElement(chat);
+		var id = chat.user.id;
+		chatElements[id] = element;
+		var item = createChatItem(chat);
+		var ulOpenChat = document.getElementById("ulOpenChat");
+		ulOpenChat.appendChild(item);
+	};
+
+	/**
+	 * 
+	 * PRE: POST:
+	 * 
+	 * @param {Object}
+	 *            chat
+	 * @returns {Boolean}
+	 * @author Diego Beraldin
+	 */
+	this.removeChat = function(chat) {
+		var user = chat.user;
+		delete chatElements[user.id];
+		var ulOpenChat = document.getElementById("ulOpenChat");
+		var liChat = ulOpenChat.getElementById(user.id);
+		ulOpenChat.removeChild(liChat);
+	};
 
 	/**
 	 * Aggiunge una stringa all'interno dell'area di testo che è associata alla
@@ -118,7 +154,7 @@ function CommunicationPanelPresenter() {
 	 * @author Riccardo Tresoldi
 	 */
 	this.createPanel = function() {
-		var element = document.createElement("div");
+		var element = document.createElement('div');
 		element.setAttribute("id", "CommunicationPanel");
 
 		// azzero il div
@@ -162,7 +198,10 @@ function CommunicationPanelPresenter() {
 		}
 
 		// popola la lista delle chat
-		populateChatUl(ulOpenChat);
+		for ( var chat in communicationcenter.openChat) {
+			var item = createChatItem(chat);
+			ulOpenChat.appendChild(item);
+		}
 
 		// creo il div per la visualizzazione della chat selezionata.
 		// var divContainerChat = document.createElement('div');
