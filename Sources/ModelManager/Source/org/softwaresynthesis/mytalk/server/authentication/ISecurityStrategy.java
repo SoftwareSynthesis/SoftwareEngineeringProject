@@ -5,7 +5,7 @@ package org.softwaresynthesis.mytalk.server.authentication;
  * mytalk
  * 
  * @author 	Andrea Meneghinello
- * @version	%I%, %G%
+ * @version	1.0
  */
 public interface ISecurityStrategy 
 {

@@ -18,7 +18,7 @@ import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
  * contatto della rubrica
  * 
  * @author  Andrea Meneghinello
- * @version	%I%, %G%
+ * @version	1.0
  */
 public class AddressBookDoUnblockServlet extends HttpServlet 
 {

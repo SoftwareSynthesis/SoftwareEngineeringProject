@@ -8,7 +8,7 @@ import org.softwaresynthesis.mytalk.server.IMyTalkObject;
  * rubrica utente
  * 
  * @author 	Andrea MEneghinello
- * @version %I%, %G%
+ * @version 1.0
  */
 public interface IGroup extends IMyTalkObject
 {

@@ -19,7 +19,7 @@ import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
  * un contatto da un gruppo
  * 
  * @author 	Andrea Meneghinello
- * @version	%I%, %G%
+ * @version	1.0
  */
 public final class AddressBookDoRemoveFromGroupServlet extends HttpServlet {
 	private static final long serialVersionUID = 10014L;

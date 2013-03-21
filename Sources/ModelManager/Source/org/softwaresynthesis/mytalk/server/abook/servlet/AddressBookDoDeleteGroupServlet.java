@@ -13,6 +13,13 @@ import org.softwaresynthesis.mytalk.server.abook.IGroup;
 import org.softwaresynthesis.mytalk.server.dao.AddressBookEntryDAO;
 import org.softwaresynthesis.mytalk.server.dao.GroupDAO;
 
+/**
+ * Servlet cha ha il compito di eliminare
+ * un gruppo della rubrica
+ * 
+ * @author 	Andrea Meneghinello
+ * @version	1.0
+ */
 public class AddressBookDoDeleteGroupServlet extends HttpServlet 
 {
 	private static final long serialVersionUID = 10016L;

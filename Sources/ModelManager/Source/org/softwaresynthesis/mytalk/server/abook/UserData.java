@@ -7,7 +7,7 @@ import java.util.Set;
  * Rappresentazione dell'utente del sistema mytalk
  *
  * @author 	Andrea Meneghinello
- * @version	%I%, %G%
+ * @version	1.0
  */
 public class UserData implements IUserData 
 {

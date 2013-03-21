@@ -17,7 +17,7 @@ import org.softwaresynthesis.mytalk.server.dao.GroupDAO;
  * un nuovo gruppo nella rubrica di un utente
  * 
  * @author 	Andrea Meneghinello
- * @version	%I%, %G%
+ * @version	1.0
  */
 public final class AddressBookDoCreateGroupServlet extends HttpServlet 
 {

@@ -11,7 +11,7 @@ import sun.misc.BASE64Encoder;
  * 128 bit
  * 
  * @author 	Andrea Meneghinello
- * @version	%I%, %G%
+ * @version	1.0
  */
 public class AESAlgorithm implements ISecurityStrategy 
 {

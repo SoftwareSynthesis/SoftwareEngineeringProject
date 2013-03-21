@@ -8,7 +8,7 @@ import java.security.Principal;
  * dell'utente che ha superato la fase di login
  * 
  * @author 	Andrea Meneghinello
- * @version	%I%, %G%
+ * @version	1.0
  */
 public class PrincipalImpl implements Principal, Serializable 
 {

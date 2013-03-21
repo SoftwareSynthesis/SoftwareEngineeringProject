@@ -18,7 +18,7 @@ import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
  * alla rubrica un nuovo contatto
  * 
  * @author 	Andrea Meneghinello
- * @version	%I%, %G%
+ * @version	1.0
  */
 public final class AddressBookDoAddContactServlet extends HttpServlet 
 {

@@ -21,7 +21,7 @@ import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
  * le operazione di accesso ed uscita dal sistema
  * 
  * @author 	Andrea Meneghinello
- * @version	%I%, %G%
+ * @version	1.0
  */
 public class AuthenticationModule implements LoginModule
 {

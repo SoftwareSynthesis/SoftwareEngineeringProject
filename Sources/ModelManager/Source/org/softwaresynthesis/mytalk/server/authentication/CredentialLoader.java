@@ -14,7 +14,7 @@ import javax.security.auth.callback.UnsupportedCallbackException;
  * dalla procedura di login
  * 
  * @author Andrea
- * @version %I%, %G%
+ * @version 1.0
  */
 public class CredentialLoader implements CallbackHandler 
 {

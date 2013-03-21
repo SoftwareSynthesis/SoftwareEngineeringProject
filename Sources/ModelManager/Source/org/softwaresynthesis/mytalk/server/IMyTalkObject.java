@@ -7,7 +7,7 @@ package org.softwaresynthesis.mytalk.server;
  * client
  * 
  * @author 	Andrea Meneghinello
- * @version %I%, %G%
+ * @version 1.0
  */
 public interface IMyTalkObject 
 {

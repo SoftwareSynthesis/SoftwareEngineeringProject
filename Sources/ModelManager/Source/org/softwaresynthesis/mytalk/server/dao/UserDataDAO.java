@@ -13,7 +13,7 @@ import org.softwaresynthesis.mytalk.server.abook.UserData;
  * di tipo {@link IUserData} con il database
  * 
  * @author 	Andrea Meneghinello
- * @version	%I%, %G%
+ * @version	1.0
  */
 public class UserDataDAO 
 {

@@ -19,7 +19,7 @@ import org.softwaresynthesis.mytalk.server.connection.ChannelServlet;
  * mytalk
  * 
  * @author 	Andrea Meneghinello
- * @version	%I%, %G%
+ * @version	1.0
  */
 public final class AddressBookGetContactsServlet extends HttpServlet 
 {

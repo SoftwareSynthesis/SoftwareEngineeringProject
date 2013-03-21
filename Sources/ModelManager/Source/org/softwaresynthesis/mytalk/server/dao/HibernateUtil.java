@@ -9,7 +9,7 @@ import org.hibernate.cfg.Configuration;
  * database
  * 
  * @author 	Andrea Meneghinello
- * @version	%I%, %G%
+ * @version	1.0
  */
 public class HibernateUtil
 {

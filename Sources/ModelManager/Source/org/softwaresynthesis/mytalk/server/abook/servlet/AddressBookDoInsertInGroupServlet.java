@@ -19,7 +19,7 @@ import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
  * un contatto ad un gruppo
  * 
  * @author 	Andrea Meneghinello
- * @version	%I%, %G%
+ * @version	1.0
  */
 public final class AddressBookDoInsertInGroupServlet extends HttpServlet 
 {

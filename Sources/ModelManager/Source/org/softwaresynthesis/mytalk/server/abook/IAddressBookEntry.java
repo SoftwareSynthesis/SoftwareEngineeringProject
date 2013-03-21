@@ -7,7 +7,7 @@ import org.softwaresynthesis.mytalk.server.IMyTalkObject;
  * {@link IUserData}
  * 
  * @author 	Andrea Meneghinello
- * @version %I%, %G%
+ * @version 1.0
  */
 public interface IAddressBookEntry extends IMyTalkObject
 {

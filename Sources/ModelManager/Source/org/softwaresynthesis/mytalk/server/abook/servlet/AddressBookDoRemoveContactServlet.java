@@ -18,7 +18,7 @@ import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
  * un contatto dalla rubrica di un utente
  * 
  * @author 	Andrea Meneghinello
- * @version	%I%, %G%
+ * @version	1.0
  */
 public final class AddressBookDoRemoveContactServlet extends HttpServlet 
 {

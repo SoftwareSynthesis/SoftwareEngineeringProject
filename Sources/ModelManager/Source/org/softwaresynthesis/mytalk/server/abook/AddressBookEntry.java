@@ -5,7 +5,7 @@ package org.softwaresynthesis.mytalk.server.abook;
  * un utente
  * 
  * @author 	Andrea Meneghinello
- * @version	%I%, %G%
+ * @version	1.0
  */
 public class AddressBookEntry implements IAddressBookEntry 
 {

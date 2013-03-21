@@ -8,7 +8,7 @@ import java.util.Set;
  * utente
  * 
  * @author 	Andrea Meneghinello
- * @version	%I%, %G%
+ * @version	1.0
  */
 public class Group implements IGroup 
 {
