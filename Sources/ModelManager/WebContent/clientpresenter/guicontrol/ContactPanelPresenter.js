@@ -43,19 +43,31 @@ function ContactPanelPresenter() {
      * Funzione che popola il div groupsDiv che contiene le label dei gruppi
      *
      * @author Riccardo  Tresoldi
+     * @param {Object} contact contatto di cui ricavare i gruppi di appartenenza
      */
-    function buildGroupsDiv(){
+    function buildGroupsDiv(contact) {
         //estraggo il div da popolare
-        var div=getElementById("groupsDiv");
-        
+        var div = document.getElementById("groupsDiv");
         //estraggo la lista dei gruppi a cui appartiene l'utente visualizzato
-        
+        var groups = mediator.getGroupsWhereContactsIs(contact);
         //ciclo la lista e creo le "label"
+        for (var group in groups) {
+            var label = document.createElement("span");
+            var img = document.createElement("img");
+            img.className = "deleteGroupButton";
+            //TODO
+            img.src = "";
+            label.appendChild(document.createTextNode(groups[group].name));
+            label.appendChild(img);
+            label.className = "groupLabel";
+            div.appendChild(label);
+            //gestire hover con CSS
+        }
     }
 
     /**********************************************************
      METODI PUBBLICI
-     ***********************************************************/
+     **********************************************************/
     /**
      * Inizializza il pannello che mostra le informazioni dei contatti
      * della rubrica, quando ne viene selezionato uno dal pannello
@@ -64,8 +76,7 @@ function ContactPanelPresenter() {
      * @returns {HTMLDivElement} pannello 'ContactPanel' costruito
      * @author Elena Zecchinato
      */
-    this.
-    createPanel = function() {
+    this.createPanel = function() {
         var element = document.createElement("div");
         element.setAttribute("id", "ContactPanel");
 
@@ -176,7 +187,8 @@ function ContactPanelPresenter() {
 
         adjustBlockButtonDisplay(contact);
 
-        //TODO popolare groupsDiv
+        //popolo le label dei gruppi al div groupsDiv
+        buildGroupsDiv();
 
         //associo gli eventi onClick ai bottoni
         addToAddressBookButton.onclick = function() {
