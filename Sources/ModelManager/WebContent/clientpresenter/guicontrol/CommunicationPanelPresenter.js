@@ -58,12 +58,9 @@ function CommunicationPanelPresenter() {
 		var item = document.createElement("li");
 		item.id = user.id;
 		item.appendChild(document.createTextNode(createLabel(user)));
+		var self = this;
 		item.onclick = function() {
-			// operazione da svolgere al click su un list item
-			var divChat = document.getElementById("divChat");
-			var container = document.getElementById("divContainerChat");
-			divChat.removeChild(container);
-			divChat.appendChild(chatElements[user.id]);
+			self.displayChat(user);
 		};
 		return item;
 	}
@@ -113,6 +110,28 @@ function CommunicationPanelPresenter() {
 	/***************************************************************************
 	 * METODI PUBBLICI
 	 **************************************************************************/
+	/**
+	 * Visualizza una determinata chat nel 'divContainerChat'
+	 * 
+	 * PRE: Esiste nel documento un <div> con id uguale a 'divChat' che contiene
+	 * come figlio un altro <div> con id uguale a 'divContainerChat'. Inoltre,
+	 * chatElements contiene un elemento chat indicizzato con l'id dell'utente
+	 * passato come parametro alla funzione
+	 * 
+	 * POST: il <div> interno ('divContainerChat') è stato rimpiazzato da un nuovo
+	 * elemento che corrisponde alla chat con l'utente passato come parametro
+	 * 
+	 * @param {Object}
+	 *            user utente con cui è attiva la chat che si vuole visualizzare
+	 * @author Diego Beraldin
+	 */
+	this.displayChat = function(user) {
+		var divChat = document.getElementById("divChat");
+		var container = document.getElementById("divContainerChat");
+		divChat.removeChild(container);
+		divChat.appendChild(chatElements[user.id]);
+	};
+	
 	/**
 	 * Aggiunge una chat fra quelle controllate da questo presenter, sia nella
 	 * lista degli elementi che nel liste item contenuto nella lista di tutte le
@@ -225,10 +244,10 @@ function CommunicationPanelPresenter() {
 		var otherVideo = document.createElement('video');
 		otherVideo.id = "otherVideo";
 		otherVideo.setAttribute("autoplay", "autoplay");
-		
-		//creo div per visualizzare le statistiche della chiamata
-		var statDiv=document.createElement("div");
-		statDiv.id="statDiv";
+
+		// creo div per visualizzare le statistiche della chiamata
+		var statDiv = document.createElement("div");
+		statDiv.id = "statDiv";
 
 		// creo i bottoni per per la gestione della chiamata
 		var closeButton = document.createElement('button');

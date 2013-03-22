@@ -184,6 +184,8 @@ function ContactPanelPresenter() {
         var chatButton = getElementById("chatButton");
         var videoCallButton = getElementById("videoCallButton");
         var callButton = getElementById("callButton");
+        
+        var self = this;
 
         adjustBlockButtonDisplay(contact);
 
@@ -194,20 +196,25 @@ function ContactPanelPresenter() {
         addToAddressBookButton.onclick = function() {
             mediator.onContactAdded(contact.id);
         };
+        
         blockButton.onclick = function() {
             mediator.onBlockContact(contact);
         };
+        
         unlockButton.onclick = function() {
             mediator.onUnlockContact(contact);
         };
+        
         chatButton.onclick = function() {
-            //TODO inserire il codice per effettuare la chiamata con il contatto
-            // selezionato
+        	self.hide();
+            mediator.onChatStarted(contact);
         };
+        
         videoCallButton.onclick = function() {
             //TODO inserire il codice per effettuare la chiamata con il contatto
             // selezionato
         };
+        
         callButton.onclick = function() {
             //TODO inserire il codice per effettuare la chiamata con il contatto
             // selezionato
