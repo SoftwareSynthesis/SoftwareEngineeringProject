@@ -87,7 +87,7 @@ function AddressBookPanelPresenter(url, ext) {
         contactRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         contactRequest.send();
         contacts = JSON.parse(contactRequest.responseText);
-        groupRequest.open("POST", urlServlet + operations[7] + suffix, false);
+        groupRequest.open("POST", servlets[7], false);
         groupRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         groupRequest.send();
         group = JSON.parse(groupRequest.responseText);
