@@ -47,16 +47,15 @@ function CommunicationPanelPresenter() {
 	 * 'ulOpenchat' all'interno di questo presenter
 	 * 
 	 * @param {Object}
-	 *            chat chat testuale proveniente dal {@link CommunicationCenter}
+	 *            user utente con cui è avviata la chat
 	 * @returns {HTMLLiElement} list item che contiene il nome del contatto con
 	 *          cui è attiva la comunicazione testuale e che, se cliccato,
 	 *          determina la visualizzazione all'interno del divChat come
 	 *          secondo figlio
 	 * @author Diego Beraldin
 	 */
-	function createChatItem(chat) {
+	function createChatItem(user) {
 		var item = document.createElement("li");
-		var user = chat.user;
 		item.id = user.id;
 		item.appendChild(document.createTextNode(createLabel(user)));
 		item.onclick = function() {
@@ -75,19 +74,16 @@ function CommunicationPanelPresenter() {
 	 * list item della 'ulOpenChat'.
 	 * 
 	 * @param {Object}
-	 *            chat oggetto che rappresenta una chat nel formato in cui sono
-	 *            memorizzate nel CommunicationCenter. In particolare, ogni chat
-	 *            è dotata di una proprietà 'user' che corrisponde all'utente
-	 *            con cui la comunicazione è instaurata
+	 *            user utente con cui è stata avviata la chat
 	 * @returns {HTMLDivElement} elemento che contiene l'area di testo, il campo
 	 *          di immissione testuale e il pulsante di invio del testo
 	 * @author Diego Beraldin
 	 */
-	function createChatElement(chat) {
+	function createChatElement(user) {
 		var element = document.createElement("div");
 		element.id = "divContainerChat";
 		var form = document.createElement("form");
-		form.id = chat.user.id;
+		form.id = user.id;
 		// crea l'area di testo
 		var textArea = document.createElement("textarea");
 		textArea.id = "chatText";
@@ -106,7 +102,7 @@ function CommunicationPanelPresenter() {
 		sendButton.onclick = function() {
 			var text = input.value;
 			textArea.value += (text + "\n");
-			communicationcenter.send(text);
+			communicationcenter.send(user, text);
 		};
 		form.appendChild(sendButton);
 
@@ -131,15 +127,14 @@ function CommunicationPanelPresenter() {
 	 * chat testuale.
 	 * 
 	 * @param {Object}
-	 *            chat chat testuale che deve essere aggiunta al controllo di
-	 *            questo presenter
+	 *            user utente con cui è stata avviata la chat che deve essere
+	 *            aggiunta fra quelle controllate da questo presenter
 	 * @author Diego Beraldin
 	 */
-	this.addChat = function(chat) {
-		var element = createChatElement(chat);
-		var id = chat.user.id;
-		chatElements[id] = element;
-		var item = createChatItem(chat);
+	this.addChat = function(user) {
+		var element = createChatElement(user);
+		chatElements[user.id] = element;
+		var item = createChatItem(user);
 		var ulOpenChat = document.getElementById("ulOpenChat");
 		ulOpenChat.appendChild(item);
 	};
@@ -156,12 +151,11 @@ function CommunicationPanelPresenter() {
 	 * <li> associato alla chat dalla lista delle chiamate
 	 * 
 	 * @param {Object}
-	 *            chat
+	 *            user utente con cui è avviata la chat da rimuovere
 	 * @returns {Boolean}
 	 * @author Diego Beraldin
 	 */
-	this.removeChat = function(chat) {
-		var user = chat.user;
+	this.removeChat = function(user) {
 		delete chatElements[user.id];
 		var ulOpenChat = document.getElementById("ulOpenChat");
 		var liChat = ulOpenChat.getElementById(user.id);
@@ -247,18 +241,6 @@ function CommunicationPanelPresenter() {
 		// creo l'<ul> per le schede delle chat aperte
 		var ulOpenChat = document.createElement('ul');
 		ulOpenChat.id = "ulOpenChat";
-
-		// crea gli HTMLDivElement con il testo della chat
-		for ( var chat in communicationCenter.openChat) {
-			// appende l'elemento all'array associativo chatElements
-			chatElements[chat.id] = createChatElement(chat);
-		}
-
-		// popola la lista delle chat
-		for ( var chat in communicationcenter.openChat) {
-			var item = createChatItem(chat);
-			ulOpenChat.appendChild(item);
-		}
 
 		// creo il div per la visualizzazione della chat selezionata.
 		// var divContainerChat = document.createElement('div');

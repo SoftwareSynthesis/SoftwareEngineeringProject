@@ -7,29 +7,51 @@
  *            url URL della servlet con cui il presenter deve comunicare
  * @author Diego Beraldin
  */
-function LoginPanelPresenter(url, ext) {
+function LoginPanelPresenter() {
 	/***************************************************************************
 	 * VARIABILI PRIVATE
 	 **************************************************************************/
-	// url della servlet che deve gestire il login
-	var servletURL = url;
-	var operations = new Array("Authentication", "Close", "GetSecretQuestion",
-			"DoSecretAnswer", "DoRegistration");
-	var suffix = (ext == null ? "" : ext);
 	/*
-	 * 0 = LoginAutentication 1 = LoginClose 2 = LoginGetSecretQuestion 3 =
-	 * LoginDoSecretAnswer 4 = LoginDoRegistration
+	 * 0 = LoginAutentication
+	 * 1 = LoginClose
+	 * 2 = LoginGetSecretQuestion
+	 * 3 = LoginDoSecretAnswer
+	 * 4 = LoginDoRegistration
 	 */
 
 	// elemento controllato da questo presenter
 	var element = document.getElementById("LoginPanel");
-	// questo è leggermente esoterico
-	// TODO andrebbe eliminato
-	var self = this;
+	// array degli URL  delle servlet che sono utilizzate qui dentro
+	var servlets = new Array();
+	// file di configurazione che contiene gli URL delle servlet
+	// TODO da cambiare in fase di test
+	var configurationFile = "../WebContent/Conf/servletlocationtest.xml";
+	//inizializza gli URL delle servlet
+	getServletURLs();
 
 	/***************************************************************************
 	 * METODI PRIVATI
 	 **************************************************************************/
+	/**
+	 * Configura gli URL delle servlet da interrogare leggendoli dal file di configurazione
+	 */
+	function getServletURLs() {
+		var configurationRequest = new XMLHttpRequest();
+		configurationRequest.open("POST", configurationFile, false);
+		configurationRequest.send();
+		var XMLDocument = configurationRequest.responseXML;
+		var baseURL = XMLDocument.getElementsByTagName("baseURL")[0].childNodes[0].data;
+		
+		var names = Array();
+		names.push(XMLDocument.getElementById("authentication").childNodes[0].data);;
+		names.push(XMLDocument.getElementById("question").childNodes[0].data);
+		names.push(XMLDocument.getElementById("answer").childNodes[0].data);
+		
+		for (var i in names) {
+			servlets.push(baseURL + names[i]);
+		}
+	}
+	
 	/**
 	 * Testa quanto ricevuto dal server e, in caso di login avvenuto
 	 * correttamente reindirizza il browser nella pagina finale dopo aver
@@ -97,7 +119,7 @@ function LoginPanelPresenter(url, ext) {
 	function getSecretQuestion() {
 		var question = "";
 		var request = new XMLHttpRequest();
-		request.open("POST", servletURL + operations[2] + suffix, false);
+		request.open("POST", servlets[1], false);
 		request.setRequestHeader("Content-type",
 				"application/x-www-form-urlencoded");
 		request.send();
@@ -120,10 +142,10 @@ function LoginPanelPresenter(url, ext) {
 	 */
 	this.hasAnsweredCorrectly = function(username, answer) {
 		var request = new XMLHttpRequest();
-		request.open("POST", servletURL + operations[3] + suffix, false);
+		request.open("POST", servlets[2], false);
 		request.setRequestHeader("Content-type",
 				"application/x-www-form-urlencoded");
-		request.send("answer=" + encodeURIComponent(answer));
+		request.send("username=" + encodeURIComponent(username) + "&answer=" + encodeURIComponent(answer));
 		return JSON.parse(request.responseText);
 	};
 
@@ -232,11 +254,11 @@ function LoginPanelPresenter(url, ext) {
 				testCredentials(request.responseText);
 			}
 		};
-		request.open("POST", servletURL + operations[0] + suffix, true);
+		request.open("POST", servlets[0], true);
 		request.setRequestHeader("Content-type",
 				"application/x-www-form-urlencoded");
 		var querystring = "username=" + encodeURIComponent(data.username)
-		+ "&password=" + encodeURIComponent(data.password);
+				+ "&password=" + encodeURIComponent(data.password);
 		request.send(querystring);
 		return querystring;
 	};
