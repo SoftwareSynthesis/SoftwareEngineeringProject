@@ -1534,6 +1534,34 @@ La sotto-architettura \texttt{clientpresenter}, a livello di definizione di prod
 			\begin{verbatim}
 				(+, -, #) nome_atributo: Tipo[]
 			\end{verbatim}
+			
+			\item Contatto: se l'attributo è un contatto, nel documento sarà precisato come:
+			
+			\begin{verbatim}
+				(+, -, #) nome_atributo: Object(contact)
+			\end{verbatim}
+			Tale oggetto conterrà i seguenti campi dati:
+			\begin{itemize}
+			\item name;
+			\item surname;
+			\item email;
+			\item id;
+			\item picturePath;
+			\item state;
+			\item blocked.
+			\end{itemize}
+
+\item Gruppo: se l'attributo è un gruppo, nel documento sarà precisato come:
+			
+			\begin{verbatim}
+				(+, -, #) nome_atributo: Object(group)
+			\end{verbatim}
+			Tale oggetto conterrà i seguenti campi dati:
+			\begin{itemize}
+			\item name;
+			\item id;
+			\item contacts (rappresentato come un array di Object(contact).
+			\end{itemize}
 		\end{itemize}
 	\item{\scshape\bfseries Metodi}: la sintassi usata dal programmatore per definire un metodo in \textit{JavaScript} dovrà essere la seguente:
 		\begin{verbatim}
@@ -1559,8 +1587,10 @@ Nessuna relazione d'uso evidenziata.
 
   \item{\memberdata{-- element: DOM\_node}}\\
   Attributo che definisce il contenuto del nodo DOM inerente alla rappresentazione della rubrica. Nello specifico tale nodo corrisponde ad un \texttt{div} con id \texttt{AddressBookPanel}.
-  \item{\memberdata{-- urServlet: String}}\\
+  \item{\memberdata{-- urlServlet: String}}\\
   Attributo che definisce l'URL dal quale è richiamabile la \textit{servlet} usata per interagire con l'apparato server del sistema.
+  \item{\memberdata{-- suffix: String}}\\
+Suffisso da concatenare all'url per richiamare le servlet appropriate.  
   \item{\memberdata{-- contacts: Array()}}\\
   Attributo che definisce la lista degli utenti presenti nella rubrica dell'utente che ha effettuato l'autenticazione.
    \item{\memberdata{-- groups: Array()}}\\
@@ -1596,8 +1626,8 @@ Nessuna relazione d'uso evidenziata.
 
 Quindi dopo aver creato questi elementi il metodo procede inserendo nel DOM il ``sotto-albero'' cosi creato.
 
-	\item{\method{+ getAddressBookContacts(): void}}\\
-Metodo che recupera i contatti e i gruppi della propria rubrica dal server usando la tecnologia AJAX. Il metodo crea una variabile contenente un istanza \texttt{XMLHttpRequest()}. Quindi con metodo \inglese{POST} inoltra la richiesta alla \inglese{servlet} il cui indirizzo è generato dalla concatenazione di \memberdata{urlServlet} con \memberdata{operation[1]} seguito dal termine ``Servlet''. Quindi elabora i dati ottenuti mediante il metodo \texttt{JSON.parse()} e li salva negli array \memberdata{contacts} e \memberdata{groups}.
+	\item{\method{- getAddressBookContacts(): void}}\\
+Metodo che recupera i contatti e i gruppi della propria rubrica dal server usando la tecnologia AJAX. Il metodo crea una variabile contenente un istanza \texttt{XMLHttpRequest()}. Quindi con metodo \inglese{POST} inoltra la richiesta alla \inglese{servlet} il cui indirizzo è generato dalla concatenazione di \memberdata{urlServlet} con \memberdata{operation[1]}. Elabora quindi i dati ottenuti mediante il metodo \texttt{JSON.parse()} e li salva negli array \memberdata{contacts} e \memberdata{groups}.
 	
 	\item{\method{+ setup(): void}}\\
 	Inserisce i contatti estratti dal server all'interno della lista \texttt{AddressBookList} all'interno di \texttt{AddressBookPanel}.
@@ -1607,35 +1637,39 @@ Metodo che recupera i contatti e i gruppi della propria rubrica dal server usand
 	
 	\item{\method{-- addListItem(contact: String[]): void}}\\
 
-Metodo richiamato da \method{dysplayContactList()} per visualizzare i contatti presenti all'array \memberdata{contacts} (passato come parametro). Il metodo crea le variabili contenenti i dati del contatto da attribuire al tag di markup \texttt{li}. Tali variabili sono quelle tipiche di un oggetti \classname{JSUserData} (nome, cognome, email, status e immagine).
+Metodo richiamato da \method{displayContactList()} per visualizzare i contatti presenti all'array \memberdata{contacts} (passato come parametro). Il metodo crea le variabili contenenti i dati del contatto da attribuire al tag di markup \texttt{li}. Tali variabili sono quelle tipiche di un oggetto \classname{JSUserData} (nome, cognome, email, status e immagine).
+
+
+\item{\method{-- addOptionToSelect(select: DOM\_element, value: String, text: String): void}}\\
+Metodo utilizzato per aggiungere un'opzione all'elemento \memberdata{select} ricevuto come parametro dal metodo. Ha il compito di creare un \texttt{TextNode} ed appenderlo alla \memberdata{select}.
 
 	
-	\item{\method{+ addContact(idContact: int): boolean}}\\
-	Metodo per l'aggiunta di un contatto alla rubrica, riceve come parametro una stringa che definisce l'\texttt{id} dell'utente da inserire nella propria rubrica. 
+	\item{\method{+ addContact(contact: Object(contact)): boolean}}\\
+	Metodo per l'aggiunta di un contatto alla rubrica, riceve come parametro un oggetto di tipo contatto da inserire nella propria rubrica. 
 Per assicurarsi di non introdurre ridondanza ed aggiungere un contatto già presente, il metodo esegue due controlli: uno lato client e uno lato server. 
-Il controllo lato client, si scorre la lista \memberdata{contact} alla ricerca di un \texttt{id} che fa \inglese{match} con \texttt{idContact}. Nel caso già presente il metodo termina ritornando false. Per eseguire il controllo lato server il metodo contatta il server mediante la \inglese{servlet} \texttt{AddressBookDoAddContatctServlet}. Questa verificherà se l'utente avente \texttt{id} idContact è già presente nella rubrica, nel caso non lo sia  si occuperà di creare la nuova istanza di \texttt{AddressBookEntry} e la registrerà nel database, in caso contrario non esegue operazioni. 
+Il controllo lato client, si scorre la lista \memberdata{contact} alla ricerca di un \texttt{contact} che fa \inglese{match} con il nuovo contatto. Nel caso già presente il metodo termina ritornando false. Per eseguire il controllo lato server il metodo contatta il server mediante la \inglese{servlet} \texttt{AddressBookDoAddContatctServlet}. Questa verificherà se l'utente avente \texttt{id} contact è già presente nella rubrica, nel caso non lo sia  si occuperà di creare la nuova istanza di \texttt{AddressBookEntry} e la registrerà nel database, in caso contrario non esegue operazioni. 
 La chiamata a servlet ritorna un valore booleano che sarà \texttt{true} se l'inserimento ha avuto successo, \texttt{false} altrimenti. 
-Se l'inserimento ha avuto successo il flusso principale prosegue eseguendo l'aggiornamento della rubrica in locale tramite la chiamata a metodo \method{getAddressBookContacts()} seguita da \method{setup()}. Il metodo termina infine ritornando \texttt{true} se è stato aggiunto l'utente, \texttt{false} altrimenti.
+Se l'inserimento ha avuto successo il flusso principale prosegue eseguendo l'aggiornamento della rubrica in locale tramite la chiamata a metodo \method{setup()}. Il metodo termina infine ritornando \texttt{true} se è stato aggiunto l'utente, altrimenti lancia un'eccezione.
 
-	\item{\method{+ deleteContact(idContact: int): boolean}}\\
+	\item{\method{+ removeContact(contact: Obj): boolean}}\\
 Metodo il cui funzionamento è analogo a quello precedentemente definito, si occupa di eliminare un contatto conoscendone l'\texttt{id} passato per parametro d'ingresso. Il flusso principale esegue due controlli per verificare la presenza dell'utente nella rubrica (analogamente a quanto visto nel caso precedente). 
-Dopo tale verifica, se il contatto è realmente presente nella rubrica la \inglese{servlet} \texttt{AddressBookDoRemoveContactServlet} avrà eseguito la cancellazione come conseguenza al match effettuato in fase di verifica, nel caso il metodo richiama \method{getAddressBookContacts()} seguito da \method{setup()} per rieseguire l'aggiornamento della rubrica. Il metodo ritorna infine \texttt{true} se effettivamente il contatto era presente ed è stato eliminato, \texttt{false} altrimenti.
+Dopo tale verifica, se il contatto è realmente presente nella rubrica la \inglese{servlet} \texttt{AddressBookDoRemoveContactServlet} avrà eseguito la cancellazione come conseguenza al match effettuato in fase di verifica, nel caso il metodo richiama \method{setup()} per rieseguire l'aggiornamento della rubrica. Il metodo ritorna infine \texttt{true} se effettivamente il contatto era presente ed è stato eliminato altrimenti lancia un'eccezione.
 
 	\item{\method{+ addGroup(name: String): boolean}}\\
-	Metodo per l'aggiunta di un nuovo gruppo nella rubrica, permette l'aggiunta di gruppi con nomi duplicati (ossia nomi di gruppi già presenti nella rubrica). Il flusso principale richiama la \inglese{servlet} \texttt{AddressBookDoInsertInGroupServlet} con il nome del gruppo da creare, quindi richiama prima \method{getAddressBookContacts()} seguito da \method{setup()} per aggiornare la rubrica in locale. Il metodo ritorna infine un \inglese{feedback} booleano per dare notifica sull'esito dell'operazione: \texttt{true} se è stato creato il nuovo gruppo, \texttt{false} altrimenti.
+	Metodo per l'aggiunta di un nuovo gruppo nella rubrica, permette l'aggiunta di gruppi con nomi duplicati (ossia nomi di gruppi già presenti nella rubrica). Il flusso principale richiama la \inglese{servlet} \texttt{AddressBookDoCreateGroupServlet} con il nome del gruppo da creare. Successivamente, se la \inglese{servlet} ha dato \method{setup()} esito positivo, viene richiamata il metodo setup che aggiorna la rubrica locale, altrimenti lancia un'eccezione.
 	
 	\item{\method{+ deleteGroup(idGroup: int): boolean}}\\
-	Metodo per l'eliminazione di un nuovo gruppo presente nella rubrica, riceve come parametro d'ingresso l'\texttt{id} del gruppo da eliminare. Il flusso principale richiama la \inglese{servlet} \texttt{AddressBookDoRemoveFromGroup} passandogli l'\texttt{id} del gruppo candidato all'eliminazione. Quindi, se la \inglese{servlet} notifica l'effettiva esistenza di un gruppo con tale \texttt{id}, essa si occupa dell'eliminazione e il flusso principale ritorna al metodo \method{deleteGroup} che richiama \method{getAddressBookContacts()} seguito da \method{setup()} per aggiornare la rubrica in locale. Il metodo ritorna un \inglese{feedback} booleano per dare notifica sull'esito dell'operazione: \texttt{true} se è stato creato il nuovo gruppo, \texttt{false} altrimenti.
+	Metodo per l'eliminazione di un nuovo gruppo presente nella rubrica, riceve come parametro d'ingresso l'\texttt{id} del gruppo da eliminare. Il flusso principale richiama la \inglese{servlet} \texttt{AddressBookDoRemoveGroupServlet} passandogli l'\texttt{id} del gruppo candidato all'eliminazione. Quindi, se la \inglese{servlet} notifica l'effettiva esistenza di un gruppo con tale \texttt{id}, essa si occupa dell'eliminazione e il flusso principale prosegue richiamando il metodo setup se la eliminazione ha avuto buon fine, altrimenti lancia un'eccezione.
 	
-	\item{\method{+ addContactInGroup(idContact: int, name: String): boolean}}\\
-	Metodo per l'aggiunta di un contatto in un gruppo ben definito, riceve come parametro d'ingresso il nome del gruppo e l'\texttt{id} del contatto da aggiungervi. 
-Il metodo richiama da prima \method{contactExistInGroup}, successivamente il flusso principale richiama la \inglese{servlet} \texttt{AddressBookDoInsertInGroupServlet} passandogli i parametri d'ingresso, quindi se la \inglese{servlet} notifica l'effettiva esistenza di un gruppo con il nome ricevuto, essa si occupa di aggiungervi il contatto e il flusso principale ritorna al metodo \method{addContactInGroup} che richiama \method{getAddressBookContacts()} seguito da  \method{setup()} per aggiornare la rubrica in locale. Il metodo ritorna infine un \inglese{feedback} booleano per dare notifica sull'esito dell'operazione: \texttt{true} se è stato creato il nuovo gruppo, \texttt{false} altrimenti.	
+	\item{\method{+ addContactInGroup(contact: Object(contact), group: Object(contact)): boolean}}\\
+	Metodo per l'aggiunta di un contatto in un gruppo ben definito, riceve come parametro d'ingresso il contatto e il gruppo.
+Il metodo richiama da prima \method{contactExistInGroup}, successivamente il flusso principale richiama la \inglese{servlet} \texttt{AddressBookDoInsertInGroupServlet} passandogli i parametri d'ingresso, quindi se la \inglese{servlet} notifica l'effettiva esistenza di un gruppo con il nome ricevuto, essa si occupa di aggiungervi il contatto e il flusso principale ritorna al metodo \method{setup()} per aggiornare la rubrica in locale. Il metodo ritorna infine un \inglese{feedback} booleano a true per dare notifica se l'operazione ha avuto buon fine, altrimenti rilancia un'eccezione.
 	
-	\item{\method{+ deleteContactFromGroup(idContact: int, name: String): boolean}}\\
-	Metodo per l'eliminazione di un contatto presente in un gruppo, riceve come parametro d'ingresso il nome del gruppo su cui effettuare la ricerca del contatto da eliminare e l'\texttt{id} di tale contatto. 
-Il metodo richiama da prima \method{contactExistInGroup}, poi Il flusso principale richiama la \inglese{servlet} \texttt{AddressBookDoRemoveFromGroupServlet} passandogli i parametri d'ingresso, la \inglese{servlet} notifica l'effettiva esistenza di un gruppo con il nome ricevuto che contiene il contatto candidato all'eliminazione, essa si occupa dell'eliminazione e il flusso principale ritorna al metodo \method{deleteContactFromGroup} che richiama \method{getAddressBookContacts()} seguito da  \method{setup()} per aggiornare la rubrica in locale. Il metodo ritorna infine un \inglese{feedback} booleano per dare notifica sull'esito dell'operazione: \texttt{true} se è stato creato il nuovo gruppo, \texttt{false} altrimenti.
+	\item{\method{+ deleteContactFromGroup(contact: Object(contact), group: Object(group)): boolean}}\\
+	Metodo per l'eliminazione di un contatto presente in un gruppo, riceve come parametro d'ingresso il gruppo su cui effettuare la ricerca del contatto da eliminare e il contatto. 
+Il metodo richiama da prima \method{contactExistInGroup}, poi Il flusso principale richiama la \inglese{servlet} \texttt{AddressBookDoRemoveFromGroupServlet} passandogli i parametri d'ingresso, la \inglese{servlet} notifica l'effettiva esistenza di un gruppo con il nome ricevuto che contiene il contatto candidato all'eliminazione, essa si occupa dell'eliminazione e il flusso principale ritorna al metodo \method{setup()} per aggiornare la rubrica in locale. Il metodo ritorna infine un \inglese{feedback} booleano per dare notifica sull'esito dell'operazione: \texttt{true} se è stato creato il nuovo gruppo, altrimenti lancia un'eccezione
 	
-	\item{\method{+ contactExistInGroup(idContact: int, idGroup: int): boolean}}\\
+	\item{\method{- contactExistInGroup(contact: Object(contact), group: Object(group)): boolean}}\\
 Metodo che verifica l'esistenza di un contato in un determinato gruppo. Il metodo restituisce un feedback booleano per confermare o meno l'esistenza dell'utente ricercato nel gruppo designato.
 
 \item{\method{+ applyFilterByString(param: String): array()}}\\
@@ -1690,7 +1724,7 @@ Tale server ha il compito di sbloccare il contatto contact. Quindi il metodo ter
 \classsection{LoginPanelPresenter}
 
 \subsubsection*{Funzione}
-Presenter incaricato di gestire il pannello di \textit{login}. prende in carica i dati inseriti dall'utente (username e password) passandoli al server per eseguire l'autenticazione. La \inglese{servlet} usata a tale scopo è \texttt{LoginManager}.
+Presenter incaricato di gestire il pannello di \textit{login}. Prende in carica i dati inseriti dall'utente (username e password) passandoli al server per eseguire l'autenticazione. La \inglese{servlet} usata a tale scopo è \texttt{LoginManager}.
 
 Il presenter si occupa anche di fornire delle funzionalità per il recupero della password.
 
