@@ -10,6 +10,33 @@ function GroupPanelPresenter(url) {
     var servletURL = url;
 
     /**********************************************************
+     FUNZIONI PRIVATE
+     ***********************************************************/
+    /**
+     * Aggiunge un gruppo ad una lista
+     *
+     * @param {HTMLUListElement} list
+     * @param {Object} group
+     * @author Riccardo Tresoldi
+     */
+    function addListItem(list, group) {
+        var item = document.createElement("li");
+        item.id = group.id;
+        // costruisce il nodo
+        var nameSpan=document.createElement("span");
+        nameSpan.appendChild(document.createTextNode(group.name));
+        // visualizza sempre l'email
+        var deleteImg = document.createElement('img');
+        deleteImg.src = "";
+        // aggiunge i sottonodi al 'li' appena creato
+        item.appendChild(nameSpan);
+        item.appendChild(deleteImg);
+        
+        // aggiunge il 'li' alla lista ricevuta come parametro
+        list.appendChild(item);
+    }
+
+    /**********************************************************
      METODI PUBBLICI
      ***********************************************************/
     /**
@@ -18,7 +45,7 @@ function GroupPanelPresenter(url) {
      *
      * @returns {HTMLDivElement} il pannello dello storico delle chiamate
      * inizializzato
-     * 
+     *
      * @author Riccardo Tresoldi
      */
     this.createPanel = function() {
@@ -41,5 +68,4 @@ function GroupPanelPresenter(url) {
             addListItem(groupList, g);
         }
     };
-
 }
