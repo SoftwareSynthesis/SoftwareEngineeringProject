@@ -34,7 +34,8 @@ function ToolsPanelPresenter() {
         // contenuto del '<div>' delle funzionalità
         var divFunction = document.createElement("div");
         var ulFunction = document.createElement("ul");
-        //select.setAttribute("id", "ToolsList");
+        ulFunction.id="ToolsList";
+        
         // funzione messaggi
         var liAnswering = document.createElement("li");
         var buttonAnswering = document.createElement("button");
