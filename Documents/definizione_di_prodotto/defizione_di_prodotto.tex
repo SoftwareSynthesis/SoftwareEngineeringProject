@@ -820,6 +820,78 @@ Servlet cha ha il compito di aggiungere alla rubrica un nuovo contatto.
 	
 \end{description}
 
+%TODO da verificare
+
+\classsection{AddressBookDoInsertInGroupServlet}
+
+\subsubsection*{Funzione}
+\inglese{Servlet} richiamata dal client per inserire un utente nella propria rubrica, all'interno di un gruppo ben determinato.
+
+\subsubsection*{Relazioni d'uso}
+
+\begin{itemize}
+	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
+	\item \texttt{javax.servlet.ServletException}: eccezione rilancibile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{LoginManager}.
+	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
+	\item \texttt{javax.security.auth.login.LoginContext}: classe usata in \method{doPost()} per eseguite la logout dal sistema.
+	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la servlet (inoltra i dati in uscita dalla chiamata a servlet).
+	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
+	\item \classname{abook.IAddressBookEntry}:Interfaccia che definisce il comportamento di una generica \inglese{entry} della rubrica utente. La classe che qui andiamo a descrivere crea istanze di tipo \classname{abook.IAddressBookEntry}.
+	\item \classname{abook.IGroup}:
+Interfaccia che definisce il comportamento di un gruppo generico. La classe che qui andiamo a descrivere crea istanze di tipo \classname{abook.IGroup}.
+	\item \classname{abook.IUserData}:Interfaccia che definisce il comportamento di un utente generico. La classe che qui andiamo a descrivere crea istanze di tipo \classname{abook.IUserData}.
+	\item \classname{abook.AddressBookEntry}: classe usata per comunicare tramite Hibernate con la tabella AddressBookEntry della base di dati.
+	\item \classname{dao.GroupDAO}: classe usata per comunicare tramite Hibernate con la tabella Group della base di dati.
+	\item \classname{dao.UserDataDAO}: classe usata per comunicare tramite Hibernate con la tabella UserData della base di dati.
+\end{itemize}
+
+\subsubsection*{Attributi}
+
+\begin{itemize}
+	\item{\memberdata{\underline{-- \{frozen\} serialVersionUID: long}}}
+	Attributo contenente l'id per la serializzazione dei dati. Il valore di creazione deve essere \texttt{10015L}.
+\end{itemize}
+
+\subsubsection*{Metodi}
+
+\begin{description}
+	\item{\method{+ AddressBookDoInsertInGroupServlet()}}\\
+	Costruttore pubblico della \inglese{servlet}. Richiama il costruttore della classe padre (chiamata a \texttt{super}).
+	
+	\item{\method{\# doGet(request HttpServletRequest, response HttpServletResponse): void}}\\
+	Metodo usato per eseguire la richiesta di aggiungere un contatto in un gruppo (eseguito in risposta ad una richiesta HTTP con metodo \texttt{GET}). Poiché intendiamo gestire in modo univoco una richiesta a tale servlet (indifferentemente dalla tipologia d'invio dati) il metodo reindirizza il flusso principale al metodo \method{doPost()}.
+	
+	\item{\method{\# doPost(request HttpServletRequest, response HttpServletResponse): void}}\\	
+	Metodo usato per eseguire la richiesta di aggiungere un contatto in un gruppo (eseguito in risposta ad una richiesta HTTP con metodo \texttt{POST}). Nell'ordine proposto, devono essere eseguite le seguenti operazioni:
+	\begin{itemize}
+		\item creazione di un istanza di \classname{GroupDAO} denominata groupDAO;
+		\item creazione di una sessione \texttt{HttpSession} avente nome session;
+		\item creazione degli oggetti rappresentanti la realtà della rubrica su cui opero: un \texttt{IAddressBookEntry} entry, \texttt{IGroup} group, \texttt{IUserData} user e \texttt{IUserData} friend;
+		\item creazione di due identificativi di tipo long: contactId e groupId.
+		\item creazione di un \texttt{PrintWriter} denominato writer e di una stringa result usata con lo scopo di memorizzare il contenuto testuale da scrivere sul writer come messaggio di notifica della servlet;
+		\item creazione di un istanza \texttt{UserDataDAO} userDAO.
+	\end{itemize}
+	Dopo questa fase di creazione delle variabili il metodo deve definire un costrutto try catch. All'interno del blocco catch dovrà essere predisposta la memorizzazione della parola ``\inglese{false}''. Passando invece alla definizione del blocco try, al suo interno si dovranno predisporre le seguenti istruzioni:
+	\begin{itemize}
+		\item inizializzazione di session al valore ottenuto da una chiamata:\\
+		\verb|request.getSession(false)|
+		\item istanziazione di user a partire dal valore contenuto nella request. Per la precisione si dovrà usare un istruzione del tipo:\\
+		\verb|session.getAttribute("user")|
+		\item con una procedura analoga alla precedente definisco il contenuto di contactID. Usare \verb|getParameter("contactId")| a partire dall'oggetto request;
+		\item istruzione analoga alla precedente usata per istaziare il contenuto di groupId (nome del parametro da ottenere: groupId);
+		\item inizializzare friend con una chiamata \method{getById} passando come parametro contactId.
+		\item inizializzare group con una chiamata \method{getById} passando come parametro groupId.
+		\item il metodo controlla se group!=null. Nel caso il flusso principale prosegue come segue: inizializzazione di entry e modifica dei dati stessi di entry mediante le chiamate a metodo dei vari ``set'' che la costituiscono. Nello specifico si intende impostare l'istanza in modo che definisca un contatto in rubrica non bloccato e registrato nel gruppo group. Il possessore sarà user e il contatto registrato friend. Quindi viene eseguito l'update tramite una chiamata:\\
+		\verb|userDAO.update(user)|
+		result viene impostato a true e il programma esce dal costrutto condizionale.
+		\item se group non era diverso da null allora si entra nel ramo else del costrutto condizionale già citato. Result viene impostato a false e il metodo esce dal ramo else.
+	\end{itemize}
+	Il metodo termina scrivendo su writer il contenuto di result.
+	
+\end{description}
+
 
 \subsection{Package org.softwaresynthesis.mytalk.server.call}\label{sec:call}
 
