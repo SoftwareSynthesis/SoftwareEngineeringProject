@@ -9,7 +9,7 @@ module ("LoginPanelPresenterTest", {
     	
     	communicationcenter = {my: null};
     	mediator = {buildUI: function() {}};
-    	configurationFile = "../WebContent/Conf/servletlocationtest.xml";
+    	configurationFile = "/WebContent/Conf/servletlocationtest.xml";
     	
     	tester = new LoginPanelPresenter("php_stubs/Login", ".php");
 
@@ -84,16 +84,19 @@ test("testInitialize()", function () {
 	var loginButton = liButtons.childNodes[0];
 	var registerButton = liButtons.childNodes[1];
 	var retrievePasswordButton = liButtons.childNodes[2];
-	equal(loginButton.type, "button", "il pulsante di login è corretto");
+	equal(loginButton.nodeName, "BUTTON", "il pulsante di login è corretto");
 	i++;
+	equal(loginButton.type, "submit", "tipo del pulsante di login corretto"); i++;
 	equal(loginButton.innerHTML, "Login", "testo del pulsante di login è corretto");
 	i++;
-	equal(registerButton.type, "button", "il pulsante di registrazione è corretto");
+	equal(registerButton.nodeName, "BUTTON", "il pulsante di registrazione è corretto");
 	i++;
+	equal(registerButton.type, "submit", "tipo del pulsante di registrazione corretto"); i++;
 	equal(registerButton.innerHTML, "Registrazione", "il testo del pulsante di registrazione è corretto");
 	i++;
-	equal(retrievePasswordButton.type, "button", "il tipo del pulsante di recupero password è corretto");
+	equal(retrievePasswordButton.nodeName, "BUTTON", "il tipo del pulsante di recupero password è corretto");
 	i++;
+	equal(retrievePasswordButton.type, "submit", "tipo del pulsante di recupero password corretto"); i++;
 	equal(retrievePasswordButton.innerHTML, "Recupera password", "il testo del pulsante di recupero password è corretto");
 	i++;
 	
