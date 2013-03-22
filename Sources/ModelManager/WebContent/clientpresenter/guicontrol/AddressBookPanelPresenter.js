@@ -190,10 +190,12 @@ function AddressBookPanelPresenter(url, ext) {
         var divFilter = document.createElement('div');
         var divSort = document.createElement('div');
         var divList = document.createElement('div');
+		var divGroup = document.createElement('div');
         divFilter.id = "divFilter";
         divSort.id = "divSort";
         divList.id = "divList";
-
+		divGroup.id = "divGroup";
+		
         // creo contenuto divFilter
         var inputText = document.createElement('input');
         inputText.type = "text";
@@ -226,12 +228,15 @@ function AddressBookPanelPresenter(url, ext) {
         divFilter.appendChild(inputButton);
         divSort.appendChild(selectSort);
         divList.appendChild(ul);
+		divGroup.appendChild(selectGroup);
+	
 
         //appendo il sottoalbero al DOM
         element.innerHTML = "";
         element.appendChild(divFilter);
         element.appendChild(divSort);
         element.appendChild(divList);
+		element.appendChild(divGroup);
 
         // visualizza i contatti nel pannello
         this.setup();
