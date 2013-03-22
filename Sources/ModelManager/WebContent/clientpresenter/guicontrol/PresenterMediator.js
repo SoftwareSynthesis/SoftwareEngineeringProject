@@ -272,6 +272,20 @@ function PresenterMediator() {
     };
 
     /**
+     * Funzione richiamata che comunica all'AddressBookPanelPresenter di cercare
+     * i gruppi a cui appartiene un utente nella propria rubrica
+     *
+     * @author Riccardo Tresoldi
+     * @param {Object} contact contatto di cui ricercare i gruppi in cui è
+     * inserito
+     * @return {Object} array associativo che presenta la lista dei gruppi in cui
+     * è presente il contatto
+     */
+    this.getGroupsWhereContactsIs = function(contact) {
+        return presenters["addressbook"].getGroupsWhereContactsIs(contact);
+    };
+
+    /**
      * Provoca la visualizzazione del pannello per i risultati di una ricerca
      * fra gli utenti del sistema (a.k.a. SearchResultPanel) nel pannello
      * principale
