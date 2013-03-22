@@ -1715,9 +1715,9 @@ Nel caso invece in cui venga inoltrato un nuovo messaggio alla segreteria del cl
 \item \texttt{guicontrol.AccountSettingsPanelPresenter}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Si tratta del \inglese{presenter} richiamato dall'elemento grafico corrispondente al pannello \texttt{org.softwaresynthesis.mytalk.clientview.AddressBookPanel} per la gestione dei dati relativi all'utente associato al client.
+Si tratta del \inglese{presenter} richiamato dall'elemento grafico corrispondente al pannello \texttt{org.softwaresynthesis.mytalk.clientview.AccountSettingPanel} per la gestione dei dati relativi all'utente associato al client.
 
-Per questo motivo, l'oggetto \texttt{AccountSettingsPanelPresenter} ha il duplice compito di interrogare il server tramite il componente \textsf{Façade del server}per procurarsi i dati da visualizzare qualora essi non fossero disponibili sul client, nonché di mettere a disposizione per la vista le funzioni di \inglese{callback} che comportano la modifica di questi stessi dati. 
+Per questo motivo, l'oggetto \texttt{AccountSettingsPanelPresenter} ha il compito di mettere a disposizione per la vista le funzioni di \inglese{callback} che comportano la modifica di questi stessi dati. 
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1731,7 +1731,8 @@ Per questo motivo, l'oggetto \texttt{AccountSettingsPanelPresenter} ha il duplic
 	\item{\scshape\bfseries Descrizione:}\\
 Tale \inglese{presenter} viene richiamato dall'elemento grafico corrispondente al pannello della rubrica (\texttt{org.softwaresynthesis.mytalk.clientview.AddressBookPanel}) e contiene la risposta a eventi quali la selezione di un contatto dalla rubrica da parte dell'utente. Contiene inoltre un'operazione di \inglese{refresh} che visualizza una lista di contatti ricevuta in input in forma grafica sulla UI\@.
 
-Il \inglese{presenter} in questione rende inoltre possibile avviare una ricerca fra gli utenti registrati nel sistema nonché rilevare che l'operazione di ricerca è conclusa (e conseguentemente visualizzare nuovamente la rubrica). Inoltre comprende anche le funzioni di \inglese{callback} per alcune operazioni di amministrazione sulla rubrica, come la creazione e l'eliminazione di un gruppo.
+Il \inglese{presenter} in questione rende inoltre possibile avviare una ricerca fra gli utenti registrati nel sistema nonché rilevare che l'operazione di ricerca è conclusa (e conseguentemente visualizzare nuovamente la rubrica). 
+
 
 I dati corrispondenti alla rubrica, ovvero le corrispondenti istanze di classi definite in \textsf{Rappresentazione dati}, se non sono presenti sul client devono essere recuperati dal server ed è responsabilità di questa classe contattare il \textsf{Façade del Server} al fine di ottenere le informazioni necessarie.
 
@@ -1781,7 +1782,7 @@ Tale \inglese{presenter} ha la responsabilità di controllare l'aggiornamento de
 
 Poiché, inoltre, a partire da tale componente grafico è possibile avviare una comunicazione, tale classe comprende al proprio interno anche le funzioni che devono essere richiamate in risposta all'azione da parte dell'utente di dare avvio a una comunicazione.
 
-Poiché da \texttt{org.softwaresynthesis.mytalk.clientview.ContactPanel} è possibile anche svolgere alcune attività di amministrazione della rubrica utente, in questo \inglese{presenter} sono presenti anche le funzioni di \inglese{callback} necessarie per l'aggiunta e la rimozione di un contatto particolare ad un gruppo, nonché per l'aggiunta di contatto alla rubrica se il suo profilo è stato aperto a seguito di una ricerca fra gli utenti registrati nel sistema.
+Poiché da \texttt{org.softwaresynthesis.mytalk.clientview.ContactPanel} è possibile anche svolgere alcune attività di amministrazione della rubrica utente, in questo \inglese{presenter} sono presenti anche le funzioni di \inglese{callback} necessarie per l'aggiunta e la rimozione di un contatto particolare ad un gruppo, bloccare o sbloccare tale contatto, nonché per l'aggiunta dello stesso alla rubrica se il suo profilo è stato aperto a seguito di una ricerca fra gli utenti registrati nel sistema.
 
 Dal momento che, infine, tali operazioni di amministrazione hanno un effetto sulle entità del modello dei dati che risiedono sul server, tale classe ha la responsabilità di notificare gli aggiornamenti sul server al fine di mantenere la consistenza delle informazioni.
 
@@ -1792,19 +1793,34 @@ Dal momento che, infine, tali operazioni di amministrazione hanno un effetto sul
 	\end{itemize}
 \end{description}
 
-\item \texttt{guicontrol.LanguagePanelPresenter}
+\item \texttt{guicontrol.GroupPanelPresenter}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Il \inglese{presenter} in questione ha il compito di popolare il contenuto dell'elemento grafico corrispondente al pannello di configurazione della UI e, in particolare, della lingua in cui questa viene visualizzata.
-
-Contiene un'unica operazione di \inglese{callback} per la grafica, che riceve la selezione dell'utente e propaga le modifiche a tutti i \inglese{presenter} associati alle componenti grafiche. Non ammette invece alcuna operazione di aggiornamento della GUI in quanto gli elementi da visualizzare sono noti al momento dell'inizializzazione e non subiscono modifiche ulteriori a tempo di esecuzione.
+Tale \inglese{presenter} ha la responsabilità di controllare l'aggiornamento della sezione dell'interfaccia grafica incaricata all'amministrazione dei gruppi creati dall'utente in risposta alla modifica (intesa come aggiunta o rimozione) di tali gruppi tramite le funzioni di \inglese{callback} associate.
+%TODO DA FUFFARE, NON SONO COSì ABILE PURTROPPO -.-'
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \textsf{CP03 -- Gestione GUI}
+	  \item[-] \textsf{CP03 -- Gestione GUI} %TODO AGGIORNARE COMPONENTI CHE LA USANO
 	  \item[-] \textsf{CV01 -- GUI}
 	\end{itemize}
 \end{description}
+
+
+%CLASSE MORTA (SELETTORE LINGUA DELLA GUI)
+%\item \texttt{guicontrol.LanguagePanelPresenter}
+%\begin{description}
+%	\item{\scshape\bfseries Descrizione:}\\
+%Il \inglese{presenter} in questione ha il compito di popolare il contenuto dell'elemento grafico corrispondente al pannello di configurazione della UI e, in particolare, della lingua in cui questa viene visualizzata.
+
+%Contiene un'unica operazione di \inglese{callback} per la grafica, che riceve la selezione dell'utente %e propaga le modifiche a tutti i \inglese{presenter} associati alle componenti grafiche. Non %ammette invece alcuna operazione di aggiornamento della GUI in quanto gli elementi da %visualizzare sono noti al momento dell'inizializzazione e non subiscono modifiche ulteriori a %tempo di esecuzione.
+
+%	\item{\scshape\bfseries Componenti che ne fanno uso:}
+%	\begin{itemize}[noitemsep,nolistsep]
+%	  \item[-] \textsf{CP03 -- Gestione GUI}
+%	  \item[-] \textsf{CV01 -- GUI}
+%	\end{itemize}
+%\end{description}
 
 \item \texttt{guicontrol.LoginPanelPresenter}
 \begin{description}
@@ -1866,6 +1882,36 @@ A tale scopo, è necessario che tutti i \inglese{presenter} si registrino su di 
 	\end{itemize}
 \end{description}
 
+
+\item \texttt{guicontrol.RegisterPanelPresenter}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:}\\
+Tale \inglese{presenter} ha il compito di ricevere dall'interfaccia grafica i dati con cui desidera registrarsi un utente, associando un suo metodo all'evento \texttt{onSubmit} del \inglese{form} di registrazione, e in seguito inoltrarli alla sotto-architettura server tramite una \inglese{servlet} del componente \textsf{Façade del server}.
+
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-] \textsf{CP03 -- Gestione GUI}
+	  \item[-] \textsf{CV01 -- Login}
+	\end{itemize}
+\end{description}
+
+\item \texttt{guicontrol.SearchResultPanelPresenter}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:}\\
+Tale \inglese{presenter} ha la responsabilità di controllare l'aggiornamento della sezione dell'interfaccia grafica incaricata della ricerca di un contatto tra quelli iscritti al sistema dopo la richiesta specifica dell'utente.
+
+Per questo motivo, l'oggetto \texttt{SearchResultPanelPresenter} ha il compito di mettere a disposizione per la vista le funzioni di \inglese{callback} che comportano la modifica della stringa di ricerca di uno specifico contatto nella lista.
+
+%TODO CONTROLLARE E INTEGRARE
+
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-] \textsf{CP03 -- Gestione GUI} 
+	  \item[-] \textsf{CV01 -- GUI}
+	\end{itemize}
+\end{description}
+
+
 \item \texttt{guicontrol.ToolsPanelPresenter}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
@@ -1873,7 +1919,7 @@ Tramite tale \inglese{presenter} è possibile inizializzare la barra laterale de
 
 D'altra parte, gli eventi scatenati dall'interazione dell'utente con il pannello degli strumenti che comportano la modifica dell'elemento mostrato nella regione centrale al posto del pannello principale, sono raccolti da questo \inglese{presenter} e inoltrati al \texttt{PresenterMediator} per la gestione.
 
-In tal modo è possibile far comparire o scomparire il pannello di gestione dei dati personali corrispondenti al proprio account, della segreteria, lo storico delle chiamate e la selezione della lingua.
+In tal modo è possibile far comparire o scomparire il pannello di gestione dei dati personali corrispondenti al proprio account, della segreteria, la gestione dei gruppi e lo storico delle chiamate.
 
 Poiché inoltre da \texttt{org.softwaresynthesis.mytalk.clienview.ToolsPanel} è possibile impostare il proprio stato, il \inglese{presenter} ad esso associato contiene le funzioni che notificano l'avvenuto cambiamento di stato al componente \textsf{Façade del server}.
 
