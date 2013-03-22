@@ -712,7 +712,7 @@ Per ogni design \inglese{pattern} utilizzato, si dovrà dare una breve descrizio
 Si dovrà utilizzare il linguaggio UML per definire:
 \begin{itemize}
 
-\item \textbf{Diagrammi dei package}: dovranno essere presenti per la parte server implementata con Java. Servono per definire i \inglese{package}, ossia un raggruppamento di classi.
+\item \textbf{Diagrammi dei package}: dovranno essere presenti per la parte server implementata con \underline{Java}. Servono per definire i \inglese{package}, ossia un raggruppamento di classi.
 
 \item \textbf{Diagrammi delle classi}: Verranno usati per descrivere tipi di entità, le loro caratteristiche e le eventuali relazioni all'interno delle singole componenti.
 
@@ -861,7 +861,7 @@ Lo sviluppatore, prima di caricarlo nel \inglese{repository}, deve assicurarsi c
 Il verificatore successivamente dovrà assicurarsi che siano state rispettate le convenzioni descritte nella sezione \vref{sec:progettazione} e in caso di errori dovrà aprire un ticket (rispettando sempre le norme descritte in sezione \vref{sec:creazione_ticket}) rivolto allo sviluppatore che provvederà a risolvere gli errori.
 
 \subsection{Norme sul codice Java}
-Per la parte di progetto realizzato mediante codice java sarà usato Javadoc, un applicativo incluso nel Java Development Kit della Sun Microsystems, utilizzato per la generazione automatica della documentazione (in formato HTML) del codice sorgente scritto in linguaggio Java.
+Per la parte di progetto realizzato mediante codice java sarà usato Javadoc, un applicativo incluso nel Java Development Kit della Sun Microsystems, utilizzato per la generazione automatica della documentazione (in formato \underline{HTML}) del codice sorgente scritto in linguaggio Java.
 
 Il team ritiene pertanto che l'utilizzo di tale strumento sia non solo consigliato, ma bensì costituisca una \inglese{best practice}. I vantaggi che si prevede di ottenere utilizzando tale strumento sono:
 
@@ -909,7 +909,7 @@ I programmatori del team di sviluppo possono inoltre avvalersi di ulteriori supp
 Qualora un membro del team trovasse eventuali informazioni che ritiene coerenti e di potenziale valore sarà suo dovere avvisare l'amministratore designato che vaglierà la possibilità di introdurle in questa sezione delle norme.
 
 \subsection{Norme sul codice JavaScript}
-In fase di codifica della parte JavaScript i programmatori dovranno fare in modo che il codice prodotto sia mantenuto in file con estensione \texttt{.js} separati rispetto alla parte \textit{html} e che in tutti i documenti \textit{html} che utilizzeranno tale codice sia inserito al loro interno, nel tag \inglese{head}, il riferimento al file JavaScript esterno.
+In fase di codifica della parte \underline{JavaScript} i programmatori dovranno fare in modo che il codice prodotto sia mantenuto in file con estensione \texttt{.js} separati rispetto alla parte \textit{html} e che in tutti i documenti \textit{html} che utilizzeranno tale codice sia inserito al loro interno, nel tag \inglese{head}, il riferimento al file JavaScript esterno.
 
 Per quanto riguarda l'assegnazione del nome a variabili, funzioni e classi:
 \begin{itemize}
@@ -946,16 +946,16 @@ Si riporta a continuazione un elenco dei principali strumenti per la verifica di
  \end{itemize}
  \item gli strumenti per sviluppatori integrati in \textbf{Google \underline{Chrome}} (\url{https://developers.google.com/chrome-developer-tools}) e, in particolare:
    \begin{itemize}
-   \item la sezione Sources che rappresenta un'interfaccia al \underline{\inglese{debugger}} per il motore \underline{JavaScript} V8 e consente di impostare \underline{\inglese{breakpoint}} (assoluti o condizionali) per seguire l'esecuzione del codice passo passo (con le consuete funzioni di \underline{``step over''}, \underline{``step into''} e \underline{``step out''}) nonché arrestare temporaneamente l'esecuzione al sollevamento di un'eccezione (o di un'eccezione non controllata);
+   \item la sezione Sources che rappresenta un'interfaccia al \underline{\inglese{debugger}} per il motore JavaScript V8 e consente di impostare \underline{\inglese{breakpoint}} (assoluti o condizionali) per seguire l'esecuzione del codice passo passo (con le consuete funzioni di \underline{``step over''}, \underline{``step into''} e \underline{``step out''}) nonché arrestare temporaneamente l'esecuzione al sollevamento di un'eccezione (o di un'eccezione non controllata);
    \item la sezione \inglese{Timeline} che permette di quantificare i tempi necessari al caricamento e all'esecuzione degli script, nonché di tracciare l'utilizzo della memoria e forzare l'invocazione del \inglese{garbage collector};
    \item  gli strumenti di benchmark accessibili dalla sezione \underline{Profiles}, vale a dire il \inglese{profiler} della CPU, che permette di ricostruire l'albero delle chiamate di funzione e la percentuale di utilizzo della CPU per ciascuna funzione, e il \inglese{profiler} dello \inglese{heap}, mediante il quale è possibile ispezionare il contenuto dello \inglese{heap} e salvarne delle rappresentazioni istantanee;
    \end{itemize}
-  \item FirebugLite, un'estensione per Chrome che consente di ispezionare gli elementi \underline{HTML} e la struttura del DOM nonché di modificare in tempo reale i valori delle proprietà dei \underline{CSS} (\url{https://getfirebug.com/firebuglite});
+  \item FirebugLite, un'estensione per Chrome che consente di ispezionare gli elementi HTML e la struttura del DOM nonché di modificare in tempo reale i valori delle proprietà dei \underline{CSS} (\url{https://getfirebug.com/firebuglite});
   \item \textbf{SpeedTracer} uno strumento che consente di identificare i problemi di prestazioni nelle applicazioni web visualizzando una serie di metriche in tempo reale grazie all'analisi dei dati resi disponibili a livello di motore di rendering del \underline{browser} (\url{https://developers.google.com/web-toolkit/speedtracer});
   \item \textbf{JSLint} analizzatore statico di codice JavaScript volto a rilevare e impedire l'adozione inconsapevole di ``\underline{\inglese{worst practices}}'' in fase di codifica (\url{http://www.jslint.com});
   \item \textbf{ApacheBench} per testare l'efficienza prestazionale dell'applicazione lato server mediante la simulazione di un numero arbitrario di richieste da parte dei \underline{client} (\url{http://httpd.apache.org/docs/2.2/programs/ab.html});
-  \item \textbf{Eclipse} \underline{IDE} multipiattaforma e \inglese{cross-language}, scelto in particolare come ambiente di sviluppo per la parte server da realizzarsi in \underline{Java}, che include al suo interno funzionalità di debugging (\url{http://www.eclipse.org}) utili ai fini della QA;
-  \item \underline{plugin} \textbf{Metrics} per Eclipse, estensione che permette di associare un valore su una scala di riferimento al soddisfacimento di una serie di parametri di qualità del codice sorgente o metriche (\url{http://metrics.sourceforge.net});
+  \item \textbf{Eclipse} \underline{IDE} multipiattaforma e \inglese{cross-language}, scelto in particolare come ambiente di sviluppo per la parte server da realizzarsi in Java, che include al suo interno funzionalità di debugging (\url{http://www.eclipse.org}) utili ai fini della QA;
+  \item \underline{plugin} \textbf{Metrics} per Eclipse, estensione che permette di associare un valore su una scala di riferimento al soddisfacimento di una serie di parametri di qualità del codice sorgente tramite metriche prestabilite, come ad esempio la \textit{complessità ciclomatica} dello stesso (\url{http://metrics.sourceforge.net});
   \item il plugin \textbf{FindBugs} per Eclipse, al fine di effettuare analisi statica del codice a livello di bytecode alla ricerca di potenziali cause di \underline{malfunzionamento} (\inglese{bug patterns}) o adozione inconsapevole di ``\inglese{worst practices}'' (\url{http://findbugs.sourceforge.net});
   \item \textbf{JUnit} come framework per i test di unità da effettuarsi relativamente alla parte server dell'applicazione (\url{http://www.junit.org});
   \item \textbf{QUnit} framework per i test di unità di codice \inglese{JavaScript}; 
@@ -982,7 +982,7 @@ Per quanto concerne il \textbf{desk check}, cioè il controllo realizzato unicam
 La seconda forma di analisi statica prevede invece l'utilizzo di strumenti appositi denominati \textbf{analizzatori statici} e può essere svolta in modo semiautomatico senza richiedere necessariamente l'intervento di un umano. In particolare, come risulta dalla sezione \ref{sec:tools} si è stabilito di utilizzare degli analizzatori statici tanto per la parte documentale del progetto (come il comando \texttt{lacheck}) quanto per la parte propriamente eseguibile (JSLint per la parte JavaScript e FindBugs per la parte Java).
 
 \subsubsection{Analisi dinamica}
-I controlli dinamici, altrimenti definiti test, prevedono l'esecuzione del software in un ambiente controllato e con dati di input specificatamente pensati per testarne le funzionalità e l'aderenza ai requisiti mettendo in luce l'eventuale presenza di \underline{malfunzionamenti} dovuti alla presenza di \underline{difetti}. Caratteristica fondamentale dei test è la loro \emph{ripetibilità}, cioè dato lo stesso set di dati in ingresso e nello stesso contesto di esecuzione, l'output deve essere deterministico e univocamente determinato. Tale proprietà, unitamente all'auspicabile utilizzo di un \inglese{logger} che ha il compito di registrare le fasi dell'esecuzione del test, consente di individuare e riconoscere in maniera più agevole i difetti presenti nel prodotto.
+I controlli dinamici, altrimenti definiti test, prevedono l'esecuzione del software in un ambiente controllato e con dati di input specificatamente pensati per testarne le funzionalità e l'aderenza ai requisiti mettendo in luce l'eventuale presenza di malfunzionamenti dovuti alla presenza di \underline{difetti}. Caratteristica fondamentale dei test è la loro \emph{ripetibilità}, cioè dato lo stesso set di dati in ingresso e nello stesso contesto di esecuzione, l'output deve essere deterministico e univocamente determinato. Tale proprietà, unitamente all'auspicabile utilizzo di un \inglese{logger} che ha il compito di registrare le fasi dell'esecuzione del test, consente di individuare e riconoscere in maniera più agevole i difetti presenti nel prodotto.
 
 In base al loro ambito di applicazione, i test possono essere suddivisi in:
 \begin{itemize}
@@ -993,12 +993,12 @@ In base al loro ambito di applicazione, i test possono essere suddivisi in:
   \item test di accettazione, o collaudo, realizzato sotto la supervisione del committente per verificare l'aderenza del prodotto ai requisiti utente di più alto livello.
 \end{itemize}
 
-\subsection{Test di sistema e di unità}
+\subsection{Test di unità, integrazione e sistema}
 La validazione dei test di sistema verrà svolta basandosi sui test specificati durante l'attività di analisi dei requisiti. I risultati di tali test verranno riportati in forma tabellare, in modo da renderne più pratica ed efficace la lettura e la comprensione.
 
 L'esecuzione dei test avverrà mediante l'utilizzo di \textit{Selenium}, un \inglese{tool} che permette di impostare ed eseguire automaticamente i test per la dimostrazione delle funzionalità del sistema.
 
-Per i test di unità al contrario la verifica dovrà basarsi sulle specifiche relative test di unità e di integrazione prodotte dalle attività di progettazione architetturale e di dettaglio, e verranno effettuati tramite i \textit{framework} Junit (per il codice java della parte server) e QUnit (per i test relativi al codice JavaScript).\\
+Per i rimanenti test al contrario la verifica dovrà basarsi sulle specifiche relative test di unità e di integrazione prodotte dalle attività di progettazione architetturale e di dettaglio, e verranno effettuati tramite i \textit{framework} Junit (per il codice java della parte server) e QUnit (per i test relativi al codice JavaScript).\\
 Verrà successivamente redatto un documento riassuntivo contenente l'esito dei test in formato tabellare con specificati per ogni tipologia di test effettuati:
 \begin{itemize}
 \item ambiente in cui è stato svolto il test;
