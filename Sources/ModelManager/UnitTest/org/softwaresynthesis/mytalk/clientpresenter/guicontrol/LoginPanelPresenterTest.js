@@ -6,10 +6,12 @@ module ("LoginPanelPresenterTest", {
     	element.style.position = "absolute";
     	element.style.left ="-999em";
     	document.body.appendChild(element);
-    	tester = new LoginPanelPresenter("php_stubs/Login", ".php");
     	
     	communicationcenter = {my: null};
     	mediator = {buildUI: function() {}};
+    	configurationFile = "../WebContent/Conf/servletlocationtest.xml";
+    	
+    	tester = new LoginPanelPresenter("php_stubs/Login", ".php");
 
     },
 	teardown: 

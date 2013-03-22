@@ -23,9 +23,6 @@ function LoginPanelPresenter() {
 	var element = document.getElementById("LoginPanel");
 	// array degli URL  delle servlet che sono utilizzate qui dentro
 	var servlets = new Array();
-	// file di configurazione che contiene gli URL delle servlet
-	// TODO da cambiare in fase di test
-	var configurationFile = "../WebContent/Conf/servletlocationtest.xml";
 	//inizializza gli URL delle servlet
 	getServletURLs();
 
