@@ -2263,9 +2263,109 @@ Metodo utilizzato per costruire il pannello principale che occupa la parte centr
 Metodo che visualizza il DOM\_node (node) ricevuto come parametro nel pannello in questione.
 	
 \item{\method{+ hide(): void}}\\
-Metodo che rende invisibile il pannello.
+Metodo che rende invisibile il pannello impostando la proprietà ''display'' a ''none''.
 
 \end{description}
+
+%TODO da verificare
+\classsection{PresenterMediator}
+
+\subsubsection*{Funzione}
+Presenter incaricato di gestire la collaborazione tra i vari sotto-presenter.
+
+\subsubsection*{Relazioni d'uso}
+Nessuna relazione d'uso evidenziata.
+
+\subsubsection*{Attributi}
+\begin{description}
+\item{\memberdata{-- presenters: Array associativo}}\\
+  array contenente tutti i sotto-presenter. Presenter di primo livello:
+  \begin{itemize}
+  \item LoginPanelPresenter;
+  \item RegisterPanelPresenter;
+  \item AddressBookPanelPresenter;
+  \item ToolsPanelPresenter;
+  \item MainPanelPresenter.
+  \end{itemize}
+  Presenter di secondo livello:
+  \begin{itemize}
+  \item AccountSettingsPanelPresenter;
+  \item CommunicationPanelPresenter;
+  \item ContactPanelPresenter;
+  \item CallHistoryPanelPresenter;
+  \item MessagePanelPresenter;;
+  \item SearchResultPanelPresenter.
+  \end{itemize}
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+\item{\method{+ buildUI(): void}}\\
+
+
+\item{\method{+ buildLoginUI(): void}}\\
+
+	
+\item{\method{+ buildRegistrationUI(): void}}\\
+
+
+\item{\method{+ onContactSelected(contact: Object(contact)): void}}\\
+
+
+\item{\method{+ onContactAdded(userID: String): void}}\\
+
+
+\item{\method{+ onContactRemoved(userID: String): void}}\\
+
+
+\item{\method{+ onGroupAdded(name: String): void}}\\
+
+
+\item{\method{+ onContactAddeddInGroup(contact: Object(contact), group: Object(group)): void}}\\
+
+
+\item{\method{+ onContactRemovedInGroup(contact: Object(contact), group: Object(group)): void}}\\
+
+
+
+\item{\method{+ onBlockedContact(contact: Object(contact)): void}}\\
+
+
+
+\item{\method{+ onUnlockContact(contact: Object(contact)): void}}\\
+
+
+
+\item{\method{+ displayMessagePanel(): void}}\\
+
+
+\item{\method{+ displayCallHistoryPanel(): void}}\\
+
+
+
+\item{\method{+ onFiltredApplyedByParam(param: String): void}}\\
+
+
+\item{\method{+ getGroupsWhereContactsIs(contact: Object(contact)): void}}\\
+
+
+\item{\method{+ displaySearchResultPanel(): void}}\\
+
+
+\item{\method{+ displayAccountSettingsPanel(): void}}\\
+
+
+\item{\method{+ displayCommunicationPanel(): void}}\\
+
+
+\item{\method{+ displayContact(): void}}\\
+
+
+\item{\method{+ contactAlreadyPresent(): void}}\\
+
+\end{description}
+
+
 
 \clearpage
 
