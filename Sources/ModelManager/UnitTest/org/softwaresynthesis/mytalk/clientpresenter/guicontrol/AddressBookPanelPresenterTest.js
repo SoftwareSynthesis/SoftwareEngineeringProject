@@ -7,7 +7,7 @@ module("AddressBookPanelPresenterTest", {
     	element.style.left ="-999em";
     	
     	document.body.appendChild(element);
-    	configurationFile = "../WebContent/Conf/servletlocationtest.xml";
+    	configurationFile = "/ModelManager/WebContent/Conf/servletlocationtest.xml";
     	// oggetto da testare
 		tester = new AddressBookPanelPresenter("php_stubs/AddressBook", ".php");
 		
@@ -66,7 +66,7 @@ test("testInitialize()", function() {
 	var Sort=list[1].childNodes;
 	equal(Sort.length,1,"il numero di figli di Sort e' 1");
 	i++;
-	equal(Sort[0].nodeName,"SELECT","il figlio di Sort è un select");
+	equal(Sort[0].nodeName,"SELECT","il figlio di Sort ï¿½ un select");
 	i++;
 	equal(Sort[0].getAttribute("id"),"selectSort","il nome del select e' SelectSort");
 	i++;
@@ -75,13 +75,13 @@ test("testInitialize()", function() {
 	var List=list[2].childNodes;
 	equal(List.length,1,"il numero di figli di List e' 1");
 	i++;
-	equal(List[0].nodeName,"UL","il figlio di List è una lista ul");
+	equal(List[0].nodeName,"UL","il figlio di List ï¿½ una lista ul");
 	i++;
 	
 	var Group=list[3].childNodes;
 	equal(Group.length,1,"il numero di figli di Group e' 1");
 	i++;
-	equal(Group[0].nodeName,"SELECT","il figlio di Group è un select");
+	equal(Group[0].nodeName,"SELECT","il figlio di Group ï¿½ un select");
 	i++;
 	equal(Group[0].getAttribute("id"),"selectGroup","il nome del select e' SelectSort");
 	i++;
@@ -123,7 +123,7 @@ test("testSetup()", function() {
 	i++;
 	
 	
-	equal(laura[0].getAttribute("src"), "y.png", "l'immagine (di Laura) è corretta");
+	equal(laura[0].getAttribute("src"), "y.png", "l'immagine (di Laura) ï¿½ corretta");
 	i++;
 	
 	
@@ -150,7 +150,7 @@ test("testSetup()", function() {
 	i++;
 	
 	
-	equal(flavia[0].getAttribute("src"), "x.png", "l'immagine (di Flavia) è corretta");
+	equal(flavia[0].getAttribute("src"), "x.png", "l'immagine (di Flavia) ï¿½ corretta");
 	i++;
 	
 	

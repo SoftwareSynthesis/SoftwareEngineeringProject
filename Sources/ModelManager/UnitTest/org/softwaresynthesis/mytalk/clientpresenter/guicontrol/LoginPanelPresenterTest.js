@@ -9,7 +9,7 @@ module ("LoginPanelPresenterTest", {
     	
     	communicationcenter = {my: null};
     	mediator = {buildUI: function() {}};
-    	configurationFile = "/WebContent/Conf/servletlocationtest.xml";
+    	configurationFile = "/ModelManager/WebContent/Conf/servletlocationtest.xml";
     	
     	tester = new LoginPanelPresenter("php_stubs/Login", ".php");
 
