@@ -216,11 +216,11 @@ test("testBuildRetrievePasswordForm()", function() {
 	expect(i);
 });
 
-test("testhasAnsweredCorrectly()", function() {
+test("testHasAnsweredCorrectly()", function() {
 	var result = tester.hasAnsweredCorrectly("laupau@gmail.com", "tricolore");
 	equal(result, true, "risposta corretta ricevuta correttamente");
-//	result = tester.hasAnsweredCorrectly("laupau@gmail.com", "rossa");
-//	equal(result, false, "risposta errata ricevuta correttamente");
-//	expect(2);
+	result = tester.hasAnsweredCorrectly("laupau@gmail.com", "rossa");
+	equal(result, false, "risposta errata ricevuta correttamente");
+	expect(2);
 	
 });
