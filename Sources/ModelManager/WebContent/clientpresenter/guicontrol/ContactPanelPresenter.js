@@ -39,6 +39,20 @@ function ContactPanelPresenter() {
         }
     }
 
+    /**
+     * Funzione che popola il div groupsDiv che contiene le label dei gruppi
+     *
+     * @author Riccardo  Tresoldi
+     */
+    function buildGroupsDiv(){
+        //estraggo il div da popolare
+        var div=getElementById("groupsDiv");
+        
+        //estraggo la lista dei gruppi a cui appartiene l'utente visualizzato
+        
+        //ciclo la lista e creo le "label"
+    }
+
     /**********************************************************
      METODI PUBBLICI
      ***********************************************************/
@@ -50,7 +64,8 @@ function ContactPanelPresenter() {
      * @returns {HTMLDivElement} pannello 'ContactPanel' costruito
      * @author Elena Zecchinato
      */
-    this.createPanel = function() {
+    this.
+    createPanel = function() {
         var element = document.createElement("div");
         element.setAttribute("id", "ContactPanel");
 
@@ -73,7 +88,7 @@ function ContactPanelPresenter() {
         avatar.setAttribute("src", "");
 
         var groupsDiv = document.createElement("div");
-        groupsDiv.id = "groupsId";
+        groupsDiv.id = "groupsDiv";
 
         //pulsante per chiamata audio
         var callButton = document.createElement('button');
@@ -160,7 +175,7 @@ function ContactPanelPresenter() {
         var callButton = getElementById("callButton");
 
         adjustBlockButtonDisplay(contact);
-        
+
         //TODO popolare groupsDiv
 
         //associo gli eventi onClick ai bottoni
@@ -190,6 +205,6 @@ function ContactPanelPresenter() {
         if (mediator.contactAlreadyPresent(contact))
             document.getElementById("addToAddressBookButton").style.display = "none";
     };
-    
+
     //TODO fare funzuone che popola groupsDiv
 }

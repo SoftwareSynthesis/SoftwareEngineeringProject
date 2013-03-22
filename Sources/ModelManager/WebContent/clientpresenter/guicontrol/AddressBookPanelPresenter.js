@@ -166,8 +166,9 @@ function AddressBookPanelPresenter(url, ext) {
      * @return {Boolean} ritorna true solo se il contatto è presente nel gruppo
      */
     function contactExistInGroup(idContact, idGroup) {
-        //FIXME controllare che sia logicamente corretta
+        //Estraggo il gruppo in cui cercare
         var group = groups[idGroup];
+        //ciclo l'array di contatti del gruppo
         for (var contact in group.contacts) {
             if (contact == idContact)
                 return true;
@@ -618,6 +619,36 @@ function AddressBookPanelPresenter(url, ext) {
             return true;
         }
         throw "Ops... qualcosa è andato storto nel server.";
+    };
+
+    /**
+     * Funzione che dato un utente restituisce i gruppi in cui è stato inserito
+     * nell'addressBook
+     *
+     * @author Riccardo Tresoldi
+     * @param {Object} contact contatto di cui ricercare i gruppi in cui è
+     * inserito
+     * @return {Object} array associativo che presenta la lista dei gruppi in cui
+     * è presente il contatto
+     */
+    this.getGroupsWhereContactsIs = function(contact) {
+        //creo l'array da tornare
+        var groupSelected;
+        //ciclo tutti i gruppi
+        for (var group in groups) {
+            //ciclo tutti i contatti di un gruppo
+            for (var groupContact in groups[group].contacts) {
+                //contriollo se il contatto è uguale al contatto del gruppo
+                if (groupContact == contact.id) {
+                    //se i contatti coincidono aggiungo il gruppo alla lista di
+                    // ritorno e blocco lo scorrimento dell'array
+                    groupSelected[groups[group].id] = groups[group].name;
+                    break;
+                }
+            }
+        }
+        //ritorno l'array formato
+        return groupSelected;
     };
 
     /*
