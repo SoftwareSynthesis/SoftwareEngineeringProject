@@ -248,7 +248,7 @@ function AddressBookPanelPresenter(url, ext) {
 
         // creo contenuto divList
         var ul = document.createElement('ul');
-        selectSort.id = "AddressBookList";
+        ul.id = "AddressBookList";
 
         // appendo i sottonodi ai nodi principali
         divFilter.appendChild(inputText);
