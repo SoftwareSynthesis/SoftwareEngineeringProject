@@ -2120,6 +2120,114 @@ Nessuna relazione d'uso evidenziata.
 
 \end{description}
 
+%TODO da verificare
+\classsection{CommunicationPanelPresenter}
+
+\subsubsection*{Funzione}
+Questo presenter ha il compito di gestire tutte le comunicazioni che possono avvenire tra persone, quindi sia di natura testuale che di tipo audio - audio/video.
+
+\subsubsection*{Relazioni d'uso}
+Nessuna relazione d'uso evidenziata.
+
+\subsubsection*{Attributi}
+\begin{description}
+\item{\memberdata{-- chatElements: HTMLDivElements[]}}\\
+  array associativo contenente tutte le chat aperte in un dato momento.
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+\item{\method{- createLabel(contact: Object(contact)): String}}\\
+	Metodo che dato un utente (parametro del metodo), restituisce una stringa identificativa per il contatto in questione. Più precisamente, se il contatto contiene sia il nome che il cognome, la stringa restituita sarà composta da questi due elementi, altrimenti in base ai casi solo il nome o il cognome. Nell'ulteriore caso non siano presenti ne il nome ne il cognome, restituisce l'email, campo dati obbligatorio in fase di registrazione e quindi sempre presente.
+
+%TODO da sistemare perchè diego deve modificare chat
+\item{\method{- createChatItem(chat: Object()): DOM\_node}}\\
+	Tale metodo restituisce un DOM\_element di tipo <li> contenente l'identificativo dell'utente con cui si sta comunicando (parametro del metodo).
+
+%TODO da sistemare perchè diego deve modificare chat	
+\item{\method{- createChatElement(chat: Object()): DOM\_node}}\\
+	Tale metodo restituisce un DOM\_element di tipo <li> contenente l'identificativo dell'utente con cui si sta comunicando (parametro del metodo).
+
+%TODO da sistemare perchè diego deve modificare chat	
+\item{\method{+ addChat(chat: Object()): void}}\\
+	
+%TODO da sistemare perchè diego deve modificare chat	
+\item{\method{+ removeChat(chat: Object()): void}}\\
+
+\item{\method{+ appendToChat(user: Object(contact), text: String): void}}\\
+Il metodo ha il compito di aggiunge una stringa (text) all'interno dell'area di testo che è associata alla chat con l'utente ''user'' (parametro del metodo).
+
+\item{\method{+ createPanel(): DOM\_node}}\\
+Con l'invocazione di tale metodo, viene inizializzato il pannello costruendo i \inglese{widget} grafici interni e lo restituisce in modo che possa essere inserito all'interno del pannello principale. Più dettagliatamente, deve costruire:
+\begin{itemize}
+\item div relativo alla chiamata assegnandogli un id;
+\item div relativo alla chat testuale assegnandogli un id;
+\item elemento video per la visualizzazione del proprio stream ricavato dalla videocamera;
+\item elemento video per la visualizzazione dello stream dell'altro utente;
+\item div dove inserire la visualizzazione delle statistiche della chiamata;
+\item bottone per la terminazione della chiamata.
+
+\end{itemize}
+
+\end{description}
+
+%TODO da verificare
+\classsection{ContactPanelPresenter}
+
+\subsubsection*{Funzione}
+Presenter incaricato di gestire il pannello che visualizza le informazioni di un singolo contatto.
+
+\subsubsection*{Relazioni d'uso}
+Nessuna relazione d'uso evidenziata.
+
+\subsubsection*{Attributi}
+\begin{description}
+\item{\memberdata{-- element: DOM\_element}}\\
+  elemento controllato dal presenter in questione.
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+\item{\method{- adjustBlockButtonDisplay(contact: Object(contact)): void}}\\
+	Il metodo riceve come parametro un contatto (contact). Successivamente viene controllato se tale utente è bloccato o meno e imposta correttamente la visualizzazione della vista.
+
+\item{\method{- buildGroupsDiv(contact Object(contact)): void}}\\
+Il metodo, che riceve come parametro un contatto (contact), ha il compito di recuperare tutti i gruppi 
+ a cui il contatto appartiene e visualizzare nel ''div'' opportuno una label per ogni gruppo trovato indicandone il nome. 
+
+\item{\method{+ createPanel():DOM\_element}}\\
+Metodo richiamato quando viene selezionato un contatto dalla rubrica. Inizializza il pannello che mostra le informazioni del contatto selezionato. Più precisamente, verranno creati tanti listItem (<li>) quanti i seguenti elementi:
+\begin{itemize}
+\item nome;
+\item cognome;
+\item email;
+\item avatar raffigurante l'immagine del contatto;
+\item div contenente i gruppi a cui il contatto appartiene;
+\item pulsante per la chiamata audio;
+\item pulsante per la chiamata video;
+\item pulsante per avviare una chat;
+\item pulsante per bloccare il contatto;
+\item pulsante per sbloccare il contatto.
+\end{itemize}
+Infine ritorno l'elemento creato.
+	
+\item{\method{+ display(contact: Object(contact)): void}}\\
+Metodo che popola nel corretto modo tutti gli elementi necessari per la visualizzazione di un utente. Prima di tutto quindi si recupereranno tutti gli elementi necessari, ossia:
+\begin{itemize}
+\item elemento per nome;
+\item elemento per cognome;
+\item elemento per email;
+\item elemento per avatar;
+\item pulsante per la chiamata audio;
+\item pulsante per la chiamata video;
+\item pulsante per avviare una chat;
+\item pulsante per bloccare il contatto;
+\item pulsante per sbloccare il contatto.
+\end{itemize}
+Successivamente si andranno a popolare tali elementi utilizzando le informazioni del contatto passato come parametro (contact). Infine si imposterà correttamente il comportamento dei bottoni associando le giuste chiamate a metodi.
+
+\end{description}
+
 \clearpage
 
 \section{Specifica sotto-architettura clientview}\label{sec:clientviewarchitecture}
