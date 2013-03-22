@@ -115,6 +115,16 @@ function ToolsPanelPresenter() {
     	this.element.style.display = "none";
     };
     
+    /**
+     * Effettua il logout comunicandolo alla servlet
+     * 
+     * @author Riccardo Tresoldi
+     */
+    this.logout=function(){
+        //TODO
+        //chiudere tutti i presenter e aprire loginPP
+    }
+    
 /*
  * TODO:
  * - implementare la ricerca degli utenti sul sistema

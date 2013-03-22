@@ -225,6 +225,10 @@ function CommunicationPanelPresenter() {
 		var otherVideo = document.createElement('video');
 		otherVideo.id = "otherVideo";
 		otherVideo.setAttribute("autoplay", "autoplay");
+		
+		//creo div per visualizzare le statistiche della chiamata
+		var statDiv=document.createElement("div");
+		statDiv.id="statDiv";
 
 		// creo i bottoni per per la gestione della chiamata
 		var closeButton = document.createElement('button');
@@ -235,6 +239,7 @@ function CommunicationPanelPresenter() {
 		// appendo i child al divCall
 		divCall.appendChild(myVideo);
 		divCall.appendChild(otherVideo);
+		divCall.appendChild(statDiv);
 		divCall.appendChild(closeButton);
 
 		// creo gli elementi per la chat testuale
