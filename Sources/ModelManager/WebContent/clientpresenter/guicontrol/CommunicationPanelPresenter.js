@@ -17,6 +17,11 @@ function CommunicationPanelPresenter() {
 	 * METODI PRIVATI
 	 **************************************************************************/
 	/**
+	 * Crea la stringa di testo che deve comparire come titolo della tab che
+	 * contiene la lista delle chat testuali attive in un determinato momento
+	 * 
+	 * @see AddressBookPanelPresenter#addListItem()
+	 * 
 	 * @returns {String} il testo che deve costituire il titolo del list item
 	 * @author Diego Beraldin
 	 */
@@ -37,6 +42,18 @@ function CommunicationPanelPresenter() {
 		return title;
 	}
 
+	/**
+	 * Crea un elemento di lista adatto ad essere visualizzato dentro
+	 * 'ulOpenchat' all'interno di questo presenter
+	 * 
+	 * @param {Object}
+	 *            chat chat testuale proveniente dal {@link CommunicationCenter}
+	 * @returns {HTMLLiElement} list item che contiene il nome del contatto con
+	 *          cui è attiva la comunicazione testuale e che, se cliccato,
+	 *          determina la visualizzazione all'interno del divChat come
+	 *          secondo figlio
+	 * @author Diego Beraldin
+	 */
 	function createChatItem(chat) {
 		var item = document.createElement("li");
 		var user = chat.user;
@@ -53,21 +70,27 @@ function CommunicationPanelPresenter() {
 	}
 
 	/**
+	 * Crea un HTMLDivElement che contiene la porzione di codice HTML che deve
+	 * essere visualizzata nel momento in cui si fa click sul corrispondente
+	 * list item della 'ulOpenChat'.
 	 * 
 	 * @param {Object}
 	 *            chat oggetto che rappresenta una chat nel formato in cui sono
 	 *            memorizzate nel CommunicationCenter. In particolare, ogni chat
 	 *            è dotata di una proprietà 'user' che corrisponde all'utente
 	 *            con cui la comunicazione è instaurata
-	 * @returns {HTMLDivElement}
+	 * @returns {HTMLDivElement} elemento che contiene l'area di testo, il campo
+	 *          di immissione testuale e il pulsante di invio del testo
 	 * @author Diego Beraldin
 	 */
 	function createChatElement(chat) {
 		var element = document.createElement("div");
 		element.id = "divContainerChat";
 		var form = document.createElement("form");
+		form.id = chat.user.id;
 		// crea l'area di testo
 		var textArea = document.createElement("textarea");
+		textArea.id = "chatText";
 		form.appendChild(textArea);
 		// crea il campo per l'immissioen del testo
 		var input = document.createElement("input");
@@ -78,7 +101,7 @@ function CommunicationPanelPresenter() {
 		// crea il pulsante
 		var sendButton = document.createElement("button");
 		sendButton.appendChild(document.createTextNode("Invia"));
-		
+
 		// aggancia la funzione di callback al pulsante
 		sendButton.onclick = function() {
 			var text = input.value;
@@ -95,8 +118,17 @@ function CommunicationPanelPresenter() {
 	 * METODI PUBBLICI
 	 **************************************************************************/
 	/**
+	 * Aggiunge una chat fra quelle controllate da questo presenter, sia nella
+	 * lista degli elementi che nel liste item contenuto nella lista di tutte le
+	 * chat aperte
 	 * 
-	 * PRE: POST:
+	 * PRE: il presenter ha la proprietà chatElements e la vista ha una lista
+	 * che ha come id 'ulOpenChat'
+	 * 
+	 * POST: a chatElements è stato aggiunto un nuovo elemento che contiene i
+	 * dati relativi alla nuova chat testuale, e alla lista è stato attiunto un
+	 * list item che contiene il nome del contatto con cui è stata instaurata la
+	 * chat testuale.
 	 * 
 	 * @param {Object}
 	 *            chat chat testuale che deve essere aggiunta al controllo di
@@ -113,8 +145,15 @@ function CommunicationPanelPresenter() {
 	};
 
 	/**
+	 * Rimuove una chat dovunque sia riferita all'interno di questo
+	 * CommunicationPanelPresenter (nella lista e negli elementi)
 	 * 
-	 * PRE: POST:
+	 * PRE: esiste nella lista 'ulChat' un
+	 * <li> che riferisce la chat passata come parametro ed esiste in
+	 * chatElements un <div> che contiene il testo di quella chat
+	 * 
+	 * POST: sono stati rimossi sua l'elemento <div> da chatElements sia il
+	 * <li> associato alla chat dalla lista delle chiamate
 	 * 
 	 * @param {Object}
 	 *            chat
@@ -127,11 +166,26 @@ function CommunicationPanelPresenter() {
 		var ulOpenChat = document.getElementById("ulOpenChat");
 		var liChat = ulOpenChat.getElementById(user.id);
 		ulOpenChat.removeChild(liChat);
+
+		// testa se era visualizzata proprio quella chat e in tal caso la
+		// rimuove dalla vista
+		var divContainerChat = document.getElementById("divContainerChat");
+		var form = divContainerChat.childNodes[0];
+		if (form.id == user.id) {
+			var divChat = document.getElementById("divChat");
+			divChat.removeChild(divContainerChat);
+		}
 	};
 
 	/**
 	 * Aggiunge una stringa all'interno dell'area di testo che è associata alla
 	 * chat con l'utente passato come parametro
+	 * 
+	 * PRE: si assume che già esista in chatElements un oggetto HTMLDivElement
+	 * indicizzato con l'id dell'utente passato come parametro
+	 * 
+	 * POST: al ritorno della funzione, la textArea contenuta in questo <div>
+	 * contiene il nuovo testo passato come parametro
 	 * 
 	 * @param {Object}
 	 *            utente con cui è avviata la chat
@@ -141,13 +195,16 @@ function CommunicationPanelPresenter() {
 	 */
 	this.appendToChat = function(user, text) {
 		var divContainerChat = chatElements[user.id];
-		divContainerChat.childNodes[0].value += ("io:" + text + "\n");
+		var textArea = divContainerChat.getElementById("chatText");
+		textArea.value += ("io:" + text + "\n");
 	};
 
 	/**
 	 * Inizializza il pannello costruendone i widget grafici interni e lo
 	 * restituisce in modo che possa essere inserito all'interno del pannello
 	 * principale
+	 * 
+	 * POST: l'elemento <div> restituito ha la struttura del CommunicationPanel
 	 * 
 	 * @returns {HTMLDivElement} il 'CommunicationPanel'
 	 * @author Elena Zecchinato
