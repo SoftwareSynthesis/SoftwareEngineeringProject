@@ -1782,9 +1782,9 @@ Metodo che recupera i contatti e i gruppi della propria rubrica dal server usand
 	\item{\method{+ displayContactList(contact: String[]): void}}\\
 	Metodo usato per visualizzare la lista dei contatti utente. Il metodo prende il nodo DOM (già esistente) e destinato a contenere la lista dei contatti, popolandolo richiamando il metodo \method{addListItem()}.
 	
-	\item{\method{-- addListItem(contact: String[]): void}}\\
+	\item{\method{-- addListItem(list: DOM\_node, contact: Object(contact): void}}\\
 
-Metodo richiamato da \method{displayContactList()} per visualizzare i contatti presenti all'array \memberdata{contacts} (passato come parametro). Il metodo crea le variabili contenenti i dati del contatto da attribuire al tag di markup \texttt{li}. Tali variabili sono quelle tipiche di un oggetto \classname{JSUserData} (nome, cognome, email, status e immagine).
+Metodo richiamato da \method{displayContactList()} per visualizzare i contatti presenti della rubrica. Il metodo crea le variabili contenenti i dati del contatto da attribuire al tag di markup \texttt{li}. Tali variabili sono quelle tipiche di un oggetto Object(contact) (nome, cognome, email, status e immagine).
 
 
 \item{\method{-- addOptionToSelect(select: DOM\_element, value: String, text: String): void}}\\
@@ -1820,7 +1820,7 @@ Il metodo richiama da prima \method{contactExistInGroup}, poi Il flusso principa
 Metodo che verifica l'esistenza di un contato in un determinato gruppo. Il metodo restituisce un feedback booleano per confermare o meno l'esistenza dell'utente ricercato nel gruppo designato.
 
 \item{\method{+ applyFilterByString(param: String): array()}}\\
-Metodo che data una stringa come parametro d'ingresso filtra la lista di contatti presente in locale. Inoltre non deve interagire con il server, ovvero non vengono richiamate \inglese{servlet}. 
+Metodo che data una stringa come parametro d'ingresso filtra la lista di contatti presente in locale. Inoltre non deve interagire con il server, ovvero non vengono richiamate \inglese{servlet}.
 
 In un primo step il programmatore dovrà creare un array() atto a contenere l'elenco dei contatti da restituire. Quindi il metodo procede con la definizione di un espressione regolare basata sul parametro ricevuto. Per tale operazione la sintassi obbligatoria è:\\
 
@@ -1837,16 +1837,16 @@ Metodo che dato un intero come parametro d'ingresso filtra la lista di contatti 
 
 Come per \method{applyFilterByString()} anche in questo caso il metodo deve creare un Array() da popolare con i contatti appartenente al gruppo idGroup. Quindi viene eseguito un ciclo for che ispezione tutti i contatti presenti in \memberdata{contacts}. Per ogni ciclo il metodo controlla i gruppi in cui compare il contatto i-esimo (tale azione si attua per mezzo di un secondo ciclo innestato), e se si verifica che il gruppo in esame ha lo stesso id dell'identificativo idGroup, allora si aggiunge il contatto all'array creato in precedenza. Il metodo termina restituendo l'array sopra-citato.
 
-\item{\method{+ showFilterp(filteredContacts: Array()): void}}\\
+\item{\method{+ showFilter(filteredContacts: Array()): void}}\\
 Metodo usato per l'eliminare il contenuto preesistente nella rubrica e visualizza il nuovo contenuto filtrato. Il metodo riceve come parametro un array che rappresenta la lista filtrata dei contatti da visualizzare. Per eseguire tali operazioni viene avviato un ciclo for per ogni contatto presente in \memberdata{contacts}. All'interno di tale ciclo deve essere eseguita la seguente istruzione:\\
 
 \verb|addListItem(/*nome della variabile contenente il nodo dom AddressBookList*/,|\\
 \verb|filtredContacts[contact])|\\
 
-\item{\method{+ contactAlredyPresent(contact: Array()): boolean}}\\
+\item{\method{+ contactAlredyPresent(contact: Object(contact)): boolean}}\\
 Metodo che dato un contatto verifica se appartiene alla rubrica. Per compiere tale azione viene da prima riscaricata la rubrica, mediante una chiamata a metodo \method{getAddressBookContacts()}. Quindi si usa un ciclo for per scorrere l'intera lista precedentemente ottenuta e ad ogni ciclo si controlla se il contatto i-esimo ha id uguale a quello del contatto ricevuto come parametro d'ingresso (\texttt{contact.id}). Se tale confronto ha esito positivo, il metodo termina ritornando \inglese{true}, altrimenti il metodo termina al termine del ciclo for ritornando \inglese{false}.
 
-\item{\method{+ blockUser(contact: Array()): boolean}}\\
+\item{\method{+ blockUser(contact: Object(contact)): boolean}}\\
 Metodo utilizzato per bloccare (all'interno della rubrica utente) il contatto contact passato come parametro d'ingresso. Il primo step consiste nell'eseguire il controllo sul parametro ricevuto. Per farlo si osserva il valore ritornato da una chiamata a metodo \method{constactAlradyPresent()} passando come parametro d'ingresso contact. Se il valore di ritorno è \inglese{false} il metodo termina con l'eccezione ``Contatto non presente nella rubrica''. Altrimenti il controllo passa allo step successivo, in cui si verifica se l'attributo blocked di contact è impostato a \inglese{true}. Nel caso il metodo termina con l'eccezione ``Contatto già bloccato''. Se il flusso principale ha superato i test precedenti, allora viene creata un istanza di request \texttt{XMLHttpRequest()} usata per contattare la \inglese{servlet} avente nome:\\
 
 \verb|urlServlet + operations[8] + suffix|\\
@@ -1859,12 +1859,21 @@ Il flusso principale prosegue aprendo la request cosi definita (uso del metodo \
 
 Il metodo termina eseguendo un controllo. Se il risultato result della chiamata a \inglese{servlet} ha valore \inglese{true} allora il metodo termina aggiornando la rubrica mediante una chiamata \method{setup()} e ritornando \inglese{true}. In caso contrario il metodo termina con un eccezione.
 
-\item{\method{+ unlockUser(contact: Array()): boolean}}\\
+\item{\method{+ unlockUser(contact: Object(contact)): boolean}}\\
 Metodo usato per sbloccare un utente all'interno di una rubrica. Il metodo ha un funzionamento analogo al precedente. Nello specifico vengono attuati gli stessi controlli prima tramite \method{contactAlradyPresent()} e poi tramite la verifica del contenuto del di contact.block. Successivamente si crea una XMLHttpRequest che si appoggia alla \inglese{servlet} definita dalla stringa:\\
 
 \verb|urlServlet + operations[9] + suffix|\\
 
 Tale server ha il compito di sbloccare il contatto contact. Quindi il metodo termina eseguendo un controllo sul tipo di risultato. Se l'operazione precedente è avvenuta con successo allora si procede aggiornando la rubrica (chiamata a metodo \method{setup()}). Altrimenti il metodo termina con un eccezione.
+
+%TODO da verificare
+\item{\method{+ getGroupsWhereContactsIs(contact: Object(contact)): Object(group)}}\\
+Tale metodo ha il compito, dato un utente, di ritornare una lista di gruppi in cui esso è presente. Il metodo riceve come unico parametro il contatto da ricercare. Successivamente vengono ciclati tutti i gruppi e per ogni gruppo si controlla se è inserito il contatto. In caso di match, viene aggiunto il gruppo alla lista di gruppi da ritornare.
+
+%TODO da verificare
+\item{\method{+ contactAlreadyPresent(contact: Object(contact)): boolean}}\\
+Tale metodo ha il compito, dato un utente, di verificare se è già presente nella rubrica. Metodo di utilità richiamato ad esempio dai .metodi \method{addContact()} e \method{removeContact()}. In caso il contatto venga trovato, il metodo restituisce true, altrimenti false.
+
 
 \end{description}
 
