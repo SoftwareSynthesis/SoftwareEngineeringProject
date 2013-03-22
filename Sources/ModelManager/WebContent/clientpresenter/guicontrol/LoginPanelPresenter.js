@@ -31,6 +31,7 @@ function LoginPanelPresenter() {
 	 **************************************************************************/
 	/**
 	 * Configura gli URL delle servlet da interrogare leggendoli dal file di configurazione
+	 * @author Diego Beraldin
 	 */
 	function getServletURLs() {
 		var configurationRequest = new XMLHttpRequest();

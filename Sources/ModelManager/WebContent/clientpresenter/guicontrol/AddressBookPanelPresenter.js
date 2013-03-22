@@ -17,12 +17,7 @@ function AddressBookPanelPresenter(url, ext) {
      ***********************************************************/
     // elemento controllato da questo presenter
     var element = document.getElementById("AddressBookPanel");
-    // da configurare con url della servlet
-    var urlServlet = url;
-    // suffisso da concatenere agli URL
-    var suffix = (ext == null ? "" : ext);
 
-    var operations = new Array("GetContacts", "DoAddContact", "DoDeleteContact", "DoInsertInGroup", "DoRemoveFromGroup", "DoCreateGroup", "DoDeleteGroup", "GetGroups", "DoBlock", "DoUnblock", "DoSearch");
     /* OPERATION ON SERVER:
     * -  0 = ottieni i contatti della rubrica
     * -  1 = aggiungi contatto ad una rubrica
@@ -41,10 +36,42 @@ function AddressBookPanelPresenter(url, ext) {
     var contacts = new Array();
     // array dei gruppi della rubrica
     var groups = new Array();
+    // URL delle servlet
+    var servlets = new Array();
+    // inizializza l'array delle servlet
+    getServletURLs();
 
     /**********************************************************
      METODI PRIVATI
      ***********************************************************/
+	/**
+	 * Configura gli URL delle servlet da interrogare leggendoli dal file di configurazione
+	 * @author Diego Beraldin
+	 */
+	function getServletURLs() {
+		var configurationRequest = new XMLHttpRequest();
+		configurationRequest.open("POST", configurationFile, false);
+		configurationRequest.send();
+		var XMLDocument = configurationRequest.responseXML;
+		var baseURL = XMLDocument.getElementsByTagName("baseURL")[0].childNodes[0].data;
+		
+		var names = Array();
+		names.push(XMLDocument.getElementById("getcontacts").childNodes[0].data);;
+		names.push(XMLDocument.getElementById("addcontact").childNodes[0].data);
+		names.push(XMLDocument.getElementById("deletecontact").childNodes[0].data);
+		names.push(XMLDocument.getElementById("insert").childNodes[0].data);
+		names.push(XMLDocument.getElementById("remove").childNodes[0].data);
+		names.push(XMLDocument.getElementById("creategroup").childNodes[0].data);
+		names.push(XMLDocument.getElementById("deletegroup").childNodes[0].data);
+		names.push(XMLDocument.getElementById("getgroups").childNodes[0].data);
+		names.push(XMLDocument.getElementById("block").childNodes[0].data);
+		names.push(XMLDocument.getElementById("unblock").childNodes[0].data);
+		
+		for (var i in names) {
+			servlets.push(baseURL + names[i]);
+		}
+	}
+	
     /**
      * Recupera i contatti e i gruppi della propria rubrica dal server tramite
      * AJAX
@@ -56,7 +83,7 @@ function AddressBookPanelPresenter(url, ext) {
         //apro due XMLHttprequest rispettivamente per contatti e gruppi
         var contactRequest = new XMLHttpRequest();
         var groupRequest = new XMLHttpRequest();
-        contactRequest.open("POST", urlServlet + operations[0] + suffix, false);
+        contactRequest.open("POST", servlets[0], false);
         contactRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         contactRequest.send();
         contacts = JSON.parse(contactRequest.responseText);
@@ -302,7 +329,7 @@ function AddressBookPanelPresenter(url, ext) {
 
         //invio la richiesta al server e attendo il risultato
         var request = new XMLHttpRequest();
-        request.open("POST", urlServlet + operations[1] + suffix, false);
+        request.open("POST", servlets[1] + suffix, false);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         request.send("contactId=" + contact.id);
 
@@ -330,7 +357,7 @@ function AddressBookPanelPresenter(url, ext) {
 
         //invio la richiesta al server e attendo il risultato
         var request = new XMLHttpRequest();
-        request.open("POST", urlServlet + operations[2], false);
+        request.open("POST", servlets[2], false);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         request.send("contactId=" + contact.id);
 
@@ -361,7 +388,7 @@ function AddressBookPanelPresenter(url, ext) {
 
         //invio la richiesta al server e attendo il risultato
         var request = new XMLHttpRequest();
-        request.open("POST", urlServlet + operations[3] + suffix, false);
+        request.open("POST", servlets[3] + suffix, false);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         request.send("contactId=" + contact.id + "&groupId=" + groupid);
 
@@ -392,7 +419,7 @@ function AddressBookPanelPresenter(url, ext) {
 
         //invio la richiesta al server e attendo il risultato
         var request = new XMLHttpRequest();
-        request.open("POST", urlServlet + operations[4] + suffix, false);
+        request.open("POST", servlets[4] + suffix, false);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         request.send("contactId=" + contact.id + "&groupId=" + group.id);
 
@@ -419,7 +446,7 @@ function AddressBookPanelPresenter(url, ext) {
 
         //invio la richiesta al server e attendo il risultato
         var request = new XMLHttpRequest();
-        request.open("POST", urlServlet + operations[5] + suffix, false);
+        request.open("POST", servlets[5] + suffix, false);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         request.send("groupName=" + name);
 
@@ -453,7 +480,7 @@ function AddressBookPanelPresenter(url, ext) {
 
         //invio la richiesta al server e attendo il risultato
         var request = new XMLHttpRequest();
-        request.open("POST", urlServlet + operations[6] + suffix, false);
+        request.open("POST", servlets[6] + suffix, false);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         request.send("groupId=" + group.id);
 
@@ -578,7 +605,7 @@ function AddressBookPanelPresenter(url, ext) {
 
         //invio la richiesta di bloccaggio dell'utente
         var request = new XMLHttpRequest();
-        request.open("POST", urlServlet + operations[8] + suffix, false);
+        request.open("POST", servlets[8] + suffix, false);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         request.send("contactId=" + contact.id);
 
@@ -610,7 +637,7 @@ function AddressBookPanelPresenter(url, ext) {
 
         //invio la richiesta di bloccaggio dell'utente
         var request = new XMLHttpRequest();
-        request.open("POST", urlServlet + operations[9] + suffix, false);
+        request.open("POST", servlets[9] + suffix, false);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         request.send("contactId=" + contact.id);
 
