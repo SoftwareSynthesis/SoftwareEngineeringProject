@@ -188,7 +188,7 @@ function ContactPanelPresenter() {
         adjustBlockButtonDisplay(contact);
 
         //popolo le label dei gruppi al div groupsDiv
-        buildGroupsDiv();
+        buildGroupsDiv(contact);
 
         //associo gli eventi onClick ai bottoni
         addToAddressBookButton.onclick = function() {

@@ -26,7 +26,7 @@ test("testInitialize()", function() {
 
 		
 	var list = element.childNodes;
-		// controllo che abbia esattamente tre figli
+		// controllo che abbia esattamente quattro figli
 	equal(list.length,4,"il numero di figli dell'elemento restituito e' 4");
 	i++;
 	
