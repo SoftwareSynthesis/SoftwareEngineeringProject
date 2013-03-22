@@ -160,17 +160,15 @@ function AddressBookPanelPresenter(url, ext) {
      * Controlla se un contatto è presente nel gruppo passato come parametro
      *
      * @author Riccardo Tresoldi
-     * @param {Number} idContact id del contatto da verificare se presente nel
+     * @param {Object} contact contatto da verificare se presente nel
      * gruppo
-     * @param {Number} idGroup id del gruppo su cui verificare
+     * @param {Object} group gruppo su cui verificare
      * @return {Boolean} ritorna true solo se il contatto è presente nel gruppo
      */
-    function contactExistInGroup(idContact, idGroup) {
-        //Estraggo il gruppo in cui cercare
-        var group = groups[idGroup];
+    function contactExistInGroup(contact, group) {
         //ciclo l'array di contatti del gruppo
-        for (var contact in group.contacts) {
-            if (contact == idContact)
+        for (var c in group.contacts) {
+            if (c == contact.id)
                 return true;
         }
         return false;
@@ -288,7 +286,7 @@ function AddressBookPanelPresenter(url, ext) {
      * Aggiunge un contatto alla rubrica se non già presente
      *
      * @author Riccardo Tresoldi
-     * @param {Number} contact rappresenta l'id del contatto da aggiungere
+     * @param {Object} contact rappresenta il contatto da aggiungere
      * @returns {Boolean} true solo se l'aggiunta ha avuto successo
      */
     this.addContact = function(contact) {
@@ -301,7 +299,7 @@ function AddressBookPanelPresenter(url, ext) {
         var request = new XMLHttpRequest();
         request.open("POST", urlServlet + operations[1] + suffix, false);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        request.send("contactId=" + contact);
+        request.send("contactId=" + contact.id);
 
         //visualizzo l'esito della richiesta. Se esito positivo refresh della
         // rubrica
@@ -317,7 +315,7 @@ function AddressBookPanelPresenter(url, ext) {
      * Rimovere un contatto alla rubrica se presente
      *
      * @author Riccardo Tresoldi
-     * @param {Number} contact rappresenta l'id del contatto da eliminare
+     * @param {Object} contact rappresenta il contatto da eliminare
      * @returns {Boolean} true solo se l'eliminazione ha avuto successo
      */
     this.removeContact = function(contact) {
@@ -329,7 +327,7 @@ function AddressBookPanelPresenter(url, ext) {
         var request = new XMLHttpRequest();
         request.open("POST", urlServlet + operations[2], false);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        request.send("contactId=" + contact);
+        request.send("contactId=" + contact.id);
 
         //visualizzo l'esito della richiesta. Se esito positivo refresh della
         // rubrica
@@ -345,9 +343,9 @@ function AddressBookPanelPresenter(url, ext) {
      * Aggiungere un contatto della propria rubrica ad un proprio gruppo
      *
      * @author Riccardo Tresoldi
-     * @param {Number} contact rappresenta l'id del contatto da aggiungere al
+     * @param {Object} contact rappresenta il contatto da aggiungere al
      * gruppo
-     * @param {Number} group rappresenta l'id del gruppo in cui aggiungere il
+     * @param {Object} group rappresenta il gruppo in cui aggiungere il
      * contatto
      * @returns {Boolean} true solo se l'aggiunta ha avuto successo
      */
@@ -360,7 +358,7 @@ function AddressBookPanelPresenter(url, ext) {
         var request = new XMLHttpRequest();
         request.open("POST", urlServlet + operations[3] + suffix, false);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        request.send("contactId=" + contact + "&groupId=" + group);
+        request.send("contactId=" + contact.id + "&groupId=" + groupid);
 
         //visualizzo l'esito della richiesta. Se esito positivo refresh della
         // rubrica
@@ -376,9 +374,9 @@ function AddressBookPanelPresenter(url, ext) {
      * Elimina un contatto della propria rubrica da un proprio gruppo
      *
      * @author Riccardo Tresoldi
-     * @param {Number} contact rappresenta l'id del contatto da eliminare al
+     * @param {Object} contact rappresenta il contatto da eliminare dal
      * gruppo
-     * @param {Number} group rappresenta l'id del gruppo in cui eliminare il
+     * @param {Object} group rappresenta il gruppo in cui eliminare il
      * contatto
      * @returns {Boolean} true solo se l'eliminazione ha avuto successo
      */
@@ -391,7 +389,7 @@ function AddressBookPanelPresenter(url, ext) {
         var request = new XMLHttpRequest();
         request.open("POST", urlServlet + operations[4] + suffix, false);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        request.send("contactId=" + contact + "&groupId=" + group);
+        request.send("contactId=" + contact.id + "&groupId=" + group.id);
 
         //visualizzo l'esito della richiesta. Se esito positivo refresh della
         // rubrica
@@ -435,14 +433,14 @@ function AddressBookPanelPresenter(url, ext) {
      * non verranno eliminati
      *
      * @author Riccardo Tresoldi
-     * @param {Number} idGroup rappresenta l'id del gruppo da eliminare
+     * @param {Object} group rappresenta l'id del gruppo da eliminare
      * @returns {Boolean} true solo se la rimozione ha avuto successo
      */
-    this.deleteGroup = function(idGroup) {
+    this.deleteGroup = function(group) {
         //controllo che il gruppo esista
         var existGroup = false;
-        for (var group in groups) {
-            if (group == idGroup)
+        for (var g in groups) {
+            if (g == group.id)
                 existGroup = true;
         }
         if (!existGroup)
@@ -452,7 +450,7 @@ function AddressBookPanelPresenter(url, ext) {
         var request = new XMLHttpRequest();
         request.open("POST", urlServlet + operations[6] + suffix, false);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        request.send("groupId=" + idGroup);
+        request.send("groupId=" + group.id);
 
         //visualizzo l'esito della richiesta. Se esito positivo refresh della
         // rubrica
@@ -633,7 +631,7 @@ function AddressBookPanelPresenter(url, ext) {
      */
     this.getGroupsWhereContactsIs = function(contact) {
         //creo l'array da tornare
-        var groupSelected;
+        var groupSelected = new Object();
         //ciclo tutti i gruppi
         for (var group in groups) {
             //ciclo tutti i contatti di un gruppo
