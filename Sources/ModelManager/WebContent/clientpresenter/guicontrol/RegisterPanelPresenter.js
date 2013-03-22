@@ -291,11 +291,21 @@ function RegisterPanelPresenter(url) {
         liPicture.appendChild(labelPicture);
         liPicture.appendChild(inputPicture);
 
+		// pulsante di ritorno alla pagina di login
+        var inputLogin = document.createElement('input');
+        inputLogin.setAttribute("type", "submit");
+		inputLogin.setAttribute("value", "Indietro");
+		inputLogin.appendChild(document.createTextNode('Indietro'));
+		inputLogin.onclick = function() {
+			self.hide();
+			mediator.buildLoginUI();
+		};
+
         //pulsante di registrazione
         var inputRegister = document.createElement('input');
         inputRegister.setAttribute("type", "submit");
         inputRegister.setAttribute("value", "Registrati");
-        var self = this;
+		var self = this;
         inputRegister.onclick = function() {
         	var data = new Object();
         	data.username = self.getUsername();
@@ -307,7 +317,9 @@ function RegisterPanelPresenter(url) {
         	data.picturePath = self.getPicturePath();
         	self.register(data);
         };
+		//creazione dell'item per i pulsante
         var liButtons = document.createElement('li');
+		liButtons.appendChild(inputLogin);
 		liButtons.appendChild(inputRegister);
 
         //appende tutti gli elementi al form
