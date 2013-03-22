@@ -64,7 +64,13 @@ function ToolsPanelPresenter() {
         liCallList.appendChild(buttonCallList);
         
         // funzione gestione contatti
-        //TODO aggiungere amministrazione dei gruppi
+        var liGroup = document.createElement("li");
+        var buttonGroup = document.createElement("button");
+        buttonGroup.appendChild(document.createTextNode("Gruppi"));
+        buttonGroup.onclick = function() {
+            mediator.displayGroupPanel();
+        };
+        liGroup.appendChild(buttonGroup);
         
         // funzione selezione lingua
         var liLanguage = document.createElement("li");
@@ -85,13 +91,14 @@ function ToolsPanelPresenter() {
         ulFunction.appendChild(liAnswering);
         ulFunction.appendChild(liSetting);
         ulFunction.appendChild(liCallList);
+        ulFunction.appendChild(liGroup);
         ulFunction.appendChild(liLanguage);
         divFunction.appendChild(ulFunction);
 
         // contenuto del '<div>' per gli stati dell'utente
         var divState = document.createElement("div");
         var state = document.createElement("select");
-        select.setAttribute("state", "selectState");
+        select.setAttribute("id", "selectState");
         divState.appendChild(state);
 
         // aggiunge il sottoalbero al DOM dell'elemento controllato
