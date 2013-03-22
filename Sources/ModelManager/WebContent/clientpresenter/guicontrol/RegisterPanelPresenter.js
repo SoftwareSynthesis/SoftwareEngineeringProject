@@ -10,10 +10,27 @@ function RegisterPanelPresenter(url) {
     /**********************************************************
     VARIABILI PRIVATE
     ***********************************************************/
-    //url della servlet che deve gestire la registrazione
-    var servletURL = url;
     //elemento controllato da questo presenter
     var element = document.getElementById("RegisterPanel");
+    // URL della servlet con cui questo presenter
+    var servlets = new Array();
+    
+    /**********************************************************
+    METODI PRIVATI
+    ***********************************************************/
+	/**
+	 * Configura gli URL delle servlet da interrogare leggendoli dal file di configurazione
+	 * @author Diego Beraldin
+	 */
+    function getServletURLs() {
+		var configurationRequest = new XMLHttpRequest();
+		configurationRequest.open("POST", configurationFile, false);
+		configurationRequest.send();
+		var XMLDocument = configurationRequest.responseXML;
+		var baseURL = XMLDocument.getElementsByTagName("baseURL")[0].childNodes[0].data;
+		var name = (XMLDocument.getElementById("registration").childNodes[0].data);
+		servlets.push(baseURL + name);
+    }
     
     /**********************************************************
     METODI PUBBLICI

@@ -41,7 +41,7 @@ function LoginPanelPresenter() {
 		var baseURL = XMLDocument.getElementsByTagName("baseURL")[0].childNodes[0].data;
 		
 		var names = Array();
-		names.push(XMLDocument.getElementById("authentication").childNodes[0].data);;
+		names.push(XMLDocument.getElementById("authentication").childNodes[0].data);
 		names.push(XMLDocument.getElementById("question").childNodes[0].data);
 		names.push(XMLDocument.getElementById("answer").childNodes[0].data);
 		
@@ -331,6 +331,7 @@ function LoginPanelPresenter() {
 		// pulsante di login
 		var inputLogin = document.createElement('button');
 		inputLogin.type = "button";
+		inputLogin.setAttribute("type", "submit");
 		inputLogin.appendChild(document.createTextNode('Login'));
 		var self = this;
 		inputLogin.onclick = function() {
@@ -342,6 +343,7 @@ function LoginPanelPresenter() {
 		// pulsante di registrazione
 		var inputRegister = document.createElement('button');
 		inputRegister.type = "button";
+		inputRegister.setAttribute("type", "submit");
 		inputRegister.appendChild(document.createTextNode('Registrazione'));
 		inputRegister.onclick = function() {
 			self.hide();
@@ -350,6 +352,7 @@ function LoginPanelPresenter() {
 		// pulsante per recuperare la password
 		var inputRetrievePassword = document.createElement("button");
 		inputRetrievePassword.type = "button";
+		inputRetrievePassword.setAttribute("type", "submit");
 		inputRetrievePassword.appendChild(document
 				.createTextNode('Recupera password'));
 		inputRetrievePassword.onclick = function() {
