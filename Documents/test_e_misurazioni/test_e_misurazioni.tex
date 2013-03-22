@@ -223,7 +223,7 @@ Tale test si compone di un solo metodo:
 \textbf{Descrizione}:l'obbiettivo di questo test è verificare la corretta conversione di un istanza di \textit{AddressBookEntry}.\\
 Tale test si compone di un solo metodo:
 \begin{itemize}
-\item \textit{testToJson() } tale metodo riceve una stringa in formato json di una 	\textit{entry} della rubrica e verifica che quest'ultima sia equivalente a quella ottenuta dalla chiamata al metodo \textit{ToJson} sull'istanza della classe \textit{AddressBookEntry}.
+\item \textit{testToJson() } tale metodo riceve una stringa in formato json di una 	\textit{entry} della rubrica e verifica che quest'ultima sia equivalente a quella ottenuta dalla chiamata al metodo \textit{ToJson} sull'istanza della classe \textit{AddressBookEntry};
 \item{testEquals()} viene creato un oggetto \textit{AdressBookEntry} e viene confrontato con l'istanza dell'oggetto che ha invocato il metodo, restituendo \textit{true} se e solo se sono uguali.
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
@@ -268,7 +268,7 @@ Tale test si compone di un solo metodo metodi:
 \textbf{Descrizione}:l'obbiettivo di questo test è verificare la corretta conversione di un istanza di \textit{Group}.\\
 Tale test si compone di un solo metodo:
 \begin{itemize}
-\item \textit{testToJson() } tale metodo riceve una stringa in formato json di una 	\textit{entry} della rubrica e verifica che quest'ultima sia equivalente a quella ottenuta dalla chiamata al metodo \textit{ToJson} sull'istanza della classe \textit{Group}.
+\item \textit{testToJson() } tale metodo riceve una stringa in formato json di una 	\textit{entry} della rubrica e verifica che quest'ultima sia equivalente a quella ottenuta dalla chiamata al metodo \textit{ToJson} sull'istanza della classe \textit{Group};
 \item \textit{testId() } verifica l'effettivo inserimento del campo \textit{id} mediante il metodo \textit{getId()};
 \item \textit{testName() } verifica l'effettivo inserimento del campo \textit{name} mediante il metodo \textit{getName()};
 \item{testEquals()} viene creato un oggetto \textit{AdressBookEntry} e viene confrontato con l'istanza dell'oggetto che ha invocato il metodo, restituendo \textit{true} se e solo se sono uguali.
@@ -293,7 +293,7 @@ Tale test si compone di 5 metodi:
 \item \textit{testInsert()} tale metodo ha lo scopo di verificare il corretto inserimento di uno \textit{userdata} all'interno del database;
 \item \textit{testGetByEmail()} ha lo scopo di verificare il prelevamento dal database di uno \textit{userdata} tramite l'indirizzo mail con cui si è registrato nel sistema;
 \item \textit{testUpdate() } verifica se le modifiche ad un oggetto \textit{userdata} siano effettive nel database;
-\item \textit{testDelete() } verifica l'effettiva cancellazione di uno \textit{userdata} dal database.
+\item \textit{testDelete() } verifica l'effettiva cancellazione di uno \textit{userdata} dal database;
 \item \textit{testSearchGeneric()} verifica che sia presente uno \textit{userdata} nel database mediante la ricerca fatta cercando un parametro di input che ha una corrispondenza con uno o più campi tra \textit{nome, cognome, email}.
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
@@ -343,9 +343,13 @@ Successivamente controlla che gli elementi della lista vengano visualizzati corr
 \subsubsection{AddressBookPanelPresenterTest}
 \textbf{Verifica l'oggetto:} \textit{AdressBookPanelPresenter}.\\
 \textbf{Descrizione}:\\
-Tale verifica è composta da un solo test:
+verifica la corretta inizializzazione di \textit{AddressBookPanel}, ovvero che l'albero sia stato costruito correttamente, e che il contenuto dei vari nodi sia stato inserito coerentemente.\\
+Tale verifica è composta da X test:
 \begin{itemize}
-\item \textit{() }
+\item \textit{testSetup() } crea la lista dei contatti che devono essere recuperati dal server, scaricandoli dallo stesso. Successivamente controlla che siano stati scaricati \textit{tutti} i contatti della rubrica dal server (valore corretto \textit{due}) e che gli elementi (contatti) sono figli della lista creata. Tali elementi risultano essere delle sotto-liste e viene verificato che i loro figli (rispettivamente un'\textit{immagine di profilo}, un \textit{nodo testo} e un'textit{immagine di stato}) siano correttamente inizializzati e contengano valori coerenti (uguali) a quelli impostati dallo \textit{stub}.
+
+\item \textit{ ()}
+  
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
@@ -363,7 +367,7 @@ Tale verifica è composta da un solo test:
 \textbf{Descrizione}: l'obbiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \textit{ComunicationPanel}.\\
 Tale verifica è composta da un solo test:
 \begin{itemize}
-\item \textit{testCreatePanel() } controlla che il numero dei figli del \textit{ComunicationPanel} siano esattamente due, che entrambi siano \textit{<div>} e che il valore dell'attributo \textit{id} del primo figlio sia ``divCall''. mentre del secondo ``divChat''. 
+\item \textit{testCreatePanel() } controlla che il numero dei figli del \textit{ComunicationPanel} siano esattamente due, che entrambi siano \textit{<div>} e che il valore dell'attributo \textit{id} del primo figlio sia ``divCall'' mentre del secondo ``divChat'';
 \item \textit{()} %TODO MANCANO TEST
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
@@ -373,7 +377,7 @@ Tale verifica è composta da un solo test:
 \textbf{Descrizione}: l'obbiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \textit{ContactPanel}.\\
 Tale verifica è composta da un solo test:
 \begin{itemize}
-\item \textit{testCreatePanel() }crea l'elemento \textit{ContactPanel}, estrae la lista dei suoi figli e controlla per ogni figlio che le informazioni siano coerenti con quelle inserite in input.
+\item \textit{testCreatePanel() }crea l'elemento \textit{ContactPanel}, estrae la lista dei suoi figli e controlla per ogni figlio che le informazioni siano coerenti con quelle inserite in input;
 \item \textit{()} %TODO MANCANO TEST
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
@@ -393,12 +397,12 @@ Tale verifica è composta da un solo test:
 Tale verifica è composta da quattro test:
 \begin{itemize} 
 \item \textit{testInitialize() } mediante diversi metodi \textit{equal} controlla l'effettiva correttezza della \inglese{form} creata, sia nella forma che nel funzionamento;
-\item \textit{testLogin() } effettua una prova di login, mediante l'inserimento di uno \textit{username} e una \textit{password} corretti, verificando che tali dati siano accettati correttamente;
-\item \textit{testGetUsername() } verifica che, dato uno \textit{username} in input corretto generato come \underline{\inglese{stub}}, sia possibile recuperarlo correttamente. Se lo \textit{username} non è una mail valida, o non è inserito nella \inglese{form}, solleva un'eccezione.
-\item \textit{testGetPassword() } verifica che, data una \textit{password} in input corretta generata come \inglese{stub}, sia possibile recuperarla correttamente.Se la \textit{password} non è inserita nella \inglese{form}, solleva un'eccezione.
-\item \textit{testHide()} controlla che venga correttamente nascosto il \inglese{form} di \textit{login} dopo l'effettiva autenticazione o di richiesta di registrazione.
-\item \textit{testBuildRetrivePasswordForm()} tale test verifica la corretta creazione della form richiamata per il recupero della password tramite risposta segreta, successivamente controlla che venga richiamata la domanda correttamente impostata a cui rispondere.
-\item \textit{testSendAnswer} %TODO DA DESCRIVERE
+\item \textit{testLogin() } effettua una prova di login, mediante l'inserimento di uno \textit{username} e una \textit{password} corretti, verificando che tali dati siano accettati correttamente.
+\item \textit{testGetUsername() } verifica che, dato uno \textit{username} in input corretto generato come \underline{\inglese{stub}}, sia possibile recuperarlo correttamente. Se lo \textit{username} non è una mail valida, o non è inserito nella \inglese{form}, solleva un'eccezione;
+\item \textit{testGetPassword() } verifica che, data una \textit{password} in input corretta generata come \inglese{stub}, sia possibile recuperarla correttamente.Se la \textit{password} non è inserita nella \inglese{form}, solleva un'eccezione;
+\item \textit{testHide()} controlla che venga correttamente nascosto il \inglese{form} di \textit{login} dopo l'effettiva autenticazione o di richiesta di registrazione;
+\item \textit{testBuildRetrivePasswordForm()} tale test verifica la corretta creazione della form richiamata per il recupero della password tramite risposta segreta, successivamente controlla che venga richiamata la domanda correttamente impostata a cui rispondere;
+\item \textit{testHasAnsweredCorrectly()} tale test verifica la corretta ricezione della risposta segreta (e la correttezza della risposta stessa) associata per il recupero password. Viene inoltre effettuato un test di negazione della stessa.
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
@@ -426,14 +430,14 @@ Successivamente estraggo la lista dei figli del primo figlio (il suo figlio deve
 Tale verifica è composta da dieci test:
 \begin{itemize}
 \item \textit{testInitialize() } mediante diversi metodi \textit{equal} controlla l'effettiva correttezza della \inglese{form} creata, sia nella forma che nel funzionamento;
-\item \textit{testHide() } controlla che venga correttamente nascosto il \inglese{form} di \textit{login} dopo l'effettiva richiesta di registrazione.
+\item \textit{testHide() } controlla che venga correttamente nascosto il \inglese{form} di \textit{login} dopo l'effettiva richiesta di registrazione;
 \item \textit{testRegister() } mediante diversi metodi \textit{equal} controlla l'effettiva registrazione dei dati inseriti nella \inglese{form}, confrontandoli con quelli passati in ingresso;
-\item \textit{testGetPicturePath() } crea una \inglese{form} compilata correttamente con l'immagine utente da inserire, successivamente prova a recuperarla mediante \textit{GetPicturePath}, verificando se è stata inserita correttamente (o meno). 
-\item \textit{testGetUsername() } crea una \inglese{form} compilata correttamente con lo \textit{username}, e prova a recuperarlo mediante \textit{GetUsername}, verificando se è stato inserito correttamente (o meno).
-\item \textit{testGetPassword() } crea una \inglese{form} compilata correttamente con il campo \textit{password}, e prova a recuperarlo mediante \textit{GetPassword}, verificando se è stata inserita correttamente (o meno).
-\item \textit{testGetQuestion() }  crea una \inglese{form} compilata correttamente con il campo \textit{question}, e prova a recuperarlo mediante \textit{GetQuestion}, verificando se è stata inserita correttamente (o meno).
-\item \textit{testGetAnswer() } crea una \inglese{form} compilata correttamente con il campo \textit{answer}, e prova a recuperarlo mediante \textit{GetAnswer}, verificando se è stata inserita correttamente (o meno).
-\item \textit{testGetName() }  crea una \inglese{form} compilata correttamente con il campo \textit{name}, e prova a recuperarlo mediante \textit{GetName}, verificando se è stato inserito correttamente (o meno).
+\item \textit{testGetPicturePath() } crea una \inglese{form} compilata correttamente con l'immagine utente da inserire, successivamente prova a recuperarla mediante \textit{GetPicturePath}, verificando se è stata inserita correttamente (o meno); 
+\item \textit{testGetUsername() } crea una \inglese{form} compilata correttamente con lo \textit{username}, e prova a recuperarlo mediante \textit{GetUsername}, verificando se è stato inserito correttamente (o meno);
+\item \textit{testGetPassword() } crea una \inglese{form} compilata correttamente con il campo \textit{password}, e prova a recuperarlo mediante \textit{GetPassword}, verificando se è stata inserita correttamente (o meno);
+\item \textit{testGetQuestion() }  crea una \inglese{form} compilata correttamente con il campo \textit{question}, e prova a recuperarlo mediante \textit{GetQuestion}, verificando se è stata inserita correttamente (o meno);
+\item \textit{testGetAnswer() } crea una \inglese{form} compilata correttamente con il campo \textit{answer}, e prova a recuperarlo mediante \textit{GetAnswer}, verificando se è stata inserita correttamente (o meno);
+\item \textit{testGetName() }  crea una \inglese{form} compilata correttamente con il campo \textit{name}, e prova a recuperarlo mediante \textit{GetName}, verificando se è stato inserito correttamente (o meno);
 \item \textit{testGetSurname() }  crea una \inglese{form} compilata correttamente con il campo \textit{surname}, e prova a recuperarlo mediante \textit{GetSurname}, verificando se è stata inserita correttamente (o meno).
 
 \end{itemize}
