@@ -132,10 +132,16 @@ function ToolsPanelPresenter() {
      * 
      * @author Riccardo Tresoldi
      */
-    this.logout=function(){
-        //TODO
-        //chiudere tutti i presenter e aprire loginPP
-    }
+    this.logout = function() {
+        var request = new XMLHttpRequest();
+        request.open("POST", servlets[0], false);
+        request.send();
+        var result = JSON.parse(request.responseText);
+        if (!result) {
+        	alert("Ops... qualcosa &egrave; andato storto nel server!");
+        }
+        
+    };
     
 /*
  * TODO:
