@@ -7,8 +7,7 @@ module("AddressBookPanelPresenterTest", {
     	element.style.left ="-999em";
     	
     	document.body.appendChild(element);
-    	
-		
+    	configurationFile = "../WebContent/Conf/servletlocationtest.xml";
     	// oggetto da testare
 		tester = new AddressBookPanelPresenter("php_stubs/AddressBook", ".php");
 		
@@ -17,17 +16,91 @@ module("AddressBookPanelPresenterTest", {
 	teardown: function() {}
 });
 
+
+
+test("testInitialize()", function() {
+	
+	var i=0;
+	tester.initialize();
+	
+
+		
+	var list = element.childNodes;
+		// controllo che abbia esattamente tre figli
+	equal(list.length,4,"il numero di figli dell'elemento restituito e' 4");
+	i++;
+	
+	equal(list[0].nodeName,"DIV", "il primo figlio e' un div");
+	i++;
+	equal(list[1].nodeName,"DIV", "il secondo figlio e' un div");
+	i++;
+	equal(list[2].nodeName,"DIV", "il terzo figlio e' un div");
+	i++;
+	equal(list[3].nodeName,"DIV", "il quarto figlio e' un div");
+	i++;
+	
+	equal(list[0].getAttribute("id"),"divFilter","il primo div si chiama divFilter");
+	i++;
+	equal(list[1].getAttribute("id"),"divSort","il secondo div si chiama divSort");
+	i++;
+	equal(list[2].getAttribute("id"),"divList","il terzo div si chiama divList");
+	i++;
+	equal(list[3].getAttribute("id"),"divGroup","il quarto div si chiama divGroup");
+	i++;
+	
+	
+	var Filter=list[0].childNodes;
+	equal(Filter.length,2,"il numero di figli di Filter e' 2");
+	i++;
+	
+	equal(Filter[0].nodeName,"INPUT","il primo figlio di divFilter e' un input");
+	i++;
+	equal(Filter[0].getAttribute("type"),"text","il tipo dell'input e' text");
+	i++;
+	
+	equal(Filter[1].nodeName,"INPUT","il secondo figlio di divFilter e' un input");
+	i++;
+	equal(Filter[1].getAttribute("type"),"image","il tipo dell'input e' button");
+	i++;
+	
+	var Sort=list[1].childNodes;
+	equal(Sort.length,1,"il numero di figli di Sort e' 1");
+	i++;
+	equal(Sort[0].nodeName,"SELECT","il figlio di Sort è un select");
+	i++;
+	equal(Sort[0].getAttribute("id"),"selectSort","il nome del select e' SelectSort");
+	i++;
+	
+	
+	var List=list[2].childNodes;
+	equal(List.length,1,"il numero di figli di List e' 1");
+	i++;
+	equal(List[0].nodeName,"UL","il figlio di List è una lista ul");
+	i++;
+	
+	var Group=list[3].childNodes;
+	equal(Group.length,1,"il numero di figli di Group e' 1");
+	i++;
+	equal(Group[0].nodeName,"SELECT","il figlio di Group è un select");
+	i++;
+	equal(Group[0].getAttribute("id"),"selectGroup","il nome del select e' SelectSort");
+	i++;
+	
+	
+	
+	
+	expect(i)
+});
+
+
+
+
 test("testSetup()", function() {
 		
-	var ulList = document.createElement('ul');
-	ulList.id="AddressBookList";
-	element.appendChild(ulList);
-	var gr=document.createElement("select");
-	gr.id="selectGroup";
-	element.appendChild(gr);
+	
 	var i=0;
 	tester.setup();
-	var list=ulList.childNodes;
+	var list=document.getElementById("AddressBookList").childNodes;
 	//controllo che abbia scaricato tutti contatti dal server
 	equal(list.length, 2, "numero corretto di contatti nella rubrica");
 	i++;
@@ -87,15 +160,5 @@ test("testSetup()", function() {
 	equal(flavia[2].getAttribute("src"), "img/stateavailable.png", "lo stato (di Flavia) e' corretto");
 	i++;
 	
-	
-	
-	
-	
 	expect(i);
 });
-/*
-test("testInitialize()", function() {
-	tester.initialize();
-
-	expect(0);
-});*/
