@@ -2189,7 +2189,18 @@ Nessuna relazione d'uso evidenziata.
 \subsubsection*{Metodi}
 \begin{description}
 \item{\method{- adjustBlockButtonDisplay(contact: Object(contact)): void}}\\
-	Il metodo riceve come parametro un contatto (contact). Successivamente viene controllato se tale utente è bloccato o meno e imposta correttamente la visualizzazione della vista.
+	Il metodo riceve come parametro un contatto (contact). Successivamente viene controllato se tale utente è bloccato o meno e imposta correttamente la prorietà ''style'' agli elementi della vista. più dettagliatamente:\\
+se il contatto è bloccato:
+\begin{itemize}
+\item nascondo il bottone per bloccare un utente;
+\item mostro il bottone per sbloccare un utente
+\end{itemize}
+altrimenti\\
+\begin{itemize}
+\item mostro il bottone per bloccare un utente;
+\item nascondo il bottone per sbloccare un utente
+\end{itemize}
+
 
 \item{\method{- buildGroupsDiv(contact Object(contact)): void}}\\
 Il metodo, che riceve come parametro un contatto (contact), ha il compito di recuperare tutti i gruppi 
@@ -2225,6 +2236,34 @@ Metodo che popola nel corretto modo tutti gli elementi necessari per la visualiz
 \item pulsante per sbloccare il contatto.
 \end{itemize}
 Successivamente si andranno a popolare tali elementi utilizzando le informazioni del contatto passato come parametro (contact). Infine si imposterà correttamente il comportamento dei bottoni associando le giuste chiamate a metodi.
+
+\end{description}
+
+%TODO da verificare
+\classsection{MainPanelPresenter}
+
+\subsubsection*{Funzione}
+Presenter incaricato di gestire il pannello principale, ossia quello centrale.
+
+\subsubsection*{Relazioni d'uso}
+Nessuna relazione d'uso evidenziata.
+
+\subsubsection*{Attributi}
+\begin{description}
+\item{\memberdata{-- element: DOM\_element}}\\
+  elemento controllato dal presenter in questione.
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+\item{\method{+ initialize(): void}}\\
+Metodo utilizzato per costruire il pannello principale che occupa la parte centrale della finestra. Imposta l'immagine del logo ''MyTalk'' come sfondo quando il pannello è vuoto.
+
+\item{\method{+ displayChildPanel(node DOM\_node): void}}\\
+Metodo che visualizza il DOM\_node (node) ricevuto come parametro nel pannello in questione.
+	
+\item{\method{+ hide(): void}}\\
+Metodo che rende invisibile il pannello.
 
 \end{description}
 
