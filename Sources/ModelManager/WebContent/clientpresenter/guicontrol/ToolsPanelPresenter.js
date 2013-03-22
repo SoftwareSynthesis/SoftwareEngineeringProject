@@ -20,7 +20,13 @@ function ToolsPanelPresenter() {
     METODI PRIVATI
     ***********************************************************/
     function getServletURLs() {
-    	
+		var configurationRequest = new XMLHttpRequest();
+		configurationRequest.open("POST", configurationFile, false);
+		configurationRequest.send();
+		var XMLDocument = configurationRequest.responseXML;
+		var baseURL = XMLDocument.getElementsByTagName("baseURL")[0].childNodes[0].data;
+		var name = XMLDocument.getElementById("close").childNodes[0].data;
+		servlets.push(baseURL + name);
     }
 
     /**********************************************************
