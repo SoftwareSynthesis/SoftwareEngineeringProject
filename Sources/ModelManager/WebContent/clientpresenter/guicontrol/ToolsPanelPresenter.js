@@ -12,10 +12,16 @@ function ToolsPanelPresenter() {
     ***********************************************************/
     //elemento controllato da questo presenter
     var element = document.getElementById("ToolsPanel");
+    // URL delle servlet
+    var servlets = new Array();
+    getServletURLs();
     
     /**********************************************************
     METODI PRIVATI
     ***********************************************************/
+    function getServletURLs() {
+    	
+    }
 
     /**********************************************************
     METODI PUBBLICI
