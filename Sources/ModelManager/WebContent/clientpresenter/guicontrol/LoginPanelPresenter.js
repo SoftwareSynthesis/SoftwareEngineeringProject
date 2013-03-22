@@ -330,8 +330,7 @@ function LoginPanelPresenter() {
 
 		// pulsante di login
 		var inputLogin = document.createElement('button');
-		inputLogin.type = "button";
-		inputLogin.setAttribute("type", "submit");
+		inputLogin.type = "submit";
 		inputLogin.appendChild(document.createTextNode('Login'));
 		var self = this;
 		inputLogin.onclick = function() {
@@ -342,8 +341,7 @@ function LoginPanelPresenter() {
 		};
 		// pulsante di registrazione
 		var inputRegister = document.createElement('button');
-		inputRegister.type = "button";
-		inputRegister.setAttribute("type", "submit");
+		inputRegister.type = "submit";
 		inputRegister.appendChild(document.createTextNode('Registrazione'));
 		inputRegister.onclick = function() {
 			self.hide();
@@ -351,8 +349,7 @@ function LoginPanelPresenter() {
 		};
 		// pulsante per recuperare la password
 		var inputRetrievePassword = document.createElement("button");
-		inputRetrievePassword.type = "button";
-		inputRetrievePassword.setAttribute("type", "submit");
+		inputRetrievePassword.type = "submit";;
 		inputRetrievePassword.appendChild(document
 				.createTextNode('Recupera password'));
 		inputRetrievePassword.onclick = function() {
