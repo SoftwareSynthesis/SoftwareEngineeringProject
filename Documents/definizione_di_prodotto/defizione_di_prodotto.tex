@@ -835,7 +835,6 @@ Servlet cha ha il compito di aggiungere alla rubrica un nuovo contatto.
 	\item \texttt{javax.servlet.ServletException}: eccezione rilancibile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{LoginManager}.
 	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
-	\item \texttt{javax.security.auth.login.LoginContext}: classe usata in \method{doPost()} per eseguite la logout dal sistema.
 	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la servlet (inoltra i dati in uscita dalla chiamata a servlet).
 	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
 	\item \classname{abook.IAddressBookEntry}:Interfaccia che definisce il comportamento di una generica \inglese{entry} della rubrica utente. La classe che qui andiamo a descrivere crea istanze di tipo \classname{abook.IAddressBookEntry}.
@@ -907,7 +906,6 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 	\item \texttt{javax.servlet.ServletException}: eccezione rilancibile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{LoginManager}.
 	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
-	\item \texttt{javax.security.auth.login.LoginContext}: classe usata in \method{doPost()} per eseguite la logout dal sistema.
 	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la servlet (inoltra i dati in uscita dalla chiamata a servlet).
 	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
 	\item \classname{abook.IAddressBookEntry}:Interfaccia che definisce il comportamento di una generica \inglese{entry} della rubrica utente. La classe che qui andiamo a descrivere crea istanze di tipo \classname{abook.IAddressBookEntry}.
@@ -982,7 +980,6 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 	\item \texttt{javax.servlet.ServletException}: eccezione rilancibile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{LoginManager}.
 	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
-	\item \texttt{javax.security.auth.login.LoginContext}: classe usata in \method{doPost()} per eseguite la logout dal sistema.
 	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la servlet (inoltra i dati in uscita dalla chiamata a servlet).
 	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
 	\item \classname{abook.IAddressBookEntry}:Interfaccia che definisce il comportamento di una generica \inglese{entry} della rubrica utente. La classe che qui andiamo a descrivere crea istanze di tipo \classname{abook.IAddressBookEntry}.
@@ -1053,7 +1050,6 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 	\item \texttt{javax.servlet.ServletException}: eccezione rilancibile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{LoginManager}.
 	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
-	\item \texttt{javax.security.auth.login.LoginContext}: classe usata in \method{doPost()} per eseguite la logout dal sistema.
 	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la servlet (inoltra i dati in uscita dalla chiamata a servlet).
 	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
 	\item \classname{abook.IAddressBookEntry}:Interfaccia che definisce il comportamento di una generica \inglese{entry} della rubrica utente. La classe che qui andiamo a descrivere crea istanze di tipo \classname{abook.IAddressBookEntry}.
@@ -1065,7 +1061,7 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 
 \begin{itemize}
 	\item{\memberdata{\underline{-- \{frozen\} serialVersionUID: long}}}
-	Attributo contenente l'id per la serializzazione dei dati. Il valore di creazione deve essere \texttt{10014L}.
+	Attributo contenente l'id per la serializzazione dei dati. Il valore di creazione deve essere \texttt{10019L}.
 \end{itemize}
 
 \subsubsection*{Metodi}
@@ -1103,6 +1099,81 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 			\item impostare friend a partire dal relativo tipo di istanza DAO e facendo restituire i dati presenti nel database tramite una chiamata a metodo \method{getByID} a cui passa il parametro contactId;
 			\item avvia un costrutto condizionale dotato di ramo else. Se friend!=null allora il metodo procede nel ramo if andando a scaricare l'elenco delle entry a partire da user. Quindi utilizzando l'iteratore iterator va a scorrere tale set di entry e quando verifica la presenza del contatto friend all'interno, modifica l'entry attualmente selezionata richiamando il metodo \method{setBlocked(false)}. Quindi prima di uscire dal costrutto if, viene eseguita un operazione di update a partire da user e si memorizza nella variabile result il valore ``\inglese{true}''.
 			\item altrimenti, se friend == null allora entra nel ramo else del costrutto condizionale e procede impostando result a ``\inglese{false}''
+		\end{itemize}
+	\end{itemize}
+	Il metodo termina scrivendo su writer il contenuto di result.
+	
+\end{description}
+
+%TODO da verificare
+
+\classsection{AddressBookDoSearchServlet}
+
+\subsubsection*{Funzione}
+\inglese{Servlet} richiamata dal client per effettuare una ricerca sulla propria rubrica. La ricerca consiste nell'individuare tutti i contatti che contengono nei campi name, surname o email la parola ricercata. Per eseguire questa procedura di ricerca è obbligatorio avvalersi del metodo \method{searchGeneric(nome\_parametro)} della classe \classname{UserDataDAO}.
+
+\subsubsection*{Relazioni d'uso}
+
+\begin{itemize}
+	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
+	\item \texttt{java.util.List}: usata per memorizzare la lista di \classname{IUserData} da restituire in seguito alla richiesta di ricerca.
+	\item \texttt{javax.servlet.ServletException}: eccezione rilancibile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{LoginManager}.
+	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
+	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la servlet (inoltra i dati in uscita dalla chiamata a servlet).
+	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
+	\item \classname{abook.IUserData}:Interfaccia che definisce il comportamento di un utente generico. La classe che qui andiamo a descrivere crea istanze di tipo \classname{abook.IUserData}.
+	\item \classname{dao.UserDataDAO}: classe usata per comunicare tramite Hibernate con la tabella UserData della base di dati.
+\end{itemize}
+
+\subsubsection*{Attributi}
+
+\begin{itemize}
+	\item{\memberdata{\underline{-- \{frozen\} serialVersionUID: long}}}
+	Attributo contenente l'id per la serializzazione dei dati. Il valore di creazione deve essere \texttt{100110L}.
+\end{itemize}
+
+\subsubsection*{Metodi}
+
+\begin{description}
+	\item{\method{+ AddressBookDoSearchServlet()}}\\
+	Costruttore pubblico della \inglese{servlet}. Richiama il costruttore della classe padre (chiamata a \texttt{super}).
+	
+	\item{\method{\# doGet(request HttpServletRequest, response HttpServletResponse): void}}\\
+	Metodo usato per eseguire la una ricerca generica sui contatti presenti nella rubrica del client (eseguito in risposta ad una richiesta HTTP con metodo \texttt{GET}). Poiché intendiamo gestire in modo univoco una richiesta a tale servlet (indifferentemente dalla tipologia d'invio dati) il metodo reindirizza il flusso principale al metodo \method{doPost()}.
+	
+	\item{\method{\# doPost(request HttpServletRequest, response HttpServletResponse): void}}\\	
+	Metodo usato per eseguire la una ricerca generica sui contatti presenti nella rubrica del client (eseguito in risposta ad una richiesta HTTP con metodo \texttt{POST}). Nell'ordine proposto, devono essere eseguite le seguenti operazioni:
+	\begin{itemize}
+		\item creazione degli oggetti necessari al completamento dell'operazione:
+		\begin{itemize}
+			\item \classname{IUserData} entry;
+			\item \texttt{List<IUserData>} users;
+			\item \texttt{Iterator<IUserData>} iterator;
+			\item \texttt{Set<IAddressBookEntry>} entrys;
+			\item \classname{PrintWriter} writer;
+			\item String result e String parameter;
+			\item \classname{UserDataDAO} userDAO;
+		\end{itemize}
+		
+		\item quindi il metodo procede definendo un blocco try catch. Nel ramo catch si imposta result a ``\inglese{false}''. Passando invece alla definizione del ramo try, in esso devono essere definiti i seguenti punti:
+		\begin{itemize}
+			\item parameter viene impostato con il valore del parametro da ricercare. Tale operazione è da eseguirsi con l'istruzione:\\
+			\verb|request.getParameter("param")|;
+			\item quindi il metodo procede effettuando la ricerca del parametro. Tale operazione si svolge sfruttando le specifiche della classe \classname{UserDataDAO}. Nello specifico deve essere eseguita l'istruzione:\\
+			\verb|users = userDAO.searchGeneric(parameter)|;
+			\item a questo punto si dovrà predisporre un iteratore per scorrere la lista users;
+			\item si imposta result al valore ``{'' e si entra in un ciclo while che potrà terminare solo quando l'iteratore già citato avrà raggiunto l'ultimo elemento ispezionabile;
+			\item dentro al ciclo while si procederà con la formattazione della stringa result al fine di restituire al client un forato sul quale possa operare. Nello specifico la stringa result dovrà contenere (per ogni istanza di IUserData presente in users):\\
+			
+			\verb|\"ID_della_entry":{"name":"NOME_UTENTE",|\\
+			\verb|"surname":"COGNOME_UTENTE,"email":EMAIL_UTENTE",|\\
+			\verb|"id":"ID_UTENTE","picturePath":"PATH_IMG",|\\
+			\verb|"state":"STATO","block":"BLOCCATO/SBLOCCATO"},|\\
+			
+			Si osservi che in quanto è riportato in precedenza, ciò che è scritto in maiuscolo corrisponde al valore effettivo di quel parametro. Quindi per esempio la parola NOME\_UTENTE sarà di fatto sostituita dall'effettivo nome dell'istanza \classname{IUserData} attualmente sotto esame. Per ottenere tali valori si dovrà ricorrere ai metodi: \texttt{getName()}, \texttt{getSurname()}, \texttt{getMail()}, \texttt{getId()}, \texttt{getPath()} richiamabili a partire dall'entry attualmente sotto esame.
+			\item al termine di tale procedura la stringa result è pronta per essere restituita al client. Quindi si aggiunge a result il valore ``}'', usato come carattere di terminazione.
 		\end{itemize}
 	\end{itemize}
 	Il metodo termina scrivendo su writer il contenuto di result.
