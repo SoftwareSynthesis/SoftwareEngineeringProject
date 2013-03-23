@@ -111,11 +111,13 @@ function CommunicationCenter() {
             names = obj.names();
             for (var i = 0; i < names.length; ++i) {
                 if (names[i] == "bytesReceived") {
-                    //FIXME da correggere il dove visualizzare le stats (possibile interazione con mediator->communicationPP)
+                    //FIXME da correggere il dove visualizzare le stats
+                    // (possibile interazione con mediator->communicationPP)
                     document.getElementById("byteReceived").value = formatBytes(obj.stat(names[i]));
                 }
                 if (names[i] == "bytesSent") {
-                    //FIXME da correggere il dove visualizzare le stats (possibile interazione con mediator->communicationPP)
+                    //FIXME da correggere il dove visualizzare le stats
+                    //mediator.CommunicationPP.utpateStats() --> formatBytes(obj.stat(names[i]))
                     document.getElementById("byteSent").value = formatBytes(obj.stat(names[i]));
                 }
             }
@@ -258,8 +260,8 @@ function CommunicationCenter() {
             timer = setInterval(function() {
                 time++;
                 var now = formatTime(time);
-                //TODO contattare mediator per modificare lo span del timer
-                document.getElementById("timer").value = now;
+                //richiamo un metodo di CommunicationPanelPresenter per visualizzare il tempo.
+                mediator.CommunicationPP.updateTimer(now);
             }, 1000);
         };
 
@@ -338,11 +340,11 @@ function CommunicationCenter() {
 
     //FIXME da sistemare la funzione associata all'event heandler onbeforeunload
     /*window.onbeforeunload = function() {
-    if (pc != null) {
-    setTimeout(function() {
-    endCall();
-    }, 3000);
-    }
-    disconnect();
-    }*/
+     if (pc != null) {
+     setTimeout(function() {
+     endCall();
+     }, 3000);
+     }
+     disconnect();
+     }*/
 }

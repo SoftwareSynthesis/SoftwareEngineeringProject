@@ -240,8 +240,14 @@ function CommunicationPanelPresenter() {
         otherVideo.setAttribute("autoplay", "autoplay");
 
         // creo div per visualizzare le statistiche della chiamata
-        var statDiv = document.createElement("div");
+        statDiv = document.createElement("div");
         statDiv.id = "statDiv";
+        var statSpan = document.createElement("span");
+        statSpan.id = "statSpan";
+        var timerSpan = document.createElement("span");
+        timerSpan.id = "timerSpan";
+        statDiv.appendChild(statSpan);
+        statDiv.appendChild(timerSpan);
 
         // creo i bottoni per per la gestione della chiamata
         var closeButton = document.createElement('button');
@@ -281,8 +287,8 @@ function CommunicationPanelPresenter() {
      * @author Riccardo Tresoldi
      * @param {String} text testo da visualizzare
      */
-    this.updateTimer = function() {
-
+    this.updateTimer = function(text) {
+        statDiv.childNodes[1].textContent = text;
     };
 
     /**
@@ -291,7 +297,8 @@ function CommunicationPanelPresenter() {
      * @author Riccardo Tresoldi
      * @param {String} text testo da visualizzare
      */
-    this.updateStarts = function() {
-
+    this.updateStarts = function(text) {
+        statDiv.childNodes[0].textContent = text;
+        ;
     };
 }
