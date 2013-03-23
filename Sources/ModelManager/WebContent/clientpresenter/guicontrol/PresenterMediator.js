@@ -24,7 +24,10 @@ function PresenterMediator() {
     var callhistorypp = new CallHistoryPanelPresenter();
     var messagepp = new MessagePanelPresenter();
     var searchresultpp = new SearchResultPanelPresenter();
-    // TODO deve esistere anche GroupPanelPresenter?
+    var grouppp = new GroupPanelPresenter();
+
+    //poco elegante ma necessario, se si trova un'altra soluzione è da preferire
+    this.CommunicationPP = communicationpp;
 
     /***************************************************************************
      * METODI PUBBLICI
