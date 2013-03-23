@@ -111,9 +111,11 @@ function CommunicationCenter() {
             names = obj.names();
             for (var i = 0; i < names.length; ++i) {
                 if (names[i] == "bytesReceived") {
+                    //FIXME da correggere il dove visualizzare le stats (possibile interazione con mediator->communicationPP)
                     document.getElementById("byteReceived").value = formatBytes(obj.stat(names[i]));
                 }
                 if (names[i] == "bytesSent") {
+                    //FIXME da correggere il dove visualizzare le stats (possibile interazione con mediator->communicationPP)
                     document.getElementById("byteSent").value = formatBytes(obj.stat(names[i]));
                 }
             }
@@ -195,51 +197,22 @@ function CommunicationCenter() {
     };
 
     //FUNZIONE connect() ORIGINALE
-    /*function connect() {
-    websocket = new WebSocket("ws://localhost:8080/channel/ChannelServlet");
-
-    websocket.onopen = function(evt) {
-    var id= document.getElementById("id").value;
-    idutente=id;
-    var ar= new Array("1", idutente);
-    websocket.send(JSON.stringify(ar));
-    var text= document.createTextNode("Connesso con id " + idutente);
-    document.getElementById("label").innerHTML='';
-    document.getElementById("label").appendChild(text);
-    };
-
-    websocket.onclose = function(evt) {
-    var text= document.createTextNode("Disconnesso");
-    document.getElementById("label").innerHTML='';
-    document.getElementById("label").appendChild(text);
-    };
-
-    websocket.onmessage = function (evt) {
-    var str= evt.data.split("|");
-    var type= str[0];
-
-    if(type=="3"){
-    idOther= str[1];
-    }
-    else if(type=="2"){
-    var signal= JSON.parse(str[1]);
-
-    if (pc==null)
-    call(false);
-
-    if ((signal.sdp)==null){
-    pc.addIceCandidate(new RTCIceCandidate(signal));
-    }
-    else{
-    pc.setRemoteDescription(new RTCSessionDescription(signal));
-    }
-    }
-    };
-
-    websocket.onerror = function(evt) {
-    alert("ERRORE");
-    };
-    }*/
+    /*function connect() {websocket = new
+    * WebSocket("ws://localhost:8080/channel/ChannelServlet");websocket.onopen
+    * = function(evt) {var id=
+    * document.getElementById("id").value;idutente=id;var ar= new Array("1",
+    * idutente);websocket.send(JSON.stringify(ar));var text=
+    * document.createTextNode("Connesso con id " +
+    * idutente);document.getElementById("label").innerHTML='';document.getElementById("label").appendChild(text);};websocket.onclose
+    * = function(evt) {var text=
+    * document.createTextNode("Disconnesso");document.getElementById("label").innerHTML='';document.getElementById("label").appendChild(text);};websocket.onmessage
+    * = function (evt) {var str= evt.data.split("|");var type=
+    * str[0];if(type=="3"){idOther= str[1];}else if(type=="2"){var signal=
+    * JSON.parse(str[1]);if (pc==null)call(false);if
+    * ((signal.sdp)==null){pc.addIceCandidate(new
+    * RTCIceCandidate(signal));}else{pc.setRemoteDescription(new
+    * RTCSessionDescription(signal));}}};websocket.onerror = function(evt)
+    * {alert("ERRORE");};}*/
 
     /**
      * Funzione per la disconnessione del client dal server.
@@ -281,11 +254,11 @@ function CommunicationCenter() {
         // <video>
         pc.onaddstream = function(evt) {
             otherVideo.src = URL.createObjectURL(evt.stream);
-
-            //da modificare dove visualizzare il timer
+            //avvio il timer della chiamata
             timer = setInterval(function() {
                 time++;
                 var now = formatTime(time);
+                //TODO contattare mediator per modificare lo span del timer
                 document.getElementById("timer").value = now;
             }, 1000);
         };
@@ -307,11 +280,14 @@ function CommunicationCenter() {
             "audio" : true,
             "video" : true
         }, function(stream) {
+            //TODO sistemare il fatto che accede al myVideo... forse dovrebbe
+            // essre il mediator o simile ad avvisare il ComunicationPP
             myVideo.src = URL.createObjectURL(stream);
             localStream = stream;
             pc.addStream(stream);
 
             if (isCaller == true) {
+                //FIXME sistemare l'id dell'altro utente!!!!
                 idOther = document.getElementById("idutente").value;
                 var ar = new Array("3", idOther);
                 websocket.send(JSON.stringify(ar));
@@ -321,7 +297,7 @@ function CommunicationCenter() {
         });
 
         //Visualizzazione statistiche chiamata
-        var statCollector = setInterval(function() {
+        statCollector = setInterval(function() {
             if (pc && pc.getRemoteStreams()[0]) {
                 if (pc.getStats) {
                     pc.getStats(function(stats) {
@@ -335,7 +311,7 @@ function CommunicationCenter() {
                         }
                     });
                 } else {
-                    //da gestire dove voler visualizzare l'errore
+                    //TODO gestire l'errore possibile lancio di eccezione
                 }
             }
         }, 1000);
@@ -369,15 +345,4 @@ function CommunicationCenter() {
     }
     disconnect();
     }*/
-
-    /**
-     * Mette in muto la conversazione
-     *
-     * @param {Boolean} true se la chiamata deve essere impostata a muto, false
-     * altrimenti
-     * @author Riccardo Tresoldi
-     */
-    this.mute = function(value) {
-
-    };
 }
