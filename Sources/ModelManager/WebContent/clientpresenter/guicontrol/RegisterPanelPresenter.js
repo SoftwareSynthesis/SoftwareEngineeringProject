@@ -14,6 +14,8 @@ function RegisterPanelPresenter(url) {
     var element = document.getElementById("RegisterPanel");
     // URL della servlet con cui questo presenter
     var servlets = new Array();
+    // costruisce l'array delle servlet
+    getServletURLs();
     
     /**********************************************************
     METODI PRIVATI
@@ -148,7 +150,7 @@ function RegisterPanelPresenter(url) {
     this.register = function(userData) {
     	var request = new XMLHttpRequest();
     	// invia una richiesta SINCRONA al server (terzo parametro 'false')
-    	request.open("POST", servletURL, false);
+    	request.open("POST", servlets[0], false);
     	request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     	var querystring = "username=" + encodeURIComponent(userData.username) +
     	                  "&password=" + encodeURIComponent(userData.password) +
@@ -163,7 +165,6 @@ function RegisterPanelPresenter(url) {
     	if (userData.picturePath && userData.picturePath.length > 0) {
     		querystring += ("&picturePath=" + encodeURIComponent(userData.picturePath));
     	}
-    	querystring += "&operation=2";
     	request.send(querystring);
     	var user = JSON.parse(request.responseText);
     	if (user != null) {
@@ -309,7 +310,7 @@ function RegisterPanelPresenter(url) {
         liPicture.appendChild(inputPicture);
 
 		// pulsante di ritorno alla pagina di login
-        var inputLogin = document.createElement('input');
+        var inputLogin = document.createElement('button');
         inputLogin.setAttribute("type", "submit");
 		inputLogin.setAttribute("value", "Indietro");
 		inputLogin.appendChild(document.createTextNode('Indietro'));
@@ -319,7 +320,7 @@ function RegisterPanelPresenter(url) {
 		};
 
         //pulsante di registrazione
-        var inputRegister = document.createElement('input');
+        var inputRegister = document.createElement('button');
         inputRegister.setAttribute("type", "submit");
         inputRegister.setAttribute("value", "Registrati");
 		var self = this;

@@ -66,7 +66,7 @@ test("testInitialize()", function() {
 	var Sort=list[1].childNodes;
 	equal(Sort.length,1,"il numero di figli di Sort e' 1");
 	i++;
-	equal(Sort[0].nodeName,"SELECT","il figlio di Sort � un select");
+	equal(Sort[0].nodeName,"SELECT","il figlio di Sort e' un select");
 	i++;
 	equal(Sort[0].getAttribute("id"),"selectSort","il nome del select e' SelectSort");
 	i++;
@@ -81,7 +81,7 @@ test("testInitialize()", function() {
 	var Group=list[3].childNodes;
 	equal(Group.length,1,"il numero di figli di Group e' 1");
 	i++;
-	equal(Group[0].nodeName,"SELECT","il figlio di Group � un select");
+	equal(Group[0].nodeName,"SELECT","il figlio di Group e' un select");
 	i++;
 	equal(Group[0].getAttribute("id"),"selectGroup","il nome del select e' SelectSort");
 	i++;
@@ -123,7 +123,7 @@ test("testSetup()", function() {
 	i++;
 	
 	
-	equal(laura[0].getAttribute("src"), "y.png", "l'immagine (di Laura) � corretta");
+	equal(laura[0].getAttribute("src"), "y.png", "l'immagine (di Laura) e' corretta");
 	i++;
 	
 	
@@ -150,7 +150,7 @@ test("testSetup()", function() {
 	i++;
 	
 	
-	equal(flavia[0].getAttribute("src"), "x.png", "l'immagine (di Flavia) � corretta");
+	equal(flavia[0].getAttribute("src"), "x.png", "l'immagine (di Flavia) e' corretta");
 	i++;
 	
 	

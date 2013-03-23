@@ -10,6 +10,9 @@ module("RegisterPanelPresenterTest", {
 		mediator = {buildUI: function() {}};
 		// altro stub
 		communicationcenter = new Object();
+		
+		configurationFile = "/ModelManager/WebContent/Conf/servletlocationtest.xml";
+		
 		/* oggetto da testare, lo script PHP che sta al posto della servlet
 		 * LoginManager è anch'esso, ebbene sì, uno stub!
 		 */
@@ -108,6 +111,11 @@ test("testInitialize()", function() {
 	
 	// per il pulsante
 	var button = liButtons.childNodes[0];
+	equal(button.nodeName, "BUTTON", "elemento pulsante corretto"); i++;
+	equal(button.type, "submit", "il pulsante è presente"); i++;
+	equal(button.value, "Indietro", "testo del pulsante corretto"); i++;
+	button = liButtons.childNodes[1];
+	equal(button.nodeName, "BUTTON", "elemento pulsante corretto"); i++;
 	equal(button.type, "submit", "il pulsante è presente"); i++;
 	equal(button.value, "Registrati", "testo del pulsante corretto"); i++;
 	
@@ -128,7 +136,7 @@ test("testRegister()", function() {
 			    question: "di che colore e' la mia gatta?", answer: "tricolore"};
 	var querystring = tester.register(data);
 	equal(querystring,
-			"username=flabacco%40gmail.com&password=farfalla&question=di%20che%20colore%20e'%20la%20mia%20gatta%3F&answer=tricolore&name=Flavia&surname=Bacco&picturePath=flavietta.png&operation=2",
+			"username=flabacco%40gmail.com&password=farfalla&question=di%20che%20colore%20e'%20la%20mia%20gatta%3F&answer=tricolore&name=Flavia&surname=Bacco&picturePath=flavietta.png",
 			"stringa di query generata correttamente"); i++;
     equal(communicationcenter.my.name, "Flavia", "nome registrato correttamente"); i++;
     equal(communicationcenter.my.surname, "Bacco", "cognome registrato correttamente"); i++;
