@@ -15,23 +15,34 @@ function GroupPanelPresenter(url) {
     /**
      * Aggiunge un gruppo ad una lista
      *
-     * @param {HTMLUListElement} list
-     * @param {Object} group
+     * @param {HTMLUListElement} list la lista su cui aggiungere il gruppo
+     * @param {Object} group il gruppo da aggiungere alla lista
      * @author Riccardo Tresoldi
      */
     function addListItem(list, group) {
         var item = document.createElement("li");
         item.id = group.id;
         // costruisce il nodo
-        var nameSpan=document.createElement("span");
+        var nameSpan = document.createElement("span");
         nameSpan.appendChild(document.createTextNode(group.name));
         // visualizza sempre l'email
-        var deleteImg = document.createElement('img');
-        deleteImg.src = "";
+        var deleteGroupImg = document.createElement('img');
+        deleteGroupImg.src = "";
+        deleteGroupImg.className = "deleteGroupImg";
+        //attribuisco all'immagine il comando di eliminare il gruppo
+        deleteGroupImg.onclick = function() {
+            //chiedo conferma per l'eliminazione
+            var userConfirm = confirm("Sei sicuro di voler eliminare questo gruppo?\nGli utenti appartenenti a questo gruppo non verranno eliminati.");
+            //se viene data conferma infoco la funzione pr eliminare il gruppo
+            if (userConfirm){
+                mediator.onGroupRemoved(group);
+                //FIXME si deve ricaricare la lista?
+            }
+        }
         // aggiunge i sottonodi al 'li' appena creato
         item.appendChild(nameSpan);
-        item.appendChild(deleteImg);
-        
+        item.appendChild(deleteGroupImg);
+
         // aggiunge il 'li' alla lista ricevuta come parametro
         list.appendChild(item);
     }
