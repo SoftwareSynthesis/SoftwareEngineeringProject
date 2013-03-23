@@ -161,80 +161,107 @@ test("testSetup()", function() {
 	i++;
 	
 	expect(i);
-	
-	//manca test del popolamento e controllo dei gruppi
+	//flavia[2] non dovrebbe essere la mail? (fonte AddressBookGetContacts.php, con 3 parametri e' solo LoginAuthentication.php)
+	//mancava test del popolamento e controllo dei gruppi
 	var listGroup=document.getElementById("selectGroup").childNodes;
-	//bisogna fare il file con i gruppi (due per test)
 	equal(listGroup.length, 2, "numero corretto di gruppi nella rubrica");
 	i++;
 	equal(listGroup[0].nodeName, "LI", "il primo figlio dell'elemento e' un figlio della lista");
 	i++;
-	var parenti=list[1].childNodes;
+	var famiglia=list[1].childNodes;
 	
-	equal(parenti.length,1, "c'e' un figlio");
+	equal(famiglia.length,3, "ci sono tre figli");
 	i++;
 	
-	equal(parenti[0].nodeName, "#text", "il primo figlio dell'elemento e' un nodo testo");
+	equal(famiglia[0].nodeName, "#text", "il primo figlio dell'elemento e' un nodo testo");
+	i++;
+	
+	equal(famiglia[1].nodeName, "#id", "il secondo figlio dell'elemento e' un id");
+	i++;
+	
+	equal(famiglia[2].nodeName, "#array", "il secondo figlio dell'elemento e' un array di contatti");
 	i++;
 	
 });
 
+//test nascondere il pannello della rubrica
 test("testHide()", function() {
 	tester.hide();
 	equal(element.style.display, "none", "il pannello è stato nascosto correttamente");
 });
 
+//test aggiunta contatto in rubrica (nome_contatto da cambiare impostando stub)
+//non penso sia corretto, da correggere sicuramente
 test("testAddContact()", function(){
 	var i=0;
-	tester.addContact();
-	
-	
+	var newContact= tester.addContact(nome_contatto);
+	equal(newContact[0].nodeName, "#text", "il nome del contatto e' stato inserito");
+	i++;
 });
 
+//test rimozione contatto da rubrica, da verificare/correggere
 test("testRemoveContact()", function(){
-	
+	var i=0;
+	var newList=tester.removeContact(Flavia)
+	equal(newList.length, 2, "nuovo numero di contatti nella rubrica corretto");
+	i++;
 });
 
+//TODO test aggiunta contatto in un gruppo
 test("testAddContactInGroup()", function(){
-	
 });
 
+//TODO test rimozione contatto da un gruppo	
 test("testRemoveContactFromGroup()", function(){
-	
+
 });
 
+//test aggiunta gruppo alla rubrica
 test("testAddGroup()", function(){
-	
+	var i=0;
+	var newGroup= tester.addGroup(nome_gruppo);
+	equal(newGroup.length, 3, "nuovo numero di gruppi nella rubrica corretto");
+	i++;
 });
 
+//test rimozione gruppo dalla rubrica
 test("testDeleteGroup()", function(){
-	
+	var i=0;
+	var newList=tester.removeGroup(familiari)
+	equal(newList.length, 2, "nuovo numero di gruppi nella rubrica corretto");
+	i++;
 });
 
+//TODO test filtro da una stringa (nome contatto)
 test("testApplyFilterByString()", function(){
-	
 });
 
+//TODO test filtra per gruppi (nome gruppo)
 test("testApplyFilterByGroup()", function(){
-	
 });
 
+//TODO test mostra filtri preimpostati
 test("testShowFilter()", function(){
-	
+	//ha TODO nel codice da testare
 });
 
+//test se il contatto e' gia' presente in rubrica (sbagliato sicuro)
 test("testContactAlreadyPresent()", function(){
-	
+	var i=0;
+	var presente=tester.ContactAlreadyPresent(Laura)
+	equal(presente, true, "contatto gia' presente in rubrica e verificato correttamente");
+	i++;
 });
 
+//TODO test blocca un contatto
 test("testBlockUser()", function(){
-	
 });
 
-test("testUnlockUser()", function(){
-	
+//TODO test sblocca un contatto
+test("testUnlockUser()", function(){	
 });
 
+//TODO test ritorna il gruppo in cui e' un contatto
 test("testGetGroupsWhereContactsIs()", function(){
 	
 });
