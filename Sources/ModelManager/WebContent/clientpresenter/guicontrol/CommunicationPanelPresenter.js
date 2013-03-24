@@ -244,6 +244,12 @@ function CommunicationPanelPresenter() {
         statDiv.id = "statDiv";
         var statSpan = document.createElement("span");
         statSpan.id = "statSpan";
+        var statReceved = document.createElement("span");
+        statReceved.id = "statReceved";
+        var statSend = document.createElement("span");
+        statSend.id = "statSend";
+        statSpan.appendChild(statReceved);
+        statSpan.appendChild(statSend);
         var timerSpan = document.createElement("span");
         timerSpan.id = "timerSpan";
         statDiv.appendChild(statSpan);
@@ -296,9 +302,15 @@ function CommunicationPanelPresenter() {
      *
      * @author Riccardo Tresoldi
      * @param {String} text testo da visualizzare
+     * @param {Boolean} isRecevedData rappresenta un flag booleano che determina
+     * se i dati sono ricenuti o inviati
      */
-    this.updateStarts = function(text) {
-        statDiv.childNodes[0].textContent = text;
-        ;
+    this.updateStarts = function(text, isRecevedData) {
+        if (isRecevedData) {
+            statDiv.childNodes[0].childNodes[0].textContent = "Dati ricevuti: " + text;
+        } else {
+            statDiv.childNodes[0].childNodes[1].textContent = "Dati inviati: " + text;
+
+        }
     };
 }

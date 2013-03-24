@@ -38,6 +38,8 @@ function CommunicationCenter() {
      * Funzione per formattare i bytes ricevuti.
      *
      * @author Marco Schivo
+     * @param {Number} bytes rappresenta il numero dei bytes da formattare
+     * @return {Number} i bytes formattati correttamente
      */
     function formatBytes(bytes) {
         if (bytes <= 1048576) {
@@ -65,6 +67,9 @@ function CommunicationCenter() {
      * Funzione per formattare nel formato "hh:mm:ss" il tempo della chiamata.
      *
      * @author Marco Schivo
+     * @param {Number} tempo rappresenta il tempo espresso in secondi da
+     * formattare
+     * @return {Number} il tempo nel format standard hh:mm:ss
      */
     function formatTime(tempo) {
         var ore = parseInt((tempo) / 3600);
@@ -111,14 +116,10 @@ function CommunicationCenter() {
             names = obj.names();
             for (var i = 0; i < names.length; ++i) {
                 if (names[i] == "bytesReceived") {
-                    //FIXME da correggere il dove visualizzare le stats
-                    // (possibile interazione con mediator->communicationPP)
-                    document.getElementById("byteReceived").value = formatBytes(obj.stat(names[i]));
+                    mediator.CommunicationPP.updateStats(formatBytes(obj.stat(names[i])), true);
                 }
                 if (names[i] == "bytesSent") {
-                    //FIXME da correggere il dove visualizzare le stats
-                    //mediator.CommunicationPP.utpateStats() --> formatBytes(obj.stat(names[i]))
-                    document.getElementById("byteSent").value = formatBytes(obj.stat(names[i]));
+                    mediator.CommunicationPP.updateStats(formatBytes(obj.stat(names[i])), false);
                 }
             }
         }
@@ -260,7 +261,8 @@ function CommunicationCenter() {
             timer = setInterval(function() {
                 time++;
                 var now = formatTime(time);
-                //richiamo un metodo di CommunicationPanelPresenter per visualizzare il tempo.
+                //richiamo un metodo di CommunicationPanelPresenter per
+                // visualizzare il tempo.
                 mediator.CommunicationPP.updateTimer(now);
             }, 1000);
         };
