@@ -11,7 +11,7 @@
  * @author Riccardo Tresoldi
  * @author Diego Beraldin
  */
-function AddressBookPanelPresenter(url, ext) {
+function AddressBookPanelPresenter() {
     /**********************************************************
      VARIABILI PRIVATE
      ***********************************************************/
@@ -311,7 +311,7 @@ function AddressBookPanelPresenter(url, ext) {
      * @author Diego Beraldin
      */
     this.hide = function() {
-        this.element.style.display = "none";
+        element.style.display = "none";
     };
 
     /**

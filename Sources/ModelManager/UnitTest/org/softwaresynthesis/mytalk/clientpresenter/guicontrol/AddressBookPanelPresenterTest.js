@@ -11,16 +11,13 @@ module(
 				// imposta da dove leggere le servlet
 				configurationFile = "/ModelManager/WebContent/Conf/servletlocationtest.xml";
 				// oggetto da testare
-				tester = new AddressBookPanelPresenter("php_stubs/AddressBook",
-						".php");
+				tester = new AddressBookPanelPresenter();
 			},
 			teardown : function() {
 			}
 		});
 
-test(
-		"testInitialize()",
-		function() {
+test("testInitialize()", function() {
 
 			var i = 0;
 			tester.initialize();
@@ -168,4 +165,10 @@ test("testSetup()", function() {
 	i++;
 
 	expect(i);
+});
+
+test("testHide()", function() {
+	tester.hide();
+	equal(element.style.display, "none",
+			"il pannello viene nascosto correttamente");
 });
