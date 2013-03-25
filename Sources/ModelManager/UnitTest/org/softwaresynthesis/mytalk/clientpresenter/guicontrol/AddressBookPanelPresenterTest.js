@@ -193,6 +193,26 @@ test("testSetup()", function() {
 	equal(flavia[2].getAttribute("src"), "img/stateoffline.png",
 			"lo stato del secondo contatto e' corretto");
 	i++;
+	//test del popolamento e controllo dei gruppi
+	var listGroup=document.getElementById("selectGroup").childNodes;
+	equal(listGroup.length, 2, "numero corretto di gruppi nella rubrica");
+	i++;
+	equal(listGroup[0].nodeName, "OPTION", "il primo figlio dell'elemento e' un figlio della lista");
+	i++;
+	var famiglia=listGroup[0].childNodes;
+
+	equal(famiglia.length,1, "ci sono tre figli");
+	i++;
+
+	equal(famiglia[0].nodeName, "#text", "il primo figlio dell'elemento e' un nodo testo");
+	i++;
+	
+	equal(famiglia[0].data,"famiglia", "il nome del gruppo 0 e' famiglia");
+	i++;
+	
+	var amici=listGroup[1].childNodes;
+	equal(amici[0].data,"amici", "il nome del gruppo 1 e' amici");
+	i++;
 
 	expect(i);
 });
