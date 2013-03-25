@@ -547,20 +547,7 @@ function AddressBookPanelPresenter() {
 	 * @returns {Array} lista di contatti filtrata
 	 */
 	this.applyFilterByGroup = function(idGroup) {
-		// mi creo un array di contatti filtrati
-		var filtred = new Array();
-
-		// ciclo i contatti e cerco quelli appartenenti al gruppo popolando con
-		// essi l'array
-		for ( var contact in contacts) {
-			for ( var group in contacts[contact].groups) {
-				if (group == idGroup)
-					filtred.push(contact);
-			}
-		}
-
-		// chiamo la funzione che dato un array di contatti mi ripopola l'<ul>
-		return filtred;
+		return groups[idGroup].contacts;
 	};
 
 	/**
@@ -585,9 +572,9 @@ function AddressBookPanelPresenter() {
 		// TODO aggiungere una label per avvisare che i campi visualizzati sono
 		// filtrati
 
-		for ( var contact in filtredContacts) {
+		for ( var id in filtredContacts) {
 			// ciclo i contatti e agiungo un <li> per ogni contatto
-			addListItem(ulList, filtredContacts[contact]);
+			addListItem(ulList, contacts[id]);
 		}
 	};
 

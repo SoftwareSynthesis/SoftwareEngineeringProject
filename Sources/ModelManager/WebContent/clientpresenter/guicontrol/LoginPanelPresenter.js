@@ -150,6 +150,10 @@ function LoginPanelPresenter() {
      * @author Diego Beraldin
      */
     this.buildRetrievePasswordForm = function() {
+    	//FIXME
+    	// uccidere il form se è già presente e non visualizzarlo
+    	// se non è stato inserito un indirizzo email
+    	
         //div per logo
         var divLogo = document.createElement("div");
         divLogo.id = "logo";
