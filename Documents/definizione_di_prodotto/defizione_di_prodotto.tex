@@ -452,7 +452,110 @@ Nessun attributo evidenziato.
 		\item nel blocco catch: si effettua un rollback a partire da transaction;
 		\item nel blocco finally: se session è diverso da null, si chiude mediante una chiamata di tipo close();
 	\end{itemize}
-	Il programma termina restituendo groups
+	Il programma termina restituendo groups.
+	
+\end{description}
+
+%TODO da verificare
+
+\classsection{AddressBookEntryDAO}
+
+\subsubsection*{Funzione}
+Classe che implementa il pattern DAO. Definisce le procedure d’inserimento, eliminazione ed aggiornamento di entry inerenti alla tabella AddressBookEntry.
+
+\subsubsection*{Relazioni d'uso}
+
+\begin{itemize}
+	\item \texttt{org.hibernate.Session}:
+	\item \texttt{org.hibernate.SessionFactory}:
+	\item \texttt{org.hibernate.Transaction}:
+	\item \classname{abook.IAddressBookEntry}:
+\end{itemize}
+
+\subsubsection*{Attributi}
+
+Nessun attributo evidenziato.
+
+\subsubsection*{Metodi}
+
+\begin{description}
+	\item{\method{+ delete(entry: IAddressBookEntry): boolean}}\\
+	Metodo usato per cancellare una entry dal database. Per entry si intende un qualsiasi oggetto implementante l'interfaccia \classname{IAddressBookEntry}. Il metodo riceve come parametro d'ingresso un oggetto \classname{abook.IAddressBookEntry} e restituisce un valore booleano  pari a \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
+	\begin{itemize}
+		\item viene inizializzata una variabile ti tipo boolean nominata flag, a \inglese{false};
+		\item si crea un istanza di \classname{HibernateUtil} util;
+		\item si crea un istanza di \texttt{Session} session;
+		\item si crea un istanza di \texttt{SessionFactory} factory;
+		\item si crea un istanza di \texttt{Transaction} transaction;
+	\end{itemize}
+	Quindi nel metodo deve essere definito un blocco try catch finally:
+	\begin{itemize}
+		\item nel blocco try:
+		\begin{itemize}
+			\item util deve essere inizializzato mediante la chiamata \method{getIstance()} di \classname{HibernateUtil};
+			\item quindi a partire da util si inizializza factory mediante una chiamata \method{getFactory()};
+			\item analogamente a quanto fatto in precedenza, si inizializza session tramite una chiamata \method{openSession()} eseguita a partire da factory;
+			\item transaction viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da session;
+			\item quindi si è pronti per eseguire l'istruzione di delete a partire da session e passando come parametro entry;
+			\item si esegue il commit;
+			\item si pone flag a \inglese{true};
+		\end{itemize}
+		\item nel blocco catch: si effettua un rollback a partire da transaction;
+		\item nel blocco finally: se session è diverso da null, si chiude mediante una chimata di tipo close();
+	\end{itemize}
+	Infine il metodo termina ritornando il valore di flag;
+	
+	\item{\method{+ update(entry: IAddressBookEntry): boolean}}\\
+	Metodo usato per modificare una entry presente nel database. Il metodo riceve come parametro d'ingresso un oggetto \classname{abook.IAddressBookEntry} e restituisce un valore booleano  pari a \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
+	\begin{itemize}
+		\item viene inizializzata una variabile ti tipo boolean nominata flag, a \inglese{false};
+		\item si crea un istanza di \classname{HibernateUtil} util;
+		\item si crea un istanza di \texttt{Session} session;
+		\item si crea un istanza di \texttt{SessionFactory} factory;
+		\item si crea un istanza di \texttt{Transaction} transaction;
+	\end{itemize}
+	Quindi nel metodo deve essere definito un blocco try catch finally:
+	\begin{itemize}
+		\item nel blocco try:
+		\begin{itemize}
+			\item util deve essere inizializzato mediante la chiamata \method{getIstance()} di \classname{HibernateUtil};
+			\item quindi a partire da util si inizializza factory mediante una chiamata \method{getFactory()};
+			\item analogamente a quanto fatto in precedenza, si inizializza session tramite una chiamata \method{openSession()} eseguita a partire da factory;
+			\item transaction viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da session;
+			\item quindi si è pronti per eseguire l'istruzione di update a partire da session e passando come parametro entry;
+			\item si esegue il commit;
+			\item si pone flag a \inglese{true};
+		\end{itemize}
+		\item nel blocco catch: si effettua un rollback a partire da transaction;
+		\item nel blocco finally: se session è diverso da null, si chiude mediante una chimata di tipo close();
+	\end{itemize}
+	Infine il metodo termina ritornando il valore di flag;	
+	
+	\item{\method{+ insert(entry: IAddressBookEntry): boolean}}\\
+	Metodo usato per inserire una entry nel database. Il metodo riceve come parametro d'ingresso un oggetto \classname{abook.IAddressBookEntry} e restituisce un valore booleano  pari a \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
+	\begin{itemize}
+		\item viene inizializzata una variabile ti tipo boolean nominata flag, a \inglese{false};
+		\item si crea un istanza di \classname{HibernateUtil} util;
+		\item si crea un istanza di \texttt{Session} session;
+		\item si crea un istanza di \texttt{SessionFactory} factory;
+		\item si crea un istanza di \texttt{Transaction} transaction;
+	\end{itemize}
+	Quindi nel metodo deve essere definito un blocco try catch finally:
+	\begin{itemize}
+		\item nel blocco try:
+		\begin{itemize}
+			\item util deve essere inizializzato mediante la chiamata \method{getIstance()} di \classname{HibernateUtil};
+			\item quindi a partire da util si inizializza factory mediante una chiamata \method{getFactory()};
+			\item analogamente a quanto fatto in precedenza, si inizializza session tramite una chiamata \method{openSession()} eseguita a partire da factory;
+			\item transaction viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da session;
+			\item quindi si è pronti per eseguire l'istruzione di save a partire da session e passando come parametro entry;
+			\item si esegue il commit;
+			\item si pone flag a \inglese{true};
+		\end{itemize}
+		\item nel blocco catch: si effettua un rollback a partire da transaction;
+		\item nel blocco finally: se session è diverso da null, si chiude mediante una chimata di tipo close();
+	\end{itemize}
+	Infine il metodo termina ritornando il valore di flag;
 	
 \end{description}
 
