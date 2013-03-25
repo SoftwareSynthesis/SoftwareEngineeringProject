@@ -116,10 +116,10 @@ function CommunicationCenter() {
             names = obj.names();
             for (var i = 0; i < names.length; ++i) {
                 if (names[i] == "bytesReceived") {
-                    mediator.CommunicationPP.updateStats(formatBytes(obj.stat(names[i])), true);
+                    mediator.getCommunicationPP().updateStats(formatBytes(obj.stat(names[i])), true);
                 }
                 if (names[i] == "bytesSent") {
-                    mediator.CommunicationPP.updateStats(formatBytes(obj.stat(names[i])), false);
+                    mediator.getCommunicationPP().updateStats(formatBytes(obj.stat(names[i])), false);
                 }
             }
         }
@@ -263,7 +263,7 @@ function CommunicationCenter() {
                 var now = formatTime(time);
                 //richiamo un metodo di CommunicationPanelPresenter per
                 // visualizzare il tempo.
-                mediator.CommunicationPP.updateTimer(now);
+                mediator.getCommunicationPP.updateTimer(now);
             }, 1000);
         };
 

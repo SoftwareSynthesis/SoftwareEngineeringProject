@@ -26,8 +26,17 @@ function PresenterMediator() {
     var searchresultpp = new SearchResultPanelPresenter();
     var grouppp = new GroupPanelPresenter();
 
-    //poco elegante ma necessario, se si trova un'altra soluzione è da preferire
-    this.CommunicationPP = communicationpp;
+    /**
+     * Funzione per ottenere il ComunicationPanelPresenter
+     * 
+     * @author Diego Beraldin
+     * @author Riccardo Tresoldi
+     * 
+     * @return {Object} ritorna il comunicationPP
+     */
+    this.getCommunicationPP = funtion() {
+        return communicationpp;
+    }
 
     /***************************************************************************
      * METODI PUBBLICI
