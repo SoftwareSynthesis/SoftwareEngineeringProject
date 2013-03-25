@@ -20,8 +20,6 @@ function CommunicationCenter() {
     var urlServlet = "http://localhost:8080/MyTalk/ChannelServlet";
     //oggetto che contiene i dati dell'utente
     this.my = new Object();
-    //dichiaro i due elementi <video>
-    var myVideo, otherVideo;
     //dichiaro globale la websocket per lo scambio di dati con la servlet
     var websocket;
 
@@ -256,7 +254,7 @@ function CommunicationCenter() {
         //quando arriva un remoteStream lo visualizo nell corrispettivo elemento
         // <video>
         pc.onaddstream = function(evt) {
-            otherVideo.src = URL.createObjectURL(evt.stream);
+            mediator.getCommunicationPP().getOtherVideo().src = URL.createObjectURL(evt.stream);
             //avvio il timer della chiamata
             timer = setInterval(function() {
                 time++;
@@ -272,8 +270,8 @@ function CommunicationCenter() {
             localStream.stop();
             stopTimer();
             stopStat();
-            myVideo.src = "";
-            otherVideo.src = "";
+            mediator.getCommunicationPP().getMyVideo().src = "";
+            mediator.getCommunicationPP().getOtherVideo().src = "";
             pc.close();
             pc = null;
         };
@@ -284,9 +282,7 @@ function CommunicationCenter() {
             "audio" : true,
             "video" : true
         }, function(stream) {
-            //TODO sistemare il fatto che accede al myVideo... forse dovrebbe
-            // essre il mediator o simile ad avvisare il ComunicationPP
-            myVideo.src = URL.createObjectURL(stream);
+            mediator.getCommunicationPP().getMyVideo().src = URL.createObjectURL(stream);
             localStream = stream;
             pc.addStream(stream);
 
@@ -331,8 +327,8 @@ function CommunicationCenter() {
         localStream.stop();
         pc.createOffer(gotDescription);
         stopTimer();
-        myVideo.src = "";
-        otherVideo.src = "";
+        mediator.getCommunicationPP().getMyVideo().src = "";
+        mediator.getCommunicationPP().getOtherVideo().src = "";
         //aspetto un secondo che pc finisca di comunicare la nuova offerta
         setTimeout(function() {
             pc.close();

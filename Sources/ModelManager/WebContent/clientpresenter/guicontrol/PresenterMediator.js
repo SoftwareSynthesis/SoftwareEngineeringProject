@@ -26,18 +26,6 @@ function PresenterMediator() {
     var searchresultpp = new SearchResultPanelPresenter();
     var grouppp = new GroupPanelPresenter();
 
-    /**
-     * Funzione per ottenere il ComunicationPanelPresenter
-     * 
-     * @author Diego Beraldin
-     * @author Riccardo Tresoldi
-     * 
-     * @return {Object} ritorna il comunicationPP
-     */
-    this.getCommunicationPP = funtion() {
-        return communicationpp;
-    }
-
     /***************************************************************************
      * METODI PUBBLICI
      **************************************************************************/
@@ -386,4 +374,16 @@ function PresenterMediator() {
         communicationpp.displayChat(user);
         presenter["main"].displayChildPanel(element);
     };
+    
+    /**
+     * Funzione per ottenere il ComunicationPanelPresenter
+     * 
+     * @author Diego Beraldin
+     * @author Riccardo Tresoldi
+     * 
+     * @return {Object} ritorna il comunicationPP
+     */
+    this.getCommunicationPP = funtion() {
+        return communicationpp;
+    }
 }

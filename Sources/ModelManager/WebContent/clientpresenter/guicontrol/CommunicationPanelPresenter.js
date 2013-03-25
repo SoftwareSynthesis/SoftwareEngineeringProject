@@ -56,7 +56,13 @@ function CommunicationPanelPresenter() {
         var item = document.createElement("li");
         item.id = user.id;
         item.appendChild(document.createTextNode(createLabel(user)));
+        var closeChatButton = document.createElement("img");
+        //FIXME add image src!
+        closeChatButton.src = "";
         var self = this;
+        closeChatButton.onclick = function() {
+            self.removeChat(user);
+        };
         item.onclick = function() {
             self.displayChat(user);
         };
@@ -312,5 +318,27 @@ function CommunicationPanelPresenter() {
             statDiv.childNodes[0].childNodes[1].textContent = "Dati inviati: " + text;
 
         }
+    };
+
+    /**
+     * Funzione che restituisce l'elemento video myVideo dove viene visualizzato
+     * lo steaming video estratto dalla propria webcam
+     *
+     * @author Riccardo Tresoldi
+     * @return {HTMLVideoElement} elemento video
+     */
+    this.getMyVideo = function() {
+        return document.getElementById("myVideo");
+    };
+
+    /**
+     * Funzione che restituisce l'elemento video otherVideo dove viene
+     * visualizzato lo steaming video della persona chiamata
+     *
+     * @author Riccardo Tresoldi
+     * @return {HTMLVideoElement} elemento video
+     */
+    this.getOtherVideo = function() {
+        return document.getElementById("otherVideo");
     };
 }
