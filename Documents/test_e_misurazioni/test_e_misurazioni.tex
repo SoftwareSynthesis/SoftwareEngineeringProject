@@ -348,9 +348,19 @@ Tale verifica è composta da X test:
 \begin{itemize}
 \item \textit{testInitialize()} crea la rubrica dell'utente, verificando che siano stati creati correttamente quattro \textit{<div>} e che siano rispettivamente \textit{divFilter}, \textit{divSort} , \textit{divList} e \textit{divGroup}; infine verifica che i relativi figli di tali \textit{<div>} siano correttamente inizializzati;
 \item \textit{testSetup() } crea la lista dei contatti che devono essere recuperati dal server, scaricandoli dallo stesso. Successivamente controlla che siano stati scaricati \textit{tutti} i contatti della rubrica dal server (valore corretto \textit{due}) e che gli elementi (contatti) sono figli della lista creata. Tali elementi risultano essere delle sotto-liste e viene verificato che i loro figli (rispettivamente un'\textit{immagine di profilo}, un \textit{nodo testo} e un'textit{immagine di stato}) siano correttamente inizializzati e contengano valori coerenti (uguali) a quelli impostati dallo \textit{stub}.
+\item \textit{testHide() } controlla che venga correttamente nascosto il \inglese{form} di \textit{login} dopo l'effettiva autenticazione o di richiesta di registrazione;
+\item \textit{testAddContact() } crea un contatto \inglese{stub} con dei parametri aleatori definiti dall'utente inserendolo nella lista contatti, viene assicurata la presenza di tale contatto confermando l'effettività della stessa.
+\item \textit{testRemoveContact() } crea un contatto \inglese{stub} con dei parametri aleatori definiti dall'utente inserendolo nella lista contatti, una volta assicurata la presenza di tale contatto viene effettuata l'eliminazione confermando l'effettività della stessa.
+\item \textit{testAddGroup() } crea uno \inglese{stub} con un gruppo inserendolo nella lista dei gruppi, viene assicurata la presenza di tale gruppo confermando l'effettività della stessa.
+\item \textit{testDeleteGroup() } crea uno \inglese{stub} con dei parametri aleatori definiti dall'utente inserendolo nella lista dei gruppi, una volta assicurata la presenza di tale gruppo viene effettuata l'eliminazione confermando l'effettività della stessa.
+\item \textit{testAddContactInGroup() } crea un contatto \inglese{stub} con dei parametri aleatori definiti dall'utente inserendolo nella lista contatti, successivamente crea uno \inglese{stub} con un gruppo inserendolo nella lista dei gruppi, una volta assicurata la presenza di entrambi, viene effettuato l'inserimento del contatto nel gruppo verificando l'effettività dell'azione.
+\item \textit{testRemoveContactFromGroup() }
+\item \textit{testBlockUser() } viene effettuato il blocco di un contatto caricato precedentemente nella rubrica dell'utente, verificando la correttezza dell'operazione;
+\item \textit{testUnlockUser() } viene effettuato lo sblocco di un contatto caricato precedentemente nella rubrica dell'utente (impostato come bloccato), verificando la correttezza dell'operazione;
+\item \textit{testContactAlreadyPresent() } verifica la presenza di un utente nella lista dei contatti presenti nella rubrica dell'utente garantendone la presenza effettiva;
+\item \textit{testGetGroupsWhereContactsIs() } verifica che il nome del gruppo in cui l'utente \textit{stub} è inserito sia corrispondente con quello in cui è effettivamente presente;
+\item \textit{testApplyFilterByString() } verifica che una volta inserita una stringa di prova in cui vengono passati parametri di filtro per ricercare un contatto, restituisca correttamente i contatti corrispondenti.
 
-\item \textit{ ()}
-  
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 

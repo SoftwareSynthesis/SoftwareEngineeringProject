@@ -192,10 +192,90 @@ test("testHide()", function() {
 			"il pannello viene nascosto correttamente");
 });
 
-test("testRemoveContact()", function(){
+//TODO test aggiunta contatto in un gruppo
+test("testAddContactInGroup()", function(){
+	
 	var i=0;
 	var element=document.getElementById("AddressBookPanel");
-	var laura={name:"Laura", surname:"Pausini", email:"laupau@gmail.com",id:"4",picturePath:"xx.png",state:"offline", blocked:"false"};
-	try{tester.removeContact(laura); ok(false,"errore non rilevato");i++;}catch(err){equal(err,"Non puoi eliminare un contatto non presente in rubrica.","rilevato errore");i++;}
+	var laura={name:"Laura", surname:"Pausini", email:"laupau@gmail.com"};
+	var famiglia={id:0,name:"famiglia",contacts:[]};
+	tester.set_contacts({0:{name:"Laura", surname:"Pausini", email:"laupau@gmail.com"}});
+	tester.set_groups({0:{id:0,name:"famiglia",contacts:[]}});
+	ok(tester.addContactInGroup(laura,famiglia),"aggiunta avvenuta con successo");
+	i++;
+	var prova=tester.get_groups();
+	equals(prova[0].contacts.length,1,"ok corretto");
 	expect(i);
 });
+
+test("testDeleteContactFromGroup()", function(){
+	var i=0;
+	var element=document.getElementById("AddressBookPanel");
+	var laura={name:"Laura", surname:"Pausini", email:"laupau@gmail.com"};
+	var famiglia={id:0,name:"famiglia",contacts:[]};
+	tester.set_contacts({0:{name:"Laura", surname:"Pausini", email:"laupau@gmail.com"}});
+	tester.set_groups({0:{id:0,name:"famiglia",contacts:[]}});
+	ok(tester.addContactInGroup(laura,famiglia),"aggiunta avvenuta con successo");
+	var prova=tester.get_groups();
+	equals(prova[0].contacts.length,1,"verificata l'aggiunta");
+	ok(tester.deleteContactFromGroup(laura,famiglia),"rimozione avvenuta con successo");
+	i++;
+	equals(prova[0].contacts.length,0,"verificata rimozione");
+	expect(i);
+});
+
+//TODO test blocca un contatto
+test("testBlockUser()", function(){
+	var i=0;
+	var element=document.getElementById("AddressBookPanel");
+	var laura={name:"Laura", surname:"Pausini", email:"laupau@gmail.com",id:"12",picturePath:"xx.png",state:"offline", blocked:"false"};
+	tester.set_contacts({0:{name:"Laura", surname:"Pausini", email:"laupau@gmail.com",id:"12",picturePath:"xx.png",state:"offline", blocked:"false"}});
+	ok(tester.blockUser(laura),"blocco avvenuto con successo");
+	var blocco=tester.get_contacts();
+	equal(blocco[0].contacts[6].data,"true","verificato blocco attivato");
+	i++;
+	expect(i);
+});
+
+//TODO test sblocca un contatto
+test("testUnlockUser()", function(){	
+	var i=0;
+	var element=document.getElementById("AddressBookPanel");
+	var laura={name:"Laura", surname:"Pausini", email:"laupau@gmail.com",id:"12",picturePath:"xx.png",state:"offline", blocked:"true"};
+	tester.set_contacts({0:{name:"Laura", surname:"Pausini", email:"laupau@gmail.com",id:"12",picturePath:"xx.png",state:"offline", blocked:"true"}});
+	ok(tester.unlockUser(laura),"sblocco avvenuto con successo");
+	var sblocco=tester.get_contacts();
+	equal(blocco[6].contacts.data,"false","verificato blocco attivato");
+	i++;
+	expect(i);
+});
+
+//test se il contatto e' gia' presente in rubrica
+test("testContactAlreadyPresent()", function(){
+	var i=0;
+	var element=document.getElementById("AddressBookPanel");
+	var laura={name:"Laura", surname:"Pausini", email:"laupau@gmail.com",id:"12",picturePath:"xx.png",state:"offline", blocked:"false"};
+	tester.set_contacts({0:{name:"Laura", surname:"Pausini", email:"laupau@gmail.com",id:"12",picturePath:"xx.png",state:"offline", blocked:"false"}});
+	ok(tester.contactAlreadyPresent(laura),"contatto gia' inserito in rubrica");
+	i++;
+	expect(i);
+});
+
+//TODO test ritorna il gruppo in cui e' un contatto
+test("testGetGroupsWhereContactsIs()", function(){
+	var i=0;
+	var element=document.getElementById("AddressBookPanel");
+	var laura={name:"Laura", surname:"Pausini", email:"laupau@gmail.com"};
+	var famiglia={id:0,name:"famiglia",contacts:[]};
+	tester.set_contacts({0:{name:"Laura", surname:"Pausini", email:"laupau@gmail.com"}});
+	tester.set_groups({0:{id:0,name:"famiglia",contacts:[]}});
+	ok(tester.addContactInGroup(laura,famiglia),"aggiunta avvenuta con successo");
+	var prova=tester.get_groups();
+	equals(prova[0].contacts.length,1,"ok corretto");
+	var where=tester.getGroupsWhereContactsIs(laura);
+	equal(where.data,"famiglia","il gruppo in cui e' inserito il contatto e' corretto");
+	i++;
+	expect(i);
+});
+
+
