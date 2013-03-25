@@ -16,9 +16,6 @@ public class HibernateUtilTest
 	/**
 	 * Testa l'effettiva presenza di un unica
 	 * istanza della classe
-	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 */
 	@Test
 	public void testInstance()
@@ -34,9 +31,6 @@ public class HibernateUtilTest
 	 * Testa la presenza di una sessionFactory
 	 * configurata correttamente per la comunicazione
 	 * con il database
-	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 */
 	@Test
 	public void testGetFactory()
