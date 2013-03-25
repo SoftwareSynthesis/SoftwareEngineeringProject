@@ -184,7 +184,7 @@ function ContactPanelPresenter() {
 				document.createTextNode(contact.surname));
 		document.getElementById("contactEmail").appendChild(
 				document.createTextNode(contact.email));
-		document.getElementById("contactAvatar").src = contact.image;
+		document.getElementById("contactAvatar").src = contact.picturePath;
 
 		// recupero i bottoni per associargli i metodi
 		var addToAddressBookButton = document
