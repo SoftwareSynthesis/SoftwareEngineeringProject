@@ -14,5 +14,5 @@
 	       )
 	);
 	
-	echo json_encode($groups, JSON_PRETTY_PRINT);
+	echo json_encode($groups);
 ?>
