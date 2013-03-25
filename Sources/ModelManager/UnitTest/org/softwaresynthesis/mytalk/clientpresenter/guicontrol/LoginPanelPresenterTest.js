@@ -142,7 +142,7 @@ test("testGetUsername()", function() {
 		tester.getUsername();
 		ok(false, "indirizzo email mancante non rilevato"); i++;
 	} catch (err) {
-		equal(err, "valore non specificato", "indirizzo email mancante rilevato correttamente"); i++;
+		equal(err, "indirizzo email non specificato", "indirizzo email mancante rilevato correttamente"); i++;
 	}
 	
 	//verifica se rileva indirizzo email malformato
@@ -179,7 +179,7 @@ test("testGetPassword()", function() {
 		tester.getPassword();
 		ok(false, "password mancante non rilevata"); i++;
 	} catch (err) {
-		equal(err, "valore non specificato", "password mancante rilevata correttamente"); i++;
+		equal(err, "password non specificata", "password mancante rilevata correttamente"); i++;
 	}
 	
 	document.body.removeChild(form);

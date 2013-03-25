@@ -12,25 +12,24 @@ function LoginPanelPresenter() {
 	 * VARIABILI PRIVATE
 	 **************************************************************************/
 	/*
-	 * 0 = LoginAutentication
-	 * 1 = LoginClose
-	 * 2 = LoginGetSecretQuestion
-	 * 3 = LoginDoSecretAnswer
-	 * 4 = LoginDoRegistration
+	 * 0 = LoginAutentication 1 = LoginClose 2 = LoginGetSecretQuestion 3 =
+	 * LoginDoSecretAnswer 4 = LoginDoRegistration
 	 */
 
 	// elemento controllato da questo presenter
 	var element = document.getElementById("LoginPanel");
-	// array degli URL  delle servlet che sono utilizzate qui dentro
+	// array degli URL delle servlet che sono utilizzate qui dentro
 	var servlets = new Array();
-	//inizializza gli URL delle servlet
+	// inizializza gli URL delle servlet
 	getServletURLs();
 
 	/***************************************************************************
 	 * METODI PRIVATI
 	 **************************************************************************/
 	/**
-	 * Configura gli URL delle servlet da interrogare leggendoli dal file di configurazione
+	 * Configura gli URL delle servlet da interrogare leggendoli dal file di
+	 * configurazione
+	 * 
 	 * @author Diego Beraldin
 	 */
 	function getServletURLs() {
@@ -39,17 +38,18 @@ function LoginPanelPresenter() {
 		configurationRequest.send();
 		var XMLDocument = configurationRequest.responseXML;
 		var baseURL = XMLDocument.getElementsByTagName("baseURL")[0].childNodes[0].data;
-		
+
 		var names = Array();
-		names.push(XMLDocument.getElementById("authentication").childNodes[0].data);
+		names
+				.push(XMLDocument.getElementById("authentication").childNodes[0].data);
 		names.push(XMLDocument.getElementById("question").childNodes[0].data);
 		names.push(XMLDocument.getElementById("answer").childNodes[0].data);
-		
-		for (var i in names) {
+
+		for ( var i in names) {
 			servlets.push(baseURL + names[i]);
 		}
 	}
-	
+
 	/**
 	 * Testa quanto ricevuto dal server e, in caso di login avvenuto
 	 * correttamente reindirizza il browser nella pagina finale dopo aver
@@ -143,7 +143,8 @@ function LoginPanelPresenter() {
 		request.open("POST", servlets[2], false);
 		request.setRequestHeader("Content-type",
 				"application/x-www-form-urlencoded");
-		request.send("username=" + encodeURIComponent(username) + "&answer=" + encodeURIComponent(answer));
+		request.send("username=" + encodeURIComponent(username) + "&answer="
+				+ encodeURIComponent(answer));
 		return JSON.parse(request.responseText);
 	};
 
@@ -205,7 +206,7 @@ function LoginPanelPresenter() {
 	this.getUsername = function() {
 		var username = document.getElementById("username").value;
 		if (!username || username.length == 0) {
-			throw "valore non specificato";
+			throw "indirizzo email non specificato";
 		}
 		var emailRegex = new RegExp("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$",
 				"i");
@@ -228,7 +229,7 @@ function LoginPanelPresenter() {
 	this.getPassword = function() {
 		var password = document.getElementById("password").value;
 		if (!password || password.length == 0) {
-			throw "valore non specificato";
+			throw "password non specificata";
 		}
 		return password;
 	};
@@ -334,10 +335,14 @@ function LoginPanelPresenter() {
 		inputLogin.appendChild(document.createTextNode('Login'));
 		var self = this;
 		inputLogin.onclick = function() {
-			var data = new Object();
-			data.username = self.getUsername();
-			data.password = self.getPassword();
-			self.login(data);
+			try {
+				var data = new Object();
+				data.username = self.getUsername();
+				data.password = self.getPassword();
+				self.login(data);
+			} catch (err) {
+				alert(err);
+			}
 		};
 		// pulsante di registrazione
 		var inputRegister = document.createElement('button');
@@ -349,7 +354,8 @@ function LoginPanelPresenter() {
 		};
 		// pulsante per recuperare la password
 		var inputRetrievePassword = document.createElement("button");
-		inputRetrievePassword.type = "submit";;
+		inputRetrievePassword.type = "submit";
+		;
 		inputRetrievePassword.appendChild(document
 				.createTextNode('Recupera password'));
 		inputRetrievePassword.onclick = function() {

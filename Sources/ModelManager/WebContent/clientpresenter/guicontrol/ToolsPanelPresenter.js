@@ -110,7 +110,7 @@ function ToolsPanelPresenter() {
         // contenuto del '<div>' per gli stati dell'utente
         var divState = document.createElement("div");
         var state = document.createElement("select");
-        select.setAttribute("id", "selectState");
+        state.setAttribute("id", "selectState");
         divState.appendChild(state);
 
         // aggiunge il sottoalbero al DOM dell'elemento controllato

@@ -42,7 +42,7 @@ function PresenterMediator() {
         presenters["login"].hide();
         presenters["addressbook"].initialize();
         presenters["main"].initialize();
-        presenters["tools"].intialize();
+        presenters["tools"].initialize();
     };
 
     /**
