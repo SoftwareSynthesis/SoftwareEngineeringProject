@@ -69,7 +69,7 @@ function RegisterPanelPresenter(url) {
     this.getAnswer = function() {
     	var answer = document.getElementById("answer").value;
     	if (!answer || answer.length == 0) {
-    		throw "valore non specificato";
+    		throw "risposta alla domanda segreta non specificata";
     	}
     	return answer;
     };
@@ -84,7 +84,7 @@ function RegisterPanelPresenter(url) {
     this.getQuestion = function() {
     	var question = document.getElementById("question").value;
     	if (!question || question.length == 0) {
-    		throw "valore non specificato";
+    		throw "domanda segreta non specificata";
     	}
     	return question;
     };
@@ -99,7 +99,7 @@ function RegisterPanelPresenter(url) {
     this.getPassword = function() {
     	var password = document.getElementById("password").value;
     	if (!password || password.length == 0) {
-    		throw "valore non specificato";
+    		throw "password non specificata";
     	}
     	return password;
     };
@@ -114,7 +114,7 @@ function RegisterPanelPresenter(url) {
     this.getUsername = function() {
     	var username = document.getElementById("username").value;
     	if (!username || username.length == 0) {
-    		throw "valore non specificato";
+    		throw "indirizzo email non specificato";
     	}
     	var emailRegex = new RegExp("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$", "i");
     	if (!emailRegex.test(username)) {
