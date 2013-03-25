@@ -3,8 +3,8 @@ module(
 		{
 			setup : function() {
 				// stub di interfaccia grafica
-				element = document.createElement("div");
-				element.setAttribute("id", "AddressBookPanel");
+				var element = document.createElement("div");
+				element.id = "AddressBookPanel";
 				element.style.position = "absolute";
 				element.style.left = "-999em";
 				document.body.appendChild(element);
@@ -18,10 +18,10 @@ module(
 		});
 
 test("testInitialize()", function() {
-
 			var i = 0;
 			tester.initialize();
-
+			
+			var element = document.getElementById("AddressBookPanel");
 			var list = element.childNodes;
 			equal(list.length, 4,
 					"il numero di figli dell'elemento restituito e' 4");
@@ -96,7 +96,6 @@ test("testInitialize()", function() {
 		});
 
 test("testSetup()", function() {
-
 	var i = 0;
 	tester.setup();
 	var list = document.getElementById("AddressBookList").childNodes;
@@ -169,6 +168,7 @@ test("testSetup()", function() {
 
 test("testHide()", function() {
 	tester.hide();
+	var element = document.getElementById("AddressBookPanel");
 	equal(element.style.display, "none",
 			"il pannello viene nascosto correttamente");
 });
