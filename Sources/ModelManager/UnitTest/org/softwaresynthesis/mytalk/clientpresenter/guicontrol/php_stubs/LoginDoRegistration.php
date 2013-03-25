@@ -15,6 +15,6 @@
     if (isset($_POST["picturePath"])) {
       $user["picturePath"] = "http://softwaresynthesis.org/pictures/" . $_POST["picturePath"];
     }
-    echo json_encode($user, JSON_PRETTY_PRINT);
+    echo json_encode($user);
 
 ?>

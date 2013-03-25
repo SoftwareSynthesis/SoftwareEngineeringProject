@@ -30,5 +30,5 @@
 	   )
 	);
 	
-	echo json_encode($addressbook, JSON_PRETTY_PRINT);
+	echo json_encode($addressbook);
 ?>
