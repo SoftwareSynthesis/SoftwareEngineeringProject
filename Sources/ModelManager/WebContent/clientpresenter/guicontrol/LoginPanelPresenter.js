@@ -279,6 +279,7 @@ function LoginPanelPresenter() {
      * @author Diego Beraldin
      */
     this.initialize = function() {
+        element.innerHTML = "";
         element.style.display = "block";
         // creazione dell'elemento form
         var loginForm = document.createElement('fieldset');
@@ -345,6 +346,8 @@ function LoginPanelPresenter() {
         inputRegister.type = "submit";
         inputRegister.appendChild(document.createTextNode('Registrazione'));
         inputRegister.onclick = function() {
+            //FIXME crea errore di duplicazione RegisterUI se già premuti in
+            // precedenza
             self.hide();
             mediator.buildRegistrationUI();
         };
