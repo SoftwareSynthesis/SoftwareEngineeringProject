@@ -90,7 +90,7 @@ function AddressBookPanelPresenter() {
         groupRequest.open("POST", servlets[7], false);
         groupRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         groupRequest.send();
-        group = JSON.parse(groupRequest.responseText);
+        groups = JSON.parse(groupRequest.responseText);
     }
 
     /**
