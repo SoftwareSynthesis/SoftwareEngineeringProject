@@ -162,6 +162,7 @@ test("testSetup()", function() {
 	
 	expect(i);
 	//flavia[2] non dovrebbe essere la mail? (fonte AddressBookGetContacts.php, con 3 parametri e' solo LoginAuthentication.php)
+	
 	//mancava test del popolamento e controllo dei gruppi
 	var listGroup=document.getElementById("selectGroup").childNodes;
 	equal(listGroup.length, 2, "numero corretto di gruppi nella rubrica");
@@ -176,7 +177,7 @@ test("testSetup()", function() {
 	equal(famiglia[0].nodeName, "#text", "il primo figlio dell'elemento e' un nodo testo");
 	i++;
 	
-	equal(famiglia[1].nodeName, "#id", "il secondo figlio dell'elemento e' un id");
+	equal(famiglia[1].nodeName, "#text", "il secondo figlio dell'elemento e' un id");
 	i++;
 	
 	equal(famiglia[2].nodeName, "#array", "il secondo figlio dell'elemento e' un array di contatti");
@@ -195,14 +196,18 @@ test("testHide()", function() {
 test("testAddContact()", function(){
 	var i=0;
 	var newContact= tester.addContact(nome_contatto);
-	equal(newContact[0].nodeName, "#text", "il nome del contatto e' stato inserito");
+	var list=newContact.childNodes;
+	equal(list.length,3,"il numero di figli dell'elemento restituito e' 3");
+	i++;
+	equal(newContact[0].nodeName, "#text", "il nome del contatto e' stato inserito correttamente");
 	i++;
 });
 
 //test rimozione contatto da rubrica, da verificare/correggere
 test("testRemoveContact()", function(){
 	var i=0;
-	var newList=tester.removeContact(Flavia)
+	var newContact=tester.removeContact(Flavia)
+	var list=newList.childNodes;
 	equal(newList.length, 2, "nuovo numero di contatti nella rubrica corretto");
 	i++;
 });
@@ -220,6 +225,7 @@ test("testRemoveContactFromGroup()", function(){
 test("testAddGroup()", function(){
 	var i=0;
 	var newGroup= tester.addGroup(nome_gruppo);
+	var list=newGroup.childNodes;
 	equal(newGroup.length, 3, "nuovo numero di gruppi nella rubrica corretto");
 	i++;
 });
@@ -227,7 +233,8 @@ test("testAddGroup()", function(){
 //test rimozione gruppo dalla rubrica
 test("testDeleteGroup()", function(){
 	var i=0;
-	var newList=tester.removeGroup(familiari)
+	var newListGroup=tester.removeGroup(familiari)
+	var list=newListGroup.childNodes;
 	equal(newList.length, 2, "nuovo numero di gruppi nella rubrica corretto");
 	i++;
 });
