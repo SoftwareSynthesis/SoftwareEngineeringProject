@@ -177,6 +177,7 @@ function CommunicationCenter() {
             } else if (type == "2") {
                 var signal = JSON.parse(str[1]);
                 if (pc == null)
+                //FIXME da sistemare la chiaata con due parametri
                     call(false);
                 if ((signal.sdp) == null) {
                     pc.addIceCandidate(new RTCIceCandidate(signal));
@@ -231,8 +232,11 @@ function CommunicationCenter() {
      * Funzione per la vera e propria chiamata attraverso webRTC
      *
      * @author Marco Schivo
+     * 
+     * @param {Boolean} isCaller rappresenta il flag che determina se chi invoca la funzione è il chiamante o il chiamato
+     * @param {Object} contact rappresenta il contatto da contattare
      */
-    this.call = function(isCaller) {
+    this.call = function(isCaller, contact) {
         //creo l'oggetto di configurazione della RTCPeerConnection con
         // l'indirizzo del server STUN
         var configuration = {
@@ -307,9 +311,7 @@ function CommunicationCenter() {
             pc.addStream(stream);
 
             if (isCaller == true) {
-                //FIXME sistemare l'id dell'altro utente!!!!
-                idOther = document.getElementById("idutente").value;
-                var ar = new Array("3", idOther);
+                var ar = new Array("3", contact.id);
                 websocket.send(JSON.stringify(ar));
                 pc.createOffer(gotDescription);
             } else

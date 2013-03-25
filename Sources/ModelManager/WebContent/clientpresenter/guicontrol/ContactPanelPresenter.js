@@ -213,11 +213,13 @@ function ContactPanelPresenter() {
         videoCallButton.onclick = function() {
             //TODO inserire il codice per effettuare la chiamata con il contatto
             // selezionato
+            mediator.onCall(contact, false);
         };
         
         callButton.onclick = function() {
             //TODO inserire il codice per effettuare la chiamata con il contatto
             // selezionato
+            mediator.onCall(contact, true);
         };
 
         //tolgo la possibilità di aggiungere un utente se già presente
