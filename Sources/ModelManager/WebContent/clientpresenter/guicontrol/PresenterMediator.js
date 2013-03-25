@@ -42,7 +42,7 @@ function PresenterMediator() {
         presenters["login"].hide();
         presenters["addressbook"].initialize();
         presenters["main"].initialize();
-        presenters["tools"].intialize();
+        presenters["tools"].initialize();
     };
 
     /**
@@ -397,7 +397,7 @@ function PresenterMediator() {
      *
      * @return {Object} ritorna il comunicationPP
      */
-    this.getCommunicationPP = funtion() {
+    this.getCommunicationPP = function() {
         return communicationpp;
     }
 }

@@ -30,7 +30,7 @@ function MainPanelPresenter() {
         var img = document.createElement("img");
         img.src = "img/mytalk.png";
 
-        this.element.appendChild(img);
+        element.appendChild(img);
     };
 
     /**
