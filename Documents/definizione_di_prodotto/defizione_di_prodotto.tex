@@ -1165,7 +1165,7 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 			\verb|users = userDAO.searchGeneric(parameter)|;
 			\item a questo punto si dovrà predisporre un iteratore per scorrere la lista users;
 			\item si imposta result al valore ``{'' e si entra in un ciclo while che potrà terminare solo quando l'iteratore già citato avrà raggiunto l'ultimo elemento ispezionabile;
-			\item dentro al ciclo while si procederà con la formattazione della stringa result al fine di restituire al client un forato sul quale possa operare. Nello specifico la stringa result dovrà contenere (per ogni istanza di IUserData presente in users):\\
+			\item dentro al ciclo while si procederà con la formattazione della stringa result al fine di restituire al client un formato sul quale possa operare. Nello specifico la stringa result dovrà contenere (per ogni istanza di IUserData presente in users):\\
 			
 			\verb|\"ID_della_entry":{"name":"NOME_UTENTE",|\\
 			\verb|"surname":"COGNOME_UTENTE,"email":EMAIL_UTENTE",|\\
@@ -1185,7 +1185,7 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 \classsection{AddressBookGetContactsServlet}
 
 \subsubsection*{Funzione}
-\inglese{Servlet} richiamata dal client per scaricare la propria rubrica.
+\inglese{Servlet} richiamata dal client per scaricare la lista dei contatti presenti nella propria rubrica.
 
 \subsubsection*{Relazioni d'uso}
 
@@ -1217,10 +1217,10 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 	Costruttore pubblico della \inglese{servlet}. Richiama il costruttore della classe padre (chiamata a \texttt{super}).
 	
 	\item{\method{\# doGet(request HttpServletRequest, response HttpServletResponse): void}}\\
-	Metodo usato per eseguire la richiesta di download della rubrica di un utente (eseguito in risposta ad una richiesta HTTP con metodo \texttt{GET}). Poiché intendiamo gestire in modo univoco una richiesta a tale servlet (indifferentemente dalla tipologia d'invio dati) il metodo reindirizza il flusso principale al metodo \method{doPost()}.
+	Metodo usato per eseguire la richiesta di download della lista dei contatti utente (eseguito in risposta ad una richiesta HTTP con metodo \texttt{GET}). Poiché intendiamo gestire in modo univoco una richiesta a tale servlet (indifferentemente dalla tipologia d'invio dati) il metodo reindirizza il flusso principale al metodo \method{doPost()}.
 	
 	\item{\method{\# doPost(request HttpServletRequest, response HttpServletResponse): void}}\\	
-	Metodo usato per eseguire la richiesta di download della rubrica di un utente (eseguito in risposta ad una richiesta HTTP con metodo \texttt{POST}). Nell'ordine proposto, devono essere eseguite le seguenti operazioni:
+	Metodo usato per eseguire la richiesta di download della lista dei contatti (eseguito in risposta ad una richiesta HTTP con metodo \texttt{POST}). Nell'ordine proposto, devono essere eseguite le seguenti operazioni:
 	\begin{itemize}
 		\item creazione degli oggetti necessari al completamento dell'operazione:
 		\begin{itemize}
@@ -1234,7 +1234,7 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 			\item \classname{IAddressBookEntry} entry;
 		\end{itemize}
 		
-		\item quindi il metodo procede definendo un blocco try catch. Nel ramo catch si imposta result a ``\inglese{false}''. Passando invece alla definizione del ramo try, in esso devono essere definiti i seguenti punti:
+		\item quindi il metodo procede definendo un blocco try catch. Nel ramo catch si imposta result a ``\inglese{null}''. Passando invece alla definizione del ramo try, in esso devono essere definiti i seguenti punti:
 		\begin{itemize}
 			\item session viene impostata tramite una chiamata a metodo del tipo:\\
 			\verb|session = request.getSession(false)|;
@@ -1254,6 +1254,90 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 		\end{itemize}
 	\end{itemize}
 	Il metodo termina scrivendo su writer il contenuto di result.
+	
+\end{description}
+
+%TODO da verificare
+
+\classsection{AddressBookGetGroupsServlet}
+
+\subsubsection*{Funzione}
+\inglese{Servlet} richiamata dal client per scaricare la propria rubrica, provvista di gruppi e contatti in essi presenti.
+
+\subsubsection*{Relazioni d'uso}
+
+\begin{itemize}
+	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
+	\item \texttt{java.util.List}: usata per memorizzare l'insieme di \classname{IGroup} da restituire in seguito alla richiesta di ricerca.
+	\item \texttt{java.util.Set}: usata per memorizzare l'insieme di \classname{IAddressBookEntry} da restituire in seguito alla richiesta di ricerca.
+	\item \texttt{javax.servlet.ServletException}: eccezione rilancibile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{LoginManager}.
+	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
+	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la servlet (inoltra i dati in uscita dalla chiamata a servlet).
+	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
+	\item \classname{abook.IAddressBookEntry}:Interfaccia che definisce il comportamento di una \inglese{entry} della rubrica utente.
+	\item \classname{abook.IUserData}:Interfaccia che definisce il comportamento di un utente generico. La classe che qui andiamo a descrivere crea istanze di tipo \classname{abook.IUserData}.
+		\item \classname{abook.IGroup}:Interfaccia che definisce il comportamento di un gruppo generico. La classe che qui andiamo a descrivere crea istanze di tipo \classname{abook.IGroup}.
+	\item \classname{dao.GroupDAO}: classe usata per comunicare tramite Hibernate con la tabella Group della base di dati.
+\end{itemize}
+
+\subsubsection*{Attributi}
+
+\begin{itemize}
+	\item{\memberdata{\underline{-- \{frozen\} serialVersionUID: long}}}
+	Attributo contenente l'id per la serializzazione dei dati. Il valore di creazione deve essere \texttt{10010L}.
+\end{itemize}
+
+\subsubsection*{Metodi}
+
+\begin{description}
+	\item{\method{+ AddressBookGetContactsServlet()}}\\
+	Costruttore pubblico della \inglese{servlet}. Richiama il costruttore della classe padre (chiamata a \texttt{super}).
+	
+	\item{\method{\# doGet(request HttpServletRequest, response HttpServletResponse): void}}\\
+	Metodo usato per eseguire la richiesta di download della rubrica di un utente (eseguito in risposta ad una richiesta HTTP con metodo \texttt{GET}). Poiché intendiamo gestire in modo univoco una richiesta a tale servlet (indifferentemente dalla tipologia d'invio dati) il metodo reindirizza il flusso principale al metodo \method{doPost()}.
+	
+\item{\method{\# doPost(request HttpServletRequest, response HttpServletResponse): void}}\\	
+	Metodo usato per eseguire la richiesta di download della lista dei contatti utente (eseguito in risposta ad una richiesta HTTP con metodo \texttt{POST}). Nell'ordine proposto, devono essere eseguite le seguenti operazioni:
+	\begin{itemize}
+		\item creazione degli oggetti necessari al completamento dell'operazione:
+		\begin{itemize}
+			\item \texttt{HttpSession} session;
+			\item \classname{GroupDAO} groupDAO;
+			\item \classname{IAddressBookEntry} entry;
+			\item \classname{IGroup} group;
+			\item \classname{IUserData} user;
+			\item \texttt{Iterator<IAddressBookEntry>} entryIter;
+			\item \texttt{Iterator<IGroup>} groupIter;
+			\item \texttt{Set<IAddressBookEntry>} addentrys;
+			\item \classname{PrintWriter} writer;
+			\item String result;
+		\end{itemize}
+		
+		\item quindi il metodo procede definendo un blocco try catch. Nel ramo catch si imposta result a ``\inglese{false}''. Passando invece alla definizione del ramo try, in esso devono essere definiti i seguenti punti:
+		\begin{itemize}
+			\item session viene impostata tramite una chiamata a metodo del tipo:\\
+			\verb|session = request.getSession(false)|;
+			\item quindi il metodo procede impostando user a partire dalla sessione precedentemente creata. Tale operazione richiede l'uso del metodo \method{getAttribute(``user'')};
+			\item viene inizializzato l'oggetto groupDAO;
+			\item si inizializza la lista groups dei gruppi. Tale operazione deve essere eseguita mediante l'istruzione:\\
+			\verb|groupDAO.getByOwner(user.getId())|
+			\item il metodo definisce un costrutto condizionale if-else basato sulla condizione groups != null. Nel ramo else il metodo non fa altro che impostare result a ``\inglese{false}''. Invece nel ramo if devono essere definite le seguenti istruzioni:	
+			\begin{itemize}
+				\item predisporre un iteratore per scorrere l'insieme groups (inizializzazione di groupIter);
+				\item si imposta result al valore ``\{'' e si entra in un ciclo while che potrà terminare solo quando l'iteratore già citato avrà raggiunto l'ultimo elemento ispezionabile;
+				\item all'interno del ciclo si estrae dall'iteratore il gruppo attualmente in esame e si salva sull'oggetto group;
+				\item a partire da group, tramite una chiamata \method{getAddressBook()}, si ottiene la lista di entry di quel gruppo e la si slava in addEntry;
+				\item si definisce un nuovo iteratore addEntry.\method{iterator()} e lo si memorizza in entryIter;
+				\item si ``scrive'' dentro a result, i dati inerenti il gruppo in esame (name, id) e si aggiunge la stringa ``contacts:['';
+				\item si entra in un nuovo ciclo while che cicla sulle entry dell'iteratore entryIter. All'interno di tale ciclo si estraggono le entry che costituiscono i contatti del gruppo in esame e si riporta in result l'id di tali contatti (usare metodo \method{getId()});
+				\item all'uscita del ciclo while più interno si concatena al contenuto di result la stringa ``]\}'';
+				\item all'uscita del ciclo while più esterno si concatena al contenuto di result la stringa ``\}'';
+			\end{itemize}
+		\end{itemize}
+	\end{itemize}
+	Il metodo termina scrivendo su writer il contenuto di result.	
 	
 \end{description}
 
