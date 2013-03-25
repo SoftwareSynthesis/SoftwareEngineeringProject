@@ -14,7 +14,7 @@ import org.softwaresynthesis.mytalk.server.abook.UserData;
  * Test dei metodi della classe {@link UserDataDAO}
  * 
  * @author 	Andrea Meneghinello
- * @version	%I%, %G%
+ * @version	1.0
  */
 public class UserDataDAOTest 
 {

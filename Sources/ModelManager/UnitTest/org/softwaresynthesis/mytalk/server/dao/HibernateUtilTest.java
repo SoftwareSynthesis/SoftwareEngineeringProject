@@ -9,7 +9,7 @@ import org.junit.Test;
  * Test dei metodi della classe {@link HiberanteUtil}
  * 
  * @author 	Andrea Meneghinello
- * @version %I%, %G%
+ * @version 1.0
  */
 public class HibernateUtilTest 
 {	
