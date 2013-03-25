@@ -146,6 +146,7 @@ function ContactPanelPresenter() {
         ulData.appendChild(email);
 
         //apendo il sottoalbero al DOM
+        element.appendChild(displayBlockedDiv);
         element.appendChild(avatar);
         element.appendChild(ulData);
         element.appendChild(callButton);
