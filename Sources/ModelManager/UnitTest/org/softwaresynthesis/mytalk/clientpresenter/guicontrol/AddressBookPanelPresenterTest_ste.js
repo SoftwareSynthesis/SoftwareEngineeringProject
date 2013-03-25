@@ -17,37 +17,6 @@ module(
 			}
 		});
 
-	/*controlliamo che un contatto già presente nn possa essere reinserito*/	
-test("testAddContact()", function(){
-
-	var element = document.getElementById("AddressBookPanel");
-	
-	var i=0;
-	var laura={name:"Laura", surname:"Pausini", email:"laupau@gmail.com",id: "0", picturePath:"xx.png", state: "offline",
-	blocked: "false"};
-	
-	
-	try{tester.addContact(laura);ok(false,"errore non rilevato");i++;}catch(err){equal(err,"Contatto già presente nella rubrica.","rilevato errore");i++;}
-	
-	expect(i);
-});		
-
-
-test("testRemoveContact()", function(){
-
-	var element = document.getElementById("AddressBookPanel");
-	
-	var i=0;
-	var laura={name:"Laura", surname:"Pausini", email:"laupau@gmail.com",id: "4", picturePath:"xx.png", state: "offline",
-	blocked: "false"};
-	
-	
-	try{tester.removeContact(laura);ok(false,"errore non rilevato");i++;}catch(err){equal(err,"Non puoi eliminare un contatto non presente in rubrica.","rilevato errore");i++;}
-	
-	expect(i);
-});		
-
-
 test("testInitialize()", function() {
 			var i = 0;
 			tester.initialize();
@@ -193,27 +162,26 @@ test("testSetup()", function() {
 	equal(flavia[2].getAttribute("src"), "img/stateoffline.png",
 			"lo stato del secondo contatto e' corretto");
 	i++;
-	//test del popolamento e controllo dei gruppi
-	var listGroup=document.getElementById("selectGroup").childNodes;
-	equal(listGroup.length, 2, "numero corretto di gruppi nella rubrica");
-	i++;
-	equal(listGroup[0].nodeName, "OPTION", "il primo figlio dell'elemento e' un figlio della lista");
-	i++;
-	var famiglia=listGroup[0].childNodes;
+		//test del popolamento e controllo dei gruppi
+		var listGroup=document.getElementById("selectGroup").childNodes;
+		equal(listGroup.length, 2, "numero corretto di gruppi nella rubrica");
+		i++;
+		equal(listGroup[0].nodeName, "OPTION", "il primo figlio dell'elemento e' un figlio della lista");
+		i++;
+		var famiglia=listGroup[0].childNodes;
 
-	equal(famiglia.length,1, "ci sono tre figli");
-	i++;
+		equal(famiglia.length,1, "ci sono tre figli");
+		i++;
 
-	equal(famiglia[0].nodeName, "#text", "il primo figlio dell'elemento e' un nodo testo");
-	i++;
-	
-	equal(famiglia[0].data,"famiglia", "il nome del gruppo 0 e' famiglia");
-	i++;
-	
-	var amici=listGroup[1].childNodes;
-	equal(amici[0].data,"amici", "il nome del gruppo 1 e' amici");
-	i++;
-
+		equal(famiglia[0].nodeName, "#text", "il primo figlio dell'elemento e' un nodo testo");
+		i++;
+		
+		equal(famiglia[0].data,"famiglia", "il nome del gruppo 0 e' famiglia");
+		i++;
+		
+		var amici=listGroup[1].childNodes;
+		equal(amici[0].data,"amici", "il nome del gruppo 1 e' amici");
+		i++;
 	expect(i);
 });
 
@@ -222,4 +190,12 @@ test("testHide()", function() {
 	var element = document.getElementById("AddressBookPanel");
 	equal(element.style.display, "none",
 			"il pannello viene nascosto correttamente");
+});
+
+test("testRemoveContact()", function(){
+	var i=0;
+	var element=document.getElementById("AddressBookPanel");
+	var laura={name:"Laura", surname:"Pausini", email:"laupau@gmail.com",id:"4",picturePath:"xx.png",state:"offline", blocked:"false"};
+	try{tester.removeContact(laura); ok(false,"errore non rilevato");i++;}catch(err){equal(err,"Non puoi eliminare un contatto non presente in rubrica.","rilevato errore");i++;}
+	expect(i);
 });
