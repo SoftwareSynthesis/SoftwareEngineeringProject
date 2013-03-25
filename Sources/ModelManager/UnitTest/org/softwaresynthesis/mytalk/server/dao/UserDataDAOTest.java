@@ -24,31 +24,25 @@ public class UserDataDAOTest
 	/**
 	 * Inizializza i campi dati per l'esecuzione
 	 * dei test
-	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 */
 	@BeforeClass
 	public static void setupBeforeClass()
 	{
 		tester = new UserDataDAO();
 		user = new UserData();
-		//user.setEmail("indirizzo6@dominio.it");
+		user.setMail("indirizzo6@dominio.it");
 		user.setPassword("password");
 		user.setQuestion("come mi chiamo");
 		user.setAnswer("maria");
 		user.setName("maria");
 		user.setSurname("goretti");
-		//user.setPicturePath("Image/Img01.png");
+		user.setPath("Image/Img01.png");
 	}
 	
 	/**
 	 * Testa il metodo di inserimento di uno
 	 * {@link IUserData} nel database del
 	 * sistema mytalk
-	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 */
 	@Test
 	public static void testInsert()
@@ -60,30 +54,24 @@ public class UserDataDAOTest
 	/**
 	 * Testa il metodo di ricerca tramite
 	 * di l'indirizzo e-mail di uno {@link IUserData}
-	 * 
-	 * @author	Andrea Meneghinello
-	 * @version %I%, %G%
 	 */
 	@Test
 	public static void testGetByEmail()
 	{
-//		IUserData found = null;
-//		String mail = "indirizzo6@dominio.it";
-//		String foundMail = null;
-//		found = tester.getByEmail(mail);
-//		assertNotNull(found);
-//		foundMail = found.getEmail();
-//		assertNotNull(foundMail);
-//		assertEquals(mail, foundMail);
+		IUserData found = null;
+		String mail = "indirizzo6@dominio.it";
+		String foundMail = null;
+		found = tester.getByEmail(mail);
+		assertNotNull(found);
+		foundMail = found.getMail();
+		assertNotNull(foundMail);
+		assertEquals(mail, foundMail);
 	}
 	
 	/**
 	 * Testa il metodo di aggiornamento di
 	 * uno {@link IUserData} nel database del
 	 * sistema mytalk
-	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 */
 	@Test
 	public void testUpdate()
@@ -99,9 +87,6 @@ public class UserDataDAOTest
 	 * Testa il metodo di cancellazione
 	 * di uno {@link IUserData} dal
 	 * database del sistema mytalk
-	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 */
 	@Test
 	public void testDelete()
@@ -114,20 +99,17 @@ public class UserDataDAOTest
 	 * Testa il metodo per la ricerca
 	 * generica di uno {@link IUserData}
 	 * nel database del sistema mytalk
-	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
 	 */
 	@Test
 	public void testSearchGeneric()
 	{
-//		IUserData user = new UserData();
-//		user.setEmail("indirizzo2@dominio.it");
-//		List<IUserData> founds = null;
-//		String mail = "indirizzo2@dominio.it";
-//		founds = tester.searchGeneric(mail);
-//		assertNotNull(founds);
-//		assertFalse(founds.size() == 0);
-//		assertTrue(founds.contains(user));
+		IUserData user = new UserData();
+		String mail = "indirizzo2@dominio.it";
+		user.setMail(mail);
+		List<IUserData> founds = null;
+		founds = tester.searchGeneric(mail);
+		assertNotNull(founds);
+		assertFalse(founds.size() == 0);
+		assertTrue(founds.contains(user));
 	}
 }
