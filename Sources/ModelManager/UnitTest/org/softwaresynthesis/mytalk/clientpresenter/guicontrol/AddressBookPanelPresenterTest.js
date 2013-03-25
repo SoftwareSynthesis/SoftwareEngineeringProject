@@ -17,6 +17,37 @@ module(
 			}
 		});
 
+	/*controlliamo che un contatto già presente nn possa essere reinserito*/	
+test("testAddContact()", function(){
+
+	var element = document.getElementById("AddressBookPanel");
+	
+	var i=0;
+	var laura={name:"Laura", surname:"Pausini", email:"laupau@gmail.com",id: "0", picturePath:"xx.png", state: "offline",
+	blocked: "false"};
+	
+	
+	try{tester.addContact(laura);ok(false,"errore non rilevato");i++;}catch(err){equal(err,"Contatto già presente nella rubrica.","rilevato errore");i++;}
+	
+	expect(i);
+});		
+
+
+test("testRemoveContact()", function(){
+
+	var element = document.getElementById("AddressBookPanel");
+	
+	var i=0;
+	var laura={name:"Laura", surname:"Pausini", email:"laupau@gmail.com",id: "4", picturePath:"xx.png", state: "offline",
+	blocked: "false"};
+	
+	
+	try{tester.removeContact(laura);ok(false,"errore non rilevato");i++;}catch(err){equal(err,"Non puoi eliminare un contatto non presente in rubrica.","rilevato errore");i++;}
+	
+	expect(i);
+});		
+
+
 test("testInitialize()", function() {
 			var i = 0;
 			tester.initialize();
