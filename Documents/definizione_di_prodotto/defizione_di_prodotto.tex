@@ -2490,10 +2490,6 @@ Tale server ha il compito di sbloccare il contatto contact. Quindi il metodo ter
 \item{\method{+ getGroupsWhereContactsIs(contact: Object(contact)): Object(group)}}\\
 Tale metodo ha il compito, dato un utente, di ritornare una lista di gruppi in cui esso è presente. Il metodo riceve come unico parametro il contatto da ricercare. Successivamente vengono ciclati tutti i gruppi e per ogni gruppo si controlla se è inserito il contatto. In caso di match, viene aggiunto il gruppo alla lista di gruppi da ritornare.
 
-%TODO da verificare
-\item{\method{+ contactAlreadyPresent(contact: Object(contact)): boolean}}\\
-Tale metodo ha il compito, dato un utente, di verificare se è già presente nella rubrica. Metodo di utilità richiamato ad esempio dai .metodi \method{addContact()} e \method{removeContact()}. In caso il contatto venga trovato, il metodo restituisce true, altrimenti false.
-
 
 \end{description}
 
@@ -2757,22 +2753,23 @@ Nessuna relazione d'uso evidenziata.
 
 \subsubsection*{Metodi}
 \begin{description}
-\item{\method{- createLabel(contact: Object(contact)): String}}\\
+\item{\method{- createLabel(user: Object(contact)): String}}\\
 	Metodo che dato un utente (parametro del metodo), restituisce una stringa identificativa per il contatto in questione. Più precisamente, se il contatto contiene sia il nome che il cognome, la stringa restituita sarà composta da questi due elementi, altrimenti in base ai casi solo il nome o il cognome. Nell'ulteriore caso non siano presenti ne il nome ne il cognome, restituisce l'email, campo dati obbligatorio in fase di registrazione e quindi sempre presente.
 
-%TODO da sistemare perchè diego deve modificare chat
-\item{\method{- createChatItem(chat: Object()): DOM\_node}}\\
-	Tale metodo restituisce un DOM\_element di tipo <li> contenente l'identificativo dell'utente con cui si sta comunicando (parametro del metodo).
+\item{\method{- createChatItem(user: Object(contact)): DOM\_node}}\\
+	Tale metodo restituisce un DOM\_element di tipo <li> contenente l'identificativo dell'utente con cui si sta comunicando (parametro del metodo). All'oggetto restituito viene assegnato un ``id'' corrispondente all'``id'' dell'utente con cui si vuole dialogare. All'evento ``onClick'' viene collegato l'invocazione del metodo \method{displayChat(user)} che fa visualizzare la chat. Viene inoltre creato il bottone per chiudere la chat che con l'evento ``onclick'' richiama il metodo \method{removeChat(user)}.
 
-%TODO da sistemare perchè diego deve modificare chat	
-\item{\method{- createChatElement(chat: Object()): DOM\_node}}\\
-	Tale metodo restituisce un DOM\_element di tipo <li> contenente l'identificativo dell'utente con cui si sta comunicando (parametro del metodo).
-
-%TODO da sistemare perchè diego deve modificare chat	
-\item{\method{+ addChat(chat: Object()): void}}\\
+\item{\method{- createChatElement(user: Object(contact)): DOM\_node}}\\
+	Tale metodo restituisce un DOM\_element contenente un ``div'' che rappresenta l'area di chat. A tale elemento viene assegnato un ``id'' impostato a ``divContainerChat''. Deve essere creato anche una form assegnando l'``id'' dell'utente come valore all'attributo ``id''. A questa form va aggiunto una ``textarea'' con ``id'' impostato a ``chatText'' dove andrà visualizzata la cronologia della chat; una casella di input con ``id'' uguale ``input''; un bottone per inviare il messaggio assegnandogli all'evento ``onClick'' l'invocazione del metodo \method{send(user, text)} del CommunicationPanelPresenter. Alla fine, viene aggiunta la form all'elemento ``div'' e ritornato.
 	
-%TODO da sistemare perchè diego deve modificare chat	
-\item{\method{+ removeChat(chat: Object()): void}}\\
+\item{\method{+ displayChat(user: Object(contact)): void}}\\
+Provoca la visualizzazione della chat con l'utente (ricevuto da parametro) nel div contenitore pertinente.
+
+\item{\method{+ addChat(user: Object(contact)): void}}\\
+Provoca l'aggiunta di una chat, con l'utente ricevuto come parametro, andando ad aggiornare il campo privato ``chatElements'' e visualizzandola nell'elemento ``ulOpenChat''.
+	
+\item{\method{+ removeChat(user: Object(contact)): void}}\\
+Comportamento simile al metodo scritto precedentemente. Viene chiusa una chat aperta con l'utente ricevuto da parametro andando ad eliminare l'elemento corrispondente da ``chatElements'' e rimuovendo anche il DOM\_element dall'``ulOpenChat''.
 
 \item{\method{+ appendToChat(user: Object(contact), text: String): void}}\\
 Il metodo ha il compito di aggiunge una stringa (text) all'interno dell'area di testo che è associata alla chat con l'utente ``user'' (parametro del metodo).
@@ -2780,14 +2777,33 @@ Il metodo ha il compito di aggiunge una stringa (text) all'interno dell'area di 
 \item{\method{+ createPanel(): DOM\_node}}\\
 Con l'invocazione di tale metodo, viene inizializzato il pannello costruendo i \inglese{widget} grafici interni e lo restituisce in modo che possa essere inserito all'interno del pannello principale. Più dettagliatamente, deve costruire:
 \begin{itemize}
-\item div relativo alla chiamata assegnandogli un id;
-\item div relativo alla chat testuale assegnandogli un id;
-\item elemento video per la visualizzazione del proprio stream ricavato dalla videocamera;
-\item elemento video per la visualizzazione dello stream dell'altro utente;
-\item div dove inserire la visualizzazione delle statistiche della chiamata;
-\item bottone per la terminazione della chiamata.
-
+\item div relativo alla chiamata assegnandogli come ``id'' CommunicationPanel;
+\item div relativo alla gestione della chiamta assegnandogli come ``id'' divCall;
+\item div relativo alla chat testuale assegnandogli come ``id'' divChat;
+\item elemento video per la visualizzazione del proprio stream ricavato dalla videocamera con ``id'' myVideo;
+\item elemento video per la visualizzazione dello stream dell'altro utente con ``id'' otherVideo;
+\item div dove inserire la visualizzazione delle statistiche della chiamata tra cui:
+\begin{itemize}
+\item elemento ``span'' per byte Ricevuti con ``id''= statReceived;
+\item elemento ``span'' per byte Inviati con ``id''= statSend;
+\item elemento ``span'' per il tempo con ``id''= timerSpan;
 \end{itemize}
+\item bottone per la terminazione della chiamata che all'evento ``onClick'' richiama il metodo \method{endCall()} di communicationcenter;
+\item elemento div contenente le chat aperte.
+\end{itemize}
+Tutti gli elementi sopra descritti andranno poi aggiunti al parametro di ritorno ``element'' tramite la funzione \method{appendChild()} fornita dai DOM\_element.
+
+\item{\method{+ updateTimer(text: String): void}}\\
+Il metodo aggiorna il tempo di comunicazione durante una chiamata. Imposta il campo value dello span relativo alla visualizzazione del tempo chiamata con il valore del parametro ricevuto in input (text).
+
+\item{\method{+ updateStats(text: String, isReceivedData: boolean): void}}\\
+Il metodo controlla tramite il parametro booleano ricevuto in input (isReceivedData) se bisogna aggiornare lo span relativo ai dati inviati oppure lo span relativo ai dati ricevuti e lo imposta con il valore ``text'' ricevuto per parametro.
+
+\item{\method{+ getMyVideo(): DOM\_element}}\\
+Il metodo ritorna l'elemento DOM con id uguale ad ``myVideo''.
+
+\item{\method{+ getOtherVideo(): DOM\_element}}\\
+Il metodo ritorna l'elemento DOM con id uguale ad ``otherVideo''.
 
 \end{description}
 
@@ -2849,13 +2865,22 @@ Metodo che popola nel corretto modo tutti gli elementi necessari per la visualiz
 \item elemento per cognome;
 \item elemento per email;
 \item elemento per avatar;
+\item pulsante per aggiungere un contatto alla rubrica;
 \item pulsante per la chiamata audio;
-\item pulsante per la chiamata video;
+\item pulsante per la video-chiamata;
 \item pulsante per avviare una chat;
 \item pulsante per bloccare il contatto;
 \item pulsante per sbloccare il contatto.
 \end{itemize}
-Successivamente si andranno a popolare tali elementi utilizzando le informazioni del contatto passato come parametro (contact). Infine si imposterà correttamente il comportamento dei bottoni associando le giuste chiamate a metodi.
+Successivamente si andranno a popolare tali elementi utilizzando le informazioni del contatto passato come parametro (contact). Infine si imposterà correttamente il comportamento dei bottoni associando le giuste chiamate a metodi del mediator, ossia:
+\begin{itemize}
+\item aggiungi contatto --> onContactAdded(contact.id);
+\item blocca contatto --> onBlockContact();
+\item sblocca contatto --> onUnlockContact();
+\item chiamata audio --> onCall(contact, false);
+\item chiamata video --> onCall(contact, true);
+\item avvia chat --> onChatStarted(contact);
+\end{itemize}
 
 \end{description}
 
@@ -2946,7 +2971,7 @@ Visualizza il form di registrazione al sistema, utilizzato dagli utenti che vogl
 Metodo invocato nel momento in cui viene selezionato un contatto. Tale evento invoca il metodo \method{display} del ContactPanelPresenter prendendo come parametro l'oggetto ``contact'' ricevuto inizialmente. 
 
 
-\item{\method{+ onContactAdded(contact: object(contact)): void}}\\
+\item{\method{+ onContactAdded(contact: Object(contact)): void}}\\
 Funzione di callback richiamata dai pulsanti di SearchResultPanel che comunica all'AddressBookPanelPresenter di aggiungere un contatto. Il metodo riceve come parametro l'utente che si vuole aggiungere (contact). Questo parametro viene a suo volta passato alla funzione addContact() di addressBookPanelPresenter. In caso di errore, viene segnalato con un ``alert''.
 
 \item{\method{+ onContactRemoved(userID: String): void}}\\
@@ -3001,15 +3026,53 @@ Provoca la creazione del pannello delle impostazioni del proprio account e la su
 \item{\method{+ displayCommunicationPanel(): void}}\\
 Provoca la creazione del pannello delle comunicazioni e la sua visualizzazione all'interno del MainPanel. Viene creato dal metodo \method{createPanel()} del presenter CommunicationPanelPanelPresenter un elemento di tipo DOM\_node che viene poi passato al presenter ``main'' come parametro del metodo \method{displayChildPanel}.
 
-\item{\method{+ displayContact(object(contact)): void}}\\
+\item{\method{+ displayContact(contact: Object(contact)): void}}\\
 L'invocazione di tale metodo provoca la visualizzazione della scheda di un contatto (contact) nel CommunicationpanelPresenter. Viene richiamato il metodo \method{displayCommunicationPanel()} e successivamente il metodo \method{display} passando come contatto il parametro ricevuto precedentemente.
 
-\item{\method{+ contactAlreadyPresent(object(contact)): boolean}}\\
+\item{\method{+ contactAlreadyPresent(contact: Object(contact)): boolean}}\\
 Metodo che controlla se l'utente ricevuto come parametro del metodo (contact) è gia presente nella rubrica. Viene invocato il metodo \method{contactAlreadyPresent()} di AddressBookPanelPresenter passando come parametro il contatto in questione.
+
+\item{\method{+ onChatStarted(user: Object(contact)): void}}\\
+Coordina i presenter nel momento in cui ha inizio una nuova comunicazione testuale. Incapsula la collaborazione fra ContactPanelPresenter e CommunicationPanelPresenter. Viene quindi
+\begin{itemize}
+\item invocato il metodo \method{createPanel()} di CommunicationPanelPresenter;
+\item invocato il metodo \method{displayChildPanel()} di MainPanelPresenter passandogli come parametro l'oggetto creato precedentemente;
+\item invocato il metodo \method{addChat()} di CommunicationPanelPresenter passando come parametro l'utente interessato;
+\item invocato il metodo \method{displayChat()} di CommunicationPanelPresenter passando come parametro l'utente interessato.
+\end{itemize} 
+
+\item{\method{+ onCall(contact: Object(contact), onlyAudio: boolean): boolean}}\\
+Metodo per gestire la chiamata. Riceve come parametri l'utente che si vuole chiamare (contact) e un flag per segnalare se la chiamata è solo audio (onlyAudio).
+
 \end{description}
 
-%TODO controllare che non siano stati aggiunti metodi
 
+%TODO da verificare
+\classsection{}
+
+\subsubsection*{Funzione}
+
+
+\subsubsection*{Relazioni d'uso}
+Nessuna relazione d'uso evidenziata.
+
+\subsubsection*{Attributi}
+\begin{description}
+\item{\memberdata{-- element: DOM\_element}}\\
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+\item{\method{+ aaa(): void}}\\
+aaa
+
+\item{\method{+ bbb(): void}}\\
+bbb
+
+\item{\method{+ ccc(): void}}\\
+ccc
+
+\end{description}
 
 
 \clearpage
