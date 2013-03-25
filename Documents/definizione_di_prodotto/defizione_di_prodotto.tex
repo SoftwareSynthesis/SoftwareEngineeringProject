@@ -2064,7 +2064,7 @@ L'oggetto cosi ottenuto dovrà essere controllato, ovvero si dovrà accertare ch
 
 \subsubsection*{Metodi}
 \begin{description}
-	\item{\method{+ LoginManager()}}\\
+	\item{\method{+ LoginServlet()}}\\
 	Costruttore della classe. Richiama il costruttore della classe padre \texttt{HttpServlet}.
 	
 	\item{\method{\# doGet(request: HttpServletRequest, response: HttpServletResponse): void}}\\
@@ -2089,6 +2089,75 @@ Quindi tramite context si esegue il login e si impostano gli attributi di sessio
 Infine si carica in user un istanza di \classname{dao.UserDataDAO} ottenuta dalla chiamata a metodo \method{UserDataDAO.getByEmail()}, e restituendo user in un formato di formattazione \texttt{Json} (\texttt{user.toJson()}).
 
 \end{description}
+
+\classsection{RegisterServlet}
+
+\subsubsection*{Funzione}
+\inglese{Servlet} da richiamare per effettuare la registrazione al sistema MyTalk.
+
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
+	\item \texttt{javax.servlet.ServletException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{LoginManager}.
+	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
+	\item \texttt{javax.servlet.http.HttpServletResponse}: classe usata per la comunicazione con la \inglese{servlet} (inoltra i dati in uscita dalla chiamata a \inglese{servlet}).
+	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
+	\item \classname{abook.IUserData}: usata per definire un utente.
+	\item \classname{dao.UserDataDAO}: usata per comunicare tramite Hibernate con la tabella \texttt{UserData} della base di dati.
+	\item \classname{authentication.ISecurityStrategy}: usata per criptare/decriptare i dati da inviare/ricevere
+	\item \classname{authentication.AESAlgorithm}: implementazione di \classname{authentication.ISecurityStrategy} usata dalla classe descritta.
+	
+\end{itemize}
+
+\subsubsection*{Attributi}
+\begin{description}
+  \item{\memberdata{\underline{-- {frozen} serialVersionUID: long}}}\\
+  Utilizzato come ID univoco per identificare un oggetto serializzabile. Tale ID deve essere impostato a ``10002L''.
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+	\item{\method{+ RegisterServlet()}}\\
+	Costruttore della classe. Richiama il costruttore della classe padre \texttt{HttpServlet}.
+	
+	\item{\method{\# doGet(request: HttpServletRequest, response: HttpServletResponse): void}}\\
+	Metodo che richiama \method{doPost()} passando gli stessi dati in input.
+	
+	\item{\method{\# doPost(request: HttpServletRequest, response: HttpServletResponse): void}}\\
+
+Metodo che costituisce il kernel logico di risposta della \inglese{servlet}. Il metodo inizia caricando i parametri ricevuti mediante \texttt{HttpServletRequest}. Una chiamata a tale metodo corrisponde ad una richiesta di registrazione al sistema e si attua impostando i dati di registrazione:
+	\begin{itemize}
+		\item name;
+		\item username;
+		\item mail;
+		\item password;
+		\item path immagine;
+		\item domanda segreta;
+		\item risposta alla domanda segreta;
+	\end{itemize}
+	Per eseguire tali operazioni, il metodo predispone delle opportune variabili di tipo String e crea uno \classname{abook.IUserData} user. Quindi all'interno di un blocco try catch viene impostata una strategia di criptaggio dei dati (creando un istanza di \classname{authentication.AESAlgorithm}). Quindi vengono caricati i dati di registrazione nelle variabili precedentemente create. Per eseguire tali operazioni è necessario usare l'istruzione:\\
+	
+	\verb|request.getParameter("NOME_PARAMTERO")|\\
+	
+	dove i nomi dei parametri sono:
+	\begin{itemize}
+		\item username (usata per l'indirizzo mail);
+		\item name;
+		\item surname;
+		\item password;
+		\item answer;
+		\item question;
+		\item picturePath;
+	\end{itemize}
+	Il passo successivo (sempre dentro il blocco try) consiste nel creare un istanza di \classname{dao.UserDataDAO} userDAO, e nell'eseguire un operazione di userDAO.\method{insert()} passando come parametro user (l'utente precedentemente creato). Il blocco try termina impostando result a ``\inglese{true}''.
+	
+	Per quanto riguarda il blocco catch, in esso viene impostato result a ``\inglese{false}''.
+	
+	Il metodo termina scrivendo in un \texttt{PrintWriter} il valore di result.
+\end{description}
+
 
 \subsection{Package org.softwaresynthesis.mytalk.server.connection}\label{sec:connection}
 
