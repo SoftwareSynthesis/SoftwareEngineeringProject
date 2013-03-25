@@ -373,9 +373,9 @@ function PresenterMediator() {
 	 */
 	this.onChatStarted = function(user) {
 		var element = communicationpp.createPanel();
+		presenters["main"].displayChildPanel(element);
 		communicationpp.addChat(user);
 		communicationpp.displayChat(user);
-		presenter["main"].displayChildPanel(element);
 	};
 
 	/**
