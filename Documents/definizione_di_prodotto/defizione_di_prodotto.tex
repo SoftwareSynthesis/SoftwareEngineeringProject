@@ -2374,7 +2374,7 @@ Nessuna relazione d'uso evidenziata.
 \item{\method{+ removeChat(chat: Object()): void}}\\
 
 \item{\method{+ appendToChat(user: Object(contact), text: String): void}}\\
-Il metodo ha il compito di aggiunge una stringa (text) all'interno dell'area di testo che è associata alla chat con l'utente ''user'' (parametro del metodo).
+Il metodo ha il compito di aggiunge una stringa (text) all'interno dell'area di testo che è associata alla chat con l'utente ``user'' (parametro del metodo).
 
 \item{\method{+ createPanel(): DOM\_node}}\\
 Con l'invocazione di tale metodo, viene inizializzato il pannello costruendo i \inglese{widget} grafici interni e lo restituisce in modo che possa essere inserito all'interno del pannello principale. Più dettagliatamente, deve costruire:
@@ -2408,7 +2408,7 @@ Nessuna relazione d'uso evidenziata.
 \subsubsection*{Metodi}
 \begin{description}
 \item{\method{- adjustBlockButtonDisplay(contact: Object(contact)): void}}\\
-	Il metodo riceve come parametro un contatto (contact). Successivamente viene controllato se tale utente è bloccato o meno e imposta correttamente la prorietà ''style'' agli elementi della vista. più dettagliatamente:\\
+	Il metodo riceve come parametro un contatto (contact). Successivamente viene controllato se tale utente è bloccato o meno e imposta correttamente la prorietà ``style'' agli elementi della vista. più dettagliatamente:\\
 se il contatto è bloccato:
 \begin{itemize}
 \item nascondo il bottone per bloccare un utente;
@@ -2423,7 +2423,7 @@ altrimenti\\
 
 \item{\method{- buildGroupsDiv(contact Object(contact)): void}}\\
 Il metodo, che riceve come parametro un contatto (contact), ha il compito di recuperare tutti i gruppi 
- a cui il contatto appartiene e visualizzare nel ''div'' opportuno una label per ogni gruppo trovato indicandone il nome. 
+ a cui il contatto appartiene e visualizzare nel ``div'' opportuno una label per ogni gruppo trovato indicandone il nome. 
 
 \item{\method{+ createPanel():DOM\_element}}\\
 Metodo richiamato quando viene selezionato un contatto dalla rubrica. Inizializza il pannello che mostra le informazioni del contatto selezionato. Più precisamente, verranno creati tanti listItem (<li>) quanti i seguenti elementi:
@@ -2476,13 +2476,13 @@ Nessuna relazione d'uso evidenziata.
 \subsubsection*{Metodi}
 \begin{description}
 \item{\method{+ initialize(): void}}\\
-Metodo utilizzato per costruire il pannello principale che occupa la parte centrale della finestra. Imposta l'immagine del logo ''MyTalk'' come sfondo quando il pannello è vuoto.
+Metodo utilizzato per costruire il pannello principale che occupa la parte centrale della finestra. Imposta l'immagine del logo ``MyTalk'' come sfondo quando il pannello è vuoto.
 
 \item{\method{+ displayChildPanel(node DOM\_node): void}}\\
 Metodo che visualizza il DOM\_node (node) ricevuto come parametro nel pannello in questione.
 	
 \item{\method{+ hide(): void}}\\
-Metodo che rende invisibile il pannello impostando la proprietà ''display'' a ''none''.
+Metodo che rende invisibile il pannello impostando la proprietà ``display'' a ``none''.
 
 \end{description}
 
@@ -2498,91 +2498,116 @@ Nessuna relazione d'uso evidenziata.
 \subsubsection*{Attributi}
 \begin{description}
 \item{\memberdata{-- presenters: Array associativo}}\\
-  array contenente tutti i sotto-presenter. Presenter di primo livello:
+  array contenente tutti i sotto-presenter.\\
+  Presenter di primo livello:
   \begin{itemize}
-  \item LoginPanelPresenter;
-  \item RegisterPanelPresenter;
-  \item AddressBookPanelPresenter;
-  \item ToolsPanelPresenter;
-  \item MainPanelPresenter.
+  \item login --> LoginPanelPresenter;
+  \item register --> RegisterPanelPresenter;
+  \item addressbook --> AddressBookPanelPresenter;
+  \item tools --> ToolsPanelPresenter;
+  \item main --> MainPanelPresenter.
   \end{itemize}
   Presenter di secondo livello:
   \begin{itemize}
-  \item AccountSettingsPanelPresenter;
-  \item CommunicationPanelPresenter;
-  \item ContactPanelPresenter;
-  \item CallHistoryPanelPresenter;
-  \item MessagePanelPresenter;;
-  \item SearchResultPanelPresenter.
+  \item accountsettingspp --> AccountSettingsPanelPresenter;
+  \item communicationpp --> CommunicationPanelPresenter;
+  \item contactpp --> ContactPanelPresenter;
+  \item callhistorypp --> CallHistoryPanelPresenter;
+  \item messagepp --> MessagePanelPresenter;;
+  \item searchresultpp --> SearchResultPanelPresenter;
+  \item grouppp --> GroupPanelPresenter.
   \end{itemize}
 \end{description}
 
 \subsubsection*{Metodi}
 \begin{description}
+\item{\method{- getCommunicationPP(): CommunicationPanelPresenter}}
+Il metodo restituisce l'istanza dell'attributo di tipo  CommunicationPanelPresenter.
+
 \item{\method{+ buildUI(): void}}\\
+Tale metodo ha il compito di inizializzare l'interfaccia grafica delegando ai presenter il compito di disegnare gli elementi principali dell'interfaccia, incaricando i presenter di primo livello di creare e popolare i rispettivi pannelli. In particolare, si nasconderanno i seguenti pannelli:
+\begin{itemize}
+\item register;
+\item login;
+\item addressbook;
+\item main;
+\item tools.
+\end{itemize}
 
 
 \item{\method{+ buildLoginUI(): void}}\\
-
+Visualizza l'interfaccia di autenticazione al sistema, che comprende il form di login. Viene chiamato quindi il metodo \method{initialize()} del LoginPanelPresenter per la sua costruzione.
 	
 \item{\method{+ buildRegistrationUI(): void}}\\
-
+Visualizza il form di registrazione al sistema, utilizzato dagli utenti che vogliono creare un nuovo account. Viene chiamato quindi il metodo \method{initialize()} del RegisterPanelPresenter per la sua costruzione.
 
 \item{\method{+ onContactSelected(contact: Object(contact)): void}}\\
+Metodo invocato nel momento in cui viene selezionato un contatto. Tale evento invoca il metodo \method{display} del ContactPanelPresenter prendendo come parametro l'oggetto ``contact'' ricevuto inizialmente. 
 
 
-\item{\method{+ onContactAdded(userID: String): void}}\\
-
+\item{\method{+ onContactAdded(contact: object(contact)): void}}\\
+Funzione di callback richiamata dai pulsanti di SearchResultPanel che comunica all'AddressBookPanelPresenter di aggiungere un contatto. Il metodo riceve come parametro l'utente che si vuole aggiungere (contact). Questo parametro viene a suo volta passato alla funzione addContact() di addressBookPanelPresenter. In caso di errore, viene segnalato con un ``alert''.
 
 \item{\method{+ onContactRemoved(userID: String): void}}\\
-
+Funzione di callback richiamata dai pulsanti di SearchResultPanel che comunica all'AddressBookPanelPresenter di rimuovere un contatto. Il metodo riceve come parametro l'utente che si vuole rimuovere (contact). Questo parametro viene a suo volta passato alla funzione removeContact() di addressBookPanelPresenter. In caso di errore, viene segnalato con un ``alert''.
 
 \item{\method{+ onGroupAdded(name: String): void}}\\
+Funzione di callback richiamata dai pulsanti di SearchResultPanel che comunica all'AddressBookPanelPresenter di aggiungere un gruppo. Il metodo riceve come parametro il nome del nuovo gruppo che si vuole aggiungere (name). Questo parametro viene a suo volta passato alla funzione addGroup() di addressBookPanelPresenter.
+
+
+\item{\method{+ onGroupRemoved(group: object(group)): void}}\\
+Funzione di callback richiamata dai pulsanti di SearchResultPanel che comunica all'AddressBookPanelPresenter di rimuovere un gruppo. Il metodo riceve come parametro il gruppo che si vuole rimuovere (group). Questo parametro viene a suo volta passato alla funzione removeGroup() di addressBookPanelPresenter.
 
 
 \item{\method{+ onContactAddeddInGroup(contact: Object(contact), group: Object(group)): void}}\\
+Funzione di callback richiamata dai pulsanti di SearchResultPanel che comunica all'AddressBookPanelPresenter di aggiungere un contatto ad un gruppo. Il metodo riceve come parametro il contatto che si vuole aggiungere (contact) e il gruppo a cui aggiungere il contatto (group). Questi parametri vengono a suo volta passati alla funzione addContactInGroup() di addressBookPanelPresenter.
 
 
 \item{\method{+ onContactRemovedInGroup(contact: Object(contact), group: Object(group)): void}}\\
-
+Funzione di callback richiamata dai pulsanti di SearchResultPanel che comunica all'AddressBookPanelPresenter di rimuovere un contatto da un gruppo. Il metodo riceve come parametro il contatto che si vuole rimuovere (contact) e il gruppo a cui rimuovere il contatto (group). Questi parametri vengono a suo volta passati alla funzione removeContactFromGroup() di addressBookPanelPresenter.
 
 
 \item{\method{+ onBlockedContact(contact: Object(contact)): void}}\\
-
+Funzione di callback che comunica all'AddressBookPanelPresenter di bloccare un contatto. Il metodo riceve come parametro il contatto che si vuole bloccare (contact). Questo parametro viene a suo volta passato alla funzione blockUser() di addressBookPanelPresenter. In caso di errore, viene notificato con un ``alert'' riportando l'errore relativo.
 
 
 \item{\method{+ onUnlockContact(contact: Object(contact)): void}}\\
-
+Funzione di callback che comunica all'AddressBookPanelPresenter di sbloccare un contatto. Il metodo riceve come parametro il contatto che si vuole sbloccare (contact). Questo parametro viene a suo volta passato alla funzione unlockUser() di addressBookPanelPresenter. In caso di errore, viene notificato con un ``alert'' riportando l'errore relativo.
 
 
 \item{\method{+ displayMessagePanel(): void}}\\
-
-
-\item{\method{+ displayCallHistoryPanel(): void}}\\
-
-
-
-\item{\method{+ onFiltredApplyedByParam(param: String): void}}\\
-
-
-\item{\method{+ getGroupsWhereContactsIs(contact: Object(contact)): void}}\\
-
-
-\item{\method{+ displaySearchResultPanel(): void}}\\
+Provoca la creazione del pannello della segreteria e la sua visualizzazione all'interno del MainPanel come elemento figlio. La costruzione del pannello è affidata al metodo createPanel che viene reso disponibile da tutti i presenter di secondo livello. Viene quindi creato dal metodo \method{createPanel()} del presenter messagePanelPresenter un elemento di tipo DOM\_node che viene poi passato al presenter ``main'' come parametro del metodo \method{displayChildPanel}.
 
 
 \item{\method{+ displayAccountSettingsPanel(): void}}\\
+Provoca la creazione del pannello delle impostazioni dell'utente e la sua visualizzazione all'interno del MainPanel. Come il metodo sopra citato, viene creato dal metodo \method{createPanel()} del presenter CallHistoryPanelPresenter un elemento di tipo DOM\_node che viene poi passato al presenter ``main'' come parametro del metodo \method{displayChildPanel}.
+
+
+\item{\method{+ displayCallHistoryPanel(): void}}\\
+Provoca la creazione del pannello dello storico delle chiamate e la sua visualizzazione all'interno del MainPanel. Come il metodo sopra citato, viene creato dal metodo \method{createPanel()} del presenter CallHistoryPanelPresenter un elemento di tipo DOM\_node che viene poi passato al presenter ``main'' come parametro del metodo \method{displayChildPanel}.
+
+
+\item{\method{+ onFiltredApplyedByParam(param: String): void}}\\
+Funzione di callback richiamata dai pulsanti di SearchResultPanel che comunica all'AddressBookPanelPresenter di filtrare la lista dei contatti secondo il parametro ricevuto (param). Viene scatenata l'invocazione del metodo \method{applyFilterByString} del presenter AddressBookPresenter passandogli come parametro ``param''.
+
+\item{\method{+ getGroupsWhereContactsIs(contact: Object(contact)): void}}\\
+Funzione di callback che comunica all'AddressBookPanelPresenter di cercare i gruppi a cui appartiene un utente nella propria rubrica ricevuto come parametro (contact). Viene quindi invocato il metodo \method{getGroupsWhereContactIs()} del presenter AddressBookPanelPresenter.
+
+\item{\method{+ displaySearchResultPanel(): void}}\\
+Provoca la creazione del pannello delle impostazioni del proprio account e la sua visualizzazione all'interno del MainPanel. Viene creato dal metodo \method{createPanel()} del presenter AccountSettingsPanelPresenter un elemento di tipo DOM\_node che viene poi passato al presenter ``main'' come parametro del metodo \method{displayChildPanel}.
 
 
 \item{\method{+ displayCommunicationPanel(): void}}\\
+Provoca la creazione del pannello delle comunicazioni e la sua visualizzazione all'interno del MainPanel. Viene creato dal metodo \method{createPanel()} del presenter CommunicationPanelPanelPresenter un elemento di tipo DOM\_node che viene poi passato al presenter ``main'' come parametro del metodo \method{displayChildPanel}.
 
+\item{\method{+ displayContact(object(contact)): void}}\\
+L'invocazione di tale metodo provoca la visualizzazione della scheda di un contatto (contact) nel CommunicationpanelPresenter. Viene richiamato il metodo \method{displayCommunicationPanel()} e successivamente il metodo \method{display} passando come contatto il parametro ricevuto precedentemente.
 
-\item{\method{+ displayContact(): void}}\\
-
-
-\item{\method{+ contactAlreadyPresent(): void}}\\
-
+\item{\method{+ contactAlreadyPresent(object(contact)): boolean}}\\
+Metodo che controlla se l'utente ricevuto come parametro del metodo (contact) è gia presente nella rubrica. Viene invocato il metodo \method{contactAlreadyPresent()} di AddressBookPanelPresenter passando come parametro il contatto in questione.
 \end{description}
+
+%TODO controllare che non siano stati aggiunti metodi
 
 
 
