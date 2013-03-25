@@ -141,24 +141,6 @@ Gli strumenti utilizzati per la stesura e lo sviluppo sono specificati nei docum
 
 \section{Specifica sotto-architettura sever}\label{sec:serverarchitecture}
 
-\subsection{Package org.softwaresynthesis.mytalk.server}\label{sec:server}
-
-\classsection{HibernateUtil}
-
-\subsubsection*{Funzione}
-Interfaccia usata per dichiarare che l'oggetto che la implementa ha la possibilità di essere convertito in formato \textit{json} in modo da poter essere trasferito al client.
-
-\subsubsection*{Relazioni d'uso}
-
-Nessuna relazione evidenziata.
-
-\subsubsection*{Metodi}
-
-\begin{description}
-	\item{\method{+ toJson()}}\\
-	Converte l'oggetto di invocazione in una stringa \textit{json} interpretabile dai client.
-\end{description}
-
 \subsection{Package org.softwaresynthesis.mytalk.server.dao}\label{sec:dao}
 
 \classsection{HibernateUtil}
@@ -309,6 +291,169 @@ u.surname like :surname
 		
 Il metodo deve terminare chiudendo la sessione aperta al punto 2.
 
+\end{description}
+
+%TODO da verificare
+
+\classsection{GroupDAO}
+
+\subsubsection*{Funzione}
+Classe che implementa il pattern DAO. Definisce le procedure d’inserimento, eliminazione ed aggiornamento di entry inerenti alla tabella Group. La classe inoltre fornisce metodi per interrogare il database ed ottenere i dati utente con i quali costruire istanze di oggetti di tipo abook.IGroup.
+
+\subsubsection*{Relazioni d'uso}
+
+\begin{itemize}
+	\item \texttt{java.util.List}:
+	\item \texttt{org.hibernate.Query}:
+	\item \texttt{org.hibernate.Session}:
+	\item \texttt{org.hibernate.SessionFactory}:
+	\item \texttt{org.hibernate.Transaction}:
+	\item \classname{abook.IGroup}:
+\end{itemize}
+
+\subsubsection*{Attributi}
+
+Nessun attributo evidenziato.
+
+\subsubsection*{Metodi}
+
+\begin{description}
+	\item{\method{+ delete(group: IGroup): boolean}}\\
+	Metodo usato per cancellare un gruppo dal database. Per gruppo si intende un qualsiasi oggetto implementante l'interfaccia \classname{abook.IGroup}. Il metodo riceve come parametro d'ingresso un oggetto \classname{abook.IGroup} e restituisce un valore booleano  pari a \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
+	\begin{itemize}
+		\item viene inizializzata una variabile ti tipo boolean nominata flag, a \inglese{false};
+		\item si crea un istanza di \classname{HibernateUtil} util;
+		\item si crea un istanza di \texttt{Session} session;
+		\item si crea un istanza di \texttt{SessionFactory} factory;
+		\item si crea un istanza di \texttt{Transaction} transaction;
+	\end{itemize}
+	Quindi nel metodo deve essere definito un blocco try catch finally:
+	\begin{itemize}
+		\item nel blocco try:
+		\begin{itemize}
+			\item util deve essere inizializzato mediante la chiamata \method{getIstance()} di \classname{HibernateUtil};
+			\item quindi a partire da util si inizializza factory mediante una chiamata \method{getFactory()};
+			\item analogamente a quanto fatto in precedenza, si inizializza session tramite una chiamata \method{openSession()} eseguita a partire da factory;
+			\item transaction viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da session;
+			\item quindi si è pronti per eseguire l'istruzione di delete a partire da session e passando come parametro group;
+			\item si esegue il commit;
+			\item si pone flag a \inglese{true};
+		\end{itemize}
+		\item nel blocco catch: si effettua un rollback a partire da transaction;
+		\item nel blocco finally: se session è diverso da null, si chiude mediante una chimata di tipo close();
+	\end{itemize}
+	Infine il metodo termina ritornando il valore di flag;
+	
+	\item{\method{+ update(group: IGroup): boolean}}\\
+	Metodo usato per modificare un gruppo dal database. Il metodo riceve come parametro d'ingresso un oggetto \classname{abook.IGroup} e restituisce un valore booleano  pari a \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
+	\begin{itemize}
+		\item viene inizializzata una variabile ti tipo boolean nominata flag, a \inglese{false};
+		\item si crea un istanza di \classname{HibernateUtil} util;
+		\item si crea un istanza di \texttt{Session} session;
+		\item si crea un istanza di \texttt{SessionFactory} factory;
+		\item si crea un istanza di \texttt{Transaction} transaction;
+	\end{itemize}
+	Quindi nel metodo deve essere definito un blocco try catch finally:
+	\begin{itemize}
+		\item nel blocco try:
+		\begin{itemize}
+			\item util deve essere inizializzato mediante la chiamata \method{getIstance()} di \classname{HibernateUtil};
+			\item quindi a partire da util si inizializza factory mediante una chiamata \method{getFactory()};
+			\item analogamente a quanto fatto in precedenza, si inizializza session tramite una chiamata \method{openSession()} eseguita a partire da factory;
+			\item transaction viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da session;
+			\item quindi si è pronti per eseguire l'istruzione di update a partire da session e passando come parametro group;
+			\item si esegue il commit;
+			\item si pone flag a \inglese{true};
+		\end{itemize}
+		\item nel blocco catch: si effettua un rollback a partire da transaction;
+		\item nel blocco finally: se session è diverso da null, si chiude mediante una chimata di tipo close();
+	\end{itemize}
+	Infine il metodo termina ritornando il valore di flag;	
+	
+	\item{\method{+ insert(group: IGroup): boolean}}\\
+	Metodo usato per inserire un gruppo nel database. Il metodo riceve come parametro d'ingresso un oggetto \classname{abook.IGroup} e restituisce un valore booleano  pari a \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
+	\begin{itemize}
+		\item viene inizializzata una variabile ti tipo boolean nominata flag, a \inglese{false};
+		\item si crea un istanza di \classname{HibernateUtil} util;
+		\item si crea un istanza di \texttt{Session} session;
+		\item si crea un istanza di \texttt{SessionFactory} factory;
+		\item si crea un istanza di \texttt{Transaction} transaction;
+	\end{itemize}
+	Quindi nel metodo deve essere definito un blocco try catch finally:
+	\begin{itemize}
+		\item nel blocco try:
+		\begin{itemize}
+			\item util deve essere inizializzato mediante la chiamata \method{getIstance()} di \classname{HibernateUtil};
+			\item quindi a partire da util si inizializza factory mediante una chiamata \method{getFactory()};
+			\item analogamente a quanto fatto in precedenza, si inizializza session tramite una chiamata \method{openSession()} eseguita a partire da factory;
+			\item transaction viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da session;
+			\item quindi si è pronti per eseguire l'istruzione di save a partire da session e passando come parametro group;
+			\item si esegue il commit;
+			\item si pone flag a \inglese{true};
+		\end{itemize}
+		\item nel blocco catch: si effettua un rollback a partire da transaction;
+		\item nel blocco finally: se session è diverso da null, si chiude mediante una chimata di tipo close();
+	\end{itemize}
+	Infine il metodo termina ritornando il valore di flag;
+	
+	\item{\method{+ getByID(identifier: long): IGroup}}\\
+	Metodo usato per interrogare il database ed ottenere un istanza di \classname{IGroup} avente come identificativo, l'id del gruppo ricevuto come parametro d'ingresso. Il flusso principale inizia definendo le seguenti variabili:
+	\begin{itemize}
+		\item si crea un istanza di \classname{HibernateUtil} util;
+		\item si crea un istanza di \texttt{List<IGroup>} groups;
+		\item si crea un istanza di \texttt{Query} query;
+		\item si crea una stringa hqlQuery impostata per default a:\\
+			\verb|"from Group as g where g.id = :id"|
+		\item si crea un istanza di \texttt{Session} session;
+		\item si crea un istanza di \texttt{SessionFactory} factory;
+		\item si crea un istanza di \texttt{Transaction} transaction;
+	\end{itemize}
+	Quindi nel metodo deve essere definito un blocco try catch finally:
+	\begin{itemize}
+		\item nel blocco try:
+		\begin{itemize}
+			\item util deve essere inizializzato mediante la chiamata \method{getIstance()} di \classname{HibernateUtil};
+			\item quindi a partire da util si inizializza factory mediante una chiamata \method{getFactory()};
+			\item analogamente a quanto fatto in precedenza, si inizializza session tramite una chiamata \method{openSession()} eseguita a partire da factory;
+			\item transaction viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da session;
+			\item query viene inizializzata mediante una chiamata createQuery, chiamata da session e a cui deve essere passata come paramtro, la stringa hqlQuery;
+			\item quindi si è pronti per eseguire query ed ottenere la lista di \classname{IGroup} desiderata. Tale operazione si effettua richiamando query.list();
+			\item si esegue il commit;
+		\end{itemize}
+		\item nel blocco catch: si effettua un rollback a partire da transaction;
+		\item nel blocco finally: se session è diverso da null, si chiude mediante una chimata di tipo close();
+	\end{itemize}
+	Il programma termina controllando se groups è diversa da null e contiene almeno un elemento. Nel caso il programma termina ritornando il primo contatto presente nella lista. Altrimenti termina ritornando null.
+	
+	\item{\method{+ getByOwner(owner: long): List<IGroup>}}\\
+	Metodo usato per interrogare il database ed ottenere una lista di istanze di \classname{IGroup} aventi come possessore dei gruppi l'utente con id uguale al valore owner passato come parametro. Il flusso principale inizia definendo le seguenti variabili:
+	\begin{itemize}
+		\item si crea un istanza di \classname{HibernateUtil} util;
+		\item si crea un istanza di \texttt{List<IGroup>} groups;
+		\item si crea un istanza di \texttt{Query} query;
+		\item si crea una stringa hqlQuery impostata per default a:\\
+			\verb|"from Group as g where g.owner = :owner"|
+		\item si crea un istanza di \texttt{Session} session;
+		\item si crea un istanza di \texttt{SessionFactory} factory;
+		\item si crea un istanza di \texttt{Transaction} transaction;
+	\end{itemize}
+	Quindi nel metodo deve essere definito un blocco try catch finally:
+	\begin{itemize}
+		\item nel blocco try:
+		\begin{itemize}
+			\item util deve essere inizializzato mediante la chiamata \method{getIstance()} di \classname{HibernateUtil};
+			\item quindi a partire da util si inizializza factory mediante una chiamata \method{getFactory()};
+			\item analogamente a quanto fatto in precedenza, si inizializza session tramite una chiamata \method{openSession()} eseguita a partire da factory;
+			\item transaction viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da session;
+			\item query viene inizializzata mediante una chiamata createQuery, chiamata da session e a cui deve essere passata come paramtro, la stringa hqlQuery;
+			\item quindi si è pronti per eseguire query ed ottenere la lista di \classname{IGroup} desiderata. Tale operazione si effettua richiamando query.list();
+			\item si esegue il commit;
+		\end{itemize}
+		\item nel blocco catch: si effettua un rollback a partire da transaction;
+		\item nel blocco finally: se session è diverso da null, si chiude mediante una chiamata di tipo close();
+	\end{itemize}
+	Il programma termina restituendo groups
+	
 \end{description}
 
 \subsection{Package org.softwaresynthesis.mytalk.server.abook}\label{sec:abook}
