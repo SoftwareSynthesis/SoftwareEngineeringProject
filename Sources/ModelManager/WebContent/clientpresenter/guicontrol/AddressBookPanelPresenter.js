@@ -579,7 +579,7 @@ function AddressBookPanelPresenter() {
 	 */
 	this.showFilter = function(filtredContacts) {
 		// estraggo l'<ul> del Addressbook e lo inizializzo
-		var ulList = this.element.getElementById("AddressBookList");
+		var ulList = document.getElementById("AddressBookList");
 		ulList.innerHTML = "";
 
 		// TODO aggiungere una label per avvisare che i campi visualizzati sono

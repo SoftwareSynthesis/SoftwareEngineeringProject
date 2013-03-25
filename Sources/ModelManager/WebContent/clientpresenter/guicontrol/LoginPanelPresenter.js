@@ -150,9 +150,12 @@ function LoginPanelPresenter() {
      * @author Diego Beraldin
      */
     this.buildRetrievePasswordForm = function() {
+        //div per logo
+        var divLogo = document.createElement("div");
+        divLogo.id = "logo";
         // costruisce il form con il valore ottenuto
         var formRetrievePassword = document.createElement("fieldset");
-        formRetrievePassword.setAttribute("id", "passwordretrieval");
+        formRetrievePassword.id = "passwordretrieval";
         // etichetta con la domanda
         var labelQuestion = document.createElement("label");
         labelQuestion.setAttribute("for", "inputanswer");
@@ -179,6 +182,7 @@ function LoginPanelPresenter() {
             }
         };
 
+        formRetrievePassword.appendChild(divLogo);
         formRetrievePassword.appendChild(labelQuestion);
         formRetrievePassword.appendChild(inputAnswer);
         formRetrievePassword.appendChild(submitButton);
@@ -244,7 +248,6 @@ function LoginPanelPresenter() {
         var querystring = "username=" + encodeURIComponent(data.username) + "&password=" + encodeURIComponent(data.password);
         request.send(querystring);
         testCredentials(request.responseText);
-        console.log(request.responseText);
         return querystring;
     };
 
