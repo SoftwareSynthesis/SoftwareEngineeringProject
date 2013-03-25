@@ -383,7 +383,7 @@ function PresenterMediator() {
      * 
      * @return {Object} ritorna il comunicationPP
      */
-    this.getCommunicationPP = funtion() {
+    this.getCommunicationPP = function() {
         return communicationpp;
     }
 }
