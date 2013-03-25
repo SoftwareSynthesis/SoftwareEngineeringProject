@@ -80,6 +80,8 @@ function PresenterMediator() {
 	 * @author Diego Beraldin
 	 */
 	this.onContactSelected = function(contact) {
+		var element = contactpp.createPanel();
+		presenters["main"].displayChildPanel(element);
 		contactpp.display(contact);
 	};
 
@@ -376,31 +378,32 @@ function PresenterMediator() {
 		presenter["main"].displayChildPanel(element);
 	};
 
-    /**
-     * Funzione per effettuare la vera e propria chiamata con un contatto
-     *
-     * @author Riccardo Tresoldi
-     *
-     * @param {Object} contact il contatto da chiamare
-     * @param {Boolean} onlyAudio true se si vuole effettuare una chiamata solo
-     * audio
-     */
-    this.onCall = function(contact, onlyAudio) {
-        if (onlyAudio) {
-            //TODO chiamare con function(contact, false)
-        } else {
-            //TODO chiamare con functuon(contact, true)
-        }
-    }
-    /**
-     * Funzione per ottenere il ComunicationPanelPresenter
-     *
-     * @author Diego Beraldin
-     * @author Riccardo Tresoldi
-     *
-     * @return {Object} ritorna il comunicationPP
-     */
-    this.getCommunicationPP = function() {
-        return communicationpp;
-    }
+	/**
+	 * Funzione per effettuare la vera e propria chiamata con un contatto
+	 * 
+	 * @author Riccardo Tresoldi
+	 * 
+	 * @param {Object}
+	 *            contact il contatto da chiamare
+	 * @param {Boolean}
+	 *            onlyAudio true se si vuole effettuare una chiamata solo audio
+	 */
+	this.onCall = function(contact, onlyAudio) {
+		if (onlyAudio) {
+			// TODO chiamare con function(contact, false)
+		} else {
+			// TODO chiamare con functuon(contact, true)
+		}
+	}
+	/**
+	 * Funzione per ottenere il ComunicationPanelPresenter
+	 * 
+	 * @author Diego Beraldin
+	 * @author Riccardo Tresoldi
+	 * 
+	 * @return {Object} ritorna il comunicationPP
+	 */
+	this.getCommunicationPP = function() {
+		return communicationpp;
+	}
 }
