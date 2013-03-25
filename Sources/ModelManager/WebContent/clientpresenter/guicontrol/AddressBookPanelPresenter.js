@@ -483,6 +483,7 @@ function AddressBookPanelPresenter() {
 	 * @returns {Boolean} true solo se la rimozione ha avuto successo
 	 */
 	this.deleteGroup = function(group) {
+		console.log(groups.length);
 		// controllo che il gruppo esista
 		var existGroup = false;
 		for ( var g in groups) {

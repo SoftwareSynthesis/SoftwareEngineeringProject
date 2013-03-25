@@ -51,7 +51,7 @@ test("testRemoveContact()", function(){
 test("testInitialize()", function() {
 			var i = 0;
 			tester.initialize();
-			
+
 			var element = document.getElementById("AddressBookPanel");
 			var list = element.childNodes;
 			equal(list.length, 4,
