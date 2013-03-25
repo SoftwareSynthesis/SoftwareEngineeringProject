@@ -1,43 +1,51 @@
-module ("ContactPanelPresenterTest", {
-  setup:
-       function() {
-			tester = new ContactPanelPresenter();								},
-	teardown: 
-		function() {}
-	});
+module("ContactPanelPresenterTest", {
+	setup : function() {
+		communicationcenter = new Object();
+		tester = new ContactPanelPresenter();
+	},
+	teardown : function() {
+	}
+});
 
-test("testCreatePanel()",
-    function () {
-		var i = 0;
-		
-		// creo l'elemento 'ContactPanel'
-		var element = tester.createPanel();
-		// estraggo la lista dei figli di questo pannello
-		var list = element.childNodes;
-		// controllo che abbia esattamente quattro figli
-		equal(list.length,5,"il numero di figli dell'elemento restituito e' 5");
-		i++;
-		
-		// controllo che il primo figlio sia l'immagine personale
-		equal(list[0].nodeName, "IMG", "il primo figlio dell'elemento e' un'immagine");
-		i++;
-		
-		// controllo che il secondo figlio sia una lista
-		equal(list[1].nodeName, "UL", "il secondo figlio dell'elemento e' una lista");
-		i++;
-	
-		// controllo che il terzo elemento sia un bottone
-		equal(list[2].nodeName, "BUTTON", "il terzo figlio dell'elemento e' un bottone");
-			i++;
-			
-		// controllo che il quarto elemento sia un bottone
-		equal(list[3].nodeName, "BUTTON", "il quarto figlio dell'elemento e' un bottone");
-			i++;
-		// controllo che il quinto elemento sia un bottone
-		equal(list[4].nodeName, "BUTTON", "il quinto figlio dell'elemento e' un bottone");
-			i++;
-		
-	
-		expect(i);
-    });
+test("testCreatePanel()", function() {
+	var i = 0;
 
+	// creo l'elemento 'ContactPanel'
+	var element = tester.createPanel();
+	// estraggo la lista dei figli di questo pannello
+	var list = element.childNodes;
+
+	equal(list.length, 7,
+			"il numero di figli dell'elemento restituito e' corretto");
+	i++;
+
+	equal(list[0].nodeName, "IMG",
+			"il primo figlio dell'elemento e' un'immagine");
+	i++;
+
+	equal(list[1].nodeName, "UL",
+			"il secondo figlio dell'elemento e' una lista");
+	i++;
+
+	equal(list[2].nodeName, "BUTTON",
+			"il terzo figlio dell'elemento e' un bottone");
+	i++;
+
+	equal(list[3].nodeName, "BUTTON",
+			"il quarto figlio dell'elemento e' un bottone");
+	i++;
+
+	equal(list[4].nodeName, "BUTTON",
+			"il quinto figlio dell'elemento e' un bottone");
+	i++;
+	equal(list[4].nodeName, "BUTTON",
+			"il sesto figlio dell'elemento e' un bottone");
+	i++;
+	equal(list[4].nodeName, "BUTTON",
+			"il settimo figlio dell'elemento e' un bottone");
+	i++;
+	
+	//TODO questo test dovrebbe essere fatto in modo più approfondito!
+
+	expect(i);
+});

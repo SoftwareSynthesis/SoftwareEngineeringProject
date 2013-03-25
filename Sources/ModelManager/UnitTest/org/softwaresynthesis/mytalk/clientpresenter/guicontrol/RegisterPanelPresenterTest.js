@@ -183,7 +183,7 @@ test("testGetUsername()", function() {
 		tester.getUsername();
 		ok(false, "non rilevato username mancante"); i++;
 	} catch (err) {
-		equal(err, "valore non specificato", "username mancante rilevato correttamente"); i++;
+		equal(err, "indirizzo email non specificato", "username mancante rilevato correttamente"); i++;
 	}
 	
 	// crea un indirizzo email non valido
@@ -221,7 +221,7 @@ test("testGetPassword()", function() {
 		tester.getPassword();
 		ok(false, "non rilevata la password mancante");
 	} catch (err) {
-		equal(err, "valore non specificato", "password mancante rilevata correttamente"); i++;
+		equal(err, "password non specificata", "password mancante rilevata correttamente"); i++;
 	}
 	
 	element.removeChild(inputPassword);
@@ -247,7 +247,7 @@ test("testGetQuestion()", function() {
 		tester.getQuestion();
 		ok(false, "non rilevata la domanda segreta mancante");
 	} catch (err) {
-		equal(err, "valore non specificato", "domanda segreta mancante rilevata correttamente"); i++;
+		equal(err, "domanda segreta non specificata", "domanda segreta mancante rilevata correttamente"); i++;
 	}
 	
 	element.removeChild(inputSecretQ);
@@ -273,7 +273,7 @@ test("testGetAnswer()", function() {
 		tester.getAnswer();
 		ok(false, "non rilevata la risposta mancante");
 	} catch (err) {
-		equal(err, "valore non specificato", "risposta mancante rilevata correttamente"); i++;
+		equal(err, "risposta alla domanda segreta non specificata", "risposta mancante rilevata correttamente"); i++;
 	}
 	
 	element.removeChild(inputAnswer);
