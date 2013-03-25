@@ -216,7 +216,6 @@ function ContactPanelPresenter() {
 		};
 
 		chatButton.onclick = function() {
-			self.hide();
 			mediator.onChatStarted(contact);
 		};
 
