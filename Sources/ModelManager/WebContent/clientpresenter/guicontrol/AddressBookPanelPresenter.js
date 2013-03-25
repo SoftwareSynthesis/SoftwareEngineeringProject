@@ -334,7 +334,7 @@ function AddressBookPanelPresenter() {
 
 		// invio la richiesta al server e attendo il risultato
 		var request = new XMLHttpRequest();
-		request.open("POST", servlets[1] + suffix, false);
+		request.open("POST", servlets[1], false);
 		request.setRequestHeader("Content-type",
 				"application/x-www-form-urlencoded");
 		request.send("contactId=" + contact.id);
