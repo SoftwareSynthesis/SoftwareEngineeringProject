@@ -263,6 +263,26 @@ function CommunicationCenter() {
                 // visualizzare il tempo.
                 mediator.getCommunicationPP.updateTimer(now);
             }, 1000);
+            //Visualizzazione statistiche chiamata
+            statCollector = setInterval(function() {
+                if (pc && pc.getRemoteStreams()[0]) {
+                    if (pc.getStats) {
+                        pc.getStats(function(stats) {
+                            var statsString = '';
+                            var results = stats.result();
+                            for (var i = 0; i < results.length; ++i) {
+                                var res = results[i];
+                                if (res.local) {
+                                    dumpStats(res.local);
+                                }
+                            }
+                        });
+                    } else {
+                        mediator.getCommunicationPP().updateStats("Browser not supported", false);
+                        mediator.getCommunicationPP().updateStats("Browser not supported", true);
+                    }
+                }
+            }, 1000);
         };
 
         //quando il remoteStream viene tolto lo eliminio dal mio client
@@ -295,26 +315,6 @@ function CommunicationCenter() {
             } else
                 pc.createAnswer(gotDescription);
         });
-
-        //Visualizzazione statistiche chiamata
-        statCollector = setInterval(function() {
-            if (pc && pc.getRemoteStreams()[0]) {
-                if (pc.getStats) {
-                    pc.getStats(function(stats) {
-                        var statsString = '';
-                        var results = stats.result();
-                        for (var i = 0; i < results.length; ++i) {
-                            var res = results[i];
-                            if (res.local) {
-                                dumpStats(res.local);
-                            }
-                        }
-                    });
-                } else {
-                    //TODO gestire l'errore possibile lancio di eccezione
-                }
-            }
-        }, 1000);
     };
 
     /**
