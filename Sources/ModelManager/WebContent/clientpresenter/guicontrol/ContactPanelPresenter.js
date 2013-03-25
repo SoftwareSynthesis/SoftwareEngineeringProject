@@ -178,12 +178,12 @@ function ContactPanelPresenter() {
         document.getElementById("contactAvatar").src = contact.image;
 
         //recupero i bottoni per associargli i metodi
-        var addToAddressBookButton = getElementById("addToAddressBookButton");
-        var blockButton = getElementById("blockButton");
-        var unlockButton = getElementById("unlockButton");
-        var chatButton = getElementById("chatButton");
-        var videoCallButton = getElementById("videoCallButton");
-        var callButton = getElementById("callButton");
+        var addToAddressBookButton = document.getElementById("addToAddressBookButton");
+        var blockButton = document.getElementById("blockButton");
+        var unlockButton = document.getElementById("unlockButton");
+        var chatButton = document.getElementById("chatButton");
+        var videoCallButton = document.getElementById("videoCallButton");
+        var callButton = document.getElementById("callButton");
         
         var self = this;
 

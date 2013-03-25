@@ -396,7 +396,7 @@ function AddressBookPanelPresenter() {
 
 		// invio la richiesta al server e attendo il risultato
 		var request = new XMLHttpRequest();
-		request.open("POST", servlets[3] + suffix, false);
+		request.open("POST", servlets[3] , false);
 		request.setRequestHeader("Content-type",
 				"application/x-www-form-urlencoded");
 		request.send("contactId=" + contact.id + "&groupId=" + groupid);
@@ -428,7 +428,7 @@ function AddressBookPanelPresenter() {
 
 		// invio la richiesta al server e attendo il risultato
 		var request = new XMLHttpRequest();
-		request.open("POST", servlets[4] + suffix, false);
+		request.open("POST", servlets[4], false);
 		request.setRequestHeader("Content-type",
 				"application/x-www-form-urlencoded");
 		request.send("contactId=" + contact.id + "&groupId=" + group.id);
@@ -458,7 +458,7 @@ function AddressBookPanelPresenter() {
 
 		// invio la richiesta al server e attendo il risultato
 		var request = new XMLHttpRequest();
-		request.open("POST", servlets[5] + suffix, false);
+		request.open("POST", servlets[5], false);
 		request.setRequestHeader("Content-type",
 				"application/x-www-form-urlencoded");
 		request.send("groupName=" + name);
@@ -495,7 +495,7 @@ function AddressBookPanelPresenter() {
 
 		// invio la richiesta al server e attendo il risultato
 		var request = new XMLHttpRequest();
-		request.open("POST", servlets[6] + suffix, false);
+		request.open("POST", servlets[6], false);
 		request.setRequestHeader("Content-type",
 				"application/x-www-form-urlencoded");
 		request.send("groupId=" + group.id);
@@ -587,14 +587,14 @@ function AddressBookPanelPresenter() {
 	 * @return {Boolean} true solo se presente in rubrica
 	 */
 	this.contactAlreadyPresent = function(contact) {
-		// riscarco la rubrica
+		// riscarico la rubrica
 		getAddressBookContacts();
 		// scorro la rubrica e controllo se contact.id=rubrica.contact.id.
-		// ritorno
-		// true solo se presente
-		for ( var AddressBookContact in contacts) {
-			if (AddressBookContact == contact.id)
+		// ritorno true solo se presente
+		for ( var id in contacts) {
+			if (id == contact.id) {
 				return true;
+			}
 		}
 		return false;
 	};
@@ -618,7 +618,7 @@ function AddressBookPanelPresenter() {
 
 		// invio la richiesta di bloccaggio dell'utente
 		var request = new XMLHttpRequest();
-		request.open("POST", servlets[8] + suffix, false);
+		request.open("POST", servlets[8], false);
 		request.setRequestHeader("Content-type",
 				"application/x-www-form-urlencoded");
 		request.send("contactId=" + contact.id);
@@ -652,7 +652,7 @@ function AddressBookPanelPresenter() {
 
 		// invio la richiesta di bloccaggio dell'utente
 		var request = new XMLHttpRequest();
-		request.open("POST", servlets[9] + suffix, false);
+		request.open("POST", servlets[9], false);
 		request.setRequestHeader("Content-type",
 				"application/x-www-form-urlencoded");
 		request.send("contactId=" + contact.id);
