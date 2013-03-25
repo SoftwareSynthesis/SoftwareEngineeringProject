@@ -385,9 +385,11 @@ function PresenterMediator() {
      * audio
      */
     this.onCall = function(contact, onlyAudio) {
-        if (onlyAudio)
-        //TODO chiamare con function(contact, false)
-        else //TODO chiamare con functuon(contact, true)
+        if (onlyAudio) {
+            //TODO chiamare con function(contact, false)
+        } else {
+            //TODO chiamare con functuon(contact, true)
+        }
     }
     /**
      * Funzione per ottenere il ComunicationPanelPresenter
