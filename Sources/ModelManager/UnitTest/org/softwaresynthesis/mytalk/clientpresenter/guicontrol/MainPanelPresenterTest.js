@@ -15,6 +15,7 @@ module("MainPanelPresenter", {
 });
 
 test("testHide()", function() {
+	element = document.getElementById("MainPanel");
 	tester.hide();
 	equal(element.style.display, "none",
 	"la proprietà display è stata settata correttamente");

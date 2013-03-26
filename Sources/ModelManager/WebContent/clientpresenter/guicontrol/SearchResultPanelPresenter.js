@@ -12,15 +12,17 @@ function SearchResultPanelPresenter(url) {
                       VARIABILI PRIVATE
 ***********************************************************/
 	// indirizzo della servlet con cui il presenter deve interfacciarsi
-	var servletURL = url;
-	// elemento controllato da questo presenter
-	var element = document.getElementById("SearchResultPanel");
-	// lista di elementi controllata
-	var userList;
+	var servlets = new Array();
+	// inizializza i normi delle servlet
+	getServletURLs();
 
 /**********************************************************
                        METODI PRIVATI
 ***********************************************************/
+	function getServletURLs() {
+		//TODO da finire
+	}
+	
 	/**
 	 * Aggiunge un contatto ad una lista (pensato per essere visualizzato
 	 * nel pannello dei risultati di una ricerca, in cui è quindi possibile
@@ -54,11 +56,9 @@ function SearchResultPanelPresenter(url) {
         item.appendChild(avatarNode);
         item.appendChild(textNode);
         item.appendChild(statusNode);
-        // pulsante per aggiungere un contatto alla rubrica
-        var button = document.createElement("button");
-        button.innerHTML = "+";
-        button.onclick = function() {
-        	mediator.onAddedContact(contact.id);
+        // comportamento del list item al click del mouse
+        item.onclick = function() {
+        	mediator.onContactSelected(contact);
         };
         item.appendChild(button);
         
@@ -95,15 +95,5 @@ function SearchResultPanelPresenter(url) {
 		for (var c in contacts) {
 			addListItem(userList, c);
 		}
-	};
-	
-	/**
-	 * Rende invisibile il pannello contenente i risultati di una ricerca
-	 * fra gli utenti registrati nel sistema
-	 * 
-	 * @author Diego Beraldin
-	 */
-	this.hide = function() {
-		element.style.display = "none";
 	};
 }

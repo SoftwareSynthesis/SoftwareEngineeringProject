@@ -7,7 +7,7 @@
 	         "surname" => "Bacco",
 	         "email" => "flabacco@gmail.com",
 	         "id" => "1",
-	         "picturePath" => "x.png",
+	         "picturePath" => "img/contactImg/1.png",
 	         "state" => "available",
 	         "blocked" => false
 	       ),
@@ -16,7 +16,7 @@
 	         "surname" => "Pausini",
 	         "email" => "laupau@gmail.com",
 	         "id" => "0",
-	         "picturePath" => "y.png",
+	         "picturePath" => "img/contactImg/0.png",
 	         "state" => "offline",
 	         "blocked" => true
 	       )
