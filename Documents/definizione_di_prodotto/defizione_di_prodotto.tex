@@ -3048,32 +3048,41 @@ Metodo per gestire la chiamata. Riceve come parametri l'utente che si vuole chia
 
 
 %TODO da verificare
-\classsection{}
+\classsection{MessagePanelPresenter}
 
 \subsubsection*{Funzione}
-
+Presenter incaricato di gestire i messaggi in segreteria.
 
 \subsubsection*{Relazioni d'uso}
 Nessuna relazione d'uso evidenziata.
 
 \subsubsection*{Attributi}
 \begin{description}
-\item{\memberdata{-- element: DOM\_element}}\\
+\item{\memberdata{-- messages: Message[]}}\\
+Array che conterrà tutti i messaggi della segreteria
+\item{\memberdata{-- servlets: String[]}}\\
+Array che contiene le tre URL delle servlets da contattare per i messaggi
 \end{description}
 
 \subsubsection*{Metodi}
 \begin{description}
-\item{\method{+ aaa(): void}}\\
-aaa
+\item{\method{- getServletURLs(): void}}\\
+Configura gli URL delle servlet da interrogare leggendoli dal file di configurazione in base alle operazioni che questo presenter deve essere in grado di compiere.\\
+Più precisamente, si dovrà creare una ``XMLHttpRequest'' rivolta al file XML di configurazione dove sono riportate tutte le servlets. Ricevuta la risposta, si popolerà l'array dichiarato nella classe (servlets).
 
-\item{\method{+ bbb(): void}}\\
-bbb
+\item{\method{- deleteMessage(idMessage: String): void}}\\
+Elimina un messaggio dalla segreteria contattando la servlet responsabile dell'operazione e scaricando nuovamente i messaggi. Il metodo procede quindi nell'invocazione della servlet corretta passando come parametro l'``id'' ricevuto come parametro del metodo (idMessage). Se la servlet ritorna il valore true, significa che l'eliminazione è andata a buon fine e quindi si riscaricano i messaggi. In caso di errore, apparirà all'utente un messaggio d'errore indicante il motivo.
 
-\item{\method{+ ccc(): void}}\\
-ccc
+\item{\method{- addListItem(message: Object()): void}}\\
+Aggiunge un messaggio ad una lista per creare l'elenco della segreteria telefonica generale. Viene quindi creati un list item e successivamente aggiunto alla lista MessageList di tale Presenter.
+
+\item{\method{- setAsRead(idMessage: String, valueToSet: String): void}}\\
+Imposta lo stato di un messaggio come ``letto'' oppure ``non letto'' a seconda del parametro ricevuto in input. Tale metodo demanda il compito alla servlet opportuna passandogli entrambi i parametri (idMessage e valueToSet). In caso di messaggio d'errore da parte del server, viene notificato anche all'utente.
+
+\item{\method{- getMessages(idMessage: String, valueToSet: String): void}}\\
+Imposta lo stato di un messaggio come ``letto'' oppure ``non letto'' a seconda del parametro ricevuto in input. Tale metodo demanda il compito alla servlet opportuna passandogli entrambi i parametri (idMessage e valueToSet). In caso di messaggio d'errore da parte del server, viene notificato anche all'utente.
 
 \end{description}
-
 
 \clearpage
 
