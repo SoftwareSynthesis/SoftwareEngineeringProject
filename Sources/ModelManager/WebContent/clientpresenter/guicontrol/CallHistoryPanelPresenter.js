@@ -60,14 +60,18 @@ function CallHistoryPanelPresenter(url) {
 	 * @param {Object}
 	 *            call oggetto che corrisponde a 'JSCall' e rappresenta una
 	 *            chiamata nello storico delle chiamate di un utente. Le
-	 *            chiamate sono caratterizzate da id, startdate, enddate da un
-	 *            chiamante e da un destinatario
+	 *            chiamate sono caratterizzate dall'altro utente coinvolto
+	 *            (user) l'orario di inizio (startdate) e l'orario di fine
+	 *            (enddate)
 	 * @author Diego Beraldin
 	 */
 	function addListItem(call) {
 		var list = document.getElementById("ulHistory");
 		var item = document.createElement("li");
-		// TODO generare il list item con i dati corrispondenti
+		// TODO probabilmente da modificare in futuro
+		var text = document.createTextNode(call.user + " " + call.startdate
+				+ " " + call.enddate);
+		item.appendChild(text);
 		list.appendChild(item);
 	}
 
