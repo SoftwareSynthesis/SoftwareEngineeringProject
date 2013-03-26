@@ -42,7 +42,7 @@ CREATE TABLE Groups
 (
 	ID_group					BIGINT UNSIGNED				NOT NULL			AUTO_INCREMENT,
 	Name						VARCHAR(100)				NOT NULL,
-	ID_user						BIGINT UNSIGNED				NOT NULL,
+	ID_user						BIGINT UNSIGNED,
 	
 	PRIMARY KEY(ID_group),
 	FOREIGN KEY(ID_user) REFERENCES UserData(ID_user)
@@ -78,12 +78,14 @@ CREATE TABLE AddressBookEntries
 (
 	ID_addressBookEntry			BIGINT UNSIGNED				NOT NULL			AUTO_INCREMENT,
 	ID_user						BIGINT UNSIGNED				NOT NULL,
-	ID_group					BIGINT UNSIGNED				NOT NULL,
+	ID_group					BIGINT UNSIGNED				NOT NULL			DEFAULT 0,
 	Owner						BIGINT UNSIGNED				NOT NULL,
 	Blocked						TINYINT						NOT NULL			DEFAULT 0,
 	
 	PRIMARY KEY(ID_addressBookEntry),
 	FOREIGN KEY(ID_user) REFERENCES UserData(ID_user),
-	FOREIGN KEY(ID_group) REFERENCES Groups(ID_group) ON DELETE SET NULL,
+	FOREIGN KEY(ID_group) REFERENCES Groups(ID_group) ON DELETE CASCADE,
 	FOREIGN KEY(Owner) REFERENCES UserData(ID_user)
 );
+
+INSERT INTO Groups (ID_group, Name) VALUE (0, 'addrBookEntry');

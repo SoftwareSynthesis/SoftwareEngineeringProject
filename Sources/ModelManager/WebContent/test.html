@@ -18,13 +18,115 @@
       </li>
        <!-- Il bottone qui sotto � associato a una chiamata di metodo! -->
       <li id="loginbutton" class="action" onClick="load()"><button>Accedi</button></li>
+      <li id="logoutbutton" class="action" onClick="logout()"><button>Logout</button></li>
     </ul>
   </fieldset>
   
+  <fieldset id="registerbox">
+    <ul>
+      <li>
+        <label for="mail">Username:</label>
+        <input type="text" id="mail" value="" />
+      </li>
+      <li>
+        <label for="password1">Password:</label>
+        <input type="password" id="password1" value="" />
+      </li>
+      <li>
+        <label for="domanda">Domanda:</label>
+        <input type="text" id="domanda" value="" />
+      </li>
+      <li>
+        <label for="risposta">Risposta:</label>
+        <input type="text" id="risposta" value="" />
+      </li>
+      <li>
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" value="" />
+      </li>
+      <li>
+        <label for="cognome">Cognome:</label>
+        <input type="text" id="cognome" value="" />
+      </li>
+      <li>
+        <label for="img">img:</label>
+        <input type="text" id="img" value="" />
+      </li>
+       <!-- Il bottone qui sotto � associato a una chiamata di metodo! -->
+      <li id="loginbutton" class="action" onClick="register()"><button>Registrati</button></li>
+    </ul>
+  </fieldset>
+  
+  <fieldset>
+  	<textarea rows="10" cols="50" id = "contact"></textarea>
+  	<ul><li id="getContacts" class="action" onClick="getContacts()"><button>getContacts</button></li></ul>
+  </fieldset>
+  
   <script type="text/javascript">
+  	function getContacts()
+	{
+		var servletURL = "http://localhost:8080/MyTalk/addressBookGetContacts";
+
+
+
+		var request = new XMLHttpRequest();
+		request.onreadystatechange = function() {
+			if (request.readyState == 4 && request.status == 200) {
+				document.getElementById("contact").value = request.responseText;
+			}
+		};
+		// apre la richiesta e la invia
+		request.open("POST", servletURL, "true");
+		request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+		request.send();
+	}
+  
+  	function register()
+	{
+		var servletURL = "http://localhost:8080/MyTalk/LoginDoRegistration";
+		var username = document.getElementById("mail").value;
+		var password = document.getElementById("password1").value;
+		var domanda = document.getElementById("domanda").value;
+		var risposta = document.getElementById("risposta").value;
+		var nome = document.getElementById("nome").value;
+		var cognome = document.getElementById("cognome").value;
+		var path = document.getElementById("img").value;
+
+
+
+		var request = new XMLHttpRequest();
+		request.onreadystatechange = function() {
+			if (request.readyState == 4 && request.status == 200) {
+				alert(request.responseText);
+			}
+		};
+		// apre la richiesta e la invia
+		request.open("POST", servletURL, "true");
+		request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+		request.send("username=" + username + "&password=" + password + "&question=" + domanda + "&answer=" + risposta + "&name=" + nome + "&surname=" + cognome + "&picturePath=" + path);
+	}
+  
+  	function logout()
+  	{
+  		var servletURL = "http://localhost:8080/MyTalk/LoginClose";
+
+
+
+  		var request = new XMLHttpRequest();
+  		request.onreadystatechange = function() {
+  			if (request.readyState == 4 && request.status == 200) {
+  				alert(request.responseText);
+  			}
+  		};
+  		// apre la richiesta e la invia
+  		request.open("POST", servletURL, "true");
+  		request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+  		request.send();
+  	}
+  	
 	function load() {
 	
-	var servletURL = "http://localhost:8080/MyTalk/Login";
+	var servletURL = "http://localhost:8080/MyTalk/LoginAuthentication";
 	var successURL = "success.html";
 	
 	var username = document.getElementById("username").value;
@@ -42,7 +144,7 @@
 	// apre la richiesta e la invia
 	request.open("POST", servletURL, "true");
 	request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-	request.send("username=" + username + "&password=" + password + "&operation=1");
+	request.send("username=" + username + "&password=" + password);
 }
   </script>
 </body>
