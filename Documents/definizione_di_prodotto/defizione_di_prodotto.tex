@@ -3197,6 +3197,52 @@ Metodo che visualizza all'interno del pannello una lista di gruppi. Tale metodo 
 \end{description}
 
 
+%TODO da verificare
+\classsection{ToolsPanelPresenter}
+
+\subsubsection*{Funzione}
+Presenter incaricato di gestire il pannello degli strumenti.
+
+\subsubsection*{Relazioni d'uso}
+Nessuna relazione d'uso evidenziata.
+
+\subsubsection*{Attributi}
+\begin{description}
+\item{\memberdata{-- servlets: String[]}}\\
+Array che contiene le URL delle servlets relative a tale presenter
+\item{\memberdata{-- element: DOM\_element}}\\
+elemento di tipo DOM che rappresenta l'intero pannello
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+\item{\method{- getServletURLs(): void}}\\
+Configura gli URL delle servlet da interrogare leggendoli dal file di configurazione in base alle operazioni che questo presenter deve essere in grado di compiere.\\
+Più precisamente, si dovrà creare una ``XMLHttpRequest'' rivolta al file XML di configurazione dove sono riportate tutte le servlets. Ricevuta la risposta, si popolerà l'array dichiarato nella classe (servlets).
+
+\item{\method{+ initialize()(): void}}\\
+Inizializza il pannello degli strumenti dell'applicazione rendendolo visibile. Tale pannello conterrà link che rimandano a tutte le funzioni disponibili per l'operazione scelta. In particolare:
+\begin{itemize}
+\item sezione che rimanda alle funzionalità della segretaria;
+\item sezione che rimanda alle impostazioni dell'account;
+\item sezione che rimanda alle funzionalità dello storico chiamate;
+\item sezione che rimanda alle funzionalità della gestione dei contatti.
+\end{itemize}
+Tutte queste sezioni saranno espresse come list item di una lista. All'evento ``onclick'' su ogni sezione corrisponderà l'invocazione del metodo che rimanda al presenter relativo alla sezione.
+
+
+
+
+\item{\method{+ hide(): void}}\\
+Rende invisibile il pannello degli strumenti. Va impostata la proprietà ``display'' di tale elemento a false.
+
+\item{\method{+ logout(): void}}\\
+Effettua il logout dell'utente dal sistema. Per far ciò, viene invocata la servlet relativa.
+
+\end{description}
+
+
+
 \clearpage
 
 \section{Specifica sotto-architettura clientview}\label{sec:clientviewarchitecture}
