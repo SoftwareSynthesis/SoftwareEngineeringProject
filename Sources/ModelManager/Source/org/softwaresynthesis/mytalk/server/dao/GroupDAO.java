@@ -265,7 +265,7 @@ public class GroupDAO
 		Query query = null;
 		Session session = null;
 		SessionFactory factory = null;
-		String hqlQuery = "from Group as g where g.owner = :owner g.name = :name";
+		String hqlQuery = "from Group as g where g.owner = :owner and g.name = :name";
 		Transaction transaction = null;
 		try
 		{
