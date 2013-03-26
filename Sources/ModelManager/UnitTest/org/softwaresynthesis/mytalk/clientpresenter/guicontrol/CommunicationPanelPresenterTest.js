@@ -1,6 +1,8 @@
 module("CommunicationPanelPresenter", {
 	setup : function() {
+		// stub di communicationcenter
 		communicationcenter = new Object();
+		// oggetto da testare
 		tester = new CommunicationPanelPresenter();
 	},
 	teardown : function() {
@@ -126,3 +128,20 @@ test(
 			i++;
 			expect(i);
 		});
+
+test("testUpdateTimer()", function() {
+	// stub di interfaccia grafica
+	var div0 = document.createElement("div");
+	div0.id = "statDiv";
+	div0.style.position = "absolute";
+	div0.style.left = "-999";
+	document.body.appendChild(div0);
+	var div1 = document.createElement("div");
+	var div2 = document.createElement("div");
+	div0.appendChild(div1);
+	div0.appendChild(div2);
+	
+	var string = "io sono un testo";
+	tester.updateTimer(string);
+	equal(div2.textContent, string, "testo inserito correttamente nel div");
+});

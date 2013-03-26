@@ -310,6 +310,7 @@ function CommunicationPanelPresenter() {
 	 *            text testo da visualizzare
 	 */
 	this.updateTimer = function(text) {
+		var statDiv = document.getElementById("statDiv");
 		statDiv.childNodes[1].textContent = text;
 	};
 

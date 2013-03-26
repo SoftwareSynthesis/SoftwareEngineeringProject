@@ -50,8 +50,24 @@ if (! _$jscoverage['MainPanelPresenterTest.js']) {
   _$jscoverage['MainPanelPresenterTest.js'][18] = 0;
   _$jscoverage['MainPanelPresenterTest.js'][19] = 0;
   _$jscoverage['MainPanelPresenterTest.js'][20] = 0;
+  _$jscoverage['MainPanelPresenterTest.js'][25] = 0;
+  _$jscoverage['MainPanelPresenterTest.js'][26] = 0;
+  _$jscoverage['MainPanelPresenterTest.js'][27] = 0;
+  _$jscoverage['MainPanelPresenterTest.js'][28] = 0;
+  _$jscoverage['MainPanelPresenterTest.js'][29] = 0;
+  _$jscoverage['MainPanelPresenterTest.js'][30] = 0;
+  _$jscoverage['MainPanelPresenterTest.js'][33] = 0;
+  _$jscoverage['MainPanelPresenterTest.js'][34] = 0;
+  _$jscoverage['MainPanelPresenterTest.js'][35] = 0;
+  _$jscoverage['MainPanelPresenterTest.js'][36] = 0;
+  _$jscoverage['MainPanelPresenterTest.js'][37] = 0;
+  _$jscoverage['MainPanelPresenterTest.js'][38] = 0;
+  _$jscoverage['MainPanelPresenterTest.js'][39] = 0;
+  _$jscoverage['MainPanelPresenterTest.js'][40] = 0;
+  _$jscoverage['MainPanelPresenterTest.js'][41] = 0;
+  _$jscoverage['MainPanelPresenterTest.js'][42] = 0;
 }
-_$jscoverage['MainPanelPresenterTest.js'].source = ["module<span class=\"k\">(</span><span class=\"s\">\"MainPanelPresenter\"</span><span class=\"k\">,</span> <span class=\"k\">{</span>","\tsetup <span class=\"k\">:</span> <span class=\"k\">function</span><span class=\"k\">()</span> <span class=\"k\">{</span>","\t\t<span class=\"c\">// stub di interfaccia grafica</span>","\t\t<span class=\"k\">var</span> element <span class=\"k\">=</span> document<span class=\"k\">.</span>createElement<span class=\"k\">(</span><span class=\"s\">\"div\"</span><span class=\"k\">);</span>","\t\telement<span class=\"k\">.</span>id <span class=\"k\">=</span> <span class=\"s\">\"MainPanel\"</span><span class=\"k\">;</span>","\t\telement<span class=\"k\">.</span>style<span class=\"k\">.</span>position <span class=\"k\">=</span> <span class=\"s\">\"absolute\"</span><span class=\"k\">;</span>","\t\telement<span class=\"k\">.</span>style<span class=\"k\">.</span>left <span class=\"k\">=</span> <span class=\"s\">\"-999em\"</span><span class=\"k\">;</span>","\t\tdocument<span class=\"k\">.</span>body<span class=\"k\">.</span>appendChild<span class=\"k\">(</span>element<span class=\"k\">);</span>","\t\t","\t\ttester <span class=\"k\">=</span> <span class=\"k\">new</span> MainPanelPresenter<span class=\"k\">();</span>","\t\t","\t<span class=\"k\">}</span><span class=\"k\">,</span>","\tteardown <span class=\"k\">:</span> <span class=\"k\">function</span><span class=\"k\">()</span> <span class=\"k\">{</span>","\t<span class=\"k\">}</span>","<span class=\"k\">}</span><span class=\"k\">);</span>","","test<span class=\"k\">(</span><span class=\"s\">\"testHide()\"</span><span class=\"k\">,</span> <span class=\"k\">function</span><span class=\"k\">()</span> <span class=\"k\">{</span>","\telement <span class=\"k\">=</span> document<span class=\"k\">.</span>getElementById<span class=\"k\">(</span><span class=\"s\">\"MainPanel\"</span><span class=\"k\">);</span>","\ttester<span class=\"k\">.</span>hide<span class=\"k\">();</span>","\tequal<span class=\"k\">(</span>element<span class=\"k\">.</span>style<span class=\"k\">.</span>display<span class=\"k\">,</span> <span class=\"s\">\"none\"</span><span class=\"k\">,</span>","\t<span class=\"s\">\"la propriet&#195;&#160; display &#195;&#168; stata settata correttamente\"</span><span class=\"k\">);</span>","<span class=\"k\">}</span><span class=\"k\">);</span>"];
+_$jscoverage['MainPanelPresenterTest.js'].source = ["module<span class=\"k\">(</span><span class=\"s\">\"MainPanelPresenter\"</span><span class=\"k\">,</span> <span class=\"k\">{</span>","\tsetup <span class=\"k\">:</span> <span class=\"k\">function</span><span class=\"k\">()</span> <span class=\"k\">{</span>","\t\t<span class=\"c\">// stub di interfaccia grafica</span>","\t\t<span class=\"k\">var</span> element <span class=\"k\">=</span> document<span class=\"k\">.</span>createElement<span class=\"k\">(</span><span class=\"s\">\"div\"</span><span class=\"k\">);</span>","\t\telement<span class=\"k\">.</span>id <span class=\"k\">=</span> <span class=\"s\">\"MainPanel\"</span><span class=\"k\">;</span>","\t\telement<span class=\"k\">.</span>style<span class=\"k\">.</span>position <span class=\"k\">=</span> <span class=\"s\">\"absolute\"</span><span class=\"k\">;</span>","\t\telement<span class=\"k\">.</span>style<span class=\"k\">.</span>left <span class=\"k\">=</span> <span class=\"s\">\"-999em\"</span><span class=\"k\">;</span>","\t\tdocument<span class=\"k\">.</span>body<span class=\"k\">.</span>appendChild<span class=\"k\">(</span>element<span class=\"k\">);</span>","\t\t<span class=\"c\">// inizializza l'oggetto da testare</span>","\t\ttester <span class=\"k\">=</span> <span class=\"k\">new</span> MainPanelPresenter<span class=\"k\">();</span>","\t\t","\t<span class=\"k\">}</span><span class=\"k\">,</span>","\tteardown <span class=\"k\">:</span> <span class=\"k\">function</span><span class=\"k\">()</span> <span class=\"k\">{</span>","\t<span class=\"k\">}</span>","<span class=\"k\">}</span><span class=\"k\">);</span>","","test<span class=\"k\">(</span><span class=\"s\">\"testHide()\"</span><span class=\"k\">,</span> <span class=\"k\">function</span><span class=\"k\">()</span> <span class=\"k\">{</span>","\telement <span class=\"k\">=</span> document<span class=\"k\">.</span>getElementById<span class=\"k\">(</span><span class=\"s\">\"MainPanel\"</span><span class=\"k\">);</span>","\ttester<span class=\"k\">.</span>hide<span class=\"k\">();</span>","\tequal<span class=\"k\">(</span>element<span class=\"k\">.</span>style<span class=\"k\">.</span>display<span class=\"k\">,</span> <span class=\"s\">\"none\"</span><span class=\"k\">,</span>","\t<span class=\"s\">\"la propriet&#195;&#160; display &#195;&#168; stata settata correttamente\"</span><span class=\"k\">);</span>","<span class=\"k\">}</span><span class=\"k\">);</span>","","","test<span class=\"k\">(</span><span class=\"s\">\"testInitialize()\"</span><span class=\"k\">,</span> <span class=\"k\">function</span><span class=\"k\">()</span> <span class=\"k\">{</span>","\t<span class=\"k\">var</span> element <span class=\"k\">=</span> document<span class=\"k\">.</span>getElementById<span class=\"k\">(</span><span class=\"s\">\"MainPanel\"</span><span class=\"k\">);</span>","\ttester<span class=\"k\">.</span>initialize<span class=\"k\">();</span>","\tequal<span class=\"k\">(</span>element<span class=\"k\">.</span>style<span class=\"k\">.</span>display<span class=\"k\">,</span> <span class=\"s\">\"block\"</span><span class=\"k\">,</span> <span class=\"s\">\"il pannello &#195;&#168; visualizzato correttamente\"</span><span class=\"k\">);</span>","\tequal<span class=\"k\">(</span>element<span class=\"k\">.</span>innerHTML<span class=\"k\">,</span> <span class=\"s\">\"\"</span><span class=\"k\">,</span> <span class=\"s\">\"il pannello ha contenuto vuoto come atteso\"</span><span class=\"k\">);</span>","\texpect<span class=\"k\">(</span><span class=\"s\">2</span><span class=\"k\">);</span>","<span class=\"k\">}</span><span class=\"k\">);</span>","","test<span class=\"k\">(</span><span class=\"s\">\"testDisplayChildPanel()\"</span><span class=\"k\">,</span> <span class=\"k\">function</span><span class=\"k\">()</span> <span class=\"k\">{</span>","\t<span class=\"k\">var</span> i <span class=\"k\">=</span> <span class=\"s\">0</span><span class=\"k\">;</span>","\t<span class=\"k\">var</span> child <span class=\"k\">=</span> document<span class=\"k\">.</span>createElement<span class=\"k\">(</span><span class=\"s\">\"div\"</span><span class=\"k\">);</span>","\ttester<span class=\"k\">.</span>displayChildPanel<span class=\"k\">(</span>child<span class=\"k\">);</span>","\t<span class=\"k\">var</span> element <span class=\"k\">=</span> document<span class=\"k\">.</span>getElementById<span class=\"k\">(</span><span class=\"s\">\"MainPanel\"</span><span class=\"k\">);</span>","\tequal<span class=\"k\">(</span>element<span class=\"k\">.</span>childNodes<span class=\"k\">.</span>length<span class=\"k\">,</span> <span class=\"s\">1</span><span class=\"k\">,</span> <span class=\"s\">\"il pannello viene effettivamente aggiunto\"</span><span class=\"k\">);</span>","\ti<span class=\"k\">++;</span>","\tequal<span class=\"k\">(</span>element<span class=\"k\">.</span>childNodes<span class=\"k\">[</span><span class=\"s\">0</span><span class=\"k\">],</span> child<span class=\"k\">,</span> <span class=\"s\">\"l'inserimento non altera il pannello\"</span><span class=\"k\">);</span>","\ti<span class=\"k\">++;</span>","\texpect<span class=\"k\">(</span>i<span class=\"k\">);</span>","<span class=\"k\">}</span><span class=\"k\">);</span>"];
 _$jscoverage['MainPanelPresenterTest.js'][1]++;
 module("MainPanelPresenter", {setup: (function () {
   _$jscoverage['MainPanelPresenterTest.js'][4]++;
@@ -76,4 +92,38 @@ test("testHide()", (function () {
   tester.hide();
   _$jscoverage['MainPanelPresenterTest.js'][20]++;
   equal(element.style.display, "none", "la propriet\u00c3\u00a0 display \u00c3\u00a8 stata settata correttamente");
+}));
+_$jscoverage['MainPanelPresenterTest.js'][25]++;
+test("testInitialize()", (function () {
+  _$jscoverage['MainPanelPresenterTest.js'][26]++;
+  var element = document.getElementById("MainPanel");
+  _$jscoverage['MainPanelPresenterTest.js'][27]++;
+  tester.initialize();
+  _$jscoverage['MainPanelPresenterTest.js'][28]++;
+  equal(element.style.display, "block", "il pannello \u00c3\u00a8 visualizzato correttamente");
+  _$jscoverage['MainPanelPresenterTest.js'][29]++;
+  equal(element.innerHTML, "", "il pannello ha contenuto vuoto come atteso");
+  _$jscoverage['MainPanelPresenterTest.js'][30]++;
+  expect(2);
+}));
+_$jscoverage['MainPanelPresenterTest.js'][33]++;
+test("testDisplayChildPanel()", (function () {
+  _$jscoverage['MainPanelPresenterTest.js'][34]++;
+  var i = 0;
+  _$jscoverage['MainPanelPresenterTest.js'][35]++;
+  var child = document.createElement("div");
+  _$jscoverage['MainPanelPresenterTest.js'][36]++;
+  tester.displayChildPanel(child);
+  _$jscoverage['MainPanelPresenterTest.js'][37]++;
+  var element = document.getElementById("MainPanel");
+  _$jscoverage['MainPanelPresenterTest.js'][38]++;
+  equal(element.childNodes.length, 1, "il pannello viene effettivamente aggiunto");
+  _$jscoverage['MainPanelPresenterTest.js'][39]++;
+  (i++);
+  _$jscoverage['MainPanelPresenterTest.js'][40]++;
+  equal(element.childNodes[0], child, "l'inserimento non altera il pannello");
+  _$jscoverage['MainPanelPresenterTest.js'][41]++;
+  (i++);
+  _$jscoverage['MainPanelPresenterTest.js'][42]++;
+  expect(i);
 }));
