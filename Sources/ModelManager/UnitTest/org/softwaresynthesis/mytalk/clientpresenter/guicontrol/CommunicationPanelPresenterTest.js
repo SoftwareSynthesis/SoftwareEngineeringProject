@@ -129,12 +129,17 @@ test(
 			expect(i);
 		});
 
+function createHiddenDiv() {
+	var div = document.createElement("div");
+	div.id = "statDiv";
+	div.style.position = "absolute";
+	div.style.left = "-999";
+	return div;
+}
+
 test("testUpdateTimer()", function() {
 	// stub di interfaccia grafica
-	var div0 = document.createElement("div");
-	div0.id = "statDiv";
-	div0.style.position = "absolute";
-	div0.style.left = "-999";
+	var div0 = createHiddenDiv();
 	document.body.appendChild(div0);
 	var div1 = document.createElement("div");
 	var div2 = document.createElement("div");
@@ -144,4 +149,57 @@ test("testUpdateTimer()", function() {
 	var string = "io sono un testo";
 	tester.updateTimer(string);
 	equal(div2.textContent, string, "testo inserito correttamente nel div");
+	document.body.removeChild(div0);
+});
+
+test("testGetMyVideo()", function() {
+	var div = createHiddenDiv();
+	var video = document.createElement("video");
+	video.id = "myVideo";
+	div.appendChild(video);
+	document.body.appendChild(div);
+	var result = tester.getMyVideo();
+	deepEqual(result, video, "elemento video recuperato correttamente");
+	document.body.removeChild(div);
+});
+
+test("testGetOtherVideo()", function() {
+	var div = createHiddenDiv();
+	var video = document.createElement("video");
+	video.id = "otherVideo";
+	div.appendChild(video);
+	document.body.appendChild(div);
+	var result = tester.getOtherVideo();
+	deepEqual(result, video, "elemento recuperato correttamente");
+	document.body.removeChild(div);
+});
+
+test("testUpdateStarts()", function() {
+	// stub di interfaccia grafica
+	var div0 = createHiddenDiv();
+	var div1 = document.createElement("div");
+	var span0 = document.createElement("span");
+	span0.id = "spanStat";
+	var span1 = document.createElement("span");
+	span1.id = "spanReceved";
+	var span2 = document.createElement("span");
+	span2.id = "spanSend";
+	div1.appendChild(span0);
+	div1.appendChild(span1);
+	div1.appendChild(span2);
+	div0.appendChild(div1);
+	document.body.appendChild(div0);
+	
+	var string = "miao";
+	
+	// inserisci dati ricevuti
+	tester.updateStarts(string, true);
+	equal(span0.textContent, "Dati ricevuti: " + string, "stringa impostata correttamente");
+	
+	// inserisci dati inviati
+	tester.updateStarts(string, false);
+	equal(span1.textContent, "Dati inviati: " + string, "stringa impostta correttamente");
+	
+	expect(2);
+	document.body.removeChild(div0);
 });
