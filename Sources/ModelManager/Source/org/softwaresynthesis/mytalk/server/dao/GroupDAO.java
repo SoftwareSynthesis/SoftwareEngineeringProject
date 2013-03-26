@@ -156,6 +156,7 @@ public class GroupDAO
 	public IGroup getByID(Long identifier)
 	{
 		HibernateUtil util = null;
+		IGroup group = null;
 		List<IGroup> groups = null;
 		Query query = null;
 		Session session = null;
@@ -171,6 +172,10 @@ public class GroupDAO
 			query.setString("id", identifier.toString());
 			transaction = session.beginTransaction();
 			groups = (List<IGroup>)query.list();
+			if (groups.size() == 1 && groups.get(0) != null)
+			{
+				group = groups.get(0);
+			}
 			transaction.commit();
 		}
 		catch (RuntimeException ex)
@@ -189,14 +194,7 @@ public class GroupDAO
 				session.close();
 			}
 		}
-		if (groups != null && groups.size() == 1)
-		{
-			return (IGroup)groups.get(0);
-		}
-		else
-		{
-			return null;
-		}
+		return group;
 	}
 	
 	/**
@@ -246,5 +244,61 @@ public class GroupDAO
 			}
 		}
 		return groups;
+	}
+	
+	/**
+	 * Interroga il database per ottenere un istanza 
+	 * {@link IGroup} che ha quel nome e proprietario
+	 * 
+	 * @param 	owner	idenficatore dello {@link IGroup}
+	 * @param	name	nome del gruppo
+	 * @return	istanza di {@link IGroup} che è
+	 * 			registrato con l'identificatore fornito
+	 * 			in input, altrimenti null
+	 */
+	@SuppressWarnings("unchecked")
+	public IGroup getByOwnerAndName(Long owner, String name)
+	{
+		HibernateUtil util = null;
+		IGroup group = null;
+		List<IGroup> groups = null;
+		Query query = null;
+		Session session = null;
+		SessionFactory factory = null;
+		String hqlQuery = "from Group as g where g.owner = :owner g.name = :name";
+		Transaction transaction = null;
+		try
+		{
+			util = HibernateUtil.getInstance();
+			factory = util.getFactory();
+			session = factory.openSession();
+			query = session.createQuery(hqlQuery);
+			query.setString("owner", owner.toString());
+			query.setString("name", name);
+			transaction = session.beginTransaction();
+			groups = (List<IGroup>)query.list();
+			if (groups.size() == 1 && groups.get(0) != null)
+			{
+				group = groups.get(0);
+			}
+			transaction.commit();
+		}
+		catch (RuntimeException ex)
+		{
+			if (transaction != null)
+			{
+				transaction.rollback();
+			}
+			groups = null;
+		}
+		finally
+		{
+			if (session != null)
+			{
+				session.flush();
+				session.close();
+			}
+		}
+		return group;
 	}
 }

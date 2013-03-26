@@ -25,7 +25,7 @@
 			<generator class = "identity"/>
 		</id>
 		<property name = "name" column = "Name" type = "string" not-null = "true"/>
-		<set name = "addressBook" table = "AddressBookEntries" lazy = "true" inverse = "true">
+		<set name = "addressBook" table = "AddressBookEntries" lazy = "true" inverse = "true" fetch = "join">
 			<key column = "ID_group" not-null = "true"/>
 			<one-to-many class = "AddressBookEntry"/>
 		</set>

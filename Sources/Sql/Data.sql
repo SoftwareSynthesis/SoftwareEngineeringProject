@@ -16,12 +16,13 @@ VALUES	(1, 'Gruppo 1', 5),
 		(2, 'Groupo 2', 5),
 		(3, 'Gruppo 3', 5),
 		(4, 'Gruppo 4', 3),
-		(5, 'Gruppo 5', 3);
+		(5, 'Gruppo 5', 3),
+		(6, 'addrBookEntry', 5);
 		
 INSERT INTO AddressBookEntries (ID_addressBookEntry, ID_user, ID_group, Owner, Blocked)
-VALUES	(1, 2, 0, 5, 0),
+VALUES	(1, 2, 6, 5, 0),
 		(2, 4, 2, 5, 0),
-		(3, 1, 0, 5, 0),
+		(3, 1, 6, 5, 0),
 		(4, 3, 3, 5, 0),
 		(5, 4, 5, 2, 0),
 		(6, 1, 5, 3, 0),

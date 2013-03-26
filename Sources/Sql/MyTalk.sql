@@ -78,7 +78,7 @@ CREATE TABLE AddressBookEntries
 (
 	ID_addressBookEntry			BIGINT UNSIGNED				NOT NULL			AUTO_INCREMENT,
 	ID_user						BIGINT UNSIGNED				NOT NULL,
-	ID_group					BIGINT UNSIGNED				NOT NULL			DEFAULT 0,
+	ID_group					BIGINT UNSIGNED				NOT NULL,
 	Owner						BIGINT UNSIGNED				NOT NULL,
 	Blocked						TINYINT						NOT NULL			DEFAULT 0,
 	
@@ -87,5 +87,3 @@ CREATE TABLE AddressBookEntries
 	FOREIGN KEY(ID_group) REFERENCES Groups(ID_group) ON DELETE CASCADE,
 	FOREIGN KEY(Owner) REFERENCES UserData(ID_user)
 );
-
-INSERT INTO Groups (ID_group, Name) VALUE (0, 'addrBookEntry');

@@ -11,6 +11,7 @@ import org.softwaresynthesis.mytalk.server.abook.AddressBookEntry;
 import org.softwaresynthesis.mytalk.server.abook.Group;
 import org.softwaresynthesis.mytalk.server.abook.IGroup;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
+import org.softwaresynthesis.mytalk.server.dao.GroupDAO;
 import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
 
 /**
@@ -69,35 +70,47 @@ public final class AddressBookDoAddContactServlet extends HttpServlet
 	{
 		AddressBookEntry myEntry = null;
 		AddressBookEntry frEntry = null;
-		IGroup group = null;
+		IGroup frGroup = null;
+		IGroup myGroup = null;
 		HttpSession session = null;
 		long contactId = -1L;
 		IUserData user = null;
 		IUserData friend = null;
 		PrintWriter writer = response.getWriter();
+		GroupDAO groupDAO = null;
 		UserDataDAO userDAO = new UserDataDAO();
 		String result = null;
 		try
 		{
+			Prova.Scrivi("AVVIO");
 			session = request.getSession(false);
+			Prova.Scrivi("SESSIONE");
 			contactId = Long.parseLong(request.getParameter("contactId"));
+			Prova.Scrivi("ID");
 			user = (IUserData)session.getAttribute("user");
+			Prova.Scrivi("USER");
 			friend = userDAO.getByID(contactId);
+			Prova.Scrivi("AMICO");
 			if (friend != null)
 			{
 				myEntry = new AddressBookEntry();
 				frEntry = new AddressBookEntry();
-				group = new Group();
-				group.setName("addrBookEntry");
-				group.setOwner(user);
+				groupDAO = new GroupDAO();
+				myGroup = new Group();
+				myGroup.setName("addrBookEntry");
+				myGroup.setOwner(user);
 				myEntry.setBlocked(false);
 				myEntry.setContact(friend);
-				myEntry.setGroup(group);
+				myEntry.setGroup(myGroup);
+				frGroup = groupDAO.getByOwnerAndName(user.getId(), "");
 				frEntry.setBlocked(false);
 				frEntry.setContact(user);
-				frEntry.setGroup(null);
+				frEntry.setGroup(frGroup);
+				Prova.Scrivi("AVVIO INSERIMENTI");
 				user.addAddressBookEntry(myEntry);
+				Prova.Scrivi("NEL MEZZO");
 				friend.addAddressBookEntry(frEntry);
+				Prova.Scrivi("AMICO NON NULLO");
 				userDAO.update(user);
 				userDAO.update(friend);
 				result = "true";
@@ -110,6 +123,7 @@ public final class AddressBookDoAddContactServlet extends HttpServlet
 		catch (Exception ex)
 		{
 			result = "false";
+			Prova.Scrivi(ex.getMessage());
 		}
 		writer.write(result);
 	}

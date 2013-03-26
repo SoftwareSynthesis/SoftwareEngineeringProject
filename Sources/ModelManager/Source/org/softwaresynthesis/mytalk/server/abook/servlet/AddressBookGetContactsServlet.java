@@ -80,8 +80,6 @@ public final class AddressBookGetContactsServlet extends HttpServlet
 		{
 			session = request.getSession(false);
 			user = (IUserData)session.getAttribute("user");
-			//userDAO = new UserDataDAO();
-			//user = userDAO.getByEmail(mail);
 			contacts = user.getAddressBook();
 			iterator = contacts.iterator();
 			result = "{";
