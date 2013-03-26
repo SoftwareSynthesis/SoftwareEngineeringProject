@@ -8,84 +8,80 @@
  */
 function ToolsPanelPresenter() {
     /**********************************************************
-    VARIABILI PRIVATE
-    ***********************************************************/
+     VARIABILI PRIVATE
+     ***********************************************************/
     //elemento controllato da questo presenter
     var element = document.getElementById("ToolsPanel");
     // URL delle servlet
     var servlets = new Array();
     getServletURLs();
-    
+
     /**********************************************************
-    METODI PRIVATI
-    ***********************************************************/
+     METODI PRIVATI
+     ***********************************************************/
     function getServletURLs() {
-		var configurationRequest = new XMLHttpRequest();
-		configurationRequest.open("POST", configurationFile, false);
-		configurationRequest.send();
-		var XMLDocument = configurationRequest.responseXML;
-		var baseURL = XMLDocument.getElementsByTagName("baseURL")[0].childNodes[0].data;
-		var name = XMLDocument.getElementById("close").childNodes[0].data;
-		servlets.push(baseURL + name);
+        var configurationRequest = new XMLHttpRequest();
+        configurationRequest.open("POST", configurationFile, false);
+        configurationRequest.send();
+        var XMLDocument = configurationRequest.responseXML;
+        var baseURL = XMLDocument.getElementsByTagName("baseURL")[0].childNodes[0].data;
+        var name = XMLDocument.getElementById("close").childNodes[0].data;
+        servlets.push(baseURL + name);
     }
 
     /**********************************************************
-    METODI PUBBLICI
-    ***********************************************************/
+     METODI PUBBLICI
+     ***********************************************************/
     /**
      * Inizializza il pannello degli strumenti dell'applicazione
-     * 
+     *
      * @author Elena Zecchinato
      * @author Diego Beraldin
      */
     this.initialize = function() {
-    	// imposta il pannello come visibile
-    	element.style.display = "block";
-        
+        element.innerHTML = "";
+        // imposta il pannello come visibile
+        element.style.display = "block";
+
+        //header
+        var header = document.createElement("h1");
+        header.appendChild(document.createTextNode("STRUMENTI"));
 
         // contenuto del '<div>' delle funzionalità
         var divFunction = document.createElement("div");
         var ulFunction = document.createElement("ul");
-        ulFunction.id="ToolsList";
-        
+        ulFunction.id = "ToolsList";
+
         // funzione messaggi
         var liAnswering = document.createElement("li");
-        var buttonAnswering = document.createElement("button");
-        buttonAnswering.appendChild(document.createTextNode("Segreteria"));
-        buttonAnswering.onclick = function() {
-        	mediator.displayMessagePanel();
+        liAnswering.appendChild(document.createTextNode("Segreteria"));
+        liAnswering.onclick = function() {
+            mediator.displayMessagePanel();
         };
-        liAnswering.appendChild(buttonAnswering);
-        
+
         // funzione impostazioni account
         var liSetting = document.createElement("li");
-        var buttonSetting = document.createElement("button");
-        buttonSetting.appendChild(document.createTextNode("Impostazioni"));
-        buttonSetting.onclick = function() {
-        	mediator.displayAccountSettingsPanel();
+        liSetting.appendChild(document.createTextNode("Impostazioni"));
+        liSetting.onclick = function() {
+            mediator.displayAccountSettingsPanel();
         };
-        liSetting.appendChild(buttonSetting);
-        
+
         // funzione lista chiamate
         var liCallList = document.createElement("li");
-        var buttonCallList = document.createElement("button");
-        buttonCallList.appendChild(document.createTextNode("Lista chiamate"));
-        buttonCallList.onclick = function() {
-        	mediator.displayCallHistoryPanel();
+        liCallList.appendChild(document.createTextNode("Lista chiamate"));
+        liCallList.onclick = function() {
+            mediator.displayCallHistoryPanel();
         };
-        liCallList.appendChild(buttonCallList);
-        
+
         // funzione gestione contatti
         var liGroup = document.createElement("li");
-        var buttonGroup = document.createElement("button");
-        buttonGroup.appendChild(document.createTextNode("Gruppi"));
-        buttonGroup.onclick = function() {
+        liGroup.appendChild(document.createTextNode("Gruppi"));
+        liGroup.onclick = function() {
             mediator.displayGroupPanel();
         };
-        liGroup.appendChild(buttonGroup);
-        
+
         // funzione selezione lingua
-        var liLanguage = document.createElement("li");
+        /*var liLanguage = document.createElement("li");
         var selectLanguage = document.createElement("select");
         var optionItalian = document.createElement("option");
         optionItalian.setAttribute("value", "italian");
@@ -96,40 +92,42 @@ function ToolsPanelPresenter() {
         selectLanguage.appendChild(optionItalian);
         selectLanguage.appendChild(optionEnglish);
         liLanguage.appendChild(selectLanguage);
-        // TODO attaccare il comportamento all'elemento '<select>'
-        selectLanguage.onchange = function() {};
-        
+        //attaccare il comportamento all'elemento '<select>'
+        selectLanguage.onchange = function() {
+        };*/
+
         // costruisce la lista aggiungendo tutti gli elementi
         ulFunction.appendChild(liAnswering);
         ulFunction.appendChild(liSetting);
         ulFunction.appendChild(liCallList);
         ulFunction.appendChild(liGroup);
-        ulFunction.appendChild(liLanguage);
+        //ulFunction.appendChild(liLanguage);
         divFunction.appendChild(ulFunction);
 
         // contenuto del '<div>' per gli stati dell'utente
         var divState = document.createElement("div");
         var state = document.createElement("select");
-        state.setAttribute("id", "selectState");
+        state.id = "selectState";
         divState.appendChild(state);
 
         // aggiunge il sottoalbero al DOM dell'elemento controllato
+        element.appendChild(header);
         element.appendChild(divState);
         element.appendChild(divFunction);
     };
-    
+
     /**
      * Rende invisibile il pannello degli strumenti
-     * 
+     *
      * @author Diego Beraldin
      */
     this.hide = function() {
-    	this.element.style.display = "none";
+        this.element.style.display = "none";
     };
-    
+
     /**
      * Effettua il logout comunicandolo alla servlet
-     * 
+     *
      * @author Riccardo Tresoldi
      */
     this.logout = function() {
@@ -138,14 +136,14 @@ function ToolsPanelPresenter() {
         request.send();
         var result = JSON.parse(request.responseText);
         if (!result) {
-        	alert("Ops... qualcosa &egrave; andato storto nel server!");
+            alert("Ops... qualcosa &egrave; andato storto nel server!");
         }
-        
+
     };
-    
-/*
- * TODO:
- * - implementare la ricerca degli utenti sul sistema
- * - aggiunta utente [resultpannel->mediator->aBpresenter]
- */    
+
+    /*
+     * TODO:
+     * - implementare la ricerca degli utenti sul sistema
+     * - aggiunta utente [resultpannel->mediator->aBpresenter]
+     */
 }

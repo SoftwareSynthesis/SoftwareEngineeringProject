@@ -1,4 +1,5 @@
 html, body {
+    min-width: 900px;
     margin: 0px;
     padding: 0px;
     font-family: Verdana, Helvetica, sans-serif;
@@ -169,11 +170,11 @@ footer {
 #MainPanel {
     display: none;
     height: 100%;
-    filter: alpha(opacity=25);
-    -moz-opacity: .25;
-    opacity: .25;
-    background: url("img/mytalk.png") center no-repeat;
-    margin: 30px 0px 60px 0px;
+    /*filter: alpha(opacity=25);
+     -moz-opacity: .25;
+     opacity: .25;*/
+    /*background: url("img/mytalk.png") center no-repeat;*/
+    margin: 30px 25em 60px 20em;
 }
 #MainPanel h1 {
     padding-left: 15%;
@@ -262,11 +263,69 @@ footer {
     border: 1px rgba(100, 100, 100, 0.3) solid;
     vertical-align: middle;
 }
+#AddressBookPanel li:hover, #AddressBookPanel li:focus {
+    background-image: -webkit-linear-gradient(left,
+    rgba(20, 20, 20, 0.3),
+    rgba(150, 150, 150, 0.3));
+}
+#AddressBookPanel li:active {
+    background-image: -webkit-linear-gradient(left,
+    rgba(20, 20, 20, 0.7),
+    rgba(150, 150, 150, 0.7));
+}
 #AddressBookPanel li > img {
     height: 2em;
     vertical-align: middle;
 }
 /*end AddressBookPanel*/
+
+/*ToolsPanel*/
+#ToolsPanel {
+    display: none;
+    color: #F0E68C;
+    text-align: center;
+    float: right;
+    padding: 1em 0em 1em 2em;
+    border: 1px solid rgba(100, 100, 100, 0.3);
+    border-radius: 5px 0px 0px 5px;
+    /*da controllare FIXME*/
+    background-image: url("img/tools_pattern.png");
+    /*fine da controllare*/
+}
+#ToolsPanel h1 {
+    margin: 0.5em 1em 0.5em 1em;
+    color: #F0E68C;
+}
+#ToolsPanel ul {
+    margin: 1em 0em 1em 0.1em;
+    font-size: 1.5em;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+#ToolsPanel li {
+    padding: 0.1em 0.5em 0.1em 0.5em;
+    border-radius: 0px 0px 0px 0px;
+    background-color: #FFF;
+    border: 1px solid rgba(100,100,100,0.3);
+}
+#ToolsPanel li:first-child {
+    border-radius: 4px 0px 0px 0px;
+}
+#ToolsPanel li:last-child {
+    border-radius: 0px 0px 0px 4px;
+}
+#ToolsPanel li:hover, #ToolsPanel li:focus {
+    background-color: rgba(245,245,245,0.8);
+}
+#ToolsPanel li:active {
+    background-color: rgba(245,245,245,0.6);
+}
+#selectState {
+    margin-right: 1em;
+    width: 10em;
+}
+/*end ToolsPanel*/
 
 /********************************************************************************************************************************
  ********************************************************************************************************************************
@@ -277,62 +336,39 @@ footer {
  ********************************************************************************************************************************
  ********************************************************************************************************************************/
 
-/*ToolsPanel*/
-#ToolsPanel {
-    display: none;
-    color: #F0E68C;
-    float: right;
-    padding: 1em 1em 1em 2em;
-    border: 1px solid rgba(100, 100, 100, 0.3);
-    border-radius: 5px 0px 0px 5px;
-    /*da controllare FIXME*/
-    background-image: url("img/tools_pattern.png");
-    /*fine da controllare*/
+/*ContactPanel*/
+#displayBlockedDiv {
+    width: auto;
+    height: 2em;
+    margin: 1em 2em 1em 2em;
+    background: rgba(110,0,0,0.6);
+    color: rgb(140,165,195);
 }
-
-#ToolsPanel h1 {
-    color: #F0E68C;
-}
-
-#ToolsList {
-    list-style: none;
+#ContactPanel ul {
     margin: 0;
     padding: 0;
+    list-style-type: none;
 }
-#state fieldset {
-    color: #F0E68C;
+#ContactPanel img {
+    float: right;
+    margin: 1em 5em 1em 1em;
 }
-
-#state {
-    margin-top: 25px;
+#ContactPanel h1 {
+    padding-left: 10%;
 }
-
-#pallina {
-    width: 20px;
-}
-
-/*end ToolsPanel*/
+/*end ContactPanel*/
 
 /*CallHistoryPanel*/
 #CallHistoryPanel {
-    padding: 0px;
     margin-left: 30%;
-}
-
-#CallHistoryPanel table {
-    border: solid #000000;
-}
-
-/*end CallHistoryPanel*/
-
-/*CallHistoryPanel*/
-#CallHistoryPanel {
+    padding: 0px;
     margin-left: 30%;
 }
 
 #CallHistoryPanel table {
     margin-left: 5%;
     margin-top: 5%;
+    border: solid #000000;
 }
 
 #CallHistoryPanel table th {
@@ -343,11 +379,9 @@ footer {
 #CallHistoryPanel h1 {
     padding-left: 5%;
 }
-
 /*end CallHistoryPanel*/
 
 /*CommunicationPanel*/
-
 #CommunicaitonPanel {
     border: 2px solid balck;
 }
@@ -383,17 +417,4 @@ footer {
     padding-left: 13%;
 }
 /*end AccountSettingPanel*/
-
-/*ContactPanel*/
-#ContactPanel ul {
-    list-style-type: none;
-}
-
-#ContactPanel {
-    padding-left: 25%;
-}
-#ContactPanel h1 {
-    padding-left: 10%;
-}
-/*end ContactPanel*/
 
