@@ -41,21 +41,11 @@ if (! _$jscoverage['SearchResultPanelPresenterTest.js']) {
   _$jscoverage['SearchResultPanelPresenterTest.js'] = [];
   _$jscoverage['SearchResultPanelPresenterTest.js'][1] = 0;
   _$jscoverage['SearchResultPanelPresenterTest.js'][3] = 0;
-  _$jscoverage['SearchResultPanelPresenterTest.js'][9] = 0;
-  _$jscoverage['SearchResultPanelPresenterTest.js'][10] = 0;
-  _$jscoverage['SearchResultPanelPresenterTest.js'][11] = 0;
 }
-_$jscoverage['SearchResultPanelPresenterTest.js'].source = ["module<span class=\"k\">(</span><span class=\"s\">\"SearchResultPanelPresenter\"</span><span class=\"k\">,</span> <span class=\"k\">{</span>","\tsetup <span class=\"k\">:</span> <span class=\"k\">function</span><span class=\"k\">()</span> <span class=\"k\">{</span>","\t\ttester <span class=\"k\">=</span> <span class=\"k\">new</span> SearchResultPanelPresenter<span class=\"k\">();</span>","\t<span class=\"k\">}</span><span class=\"k\">,</span>","\tteardown <span class=\"k\">:</span> <span class=\"k\">function</span><span class=\"k\">()</span> <span class=\"k\">{</span>","\t<span class=\"k\">}</span>","<span class=\"k\">}</span><span class=\"k\">);</span>","","test<span class=\"k\">(</span><span class=\"s\">\"testHide()\"</span><span class=\"k\">,</span> <span class=\"k\">function</span><span class=\"k\">()</span> <span class=\"k\">{</span>","\ttester<span class=\"k\">.</span>hide<span class=\"k\">();</span>","\tequal<span class=\"k\">(</span>element<span class=\"k\">.</span>style<span class=\"k\">.</span>display<span class=\"k\">,</span> <span class=\"s\">\"none\"</span><span class=\"k\">,</span>","\t<span class=\"s\">\"la propriet&#195;&#160; display &#195;&#168; stata settata correttamente\"</span><span class=\"k\">);</span>","<span class=\"k\">}</span><span class=\"k\">);</span>"];
+_$jscoverage['SearchResultPanelPresenterTest.js'].source = ["module<span class=\"k\">(</span><span class=\"s\">\"SearchResultPanelPresenter\"</span><span class=\"k\">,</span> <span class=\"k\">{</span>","\tsetup <span class=\"k\">:</span> <span class=\"k\">function</span><span class=\"k\">()</span> <span class=\"k\">{</span>","\t\ttester <span class=\"k\">=</span> <span class=\"k\">new</span> SearchResultPanelPresenter<span class=\"k\">();</span>","\t<span class=\"k\">}</span><span class=\"k\">,</span>","\tteardown <span class=\"k\">:</span> <span class=\"k\">function</span><span class=\"k\">()</span> <span class=\"k\">{</span>","\t<span class=\"k\">}</span>","<span class=\"k\">}</span><span class=\"k\">);</span>"];
 _$jscoverage['SearchResultPanelPresenterTest.js'][1]++;
 module("SearchResultPanelPresenter", {setup: (function () {
   _$jscoverage['SearchResultPanelPresenterTest.js'][3]++;
   tester = new SearchResultPanelPresenter();
 }), teardown: (function () {
 })});
-_$jscoverage['SearchResultPanelPresenterTest.js'][9]++;
-test("testHide()", (function () {
-  _$jscoverage['SearchResultPanelPresenterTest.js'][10]++;
-  tester.hide();
-  _$jscoverage['SearchResultPanelPresenterTest.js'][11]++;
-  equal(element.style.display, "none", "la propriet\u00c3\u00a0 display \u00c3\u00a8 stata settata correttamente");
-}));
