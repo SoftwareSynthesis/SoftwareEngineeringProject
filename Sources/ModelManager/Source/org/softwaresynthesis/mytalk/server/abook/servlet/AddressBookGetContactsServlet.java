@@ -12,7 +12,6 @@ import javax.servlet.http.HttpSession;
 import org.softwaresynthesis.mytalk.server.abook.IAddressBookEntry;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
 import org.softwaresynthesis.mytalk.server.connection.ChannelServlet;
-import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
 
 /**
  * Servlet che ha il compito di fornire
@@ -77,8 +76,6 @@ public final class AddressBookGetContactsServlet extends HttpServlet
 		PrintWriter writer = response.getWriter();
 		Set<IAddressBookEntry> contacts = null;
 		String result = null;
-		String mail = null;
-		UserDataDAO userDAO = null;
 		try
 		{
 			session = request.getSession(false);
