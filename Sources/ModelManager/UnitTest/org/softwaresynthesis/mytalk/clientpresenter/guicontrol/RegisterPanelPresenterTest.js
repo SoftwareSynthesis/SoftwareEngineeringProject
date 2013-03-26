@@ -35,13 +35,15 @@ test("testInitialize()", function() {
 	equal(form.nodeName, "FORM", "l'elemento è un <form>"); i++;
 	
 	children = form.childNodes;
-	equal(children.length, 1, "il form ha un unico figlio"); i++;
+	equal(children.length, 2, "il form ha due figli"); i++;
 	
 	var list = children[0];
 	equal(list.nodeName, "UL", "il form contiene una lista"); i++;
 	
+	var divButtons = children[1];
+	
 	children = list.childNodes;
-	equal(children.length, 8, "la lista contiene otto elementi"); i++;
+	equal(children.length, 7, "la lista contiene sette elementi"); i++;
 	
 	var liUsername = children[0];
 	var liPassword = children[1];
@@ -50,7 +52,6 @@ test("testInitialize()", function() {
 	var liName = children[4];
 	var liSurname = children[5];
 	var liPicture = children[6];
-	var liButtons = children[7];
 	
 	// per lo username
 	var labelUsername = liUsername.childNodes[0];
@@ -109,15 +110,18 @@ test("testInitialize()", function() {
 	equal(inputPicture.type, "file", "l'input per l'immagine ha il tipo corretto"); i++;
 	ok(!inputPicture.required, "attributo required corretto per l'immagine"); i++;
 	
+	
+	equal(divButtons.childNodes.length, 2, "i pulsanti sono due");
+	i++;
 	// per il pulsante
-	var button = liButtons.childNodes[0];
+	var button = divButtons.childNodes[0];
+	equal(button.nodeName, "BUTTON", "elemento pulsante corretto"); i++;
+	equal(button.type, "submit", "il pulsante e' presente"); i++;
+	equal(button.innerHTML, "Indietro", "testo del pulsante corretto"); i++;
+	button = divButtons.childNodes[1];
 	equal(button.nodeName, "BUTTON", "elemento pulsante corretto"); i++;
 	equal(button.type, "submit", "il pulsante è presente"); i++;
-	equal(button.value, "Indietro", "testo del pulsante corretto"); i++;
-	button = liButtons.childNodes[1];
-	equal(button.nodeName, "BUTTON", "elemento pulsante corretto"); i++;
-	equal(button.type, "submit", "il pulsante è presente"); i++;
-	equal(button.value, "Registrati", "testo del pulsante corretto"); i++;
+	equal(button.innerHTML, "Registrati", "testo del pulsante corretto"); i++;
 	
 	expect(i);
 });
