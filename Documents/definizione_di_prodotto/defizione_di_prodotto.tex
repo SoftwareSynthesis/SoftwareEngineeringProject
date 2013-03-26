@@ -3230,9 +3230,6 @@ Inizializza il pannello degli strumenti dell'applicazione rendendolo visibile. T
 \end{itemize}
 Tutte queste sezioni saranno espresse come list item di una lista. All'evento ``onclick'' su ogni sezione corrisponderà l'invocazione del metodo che rimanda al presenter relativo alla sezione.
 
-
-
-
 \item{\method{+ hide(): void}}\\
 Rende invisibile il pannello degli strumenti. Va impostata la proprietà ``display'' di tale elemento a false.
 
@@ -3241,6 +3238,61 @@ Effettua il logout dell'utente dal sistema. Per far ciò, viene invocata la serv
 
 \end{description}
 
+
+%TODO da verificare
+\classsection{AccountSettingsPanelPresenter}
+
+\subsubsection*{Funzione}
+Presenter incaricato di gestire il pannello delle impostazioni dell'utente.
+
+\subsubsection*{Relazioni d'uso}
+Nessuna relazione d'uso evidenziata.
+
+\subsubsection*{Attributi}
+\begin{description}
+\item{\memberdata{-- servlets: String[]}}\\
+Array che contiene le URL delle servlets relative a tale presenter
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+\item{\method{+ createPanel(): DOM\_element}}\\
+Inizializza il pannello costruendone i widget grafici interni e lo restituisce in modo che possa essere inserito all'interno del pannello principale. Più dettagliatamente, verrà costruita una lista con list item contenenti le informazioni dell'utente, ossia:
+\begin{itemize}
+\item nome;
+\item cognome;
+\item e-mail;
+\item immagine profilo;
+\item password;
+\item domanda segreta;
+\item risposta alla domanda segreta.
+\end{itemize}
+Infine, sarà presente un pulsante con ``id'' uguale ``changeButton'' il quale all'evento ``onclick'' richiama il metodo \method{onChangeButtonPressed()}, descritto successivamente, che da la possibilità di modificare i dati.
+
+
+\item{\method{- onChangeButtonPressed(): void}}\\
+Gestisce la pressione del pulsante ``changeButton'' che trasforma la lista di elementi testuali in un form da compilare per modificare i propri dati. Il form è completo di un pulsante submit che attiva ``onSubmitChange'', metodo descritto successivamente.\\
+I campi modificabili, recuperati dall'oggetto presente in CommunicationCenter (\memberdata{my}) che rappresenta il profilo utente, sono:
+\begin{itemize}
+\item nome;
+\item cognome;
+\item e-mail;
+\item immagine profilo;
+\item password;
+\item domanda segreta;
+\item risposta alla domanda segreta.
+\end{itemize}
+
+\item{\method{- onSubmitChange(): void}}\\
+Gestisce il cambiamento dei dati da parte dell'utente contattando, se necessario (controllo effettuato tramite chiamata al metodo \method{hasSometingChanged}), la servlet incaricata di aggiornare il contenuto del database sul server. Il metodo va a recuperare i valori tramite chiamate di metodo \method{document.getElementById(id)} e successivamente contatta la servlet tramite un XMLHttpRequest passando i dati prelevati dalla pagina. Se la servlet ritorna un errore viene gestito tramite la visualizzazione dell'errore all'utente, altrimenti viene richiamato il metodo \method{initialize()} per aggiornare la visualizzazione dei dati più recenti.
+
+\item{\method{- hasSomethingChanged(data: String[]): boolean}}\\
+Metodo che verifica l'effettivo cambiamento di dati rispetto a quanto contenuto in\\ \memberdata{communicationcenter.my} confrontandoli con l'oggetto \memberdata{data} ricevuto come parametro. Il metodo controlla che almeno il valore di un campo dati sia effettivamente cambiato e ritorna ``true'' in tale caso. Nel caso opposto, ossia tutti i dati sono uguali ai precedenti, ritorna ``false''.
+
+\item{\method{- buildQueryString(data: String[]): String}}\\
+Costruisce la stringa corrispondente alla query che deve essere spedita alla servlet per portare a termine la richiesta di cambiamento dei dati personali. Viene costruita partendo dai valori recuperati dall'oggetto \memberdata{data} passato come parametro e utilizzando la giusta sintassi MySQL.
+
+\end{description}
 
 
 \clearpage
