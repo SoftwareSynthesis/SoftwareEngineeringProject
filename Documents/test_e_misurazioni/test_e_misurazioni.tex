@@ -132,12 +132,14 @@ La tabella X riporta le misurazioni su tali metriche per i package del prodotto 
 
 \begin{center}
 \rowcolors{2}{lightblue}{llightblue}\begin{longtable}{p{.55\textwidth}ll}
-\toprule Package & TLOC  & MLOC\\
-org.softwaresynthesis.mytalk.server & XXXX & XXXX\\
-org.softwaresynthesis.mytalk.server.abook & XXXX & XXXX\\
-org.softwaresynthesis.mytalk.authentication & XXXX & XXXX\\
-org.softwaresynthesis.mytalk.connection & XXXX & XXXX\\
-org.softwaresynthesis.mytalk.dao & XXXX & XXXX\\
+\toprule Package & NOC  & NOM\\
+org.softwaresynthesis.mytalk.server & 0 & 0\\
+org.softwaresynthesis.mytalk.server.abook & 3 & 55\\
+org.softwaresynthesis.mytalk.server.abook.servlet & XXXXX & XXXXX\\
+org.softwaresynthesis.mytalk.authentication & 5 & 22\\
+org.softwaresynthesis.mytalk.authentication.servlet & 3 & 10\\
+org.softwaresynthesis.mytalk.connection & 2 & 10\\
+org.softwaresynthesis.mytalk.dao & 4 & 18\\
 \midrule
 
 \bottomrule
@@ -153,13 +155,15 @@ Come per NOC e NOM riportiamo la tabella X con le misurazioni su tali metriche r
 
 \begin{center}
 \rowcolors{2}{lightblue}{llightblue}\begin{longtable}{p{.55\textwidth}ll}
-\toprule Package & NOC  & NOM\\
+\toprule Package & TLOC  & MLOC\\
 \midrule
-org.softwaresynthesis.mytalk.server & XXXX & XXXX\\
-org.softwaresynthesis.mytalk.server.abook & XXXX & XXXX\\
-org.softwaresynthesis.mytalk.authentication & XXXX & XXXX\\
-org.softwaresynthesis.mytalk.connection & XXXX & XXXX\\
-org.softwaresynthesis.mytalk.dao & XXXX & XXXX\\
+org.softwaresynthesis.mytalk.server & 5 & 0\\
+org.softwaresynthesis.mytalk.server.abook & 390 & 277\\
+org.softwaresynthesis.mytalk.server.abook.servlet & XXXX & XXXX\\
+org.softwaresynthesis.mytalk.authentication & 347 & 237\\
+org.softwaresynthesis.mytalk.authentication.servlet & 225 & 185\\
+org.softwaresynthesis.mytalk.connection & 132 & 102\\
+org.softwaresynthesis.mytalk.dao & 632 & 138\\
 \bottomrule
 \end{longtable}
 \end{center}
@@ -172,11 +176,13 @@ Infine il \inglese(Lack Of Cohesion Of Methods) (LCOM3) indica il liello (medio)
 \begin{center}
 \rowcolors{2}{lightblue}{llightblue}\begin{longtable}{p{.55\textwidth}ll}
 \toprule Package & CC  & LCOM3\\
-org.softwaresynthesis.mytalk.server & XXXX & XXXX\\
-org.softwaresynthesis.mytalk.server.abook & XXXX & XXXX\\
-org.softwaresynthesis.mytalk.authentication & XXXX & XXXX\\
-org.softwaresynthesis.mytalk.connection & XXXX & XXXX\\
-org.softwaresynthesis.mytalk.dao & XXXX & XXXX\\
+org.softwaresynthesis.mytalk.server & 0 & 0\\
+org.softwaresynthesis.mytalk.server.abook & 1,073 & 0,834\\
+org.softwaresynthesis.mytalk.server.abook.servlet & XXXX & XXXX\\
+org.softwaresynthesis.mytalk.authentication & 1,682 & 0,18\\
+org.softwaresynthesis.mytalk.authentication.servlet & 1,8 & 0\\
+org.softwaresynthesis.mytalk.connection & 1,769 & 0,25\\
+org.softwaresynthesis.mytalk.dao & 3,895 & 0\\
 \midrule
 
 \bottomrule
@@ -270,7 +276,7 @@ Tale test si compone di un solo metodo:
 \begin{itemize}
 \item \textit{testToJson() } tale metodo riceve una stringa in formato json di una 	\textit{entry} della rubrica e verifica che quest'ultima sia equivalente a quella ottenuta dalla chiamata al metodo \textit{ToJson} sull'istanza della classe \textit{Group};
 \item \textit{testId() } verifica l'effettivo inserimento del campo \textit{id} mediante il metodo \textit{getId()};
-\item \textit{testName() } verifica l'effettivo inserimento del campo \textit{name} mediante il metodo \textit{getName()};
+\item \textit{testName() } verifica l'effettivo inserimento del campo \textit{name} mediante il metodo \textit{getName()}; %TODO DA DESCRIVERE
 \item{testEquals()} viene creato un oggetto \textit{AdressBookEntry} e viene confrontato con l'istanza dell'oggetto che ha invocato il metodo, restituendo \textit{true} se e solo se sono uguali.
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
@@ -321,7 +327,7 @@ Tale test si compone di otto metodi:
 \textbf{Descrizione}:\\
 Tale test si compone di X metodi:
 \begin{itemize}
-\item \textit{() }
+\item \textit{() } %TODO DA DESCRIVERE
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
@@ -354,7 +360,7 @@ Tale verifica è composta da X test:
 \item \textit{testAddGroup() } crea uno \inglese{stub} con un gruppo inserendolo nella lista dei gruppi, viene assicurata la presenza di tale gruppo confermando l'effettività della stessa.
 \item \textit{testDeleteGroup() } crea uno \inglese{stub} con dei parametri aleatori definiti dall'utente inserendolo nella lista dei gruppi, una volta assicurata la presenza di tale gruppo viene effettuata l'eliminazione confermando l'effettività della stessa.
 \item \textit{testAddContactInGroup() } crea un contatto \inglese{stub} con dei parametri aleatori definiti dall'utente inserendolo nella lista contatti, successivamente crea uno \inglese{stub} con un gruppo inserendolo nella lista dei gruppi, una volta assicurata la presenza di entrambi, viene effettuato l'inserimento del contatto nel gruppo verificando l'effettività dell'azione.
-\item \textit{testRemoveContactFromGroup() }
+\item \textit{testRemoveContactFromGroup() } %TODO DA DESCRIVERE
 \item \textit{testBlockUser() } viene effettuato il blocco di un contatto caricato precedentemente nella rubrica dell'utente, verificando la correttezza dell'operazione;
 \item \textit{testUnlockUser() } viene effettuato lo sblocco di un contatto caricato precedentemente nella rubrica dell'utente (impostato come bloccato), verificando la correttezza dell'operazione;
 \item \textit{testContactAlreadyPresent() } verifica la presenza di un utente nella lista dei contatti presenti nella rubrica dell'utente garantendone la presenza effettiva;
@@ -379,7 +385,7 @@ Tale verifica è composta da un solo test:
 Tale verifica è composta da un solo test:
 \begin{itemize}
 \item \textit{testCreatePanel() } controlla che il numero dei figli del \textit{ComunicationPanel} siano esattamente due, che entrambi siano \textit{<div>} e che il valore dell'attributo \textit{id} del primo figlio sia ``divCall'' mentre del secondo ``divChat'';
-\item \textit{()} %TODO MANCANO TEST
+%TODO MANCANO TEST
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
@@ -389,7 +395,7 @@ Tale verifica è composta da un solo test:
 Tale verifica è composta da un solo test:
 \begin{itemize}
 \item \textit{testCreatePanel() } crea l'elemento \textit{ContactPanel}, estrae la lista dei suoi figli e controlla per ogni figlio che le informazioni siano coerenti con quelle inserite in input;
-\item \textit{()} %TODO MANCANO TEST
+%TODO MANCANO TEST
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
@@ -398,9 +404,9 @@ Tale verifica è composta da un solo test:
 \textbf{Descrizione}:\\
 Tale verifica è composta da un solo test:
 \begin{itemize}
-\item \textit{testCreatePanel() }
-\item \textit{testDisplayContactList() }
-\item \textit{testAddListItem() } %TODO MANCANO TEST
+\item \textit{testCreatePanel() }%TODO DA DESCRIVERE
+\item \textit{testDisplayContactList() }%TODO DA DESCRIVERE
+\item \textit{testAddListItem() } %TODO DA DESCRIVERE
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
@@ -460,16 +466,16 @@ Tale verifica è composta da dieci test:
 
 \subsubsection{SearchResultPanelPresenterTest}
 \textbf{Verifica l'oggetto:} \textit{SearchResultPanelPresenter}.\\
-\textbf{Descrizione}:\\
+\textbf{Descrizione}:\\ %TODO DA DESCRIVERE
 Tale verifica è composta da un solo test:
 \begin{itemize}
-\item \textit{testCreatePanel() }
-\item \textit{testDisplayContactList() }
+\item \textit{testCreatePanel() } %TODO DA DESCRIVERE
+\item \textit{testDisplayContactList() } %TODO DA DESCRIVERE
 \end{itemize}
 
 \subsubsection{ToolsPanelPresenterTest}
 \textbf{Verifica l'oggetto:} \textit{ToolsPanelPresenter}.\\
-\textbf{Descrizione}:\\
+\textbf{Descrizione}:\\ %TODO DA DESCRIVERE
 Tale verifica è composta da un solo test:
 \begin{itemize}
 \item \textit{testInitialize() } mediante diversi metodi \textit{equal} controlla l'effettiva correttezza della \inglese{form} creata, sia nella forma che nel funzionamento;
