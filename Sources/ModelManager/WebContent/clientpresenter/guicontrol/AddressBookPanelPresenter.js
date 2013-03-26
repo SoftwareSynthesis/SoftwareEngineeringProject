@@ -578,12 +578,10 @@ function AddressBookPanelPresenter() {
      * @return {Boolean} true solo se presente in rubrica
      */
     this.contactAlreadyPresent = function(contact) {
-        // riscarico la rubrica
-        getAddressBookContacts();
         // scorro la rubrica e controllo se contact.id=rubrica.contact.id.
         // ritorno true solo se presente
-        for (var addressBookContact in contacts) {
-            if (addressBookContact.id == contact.id) {
+        for (var key in contacts) {
+            if (contacts[key].id == contact.id) {
                 return true;
             }
         }
