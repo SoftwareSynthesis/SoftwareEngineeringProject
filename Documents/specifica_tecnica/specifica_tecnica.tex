@@ -623,6 +623,8 @@ Per chiarezza citiamo in tale sezione anche le classi che mappano le entità rap
 
 Detto ciò non ci si confonda. Le classi rappresentanti i \inglese{transfer object} si trovano a essere collocate in package e componenti diversi da \texttt{server.dao}, dal momento che si è ritenuto sensato inserirle in contesti maggiormente specializzati. Ad esempio, la classe corrispondente ai messaggi in segreteria verrà ad essere collocata in \texttt{server.message}, quella corrispondente alle chiamate in \texttt{server.call}, e così via.
 
+In ultima tale componente contiene anche un'interfaccia che dovrebbe essere giustamente implementata da ogni oggetto rappresentante un \inglese{Transfer Object}. Tale interfaccia è \texttt{IMyTalkObject}, il cui compito è quello di descrivere il comportamento di un generico oggetto serializzabile in formato \texttt{JSON}.
+
 \item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
   \centering
@@ -632,12 +634,13 @@ Detto ciò non ci si confonda. Le classi rappresentanti i \inglese{transfer obje
 
 	\item{\scshape\bfseries Classi utilizzate:}
 	\begin{itemize}[nolistsep, noitemsep]
-	  \item[-] \texttt{dao.CallDAO}
-	  \item[-] \texttt{dao.GroupDAO}
-	  \item[-] \texttt{dao.MessageDAO}
-	  \item[-] \texttt{dao.UserDataDAO}
-	  \item[-] \texttt{dao.AddressBookEntryDAO}
-	  \item[-] \texttt{dao.HibernateUtil}
+	  \item[-] \texttt{server.dao.CallDAO}
+	  \item[-] \texttt{server.dao.GroupDAO}
+	  \item[-] \texttt{server.dao.MessageDAO}
+	  \item[-] \texttt{server.dao.UserDataDAO}
+	  \item[-] \texttt{server.dao.AddressBookEntryDAO}
+	  \item[-] \texttt{server.dao.HibernateUtil}
+	  \item[-] \texttt{server.IMyTalkObject}
 	\end{itemize}
 \end{description}
 
@@ -819,6 +822,8 @@ Infine, allo scopo di consentire ai client di accedere alle funzionalità di que
   \end{itemize}
 \end{description}
 
+%TODO Dio sia lodato, questa classe è stata salvata! SIA LODE E GLORIA AL SIGNORE!
+
 \subsubsection{CS07 -- Façade del server}\label{sec:cs07}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
@@ -938,7 +943,7 @@ Tale interfaccia definisce che l'oggetto che la implementa ha la possibilità di
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] \textsf{} %TODO INSERIRE/VERIFICARE COMPONENTI CHE LA IMPLEMENTANO
+    \item[-] \textsf{CS01 -- Gestione Database}
   \end{itemize}
 \end{description}
 \end{itemize}
@@ -954,7 +959,8 @@ Tale classe espone la funzione per la manipolazione di oggetti di tipo \texttt{I
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] \textsf{CS01 -- Gestione database} %TODO INSERIRE/VERIFICARE COMPONENTI CHE LA IMPLEMENTANO
+    \item[-] \textsf{CS01 -- Gestione database}
+    \item[-] \textsf{CS07 -- Façade del server}
   \end{itemize}
 \end{description}
 
@@ -966,7 +972,7 @@ Tale classe interagisce con il \inglese{framework} Hibernate e contiene la logic
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS01 -- Gestione database}
-    \item[-] \textsf{CS07-- Façade del server}
+    \item[-] \textsf{CS07 -- Façade del server}
   \end{itemize}
 \end{description}
 
@@ -979,7 +985,7 @@ Tale classe interagisce con il \inglese{framework} Hibernate e contiene la logic
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS01 -- Gestione database}
-    \item[-] \textsf{CS07-- Façade del server}
+    \item[-] \textsf{CS07 -- Façade del server}
   \end{itemize}
 \end{description}
 
@@ -992,7 +998,7 @@ Tale classe interagisce con il \inglese{framework} Hibernate e contiene la logic
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS01 -- Gestione database}
-    \item[-] \textsf{CS07-- Façade del server}
+    \item[-] \textsf{CS07 -- Façade del server}
   \end{itemize}
 \end{description}
 
@@ -1005,7 +1011,7 @@ Tale classe interagisce con il \inglese{framework} Hibernate e contiene la logic
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS01 -- Gestione database}
-    \item[-] \textsf{CS07-- Façade del server}
+    \item[-] \textsf{CS07 -- Façade del server}
   \end{itemize}
 \end{description}
 
@@ -1017,6 +1023,7 @@ Classe che implementa il \inglese{pattern} Singleton e che viene utilizzata dall
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS01 -- Gestione database}
+    \item[-] \textsf{CS07 -- Façade del server}
   \end{itemize}
 \end{description}
 
@@ -1036,19 +1043,18 @@ Il comportamento della sotto-architettura server in risposta ai messaggi ricevut
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS02 -- Gestione connessione}
-    \item[-] \textsf{CS07-- Façade del server}
+    \item[-] \textsf{CS07 -- Façade del server}
   \end{itemize}
+  
 \item \texttt{State}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
-Classe che attraverso un tipo enumerativo rappresenta lo stato in cui si trova un'istanza di un sottotipo di \texttt{abook.IUserData}.
-
-Le istanze della classe \texttt{abook.UserData} sono composte con un'istanza di \texttt{abook.State} che rappresenta lo stato in cui si trova un determinato utente in un determinato momento.
+Classe che attraverso un tipo enumerativo rappresenta lo stato in cui si trova un utente. Si osservi che tale stato non è associato direttamente all'utente, ma bensì al canale di comunicazione (univoco) di cui l'utente diventa proprietario al momento del login. Quindi le istanze della classe \texttt{connection.PushInBound} sono composte con un'istanza di \texttt{abook.State} che rappresenta lo stato in cui si trova un determinato utente in un determinato momento.
   
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}
-    \item[-] \textsf{CS03 -- Gestione rubrica}
-    \item[-] \textsf{CS07-- Façade del server}
+    \item[-] \textsf{CS02 -- Gestione rubrica}
+    \item[-] \textsf{CS07 -- Façade del server}
    \end{itemize}
 \end{description}
 \end{description}
@@ -1068,7 +1074,7 @@ In ultima, la \inglese{servlet} si occupa di notificare i cambiamenti di stato d
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \textsf{CS02 -- Gestione connessione}
 	  \item[-] \textsf{CS03 -- Gestione rubrica}
-	  \item[-] \textsf{CS07-- Façade del server}
+	  \item[-] \textsf{CS07 -- Façade del server}
 	\end{itemize}
 \end{description}
 
