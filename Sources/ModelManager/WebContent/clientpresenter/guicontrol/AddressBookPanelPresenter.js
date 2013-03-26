@@ -219,7 +219,7 @@ function AddressBookPanelPresenter() {
         var divSort = document.createElement('div');
         var divList = document.createElement('div');
         var divGroup = document.createElement('div');
-
+        addressBookHeader.appendChild(document.createTextNode("RUBRICA"));
         divFilter.id = "divFilter";
         divSort.id = "divSort";
         divList.id = "divList";
