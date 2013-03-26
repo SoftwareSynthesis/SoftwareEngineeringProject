@@ -20,7 +20,7 @@ module(
 
 
 	
-
+/*
 
 
 test("testDeleteGroup()", function(){
@@ -32,7 +32,6 @@ test("testDeleteGroup()", function(){
 	var group=tester.get_groups();
 	var famiglia=group[0];
 	var amici={name:"amici",id: 1, contacts:""};
-	
 	var i=0;
 	try{tester.deleteGroup(amici);ok(false,"errore non rilevato");i++;}catch(err){equal(err,"Il gruppo che stai cercando di eliminare non esiste.","il gruppo coi id 2 non e' presente");i++;}
 	equal(tester.deleteGroup(famiglia),true,"");
@@ -40,7 +39,7 @@ test("testDeleteGroup()", function(){
 	
 	expect(i);
 });		
-
+*/
 
 
 /*ci sarebbe da testare che add group non aggiunga un gruppo che c'è gia...ma nn si può fare perchè nn si aggiunge nessun gruppo realmente*/
@@ -343,10 +342,30 @@ test("testBlockUser()", function(){
 	
 	
 	
-	//equal(tester.blockUser(flavia),true,"blocco avvenuto con successo");
-	//var blocco=tester.get_contacts();
+	
 	equal(tester.blockUser(flavia),true,"verificato blocco attivato");
 	i++;
 	expect(i);
 });
 */
+
+/*
+
+test("testUnlockUser()", function(){	
+	var i=0;
+	var element=document.getElementById("AddressBookPanel");
+	//var laura={name:"Laura", surname:"Pausini", email:"laupau@gmail.com",id:"12",picturePath:"xx.png",state:"offline", blocked:"false"};
+	tester.set_contacts({0:{name:"Laura", surname:"Pausini", email:"laupau@gmail.com",id:"0",picturePath:"xx.png",state:"offline", blocked:true},1:{name:"Flavia", surname:"Bacco", email:"flaba@gmail.com",id:"1",picturePath:"xx.png",state:"offline", blocked:false}});
+	
+	var contact=tester.get_contacts();
+	var laura=contact[0];
+	var flavia=contact[1];
+
+	try{tester.unlockUser(flavia);ok(false,"errore non rilevato");i++;}catch(err){equal(err,"Contatto già sbloccato.","sblocco di Laura non possibile...già sbloccato!");i++;}
+	
+	
+	
+	equal(tester.unlockUser(laura),true,"blocco avvenuto con successo");
+	i++;
+	expect(i);
+});*/
