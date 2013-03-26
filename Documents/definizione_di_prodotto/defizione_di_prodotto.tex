@@ -3139,11 +3139,8 @@ Nessuna relazione d'uso evidenziata.
 
 \subsubsection*{Attributi}
 \begin{description}
-\item DA FINIRE!!!!!!!!!
-\item{\memberdata{-- calls: String[]}}\\
-Array che conterrà tutte le chiamate effettuate
 \item{\memberdata{-- servlets: String[]}}\\
-Array che contiene le tre URL delle servlets da contattare per i messaggi
+Array che contiene le URL delle servlets da contattare per eseguire ricerche
 \end{description}
 
 \subsubsection*{Metodi}
@@ -3152,17 +3149,21 @@ Array che contiene le tre URL delle servlets da contattare per i messaggi
 Configura gli URL delle servlet da interrogare leggendoli dal file di configurazione in base alle operazioni che questo presenter deve essere in grado di compiere.\\
 Più precisamente, si dovrà creare una ``XMLHttpRequest'' rivolta al file XML di configurazione dove sono riportate tutte le servlets. Ricevuta la risposta, si popolerà l'array dichiarato nella classe (servlets).
 
-\item{\method{- getCalls(): String}}\\
-Ottiene tutta la lista delle chiamate effettuate e tracciate nel server. Una volta ricevuta risposta con relativi dati associati, li utilizza come dati di ritorno. Per contattare la servlet, va usato come in precedenza ``XMLHttpRequest''.
-
-\item{\method{- addListItem(call: String): void}}\\
-Aggiunge alla lista delle chiamate visualizzata nel CallHistoryPanel una nuova voce che corrisponde alla chiamata ricevuta da parametro. Ogni voce della lista contiene i dati relativi alla chiamata e non consente di effettuare alcuna azione su di essa.
+\item{\method{- addListItem(list: DOM\_element, contact: Object(contact)): void}}\\
+Aggiunge alla lista ricevuta da parametro (list) il contatto anch'esso ricevuto da parametro (contact). L'aggiunta del contatto alla lista avviene prima di tutto effettuando un controllo sui dati da visualizzare nel list item che se presenti nel database saranno:
+\begin{itemize}
+\item nome;
+\item cognome;
+\item email;
+\item immagine profilo.
+\end{itemize}
+Infine, si assegna il comportamento corretto all'evento ``onClick'' che andrà a richiamare il metodo \method{onContactSelected(contact)} del MediatorPresenter.
 
 \item{\method{+ createPanel(): DOM\_element}}\\
-Costruisce il pannello dello storico delle chiamate, che deve essere visualizzato all'interno del MainPanel dell'applicazione quando è selezionata la funzione corrispondente dal pannello degli strumenti. Il CallHistoryPanel è costituito da una semplice lista con tanti list Item quante sono le chiamate tracciate nel server. Tutti questi elementi vanno aggiunti all'elemento ``element'' ritornato poi dal metodo.
+Costruisce il pannello dei risultati di ricerca, che deve essere visualizzato all'interno del MainPanel dell'applicazione quando viene effettuata una ricerca. Il SearchResultPanel è costituito da una semplice lista che verrà popolata con i risultati della ricerca.
 
-\item{\method{+ setup(): void}}\\
-Metodo che ogni sua invocazione provoca il recupero dello storico chiamate. Verrà quindi per prima cosa richiamato il metodo \method{getCalls()} e successivamente una chiamata al metodo \method{addListItem(call)} per ogni chiamata ritornata.
+\item{\method{+ displayContactList(contacts: Object(contact)): void}}\\
+Metodo che visualizza all'interno del pannello una lista di contatti che ottenuta dal server a seguito di una ricerca. Tale metodo demanda la visualizzazione per ogni contatto richiamando il metodo \method{addListItem(userList, contact}.
 
 \end{description}
 
