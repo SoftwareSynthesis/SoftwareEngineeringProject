@@ -201,7 +201,7 @@ test("testAddContactInGroup()", function(){
 	var famiglia={id:0,name:"famiglia",contacts:[]};
 	tester.set_contacts({0:{name:"Laura", surname:"Pausini", email:"laupau@gmail.com"}});
 	tester.set_groups({0:{id:0,name:"famiglia",contacts:[]}});
-	ok(tester.addContactInGroup(laura,famiglia),"aggiunta avvenuta con successo");
+	ok(tester.addContactInGroup(laura,famiglia),"get_contactsaggiunta avvenuta con successo");
 	i++;
 	var prova=tester.get_groups();
 	equals(prova[0].contacts.length,1,"ok corretto");
@@ -244,7 +244,7 @@ test("testUnlockUser()", function(){
 	var laura={name:"Laura", surname:"Pausini", email:"laupau@gmail.com",id:"12",picturePath:"xx.png",state:"offline", blocked:"true"};
 	tester.set_contacts({0:{name:"Laura", surname:"Pausini", email:"laupau@gmail.com",id:"12",picturePath:"xx.png",state:"offline", blocked:"true"}});
 	ok(tester.unlockUser(laura),"sblocco avvenuto con successo");
-	var sblocco=tester.get_contacts();
+	var sblocco=tester.get_groups();
 	equal(blocco[6].contacts.data,"false","verificato blocco attivato");
 	i++;
 	expect(i);
@@ -262,17 +262,17 @@ test("testContactAlreadyPresent()", function(){
 });
 
 //TODO test ritorna il gruppo in cui e' un contatto
-test("testGetGroupsWhereContactsIs()", function(){
+test("testgetGroupsWhereContactsIs()", function(){
 	var i=0;
 	var element=document.getElementById("AddressBookPanel");
 	var laura={name:"Laura", surname:"Pausini", email:"laupau@gmail.com"};
 	var famiglia={id:0,name:"famiglia",contacts:[]};
-	tester.set_contacts({0:{name:"Laura", surname:"Pausini", email:"laupau@gmail.com"}});
+	tester.get_groups({0:{name:"Laura", surname:"Pausini", email:"laupau@gmail.com"}});
 	tester.set_groups({0:{id:0,name:"famiglia",contacts:[]}});
 	ok(tester.addContactInGroup(laura,famiglia),"aggiunta avvenuta con successo");
 	var prova=tester.get_groups();
 	equals(prova[0].contacts.length,1,"ok corretto");
-	var where=tester.getGroupsWhereContactsIs(laura);
+	var where=tester.get_groupsWhereContactsIs(laura);
 	equal(where.data,"famiglia","il gruppo in cui e' inserito il contatto e' corretto");
 	i++;
 	expect(i);
