@@ -51,33 +51,36 @@ test("testInitialize()", function() {
 			
 			var element = document.getElementById("AddressBookPanel");
 			var list = element.childNodes;
-			equal(list.length, 4,
+			equal(list.length, 5,
 					"il numero di figli dell'elemento restituito e' 4");
 			i++;
-
-			equal(list[0].nodeName, "DIV", "il primo figlio e' un div");
+	
+			equal(list[0].nodeName, "H1", "il primo figlio e' un h1");
 			i++;
+			
 			equal(list[1].nodeName, "DIV", "il secondo figlio e' un div");
 			i++;
 			equal(list[2].nodeName, "DIV", "il terzo figlio e' un div");
 			i++;
 			equal(list[3].nodeName, "DIV", "il quarto figlio e' un div");
 			i++;
+			equal(list[4].nodeName, "DIV", "il quinto figlio e' un div");
+			i++;
 
-			equal(list[0].getAttribute("id"), "divFilter",
+			equal(list[1].getAttribute("id"), "divFilter",
 					"il primo div si chiama divFilter");
 			i++;
-			equal(list[1].getAttribute("id"), "divSort",
+			equal(list[2].getAttribute("id"), "divSort",
 					"il secondo div si chiama divSort");
 			i++;
-			equal(list[2].getAttribute("id"), "divList",
+			equal(list[3].getAttribute("id"), "divList",
 					"il terzo div si chiama divList");
 			i++;
-			equal(list[3].getAttribute("id"), "divGroup",
+			equal(list[4].getAttribute("id"), "divGroup",
 					"il quarto div si chiama divGroup");
 			i++;
 
-			var Filter = list[0].childNodes;
+			var Filter = list[1].childNodes;
 			equal(Filter.length, 2, "il numero di figli di Filter e' 2");
 			i++;
 
@@ -95,7 +98,7 @@ test("testInitialize()", function() {
 					"il tipo dell'input e' button");
 			i++;
 
-			var Sort = list[1].childNodes;
+			var Sort = list[2].childNodes;
 			equal(Sort.length, 1, "il numero di figli di Sort e' 1");
 			i++;
 			equal(Sort[0].nodeName, "SELECT", "il figlio di Sort e' un select");
@@ -104,13 +107,13 @@ test("testInitialize()", function() {
 					"il nome del select e' SelectSort");
 			i++;
 
-			var List = list[2].childNodes;
+			var List = list[3].childNodes;
 			equal(List.length, 1, "il numero di figli di List e' 1");
 			i++;
 			equal(List[0].nodeName, "UL", "il figlio di List e' una lista ul");
 			i++;
 
-			var Group = list[3].childNodes;
+			var Group = list[4].childNodes;
 			equal(Group.length, 1, "il numero di figli di Group e' 1");
 			i++;
 			equal(Group[0].nodeName, "SELECT",
@@ -369,3 +372,78 @@ test("testUnlockUser()", function(){
 	i++;
 	expect(i);
 });*/
+
+
+
+test("testapplyFilterByGroup()", function(){
+
+	
+	tester.set_contacts(
+	{0:{name:"Laura", surname:"Pausini", email:"laupau@gmail.com",id:"0",picturePath:"xx.png",state:"offline", blocked:true},
+	1:{name:"Flavia", surname:"Bacco", email:"flaba@gmail.com",id:"1",picturePath:"xx.png",state:"offline", blocked:false},
+	2:{name:"Antonio", surname:"Rossi", email:"antros@gmail.com",id:"1",picturePath:"xx.png",state:"offline", blocked:false}});
+	
+	var contact=tester.get_contacts();
+	var laura=contact[0];
+	
+	tester.set_groups({0:{name:"famiglia",id: "0", contacts: [0,1]}});
+	
+	
+	
+	var group=tester.get_groups();
+	var famiglia=group[0];
+	var amici={name:"amici",id:"1", contacts:""};
+	
+	
+	var i=0;
+	
+	//controllo che funzioni il filtro per un contatto esistente tramite il nome
+	
+	var lista_contatti=tester.applyFilterByGroup(famiglia.id);
+	equal(lista_contatti.length,2,"Trova un solo contatto del gruppo contatti");
+	i++;
+	
+	
+	
+//	equal(ele[0],"0","Il contatto Laura ha id 0");
+//	i++;
+	
+	/*//controllo che funzioni il filtro per un contatto esistente tramite il cognome
+	var cerca_cognome="Pausini";
+	ele=tester.applyFilterByString(cerca_cognome);
+	equal(ele.length,2,"Trova due contatti avente cogome Pausini");
+	i++;
+	equal(ele[0],"0","il primo contatto Pausini ha id 0");
+	i++;
+	equal(ele[1],"1","il secondo contatto Pausini ha id 1");
+	i++;
+	
+	
+	//controllo che funzioni il filtro per un contatto esistente tramite il cognome
+	var cerca_mail="laupau@gmail.com"
+	ele=tester.applyFilterByString(cerca_mail);
+	equal(ele.length,1,"Trova un solo contatto che ha email laupau@gmail.com");
+	i++;
+	equal(ele[0],"0","il contatto che ha email laupau@gmail.com ha id 0");
+	i++;
+	
+	//controllo che la funzione filtro non trovi un nome non presente
+	var cerca_nome_non_presente="Flavia";
+	ele=tester.applyFilterByString(cerca_nome_non_presente);
+	notEqual(ele.length,1,"Non trova nessun contatto con nome Flavia");
+	i++;
+	*/
+	
+	expect(i);
+});		
+
+
+
+
+
+
+
+
+
+
+
