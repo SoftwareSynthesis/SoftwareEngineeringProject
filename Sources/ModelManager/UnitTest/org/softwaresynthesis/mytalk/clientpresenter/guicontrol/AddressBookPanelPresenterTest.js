@@ -697,6 +697,7 @@ test("testShowFiltered", function() {
 				id: 1
 			}
 	};
+	tester.setContacts(filter);
 	var ul = document.getElementById("AddressBookList");
 	ul.innerHTML = "";
 	tester.showFilter(filter);
