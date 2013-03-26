@@ -583,6 +583,8 @@ I componenti sopracitati verranno definiti, rispettivamente, nelle sottosezioni 
 
 Infine, si fa notare che i nomi di tutte le classi riportate nella presente sezione sono implicitamente parte del package \texttt{org.softwaresynthesis.mytalk.server}, pertanto tale prefisso sarà omesso nella loro denominazione.
 
+%TODO Dio sia lodato, questa classe è stata salvata! SIA LODE E GLORIA AL SIGNORE!
+
 \subsection{Componenti evidenziati}
 
 \subsubsection{CS01 -- Gestione database}\label{sec:cs01}
@@ -592,9 +594,7 @@ Infine, si fa notare che i nomi di tutte le classi riportate nella presente sezi
 
 Nucleo logico di tale componente è la classe Singleton \texttt{HibernateUtil}, il cui compito è implementare una \inglese{factory} per le sessioni verso il database. Tali sessioni si basano sul file di configurazione di Hibernate, tra le cui informazioni compare anche la tipologia di DBMS utilizzata.
 
-Le restanti classi che fanno parte  di questo componente possono essere suddivise in due categorie:
-\begin{itemize}
-	\item le classi \inglese{data access object} (DAO), che hanno il compito di inoltrare richieste per la modifica e la lettura dei dati (\inglese{Create}, \inglese{Read}, \inglese{Update} e \inglese{Delete}) nelle corrispondenti entità del database.
+Le classi che fanno parte  di questo componente, sono quelle che costituiscono i \inglese{data access object} (DAO). Tali classi hanno il compito di inoltrare richieste per la modifica e la lettura dei dati (\inglese{Create}, \inglese{Read}, \inglese{Update} e \inglese{Delete}) nelle corrispondenti entità del database.
 	
 	Tali classi sono:
 	\begin{itemize}
@@ -604,8 +604,8 @@ Le restanti classi che fanno parte  di questo componente possono essere suddivis
 		\item[-] \texttt{dao.MessageDAO}
 		\item[-] \texttt{dao.UserDataDAO}
 	\end{itemize}
-	
-	\item le classi che mappano le entità rappresentate nel database sono dotate di variabili di istanza che corrispondono ai campi dei \inglese{record}. Le operazioni disponibili su questo genere di oggetti comprendono i metodi \inglese{get}/\inglese{set} associati ai campi delle tabelle del database e sono rese disponibili dalle interfacce (una per ogni entità) implementate dalle classi.\footnote{%
+
+Per chiarezza citiamo in tale sezione anche le classi che mappano le entità rappresentate nel database. Tali sono dotate di variabili di istanza che corrispondono ai campi dei \inglese{record}. Le operazioni disponibili su questo genere di oggetti comprendono i metodi \inglese{get}/\inglese{set} associati ai campi delle tabelle del database e sono rese disponibili dalle interfacce (una per ogni entità) implementate dalle classi.\footnote{%
 	Per chiarezza, si precisa che tali classi corrispondono a quelle che nella logica di programmazione in Hibernate prendono il nome di \inglese{Transfer Object} (TO)\@.
 	}
 	\begin{itemize}
@@ -615,18 +615,13 @@ Le restanti classi che fanno parte  di questo componente possono essere suddivis
 	  \item[-] \texttt{abook.AddressBookEntry}
 	  \item[-] \texttt{abook.IUserData}
 	  \item[-] \texttt{abook.UserData}
-	  \item[-] \texttt{abook.AddressBookAddContactServlet}
-	  \item[-] \texttt{abook.AddressBookDoInsertInGroupServlet}
-	  \item[-] \texttt{abook.AddressBookDoRemoveFromGroupServlet}
-	  \item[-] \texttt{abook.AddressBookDoRemoveContactServlet}
-	   \item[-] \texttt{call.ICall}
+	  \item[-] \texttt{call.ICall}
 	  \item[-] \texttt{call.Call}
 	  \item[-] \texttt{message.IMessage}
 	  \item[-] \texttt{message.Message}
 	\end{itemize}
-\end{itemize}
 
-Le classi rappresentanti i \inglese{transfer object} si trovano a essere collocate in package diversi da \texttt{server.dao}, dal momento che si è ritenuto sensato inserirle in contesti maggiormente specializzati.Ad esempio, la classe corrispondente ai messaggi in segreteria verrà ad essere collocata in \texttt{server.message}, quella corrispondente alle chiamate in \texttt{server.call}, e così via.
+Detto ciò non ci si confonda. Le classi rappresentanti i \inglese{transfer object} si trovano a essere collocate in package e componenti diversi da \texttt{server.dao}, dal momento che si è ritenuto sensato inserirle in contesti maggiormente specializzati. Ad esempio, la classe corrispondente ai messaggi in segreteria verrà ad essere collocata in \texttt{server.message}, quella corrispondente alle chiamate in \texttt{server.call}, e così via.
 
 \item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -646,6 +641,8 @@ Le classi rappresentanti i \inglese{transfer object} si trovano a essere colloca
 	\end{itemize}
 \end{description}
 
+%TODO Dio sia lodato, questa classe è stata salvata! SIA LODE E GLORIA AL SIGNORE!
+
 \subsubsection{CS02 -- Gestione connessione}\label{sec:cs02}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
@@ -653,7 +650,7 @@ Tale componente ingloba le classi destinate a stabilire le \inglese{routine} di 
 
 La comunicazione bidirezionale fra il server e i client è ottenuta estendendo la classe fornita dalle librerie di TomCat \texttt{org.apache.catalina.websocket.MessageInbound} mediante \texttt{connection.PushInbound}. In particolare sarà realizzato l'\inglese{overriding} del metodo \texttt{onTextMessage(CharBuffer)} in modo da permettere al componente \textsf{Gestione connessione} del server di reagire correttamente ai messaggi provenienti dal client in forma testuale.
 
-Un ruolo essenziale è inoltre svolto dalla \inglese{servlet} \texttt{connection.ConnectionManager}, realizzata estendendo mediante ereditarietà la classe fornita dalle librerie di Apache TomCat \texttt{org.apache.catalina.websocket.WebSocketServlet}.
+Un ruolo essenziale è inoltre svolto dalla \inglese{servlet} \texttt{connection.ChanelServlet}, realizzata estendendo mediante ereditarietà la classe fornita dalle librerie di Apache TomCat \texttt{org.apache.catalina.websocket.WebSocketServlet}. Tale \inglese{servlet} non fa parte di questa componente. Essa viene qui citata unicamente per chiarire l'interazione tra il client e il server in merito alla comunicazione. La \inglese{servlet} risiede, come si vedrà in seguito, nella componente \textsf{CS07 -- Gestione Façade}.
 
 La caratteristica fondamentale della \inglese{servlet}, che rappresenta inoltre un punto di accesso centralizzato alle funzionalità del componente \textsf{Gestione connessione}, è quella di fare \inglese{overriding} del metodo \texttt{createWebSocketInbound(String, HttpServletRequest)} al fine di restituire un opportuno sottotipo di \texttt{org.apache.catalina.websocket.StreamInbound}. Il tipo dinamico dell'oggetto ritornato da \texttt{connection.ConnectionManager} corrisponde infatti proprio a \texttt{connection.PushInbound} in modo che lato client l'invocazione del costruttore di \texttt{WebSocket} (passando come parametro l'URL della \inglese{servlet}) provochi la creazione di una connessione del tipo voluto.
 
@@ -668,12 +665,12 @@ Ne consegue che, come sarà esposto con maggiori dettagli nella sezione \vref{se
 	
 	\item{\scshape\bfseries Classi utilizzate:}
 	\begin{itemize}[nolistsep, noitemsep]
-	  \item[-] \texttt{connection.ConnectionManager}
 	  \item[-] \texttt{connection.PushInbound}
 	  \item[-] \texttt{org.apache.catalina.websocket.MessageInbound}
-	  \item[-] \texttt{org.apache.catalina.websocket.WebSocketServlet}
 	\end{itemize}
 \end{description}
+
+%TODO Dio sia lodato, questa classe è stata salvata! SIA LODE E GLORIA AL SIGNORE!
 
 \subsubsection{CS03 -- Gestione rubrica}\label{sec:cs03}
 \begin{description}
@@ -688,7 +685,23 @@ Gli utenti, inoltre, possono essere opzionalmente organizzati in gruppi: un cont
 
 Tale interfaccia, congiuntamente alla sua implementazione \texttt{abook.Group}, permettono di rappresentare i gruppi della rubrica di un utente.
 
-Infine, sono state predisposte due \inglese{servlet} che estendono \texttt{javax.servlet.http.HttpServlet} per fornire ai client l'accesso alle funzionalità contenute in questo componente, in particolare \texttt{abook.AccountManager}, \texttt{abook.AddressBookManager} che saranno descritte con maggiori dettagli nella sezione \vref{sec:cs07}.
+Infine, sono state predisposte 11 \inglese{servlet} per interagire con le classi qui descritte. Tali sono:
+
+\begin{itemize}
+	\item \texttt{AddressBookDoAddContactServlet}
+	\item \texttt{AddressBookDoRemoveContactServlet}
+	\item \texttt{AddressBookDoCreateGroupServlet}
+	\item \texttt{AddressBookDoDeletGroupServlet}
+	\item \texttt{AddressBookDoInsertInGroupServlet}
+	\item \texttt{AddressBookDoRemoveInGroupServlet}
+	\item \texttt{AddressBookDoBlockServlet}
+	\item \texttt{AddressBookDoUnblockServlet}
+	\item \texttt{AddressBookGetContactsServlet}
+	\item \texttt{AddressBookGetGroupsServlet}
+	\item \texttt{AddressBookDoSearchServlet}
+\end{itemize}
+
+Le loro funzionalità riguardano principalmente le possibilità di modificare, creare e cancellare istanze di oggetti del tipo \texttt{transfer object} e quindi riconducibili ad oggetti fisicamente presenti nel database. Le \inglese{servlet} saranno descritte con maggiori dettaglio nella sezione \vref{sec:cs07} (\textsf{CS07 -- Gestione Façade}).
 
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -705,9 +718,6 @@ Infine, sono state predisposte due \inglese{servlet} che estendono \texttt{javax
 	  \item[-] \texttt{abook.Group}
 	  \item[-] \texttt{abook.IUserData}
 	  \item[-] \texttt{abook.UserData}
-	  \item[-] \texttt{abook.AccountManager}
-	  \item[-] \texttt{abook.AddressBookManager}
-	  \item[-] \texttt{javax.servlet.http.HttpServlet}
 	\end{itemize}
 \end{description}
 
