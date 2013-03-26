@@ -14,7 +14,7 @@
 	  	<property name = "name" column = "Name" type = "string" not-null = "false"/>
 	  	<property name = "surname" column = "Surname" type = "string" not-null = "false"/>
 	  	<property name = "path" column = "Picture" type = "string" not-null = "true"/>
-	  	<set name = "addressBook" table = "AddressBookEntries" lazy = "false" inverse = "true" fetch = "join">
+	  	<set name = "addressBook" table = "AddressBookEntries" lazy = "true" inverse = "true" fetch = "join">
 	  		<key column = "Owner" not-null = "true"/>
 	  		<one-to-many class = "AddressBookEntry"/>
 	  	</set>
