@@ -589,7 +589,7 @@ function AddressBookPanelPresenter() {
 
 		for ( var id in filtredContacts) {
 			// ciclo i contatti e agiungo un <li> per ogni contatto
-			addListItem(ulList, filtredContacts[id]);
+			addListItem(ulList, contacts[id]);
 		}
 	};
 
