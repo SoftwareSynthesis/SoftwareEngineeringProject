@@ -7,7 +7,6 @@ function GroupPanelPresenter(url) {
     /**********************************************************
      VARIABILI PRIVATE
      ***********************************************************/
-    var servletURL = url;
 
     /**********************************************************
      FUNZIONI PRIVATE
@@ -32,13 +31,15 @@ function GroupPanelPresenter(url) {
         //attribuisco all'immagine il comando di eliminare il gruppo
         deleteGroupImg.onclick = function() {
             //chiedo conferma per l'eliminazione
-            var userConfirm = confirm("Sei sicuro di voler eliminare questo gruppo?\nGli utenti appartenenti a questo gruppo non verranno eliminati.");
+            var userConfirm = confirm("Sei sicuro di voler eliminare questo gruppo?\n" +
+            		"Gli utenti appartenenti a questo gruppo non verranno eliminati.");
             //se viene data conferma infoco la funzione pr eliminare il gruppo
             if (userConfirm){
                 mediator.onGroupRemoved(group);
                 //FIXME si deve ricaricare la lista?
             }
-        }
+        };
+        
         // aggiunge i sottonodi al 'li' appena creato
         item.appendChild(nameSpan);
         item.appendChild(deleteGroupImg);
