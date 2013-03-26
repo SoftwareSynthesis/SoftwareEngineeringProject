@@ -34,7 +34,7 @@ public final class LoginServlet extends HttpServlet
 	public LoginServlet()
 	{
 		super();
-		String path = System.getenv("MyTalkauthentication");
+		String path = System.getenv("MyTalkConfiguration");
 		path += "\\MyTalk\\Conf\\LoginConfiguration.conf";
 		System.setProperty("java.security.auth.login.config", path);
 	}
@@ -100,7 +100,7 @@ public final class LoginServlet extends HttpServlet
 			if (user != null)
 			{
 				session.setAttribute("context", context);
-				session.setAttribute("user", user);
+				session.setAttribute("user", username);
 				result = user.toJson();
 			}
 			else

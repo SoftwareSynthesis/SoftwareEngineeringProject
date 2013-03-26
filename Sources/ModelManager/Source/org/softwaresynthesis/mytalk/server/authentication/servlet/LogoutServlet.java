@@ -73,6 +73,7 @@ public final class LogoutServlet extends HttpServlet
 			if (context != null)
 			{
 				context.logout();
+				session.invalidate();
 				result = "true";
 			}
 			else

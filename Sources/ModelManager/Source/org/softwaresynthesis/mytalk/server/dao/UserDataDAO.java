@@ -1,6 +1,8 @@
 package org.softwaresynthesis.mytalk.server.dao;
 
 import java.util.List;
+
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -165,7 +167,8 @@ public class UserDataDAO
 		Session session = null;
 		SessionFactory factory = null;
 		String hqlQuery = "from UserData as u where u.mail = :mail";
-		Transaction transaction = null;		
+		Transaction transaction = null;
+		IUserData user = null;
 		try
 		{
 			util = HibernateUtil.getInstance();
@@ -175,6 +178,11 @@ public class UserDataDAO
 			query = session.createQuery(hqlQuery);
 			query.setString("mail", mail);
 			users = (List<UserData>)query.list();
+			if (users.size() == 1 && users.get(0) != null)
+			{
+				user = users.get(0);
+				Hibernate.initialize(user.getAddressBook());
+			}
 			transaction.commit();
 		}
 		catch (RuntimeException ex)
@@ -193,14 +201,7 @@ public class UserDataDAO
 				session.close();
 			}
 		}
-		if (users != null && users.size() == 1)
-		{
-			return (IUserData)users.get(0);
-		}
-		else
-		{
-			return null;
-		}
+		return user;
 	}
 	
 	/**
@@ -222,6 +223,7 @@ public class UserDataDAO
 		SessionFactory factory = null;
 		String hqlQuery = "from UserData as u where u.id = :id";
 		Transaction transaction = null;
+		IUserData user = null;
 		try
 		{
 			util = HibernateUtil.getInstance();
@@ -231,6 +233,10 @@ public class UserDataDAO
 			query.setString("id", identifier.toString());
 			transaction = session.beginTransaction();
 			users = (List<IUserData>)query.list();
+			if(users.size() == 1 && users.get(0) != null)
+			{
+				user = users.get(0);
+			}
 			transaction.commit();
 		}
 		catch (RuntimeException ex)
@@ -249,14 +255,7 @@ public class UserDataDAO
 				session.close();
 			}
 		}
-		if (users != null && users.size() == 1)
-		{
-			return (IUserData)users.get(0);
-		}
-		else
-		{
-			return null;
-		}
+		return user;
 	}
 	
 	/**
