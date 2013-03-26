@@ -623,6 +623,8 @@ Per chiarezza citiamo in tale sezione anche le classi che mappano le entità rap
 
 Detto ciò non ci si confonda. Le classi rappresentanti i \inglese{transfer object} si trovano a essere collocate in package e componenti diversi da \texttt{server.dao}, dal momento che si è ritenuto sensato inserirle in contesti maggiormente specializzati. Ad esempio, la classe corrispondente ai messaggi in segreteria verrà ad essere collocata in \texttt{server.message}, quella corrispondente alle chiamate in \texttt{server.call}, e così via.
 
+In ultima tale componente contiene anche un'interfaccia che dovrebbe essere giustamente implementata da ogni oggetto rappresentante un \inglese{Transfer Object}. Tale interfaccia è \texttt{IMyTalkObject}, il cui compito è quello di descrivere il comportamento di un generico oggetto serializzabile in formato \texttt{JSON}.
+
 \item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
   \centering
@@ -632,12 +634,13 @@ Detto ciò non ci si confonda. Le classi rappresentanti i \inglese{transfer obje
 
 	\item{\scshape\bfseries Classi utilizzate:}
 	\begin{itemize}[nolistsep, noitemsep]
-	  \item[-] \texttt{dao.CallDAO}
-	  \item[-] \texttt{dao.GroupDAO}
-	  \item[-] \texttt{dao.MessageDAO}
-	  \item[-] \texttt{dao.UserDataDAO}
-	  \item[-] \texttt{dao.AddressBookEntryDAO}
-	  \item[-] \texttt{dao.HibernateUtil}
+	  \item[-] \texttt{server.dao.CallDAO}
+	  \item[-] \texttt{server.dao.GroupDAO}
+	  \item[-] \texttt{server.dao.MessageDAO}
+	  \item[-] \texttt{server.dao.UserDataDAO}
+	  \item[-] \texttt{server.dao.AddressBookEntryDAO}
+	  \item[-] \texttt{server.dao.HibernateUtil}
+	  \item[-] \texttt{server.IMyTalkObject}
 	\end{itemize}
 \end{description}
 
@@ -762,6 +765,8 @@ Per garantire un buon livello di sicurezza nell'invio dei dati (\texttt{authenti
 
 \end{description}
 
+%TODO Dio sia lodato, questa classe è stata salvata! SIA LODE E GLORIA AL SIGNORE!
+
 \subsubsection{CS05 -- Gestione segreteria}\label{sec:cs05}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
@@ -769,7 +774,14 @@ I messaggi in segreteria, che possono essere di natura audio o audio/video, corr
 
 La collezione di messaggi aventi un determinato utente come destinatario può essere ottenuta tramite un'operazione dichiarata nell'interfaccia \texttt{abook.IUserData}.
 
-Per consentire ai client di accedere alle funzionalità gestite da questo componente è stata predisposta la \inglese{servlet} \texttt{MessageManager}, che estende \texttt{javax.servlet.http.HttpServlet} e che sarà descritta con maggiori dettagli nella sezione \vref{sec:cs07}.
+Per consentire ai client di accedere alle funzionalità gestite da questo componente sono state predisposte delle \inglese{servlet} che, per loro natura, estendono \texttt{javax.servlet.http.HttpServlet} e che saranno descritte con maggiori dettagli nella sezione \vref{sec:cs07}. Al fine di comunicare le funzionalità proposte, viene di seguito riportata la lista delle \inglese{servlet} che comunicano con tale componente:
+
+\begin{itemize}
+	\item \texttt{message.servlet.InsertMessageServlet}: viene utilizzata da un client A per lasciare un messaggio nella segreteria di un client B;
+	\item \texttt{message.servlet.DeletMessageServlet}: viene utilizzata da un client per rimuovere un messaggio presente nella propria segreteria;
+	\item \texttt{message.servlet.UpdateStatusMessageServlet}: viene utilizzata per modificare lo stato di un messaggio da ``da leggere'' a ``letto'';
+	\item \texttt{message.servlet.DownloadMessageListServlet}: viene utilizzata da un client per scaricare la lista dei messaggi presenti nella sua segreteria;
+\end{itemize}
 
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -780,13 +792,12 @@ Per consentire ai client di accedere alle funzionalità gestite da questo compon
 	
 	\item{\scshape\bfseries Classi utilizzate:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \texttt{abook.IUserData}
 		\item[-] \texttt{message.IMessage}
-	  \item[-] \texttt{message.Message}
-	  \item[-] \texttt{message.MessageManager}
-	  \item[-] \texttt{javax.servlet.http.HttpServlet}
+	  	\item[-] \texttt{message.Message}
 	\end{itemize}
 \end{description}
+
+%TODO Dio sia lodato, questa classe è stata salvata! SIA LODE E GLORIA AL SIGNORE!
 
 \subsubsection{CS06 -- Gestione chiamate}\label{sec:cs06}
 \begin{description}
@@ -795,7 +806,7 @@ Le classi di questo componente hanno il ruolo di definire una strutturata   per 
 
 La componente contiene l'interfaccia \texttt{ICall} e la sua implementazione lato server \texttt{Call}, che rappresenta il \inglese{transfer object} per la rappresentazione delle chiamate che deve essere mappata nel database.
 
-Infine, allo scopo di consentire ai client di accedere alle funzionalità di questo componente, è prevista la presenza della \inglese{servlet} \texttt{call.CallHistoryManager}, che estende \texttt{javax.servlet.http.HttpServlet}, il cui ruolo sarà descritto con maggiori dettagli nella sezione \vref{sec:cs07}.
+Infine, allo scopo di consentire ai client di accedere alle funzionalità di questo componente, è stata prevista una \inglese{servlet} \texttt{call.servlet.DownloadCallHistoryServlet}, che estende \texttt{javax.servlet.http.HttpServlet}, il cui ruolo sarà descritto con maggiori dettagli nella sezione \vref{sec:cs07}.
 
   \item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -808,10 +819,10 @@ Infine, allo scopo di consentire ai client di accedere alle funzionalità di que
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \texttt{call.ICall}
     \item[-] \texttt{call.Call}
-    \item[-] \texttt{call.CallHistoryManager}
-    \item[-] \texttt{javax.servlet.http.HttpServlet}
   \end{itemize}
 \end{description}
+
+%TODO Dio sia lodato, questa classe è stata salvata! SIA LODE E GLORIA AL SIGNORE!
 
 \subsubsection{CS07 -- Façade del server}\label{sec:cs07}
 \begin{description}
@@ -823,6 +834,7 @@ Per questo motivo, tali Façade saranno realizzate come estensioni della classe 
 La classe Java \texttt{HttpServlet} implementa un sistema di \inglese{listening} che permette di monitorare costantemente richieste in ingresso. Queste ultime possono essere di duplice natura e corrispondono ai metodi di invio dei dati previsti dal protocollo HTTP (\texttt{GET} e \texttt{POST}).
 
 La mappatura fra componenti del server e le rispettive \inglese{servlet} di Façade, implementate come sottoclassi di \texttt{javax.servlet.http.HttpServlet} è illustrata dalla tabella seguente:
+
 \begin{center}
 \rowcolors{2}{lightblue}{llightblue}
 \begin{tabular}{>{\sffamily}l>{\ttfamily}p{.6\textwidth}}
@@ -830,10 +842,25 @@ La mappatura fra componenti del server e le rispettive \inglese{servlet} di Faç
 \textbf{\rmfamily Componente} & \textbf{\rmfamily Servlet di Façade}\\
 \midrule
 CS02 -- Gestione connessione & connection.ChannelServlet\\
-CS03 -- Gestione rubrica & abook.AddressBookManager abook.AccountManager\\
-CS04 -- Gestione autenticazione & authentication.LoginManager\\
-CS05 -- Gestione segreteria & message.MessageManager\\
-CS06 -- Gestione chiamate & call.CallHistoryManager\\
+CS03 -- Gestione rubrica & abook.servlet.AddressBookDoAddContactServlet\\
+& abook.servlet.AddressBookDoRemoveContactServlet\\
+& abook.servlet.AddressBookDoCreateGroupServlet\\
+& abook.servlet.AddressBookDoDeletGroupServlet\\
+& abook.servlet.AddressBookDoInsertInGroupServlet\\
+& abook.servlet.AddressBookDoRemoveInGroupServlet\\
+& abook.servlet.AddressBookDoBlockServlet\\
+& abook.servlet.AddressBookDoUnblockServlet\\
+& abook.servlet.AddressBookGetContactsServlet\\
+& abook.servlet.AddressBookGetGroupsServlet\\
+& abook.servlet.AddressBookDoSearchServlet\\
+CS04 -- Gestione autenticazione & authentication.servlet.LoginServlet\\
+& authentication.servlet.LogoutServlet\\
+& authentication.servlet.RegisterServlet\\
+CS05 -- Gestione segreteria & message.servlet.InsertMessageServlet\\
+& message.servlet.DeletMessageServlet\\
+& message.servlet.UpdateStatusMessageServlet\\
+& message.servlet.DownloadMessageListServlet\\
+CS06 -- Gestione chiamate & call.servlet.DownloadCallHistoryManager\\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -842,20 +869,27 @@ In particolare \texttt{connection.ChannelServlet} è coinvolto dopo la fase di \
 Tale classe, come anticipato nella descrizione a pagina \pageref{sec:cs02}, non è in realtà sottotipo diretto di \texttt{javax.servlet.http.HttpServlet}, ma estende \texttt{org.apache.catalina.websocket.WebSocketServlet} che a sua volta è sottoclasse di \texttt{javax.servlet.http.HttpServlet}.
 }
 
-Il compito di interfacciarsi con \textsf{Gestione rubrica} per recuperare la rubrica associata ad un utente e per riflettere sul server le operazioni di amministrazione della rubrica spetta invece a \texttt{abook.AddressBookManager}, mentre \texttt{abook.AccountManager} risponde alle richieste dei client per le azioni di aggiornamento e modifica dell'account personale dell'utente associato al client.
+Il compito di interfacciarsi con \textsf{Gestione rubrica} per recuperare la rubrica associata ad un utente e per riflettere sul server le operazioni di amministrazione della rubrica spetta invece al pacchetto di \inglese{servlet} \texttt{abook.servlet}. Tale \inglese{servlet} risponde anche alle richieste dei client per le azioni di aggiornamento e modifica dell'account personale dell'utente associato al client. Nello specifico abbiamo:
 
-I cambiamenti di stato di un utente sono invece processati da \texttt{connection.ConnectionManager} che fornisce di conseguenza anch'esso un punto d'accesso al componente \textsf{Gestione rubrica}.
+\begin{itemize}
+	  \item[-] \texttt{abook.servlet.AddressBookDoAddContactServlet}: richiamata da un client per aggiungere un contatto alla propria rubrica utente;
+	  \item[-] \texttt{abook.servlet.AddressBookDoRemoveContactServlet}: richiamata da un client per rimuovere un contatto dalla propria rubrica;
+	  \item[-] \texttt{abook.servlet.AddressBookDoCreateGroupServlet}: richiamata da un client per creare un nuovo gruppo contatti;
+	  \item[-] \texttt{abook.servlet.AddressBookDoDeletGroupServlet}: richiamata da un client per eliminare un gruppo;
+	  \item[-] \texttt{abook.servlet.AddressBookDoInsertInGroupServlet}: richiamata da un client per inserire un contatto in un gruppo;
+	  \item[-] \texttt{abook.servlet.AddressBookDoRemoveInGroupServlet}: richiamata da un client per rimuovere un contatto da un gruppo della propria rubrica;
+	  \item[-] \texttt{abook.servlet.AddressBookDoBlockServlet}: richiamata da un client per bloccare un contatto presente nella propria rubrica, indifferentemente dai gruppi (della rubrica del client) in cui esso si trova;
+	  \item[-] \texttt{abook.servlet.AddressBookDoUnblockServlet}: richiamata da un client per sbloccare un contatto presente nella propria rubrica;
+	  \item[-] \texttt{abook.servlet.AddressBookGetContactsServlet}: richiamata da un client per scaricare la lista dei contatti presenti nella propria rubrica;
+	  \item[-] \texttt{abook.servlet.AddressBookGetGroupsServlet}: richiamata da un client per scaricare lista dei contatti e dei gruppi in cui essi sono inseriti;
+	  \item[-] \texttt{abook.servlet.AddressBookDoSearchServlet}: utilizzata per ricercare gli utente contenenti nei parametri nome, cognome o mail, una parola chiave usata per fare la ricerca e passata alla \inglese{servlet}.
+\end{itemize}
 
-Ai fini del \inglese{login} è utilizzata invece la \inglese{servlet} \texttt{authentication.LoginManager}, che ha il compito di interfacciarsi con il sistema di autenticazione e, in particolare, con l'istanza del sottotipo di \texttt{javax.security.auth.spi.LoginModule} in uso per verificare le credenziali.
+I cambiamenti di stato di un utente sono invece processati da \texttt{connection.ChannelServlet} che fornisce di conseguenza anch'esso un punto d'accesso al componente \textsf{Gestione rubrica}.
 
-Infine, lo scaricamento e la gestione della segreteria telefonica (di competenza di \textsf{Gestione segreteria}) e dello storico delle chiamate (per quanto riguarda il componente \textsf{Gestione chiamate}) avvengono in risposta alle richieste dei client pervenute a \texttt{message.MessageManager} e \texttt{call.CallHistoryManager} rispettivamente.
+Ai fini del \inglese{login} è utilizzata invece la \inglese{servlet} \texttt{authentication.servlet.LoginServlet}, che ha il compito di interfacciarsi con il sistema di autenticazione e, in particolare, con l'istanza del sottotipo di \texttt{javax.security.auth.spi.LoginModule} in uso per verificare le credenziali. Inoltre come già accennato sono presenti le \inglese{servlet} per il logout \texttt{authentication.servlet.LogoutServlet} e per la registrazione \texttt{authentication.servlet.RegisterServlet}.
 
-Il fatto che siano presenti sette \inglese{servlet} a fronte di cinque componenti di cui il server espone le funzionalità verso i client è riconducibile a due ordini di ragioni.
-
-Da una parte, non è prevista la presenza di alcun punto d'accesso diretto dai client a \textsf{Gestione database}, dal momento che le informazioni contenute in quest'ultimo sono manipolate dalle classi DAO a loro volta utilizzate dagli altri Façade.
-
-Dall'altra i dati rappresentati in \textsf{Gestione rubrica} necessitano di essere trattati in maniera radicalmente differente a seconda che si tratti di informazioni relative all'utente associato al client da cui proviene la richiesta al server (tramite \texttt{abook.AccountManager}) o a un semplice contatto della rubrica di quest'ultimo (tramite \texttt{abook.AddressBookManager}), mentre le richieste relative ai cambiamenti di stato sono gestite da \texttt{connection.ConnectionManager}. Ciò giustifica la presenza di tre distinte \inglese{servlet} di Façade.
-Si noti che al componente non è dedicato un package, infatti ognuna delle \inglese{servlet} è contenuta nel package del componente di cui è il Façade.  
+Infine, lo scaricamento e la gestione della segreteria telefonica (di competenza di \textsf{Gestione segreteria}) e dello storico delle chiamate (per quanto riguarda il componente \textsf{Gestione chiamate}) avvengono in risposta alle richieste dei client pervenute al pacchetto di servlet \texttt{message.servlet} e \texttt{call.servlet.DownloadCallHistoryServlet} rispettivamente. 
 
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -872,12 +906,26 @@ Esse sono altresì riportate nel diagramma \vref{fig:sottoarchserver} relativo a
 	
 	\item{\scshape\bfseries Classi utilizzate:}\\
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \texttt{abook.AccountManager}
-	  \item[-] \texttt{abook.AddressBookManager}
-	  \item[-] \texttt{call.CallHistoryManager}
 	  \item[-] \texttt{connection.ChannelServlet}
-	  \item[-] \texttt{message.MessageManager}
-    \item[-] \texttt{authentication.LoginManager}
+	  \item[-] \texttt{abook.servlet.AddressBookDoAddContactServlet}
+	  \item[-] \texttt{abook.servlet.AddressBookDoRemoveContactServlet}
+	  \item[-] \texttt{abook.servlet.AddressBookDoCreateGroupServlet}
+	  \item[-] \texttt{abook.servlet.AddressBookDoDeletGroupServlet}
+	  \item[-] \texttt{abook.servlet.AddressBookDoInsertInGroupServlet}
+	  \item[-] \texttt{abook.servlet.AddressBookDoRemoveInGroupServlet}
+	  \item[-] \texttt{abook.servlet.AddressBookDoBlockServlet}
+	  \item[-] \texttt{abook.servlet.AddressBookDoUnblockServlet}
+	  \item[-] \texttt{abook.servlet.AddressBookGetContactsServlet}
+	  \item[-] \texttt{abook.servlet.AddressBookGetGroupsServlet}
+	  \item[-] \texttt{abook.servlet.AddressBookDoSearchServlet}
+	  \item[-] \texttt{authentication.servlet.LoginServlet}
+	  \item[-] \texttt{authentication.servlet.LogoutServlet}
+	  \item[-] \texttt{authentication.servlet.RegisterServlet}
+	  \item[-] \texttt{message.servlet.InsertMessageServlet}
+	  \item[-] \texttt{message.servlet.DeletMessageServlet}
+	  \item[-] \texttt{message.servlet.UpdateStatusMessageServlet}
+	  \item[-] \texttt{message.servlet.DownloadMessageListServlet}
+	  \item[-] \texttt{call.servlet.DownloadCallHistoryManager}
 	  \item[-] \texttt{javax.servlet.http.HttpServlet}
 	  \item[-] \texttt{org.apache.catalina.websocket.WebSocketServlet}
 	\end{itemize}
@@ -895,7 +943,7 @@ Tale interfaccia definisce che l'oggetto che la implementa ha la possibilità di
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] \textsf{} %TODO INSERIRE/VERIFICARE COMPONENTI CHE LA IMPLEMENTANO
+    \item[-] \textsf{CS01 -- Gestione Database}
   \end{itemize}
 \end{description}
 \end{itemize}
@@ -911,7 +959,8 @@ Tale classe espone la funzione per la manipolazione di oggetti di tipo \texttt{I
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-] \textsf{CS01 -- Gestione database} %TODO INSERIRE/VERIFICARE COMPONENTI CHE LA IMPLEMENTANO
+    \item[-] \textsf{CS01 -- Gestione database}
+    \item[-] \textsf{CS07 -- Façade del server}
   \end{itemize}
 \end{description}
 
@@ -923,7 +972,7 @@ Tale classe interagisce con il \inglese{framework} Hibernate e contiene la logic
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS01 -- Gestione database}
-    \item[-] \textsf{CS07-- Façade del server}
+    \item[-] \textsf{CS07 -- Façade del server}
   \end{itemize}
 \end{description}
 
@@ -936,7 +985,7 @@ Tale classe interagisce con il \inglese{framework} Hibernate e contiene la logic
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS01 -- Gestione database}
-    \item[-] \textsf{CS07-- Façade del server}
+    \item[-] \textsf{CS07 -- Façade del server}
   \end{itemize}
 \end{description}
 
@@ -949,7 +998,7 @@ Tale classe interagisce con il \inglese{framework} Hibernate e contiene la logic
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS01 -- Gestione database}
-    \item[-] \textsf{CS07-- Façade del server}
+    \item[-] \textsf{CS07 -- Façade del server}
   \end{itemize}
 \end{description}
 
@@ -962,7 +1011,7 @@ Tale classe interagisce con il \inglese{framework} Hibernate e contiene la logic
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS01 -- Gestione database}
-    \item[-] \textsf{CS07-- Façade del server}
+    \item[-] \textsf{CS07 -- Façade del server}
   \end{itemize}
 \end{description}
 
@@ -974,6 +1023,7 @@ Classe che implementa il \inglese{pattern} Singleton e che viene utilizzata dall
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS01 -- Gestione database}
+    \item[-] \textsf{CS07 -- Façade del server}
   \end{itemize}
 \end{description}
 
@@ -993,19 +1043,18 @@ Il comportamento della sotto-architettura server in risposta ai messaggi ricevut
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS02 -- Gestione connessione}
-    \item[-] \textsf{CS07-- Façade del server}
+    \item[-] \textsf{CS07 -- Façade del server}
   \end{itemize}
+  
 \item \texttt{State}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
-Classe che attraverso un tipo enumerativo rappresenta lo stato in cui si trova un'istanza di un sottotipo di \texttt{abook.IUserData}.
-
-Le istanze della classe \texttt{abook.UserData} sono composte con un'istanza di \texttt{abook.State} che rappresenta lo stato in cui si trova un determinato utente in un determinato momento.
+Classe che attraverso un tipo enumerativo rappresenta lo stato in cui si trova un utente. Si osservi che tale stato non è associato direttamente all'utente, ma bensì al canale di comunicazione (univoco) di cui l'utente diventa proprietario al momento del login. Quindi le istanze della classe \texttt{connection.PushInBound} sono composte con un'istanza di \texttt{abook.State} che rappresenta lo stato in cui si trova un determinato utente in un determinato momento.
   
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}
-    \item[-] \textsf{CS03 -- Gestione rubrica}
-    \item[-] \textsf{CS07-- Façade del server}
+    \item[-] \textsf{CS02 -- Gestione rubrica}
+    \item[-] \textsf{CS07 -- Façade del server}
    \end{itemize}
 \end{description}
 \end{description}
@@ -1025,7 +1074,7 @@ In ultima, la \inglese{servlet} si occupa di notificare i cambiamenti di stato d
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \textsf{CS02 -- Gestione connessione}
 	  \item[-] \textsf{CS03 -- Gestione rubrica}
-	  \item[-] \textsf{CS07-- Façade del server}
+	  \item[-] \textsf{CS07 -- Façade del server}
 	\end{itemize}
 \end{description}
 

@@ -6,10 +6,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.softwaresynthesis.mytalk.server.abook.Group;
+import org.softwaresynthesis.mytalk.server.abook.IGroup;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
 import org.softwaresynthesis.mytalk.server.abook.UserData;
 import org.softwaresynthesis.mytalk.server.authentication.AESAlgorithm;
 import org.softwaresynthesis.mytalk.server.authentication.ISecurityStrategy;
+import org.softwaresynthesis.mytalk.server.dao.GroupDAO;
 import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
 
 /**
@@ -64,6 +67,8 @@ public final class RegisterServlet extends HttpServlet
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
 	{
+		GroupDAO groupDAO = null;
+		IGroup group = null;
 		ISecurityStrategy strategy = null;
 		IUserData user = null;
 		PrintWriter writer = null;
@@ -95,6 +100,9 @@ public final class RegisterServlet extends HttpServlet
 			user.setAnswer(answer);
 			user.setName(name);
 			user.setSurname(surname);
+			group = new Group();
+			group.setOwner(user);
+			group.setName("addrBookEntry");
 			if (path.equals(""))
 			{
 				//TODO inserire percorso all'immagine di default
@@ -103,8 +111,10 @@ public final class RegisterServlet extends HttpServlet
 			{
 				user.setPath(path);
 			}
+			groupDAO = new GroupDAO();
 			userDAO = new UserDataDAO();
 			userDAO.insert(user);
+			groupDAO.insert(group);
 			result = "true";
 		}
 		catch (Exception ex)

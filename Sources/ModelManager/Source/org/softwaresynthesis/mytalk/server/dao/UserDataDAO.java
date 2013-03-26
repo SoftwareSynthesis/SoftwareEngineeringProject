@@ -236,6 +236,7 @@ public class UserDataDAO
 			if(users.size() == 1 && users.get(0) != null)
 			{
 				user = users.get(0);
+				Hibernate.initialize(user.getAddressBook());
 			}
 			transaction.commit();
 		}
