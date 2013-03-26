@@ -17,41 +17,38 @@ module(
 			}
 		});
 
-	/*controlliamo che un contatto già presente nn possa essere reinserito*/	
-test("testAddContact()", function(){
+
+	
+
+
+
+test("testDeleteGroup()", function(){
 
 	var element = document.getElementById("AddressBookPanel");
 	
+	tester.set_groups({0:{name:"famiglia",id: "0", contacts:""}});
+	
+	var group=tester.get_groups();
+	var famiglia=group[0];
+	var amici={name:"amici",id: "1", contacts:""};
+	
 	var i=0;
-	var laura={name:"Laura", surname:"Pausini", email:"laupau@gmail.com",id: "0", picturePath:"xx.png", state: "offline",
-	blocked: "false"};
-	
-	
-	try{tester.addContact(laura);ok(false,"errore non rilevato");i++;}catch(err){equal(err,"Contatto già presente nella rubrica.","rilevato errore");i++;}
+	try{tester.deleteGroup(amici);ok(false,"errore non rilevato");i++;}catch(err){equal(err,"Il gruppo che stai cercando di eliminare non esiste.","il gruppo coi id 2 non e' presente");i++;}
+	equal(tester.deleteGroup(famiglia),false,"");
+	i++;
 	
 	expect(i);
 });		
 
 
-test("testRemoveContact()", function(){
 
-	var element = document.getElementById("AddressBookPanel");
-	
-	var i=0;
-	var laura={name:"Laura", surname:"Pausini", email:"laupau@gmail.com",id: "4", picturePath:"xx.png", state: "offline",
-	blocked: "false"};
-	
-	
-	try{tester.removeContact(laura);ok(false,"errore non rilevato");i++;}catch(err){equal(err,"Non puoi eliminare un contatto non presente in rubrica.","rilevato errore");i++;}
-	
-	expect(i);
-});		
+/*ci sarebbe da testare che add group non aggiunga un gruppo che c'è gia...ma nn si può fare perchè nn si aggiunge nessun gruppo realmente*/
 
 
 test("testInitialize()", function() {
 			var i = 0;
 			tester.initialize();
-
+			
 			var element = document.getElementById("AddressBookPanel");
 			var list = element.childNodes;
 			equal(list.length, 4,
@@ -110,7 +107,7 @@ test("testInitialize()", function() {
 			var List = list[2].childNodes;
 			equal(List.length, 1, "il numero di figli di List e' 1");
 			i++;
-			equal(List[0].nodeName, "UL", "il figlio di List � una lista ul");
+			equal(List[0].nodeName, "UL", "il figlio di List e' una lista ul");
 			i++;
 
 			var Group = list[3].childNodes;
@@ -193,29 +190,11 @@ test("testSetup()", function() {
 	equal(flavia[2].getAttribute("src"), "img/stateoffline.png",
 			"lo stato del secondo contatto e' corretto");
 	i++;
-	//test del popolamento e controllo dei gruppi
-	var listGroup=document.getElementById("selectGroup").childNodes;
-	equal(listGroup.length, 2, "numero corretto di gruppi nella rubrica");
-	i++;
-	equal(listGroup[0].nodeName, "OPTION", "il primo figlio dell'elemento e' un figlio della lista");
-	i++;
-	var famiglia=listGroup[0].childNodes;
-
-	equal(famiglia.length,1, "ci sono tre figli");
-	i++;
-
-	equal(famiglia[0].nodeName, "#text", "il primo figlio dell'elemento e' un nodo testo");
-	i++;
-	
-	equal(famiglia[0].data,"famiglia", "il nome del gruppo 0 e' famiglia");
-	i++;
-	
-	var amici=listGroup[1].childNodes;
-	equal(amici[0].data,"amici", "il nome del gruppo 1 e' amici");
-	i++;
 
 	expect(i);
 });
+
+
 
 test("testHide()", function() {
 	tester.hide();
@@ -223,3 +202,125 @@ test("testHide()", function() {
 	equal(element.style.display, "none",
 			"il pannello viene nascosto correttamente");
 });
+
+
+
+
+test("testAddContact()", function(){
+
+	tester.set_contacts({0:{name:"Laura",surname: "Pausini", email:"laupau@gmail.com", id:"0"},1:{name:"Enrico",surname: "Botti", email:"enribot@gmail.com", id: "1"}});
+	
+	
+	var flavia={name:"Flavia", surname:"Bacco", email:"flaba@gmail.com",id: "4", picturePath:"yy.png", state: "offline",
+	blocked: "false"};
+	var contact=tester.get_contacts();
+	var laura=contact[0];
+	
+	
+	var i=0;
+	try{tester.addContact(laura);ok(false,"errore non rilevato");i++;}catch(err){equal(err,"Contatto già presente nella rubrica.","rimozione di flavia non possibile perchè non esite!");i++;}
+	
+	var flavia={name:"Antonio", surname:"Rossi", email:"flaba@gmail.com",id: "2", picturePath:"yy.png", state: "offline",
+	blocked: "false"};
+	
+	
+	equal(tester.addContact(flavia),true,"flavia e' stata aggiunta correttamente");
+	i++;
+		
+	expect(i);
+});		
+
+
+
+
+
+test("testRemoveContact()", function(){
+	tester.set_contacts({0:{name:"Laura",surname: "Pausini", email:"laupau@gmail.com", id:"0"},1:{name:"Enrico",surname: "Botti", email:"enribot@gmail.com", id: "1"}});
+
+	var i=0;
+	var contact=tester.get_contacts();
+	var laura=contact[0];
+	var antonio=contact[1];
+
+	var flavia={name:"Flavia", surname:"Bacco", email:"flaba@gmail.com",id: "4", picturePath:"yy.png", state: "offline",
+	blocked: "false"};
+	
+	
+	try{tester.removeContact(flavia);ok(false,"errore non rilevato");i++;}catch(err){equal(err,"Non puoi eliminare un contatto non presente in rubrica.","rimozione di flavia non possibile perchè non esite!");i++;}
+	
+	equal(tester.removeContact(laura),true,"rimozione di laura andata a buon fine");
+	i++;
+	equal(tester.removeContact(antonio),true,"rimozione di laura andata a buon fine");
+	i++;
+	
+	expect(i);
+	//NON VA BENE...RESTITUISCE TRUE MA NN LO TOGLIE// visualizzo l'esito della richiesta. Se esito positivo refresh della
+		// rubrica...NN SO SE POSSO CONTTOLLAROL
+	contact=tester.get_contacts();
+	
+});		
+
+
+
+
+
+
+test("testapplyFilterByString()", function(){
+
+	tester.set_contacts({0:{name:"Laura",surname: "Pausini", email:"laupau@gmail.com"},1:{name:"Serena",surname: "Pausini", email:"serpau@gmail.com"}});
+	
+	
+	var i=0;
+	
+	//controllo che funzioni il filtro per un contatto esistente tramite il nome
+	var cerca_nome="Laura";
+	var ele=tester.applyFilterByString(cerca_nome);
+	equal(ele.length,1,"Trova un solo contatto che ha nome Laura");
+	i++;
+	equal(ele[0],"0","Il contatto Laura ha id 0");
+	i++;
+	
+	//controllo che funzioni il filtro per un contatto esistente tramite il cognome
+	var cerca_cognome="Pausini";
+	ele=tester.applyFilterByString(cerca_cognome);
+	equal(ele.length,2,"Trova due contatti avente cogome Pausini");
+	i++;
+	equal(ele[0],"0","il primo contatto Pausini ha id 0");
+	i++;
+	equal(ele[1],"1","il secondo contatto Pausini ha id 1");
+	i++;
+	
+	
+	//controllo che funzioni il filtro per un contatto esistente tramite il cognome
+	var cerca_mail="laupau@gmail.com"
+	ele=tester.applyFilterByString(cerca_mail);
+	equal(ele.length,1,"Trova un solo contatto che ha email laupau@gmail.com");
+	i++;
+	equal(ele[0],"0","il contatto che ha email laupau@gmail.com ha id 0");
+	i++;
+	
+	//controllo che la funzione filtro non trovi un nome non presente
+	var cerca_nome_non_presente="Flavia";
+	ele=tester.applyFilterByString(cerca_nome_non_presente);
+	notEqual(ele.length,1,"Non trova nessun contatto con nome Flavia");
+	i++;
+	
+	
+	expect(i);
+});		
+
+/*
+test("testaddGroup()", function(){
+
+	var element = document.getElementById("AddressBookPanel");
+	
+	var i=0;
+	var amici={nome: "amici", id: "50", contacts: "array(0)"};
+	try{tester.addGroup("amici");ok(false,"errore non rilevato");i++;}catch(err){equal(err,"Il gruppo che stai cercando di inserire non esiste.","rilevato errore");i++;}
+	
+	
+	
+	expect(i);
+});		
+
+*/
