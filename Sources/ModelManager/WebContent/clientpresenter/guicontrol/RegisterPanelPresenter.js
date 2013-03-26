@@ -351,7 +351,7 @@ function RegisterPanelPresenter(url) {
         // creazione dell'item per i pulsante
         var divButtons = document.createElement('div');
         divButtons.appendChild(inputLogin);
-       divButtons.appendChild(inputRegister);
+        divButtons.appendChild(inputRegister);
 
         // appende tutti gli elementi al form
         ulData.appendChild(liUserName);

@@ -42,10 +42,17 @@ test("testInitialize()", function() {
 	i++;
 
 	children = loginForm.childNodes;
-	equal(children.length, 1, "il form contiene un solo elemento");
+	equal(children.length, 2, "il form contiene due elementi");
+	i++;
+	
+	var divLogo = children[0];
+	equal(divLogo.nodeName, "DIV", "il form contiene un logo");
+	i++;
+	
+	equal(divLogo.id, "logo", "attributo id del div settato correttamente");
 	i++;
 
-	var ulData = children[0];
+	var ulData = children[1];
 	equal(ulData.nodeName, "UL", "il form contiene effettivamente una lista");
 	i++;
 
@@ -230,18 +237,13 @@ test("testBuildRetrievePasswordForm()", function() {
 	var form = tester.buildRetrievePasswordForm();
 
 	var children = form.childNodes;
-	equal(children.length, 4, "il form contiene esattamente tre figli");
+	equal(children.length, 3, "il form contiene esattamente tre figli");
 	i++;
 
-	var divLogo = children[0];
-	var labelQuestion = children[1];
-	var inputAnswer = children[2];
-	var submitButton = children[3];
-	equal(divLogo.nodeName, "DIV", "tipo dell'elemento corretto");
-	i++;
-	equal(divLogo.id, "logo",
-			"attributo id del logo impostato correttamente");
-	i++;
+	var labelQuestion = children[0];
+	var inputAnswer = children[1];
+	var submitButton = children[2];
+	
 	equal(labelQuestion.nodeName, "LABEL", "tipo della label corretta");
 	i++;
 	equal(inputAnswer.nodeName, "INPUT", "tipo del campo di test corretto");
