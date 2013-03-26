@@ -582,8 +582,8 @@ function AddressBookPanelPresenter() {
         getAddressBookContacts();
         // scorro la rubrica e controllo se contact.id=rubrica.contact.id.
         // ritorno true solo se presente
-        for (var id in contacts) {
-            if (id == contact.id) {
+        for (var addressBookContact in contacts) {
+            if (addressBookContact.id == contact.id) {
                 return true;
             }
         }
