@@ -240,6 +240,8 @@ function AddressBookPanelPresenter() {
 		inputText.type = "text";
 		var inputButton = document.createElement('input');
 		inputButton.type = "image";
+		inputButton.src = "img/search.png";
+		
 		var selectGroup = document.createElement('select');
 		selectGroup.id = "selectGroup";
 		// attribuisco gli eventi per la ricerca
