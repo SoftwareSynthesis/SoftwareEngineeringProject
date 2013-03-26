@@ -2298,13 +2298,12 @@ Façade definisce inoltre un'interfaccia di livello più alto che rende la sotto
 \subsubsection{Componenti che lo implementano}
 \begin{description}
   \item{\scshape\bfseries CS07-- Façade del server}\\
-Questa componente della sotto-architettura server fornisce una serie di punti di accesso centralizzati per i componenti \textsf{Gestione rubrica}, \textsf{Gestione connessione}, \textsf{Gestione segreteria}, \textsf{Gestione chiamate} e \textsf{Gestione autentcazione} secondo la tabella riportata nella sezione \vref{sec:cs07}.
+Questa componente della sotto-architettura server fornisce una serie di punti di accesso centralizzati (\inglese{servlet}) per i componenti \textsf{Gestione rubrica}, \textsf{Gestione connessione}, \textsf{Gestione segreteria}, \textsf{Gestione chiamate} e \textsf{Gestione autentcazione} secondo la tabella riportata nella sezione \vref{sec:cs07}. In pratica è possibile pensare ad ogni \inglese{servlet} come ad un façade atto a nascondere l'iter procedurale per la realizzazione di una determinata operazione.
 \end{description}
 
-\subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.abook.AccountManager}}
-La \inglese{servlet} \texttt{AccountManager} rappresenta un punto di accesso alle funzionalità del componente \textsf{Gestione rubrica} per quanto riguarda la gestione dei dati relativi al proprio account che sono memorizzati sul server.
+\subsubsection*{Classi del package \texttt{org.softwaresynthesis.mytalk.server.abook.servlet}}
 
-A tal fine, come illustrato in figura \ref{fig:facadeaddressbook1}, è prevista una collaborazione con l'interfaccia \texttt{abook.IUserData} per la manipolazione dei \inglese{transfer object} associati agli utenti nonché con la classe DAO \texttt{dao.UserDataDAO}, necessaria per riflettere i cambiamenti richiesti dagli utenti su quanto memorizzato nelle tabelle del database.
+Ogni classe di tale package implementa Façade poiché nasconde l'iter per la gestione della rubrica svincolando l'utilizzatore dal doverlo conoscere. Nello specifico tali classi richiamano in più punti e in maniera sequenziale, classi presenti nel package \texttt{server.abook} e \texttt{server.dao}.
 
 \begin{figure}[H]
   \centering
@@ -2312,22 +2311,19 @@ A tal fine, come illustrato in figura \ref{fig:facadeaddressbook1}, è prevista 
   \caption{Applicazione del \inglese{pattern} Façade a \textsf{Gestione rubrica}}\label{fig:facadeaddressbook1}
 \end{figure}
 
-\subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.abook.AddressBookManager}}
-La \inglese{servlet} \texttt{AddressBookManager} rappresenta un punto di accesso alle funzionalità del componente \textsf{Gestione rubrica} per quanto concerne le operazioni di amministrazione della rubrica che hanno come oggetto i contatti di una rubrica utente come l'inserimento/cancellazione di un contatto, la creazione/eliminazione di un gruppo o l'aggiunta/rimozione di un contatto da un determinato gruppo.
+\subsubsection*{Classi del package \texttt{org.softwaresynthesis.mytalk.server.message.servlet}}
 
-A tal fine, come illustrato dal diagramma in figura \ref{fig:facadeaddressbook2}, è prevista una collaborazione fra la \inglese{servlet} \texttt{AddressBookManager} e l'interfaccia \texttt{abook.IAddressBookEntry} e \texttt{abook.IGroup} nonché con \texttt{dao.AddressBookEntryDAO} e \texttt{dao.GroupDAO} per memorizzare nel database che risiede sul server le nuove informazioni risultanti delle interazioni con l'utente.
+Ogni classe di tale package implementa Façade poiché nasconde l'iter per la gestione della segreteria telefonica svincolando l'utilizzatore dal doverlo conoscere. Nello specifico tali classi richiamano in più punti e in maniera sequenziale, classi presenti nel package \texttt{server.message} e \texttt{server.dao}.
 
 \begin{figure}[H]
   \centering
 %   \includegraphics[width=.7\textwidth]{}
-  \caption{Applicazione del \inglese{pattern} Façade a \textsf{Gestione rubrica}}\label{fig:facadeaddressbook2}
+  \caption{Applicazione del \inglese{pattern} Façade a \textsf{Gestione segreteria}}\label{fig:facadeaddressbook2}
 \end{figure}
 
-\subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.connection.ConnectionManager}}
-La \inglese{servlet} \texttt{ConnectionManager} fornisce un punto di accesso centralizzato alle funzionalità del componente \textsf{Gestione connessione}, per gestire la comunicazione client-server.
+\subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.connection.ChannelServlet}}
 
-Tramite l'\inglese{overriding} del metodo \texttt{createWebSocketInbound(String, HttpServletRequest} presente nella sua superclasse \texttt{org.apache.catalina.websocket.WebSocketServlet} la \inglese{servlet} permette di restituire ai client un canale di comunicazione bidirezionale verso il server, che lato server è istanza di un sottotipo di \texttt{org.apache.catalina.websocket.StreamInbound}.
-
+Tale classe nasconde la complessità di gestione di una comunicazione client-server. Nello specifico svincola l'utilizzatore dal dover conoscere l'iter di utilizzo delle classi di \texttt{server.abook} e \texttt{server.connection}.
 
 \begin{figure}[H]
   \centering
@@ -2335,47 +2331,26 @@ Tramite l'\inglese{overriding} del metodo \texttt{createWebSocketInbound(String,
   \caption{Applicazione del \inglese{pattern} Façade a \textsf{Gestione connessione}}\label{fig:facadeconnection}
 \end{figure}
 
-\subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.abook.StateManager}}
-La \inglese{sevlet} \texttt{StateManager} rappresenta un punto di accesso centralizzato al componente del server \textsf{Gestione rubrica} in quanto permette ai client di cambiare il proprio stato.
+\subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.call.servlet.DownloadCallHistoryServlet}}
 
-A tal fine, come illustrato dal diagramma riportato in figura \ref{fig:facadestate} è prevista la collaborazione con l'interfaccia \texttt{abook.IUserData} e con la classe \texttt{abook.State}.
-
-\begin{figure}[H]
-  \centering
-%   \includegraphics[width=.7\textwidth]{}
-  \caption{Applicazione del \inglese{pattern} Façade a \textsf{Gestione stato}}\label{fig:facadestate}
-\end{figure}
-
-\subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.message.MessageManager}}
-La \inglese{servlet} \texttt{MessageManager} ha il compito di esporre verso i client le funzionalità del componente \textsf{Gestione segreteria} del server.
-
-A tal fine è prevista la collaborazione con le interfacce \texttt{message.IMessage} e \texttt{abook.IUserData}. Poiché inoltre il recupero dei messaggi, i cambiamenti sullo stato dei messaggi, e l'eliminazione di questi ultimi hanno degli effetti sulla rappresentazione in forma persistente dei dati sul server, è prevista inoltre una collaborazione con la classe DAO e \texttt{dao.MessageDAO}.
+Tale classe nasconde la complessità di gestione di una richiesta di download della lista delle chiamate. Nello specifico svincola l'utilizzatore dal dover conoscere l'iter di utilizzo delle classi di \texttt{server.abook}, \texttt{server.dao} e \texttt{server.call}.
 
 \begin{figure}[H]
   \centering
 %   \includegraphics[width=.7\textwidth]{}
-  \caption{Applicazione del \inglese{pattern} Façade a \textsf{Gestione segreteria}}\label{fig:facademessage}
+  \caption{Applicazione del \inglese{pattern} Façade a \textsf{Gestione chiamate}}\label{fig:facadestate}
 \end{figure}
 
-\subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.call.CallManager}}
-La \inglese{servlet} \texttt{CallHistoryManager} ha la responsabilità di esporre ai client alcune delle funzionalità del componente \textsf{Gestione chiamate} per l'interrogazione del database in merito allo storico delle chiamate e scaricamento dei dati corrispondenti.
+\subsubsection*{Classi del package \texttt{org.softwaresynthesis.mytalk.server.authentication.servlet}}
 
-A tal fine è prevista la collaborazione con le interfacce \texttt{IUserData}, \texttt{ICall} e, per l'interrogazione del database anche con la classe AO associata \texttt{CallDAO}.
+Ogni classe di tale package implementa Façade poiché nasconde l'iter per l'autenticazione (login, logout  e registrazione) di un utente svincolando l'utilizzatore dal doverlo conoscere. Nello specifico tali classi richiamano in più punti e in maniera sequenziale, classi presenti nel package \texttt{server.abook}, \texttt{server.dao} e \texttt{server.autenthication}.
 
 \begin{figure}[H]
   \centering
 %   \includegraphics[width=.7\textwidth]{}
-  \caption{Applicazione del \inglese{pattern} Façade a \textsf{Gestione chiamate}}\label{fig:facadecall}
+  \caption{Applicazione del \inglese{pattern} Façade a \textsf{Gestione autenticazione}}\label{fig:facademessage}
 \end{figure}
 
-\subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.authentication.LoginManager}}
-La \inglese{servlet} \texttt{LoginManager} ha la responsabilità di autenticare un utente nel sistema mytalk, permettendogli quindi, se la procedura ha avuto esito positivo, di utilizzare le funzioni offerte dal sistema.
-
-\begin{figure}[H]
-  \centering
-%   \includegraphics[width=.7\textwidth]{}
-  \caption{Applicazione del \inglese{pattern} Façade a \textsf{Gestione autenticazione}}\label{fig:facadeauthentication}
-\end{figure}
 
 \subsection{Factory Method}\label{sec:patternfactorymethod}
 
