@@ -3168,6 +3168,35 @@ Metodo che visualizza all'interno del pannello una lista di contatti che ottenut
 \end{description}
 
 
+
+%TODO da verificare
+\classsection{GroupPanelPresenter}
+
+\subsubsection*{Funzione}
+Presenter incaricato di gestire i gruppi.
+
+\subsubsection*{Relazioni d'uso}
+Nessuna relazione d'uso evidenziata.
+
+\subsubsection*{Attributi}
+\begin{description}
+\item Nessun attributo presente.
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+\item{\method{- addListItem(list: DOM\_element, group: Object(group)): void}}\\
+Aggiunge alla lista ricevuta come parametro (list) un gruppo, anch'esso ricevuto come parametro (group) creando un listItem (<li>). Il list item sarà composto da uno ``span'' con il nome del gruppo e vicino dovrà apparire un'immagine per l'eliminazione del gruppo stesso. Va quindi gestito il comportamento all'evento ``onclick'' su tale immagine che comporterà l'eliminazione del gruppo. Prima di procedere alla vera e propria eliminazione, dovrà apparire all'utente un messaggio di conferma che chiede se effettivamente vuole cancellare il gruppo: se l'utente accetta, viene richiamato il metodo del MediatorPresenter \method{onGroupRemoved(group)} che procedere ad eliminare il gruppo.
+
+\item{\method{+ createPanel(): DOM\_element}}\\
+Costruisce il pannello per la gestione dei gruppi, che deve essere visualizzato all'interno del MainPanel dell'applicazione quando viene richiesta tale operazione. Il GroupPanel è costituito da una semplice lista contenente tanti list item quanti sono i gruppi dell'utente.
+
+\item{\method{+ displayGroupList(groups: Object(group)): void}}\\
+Metodo che visualizza all'interno del pannello una lista di gruppi. Tale metodo demanda la visualizzazione di ogni singolo gruppo richiamando il metodo \method{addListItem(groupList, group}.
+
+\end{description}
+
+
 \clearpage
 
 \section{Specifica sotto-architettura clientview}\label{sec:clientviewarchitecture}
