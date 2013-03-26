@@ -3128,6 +3128,44 @@ Metodo che ogni sua invocazione provoca il recupero dello storico chiamate. Verr
 
 \end{description}
 
+%TODO da verificare
+\classsection{SearchresultPanelPresenter}
+
+\subsubsection*{Funzione}
+Presenter incaricato di gestire il pannello che visualizza i risultati di ricerca.
+
+\subsubsection*{Relazioni d'uso}
+Nessuna relazione d'uso evidenziata.
+
+\subsubsection*{Attributi}
+\begin{description}
+\item DA FINIRE!!!!!!!!!
+\item{\memberdata{-- calls: String[]}}\\
+Array che conterrà tutte le chiamate effettuate
+\item{\memberdata{-- servlets: String[]}}\\
+Array che contiene le tre URL delle servlets da contattare per i messaggi
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+\item{\method{- getServletURLs(): void}}\\
+Configura gli URL delle servlet da interrogare leggendoli dal file di configurazione in base alle operazioni che questo presenter deve essere in grado di compiere.\\
+Più precisamente, si dovrà creare una ``XMLHttpRequest'' rivolta al file XML di configurazione dove sono riportate tutte le servlets. Ricevuta la risposta, si popolerà l'array dichiarato nella classe (servlets).
+
+\item{\method{- getCalls(): String}}\\
+Ottiene tutta la lista delle chiamate effettuate e tracciate nel server. Una volta ricevuta risposta con relativi dati associati, li utilizza come dati di ritorno. Per contattare la servlet, va usato come in precedenza ``XMLHttpRequest''.
+
+\item{\method{- addListItem(call: String): void}}\\
+Aggiunge alla lista delle chiamate visualizzata nel CallHistoryPanel una nuova voce che corrisponde alla chiamata ricevuta da parametro. Ogni voce della lista contiene i dati relativi alla chiamata e non consente di effettuare alcuna azione su di essa.
+
+\item{\method{+ createPanel(): DOM\_element}}\\
+Costruisce il pannello dello storico delle chiamate, che deve essere visualizzato all'interno del MainPanel dell'applicazione quando è selezionata la funzione corrispondente dal pannello degli strumenti. Il CallHistoryPanel è costituito da una semplice lista con tanti list Item quante sono le chiamate tracciate nel server. Tutti questi elementi vanno aggiunti all'elemento ``element'' ritornato poi dal metodo.
+
+\item{\method{+ setup(): void}}\\
+Metodo che ogni sua invocazione provoca il recupero dello storico chiamate. Verrà quindi per prima cosa richiamato il metodo \method{getCalls()} e successivamente una chiamata al metodo \method{addListItem(call)} per ogni chiamata ritornata.
+
+\end{description}
+
 
 \clearpage
 
