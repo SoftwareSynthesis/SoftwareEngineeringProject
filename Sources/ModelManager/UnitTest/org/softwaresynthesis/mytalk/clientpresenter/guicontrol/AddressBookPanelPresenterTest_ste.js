@@ -235,12 +235,21 @@ test("testContactAlreadyPresent()", function(){
 //TODO test ritorna il gruppo in cui e' un contatto
 test("testgetGroupsWhereContactsIs()", function(){
 	var i=0;
-	tester.set_contacts({0:{name:"Laura", surname:"Pausini", email:"laupau@gmail.com"}});
-	tester.set_groups({0:{id:0,name:"famiglia",contacts:[0]}});
+	tester.set_contacts({0:{id:0, name:"Laura", surname:"Pausini", email:"laupau@gmail.com"}});
+	tester.set_groups(
+			          {
+			        	  0: {id:0, name:"famiglia",contacts:[0]},
+			        	  1: {id:1, name:"amici", contacts: [0]}
+			          }
+			          );
 	var contact=tester.get_contacts();
 	var laura=contact[0];
-	equal(tester.getGroupsWhereContactsIs(laura),"famiglia","laura e' correttamente nel gruppo famiglia");
+	var groups = tester.getGroupsWhereContactsIs(laura);
+	equal(groups[0],"famiglia", "laura e' correttamente nel gruppo famiglia");
 	i++;
+	equal(groups[1], "amici", "laura e' correttamente nel gruppo amici");
+	i++;
+	
 	expect(i);
 });
 
