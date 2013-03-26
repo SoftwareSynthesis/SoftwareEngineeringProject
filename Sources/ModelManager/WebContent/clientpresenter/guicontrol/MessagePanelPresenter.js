@@ -115,8 +115,6 @@ function MessagePanelPresenter(url) {
 	function getMessages() {
 		var request = new XMLHttpRequest();
 		request.open("POST", urlServlet, false);
-		request.setRequestHeader("Content-type",
-				"application/x-www-form-urlencoded");
 		request.send();
 		messages = JSON.parse(request.responseText);
 	}
