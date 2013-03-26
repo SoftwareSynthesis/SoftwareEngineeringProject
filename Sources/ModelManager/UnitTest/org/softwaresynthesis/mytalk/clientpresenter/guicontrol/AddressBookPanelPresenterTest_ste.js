@@ -231,23 +231,20 @@ test("testContactAlreadyPresent()", function(){
 	equal(tester.contactAlreadyPresent(laura),true,"laura e' nella rubrica");
 	i++;
 	expect(i);});
-/*
+
 //TODO test ritorna il gruppo in cui e' un contatto
 test("testgetGroupsWhereContactsIs()", function(){
 	var i=0;
-	var element=document.getElementById("AddressBookPanel");
-	var laura={name:"Laura", surname:"Pausini", email:"laupau@gmail.com"};
-	var famiglia={id:0,name:"famiglia",contacts:[]};
-	tester.get_groups({0:{name:"Laura", surname:"Pausini", email:"laupau@gmail.com"}});
+	tester.set_contacts({0:{name:"Laura", surname:"Pausini", email:"laupau@gmail.com"}});
 	tester.set_groups({0:{id:0,name:"famiglia",contacts:[]}});
-	ok(tester.addContactInGroup(laura,famiglia),"aggiunta avvenuta con successo");
-	var prova=tester.get_groups();
-	equals(prova[0].contacts.length,1,"ok corretto");
-	var where=tester.get_groupsWhereContactsIs(laura);
-	equal(where.data,"famiglia","il gruppo in cui e' inserito il contatto e' corretto");
+	var contact=tester.get_contacts();
+	var laura=contact[0];
+	var group=tester.get_groups();
+	var famiglia=group[0];
+	tester.addContactInGroup(laura,famiglia);
+	equal(tester.getGroupsWhereContactsIs(laura),"famiglia","laura e' correttamente nel gruppo famiglia");
 	i++;
 	expect(i);
 });
-*/
 
 
