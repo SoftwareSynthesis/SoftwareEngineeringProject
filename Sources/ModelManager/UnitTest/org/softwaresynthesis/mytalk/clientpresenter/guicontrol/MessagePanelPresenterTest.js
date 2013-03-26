@@ -3,6 +3,7 @@ module ("MessagePanelPresenterTest", {
         function() {
 			communicationcenter = new Object();
 			communicationcenter.my = {id:"01"};
+			configurationFile = "/ModelManager/WebContent/Conf/servletlocationtest.xml";
 			test = new MessagePanelPresenter("MessageManager.php");								},
 	teardown: 
 		function(){}

@@ -181,7 +181,7 @@ test("testSetup()", function() {
 			"il primo figlio dell'elemento e' un immagine(stato)");
 	i++;
 
-	equal(laura[0].getAttribute("src"), "x.png",
+	equal(laura[0].getAttribute("src"), "img/contactImg/1.png",
 			"l'immagine del primo contatto e' corretta");
 	i++;
 
@@ -209,7 +209,7 @@ test("testSetup()", function() {
 			"il primo figlio dell'elemento e' un immagine(stato)");
 	i++;
 
-	equal(flavia[0].getAttribute("src"), "y.png",
+	equal(flavia[0].getAttribute("src"), "img/contactImg/0.png",
 			"l'immagine del secondo contatto e' corretta");
 	i++;
 

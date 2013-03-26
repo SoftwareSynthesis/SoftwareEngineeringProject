@@ -114,7 +114,7 @@ function MessagePanelPresenter(url) {
 	 */
 	function getMessages() {
 		var request = new XMLHttpRequest();
-		request.open("POST", urlServlet, false);
+		request.open("POST", servlets[0], false);
 		request.send();
 		messages = JSON.parse(request.responseText);
 	}
