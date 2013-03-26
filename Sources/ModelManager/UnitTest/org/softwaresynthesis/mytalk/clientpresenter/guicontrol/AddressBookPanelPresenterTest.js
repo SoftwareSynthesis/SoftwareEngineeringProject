@@ -12,6 +12,7 @@ module(
 				configurationFile = "/ModelManager/WebContent/Conf/servletlocationtest.xml";
 				// oggetto da testare
 				tester = new AddressBookPanelPresenter();
+				mediator={displayContact: function(c){}};
 			},
 			teardown : function() {
 			}
@@ -26,15 +27,15 @@ test("testDeleteGroup()", function(){
 
 	var element = document.getElementById("AddressBookPanel");
 	
-	tester.set_groups({0:{name:"famiglia",id: "0", contacts:""}});
+	tester.set_groups({0:{name:"famiglia",id: 0, contacts:""}});
 	
 	var group=tester.get_groups();
 	var famiglia=group[0];
-	var amici={name:"amici",id: "1", contacts:""};
+	var amici={name:"amici",id: 1, contacts:""};
 	
 	var i=0;
 	try{tester.deleteGroup(amici);ok(false,"errore non rilevato");i++;}catch(err){equal(err,"Il gruppo che stai cercando di eliminare non esiste.","il gruppo coi id 2 non e' presente");i++;}
-	equal(tester.deleteGroup(famiglia),false,"");
+	equal(tester.deleteGroup(famiglia),true,"");
 	i++;
 	
 	expect(i);
@@ -205,7 +206,7 @@ test("testHide()", function() {
 
 
 
-
+/*
 test("testAddContact()", function(){
 
 	tester.set_contacts({0:{name:"Laura",surname: "Pausini", email:"laupau@gmail.com", id:"0"},1:{name:"Enrico",surname: "Botti", email:"enribot@gmail.com", id: "1"}});
@@ -216,12 +217,8 @@ test("testAddContact()", function(){
 	var contact=tester.get_contacts();
 	var laura=contact[0];
 	
-	
 	var i=0;
-	try{tester.addContact(laura);ok(false,"errore non rilevato");i++;}catch(err){equal(err,"Contatto già presente nella rubrica.","rimozione di flavia non possibile perchè non esite!");i++;}
-	
-	var flavia={name:"Antonio", surname:"Rossi", email:"flaba@gmail.com",id: "2", picturePath:"yy.png", state: "offline",
-	blocked: "false"};
+	try{tester.addContact(laura);ok(false,"errore non rilevato");i++;}catch(err){equal(err,"Contatto già presente nella rubrica.","aggiunta di flavia non funziona perche e' gia presente in rubrica!");i++;}
 	
 	
 	equal(tester.addContact(flavia),true,"flavia e' stata aggiunta correttamente");
@@ -230,10 +227,10 @@ test("testAddContact()", function(){
 	expect(i);
 });		
 
+*/
 
 
-
-
+/*
 test("testRemoveContact()", function(){
 	tester.set_contacts({0:{name:"Laura",surname: "Pausini", email:"laupau@gmail.com", id:"0"},1:{name:"Enrico",surname: "Botti", email:"enribot@gmail.com", id: "1"}});
 
@@ -309,6 +306,9 @@ test("testapplyFilterByString()", function(){
 	expect(i);
 });		
 
+
+
+
 /*
 test("testaddGroup()", function(){
 
@@ -323,4 +323,30 @@ test("testaddGroup()", function(){
 	expect(i);
 });		
 
+*/
+
+
+/*
+
+test("testBlockUser()", function(){
+	var i=0;
+	var element=document.getElementById("AddressBookPanel");
+	//var laura={name:"Laura", surname:"Pausini", email:"laupau@gmail.com",id:"12",picturePath:"xx.png",state:"offline", blocked:"false"};
+	tester.set_contacts({0:{name:"Laura", surname:"Pausini", email:"laupau@gmail.com",id:"0",picturePath:"xx.png",state:"offline", blocked:true},1:{name:"Flavia", surname:"Bacco", email:"flaba@gmail.com",id:"1",picturePath:"xx.png",state:"offline", blocked:false}});
+	
+	var contact=tester.get_contacts();
+	var laura=contact[0];
+	var flavia=contact[1];
+
+	
+	try{tester.blockUser(laura);ok(false,"errore non rilevato");i++;}catch(err){equal(err,"Contatto già bloccato.","blocco di Laura non possibile...già bloccato!");i++;}
+	
+	
+	
+	//equal(tester.blockUser(flavia),true,"blocco avvenuto con successo");
+	//var blocco=tester.get_contacts();
+	equal(tester.blockUser(flavia),true,"verificato blocco attivato");
+	i++;
+	expect(i);
+});
 */
