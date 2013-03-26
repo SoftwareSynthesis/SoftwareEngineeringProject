@@ -709,4 +709,8 @@ function AddressBookPanelPresenter() {
 	 * 
 	 * "idGruppo2": {........}. }
 	 */
+this.get_contacts=function(){return contacts;};
+this.set_contacts=function(cont){contacts=cont;};
+this.get_groups=function(){return groups;};
+this.set_groups=function(cont){groups=cont;};
 }

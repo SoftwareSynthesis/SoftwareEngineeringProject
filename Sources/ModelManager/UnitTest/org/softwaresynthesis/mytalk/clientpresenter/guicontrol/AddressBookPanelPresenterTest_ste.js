@@ -194,20 +194,18 @@ test("testHide()", function() {
 
 //TODO test aggiunta contatto in un gruppo
 test("testAddContactInGroup()", function(){
-	
 	var i=0;
-	var element=document.getElementById("AddressBookPanel");
-	var laura={name:"Laura", surname:"Pausini", email:"laupau@gmail.com"};
-	var famiglia={id:0,name:"famiglia",contacts:[]};
 	tester.set_contacts({0:{name:"Laura", surname:"Pausini", email:"laupau@gmail.com"}});
 	tester.set_groups({0:{id:0,name:"famiglia",contacts:[]}});
-	ok(tester.addContactInGroup(laura,famiglia),"get_contactsaggiunta avvenuta con successo");
-	i++;
-	var prova=tester.get_groups();
-	equals(prova[0].contacts.length,1,"ok corretto");
+	var contact=tester.get_contacts();
+	var laura=contact[0];
+	var group=tester.get_groups();
+	var famiglia=group[0];
+	
+	equals(tester.addContactInGroup(laura,famiglia),true,"laura aggiunta correttamente");
 	expect(i);
 });
-
+/*
 test("testDeleteContactFromGroup()", function(){
 	var i=0;
 	var element=document.getElementById("AddressBookPanel");
@@ -277,5 +275,6 @@ test("testgetGroupsWhereContactsIs()", function(){
 	i++;
 	expect(i);
 });
+*/
 
 
