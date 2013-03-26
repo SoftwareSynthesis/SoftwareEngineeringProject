@@ -123,7 +123,26 @@ I test predisposti saranno descritti esaustivamente sia nella forma che nei risu
 \end{itemize}
 \clearpage
 
-\section{Metriche sul codice}
+
+\section{Scopo dei test}
+I test riportati hanno lo scopo di dimostrare in modo oggettivo la bontà e la qualità di quanto prodotto a livello di codice. Tali test servono inoltre a rilevare \inglese{bug} non evidenziati (o non possibili da evidenziare) durante l'analisi statica del codice e vengono effettuati sui package relativi alla parte di \inglese{Model} e \inglese{Presenter} del modello MVP generale.
+Le verifiche relative alla parte \inglese{View} saranno al contrario effettuati successivamente a quelli sui componenti sopracitati, in quanto sarà necessario avere la certezza che tali componenti risultino stabili e privi (per quanto possibile) di \inglese{bug}. 
+Specifichiamo inoltre che tali verifiche saranno effettuati tramite i test di sistema specificati nel documento \textit{anilisi\_dei\_requisiti.3.0.pdf} allegato.
+
+Il team ha seguito la seguente sequenza di passi per la realizzazione e l'utilizzo delle varie funzioni di test:
+\begin{itemize}
+\item individuazione preliminare delle funzionalità da testare;
+\item analisi, progettazione e successiva implementazione delle funzioni di test per le funzionalità individuate, stabilendo i dati di input e specificati gli output attesi;
+\item esecuzione delle funzioni di test create.
+\item analisi dei risultati dei test, confrontato i risultati con quelli attesi ed effettuato la correzione di eventuali anomalie riscontrate, verificata infine la ripetibilità del test stesso;
+\item registrati i risultati ottenuti.
+\end{itemize}
+
+I test per la parte \inglese{Model} sono stati predisposti ed eseguiti usufruendo della libreria JUnit, in quanto questa parte della struttura è implementata mediante codice \underline{Java}.
+Per il componente \inglese{Presenter} si è deciso invece di usufruire di QUnit, coerentemente con il linguaggio scelto (\underline{JavaScript}) che lo implementa. Tale \underline{franework} risulta pratico in quanto permette di individuare facilmente quale metodo analizzato ha portato al fallimento del test, inoltre permette una netta separazione tra codice testato e i test effettivi.
+
+\section{Model}
+\subsection{Metriche sul codice}
 Prima di tutto sono state calcolate, al fine di quantificare la ``dimensione'' di una componente, due metriche: il \inglese{Number Of Classes} (NOC) e il \inglese{Number Of Method} (NOM).
 NOC rappresenta il numero totale delle classi che sono rappresentate all'interno del package, mentre il NOM rappresenta il numero dei metodi conteggiati, sempre per package.
 
@@ -189,29 +208,10 @@ org.softwaresynthesis.mytalk.dao & 3,895 & 0\\
 \end{longtable}
 \end{center}
 
-
-\section{Test e risultati}
-I test riportati hanno lo scopo di dimostrare in modo oggettivo la bontà e la qualità di quanto prodotto a livello di codice. Tali test servono inoltre a rilevare \inglese{bug} non evidenziati (o non possibili da evidenziare) durante l'analisi statica del codice e vengono effettuati sui package relativi alla parte di \inglese{Model} e \inglese{Presenter} del modello MVP generale.
-Le verifiche relative alla parte \inglese{View} saranno al contrario effettuati successivamente a quelli sui componenti sopracitati, in quanto sarà necessario avere la certezza che tali componenti risultino stabili e privi (per quanto possibile) di \inglese{bug}. 
-Specifichiamo inoltre che tali verifiche saranno effettuati tramite i test di sistema specificati nel documento \textit{anilisi\_dei\_requisiti.3.0.pdf} allegato.
-
-Il team ha seguito la seguente sequenza di passi per la realizzazione e l'utilizzo delle varie funzioni di test:
-\begin{itemize}
-\item individuazione preliminare delle funzionalità da testare;
-\item analisi, progettazione e successiva implementazione delle funzioni di test per le funzionalità individuate, stabilendo i dati di input e specificati gli output attesi;
-\item esecuzione delle funzioni di test create.
-\item analisi dei risultati dei test, confrontato i risultati con quelli attesi ed effettuato la correzione di eventuali anomalie riscontrate, verificata infine la ripetibilità del test stesso;
-\item registrati i risultati ottenuti.
-\end{itemize}
-
-I test per la parte \inglese{Model} sono stati predisposti ed eseguiti usufruendo della libreria JUnit, in quanto questa parte della struttura è implementata mediante codice \underline{Java}.
-Per il componente \inglese{Presenter} si è deciso invece di usufruire di QUnit, coerentemente con il linguaggio scelto (\underline{JavaScript}) che lo implementa. Tale \underline{franework} risulta pratico in quanto permette di individuare facilmente quale metodo analizzato ha portato al fallimento del test, inoltre permette una netta separazione tra codice testato e i test effettivi.
-
-\subsection{Model}
 I test su questa parte del sistema mirano a verificare che la persistenza dei dati all'interno del \underline{server} sia gestita correttamente dal \underline{database}.
 Per l'esecuzione di questi test si è usata, coerentemente con le norme di progetto, la libreria \textit{JUnit}.
 Ogni test è inoltre stato eseguito più volte in modo da avere uno spettro più ampio di misurazioni e produrre una verifica più stabile e oggettiva possibile.
-
+\subsection{Test effettuati}
 \subsubsection{AESAlgorithmTest}
 \textbf{Verifica la Classe:}\textit{AESAlgorithm}.\\
 \textbf{Descrizione}:l'obbiettivo di questo test è assicurare che l'algrotimo di cittografia AES utilizzato dal sistema \caName risulti affidabile e riesca a codificare e decodificare una stringa passata.\\
@@ -332,10 +332,12 @@ Tale test si compone di X metodi:
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
 
-\subsection{Presenter}
+\section{Presenter}
 I test sul \textit{presenter} sono mirati a verificare che le classi di tale componente rispettino il comportamento atteso, interagendo i dati tramite l'interazione con il \textit{model}, componente testato nella sezione precedente. Questa serie di test, come anticipato nelle prime pagine del documento, è stata eseguita mediante il \underline{\textit{framework}} \textit{Qunit}. Tali verifiche sono stati implementate allo scopo di non testare soltanto il comportamento della specifica funzione, ma anche verificare lo stato di avanzamento del prodotto e il numero di bug evidenziati ancora esistenti.
 Ovviamente al termine di tali verifiche il risultato dovrà risultare positivo, ovvero i test dovranno essere \textit{tutti} superati.
 
+
+\subsection{Test effettuati}
 \subsubsection{AccountSettingsPanelPresenterTest}
 \textbf{Verifica l'oggetto:} \textit{AccountSettingsPanelPresenter}.\\
 \textbf{Descrizione}: verifica la corretta inizializzazione di \textit{AccountSettingPanel}, ovvero che l'albero sia stato costruito correttamente, e che il contenuto dei vari nodi sia stato inserito coerentemente.\\
