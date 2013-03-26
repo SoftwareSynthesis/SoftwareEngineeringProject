@@ -201,8 +201,6 @@ function RegisterPanelPresenter(url) {
 
         // creazione dell'elemento <ul> contenuto nel form
         var ulData = document.createElement('ul');
-        // TODO da spostare nel CSS
-        ulData.style.listStyleType = "none";
 
         // creazione dell'item per lo username
         var liUserName = document.createElement('li');
@@ -321,9 +319,8 @@ function RegisterPanelPresenter(url) {
 
         // pulsante di ritorno alla pagina di login
         var inputLogin = document.createElement('button');
-        inputLogin.setAttribute("type", "submit");
-        inputLogin.setAttribute("value", "Indietro");
-        inputLogin.appendChild(document.createTextNode('Indietro'));
+        inputLogin.type="submit";
+        inputLogin.appendChild(document.createTextNode("Indietro"));
         inputLogin.onclick = function() {
             //FIXME crea errore di duplicazione LoginUI se già premuti in
             // precedenza
@@ -333,8 +330,8 @@ function RegisterPanelPresenter(url) {
 
         // pulsante di registrazione
         var inputRegister = document.createElement('button');
-        inputRegister.setAttribute("type", "submit");
-        inputRegister.setAttribute("value", "Registrati");
+        inputRegister.type= "submit";
+        inputRegister.appendChild(document.createTextNode("Registrati"));
         var self = this;
         inputRegister.onclick = function() {
             var data = new Object();
@@ -352,9 +349,9 @@ function RegisterPanelPresenter(url) {
             }
         };
         // creazione dell'item per i pulsante
-        var liButtons = document.createElement('li');
-        liButtons.appendChild(inputLogin);
-        liButtons.appendChild(inputRegister);
+        var divButtons = document.createElement('div');
+        divButtons.appendChild(inputLogin);
+       divButtons.appendChild(inputRegister);
 
         // appende tutti gli elementi al form
         ulData.appendChild(liUserName);
@@ -364,8 +361,8 @@ function RegisterPanelPresenter(url) {
         ulData.appendChild(liFirstName);
         ulData.appendChild(liLastName);
         ulData.appendChild(liPicture);
-        ulData.appendChild(liButtons);
         registerForm.appendChild(ulData);
+        registerForm.appendChild(divButtons);
 
         // appende il form al DOM della pagin
         element.appendChild(registerForm);

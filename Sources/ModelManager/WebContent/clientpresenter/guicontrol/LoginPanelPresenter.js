@@ -171,8 +171,9 @@ function LoginPanelPresenter() {
         labelQuestion.appendChild(question);
         // campo di immissione
         var inputAnswer = document.createElement("input");
-        inputAnswer.setAttribute("id", "inputanswer");
-        inputAnswer.setAttribute("name", "inputanswer");
+        inputAnswer.type = "text";
+        inputAnswer.id = "inputanswer";
+        inputAnswer.name = "inputanswer";
         inputAnswer.setAttribute("placeholder", "risposta");
         inputAnswer.setAttribute("required", "required");
         // pulsante di conferma

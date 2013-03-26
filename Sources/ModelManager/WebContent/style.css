@@ -17,7 +17,7 @@ input[type=submit], button[type=submit] {
     /*fine da controllare*/
     margin: 0em 0.5em 0em 0.5em;
 }
-input[type=submit]:hover, button[type=submit]:hover {
+input[type=submit]:hover, button[type=submit]:hover, input[type=submit]:focus, button[type=submit]:focus {
     /*FIXME*/
     background-color: rgba(200,100,150,1);
 }
@@ -66,9 +66,10 @@ footer {
 }
 /*end footer*/
 
-/***LoginPanel***/
-
-/*Immagine di contenuto MyTalk schermata Login*/
+/*********************************
+ ***********LoginPanel************
+ *********************************/
+/*logo login*/
 #logo {
 
     width: 568px;
@@ -81,15 +82,15 @@ footer {
 
 #LoginPanel {
     width: 30em;
-    display: inline;
     margin: auto;
     margin-top: 3em;
     background-color: rgba(250,250,250,0.5);
-    border-radius: 5px;
+    border-radius: 20px;
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2), inset 0px 1px 0px 0px rgba(250, 250, 250, 0.5);
     border: 1px solid rgba(0, 0, 0, 0.3);
     text-align: right;
     font-size: 18pt;
+    margin-bottom: 60px;
 }
 #LoginPanel input[type=text], #LoginPanel input[type=email], #LoginPanel input[type=password] {
     padding: 3px 10px 3px 10px;
@@ -109,7 +110,51 @@ footer {
     margin-top: 0.3em;
     margin-bottom: 0.3em;
 }
+#passwordretrieval {
+    text-align: center;
+}
 /*end Login*/
+
+/*********************************
+ *********RegisterPanel***********
+ *********************************/
+#RegisterPanel {
+    display: none;
+    width: 35em;
+    margin: auto;
+    margin-top: 3em;
+    padding: 1em 0em 1em 0em;
+    background-color: rgba(250,250,250,0.5);
+    border-radius: 20px;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2), inset 0px 1px 0px 0px rgba(250, 250, 250, 0.5);
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    text-align: right;
+    font-size: 14pt;
+    margin-bottom: 60px;
+}
+#RegisterPanel input[type=text], #RegisterPanel input[type=email], #RegisterPanel input[type=password] {
+    padding: 3px 10px 3px 10px;
+    font-size: 16pt;
+    width: 15em;
+}
+#RegisterPanel input[type=file] {
+    padding: 3px 10px 3px 10px;
+    font-size: 12pt;
+    width: 20em;
+}
+#RegisterPanel div {
+    margin-right: 12em;
+}
+#RegisterPanel ul {
+    list-style: none;
+    margin: 0;
+    margin-right: 2em;
+    padding: 0;
+}
+#RegisterPanel li {
+    margin-top: 0.3em;
+    margin-bottom: 0.3em;
+}
 
 /********************************************************************************************************************************
  ********************************************************************************************************************************
@@ -120,60 +165,15 @@ footer {
  ********************************************************************************************************************************
  ********************************************************************************************************************************/
 
-/*RegisterPanel*/
-#RegisterPanel {
-    display: none;
-    width: 40%;
-    margin-top: 2%;
-    margin-left: 30%;
-    margin-bottom: 10%;
-    padding: 1%;
-    background-color: rgba(250,250,250,0.5);
-    border-radius: 5%;
-    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2), inset 0px 1px 0px 0px rgba(250, 250, 250, 0.5);
-    border: 1px solid rgba(0, 0, 0, 0.3);
-}
-
-#RegisterPanel input:not([type=submit]) {
-    padding: 5px;
-    margin-top: 10px;
-    margin-right: 10px;
-    border: 1px solid rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
-    box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 0px 0px rgba(250, 250, 250, 0.5);
-}
-
-#RegisterPanel input[type=submit] {
-    border: 1px solid rgba(0, 0, 0, 0.3);
-    background: #64c8ef; /* Old browsers */
-    background: -webkit-linear-gradient(top,  #64c8ef 0%,#00a2e2 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top,  #64c8ef 0%,#00a2e2 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top,  #64c8ef 0%,#00a2e2 100%); /* IE10+ */
-    background: linear-gradient(to bottom,  #64c8ef 0%,#00a2e2 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#64c8ef', endColorstr='#00a2e2',GradientType=0 ); /* IE6-9 */
-    color: #fff;
-    padding: 5px 30px;
-    margin-top: 15%;
-    margin-left: 7%;
-    border-radius: 15px;
-    text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.3);
-}
-/* end RegisterPanel */
-
 /*MainPanel*/
 #MainPanel {
     display: none;
-    padding-top: 10%;
-    margin-left: 20%;
-    margin-right: 20%;
-    background-image: url("img/mytalk.png");
-    background-size: 70% 70%;
-    background-repeat: no-repeat;
-    padding-bottom: 20%;
-    background-position: 50% 90%;
-    filter: alpha(opacity=40);
-    -moz-opacity: .40;
-    opacity: .40;
+    height: 100%;
+    filter: alpha(opacity=25);
+    -moz-opacity: .25;
+    opacity: .25;
+    background: url("img/mytalk.png") center no-repeat;
+    margin-bottom: 60px;
 }
 
 #MainPanel h1 {

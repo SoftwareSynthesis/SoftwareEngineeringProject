@@ -25,12 +25,6 @@ function MainPanelPresenter() {
     this.initialize = function() {
         element.style.display = "block";
         element.innerHTML = "";
-        
-        //immagine di spondo per quando il pannello è vuoto
-        var img = document.createElement("img");
-        img.src = "img/mytalk.png";
-
-        element.appendChild(img);
     };
 
     /**
