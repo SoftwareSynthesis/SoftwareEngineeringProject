@@ -21,8 +21,9 @@ function PresenterMediator() {
 	var accountsettingspp = new AccountSettingsPanelPresenter();
 	var communicationpp = new CommunicationPanelPresenter();
 	var contactpp = new ContactPanelPresenter();
-	var callhistorypp = new CallHistoryPanelPresenter();
-	var messagepp = new MessagePanelPresenter();
+//  presenter che non sono ancora utilizzati
+//	var callhistorypp = new CallHistoryPanelPresenter();
+//	var messagepp = new MessagePanelPresenter();
 	var searchresultpp = new SearchResultPanelPresenter();
 	var grouppp = new GroupPanelPresenter();
 
