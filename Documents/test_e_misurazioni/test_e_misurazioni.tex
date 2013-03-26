@@ -68,15 +68,15 @@
 \toprule
 Versione & Descrizione intervento & Membro & Ruolo & Data\\
 \midrule % inserire qui il contenuto della tabella
-1.0 & Approvazione documento& Andrea Rizzi & Responsabile & 2013-02-28\\
-0.8 & correzione errori segnalati dal verificatore& Stefano Farronato & Verificatore & 2013-02-28\\
-0.7 & verifica correttezza lessico ortografica e corrispondenza test con quanto descritto& Diego Beraldin & Verificatore & 2013-02-28\\
-0.6 & aggiunti test su capitolo 4.2 e test coverage& Stefano Farronato & Verificatore & 2013-02-28\\
-0.5 & stesura capitoli sui test di sistema e di utilizzo, aggiunti test su capitolo 4.1& Stefano Farronato & Verificatore & 2013-02-28\\
-0.4 & stesura capitolo 4.2, relativo ai test sul \textit{presenter} & Stefano Farronato & Verificatore & 2013-02-28\\
-0.3 & stesura capitolo 4.1, relativo ai test sul \textit{model} & Stefano Farronato & Verificatore & 2013-02-28\\
-0.2 & stesura introduzione con ``metriche sul codice'' e preambolo su ``test e risultati''& Stefano Farronato & Verificatore & 2013-02-28\\
-0.1 & Creazione del documento e stesura delle sezioni ``Introduzione'' e ``Riferimenti''. & Stefano Farronato & Verificatore & 2013-02-28\\
+1.0 & Approvazione documento& Andrea Rizzi & Responsabile & 2013-02-23\\
+0.8 & correzione errori segnalati dal verificatore& Stefano Farronato & Verificatore & 2013-02-23\\
+0.7 & verifica correttezza lessico ortografica e corrispondenza test con quanto descritto& Diego Beraldin & Verificatore & 2013-02-23\\
+0.6 & aggiunti test su capitolo e test coverage& Stefano Farronato & Verificatore & 2013-02-22\\
+0.5 & stesura capitoli sui test di sistema e di utilizzo, aggiunti test su capitolo 4.1& Stefano Farronato & Verificatore & 2013-02-22\\
+0.4 & stesura capitolo relativo ai test sul \textit{presenter} & Stefano Farronato & Verificatore & 2013-02-21\\
+0.3 & stesura capitolo relativo ai test sul \textit{model} & Stefano Farronato & Verificatore & 2013-02-21\\
+0.2 & stesura introduzione con ``scopo dei test'' e preambolo su ``Metriche sul codice''& Stefano Farronato & Verificatore & 2013-02-20\\
+0.1 & Creazione del documento e stesura delle sezioni ``Introduzione'' e ``Riferimenti''. & Stefano Farronato & Verificatore & 2013-03-20\\
 \bottomrule
 \end{longtable}
 \end{center}
@@ -188,9 +188,8 @@ org.softwaresynthesis.mytalk.dao & 632 & 138\\
 \end{center}
 
 
-Coerentemente con le Norme di Progetto consultabili nel documento allegato \textit{norme\_di\_progetto.3.0.pdf} si riporta l'indice di complessità ciclomatica (media) per ogni package. Tale misura è direttamente legata al numero di cammini linearmente indipendenti che compongono il grafo di controllo di flusso. Tale indice dovrebbe essere compreso tra 0 e 10 per definire il codice nella norma.
+Coerentemente con le Norme di Progetto consultabili nel documento allegato\\ \textit{norme\_di\_progetto.3.0.pdf} si riporta l'indice di complessità ciclomatica (media) per ogni package. Tale misura è direttamente legata al numero di cammini linearmente indipendenti che compongono il grafo di controllo di flusso. Tale indice dovrebbe essere compreso tra 0 e 10 per definire il codice nella norma.
 Infine il \inglese(Lack Of Cohesion Of Methods) (LCOM3) indica il liello (medio) di coesione dei metodi, più tale livello risulta basso migliore risulterà essere la progettazione della classe. I valori possono quindi variare tra lo 0, che indica la massima coesione possibile, e 2, che ne identifica il valore minimo.
-
 
 \begin{center}
 \rowcolors{2}{lightblue}{llightblue}\begin{longtable}{p{.55\textwidth}ll}
@@ -403,7 +402,7 @@ Tale verifica è composta da un solo test:
 
 \subsubsection{GroupPanelPresenterTest}
 \textbf{Verifica l'oggetto:} \textit{GroupPanelPresenter}.\\
-\textbf{Descrizione}:\\
+\textbf{Descrizione}: l'obbiettivo di questo test è verificare la corretta istanziazione del \textit{GroupPanel}, verificandone pertanto la corretta esecuzione della \underline{\inglese{form}}.\\
 Tale verifica è composta da un solo test:
 \begin{itemize}
 \item \textit{testCreatePanel() }%TODO DA DESCRIVERE
@@ -414,7 +413,7 @@ Tale verifica è composta da un solo test:
 
 \subsubsection{LoginPanelPresenterTest}
 \textbf{Verifica l'oggetto:} \textit{LoginPanelPresenter}.\\
-\textbf{Descrizione}: l'obbiettivo di questo test è verificare la corretta istanziazione del \textit{testLoginPanel} popolato con dei dati coerenti rispetto allo scopo della \underline{\inglese{form}}.
+\textbf{Descrizione}: l'obbiettivo di questo test è verificare la corretta istanziazione del \textit{LoginPanel} popolato con dei dati coerenti rispetto allo scopo della \underline{\inglese{form}}.
 Tale verifica è composta da quattro test:
 \begin{itemize} 
 \item \textit{testInitialize() } mediante diversi metodi \textit{equal} controlla l'effettiva correttezza della \inglese{form} creata, sia nella forma che nel funzionamento;
@@ -429,8 +428,8 @@ Tale verifica è composta da quattro test:
 
 \subsubsection{MainPanelPresenterTest}
 \textbf{Verifica l'oggetto:} \textit{MainPanelPresenter}.\\
-\textbf{Descrizione}:\\
-Tale verifica è composta da un solo test:
+\textbf{Descrizione}:l'obbiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \textit{MainPanel} e che il contenuto dei vari nodi sia stato inserito coerentemente, infine deve consentire la corretta visualizzazione dei sotto-pannelli.\\\\
+Tale verifica è composta da tre test:
 \begin{itemize}
 \item \textit{testInitialize() } mediante diversi metodi \textit{equal} controlla l'effettiva correttezza della \inglese{form} creata, sia nella forma che nel funzionamento;
 \item \textit{testDisplayChildPanel() } verifica la corretta visualizzazione di un elemento interno al pannello principale;
@@ -494,7 +493,7 @@ Tale test è stato effettuato mediante il \underline{\inglese{plugin}} per Eclip
 \toprule Componente & Copertura\\
 \midrule
 Model & X\%\\
-Controller & X\% \\
+Presenter & 70\% \\
 \bottomrule
 \end{longtable}
 \end{center}
