@@ -678,7 +678,7 @@ function AddressBookPanelPresenter() {
                     // se i contatti coincidono aggiungo il gruppo alla lista di
                     // ritorno e blocco lo scorrimento dell'array
                     groupSelected[groups[group].id] = groups[group].name;
-                    break;
+                    //break;
                 }
             }
         }
