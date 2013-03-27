@@ -1658,6 +1658,58 @@ Classe che implementa l'interfaccia \classname{ICall}.
 	Imposta la data di avvio della chiamata, sovrascrivendo il contenuto \memberdata{endData}.
 \end{description}
 
+\subsection{Package org.softwaresynthesis.mytalk.server.call.servlet}\label{sec:callServlet}
+
+\classsection{DownloadCallHistoryServlet}
+
+\subsubsection*{Funzione}
+\inglese{Servlet} da richiamare per effettuare il download della lista che rappresenta lo storico delle chiamate effettuate e ricevute dell'utente. I dati vengono ritornati sotto forma di stringa in formato JSON.
+
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
+	\item \texttt{javax.servlet.ServletException}: eccezione rilancibile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{DownloadCallHistoryServlet}.
+	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
+	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in uscita dalla chiamata a \inglese{servlet}).
+	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
+	\item \classname{call.ICall}: usata per definire un oggetto rappresentante una chiamata.
+	\item \classname{abook.IUserData}: usata per definire un utente generico, che ha partecipato alla chiamata.
+\end{itemize}
+
+\subsubsection*{Attributi}
+\begin{description}
+  \item{\memberdata{\underline{-- {frozen} serialVersionUID: long}}}\\
+  Utilizzato come ID univoco per identificare un oggetto serializzabile. Tale ID deve essere impostato al valore 10021L.
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+	\item{\method{+ DownloadCallHistoryServlet()}}\\
+	Costruttore della classe. Richiama il costruttore della classe padre \texttt{HttpServlet}.
+	
+	\item{\method{\# doGet(request: HttpServletRequest, response: HttpServletResponse): void}}\\
+	Metodo di delega che richiama \method{doPost()} passando gli stessi dati in input.
+	
+	\item{\method{\# doPost(request: HttpServletRequest, response: HttpServletResponse): void}}\\
+	Metodo usato per accedere alla funzionalità della \inglese{servlet}. Il procedimento da definire passa attraverso 3 step essenziali:
+	\begin{itemize}
+		\item \texttt{Inizializzazione}: il metodo definisce ed apre una nuova sessione a partire dalla richiesta request passata come parametro;
+		\item \texttt{Elaborazione dati}: il metodo interroga il database attraverso le classi DAO e per ogni oggetto \classname{ICall} in cui si evidenzia che uno dei due partecipanti è il client (\classname{IUserData}) che ha inoltrato la richiesta a tale \inglese{servlet}, viene aggiunta alla stringa result da ritornare, i dati di tale chiamata. Nello specifico la formattazione della stringa di ritorno, dovrà descrivere la seguente logica:\\
+		
+		\verb|{name:"NOME_UTENTE",start="DATA_INIZIO",end="DATA_FINE"}|\\
+		
+		Si consideri che la dove vi è un nome in maiuscolo, vi dovrà essere il dato inerente estrapolato dall'istanza \classname{ICall} presa in considerazione.
+		\item \texttt{Restituzione risultato}: dopo aver elaborato i dati, la \inglese{servlet} dovrà scrivere nel \texttt{PrintWriter} associato alla request:
+			\begin{itemize}
+				\item una stringa formattata come sopra, se l'utente ha effettuato o ricevuto almeno una chimata;
+				\item null, altrimenti.
+			\end{itemize}
+	\end{itemize}
+
+\end{description}
+
 \subsection{Package org.softwaresynthesis.mytalk.server.message}\label{sec:message}
 
 \classsection{IMessage}
@@ -1749,6 +1801,201 @@ Classe che implementa l'interfaccia \classname{IMessage}.
 	Restituisce la data in cui il mittente ha lasciato il messaggio nella segreteria del destinatario, ritornando il contenuto dell'attributo \memberdata{date}.
 	\item{\method{+ setDate(date: Date): void}}\\
 	Imposta la data in cui il mittente ha lasciato il messaggio nella segreteria del destinatario, sovrascrivendo il contenuto dell'attributo \memberdata{date}.
+
+\end{description}
+
+\subsection{Package org.softwaresynthesis.mytalk.server.message.servlet}\label{sec:messageServlet}
+
+\classsection{InsertMessageServlet}
+
+\subsubsection*{Funzione}
+\inglese{Servlet} da richiamare per inserire un messaggio nella segreteria di un utente.
+
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
+	\item \texttt{javax.servlet.ServletException}: eccezione rilancibile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{DownloadCallHistoryServlet}.
+	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
+	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in uscita dalla chiamata a \inglese{servlet}).
+	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
+	\item \classname{call.IMessage}: usata per definire un oggetto rappresentante un messaggio in segreteria.
+	\item \classname{abook.IUserData}: usata per definire un utente generico, che ha partecipato alla chiamata.
+\end{itemize}
+
+\subsubsection*{Attributi}
+\begin{description}
+  \item{\memberdata{\underline{-- {frozen} serialVersionUID: long}}}\\
+  Utilizzato come ID univoco per identificare un oggetto serializzabile. Tale ID deve essere impostato al valore 10022L.
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+	\item{\method{+ InsertMessageServlet()}}\\
+	Costruttore della classe. Richiama il costruttore della classe padre \texttt{HttpServlet}.
+	
+	\item{\method{\# doGet(request: HttpServletRequest, response: HttpServletResponse): void}}\\
+	Metodo di delega che richiama \method{doPost()} passando gli stessi dati in input.
+	
+	\item{\method{\# doPost(request: HttpServletRequest, response: HttpServletResponse): void}}\\
+	Metodo usato per accedere alla funzionalità della \inglese{servlet}. Il procedimento da definire passa attraverso 3 step essenziali:
+	\begin{itemize}
+		\item \texttt{Inizializzazione}: il metodo definisce ed apre una nuova sessione a partire dalla richiesta request passata come parametro;
+		\item \texttt{Elaborazione dati}: il metodo procede creando un \classname{IMessage} con i dati forniti dalla request e dopo aver aperto una \texttt{transaction} verso il database, esegue l'operazione \method{save()} sul relativo oggetto DAO. Al termine sarà necessario procedere con un operazione di \texttt{commit}. Nel realizzare il metodo, il programmatore incaricato dovrà tenere in considerazione la possibilità di fallimento durante l'esecuzione delle operazioni mediante la \texttt{transaction}. Ciò andrà gestito mediante un operazione di \texttt{rollback} atta ad eliminare una possibile inconsistenza dei dati.
+		\item \texttt{Restituzione risultato}: dopo aver elaborato i dati, la \inglese{servlet} dovrà scrivere nel \texttt{PrintWriter} associato alla request:
+			\begin{itemize}
+				\item ``\inglese{true}'' se l'operazione è andata a buon fine;
+				\item ``\inglese{false}'' altrimenti.
+			\end{itemize}
+	\end{itemize}
+
+\end{description}
+
+\classsection{DeleteMessageServlet}
+
+\subsubsection*{Funzione}
+\inglese{Servlet} da richiamare per eliminare un messaggio nella segreteria dell'utente che la richiama.
+
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
+	\item \texttt{javax.servlet.ServletException}: eccezione rilancibile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{DownloadCallHistoryServlet}.
+	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
+	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in uscita dalla chiamata a \inglese{servlet}).
+	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
+	\item \classname{call.IMessage}: usata per definire un oggetto rappresentante un messaggio in segreteria.
+	\item \classname{abook.IUserData}: usata per definire un utente generico, che ha partecipato alla chiamata.
+\end{itemize}
+
+\subsubsection*{Attributi}
+\begin{description}
+  \item{\memberdata{\underline{-- {frozen} serialVersionUID: long}}}\\
+  Utilizzato come ID univoco per identificare un oggetto serializzabile. Tale ID deve essere impostato al valore 10022L.
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+	\item{\method{+ DeleteMessageServlet()}}\\
+	Costruttore della classe. Richiama il costruttore della classe padre \texttt{HttpServlet}.
+	
+	\item{\method{\# doGet(request: HttpServletRequest, response: HttpServletResponse): void}}\\
+	Metodo di delega che richiama \method{doPost()} passando gli stessi dati in input.
+	
+	\item{\method{\# doPost(request: HttpServletRequest, response: HttpServletResponse): void}}\\
+	Metodo usato per accedere alla funzionalità della \inglese{servlet}. Il procedimento da definire passa attraverso 3 step essenziali:
+	\begin{itemize}
+		\item \texttt{Inizializzazione}: il metodo definisce ed apre una nuova sessione a partire dalla richiesta request passata come parametro;
+		\item \texttt{Elaborazione dati}: il metodo procede creando un \classname{IMessage} con i dati forniti dalla request e dopo aver aperto una \texttt{transaction} verso il database, esegue un operazione di ricerca dell'instanza appena creata all'interno della lista di \classname{IMessage} ottenuta dal db. Quindi se si verifica che tale istanza è effettivamente presente nel database, il metodo esegue l'operazione \method{delete()} sul relativo oggetto DAO. Al termine sarà necessario procedere con un operazione di \texttt{commit}. Nel realizzare il metodo, il programmatore incaricato dovrà tenere in considerazione la possibilità di fallimento durante l'esecuzione delle operazioni mediante la \texttt{transaction}. Ciò andrà gestito mediante un operazione di \texttt{rollback} atta ad eliminare una possibile inconsistenza dei dati.
+		\item \texttt{Restituzione risultato}: dopo aver elaborato i dati, la \inglese{servlet} dovrà scrivere nel \texttt{PrintWriter} associato alla request:
+			\begin{itemize}
+				\item ``\inglese{true}'' se l'operazione è andata a buon fine;
+				\item ``\inglese{false}'' altrimenti (compreso non solo il caso di errore dovuto ad un problema di connessione verso il db, ma anche quello relativo al mancato match del elemento ricercato con quelli presenti nel database).
+			\end{itemize}
+	\end{itemize}
+
+\end{description}
+
+\classsection{UpdateStatusMessageServlet}
+
+\subsubsection*{Funzione}
+\inglese{Servlet} da richiamare per modificare lo stato di un messaggio. L'idea alla base è che un messaggio può trovarsi uno dei seguenti due stati:
+\begin{itemize}
+	\item letto;
+	\item non letto;
+\end{itemize}
+La \inglese{servlet} permette di effettuare una transizione di stato da ``non letto'' a ``letto''.
+
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
+	\item \texttt{javax.servlet.ServletException}: eccezione rilancibile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{DownloadCallHistoryServlet}.
+	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
+	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in uscita dalla chiamata a \inglese{servlet}).
+	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
+	\item \classname{call.IMessage}: usata per definire un oggetto rappresentante un messaggio in segreteria.
+	\item \classname{abook.IUserData}: usata per definire un utente generico, che ha partecipato alla chiamata.
+\end{itemize}
+
+\subsubsection*{Attributi}
+\begin{description}
+  \item{\memberdata{\underline{-- {frozen} serialVersionUID: long}}}\\
+  Utilizzato come ID univoco per identificare un oggetto serializzabile. Tale ID deve essere impostato al valore 10023L.
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+	\item{\method{+ UpdateStatusMessageServlet()}}\\
+	Costruttore della classe. Richiama il costruttore della classe padre \texttt{HttpServlet}.
+	
+	\item{\method{\# doGet(request: HttpServletRequest, response: HttpServletResponse): void}}\\
+	Metodo di delega che richiama \method{doPost()} passando gli stessi dati in input.
+	
+	\item{\method{\# doPost(request: HttpServletRequest, response: HttpServletResponse): void}}\\
+	Metodo usato per accedere alla funzionalità della \inglese{servlet}. Il procedimento da definire passa attraverso 3 step essenziali:
+	\begin{itemize}
+		\item \texttt{Inizializzazione}: il metodo definisce ed apre una nuova sessione a partire dalla richiesta request passata come parametro;
+		\item \texttt{Elaborazione dati}: il metodo procede creando un \classname{IMessage} con i dati forniti dalla request e dopo aver aperto una \texttt{transaction} verso il database, esegue un operazione di ricerca dell'instanza appena creata all'interno della lista di \classname{IMessage} ottenuta dal db. Quindi se si verifica che tale istanza è effettivamente presente nel database, il metodo esegue l'operazione \method{update()} sul relativo oggetto DAO, andando a modificare lo stato in di lettura del messaggio. Al termine sarà necessario procedere con un operazione di \texttt{commit}. Nel realizzare il metodo il programmatore incaricato dovrà tenere in considerazione la possibilità di fallimento durante l'esecuzione delle operazioni mediante la \texttt{transaction}. Ciò andrà gestito mediante un operazione di \texttt{rollback} atta ad eliminare una possibile inconsistenza dei dati.
+		\item \texttt{Restituzione risultato}: dopo aver elaborato i dati, la \inglese{servlet} dovrà scrivere nel \texttt{PrintWriter} associato alla request:
+			\begin{itemize}
+				\item ``\inglese{true}'' se l'operazione è andata a buon fine;
+				\item ``\inglese{false}'' altrimenti.
+			\end{itemize}
+	\end{itemize}
+
+\end{description}
+
+\classsection{DownloadMessageListServlet}
+
+\subsubsection*{Funzione}
+\inglese{Servlet} da richiamare per scaricare la lista di messaggi attualmente presenti nella propria segreteria.
+
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
+	\item \texttt{javax.servlet.ServletException}: eccezione rilancibile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{DownloadCallHistoryServlet}.
+	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
+	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in uscita dalla chiamata a \inglese{servlet}).
+	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
+	\item \classname{call.IMessage}: usata per definire un oggetto rappresentante un messaggio in segreteria.
+	\item \classname{abook.IUserData}: usata per definire un utente generico, che ha partecipato alla chiamata.
+\end{itemize}
+
+\subsubsection*{Attributi}
+\begin{description}
+  \item{\memberdata{\underline{-- {frozen} serialVersionUID: long}}}\\
+  Utilizzato come ID univoco per identificare un oggetto serializzabile. Tale ID deve essere impostato al valore 10024L.
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+	\item{\method{+ DownloadMessageListServlet()}}\\
+	Costruttore della classe. Richiama il costruttore della classe padre \texttt{HttpServlet}.
+	
+	\item{\method{\# doGet(request: HttpServletRequest, response: HttpServletResponse): void}}\\
+	Metodo di delega che richiama \method{doPost()} passando gli stessi dati in input.
+	
+	\item{\method{\# doPost(request: HttpServletRequest, response: HttpServletResponse): void}}\\
+	Metodo usato per accedere alla funzionalità della \inglese{servlet}. Il procedimento da definire passa attraverso 3 step essenziali:
+	\begin{itemize}
+		\item \texttt{Inizializzazione}: il metodo definisce ed apre una nuova sessione a partire dalla richiesta request passata come parametro;
+		\item \texttt{Elaborazione dati}: quindi esegue un operazione di download degli oggetti \classname{IMessage} il cui possessore è l'utente che ha fatto richiesta di \inglese{download}. in seguito a tale operazione, sarà necessario popolare e formattare la stringa di ritorno come segue: per ogni messaggio presente nella lista si dovrà riportare la dicitura:\\
+		
+		\verb|{name:"NOME_UTENTE",state="LETTO/NON LETTO"|\\
+		\verb|,url="INDIRIZZO_MESSAGGIO",data="DATA_REGISTRAZIONE_MESSAGGIO"}|\\
+	
+		\item \texttt{Restituzione risultato}: dopo aver elaborato i dati, la \inglese{servlet} dovrà scrivere nel \texttt{PrintWriter} associato alla request:
+			\begin{itemize}
+				\item la sequenza
+				\item null, altrimenti.
+			\end{itemize}
+	\end{itemize}
 
 \end{description}
 
