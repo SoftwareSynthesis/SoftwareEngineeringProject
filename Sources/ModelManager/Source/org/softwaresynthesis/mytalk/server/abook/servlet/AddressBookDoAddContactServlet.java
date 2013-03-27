@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServlet;
 import org.softwaresynthesis.mytalk.server.abook.AddressBookEntry;
 import org.softwaresynthesis.mytalk.server.abook.IGroup;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
-import org.softwaresynthesis.mytalk.server.dao.AddressBookEntryDAO;
 import org.softwaresynthesis.mytalk.server.dao.GroupDAO;
 import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
 
