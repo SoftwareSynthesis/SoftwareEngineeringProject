@@ -97,6 +97,22 @@ function AddressBookPanelPresenter() {
 		groupRequest.send();
 		groups = JSON.parse(groupRequest.responseText);
 	}
+	
+	function getImageSrc(contact) {
+		path = "";
+		switch (contact.state) {
+		case "available":
+			path = "img/stateavailable.png";
+			break;
+		case "occupied":
+			path = "img/stateoccupied.png";
+			break;
+		default:
+			path = "img/stateoffline.png";
+			break;
+		}
+		return path;
+	}
 
 	/**
 	 * Aggiunge una voce di rubrica a una lista
@@ -126,7 +142,6 @@ function AddressBookPanelPresenter() {
 		}
 		if (name == "")
 			name += contact.email;
-		var state = contact.state;
 		var avatar = contact.picturePath;
 
 		// imposto gli attributi corretti
@@ -144,20 +159,8 @@ function AddressBookPanelPresenter() {
 
 		var textNode = document.createTextNode(name);
 
-		var stateNode = document.createElement('img');
-		var statePictureUrl;
-		switch (state) {
-		case "available":
-			statePictureUrl = "img/stateavailable.png";
-			break;
-		case "occupied":
-			statePictureUrl = "img/stateoccupied.png";
-			break;
-		default:
-			statePictureUrl = "img/stateoffline.png";
-			break;
-		}
-		stateNode.src = statePictureUrl;
+		var stateNode = document.createElement('img');		
+		stateNode.src = getImageSrc(contact);
 
 		// imposto il valore dell'<li>
 		item.appendChild(avatarNode);
