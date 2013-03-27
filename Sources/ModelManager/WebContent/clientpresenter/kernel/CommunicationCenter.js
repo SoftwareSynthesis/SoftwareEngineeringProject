@@ -177,7 +177,7 @@ function CommunicationCenter() {
             } else if (type == "2") {
                 var signal = JSON.parse(str[1]);
                 if (pc == null)
-                //FIXME da sistemare la chiaata con due parametri
+                    //FIXME da sistemare la chiaata con tre parametri
                     call(false);
                 if ((signal.sdp) == null) {
                     pc.addIceCandidate(new RTCIceCandidate(signal));
@@ -232,11 +232,13 @@ function CommunicationCenter() {
      * Funzione per la vera e propria chiamata attraverso webRTC
      *
      * @author Marco Schivo
-     * 
-     * @param {Boolean} isCaller rappresenta il flag che determina se chi invoca la funzione è il chiamante o il chiamato
+     *
+     * @param {Boolean} isCaller rappresenta il flag che determina se chi invoca
+     * la funzione è il chiamante o il chiamato
      * @param {Object} contact rappresenta il contatto da contattare
+     * @param {Object} onlyAudio true se si vole fare una chiamata solo audio
      */
-    this.call = function(isCaller, contact) {
+    this.call = function(isCaller, contact, onlyAudio) {
         //creo l'oggetto di configurazione della RTCPeerConnection con
         // l'indirizzo del server STUN
         var configuration = {
