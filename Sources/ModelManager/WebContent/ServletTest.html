@@ -20,11 +20,11 @@
 				var cella = document.getElementById(identifier);
 				if (result == true)
 				{
-					cella.bgcolor = "";
+					cella.style.backgroundColor = "#CC0000";
 				}
 				else
 				{
-					cella.bgcolor = "";	
+					cella.style.backgroundColor = "#00FF00";	
 				}
 			}
 			
@@ -35,21 +35,79 @@
 				var servletURI = "http://localhost:8080/MyTalk/LoginAuthentication";
 				var parameters = "username=" + username + "&password=" + password;
 				var result = callServlet(servletURI, parameters);
-				var object = JSON.parse(result);
-				if (object.name == "luigi" && object.surname == "mannoio" && object.email == "indirizzo5@dominio.it")
+				var parsed = JSON.parse(result);
+				try
 				{
-					printResult("LoginAuthentication", true);
+					if (parsed.name == "luigi" && parsed.surname == "mannoio" && parsed.email == "indirizzo5@dominio.it")
+					{
+						printResult("LoginAuthentication", true);
+					}
+					else
+					{
+						printResult("LoginAuthentication", false);
+					}
 				}
-				else
+				catch (exception ex)
 				{
 					printResult("LoginAuthentication", false);
+				}
+			}
+			
+			function loginClose()
+			{
+				var servletURI = "http://localhost:8080/MyTalk/LoginClose";
+				var result = callServlet(servletURI, parameters);
+				var parsed = JSON.parse(result);
+				try
+				{
+					if (parsed == true)
+					{
+						printResult("LoginClose", true);
+					}
+					else
+					{
+						printResult("LoginClose", false);
+					}
+				}
+				catch (exception)
+				{
+					printResult("LoginClose", false);
+				}
+			}
+			
+			function loginDoRegistration()
+			{
+				var username = "andrea@dominio.it";
+				var password = "password";
+				var question = "come mi chiamo";
+				var answer = "Andrea";
+				var name = "andrea";
+				var surname = "meneghinello";
+				var servletURI = "http://localhost:8080/MyTalk/loginDoRegistration";
+				var parameters = "username=" + username + "&password=" + password + "&question=" + question + "&answer=" + answer + "&name=" + name + "&surname=" + surname;
+				var result = callServlet(servletURI, parameters);
+				var parsed = JSON.parse(result);
+				try
+				{
+					if (parsed == true)
+					{
+						printResult("LoginDoRegistration", true);
+					}
+					else
+					{
+						printResult("LoginDoRegistration", false);
+					}
+				}
+				catch (exception)
+				{
+					printResult("LoginDoRegistration", false);
 				}
 			}
 		</script>
 	</head>
 	<body>
 		<h1>Test delle servlet di MyTalk</h1>
-		<table>
+		<table border = "1px">
 			<tr>
 				<th>Nome della servlet</th>
 				<th>Esito del test</th>
@@ -62,12 +120,13 @@
 			</tr>
 			<tr>
 				<td>LoginClose</td>
-				<td id = "Loginclose"></td>
-				<td><button onclick = "">Avvia test</button></td>
+				<td id = "LoginClose"></td>
+				<td><button onclick = "loginClose()">Avvia test</button></td>
 			</tr>
 			<tr>
 				<td>LoginDoRegistration</td>
-				<td id = "LogingDoRegistration"></td>
+				<td id = "LoginDoRegistration"></td>
+				<td><button onclick = "loginDoRegistration()">Avvia test</button></td>
 			</tr>
 		</table>
 	</body>
