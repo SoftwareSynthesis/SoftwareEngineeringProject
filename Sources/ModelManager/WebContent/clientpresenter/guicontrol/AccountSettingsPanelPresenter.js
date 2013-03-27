@@ -35,6 +35,9 @@ function AccountSettingsPanelPresenter(url) {
 		servlets.push(baseURL + name);
 	}
 
+	/***************************************************************************
+	 * METODI PUBBLICI
+	 **************************************************************************/
 	/**
 	 * Verifica che sia effettivamente cambiato qualcosa rispetto a quanto
 	 * contenuto in communicationcenter.my nell'oggetto data che viene passato
@@ -44,7 +47,7 @@ function AccountSettingsPanelPresenter(url) {
 	 *            data array contenente i dati raccolti dal form
 	 * @author Diego Beraldin
 	 */
-	function hasSomethingChanged(data) {
+	this.hasSomethingChanged = function(data) {
 		var my = communicationcenter.my;
 		// FIXME se cambiano anche domanda, risposta e password occorre
 		// aggiungere qui i test
@@ -53,28 +56,28 @@ function AccountSettingsPanelPresenter(url) {
 			return true;
 		}
 		return false;
-	}
-
+	};
+	
 	/**
-	 * Costruisce la stringa di cueri che deve essere spedita alla servlet per
-	 * portare a termine la richiesta di cambiamento dei dati personali
 	 * 
-	 * @param {Object}
-	 *            data i dati che sono stati raccolti dal form
-	 * @returns {String} la stringa da inviare alla servlet
+	 * @param {Object} data
+	 * @returns {String}
 	 * @author Diego Beraldin
 	 */
-	function buildQueryString(data) {
+	this.buildQueryString = function(data) {
 		querystring = "";
-		for ( var key in data) {
-			querystring += key + "=" + encodeURIComponent(data.key) + "&";
+		if (data.name && data.name.length) {
+			querystring += "name=" + data.name;
+		}
+		if (data.surname && data.surname.length) {
+			querystring += "&surname=" + data.surname;
+		}
+		if (data.picturePath && data.picturePath.length) {
+			querystring += "&picturePath" + data.picturePath
 		}
 		return querystring;
-	}
-
-	/***************************************************************************
-	 * METODI PUBBLICI
-	 **************************************************************************/
+	};
+	
 	/**
 	 * Gestisce la pressione del pulsante 'changeButton' che trasforma la lista
 	 * di elementi testuali in un form da compilare per modificare i propri
@@ -111,16 +114,16 @@ function AccountSettingsPanelPresenter(url) {
 		liName.appendChild(labelSurname);
 		liName.appendChild(inputSurname);
 
-		// list item per l'email
-		var liMail = document.createElement("li");
-		var labelMail = document.createElement("label");
-		labelMail.setAttribute("for", "email");
-		var inputMail = document.createElement("input");
-		inputMail.setAttribute("id", "email");
-		inputMail.setAttribute("name", "email");
-		inputMail.setAttribute("value", communicationcenter.my.email);
-		liName.appendChild(labelMail);
-		liName.appendChild(inputMail);
+//		 list item per l'email
+//		var liMail = document.createElement("li");
+//		var labelMail = document.createElement("label");
+//		labelMail.setAttribute("for", "email");
+//		var inputMail = document.createElement("input");
+//		inputMail.setAttribute("id", "email");
+//		inputMail.setAttribute("name", "email");
+//		inputMail.setAttribute("value", communicationcenter.my.email);
+//		liName.appendChild(labelMail);
+//		liName.appendChild(inputMail);
 
 		// list item per l'immagine
 		var liPicture = document.createElement("li");
@@ -140,29 +143,30 @@ function AccountSettingsPanelPresenter(url) {
 		// aggiunge tutti i nodi alla lista
 		ulData.appendChild(liName);
 		ulData.appendChild(liSurname);
-		ulData.appendChild(liMail);
+//		ulData.appendChild(liMail);
 		ulData.appendChild(liPicture);
 
 		// pulsante per processare i dati
 		var submitButton = document.createElement("button");
 		submitButton.type = "submit";
 		submitButton.appendChild(document.createTextNode("Modifica"));
-		// TODO da testare il comportamento quando viene premuto il pulsante
+		var self = this;
 		submitButton.onclick = function() {
 			// recupera i dati dal form e li memorizza in un oggetto
 			var data = new Object();
 			data.name = document.getElementById("name").getAttribute("value");
 			data.surname = document.getElementById("surname").getAttribute("value");
-			data.mail = document.getElementById("email").getAttribute("value");
+//			data.mail = document.getElementById("email").getAttribute("value");
 			data.picture = document.getElementById("picture").getAttribute("value");
 
 			// verifica se è cambiato qualcosa e agisce di conseguenza
-			if (hasSomethingChanged(data)) {
+			if (self.hasSomethingChanged(data)) {
 				var request = new XMLHttpRequest();
 				request.open("POST", servlets[0], false);
 				request.setRequestHeader("Content-type",
 						"application/x-www-form-urlencoded");
-				request.send(buildQueryString(data));
+				request.send(self.buildQueryString(data));
+				// FIXME aggiornare il communicationcenter.my
 				mediator.displayAccountSettingsPanel();
 			}
 		};
@@ -201,10 +205,10 @@ function AccountSettingsPanelPresenter(url) {
 		surnameNode.appendChild(document
 				.createTextNode(communicationcenter.my.surname));
 
-		var mailNode = document.createElement('li');
-		mailNode.setAttribute("id", "mail");
-		mailNode.appendChild(document
-				.createTextNode(communicationcenter.my.email));
+//		var mailNode = document.createElement('li');
+//		mailNode.setAttribute("id", "mail");
+//		mailNode.appendChild(document
+//				.createTextNode(communicationcenter.my.email));
 
 		var pictureNode = document.createElement('img');
 		pictureNode.setAttribute("id", "picture");
@@ -223,7 +227,7 @@ function AccountSettingsPanelPresenter(url) {
 		ulData.style.listStyleType = "none";
 		ulData.appendChild(nameNode);
 		ulData.appendChild(surnameNode);
-		ulData.appendChild(mailNode);
+//		ulData.appendChild(mailNode);
 
 		// appende il sottoalbero al DOM
 		element.appendChild(pictureNode);
