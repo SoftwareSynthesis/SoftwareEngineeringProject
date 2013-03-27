@@ -49,12 +49,32 @@ function AccountSettingsPanelPresenter(url) {
 		// FIXME se cambiano anche domanda, risposta e password occorre
 		// aggiungere qui i test
 		if (my.name != data.name || my.surname != data.surname
-				|| my.picture != data.picture) {
+				|| my.picturePath != data.picturePath) {
 			return true;
 		}
 		return false;
 	}
 
+	/**
+	 * Costruisce la stringa di cueri che deve essere spedita alla servlet per
+	 * portare a termine la richiesta di cambiamento dei dati personali
+	 * 
+	 * @param {Object}
+	 *            data i dati che sono stati raccolti dal form
+	 * @returns {String} la stringa da inviare alla servlet
+	 * @author Diego Beraldin
+	 */
+	function buildQueryString(data) {
+		querystring = "";
+		for ( var key in data) {
+			querystring += key + "=" + encodeURIComponent(data.key) + "&";
+		}
+		return querystring;
+	}
+
+	/***************************************************************************
+	 * METODI PUBBLICI
+	 **************************************************************************/
 	/**
 	 * Gestisce la pressione del pulsante 'changeButton' che trasforma la lista
 	 * di elementi testuali in un form da compilare per modificare i propri
@@ -63,9 +83,12 @@ function AccountSettingsPanelPresenter(url) {
 	 * 
 	 * @author Diego Beraldin
 	 */
-	function onChangeButtonPressed() {
+	this.onChangeButtonPressed = function() {
 		var element = document.getElementById("AccountSettingsPanel");
+		element.innerHTML = "";
 		var ulData = document.createElement("ul");
+		ulData.style.listStyleType = "none";
+
 		// list item per il nome
 		var liName = document.createElement("li");
 		var labelName = document.createElement("label");
@@ -100,7 +123,7 @@ function AccountSettingsPanelPresenter(url) {
 		liName.appendChild(inputMail);
 
 		// list item per l'immagine
-		var liPicture = document.getElementById("li");
+		var liPicture = document.createElement("li");
 		var labelPicture = document.createElement("label");
 		labelPicture.setAttribute("for", "picture");
 		var inputPicture = document.createElement("input");
@@ -108,8 +131,8 @@ function AccountSettingsPanelPresenter(url) {
 		inputPicture.setAttribute("id", "picture");
 		inputPicture.setAttribute("name", "picture");
 		inputPicture.setAttribute("value", communicationcenter.my.picturePath);
-		liName.appendChild(labelPicture);
-		liName.appendChild(inputPicture);
+		liPicture.appendChild(labelPicture);
+		liPicture.appendChild(inputPicture);
 
 		// FIXME se cambiano anche password, domanda segreta e risposta va
 		// aggiunto qui
@@ -121,71 +144,36 @@ function AccountSettingsPanelPresenter(url) {
 		ulData.appendChild(liPicture);
 
 		// pulsante per processare i dati
-		var submitButton = document.createElement("input");
-		submitButton.setAttribute("type", "submit");
-		submitButton.setAttribute("value", "OK");
+		var submitButton = document.createElement("button");
+		submitButton.type = "submit";
+		submitButton.appendChild(document.createTextNode("Modifica"));
 		// TODO da testare il comportamento quando viene premuto il pulsante
-		submitButton.onclick = onSubmitChange;
+		submitButton.onclick = function() {
+			// recupera i dati dal form e li memorizza in un oggetto
+			var data = new Object();
+			data.name = document.getElementById("name").getAttribute("value");
+			data.surname = document.getElementById("surname").getAttribute("value");
+			data.mail = document.getElementById("email").getAttribute("value");
+			data.picture = document.getElementById("picture").getAttribute("value");
+
+			// verifica se è cambiato qualcosa e agisce di conseguenza
+			if (hasSomethingChanged(data)) {
+				var request = new XMLHttpRequest();
+				request.open("POST", servlets[0], false);
+				request.setRequestHeader("Content-type",
+						"application/x-www-form-urlencoded");
+				request.send(buildQueryString(data));
+				mediator.displayAccountSettingsPanel();
+			}
+		};
 
 		// aggiunge il tutto al sottoalbero del DOM
 		var formData = document.createElement("form");
 		formData.appendChild(ulData);
 		formData.appendChild(submitButton);
 		element.appendChild(formData);
-	}
+	};
 
-	/**
-	 * Costruisce la stringa di cueri che deve essere spedita alla servlet per
-	 * portare a termine la richiesta di cambiamento dei dati personali
-	 * 
-	 * @param {Object}
-	 *            data i dati che sono stati raccolti dal form
-	 * @returns {String} la stringa da inviare alla servlet
-	 * @author Diego Beraldin
-	 */
-	function buildQueryString(data) {
-		querystring = "";
-		for ( var key in data) {
-			querystring += key + "=" + encodeURIComponent(data.key) + "&";
-		}
-		return querystring;
-	}
-
-	/**
-	 * Gestisce il cambiamento dei dati da parte dell'utente contattando, se
-	 * necessario la servlet incaricata di aggiornare il contenuto del database
-	 * sul server
-	 * 
-	 * @author Diego Beraldin
-	 */
-	function onSubmitChange() {
-		// recupera i dati dal form e li memorizza in un oggetto
-		var element = document.getElementById("AccountSettingsPanel");
-		var data = new Object();
-		data.name = document.getElementById("name").getAttribute("value");
-		data.surname = document.getElementById("surname").getAttribute("value");
-		data.mail = document.getElementById("email").getAttribute("value");
-		data.picture = document.getElementById("picture").getAttribute("value");
-
-		// verifica se è cambiato qualcosa e agisce di conseguenza
-		if (this.hasSomethingChanged(data)) {
-			var request = new XMLHttpRequest();
-			request.onreadystatechange = function() {
-				if (this.readystate == 4 && this.status == 200) {
-					element.innerHTML = "";
-					initialize();
-				}
-			};
-			request.open("POST", servletURL, "true");
-			request.setRequestHeader("Content-type",
-					"application/x-www-form-urlencoded");
-			request.send(buildQueryString(data));
-		}
-	}
-
-	/***************************************************************************
-	 * METODI PUBBLICI
-	 **************************************************************************/
 	/**
 	 * Inizializza il pannello costruendone i widget grafici interni e lo
 	 * restituisce in modo che possa essere inserito all'interno del pannello
@@ -226,7 +214,7 @@ function AccountSettingsPanelPresenter(url) {
 		changeButton.setAttribute("type", "button");
 		changeButton.appendChild(document.createTextNode("Modifica dati"));
 		// TODO da testare il funzionamento quando viene premuto il pulsante
-		changeButton.onclick = onChangeButtonPressed;
+		changeButton.onclick = this.onChangeButtonPressed;
 
 		// FIXME possono cambiare anche password, domanda segreta e risposta!?
 
