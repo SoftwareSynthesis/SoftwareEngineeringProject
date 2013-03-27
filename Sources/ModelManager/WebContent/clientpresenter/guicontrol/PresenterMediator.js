@@ -321,7 +321,7 @@ function PresenterMediator() {
 	 */
 	this.displayAccountSettingsPanel = function() {
 		var element = accountsettingspp.createPanel();
-		presenter["main"].displayChildPanel(element);
+		presenters["main"].displayChildPanel(element);
 	};
 
 	/**
@@ -335,7 +335,7 @@ function PresenterMediator() {
 	 */
 	this.displayCommunicationPanel = function() {
 		var element = communicationpp.createPanel();
-		presenter["main"].displayChildPanel(element);
+		presenters["main"].displayChildPanel(element);
 	};
 
 	/**
