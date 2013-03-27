@@ -3344,18 +3344,44 @@ Metodo che ferma l'aggiornamento del timer. Viene richiamato quando la chiamata 
 Metodo che ferma l'aggiornamento delle statistiche relative alla chiamata in corso. Viene richiamato quando la chiamata termina.
 
 \item{\method{- dumpStats(obj: Object()): void}}\\
-Metodo che permette l'estrazione dei dati rappresentanti le statistiche della chiamata. Il metodo che riceve come parametro un oggetto (\memberdata{obj}), lo elabora ed estrae solo i byte ricevuti e byte inviati. Ricavati questi dati, 
+ Metodo che permette l'estrazione dei dati rappresentanti le statistiche della chiamata. Il metodo che riceve come parametro un oggetto (\memberdata{obj}), lo elabora ed estrae solo i byte ricevuti e byte inviati. Ricavati questi dati, 
+ 
+\item{\method{- gotDescription(): void}}\\
+Metodo utilizzato da WebRTC che imposta la propia descrizione e la invia all'altro client in modo tale da poter instaurare la comunicazione. Verrà quindi prima di tutto utilizzata la funzione proprietaria di WebRTC \method{setLocalDescription} per impostare la propria descrizione e poi, mediante la websocket, inviata all'altro \underline{peer}.
+ 
+\item{\method{+ connect(): void}}\\
+Metodo utilizzato per la creazione della connessione con il server. Viene inizializzata la variabile \memberdata{websocket} richiamando il costruttore con un parametro (URL della servlet). Successivamente viene specificato il comportamento della websocket per determinati eventi quali:
+\begin{itemize}
+\item \textbf{onopen}: istruzioni da eseguire quando la websocket viene aperta. In questo caso, deve essere inviato alla websocket il proprio ``id utente'' in modo tale da identificare univocamente il canale aperto con il server.
+\item \textbf{onclose}: istruzioni da eseguire quando la websocket viene chiusa per qualsiasi motivo. Deve notificare il server di tale avvenimento.
+\item \textbf{onerror}: istruzioni da eseguire quando avviene un errore con la websocket. Tale evento verrà notificato all'utente con un messaggio d'errore che descrive l'errore e l'atteggiamento da seguire.
+\item \textbf{onmessage}: metodo più corposo in quanto gestisce l'unico evento richiamato mentre avviene una comunicazione dal server verso il client. Per diversificare i messaggi ricevuti, si è deciso di rappresentare il messaggio come un array nel quale il primo elemento identifica il tipo di richiesta. In questo modo, avremo tre tipi:
+\begin{itemize}
+\item type 2: riceve e gestisce una richiesta di chiamata. Imposta quindi con il metodo nativo di WebRTC \method{setRemoteDescription} la descrizione del \underline{peer} chiamante (secondo elemento dell'array ricevuto) e la comunicazione può iniziare.
+\item type 3: riceve una richiesta con l'id del chiamante come dato. Viene memorizzato nel client in modo tale da conoscere il canale che il chiamante ha aperto con il server per future comunicazioni.
+\item type 5: notifica il cambiamento di stato degli amici. I dati ricevuti contengono l'id dell'utente e relativo nuovo stato. Si procede quindi a modificare lo stato dell'utente nella rubrica.
+\end{itemize}
+\end{itemize}
+ 
+\item{\method{+ disconnect(): void}}\\
+Metodo utilizzato per disconnettersi dal sistema. Tale evento deve essere notificato al server tramite la websocket inviando un messaggio di tipo 4 contenente il proprio id.
 
-\item{\method{- onSubmitChange(): void}}\\
-Gestisce il cambiamento dei dati da parte dell'utente contattando, se necessario (controllo effettuato tramite chiamata al metodo \method{hasSometingChanged}), la \inglese{servlet} incaricata di aggiornare il contenuto del database sul server. Il metodo va a recuperare i valori tramite chiamate di metodo \method{document.getElementById(id)} e successivamente contatta la \inglese{servlet} tramite un XMLHttpRequest passando i dati prelevati dalla pagina. Se la \inglese{servlet} ritorna un errore viene gestito tramite la visualizzazione dell'errore all'utente, altrimenti viene richiamato il metodo \method{initialize()} per aggiornare la visualizzazione dei dati più recenti.
+\item{\method{+ call(isCaller: boolean, contact: Object(contact)): void}}\\
+Metodo che gestisce la vera e propria chiamata tramite WebRTC.\\
+Inizialmente, si inizializza la variabile \memberdata{pc} che è di tipo RTCPeerConnection, oggetto reso disponibile dalle librerie di WebRTC. Successivamente si definiscono i comportamenti associati agli eventi di RTCPeerConnection, ossia:
+\begin{itemize}
+\item onicecandidate: evento scatenato quando un nuovo \underline{peer} si ``candida'' per poter chiamare. Viene quindi inviata la propria ``descrizione'' all'altro \underline{peer}.
+\item onaddstream: evento scatenato quando viene aggiunto uno ``stream'' nell'oggetto RTCPeerConnection. In questa situazione, il chiamato riceve lo stream del chiamante e lo visualizza nell'apposito tag video. In contemporanea, vengono richiamati i metodi che fanno partire la visualizzazione delle statistiche di chiamata.
+\item onremovestream: evento scatenato quando viene rimosso uno ``stream'' nell'oggetto RTCPeerConnection. In questa situazione, colui che effettua questa operazione vuole terminare la chiamata e deve quindi re-inviare la propria descrizione (attraverso il metodo \method{gotDescription()} in modo tale che l'altro \underline{peer} possa aggiornare la descrizione remota. Vengono richiamati alla fine i metodi che fermano la visualizzazione delle statistiche di chiamata e chiudono il canale di comunicazione tramite la chiamata del metodo \method{close()} dell'oggetto \memberdata{pc}.
+\end{itemize}
 
-\item{\method{- hasSomethingChanged(data: String[]): boolean}}\\
-Metodo che verifica l'effettivo cambiamento di dati rispetto a quanto contenuto in\\ \memberdata{communicationcenter.my} confrontandoli con l'oggetto \memberdata{data} ricevuto come parametro. Il metodo controlla che almeno il valore di un campo dati sia effettivamente cambiato e ritorna ``true'' in tale caso. Nel caso opposto, ossia tutti i dati sono uguali ai precedenti, ritorna ``false''.
+\item{\method{+ webkitGetUserMedia(audio: boolean, video: boolean): void}}\\
+Metodo richiamato nel momento in cui un utente vuole iniziare una chiamata. Il metodo, fornito dalle librerie native di Google Chrome, cattura lo stream della propria videocamera. Riceve due parametri che indicano se deve essere catturato audio e/o video. Procedendo, viene aggiunto lo stream all'oggetto RTCPeerConnection tramite il metodo \method{addStream(localstream)} fornito dalle librerie di WebRTC.
 
-\item{\method{- buildQueryString(data: String[]): String}}\\
-Costruisce la stringa corrispondente alla query che deve essere spedita alla \inglese{servlet} per portare a termine la richiesta di cambiamento dei dati personali. Viene costruita partendo dai valori recuperati dall'oggetto \memberdata{data} passato come parametro e utilizzando la giusta sintassi MySQL.
-
-\end{description}
+\item{\method{+ endCall(): void}}\\
+Metodo richiamato per terminare una chiamata. A cascata viene richiamato il metodo \method{removeStream(localstream)} e inviata la nuova descrizione al \underline{peer} remoto.
+ 
+ \end{description}
 
 \clearpage
 
