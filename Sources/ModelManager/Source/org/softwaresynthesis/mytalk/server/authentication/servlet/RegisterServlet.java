@@ -103,13 +103,13 @@ public final class RegisterServlet extends HttpServlet
 			group = new Group();
 			group.setOwner(user);
 			group.setName("addrBookEntry");
-			if (path.equals(""))
+			if (path.equals("") == true)
 			{
-				//TODO inserire percorso all'immagine di default
+				path = "img/contactImg/Default.png";
 			}
 			else
 			{
-				user.setPath(path);
+				//TODO salvare l'immagine nel server e memorizzare la path
 			}
 			groupDAO = new GroupDAO();
 			userDAO = new UserDataDAO();

@@ -100,7 +100,7 @@ public final class LoginServlet extends HttpServlet
 			if (user != null)
 			{
 				session.setAttribute("context", context);
-				session.setAttribute("user", user);
+				session.setAttribute("username", user.getMail());
 				result = user.toJson();
 			}
 			else

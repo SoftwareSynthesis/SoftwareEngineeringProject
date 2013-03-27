@@ -5,15 +5,15 @@ USE MyTalk;
 	La risposta alla domanda segreta per gli utenti qui sotto è il nome con l'iniziale maiuscola (i.e. Pippo)
  */
 INSERT INTO UserData(ID_user, E_Mail, Password, Question, Answer, Name, Surname, Picture)
-VALUES 	(1, 'indirizzo1@dominio.it', 'tQJu8lEBkXWy+YuqNKZsqA==', 'Come mi chiamo', 'dM7ASu/mUmWGAO4Djc+3ow==', 'pippo', 'rossi', 'Img/img01.png'),
-		(2, 'indirizzo2@dominio.it', 'tQJu8lEBkXWy+YuqNKZsqA==', 'Come mi chiamo', '9UXLXrThEp2TWberQdOlcw==', 'marco', 'verdi', 'Img/img02.png'),
-		(3, 'indirizzo3@dominio.it', 'tQJu8lEBkXWy+YuqNKZsqA==', 'Come mi chiamo', 'hJWDdDLfWZN1OYhmVIVzew==', 'luigi', 'gialli', 'Img/img03.png'),
-		(4, 'indirizzo4@dominio.it', 'tQJu8lEBkXWy+YuqNKZsqA==', 'Come mi chiamo', 'NAeYtJJhGJyArczXGxGt1A==', 'piero', 'pelu', 'Img/img04.png'),
-		(5, 'indirizzo5@dominio.it', 'tQJu8lEBkXWy+YuqNKZsqA==', 'Come mi chiamo', 'hJWDdDLfWZN1OYhmVIVzew==', 'luigi', 'mannoio', 'Img/img05.png'),
-		(6, 'indirizzo6@dominio.it', 'tQJu8lEBkXWy+YuqNKZsqA==', 'Come mi chiamo', 'OZs8eT+KGFEuwZ7tr7BX7w==', 'Paolo', 'Bitta', 'Img/img06.png'),
-		(7, 'indirizzo7@dominio.it', 'tQJu8lEBkXWy+YuqNKZsqA==', 'Come mi chiamo', 'ShtP9+f4yI+gsFM4Se5xfQ==', 'Luca', 'Nervi', 'Img/img07.png'),
-		(8, 'indirizzo8@dominio.it', 'tQJu8lEBkXWy+YuqNKZsqA==', 'Come mi chiamo', 'ShtP9+f4yI+gsFM4Se5xfQ==', 'Direttore', 'De Marinis', 'Img/img09.png'),
-		(9, 'indirizzo9@dominio.it', 'tQJu8lEBkXWy+YuqNKZsqA==', 'Come mi chiamo', 'gU9yAwvuoJZrvHQIjc2QLA==', 'Silvano', 'Rogi', 'Img/img10.png');
+VALUES 	(1, 'indirizzo1@dominio.it', 'tQJu8lEBkXWy+YuqNKZsqA==', 'Come mi chiamo', 'dM7ASu/mUmWGAO4Djc+3ow==', 'pippo', 'rossi', 'img/contactImg/Default.png'),
+		(2, 'indirizzo2@dominio.it', 'tQJu8lEBkXWy+YuqNKZsqA==', 'Come mi chiamo', '9UXLXrThEp2TWberQdOlcw==', 'marco', 'verdi', 'img/contactImg/Default.png'),
+		(3, 'indirizzo3@dominio.it', 'tQJu8lEBkXWy+YuqNKZsqA==', 'Come mi chiamo', 'hJWDdDLfWZN1OYhmVIVzew==', 'luigi', 'gialli', 'img/contactImg/Default.png'),
+		(4, 'indirizzo4@dominio.it', 'tQJu8lEBkXWy+YuqNKZsqA==', 'Come mi chiamo', 'NAeYtJJhGJyArczXGxGt1A==', 'piero', 'pelu', 'img/contactImg/Default.png'),
+		(5, 'indirizzo5@dominio.it', 'tQJu8lEBkXWy+YuqNKZsqA==', 'Come mi chiamo', 'hJWDdDLfWZN1OYhmVIVzew==', 'luigi', 'mannoio', 'img/contactImg/Default.png'),
+		(6, 'indirizzo6@dominio.it', 'tQJu8lEBkXWy+YuqNKZsqA==', 'Come mi chiamo', 'OZs8eT+KGFEuwZ7tr7BX7w==', 'Paolo', 'Bitta', 'img/contactImg/Default.png'),
+		(7, 'indirizzo7@dominio.it', 'tQJu8lEBkXWy+YuqNKZsqA==', 'Come mi chiamo', 'ShtP9+f4yI+gsFM4Se5xfQ==', 'Luca', 'Nervi', 'img/contactImg/Default.png'),
+		(8, 'indirizzo8@dominio.it', 'tQJu8lEBkXWy+YuqNKZsqA==', 'Come mi chiamo', 'ShtP9+f4yI+gsFM4Se5xfQ==', 'Direttore', 'De Marinis', 'img/contactImg/Default.png'),
+		(9, 'indirizzo9@dominio.it', 'tQJu8lEBkXWy+YuqNKZsqA==', 'Come mi chiamo', 'gU9yAwvuoJZrvHQIjc2QLA==', 'Silvano', 'Rogi', 'img/contactImg/Default.png');
 
 /*
 	Inseriti per tutti gli utenti il gruppo di default

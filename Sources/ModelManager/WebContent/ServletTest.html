@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns = "http://www.w3.org/1999/xhtml" xml:lang = "it" lang = "it">
+	<head>
+	 	<meta http-equiv = "Content-Type" content = "text/html; UTF-8"/>
+		<title>Test servlet - MyTalk - SoftwareSynthesis</title>
+		<script type = "text/javascript">
+			function callServlet(servletURI, parameters)
+			{
+				if (parameters == null)
+					parameters = "";
+				var request = new XMLHttpRequest();
+				request.open("POST", servletURI, false);
+				request.setRequestHeader("Content-type", "application/x-www-fomr-urlencoded");
+				request.open(parameters);
+				return request.responseText;
+			}
+			
+			function printResult(identifier, result)
+			{
+				var cella = document.getElementById(identifier);
+				if (result == true)
+				{
+					cella.bgcolor = "";
+				}
+				else
+				{
+					cella.bgcolor = "";	
+				}
+			}
+			
+			function loginAuthentication()
+			{
+				var username = "indirizzo5@dominio.it";
+				var password = "password";
+				var servletURI = "http://localhost:8080/MyTalk/LoginAuthentication";
+				var parameters = "username=" + username + "&password=" + password;
+				var result = callServlet(servletURI, parameters);
+				var object = JSON.parse(result);
+				if (object.name == "luigi" && object.surname == "mannoio" && object.email == "indirizzo5@dominio.it")
+				{
+					printResult("LoginAuthentication", true);
+				}
+				else
+				{
+					printResult("LoginAuthentication", false);
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<h1>Test delle servlet di MyTalk</h1>
+		<table>
+			<tr>
+				<th>Nome della servlet</th>
+				<th>Esito del test</th>
+				<th>Opioni</th>
+			</tr>
+			<tr>
+				<td>LoginAuthentication</td>
+				<td id = "LoginAuthentication"></td>
+				<td><button onclick = "loginAuthentication()">Avvia test</button></td>
+			</tr>
+			<tr>
+				<td>LoginClose</td>
+				<td id = "Loginclose"></td>
+				<td><button onclick = "">Avvia test</button></td>
+			</tr>
+			<tr>
+				<td>LoginDoRegistration</td>
+				<td id = "LogingDoRegistration"></td>
+			</tr>
+		</table>
+	</body>
+</html>

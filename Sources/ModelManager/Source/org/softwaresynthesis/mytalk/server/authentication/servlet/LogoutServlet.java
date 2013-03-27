@@ -63,17 +63,17 @@ public final class LogoutServlet extends HttpServlet
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		HttpSession session = request.getSession(false);
+		HttpSession session = null;
 		LoginContext context = null;
 		PrintWriter writer = response.getWriter();
 		String result = null;
 		try
 		{
+			session = request.getSession(false);
 			context = (LoginContext)session.getAttribute("context");
 			if (context != null)
 			{
 				context.logout();
-				session.invalidate();
 				result = "true";
 			}
 			else
@@ -84,6 +84,13 @@ public final class LogoutServlet extends HttpServlet
 		catch (Exception ex)
 		{
 			result = "false";
+		}
+		finally
+		{
+			if (session != null)
+			{
+				session.invalidate();
+			}
 		}
 		writer.write(result);
 	}
