@@ -67,24 +67,42 @@
   
   <fieldset>
   		<input type = "text" id = "amico"/>
-  		<ul><li id="addContact" class="action" onClick="addContacts()"><button>addContacts</button></li></ul>
+  		<ul>
+  			<li id="addContact" class="action" onClick="addContacts()"><button>addContacts</button></li>
+  			<li id="removeContact" class="action" onClick="removeContacts()"><button>removeContacts</button></li>
+  		</ul>
   </fieldset>
   
   <script type="text/javascript">
-  	function addContacts()
+  	function removeContacts()
 	{
-		var servletURL = "http://localhost:8080/MyTalk/addressBookDoAddContact";
+		var servletURL = "http://localhost:8080/MyTalk/addressBookDoRemoveContact";
 		var contact = document.getElementById("amico").value;
-
-
 		var request = new XMLHttpRequest();
-		request.onreadystatechange = function() {
+		request.onreadystatechange = function() 
+		{
 			if (request.readyState == 4 && request.status == 200) 
 			{
 				alert(request.responseText);
 			}
 		};
-		// apre la richiesta e la invia
+		request.open("POST", servletURL, "true");
+		request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+		request.send("contactId=" + contact);
+	}
+  	
+  	function addContacts()
+	{
+		var servletURL = "http://localhost:8080/MyTalk/addressBookDoAddContact";
+		var contact = document.getElementById("amico").value;
+		var request = new XMLHttpRequest();
+		request.onreadystatechange = function() 
+		{
+			if (request.readyState == 4 && request.status == 200) 
+			{
+				alert(request.responseText);
+			}
+		};
 		request.open("POST", servletURL, "true");
 		request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 		request.send("contactId=" + contact);
@@ -99,15 +117,14 @@
 	{
 		var servletURL = "http://localhost:8080/MyTalk/addressBookGetContacts";
 		var contact = document.getElementById("amico").value;
-
-
 		var request = new XMLHttpRequest();
-		request.onreadystatechange = function() {
-			if (request.readyState == 4 && request.status == 200) {
+		request.onreadystatechange = function()
+		{
+			if (request.readyState == 4 && request.status == 200)
+			{
 				document.getElementById("contact").value = request.responseText;
 			}
 		};
-		// apre la richiesta e la invia
 		request.open("POST", servletURL, "true");
 		request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 		request.send();
@@ -123,16 +140,14 @@
 		var nome = document.getElementById("nome").value;
 		var cognome = document.getElementById("cognome").value;
 		var path = document.getElementById("img").value;
-
-
-
 		var request = new XMLHttpRequest();
-		request.onreadystatechange = function() {
-			if (request.readyState == 4 && request.status == 200) {
+		request.onreadystatechange = function() 
+		{
+			if (request.readyState == 4 && request.status == 200)
+			{
 				alert(request.responseText);
 			}
 		};
-		// apre la richiesta e la invia
 		request.open("POST", servletURL, "true");
 		request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 		request.send("username=" + username + "&password=" + password + "&question=" + domanda + "&answer=" + risposta + "&name=" + nome + "&surname=" + cognome + "&picturePath=" + path);
@@ -141,43 +156,36 @@
   	function logout()
   	{
   		var servletURL = "http://localhost:8080/MyTalk/LoginClose";
-
-
-
   		var request = new XMLHttpRequest();
-  		request.onreadystatechange = function() {
-  			if (request.readyState == 4 && request.status == 200) {
+  		request.onreadystatechange = function() 
+  		{
+  			if (request.readyState == 4 && request.status == 200) 
+  			{
   				alert(request.responseText);
   			}
   		};
-  		// apre la richiesta e la invia
   		request.open("POST", servletURL, "true");
   		request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
   		request.send();
   	}
   	
-	function load() {
-	
-	var servletURL = "http://localhost:8080/MyTalk/LoginAuthentication";
-	var successURL = "success.html";
-	
-	var username = document.getElementById("username").value;
-	var password = document.getElementById("password").value;
-
-
-
-	var request = new XMLHttpRequest();
-	request.onreadystatechange = function() {
-		if (request.readyState == 4 && request.status == 200) {
-			//var dati= JSON.parse(request.responseText);
-			alert(request.responseText);
-		}
-	};
-	// apre la richiesta e la invia
-	request.open("POST", servletURL, "true");
-	request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-	request.send("username=" + username + "&password=" + password);
-}
+	function load()
+	{
+		var servletURL = "http://localhost:8080/MyTalk/LoginAuthentication";
+		var username = document.getElementById("username").value;
+		var password = document.getElementById("password").value;
+		var request = new XMLHttpRequest();
+		request.onreadystatechange = function() 
+		{
+			if (request.readyState == 4 && request.status == 200) 
+			{
+				alert(request.responseText);
+			}
+		};
+		request.open("POST", servletURL, "true");
+		request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+		request.send("username=" + username + "&password=" + password);
+	}
   </script>
 </body>
 </html>
