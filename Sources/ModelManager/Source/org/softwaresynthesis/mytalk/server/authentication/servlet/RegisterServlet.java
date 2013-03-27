@@ -121,8 +121,11 @@ public final class RegisterServlet extends HttpServlet
 		{
 			result = "false";
 		}
-		writer = response.getWriter();
-		writer.write(result);
+		finally
+		{
+			writer = response.getWriter();
+			writer.write(result);
+		}
 	}
 	
 	private String getParameter(HttpServletRequest request, String parameterName)

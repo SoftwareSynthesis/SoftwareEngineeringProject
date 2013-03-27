@@ -121,6 +121,8 @@ public final class LoginServlet extends HttpServlet
 			context = null;
 			credential = null;
 			loader = null;
+			username = null;
+			password = null;
 			writer = response.getWriter();
 			writer.write(result);
 		}

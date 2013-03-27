@@ -91,7 +91,8 @@ public final class LogoutServlet extends HttpServlet
 			{
 				session.invalidate();
 			}
+			writer = response.getWriter();
+			writer.write(result);
 		}
-		writer.write(result);
 	}
 }
