@@ -158,7 +158,6 @@ function AddressBookPanelPresenter() {
 			break;
 		}
 		stateNode.src = statePictureUrl;
-		// stateNdoe.class="";
 
 		// imposto il valore dell'<li>
 		item.appendChild(avatarNode);
