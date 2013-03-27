@@ -390,12 +390,11 @@ function PresenterMediator() {
 	 *            onlyAudio true se si vuole effettuare una chiamata solo audio
 	 */
 	this.onCall = function(contact, onlyAudio) {
-		if (onlyAudio) {
-			// TODO chiamare con function(contact, false)
-		} else {
-			// TODO chiamare con functuon(contact, true)
-		}
-	}
+		var element = communicationpp.createPanel();
+		presenters["main"].displayChildPanel(element);
+		communictioncenter.call(true, contact, onlyAudio);
+	};
+	
 	/**
 	 * Funzione per ottenere il ComunicationPanelPresenter
 	 * 
