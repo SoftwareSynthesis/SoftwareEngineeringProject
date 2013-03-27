@@ -2339,7 +2339,7 @@ La sotto-architettura \texttt{clientpresenter}, a livello di definizione di prod
 	
 \end{description}
 
-\subsection{Package org.softwaresynthesis.mytalk.clientpresenter.guicontrol}\label{sec:authentication}
+\subsection{Package org.softwaresynthesis.mytalk.clientpresenter.guicontrol}\label{sec:guicontrol}
 
 \classsection{AddressBookPanelPresenter}
 
@@ -3294,6 +3294,60 @@ Costruisce la stringa corrispondente alla query che deve essere spedita alla ser
 
 \end{description}
 
+\subsection{Package org.softwaresynthesis.mytalk.clientpresenter.kernel}\label{sec:kernel}
+%TODO da verificare
+\classsection{CommunicationCenter}
+
+\subsubsection*{Funzione}
+Classe logica che gestisce tutta la parte della comunicazione lato client.
+
+\subsubsection*{Relazioni d'uso}
+Nessuna relazione d'uso evidenziata.
+
+\subsubsection*{Attributi}
+\begin{description}
+\item{\memberdata{+ videoComunication: String[]}}\\
+Array che contiene i dati della video-chiamata
+\item{\memberdata{+ openChat: DOM\_element[]}}\\
+Array che contiene i dati della video-chiamata
+\item{\memberdata{- urlServlet: String}}\\
+Contiene l'indirizzo della servlet che gestisce la comunicazione
+\item{\memberdata{- my: String[]}}\\
+Array contenente i dati personali dell'utente
+\item{\memberdata{- websocket: Object()}}\\
+Oggetto che rappresenta la websocket da utilizzare per comunicare con il server. Il costruttore di tale oggetto vuole l'URL della servlet.
+
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+\item{\method{- formatBytes(bytes: int): String}}\\
+Metodo che formatta i byte ricevuti ed inviati al fine di fornire una visualizzazione sensata delle statistiche.\\
+Il metodo riceve un numero rappresentante i bytes (\memberdata{bytes} e li converte in KB/s o MB/s a seconda della grandezza.
+
+\item{\method{- formatTime(tempo: int): String}}\\
+Metodo che ritorna nel formato ``hh:mm:ss'' il tempo della comunicazione.\\
+Il metodo riceve un numero rappresentante il tempo espresso in secondi (\memberdata{tempo}, lo converte nel formalismo descritto prima e lo restituisce.
+
+\item{\method{- stopTimer(): void}}\\
+Metodo che ferma l'aggiornamento del timer. Viene richiamato quando la chiamata termina.
+
+\item{\method{- stopStats(): void}}\\
+Metodo che ferma l'aggiornamento delle statistiche relative alla chiamata in corso. Viene richiamato quando la chiamata termina.
+
+\item{\method{- dumpStats(obj: Object()): void}}\\
+Metodo che permette l'estrazione dei dati rappresentanti le statistiche della chiamata. Il metodo che riceve come parametro un oggetto (\memberdata{obj}), lo elabora ed estrae solo i byte ricevuti e byte inviati. Ricavati questi dati, 
+
+\item{\method{- onSubmitChange(): void}}\\
+Gestisce il cambiamento dei dati da parte dell'utente contattando, se necessario (controllo effettuato tramite chiamata al metodo \method{hasSometingChanged}), la servlet incaricata di aggiornare il contenuto del database sul server. Il metodo va a recuperare i valori tramite chiamate di metodo \method{document.getElementById(id)} e successivamente contatta la servlet tramite un XMLHttpRequest passando i dati prelevati dalla pagina. Se la servlet ritorna un errore viene gestito tramite la visualizzazione dell'errore all'utente, altrimenti viene richiamato il metodo \method{initialize()} per aggiornare la visualizzazione dei dati più recenti.
+
+\item{\method{- hasSomethingChanged(data: String[]): boolean}}\\
+Metodo che verifica l'effettivo cambiamento di dati rispetto a quanto contenuto in\\ \memberdata{communicationcenter.my} confrontandoli con l'oggetto \memberdata{data} ricevuto come parametro. Il metodo controlla che almeno il valore di un campo dati sia effettivamente cambiato e ritorna ``true'' in tale caso. Nel caso opposto, ossia tutti i dati sono uguali ai precedenti, ritorna ``false''.
+
+\item{\method{- buildQueryString(data: String[]): String}}\\
+Costruisce la stringa corrispondente alla query che deve essere spedita alla servlet per portare a termine la richiesta di cambiamento dei dati personali. Viene costruita partendo dai valori recuperati dall'oggetto \memberdata{data} passato come parametro e utilizzando la giusta sintassi MySQL.
+
+\end{description}
 
 \clearpage
 
