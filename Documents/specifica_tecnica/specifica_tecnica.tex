@@ -853,6 +853,7 @@ CS03 -- Gestione rubrica & abook.servlet.AddressBookDoAddContactServlet\\
 & abook.servlet.AddressBookGetContactsServlet\\
 & abook.servlet.AddressBookGetGroupsServlet\\
 & abook.servlet.AddressBookDoSearchServlet\\
+& abook.servlet.AccountSettingsServlet\\
 CS04 -- Gestione autenticazione & authentication.servlet.LoginServlet\\
 & authentication.servlet.LogoutServlet\\
 & authentication.servlet.RegisterServlet\\
@@ -882,7 +883,8 @@ Il compito di interfacciarsi con \textsf{Gestione rubrica} per recuperare la rub
 	  \item[-] \texttt{abook.servlet.AddressBookDoUnblockServlet}: richiamata da un client per sbloccare un contatto presente nella propria rubrica;
 	  \item[-] \texttt{abook.servlet.AddressBookGetContactsServlet}: richiamata da un client per scaricare la lista dei contatti presenti nella propria rubrica;
 	  \item[-] \texttt{abook.servlet.AddressBookGetGroupsServlet}: richiamata da un client per scaricare lista dei contatti e dei gruppi in cui essi sono inseriti;
-	  \item[-] \texttt{abook.servlet.AddressBookDoSearchServlet}: utilizzata per ricercare gli utente contenenti nei parametri nome, cognome o mail, una parola chiave usata per fare la ricerca e passata alla \inglese{servlet}.
+	  \item[-] \texttt{abook.servlet.AddressBookDoSearchServlet}: utilizzata per ricercare gli utente contenenti nei parametri nome, cognome o mail, una parola chiave usata per fare la ricerca e passata alla \inglese{servlet};
+	  \item[-] \texttt{abook.servlet.AccountSettingsServlet}: richiamata da un client per modificare i propri dati personali memorizzati nel server.
 \end{itemize}
 
 I cambiamenti di stato di un utente sono invece processati da \texttt{connection.ChannelServlet} che fornisce di conseguenza anch'esso un punto d'accesso al componente \textsf{Gestione rubrica}.
@@ -1271,6 +1273,18 @@ Servlet il cui compito consiste nel fornire la rubrica di un utente iscritto al 
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-] \textsf{CS03 -- Gestione rubrica }
+	  \item[-] \textsf{CS07 -- Façade del server}
+	\end{itemize}
+\end{description}
+
+\item \texttt{AccountSettingsServlet}
+\begin{description}
+  \item{\scshape\bfseries Descrizione:}
+Servlet che ha il compito di permettere la modifica dei dati personali di un utente iscritto al sistema \caName.
+  
+  \item{\scshape\bfseries Componenti che ne fanno uso:}
+  	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \textsf{CS03 -- Gestione rubrica }
 	  \item[-] \textsf{CS07 -- Façade del server}
 	\end{itemize}
@@ -2305,9 +2319,25 @@ Ogni classe di tale package implementa Façade poiché nasconde l'iter per la ge
   \caption{Applicazione del \inglese{pattern} Façade a \textsf{Gestione rubrica}}\label{fig:facadeaddressbook1}
 \end{figure}
 
+Essendo già il diagramma sufficientemente complesso si ritiene che l'aggiunta di tutte le frecce che rappresentano le dipendenza lo rendano completamente illeggibile, per tale ragione le dipendenze si riportano in forma di elenco, in particolare:
+\begin{itemize}[noitemsep,nolistsep,leftmargin=.5em]
+  \item[-] la \inglese{servlet} \texttt{AddressBookDoAddContactsServlet} ha una dipendenza da \texttt{AddressBookEntry}, \texttt{IGroup}, \texttt{IUserData}, \texttt{GroupDAO} e \texttt{UserDataDAO};
+  \item[-] \texttt{AddressBookDoBlockServlet} dipende da \texttt{IAddressBookEntry}, \texttt{IUserData} e \texttt{UserDataDAO};
+  \item[-] \texttt{AddressBookDoCreateGroupServlet} dipende da \texttt{Group}, \texttt{IGroup}, \texttt{IUserData} e \texttt{GroupDAO};
+  \item[-] la \inglese{servlet}  \texttt{AddressBookDoDeleteGroupServlet} dipende invece da \texttt{IAddressBookEntry}, \texttt{IGroup}, \texttt{AddressBookEntryDAO} e \texttt{GroupDAO};
+  \item[-] \texttt{AddressBookDoInsertInGroupServlet} dipende da \texttt{AddressBookEntry}, \texttt{IAddressBookEntry}, \texttt{IGroup}, \texttt{IUserData}, \texttt{GroupDAO} \texttt{UserDataDAO};
+  \item[-] la \inglese{servlet} \texttt{AddressBookDoRemoveContactServlet} dipende da \texttt{IAddressBookEntry}, \texttt{IUserData}, \texttt{AddressBookEntryDAO} e \texttt{UserDataDAO};
+  \item[-] \texttt{AddressBookDoRemoveFromGroupServlet} dipende da \texttt{AddressBookEntry}, \texttt{IAddressBookEntry}, \texttt{IGroup}, \texttt{IUserData}, \texttt{GroupDAO} e \texttt{UserDataDAO};
+  \item[-] \texttt{AddressBookDoSearchServlet} dipende da \texttt{IUserDataDAO} e \texttt{UserDataDAO};
+  \item[-] \texttt{AddressBookDoUnblockServlet} dipende da \texttt{IAddressBookEntry}, \texttt{IUserData} e \texttt{UserDataDAO};
+  \item[-] \texttt{AddressBookGetContactsServlet} dipende da \texttt{IAddressBookEntry} e \texttt{IUserData};
+  \item[-] \texttt{AddressBookGetGroupsServlet} dipende da \texttt{IAddressBookEntry}, \texttt{IGroup}, \texttt{IUserData} e \texttt{GroupDAO};
+  \item[-] \texttt{AccountSettingsServlet} dipende da \texttt{IUserData} e \texttt{UserDataDAO}.
+\end{itemize}
+
 \subsubsection*{Classi del package \texttt{org.softwaresynthesis.mytalk.server.message.servlet}}
 
-Ogni classe di tale package implementa Façade poiché nasconde l'iter per la gestione della segreteria telefonica svincolando l'utilizzatore dal doverlo conoscere. Nello specifico tali classi richiamano in più punti e in maniera sequenziale, classi presenti nel package \texttt{server.message} e \texttt{server.dao}.
+Ogni classe di tale package implementa Façade poiché nasconde l'iter per la gestione della segreteria telefonica svincolando l'utilizzatore dal doverlo conoscere. Nello specifico tali classi richiamano in più punti e in maniera sequenziale classi presenti nel package \texttt{server.message} e \texttt{server.dao}.
 
 \begin{figure}[H]
   \centering
