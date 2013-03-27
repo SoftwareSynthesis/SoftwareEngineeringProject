@@ -2352,7 +2352,7 @@ In ragione di ciò, al fine di facilitare al programmatore la comprensione del p
 \classsection{AddressBookPanelPresenter}
 
 \subsubsection*{Funzione}
-Presenter incaricato di gestire il pannello della rubrica, contiene le funzioni associate ai \inglese{widget} grafici della vista relativi a quest'ultima e ha la responsabilità di aggiornare la vista sulla base dei dati ricevuti dal server.
+Presenter incaricato di gestire il pannello della rubrica, contiene le funzioni associate ai \inglese{widget} grafici della vista relativi a quest'ultima e ha la responsabilità di aggiornare la vista sulla base dei dati ricevuti dal \inglese{server}.
 
 \subsubsection*{Relazioni d'uso}
 Nessuna relazione d'uso evidenziata.
@@ -2396,7 +2396,7 @@ Suffisso da concatenare all'url per richiamare le \inglese{servlet} appropriate.
 		\begin{itemize}
 			\item divSearch: definisce un campo per l'\inglese{input} testuale e un bottone per ricercare nella lista un utente avente avete tra le parole chiave, una con valore uguale a quello inserito nel campo d'\inglese{input}.
 			\item divSort: crea delle \inglese{select} per specificare le tipologie di ordinamento attuabili sulla lista degli utenti.
-			\item divList: div che viene popolato con i nomi degli utenti presenti nella rubrica dell'utente che l'ha richiamata.
+			\item divList: \textit{div} che viene popolato con i nomi degli utenti presenti nella rubrica dell'utente che l'ha richiamata.
 		\end{itemize}
 
 Quindi dopo aver creato questi elementi il metodo procede inserendo nel DOM il ``sotto-albero'' cosi creato.
@@ -2422,13 +2422,13 @@ Metodo utilizzato per aggiungere un'opzione all'elemento \memberdata{select} ric
 	\item{\method{+ addContact(contact: Object(contact)): boolean}}\\
 	Metodo per l'aggiunta di un contatto alla rubrica, riceve come parametro un oggetto di tipo contatto da inserire, appunto, nella propria rubrica. 
 Per assicurarsi di non introdurre ridondanza ed aggiungere un contatto già presente il metodo esegue due controlli: uno lato \inglese{client} e uno lato \textit{server}. 
-Il controllo lato \inglese{client}, si scorre la lista \memberdata{contact} alla ricerca di un \texttt{contact} che cerca un \inglese{match} con il nuovo contatto. Nel caso sia già presente il metodo termina ritornando \inglese{false}. Per eseguire il controllo lato \inglese{server} il metodo contatta il server mediante la \inglese{servlet} \texttt{AddressBookDoAddContatctServlet}, questa verificherà se l'utente avente \texttt{id} contact è già presente nella rubrica, nel caso non lo sia si occuperà di creare la nuova istanza di \texttt{AddressBookEntry} e la registrerà nel database, in caso contrario non esegue operazioni. 
+Il controllo lato \inglese{client}, si scorre la lista \memberdata{contact} alla ricerca di un \texttt{contact} che cerca un \inglese{match} con il nuovo contatto. Nel caso sia già presente il metodo termina ritornando \inglese{false}. Per eseguire il controllo lato \inglese{server} il metodo contatta il \inglese{server} mediante la \inglese{servlet} \texttt{AddressBookDoAddContatctServlet}, questa verificherà se l'utente avente \texttt{id} \textit{contact} è già presente nella rubrica, nel caso non lo sia si occuperà di creare la nuova istanza di \texttt{AddressBookEntry} e la registrerà nel database, in caso contrario non esegue operazioni. 
 La chiamata a \inglese{servlet} ritorna un valore booleano che sarà \textit{true} se l'inserimento ha avuto successo, \textit{false} altrimenti. 
 Se l'inserimento ha avuto successo il flusso principale prosegue eseguendo l'aggiornamento della rubrica in locale tramite la chiamata a metodo \method{setup()}. Il metodo termina infine ritornando \textit{true} se è stato aggiunto l'utente, altrimenti lancia un'eccezione.
 
 	\item{\method{+ removeContact(contact: Obj): boolean}}\\
 Metodo il cui funzionamento è analogo a quello precedentemente definito, si occupa di eliminare un contatto conoscendone l'\texttt{id} passato per parametro d'ingresso. Il flusso principale esegue due controlli per verificare la presenza dell'utente nella rubrica (analogamente a quanto visto nel caso precedente). 
-Dopo tale verifica, se il contatto è realmente presente nella rubrica la \inglese{servlet} \texttt{AddressBookDoRemoveContactServlet} avrà eseguito la cancellazione come conseguenza al match effettuato in fase di verifica, nel caso il metodo richiama \method{setup()} per rieseguire l'aggiornamento della rubrica. Il metodo ritorna infine \textit{true} se effettivamente il contatto era presente ed è stato eliminato altrimenti lancia un'eccezione.
+Dopo tale verifica, se il contatto è realmente presente nella rubrica, la \inglese{servlet} \texttt{AddressBookDoRemoveContactServlet} avrà eseguito la cancellazione come conseguenza al match effettuato in fase di verifica, nel caso il metodo richiama \method{setup()} per rieseguire l'aggiornamento della rubrica. Il metodo ritorna infine \textit{true} se effettivamente il contatto era presente ed è stato eliminato, altrimenti lancia un'eccezione.
 
 	\item{\method{+ addGroup(name: String): boolean}}\\
 	Metodo per l'aggiunta di un nuovo gruppo nella rubrica, permette l'aggiunta di gruppi con nomi duplicati (ossia nomi di gruppi già presenti nella rubrica). Il flusso principale richiama la \inglese{servlet} \texttt{AddressBookDoCreateGroupServlet} con il nome del gruppo da creare. Successivamente, se la \inglese{servlet} ha dato \method{setup()} esito positivo, viene richiamata il metodo \inglese{setup} che aggiorna la rubrica locale, altrimenti lancia un'eccezione.
@@ -2438,17 +2438,17 @@ Dopo tale verifica, se il contatto è realmente presente nella rubrica la \ingle
 	
 	\item{\method{+ addContactInGroup(contact: Object(contact), group: Object(contact)): boolean}}\\
 	Metodo per l'aggiunta di un contatto in un gruppo ben definito, riceve come parametro d'ingresso il contatto e il gruppo.
-Il metodo richiama da prima \method{contactExistInGroup}, successivamente il flusso principale richiama la \inglese{servlet} \texttt{AddressBookDoInsertInGroupServlet} passandogli i parametri d'ingresso, quindi se la \inglese{servlet} notifica l'effettiva esistenza di un gruppo con il nome ricevuto, essa si occupa di aggiungervi il contatto e il flusso principale ritorna al metodo \method{setup()} per aggiornare la rubrica in locale. Il metodo ritorna infine un \inglese{feedback} booleano a \textit{true} per dare notifica se l'operazione ha avuto buon fine, altrimenti rilancia un'eccezione.
+Il metodo richiama da prima \method{contactExistInGroup}, successivamente il flusso principale richiama la \inglese{servlet} \texttt{AddressBookDoInsertInGroupServlet} passandogli i parametri d'ingresso, quindi se la \inglese{servlet} notifica l'effettiva esistenza di un gruppo con il nome ricevuto, essa si occupa di aggiungervi il contatto e il flusso principale ritorna al metodo \method{setup()} per aggiornare la rubrica in locale, ritorna infine un \inglese{feedback} booleano a \textit{true} per dare notifica se l'operazione ha avuto buon fine, altrimenti rilancia un'eccezione.
 	
 	\item{\method{+ deleteContactFromGroup(contact: Object(contact), group: Object(group)): boolean}}\\
 	Metodo per l'eliminazione di un contatto presente in un gruppo, riceve come parametro d'ingresso il gruppo su cui effettuare la ricerca del contatto da eliminare e il contatto. 
-Il metodo richiama da prima \method{contactExistInGroup}, poi Il flusso principale richiama la \inglese{servlet} \texttt{AddressBookDoRemoveFromGroupServlet} passandogli i parametri d'ingresso, la \inglese{servlet} notifica l'effettiva esistenza di un gruppo con il nome ricevuto che contiene il contatto candidato all'eliminazione, essa si occupa dell'eliminazione e il flusso principale ritorna al metodo \method{setup()} per aggiornare la rubrica in locale. Il metodo ritorna infine un \inglese{feedback} booleano per dare notifica sull'esito dell'operazione: \textit{true}\textit{true} se è stato creato il nuovo gruppo, altrimenti lancia un'eccezione
+Il metodo richiama da prima \method{contactExistInGroup}, poi Il flusso principale richiama la \inglese{servlet} \texttt{AddressBookDoRemoveFromGroupServlet} passandogli i parametri d'ingresso, la \inglese{servlet} notifica l'effettiva esistenza di un gruppo con il nome ricevuto che contiene il contatto candidato all'eliminazione, essa si occupa dell'eliminazione e il flusso principale ritorna al metodo \method{setup()} per aggiornare la rubrica in locale, ritorna infine un \inglese{feedback} booleano per dare notifica sull'esito dell'operazione: \textit{true}\textit{true} se è stato creato il nuovo gruppo, altrimenti lancia un'eccezione.
 	
 	\item{\method{- contactExistInGroup(contact: Object(contact), group: Object(group)): boolean}}\\
-Metodo che verifica l'esistenza di un contato in un determinato gruppo. Il metodo restituisce un \inglese{feedback} booleano per confermare o meno l'esistenza dell'utente ricercato nel gruppo designato.
+Metodo che verifica l'esistenza di un contato in un determinato gruppo, restituisce un \inglese{feedback} booleano per confermare o meno l'esistenza dell'utente ricercato nel gruppo designato.
 
 \item{\method{+ applyFilterByString(param: String): array()}}\\
-Metodo che data una stringa come parametro d'ingresso filtra la lista di contatti presente in locale. Inoltre non deve interagire con il server, ovvero non vengono richiamate \inglese{servlet}.
+Metodo che data una stringa come parametro d'ingresso filtra la lista di contatti presente in locale. Non richiede interazione con il server, ovvero non vengono richiamate \inglese{servlet}.
 
 In un primo step il programmatore dovrà creare un \inglese{array} atto a contenere l'elenco dei contatti da restituire, quindi il metodo procede con la definizione di un espressione regolare basata sul parametro ricevuto. Per tale operazione la sintassi obbligatoria è:\\
 
@@ -2458,12 +2458,12 @@ Quindi viene avviato un ciclo \textit{for} che analizza ogni contatto presente i
 
 \verb|pattern.test(\*elemento su cui ricercare param*\)|\\
 
-Se tale filtraggio ha esito positivo, il contatto viene aggiunto all'\textit{array} dei contatti da restituire. Il metodo termina quando, dopo aver eseguito il ciclo \textit{for}, il metodo ritorna l'\textit{array} sopracitato.
+Se tale filtraggio da esito positivo, il contatto viene aggiunto all'\textit{array} dei contatti da restituire. Il metodo termina quando, dopo aver eseguito il ciclo \textit{for}, il metodo ritorna l'\textit{array} sopracitato.
 
 \item{\method{+ applyFilterByGroup(idGroup: int): array()}}\\
-Metodo che dato un intero come parametro d'ingresso filtra la lista di contatti presente in locale, restituendo un elenco dei contatti appartenenti al gruppo avente id uguale a idGroup. Inoltre non deve interagire con il \inglese{server}, ovvero non vengono richiamate \inglese{servlet}. 
+Metodo che dato un intero come parametro d'ingresso filtra la lista di contatti presente in locale, restituendo un elenco dei contatti appartenenti al gruppo avente id uguale a idGroup, inoltre non deve interagire con il \inglese{server}, ovvero non vengono richiamate \inglese{servlet}. 
 
-Come per \method{applyFilterByString()} anche in questo caso il metodo deve creare un \textit{array} da popolare con i contatti appartenente al gruppo idGroup. Quindi viene eseguito un ciclo \inglese{for} che ispezione tutti i contatti presenti in \memberdata{contacts}. Per ogni ciclo il metodo controlla i gruppi in cui compare il contatto i-esimo (tale azione si attua per mezzo di un secondo ciclo innestato), e se si verifica che il gruppo in esame ha lo stesso id dell'identificativo idGroup, allora si aggiunge il contatto all'\textit{array} creato in precedenza. Il metodo termina restituendo l'\textit{array} sopra-citato.
+Come per \method{applyFilterByString()} anche in questo caso il metodo deve creare un \textit{array} da popolare con i contatti appartenente al gruppo idGroup. Quindi viene eseguito un ciclo \inglese{for} che ispezione tutti i contatti presenti in \memberdata{contacts} e per ogni ciclo il metodo controlla i gruppi in cui compare il contatto i-esimo (tale azione si attua per mezzo di un secondo ciclo innestato), se si verifica una corrispondenza tra l'id del gruppo in esame con l'identificativo idGroup, si aggiunge il contatto all'\textit{array} creato in precedenza. Il metodo termina restituendo l'\textit{array} sopra-citato.
 
 \item{\method{+ showFilter(filteredContacts: Array()): void}}\\
 Metodo usato per l'eliminare il contenuto preesistente nella rubrica e visualizza il nuovo contenuto filtrato. Il metodo riceve come parametro un \textit{array} che rappresenta la lista filtrata dei contatti da visualizzare. Per eseguire tali operazioni viene avviato un ciclo \inglese{for} per ogni contatto presente in \memberdata{contacts}. All'interno di tale ciclo deve essere eseguita la seguente istruzione:\\
@@ -2472,7 +2472,7 @@ Metodo usato per l'eliminare il contenuto preesistente nella rubrica e visualizz
 \verb|filtredContacts[contact])|\\
 
 \item{\method{+ contactAlredyPresent(contact: Object(contact)): boolean}}\\
-Metodo che dato un contatto verifica se appartiene alla rubrica. Per compiere tale azione viene da prima riscaricata la rubrica, mediante una chiamata a metodo \method{getAddressBookContacts()}. Quindi si usa un ciclo \inglese{for} per scorrere l'intera lista precedentemente ottenuta e ad ogni ciclo si controlla se il contatto i-esimo ha id uguale a quello del contatto ricevuto come parametro d'ingresso (\texttt{contact.id}). Se tale confronto ha esito positivo, il metodo termina ritornando \inglese{true}, altrimenti il metodo termina al termine del ciclo for ritornando \inglese{false}.
+Metodo che dato un contatto verifica se appartiene alla rubrica. Per compiere tale azione viene da prima riscaricata la rubrica, mediante una chiamata a metodo \method{getAddressBookContacts()}. Quindi si usa un ciclo \inglese{for} per scorrere l'intera lista precedentemente ottenuta e ad ogni ciclo si controlla se il contatto i-esimo ha id uguale a quello del contatto ricevuto come parametro d'ingresso (\texttt{contact.id}). Se tale confronto ha esito positivo, il metodo termina ritornando \inglese{true}, altrimenti il metodo termina al termine del ciclo \inglese{for} ritornando \inglese{false}.
 
 \item{\method{+ blockUser(contact: Object(contact)): boolean}}\\
 Metodo utilizzato per bloccare (all'interno della rubrica utente) il contatto contact passato come parametro d'ingresso. Il primo step consiste nell'eseguire il controllo sul parametro ricevuto. Per farlo si osserva il valore ritornato da una chiamata a metodo \method{constactAlradyPresent()} passando come parametro d'ingresso contact. Se il valore di ritorno è \inglese{false} il metodo termina con l'eccezione ``Contatto non presente nella rubrica''. Altrimenti il controllo passa allo step successivo, in cui si verifica se l'attributo blocked di contact è impostato a \inglese{true}. Nel caso il metodo termina con l'eccezione ``Contatto già bloccato''. Se il flusso principale ha superato i test precedenti, allora viene creata un istanza di request \texttt{XMLHttpRequest()} usata per contattare la \inglese{servlet} avente nome:\\
@@ -2488,15 +2488,14 @@ Il flusso principale prosegue aprendo la request cosi definita (uso del metodo \
 Il metodo termina eseguendo un controllo. Se il risultato result della chiamata a \inglese{servlet} ha valore \inglese{true} allora il metodo termina aggiornando la rubrica mediante una chiamata \method{setup()} e ritornando \inglese{true}. In caso contrario il metodo termina con un eccezione.
 
 \item{\method{+ unlockUser(contact: Object(contact)): boolean}}\\
-Metodo usato per sbloccare un utente all'interno di una rubrica. Il metodo ha un funzionamento analogo al precedente. Nello specifico vengono attuati gli stessi controlli prima tramite \method{contactAlradyPresent()} e poi tramite la verifica del contenuto del di contact.block. Successivamente si crea una XMLHttpRequest che si appoggia alla \inglese{servlet} definita dalla stringa:\\
+Metodo usato per sbloccare un utente all'interno di una rubrica. Il metodo ha un funzionamento analogo al precedente, nello specifico vengono attuati gli stessi controlli prima tramite \method{contactAlradyPresent()} e poi tramite la verifica del contenuto del di contact.block. Successivamente si crea una XMLHttpRequest che si appoggia alla \inglese{servlet} definita dalla stringa:\\
 
 \verb|urlServlet + operations[9] + suffix|\\
 
-Tale server ha il compito di sbloccare il contatto contact. Quindi il metodo termina eseguendo un controllo sul tipo di risultato. Se l'operazione precedente è avvenuta con successo allora si procede aggiornando la rubrica (chiamata a metodo \method{setup()}). Altrimenti il metodo termina con un eccezione.
+Tale server ha il compito di sbloccare il contatto \textit{contact}. Quindi il metodo termina eseguendo un controllo sul tipo di risultato. Se l'operazione precedente è avvenuta con successo allora si procede aggiornando la rubrica (chiamata a metodo \method{setup()}), altrimenti il metodo termina con un eccezione.
 
-%TODO da verificare
 \item{\method{+ getGroupsWhereContactsIs(contact: Object(contact)): Object(group)}}\\
-Tale metodo ha il compito, dato un utente, di ritornare una lista di gruppi in cui esso è presente, riceve come unico parametro il contatto da ricercare e successivamente vengono ciclati tutti i gruppi e per ogni gruppo si controlla se è inserito il contatto. In caso di match, viene aggiunto il gruppo alla lista di gruppi da ritornare.
+Tale metodo ha il compito, dato un utente, di ritornare una lista di gruppi in cui esso è presente. Riceve come unico parametro il contatto da ricercare e successivamente vengono ciclati tutti i gruppi e per ogni gruppo si controlla se è inserito il contatto, in caso di match viene aggiunto il gruppo alla lista di gruppi da ritornare.
 
 
 \end{description}
@@ -2504,7 +2503,7 @@ Tale metodo ha il compito, dato un utente, di ritornare una lista di gruppi in c
 \classsection{LoginPanelPresenter}
 
 \subsubsection*{Funzione}
-Presenter incaricato di gestire il pannello di \textit{login}. Prende in carica i dati inseriti dall'utente (username e password) passandoli al server per eseguire l'autenticazione. La \inglese{servlet} usata a tale scopo è \texttt{LoginManager}.
+Presenter incaricato di gestire il pannello di \textit{login}, prende in carica i dati inseriti dall'utente (username e password) passandoli al server per eseguire l'autenticazione. La \inglese{servlet} usata a tale scopo è \texttt{LoginManager}.
 
 Il presenter si occupa anche di fornire delle funzionalità per il recupero della password.
 
@@ -2527,7 +2526,7 @@ Il presenter si occupa anche di fornire delle funzionalità per il recupero dell
 Metodo che testa quanto ricevuto dal server e, in caso di login avvenuto correttamente, reindirizza il browser nel presenter finale dopo aver salvato i dati dell'utente. Il metodo inizia salvando in una variabile avente nome \inglese{user} il contenuto di data trattato attraverso una chiamata \texttt{JSON.parse(data)}, quindi se il contenuto di user non è nullo si procede richiamando il \texttt{communicationcenter} e impostando il valore di \texttt{communicationcenter.my} a \inglese{user}. Il metodo termina richiamando il metodo \method{hide()} e avviando la costruzione della UI mediante una chiamata \method{medietor.buildUI()}.
 	
 	\item{\method{+ sendAnswer(username: String, answer: String): void}}\\
-	Metodo per inviare la risposta alla domanda segreta al server, riceve 2 parametri d'ingresso: lo username dell'utente e la risposta (answer) da inviare al server. Come primo passo viene creata un istanza di \texttt{XMLHttpRequest} salvata in una variabile avente nome request, successivamente si associa all'evento \texttt{onclick} di \textit{request} una funzione avente il compito di inviare la richiesta \textit{AJAX} al server, e di richiamare in risposta uno dei seguenti metodi:
+	Metodo per inviare la risposta alla domanda segreta al server, riceve due parametri d'ingresso: lo \inglese{username} dell'utente e la risposta (\inglese{answer}) da inviare al \inglese{server}. Come primo passo viene creata un istanza di \texttt{XMLHttpRequest} salvata in una variabile avente nome \textit{request}, successivamente si associa all'evento \texttt{onclick} di \textit{request} una funzione avente il compito di inviare la richiesta \textit{AJAX} al server, e di richiamare in risposta uno dei seguenti metodi:
 	\begin{itemize}
 		\item \method{correctAnswer()} nel caso la risposta inviata sia corretta;
 		\item \method{incorrectAnswer()} se invece la risposta inviata dall'utente è errata.
@@ -2535,13 +2534,13 @@ Metodo che testa quanto ricevuto dal server e, in caso di login avvenuto corrett
 	
 	\item{\method{+ correctAnswer(): void}}\\
 	Metodo usato per modificare il nodo DOM salvato in \memberdata{element} per comunicare all'utente che la risposta da lui inserita (per il recupero password) è corretta. 
-Il metodo deve rimuovere il figlio ``passwordretrieval'' da \memberdata{element} quindi salva in una variabile avente nome message il contenuto di una chiamata \verb|document.createElement("p")|. 
-Successivamente procede caricando su message (usando il metodo \texttt{appendChild(var\_figlio)}) il messaggio da visualizzare per notificare all'utente il successo dell'operazione. Il messaggio visualizzato sarà: \\
+Il metodo deve rimuovere il figlio \textit{passwordretrieval} da \memberdata{element} quindi salva in una variabile avente nome \textit{message} il contenuto di una chiamata \verb|document.createElement("p")|. 
+Successivamente procede caricando su \textit{message} (usando il metodo \texttt{appendChild(var\_figlio)}) il messaggio da visualizzare per notificare all'utente il successo dell'operazione. Il messaggio visualizzato sarà: \\
 	
 	\verb|Recupero password avvenuto correttamente.|\\
 	\verb|Ti è stata inviata un'email contenente i dati richiesti.|\\
 	
-il messaggio sopracitato è temporaneo e dovrà essere rimosso allo scadere di un timeout di durata 2000 millisecondi (usare la funzione \texttt{window.setTimeout(nome\_funzione))}.
+il messaggio sopracitato è temporaneo e dovrà essere rimosso allo scadere di un \inglese{timeout} di durata 2000 millisecondi (usare la funzione \texttt{window.setTimeout(nome\_funzione))}.
 	
 	\item{\method{+ incorrectAnswer(): void}}\\
 	Metodo che In caso di inserimento della risposta non corretta alla domanda segreta visualizza un messaggio di avvertimento all'utente per 2 secondi quindi lascia il controllo al \inglese{form} di inserimento della risposta alla domanda segreta.
@@ -2553,10 +2552,10 @@ il messaggio sopracitato è temporaneo e dovrà essere rimosso allo scadere di u
 	Quindi si visualizza il messaggio con una procedura identica a quella usata in \method{correctAnswer()}.
 		
 	\item{\method{+ getSecretQuestion(): void}}\\
-	Metodo che recupera la domanda segreta con una richiesta asincrona al server. Esso imposta una variabile \texttt{userID} con il valore ritornato da una chiamata \method{getUsername()}, quindi avvia una richiesta \textit{AJAX} inizializzando un oggetto \texttt{XMLHttpRequest}. La variabile \texttt{request} contenente tale istanza dovrà associare all'evento \texttt{onreadystatechange} una funzione che si occupa di catturare la stringa ritornata dal server (uso obbligatorio di \texttt{question = this.responseText}). Il metodo termina infine restituendo il valore contenuto in question.
+	Metodo che recupera la domanda segreta con una richiesta asincrona al server, esso imposta una variabile \texttt{userID} con il valore ritornato da una chiamata \method{getUsername()}, quindi avvia una richiesta \textit{AJAX} inizializzando un oggetto \texttt{XMLHttpRequest}. La variabile \texttt{request} contenente tale istanza dovrà associare all'evento \texttt{onreadystatechange} una funzione che si occupa di catturare la stringa ritornata dal server (uso obbligatorio di \texttt{question = this.responseText}). Il metodo termina infine restituendo il valore contenuto in question.
 	
 	\item{\method{+ buildRetrievePasswordForm(): nodo\_DOM}}\\
-	Metodo usato per costruire la \inglese{form} per il recupero della password utente, inizia costruendo la citata \inglese{form} con il valore ottenuto mediante una chiamata \verb|document.createElement("fieldset")|, quindi a partire dalla variabile in cui ha memorizzato il dato ritornato con il metodo precedente, imposta l'attributo ``id'' con ``passwordretrieval''. Definisce quindi una \inglese{label} con la domanda (utilizzare \verb|document.createElement("label")| e imposta l'attributo \texttt{for} con \textit{inputanswer}). Il metodo procede impostando il campo d'immissione della domanda e successivamente si impostano i seguenti attributi:
+	Metodo usato per costruire la \inglese{form} per il recupero della password utente, inizia costruendo la citata \inglese{form} con il valore ottenuto mediante una chiamata \verb|document.createElement("fieldset")|, quindi a partire dalla variabile in cui ha memorizzato il dato ritornato con il metodo precedente, imposta l'attributo \textit{id} con \textit{passwordretrieval}. Definisce quindi una \inglese{label} con la domanda (utilizzare \verb|document.createElement("label")| e imposta l'attributo \texttt{for} con \textit{inputanswer}). Il metodo procede impostando il campo d'immissione della domanda e successivamente si impostano i seguenti attributi:
 	\begin{itemize}
 		\item attributo id con ``inputanswer'';
 		\item attributo name con ``inputanswer'';
@@ -2575,28 +2574,28 @@ il messaggio sopracitato è temporaneo e dovrà essere rimosso allo scadere di u
 	In ultima si usa \texttt{appendChild} per agganciare al nodo DOM la \inglese{label} e \texttt{inputAnswer}. Il metodo termina ritornando il nodo DOM.
 	
 	\item{\method{+ getUsername(): String}}\\
-	Metodo  per il recupero dello username dall'interfaccia grafica. Per tale operazione il metodo deve usare l'istruzione:\\
+	Metodo  per il recupero dello \inglese{username} dall'interfaccia grafica. Per tale operazione il metodo deve usare l'istruzione:\\
 	
 	\verb|var username = document.getElementById("username").value;|
 	\\
 	
-	quindi verifica se il contenuto di username è vuoto o no: nel caso lo sia, termina, altrimenti procede nel verificare se l'email inserita rispetta l'espressione regolare:\\
+	quindi verifica se il contenuto di \inglese{username} è vuoto o no: nel caso lo sia, termina, altrimenti procede nel verificare se l'email inserita rispetta l'espressione regolare:\\
 	
 	\verb|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$|
 	\\
 	
-	il metodo termina ritornando username.	
+	il metodo termina ritornando \inglese{username}.	
 	
 	\item{\method{+ getPassword(data: array()): String}}\\
-	Metodo che esegue il \inglese{login} inviando al server i dati di autenticazione. Il metodo riceve come parametro d'ingresso un array associativo contenente \textit{username} e \textit{password}.
+	Metodo che esegue il \inglese{login} inviando al server i dati di autenticazione, esso riceve come parametro d'ingresso un \textit{array} associativo contenente \textit{username} e \textit{password}.
 	
-	Il flusso principale inizia verificando il che il contenuto di \texttt{data.username} e di \texttt{data.password} non sia vuoto, quindi invia una richiesta \textit{AJAX} al server (come sempre in questo caso è d'obbligo usare \verb|var request = new XMLHttpRequest();|).
-	Il programmatore dovrà associare all'evento \texttt{onreadystatechange} una funzione che si occupa di richiamare il metodo \method{testCredentials()}. Il passo successivo consiste ``nell'aprire'' la richiesta request con un istruzione open() che riceve come parametro l'url della \inglese{servlet} associata (valore presente in \memberdata{servletURL}), successivamente viene usata un istruzione \texttt{setRequestHeader()} passando i seguenti parametri:
+	Il flusso principale inizia verificando il che il contenuto di \texttt{data.username} e di \texttt{data.password} non sia vuoto, quindi invia una richiesta \textit{AJAX} al \textit{server} (come sempre in questo caso è d'obbligo usare \verb|var request = new XMLHttpRequest();|).
+	Il programmatore dovrà associare all'evento \texttt{onreadystatechange} una funzione che si occupa di richiamare il metodo \method{testCredentials()}. Il passo successivo consiste ``nell'aprire'' la richiesta \textit{request} con un istruzione \texttt{open(){ che riceve come parametro l'url della \inglese{servlet} associata (valore presente in \memberdata{servletURL}), successivamente viene usata un istruzione \texttt{setRequestHeader()} passando i seguenti parametri:
 	\begin{itemize}
 		\item[•] ``content-type'';
 		\item[•] ``application/x-www-form-urlencoded'';
 	\end{itemize}
-	infine va creata la \textit{querystring} da inviare (tramite istruzione request.send()). Tale \inglese{query} deve essere obbligatoriamente impostata a:\\
+	infine va creata la \textit{querystring} da inviare (tramite istruzione request.send()), deve essere obbligatoriamente impostata a:\\
 	
 	\verb|"username=" + encodeURIComponent(data.username) +|\\ \verb|"&password=" + encodeURIComponent(data.password) + "&operation=1"|\\
 	
@@ -2689,10 +2688,10 @@ Nessuna relazione d'uso evidenziata.
 	Metodo che estrae dalla \inglese{form} la domanda segreta associata al nuovo utente e la restituisce.
 	
 	\item{\method{+ getPassword(): String}}\\
-	Metodo che estrae dalla \inglese{form} la password associata al nuovo utente e la restituisce.
+	Metodo che estrae dalla \inglese{form} la \textit{password} associata al nuovo utente e la restituisce.
 	
 	\item{\method{+ getUsername(): String}}\\
-	Metodo che estrae dalla \inglese{form} lo username del nuovo utente (per username si intende l'indirizzo email dell'utente). Si osservi che il metodo dovrà verificare che la mail restituita sia ben formattata secondo l'espressione regolare:\\
+	Metodo che estrae dalla \inglese{form} lo \textit{username} del nuovo utente (per \textit{username} si intende l'indirizzo email dell'utente). Si osservi che il metodo dovrà verificare che la mail restituita sia ben formattata secondo l'espressione regolare:\\
 	
 	\verb|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$|
 	\\
@@ -2703,7 +2702,7 @@ Nessuna relazione d'uso evidenziata.
 	Metodo che estrae dalla \inglese{form} il percorso dell'immagine del nuovo profilo utente e lo restituisce.
 	
 	\item{\method{+ register(userData: Arrey()): String}}\\
-	Metodo che Invia i dati ricevuti alla \inglese{servlet} per la creazione di un nuovo account utente. Tale metodo inizia creando un istanza (\inglese{request}) di \texttt{XMLHttpRequest} usata per comunicare con la \inglese{servlet}. Quindi il metodo abilita \textit{request} ad inviare un richiesta sincrona al server, usando l'istruzione:\\
+	Metodo che Invia i dati ricevuti alla \inglese{servlet} per la creazione di un nuovo account utente. Tale metodo inizia creando un istanza (\inglese{request}) di \texttt{XMLHttpRequest} usata per comunicare con la \inglese{servlet}. Quindi il metodo abilita \textit{request} ad inviare un richiesta sincrona al \textit{server}, usando l'istruzione:\\
 	
 	\verb|request.open("POST", servletURL, false)|\\
 	
@@ -2721,15 +2720,15 @@ Nessuna relazione d'uso evidenziata.
 	\begin{itemize}
 		\item[•] creazione dell'elemento \inglese{form};
 		\item[•] creazione dell'elemento <ul> contenuto nel \inglese{form};		
-		\item[•] creazione dell'item per lo username, definito mediante una \inglese{label} riportante la frase ``Indirizzo email: '', e di un campo input di tipo email per l'inserimento della email dell'utente;
+		\item[•] creazione dell'item per lo username, definito mediante una \inglese{label} riportante la frase ``Indirizzo email: '', e di un campo \textit{input} di tipo email per l'inserimento della email dell'utente;
+		\item[•] costruisce il \inglese{list item} con la \inglese{label} e l'\textit{input} definiti al punto precedente, usando il metodo \texttt{appendChild()};
+		\item[•] crea l'item per la password, definendo una \inglese{label} riportante la frase ``Password: '' e un oggetto \textit{input} di tipi \textit{password};			
 		\item[•] costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
-		\item[•] crea l'item per la password, definendo una \inglese{label} riportante la frase ``Password: '' e un oggetto input di tipi password;			
-		\item[•] costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
-		\item[•] creazione dell'item per la domanda segreta definito mediante una \inglese{label} avente valore ``Domanda segreta: '' e un oggetto input di tipo \texttt{text};
-		\item[•] costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
+		\item[•] creazione dell'item per la domanda segreta definito mediante una \inglese{label} avente valore ``Domanda segreta: '' e un oggetto \textit{input} di tipo \texttt{text};
+		\item[•] costruisce il \inglese{list item} con la \inglese{label} e l'\textit{input} definiti al punto precedente, usando il metodo \texttt{appendChild()};
 		\item[•] creazione dell'item per la risposta alla domanda segreta, definito mediante una \inglese{label} avente valore ``Risposta: '' e un oggetto input di tipo \texttt{text};
 		\item[•] costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
-		\item[•] creazione dell'item per il nome, definito mediante una \inglese{label} avente valore ``Nome: '' e un oggetto input di tipo text;
+		\item[•] creazione dell'item per il nome, definito mediante una \inglese{label} avente valore ``Nome: '' e un oggetto input di tipo \texttt{text};
 		\item[•] costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
 		\item[•] creazione dell'item per il cognome, definito mediante una \inglese{label} avente valore ``Cognome: '' e un oggetto input di tipo \texttt{text};
 		\item[•] costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
@@ -2765,22 +2764,22 @@ Nessuna relazione d'uso evidenziata.
 	Metodo che dato un utente (parametro del metodo), restituisce una stringa identificativa per il contatto in questione. Più precisamente, se il contatto contiene sia il nome che il cognome, la stringa restituita sarà composta da questi due elementi, altrimenti in base ai casi solo il nome o il cognome. Nell'ulteriore caso non siano presenti ne il nome ne il cognome, restituisce l'email, campo dati obbligatorio in fase di registrazione e quindi sempre presente.
 
 \item{\method{- createChatItem(user: Object(contact)): DOM\_node}}\\
-	Tale metodo restituisce un DOM\_element di tipo <li> contenente l'identificativo dell'utente con cui si sta comunicando (parametro del metodo). All'oggetto restituito viene assegnato un ``id'' corrispondente all'``id'' dell'utente con cui si vuole dialogare. All'evento ``onClick'' viene collegato l'invocazione del metodo \method{displayChat(user)} che fa visualizzare la chat. Viene inoltre creato il bottone per chiudere la chat che con l'evento ``onclick'' richiama il metodo \method{removeChat(user)}.
+	Tale metodo restituisce un DOM\_element di tipo <li> contenente l'identificativo dell'utente con cui si sta comunicando (parametro del metodo). All'oggetto restituito viene assegnato un ``id'' corrispondente all'``id'' dell'utente con cui si vuole dialogare. All'evento \textit{onClick} viene collegato l'invocazione del metodo \method{displayChat(user)} che fa visualizzare la chat, viene inoltre creato il bottone per chiudere la chat che con l'evento ``onclick'' richiama il metodo \method{removeChat(user)}.
 
 \item{\method{- createChatElement(user: Object(contact)): DOM\_node}}\\
-	Tale metodo restituisce un DOM\_element contenente un ``div'' che rappresenta l'area di chat. A tale elemento viene assegnato un ``id'' impostato a ``divContainerChat''. Deve essere creato anche una form assegnando l'``id'' dell'utente come valore all'attributo ``id''. A questa form va aggiunto una ``textarea'' con ``id'' impostato a ``chatText'' dove andrà visualizzata la cronologia della chat; una casella di input con ``id'' uguale ``input''; un bottone per inviare il messaggio assegnandogli all'evento ``onClick'' l'invocazione del metodo \method{send(user, text)} del CommunicationPanelPresenter. Alla fine, viene aggiunta la form all'elemento ``div'' e ritornato.
+	Tale metodo restituisce un DOM\_element contenente un \textit{div} che rappresenta l'area di chat. A tale elemento viene assegnato un ``id'' impostato a ``divContainerChat''. Deve essere creato anche una \textit{form} assegnando l'``id'' dell'utente come valore all'attributo ``id'' a tale \textit{form} va aggiunto una \textit{textarea} con \textit{id} impostato a \textit{chatText} dove andrà visualizzata la cronologia della chat; una casella di input con \textit{id} uguale \textit{input}; un bottone per inviare il messaggio assegnandogli all'evento \textit{onClick} l'invocazione del metodo \method{send(user, text)} del \textit{CommunicationPanelPresenter}. Infine viene aggiunta la \textit{form} all'elemento \textit{div} e ritornato.
 	
 \item{\method{+ displayChat(user: Object(contact)): void}}\\
-Provoca la visualizzazione della chat con l'utente (ricevuto da parametro) nel div contenitore pertinente.
+Provoca la visualizzazione della chat con l'utente (ricevuto da parametro) nel \textit{div} contenitore pertinente.
 
 \item{\method{+ addChat(user: Object(contact)): void}}\\
-Provoca l'aggiunta di una chat, con l'utente ricevuto come parametro, andando ad aggiornare il campo privato ``chatElements'' e visualizzandola nell'elemento ``ulOpenChat''.
+Provoca l'aggiunta di una chat, con l'utente ricevuto come parametro, andando ad aggiornare il campo privato \textit{chatElements} e visualizzandola nell'elemento ulOpenChat.
 	
 \item{\method{+ removeChat(user: Object(contact)): void}}\\
-Comportamento simile al metodo scritto precedentemente. Viene chiusa una chat aperta con l'utente ricevuto da parametro andando ad eliminare l'elemento corrispondente da ``chatElements'' e rimuovendo anche il DOM\_element dall'``ulOpenChat''.
+Comportamento simile al metodo scritto precedentemente. Viene chiusa una chat aperta con l'utente ricevuto da parametro andando ad eliminare l'elemento corrispondente da \textit{chatElements e rimuovendo anche il DOM\_element dall'ulOpenChat.
 
 \item{\method{+ appendToChat(user: Object(contact), text: String): void}}\\
-Il metodo ha il compito di aggiunge una stringa (text) all'interno dell'area di testo che è associata alla chat con l'utente ``user'' (parametro del metodo).
+Il metodo ha il compito di aggiunge una stringa \textit{text} all'interno dell'area di testo che è associata alla chat con l'utente \textit{user} (parametro del metodo).
 
 \item{\method{+ createPanel(): DOM\_node}}\\
 Con l'invocazione di tale metodo, viene inizializzato il pannello costruendo i \inglese{widget} grafici interni e lo restituisce in modo che possa essere inserito all'interno del pannello principale. Più dettagliatamente, deve costruire:
@@ -2789,33 +2788,32 @@ Con l'invocazione di tale metodo, viene inizializzato il pannello costruendo i \
 \item div relativo alla gestione della chiamta assegnandogli come ``id'' divCall;
 \item div relativo alla chat testuale assegnandogli come ``id'' divChat;
 \item elemento video per la visualizzazione del proprio stream ricavato dalla videocamera con ``id'' myVideo;
-\item elemento video per la visualizzazione dello stream dell'altro utente con ``id'' otherVideo;
+\item elemento video per la visualizzazione dello \textit{stream} dell'altro utente con \textit{id} otherVideo;
 \item div dove inserire la visualizzazione delle statistiche della chiamata tra cui:
 \begin{itemize}
-\item elemento ``span'' per byte Ricevuti con ``id''= statReceived;
-\item elemento ``span'' per byte Inviati con ``id''= statSend;
-\item elemento ``span'' per il tempo con ``id''= timerSpan;
+\item elemento ``span'' per byte Ricevuti con \textit{id}= statReceived;
+\item elemento ``span'' per byte Inviati con \textit{id}= statSend;
+\item elemento ``span'' per il tempo con \textit{id}= timerSpan;
 \end{itemize}
-\item bottone per la terminazione della chiamata che all'evento ``onClick'' richiama il metodo \method{endCall()} di communicationcenter;
+\item bottone per la terminazione della chiamata che all'evento \textit{onClick} richiama il metodo \method{endCall()} di communicationcenter;
 \item elemento div contenente le chat aperte.
 \end{itemize}
-Tutti gli elementi sopra descritti andranno poi aggiunti al parametro di ritorno ``element'' tramite la funzione \method{appendChild()} fornita dai DOM\_element.
+Tutti gli elementi sopra descritti andranno poi aggiunti al parametro di ritorno \textit{element} tramite la funzione \method{appendChild()} fornita dai DOM\_element.
 
 \item{\method{+ updateTimer(text: String): void}}\\
-Il metodo aggiorna il tempo di comunicazione durante una chiamata. Imposta il campo value dello span relativo alla visualizzazione del tempo chiamata con il valore del parametro ricevuto in input (text).
+Il metodo aggiorna il tempo di comunicazione durante una chiamata. Imposta il campo \textit{value} dello \inglese{span} relativo alla visualizzazione del tempo chiamata con il valore del parametro ricevuto in input (text).
 
 \item{\method{+ updateStats(text: String, isReceivedData: boolean): void}}\\
-Il metodo controlla tramite il parametro booleano ricevuto in input (isReceivedData) se bisogna aggiornare lo span relativo ai dati inviati oppure lo span relativo ai dati ricevuti e lo imposta con il valore ``text'' ricevuto per parametro.
+Il metodo controlla tramite il parametro booleano ricevuto in input (isReceivedData) se bisogna aggiornare lo span relativo ai dati inviati oppure lo span relativo ai dati ricevuti e lo imposta con il valore \textit{text} ricevuto per parametro.
 
 \item{\method{+ getMyVideo(): DOM\_element}}\\
-Il metodo ritorna l'elemento DOM con id uguale ad ``myVideo''.
+Il metodo ritorna l'elemento DOM con \textit{id} uguale ad ``myVideo''.
 
 \item{\method{+ getOtherVideo(): DOM\_element}}\\
-Il metodo ritorna l'elemento DOM con id uguale ad ``otherVideo''.
+Il metodo ritorna l'elemento DOM con \textit{id} uguale ad ``otherVideo''.
 
 \end{description}
 
-%TODO da verificare
 \classsection{ContactPanelPresenter}
 
 \subsubsection*{Funzione}
@@ -2833,7 +2831,7 @@ Nessuna relazione d'uso evidenziata.
 \subsubsection*{Metodi}
 \begin{description}
 \item{\method{- adjustBlockButtonDisplay(contact: Object(contact)): void}}\\
-	Il metodo riceve come parametro un contatto (contact). Successivamente viene controllato se tale utente è bloccato o meno e imposta correttamente la prorietà ``style'' agli elementi della vista. più dettagliatamente:\\
+	Il metodo riceve come parametro un contatto (\textit{contact{), successivamente viene controllato se tale utente è bloccato o meno e imposta correttamente la proprietà \textit{style} agli elementi della vista. più dettagliatamente:\\
 se il contatto è bloccato:
 \begin{itemize}
 \item nascondo il bottone per bloccare un utente;
@@ -2847,8 +2845,8 @@ altrimenti\\
 
 
 \item{\method{- buildGroupsDiv(contact Object(contact)): void}}\\
-Il metodo, che riceve come parametro un contatto (contact), ha il compito di recuperare tutti i gruppi 
- a cui il contatto appartiene e visualizzare nel ``div'' opportuno una label per ogni gruppo trovato indicandone il nome. 
+Il metodo, che riceve come parametro un contatto (\textit{contact}, ha il compito di recuperare tutti i gruppi 
+ a cui il contatto appartiene e visualizzare nel \textit{div} opportuno una \textit{label} per ogni gruppo trovato indicandone il nome. 
 
 \item{\method{+ createPanel():DOM\_element}}\\
 Metodo richiamato quando viene selezionato un contatto dalla rubrica. Inizializza il pannello che mostra le informazioni del contatto selezionato. Più precisamente, verranno creati tanti listItem (<li>) quanti i seguenti elementi:
@@ -2880,7 +2878,7 @@ Metodo che popola nel corretto modo tutti gli elementi necessari per la visualiz
 \item pulsante per bloccare il contatto;
 \item pulsante per sbloccare il contatto.
 \end{itemize}
-Successivamente si andranno a popolare tali elementi utilizzando le informazioni del contatto passato come parametro (contact). Infine si imposterà correttamente il comportamento dei bottoni associando le giuste chiamate a metodi del mediator, ossia:
+Successivamente si andranno a popolare tali elementi utilizzando le informazioni del contatto passato come parametro (\textit{contact}), infine si imposterà correttamente il comportamento dei bottoni associando le giuste chiamate a metodi del \textit{mediator}, ossia:
 \begin{itemize}
 \item aggiungi contatto --> onContactAdded(contact.id);
 \item blocca contatto --> onBlockContact();
@@ -2910,17 +2908,16 @@ Nessuna relazione d'uso evidenziata.
 \subsubsection*{Metodi}
 \begin{description}
 \item{\method{+ initialize(): void}}\\
-Metodo utilizzato per costruire il pannello principale che occupa la parte centrale della finestra. Imposta l'immagine del logo ``MyTalk'' come sfondo quando il pannello è vuoto.
+Metodo utilizzato per costruire il pannello principale che occupa la parte centrale della finestra, esso imposta inoltre l'immagine del logo ``MyTalk'' come sfondo quando il pannello è vuoto.
 
 \item{\method{+ displayChildPanel(node DOM\_node): void}}\\
-Metodo che visualizza il DOM\_node (node) ricevuto come parametro nel pannello in questione.
+Metodo che visualizza il DOM\_node (\textit{node}) ricevuto come parametro nel pannello in questione.
 	
 \item{\method{+ hide(): void}}\\
-Metodo che rende invisibile il pannello impostando la proprietà ``display'' a ``none''.
+Metodo che rende invisibile il pannello impostando la proprietà \textit{display} a ``none''.
 
 \end{description}
 
-%TODO da verificare
 \classsection{PresenterMediator}
 
 \subsubsection*{Funzione}
@@ -2932,7 +2929,7 @@ Nessuna relazione d'uso evidenziata.
 \subsubsection*{Attributi}
 \begin{description}
 \item{\memberdata{-- presenters: Array associativo}}\\
-  array contenente tutti i sotto-presenter.\\
+  \textit{array} contenente tutti i sotto-presenter.\\
   Presenter di primo livello:
   \begin{itemize}
   \item login --> LoginPanelPresenter;
@@ -2970,69 +2967,69 @@ Tale metodo ha il compito di inizializzare l'interfaccia grafica delegando ai pr
 
 
 \item{\method{+ buildLoginUI(): void}}\\
-Visualizza l'interfaccia di autenticazione al sistema, che comprende il form di login. Viene chiamato quindi il metodo \method{initialize()} del LoginPanelPresenter per la sua costruzione.
+Visualizza l'interfaccia di autenticazione al sistema, che comprende il \textit{form} di \textit{login}. Viene chiamato quindi il metodo \method{initialize()} del LoginPanelPresenter per la sua costruzione.
 	
 \item{\method{+ buildRegistrationUI(): void}}\\
-Visualizza il form di registrazione al sistema, utilizzato dagli utenti che vogliono creare un nuovo account. Viene chiamato quindi il metodo \method{initialize()} del RegisterPanelPresenter per la sua costruzione.
+Visualizza il form di registrazione al sistema, utilizzato dagli utenti che vogliono creare un nuovo account, viene chiamato quindi il metodo \method{initialize()} del RegisterPanelPresenter per la sua costruzione.
 
 \item{\method{+ onContactSelected(contact: Object(contact)): void}}\\
-Metodo invocato nel momento in cui viene selezionato un contatto. Tale evento invoca il metodo \method{display} del ContactPanelPresenter prendendo come parametro l'oggetto ``contact'' ricevuto inizialmente. 
+Metodo invocato nel momento in cui viene selezionato un contatto, tale evento invoca il metodo \method{display} del ContactPanelPresenter prendendo come parametro l'oggetto \textit{contact} ricevuto inizialmente. 
 
 
 \item{\method{+ onContactAdded(contact: Object(contact)): void}}\\
-Funzione di callback richiamata dai pulsanti di SearchResultPanel che comunica all'AddressBookPanelPresenter di aggiungere un contatto. Il metodo riceve come parametro l'utente che si vuole aggiungere (contact). Questo parametro viene a suo volta passato alla funzione addContact() di addressBookPanelPresenter. In caso di errore, viene segnalato con un ``alert''.
+Funzione di \textit{callback} richiamata dai pulsanti di SearchResultPanel che comunica all'AddressBookPanelPresenter di aggiungere un contatto. Riceve come parametro l'utente che si vuole aggiungere (\textit{contact}), questo parametro viene a suo volta passato alla funzione \texttt{addContact()} di addressBookPanelPresenter. In caso di errore, viene segnalato con un \textit{alert}.
 
 \item{\method{+ onContactRemoved(userID: String): void}}\\
-Funzione di callback richiamata dai pulsanti di SearchResultPanel che comunica all'AddressBookPanelPresenter di rimuovere un contatto. Il metodo riceve come parametro l'utente che si vuole rimuovere (contact). Questo parametro viene a suo volta passato alla funzione removeContact() di addressBookPanelPresenter. In caso di errore, viene segnalato con un ``alert''.
+Funzione di \textit{callback} richiamata dai pulsanti di SearchResultPanel che comunica all'AddressBookPanelPresenter di rimuovere un contatto. Il metodo riceve come parametro l'utente che si vuole rimuovere (contact). Questo parametro viene a suo volta passato alla funzione \texttt{removeContact()} di addressBookPanelPresenter. In caso di errore, viene segnalato con un \textit{alert}.
 
 \item{\method{+ onGroupAdded(name: String): void}}\\
-Funzione di callback richiamata dai pulsanti di SearchResultPanel che comunica all'AddressBookPanelPresenter di aggiungere un gruppo. Il metodo riceve come parametro il nome del nuovo gruppo che si vuole aggiungere (name). Questo parametro viene a suo volta passato alla funzione addGroup() di addressBookPanelPresenter.
+Funzione di \textit{callback} richiamata dai pulsanti di SearchResultPanel che comunica all'AddressBookPanelPresenter di aggiungere un gruppo. Il metodo riceve come parametro il nome del nuovo gruppo che si vuole aggiungere (name). Questo parametro viene a suo volta passato alla funzione addGroup() di addressBookPanelPresenter.
 
 
 \item{\method{+ onGroupRemoved(group: object(group)): void}}\\
-Funzione di callback richiamata dai pulsanti di SearchResultPanel che comunica all'AddressBookPanelPresenter di rimuovere un gruppo. Il metodo riceve come parametro il gruppo che si vuole rimuovere (group). Questo parametro viene a suo volta passato alla funzione removeGroup() di addressBookPanelPresenter.
+Funzione di \textit{callback} richiamata dai pulsanti di SearchResultPanel che comunica all'AddressBookPanelPresenter di rimuovere un gruppo. Il metodo riceve come parametro il gruppo che si vuole rimuovere (\textit{group}). Questo parametro viene a suo volta passato alla funzione \texttt{removeGroup()} di addressBookPanelPresenter.
 
 
 \item{\method{+ onContactAddeddInGroup(contact: Object(contact), group: Object(group)): void}}\\
-Funzione di callback richiamata dai pulsanti di SearchResultPanel che comunica all'AddressBookPanelPresenter di aggiungere un contatto ad un gruppo. Il metodo riceve come parametro il contatto che si vuole aggiungere (contact) e il gruppo a cui aggiungere il contatto (group). Questi parametri vengono a suo volta passati alla funzione addContactInGroup() di addressBookPanelPresenter.
+Funzione di \textit{callback} richiamata dai pulsanti di SearchResultPanel che comunica all'AddressBookPanelPresenter di aggiungere un contatto ad un gruppo. Il metodo riceve come parametro il contatto che si vuole aggiungere (\textit{contact}) e il gruppo a cui aggiungere il contatto (\textit{group}). Questi parametri vengono a suo volta passati alla funzione \texttt{addContactInGroup()} di addressBookPanelPresenter.
 
 
 \item{\method{+ onContactRemovedInGroup(contact: Object(contact), group: Object(group)): void}}\\
-Funzione di callback richiamata dai pulsanti di SearchResultPanel che comunica all'AddressBookPanelPresenter di rimuovere un contatto da un gruppo. Il metodo riceve come parametro il contatto che si vuole rimuovere (contact) e il gruppo a cui rimuovere il contatto (group). Questi parametri vengono a suo volta passati alla funzione removeContactFromGroup() di addressBookPanelPresenter.
+Funzione di \textit{callback} richiamata dai pulsanti di SearchResultPanel che comunica all'AddressBookPanelPresenter di rimuovere un contatto da un gruppo. Il metodo riceve come parametro il contatto che si vuole rimuovere (\textit{contact}) e il gruppo a cui rimuovere il contatto (\textit{group}). Questi parametri vengono a suo volta passati alla funzione \texttt{removeContactFromGroup()} di addressBookPanelPresenter.
 
 
 \item{\method{+ onBlockedContact(contact: Object(contact)): void}}\\
-Funzione di callback che comunica all'AddressBookPanelPresenter di bloccare un contatto. Il metodo riceve come parametro il contatto che si vuole bloccare (contact). Questo parametro viene a suo volta passato alla funzione blockUser() di addressBookPanelPresenter. In caso di errore, viene notificato con un ``alert'' riportando l'errore relativo.
+Funzione di \textit{callback} che comunica all'AddressBookPanelPresenter di bloccare un contatto. Il metodo riceve come parametro il contatto che si vuole bloccare (\textit{contact}), questo parametro viene a suo volta passato alla funzione \texttt{blockUser()} di addressBookPanelPresenter. In caso di errore, viene notificato con un \textit{alert} riportando l'errore relativo.
 
 
 \item{\method{+ onUnlockContact(contact: Object(contact)): void}}\\
-Funzione di callback che comunica all'AddressBookPanelPresenter di sbloccare un contatto. Il metodo riceve come parametro il contatto che si vuole sbloccare (contact). Questo parametro viene a suo volta passato alla funzione unlockUser() di addressBookPanelPresenter. In caso di errore, viene notificato con un ``alert'' riportando l'errore relativo.
+Funzione di \textit{callback} che comunica all'AddressBookPanelPresenter di sbloccare un contatto. Il metodo riceve come parametro il contatto che si vuole sbloccare (\textit{contact}), questo parametro viene a suo volta passato alla funzione \texttt{unlockUser()} di addressBookPanelPresenter. In caso di errore, viene notificato con un \textit{alert} riportando l'errore relativo.
 
 
 \item{\method{+ displayMessagePanel(): void}}\\
-Provoca la creazione del pannello della segreteria e la sua visualizzazione all'interno del MainPanel come elemento figlio. La costruzione del pannello è affidata al metodo createPanel che viene reso disponibile da tutti i presenter di secondo livello. Viene quindi creato dal metodo \method{createPanel()} del presenter messagePanelPresenter un elemento di tipo DOM\_node che viene poi passato al presenter ``main'' come parametro del metodo \method{displayChildPanel}.
+Provoca la creazione del pannello della segreteria e la sua visualizzazione all'interno del MainPanel come elemento figlio. La costruzione del pannello è affidata al metodo \textit{createPanel} che viene reso disponibile da tutti i presenter di secondo livello, viene quindi creato dal metodo \method{createPanel()} del presenter messagePanelPresenter un elemento di tipo DOM\_node che viene poi passato al presenter \textit{main} come parametro del metodo \method{displayChildPanel}.
 
 
 \item{\method{+ displayAccountSettingsPanel(): void}}\\
-Provoca la creazione del pannello delle impostazioni dell'utente e la sua visualizzazione all'interno del MainPanel. Come il metodo sopra citato, viene creato dal metodo \method{createPanel()} del presenter CallHistoryPanelPresenter un elemento di tipo DOM\_node che viene poi passato al presenter ``main'' come parametro del metodo \method{displayChildPanel}.
+Provoca la creazione del pannello delle impostazioni dell'utente e la sua visualizzazione all'interno del MainPanel. Come il metodo sopra citato, viene creato dal metodo \method{createPanel()} del presenter CallHistoryPanelPresenter un elemento di tipo DOM\_node che viene poi passato al presenter \textit{main} come parametro del metodo \method{displayChildPanel}.
 
 
 \item{\method{+ displayCallHistoryPanel(): void}}\\
-Provoca la creazione del pannello dello storico delle chiamate e la sua visualizzazione all'interno del MainPanel. Come il metodo sopra citato, viene creato dal metodo \method{createPanel()} del presenter CallHistoryPanelPresenter un elemento di tipo DOM\_node che viene poi passato al presenter ``main'' come parametro del metodo \method{displayChildPanel}.
+Provoca la creazione del pannello dello storico delle chiamate e la sua visualizzazione all'interno del MainPanel. Come il metodo sopra citato, viene creato dal metodo \method{createPanel()} del presenter CallHistoryPanelPresenter un elemento di tipo DOM\_node che viene poi passato al presenter \textit{main} come parametro del metodo \method{displayChildPanel}.
 
 
 \item{\method{+ onFiltredApplyedByParam(param: String): void}}\\
-Funzione di callback richiamata dai pulsanti di SearchResultPanel che comunica all'AddressBookPanelPresenter di filtrare la lista dei contatti secondo il parametro ricevuto (param). Viene scatenata l'invocazione del metodo \method{applyFilterByString} del presenter AddressBookPresenter passandogli come parametro ``param''.
+Funzione di \textit{callback} richiamata dai pulsanti di SearchResultPanel che comunica all'AddressBookPanelPresenter di filtrare la lista dei contatti secondo il parametro ricevuto (param). Viene scatenata l'invocazione del metodo \method{applyFilterByString} del presenter AddressBookPresenter passandogli come parametro \textit{param}.
 
 \item{\method{+ getGroupsWhereContactsIs(contact: Object(contact)): void}}\\
-Funzione di callback che comunica all'AddressBookPanelPresenter di cercare i gruppi a cui appartiene un utente nella propria rubrica ricevuto come parametro (contact). Viene quindi invocato il metodo \method{getGroupsWhereContactIs()} del presenter AddressBookPanelPresenter.
+Funzione di \textit{callback} che comunica all'AddressBookPanelPresenter di cercare i gruppi a cui appartiene un utente nella propria rubrica ricevuto come parametro (contact). Viene quindi invocato il metodo \method{getGroupsWhereContactIs()} del presenter AddressBookPanelPresenter.
 
 \item{\method{+ displaySearchResultPanel(): void}}\\
-Provoca la creazione del pannello delle impostazioni del proprio account e la sua visualizzazione all'interno del MainPanel. Viene creato dal metodo \method{createPanel()} del presenter AccountSettingsPanelPresenter un elemento di tipo DOM\_node che viene poi passato al presenter ``main'' come parametro del metodo \method{displayChildPanel}.
+Provoca la creazione del pannello delle impostazioni del proprio account e la sua visualizzazione all'interno del MainPanel. Viene creato dal metodo \method{createPanel()} del presenter AccountSettingsPanelPresenter un elemento di tipo DOM\_node che viene poi passato al presenter \textit{main} come parametro del metodo \method{displayChildPanel}.
 
 
 \item{\method{+ displayCommunicationPanel(): void}}\\
-Provoca la creazione del pannello delle comunicazioni e la sua visualizzazione all'interno del MainPanel. Viene creato dal metodo \method{createPanel()} del presenter CommunicationPanelPanelPresenter un elemento di tipo DOM\_node che viene poi passato al presenter ``main'' come parametro del metodo \method{displayChildPanel}.
+Provoca la creazione del pannello delle comunicazioni e la sua visualizzazione all'interno del MainPanel. Viene creato dal metodo \method{createPanel()} del presenter CommunicationPanelPanelPresenter un elemento di tipo DOM\_node che viene poi passato al presenter \textit{main} come parametro del metodo \method{displayChildPanel}.
 
 \item{\method{+ displayContact(contact: Object(contact)): void}}\\
 L'invocazione di tale metodo provoca la visualizzazione della scheda di un contatto (contact) nel CommunicationpanelPresenter. Viene richiamato il metodo \method{displayCommunicationPanel()} e successivamente il metodo \method{display} passando come contatto il parametro ricevuto precedentemente.
@@ -3041,7 +3038,7 @@ L'invocazione di tale metodo provoca la visualizzazione della scheda di un conta
 Metodo che controlla se l'utente ricevuto come parametro del metodo (contact) è gia presente nella rubrica. Viene invocato il metodo \method{contactAlreadyPresent()} di AddressBookPanelPresenter passando come parametro il contatto in questione.
 
 \item{\method{+ onChatStarted(user: Object(contact)): void}}\\
-Coordina i presenter nel momento in cui ha inizio una nuova comunicazione testuale. Incapsula la collaborazione fra ContactPanelPresenter e CommunicationPanelPresenter. Viene quindi
+Coordina i presenter nel momento in cui ha inizio una nuova comunicazione testuale e incapsula la collaborazione fra ContactPanelPresenter e CommunicationPanelPresenter. Viene quindi
 \begin{itemize}
 \item invocato il metodo \method{createPanel()} di CommunicationPanelPresenter;
 \item invocato il metodo \method{displayChildPanel()} di MainPanelPresenter passandogli come parametro l'oggetto creato precedentemente;
@@ -3050,12 +3047,10 @@ Coordina i presenter nel momento in cui ha inizio una nuova comunicazione testua
 \end{itemize} 
 
 \item{\method{+ onCall(contact: Object(contact), onlyAudio: boolean): boolean}}\\
-Metodo per gestire la chiamata. Riceve come parametri l'utente che si vuole chiamare (contact) e un flag per segnalare se la chiamata è solo audio (onlyAudio).
+Metodo per gestire la chiamata, riceve come parametri l'utente che si vuole chiamare (\textit{contact}) e un \textit{flag} per segnalare se la chiamata è solo audio (\textit{onlyAudio}).
 
 \end{description}
 
-
-%TODO da verificare
 \classsection{MessagePanelPresenter}
 
 \subsubsection*{Funzione}
@@ -3076,22 +3071,22 @@ Array che contiene le tre URL delle \inglese{servlets} da contattare per i messa
 \begin{description}
 \item{\method{- getServletURLs(): void}}\\
 Configura gli URL delle \inglese{servlet} da interrogare leggendoli dal file di configurazione in base alle operazioni che questo presenter deve essere in grado di compiere.\\
-Più precisamente, si dovrà creare una ``XMLHttpRequest'' rivolta al file XML di configurazione dove sono riportate tutte le \inglese{servlet}. Ricevuta la risposta, si popolerà l'array dichiarato nella classe (\inglese{servlet}).
+Più precisamente, si dovrà creare una ``XMLHttpRequest'' rivolta al file XML di configurazione dove sono riportate tutte le \inglese{servlet}, ricevuta la risposta si popolerà l'\textit{array} dichiarato nella classe (\inglese{servlet}).
 
 \item{\method{- deleteMessage(idMessage: String): void}}\\
-Elimina un messaggio dalla segreteria contattando la \inglese{servlet} responsabile dell'operazione e scaricando nuovamente i messaggi. Il metodo procede quindi nell'invocazione della \inglese{servlet} corretta passando come parametro l'``id'' ricevuto come parametro del metodo (idMessage). Se la \inglese{servlet} ritorna il valore true, significa che l'eliminazione è andata a buon fine e quindi si riscaricano i messaggi. In caso di errore, apparirà all'utente un messaggio d'errore indicante il motivo.
+Elimina un messaggio dalla segreteria contattando la \inglese{servlet} responsabile dell'operazione e scaricando nuovamente i messaggi. Il metodo procede quindi nell'invocazione della \inglese{servlet} corretta passando come parametro l'``id'' ricevuto come parametro del metodo (idMessage). Se la \inglese{servlet} ritorna il valore \textit{true}, significa che l'eliminazione è andata a buon fine e quindi si riscaricano i messaggi. In caso di errore, apparirà all'utente un messaggio d'errore indicante il motivo.
 
 \item{\method{- addListItem(message: Object()): void}}\\
-Aggiunge un messaggio ad una lista per creare l'elenco della segreteria telefonica generale. Viene quindi creati un list item e successivamente aggiunto alla lista MessageList di tale Presenter.
+Aggiunge un messaggio ad una lista per creare l'elenco della segreteria telefonica generale. Viene quindi creati un \textit{list item} e successivamente aggiunto alla lista MessageList di tale Presenter.
 
 \item{\method{- setAsRead(idMessage: String, valueToSet: String): void}}\\
 Imposta lo stato di un messaggio come ``letto'' oppure ``non letto'' a seconda del parametro ricevuto in input. Tale metodo demanda il compito alla \inglese{servlet} opportuna passandogli entrambi i parametri (idMessage e valueToSet). In caso di messaggio d'errore da parte del server, viene notificato anche all'utente.
 
 \item{\method{- getMessages(): void}}\\
-Ottiene i messaggi di segreteria salvati nel server contattando la \inglese{servlet} corrispondente. Una volta ricevuta risposta con relativi dati associati, li salva all'interno dell'array messages dichiarato all'interno di questo presenter. Per contattare la \inglese{servlet}, va usato come in precedenza ``XMLHttpRequest''.
+Ottiene i messaggi di segreteria salvati nel server contattando la \inglese{servlet} corrispondente. Una volta ricevuta risposta con relativi dati associati, li salva all'interno dell'\textit{array messages} dichiarato all'interno di questo presenter. Per contattare la \inglese{servlet}, va usato come in precedenza ``XMLHttpRequest''.
 
 \item{\method{+ createPanel(): DOM\_element}}\\
-Costruisce il pannello della segreteria telefonica, che deve essere visualizzato all'interno del MainPanel dell'applicazione quando è selezionata la funzione corrispondente dal pannello degli strumenti. Il MessagePanel è costituito da un elemento video seguito da un 'div' che a sua volta contiene una lista di messaggi creata con l'ausilio dei metodo \method{getMessages()} e \method{addListItem()}. Tutti questi elementi vanno aggiunti all'elemento ``element'' ritornato poi dal metodo.
+Costruisce il pannello della segreteria telefonica, che deve essere visualizzato all'interno del MainPanel dell'applicazione quando è selezionata la funzione corrispondente dal pannello degli strumenti. Il MessagePanel è costituito da un elemento video seguito da un \textit{div} che a sua volta contiene una lista di messaggi creata con l'ausilio dei metodo \method{getMessages()} e \method{addListItem()}. Tutti questi elementi vanno aggiunti all'elemento \textit{element} ritornato poi dal metodo.
 
 \item{\method{+ setup(): void}}\\
 Metodo che ogni sua invocazione provoca il recupero dei messaggi in segreteria. Al suo interno sarà presente la chiamata al metodo \method{getMessages()}.
@@ -3120,19 +3115,19 @@ Array che contiene le tre URL delle \inglese{servlet} da contattare per i messag
 \begin{description}
 \item{\method{- getServletURLs(): void}}\\
 Configura gli URL delle \inglese{servlet} da interrogare leggendoli dal file di configurazione in base alle operazioni che questo presenter deve essere in grado di compiere.\\
-Più precisamente, si dovrà creare una ``XMLHttpRequest'' rivolta al file XML di configurazione dove sono riportate tutte le \inglese{servlet}. Ricevuta la risposta, si popolerà l'array dichiarato nella classe (\inglese{servlet}).
+Più precisamente, si dovrà creare una ``XMLHttpRequest'' rivolta al file XML di configurazione dove sono riportate tutte le \inglese{servlet}, ricevuta la risposta si popolerà l'\textit{array} dichiarato nella classe (\inglese{servlet}).
 
 \item{\method{- getCalls(): String}}\\
-Ottiene tutta la lista delle chiamate effettuate e tracciate nel server. Una volta ricevuta risposta con relativi dati associati, li utilizza come dati di ritorno. Per contattare la \inglese{servlet}, va usato come in precedenza ``XMLHttpRequest''.
+Ottiene tutta la lista delle chiamate effettuate e tracciate nel \textit{server}, una volta ricevuta risposta con relativi dati associati li utilizza come dati di ritorno. Per contattare la \inglese{servlet}, va usato come in precedenza ``XMLHttpRequest''.
 
 \item{\method{- addListItem(call: String): void}}\\
 Aggiunge alla lista delle chiamate visualizzata nel CallHistoryPanel una nuova voce che corrisponde alla chiamata ricevuta da parametro. Ogni voce della lista contiene i dati relativi alla chiamata e non consente di effettuare alcuna azione su di essa.
 
 \item{\method{+ createPanel(): DOM\_element}}\\
-Costruisce il pannello dello storico delle chiamate, che deve essere visualizzato all'interno del MainPanel dell'applicazione quando è selezionata la funzione corrispondente dal pannello degli strumenti. Il CallHistoryPanel è costituito da una semplice lista con tanti list Item quante sono le chiamate tracciate nel server. Tutti questi elementi vanno aggiunti all'elemento ``element'' ritornato poi dal metodo.
+Costruisce il pannello dello storico delle chiamate, che deve essere visualizzato all'interno del MainPanel dell'applicazione quando è selezionata la funzione corrispondente dal pannello degli strumenti. Il CallHistoryPanel è costituito da una semplice lista con tanti \textit{list Item} quante sono le chiamate tracciate nel server. Tutti questi elementi vanno aggiunti all'elemento \textit{element} ritornato poi dal metodo.
 
 \item{\method{+ setup(): void}}\\
-Metodo che ogni sua invocazione provoca il recupero dello storico chiamate. Verrà quindi per prima cosa richiamato il metodo \method{getCalls()} e successivamente una chiamata al metodo \method{addListItem(call)} per ogni chiamata ritornata.
+Metodo che ogni sua invocazione provoca il recupero dello storico chiamate, verrà quindi per prima cosa richiamato il metodo \method{getCalls()} e successivamente una chiamata al metodo \method{addListItem(call)} per ogni chiamata ritornata.
 
 \end{description}
 
@@ -3155,10 +3150,10 @@ Array che contiene le URL delle \inglese{servlet} da contattare per eseguire ric
 \begin{description}
 \item{\method{- getServletURLs(): void}}\\
 Configura gli URL delle \inglese{servlet} da interrogare leggendoli dal file di configurazione in base alle operazioni che questo presenter deve essere in grado di compiere.\\
-Più precisamente, si dovrà creare una ``XMLHttpRequest'' rivolta al file XML di configurazione dove sono riportate tutte le \inglese{servlet}. Ricevuta la risposta, si popolerà l'array dichiarato nella classe (\inglese{servlet}).
+Più precisamente, si dovrà creare una ``XMLHttpRequest'' rivolta al file XML di configurazione dove sono riportate tutte le \inglese{servlet}. Ricevuta la risposta, si popolerà l'\textit{array} dichiarato nella classe (\inglese{servlet}).
 
 \item{\method{- addListItem(list: DOM\_element, contact: Object(contact)): void}}\\
-Aggiunge alla lista ricevuta da parametro (list) il contatto anch'esso ricevuto da parametro (contact). L'aggiunta del contatto alla lista avviene prima di tutto effettuando un controllo sui dati da visualizzare nel list item che se presenti nel database saranno:
+Aggiunge alla lista ricevuta da parametro (\textit{list}) il contatto anch'esso ricevuto da parametro (\textit{contact}). L'aggiunta del contatto alla lista avviene prima di tutto effettuando un controllo sui dati da visualizzare nel \textit{list item} che se presenti nel database saranno:
 \begin{itemize}
 \item nome;
 \item cognome;
@@ -3176,8 +3171,6 @@ Metodo che visualizza all'interno del pannello una lista di contatti che ottenut
 \end{description}
 
 
-
-%TODO da verificare
 \classsection{GroupPanelPresenter}
 
 \subsubsection*{Funzione}
@@ -3194,18 +3187,17 @@ Nessuna relazione d'uso evidenziata.
 \subsubsection*{Metodi}
 \begin{description}
 \item{\method{- addListItem(list: DOM\_element, group: Object(group)): void}}\\
-Aggiunge alla lista ricevuta come parametro (list) un gruppo, anch'esso ricevuto come parametro (group) creando un listItem (<li>). Il list item sarà composto da uno ``span'' con il nome del gruppo e vicino dovrà apparire un'immagine per l'eliminazione del gruppo stesso. Va quindi gestito il comportamento all'evento ``onclick'' su tale immagine che comporterà l'eliminazione del gruppo. Prima di procedere alla vera e propria eliminazione, dovrà apparire all'utente un messaggio di conferma che chiede se effettivamente vuole cancellare il gruppo: se l'utente accetta, viene richiamato il metodo del MediatorPresenter \method{onGroupRemoved(group)} che procedere ad eliminare il gruppo.
+Aggiunge alla lista ricevuta come parametro (\textit{list}) un gruppo, anch'esso ricevuto come parametro (\textit{group}) creando un listItem (<li>). Il \textit{list item} sarà composto da uno \textit{span} con il nome del gruppo e vicino dovrà apparire un'immagine per l'eliminazione del gruppo stesso. Va quindi gestito il comportamento all'evento ``onclick'' su tale immagine che comporterà l'eliminazione del gruppo. Prima di procedere alla vera e propria eliminazione, dovrà apparire all'utente un messaggio di conferma che chiede se effettivamente vuole cancellare il gruppo: se l'utente accetta, viene richiamato il metodo del MediatorPresenter \method{onGroupRemoved(group)} che procedere ad eliminare il gruppo.
 
 \item{\method{+ createPanel(): DOM\_element}}\\
-Costruisce il pannello per la gestione dei gruppi, che deve essere visualizzato all'interno del MainPanel dell'applicazione quando viene richiesta tale operazione. Il GroupPanel è costituito da una semplice lista contenente tanti list item quanti sono i gruppi dell'utente.
+Costruisce il pannello per la gestione dei gruppi, che deve essere visualizzato all'interno del MainPanel dell'applicazione quando viene richiesta tale operazione. Il GroupPanel è costituito da una semplice lista contenente tanti \textit{list item} quanti sono i gruppi dell'utente.
 
 \item{\method{+ displayGroupList(groups: Object(group)): void}}\\
-Metodo che visualizza all'interno del pannello una lista di gruppi. Tale metodo demanda la visualizzazione di ogni singolo gruppo richiamando il metodo \method{addListItem(groupList, group}.
+Metodo che visualizza all'interno del pannello una lista di gruppi, tale metodo demanda la visualizzazione di ogni singolo gruppo richiamando il metodo \method{addListItem(groupList, group}.
 
 \end{description}
 
 
-%TODO da verificare
 \classsection{ToolsPanelPresenter}
 
 \subsubsection*{Funzione}
@@ -3226,7 +3218,7 @@ elemento di tipo DOM che rappresenta l'intero pannello
 \begin{description}
 \item{\method{- getServletURLs(): void}}\\
 Configura gli URL delle \inglese{servlet} da interrogare leggendoli dal file di configurazione in base alle operazioni che questo presenter deve essere in grado di compiere.\\
-Più precisamente, si dovrà creare una ``XMLHttpRequest'' rivolta al file XML di configurazione dove sono riportate tutte le \inglese{servlet}. Ricevuta la risposta, si popolerà l'array dichiarato nella classe (\inglese{servlet}).
+Più precisamente, si dovrà creare una ``XMLHttpRequest'' rivolta al file XML di configurazione dove sono riportate tutte le \inglese{servlet}. Ricevuta la risposta, si popolerà l'\textit{array} dichiarato nella classe (\inglese{servlet}).
 
 \item{\method{+ initialize()(): void}}\\
 Inizializza il pannello degli strumenti dell'applicazione rendendolo visibile. Tale pannello conterrà link che rimandano a tutte le funzioni disponibili per l'operazione scelta. In particolare:
@@ -3239,15 +3231,13 @@ Inizializza il pannello degli strumenti dell'applicazione rendendolo visibile. T
 Tutte queste sezioni saranno espresse come list item di una lista. All'evento ``onclick'' su ogni sezione corrisponderà l'invocazione del metodo che rimanda al presenter relativo alla sezione.
 
 \item{\method{+ hide(): void}}\\
-Rende invisibile il pannello degli strumenti. Va impostata la proprietà ``display'' di tale elemento a false.
+Rende invisibile il pannello degli strumenti. Va impostata la proprietà \textit{display} di tale elemento a false.
 
 \item{\method{+ logout(): void}}\\
-Effettua il logout dell'utente dal sistema. Per far ciò, viene invocata la \inglese{servlet} relativa.
+Effettua il \textit{logout} dell'utente dal sistema, per far ciò viene invocata la \inglese{servlet} relativa.
 
 \end{description}
 
-
-%TODO da verificare
 \classsection{AccountSettingsPanelPresenter}
 
 \subsubsection*{Funzione}
@@ -3265,7 +3255,7 @@ Array che contiene le URL delle \inglese{servlet} relative a tale presenter
 \subsubsection*{Metodi}
 \begin{description}
 \item{\method{+ createPanel(): DOM\_element}}\\
-Inizializza il pannello costruendone i widget grafici interni e lo restituisce in modo che possa essere inserito all'interno del pannello principale. Più dettagliatamente, verrà costruita una lista con list item contenenti le informazioni dell'utente, ossia:
+Inizializza il pannello costruendone i \textit{widget} grafici interni e lo restituisce in modo che possa essere inserito all'interno del pannello principale. Più dettagliatamente, verrà costruita una lista con \textit{list item} contenenti le informazioni dell'utente, ossia:
 \begin{itemize}
 \item nome;
 \item cognome;
@@ -3275,11 +3265,11 @@ Inizializza il pannello costruendone i widget grafici interni e lo restituisce i
 \item domanda segreta;
 \item risposta alla domanda segreta.
 \end{itemize}
-Infine, sarà presente un pulsante con ``id'' uguale ``changeButton'' il quale all'evento ``onclick'' richiama il metodo \method{onChangeButtonPressed()}, descritto successivamente, che da la possibilità di modificare i dati.
+Infine, sarà presente un pulsante con \textit{id} uguale ``changeButton'' il quale all'evento ``onclick'' richiama il metodo \method{onChangeButtonPressed()}, descritto successivamente, che da la possibilità di modificare i dati.
 
 
 \item{\method{- onChangeButtonPressed(): void}}\\
-Gestisce la pressione del pulsante ``changeButton'' che trasforma la lista di elementi testuali in un form da compilare per modificare i propri dati. Il form è completo di un pulsante submit che attiva ``onSubmitChange'', metodo descritto successivamente.\\
+Gestisce la pressione del pulsante ``changeButton'' che trasforma la lista di elementi testuali in un \textit{form} da compilare per modificare i propri dati. Il \textit{form} è completo di un pulsante \textit{submit} che attiva ``onSubmitChange'', metodo descritto successivamente.\\
 I campi modificabili, recuperati dall'oggetto presente in CommunicationCenter (\memberdata{my}) che rappresenta il profilo utente, sono:
 \begin{itemize}
 \item nome;
@@ -3295,19 +3285,18 @@ I campi modificabili, recuperati dall'oggetto presente in CommunicationCenter (\
 Gestisce il cambiamento dei dati da parte dell'utente contattando, se necessario (controllo effettuato tramite chiamata al metodo \method{hasSometingChanged}), la \inglese{servlet} incaricata di aggiornare il contenuto del database sul server. Il metodo va a recuperare i valori tramite chiamate di metodo \method{document.getElementById(id)} e successivamente contatta la \inglese{servlet} tramite un XMLHttpRequest passando i dati prelevati dalla pagina. Se la \inglese{servlet} ritorna un errore viene gestito tramite la visualizzazione dell'errore all'utente, altrimenti viene richiamato il metodo \method{initialize()} per aggiornare la visualizzazione dei dati più recenti.
 
 \item{\method{- hasSomethingChanged(data: String[]): boolean}}\\
-Metodo che verifica l'effettivo cambiamento di dati rispetto a quanto contenuto in\\ \memberdata{communicationcenter.my} confrontandoli con l'oggetto \memberdata{data} ricevuto come parametro. Il metodo controlla che almeno il valore di un campo dati sia effettivamente cambiato e ritorna ``true'' in tale caso. Nel caso opposto, ossia tutti i dati sono uguali ai precedenti, ritorna ``false''.
+Metodo che verifica l'effettivo cambiamento di dati rispetto a quanto contenuto in\\ \memberdata{communicationcenter.my} confrontandoli con l'oggetto \memberdata{data} ricevuto come parametro. Il metodo controlla che almeno il valore di un campo dati sia effettivamente cambiato e ritorna \textit{true} in tale caso. Nel caso opposto, ossia tutti i dati sono uguali ai precedenti, ritorna \textit{false}.
 
 \item{\method{- buildQueryString(data: String[]): String}}\\
-Costruisce la stringa corrispondente alla query che deve essere spedita alla \inglese{servlet} per portare a termine la richiesta di cambiamento dei dati personali. Viene costruita partendo dai valori recuperati dall'oggetto \memberdata{data} passato come parametro e utilizzando la giusta sintassi MySQL.
+Costruisce la stringa corrispondente alla \textit{query} che deve essere spedita alla \inglese{servlet} per portare a termine la richiesta di cambiamento dei dati personali. Viene costruita partendo dai valori recuperati dall'oggetto \memberdata{data} passato come parametro e utilizzando la giusta sintassi MySQL.
 
 \end{description}
 
 \subsection{Package org.softwaresynthesis.mytalk.clientpresenter.kernel}\label{sec:kernel}
-%TODO da verificare
 \classsection{CommunicationCenter}
 
 \subsubsection*{Funzione}
-Classe logica che gestisce tutta la parte della comunicazione lato client.
+Classe logica che gestisce tutta la parte della comunicazione lato \textit{client}.
 
 \subsubsection*{Relazioni d'uso}
 Nessuna relazione d'uso evidenziata.
@@ -3323,7 +3312,7 @@ Contiene l'indirizzo della \inglese{servlet} che gestisce la comunicazione
 \item{\memberdata{- my: String[]}}\\
 Array contenente i dati personali dell'utente
 \item{\memberdata{- websocket: Object()}}\\
-Oggetto che rappresenta la websocket da utilizzare per comunicare con il server. Il costruttore di tale oggetto vuole l'URL della \inglese{servlet}.
+Oggetto che rappresenta la \textit{websocket} da utilizzare per comunicare con il server. Il costruttore di tale oggetto richiede l'URL della \inglese{servlet}.
 
 \end{description}
 
@@ -3331,55 +3320,56 @@ Oggetto che rappresenta la websocket da utilizzare per comunicare con il server.
 \begin{description}
 \item{\method{- formatBytes(bytes: int): String}}\\
 Metodo che formatta i byte ricevuti ed inviati al fine di fornire una visualizzazione sensata delle statistiche.\\
-Il metodo riceve un numero rappresentante i bytes (\memberdata{bytes} e li converte in KB/s o MB/s a seconda della grandezza.
+Il metodo riceve un numero rappresentante i \textit{bytes} (\memberdata{bytes} e li converte in KB/s o MB/s a seconda della grandezza.
 
 \item{\method{- formatTime(tempo: int): String}}\\
 Metodo che ritorna nel formato ``hh:mm:ss'' il tempo della comunicazione.\\
 Il metodo riceve un numero rappresentante il tempo espresso in secondi (\memberdata{tempo}, lo converte nel formalismo descritto prima e lo restituisce.
 
 \item{\method{- stopTimer(): void}}\\
-Metodo che ferma l'aggiornamento del timer. Viene richiamato quando la chiamata termina.
+Metodo che ferma l'aggiornamento del timer, viene richiamato quando la chiamata termina.
 
 \item{\method{- stopStats(): void}}\\
-Metodo che ferma l'aggiornamento delle statistiche relative alla chiamata in corso. Viene richiamato quando la chiamata termina.
+Metodo che ferma l'aggiornamento delle statistiche relative alla chiamata in corso, viene richiamato quando la chiamata termina.
 
 \item{\method{- dumpStats(obj: Object()): void}}\\
- Metodo che permette l'estrazione dei dati rappresentanti le statistiche della chiamata. Il metodo che riceve come parametro un oggetto (\memberdata{obj}), lo elabora ed estrae solo i byte ricevuti e byte inviati. Ricavati questi dati, 
+ Metodo che permette l'estrazione dei dati rappresentanti le statistiche della chiamata, esso riceve come parametro un oggetto (\memberdata{obj}), lo elabora, ed estrae solo i byte ricevuti e inviati. Ricavati questi dati, li visualizza nello \textit{span} corrispondente.
  
 \item{\method{- gotDescription(): void}}\\
-Metodo utilizzato da WebRTC che imposta la propia descrizione e la invia all'altro client in modo tale da poter instaurare la comunicazione. Verrà quindi prima di tutto utilizzata la funzione proprietaria di WebRTC \method{setLocalDescription} per impostare la propria descrizione e poi, mediante la websocket, inviata all'altro \underline{peer}.
+Metodo utilizzato da WebRTC che imposta la propria descrizione e la invia al \textit{client} chiamato in modo tale da poter instaurare la comunicazione. Verrà quindi prima di tutto utilizzata la funzione proprietaria di WebRTC \method{setLocalDescription} per impostare la propria descrizione e successivamente, mediante la \textit{websocket}, inviata al client \underline{peer} chiamato.
  
 \item{\method{+ connect(): void}}\\
-Metodo utilizzato per la creazione della connessione con il server. Viene inizializzata la variabile \memberdata{websocket} richiamando il costruttore con un parametro (URL della servlet). Successivamente viene specificato il comportamento della websocket per determinati eventi quali:
+Metodo utilizzato per la creazione della connessione con il \textit{server}. Viene inizializzata la variabile \memberdata{websocket} richiamando il costruttore con un parametro (URL della servlet). Successivamente viene specificato il comportamento della \textit{websocket} per determinati eventi quali:
 \begin{itemize}
-\item \textbf{onopen}: istruzioni da eseguire quando la websocket viene aperta. In questo caso, deve essere inviato alla websocket il proprio ``id utente'' in modo tale da identificare univocamente il canale aperto con il server.
-\item \textbf{onclose}: istruzioni da eseguire quando la websocket viene chiusa per qualsiasi motivo. Deve notificare il server di tale avvenimento.
-\item \textbf{onerror}: istruzioni da eseguire quando avviene un errore con la websocket. Tale evento verrà notificato all'utente con un messaggio d'errore che descrive l'errore e l'atteggiamento da seguire.
-\item \textbf{onmessage}: metodo più corposo in quanto gestisce l'unico evento richiamato mentre avviene una comunicazione dal server verso il client. Per diversificare i messaggi ricevuti, si è deciso di rappresentare il messaggio come un array nel quale il primo elemento identifica il tipo di richiesta. In questo modo, avremo tre tipi:
+\item \textbf{onopen}: istruzioni da eseguire quando la \textit{websocket} viene aperta. In questo caso, deve essere inviato alla \textit{websocket} il proprio \textit{id} utente in modo tale da identificare univocamente il canale aperto con il server.
+\item \textbf{onclose}: istruzioni da eseguire quando la \textit{websocket} viene chiusa per qualsiasi motivo, notificando il server di tale avvenimento.
+\item \textbf{onerror}: istruzioni da eseguire quando avviene un errore con la \textit{websocket}. Tale evento verrà notificato all'utente con un messaggio d'errore che descrive l'errore e l'atteggiamento da seguire.
+\item \textbf{onmessage}: metodo più corposo in quanto gestisce l'unico evento richiamato mentre avviene una comunicazione dal server verso il \textit{client}. Per diversificare i messaggi ricevuti, si è deciso di rappresentare il messaggio come un \textit{array} nel quale il primo elemento identifica il tipo di richiesta. In questo modo, avremo tre tipi:
 \begin{itemize}
-\item type 2: riceve e gestisce una richiesta di chiamata. Imposta quindi con il metodo nativo di WebRTC \method{setRemoteDescription} la descrizione del \underline{peer} chiamante (secondo elemento dell'array ricevuto) e la comunicazione può iniziare.
-\item type 3: riceve una richiesta con l'id del chiamante come dato. Viene memorizzato nel client in modo tale da conoscere il canale che il chiamante ha aperto con il server per future comunicazioni.
-\item type 5: notifica il cambiamento di stato degli amici. I dati ricevuti contengono l'id dell'utente e relativo nuovo stato. Si procede quindi a modificare lo stato dell'utente nella rubrica.
+\item type 2: riceve e gestisce una richiesta di chiamata. Imposta quindi con il metodo nativo di WebRTC \method{setRemoteDescription} la descrizione del \underline{peer} chiamante (secondo elemento dell'\textit{array} ricevuto) e la comunicazione può iniziare.
+\item type 3: riceve una richiesta con l'\textit{id} del chiamante come dato. Viene memorizzato nel \textit{client} in modo tale da conoscere il canale che il chiamante ha aperto con il server per future comunicazioni.
+\item type 5: notifica il cambiamento di stato degli amici. I dati ricevuti contengono l'\textit{id} dell'utente e relativo nuovo stato, si procede quindi a modificare lo stato dell'utente nella rubrica.
 \end{itemize}
 \end{itemize}
  
 \item{\method{+ disconnect(): void}}\\
-Metodo utilizzato per disconnettersi dal sistema. Tale evento deve essere notificato al server tramite la websocket inviando un messaggio di tipo 4 contenente il proprio id.
+Metodo utilizzato per disconnettersi dal sistema, tale evento deve essere notificato al \textit{server} tramite la \textit{websocket} inviando un messaggio di tipo 4 contenente il proprio \textit{id}.
 
 \item{\method{+ call(isCaller: boolean, contact: Object(contact)): void}}\\
 Metodo che gestisce la vera e propria chiamata tramite WebRTC.\\
-Inizialmente, si inizializza la variabile \memberdata{pc} che è di tipo RTCPeerConnection, oggetto reso disponibile dalle librerie di WebRTC. Successivamente si definiscono i comportamenti associati agli eventi di RTCPeerConnection, ossia:
+Inizialmente, si inizializza la variabile \memberdata{pc} che è di tipo RTCPeerConnection, oggetto reso disponibile dalle librerie di WebRTC, successivamente si definiscono i comportamenti associati agli eventi di RTCPeerConnection, ossia:
 \begin{itemize}
-\item onicecandidate: evento scatenato quando un nuovo \underline{peer} si ``candida'' per poter chiamare. Viene quindi inviata la propria ``descrizione'' all'altro \underline{peer}.
-\item onaddstream: evento scatenato quando viene aggiunto uno ``stream'' nell'oggetto RTCPeerConnection. In questa situazione, il chiamato riceve lo stream del chiamante e lo visualizza nell'apposito tag video. In contemporanea, vengono richiamati i metodi che fanno partire la visualizzazione delle statistiche di chiamata.
-\item onremovestream: evento scatenato quando viene rimosso uno ``stream'' nell'oggetto RTCPeerConnection. In questa situazione, colui che effettua questa operazione vuole terminare la chiamata e deve quindi re-inviare la propria descrizione (attraverso il metodo \method{gotDescription()} in modo tale che l'altro \underline{peer} possa aggiornare la descrizione remota. Vengono richiamati alla fine i metodi che fermano la visualizzazione delle statistiche di chiamata e chiudono il canale di comunicazione tramite la chiamata del metodo \method{close()} dell'oggetto \memberdata{pc}.
+\item onicecandidate: evento scatenato quando un nuovo \underline{peer} si ``candida'' per poter chiamare, viene quindi inviata la propria ``descrizione'' all'altro \underline{peer}.
+\item onaddstream: evento scatenato quando viene aggiunto uno \textit{stream} nell'oggetto RTCPeerConnection. In questa situazione, il chiamato riceve lo \textit{stream} del chiamante e lo visualizza nell'apposito tag video. In contemporanea, vengono richiamati i metodi che fanno partire la visualizzazione delle statistiche di chiamata.
+\item onremovestream: evento scatenato quando viene rimosso uno \textit{stream} nell'oggetto RTCPeerConnection. In questa situazione, colui che effettua questa operazione vuole terminare la chiamata e deve quindi re-inviare la propria descrizione (attraverso il metodo \method{gotDescription()} in modo tale che l'altro \underline{peer} possa aggiornare la descrizione remota. Vengono richiamati alla fine i metodi che fermano la visualizzazione delle statistiche di chiamata e chiudono il canale di comunicazione tramite la chiamata del metodo \method{close()} dell'oggetto \memberdata{pc}.
 \end{itemize}
 
 \item{\method{+ webkitGetUserMedia(audio: boolean, video: boolean): void}}\\
-Metodo richiamato nel momento in cui un utente vuole iniziare una chiamata. Il metodo, fornito dalle librerie native di Google Chrome, cattura lo stream della propria videocamera. Riceve due parametri che indicano se deve essere catturato audio e/o video. Procedendo, viene aggiunto lo stream all'oggetto RTCPeerConnection tramite il metodo \method{addStream(localstream)} fornito dalle librerie di WebRTC.
+Metodo richiamato nel momento in cui un utente vuole iniziare una chiamata. Il metodo, fornito dalle librerie native di \textit{Google Chrome}, cattura lo \textit{stream} della propria videocamera/microfono. Riceve due parametri che indicano se deve essere catturato audio e/o video. Procedendo, viene aggiunto lo \textit{stream} all'oggetto RTCPeerConnection tramite il metodo \m
+ethod{addStream(localstream)} fornito dalle librerie di WebRTC.
 
 \item{\method{+ endCall(): void}}\\
-Metodo richiamato per terminare una chiamata. A cascata viene richiamato il metodo \method{removeStream(localstream)} e inviata la nuova descrizione al \underline{peer} remoto.
+Metodo richiamato per terminare una chiamata, a cascata viene richiamato il metodo \method{removeStream(localstream)} e inviata la nuova descrizione al \underline{peer} remoto.
  
  \end{description}
 
