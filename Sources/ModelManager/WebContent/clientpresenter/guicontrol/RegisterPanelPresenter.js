@@ -198,6 +198,7 @@ function RegisterPanelPresenter(url) {
         registerForm.setAttribute("action", "");
         registerForm.setAttribute("method", "");
         registerForm.setAttribute("accept-charset", "utf-8");
+        registerForm.setAttribute("enctype", "multipart/form-data");
 
         // creazione dell'elemento <ul> contenuto nel form
         var ulData = document.createElement('ul');
