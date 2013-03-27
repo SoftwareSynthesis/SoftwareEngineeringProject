@@ -2777,7 +2777,7 @@ Provoca la visualizzazione della chat con l'utente (ricevuto da parametro) nel \
 Provoca l'aggiunta di una chat, con l'utente ricevuto come parametro, andando ad aggiornare il campo privato \textit{chatElements} e visualizzandola nell'elemento ulOpenChat.
 	
 \item{\method{+ removeChat(user: Object(contact)): void}}\\
-Comportamento simile al metodo scritto precedentemente. Viene chiusa una chat aperta con l'utente ricevuto da parametro andando ad eliminare l'elemento corrispondente da \textit{chatElements e rimuovendo anche il DOM\_element dall'ulOpenChat.
+Comportamento simile al metodo scritto precedentemente. Viene chiusa una chat aperta con l'utente ricevuto da parametro andando ad eliminare l'elemento corrispondente da \textit{chatElements} e rimuovendo anche il DOM\_element dall'ulOpenChat.
 
 \item{\method{+ appendToChat(user: Object(contact), text: String): void}}\\
 Il metodo ha il compito di aggiunge una stringa \textit{text} all'interno dell'area di testo che è associata alla chat con l'utente \textit{user} (parametro del metodo).
@@ -2832,7 +2832,7 @@ Nessuna relazione d'uso evidenziata.
 \subsubsection*{Metodi}
 \begin{description}
 \item{\method{- adjustBlockButtonDisplay(contact: Object(contact)): void}}\\
-	Il metodo riceve come parametro un contatto (\textit{contact{), successivamente viene controllato se tale utente è bloccato o meno e imposta correttamente la proprietà \textit{style} agli elementi della vista. più dettagliatamente:\\
+	Il metodo riceve come parametro un contatto (\textit{contact}), successivamente viene controllato se tale utente è bloccato o meno e imposta correttamente la proprietà \textit{style} agli elementi della vista. più dettagliatamente:\\
 se il contatto è bloccato:
 \begin{itemize}
 \item nascondo il bottone per bloccare un utente;
@@ -3366,8 +3366,7 @@ Inizialmente, si inizializza la variabile \memberdata{pc} che è di tipo RTCPeer
 \end{itemize}
 
 \item{\method{+ webkitGetUserMedia(audio: boolean, video: boolean): void}}\\
-Metodo richiamato nel momento in cui un utente vuole iniziare una chiamata. Il metodo, fornito dalle librerie native di \textit{Google Chrome}, cattura lo \textit{stream} della propria videocamera/microfono. Riceve due parametri che indicano se deve essere catturato audio e/o video. Procedendo, viene aggiunto lo \textit{stream} all'oggetto RTCPeerConnection tramite il metodo \m
-ethod{addStream(localstream)} fornito dalle librerie di WebRTC.
+Metodo richiamato nel momento in cui un utente vuole iniziare una chiamata. Il metodo, fornito dalle librerie native di \textit{Google Chrome}, cattura lo \textit{stream} della propria videocamera/microfono. Riceve due parametri che indicano se deve essere catturato audio e/o video. Procedendo, viene aggiunto lo \textit{stream} all'oggetto RTCPeerConnection tramite il metodo \method{addStream(localstream)} fornito dalle librerie di WebRTC.
 
 \item{\method{+ endCall(): void}}\\
 Metodo richiamato per terminare una chiamata, a cascata viene richiamato il metodo \method{removeStream(localstream)} e inviata la nuova descrizione al \underline{peer} remoto.
