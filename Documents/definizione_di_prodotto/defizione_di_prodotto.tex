@@ -15,9 +15,9 @@
 % Versione
 \newcommand{\docVers}{1.0}
 % Data creazione
-\newcommand{\creationDate}{2013-02-03}
+\newcommand{\creationDate}{2013-03-04}
 % Data ultima modifica
-\newcommand{\modificationDate}{2013-02-03}
+\newcommand{\modificationDate}{2013-03-19}
 % Stato in {Approvato, Non approvato}
 \newcommand{\docState}{Non approvato}
 % Uso in {Interno, Esterno}
@@ -53,12 +53,10 @@
 
 %---------------------------RUOLI----------------------------
 %FASE 1:
-%Programmatori: DIEGO, STEFANO, SCHIVO
-%FASE 2:
-%Programmatori: MENE, TRES, ELENA
+%Progettisti: STEFANO,RIZZI,SCHIVO,ELENA
 
-%Verificatore: SCHIVO, STEFANO, RIZZI, DIEGO (dobbiamo fare un sacco di test)
-%Responsabile finale supremo: RIZZI
+%VerificatorI: MENE,TRES
+%Responsabile finale supremo: DIEGO
 %------------------------------------------------------------
 
 % Storico delle modifiche
@@ -68,7 +66,17 @@
 \toprule
 Versione & Descrizione intervento & Membro & Ruolo & Data\\
 \midrule % inserire qui il contenuto della tabella
-0.1 & Creazione del documento e stesura delle sezioni ``Introduzione'' e ``Riferimenti''. & &  & 2013-02-03\\
+1.0 & Approvazione documento &Diego Beraldin &Responsabile  & 2013-02-09\\
+0.10 & &Schivo Marco  &  Progettista& 2013-02-08\\
+0.9 & &Andrea Meneghinello & Verificatore & 2013-02-08\\
+0.8 &  & Elena Zecchinato &  Progettista& 2013-02-07\\
+0.7 & &Schivo Marco &  Progettista& 2013-02-07\\
+0.6 &  &Elena Zecchinato &  Progettista& 2013-02-06\\
+0.5 &  &Stefano Farronato &  Progettista& 2013-02-05\\
+0.4 &  &Andrea Rizzi &  Progettista& 2013-02-05\\
+0.3 &  &Stefano Farronato &  Progettista& 2013-02-04\\
+0.2 &  &Andrea Rizzi &  Progettista& 2013-02-04\\
+0.1 & Creazione del documento e stesura delle sezioni ``Introduzione'' e ``Riferimenti''. &Elena Zecchinato &Progettista  & 2013-03-04\\
 \bottomrule
 \end{longtable}
 \end{center}
@@ -90,7 +98,7 @@ Versione & Descrizione intervento & Membro & Ruolo & Data\\
 \purpose
 
 \subsection{Scopo del documento}
-Il presente documento presenta una descrizione dettagliata dell'architettura del sistema software destinata alla realizzazione del prodotto \caName{}, coerentemente con la progettazione ad alto livello descritta nell'allegato \textit{specifica\_tecnica.2.0.pdf}.
+Il presente documento presenta una descrizione dettagliata dell'architettura del sistema software destinata alla realizzazione del prodotto \caName{} coerentemente con la progettazione ad alto livello descritta nell'allegato \textit{specifica\_tecnica.2.0.pdf}.
 
 A tal fine si riporta per ognuno dei componenti definiti nel documento di specifica tecnica una descrizione delle classi in termini di operazioni disponibili, proprietà, responsabilità e collaborazioni. Il contenuto del presente documento ha inoltre valore vincolante per i programmatori, pertanto avranno l'obbligo di attenersi alle disposizioni in esso contenute senza alcuna possibilità di deroga.
 
@@ -358,43 +366,43 @@ Nessun attributo evidenziato.
 		\item nel blocco try:
 		\begin{itemize}
 			\item util deve essere inizializzato mediante la chiamata \method{getIstance()} di \classname{HibernateUtil};
-			\item quindi a partire da util si inizializza factory mediante una chiamata \method{getFactory()};
-			\item analogamente a quanto fatto in precedenza, si inizializza session tramite una chiamata \method{openSession()} eseguita a partire da factory;
+			\item quindi a partire da \textit{util} si inizializza \textit{factory} mediante una chiamata \method{getFactory()};
+			\item analogamente a quanto fatto in precedenza, si inizializza \textit{session} tramite una chiamata \method{openSession()} eseguita a partire da \textit{factory};
 			\item transaction viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da session;
-			\item quindi si è pronti per eseguire l'istruzione di update a partire da session e passando come parametro group;
-			\item si esegue il commit;
-			\item si pone flag a \inglese{true};
+			\item quindi si è pronti per eseguire l'istruzione di \textit{update} a partire da \textit{session} e passando come parametro \textit{group};
+			\item si esegue il \textit{commit};
+			\item si pone \inglese{flag} a \inglese{true};
 		\end{itemize}
-		\item nel blocco catch: si effettua un rollback a partire da transaction;
-		\item nel blocco finally: se session è diverso da null, si chiude mediante una chimata di tipo close();
+		\item nel blocco catch: si effettua un \textit{rollback} a partire da \textit{transaction};
+		\item nel blocco finally: se session è diverso da null, si chiude mediante una chiamata di tipo \texttt{close()};
 	\end{itemize}
-	Infine il metodo termina ritornando il valore di flag;	
+	Infine il metodo termina ritornando il valore di \inglese{flag};	
 	
 	\item{\method{+ insert(group: IGroup): boolean}}\\
-	Metodo usato per inserire un gruppo nel database. Il metodo riceve come parametro d'ingresso un oggetto \classname{abook.IGroup} e restituisce un valore booleano  pari a \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
+	Metodo usato per inserire un gruppo nel database, riceve come parametro d'ingresso un oggetto \classname{abook.IGroup} e restituisce un valore booleano  pari a \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
 	\begin{itemize}
-		\item viene inizializzata una variabile ti tipo boolean nominata flag, a \inglese{false};
+		\item viene inizializzata una variabile ti tipo \inglese{boolean} nominata \inglese{flag}, a \inglese{false};
 		\item si crea un istanza di \classname{HibernateUtil} util;
 		\item si crea un istanza di \texttt{Session} session;
 		\item si crea un istanza di \texttt{SessionFactory} factory;
 		\item si crea un istanza di \texttt{Transaction} transaction;
 	\end{itemize}
-	Quindi nel metodo deve essere definito un blocco try catch finally:
+	Quindi nel metodo deve essere definito un blocco \textit{try-catch} finally:
 	\begin{itemize}
 		\item nel blocco try:
 		\begin{itemize}
 			\item util deve essere inizializzato mediante la chiamata \method{getIstance()} di \classname{HibernateUtil};
 			\item quindi a partire da util si inizializza factory mediante una chiamata \method{getFactory()};
-			\item analogamente a quanto fatto in precedenza, si inizializza session tramite una chiamata \method{openSession()} eseguita a partire da factory;
+			\item analogamente a quanto fatto in precedenza, si inizializza \textit{session} tramite una chiamata \method{openSession()} eseguita a partire da \textit{factory};
 			\item transaction viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da session;
-			\item quindi si è pronti per eseguire l'istruzione di save a partire da session e passando come parametro group;
+			\item quindi si è pronti per eseguire l'istruzione di \textit{save} a partire da \textit{session} e passando come parametro group;
 			\item si esegue il commit;
-			\item si pone flag a \inglese{true};
+			\item si pone \textit{flag} a \inglese{true};
 		\end{itemize}
-		\item nel blocco catch: si effettua un rollback a partire da transaction;
-		\item nel blocco finally: se session è diverso da null, si chiude mediante una chimata di tipo close();
+		\item nel blocco catch: si effettua un \textit{rollback} a partire da \textit{transaction};
+		\item nel blocco finally: se \textit{session} è diverso da \textit{null}, si chiude mediante una chiamata di tipo \texttt{close()};
 	\end{itemize}
-	Infine il metodo termina ritornando il valore di flag;
+	Infine il metodo termina ritornando il valore di \textit{flag};
 	
 	\item{\method{+ getByID(identifier: long): IGroup}}\\
 	Metodo usato per interrogare il database ed ottenere un istanza di \classname{IGroup} avente come identificativo, l'id del gruppo ricevuto come parametro d'ingresso. Il flusso principale inizia definendo le seguenti variabili:
@@ -413,20 +421,20 @@ Nessun attributo evidenziato.
 		\item nel blocco try:
 		\begin{itemize}
 			\item util deve essere inizializzato mediante la chiamata \method{getIstance()} di \classname{HibernateUtil};
-			\item quindi a partire da util si inizializza factory mediante una chiamata \method{getFactory()};
-			\item analogamente a quanto fatto in precedenza, si inizializza session tramite una chiamata \method{openSession()} eseguita a partire da factory;
+			\item quindi a partire da \textit{util} si inizializza \textit{factory} mediante una chiamata \method{getFactory()};
+			\item analogamente a quanto fatto in precedenza, si inizializza \textit{session} tramite una chiamata \method{openSession()} eseguita a partire da \textit{factory};
 			\item transaction viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da session;
-			\item query viene inizializzata mediante una chiamata createQuery, chiamata da session e a cui deve essere passata come paramtro, la stringa hqlQuery;
+			\item query viene inizializzata mediante una chiamata \textit{createQuery}, chiamata da \textit{session} e a cui deve essere passata come parametro, la stringa hqlQuery;
 			\item quindi si è pronti per eseguire query ed ottenere la lista di \classname{IGroup} desiderata. Tale operazione si effettua richiamando query.list();
-			\item si esegue il commit;
+			\item si esegue il \textit{commit};
 		\end{itemize}
-		\item nel blocco catch: si effettua un rollback a partire da transaction;
-		\item nel blocco finally: se session è diverso da null, si chiude mediante una chimata di tipo close();
+		\item nel blocco catch: si effettua un \textit{rollback} a partire da \textit{transaction};
+		\item nel blocco finally: se \textit{session\textit{ è diverso da \textit{null}, si chiude mediante una chiamata di tipo \texttt{close()};
 	\end{itemize}
-	Il programma termina controllando se groups è diversa da null e contiene almeno un elemento. Nel caso il programma termina ritornando il primo contatto presente nella lista. Altrimenti termina ritornando null.
+	Il programma termina controllando se groups è diversa da \textit{null} e contiene almeno un elemento. Nel caso il programma termina ritornando il primo contatto presente nella lista. Altrimenti termina ritornando \textit{null}.
 	
 	\item{\method{+ getByOwner(owner: long): List<IGroup>}}\\
-	Metodo usato per interrogare il database ed ottenere una lista di istanze di \classname{IGroup} aventi come possessore dei gruppi l'utente con id uguale al valore owner passato come parametro. Il flusso principale inizia definendo le seguenti variabili:
+	Metodo usato per interrogare il database ed ottenere una lista di istanze di \classname{IGroup} aventi come possessore dei gruppi l'utente con id uguale al valore \textit{owner} passato come parametro. Il flusso principale inizia definendo le seguenti variabili:
 	\begin{itemize}
 		\item si crea un istanza di \classname{HibernateUtil} util;
 		\item si crea un istanza di \texttt{List<IGroup>} groups;
@@ -437,20 +445,20 @@ Nessun attributo evidenziato.
 		\item si crea un istanza di \texttt{SessionFactory} factory;
 		\item si crea un istanza di \texttt{Transaction} transaction;
 	\end{itemize}
-	Quindi nel metodo deve essere definito un blocco try catch finally:
+	Quindi nel metodo deve essere definito un blocco \textit{try-catch} finally:
 	\begin{itemize}
 		\item nel blocco try:
 		\begin{itemize}
 			\item util deve essere inizializzato mediante la chiamata \method{getIstance()} di \classname{HibernateUtil};
-			\item quindi a partire da util si inizializza factory mediante una chiamata \method{getFactory()};
-			\item analogamente a quanto fatto in precedenza, si inizializza session tramite una chiamata \method{openSession()} eseguita a partire da factory;
+			\item quindi a partire da \textit{util} si inizializza \textit{factory} mediante una chiamata \method{getFactory()};
+			\item analogamente a quanto fatto in precedenza, si inizializza \textit{session} tramite una chiamata \method{openSession()} eseguita a partire da \textit{factory};
 			\item transaction viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da session;
-			\item query viene inizializzata mediante una chiamata createQuery, chiamata da session e a cui deve essere passata come paramtro, la stringa hqlQuery;
-			\item quindi si è pronti per eseguire query ed ottenere la lista di \classname{IGroup} desiderata. Tale operazione si effettua richiamando query.list();
+			\item query viene inizializzata mediante una chiamata createQuery, chiamata da \textit{session} e a cui deve essere passata come parametro, la stringa hqlQuery;
+			\item quindi si è pronti per eseguire \textit{query} ed ottenere la lista di \classname{IGroup} desiderata. Tale operazione si effettua richiamando query.list();
 			\item si esegue il commit;
 		\end{itemize}
-		\item nel blocco catch: si effettua un rollback a partire da transaction;
-		\item nel blocco finally: se session è diverso da null, si chiude mediante una chiamata di tipo close();
+		\item nel blocco catch: si effettua un \textit{rollback} a partire da \textit{transaction};
+		\item nel blocco finally: se \textit{session} è diverso da \textit{null}, si chiude mediante una chiamata di tipo \texttt{close()};
 	\end{itemize}
 	Il programma termina restituendo groups.
 	
@@ -461,7 +469,7 @@ Nessun attributo evidenziato.
 \classsection{AddressBookEntryDAO}
 
 \subsubsection*{Funzione}
-Classe che implementa il pattern DAO. Definisce le procedure d’inserimento, eliminazione ed aggiornamento di entry inerenti alla tabella AddressBookEntry.
+Classe che implementa il pattern DAO. Definisce le procedure d'inserimento, eliminazione ed aggiornamento di entry inerenti alla tabella AddressBookEntry.
 
 \subsubsection*{Relazioni d'uso}
 
@@ -480,80 +488,80 @@ Nessun attributo evidenziato.
 
 \begin{description}
 	\item{\method{+ delete(entry: IAddressBookEntry): boolean}}\\
-	Metodo usato per cancellare una entry dal database. Per entry si intende un qualsiasi oggetto implementante l'interfaccia \classname{IAddressBookEntry}. Il metodo riceve come parametro d'ingresso un oggetto \classname{abook.IAddressBookEntry} e restituisce un valore booleano  pari a \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
+	Metodo usato per cancellare una \textit{entry} dal database. Per \textit{entry} si intende un qualsiasi oggetto implementante l'interfaccia \classname{IAddressBookEntry}. Il metodo riceve come parametro d'ingresso un oggetto \classname{abook.IAddressBookEntry} e restituisce un valore booleano \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
 	\begin{itemize}
-		\item viene inizializzata una variabile ti tipo boolean nominata flag, a \inglese{false};
+		\item viene inizializzata una variabile di tipo \inglese{boolean} nominata \textit{flag}, a \inglese{false};
 		\item si crea un istanza di \classname{HibernateUtil} util;
 		\item si crea un istanza di \texttt{Session} session;
 		\item si crea un istanza di \texttt{SessionFactory} factory;
 		\item si crea un istanza di \texttt{Transaction} transaction;
 	\end{itemize}
-	Quindi nel metodo deve essere definito un blocco try catch finally:
+	Quindi nel metodo deve essere definito un blocco \textit{try-catch} finally:
 	\begin{itemize}
-		\item nel blocco try:
+		\item nel blocco \textit{try}:
 		\begin{itemize}
 			\item util deve essere inizializzato mediante la chiamata \method{getIstance()} di \classname{HibernateUtil};
-			\item quindi a partire da util si inizializza factory mediante una chiamata \method{getFactory()};
-			\item analogamente a quanto fatto in precedenza, si inizializza session tramite una chiamata \method{openSession()} eseguita a partire da factory;
-			\item transaction viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da session;
-			\item quindi si è pronti per eseguire l'istruzione di delete a partire da session e passando come parametro entry;
-			\item si esegue il commit;
+			\item quindi a partire da \textit{util} si inizializza \textit{factory} mediante una chiamata \method{getFactory()};
+			\item analogamente a quanto fatto in precedenza, si inizializza \textit{session} tramite una chiamata \method{openSession()} eseguita a partire da \textit{factory};
+			\item transaction viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da \textit{session};
+			\item quindi si è pronti per eseguire l'istruzione di inglese{delete} a partire da \textit{session} e passando come parametro \textit{entry};
+			\item si esegue il \textit{commit};
 			\item si pone flag a \inglese{true};
 		\end{itemize}
 		\item nel blocco catch: si effettua un rollback a partire da transaction;
-		\item nel blocco finally: se session è diverso da null, si chiude mediante una chimata di tipo close();
+		\item nel blocco finally: se \textit{session} è diverso da \textit{null}, si chiude mediante una chiamata di tipo \texttt{close()};
 	\end{itemize}
-	Infine il metodo termina ritornando il valore di flag;
+	Infine il metodo termina ritornando il valore di \textit{flag};
 	
 	\item{\method{+ update(entry: IAddressBookEntry): boolean}}\\
-	Metodo usato per modificare una entry presente nel database. Il metodo riceve come parametro d'ingresso un oggetto \classname{abook.IAddressBookEntry} e restituisce un valore booleano  pari a \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
+	Metodo usato per modificare una \textit{entry} presente nel database. Il metodo riceve come parametro d'ingresso un oggetto \classname{abook.IAddressBookEntry} e restituisce un valore booleano \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
 	\begin{itemize}
-		\item viene inizializzata una variabile ti tipo boolean nominata flag, a \inglese{false};
+		\item viene inizializzata una variabile ti tipo \textit{boolean} nominata \textit{flag}, a \inglese{false};
 		\item si crea un istanza di \classname{HibernateUtil} util;
 		\item si crea un istanza di \texttt{Session} session;
 		\item si crea un istanza di \texttt{SessionFactory} factory;
 		\item si crea un istanza di \texttt{Transaction} transaction;
 	\end{itemize}
-	Quindi nel metodo deve essere definito un blocco try catch finally:
+	Quindi nel metodo deve essere definito un blocco \textit{try-catch} finally:
 	\begin{itemize}
 		\item nel blocco try:
 		\begin{itemize}
 			\item util deve essere inizializzato mediante la chiamata \method{getIstance()} di \classname{HibernateUtil};
-			\item quindi a partire da util si inizializza factory mediante una chiamata \method{getFactory()};
-			\item analogamente a quanto fatto in precedenza, si inizializza session tramite una chiamata \method{openSession()} eseguita a partire da factory;
-			\item transaction viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da session;
-			\item quindi si è pronti per eseguire l'istruzione di update a partire da session e passando come parametro entry;
+			\item quindi a partire da \textit{util} si inizializza \textit{factory} mediante una chiamata \method{getFactory()};
+			\item analogamente a quanto fatto in precedenza, si inizializza \textit{session} tramite una chiamata \method{openSession()} eseguita a partire da \textit{factory};
+			\item transaction viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da \textit{session};
+			\item quindi si è pronti per eseguire l'istruzione di \textit{update} a partire da \textit{session} e passando come parametro \textit{entry};
 			\item si esegue il commit;
 			\item si pone flag a \inglese{true};
 		\end{itemize}
-		\item nel blocco catch: si effettua un rollback a partire da transaction;
-		\item nel blocco finally: se session è diverso da null, si chiude mediante una chimata di tipo close();
+		\item nel blocco \textit{catch}: si effettua un \textit{rollback\textit{ a partire da \textit{transaction};
+		\item nel blocco \textit{finally}: se \textit{session} è diverso da \textit{null}, si chiude mediante una chiamata di tipo \texttt{close()};
 	\end{itemize}
-	Infine il metodo termina ritornando il valore di flag;	
+	Infine il metodo termina ritornando il valore di \textit{flag};	
 	
 	\item{\method{+ insert(entry: IAddressBookEntry): boolean}}\\
-	Metodo usato per inserire una entry nel database. Il metodo riceve come parametro d'ingresso un oggetto \classname{abook.IAddressBookEntry} e restituisce un valore booleano  pari a \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
+	Metodo usato per inserire una \textit{entry} nel database. Il metodo riceve come parametro d'ingresso un oggetto \classname{abook.IAddressBookEntry} e restituisce un valore booleano \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
 	\begin{itemize}
-		\item viene inizializzata una variabile ti tipo boolean nominata flag, a \inglese{false};
+		\item viene inizializzata una variabile ti tipo \textit{boolean} nominata \textit{flag}, a \inglese{false};
 		\item si crea un istanza di \classname{HibernateUtil} util;
 		\item si crea un istanza di \texttt{Session} session;
 		\item si crea un istanza di \texttt{SessionFactory} factory;
 		\item si crea un istanza di \texttt{Transaction} transaction;
 	\end{itemize}
-	Quindi nel metodo deve essere definito un blocco try catch finally:
+	Quindi nel metodo deve essere definito un blocco \textit{try-catch} finally:
 	\begin{itemize}
-		\item nel blocco try:
+		\item nel blocco \textit{try}:
 		\begin{itemize}
-			\item util deve essere inizializzato mediante la chiamata \method{getIstance()} di \classname{HibernateUtil};
-			\item quindi a partire da util si inizializza factory mediante una chiamata \method{getFactory()};
-			\item analogamente a quanto fatto in precedenza, si inizializza session tramite una chiamata \method{openSession()} eseguita a partire da factory;
-			\item transaction viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da session;
-			\item quindi si è pronti per eseguire l'istruzione di save a partire da session e passando come parametro entry;
-			\item si esegue il commit;
-			\item si pone flag a \inglese{true};
+			\item \textit{util} deve essere inizializzato mediante la chiamata \method{getIstance()} di \classname{HibernateUtil};
+			\item quindi a partire da \textit{util} si inizializza \textit{factory} mediante una chiamata \method{getFactory()};
+			\item analogamente a quanto fatto in precedenza, si inizializza \textit{session} tramite una chiamata \method{openSession()} eseguita a partire da \textit{factory};
+			\item \textit{transaction} viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da \textit{session};
+			\item quindi si è pronti per eseguire l'istruzione di \textit{save\textit{ a partire da \textit{session} e passando come parametro \textit{entry};
+			\item si esegue il \textit{commit};
+			\item si pone \textit{flag} a \inglese{true};
 		\end{itemize}
-		\item nel blocco catch: si effettua un rollback a partire da transaction;
-		\item nel blocco finally: se session è diverso da null, si chiude mediante una chimata di tipo close();
+		\item nel blocco \textit{catch}: si effettua un \textit{rollback} a partire da \textit{transaction};
+		\item nel blocco \textit{finally}: se \textit{session} è diverso da \textit{null}, si chiude mediante una chimata di tipo \texttt{close()};
 	\end{itemize}
 	Infine il metodo termina ritornando il valore di flag;
 	
@@ -564,12 +572,12 @@ Nessun attributo evidenziato.
 \classsection{IUserData}
 
 \subsubsection*{Funzione}
-Interfaccia rappresentante il comportamento di un generico utente del sistema. L'interfaccia dovrà definire dei metodi di tipo get e set per i dati d'interesse.
+Interfaccia rappresentante il comportamento di un generico utente del sistema. L'interfaccia dovrà definire dei metodi di tipo \textit{get} e \textit{set} per i dati d'interesse.
 
 \subsubsection*{Relazioni d'uso}
 
 \begin{itemize}
-	\item \texttt{org.softwaresynthesis.mytalk.server.IMyTalkObject}: interfaccia da estendere. Ogni oggetto che implementerà l'interfaccia \classname{IUserData} dovrà essere in grado di convertire il proprio contenuto informativo in formato Json.
+	\item \texttt{org.softwaresynthesis.mytalk.server.IMyTalkObject}: interfaccia da estendere. Ogni oggetto che implementerà l'interfaccia \classname{IUserData} dovrà essere in grado di convertire il proprio contenuto informativo in formato \textit{Json}.
 	\item \classname{AddressBookEntry}: l'interfaccia definisce dei metodi per la manipolazione di dati \classname{AddressBookEntry}.
 \end{itemize}
 
@@ -842,18 +850,18 @@ Implementazione dell'interfaccia IAddressBookEntry.
 \classsection{AddressBookDoAddContactServlet}
 
 \subsubsection*{Funzione}
-Servlet cha ha il compito di aggiungere alla rubrica un nuovo contatto.
+\textit{Servlet} che ha il compito di aggiungere alla rubrica un nuovo contatto.
 
 \subsubsection*{Relazioni d'uso}
 
 \begin{itemize}
 	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
-	\item \texttt{javax.servlet.ServletException}: eccezione rilancibile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{javax.servlet.ServletException}: eccezione lanciabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{LoginManager}.
 	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
-	\item \texttt{javax.security.auth.login.LoginContext}: classe usata in \method{doPost()} per eseguite la logout dal sistema.
-	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la servlet (inoltra i dati in uscita dalla chiamata a servlet).
+	\item \texttt{javax.security.auth.login.LoginContext}: classe usata in \method{doPost()} per eseguite la \textit{logout} dal sistema.
+	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la servlet (inoltra i dati in uscita dalla chiamata a \inglese{servlet}).
 	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
 	\item \classname{org.softwaresynthesis.mytalk.server.dao.UserDataDAO}: classe usata per comunicare tramite Hibernate con la tabella UserData della base di dati.
 \end{itemize}
@@ -872,7 +880,7 @@ Servlet cha ha il compito di aggiungere alla rubrica un nuovo contatto.
 	Costruttore pubblico della \inglese{servlet}. Richiama il costruttore della classe padre (chiamata a \texttt{super}).
 	
 	\item{\method{\# doGet(request HttpServletRequest, response HttpServletResponse): void}}\\
-	Metodo usato per eseguire la richiesta di aggiungere un nuovo contatto all'interno della rubrica (eseguito in risposta ad una richiesta HTTP con metodo \texttt{GET}). Poiché intendiamo gestire in modo univoco una richiesta a tale servlet (indifferentemente dalla tipologia d'invio dati) il metodo reindirizza il flusso principale al metodo \method{doPost()}.
+	Metodo usato per eseguire la richiesta di aggiungere un nuovo contatto all'interno della rubrica (eseguito in risposta ad una richiesta HTTP con metodo \texttt{GET}). Poiché si intende gestire in modo univoco una richiesta a tale \inglese{servlet} (indifferentemente dalla tipologia d'invio dati) il metodo reindirizza il flusso principale al metodo \method{doPost()}.
 	
 	\item{\method{\# doPost(request HttpServletRequest, response HttpServletResponse): void}}\\	
 	Metodo usato per eseguire la richiesta di aggiungere un nuovo contatto all'interno della rubrica (eseguito in risposta ad una richiesta HTTP con metodo \texttt{POST}). Il flusso principale inizia  con la creazione di un oggetto \classname{dao.UserDataDAO} avente nome UserDAO. Quindi viene aperto un blocco try catch in cui si salva in un istanza di tipo \texttt{HttpSession}, l'oggetto ritornato da una chiamata \verb|request.getSession(false)|. I passi successivi sono (nell'ordine):
@@ -896,18 +904,18 @@ Servlet cha ha il compito di aggiungere alla rubrica un nuovo contatto.
 \classsection{AddressBookDoRemoveContactServlet}
 
 \subsubsection*{Funzione}
-\inglese{Servlet} richiamata dal client per eseguire l'eliminazione di un contatto presente nella propria rubrica.
+\\textit{Servlet} richiamata dal \textit{client} per eseguire l'eliminazione di un contatto presente nella propria rubrica.
 
 \subsubsection*{Relazioni d'uso}
 
 \begin{itemize}
 	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
-	\item \texttt{javax.servlet.ServletException}: eccezione rilancibile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{javax.servlet.ServletException}: eccezione lanciabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{LoginManager}.
 	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
 	\item \texttt{javax.security.auth.login.LoginContext}: classe usata in \method{doPost()} per eseguite la logout dal sistema.
-	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la servlet (inoltra i dati in uscita dalla chiamata a servlet).
+	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in uscita dalla chiamata a \inglese{servlet}).
 	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
 	\item \classname{org.softwaresynthesis.mytalk.server.dao.UserDataDAO}: classe usata per comunicare tramite Hibernate con la tabella UserData della base di dati.
 \end{itemize}
@@ -916,20 +924,20 @@ Servlet cha ha il compito di aggiungere alla rubrica un nuovo contatto.
 
 \begin{itemize}
 	\item{\memberdata{\underline{-- \{frozen\} serialVersionUID: long}}}
-	Attributo contenente l'id per la serializzazione dei dati. Il valore di creazione deve essere \texttt{10013L}.
+	Attributo contenente l'id per la serializzazione dei dati, il valore di creazione deve essere \texttt{10013L}.
 \end{itemize}
 
 \subsubsection*{Metodi}
 
 \begin{description}
 	\item{\method{+ AddressBookDoRemoveContactServlet()}}\\
-	Costruttore pubblico della \inglese{servlet}. Richiama il costruttore della classe padre (chiamata a \texttt{super}).
+	Costruttore pubblico della \inglese{servlet}, richiama il costruttore della classe padre (chiamata a \texttt{super}).
 	
 	\item{\method{\# doGet(request HttpServletRequest, response HttpServletResponse): void}}\\
-	Metodo usato per eseguire la richiesta di eliminazione di un contatto presente all'interno della rubrica (eseguito in risposta ad una richiesta HTTP con metodo \texttt{GET}). Poiché intendiamo gestire in modo univoco una richiesta a tale servlet (indifferentemente dalla tipologia d'invio dati) il metodo reindirizza il flusso principale al metodo \method{doPost()}.
+	Metodo usato per eseguire la richiesta di eliminazione di un contatto presente all'interno della rubrica (eseguito in risposta ad una richiesta HTTP con metodo \texttt{GET}). Poiché si intende gestire in modo univoco una richiesta a tale \inglese{servlet} (indifferentemente dalla tipologia d'invio dati) il metodo reindirizza il flusso principale al metodo \method{doPost()}.
 	
 	\item{\method{\# doPost(request HttpServletRequest, response HttpServletResponse): void}}\\	
-	Metodo usato per eseguire la richiesta di eliminazione di un contatto presente all'interno della rubrica (eseguito in risposta ad una richiesta HTTP con metodo \texttt{POST}). In breve il metodo deve creare un istanza di \texttt{AddressBookEntry} con i dati relativi alla entry da eliminare, quindi richiamerà il metodo \method{removeAddressBookEntry()} a partire dalle due istanze di \texttt{IUserData} (quella che rappresenta l'utente richiedete e quella che rappresenta l'utente da eliminare) passando come parametro l'entry definita in precedenza. Più nello specifico Il flusso principale inizia  con la creazione di un oggetto \classname{dao.UserDataDAO} avente nome UserDAO. Quindi viene aperto un blocco try catch in cui si salva in un istanza di tipo \texttt{HttpSession}, l'oggetto ritornato da una chiamata \verb|request.getSession(false)|. I passi successivi sono (nell'ordine):
+	Metodo usato per eseguire la richiesta di eliminazione di un contatto presente all'interno della rubrica (eseguito in risposta ad una richiesta HTTP con metodo \texttt{POST}). Tale metodo deve creare un istanza di \texttt{AddressBookEntry} con i dati relativi alla \textit{entry} da eliminare, quindi richiamerà il metodo \method{removeAddressBookEntry()} a partire dalle due istanze di \texttt{IUserData} (quella che rappresenta l'utente richiedete e quella che rappresenta l'utente da eliminare) passando come parametro l'\textit{entry} definita in precedenza. Più nello specifico Il flusso principale inizia  con la creazione di un oggetto \classname{dao.UserDataDAO} avente nome UserDAO, quindi viene aperto un blocco \textit{try-catch} in cui si salva in un istanza di tipo \texttt{HttpSession}, l'oggetto ritornato da una chiamata \verb|request.getSession(false)|. I passi successivi sono (nell'ordine):
 	\begin{itemize}
 		\item salvare in attributo di tipo long, contactID, l'id dell'utente. Tale id dovrà essere ottenuto con una chiamata:\\
 		\verb|request.getParameter("contactId")|;\\
@@ -940,9 +948,9 @@ Servlet cha ha il compito di aggiungere alla rubrica un nuovo contatto.
 		\item si crea un istanza di tipo \classname{IUserData} che conterrà ``l'utente'' che dovrà essere eliminato dalla rubrica del chiamante. L'oggetto dovrà essere istanziato in seguito ad una chiamata:\\
 		\verb|userDAO.getByID(contactId)|;
 	\end{itemize}
-	Quindi se l'amico (che dovrò andare a cancellare dalla lista) è stato correttamente istanziato (amico != null) allora il flusso principale procede creando e impostando un istanza di \classname{AddressBookEntry}. Quindi a partire dall'oggetto che rappresenta l'utente richiedente, viene richiamato il metodo \method{removeAddressBookEntry()}. Il metodo termina ``scrivendo'' \inglese{true} all'interno di un istanza di \texttt{PrintWriter} creata a partire da \texttt{response.getWriter()}.
+	Quindi se l'amico (che dovrò andare a cancellare dalla lista) è stato correttamente istanziato (\texttt{amico != null}) allora il flusso principale procede creando e impostando un istanza di \classname{AddressBookEntry}. Quindi a partire dall'oggetto che rappresenta l'utente richiedente, viene richiamato il metodo \method{removeAddressBookEntry()}. Il metodo termina ``scrivendo'' \inglese{true} all'interno di un istanza di \texttt{PrintWriter} creata a partire da \texttt{response.getWriter()}.
 	
-	Se invece si è osservato che l'oggetto contenente l'amico da rimuovere, ha valore uguale a null, allora il metodo termina scrivendo \inglese{false} all'intero della dello stesso \texttt{PrintWriter} già citato.
+	Se invece si è osservato che l'oggetto contenente l'amico da rimuovere, ha valore uguale a \textit{null}, allora il metodo termina impostando \inglese{false} all'intero della dello stesso \texttt{PrintWriter} già citato.
 \end{description}
 
 %TODO da verificare
@@ -950,18 +958,18 @@ Servlet cha ha il compito di aggiungere alla rubrica un nuovo contatto.
 \classsection{AddressBookDoCreateGroupServlet}
 
 \subsubsection*{Funzione}
-\inglese{Servlet} richiamata dal client per creare un nuovo gruppo nella propria rubrica.
+\inglese{Servlet} richiamata dal \textit{client} per creare un nuovo gruppo nella propria rubrica.
 
 \subsubsection*{Relazioni d'uso}
 
 \begin{itemize}
 	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
-	\item \texttt{javax.servlet.ServletException}: eccezione rilancibile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{javax.servlet.ServletException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{LoginManager}.
 	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
 	\item \texttt{javax.security.auth.login.LoginContext}: classe usata in \method{doPost()} per eseguite la logout dal sistema.
-	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la servlet (inoltra i dati in uscita dalla chiamata a servlet).
+	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in uscita dalla chiamata a \inglese{servlet}).
 	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
 	\item \classname{org.softwaresynthesis.mytalk.server.dao.UserDataDAO}: classe usata per comunicare tramite Hibernate con la tabella UserData della base di dati.
 \end{itemize}
@@ -980,7 +988,7 @@ Servlet cha ha il compito di aggiungere alla rubrica un nuovo contatto.
 	Costruttore pubblico della \inglese{servlet}. Richiama il costruttore della classe padre (chiamata a \texttt{super}).
 	
 	\item{\method{\# doGet(request HttpServletRequest, response HttpServletResponse): void}}\\
-	Metodo usato per eseguire la richiesta di creazione di un gruppo (eseguito in risposta ad una richiesta HTTP con metodo \texttt{GET}). Poiché intendiamo gestire in modo univoco una richiesta a tale servlet (indifferentemente dalla tipologia d'invio dati) il metodo reindirizza il flusso principale al metodo \method{doPost()}.
+	Metodo usato per eseguire la richiesta di creazione di un gruppo (eseguito in risposta ad una richiesta HTTP con metodo \texttt{GET}). Poiché si intende gestire in modo univoco una richiesta a tale \inglese{servlet} (indifferentemente dalla tipologia d'invio dati) il metodo reindirizza il flusso principale al metodo \method{doPost()}.
 	
 	\item{\method{\# doPost(request HttpServletRequest, response HttpServletResponse): void}}\\	
 	Metodo usato per eseguire la richiesta di creazione di un gruppo (eseguito in risposta ad una richiesta HTTP con metodo \texttt{POST}). Nell'ordine proposto, devono essere eseguite le seguenti operazioni:
@@ -992,16 +1000,16 @@ Servlet cha ha il compito di aggiungere alla rubrica un nuovo contatto.
 		\item creazione di un oggetto \texttt{PrinterWriter} avente nome writer;
 		\item creazione di due stringhe, name e result;
 	\end{itemize}
-	A questo punto viene creato un blocco try catch. Il blocco catch non fa altro che impostare la stringa result a ``\inglese{false}''. Nel blocco try invece si dovrà seguire il seguente iter:
+	A questo punto viene creato un blocco \textit{try-catch}. Il blocco \textit{catch} imposta la stringa \textit{result} a \inglese{false}, il blocco \textit{try} dovrà invece seguire il seguente iter:
 	\begin{itemize}
-		\item si imposta session con il valore ritornato da una chiamata:\\
+		\item si imposta \textit{session} con il valore ritornato da una chiamata:\\
 		\verb|request.getSession(false)|;
-		\item si imposta la variabile user con il valore presente nell'attributo user di sessione (usare l'istruzione \verb|session.getAttribute("user")|;
-		\item impostare name con il contenuto del parametro ``groupName'' presente nell'oggetto request;
-		\item verificare se name è null o vuoto. Nel caso procedere impostando result a false e uscendo dal blocco try.
-		\item altrimenti, se name contiene un nome valido si crea un nuovo gruppo (salvandolo nella variabile group), e impostando il nome e l'utente proprietario.
-		\item richiamare \method{insert()} a partire dall'istanza groupDAO, passando come parametro group (che ora conterrà in gruppo da inserire nel database). Viene impostato result a ``\inglese{true}''
-	Il metodo termina scrivendo su write (usando l'omonimo metodo) il valore contenuto in result. 		
+		\item si imposta la variabile user con il valore presente nell'attributo \textit{user} di sessione (usare l'istruzione \verb|session.getAttribute("user")|;
+		\item impostare name con il contenuto del parametro \textit{groupName} presente nell'oggetto request;
+		\item verificare se \inglese{name} è \textit{null} o vuoto. Nel caso procedere impostando \textit{result} a \textit{false} e uscendo dal blocco \textit{try}.
+		\item altrimenti, se \inglese{name} contiene un nome valido si crea un nuovo gruppo (salvandolo nella variabile group), e impostando il nome e l'utente proprietario.
+		\item richiamare \method{insert()} a partire dall'istanza groupDAO, passando come parametro group (che ora conterrà in gruppo da inserire nel database). Viene impostato \textit{result} a \inglese{true},
+	il metodo termina scrivendo su \inglese{write} (usando l'omonimo metodo) il valore contenuto in \textit{result}. 		
 	\end{itemize}
 	
 \end{description}
@@ -1011,18 +1019,18 @@ Servlet cha ha il compito di aggiungere alla rubrica un nuovo contatto.
 \classsection{AddressBookDoDeleteGroupServlet}
 
 \subsubsection*{Funzione}
-\inglese{Servlet} richiamata dal client per eliminare un gruppo da una rubrica.
+\inglese{Servlet} richiamata dal \textit{client} per eliminare un gruppo da una rubrica.
 
 \subsubsection*{Relazioni d'uso}
 
 \begin{itemize}
 	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
-	\item \texttt{javax.servlet.ServletException}: eccezione rilancibile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{javax.servlet.ServletException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{LoginManager}.
 	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
 	\item \texttt{javax.security.auth.login.LoginContext}: classe usata in \method{doPost()} per eseguite la logout dal sistema.
-	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la servlet (inoltra i dati in uscita dalla chiamata a servlet).
+	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in uscita dalla chiamata a \inglese{servlet}).
 	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
 	\item \classname{org.softwaresynthesis.mytalk.server.dao.UserDataDAO}: classe usata per comunicare tramite Hibernate con la tabella UserData della base di dati.
 \end{itemize}
@@ -1041,7 +1049,7 @@ Servlet cha ha il compito di aggiungere alla rubrica un nuovo contatto.
 	Costruttore pubblico della \inglese{servlet}. Richiama il costruttore della classe padre (chiamata a \texttt{super}).
 	
 	\item{\method{\# doGet(request HttpServletRequest, response HttpServletResponse): void}}\\
-	Metodo usato per eseguire la richiesta di eliminazione di un gruppo (eseguito in risposta ad una richiesta HTTP con metodo \texttt{GET}). Poiché intendiamo gestire in modo univoco una richiesta a tale servlet (indifferentemente dalla tipologia d'invio dati) il metodo reindirizza il flusso principale al metodo \method{doPost()}.
+	Metodo usato per eseguire la richiesta di eliminazione di un gruppo (eseguito in risposta ad una richiesta HTTP con metodo \texttt{GET}). Poiché si intende gestire in modo univoco una richiesta a tale \inglese{servlet} (indifferentemente dalla tipologia d'invio dati) il metodo reindirizza il flusso principale al metodo \method{doPost()}.
 	
 	\item{\method{\# doPost(request HttpServletRequest, response HttpServletResponse): void}}\\	
 	Metodo usato per eseguire la richiesta di eliminazione di un gruppo (eseguito in risposta ad una richiesta HTTP con metodo \texttt{POST}). Nell'ordine proposto, devono essere eseguite le seguenti operazioni:
@@ -1055,16 +1063,16 @@ Servlet cha ha il compito di aggiungere alla rubrica un nuovo contatto.
 		\item creazione di un \texttt{Set<IAddressBookEntry>} denominato entrys;
 		\item creazione di una stringa denominata result (utilizzata per registrare il messaggio da stampare sul writer);
 	\end{itemize} 
-	A questo punto deve essere definito un blocco try catch. Dentro il blocco catch si dovrà impostare result con il valore ``\inglese{false}''. Invece per quanto riguarda il blocco try, il programmatore dovrà definire il seguente iter:
+	A questo punto deve essere definito un blocco \textit{try-catch}. Dentro il blocco \textit{catch} si  imposta \textit{result} con il valore \inglese{false}. Per quanto riguarda il blocco \textit{try}, il programmatore dovrà definire il seguente iter:
 	\begin{itemize}
 		\item salvare in group il valore ritornato da una chiamata \method{getByID} a cui passo l'identificativo del gruppo (\texttt{request.getParameter("groupId")}) a partire dall'oggetto groupDAO.
-		\item quindi si esegue una verifica sul contenuto di group. Se group == null allora si imposta result a ``\inglese{false}''. Altrimenti si carica in entry l'oggetto ritornato da una chiamata \method{getAddressBook()} a partire da group.
-		\item a tal punto (sempre dentro al costrutto condizionale if(group != null)) si crea un iteratore tramite entrys.iterator() e ciclando con tale iteratore si va a modificare la voce ``gruppo'' di tutti i contati che nella mia rubrica appartengono a tale gruppo (cosi facendo l'eliminazione del gruppo non porterà all'eliminazione dei contatti presenti in tale gruppo).
+		\item quindi si esegue una verifica sul contenuto di group. Se \texttt{group == null} allora si imposta \textit{result} a \inglese{false}. Altrimenti si carica in \textit{entry} l'oggetto ritornato da una chiamata \method{getAddressBook()} a partire da group.
+		\item a tal punto (sempre dentro al costrutto condizionale \texttt{if(group != null))} si crea un iteratore tramite \texttt{entrys.iterator()} e ciclando con tale iteratore si va a modificare la voce ``gruppo'' di tutti i contati che nella mia rubrica appartengono a tale gruppo (cosi facendo l'eliminazione del gruppo non porterà all'eliminazione dei contatti presenti in tale gruppo).
 		\item dunque si esegue la chiamata:
 		\verb|groupDAO.delete(group)|\\
-		e si imposta result a ``\inglese{true}''.
+		e si imposta \textit{result} a \inglese{true}.
 	\end{itemize}
-	Il metodo termina scrivendo su writer il contenuto di result.
+	Il metodo termina scrivendo su \textit{writer} il contenuto di \textit{result}.
 	
 \end{description}
 
@@ -1073,42 +1081,42 @@ Servlet cha ha il compito di aggiungere alla rubrica un nuovo contatto.
 \classsection{AddressBookDoInsertInGroupServlet}
 
 \subsubsection*{Funzione}
-\inglese{Servlet} richiamata dal client per inserire un utente nella propria rubrica, all'interno di un gruppo ben determinato.
+\inglese{Servlet} richiamata dal \textit{client} per inserire un utente nella propria rubrica, all'interno di un gruppo ben determinato.
 
 \subsubsection*{Relazioni d'uso}
 
 \begin{itemize}
 	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
-	\item \texttt{javax.servlet.ServletException}: eccezione rilancibile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{javax.servlet.ServletException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{LoginManager}.
 	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
-	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la servlet (inoltra i dati in uscita dalla chiamata a servlet).
+	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in uscita dalla chiamata a \inglese{servlet}).
 	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
-	\item \classname{abook.IAddressBookEntry}:Interfaccia che definisce il comportamento di una generica \inglese{entry} della rubrica utente. La classe che qui andiamo a descrivere crea istanze di tipo \classname{abook.IAddressBookEntry}.
+	\item \classname{abook.IAddressBookEntry}:Interfaccia che definisce il comportamento di una generica \inglese{entry} della rubrica utente. La classe che verrà descritta crea istanze di tipo \classname{abook.IAddressBookEntry}.
 	\item \classname{abook.IGroup}:
-Interfaccia che definisce il comportamento di un gruppo generico. La classe che qui andiamo a descrivere crea istanze di tipo \classname{abook.IGroup}.
-	\item \classname{abook.IUserData}:Interfaccia che definisce il comportamento di un utente generico. La classe che qui andiamo a descrivere crea istanze di tipo \classname{abook.IUserData}.
-	\item \classname{abook.AddressBookEntry}: classe usata per comunicare tramite Hibernate con la tabella AddressBookEntry della base di dati.
-	\item \classname{dao.GroupDAO}: classe usata per comunicare tramite Hibernate con la tabella Group della base di dati.
-	\item \classname{dao.UserDataDAO}: classe usata per comunicare tramite Hibernate con la tabella UserData della base di dati.
+Interfaccia che definisce il comportamento di un gruppo generico. La classe che qui si descrive crea istanze di tipo \classname{abook.IGroup}.
+	\item \classname{abook.IUserData}:Interfaccia che definisce il comportamento di un utente generico. La classe che qui si descrive crea istanze di tipo \classname{abook.IUserData}.
+	\item \classname{abook.AddressBookEntry}: classe usata per comunicare tramite \textit{Hibernate} con la tabella AddressBookEntry della base di dati.
+	\item \classname{dao.GroupDAO}: classe usata per comunicare tramite \textit{Hibernate} con la tabella Group della base di dati.
+	\item \classname{dao.UserDataDAO}: classe usata per comunicare tramite \textit{Hibernate} con la tabella UserData della base di dati.
 \end{itemize}
 
 \subsubsection*{Attributi}
 
 \begin{itemize}
 	\item{\memberdata{\underline{-- \{frozen\} serialVersionUID: long}}}
-	Attributo contenente l'id per la serializzazione dei dati. Il valore di creazione deve essere \texttt{10015L}.
+	Attributo contenente l'id per la serializzazione dei dati, il valore di creazione deve essere \texttt{10015L}.
 \end{itemize}
 
 \subsubsection*{Metodi}
 
 \begin{description}
 	\item{\method{+ AddressBookDoInsertInGroupServlet()}}\\
-	Costruttore pubblico della \inglese{servlet}. Richiama il costruttore della classe padre (chiamata a \texttt{super}).
+	Costruttore pubblico della \inglese{servlet}, richiama il costruttore della classe padre (chiamata a \texttt{super}).
 	
 	\item{\method{\# doGet(request HttpServletRequest, response HttpServletResponse): void}}\\
-	Metodo usato per eseguire la richiesta di aggiungere un contatto in un gruppo (eseguito in risposta ad una richiesta HTTP con metodo \texttt{GET}). Poiché intendiamo gestire in modo univoco una richiesta a tale servlet (indifferentemente dalla tipologia d'invio dati) il metodo reindirizza il flusso principale al metodo \method{doPost()}.
+	Metodo usato per eseguire la richiesta di aggiungere un contatto in un gruppo (eseguito in risposta ad una richiesta HTTP con metodo \texttt{GET}). Poiché si intende gestire in modo univoco una richiesta a tale \inglese{servlet} (indifferentemente dalla tipologia d'invio dati) il metodo reindirizza il flusso principale al metodo \method{doPost()}.
 	
 	\item{\method{\# doPost(request HttpServletRequest, response HttpServletResponse): void}}\\	
 	Metodo usato per eseguire la richiesta di aggiungere un contatto in un gruppo (eseguito in risposta ad una richiesta HTTP con metodo \texttt{POST}). Nell'ordine proposto, devono essere eseguite le seguenti operazioni:
@@ -1117,25 +1125,25 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 		\item creazione di una sessione \texttt{HttpSession} avente nome session;
 		\item creazione degli oggetti rappresentanti la realtà della rubrica su cui opero: un \texttt{IAddressBookEntry} entry, \texttt{IGroup} group, \texttt{IUserData} user e \texttt{IUserData} friend;
 		\item creazione di due identificativi di tipo long: contactId e groupId.
-		\item creazione di un \texttt{PrintWriter} denominato writer e di una stringa result usata con lo scopo di memorizzare il contenuto testuale da scrivere sul writer come messaggio di notifica della servlet;
+		\item creazione di un \texttt{PrintWriter} denominato \textit{writer} e di una stringa \textit{result} usata con lo scopo di memorizzare il contenuto testuale da scrivere sul writer come messaggio di notifica della \inglese{servlet};
 		\item creazione di un istanza \texttt{UserDataDAO} userDAO.
 	\end{itemize}
-	Dopo questa fase di creazione delle variabili il metodo deve definire un costrutto try catch. All'interno del blocco catch dovrà essere predisposta la memorizzazione della parola ``\inglese{false}''. Passando invece alla definizione del blocco try, al suo interno si dovranno predisporre le seguenti istruzioni:
+	Dopo questa fase di creazione delle variabili il metodo deve definire un costrutto \textit{try-catch}. All'interno del blocco catch dovrà essere predisposta la memorizzazione della parola ``\inglese{false}''. Passando invece alla definizione del blocco \textit{try}, al suo interno si dovranno predisporre le seguenti istruzioni:
 	\begin{itemize}
 		\item inizializzazione di session al valore ottenuto da una chiamata:\\
 		\verb|request.getSession(false)|
-		\item istanziazione di user a partire dal valore contenuto nella request. Per la precisione si dovrà usare un istruzione del tipo:\\
+		\item istanziazione di user a partire dal valore contenuto nella \textit{request}. Per la precisione si dovrà usare un istruzione del tipo:\\
 		\verb|session.getAttribute("user")|
-		\item con una procedura analoga alla precedente definisco il contenuto di contactID. Usare \verb|getParameter("contactId")| a partire dall'oggetto request;
-		\item istruzione analoga alla precedente usata per istaziare il contenuto di groupId (nome del parametro da ottenere: groupId);
+		\item con una procedura analoga alla precedente definisco il contenuto di contactID. Usare \verb|getParameter("contactId")| a partire dall'oggetto \textit{request};
+		\item istruzione analoga alla precedente usata per istanziare il contenuto di groupId (nome del parametro da ottenere: groupId);
 		\item inizializzare friend con una chiamata \method{getById} passando come parametro contactId.
 		\item inizializzare group con una chiamata \method{getById} passando come parametro groupId.
-		\item il metodo controlla se group!=null. Nel caso il flusso principale prosegue come segue: inizializzazione di entry e modifica dei dati stessi di entry mediante le chiamate a metodo dei vari ``set'' che la costituiscono. Nello specifico si intende impostare l'istanza in modo che definisca un contatto in rubrica non bloccato e registrato nel gruppo group. Il possessore sarà user e il contatto registrato friend. Quindi viene eseguito l'update tramite una chiamata:\\
+		\item il metodo controlla se \texttt{group!=null}. Nel caso il flusso principale prosegue come segue: inizializzazione di \textit{entry} e modifica dei dati stessi di \textit{entry} mediante le chiamate a metodo dei vari ``set'' che la costituiscono. Nello specifico si intende impostare l'istanza in modo che definisca un contatto in rubrica non bloccato e registrato nel gruppo \textit{group}. Il possessore sarà user e il contatto registrato friend. Quindi viene eseguito l'\inglese{update} tramite una chiamata:\\
 		\verb|userDAO.update(user)|
-		result viene impostato a true e il programma esce dal costrutto condizionale.
-		\item se group non era diverso da null allora si entra nel ramo else del costrutto condizionale già citato. Result viene impostato a false e il metodo esce dal ramo else.
+		result viene impostato a \textit{true} e il programma esce dal costrutto condizionale.
+		\item se \textit{group} non era diverso da \textit{null} allora si entra nel ramo else del costrutto condizionale già citato. Result viene impostato a false e il metodo esce dal ramo else.
 	\end{itemize}
-	Il metodo termina scrivendo su writer il contenuto di result.
+	Il metodo termina scrivendo su \textit{writer} il contenuto di \textit{result}.
 	
 \end{description}
 
@@ -1144,25 +1152,25 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 \classsection{AddressBookDoRemoveFromGroupServlet}
 
 \subsubsection*{Funzione}
-\inglese{Servlet} richiamata dal client per inserire un utente nella propria rubrica, all'interno di un gruppo ben determinato.
+\inglese{Servlet} richiamata dal \textit{client} per inserire un utente nella propria rubrica, all'interno di un gruppo ben determinato.
 
 \subsubsection*{Relazioni d'uso}
 
 \begin{itemize}
 	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
-	\item \texttt{javax.servlet.ServletException}: eccezione rilancibile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{javax.servlet.ServletException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{LoginManager}.
 	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
-	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la servlet (inoltra i dati in uscita dalla chiamata a servlet).
+	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in uscita dalla chiamata a \inglese{servlet}).
 	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
-	\item \classname{abook.IAddressBookEntry}:Interfaccia che definisce il comportamento di una generica \inglese{entry} della rubrica utente. La classe che qui andiamo a descrivere crea istanze di tipo \classname{abook.IAddressBookEntry}.
+	\item \classname{abook.IAddressBookEntry}:Interfaccia che definisce il comportamento di una generica \inglese{entry} della rubrica utente. La classe che verrà descritta crea istanze di tipo \classname{abook.IAddressBookEntry}.
 	\item \classname{abook.IGroup}:
-Interfaccia che definisce il comportamento di un gruppo generico. La classe che qui andiamo a descrivere crea istanze di tipo \classname{abook.IGroup}.
-	\item \classname{abook.IUserData}:Interfaccia che definisce il comportamento di un utente generico. La classe che qui andiamo a descrivere crea istanze di tipo \classname{abook.IUserData}.
-	\item \classname{abook.AddressBookEntry}: classe usata per comunicare tramite Hibernate con la tabella AddressBookEntry della base di dati.
-	\item \classname{dao.GroupDAO}: classe usata per comunicare tramite Hibernate con la tabella Group della base di dati.
-	\item \classname{dao.UserDataDAO}: classe usata per comunicare tramite Hibernate con la tabella UserData della base di dati.
+Interfaccia che definisce il comportamento di un gruppo generico. La classe che verrà descritta crea istanze di tipo \classname{abook.IGroup}.
+	\item \classname{abook.IUserData}:Interfaccia che definisce il comportamento di un utente generico. La classe che verrà descritta crea istanze di tipo \classname{abook.IUserData}.
+	\item \classname{abook.AddressBookEntry}: classe usata per comunicare tramite \textit{Hibernate} con la tabella AddressBookEntry della base di dati.
+	\item \classname{dao.GroupDAO}: classe usata per comunicare tramite \textit{Hibernate} con la tabella Group della base di dati.
+	\item \classname{dao.UserDataDAO}: classe usata per comunicare tramite \textit{Hibernate} con la tabella UserData della base di dati.
 \end{itemize}
 
 \subsubsection*{Attributi}
@@ -1179,7 +1187,7 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 	Costruttore pubblico della \inglese{servlet}. Richiama il costruttore della classe padre (chiamata a \texttt{super}).
 	
 	\item{\method{\# doGet(request HttpServletRequest, response HttpServletResponse): void}}\\
-	Metodo usato per eseguire la richiesta di rimuovere un contatto da un gruppo (eseguito in risposta ad una richiesta HTTP con metodo \texttt{GET}). Poiché intendiamo gestire in modo univoco una richiesta a tale servlet (indifferentemente dalla tipologia d'invio dati) il metodo reindirizza il flusso principale al metodo \method{doPost()}.
+	Metodo usato per eseguire la richiesta di rimuovere un contatto da un gruppo (eseguito in risposta ad una richiesta HTTP con metodo \texttt{GET}). Poiché si intende gestire in modo univoco una richiesta a tale \inglese{servlet} (indifferentemente dalla tipologia d'invio dati) il metodo reindirizza il flusso principale al metodo \method{doPost()}.
 	
 	\item{\method{\# doPost(request HttpServletRequest, response HttpServletResponse): void}}\\	
 	Metodo usato per eseguire la richiesta di rimuovere un contatto da un gruppo (eseguito in risposta ad una richiesta HTTP con metodo \texttt{POST}). Nell'ordine proposto, devono essere eseguite le seguenti operazioni:
@@ -1199,17 +1207,17 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 			\item \classname{UserDataDAO} userDAO;
 		\end{itemize}
 		
-		\item quindi il metodo procede definendo un blocco try catch. Nel ramo catch si imposta result a ``\inglese{false}''. Passando invece alla definizione del ramo try, in esso devono essere definiti i seguenti punti:
+		\item quindi il metodo procede definendo un blocco \textit{try-catch}. Nel ramo \textit{catch} si imposta \textit{result} a \inglese{false}. Passando invece alla definizione del ramo \textit{try}, in esso devono essere definiti i seguenti punti:
 		\begin{itemize}
 			\item session viene impostato mediante una chiamata a metodo:
 			\verb|request.getSession(false)|;
-			\item user e groupID vengono impostate ottenendo l'omonimo attributo da request (usare il metodo \texttt{getParameter(nome\_parametro)};
+			\item user e groupID vengono impostate ottenendo l'omonimo attributo da \textit{request} (usare il metodo \texttt{getParameter(nome\_parametro)};
 			\item impostare friend e group a partire dai relativi tipi di istanze DAO e facendosi restituire i dati presenti nel database tramite una chiamata a metodo \method{getByID} a cui passa i relativi id (contactId e groupid);
-			\item avvia un costrutto condizionale dotato di ramo else. Se group!=null allora il metodo procede nel ramo if andando ad impostare entry con i relativi parametri, in modo da ricreare l'istanza \classname{IAddressBookEntry} da rimuovere dal database per mezzo del metodo \method{removeAddressBookEntry()} a cui passa entry. 
-			\item altrimenti, se group == null allora entra nel ramo else del costrutto condizionale e procede impostando result a ``\inglese{false}''
+			\item avvia un costrutto condizionale dotato di ramo \textit{else}, se \texttt{group!=null} allora il metodo procede nel ramo \textit{if} andando ad impostare \textit{entry} con i relativi parametri, in modo da ricreare l'istanza \classname{IAddressBookEntry} da rimuovere dal database per mezzo del metodo \method{removeAddressBookEntry()} a cui passa \textit{entry}. 
+			\item altrimenti, se \texttt{group == null} allora entra nel ramo else del costrutto condizionale e procede impostando \textit{result} a \inglese{false}.
 		\end{itemize}
 	\end{itemize}
-	Il metodo termina scrivendo su writer il contenuto di result.
+	Il metodo termina scrivendo su \textit{writer} il contenuto di \textit{result}.
 	
 \end{description}
 
@@ -1218,28 +1226,28 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 \classsection{AddressBookDoBlockServlet}
 
 \subsubsection*{Funzione}
-\inglese{Servlet} richiamata dal client per bloccare un contatto presente nella propria rubrica.
+\inglese{Servlet} richiamata dal \inglese{client} per bloccare un contatto presente nella propria rubrica.
 
 \subsubsection*{Relazioni d'uso}
 
 \begin{itemize}
 	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
-	\item \texttt{javax.servlet.ServletException}: eccezione rilancibile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{javax.servlet.ServletException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{LoginManager}.
 	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
-	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la servlet (inoltra i dati in uscita dalla chiamata a servlet).
+	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in uscita dalla chiamata a \inglese{servlet}).
 	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
-	\item \classname{abook.IAddressBookEntry}:Interfaccia che definisce il comportamento di una generica \inglese{entry} della rubrica utente. La classe che qui andiamo a descrivere crea istanze di tipo \classname{abook.IAddressBookEntry}.
-	\item \classname{abook.IUserData}:Interfaccia che definisce il comportamento di un utente generico. La classe che qui andiamo a descrivere crea istanze di tipo \classname{abook.IUserData}.
-	\item \classname{dao.UserDataDAO}: classe usata per comunicare tramite Hibernate con la tabella UserData della base di dati.
+	\item \classname{abook.IAddressBookEntry}:Interfaccia che definisce il comportamento di una generica \inglese{entry} della rubrica utente. La classe che verrà descritta crea istanze di tipo \classname{abook.IAddressBookEntry}.
+	\item \classname{abook.IUserData}:Interfaccia che definisce il comportamento di un utente generico. La classe che verrà descritta crea istanze di tipo \classname{abook.IUserData}.
+	\item \classname{dao.UserDataDAO}: classe usata per comunicare tramite \textit{Hibernate} con la tabella UserData della base di dati.
 \end{itemize}
 
 \subsubsection*{Attributi}
 
 \begin{itemize}
 	\item{\memberdata{\underline{-- \{frozen\} serialVersionUID: long}}}
-	Attributo contenente l'id per la serializzazione dei dati. Il valore di creazione deve essere \texttt{10014L}.
+	Attributo contenente l'id per la serializzazione dei dati, il valore di creazione deve essere \texttt{10014L}.
 \end{itemize}
 
 \subsubsection*{Metodi}
@@ -1249,7 +1257,7 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 	Costruttore pubblico della \inglese{servlet}. Richiama il costruttore della classe padre (chiamata a \texttt{super}).
 	
 	\item{\method{\# doGet(request HttpServletRequest, response HttpServletResponse): void}}\\
-	Metodo usato per eseguire la richiesta di bloccare un contatto presente in una rubrica utente (eseguito in risposta ad una richiesta HTTP con metodo \texttt{GET}). Poiché intendiamo gestire in modo univoco una richiesta a tale servlet (indifferentemente dalla tipologia d'invio dati) il metodo reindirizza il flusso principale al metodo \method{doPost()}.
+	Metodo usato per eseguire la richiesta di bloccare un contatto presente in una rubrica utente (eseguito in risposta ad una richiesta HTTP con metodo \texttt{GET}). Poiché si intende gestire in modo univoco una richiesta a tale \inglese{servlet} (indifferentemente dalla tipologia d'invio dati) il metodo reindirizza il flusso principale al metodo \method{doPost()}.
 	
 	\item{\method{\# doPost(request HttpServletRequest, response HttpServletResponse): void}}\\	
 	Metodo usato per eseguire la richiesta di bloccare un contatto presente in una rubrica utente (eseguito in risposta ad una richiesta HTTP con metodo \texttt{POST}). Nell'ordine proposto, devono essere eseguite le seguenti operazioni:
@@ -1269,17 +1277,17 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 			\item \classname{UserDataDAO} userDAO;
 		\end{itemize}
 		
-		\item quindi il metodo procede definendo un blocco try catch. Nel ramo catch si imposta result a ``\inglese{false}''. Passando invece alla definizione del ramo try, in esso devono essere definiti i seguenti punti:
+		\item quindi il metodo procede definendo un blocco \textit{try-catch}. Nel ramo \textit{catch} si imposta \textit{result} a \inglese{false}. Passando invece alla definizione del ramo \textit{try} devono essere definiti i seguenti punti:
 		\begin{itemize}
-			\item session viene impostato mediante una chiamata a metodo:
+			\item \textit{session} viene impostato mediante una chiamata a metodo:
 			\verb|request.getSession(false)|;
-			\item user viene impostato ottenendo l'omonimo attributo da request (usare il metodo \texttt{getParameter(``user'')};
-			\item impostare friend a partire dal relativo tipo di istanza DAO e facendo restituire i dati presenti nel database tramite una chiamata a metodo \method{getByID} a cui passa il parametro contactId;
-			\item avvia un costrutto condizionale dotato di ramo else. Se friend!=null allora il metodo procede nel ramo if andando a scaricare l'elenco delle entry a partire da user. Quindi utilizzando l'iteratore iterator va a scorrere tale set di entry e quando verifica la presenza del contatto friend all'interno, modifica l'entry attualmente selezionata richiamando il metodo \method{setBlocked(true)}. Quindi prima di uscire dal costrutto if, viene eseguita un operazione di update a partire da user e si memorizza nella variabile result il valore ``\inglese{true}''.
-			\item altrimenti, se friend == null allora entra nel ramo else del costrutto condizionale e procede impostando result a ``\inglese{false}''
+			\item \textit{user} viene impostato ottenendo l'omonimo attributo da \textit{request} (usare il metodo \texttt{getParameter(``user'')};
+			\item impostare \textit{friend} a partire dal relativo tipo di istanza DAO e facendo restituire i dati presenti nel database tramite una chiamata a metodo \method{getByID} a cui passa il parametro \textit{contactId};
+			\item avvia un costrutto condizionale dotato di ramo else. Se \texttt{friend!=null} il metodo procede nel ramo \textit{if} andando a scaricare l'elenco delle \textit{entry} a partire da \textit{user}. Quindi utilizzando l'iteratore \textit{iterator} va a scorrere tale set di \textit{entry} e quando verifica la presenza del contatto \textit{friend} all'interno, modifica l'\textit{entry} attualmente selezionata richiamando il metodo \method{setBlocked(true)}. Quindi prima di uscire dal costrutto \textit{if}, viene eseguita un operazione di \textit{update} a partire da user e si memorizza nella variabile \textit{result} il valore \inglese{true}.
+			\item altrimenti, se \texttt{friend == null} allora entra nel ramo else del costrutto condizionale e procede impostando \textit{result} a \inglese{false}.
 		\end{itemize}
 	\end{itemize}
-	Il metodo termina scrivendo su writer il contenuto di result.
+	Il metodo termina scrivendo su \textit{writer} il contenuto di \textit{result}.
 	
 \end{description}
 
@@ -1288,38 +1296,38 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 \classsection{AddressBookDoUnblockServlet}
 
 \subsubsection*{Funzione}
-\inglese{Servlet} richiamata dal client per sbloccare un contatto presente nella propria rubrica.
+\inglese{Servlet} richiamata dal \textit{client} per sbloccare un contatto presente nella propria rubrica.
 
 \subsubsection*{Relazioni d'uso}
 
 \begin{itemize}
 	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
-	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
-	\item \texttt{javax.servlet.ServletException}: eccezione rilancibile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'\textit{output} della \inglese{servlet}.
+	\item \texttt{javax.servlet.ServletException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{LoginManager}.
 	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
-	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la servlet (inoltra i dati in uscita dalla chiamata a servlet).
+	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la inglese{servlet} (inoltra i dati in uscita dalla chiamata a \inglese{servlet}).
 	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
-	\item \classname{abook.IAddressBookEntry}:Interfaccia che definisce il comportamento di una generica \inglese{entry} della rubrica utente. La classe che qui andiamo a descrivere crea istanze di tipo \classname{abook.IAddressBookEntry}.
-	\item \classname{abook.IUserData}:Interfaccia che definisce il comportamento di un utente generico. La classe che qui andiamo a descrivere crea istanze di tipo \classname{abook.IUserData}.
-	\item \classname{dao.UserDataDAO}: classe usata per comunicare tramite Hibernate con la tabella UserData della base di dati.
+	\item \classname{abook.IAddressBookEntry}:Interfaccia che definisce il comportamento di una generica \inglese{entry} della rubrica utente. La classe che verrà descritta crea istanze di tipo \classname{abook.IAddressBookEntry}.
+	\item \classname{abook.IUserData}:Interfaccia che definisce il comportamento di un utente generico. La classe che verrà descritta crea istanze di tipo \classname{abook.IUserData}.
+	\item \classname{dao.UserDataDAO}: classe usata per comunicare tramite \textit{Hibernate} con la tabella UserData della base di dati.
 \end{itemize}
 
 \subsubsection*{Attributi}
 
 \begin{itemize}
 	\item{\memberdata{\underline{-- \{frozen\} serialVersionUID: long}}}
-	Attributo contenente l'id per la serializzazione dei dati. Il valore di creazione deve essere \texttt{10019L}.
+	Attributo contenente l'id per la serializzazione dei dati, il valore di creazione deve essere \texttt{10019L}.
 \end{itemize}
 
 \subsubsection*{Metodi}
 
 \begin{description}
 	\item{\method{+ AddressBookDoUnblockServlet()}}\\
-	Costruttore pubblico della \inglese{servlet}. Richiama il costruttore della classe padre (chiamata a \texttt{super}).
+	Costruttore pubblico della \inglese{servlet}, richiama il costruttore della classe padre (chiamata a \texttt{super}).
 	
 	\item{\method{\# doGet(request HttpServletRequest, response HttpServletResponse): void}}\\
-	Metodo usato per eseguire la richiesta di sbloccare un contatto presente in una rubrica utente (eseguito in risposta ad una richiesta HTTP con metodo \texttt{GET}). Poiché intendiamo gestire in modo univoco una richiesta a tale servlet (indifferentemente dalla tipologia d'invio dati) il metodo reindirizza il flusso principale al metodo \method{doPost()}.
+	Metodo usato per eseguire la richiesta di sbloccare un contatto presente in una rubrica utente (eseguito in risposta ad una richiesta HTTP con metodo \texttt{GET}). Poiché si intende gestire in modo univoco una richiesta a tale \inglese{servlet} (indifferentemente dalla tipologia d'invio dati) il metodo reindirizza il flusso principale al metodo \method{doPost()}.
 	
 	\item{\method{\# doPost(request HttpServletRequest, response HttpServletResponse): void}}\\	
 	Metodo usato per eseguire la richiesta di sbloccare un contatto presente in una rubrica utente (eseguito in risposta ad una richiesta HTTP con metodo \texttt{POST}). Nell'ordine proposto, devono essere eseguite le seguenti operazioni:
@@ -1339,17 +1347,17 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 			\item \classname{UserDataDAO} userDAO;
 		\end{itemize}
 		
-		\item quindi il metodo procede definendo un blocco try catch. Nel ramo catch si imposta result a ``\inglese{false}''. Passando invece alla definizione del ramo try, in esso devono essere definiti i seguenti punti:
+		\item quindi il metodo procede definendo un blocco \textit{try-catch}. Nel ramo \textit{catch} si imposta \textit{result} a \inglese{false}. Passando invece alla definizione del ramo \textit{try}, in esso devono essere definiti i seguenti punti:
 		\begin{itemize}
-			\item session viene impostato mediante una chiamata a metodo:
+			\item \textit{session} viene impostato mediante una chiamata a metodo:
 			\verb|request.getSession(false)|;
-			\item user viene impostata ottenendo l'omonimo attributo da request (usare il metodo \texttt{getParameter(``user'')};
-			\item impostare friend a partire dal relativo tipo di istanza DAO e facendo restituire i dati presenti nel database tramite una chiamata a metodo \method{getByID} a cui passa il parametro contactId;
-			\item avvia un costrutto condizionale dotato di ramo else. Se friend!=null allora il metodo procede nel ramo if andando a scaricare l'elenco delle entry a partire da user. Quindi utilizzando l'iteratore iterator va a scorrere tale set di entry e quando verifica la presenza del contatto friend all'interno, modifica l'entry attualmente selezionata richiamando il metodo \method{setBlocked(false)}. Quindi prima di uscire dal costrutto if, viene eseguita un operazione di update a partire da user e si memorizza nella variabile result il valore ``\inglese{true}''.
-			\item altrimenti, se friend == null allora entra nel ramo else del costrutto condizionale e procede impostando result a ``\inglese{false}''
+			\item user viene impostata ottenendo l'omonimo attributo da \textit{request} (usare il metodo \texttt{getParameter(``user'')};
+			\item impostare\textit{friend} a partire dal relativo tipo di istanza DAO e facendo restituire i dati presenti nel database tramite una chiamata a metodo \method{getByID} a cui passa il parametro \textit{contactId};
+			\item avvia un costrutto condizionale dotato di ramo else. Se \texttt{friend!=null} il metodo procede nel ramo \textit{if} andando a scaricare l'elenco delle \textit{entry} a partire da \textit{user}. Quindi utilizzando l'iteratore \textit{iterator} va a scorrere tale set di \textit{entry} e quando verifica la presenza del contatto \textit{friend\textit} all'interno, modifica l'\textit{entry} attualmente selezionata richiamando il metodo \method{setBlocked(false)}. Quindi prima di uscire dal costrutto \textit{if}, viene eseguita un operazione di \textit{update} a partire da \textit{user} e si memorizza nella variabile \textit{result} il valore \inglese{true}.
+			\item altrimenti, se \texttt{friend == null} allora entra nel ramo else del costrutto condizionale e procede impostando \textit{result} a \inglese{false}.
 		\end{itemize}
 	\end{itemize}
-	Il metodo termina scrivendo su writer il contenuto di result.
+	Il metodo termina scrivendo su \textit{writer} il contenuto di \textit{result}.
 	
 \end{description}
 
@@ -1358,7 +1366,7 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 \classsection{AddressBookDoSearchServlet}
 
 \subsubsection*{Funzione}
-\inglese{Servlet} richiamata dal client per effettuare una ricerca sulla propria rubrica. La ricerca consiste nell'individuare tutti i contatti che contengono nei campi name, surname o email la parola ricercata. Per eseguire questa procedura di ricerca è obbligatorio avvalersi del metodo \method{searchGeneric(nome\_parametro)} della classe \classname{UserDataDAO}.
+\inglese{Servlet} richiamata dal \textit{client} per effettuare una ricerca sulla propria rubrica. La ricerca consiste nell'individuare tutti i contatti che contengono nei campi \textit{name}, \textit{surname} o \textit{email} la parola ricercata. Per eseguire questa procedura di ricerca ci si avvale del metodo \method{searchGeneric(nome\_parametro)} della classe \classname{UserDataDAO}.
 
 \subsubsection*{Relazioni d'uso}
 
@@ -1366,33 +1374,33 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
 	\item \texttt{java.util.List}: usata per memorizzare la lista di \classname{IUserData} da restituire in seguito alla richiesta di ricerca.
-	\item \texttt{javax.servlet.ServletException}: eccezione rilancibile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{javax.servlet.ServletException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{LoginManager}.
 	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
-	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la servlet (inoltra i dati in uscita dalla chiamata a servlet).
+	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in uscita dalla chiamata a \inglese{servlet}).
 	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
-	\item \classname{abook.IUserData}:Interfaccia che definisce il comportamento di un utente generico. La classe che qui andiamo a descrivere crea istanze di tipo \classname{abook.IUserData}.
-	\item \classname{dao.UserDataDAO}: classe usata per comunicare tramite Hibernate con la tabella UserData della base di dati.
+	\item \classname{abook.IUserData}:Interfaccia che definisce il comportamento di un utente generico. La classe che verrà descritta crea istanze di tipo \classname{abook.IUserData}.
+	\item \classname{dao.UserDataDAO}: classe usata per comunicare tramite \textit{Hibernate} con la tabella UserData della base di dati.
 \end{itemize}
 
 \subsubsection*{Attributi}
 
 \begin{itemize}
 	\item{\memberdata{\underline{-- \{frozen\} serialVersionUID: long}}}
-	Attributo contenente l'id per la serializzazione dei dati. Il valore di creazione deve essere \texttt{100110L}.
+	Attributo contenente l'id per la serializzazione dei dati, il valore di creazione deve essere \texttt{100110L}.
 \end{itemize}
 
 \subsubsection*{Metodi}
 
 \begin{description}
 	\item{\method{+ AddressBookDoSearchServlet()}}\\
-	Costruttore pubblico della \inglese{servlet}. Richiama il costruttore della classe padre (chiamata a \texttt{super}).
+	Costruttore pubblico della \inglese{servlet}, richiama il costruttore della classe padre (chiamata a \texttt{super}).
 	
 	\item{\method{\# doGet(request HttpServletRequest, response HttpServletResponse): void}}\\
-	Metodo usato per eseguire la una ricerca generica sui contatti presenti nella rubrica del client (eseguito in risposta ad una richiesta HTTP con metodo \texttt{GET}). Poiché intendiamo gestire in modo univoco una richiesta a tale servlet (indifferentemente dalla tipologia d'invio dati) il metodo reindirizza il flusso principale al metodo \method{doPost()}.
+	Metodo usato per eseguire una ricerca generica sui contatti presenti nella rubrica del \textit{client} (eseguito in risposta ad una richiesta HTTP con metodo \texttt{GET}). Poiché si intende gestire in modo univoco una richiesta a tale \inglese{servlet} (indifferentemente dalla tipologia d'invio dati) il metodo reindirizza il flusso principale al metodo \method{doPost()}.
 	
 	\item{\method{\# doPost(request HttpServletRequest, response HttpServletResponse): void}}\\	
-	Metodo usato per eseguire la una ricerca generica sui contatti presenti nella rubrica del client (eseguito in risposta ad una richiesta HTTP con metodo \texttt{POST}). Nell'ordine proposto, devono essere eseguite le seguenti operazioni:
+	Metodo usato per eseguire una ricerca generica sui contatti presenti nella rubrica del \textit{client} (eseguito in risposta ad una richiesta HTTP con metodo \texttt{POST}). Nell'ordine proposto, devono essere eseguite le seguenti operazioni:
 	\begin{itemize}
 		\item creazione degli oggetti necessari al completamento dell'operazione:
 		\begin{itemize}
@@ -1405,26 +1413,26 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 			\item \classname{UserDataDAO} userDAO;
 		\end{itemize}
 		
-		\item quindi il metodo procede definendo un blocco try catch. Nel ramo catch si imposta result a ``\inglese{false}''. Passando invece alla definizione del ramo try, in esso devono essere definiti i seguenti punti:
+		\item quindi il metodo procede definendo un blocco \textit{try-catch}. Nel ramo \textit{catch} si imposta \textit{result} a \inglese{false}. Passando invece alla definizione del ramo \textit{try}, in esso devono essere definiti i seguenti punti:
 		\begin{itemize}
 			\item parameter viene impostato con il valore del parametro da ricercare. Tale operazione è da eseguirsi con l'istruzione:\\
 			\verb|request.getParameter("param")|;
 			\item quindi il metodo procede effettuando la ricerca del parametro. Tale operazione si svolge sfruttando le specifiche della classe \classname{UserDataDAO}. Nello specifico deve essere eseguita l'istruzione:\\
 			\verb|users = userDAO.searchGeneric(parameter)|;
-			\item a questo punto si dovrà predisporre un iteratore per scorrere la lista users;
-			\item si imposta result al valore ``{'' e si entra in un ciclo while che potrà terminare solo quando l'iteratore già citato avrà raggiunto l'ultimo elemento ispezionabile;
-			\item dentro al ciclo while si procederà con la formattazione della stringa result al fine di restituire al client un formato sul quale possa operare. Nello specifico la stringa result dovrà contenere (per ogni istanza di IUserData presente in users):\\
+			\item a questo punto si dovrà predisporre un iteratore per scorrere la lista \textit{users};
+			\item si imposta \textit{result} al valore ``{'' e si entra in un ciclo \inglese{while} che potrà terminare solo quando l'iteratore già citato avrà raggiunto l'ultimo elemento ispezionabile;
+			\item dentro al ciclo \inglese{while} si procederà con la formattazione della stringa \textit{result} al fine di restituire al \textit{client} un formato sul quale possa operare. Nello specifico la stringa \textit{result} dovrà contenere (per ogni istanza di IUserData presente in \textit{users}):\\
 			
 			\verb|\"ID_della_entry":{"name":"NOME_UTENTE",|\\
 			\verb|"surname":"COGNOME_UTENTE,"email":EMAIL_UTENTE",|\\
 			\verb|"id":"ID_UTENTE","picturePath":"PATH_IMG",|\\
 			\verb|"state":"STATO","block":"BLOCCATO/SBLOCCATO"},|\\
 			
-			Si osservi che in quanto è riportato in precedenza, ciò che è scritto in maiuscolo corrisponde al valore effettivo di quel parametro. Quindi per esempio la parola NOME\_UTENTE sarà di fatto sostituita dall'effettivo nome dell'istanza \classname{IUserData} attualmente sotto esame. Per ottenere tali valori si dovrà ricorrere ai metodi: \texttt{getName()}, \texttt{getSurname()}, \texttt{getMail()}, \texttt{getId()}, \texttt{getPath()} richiamabili a partire dall'entry attualmente sotto esame.
-			\item al termine di tale procedura la stringa result è pronta per essere restituita al client. Quindi si aggiunge a result il valore ``}'', usato come carattere di terminazione.
+			Si osservi che in quanto è riportato in precedenza, ciò che è scritto in maiuscolo corrisponde al valore effettivo di quel parametro, quindi per esempio la parola NOME\_UTENTE sarà di fatto sostituita dall'effettivo nome dell'istanza \classname{IUserData} attualmente sotto esame. Per ottenere tali valori ricorrerà ai metodi: \texttt{getName()}, \texttt{getSurname()}, \texttt{getMail()}, \texttt{getId()}, \texttt{getPath()} richiamabili a partire dall'\textit{entry} attualmente sotto esame.
+			\item al termine di tale procedura la stringa \textit{result} è pronta per essere restituita al \textit{client}, quindi si aggiunge a \textit{result} il valore ``}'', usato come carattere di terminazione.
 		\end{itemize}
 	\end{itemize}
-	Il metodo termina scrivendo su writer il contenuto di result.
+	Il metodo termina scrivendo su \textit{writer} il contenuto di \textit{result}.
 	
 \end{description}
 
@@ -1433,7 +1441,7 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 \classsection{AddressBookGetContactsServlet}
 
 \subsubsection*{Funzione}
-\inglese{Servlet} richiamata dal client per scaricare la lista dei contatti presenti nella propria rubrica.
+\inglese{Servlet} richiamata dal \textit{client} per scaricare la lista dei contatti presenti nella propria rubrica.
 
 \subsubsection*{Relazioni d'uso}
 
@@ -1441,13 +1449,13 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
 	\item \texttt{java.util.Set}: usata per memorizzare l'insieme di \classname{IUserData} da restituire in seguito alla richiesta di ricerca.
-	\item \texttt{javax.servlet.ServletException}: eccezione rilancibile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{javax.servlet.ServletException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{LoginManager}.
 	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
-	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la servlet (inoltra i dati in uscita dalla chiamata a servlet).
+	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in uscita dalla chiamata a \inglese{servlet}).
 	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
 	\item \classname{abook.IAddressBookEntry}:Interfaccia che definisce il comportamento di una \inglese{entry} della rubrica utente.
-	\item \classname{abook.IUserData}:Interfaccia che definisce il comportamento di un utente generico. La classe che qui andiamo a descrivere crea istanze di tipo \classname{abook.IUserData}.
+	\item \classname{abook.IUserData}:Interfaccia che definisce il comportamento di un utente generico. La classe che verrà descritta crea istanze di tipo \classname{abook.IUserData}.
 	\item \classname{dao.UserDataDAO}: classe usata per comunicare tramite Hibernate con la tabella UserData della base di dati.
 \end{itemize}
 
@@ -1455,7 +1463,7 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 
 \begin{itemize}
 	\item{\memberdata{\underline{-- \{frozen\} serialVersionUID: long}}}
-	Attributo contenente l'id per la serializzazione dei dati. Il valore di creazione deve essere \texttt{10010L}.
+	Attributo contenente l'id per la serializzazione dei dati, il valore di creazione deve essere \texttt{10010L}.
 \end{itemize}
 
 \subsubsection*{Metodi}
@@ -1465,7 +1473,7 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 	Costruttore pubblico della \inglese{servlet}. Richiama il costruttore della classe padre (chiamata a \texttt{super}).
 	
 	\item{\method{\# doGet(request HttpServletRequest, response HttpServletResponse): void}}\\
-	Metodo usato per eseguire la richiesta di download della lista dei contatti utente (eseguito in risposta ad una richiesta HTTP con metodo \texttt{GET}). Poiché intendiamo gestire in modo univoco una richiesta a tale servlet (indifferentemente dalla tipologia d'invio dati) il metodo reindirizza il flusso principale al metodo \method{doPost()}.
+	Metodo usato per eseguire la richiesta di download della lista dei contatti utente (eseguito in risposta ad una richiesta HTTP con metodo \texttt{GET}). Poiché si gestisce in modo univoco una richiesta a tale \inglese{servlet} (indifferentemente dalla tipologia d'invio dati) il metodo reindirizza il flusso principale al metodo \method{doPost()}.
 	
 	\item{\method{\# doPost(request HttpServletRequest, response HttpServletResponse): void}}\\	
 	Metodo usato per eseguire la richiesta di download della lista dei contatti (eseguito in risposta ad una richiesta HTTP con metodo \texttt{POST}). Nell'ordine proposto, devono essere eseguite le seguenti operazioni:
@@ -1482,26 +1490,26 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 			\item \classname{IAddressBookEntry} entry;
 		\end{itemize}
 		
-		\item quindi il metodo procede definendo un blocco try catch. Nel ramo catch si imposta result a ``\inglese{null}''. Passando invece alla definizione del ramo try, in esso devono essere definiti i seguenti punti:
+		\item quindi il metodo procede definendo un blocco \textit{try-catch}. Nel ramo \textit{catch} si imposta \textit{result} a \inglese{null}. Passando invece alla definizione del ramo \textit{try}, devono essere definiti i seguenti punti:
 		\begin{itemize}
 			\item session viene impostata tramite una chiamata a metodo del tipo:\\
 			\verb|session = request.getSession(false)|;
 			\item quindi il metodo procede impostando user a partire dalla sessione precedentemente creata. Tale operazione richiede l'uso del metodo \method{getAttribute(``user''};
-			\item viene inizializzato l'insieme contacts tramite una chiamata \method{getAddressBook()} richiamata a partire dalla variabile user;
-			\item a questo punto si dovrà predisporre un iteratore per scorrere l'insieme contacts;
-			\item si imposta result al valore ``{'' e si entra in un ciclo while che potrà terminare solo quando l'iteratore già citato avrà raggiunto l'ultimo elemento ispezionabile;
-			\item dentro al ciclo while, dopo aver impostato entry al valore next() dell'iteratore, viene salvato in friend il contatto ritornato da una chiamata a entry.\method{getContact()}. Si procederà  poi con la formattazione della stringa result al fine di restituire al client un formato sul quale possa operare. Nello specifico la stringa result dovrà contenere (per ogni istanza di IUserData presente in users):\\
+			\item viene inizializzato l'insieme \textit{contacts} tramite una chiamata \method{getAddressBook()} richiamata a partire dalla variabile \textit{user};
+			\item a questo punto si dovrà predisporre un iteratore per scorrere l'insieme \textit{contacts};
+			\item si imposta \textit{result} al valore ``{'' e si entra in un ciclo \inglese{while} che potrà terminare solo quando l'iteratore già citato avrà raggiunto l'ultimo elemento ispezionabile;
+			\item dentro al ciclo \inglese{while}, dopo aver impostato \textit{entry} al valore \texttt{next()} dell'iteratore, viene salvato in friend il contatto ritornato da una chiamata a \textit{entry}.\method{getContact()}. Si procederà  poi con la formattazione della stringa result al fine di restituire al \textit{client} un formato sul quale possa operare. Nello specifico la stringa result dovrà contenere (per ogni istanza di IUserData presente in users):\\
 			
 			\verb|\"ID_della_entry":{"name":"NOME_UTENTE",|\\
 			\verb|"surname":"COGNOME_UTENTE,"email":EMAIL_UTENTE",|\\
 			\verb|"id":"ID_UTENTE","picturePath":"PATH_IMG",|\\
 			\verb|"state":"STATO","block":"BLOCCATO/SBLOCCATO"},|\\
 			
-			Si osservi che in quanto è riportato in precedenza, ciò che è scritto in maiuscolo corrisponde al valore effettivo di quel parametro. Quindi per esempio la parola NOME\_UTENTE sarà di fatto sostituita dall'effettivo nome dell'istanza \classname{IUserData} attualmente sotto esame. Per ottenere tali valori si dovrà ricorrere ai metodi: \texttt{getName()}, \texttt{getSurname()}, \texttt{getMail()}, \texttt{getId()}, \texttt{getPath()} richiamabili a partire da friend.
-			\item al termine di tale procedura la stringa result è pronta per essere restituita al client. Quindi si aggiunge a result il valore ``}'', usato come carattere di terminazione.
+			Si osservi che in quanto è riportato in precedenza, ciò che è scritto in maiuscolo corrisponde al valore effettivo di quel parametro. Quindi per esempio la parola NOME\_UTENTE sarà di fatto sostituita dall'effettivo nome dell'istanza \classname{IUserData} attualmente sotto esame. Per ottenere tali valori si ricorre ai metodi: \texttt{getName()}, \texttt{getSurname()}, \texttt{getMail()}, \texttt{getId()}, \texttt{getPath()} richiamabili a partire da friend.
+			\item al termine di tale procedura la stringa \textit{result} è pronta per essere restituita al \textit{client}. Quindi si aggiunge a \textit{result} il valore ``}'', usato come carattere di terminazione.
 		\end{itemize}
 	\end{itemize}
-	Il metodo termina scrivendo su writer il contenuto di result.
+	Il metodo termina scrivendo su \textit{writer} il contenuto di \textit{result}.
 	
 \end{description}
 
@@ -1510,7 +1518,7 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 \classsection{AddressBookGetGroupsServlet}
 
 \subsubsection*{Funzione}
-\inglese{Servlet} richiamata dal client per scaricare la propria rubrica, provvista di gruppi e contatti in essi presenti.
+\inglese{Servlet} richiamata dal \textit{client} per scaricare la propria rubrica, provvista di gruppi e contatti in essi presenti.
 
 \subsubsection*{Relazioni d'uso}
 
@@ -1519,15 +1527,15 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
 	\item \texttt{java.util.List}: usata per memorizzare l'insieme di \classname{IGroup} da restituire in seguito alla richiesta di ricerca.
 	\item \texttt{java.util.Set}: usata per memorizzare l'insieme di \classname{IAddressBookEntry} da restituire in seguito alla richiesta di ricerca.
-	\item \texttt{javax.servlet.ServletException}: eccezione rilancibile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{javax.servlet.ServletException}: eccezione lanciabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{LoginManager}.
 	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
-	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la servlet (inoltra i dati in uscita dalla chiamata a servlet).
+	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in uscita dalla chiamata a \inglese{servlet}).
 	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
 	\item \classname{abook.IAddressBookEntry}:Interfaccia che definisce il comportamento di una \inglese{entry} della rubrica utente.
-	\item \classname{abook.IUserData}:Interfaccia che definisce il comportamento di un utente generico. La classe che qui andiamo a descrivere crea istanze di tipo \classname{abook.IUserData}.
-		\item \classname{abook.IGroup}:Interfaccia che definisce il comportamento di un gruppo generico. La classe che qui andiamo a descrivere crea istanze di tipo \classname{abook.IGroup}.
-	\item \classname{dao.GroupDAO}: classe usata per comunicare tramite Hibernate con la tabella Group della base di dati.
+	\item \classname{abook.IUserData}:Interfaccia che definisce il comportamento di un utente generico. La classe che verrà descritta crea istanze di tipo \classname{abook.IUserData}.
+		\item \classname{abook.IGroup}:Interfaccia che definisce il comportamento di un gruppo generico. La classe che verrà descritta crea istanze di tipo \classname{abook.IGroup}.
+	\item \classname{dao.GroupDAO}: classe usata per comunicare tramite \textit{Hibernate} con la tabella Group della base di dati.
 \end{itemize}
 
 \subsubsection*{Attributi}
@@ -1544,7 +1552,7 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 	Costruttore pubblico della \inglese{servlet}. Richiama il costruttore della classe padre (chiamata a \texttt{super}).
 	
 	\item{\method{\# doGet(request HttpServletRequest, response HttpServletResponse): void}}\\
-	Metodo usato per eseguire la richiesta di download della rubrica di un utente (eseguito in risposta ad una richiesta HTTP con metodo \texttt{GET}). Poiché intendiamo gestire in modo univoco una richiesta a tale servlet (indifferentemente dalla tipologia d'invio dati) il metodo reindirizza il flusso principale al metodo \method{doPost()}.
+	Metodo usato per eseguire la richiesta di download della rubrica di un utente (eseguito in risposta ad una richiesta HTTP con metodo \texttt{GET}). Poiché si intende gestire in modo univoco una richiesta a tale \inglese{servlet} (indifferentemente dalla tipologia d'invio dati) il metodo reindirizza il flusso principale al metodo \method{doPost()}.
 	
 \item{\method{\# doPost(request HttpServletRequest, response HttpServletResponse): void}}\\	
 	Metodo usato per eseguire la richiesta di download della lista dei contatti utente (eseguito in risposta ad una richiesta HTTP con metodo \texttt{POST}). Nell'ordine proposto, devono essere eseguite le seguenti operazioni:
@@ -1563,7 +1571,7 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 			\item String result;
 		\end{itemize}
 		
-		\item quindi il metodo procede definendo un blocco try catch. Nel ramo catch si imposta result a ``\inglese{false}''. Passando invece alla definizione del ramo try, in esso devono essere definiti i seguenti punti:
+		\item quindi il metodo procede definendo un blocco \textit{try-catch}. Nel ramo catch si imposta \textit{result} a \inglese{false}. Passando invece alla definizione del ramo \textit{try}, in esso devono essere definiti i seguenti punti:
 		\begin{itemize}
 			\item session viene impostata tramite una chiamata a metodo del tipo:\\
 			\verb|session = request.getSession(false)|;
@@ -1571,21 +1579,21 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 			\item viene inizializzato l'oggetto groupDAO;
 			\item si inizializza la lista groups dei gruppi. Tale operazione deve essere eseguita mediante l'istruzione:\\
 			\verb|groupDAO.getByOwner(user.getId())|
-			\item il metodo definisce un costrutto condizionale if-else basato sulla condizione groups != null. Nel ramo else il metodo non fa altro che impostare result a ``\inglese{false}''. Invece nel ramo if devono essere definite le seguenti istruzioni:	
+			\item il metodo definisce un costrutto condizionale \textit{if-else} basato sulla condizione \texttt{groups != null}. Nel ramo \textit{else} il metodo non fa altro che impostare \textit{result} a \inglese{false}. Nel ramo \textit{if} saranno definite le seguenti istruzioni:	
 			\begin{itemize}
 				\item predisporre un iteratore per scorrere l'insieme groups (inizializzazione di groupIter);
-				\item si imposta result al valore ``\{'' e si entra in un ciclo while che potrà terminare solo quando l'iteratore già citato avrà raggiunto l'ultimo elemento ispezionabile;
+				\item si imposta \textit{result} al valore ``\{'' e si entra in un ciclo \inglese{while} che potrà terminare solo quando l'iteratore già citato avrà raggiunto l'ultimo elemento ispezionabile;
 				\item all'interno del ciclo si estrae dall'iteratore il gruppo attualmente in esame e si salva sull'oggetto group;
 				\item a partire da group, tramite una chiamata \method{getAddressBook()}, si ottiene la lista di entry di quel gruppo e la si slava in addEntry;
 				\item si definisce un nuovo iteratore addEntry.\method{iterator()} e lo si memorizza in entryIter;
-				\item si ``scrive'' dentro a result, i dati inerenti il gruppo in esame (name, id) e si aggiunge la stringa ``contacts:['';
-				\item si entra in un nuovo ciclo while che cicla sulle entry dell'iteratore entryIter. All'interno di tale ciclo si estraggono le entry che costituiscono i contatti del gruppo in esame e si riporta in result l'id di tali contatti (usare metodo \method{getId()});
-				\item all'uscita del ciclo while più interno si concatena al contenuto di result la stringa ``]\}'';
-				\item all'uscita del ciclo while più esterno si concatena al contenuto di result la stringa ``\}'';
+				\item si ``scrive'' dentro a \textit{result}, i dati inerenti il gruppo in esame (name, id) e si aggiunge la stringa ``contacts:['';
+				\item si entra in un nuovo ciclo \inglese{while} che cicla sulle \textit{entry} dell'iteratore entryIter. All'interno di tale ciclo si estraggono le \textit{entry} che costituiscono i contatti del gruppo in esame e si riporta in result l'id di tali contatti (usare metodo \method{getId()});
+				\item all'uscita del ciclo \inglese{while} più interno si concatena al contenuto di \textit{result} la stringa ``]\}'';
+				\item all'uscita del ciclo \inglese{while} più esterno si concatena al contenuto di \textit{result} la stringa ``\}'';
 			\end{itemize}
 		\end{itemize}
 	\end{itemize}
-	Il metodo termina scrivendo su writer il contenuto di result.	
+	Il metodo termina scrivendo su \textit{writer} il contenuto di \textit{result}.	
 	
 \end{description}
 
@@ -2007,7 +2015,7 @@ Permette di caricare le credenziali di autenticazione, fornite dall'utente, per 
 	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{LoginManager}.
 	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
 	\item \texttt{javax.security.auth.login.LoginContext}: classe usata in \method{doPost()} per eseguite la logout dal sistema.
-	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la servlet (inoltra i dati in uscita dalla chiamata a servlet).
+	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in uscita dalla chiamata a \inglese{servlet}).
 	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
 	\item \classname{abook.IUserData}: usata per definire un utente.
 	\item \classname{dao.UserDataDAO}: usata per comunicare tramite Hibernate con la tabella UserData della base di dati.
@@ -2357,13 +2365,13 @@ Nessuna relazione d'uso evidenziata.
   \item{\memberdata{-- urlServlet: String}}\\
   Attributo che definisce l'URL dal quale è richiamabile la \textit{servlet} usata per interagire con l'apparato server del sistema.
   \item{\memberdata{-- suffix: String}}\\
-Suffisso da concatenare all'url per richiamare le servlet appropriate.  
+Suffisso da concatenare all'url per richiamare le \inglese{servlet} appropriate.  
   \item{\memberdata{-- contacts: Array()}}\\
   Attributo che definisce la lista degli utenti presenti nella rubrica dell'utente che ha effettuato l'autenticazione.
    \item{\memberdata{-- groups: Array()}}\\
   Attributo che definisce la lista dei gruppi presenti nella rubrica dell'utente che ha effettuato l'autenticazione. Pero ogni gruppo sono  elencati i contatti contenuti in esso.
    \item{\memberdata{-- operations: String[]}}\\ 
-   Array di stringhe usato per memorizzare i nomi delle istruzioni eseguibili. Tali nomi rappresentano una parte del nome della servlet incaricata a risolvere l'operazione descritta (e.g. GetContacts rappresenta l'operazione svolta dalla servlet avente nome: \memberdata{urlServlet} concatenato a ``GetContactsServlet''). I valori con i quali si dovrà caricare \memberdata{operations}) sono:
+   Array di stringhe usato per memorizzare i nomi delle istruzioni eseguibili. Tali nomi rappresentano una parte del nome della \inglese{servlet} incaricata a risolvere l'operazione descritta (e.g. GetContacts rappresenta l'operazione svolta dalla \inglese{servlet} avente nome: \memberdata{urlServlet} concatenato a ``GetContactsServlet''). I valori con i quali si dovrà caricare \memberdata{operations}) sono:
    \begin{itemize}
    	\item GetContacts;
     \item DoAddContact;
@@ -2415,7 +2423,7 @@ Metodo utilizzato per aggiungere un'opzione all'elemento \memberdata{select} ric
 	Metodo per l'aggiunta di un contatto alla rubrica, riceve come parametro un oggetto di tipo contatto da inserire nella propria rubrica. 
 Per assicurarsi di non introdurre ridondanza ed aggiungere un contatto già presente, il metodo esegue due controlli: uno lato client e uno lato server. 
 Il controllo lato client, si scorre la lista \memberdata{contact} alla ricerca di un \texttt{contact} che fa \inglese{match} con il nuovo contatto. Nel caso già presente il metodo termina ritornando false. Per eseguire il controllo lato server il metodo contatta il server mediante la \inglese{servlet} \texttt{AddressBookDoAddContatctServlet}. Questa verificherà se l'utente avente \texttt{id} contact è già presente nella rubrica, nel caso non lo sia  si occuperà di creare la nuova istanza di \texttt{AddressBookEntry} e la registrerà nel database, in caso contrario non esegue operazioni. 
-La chiamata a servlet ritorna un valore booleano che sarà \texttt{true} se l'inserimento ha avuto successo, \texttt{false} altrimenti. 
+La chiamata a \inglese{servlet} ritorna un valore booleano che sarà \texttt{true} se l'inserimento ha avuto successo, \texttt{false} altrimenti. 
 Se l'inserimento ha avuto successo il flusso principale prosegue eseguendo l'aggiornamento della rubrica in locale tramite la chiamata a metodo \method{setup()}. Il metodo termina infine ritornando \texttt{true} se è stato aggiunto l'utente, altrimenti lancia un'eccezione.
 
 	\item{\method{+ removeContact(contact: Obj): boolean}}\\
@@ -2488,7 +2496,7 @@ Tale server ha il compito di sbloccare il contatto contact. Quindi il metodo ter
 
 %TODO da verificare
 \item{\method{+ getGroupsWhereContactsIs(contact: Object(contact)): Object(group)}}\\
-Tale metodo ha il compito, dato un utente, di ritornare una lista di gruppi in cui esso è presente. Il metodo riceve come unico parametro il contatto da ricercare. Successivamente vengono ciclati tutti i gruppi e per ogni gruppo si controlla se è inserito il contatto. In caso di match, viene aggiunto il gruppo alla lista di gruppi da ritornare.
+Tale metodo ha il compito, dato un utente, di ritornare una lista di gruppi in cui esso è presente, riceve come unico parametro il contatto da ricercare e successivamente vengono ciclati tutti i gruppi e per ogni gruppo si controlla se è inserito il contatto. In caso di match, viene aggiunto il gruppo alla lista di gruppi da ritornare.
 
 
 \end{description}
@@ -3061,26 +3069,26 @@ Nessuna relazione d'uso evidenziata.
 \item{\memberdata{-- messages: Message[]}}\\
 Array che conterrà tutti i messaggi della segreteria
 \item{\memberdata{-- servlets: String[]}}\\
-Array che contiene le tre URL delle servlets da contattare per i messaggi
+Array che contiene le tre URL delle \inglese{servlets} da contattare per i messaggi
 \end{description}
 
 \subsubsection*{Metodi}
 \begin{description}
 \item{\method{- getServletURLs(): void}}\\
-Configura gli URL delle servlet da interrogare leggendoli dal file di configurazione in base alle operazioni che questo presenter deve essere in grado di compiere.\\
-Più precisamente, si dovrà creare una ``XMLHttpRequest'' rivolta al file XML di configurazione dove sono riportate tutte le servlets. Ricevuta la risposta, si popolerà l'array dichiarato nella classe (servlets).
+Configura gli URL delle \inglese{servlet} da interrogare leggendoli dal file di configurazione in base alle operazioni che questo presenter deve essere in grado di compiere.\\
+Più precisamente, si dovrà creare una ``XMLHttpRequest'' rivolta al file XML di configurazione dove sono riportate tutte le \inglese{servlet}. Ricevuta la risposta, si popolerà l'array dichiarato nella classe (\inglese{servlet}).
 
 \item{\method{- deleteMessage(idMessage: String): void}}\\
-Elimina un messaggio dalla segreteria contattando la servlet responsabile dell'operazione e scaricando nuovamente i messaggi. Il metodo procede quindi nell'invocazione della servlet corretta passando come parametro l'``id'' ricevuto come parametro del metodo (idMessage). Se la servlet ritorna il valore true, significa che l'eliminazione è andata a buon fine e quindi si riscaricano i messaggi. In caso di errore, apparirà all'utente un messaggio d'errore indicante il motivo.
+Elimina un messaggio dalla segreteria contattando la \inglese{servlet} responsabile dell'operazione e scaricando nuovamente i messaggi. Il metodo procede quindi nell'invocazione della \inglese{servlet} corretta passando come parametro l'``id'' ricevuto come parametro del metodo (idMessage). Se la \inglese{servlet} ritorna il valore true, significa che l'eliminazione è andata a buon fine e quindi si riscaricano i messaggi. In caso di errore, apparirà all'utente un messaggio d'errore indicante il motivo.
 
 \item{\method{- addListItem(message: Object()): void}}\\
 Aggiunge un messaggio ad una lista per creare l'elenco della segreteria telefonica generale. Viene quindi creati un list item e successivamente aggiunto alla lista MessageList di tale Presenter.
 
 \item{\method{- setAsRead(idMessage: String, valueToSet: String): void}}\\
-Imposta lo stato di un messaggio come ``letto'' oppure ``non letto'' a seconda del parametro ricevuto in input. Tale metodo demanda il compito alla servlet opportuna passandogli entrambi i parametri (idMessage e valueToSet). In caso di messaggio d'errore da parte del server, viene notificato anche all'utente.
+Imposta lo stato di un messaggio come ``letto'' oppure ``non letto'' a seconda del parametro ricevuto in input. Tale metodo demanda il compito alla \inglese{servlet} opportuna passandogli entrambi i parametri (idMessage e valueToSet). In caso di messaggio d'errore da parte del server, viene notificato anche all'utente.
 
 \item{\method{- getMessages(): void}}\\
-Ottiene i messaggi di segreteria salvati nel server contattando la servlet corrispondente. Una volta ricevuta risposta con relativi dati associati, li salva all'interno dell'array messages dichiarato all'interno di questo presenter. Per contattare la servlet, va usato come in precedenza ``XMLHttpRequest''.
+Ottiene i messaggi di segreteria salvati nel server contattando la \inglese{servlet} corrispondente. Una volta ricevuta risposta con relativi dati associati, li salva all'interno dell'array messages dichiarato all'interno di questo presenter. Per contattare la \inglese{servlet}, va usato come in precedenza ``XMLHttpRequest''.
 
 \item{\method{+ createPanel(): DOM\_element}}\\
 Costruisce il pannello della segreteria telefonica, che deve essere visualizzato all'interno del MainPanel dell'applicazione quando è selezionata la funzione corrispondente dal pannello degli strumenti. Il MessagePanel è costituito da un elemento video seguito da un 'div' che a sua volta contiene una lista di messaggi creata con l'ausilio dei metodo \method{getMessages()} e \method{addListItem()}. Tutti questi elementi vanno aggiunti all'elemento ``element'' ritornato poi dal metodo.
@@ -3105,17 +3113,17 @@ Nessuna relazione d'uso evidenziata.
 \item{\memberdata{-- calls: String[]}}\\
 Array che conterrà tutte le chiamate effettuate
 \item{\memberdata{-- servlets: String[]}}\\
-Array che contiene le tre URL delle servlets da contattare per i messaggi
+Array che contiene le tre URL delle \inglese{servlet} da contattare per i messaggi
 \end{description}
 
 \subsubsection*{Metodi}
 \begin{description}
 \item{\method{- getServletURLs(): void}}\\
-Configura gli URL delle servlet da interrogare leggendoli dal file di configurazione in base alle operazioni che questo presenter deve essere in grado di compiere.\\
-Più precisamente, si dovrà creare una ``XMLHttpRequest'' rivolta al file XML di configurazione dove sono riportate tutte le servlets. Ricevuta la risposta, si popolerà l'array dichiarato nella classe (servlets).
+Configura gli URL delle \inglese{servlet} da interrogare leggendoli dal file di configurazione in base alle operazioni che questo presenter deve essere in grado di compiere.\\
+Più precisamente, si dovrà creare una ``XMLHttpRequest'' rivolta al file XML di configurazione dove sono riportate tutte le \inglese{servlet}. Ricevuta la risposta, si popolerà l'array dichiarato nella classe (\inglese{servlet}).
 
 \item{\method{- getCalls(): String}}\\
-Ottiene tutta la lista delle chiamate effettuate e tracciate nel server. Una volta ricevuta risposta con relativi dati associati, li utilizza come dati di ritorno. Per contattare la servlet, va usato come in precedenza ``XMLHttpRequest''.
+Ottiene tutta la lista delle chiamate effettuate e tracciate nel server. Una volta ricevuta risposta con relativi dati associati, li utilizza come dati di ritorno. Per contattare la \inglese{servlet}, va usato come in precedenza ``XMLHttpRequest''.
 
 \item{\method{- addListItem(call: String): void}}\\
 Aggiunge alla lista delle chiamate visualizzata nel CallHistoryPanel una nuova voce che corrisponde alla chiamata ricevuta da parametro. Ogni voce della lista contiene i dati relativi alla chiamata e non consente di effettuare alcuna azione su di essa.
@@ -3140,14 +3148,14 @@ Nessuna relazione d'uso evidenziata.
 \subsubsection*{Attributi}
 \begin{description}
 \item{\memberdata{-- servlets: String[]}}\\
-Array che contiene le URL delle servlets da contattare per eseguire ricerche
+Array che contiene le URL delle \inglese{servlet} da contattare per eseguire ricerche
 \end{description}
 
 \subsubsection*{Metodi}
 \begin{description}
 \item{\method{- getServletURLs(): void}}\\
-Configura gli URL delle servlet da interrogare leggendoli dal file di configurazione in base alle operazioni che questo presenter deve essere in grado di compiere.\\
-Più precisamente, si dovrà creare una ``XMLHttpRequest'' rivolta al file XML di configurazione dove sono riportate tutte le servlets. Ricevuta la risposta, si popolerà l'array dichiarato nella classe (servlets).
+Configura gli URL delle \inglese{servlet} da interrogare leggendoli dal file di configurazione in base alle operazioni che questo presenter deve essere in grado di compiere.\\
+Più precisamente, si dovrà creare una ``XMLHttpRequest'' rivolta al file XML di configurazione dove sono riportate tutte le \inglese{servlet}. Ricevuta la risposta, si popolerà l'array dichiarato nella classe (\inglese{servlet}).
 
 \item{\method{- addListItem(list: DOM\_element, contact: Object(contact)): void}}\\
 Aggiunge alla lista ricevuta da parametro (list) il contatto anch'esso ricevuto da parametro (contact). L'aggiunta del contatto alla lista avviene prima di tutto effettuando un controllo sui dati da visualizzare nel list item che se presenti nel database saranno:
@@ -3209,7 +3217,7 @@ Nessuna relazione d'uso evidenziata.
 \subsubsection*{Attributi}
 \begin{description}
 \item{\memberdata{-- servlets: String[]}}\\
-Array che contiene le URL delle servlets relative a tale presenter
+Array che contiene le URL delle \inglese{servlet} relative a tale presenter
 \item{\memberdata{-- element: DOM\_element}}\\
 elemento di tipo DOM che rappresenta l'intero pannello
 \end{description}
@@ -3217,8 +3225,8 @@ elemento di tipo DOM che rappresenta l'intero pannello
 \subsubsection*{Metodi}
 \begin{description}
 \item{\method{- getServletURLs(): void}}\\
-Configura gli URL delle servlet da interrogare leggendoli dal file di configurazione in base alle operazioni che questo presenter deve essere in grado di compiere.\\
-Più precisamente, si dovrà creare una ``XMLHttpRequest'' rivolta al file XML di configurazione dove sono riportate tutte le servlets. Ricevuta la risposta, si popolerà l'array dichiarato nella classe (servlets).
+Configura gli URL delle \inglese{servlet} da interrogare leggendoli dal file di configurazione in base alle operazioni che questo presenter deve essere in grado di compiere.\\
+Più precisamente, si dovrà creare una ``XMLHttpRequest'' rivolta al file XML di configurazione dove sono riportate tutte le \inglese{servlet}. Ricevuta la risposta, si popolerà l'array dichiarato nella classe (\inglese{servlet}).
 
 \item{\method{+ initialize()(): void}}\\
 Inizializza il pannello degli strumenti dell'applicazione rendendolo visibile. Tale pannello conterrà link che rimandano a tutte le funzioni disponibili per l'operazione scelta. In particolare:
@@ -3234,7 +3242,7 @@ Tutte queste sezioni saranno espresse come list item di una lista. All'evento ``
 Rende invisibile il pannello degli strumenti. Va impostata la proprietà ``display'' di tale elemento a false.
 
 \item{\method{+ logout(): void}}\\
-Effettua il logout dell'utente dal sistema. Per far ciò, viene invocata la servlet relativa.
+Effettua il logout dell'utente dal sistema. Per far ciò, viene invocata la \inglese{servlet} relativa.
 
 \end{description}
 
@@ -3251,7 +3259,7 @@ Nessuna relazione d'uso evidenziata.
 \subsubsection*{Attributi}
 \begin{description}
 \item{\memberdata{-- servlets: String[]}}\\
-Array che contiene le URL delle servlets relative a tale presenter
+Array che contiene le URL delle \inglese{servlet} relative a tale presenter
 \end{description}
 
 \subsubsection*{Metodi}
@@ -3284,13 +3292,13 @@ I campi modificabili, recuperati dall'oggetto presente in CommunicationCenter (\
 \end{itemize}
 
 \item{\method{- onSubmitChange(): void}}\\
-Gestisce il cambiamento dei dati da parte dell'utente contattando, se necessario (controllo effettuato tramite chiamata al metodo \method{hasSometingChanged}), la servlet incaricata di aggiornare il contenuto del database sul server. Il metodo va a recuperare i valori tramite chiamate di metodo \method{document.getElementById(id)} e successivamente contatta la servlet tramite un XMLHttpRequest passando i dati prelevati dalla pagina. Se la servlet ritorna un errore viene gestito tramite la visualizzazione dell'errore all'utente, altrimenti viene richiamato il metodo \method{initialize()} per aggiornare la visualizzazione dei dati più recenti.
+Gestisce il cambiamento dei dati da parte dell'utente contattando, se necessario (controllo effettuato tramite chiamata al metodo \method{hasSometingChanged}), la \inglese{servlet} incaricata di aggiornare il contenuto del database sul server. Il metodo va a recuperare i valori tramite chiamate di metodo \method{document.getElementById(id)} e successivamente contatta la \inglese{servlet} tramite un XMLHttpRequest passando i dati prelevati dalla pagina. Se la \inglese{servlet} ritorna un errore viene gestito tramite la visualizzazione dell'errore all'utente, altrimenti viene richiamato il metodo \method{initialize()} per aggiornare la visualizzazione dei dati più recenti.
 
 \item{\method{- hasSomethingChanged(data: String[]): boolean}}\\
 Metodo che verifica l'effettivo cambiamento di dati rispetto a quanto contenuto in\\ \memberdata{communicationcenter.my} confrontandoli con l'oggetto \memberdata{data} ricevuto come parametro. Il metodo controlla che almeno il valore di un campo dati sia effettivamente cambiato e ritorna ``true'' in tale caso. Nel caso opposto, ossia tutti i dati sono uguali ai precedenti, ritorna ``false''.
 
 \item{\method{- buildQueryString(data: String[]): String}}\\
-Costruisce la stringa corrispondente alla query che deve essere spedita alla servlet per portare a termine la richiesta di cambiamento dei dati personali. Viene costruita partendo dai valori recuperati dall'oggetto \memberdata{data} passato come parametro e utilizzando la giusta sintassi MySQL.
+Costruisce la stringa corrispondente alla query che deve essere spedita alla \inglese{servlet} per portare a termine la richiesta di cambiamento dei dati personali. Viene costruita partendo dai valori recuperati dall'oggetto \memberdata{data} passato come parametro e utilizzando la giusta sintassi MySQL.
 
 \end{description}
 
@@ -3311,11 +3319,11 @@ Array che contiene i dati della video-chiamata
 \item{\memberdata{+ openChat: DOM\_element[]}}\\
 Array che contiene i dati della video-chiamata
 \item{\memberdata{- urlServlet: String}}\\
-Contiene l'indirizzo della servlet che gestisce la comunicazione
+Contiene l'indirizzo della \inglese{servlet} che gestisce la comunicazione
 \item{\memberdata{- my: String[]}}\\
 Array contenente i dati personali dell'utente
 \item{\memberdata{- websocket: Object()}}\\
-Oggetto che rappresenta la websocket da utilizzare per comunicare con il server. Il costruttore di tale oggetto vuole l'URL della servlet.
+Oggetto che rappresenta la websocket da utilizzare per comunicare con il server. Il costruttore di tale oggetto vuole l'URL della \inglese{servlet}.
 
 \end{description}
 
@@ -3339,13 +3347,13 @@ Metodo che ferma l'aggiornamento delle statistiche relative alla chiamata in cor
 Metodo che permette l'estrazione dei dati rappresentanti le statistiche della chiamata. Il metodo che riceve come parametro un oggetto (\memberdata{obj}), lo elabora ed estrae solo i byte ricevuti e byte inviati. Ricavati questi dati, 
 
 \item{\method{- onSubmitChange(): void}}\\
-Gestisce il cambiamento dei dati da parte dell'utente contattando, se necessario (controllo effettuato tramite chiamata al metodo \method{hasSometingChanged}), la servlet incaricata di aggiornare il contenuto del database sul server. Il metodo va a recuperare i valori tramite chiamate di metodo \method{document.getElementById(id)} e successivamente contatta la servlet tramite un XMLHttpRequest passando i dati prelevati dalla pagina. Se la servlet ritorna un errore viene gestito tramite la visualizzazione dell'errore all'utente, altrimenti viene richiamato il metodo \method{initialize()} per aggiornare la visualizzazione dei dati più recenti.
+Gestisce il cambiamento dei dati da parte dell'utente contattando, se necessario (controllo effettuato tramite chiamata al metodo \method{hasSometingChanged}), la \inglese{servlet} incaricata di aggiornare il contenuto del database sul server. Il metodo va a recuperare i valori tramite chiamate di metodo \method{document.getElementById(id)} e successivamente contatta la \inglese{servlet} tramite un XMLHttpRequest passando i dati prelevati dalla pagina. Se la \inglese{servlet} ritorna un errore viene gestito tramite la visualizzazione dell'errore all'utente, altrimenti viene richiamato il metodo \method{initialize()} per aggiornare la visualizzazione dei dati più recenti.
 
 \item{\method{- hasSomethingChanged(data: String[]): boolean}}\\
 Metodo che verifica l'effettivo cambiamento di dati rispetto a quanto contenuto in\\ \memberdata{communicationcenter.my} confrontandoli con l'oggetto \memberdata{data} ricevuto come parametro. Il metodo controlla che almeno il valore di un campo dati sia effettivamente cambiato e ritorna ``true'' in tale caso. Nel caso opposto, ossia tutti i dati sono uguali ai precedenti, ritorna ``false''.
 
 \item{\method{- buildQueryString(data: String[]): String}}\\
-Costruisce la stringa corrispondente alla query che deve essere spedita alla servlet per portare a termine la richiesta di cambiamento dei dati personali. Viene costruita partendo dai valori recuperati dall'oggetto \memberdata{data} passato come parametro e utilizzando la giusta sintassi MySQL.
+Costruisce la stringa corrispondente alla query che deve essere spedita alla \inglese{servlet} per portare a termine la richiesta di cambiamento dei dati personali. Viene costruita partendo dai valori recuperati dall'oggetto \memberdata{data} passato come parametro e utilizzando la giusta sintassi MySQL.
 
 \end{description}
 
