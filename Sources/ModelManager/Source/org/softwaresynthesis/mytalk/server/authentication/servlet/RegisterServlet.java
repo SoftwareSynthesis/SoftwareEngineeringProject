@@ -128,6 +128,17 @@ public final class RegisterServlet extends HttpServlet
 		}
 	}
 	
+	/**
+	 * Ha il compito di determinare se un particolare parametro
+	 * è stato definito dall'utente
+	 * 
+	 * @param 	request			{@link HttpServletRequest} con i dati
+	 * 							provenienti dal client
+	 * @param 	parameterName	{@link String} con il nome del parametro
+	 * 							di cui si vuole il valore
+	 * @return	{@link String} con il valore del parametro se è stato impostato
+	 * 			dall'utente, stringa vuota altrimenti
+	 */
 	private String getParameter(HttpServletRequest request, String parameterName)
 	{
 		String result = request.getParameter(parameterName);
