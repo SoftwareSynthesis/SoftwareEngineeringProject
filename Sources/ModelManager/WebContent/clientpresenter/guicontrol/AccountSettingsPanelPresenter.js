@@ -41,7 +41,7 @@ function AccountSettingsPanelPresenter(url) {
 	/**
 	 * Verifica che sia effettivamente cambiato qualcosa rispetto a quanto
 	 * contenuto in communicationcenter.my nell'oggetto data che viene passato
-	 * come paramtro
+	 * come parametro
 	 * 
 	 * @param {Object}
 	 *            data array contenente i dati raccolti dal form
@@ -57,11 +57,14 @@ function AccountSettingsPanelPresenter(url) {
 		}
 		return false;
 	};
-	
+
 	/**
+	 * Costruisce la stringa di query che deve essere inviata al server per la
+	 * modifica dei dati personali
 	 * 
-	 * @param {Object} data
-	 * @returns {String}
+	 * @param {Object}
+	 *            data oggetto che contiene nome, cognome e nuova immagine
+	 * @returns {String} la stringa che deve essere inviata alla servlet
 	 * @author Diego Beraldin
 	 */
 	this.buildQueryString = function(data) {
@@ -77,7 +80,7 @@ function AccountSettingsPanelPresenter(url) {
 		}
 		return querystring;
 	};
-	
+
 	/**
 	 * Gestisce la pressione del pulsante 'changeButton' che trasforma la lista
 	 * di elementi testuali in un form da compilare per modificare i propri
@@ -114,16 +117,16 @@ function AccountSettingsPanelPresenter(url) {
 		liName.appendChild(labelSurname);
 		liName.appendChild(inputSurname);
 
-//		 list item per l'email
-//		var liMail = document.createElement("li");
-//		var labelMail = document.createElement("label");
-//		labelMail.setAttribute("for", "email");
-//		var inputMail = document.createElement("input");
-//		inputMail.setAttribute("id", "email");
-//		inputMail.setAttribute("name", "email");
-//		inputMail.setAttribute("value", communicationcenter.my.email);
-//		liName.appendChild(labelMail);
-//		liName.appendChild(inputMail);
+		// list item per l'email
+		// var liMail = document.createElement("li");
+		// var labelMail = document.createElement("label");
+		// labelMail.setAttribute("for", "email");
+		// var inputMail = document.createElement("input");
+		// inputMail.setAttribute("id", "email");
+		// inputMail.setAttribute("name", "email");
+		// inputMail.setAttribute("value", communicationcenter.my.email);
+		// liName.appendChild(labelMail);
+		// liName.appendChild(inputMail);
 
 		// list item per l'immagine
 		var liPicture = document.createElement("li");
@@ -143,7 +146,7 @@ function AccountSettingsPanelPresenter(url) {
 		// aggiunge tutti i nodi alla lista
 		ulData.appendChild(liName);
 		ulData.appendChild(liSurname);
-//		ulData.appendChild(liMail);
+		// ulData.appendChild(liMail);
 		ulData.appendChild(liPicture);
 
 		// pulsante per processare i dati
@@ -155,9 +158,12 @@ function AccountSettingsPanelPresenter(url) {
 			// recupera i dati dal form e li memorizza in un oggetto
 			var data = new Object();
 			data.name = document.getElementById("name").getAttribute("value");
-			data.surname = document.getElementById("surname").getAttribute("value");
-//			data.mail = document.getElementById("email").getAttribute("value");
-			data.picture = document.getElementById("picture").getAttribute("value");
+			data.surname = document.getElementById("surname").getAttribute(
+					"value");
+			// data.mail =
+			// document.getElementById("email").getAttribute("value");
+			data.picture = document.getElementById("picture").getAttribute(
+					"value");
 
 			// verifica se è cambiato qualcosa e agisce di conseguenza
 			if (self.hasSomethingChanged(data)) {
@@ -167,8 +173,8 @@ function AccountSettingsPanelPresenter(url) {
 						"application/x-www-form-urlencoded");
 				request.send(self.buildQueryString(data));
 				// FIXME aggiornare il communicationcenter.my
-				mediator.displayAccountSettingsPanel();
 			}
+			mediator.displayAccountSettingsPanel();
 		};
 
 		// aggiunge il tutto al sottoalbero del DOM
@@ -205,10 +211,10 @@ function AccountSettingsPanelPresenter(url) {
 		surnameNode.appendChild(document
 				.createTextNode(communicationcenter.my.surname));
 
-//		var mailNode = document.createElement('li');
-//		mailNode.setAttribute("id", "mail");
-//		mailNode.appendChild(document
-//				.createTextNode(communicationcenter.my.email));
+		// var mailNode = document.createElement('li');
+		// mailNode.setAttribute("id", "mail");
+		// mailNode.appendChild(document
+		// .createTextNode(communicationcenter.my.email));
 
 		var pictureNode = document.createElement('img');
 		pictureNode.setAttribute("id", "picture");
@@ -227,7 +233,7 @@ function AccountSettingsPanelPresenter(url) {
 		ulData.style.listStyleType = "none";
 		ulData.appendChild(nameNode);
 		ulData.appendChild(surnameNode);
-//		ulData.appendChild(mailNode);
+		// ulData.appendChild(mailNode);
 
 		// appende il sottoalbero al DOM
 		element.appendChild(pictureNode);
