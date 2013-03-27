@@ -429,7 +429,7 @@ Nessun attributo evidenziato.
 			\item si esegue il \textit{commit};
 		\end{itemize}
 		\item nel blocco catch: si effettua un \textit{rollback} a partire da \textit{transaction};
-		\item nel blocco finally: se \textit{session\textit{ è diverso da \textit{null}, si chiude mediante una chiamata di tipo \texttt{close()};
+		\item nel blocco finally: se \textit{session} è diverso da \textit{null}, si chiude mediante una chiamata di tipo \texttt{close()};
 	\end{itemize}
 	Il programma termina controllando se groups è diversa da \textit{null} e contiene almeno un elemento. Nel caso il programma termina ritornando il primo contatto presente nella lista. Altrimenti termina ritornando \textit{null}.
 	
@@ -534,7 +534,7 @@ Nessun attributo evidenziato.
 			\item si esegue il commit;
 			\item si pone flag a \inglese{true};
 		\end{itemize}
-		\item nel blocco \textit{catch}: si effettua un \textit{rollback\textit{ a partire da \textit{transaction};
+		\item nel blocco \textit{catch}: si effettua un \textit{rollback} a partire da \textit{transaction};
 		\item nel blocco \textit{finally}: se \textit{session} è diverso da \textit{null}, si chiude mediante una chiamata di tipo \texttt{close()};
 	\end{itemize}
 	Infine il metodo termina ritornando il valore di \textit{flag};	
@@ -556,7 +556,7 @@ Nessun attributo evidenziato.
 			\item quindi a partire da \textit{util} si inizializza \textit{factory} mediante una chiamata \method{getFactory()};
 			\item analogamente a quanto fatto in precedenza, si inizializza \textit{session} tramite una chiamata \method{openSession()} eseguita a partire da \textit{factory};
 			\item \textit{transaction} viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da \textit{session};
-			\item quindi si è pronti per eseguire l'istruzione di \textit{save\textit{ a partire da \textit{session} e passando come parametro \textit{entry};
+			\item quindi si è pronti per eseguire l'istruzione di \textit{save} a partire da \textit{session} e passando come parametro \textit{entry};
 			\item si esegue il \textit{commit};
 			\item si pone \textit{flag} a \inglese{true};
 		\end{itemize}
@@ -814,7 +814,7 @@ Implementazione dell'interfaccia IAddressBookEntry.
 	\item{\memberdata{-- owner: IUserData}}:
 	Attributo destinato ad identificare il possessore dell'istanza di \classname{AddressBookEntry}.
 	\item{\memberdata{-- blocked: boolean}}
-	Attributo booleano necessario per bloccare il contatto. Tale blocco avviene impostando l'attributo a \texttt{true}.
+	Attributo booleano necessario per bloccare il contatto. Tale blocco avviene impostando l'attributo a \textit{true}.
 \end{itemize}
 
 
@@ -904,7 +904,7 @@ Implementazione dell'interfaccia IAddressBookEntry.
 \classsection{AddressBookDoRemoveContactServlet}
 
 \subsubsection*{Funzione}
-\\textit{Servlet} richiamata dal \textit{client} per eseguire l'eliminazione di un contatto presente nella propria rubrica.
+\textit{Servlet} richiamata dal \textit{client} per eseguire l'eliminazione di un contatto presente nella propria rubrica.
 
 \subsubsection*{Relazioni d'uso}
 
@@ -1684,7 +1684,7 @@ Interfaccia che rappresenta un messaggio di segreteria del sistema \caName.
 	\item{\method{+ setReceiver(receiver: IUserData): void}}\\
 	Imposta il destinatario del messaggio.
 	\item{\method{+ isNew(): boolean}}\\
-	Restituisce un valore booleano che identifica lo stato del messaggio (``già letto'' se il valore ritornato è \texttt{true}, ``da leggere'' se il valore ritornato è \texttt{false}).
+	Restituisce un valore booleano che identifica lo stato del messaggio (``già letto'' se il valore ritornato è \textit{true}, ``da leggere'' se il valore ritornato è \textit{false}).
 	\item{\method{+ setNew(status: boolean): void}}\\
 	Imposta il messaggio come ``già ascoltato'' o come ``da ascoltare''.
 	\item{\method{+ isVideo(): boolean}}\\
@@ -1718,9 +1718,9 @@ Classe che implementa l'interfaccia \classname{IMessage}.
 	\item{\memberdata{-- receiver: IUserData}}
 	Attributo contenente lo \classname{IUserData} che rappresenta il destinatario del messaggio.
 	\item{\memberdata{-- status: boolean}}
-	Attributo contenente un valore booleano che identifica se il messaggio è stato visionato/ascoltato o meno. L'attributo se impostato a \texttt{true}, designa il messaggio come \textit{ascoltato}. Invece se impostato a \texttt{false} identifica il messaggio come \textit{ancora da ascoltare}.
+	Attributo contenente un valore booleano che identifica se il messaggio è stato visionato/ascoltato o meno. L'attributo se impostato a \textit{true}, designa il messaggio come \textit{ascoltato}. Invece se impostato a \textit{false} identifica il messaggio come \textit{ancora da ascoltare}.
 	\item{\memberdata{-- video: boolean}}
-	Attributo che stabilisce se il messaggio contiene o meno una traccia video. Si ricorda che ogni messaggio contiene (di \inglese{default}) una traccia audio. Se tale attributo è impostato a \texttt{true} allora il messaggio contiene una traccia video.
+	Attributo che stabilisce se il messaggio contiene o meno una traccia video. Si ricorda che ogni messaggio contiene (di \inglese{default}) una traccia audio. Se tale attributo è impostato a \textit{true} allora il messaggio contiene una traccia video.
 	\item{\memberdata{-- date: Date}}
 	Attributo che definisce l'orario di invio del messaggio.
 \end{itemize}
@@ -1744,7 +1744,7 @@ Classe che implementa l'interfaccia \classname{IMessage}.
 	\item{\method{+ isVideo(): boolean}}\\
 	Restituisce il contenuto dell'attributo \memberdata{video}.
 	\item{\method{+ setVideo(video: boolean): void }}\\	
-	Metodo usato per impostare la ``natura'' del messaggio, impostando il contenuto dell'attributo \memberdata{video} mettendolo a \texttt{true} se il messaggio contiene una traccia video, oppure a \texttt{false} se non la contiene.
+	Metodo usato per impostare la ``natura'' del messaggio, impostando il contenuto dell'attributo \memberdata{video} mettendolo a \textit{true} se il messaggio contiene una traccia video, oppure a \textit{false} se non la contiene.
 	\item{\method{+ getDate(): Date}}\\
 	Restituisce la data in cui il mittente ha lasciato il messaggio nella segreteria del destinatario, ritornando il contenuto dell'attributo \memberdata{date}.
 	\item{\method{+ setDate(date: Date): void}}\\
@@ -2280,13 +2280,13 @@ Il metodo termina ritornando il \textit{PushInbound} associato al client, se si 
 
 \section{Specifica sotto-architettura clientpresenter}\label{sec:clientpresenterarchitecture}
 
-La sotto-architettura \texttt{clientpresenter}, a livello di definizione di prodotto, richiede una trattazione speciale a causa del particolare dominio tecnologico coinvolto. Essa è infatti definita con il linguaggio \textit{JavaScript} che pur essendo definito come linguaggio orientato agli oggetti non permette di definire classi. A ciò si aggiunge il fatto che \textit{JavaScript} è debolmente tipizzato.
- In ragione di ciò, al fine di facilitare al programmatore la comprensione del progetto (pesando quindi alle varie entità come a classi) senza però confonderlo in fase di stesura del codice, si è pensato di adoperare la seguente terminologia.
+La sotto-architettura \texttt{clientpresenter}, a livello di definizione di prodotto, richiede una trattazione speciale a causa del particolare dominio tecnologico coinvolto. Essa è infatti definita con il linguaggio \textit{JavaScript} che pur essendo definito come linguaggio orientato agli oggetti non permette di definire classi, a ciò si aggiunge un ulteriore particolarità di \textit{JavaScript}: è debolmente tipizzato.
+In ragione di ciò, al fine di facilitare al programmatore la comprensione del progetto (pesando quindi alle varie entità come a classi) senza però confonderlo in fase di stesura del codice, si è pensato di adoperare la seguente terminologia:
 
 \begin{description}
-	\item{\scshape\bfseries Attributi}: saranno definiti con una sintassi simile a quella già usata. Quindi al nome dell'attributo sarà associato il tipo ``logico'' che idealmente rappresenta. In particolare emergono i seguenti casi:
+	\item{\scshape\bfseries Attributi}: saranno definiti con una sintassi simile a quella già usata per la parte \inglese{server}, pertanto al nome dell'attributo sarà associato il tipo ``logico'' che idealmente rappresenta. In particolare emergono i seguenti casi:
 		\begin{itemize}
-			\item Nodi DOM: come si vedrà alcuni attributi rappresentano nodi DOM già esistenti nella pagina HTML che definisce l'interfaccia utente e modificati (a \textit{run-time}) sulla base di informazioni ottenute dal server. Tali attributi dovranno essere codificati come:
+			\item Nodi DOM: come si vedrà alcuni attributi rappresentano nodi DOM già esistenti nella pagina HTML che definisce l'interfaccia utente e modificati (a \textit{run-time}) sulla base di informazioni ottenute dal \inglese{server}. Tali attributi dovranno essere codificati come:
 			
 			\begin{verbatim}
 				this.mio_attributo = document.getElementById(``id_DOM'');
@@ -2298,13 +2298,13 @@ La sotto-architettura \texttt{clientpresenter}, a livello di definizione di prod
 				(+, -, #) nome_attributo: Nodo_DOM
 			\end{verbatim}
 			
-			\item String: se l'attributo è destinato a contenere esclusivamente valori di tipo \texttt{String} sarà segnato nel documento come:
+			\item String: se l'attributo è destinato a contenere esclusivamente valori di tipo \textit{String} sarà segnato nel documento come:
 			
 			\begin{verbatim}
 				(+, -, #) nome_atributo: String
 			\end{verbatim}
 			
-			\item Array: se l'attributo è un array, che in \textit{JavaScript} non chiede di essere definito per tipo di valori contenibili, nel documento sarà precisato come:
+			\item Array: se l'attributo è un \inglese{array}, che in \textit{JavaScript} non chiede di essere definito per tipo di valori contenibili, nel documento sarà precisato come:
 			
 			\begin{verbatim}
 				(+, -, #) nome_atributo: Tipo[]
@@ -2335,7 +2335,7 @@ La sotto-architettura \texttt{clientpresenter}, a livello di definizione di prod
 			\begin{itemize}
 			\item name;
 			\item id;
-			\item contacts (rappresentato come un array di Object(contact).
+			\item contacts (rappresentato come un \inglese{array} di Object(contact).
 			\end{itemize}
 		\end{itemize}
 	\item{\scshape\bfseries Metodi}: la sintassi usata dal programmatore per definire un metodo in \textit{JavaScript} dovrà essere la seguente:
@@ -2371,7 +2371,7 @@ Suffisso da concatenare all'url per richiamare le \inglese{servlet} appropriate.
    \item{\memberdata{-- groups: Array()}}\\
   Attributo che definisce la lista dei gruppi presenti nella rubrica dell'utente che ha effettuato l'autenticazione. Pero ogni gruppo sono  elencati i contatti contenuti in esso.
    \item{\memberdata{-- operations: String[]}}\\ 
-   Array di stringhe usato per memorizzare i nomi delle istruzioni eseguibili. Tali nomi rappresentano una parte del nome della \inglese{servlet} incaricata a risolvere l'operazione descritta (e.g. GetContacts rappresenta l'operazione svolta dalla \inglese{servlet} avente nome: \memberdata{urlServlet} concatenato a ``GetContactsServlet''). I valori con i quali si dovrà caricare \memberdata{operations}) sono:
+   \inglese{Array} di stringhe usato per memorizzare i nomi delle istruzioni eseguibili, essi rappresentano una parte del nome della \inglese{servlet} incaricata a risolvere l'operazione descritta (e.g. GetContacts rappresenta l'operazione svolta dalla \inglese{servlet} avente nome: \memberdata{urlServlet} concatenato a ``GetContactsServlet''). I valori con i quali si dovrà caricare \memberdata{operations}) sono:
    \begin{itemize}
    	\item GetContacts;
     \item DoAddContact;
@@ -2392,9 +2392,9 @@ Suffisso da concatenare all'url per richiamare le \inglese{servlet} appropriate.
 \begin{description}	
 	
 	\item{\method{+ inizialize(): void}}\\
-	Metodo per inizializzare  \texttt{AddressBookPanel} e popolarlo con i contatti della rubrica. Il metodo modifica il DOM creando tre div: divSearch, divSort e divList. Quindi sequenzialmente ne crea il contenuto:
+	Metodo per inizializzare  \texttt{AddressBookPanel} e popolarlo con i contatti della rubrica, modifica il DOM creando tre div: divSearch, divSort e divList. Quindi sequenzialmente ne crea il contenuto:
 		\begin{itemize}
-			\item divSearch: definisce un campo per l'input testuale e un bottone per ricercare nella lista un utente avente avete tra le parole chiave, una con valore uguale a quello inserito nel campo d'input.
+			\item divSearch: definisce un campo per l'\inglese{input} testuale e un bottone per ricercare nella lista un utente avente avete tra le parole chiave, una con valore uguale a quello inserito nel campo d'\inglese{input}.
 			\item divSort: crea delle \inglese{select} per specificare le tipologie di ordinamento attuabili sulla lista degli utenti.
 			\item divList: div che viene popolato con i nomi degli utenti presenti nella rubrica dell'utente che l'ha richiamata.
 		\end{itemize}
@@ -2402,17 +2402,17 @@ Suffisso da concatenare all'url per richiamare le \inglese{servlet} appropriate.
 Quindi dopo aver creato questi elementi il metodo procede inserendo nel DOM il ``sotto-albero'' cosi creato.
 
 	\item{\method{- getAddressBookContacts(): void}}\\
-Metodo che recupera i contatti e i gruppi della propria rubrica dal server usando la tecnologia AJAX. Il metodo crea una variabile contenente un istanza \texttt{XMLHttpRequest()}. Quindi con metodo \inglese{POST} inoltra la richiesta alla \inglese{servlet} il cui indirizzo è generato dalla concatenazione di \memberdata{urlServlet} con \memberdata{operation[1]}. Elabora quindi i dati ottenuti mediante il metodo \texttt{JSON.parse()} e li salva negli array \memberdata{contacts} e \memberdata{groups}.
+Metodo che recupera i contatti e i gruppi della propria rubrica dal server usando la tecnologia AJAX. Il metodo crea una variabile contenente un istanza \texttt{XMLHttpRequest()}. Quindi con metodo \inglese{POST} inoltra la richiesta alla \inglese{servlet} il cui indirizzo è generato dalla concatenazione di \memberdata{urlServlet} con \memberdata{operation[1]}. Elabora quindi i dati ottenuti mediante il metodo \texttt{JSON.parse()} e li salva negli \textit{array} \memberdata{contacts} e \memberdata{groups}.
 	
 	\item{\method{+ setup(): void}}\\
-	Inserisce i contatti estratti dal server all'interno della lista \texttt{AddressBookList} all'interno di \texttt{AddressBookPanel}.
+	Inserisce i contatti estratti dal \textit{server} all'interno della lista \texttt{AddressBookList} all'interno di \texttt{AddressBookPanel}.
 	
 	\item{\method{+ displayContactList(contact: String[]): void}}\\
-	Metodo usato per visualizzare la lista dei contatti utente. Il metodo prende il nodo DOM (già esistente) e destinato a contenere la lista dei contatti, popolandolo richiamando il metodo \method{addListItem()}.
+	Metodo usato per visualizzare la lista dei contatti utente, esso prende il nodo DOM (già esistente) e destinato a contenere la lista dei contatti, popolandolo richiamando il metodo \method{addListItem()}.
 	
 	\item{\method{-- addListItem(list: DOM\_node, contact: Object(contact): void}}\\
 
-Metodo richiamato da \method{displayContactList()} per visualizzare i contatti presenti della rubrica. Il metodo crea le variabili contenenti i dati del contatto da attribuire al tag di markup \texttt{li}. Tali variabili sono quelle tipiche di un oggetto Object(contact) (nome, cognome, email, status e immagine).
+Metodo richiamato da \method{displayContactList()} per visualizzare i contatti presenti della rubrica, crea le variabili contenenti i dati del contatto da attribuire al \textit{tag} di \textit{markup} \texttt{li}. Tali variabili sono quelle tipiche di un oggetto Object(contact) (nome, cognome, email, status e immagine).
 
 
 \item{\method{-- addOptionToSelect(select: DOM\_element, value: String, text: String): void}}\\
@@ -2420,59 +2420,59 @@ Metodo utilizzato per aggiungere un'opzione all'elemento \memberdata{select} ric
 
 	
 	\item{\method{+ addContact(contact: Object(contact)): boolean}}\\
-	Metodo per l'aggiunta di un contatto alla rubrica, riceve come parametro un oggetto di tipo contatto da inserire nella propria rubrica. 
-Per assicurarsi di non introdurre ridondanza ed aggiungere un contatto già presente, il metodo esegue due controlli: uno lato client e uno lato server. 
-Il controllo lato client, si scorre la lista \memberdata{contact} alla ricerca di un \texttt{contact} che fa \inglese{match} con il nuovo contatto. Nel caso già presente il metodo termina ritornando false. Per eseguire il controllo lato server il metodo contatta il server mediante la \inglese{servlet} \texttt{AddressBookDoAddContatctServlet}. Questa verificherà se l'utente avente \texttt{id} contact è già presente nella rubrica, nel caso non lo sia  si occuperà di creare la nuova istanza di \texttt{AddressBookEntry} e la registrerà nel database, in caso contrario non esegue operazioni. 
-La chiamata a \inglese{servlet} ritorna un valore booleano che sarà \texttt{true} se l'inserimento ha avuto successo, \texttt{false} altrimenti. 
-Se l'inserimento ha avuto successo il flusso principale prosegue eseguendo l'aggiornamento della rubrica in locale tramite la chiamata a metodo \method{setup()}. Il metodo termina infine ritornando \texttt{true} se è stato aggiunto l'utente, altrimenti lancia un'eccezione.
+	Metodo per l'aggiunta di un contatto alla rubrica, riceve come parametro un oggetto di tipo contatto da inserire, appunto, nella propria rubrica. 
+Per assicurarsi di non introdurre ridondanza ed aggiungere un contatto già presente il metodo esegue due controlli: uno lato \inglese{client} e uno lato \textit{server}. 
+Il controllo lato \inglese{client}, si scorre la lista \memberdata{contact} alla ricerca di un \texttt{contact} che cerca un \inglese{match} con il nuovo contatto. Nel caso sia già presente il metodo termina ritornando \inglese{false}. Per eseguire il controllo lato \inglese{server} il metodo contatta il server mediante la \inglese{servlet} \texttt{AddressBookDoAddContatctServlet}, questa verificherà se l'utente avente \texttt{id} contact è già presente nella rubrica, nel caso non lo sia si occuperà di creare la nuova istanza di \texttt{AddressBookEntry} e la registrerà nel database, in caso contrario non esegue operazioni. 
+La chiamata a \inglese{servlet} ritorna un valore booleano che sarà \textit{true} se l'inserimento ha avuto successo, \textit{false} altrimenti. 
+Se l'inserimento ha avuto successo il flusso principale prosegue eseguendo l'aggiornamento della rubrica in locale tramite la chiamata a metodo \method{setup()}. Il metodo termina infine ritornando \textit{true} se è stato aggiunto l'utente, altrimenti lancia un'eccezione.
 
 	\item{\method{+ removeContact(contact: Obj): boolean}}\\
 Metodo il cui funzionamento è analogo a quello precedentemente definito, si occupa di eliminare un contatto conoscendone l'\texttt{id} passato per parametro d'ingresso. Il flusso principale esegue due controlli per verificare la presenza dell'utente nella rubrica (analogamente a quanto visto nel caso precedente). 
-Dopo tale verifica, se il contatto è realmente presente nella rubrica la \inglese{servlet} \texttt{AddressBookDoRemoveContactServlet} avrà eseguito la cancellazione come conseguenza al match effettuato in fase di verifica, nel caso il metodo richiama \method{setup()} per rieseguire l'aggiornamento della rubrica. Il metodo ritorna infine \texttt{true} se effettivamente il contatto era presente ed è stato eliminato altrimenti lancia un'eccezione.
+Dopo tale verifica, se il contatto è realmente presente nella rubrica la \inglese{servlet} \texttt{AddressBookDoRemoveContactServlet} avrà eseguito la cancellazione come conseguenza al match effettuato in fase di verifica, nel caso il metodo richiama \method{setup()} per rieseguire l'aggiornamento della rubrica. Il metodo ritorna infine \textit{true} se effettivamente il contatto era presente ed è stato eliminato altrimenti lancia un'eccezione.
 
 	\item{\method{+ addGroup(name: String): boolean}}\\
-	Metodo per l'aggiunta di un nuovo gruppo nella rubrica, permette l'aggiunta di gruppi con nomi duplicati (ossia nomi di gruppi già presenti nella rubrica). Il flusso principale richiama la \inglese{servlet} \texttt{AddressBookDoCreateGroupServlet} con il nome del gruppo da creare. Successivamente, se la \inglese{servlet} ha dato \method{setup()} esito positivo, viene richiamata il metodo setup che aggiorna la rubrica locale, altrimenti lancia un'eccezione.
+	Metodo per l'aggiunta di un nuovo gruppo nella rubrica, permette l'aggiunta di gruppi con nomi duplicati (ossia nomi di gruppi già presenti nella rubrica). Il flusso principale richiama la \inglese{servlet} \texttt{AddressBookDoCreateGroupServlet} con il nome del gruppo da creare. Successivamente, se la \inglese{servlet} ha dato \method{setup()} esito positivo, viene richiamata il metodo \inglese{setup} che aggiorna la rubrica locale, altrimenti lancia un'eccezione.
 	
 	\item{\method{+ deleteGroup(idGroup: int): boolean}}\\
-	Metodo per l'eliminazione di un nuovo gruppo presente nella rubrica, riceve come parametro d'ingresso l'\texttt{id} del gruppo da eliminare. Il flusso principale richiama la \inglese{servlet} \texttt{AddressBookDoRemoveGroupServlet} passandogli l'\texttt{id} del gruppo candidato all'eliminazione. Quindi, se la \inglese{servlet} notifica l'effettiva esistenza di un gruppo con tale \texttt{id}, essa si occupa dell'eliminazione e il flusso principale prosegue richiamando il metodo setup se la eliminazione ha avuto buon fine, altrimenti lancia un'eccezione.
+	Metodo per l'eliminazione di un nuovo gruppo presente nella rubrica, riceve come parametro d'ingresso l'\texttt{id} del gruppo da eliminare. Il flusso principale richiama la \inglese{servlet} \texttt{AddressBookDoRemoveGroupServlet} passandogli l'\texttt{id} del gruppo candidato all'eliminazione. Quindi, se la \inglese{servlet} notifica l'effettiva esistenza di un gruppo con tale \texttt{id}, essa si occupa dell'eliminazione e il flusso principale prosegue richiamando il metodo \inglese{setup} se la eliminazione ha avuto buon fine, altrimenti lancia un'eccezione.
 	
 	\item{\method{+ addContactInGroup(contact: Object(contact), group: Object(contact)): boolean}}\\
 	Metodo per l'aggiunta di un contatto in un gruppo ben definito, riceve come parametro d'ingresso il contatto e il gruppo.
-Il metodo richiama da prima \method{contactExistInGroup}, successivamente il flusso principale richiama la \inglese{servlet} \texttt{AddressBookDoInsertInGroupServlet} passandogli i parametri d'ingresso, quindi se la \inglese{servlet} notifica l'effettiva esistenza di un gruppo con il nome ricevuto, essa si occupa di aggiungervi il contatto e il flusso principale ritorna al metodo \method{setup()} per aggiornare la rubrica in locale. Il metodo ritorna infine un \inglese{feedback} booleano a true per dare notifica se l'operazione ha avuto buon fine, altrimenti rilancia un'eccezione.
+Il metodo richiama da prima \method{contactExistInGroup}, successivamente il flusso principale richiama la \inglese{servlet} \texttt{AddressBookDoInsertInGroupServlet} passandogli i parametri d'ingresso, quindi se la \inglese{servlet} notifica l'effettiva esistenza di un gruppo con il nome ricevuto, essa si occupa di aggiungervi il contatto e il flusso principale ritorna al metodo \method{setup()} per aggiornare la rubrica in locale. Il metodo ritorna infine un \inglese{feedback} booleano a \textit{true} per dare notifica se l'operazione ha avuto buon fine, altrimenti rilancia un'eccezione.
 	
 	\item{\method{+ deleteContactFromGroup(contact: Object(contact), group: Object(group)): boolean}}\\
 	Metodo per l'eliminazione di un contatto presente in un gruppo, riceve come parametro d'ingresso il gruppo su cui effettuare la ricerca del contatto da eliminare e il contatto. 
-Il metodo richiama da prima \method{contactExistInGroup}, poi Il flusso principale richiama la \inglese{servlet} \texttt{AddressBookDoRemoveFromGroupServlet} passandogli i parametri d'ingresso, la \inglese{servlet} notifica l'effettiva esistenza di un gruppo con il nome ricevuto che contiene il contatto candidato all'eliminazione, essa si occupa dell'eliminazione e il flusso principale ritorna al metodo \method{setup()} per aggiornare la rubrica in locale. Il metodo ritorna infine un \inglese{feedback} booleano per dare notifica sull'esito dell'operazione: \texttt{true} se è stato creato il nuovo gruppo, altrimenti lancia un'eccezione
+Il metodo richiama da prima \method{contactExistInGroup}, poi Il flusso principale richiama la \inglese{servlet} \texttt{AddressBookDoRemoveFromGroupServlet} passandogli i parametri d'ingresso, la \inglese{servlet} notifica l'effettiva esistenza di un gruppo con il nome ricevuto che contiene il contatto candidato all'eliminazione, essa si occupa dell'eliminazione e il flusso principale ritorna al metodo \method{setup()} per aggiornare la rubrica in locale. Il metodo ritorna infine un \inglese{feedback} booleano per dare notifica sull'esito dell'operazione: \textit{true}\textit{true} se è stato creato il nuovo gruppo, altrimenti lancia un'eccezione
 	
 	\item{\method{- contactExistInGroup(contact: Object(contact), group: Object(group)): boolean}}\\
-Metodo che verifica l'esistenza di un contato in un determinato gruppo. Il metodo restituisce un feedback booleano per confermare o meno l'esistenza dell'utente ricercato nel gruppo designato.
+Metodo che verifica l'esistenza di un contato in un determinato gruppo. Il metodo restituisce un \inglese{feedback} booleano per confermare o meno l'esistenza dell'utente ricercato nel gruppo designato.
 
 \item{\method{+ applyFilterByString(param: String): array()}}\\
 Metodo che data una stringa come parametro d'ingresso filtra la lista di contatti presente in locale. Inoltre non deve interagire con il server, ovvero non vengono richiamate \inglese{servlet}.
 
-In un primo step il programmatore dovrà creare un array() atto a contenere l'elenco dei contatti da restituire. Quindi il metodo procede con la definizione di un espressione regolare basata sul parametro ricevuto. Per tale operazione la sintassi obbligatoria è:\\
+In un primo step il programmatore dovrà creare un \inglese{array} atto a contenere l'elenco dei contatti da restituire, quindi il metodo procede con la definizione di un espressione regolare basata sul parametro ricevuto. Per tale operazione la sintassi obbligatoria è:\\
 
 \verb|var pattern = new RegExp(param)|\\
 
-Quindi viene avviato un ciclo for che analizza ogni contatto presente in \memberdata{contacts}. Successivamente si effettua un filtraggio sui campi name, surname, email del contatto attualmente in esame. Per fare tali operazioni si dovrà usare:\\
+Quindi viene avviato un ciclo \textit{for} che analizza ogni contatto presente in \memberdata{contacts}. Successivamente si effettua un filtraggio sui campi \textit{name, surname, email} del contatto attualmente in esame. Per fare tali operazioni si dovrà usare:\\
 
 \verb|pattern.test(\*elemento su cui ricercare param*\)|\\
 
-Se tale filtraggio ha esito positivo, il contatto viene aggiunto all'array dei contatti da restituire. Il metodo termina quando, dopo aver eseguito il ciclo for, il metodo ritorna l'array sopra-citato.
+Se tale filtraggio ha esito positivo, il contatto viene aggiunto all'\textit{array} dei contatti da restituire. Il metodo termina quando, dopo aver eseguito il ciclo \textit{for}, il metodo ritorna l'\textit{array} sopracitato.
 
 \item{\method{+ applyFilterByGroup(idGroup: int): array()}}\\
-Metodo che dato un intero come parametro d'ingresso filtra la lista di contatti presente in locale, restituendo un elenco dei contatti appartenenti al gruppo avente id uguale a idGroup. Inoltre non deve interagire con il server, ovvero non vengono richiamate \inglese{servlet}. 
+Metodo che dato un intero come parametro d'ingresso filtra la lista di contatti presente in locale, restituendo un elenco dei contatti appartenenti al gruppo avente id uguale a idGroup. Inoltre non deve interagire con il \inglese{server}, ovvero non vengono richiamate \inglese{servlet}. 
 
-Come per \method{applyFilterByString()} anche in questo caso il metodo deve creare un Array() da popolare con i contatti appartenente al gruppo idGroup. Quindi viene eseguito un ciclo for che ispezione tutti i contatti presenti in \memberdata{contacts}. Per ogni ciclo il metodo controlla i gruppi in cui compare il contatto i-esimo (tale azione si attua per mezzo di un secondo ciclo innestato), e se si verifica che il gruppo in esame ha lo stesso id dell'identificativo idGroup, allora si aggiunge il contatto all'array creato in precedenza. Il metodo termina restituendo l'array sopra-citato.
+Come per \method{applyFilterByString()} anche in questo caso il metodo deve creare un \textit{array} da popolare con i contatti appartenente al gruppo idGroup. Quindi viene eseguito un ciclo \inglese{for} che ispezione tutti i contatti presenti in \memberdata{contacts}. Per ogni ciclo il metodo controlla i gruppi in cui compare il contatto i-esimo (tale azione si attua per mezzo di un secondo ciclo innestato), e se si verifica che il gruppo in esame ha lo stesso id dell'identificativo idGroup, allora si aggiunge il contatto all'\textit{array} creato in precedenza. Il metodo termina restituendo l'\textit{array} sopra-citato.
 
 \item{\method{+ showFilter(filteredContacts: Array()): void}}\\
-Metodo usato per l'eliminare il contenuto preesistente nella rubrica e visualizza il nuovo contenuto filtrato. Il metodo riceve come parametro un array che rappresenta la lista filtrata dei contatti da visualizzare. Per eseguire tali operazioni viene avviato un ciclo for per ogni contatto presente in \memberdata{contacts}. All'interno di tale ciclo deve essere eseguita la seguente istruzione:\\
+Metodo usato per l'eliminare il contenuto preesistente nella rubrica e visualizza il nuovo contenuto filtrato. Il metodo riceve come parametro un \textit{array} che rappresenta la lista filtrata dei contatti da visualizzare. Per eseguire tali operazioni viene avviato un ciclo \inglese{for} per ogni contatto presente in \memberdata{contacts}. All'interno di tale ciclo deve essere eseguita la seguente istruzione:\\
 
 \verb|addListItem(/*nome della variabile contenente il nodo dom AddressBookList*/,|\\
 \verb|filtredContacts[contact])|\\
 
 \item{\method{+ contactAlredyPresent(contact: Object(contact)): boolean}}\\
-Metodo che dato un contatto verifica se appartiene alla rubrica. Per compiere tale azione viene da prima riscaricata la rubrica, mediante una chiamata a metodo \method{getAddressBookContacts()}. Quindi si usa un ciclo for per scorrere l'intera lista precedentemente ottenuta e ad ogni ciclo si controlla se il contatto i-esimo ha id uguale a quello del contatto ricevuto come parametro d'ingresso (\texttt{contact.id}). Se tale confronto ha esito positivo, il metodo termina ritornando \inglese{true}, altrimenti il metodo termina al termine del ciclo for ritornando \inglese{false}.
+Metodo che dato un contatto verifica se appartiene alla rubrica. Per compiere tale azione viene da prima riscaricata la rubrica, mediante una chiamata a metodo \method{getAddressBookContacts()}. Quindi si usa un ciclo \inglese{for} per scorrere l'intera lista precedentemente ottenuta e ad ogni ciclo si controlla se il contatto i-esimo ha id uguale a quello del contatto ricevuto come parametro d'ingresso (\texttt{contact.id}). Se tale confronto ha esito positivo, il metodo termina ritornando \inglese{true}, altrimenti il metodo termina al termine del ciclo for ritornando \inglese{false}.
 
 \item{\method{+ blockUser(contact: Object(contact)): boolean}}\\
 Metodo utilizzato per bloccare (all'interno della rubrica utente) il contatto contact passato come parametro d'ingresso. Il primo step consiste nell'eseguire il controllo sul parametro ricevuto. Per farlo si osserva il valore ritornato da una chiamata a metodo \method{constactAlradyPresent()} passando come parametro d'ingresso contact. Se il valore di ritorno è \inglese{false} il metodo termina con l'eccezione ``Contatto non presente nella rubrica''. Altrimenti il controllo passa allo step successivo, in cui si verifica se l'attributo blocked di contact è impostato a \inglese{true}. Nel caso il metodo termina con l'eccezione ``Contatto già bloccato''. Se il flusso principale ha superato i test precedenti, allora viene creata un istanza di request \texttt{XMLHttpRequest()} usata per contattare la \inglese{servlet} avente nome:\\
