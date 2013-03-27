@@ -273,6 +273,7 @@ function CommunicationPanelPresenter() {
 		// creo i bottoni per per la gestione della chiamata
 		var closeButton = document.createElement('button');
 		closeButton.type = "button";
+		closeButton.appendChild(document.createTextNode("Termina"));
 		closeButton.id = "closeButton";
 		closeButton.onclick = communicationcenter.endCall;
 

@@ -63,6 +63,7 @@ function LoginPanelPresenter() {
         if (user != null) {
             // 'communicationcenter' deve essere una variabile globale
             communicationcenter.my = user;
+            communicationcenter.connect();
             mediator.buildUI();
         }
     }
