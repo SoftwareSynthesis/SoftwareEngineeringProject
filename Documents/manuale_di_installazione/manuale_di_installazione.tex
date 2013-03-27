@@ -4,7 +4,7 @@
 % Nome
 \newcommand{\docName}{Manuale di installazione}
 % Nome file
-\newcommand{\docFileName}{manuale_di_installazione}
+\newcommand{\docFileName}{manuale\_di\_installazione}
 % Versione
 \newcommand{\docVers}{1.0}
 % Data creazione
@@ -70,7 +70,30 @@ Lo scopo del presente manuale è quello di fornire una guida per l'installazione
 \subsection{Destinatario del manuale}
 Questo manuale è rivolto agli installatori di sistema.
 
-\subsection{Prerequisiti}
-L'installatore deve avere a disposizione un server con installato Tomcat 7 e il DBMS MySQL.
+\section{Prerequisiti}
+L'installatore deve avere a disposizione:
+\begin{itemize}
+\item connessione alla rete internet;
+\item un server con installato Tomcat 7 (un contenitore servlet open source);
+\item il DBMS MySQL;
+\item permessi per accedere alla sezione \textit{manager} di Tomcat;
+%TODO da chiedere a mene se serve ancora
+\item permessi per creare una variabile di sistema.
+\end{itemize} 
+
+\section{Materiale fornito}
+\begin{itemize}
+\item directory MyTalk contenente il codice compilato in formato .war;
+\item file .sql per la creazione del database;
+\item file javadoc.jar contenente la documentazione.
+\end{itemize}
+
+\section{Installazione}
+\subsection{Operazioni preliminari}
+%TODO specificare se serve un utente di APACHE e come configurare per mettere le lettere maiuscole
+\begin{enumerate}
+\item Aprire il pannello di controllo di Apache, importare il file .sql e confermare il caricamento. Una volta eseguita l'operazione, si sarà creato il database e la relativa struttura.
+\item Fare il deploy
+\end{enumerate}
 
 \end{document}
