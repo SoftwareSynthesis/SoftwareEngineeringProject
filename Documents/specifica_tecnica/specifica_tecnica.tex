@@ -1208,7 +1208,7 @@ Servlet il cui compito consiste nel bloccare un contatto presente nella rubrica 
 \item \texttt{AddressBookDoUnblockServlet}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Servlet il cui compito consiste nello sbloccare un contatto presente nella rubrica dell'utente, in questo modo lo stesso può esseren contattato dal contatto che era stato in precedenza bloccato.
+Servlet il cui compito consiste nello sbloccare un contatto presente nella rubrica dell'utente, in questo modo lo stesso può essere contattato dal contatto che era stato in precedenza bloccato.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \textsf{CS03 -- Gestione rubrica }
@@ -1554,16 +1554,13 @@ Questo componente ha inoltre il compito di recuperare i dati presenti sul server
 
 Questi sono rappresentati dalle strutture del componente \textsf{Rappresentazione dati} e permangono internamente al \inglese{presenter} per essere disponibili a successive interrogazioni da parte della GUI senza coinvolgere nuovamente il server.
 
-Inoltre, allo scopo di gestire le comunicazioni in ingresso dal server inerenti alla gestione della segreteria o della rubrica (cambiamenti di stato degli utenti), è stato predisposto il componente \textsf{Gestione remota}.
-
-La logica di comunicazione fra client è incapsulata all'interno delle classi facenti parte del componente \textsf{Gestione comunicazione}. Queste ultime sfruttano un canale di comunicazione bidirezionale client-server per interagire con il server in merito alle richieste di comunicazione con altri client, andando a creare appositi canali di comunicazione che si avvalgono della tecnologia WebRTC\@.
+La logica di comunicazione fra client e fra client e server è incapsulata all'interno delle classi facenti parte del componente \textsf{Gestione comunicazione}. Queste ultime sfruttano un canale di comunicazione bidirezionale client-server per interagire con il server in merito alle richieste di comunicazione con altri client, andando a creare appositi canali di comunicazione che si avvalgono della tecnologia WebRTC\@.
 
 In sintesi, la sotto-architettura \texttt{clientpresenter} dispone dei seguenti componenti:
 \begin{itemize}[noitemsep,nolistsep]
 	\item[-] \textsf{CP01 -- Gestione comunicazione};
 	\item[-] \textsf{CP02 -- Rappresentazione dati};
 	\item[-] \textsf{CP03 -- Gestione GUI};
-	\item[-] \textsf{CP04 -- Gestione remota};
 \end{itemize}
 che saranno descritte con maggiori dettagli nella sezione successiva.
 
@@ -1585,23 +1582,13 @@ La presenza delle interfacce, delle relazioni di implementazione e l'estensione 
 \subsubsection{CP01 -- Gestione comunicazione}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-È il componente che rappresenta il nucleo logico fondamentale della comunicazione. In esso è presente la classe Singleton \texttt{kernel.CommunicationCenter}, che detiene un oggetto di tipo \texttt{connection.IChannel} al fine di comunicare con il server, e che ha la responsabilità di tener traccia delle comunicazioni aperte con i client usando la tecnologia WebRTC\@.
+È il componente che rappresenta il nucleo logico fondamentale della comunicazione. In esso è presente la classe \texttt{kernel.CommunicationCenter} che ha la responsabilità di tener traccia delle comunicazioni aperte con i client usando la tecnologia WebRTC\@. Per compiere il proprio lavoro, tale classe si avvale delle funzionalità fornite dal webRTC per creare e gestire la comunicazione. Nello specifico vengono usate le classi:
 
-Tali comunicazioni sono rappresentate dall'interfaccia \texttt{kernel.IClientCommunication} che rappresenta il contratto di un oggetto utilizzabile come canale di comunicazione client-client. L'implementazione di tale interfaccia che utilizzerà WebRTC prende il nome di \texttt{kernel.WebRTCCommunication}. Tale classe è istanziata da \texttt{kernel.CommunicationCenter} sulla base delle informazioni ottenute dall'istanza \texttt{connection.IChannel}. 
-
-Nello specifico i due possibili iter sono:
-\begin{description}
-	\item{\bfseries\scshape Alla icezione di una chiamata} il server riceve una richiesta da parte di un client esterno per parlare con il client corrente.
-	
-Il server utilizza l'istanza di \texttt{connection.IChannel} creata in fase di autenticazione per processare la richiesta. L'istanza di \texttt{kernel.CommunicationCenter} presente sul client raccoglie le informazioni dal canale di comunicazione e le usa per istanziare un \texttt{kernel.WebRTCCommunication}.
-
-Al termine della procedura, l'applicativo lato client potrà comunicare usando tale istanza.
-	\item{\bfseries\scshape Nel caso dell'avvio di una chiamata}, il client corrente richiede di comunicare con un client esterno.
-	
-Il chiamante in questo caso ha la responsabilità di inoltrare la propria richiesta al server, mediante \texttt{connection.IChannel}.
-
-Quindi, una volta ottenuta risposta, il chiamante è in grado di costruire l'oggetto \texttt{kernel.WebRTCCommunication} per parlare con il client esterno.
-\end{description}
+\begin{itemize}
+	\item PeerICECandidate;
+	\item WebKitPeerConnection;
+	\item PeerSessionDescription;
+\end{itemize}
 
 	\item{\scshape\bfseries Diagramma delle classi:}
   \begin{figure}[H]
@@ -1613,9 +1600,9 @@ Quindi, una volta ottenuta risposta, il chiamante è in grado di costruire l'ogg
 	\item{\scshape\bfseries Classi utilizzate:} 
 	\begin{itemize}[noitemsep,nolistsep]
 		\item[-] \texttt{kernel.CommunicationCenter}
-		\item[-] \texttt{kernel.IClientCommunication}
-		\item[-] \texttt{kernel.WebRTCCommunication}
-		\item[-] \texttt{org.softwaresynthesis.mytalk.server.connection.IChannel}
+		\item[-] \texttt{PeerICECandidate}
+		\item[-] \texttt{WebKitPeerConnection}
+		\item[-] \texttt{PeerSessionDescription}
 	\end{itemize}  
 \end{description}
 
@@ -1637,9 +1624,10 @@ I dati rappresentati in forma di oggetti sono necessari, in particolare, per la 
 
 	\item{\scshape\bfseries Classi utilizzate:} 
 	\begin{itemize}[noitemsep,nolistsep]
-		\item[-] \texttt{kernel.JSCall}
-		\item[-] \texttt{kernel.JSMessage}
-		\item[-] \texttt{kernel.JSUserData}
+		\item[-] \texttt{data.JSCall}
+		\item[-] \texttt{data.JSGroup}
+		\item[-] \texttt{data.JSMessage}
+		\item[-] \texttt{data.JSUserData}
 	\end{itemize}  
 \end{description}
 
@@ -1648,7 +1636,7 @@ I dati rappresentati in forma di oggetti sono necessari, in particolare, per la 
 	\item{\scshape\bfseries Descrizione:}\\
 Il componente ha il duplice ruolo di intercettare gli eventi che scaturiscono dall'interazione dell'utente con la GUI e di controllare l'aggiornamento della stessa a seguito dei cambiamenti che intervengono sul modello dei dati.
 
-Per quanto riguarda l'autenticazione, è prevista la presenza di un \inglese{presenter} per l'interfaccia di \inglese{login}, corrispondente all'oggetto \texttt{guicontrol.LoginPanelPresenter}.
+Per quanto riguarda l'autenticazione, è prevista la presenza di un \inglese{presenter} per l'interfaccia di \inglese{login}, corrispondente all'oggetto \texttt{guicontrol.LoginPanelPresenter}. Anche per la registrazione vale la stessa considerazione, e tale funzionalità è destinata alla classe \texttt{guicontrol.RegisterPanelPresenter}
 
 Per quanto riguarda invece la pagina principale dell'applicativo, cui si accede dopo aver effettuato l'autenticazione, è prevista la presenza di tre tipi principali di \inglese{presenter}:
 \begin{itemize}[noitemsep,nolistsep]
@@ -1678,35 +1666,17 @@ L'oggetto \texttt{PresenterMediator}, invece, incapsula la collaborazione fra i 
 	  \item[-] \texttt{guicontrol.AddressBookPanelPresenter}
 	  \item[-] \texttt{guicontrol.CallHistoryPanelPresenter}
 	  \item[-] \texttt{guicontrol.CommunicationPanelPresenter}
+	  \item[-] \texttt{guicontrol.GroupPanelPresenter}	 
+	  \item[-] \texttt{guicontrol.SearchResultPanelPresenter}	   
 	  \item[-] \texttt{guicontrol.ContactPanelPresenter}
-	  \item[-] \texttt{guicontrol.LanguagePanelPresenter}
 	  \item[-] \texttt{guicontrol.LoginPanelPresenter}
+	  \item[-] \texttt{guicontrol.RegisterPanelPresenter}	 
+	  \item[-] \texttt{guicontrol.TopLevelPresenter}	  
+	  \item[-] \texttt{guicontrol.ChildPrenter}	  
 	  \item[-] \texttt{guicontrol.MainPanelPresenter}
 		\item[-] \texttt{guicontrol.MessagePanelPresenter}
 		\item[-] \texttt{guicontrol.PresenterMediator}
 	  \item[-] \texttt{guicontrol.ToolsPanelPresenter}
-	\end{itemize}
-\end{description}
-
-%TODO da rivedere con Tres e Schivo!
-\subsubsection{CP04 -- Gestione remota}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:}\\
-Rappresenta l'interfaccia d'accesso verso la sotto-architettura \texttt{clientpresenter}, in particolare per i componenti presenti nel \texttt{server}. La presenza di tale componente svincola il server dal dover conoscere l'esatta sequenza di chiamata dei metodi per portare a conseguimento una determinata procedura in quanto le classi del componente \textsf{Gestione remota} hanno la cognizione dell'iter di chiamate a metodo per portare a termine correttamente le operazioni richieste dall'esterno.
-
-Un esempio di richiesta proveniente dal server che richiede di essere gestita in questa sede è la reazione al cambiamento di stato di un utente presente nella rubrica del client, che si traduce in una notifica in entrata dal server e ha un effetto sull'interfaccia grafica. Un altro esempio è la ricezione di un nuovo messaggio inserito nella propria segreteria dopo un periodo in cui il proprio stato è stato impostato su ``occupato''.
-
-\item{\scshape\bfseries Diagramma delle classi:}
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=.6\textwidth]{class_gestione_remota}
-  \caption{Diagramma delle classi - Gestione remota}\label{fig:gestioneremota}
-\end{figure}
-
-	\item{\scshape\bfseries Classi utilizzate:} 
-	\begin{itemize}[noitemsep,nolistsep]
-		\item[-] \texttt{kernel.IRemoteHandler}
-		\item[-] \texttt{kernel.RemoteHandler}
 	\end{itemize}
 \end{description}
 
@@ -1730,28 +1700,11 @@ Tale classe è inoltre stata implementata come Singleton, al fine di porre un li
 	\end{itemize}
 \end{description}
 
-%TODO da rivedere con Tres e Schivo!
-\item \texttt{IClientCommunication}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:}\\
-È l'interfaccia che rappresenta un canale di comunicazione client-client e che astrae le primitive di comunicazione dalla tecnologia concreta sottostante.
+\end{itemize}
 
-	\item{\scshape\bfseries Componenti che ne fanno uso:}
-	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \textsf{CP01 -- Gestione comunicazione}
-	\end{itemize}
-\end{description}
+\subsubsection{Package \texttt{org.softwaresynthesis.mytalk.clientpresenter.data}}
 
-%TODO da rivedere con Tres e Schivo!
-%\item \texttt{WebRTCCommunication}
-%\begin{description}
-%	\item{\scshape\bfseries Descrizione:}\\
-%È la classe che implementa l'interfaccia \texttt{IClientCommunication}; in particolare tale classe rappresenta una comunicazione client-client configurata in maniera tale da funzionare con WebRTC\@.
-%	\item{\scshape\bfseries Componenti che ne fanno uso:}
-%	\begin{itemize}[noitemsep,nolistsep]
-%	  \item[-] \textsf{CP01 -- Gestione comunicazione}
-%	\end{itemize}
-%\end{description}
+\begin{itemize}[leftmargin=0em]
 
 \item \texttt{JSCall}
 \begin{description}
@@ -1791,6 +1744,22 @@ Classe avente il compito di rappresentare i contatti della rubrica lato \inglese
 In particolare, di un utente-contatto è possibile ottenere lo \inglese{username}, i dati anagrafici (nome e cognome) nonché l'immagine associata al profilo personale, laddove queste ultime tre informazioni sono da considerarsi facoltative e potrebbero non essere disponibili per un determinato utente.
 
 Gli oggetti \texttt{JSUserData} vengono creati a seguito di una richiesta proveniente dal \inglese{presenter} \texttt{guicontrol.AddressBookPanelPresenter} e sono successivamente impiegati  al fine di popolare l'interfaccia grafica con i dati corrispondenti alla rubrica utente.
+
+  \item{\scshape\bfseries Componenti che ne fanno uso:}
+	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-] \textsf{CP02 -- Rappresentazione dati}
+	  \item[-] \textsf{CP03 -- Gestione GUI}
+	\end{itemize}
+\end{description}
+
+\item \texttt{JSGroup}
+\begin{description}
+  \item{\scshape\bfseries Descrizione:}\\
+Classe avente il compito di rappresentare i gruppi della rubrica lato \inglese{presenter}, generato serializzando esclusivamente la parte che si vuole trasmettere ai client delle istanze del \inglese{transfer object} descritto sopra (\texttt{org.softwaresynthesis.mytalk.server.abook.Group}).
+
+In particolare, di un gruppo è possibile ottenere il nome e l'elenco dei contatti appartenenti al gruppo.
+
+Gli oggetti \texttt{JSGroup} vengono creati a seguito di una richiesta proveniente dal \inglese{presenter} \texttt{guicontrol.GroupPanelPresenter} e sono successivamente impiegati  al fine di popolare l'interfaccia grafica con la lista dei gruppi utente.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]

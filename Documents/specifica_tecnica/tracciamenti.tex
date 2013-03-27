@@ -248,22 +248,19 @@ Façade del server & RUFF4.0.0 \\
 \rowcolors{4}{lightblue}{llightblue}\begin{longtable}{lp{.55\textwidth}l}
 \toprule Componenti & Design pattern utilizzati\\
 \midrule
-Façade del presenter & Façade \\
- & Singleton \\
-Façade della vista & Singleton \\
- & Façade \\
-Gestione GUI & Singleton \\
+Gestione GUI & MVP \\
 Gestione database & Data Access Object \\
+& Singleton \\
+& MVP \\
 Gestione connessione & Factory Method \\
  & Singleton \\
-Gestione rubrica & Proxy \\
- & Composite \\
-Gestione stato & State \\
- & Observer \\
-Gestione segreteria & Proxy \\
-Façade del server & Factory Method \\
- & Singleton \\
- & Façade \\
+Gestione comunicazione & Singleton \\
+Gestione chiamate & MVP \\
+Gestione segreteria & MVP \\
+Gestione autenticazione & Strategy \\
+Gestione rubrica & MVP \\
+Façade del server & Façade \\
+& MVP \\
 \bottomrule
 \end{longtable}
 \end{center}
@@ -273,88 +270,112 @@ Façade del server & Factory Method \\
 \rowcolors{4}{lightblue}{llightblue}\begin{longtable}{lp{.55\textwidth}l}
 \toprule Design pattern & Componenti\\
 \midrule
-Proxy & Gestione rubrica \\
- & Gestione segreteria \\
-Composite & Gestione rubrica \\
-Data Access Object & Gestione database \\
-Façade & Façade del server \\
- & Façade del presenter \\
- & Façade della vista \\
-Factory Method & Gestione connessione \\
- & Façade del server \\
-Observer & Gestione stato \\
-Singleton & Gestione connessione \\
- & Façade del server \\
- & Façade del presenter \\
- & Façade della vista \\
- & Gestione GUI \\
-State & Gestione stato \\
+Data Access Object & Gestione database\\
+Façade & Façade del server\\
+Factory Method & Gestione connessione\\
+Singleton & Gestione connessione\\
+Strategy & Gestione autenticazione\\
+MVP & Gestione database\\
+& Gestione rubrica\\
+& Gestione segreteria\\
+& Gestione comunicazione\\
+& Gestione chiamate\\
+& Gestione GUI\\
 \bottomrule
 \end{longtable}
 \end{center}
 \subsection{Tracciamenti Componenti-Classi}\label{sec:tracCompClass}
 
 \begin{center}
-\rowcolors{4}{lightblue}{llightblue}\begin{longtable}{lp{.55\textwidth}l}
+\rowcolors{4}{lightblue}{llightblue}\begin{longtable}{lp{.7\textwidth}l}
 \toprule Componenti & Classi\\
 \midrule
-Gestione comunicazione & StandardClient \\
- & IServerFacade \\
- & IConnection \\
- & IClient \\
-Façade del presenter & IViewFacade \\
- & IServerFacade \\
- & IPresenterFacade \\
- & StandardPresenterFacade \\
-Façade della vista & IViewFacade \\
- & StandardViewFacade \\
-Gestione GUI & SearchResultPanel \\
- & ContactPanel \\
- & MessagePanel \\
- & LanguagePanel \\
- & GUIHandler \\
- & AccountSettingsPanel \\
- & IPresenterFacade \\
- & AddressBookPanel \\
- & CallHistoryPanel \\
- & MainPanel \\
- & ToolsPanel \\
-Gestione database & IUserData \\
- & AudioMessage \\
- & AudioVideoMessage \\
- & StandardUserData \\
- & IAudioMessage \\
- & IGroup \\
- & IAudioVideoMessage \\
- & StandardGroup \\
-Gestione connessione & IState \\
- & StandardComunicationHandler \\
- & IUserData \\
- & IConnection \\
- & WebRTCInfo \\
- & IComunicationHandler \\
-Gestione rubrica & IUserData \\
- & UserDataProxy \\
- & IContact \\
- & IGroup \\
- & IAddressBook \\
- & AddressBook \\
-Gestione stato & IState \\
- & StateOnline \\
- & StateOffline \\
- & StandardUserData \\
- & StateAvailable \\
- & StateOccupied \\
-Gestione segreteria & IAudioVideoMessage \\
- & AudioMessage \\
- & AudioVideoMessage \\
- & IMessageBox \\
- & IAudioMessage \\
- & AudioMessageProxy \\
- & StandardMessageBox \\
- & AudioVideoMessageProxy \\
-Façade del server & IServerFacade \\
- & StandardServerFacade \\
+Gestione database & server.dao.CallDAO\\
+& server.dao.GroupDAO\\
+& server.dao.MessageDAO\\
+& server.dao.UserDataDAO\\
+& server.dao.AddressBookEntryDAO\\
+& server.dao.HibernateUtil\\
+& server.IMyTalkObject\\
+
+Gestione rubrica & server.abook.AddressBookEntry\\
+& server.abook.IAddressBookEntry\\
+& server.abook.IGroup\\
+& server.abook.Group\\
+& server.abook.IUserData\\
+& server.abook.UserData\\
+
+Gestione segreteria & server.message.IMessage\\
+& server.message.Message\\
+
+Gestione chiamate & server.call.ICall\\
+& server.call.Call\\
+
+Gestione connessione & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+
+Gestione autenticazione & server.authentication.AuthenticationModule\\
+& server.authentication.CredentialLoader\\
+& server.authentication.PrincipalImpl\\
+& server.authentication.IAuthenticationData\\
+& server.authentication.AuthenticationData\\
+& server.authentication.AESAlgorithm\\
+& server.authentication.ISecurityStrategy\\
+& javax.security.auth.spi.LoginModule\\
+& javax.security.auth.callback.CallbackHandler\\
+& javax.security.Principal\\
+
+Façade del Server & server.connection.ChannelServlet\\
+& server.abook.servlet.AddressBookDoAddContactServlet\\
+& server.abook.servlet.AddressBookDoRemoveContactServlet\\
+& server.abook.servlet.AddressBookDoCreateGroupServlet\\
+& server.abook.servlet.AddressBookDoDeletGroupServlet\\
+& server.abook.servlet.AddressBookDoInsertInGroupServlet\\
+& server.abook.servlet.AddressBookDoRemoveInGroupServlet\\
+& server.abook.servlet.AddressBookDoBlockServlet\\
+& server.abook.servlet.AddressBookDoUnblockServlet\\
+& server.abook.servlet.AddressBookGetContactsServlet\\
+& server.abook.servlet.AddressBookGetGroupsServlet\\
+& server.abook.servlet.AddressBookDoSearchServlet\\
+& server.authentication.servlet.LoginServlet\\
+& server.authentication.servlet.LogoutServlet\\
+& server.authentication.servlet.RegisterServlet\\
+& server.message.servlet.InsertMessageServlet\\
+& server.message.servlet.DeletMessageServlet\\
+& server.message.servlet.UpdateStatusMessageServlet\\
+& server.message.servlet.DownloadMessageListServlet\\
+& server.call.servlet.DownloadCallHistoryManager\\
+& javax.servlet.http.HttpServlet\\
+& org.apache.catalina.websocket.WebSocketServlet\\
+
+Gestione comunicazione & clientpresenter.kernel.CommunicationCenter\\
+& PeerICECandidate\\
+& WebKitPeerConnection\\
+& PeerSessionDescription\\
+
+Rappresentazione dati & clientpresenter.data.JSCall\\
+& clientpresenter.data.JSGroup\\
+& clientpresenter.data.JSMessage\\
+& clientpresenter.data.JSUserData\\
+
+Gestione GUI & clientpresenter.guicontrol.AccountSettingsPanelPresenter\\
+& clientpresenter.guicontrol.AddressBookPanelPresenter\\
+& clientpresenter.guicontrol.CallHistoryPanelPresenter\\
+& clientpresenter.guicontrol.CommunicationPanelPresenter\\
+& clientpresenter.guicontrol.GroupPanelPresenter\\
+& clientpresenter.guicontrol.SearchResultPanelPresenter\\
+& clientpresenter.guicontrol.ContactPanelPresenter\\
+& clientpresenter.guicontrol.LoginPanelPresenter\\
+& clientpresenter.guicontrol.RegisterPanelPresenter\\
+& clientpresenter.guicontrol.TopLevelPresenter\\
+& clientpresenter.guicontrol.ChildPrenter\\
+& clientpresenter.guicontrol.MainPanelPresenter\\
+& clientpresenter.guicontrol.MessagePanelPresenter\\
+& clientpresenter.guicontrol.PresenterMediator\\
+& clientpresenter.guicontrol.ToolsPanelPresenter\\
+
+GUI & \\
+Login & \\
 \bottomrule
 \end{longtable}
 \end{center}
@@ -364,63 +385,9 @@ Façade del server & IServerFacade \\
 \rowcolors{4}{lightblue}{llightblue}\begin{longtable}{lp{.55\textwidth}l}
 \toprule Classi & Componenti\\
 \midrule
-IViewFacade & Façade del presenter \\
- & Façade della vista \\
-AccountSettingsPanel & Gestione GUI \\
-StandardViewFacade & Façade della vista \\
-AudioMessageProxy & Gestione segreteria \\
-IContact & Gestione rubrica \\
-CallHistoryPanel & Gestione GUI \\
-IComunicationHandler & Gestione connessione \\
-StandardComunicationHandler & Gestione connessione \\
-AudioVideoMessageProxy & Gestione segreteria \\
-GUIHandler & Gestione GUI \\
-IAddressBook & Gestione rubrica \\
-IConnection & Gestione connessione \\
-IServerFacade & Gestione comunicazione \\
-IConnection & Gestione comunicazione \\
-IServerFacade & Façade del presenter \\
-AddressBookPanel & Gestione GUI \\
-AddressBook & Gestione rubrica \\
-IServerFacade & Façade del server \\
-StandardServerFacade & Façade del server \\
-WebRTCInfo & Gestione connessione \\
-IState & Gestione stato \\
- & Gestione connessione \\
-MainPanel & Gestione GUI \\
-UserDataProxy & Gestione rubrica \\
-StateOnline & Gestione stato \\
-IPresenterFacade & Gestione GUI \\
- & Façade del presenter \\
-ToolsPanel & Gestione GUI \\
-SearchResultPanel & Gestione GUI \\
-StateOffline & Gestione stato \\
-IMessageBox & Gestione segreteria \\
-StandardPresenterFacade & Façade del presenter \\
-ContactPanel & Gestione GUI \\
-StateAvailable & Gestione stato \\
-StandardMessageBox & Gestione segreteria \\
-MessagePanel & Gestione GUI \\
-IClient & Gestione comunicazione \\
-StateOccupied & Gestione stato \\
-LanguagePanel & Gestione GUI \\
-StandardClient & Gestione comunicazione \\
-IAudioMessage & Gestione database \\
- & Gestione segreteria \\
-IAudioVideoMessage & Gestione segreteria \\
- & Gestione database \\
-AudioMessage & Gestione segreteria \\
- & Gestione database \\
-AudioVideoMessage & Gestione database \\
- & Gestione segreteria \\
-IGroup & Gestione database \\
- & Gestione rubrica \\
-StandardGroup & Gestione database \\
-IUserData & Gestione database \\
- & Gestione rubrica \\
- & Gestione connessione \\
-StandardUserData & Gestione stato \\
- & Gestione database \\
+
+
+
 \bottomrule
 \end{longtable}
 \end{center}
