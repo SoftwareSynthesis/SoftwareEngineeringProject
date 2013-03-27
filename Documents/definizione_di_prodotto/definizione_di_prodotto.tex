@@ -66,17 +66,18 @@
 \toprule
 Versione & Descrizione intervento & Membro & Ruolo & Data\\
 \midrule % inserire qui il contenuto della tabella
-1.0 & Approvazione documento &Diego Beraldin &Responsabile  & 2013-02-09\\
-0.10 & &Schivo Marco  &  Progettista& 2013-02-08\\
-0.9 & &Andrea Meneghinello & Verificatore & 2013-02-08\\
-0.8 &  & Elena Zecchinato &  Progettista& 2013-02-07\\
-0.7 & &Schivo Marco &  Progettista& 2013-02-07\\
-0.6 &  &Elena Zecchinato &  Progettista& 2013-02-06\\
-0.5 &  &Stefano Farronato &  Progettista& 2013-02-05\\
-0.4 &  &Andrea Rizzi &  Progettista& 2013-02-05\\
-0.3 &  &Stefano Farronato &  Progettista& 2013-02-04\\
-0.2 &  &Andrea Rizzi &  Progettista& 2013-02-04\\
-0.1 & Creazione del documento e stesura delle sezioni ``Introduzione'' e ``Riferimenti''. &Elena Zecchinato &Progettista  & 2013-03-04\\
+1.0 & Approvazione documento &Diego Beraldin &Responsabile  & 2013-03-09\\
+0.10 & Correzioni errori rilevati da verificatori &Schivo Marco  &  Progettista& 2013-03-08\\
+0.9 & Verifica totale documento &Andrea Meneghinello & Verificatore & 2013-03-08\\
+0.8 & Descritto classi di abook.authentication, server.authentication.servlet, server.connection & Elena Zecchinato &  Progettista& 2013-03-07\\
+0.7 & Descritto PresenterMediator, CallHistoryPanelPresenter, SearchResultPanelPresenter, ToolsPanelPresenter, AccountSettingsPanelPresenter &Schivo Marco &  Progettista& 2013-03-07\\
+0.7 & Descritto AddressBookPanelPresenter, GroupPanelPresenter, LoginPanelPresenter &Schivo Marco &  Progettista& 2013-03-06\\
+0.6 & Descritto classi di server.abook.servlet, server.call, server.message &Elena Zecchinato &  Progettista& 2013-03-06\\
+0.5 & Descritto RegisterPanelPresenter, CommunicationPanelPresenter, ContactPanelPresenter, MainPanelPresenter &Stefano Farronato &  Progettista& 2013-03-05\\
+0.4 & Descritte classi package server.dao e server.abook &Andrea Rizzi &  Progettista& 2013-03-05\\
+0.3 & Inizio descrizione parte clientpresenter &Stefano Farronato &  Progettista& 2013-03-04\\
+0.2 & Stesura sezione ``Standard di progetto'' ed inizio descrizione server &Andrea Rizzi &  Progettista& 2013-03-04\\
+0.1 & Creazione del documento e stesura delle sezioni ``Introduzione'' e ``Riferimenti'' &Elena Zecchinato &Progettista  & 2013-03-04\\
 \bottomrule
 \end{longtable}
 \end{center}
@@ -2590,7 +2591,7 @@ il messaggio sopracitato è temporaneo e dovrà essere rimosso allo scadere di u
 	Metodo che esegue il \inglese{login} inviando al server i dati di autenticazione, esso riceve come parametro d'ingresso un \textit{array} associativo contenente \textit{username} e \textit{password}.
 	
 	Il flusso principale inizia verificando il che il contenuto di \texttt{data.username} e di \texttt{data.password} non sia vuoto, quindi invia una richiesta \textit{AJAX} al \textit{server} (come sempre in questo caso è d'obbligo usare \verb|var request = new XMLHttpRequest();|).
-	Il programmatore dovrà associare all'evento \texttt{onreadystatechange} una funzione che si occupa di richiamare il metodo \method{testCredentials()}. Il passo successivo consiste ``nell'aprire'' la richiesta \textit{request} con un istruzione \texttt{open(){ che riceve come parametro l'url della \inglese{servlet} associata (valore presente in \memberdata{servletURL}), successivamente viene usata un istruzione \texttt{setRequestHeader()} passando i seguenti parametri:
+	Il programmatore dovrà associare all'evento \texttt{onreadystatechange} una funzione che si occupa di richiamare il metodo \method{testCredentials()}. Il passo successivo consiste ``nell'aprire'' la richiesta \textit{request} con un istruzione \texttt{open()} che riceve come parametro l'url della \inglese{servlet} associata (valore presente in \memberdata{servletURL}), successivamente viene usata un istruzione \texttt{setRequestHeader()} passando i seguenti parametri:
 	\begin{itemize}
 		\item[•] ``content-type'';
 		\item[•] ``application/x-www-form-urlencoded'';
