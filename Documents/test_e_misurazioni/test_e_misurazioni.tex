@@ -124,7 +124,7 @@ I test predisposti saranno descritti esaustivamente sia nella forma che nei risu
 \clearpage
 
 \subsection{Metriche sul codice}
-Prima di tutto sono state calcolate, al fine di quantificare la ``dimensione'' di una componente, due metriche: il \inglese{Number Of Classes} (NOC) e il \inglese{Number Of Method} (NOM).
+Per la parte \textit{Model} prima di tutto sono state calcolate, al fine di quantificare la ``dimensione'' di una componente, due metriche: il \inglese{Number Of Classes} (NOC) e il \inglese{Number Of Method} (NOM).
 NOC rappresenta il numero totale delle classi che sono rappresentate all'interno del package, mentre il NOM rappresenta il numero dei metodi conteggiati, sempre per package.
 
 La tabella X riporta le misurazioni su tali metriche per i package del prodotto \caName{}, evidenziandone i più corposi dal punto di vista implementativo.
@@ -140,19 +140,6 @@ org.softwaresynthesis.mytalk.authentication & 5 & 22\\
 org.softwaresynthesis.mytalk.authentication.servlet & 3 & 10\\
 org.softwaresynthesis.mytalk.connection & 2 & 10\\
 org.softwaresynthesis.mytalk.dao & 4 & 18\\
-AccountSettingPannelPresenter.js & XXXX & XXXX\\
-AdressBookPanelPresenter.js & XXXX & XXXX\\
-CallHistoryPanelPresenter.js & XXXX & XXXX\\
-ComunicationPanelPresenter.js & XXXX & XXXX\\
-ContactPanelPresenter.js & XXXX & XXXX\\
-GroupPanelPresenter.js & XXXX & XXXX\\
-LoginPanelPresenter.js & XXXX & XXXX\\
-MainPanelPresenter.js & XXXX & XXXX\\
-MessagePanelPresenter.js & XXXX & XXXX\\
-PresenterMediator.js & XXXX & XXXX\\
-RegisterPanelPresenter.js & XXXX & XXXX\\
-SearchResultPanelPresenter.js & XXXX & XXXX\\
-ToolsPanelPresenter.js & XXXX & XXXX\\
 \midrule
 
 \bottomrule
@@ -177,19 +164,6 @@ org.softwaresynthesis.mytalk.authentication & 347 & 237\\
 org.softwaresynthesis.mytalk.authentication.servlet & 225 & 185\\
 org.softwaresynthesis.mytalk.connection & 132 & 102\\
 org.softwaresynthesis.mytalk.dao & 632 & 138\\
-AccountSettingPannelPresenter.js & XXXX & XXXX\\
-AdressBookPanelPresenter.js & XXXX & XXXX\\
-CallHistoryPanelPresenter.js & XXXX & XXXX\\
-ComunicationPanelPresenter.js & XXXX & XXXX\\
-ContactPanelPresenter.js & XXXX & XXXX\\
-GroupPanelPresenter.js & XXXX & XXXX\\
-LoginPanelPresenter.js & XXXX & XXXX\\
-MainPanelPresenter.js & XXXX & XXXX\\
-MessagePanelPresenter.js & XXXX & XXXX\\
-PresenterMediator.js & XXXX & XXXX\\
-RegisterPanelPresenter.js & XXXX & XXXX\\
-SearchResultPanelPresenter.js & XXXX & XXXX\\
-ToolsPanelPresenter.js & XXXX & XXXX\\
 \bottomrule
 \end{longtable}
 \end{center}
@@ -208,24 +182,37 @@ org.softwaresynthesis.mytalk.authentication & 1,682 & 0,18\\
 org.softwaresynthesis.mytalk.authentication.servlet & 1,8 & 0\\
 org.softwaresynthesis.mytalk.connection & 1,769 & 0,25\\
 org.softwaresynthesis.mytalk.dao & 3,895 & 0\\
-AccountSettingPannelPresenter.js & XXXX & XXXX\\
-AdressBookPanelPresenter.js & XXXX & XXXX\\
-CallHistoryPanelPresenter.js & XXXX & XXXX\\
-ComunicationPanelPresenter.js & XXXX & XXXX\\
-ContactPanelPresenter.js & XXXX & XXXX\\
-GroupPanelPresenter.js & XXXX & XXXX\\
-LoginPanelPresenter.js & XXXX & XXXX\\
-MainPanelPresenter.js & XXXX & XXXX\\
-MessagePanelPresenter.js & XXXX & XXXX\\
-PresenterMediator.js & XXXX & XXXX\\
-RegisterPanelPresenter.js & XXXX & XXXX\\
-SearchResultPanelPresenter.js & XXXX & XXXX\\
-ToolsPanelPresenter.js & XXXX & XXXX\\
 \midrule
 
 \bottomrule
 \end{longtable}
 \end{center}
+
+
+Per la parte \textit{Presenter} vengono presentate due metriche già descritte per la parte \textit{model}: la complessità ciclomatica (media) e il TLOC, che ricordiamo essere il numero totale di linee di codice effettive, ovvero senza contare quelle non vuote o commentate.
+
+\begin{center}
+\rowcolors{2}{lightblue}{llightblue}\begin{longtable}{p{.55\textwidth}ll}
+\toprule Package & CC  & TLOC\\
+AccountSettingPannelPresenter.js & 2 & 170\\
+AdressBookPanelPresenter.js & 2,95 & 467\\
+CallHistoryPanelPresenter.js & 1,25 & 78\\
+ComunicationPanelPresenter.js & 1,92 & 220\\
+ContactPanelPresenter.js & 0,3 & 173\\
+GroupPanelPresenter.js & 1,5 & 48\\
+LoginPanelPresenter.js & 2 & 275\\
+MainPanelPresenter.js & 1 & 15\\
+MessagePanelPresenter.js & 1,25 & 125\\
+PresenterMediator.js & 1,38 & 156\\
+RegisterPanelPresenter.js & 3,08 & 246\\
+SearchResultPanelPresenter.js & 2,25 & 67\\
+ToolsPanelPresenter.js & 1,14 & 82\\
+\midrule
+
+\bottomrule
+\end{longtable}
+\end{center}
+Portando quindi una complessità ciclomatica media di 1,69 con un massimo di 9 in \textit{RegisterPanelPresenter.register}.
 
 
 \section{Scopo dei test}
