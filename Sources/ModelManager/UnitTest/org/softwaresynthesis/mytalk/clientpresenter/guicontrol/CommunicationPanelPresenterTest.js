@@ -178,13 +178,9 @@ test("testUpdateStarts()", function() {
 	// stub di interfaccia grafica
 	var div0 = createHiddenDiv();
 	var div1 = document.createElement("div");
-	var span0 = document.createElement("span");
-	span0.id = "spanStat";
-	var span1 = document.createElement("span");
 	span1.id = "spanReceved";
 	var span2 = document.createElement("span");
 	span2.id = "spanSend";
-	div1.appendChild(span0);
 	div1.appendChild(span1);
 	div1.appendChild(span2);
 	div0.appendChild(div1);

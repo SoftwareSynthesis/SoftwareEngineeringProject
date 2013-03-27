@@ -325,7 +325,6 @@ function CommunicationPanelPresenter() {
 	 *            dati sono ricenuti o inviati
 	 */
 	this.updateStarts = function(text, isRecevedData) {
-		// FIXME controllare?
 		var statDiv = document.getElementById("statDiv");
 		if (isRecevedData) {
 			statDiv.childNodes[0].childNodes[0].textContent = "Dati ricevuti: "
