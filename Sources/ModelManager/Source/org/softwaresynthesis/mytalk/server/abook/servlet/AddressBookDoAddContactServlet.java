@@ -75,15 +75,18 @@ public final class AddressBookDoAddContactServlet extends HttpServlet
 		long contactId = -1L;
 		IUserData user = null;
 		IUserData friend = null;
-		PrintWriter writer = response.getWriter();
+		PrintWriter writer = null;
 		GroupDAO groupDAO = null;
-		UserDataDAO userDAO = new UserDataDAO();
+		String mail = null;
 		String result = null;
+		UserDataDAO userDAO = null;
 		try
 		{
 			session = request.getSession(false);
 			contactId = Long.parseLong(request.getParameter("contactId"));
-			user = (IUserData)session.getAttribute("user");
+			mail = (String)session.getAttribute("username");
+			userDAO = new UserDataDAO();
+			user = userDAO.getByEmail(mail);
 			friend = userDAO.getByID(contactId);
 			if (friend != null)
 			{
@@ -113,6 +116,10 @@ public final class AddressBookDoAddContactServlet extends HttpServlet
 		{
 			result = "false";
 		}
-		writer.write(result);
+		finally
+		{
+			writer = response.getWriter();
+			writer.write(result);
+		}
 	}
 }

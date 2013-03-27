@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.softwaresynthesis.mytalk.server.abook.IAddressBookEntry;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
 import org.softwaresynthesis.mytalk.server.connection.ChannelServlet;
+import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
 
 /**
  * Servlet che ha il compito di fornire
@@ -73,13 +74,17 @@ public final class AddressBookGetContactsServlet extends HttpServlet
 		Iterator<IAddressBookEntry> iterator = null;
 		IUserData user = null;
 		IUserData friend = null;
-		PrintWriter writer = response.getWriter();
+		PrintWriter writer = null;
 		Set<IAddressBookEntry> contacts = null;
+		String mail = null;
 		String result = null;
+		UserDataDAO userDAO = null;
 		try
 		{
 			session = request.getSession(false);
-			user = (IUserData)session.getAttribute("user");
+			mail = (String)session.getAttribute("username");
+			userDAO = new UserDataDAO();
+			user = userDAO.getByEmail(mail);
 			contacts = user.getAddressBook();
 			iterator = contacts.iterator();
 			result = "{";
@@ -106,6 +111,10 @@ public final class AddressBookGetContactsServlet extends HttpServlet
 		{
 			result = "null";
 		}
-		writer.write(result);
+		finally
+		{
+			writer = response.getWriter();
+			writer.write(result);
+		}
 	}
 }
