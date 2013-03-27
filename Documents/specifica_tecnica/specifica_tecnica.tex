@@ -270,19 +270,38 @@ Nelle sezioni successive, per ogni sotto-architettura sarà fornito un elenco de
 \subsection{Logica di rete}
 
 \subsubsection{Descrizione della logica di connessione}
-La rete che viene a crearsi sotto l'architettura di \caName{} è basata su WebRTC e WebSocket. Ogni client connesso al sistema ha una canale WebSocket con il server e per ogni chiamata che viene a crearsi tra due client si instaura un canale WebRTC che mette in comunicazioni i seuddetti client. Questo canale è generato dall'oggetto RTCPeerConnection che è alla base dell'API di WebRTC.
+La rete che viene a crearsi sotto l'architettura di \caName{} è suddivisa in ``comunicazioni'', ovvero gruppi di due o più utenti che comunicano tra di loro. Ogni comunicazione è formata dalle singole ``connessioni'' tra i vari client.
 
-Una comunicazione nasce tra due utenti, colui che effettua la chiamata e colui che la riceve.
-\begin{enumerate}
-\item I client che possono effettuare o ricevere un chiamata sono tutti quelli che sono connessi al server con una WebSocket e sono indicizzati all'interno di un array attraverso un ID univoco;
-\item Al momento di effettuare una chiamata, il chiamante invia una richiesta al server attraverso il canale WebSocket già aperto, comunicando l'ID del chiamato e la propria \inglese{description} (ovvero un elenco di caratteristiche e parametri necessari alla comunicazione WebRTC, tra cui il socket pubblico);
-\item Il server usa il canale WebSocket già aperto con il chiamato per comunicargli l'intenzione del chiamante di instaurare una comunicazione e recapitare la \inglese{description} di quest'ultimo;
-\item Il chiamato, dopo aver accettato la chiamata dando il consenso all'utilizzo della webcam, riceve la \inglese{description} del chiamante, la imposta nel proprio oggetto webRTCPeerConnection, sucessivamente invia al server la propria \inglese{description};
-\item Il server comunica la \inglese{description} del chiamato al chiamante e termina il proprio ruolo all'interno della comunicazione;
-\item Il chiamante riceve la \inglese{description} del chiamato e la setta nel proprio oggetto webRTCPeerConnection;
-\item Giunti a questo punto gli oggetti webRTCPeerConnection di entrambi i client hanno tutte le \inglese{description} che servono per avviare la comunicazione \inglese{peer-to-peer};
-\item La comunicazione rimarrà attiva fino a che uno dei due client non deciderà volutamente di interromperla.
-\end{enumerate}
+Questo capitolo serve a spiegare quale è la logica che governa la rete. Iniziamo definendo i tipi di client che la popolano.
+\begin{description}
+	\item{\scshape\bfseries Nodo}\\
+	Il Nodo è rappresentato da un semplice client che si trova all'interno di una comunicazione e che ha una unica connessione attiva verso un altro client.
+	\item{\scshape\bfseries Supernodo}\\
+	Il Supernodo è un client con funzione di server. È usato nelle comunicazioni tra tre o più utenti per smistare le connessioni di tutti facendosi carico del traffico dei client.
+\end{description}
+
+Vediamo nel dettaglio come avviene una comunicazione. Essa nasce sempre tra due utenti, nel momento in cui uno desidera iniziarla effettua una richiesta verso il server che la inoltra al destinatario.
+
+La comunicazione nasce così come un'unica connessione tra due client in modalità \underline{\inglese{peer-to-peer}} dove entrambi gli utenti hanno il ruolo di Nodo. Una comunicazione potrà iniziare solo attraverso tale metodologia, in quanto non vengono aperte comunicazioni iniziali tra più di due utenti.
+
+Da questa situazione uno dei due utenti può richiederne l'aggiunta di un ulteriore soggetto. Dopo questa richiesta, il Nodo che la ha eseguita diventa un Supernodo con attive sia la connessione con il vecchio Nodo sia quella con il nuovo Nodo appena aggiunto.
+
+Questa operazione crea una connessione fra tre Nodi estendibile dal Supernodo e dagli altri Nodi attraverso una richiesta al Supernodo stesso.
+
+%Solo il Supernodo può richiedere nuove connessioni al Server. Con ulteriori richieste i nuovi nodi si collegano al Supernodo con una connessione estendendo la comunicazione.
+
+Ogni Nodo può togliersi dalla comunicazione chiudendo la connessione con il Supernodo. Se è il Supernodo stesso a volersi togliere dalla comunicazione, l'intera comunicazione cade e tutti gli utenti vendono disconnessi.
+
+\subsubsection{L'idea iniziale}
+La logica di gestione della rete scelta dal team può rendere poco stabile le comunicazioni. Tale problematica è stata analizzata a lungo, e al fine di rendere le comunicazioni più stabili e solide era stata presa in considerazione un ulteriore soluzione alternativa sempre basata sul modello concettuale di Nodi e Supernodi, tuttavia è stata scartata dopo una breve analisi preliminare.
+
+La differenza principale di tale soluzione rispetto a quella adottata è nella gestione dinamica del Supernodo, che viene scelto in base alla sua capacità di banda e alla possibilità di mantenere attive, con la massima qualità, tutte le connessioni con i Nodi della comunicazione.
+
+Questa soluzione avrebbe richiesto un test di qualità della rete per ogni Nodo verso il nuovo possibile Supernodo, operazione di difficile progettazione e con complessità elevata, pari a $\omega(n-1)$ con n Nodi attivi nella comunicazione.
+
+Al fine di garantire sempre la migliore qualità di connessione era stata presa inoltre in considerazione l'idea di controllare periodicamente la qualità del Supernodo e degli altri Nodi in modo da sostituire il Supernodo se necessario. Purtroppo anche questa soluzione richiederebbe dei calcoli di complessità $\omega(n*(n-1))$ con n Nodi attivi nella comunicazione.
+
+Con una corretta implementazione questa soluzione avrebbe permesso una migliore qualità del prodotto \caName, il gruppo ha tuttavia optato per la prima implementazione presentata in quanto le risorse disponibili non erano sufficienti per terminare la seconda.
 \clearpage
 
 \section{Architettura del database}\label{sec:database}
