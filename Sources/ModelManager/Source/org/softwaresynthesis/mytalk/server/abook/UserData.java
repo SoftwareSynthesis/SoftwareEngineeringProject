@@ -57,6 +57,7 @@ public class UserData implements IUserData
 		String result = "{\"name\":\"" + this.getName() + "\"";
 		result += ", \"surname\":\"" + this.getSurname() + "\"";
 		result += ", \"email\":\"" + this.getMail() + "\"";
+		result += ", \"id\":\"" + this.getId() + "\"";
 		result += ", \"picturePath\":\"" + this.getPath() + "\"}";
 		return result;
 	}
