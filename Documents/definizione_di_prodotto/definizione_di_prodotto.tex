@@ -3623,7 +3623,13 @@ Metodo richiamato per terminare una chiamata, a cascata viene richiamato il meto
 \clearpage
 
 \section{Specifica sotto-architettura clientview}\label{sec:clientviewarchitecture}
-
+Il sistema, dovendo essere contenuto in un'unica pagina web, dispone di un'unica vista che viene modificata all'occorrenza dai vari presenter. Tale vista è suddivisa in tre parti:
+\begin{itemize}
+\item parte sinistra contenente il pannello della propria rubrica;
+\item parte destra contenente il pannello degli strumenti;
+\item parte centrale contenente il MainPanel.
+\end{itemize}
+Quest'ultimo, il MainPanel, è designato a cambiare il suo contenuto in base alle operazioni svolte dall'utente in quel dato momento. Ad esempio, se l'utente seleziona un contatto dalla propria rubrica, il pannello centrale conterrà la visualizzazione della scheda del contatto selezionato. Se invece avvia una chiamata, vedrà visualizzato il pannello delle chiamate. La vista è quindi demandata tutta ai presenter che la modificano in base alle richieste.
 \clearpage
 
 \section{Tracciamento della relazione componenti-requisiti}
