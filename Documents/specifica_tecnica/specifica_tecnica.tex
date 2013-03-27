@@ -2090,7 +2090,8 @@ Si noti che tale componente demanda tutta la logica di applicazione al \inglese{
 		\item[-] \texttt{AddressBookPanel}
 		\item[-] \texttt{ContactPanel}
 		\item[-] \texttt{MessagePanel}
-		\item[-] \texttt{LanguagePanel}
+		\item[-] \texttt{GroupPanel}
+		\item[-] \texttt{SearchPanel}
 		\item[-] \texttt{AccountSettingsPanel}
 		\item[-] \texttt{CallHistoryPanel}
 		\item[-] \texttt{CommunicationPanel}
@@ -2112,6 +2113,7 @@ Il componente \textsf{Login} ha la responsabilità di ricevere in ingresso le cr
   \item{\scshape\bfseries Classi utilizzate}
   \begin{itemize}[noitemsep,nolistsep]
     \item \texttt{LoginPanel}
+    \item \texttt{RegisterPanel}
   \end{itemize}
 
 \end{description}
@@ -2190,10 +2192,22 @@ Tramite questo elemento grafico è possibile anche riprodurre il contenuto di un
   \end{itemize}
 \end{description}
 
-\item \texttt{LanguagePanel}
+\item \texttt{GroupPanel}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Questa sottoclasse di \texttt{MainPanel} è impiegata per permettere da parte dell'utente finale la selezione della lingua desiderata. La visualizzazione del pannello avviene in seguito all'attivazione del pulsante corrispondente situato nel pannello degli strumenti.
+Tramite questo pannello è possibile visionare i gruppi che compongono la rubrica dell'utente. i gruppi vengono rappresentanti mediante il loro nome all'interno di una lista. Affianco ad ogni nome comparirà un icona atta ad indicare la possibilità di eliminare il gruppo selezionato.
+
+  \item{\scshape\bfseries Componenti che ne fanno uso:}
+  \begin{itemize}[noitemsep,nolistsep]
+    \item[-] \textsf{CV01 -- GUI}
+    \item[-] \textsf{CP03 -- Gestione GUI}
+  \end{itemize}
+\end{description}
+
+\item \texttt{SearchPanel}
+\begin{description}
+  \item{\scshape\bfseries Descrizione}\\
+Tramite questo pannello grafico, dotato di un <input> per l'inserimento di una parola chiave, è possibile ricercare nella propria rubrica tutti i contatti contenenti nel nome, cognome o indirizzo mail, la parola da ricercare. Una ricerca tramite questo pannello aggiorna il MainPanel con la lista dei contatti corretti secondo la ricerca.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -2244,6 +2258,17 @@ Inoltre, tale entità grafica prevede anche la presenza di una o più aree di ch
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
 Per la descrizione di questo elemento grafico si rimanda alla sezione \vref{sec:cv02}.
+
+  \item{\scshape\bfseries Componenti che ne fanno uso}
+  \begin{itemize}[noitemsep,nolistsep]
+    \item[-] \textsf{CV02 -- Login}
+  \end{itemize}
+\end{description}
+
+\item \texttt{RegisterPanel}
+\begin{description}
+  \item{\scshape\bfseries Descrizione}\\
+Pannello contenente la form per la registrazione utente.
 
   \item{\scshape\bfseries Componenti che ne fanno uso}
   \begin{itemize}[noitemsep,nolistsep]
@@ -2372,6 +2397,25 @@ Gli oggetti che intendono rappresentare connessioni sono sottotipi di della clas
 In particolare, la classe \texttt{connection.ConnectionManager} restituisce un oggetto che rappresenta la connessione di tipo dinamico \texttt{connection.PushInbound} che implementa il comportamento come reazione ai messaggi in ingresso facendo a sua volta \inglese{overriding} del metodo \texttt{onTextMessage(CharBuffer)}.
 \end{description}
 
+\subsection{Strategy}\label{sec:patternstrategy}
+
+\subsubsection{Scopo}
+Definisce un'interfaccia per il comportamento di un algoritmo generico, lasciando alle classi implementanti il compito di definirne la strategia d'implementazione.
+
+\subsubsection{Componenti che lo implementano}
+\begin{description}
+
+  \item{\scshape\bfseries CS04 -- Gestione autenticazione}\\
+All'interno di tale classe, l'utilizzo del pattern si ha nel momento in cui è necessario definire una strategia di criptazione e decriptazione dei dati, passati dall'utente per eseguire l'autenticazione. L'interfaccia atta a definire l'algoritmo generico è \texttt{authentication.ISecurityStrategy} mentre una prima implementazione proposta dal team è \texttt{authentication.AESAlgorithm}, che definisce un algoritmo di criptazione basato su AES.
+
+%\begin{figure}[H]
+%  \centering
+%  \includegraphics[width=.8\textwidth]{pattern_factorymethod}
+%  \caption{Applicazione del \inglese{pattern} Factory Method}\label{fig:factory_method}
+%\end{figure}
+
+\end{description}
+
 \subsection{Model-View-Presenter}\label{sec:MVP}
 
 \subsubsection{Scopo}
@@ -2410,13 +2454,13 @@ In particolare, le componenti del sistema che prendono parte alle collaborazioni
   \item{\scshape\bfseries CS01 -- Gestione database}\\
 Componente che ha il ruolo di gestire la persistenza dei dati sul server necessaria alla memorizzazione delle entità di interesse del modello dei dati.
 
-  \item{\textsc{\bfseries CS06 -- Gestione chiamate}, \textsc{\bfseries Gestione rubrica} e \textsc{\bfseries Gestione segreteria}}\\
+  \item{\textsc{\bfseries CS06 -- Gestione chiamate}, \textsc{\bfseries CS03 -- Gestione rubrica} e \textsc{\bfseries CS05 -- Gestione segreteria}}\\
 Contengono le rappresentazioni delle entità della \inglese{business logic} lato server, che devono essere interrogate per ricavare le informazioni necessarie ai client in forma opportuna.
 
-  \item{\scshape\bfseries CS07-- Façade del server}\\
+  \item{\scshape\bfseries CS07 -- Façade del server}\\
 Componente del server interessato dalla ricezione delle richieste da parte dei \inglese{presenter}, recupera le informazioni di cui questi ultimi necessitano e le restituisce in forma serializzata e compatibile con il dominio applicativo dei client.
 
-  \item{\scshape\bfseries CP04 -- Gestione remota}\\
+  \item{\scshape\bfseries CP04 -- Gestione comunicazione}\\
 Intercetta le comunicazioni entranti verso il client a partire dal server che non hanno origine in una richiesta esplicita da parte del client come, ad esempio, gli aggiornamenti di stato dei diversi utenti o le chiamate in ingresso.
   
   \item{\scshape\bfseries CP03 -- Gestione GUI}\\
@@ -2424,32 +2468,6 @@ Riceve i comandi dalla vista ed è responsabile del suo aggiornamento e dell'int
 
   \item{\scshape\bfseries GUI}\\
 Corrisponde all'insieme delle viste ed è accessibile al \inglese{presenter} tramite le DOM API di JavaScript.
-\end{description}
-
-\subsection{Observer}
-
-\subsubsection{Scopo}
-Definire una dipendenza uno a molti fra oggetti, in modo tale che se un oggetto cambia il suo stato tutti gli oggetti dipendenti da questo siano notificati e aggiornati automaticamente.
-
-\subsubsection{Componenti che lo implementano}
-\begin{description}
-  \item{\scshape\bfseries CS07-- Gestione rubrica}\\
-Il \inglese{pattern} Observer è utile in quanto permette agli utenti del sistema di osservare lo stato degli altri, ricevendo in modo automatico e trasparente una notifica nel caso in cui quest'ultimo subisse variazioni, essendo ogni utente sia osservato che osservatore.
-
-A tal fine l'interfaccia \texttt{abook.IUserData} estende l'interfaccia \texttt{java.util.Observer} mentre la classe \texttt{UserData}, che implementa \texttt{abook.IUserData},  estende la classe di libreria \texttt{java.util.Observable}.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=.7\textwidth]{pattern_observer}
-  \caption{Applicazione del \inglese{pattern} Observer}\label{fig:observer}
-\end{figure}
-
-Al momento della connessione, ogni utente si registra come osservatore sui suoi contatti che sono \inglese{online} e, al contempo, li aggiunge tra i propri osservatori. Questo avviene tramite l'uso del metodo \texttt{addObserver(Observer)} ereditato dalla classe \texttt{java.util.Observable}.
-
-%TODO chi e quando chiama questi metodi e su chi
-
-In tal modo gli utenti notificano in \inglese{broadcast} le loro variazioni di stato e sono sempre aggiornati sullo stato dei contatti della loro rubrica. Tale notifica avviene sfruttando il metodo \texttt{notifyObservers(Object)} ereditato dalla classe \texttt{java.util.Observable}. L'oggetto passato come parametro corrisponde allo stato (\texttt{abook.State}) associato all'utente, in modo che gli osservatori abbiano conoscenza del nuovo stato che l'utente ha assunto.
-
 \end{description}
 
 \subsection{Singleton}
@@ -2466,24 +2484,6 @@ La classe \texttt{server.dao.HibernateUtil} è implementata come Singleton dal m
   \centering
   \includegraphics[width=.6\textwidth]{pattern_singleton_dao}
   \caption{Applicazione del \inglese{pattern} Singleton a \textsf{Gestione database}}\label{fig:singleton2}
-\end{figure}
-
-  \item{\scshape\bfseries CP01 -- Gestione comunicazione}\\
-La classe \texttt{clientpresenter.kernel.CommunicationCenter} è implementata secondo il \inglese{pattern} Singleton in modo da limitare il numero di istanze presenti su ciascun client a una soltanto. In tal modo è possibile centralizzare la gestione delle comunicazioni in ingresso e in uscita, tanto verso il server quanto verso gli altri client.
-
-\begin{figure}[H]
-  \centering
-  %\includegraphics[width=.6\textwidth]{pattern_singleton_comunicazione}
-  \caption{Applicazione del \inglese{pattern} Singleton a \textsf{Gestione comunicazione}}\label{fig:singleton1}
-\end{figure}
-
-  \item{\scshape\bfseries CP04 -- Gestione remota}\\
-Il \inglese{pattern} Singleton è altresì utile per controllare il numero di istanze attive della classe \texttt{clientpresenter.kernel.RemoteHandler} per gli stessi motivi evidenziati in precedenza, ossia l'unicità del punto di accesso alle funzionalità della sotto-architettura \texttt{clientpresenter}.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=.6\textwidth]{pattern_singleton_gestione_remota}
-  \caption{Applicazione del \inglese{pattern} Singleton a \textsf{Gestione remota}}\label{fig:singleton3}
 \end{figure}
 
 \end{description}
