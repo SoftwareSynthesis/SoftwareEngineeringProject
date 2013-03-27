@@ -16,12 +16,14 @@ function CommunicationCenter() {
     /**********************************************************
      VARIABILI PRIVATE
      ***********************************************************/
-    //TODO sistemare discorso della servlet in modo che se la prende dal mediator
-    var urlServlet = "http://localhost:8080/MyTalk/ChannelServlet";
     //oggetto che contiene i dati dell'utente
     this.my = new Object();
     //dichiaro globale la websocket per lo scambio di dati con la servlet
     var websocket;
+    // URL della servlet con cui è necessario interagire
+    var urlServlet;
+    // configura l'URL della servlet
+    getServletURLs();
 
     //codice che dovrebbe rendere usabile webRTC da ogni browser che lo supporti DA TESTARE
     /*
@@ -32,6 +34,20 @@ function CommunicationCenter() {
     /**********************************************************
      METODI PRIVATI
      ***********************************************************/
+    /**
+     * 
+     * @author Diego Beraldin
+     */
+    function getServletURLs() {
+		var configurationRequest = new XMLHttpRequest();
+		configurationRequest.open("POST", configurationFile, false);
+		configurationRequest.send();
+		var XMLDocument = configurationRequest.responseXML;
+		var baseURL = XMLDocument.getElementsByTagName("baseURL")[0].childNodes[0].data;
+		var name = XMLDocument.getElementById("channel").childNodes[0].data;
+		urlServlet = baseURL + name;
+    }
+    
     /**
      * Funzione per formattare i bytes ricevuti.
      *
