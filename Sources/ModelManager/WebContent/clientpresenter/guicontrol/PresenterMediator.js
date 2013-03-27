@@ -392,7 +392,7 @@ function PresenterMediator() {
 	this.onCall = function(contact, onlyAudio) {
 		var element = communicationpp.createPanel();
 		presenters["main"].displayChildPanel(element);
-		communictioncenter.call(true, contact, onlyAudio);
+		communicationcenter.call(true, contact, onlyAudio);
 	};
 	
 	/**
@@ -405,5 +405,5 @@ function PresenterMediator() {
 	 */
 	this.getCommunicationPP = function() {
 		return communicationpp;
-	}
+	};
 }
