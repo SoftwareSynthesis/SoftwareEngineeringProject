@@ -287,7 +287,7 @@ MVP & Gestione database\\
 \subsection{Tracciamenti Componenti-Classi}\label{sec:tracCompClass}
 
 \begin{center}
-\rowcolors{4}{lightblue}{llightblue}\begin{longtable}{lp{.7\textwidth}l}
+\rowcolors{4}{lightblue}{llightblue}\begin{longtable}{lp{0.7\textwidth}l}
 \toprule Componenti & Classi\\
 \midrule
 Gestione database & server.dao.CallDAO\\
@@ -374,19 +374,116 @@ Gestione GUI & clientpresenter.guicontrol.AccountSettingsPanelPresenter\\
 & clientpresenter.guicontrol.PresenterMediator\\
 & clientpresenter.guicontrol.ToolsPanelPresenter\\
 
-GUI & \\
-Login & \\
+GUI & clientview.MainPanel\\
+& clientview.ToolsPanel\\
+& clientview.AddressBookPanel\\
+& clientview.ContactPanel\\
+& clientview.MessagePanel\\
+& clientview.GroupPanel\\
+& clientview.SearchPanel\\
+& clientview.AccountSettingsPanel\\
+& clientview.CallHistoryPanel\\
+& clientview.CommunicationPanel\\
+
+Login & clientview.LoginPanel\\
+& clientview.RegisterPanel\\
+
 \bottomrule
 \end{longtable}
 \end{center}
 \subsection{Tracciamenti Classi-Componenti}\label{sec:tracClassComp}
 
 \begin{center}
-\rowcolors{4}{lightblue}{llightblue}\begin{longtable}{lp{.55\textwidth}l}
+\rowcolors{4}{lightblue}{llightblue}\begin{longtable}{lp{0.3\textwidth}l}
 \toprule Classi & Componenti\\
 \midrule
 
-
+server.dao.CallDAO & Gestione database\\
+server.dao.GroupDAO & Gestione database\\
+server.dao.MessageDAO & Gestione database\\
+server.dao.UserDataDAO & Gestione database\\
+server.dao.AddressBookEntryDAO & Gestione database\\
+server.dao.HibernateUtil & Gestione database\\
+server.IMyTalkObject & Gestione database\\
+server.abook.AddressBookEntry & Gestione rubrica\\
+server.abook.IAddressBookEntry& Gestione rubrica\\
+server.abook.IGroup & Gestione rubrica\\
+server.abook.Group & Gestione rubrica\\
+server.abook.IUserData & Gestione rubrica\\
+server.abook.UserData & Gestione rubrica\\
+server.message.IMessage & Gestione segreteria\\
+server.message.Message & Gestione segreteria\\
+server.call.ICall & Gestione chiamate\\
+server.call.Call & Gestione chiamate\\
+server.connection.PushInbound & Gestione connessione\\
+org.apache.catalina.websocket.MessageInbound & Gestione connessione\\
+server.authentication.AuthenticationModule & Gestione autenticazione\\
+server.authentication.CredentialLoader & Gestione autenticazione\\
+server.authentication.PrincipalImpl & Gestione autenticazione\\
+server.authentication.IAuthenticationData & Gestione autenticazione\\
+server.authentication.AuthenticationData & Gestione autenticazione\\
+server.authentication.AESAlgorithm & Gestione autenticazione\\
+server.authentication.ISecurityStrategy & Gestione autenticazione\\
+javax.security.auth.spi.LoginModule & Gestione autenticazione\\
+javax.security.auth.callback.CallbackHandler & Gestione autenticazione\\
+javax.security.Principal & Gestione autenticazione\\
+server.connection.ChannelServlet & Façade del Server\\
+server.abook.servlet.AddressBookDoAddContactServlet & Façade del Server\\
+server.abook.servlet.AddressBookDoRemoveContactServlet & Façade del Server\\
+server.abook.servlet.AddressBookDoCreateGroupServlet & Façade del Server\\
+server.abook.servlet.AddressBookDoDeletGroupServlet & Façade del Server\\
+server.abook.servlet.AddressBookDoInsertInGroupServlet & Façade del Server\\
+server.abook.servlet.AddressBookDoRemoveInGroupServlet & Façade del Server\\
+server.abook.servlet.AddressBookDoBlockServlet & Façade del Server\\
+server.abook.servlet.AddressBookDoUnblockServlet & Façade del Server\\
+server.abook.servlet.AddressBookGetContactsServlet & Façade del Server\\
+server.abook.servlet.AddressBookGetGroupsServlet & Façade del Server\\
+server.abook.servlet.AddressBookDoSearchServlet & Façade del Server\\
+server.authentication.servlet.LoginServlet & Façade del Server\\
+server.authentication.servlet.LogoutServlet & Façade del Server\\
+server.authentication.servlet.RegisterServlet & Façade del Server\\
+server.message.servlet.InsertMessageServlet & Façade del Server\\
+server.message.servlet.DeletMessageServlet & Façade del Server\\
+server.message.servlet.UpdateStatusMessageServlet & Façade del Server\\
+server.message.servlet.DownloadMessageListServlet & Façade del Server\\
+server.call.servlet.DownloadCallHistoryManager & Façade del Server\\
+javax.servlet.http.HttpServlet & Façade del Server\\
+org.apache.catalina.websocket.WebSocketServlet & Façade del Server\\
+clientpresenter.kernel.CommunicationCenter & Gestione comunicazione\\
+PeerICECandidate & Gestione comunicazione\\
+WebKitPeerConnection & Gestione comunicazione\\
+PeerSessionDescription & Gestione comunicazione\\
+clientpresenter.data.JSCall & Rappresentazione dati\\
+clientpresenter.data.JSGroup & Rappresentazione dati\\
+clientpresenter.data.JSMessage & Rappresentazione dati\\
+clientpresenter.data.JSUserData & Rappresentazione dati\\
+clientpresenter.guicontrol.AccountSettingsPanelPresenter & Gestione GUI\\
+clientpresenter.guicontrol.AddressBookPanelPresenter & Gestione GUI\\
+clientpresenter.guicontrol.CallHistoryPanelPresenter & Gestione GUI\\
+clientpresenter.guicontrol.CommunicationPanelPresenter & Gestione GUI\\
+clientpresenter.guicontrol.GroupPanelPresenter & Gestione GUI\\
+clientpresenter.guicontrol.SearchResultPanelPresenter & Gestione GUI\\
+clientpresenter.guicontrol.ContactPanelPresenter & Gestione GUI\\
+clientpresenter.guicontrol.LoginPanelPresenter & Gestione GUI\\
+clientpresenter.guicontrol.RegisterPanelPresenter & Gestione GUI\\
+clientpresenter.guicontrol.TopLevelPresenter & Gestione GUI\\
+clientpresenter.guicontrol.ChildPrenter & Gestione GUI\\
+clientpresenter.guicontrol.MainPanelPresenter & Gestione GUI\\
+clientpresenter.guicontrol.MessagePanelPresenter & Gestione GUI\\
+clientpresenter.guicontrol.PresenterMediator & Gestione GUI\\
+clientpresenter.guicontrol.ToolsPanelPresenter & Gestione GUI\\
+clientview.MainPanel & GUI\\
+clientview.ToolsPanel & GUI\\
+clientview.AddressBookPanel & GUI\\
+clientview.ContactPanel & GUI\\
+clientview.MessagePanel & GUI\\
+clientview.GroupPanel & GUI\\
+clientview.SearchPanel & GUI\\
+clientview.AccountSettingsPanel & GUI\\
+clientview.CallHistoryPanel & GUI\\
+clientview.CommunicationPanel & GUI\\
+clientview.LoginPanel & Login\\
+clientview.RegisterPanel & Login\\
 
 \bottomrule
 \end{longtable}
