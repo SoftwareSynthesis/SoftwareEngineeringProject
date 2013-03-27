@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.softwaresynthesis.mytalk.server.abook.IAddressBookEntry;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
+import org.softwaresynthesis.mytalk.server.dao.AddressBookEntryDAO;
 import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
 
 /**
@@ -67,6 +68,7 @@ public final class AddressBookDoRemoveContactServlet extends HttpServlet
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
 	{
+		AddressBookEntryDAO entryDAO = null;
 		HttpSession session = null;
 		IAddressBookEntry entry = null;
 		Iterator<IAddressBookEntry> iterator = null;
@@ -87,15 +89,28 @@ public final class AddressBookDoRemoveContactServlet extends HttpServlet
 			{
 				entrys = user.getAddressBook();
 				iterator = entrys.iterator();
+				entryDAO = new AddressBookEntryDAO();
 				while (iterator.hasNext() == true)
 				{
 					entry = iterator.next();
 					if (entry.getContact().equals(friend) == true && entry.getOwner().equals(user) == true)
 					{
 						user.removeAddressBookEntry(entry);
+						entryDAO.delete(entry);
 					}
 				}
 				userDAO.update(user);
+				entrys = friend.getAddressBook();
+				iterator = entrys.iterator();
+				while (iterator.hasNext() == true)
+				{
+					entry = iterator.next();
+					if (entry.getContact().equals(user) == true && entry.getOwner().equals(friend) == true)
+					{
+						friend.removeAddressBookEntry(entry);
+						entryDAO.delete(entry);
+					}
+				}
 				result = "true";
 			}
 			else
