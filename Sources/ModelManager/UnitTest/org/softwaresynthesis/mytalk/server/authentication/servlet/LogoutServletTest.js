@@ -1,4 +1,4 @@
-module("TestLoginServlet", {
+module("LoginServletTest", {
 	setup : function() {
 		loginServletURL = "localhost:8080/MyTalk/LoginServlet";
 		logoutServletURL = "localhost:8080/MyTalk/LogoutServlet";

@@ -1,4 +1,4 @@
-module("TestLoginServlet", {
+module("LoginServletTest", {
 	setup : function() {
 		loginServletURL = "localhost:8080/MyTalk/LoginServlet";
 	},
@@ -19,6 +19,6 @@ test("testDoPost()", function() {
 		name : "pippo",
 		surname : "rossi",
 		email : "indirizzo1@dominio.it",
-	}
+	};
 	equal(result, expected, "utente recuperato correttamente");
 });
