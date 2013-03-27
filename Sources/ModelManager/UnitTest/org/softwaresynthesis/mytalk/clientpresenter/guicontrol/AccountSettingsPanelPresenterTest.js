@@ -16,8 +16,6 @@ module(
 			}
 		});
 
-/* dentro setup le variabili DEVONO esssere GLOBALI */
-
 /*
  * Tale test controlla il buon funzionamento dell'inizializzazione
  * AccountSettingPanel controlla che l'albero sia stato costruito correttamente
@@ -28,35 +26,29 @@ test("testCreatePanel()",
 		function() {
 			var i = 0;
 
-			// creo l'elemento 'AccountSettingsPanel'
 			var element = tester.createPanel();
-			// estraggo la lista dei figli di questo pannello
 			var list = element.childNodes;
-			// controllo che abbia esattamente tre figli
+
 			equal(list.length, 3,
 					"il numero di figli dell'elemento restituito e' 3");
 			i++;
 
-			// controllo che il primo figlio sia la mia immagine personale
 			equal(list[0].nodeName, "IMG",
 					"il primo figlio dell'elemento e' un'immagine");
 			i++;
 
-			// controllo che il secondo figlio sia una lista
 			equal(list[1].nodeName, "UL",
 					"il primo figlio dell'elemento e' una lista");
 			i++;
 
-			// controllo che il terzo elemento sia un bottone
 			equal(list[2].nodeName, "BUTTON",
 					"il primo figlio dell'elemento e' un bottone");
 			i++;
 
-			// estraggo la lista dei dati personali e testo tutti i suoi nodi
 			var items = list[1].childNodes;
 			equal(items.length, 2, "i dati personali sono 2 elementi");
 			i++;
-			var name = items[0].innerHTML;// estraggo il <li>Maria</li>
+			var name = items[0].innerHTML;
 			equal(name, "Maria", "il nome è corretto");
 			i++;
 			var surname = items[1].innerHTML;
@@ -71,7 +63,6 @@ test("testCreatePanel()",
 			equal(picture, "xx.png", "l'immagine ha il percorso corretto");
 			i++;
 
-			// testo il contenuto del bottone
 			var text = list[2].innerHTML;
 			equal(text, "Modifica dati", "il testo del bottone è corretto");
 			i++;
@@ -88,4 +79,41 @@ test("testBuildQueryString()", function() {
 	var string = tester.buildQueryString(data);
 	equal(string, "name=enrico&surname=botti&picturePath=enrybot.png",
 			"stringa di query costruita correttamente");
+});
+
+test("testhasSomethingChanged()", function() {
+	var i = 0;
+	
+	var data = {
+			name : "Maria",
+			surname : "Goretti",
+			picturePath : "xx.png"
+		};
+	
+	var bool = tester.hasSomethingChanged(data);
+	equal(bool, false, "rilevata correttamente mancanza di cambiamenti");
+	i++;
+	
+	data.name = "Marta";
+	bool = tester.hasSomethingChanged(data);
+	equal(bool, true, "rilevato correttamente nome cambiato");
+	i++;
+
+	data.name = "Maria";
+	data.surname = "Rossi";
+	bool = tester.hasSomethingChanged(data);
+	equal(bool, true, "rilevato correttamente cognome cambiato");
+	i++;
+	
+	data.surname = "Goretti";
+	data.picturePath = "yy.png";
+	bool = tester.hasSomethingChanged(data);
+	equal(bool, true, "rilevata correttamente immagine cambiato");
+	i++;
+	
+	expect(i);
+});
+
+test("TestOnChangeButtonPressed", function() {
+	// TODO da terminare
 });
