@@ -11,7 +11,7 @@
 				var request = new XMLHttpRequest();
 				request.open("POST", servletURI, false);
 				request.setRequestHeader("Content-type", "application/x-www-fomr-urlencoded");
-				request.open(parameters);
+				request.send(parameters);
 				return request.responseText;
 			}
 			
@@ -20,11 +20,11 @@
 				var cella = document.getElementById(identifier);
 				if (result == true)
 				{
-					cella.style.backgroundColor = "#CC0000";
+					cella.style.backgroundColor = "#00FF00";
 				}
 				else
 				{
-					cella.style.backgroundColor = "#00FF00";	
+					cella.style.backgroundColor = "#CC0000";	
 				}
 			}
 			
@@ -34,7 +34,7 @@
 				var password = "password";
 				var servletURI = "http://localhost:8080/MyTalk/LoginAuthentication";
 				var parameters = "username=" + username + "&password=" + password;
-				var result = callServlet(servletURI, parameters);
+				var result = callServlet(servletURI);
 				var parsed = JSON.parse(result);
 				try
 				{
@@ -47,7 +47,7 @@
 						printResult("LoginAuthentication", false);
 					}
 				}
-				catch (exception ex)
+				catch (exception)
 				{
 					printResult("LoginAuthentication", false);
 				}
@@ -83,7 +83,7 @@
 				var answer = "Andrea";
 				var name = "andrea";
 				var surname = "meneghinello";
-				var servletURI = "http://localhost:8080/MyTalk/loginDoRegistration";
+				var servletURI = "http://localhost:8080/MyTalk/LoginDoRegistration";
 				var parameters = "username=" + username + "&password=" + password + "&question=" + question + "&answer=" + answer + "&name=" + name + "&surname=" + surname;
 				var result = callServlet(servletURI, parameters);
 				var parsed = JSON.parse(result);
@@ -103,15 +103,41 @@
 					printResult("LoginDoRegistration", false);
 				}
 			}
+			
+			function addressBookGetContacts()
+			{
+				var servletURI = "http://localhost:8080/MyTalk/addressBookGetContacts";
+				var result = callServlet(servletURI);
+				var parsed = JSON.parse(result);
+				try
+				{
+					for (var key in parsed)
+					{
+						if (parsed[key].email = "indirizzo2@dominio.it")
+						{
+							printResult("AddressBookGetContacts", true);
+							return;
+						}
+					}
+					printResult("AddressBookGetContacts", false);
+				}
+				catch (exception)
+				{
+					printResult("AddressBookGetContacts", false);
+				}
+			}
 		</script>
 	</head>
 	<body>
 		<h1>Test delle servlet di MyTalk</h1>
 		<table border = "1px">
 			<tr>
-				<th>Nome della servlet</th>
-				<th>Esito del test</th>
+				<th style = "width:200px;">Nome della servlet</th>
+				<th style = "width:200px;">Esito del test</th>
 				<th>Opioni</th>
+			</tr>
+			<tr>
+				<td colspan = "3" style = "color:#C00; text-align:center;">package authentication.servlet</td>
 			</tr>
 			<tr>
 				<td>LoginAuthentication</td>
@@ -127,6 +153,14 @@
 				<td>LoginDoRegistration</td>
 				<td id = "LoginDoRegistration"></td>
 				<td><button onclick = "loginDoRegistration()">Avvia test</button></td>
+			</tr>
+			<tr>
+				<td colspan = "3" style = "text-align:center; color:#C00;">package abook.servlet</td>
+			</tr>
+			<tr>
+				<td>AddressBookGetContacts</td>
+				<td id = "AddressBookGetContacts"></td>
+				<td><button onclick = "addressBookGetContacts()">Avvia test</button></td>
 			</tr>
 		</table>
 	</body>
