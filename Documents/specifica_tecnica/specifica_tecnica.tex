@@ -579,9 +579,9 @@ Tale sotto-architettura definisce le specifiche e le funzionalità dell'applicat
 	\item[-] \textsf{CS07 -- Façade del server}.
 \end{itemize}
 
-I componenti sopracitati verranno definiti, rispettivamente, nelle sottosezioni \ref{sec:cs01}, \ref{sec:cs02}, \ref{sec:cs03}, \ref{sec:cs04}, \ref{sec:cs05}, \ref{sec:cs06} e \ref{sec:cs07}. Si sottolinea sin da ora che il server è l'unico in grado di comunicare con il database su cui regge l'applicativo.
+I componenti sopracitati verranno definiti rispettivamente nelle sottosezioni \ref{sec:cs01}, \ref{sec:cs02}, \ref{sec:cs03}, \ref{sec:cs04}, \ref{sec:cs05}, \ref{sec:cs06} e \ref{sec:cs07}. Si sottolinea sin da ora che il server è l'unico in grado di comunicare con il database su cui si poggia l'applicativo.
 
-Infine, si fa notare che i nomi di tutte le classi riportate nella presente sezione sono implicitamente parte del package \texttt{org.softwaresynthesis.mytalk.server}, pertanto tale prefisso sarà omesso nella loro denominazione.
+Infine si fa notare che i nomi di tutte le classi riportate nella presente sezione sono implicitamente parte del package \texttt{org.softwaresynthesis.mytalk.server}, pertanto tale prefisso sarà omesso nella loro denominazione.
 
 %TODO Dio sia lodato, questa classe è stata salvata! SIA LODE E GLORIA AL SIGNORE!
 
@@ -590,11 +590,11 @@ Infine, si fa notare che i nomi di tutte le classi riportate nella presente sezi
 \subsubsection{CS01 -- Gestione database}\label{sec:cs01}
 \begin{description}
 \item{\scshape\bfseries Descrizione:}\\
-È il componente che si occupa di rappresentare la struttura del database relazionale su cui poggia l'applicativo. Tramite questo componente, il sistema potrà quindi effettuare operazione di lettura e scrittura di entità all'interno del database.
+È il componente che si occupa di rappresentare la struttura del database relazionale su cui poggia l'applicativo, tramite esso il sistema potrà quindi effettuare operazione di lettura e scrittura di entità all'interno del database.
 
 Nucleo logico di tale componente è la classe Singleton \texttt{HibernateUtil}, il cui compito è implementare una \inglese{factory} per le sessioni verso il database. Tali sessioni si basano sul file di configurazione di Hibernate, tra le cui informazioni compare anche la tipologia di DBMS utilizzata.
 
-Le classi che fanno parte  di questo componente, sono quelle che costituiscono i \inglese{data access object} (DAO). Tali classi hanno il compito di inoltrare richieste per la modifica e la lettura dei dati (\inglese{Create}, \inglese{Read}, \inglese{Update} e \inglese{Delete}) nelle corrispondenti entità del database.
+Le classi che fanno parte  di questo componente sono quelle che costituiscono i \inglese{data access object} (DAO). Tali classi hanno il compito di inoltrare richieste per la modifica e la lettura dei dati (\inglese{Create}, \inglese{Read}, \inglese{Update} e \inglese{Delete}) nelle corrispondenti entità del database.
 	
 	Tali classi sono:
 	\begin{itemize}
@@ -621,9 +621,9 @@ Per chiarezza citiamo in tale sezione anche le classi che mappano le entità rap
 	  \item[-] \texttt{message.Message}
 	\end{itemize}
 
-Detto ciò non ci si confonda. Le classi rappresentanti i \inglese{transfer object} si trovano a essere collocate in package e componenti diversi da \texttt{server.dao}, dal momento che si è ritenuto sensato inserirle in contesti maggiormente specializzati. Ad esempio, la classe corrispondente ai messaggi in segreteria verrà ad essere collocata in \texttt{server.message}, quella corrispondente alle chiamate in \texttt{server.call}, e così via.
+Precisiamo che le classi rappresentanti i \inglese{transfer object} si trovano a essere collocate in package e componenti diversi da \texttt{server.dao}, dal momento che si è ritenuto sensato inserirle in contesti maggiormente specializzati, ad esempio la classe corrispondente ai messaggi in segreteria verrà ad essere collocata in \texttt{server.message}, quella corrispondente alle chiamate in \texttt{server.call}.
 
-In ultima tale componente contiene anche un'interfaccia che dovrebbe essere giustamente implementata da ogni oggetto rappresentante un \inglese{Transfer Object}. Tale interfaccia è \texttt{IMyTalkObject}, il cui compito è quello di descrivere il comportamento di un generico oggetto serializzabile in formato \texttt{JSON}.
+In ultima tale componente contiene anche un'interfaccia che dovrebbe essere implementata da ogni oggetto rappresentante un \inglese{Transfer Object}, tale interfaccia è \texttt{IMyTalkObject}, il cui compito è quello di descrivere il comportamento di un generico oggetto serializzabile in formato \texttt{JSON}.
 
 \item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -651,11 +651,11 @@ In ultima tale componente contiene anche un'interfaccia che dovrebbe essere gius
 	\item{\scshape\bfseries Descrizione:}\\
 Tale componente ingloba le classi destinate a stabilire le \inglese{routine} di connessione fra il server e i client del sistema, necessarie in un secondo momento a gestire le chiamate in ingresso e in uscita dai client.
 
-La comunicazione bidirezionale fra il server e i client è ottenuta estendendo la classe fornita dalle librerie di TomCat \texttt{org.apache.catalina.websocket.MessageInbound} mediante \texttt{connection.PushInbound}. In particolare sarà realizzato l'\inglese{overriding} del metodo \texttt{onTextMessage(CharBuffer)} in modo da permettere al componente \textsf{Gestione connessione} del server di reagire correttamente ai messaggi provenienti dal client in forma testuale.
+La comunicazione bidirezionale fra il server e i client è ottenuta estendendo la classe fornita dalle librerie di \textit{TomCat} \texttt{org.apache.catalina.websocket.MessageInbound} mediante \texttt{connection.PushInbound}. In particolare sarà realizzato l'\inglese{overriding} del metodo \texttt{onTextMessage(CharBuffer)} in modo da permettere al componente \textsf{Gestione connessione} del server di reagire correttamente ai messaggi provenienti dal client in forma testuale.
 
-Un ruolo essenziale è inoltre svolto dalla \inglese{servlet} \texttt{connection.ChanelServlet}, realizzata estendendo mediante ereditarietà la classe fornita dalle librerie di Apache TomCat \texttt{org.apache.catalina.websocket.WebSocketServlet}. Tale \inglese{servlet} non fa parte di questa componente. Essa viene qui citata unicamente per chiarire l'interazione tra il client e il server in merito alla comunicazione. La \inglese{servlet} risiede, come si vedrà in seguito, nella componente \textsf{CS07 -- Gestione Façade}.
+Un ruolo essenziale è inoltre svolto dalla \inglese{servlet} \texttt{connection.ChanelServlet}, realizzata estendendo mediante ereditarietà la classe fornita dalle librerie di \textit{Apache TomCat} \texttt{org.apache.catalina.websocket.WebSocketServlet}. Tale \inglese{servlet} non fa parte di questa componente, viene qui citata unicamente per chiarire l'interazione tra il client e il server in merito alla comunicazione. La \inglese{servlet} risiede, come si vedrà in seguito, nella componente \textsf{CS07 -- Gestione Façade}.
 
-La caratteristica fondamentale della \inglese{servlet}, che rappresenta inoltre un punto di accesso centralizzato alle funzionalità del componente \textsf{Gestione connessione}, è quella di fare \inglese{overriding} del metodo \texttt{createWebSocketInbound(String, HttpServletRequest)} al fine di restituire un opportuno sottotipo di \texttt{org.apache.catalina.websocket.StreamInbound}. Il tipo dinamico dell'oggetto ritornato da \texttt{connection.ConnectionManager} corrisponde infatti proprio a \texttt{connection.PushInbound} in modo che lato client l'invocazione del costruttore di \texttt{WebSocket} (passando come parametro l'URL della \inglese{servlet}) provochi la creazione di una connessione del tipo voluto.
+La caratteristica fondamentale della \inglese{servlet}, che rappresenta inoltre un punto di accesso centralizzato alle funzionalità del componente \textsf{Gestione connessione}, è quella di fare \inglese{overriding} del metodo \texttt{createWebSocketInbound(String, HttpServletRequest)} al fine di restituire un opportuno sottotipo di \texttt{org.apache.catalina.websocket.StreamInbound}. Il tipo dinamico dell'oggetto ritornato da \texttt{connection.ConnectionManager} corrisponde infatti proprio a \texttt{connection.PushInbound} in modo che lato client l'invocazione del costruttore di \texttt{WebSocket} (passando come parametro l'URL della \inglese{servlet}) crei una connessione del tipo voluto.
 
 Ne consegue che, come sarà esposto con maggiori dettagli nella sezione \vref{sec:patternfactorymethod}, \texttt{createWebSocketInbound} è un'applicazione del \inglese{design pattern} Factory Method, in quanto la sottoclasse di \texttt{WebSocketServlet} restituisce un oggetto di tipo statico \texttt{StreamInbound} ma avente il tipo dinamico adatto agli scopi dell'applicazione.
 
@@ -678,17 +678,17 @@ Ne consegue che, come sarà esposto con maggiori dettagli nella sezione \vref{se
 \subsubsection{CS03 -- Gestione rubrica}\label{sec:cs03}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-A ogni utente del sistema, che corrisponde a un'istanza di \texttt{abook.UserData} (implementazione dell'interfaccia \texttt{abook.IUserData}) è associata una rubrica personale. 
+A ogni utente del sistema, che corrisponde a un'istanza di \texttt{abook.UserData} (implementazione dell'interfaccia \texttt{abook.IUserData}), è associata una rubrica personale. 
 
 La rubrica è rappresentata da una lista di \texttt{abook.IAddressBookEntry}, per la quale si fornisce un'implementazione nominata \texttt{abook.AddressBookEntry} che rappresenta un contatto della rubrica di un utente. Come si evince dal diagramma riportato in figura \ref{fig:gestionerubrica}, la struttura del componente rispecchia la logica di funzionamento del database.
 
-Di conseguenza, ogni istanza di tipo \texttt{abook.AddressBookEntry} apparterrà a un solo \texttt{abook.IUserData} e in essa è registrata un'istanza di \texttt{abook.UserData} che rappresenta il contatto facente parte della rubrica.
+Di conseguenza ogni istanza di tipo \texttt{abook.AddressBookEntry} apparterrà a un solo \texttt{abook.IUserData} e in essa è registrata un'istanza di \texttt{abook.UserData} che rappresenta il contatto facente parte della rubrica.
 
-Gli utenti, inoltre, possono essere opzionalmente organizzati in gruppi: un contatto in rubrica può, in un dato momento, appartenere a uno o più gruppi oppure non appartenere a nessuno. Per tale motivo ogni istanza di \texttt{abook.AddressBookEntry} contiene anche un riferimento di tipo \texttt{IGroup}.
+Gli utenti inoltre possono essere opzionalmente organizzati in gruppi: un contatto in rubrica può, in un dato momento, appartenere a uno o più gruppi oppure non appartenere a nessuno. Per tale motivo ogni istanza di \texttt{abook.AddressBookEntry} contiene anche un riferimento di tipo \texttt{IGroup}.
 
 Tale interfaccia, congiuntamente alla sua implementazione \texttt{abook.Group}, permettono di rappresentare i gruppi della rubrica di un utente.
 
-Infine, sono state predisposte 11 \inglese{servlet} per interagire con le classi qui descritte. Tali sono:
+Infine sono state predisposte 11 \inglese{servlet} per interagire con le classi qui descritte:
 
 \begin{itemize}
 	\item \texttt{abook.servlet.AddressBookDoAddContactServlet}
@@ -731,15 +731,15 @@ Le loro funzionalità riguardano principalmente le possibilità di modificare, c
   \item{\scshape\bfseries Descrizione:}\\
 L'autenticazione passa attraverso due fasi: la richiesta di \inglese{login} e l'approvazione (\inglese{commit}). La richiesta di \inglese{login} verifica le credenziali di accesso con i dati memorizzati all'interno del database, mentre la richiesta di \inglese{commit} assegna, al \inglese{subject} che ha attivato la procedura di autenticazione, dei valori identificativi che permettano di identificarlo finché esso utilizza il sistema software.
 
-Quando un utente avvia la procedura di autenticazione la \inglese{servlet} che espone le funzionalità di questo componente, \texttt{authentication.servlet.LoginServlet} (che estende a sua volta \texttt{javax.servlet.http.HttpServlet}), crea il contesto di autenticazione generando un istanza di \texttt{authentication.CredentialLoader}, che ha il compito di caricare le credenziali di accesso e accede al file di configurazione per istanziare il giusto modulo per l'autenticazione, costituito dalla classe \texttt{authentication.AuthenticationModule}.
+Quando un utente avvia la procedura di autenticazione la \inglese{servlet} che espone le funzionalità di questo componente, \texttt{authentication.servlet.LoginServlet} (che estende a sua volta \texttt{javax.servlet.http.HttpServlet}) crea il contesto di autenticazione generando un istanza di \texttt{authentication.CredentialLoader} che ha il compito di caricare le credenziali di accesso e accede al file di configurazione per istanziare il giusto modulo per l'autenticazione, costituito dalla classe \texttt{authentication.AuthenticationModule}.
 
-La componente predispone anche le funzionalità da usare per eseguire il logout di un utente registrato nel sistema, e la registrazione al sistema stesso. Come si vedrà tale funzionalità saranno richiamabili mediante 2 servlet:
+La componente predispone anche le funzionalità da usare per eseguire il \inglese{logout} di un utente registrato nel sistema, e la registrazione al sistema stesso. Tale funzionalità saranno richiamabili mediante 2 servlet:
 \begin{itemize}
 	\item \texttt{authentication.servlet.LogoutServlet}
 	\item \texttt{authentication.servlet.RegisterServlet}
 \end{itemize}
 
-Per garantire un buon livello di sicurezza nell'invio dei dati (\texttt{authentication.AuthenticationData}), il sistema si appoggia ad un sistema di criptazione basato su algoritmo AES. La classe che fornisce tale funzionalità è \texttt{authentication.AESAlgoritm}, implementazione dell'interfaccia \texttt{authentication.ISecurityStrategy}.
+Per garantire un buon livello di sicurezza nell'invio dei dati (\texttt{authentication.AuthenticationData}) il sistema si appoggia ad un sistema di criptazione basato su algoritmo AES. La classe che fornisce tale funzionalità è \texttt{authentication.AESAlgoritm}, implementazione dell'interfaccia \texttt{authentication.ISecurityStrategy}.
   
   \item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -774,10 +774,10 @@ I messaggi in segreteria, che possono essere di natura audio o audio/video, corr
 
 La collezione di messaggi aventi un determinato utente come destinatario può essere ottenuta tramite un'operazione dichiarata nell'interfaccia \texttt{abook.IUserData}.
 
-Per consentire ai client di accedere alle funzionalità gestite da questo componente sono state predisposte delle \inglese{servlet} che, per loro natura, estendono \texttt{javax.servlet.http.HttpServlet} e che saranno descritte con maggiori dettagli nella sezione \vref{sec:cs07}. Al fine di comunicare le funzionalità proposte, viene di seguito riportata la lista delle \inglese{servlet} che comunicano con tale componente:
+Per consentire ai client di accedere alle funzionalità gestite da questo componente sono state predisposte delle \inglese{servlet} che, per loro natura, estendono \texttt{javax.servlet.http.HttpServlet} e che saranno descritte con maggiori dettagli nella sezione \vref{sec:cs07}. Al fine di comunicare le funzionalità proposte viene di seguito riportata la lista delle \inglese{servlet} che comunicano con tale componente:
 
 \begin{itemize}
-	\item \texttt{message.servlet.InsertMessageServlet}: viene utilizzata da un client A per lasciare un messaggio nella segreteria di un client B;
+	\item \texttt{message.servlet.InsertMessageServlet}: viene utilizzata da un client \textit{A} per lasciare un messaggio nella segreteria di un client \textit{B};
 	\item \texttt{message.servlet.DeletMessageServlet}: viene utilizzata da un client per rimuovere un messaggio presente nella propria segreteria;
 	\item \texttt{message.servlet.UpdateStatusMessageServlet}: viene utilizzata per modificare lo stato di un messaggio da ``da leggere'' a ``letto'';
 	\item \texttt{message.servlet.DownloadMessageListServlet}: viene utilizzata da un client per scaricare la lista dei messaggi presenti nella sua segreteria;
@@ -802,11 +802,11 @@ Per consentire ai client di accedere alle funzionalità gestite da questo compon
 \subsubsection{CS06 -- Gestione chiamate}\label{sec:cs06}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
-Le classi di questo componente hanno il ruolo di definire una strutturata   per definire lo storico delle chiamate di un utente e, conseguentemente, l'accesso ai dati relativi a una chiamata (data, mittente e $n\geq1$ destinatari della chiamata).
+Le classi di questo componente hanno il ruolo di definire una strutturata per definire lo storico delle chiamate di un utente e, conseguentemente, l'accesso ai dati relativi a una chiamata (data, mittente e $n\geq1$ destinatari della chiamata).
 
 La componente contiene l'interfaccia \texttt{ICall} e la sua implementazione lato server \texttt{Call}, che rappresenta il \inglese{transfer object} per la rappresentazione delle chiamate che deve essere mappata nel database.
 
-Infine, allo scopo di consentire ai client di accedere alle funzionalità di questo componente, è stata prevista una \inglese{servlet} \texttt{call.servlet.DownloadCallHistoryServlet}, che estende \texttt{javax.servlet.http.HttpServlet}, il cui ruolo sarà descritto con maggiori dettagli nella sezione \vref{sec:cs07}.
+Infine, allo scopo di consentire ai client di accedere alle funzionalità di questo componente, è stata prevista una \inglese{servlet} \texttt{call.servlet.DownloadCallHistoryServlet} che estende \texttt{javax.servlet.http.HttpServlet} il cui ruolo sarà descritto con maggiori dettagli nella sezione \vref{sec:cs07}.
 
   \item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -827,13 +827,13 @@ Infine, allo scopo di consentire ai client di accedere alle funzionalità di que
 \subsubsection{CS07 -- Façade del server}\label{sec:cs07}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Tale componente ha il ruolo di offrire ai client una serie di punti di accesso alle funzionalità del sistema server. Dal momento che tale interazione avviene in un contesto distribuito, i punti di accesso ai componenti del server sono stati implementati come \inglese{servlet} Java destinate a essere eseguite nell'ambiente del \inglese{servlet container} fornito da Apache TomCat.
+Tale componente ha il ruolo di offrire ai client una serie di punti di accesso alle funzionalità del sistema server. Dal momento che tale interazione avviene in un contesto distribuito, i punti di accesso ai componenti del server sono stati implementati come \inglese{servlet} Java destinate a essere eseguite nell'ambiente del \inglese{servlet container} fornito da \textit{Apache TomCat}.
 
 Per questo motivo, tali Façade saranno realizzate come estensioni della classe di libreria \texttt{javax.servlet.http.HttpServlet}, al fine di creare un sistema di risposta lato server che prenderà in carico le richieste provenienti dai client.
 
 La classe Java \texttt{HttpServlet} implementa un sistema di \inglese{listening} che permette di monitorare costantemente richieste in ingresso. Queste ultime possono essere di duplice natura e corrispondono ai metodi di invio dei dati previsti dal protocollo HTTP (\texttt{GET} e \texttt{POST}).
 
-La mappatura fra componenti del server e le rispettive \inglese{servlet} di Façade, implementate come sottoclassi di \texttt{javax.servlet.http.HttpServlet} è illustrata dalla tabella seguente:
+La mappatura fra componenti del server e le rispettive \inglese{servlet} di Façade, implementate come sottoclassi di \texttt{javax.servlet.http.HttpServlet}, è illustrata dalla tabella seguente:
 
 \begin{center}
 \rowcolors{2}{lightblue}{llightblue}
@@ -866,11 +866,11 @@ CS06 -- Gestione chiamate & call.servlet.DownloadCallHistoryManager\\
 \end{tabular}
 \end{center}
 
-In particolare \texttt{connection.ChannelServlet} è coinvolto dopo la fase di \inglese{login}, una volta che è stata accertata la validità dell'autenticazione, e interagisce con \textsf{Gestione connessione} allo scopo di creare un canale di comunicazione fra il server e il client, secondo le modalità illustrate nella sezione \ref{sec:cs02}.\footnote{%
+In particolare \texttt{connection.ChannelServlet} è coinvolto dopo la fase di \inglese{login}, una volta che è stata accertata la validità dell'autenticazione, interagisce con \textsf{Gestione connessione} allo scopo di creare un canale di comunicazione fra il server e il client, secondo le modalità illustrate nella sezione \ref{sec:cs02}.\footnote{%
 Tale classe, come anticipato nella descrizione a pagina \pageref{sec:cs02}, non è in realtà sottotipo diretto di \texttt{javax.servlet.http.HttpServlet}, ma estende \texttt{org.apache.catalina.websocket.WebSocketServlet} che a sua volta è sottoclasse di \texttt{javax.servlet.http.HttpServlet}.
 }
 
-Il compito di interfacciarsi con \textsf{Gestione rubrica} per recuperare la rubrica associata ad un utente e per riflettere sul server le operazioni di amministrazione della rubrica spetta invece al pacchetto di \inglese{servlet} \texttt{abook.servlet}. Tale \inglese{servlet} risponde anche alle richieste dei client per le azioni di aggiornamento e modifica dell'account personale dell'utente associato al client. Nello specifico abbiamo:
+Il compito di interfacciarsi con \textsf{Gestione rubrica} per recuperare la rubrica associata ad un utente e per riflettere sul server le operazioni di amministrazione della rubrica spetta invece al pacchetto di \inglese{servlet} \texttt{abook.servlet}. Tale \inglese{servlet} risponde anche alle richieste dei client per le azioni di aggiornamento e modifica dell'account personale dell'utente associato al client. Nello specifico si ha:
 
 \begin{itemize}
 	  \item[-] \texttt{abook.servlet.AddressBookDoAddContactServlet}: richiamata da un client per aggiungere un contatto alla propria rubrica utente;
@@ -889,9 +889,9 @@ Il compito di interfacciarsi con \textsf{Gestione rubrica} per recuperare la rub
 
 I cambiamenti di stato di un utente sono invece processati da \texttt{connection.ChannelServlet} che fornisce di conseguenza anch'esso un punto d'accesso al componente \textsf{Gestione rubrica}.
 
-Ai fini del \inglese{login} è utilizzata invece la \inglese{servlet} \texttt{authentication.servlet.LoginServlet}, che ha il compito di interfacciarsi con il sistema di autenticazione e, in particolare, con l'istanza del sottotipo di \texttt{javax.security.auth.spi.LoginModule} in uso per verificare le credenziali. Inoltre come già accennato sono presenti le \inglese{servlet} per il logout \texttt{authentication.servlet.LogoutServlet} e per la registrazione \texttt{authentication.servlet.RegisterServlet}.
+Ai fini del \inglese{login} è utilizzata invece la \inglese{servlet} \texttt{authentication.servlet.LoginServlet}, che ha il compito di interfacciarsi con il sistema di autenticazione e, in particolare, con l'istanza del sottotipo di \texttt{javax.security.auth.spi.LoginModule} in uso per verificare le credenziali. Inoltre come già accennato sono presenti le \inglese{servlet} per il \inglese{logout} \texttt{authentication.servlet.LogoutServlet} e per la registrazione \texttt{authentication.servlet.RegisterServlet}.
 
-Infine, lo scaricamento e la gestione della segreteria telefonica (di competenza di \textsf{Gestione segreteria}) e dello storico delle chiamate (per quanto riguarda il componente \textsf{Gestione chiamate}) avvengono in risposta alle richieste dei client pervenute al pacchetto di servlet \texttt{message.servlet} e \texttt{call.servlet.DownloadCallHistoryServlet} rispettivamente. 
+Infine lo scaricamento e la gestione della segreteria telefonica (di competenza di \textsf{Gestione segreteria}) e dello storico delle chiamate (per quanto riguarda il componente \textsf{Gestione chiamate}) avvengono in risposta alle richieste dei client pervenute al pacchetto di servlet \texttt{message.servlet} e \texttt{call.servlet.DownloadCallHistoryServlet} rispettivamente. 
 
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -969,7 +969,7 @@ Tale classe espone la funzione per la manipolazione di oggetti di tipo \texttt{I
 \item \texttt{CallDAO}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
-Tale classe interagisce con il \inglese{framework} Hibernate e contiene la logica per la manipolazione dei dati (in lettura e scrittura) nella tabella Call del database.
+Tale classe interagisce con il \inglese{framework} Hibernate e contiene la logica per la manipolazione dei dati (in lettura e scrittura) nella tabella \textit{Call} del database.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -982,7 +982,7 @@ Tale classe interagisce con il \inglese{framework} Hibernate e contiene la logic
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
 
-Tale classe interagisce con il \inglese{framework} Hibernate e contiene la logica per la manipolazione dei dati (in lettura e scrittura) nella tabella Message del database.
+Tale classe interagisce con il \inglese{framework} Hibernate e contiene la logica per la manipolazione dei dati (in lettura e scrittura) nella tabella \textit{Message} del database.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -995,7 +995,7 @@ Tale classe interagisce con il \inglese{framework} Hibernate e contiene la logic
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
 
-Tale classe interagisce con il \inglese{framework} Hibernate e contiene la logica per la manipolazione dei dati (in lettura e scrittura) nella tabella Group del database.
+Tale classe interagisce con il \inglese{framework} Hibernate e contiene la logica per la manipolazione dei dati (in lettura e scrittura) nella tabella \textit{Group} del database.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -1008,7 +1008,7 @@ Tale classe interagisce con il \inglese{framework} Hibernate e contiene la logic
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
 
-Tale classe interagisce con il \inglese{framework} Hibernate e contiene la logica per la manipolazione dei dati (in lettura e scrittura) nella tabella UserData del database.
+Tale classe interagisce con il \inglese{framework} Hibernate e contiene la logica per la manipolazione dei dati (in lettura e scrittura) nella tabella \textit{UserData} del database.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -1039,7 +1039,7 @@ Classe che implementa il \inglese{pattern} Singleton e che viene utilizzata dall
 \item \texttt{PushInbound}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
-Sottoclasse di \texttt{org.apache.catalina.websocket.MessageInbound} (e, di conseguenza sottotipo anche di \texttt{org.apache.catalina.websocket.StreamInbound}) che rappresenta il canale di comunicazione bidirezionale fra client e server realizzato mediante WebSocket.
+Sottoclasse di \texttt{org.apache.catalina.websocket.MessageInbound} (e, di conseguenza sottotipo anche di \texttt{org.apache.catalina.websocket.StreamInbound}) che rappresenta il canale di comunicazione bidirezionale fra client e server realizzato mediante \textit{WebSocket}.
 
 Il comportamento della sotto-architettura server in risposta ai messaggi ricevuti dal client è completamente determinato dall'implementazione (\inglese{overriding}) che tale classe fornisce del metodo \texttt{void onTextMessage(CharBuffer)}.
 
@@ -1053,7 +1053,7 @@ Il comportamento della sotto-architettura server in risposta ai messaggi ricevut
 \item \texttt{State}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
-Classe che attraverso un tipo enumerativo rappresenta lo stato in cui si trova un utente. Si osservi che tale stato non è associato direttamente all'utente, ma bensì al canale di comunicazione (univoco) di cui l'utente diventa proprietario al momento del login. Quindi le istanze della classe \texttt{connection.PushInBound} sono composte con un'istanza di \texttt{abook.State} che rappresenta lo stato in cui si trova un determinato utente in un determinato momento.
+Classe che attraverso un tipo enumerativo rappresenta lo stato in cui si trova un utente. Si osservi che tale stato non è associato direttamente all'utente ma bensì al canale di comunicazione (univoco) di cui l'utente diventa proprietario al momento del \inglese{login}. Di conseguenza le istanze della classe \texttt{connection.PushInBound} sono composte con un'istanza di \texttt{abook.State} che rappresenta lo stato in cui si trova un determinato utente in un determinato momento.
   
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}
@@ -1065,7 +1065,7 @@ Classe che attraverso un tipo enumerativo rappresenta lo stato in cui si trova u
 \item \texttt{ChannnelServlet}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Sottoclasse di \texttt{org.apache.catalina.websocket.WebSocketServlet} che ha la funzione di punto di accesso al componente \textsf{Gestione connessione} grazie al quale, ad autenticazione avvenuta, viene instaurato un canale di comunicazione fra il server e il client, destinato a essere usato per effettuare e ricevere le comunicazioni fra client.
+Sottoclasse di \texttt{org.apache.catalina.websocket.WebSocketServlet} che ha la funzione di punto di accesso al componente \textsf{Gestione connessione} grazie al quale, ad autenticazione avvenuta, viene instaurato un canale di comunicazione fra il server e il client destinato a essere usato per effettuare e ricevere le comunicazioni fra client.
 
 Come accennato nella sezione \vref{sec:cs02}, tramite un opportuno \inglese{overriding} del metodo \texttt{createWebSocketInbound(String, HttpServletRequest}, la \inglese{servlet} restituisce ai client un canale di comunicazione che, per la sua natura \inglese{full-duplex}, può essere utilizzato sia dal client per trasmettere messaggi al server che viceversa.
 
@@ -1104,7 +1104,7 @@ Interfaccia che raccoglie le operazioni per la gestione di un utente appartenent
 	\item{\scshape\bfseries Descrizione:}\\
 Classe che implementa l'interfaccia \texttt{IAddressBookEntry} e rappresenta quindi un contatto della rubrica associata a un determinato utente.
 
-Permette di accedere al contatto di cui si compone, al suo gruppo e di determinare se tale utente risulta essere bloccato dall'utente possessore del contatto.
+Permette di accedere al contatto, al suo gruppo e di determinare se tale utente risulta essere bloccato dall'utente possessore del contatto.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1128,7 +1128,7 @@ Interfaccia per le classi che rappresentano gli utenti, è dotata di operazioni 
 \item \texttt{UserData}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Classe \inglese{transfer object} che implementa l'interfaccia \texttt{IUserData} le cui istanze corrispondono ai record della tabella degli utenti nel database.
+Classe \inglese{transfer object} che implementa l'interfaccia \texttt{IUserData} le cui istanze corrispondono ai \textit{record} della tabella degli utenti nel database.
 
 È caratterizzata dai campi dati che corrispondono alle proprietà degli utenti (email, password, domanda segreta e relativa risposta, nome, cognome e immagine personale).
 
@@ -1155,7 +1155,7 @@ Interfaccia per i gruppi interni alla rubrica di un utente, prevede un'operazion
 \item \texttt{Group}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Implementazione dell'interfaccia \texttt{IGroup}, che costituisce anche il \inglese{transfer object} per i gruppi di una rubrica utente. Ogni gruppo è dotato di un nome e raccoglie in sé uno o più istanze di classi sottotipo di \texttt{abook.IUserData}.
+Implementazione dell'interfaccia \texttt{IGroup} che costituisce anche il \inglese{transfer object} per i gruppi di una rubrica utente. Ogni gruppo è dotato di un nome e raccoglie in sé uno o più istanze di classi sottotipo di \texttt{abook.IUserData}.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	  \begin{itemize}[noitemsep,nolistsep]
@@ -1175,7 +1175,7 @@ Implementazione dell'interfaccia \texttt{IGroup}, che costituisce anche il \ingl
 \item \texttt{AddressBookDoAddContactServlet}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Servlet il cui compito consiste nell'aggiungere alla rubrica personale dell'utente un nuovo contatto tra quelli registrati al sistema \caName.
+\textit{Servlet} il cui compito consiste nell'aggiungere alla rubrica personale dell'utente un nuovo contatto tra quelli registrati al sistema \caName.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1187,7 +1187,7 @@ Servlet il cui compito consiste nell'aggiungere alla rubrica personale dell'uten
 \item \texttt{AddressBookDoRemoveContactServlet}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Servlet il cui compito consiste nel rimuovere dalla rubrica personale dell'utente un contatto tra quelli presenti nella rubrica stessa.
+\textit{Servlet} il cui compito consiste nel rimuovere dalla rubrica personale dell'utente un contatto tra quelli presenti nella rubrica stessa.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1199,7 +1199,7 @@ Servlet il cui compito consiste nel rimuovere dalla rubrica personale dell'utent
 \item \texttt{AddressBookDoBlockServlet}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Servlet il cui compito consiste nel bloccare un contatto presente nella rubrica dell'utente, in questo modo lo stesso non può essere più contattato dal contatto.
+\textit{Servlet} il cui compito consiste nel bloccare un contatto presente nella rubrica dell'utente, in questo modo lo stesso non può essere più contattato dal contatto.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \textsf{CS03 -- Gestione rubrica }
@@ -1210,7 +1210,7 @@ Servlet il cui compito consiste nel bloccare un contatto presente nella rubrica 
 \item \texttt{AddressBookDoUnblockServlet}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Servlet il cui compito consiste nello sbloccare un contatto presente nella rubrica dell'utente, in questo modo lo stesso può essere contattato dal contatto che era stato in precedenza bloccato.
+\textit{Servlet} il cui compito consiste nello sbloccare un contatto presente nella rubrica dell'utente, in questo modo lo stesso può essere contattato dal contatto che era stato in precedenza bloccato.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \textsf{CS03 -- Gestione rubrica }
@@ -1221,7 +1221,7 @@ Servlet il cui compito consiste nello sbloccare un contatto presente nella rubri
 \item \texttt{AddressBookDoCreateGroupServlet}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Servlet il cui compito consiste inserire un nuovo gruppo in cui inserire gli utenti presenti nella rubrica personale dell'utente.
+\textit{Servlet} il cui compito consiste inserire un nuovo gruppo in cui inserire gli utenti presenti nella rubrica personale dell'utente.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1233,7 +1233,7 @@ Servlet il cui compito consiste inserire un nuovo gruppo in cui inserire gli ute
 \item \texttt{AddressBookDoDeleteGroupServlet}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Servlet il cui compito consiste eliminare un gruppo creato in precedenza e quindi presente nella rubrica personale dell'utente.
+\textit{Servlet} il cui compito consiste eliminare un gruppo creato in precedenza e quindi presente nella rubrica personale dell'utente.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1245,7 +1245,7 @@ Servlet il cui compito consiste eliminare un gruppo creato in precedenza e quind
 \item \texttt{AddressBookDoInsertInGroupServlet}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Servlet il cui compito consiste nell'inserire un contatto presente nella rubrica dell'utente ad un gruppo esistente nella rubrica personale.
+\textit{Servlet} il cui compito consiste nell'inserire un contatto presente nella rubrica dell'utente ad un gruppo esistente nella rubrica personale.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1257,7 +1257,7 @@ Servlet il cui compito consiste nell'inserire un contatto presente nella rubrica
 \item \texttt{AddressBookDoRemoveFromGroupServlet}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Servlet il cui compito consiste rimuovere un contatto presente nella rubrica dell'utente da un gruppo esistente nella rubrica personale.
+\textit{Servlet} il cui compito consiste rimuovere un contatto presente nella rubrica dell'utente da un gruppo esistente nella rubrica personale.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1269,7 +1269,7 @@ Servlet il cui compito consiste rimuovere un contatto presente nella rubrica del
 \item \texttt{AddressBookGetContactsServlet}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Servlet il cui compito consiste nel fornire la rubrica di un utente iscritto al sistema \caName.
+\textit{Servlet} il cui compito consiste nel fornire la rubrica di un utente iscritto al sistema \caName.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1281,7 +1281,7 @@ Servlet il cui compito consiste nel fornire la rubrica di un utente iscritto al 
 \item \texttt{AccountSettingsServlet}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}
-Servlet che ha il compito di permettere la modifica dei dati personali di un utente iscritto al sistema \caName.
+\textit{Servlet} che ha il compito di permettere la modifica dei dati personali di un utente iscritto al sistema \caName.
   
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   	\begin{itemize}[noitemsep,nolistsep]
@@ -1428,7 +1428,7 @@ Sottoclasse di \texttt{javax.servlet.http.HttpServlet} la cui responsabilità è
 \item \texttt{AuthenticationModule}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-  	Implementazione dell'interfaccia \texttt{javax.security.auth.spi.LoginModule} definisce la logica di autenticazione attuata dal sistema mytalk. Se si avesse bisogno di una maggiore sicurezza per questa procedura è sufficiente fornire una nuova implementazione di questa interfaccia.
+  	Implementazione dell'interfaccia \texttt{javax.security.auth.spi.LoginModule} definisce la logica di autenticazione attuata dal sistema \caName. Se si avesse bisogno di una maggiore sicurezza per questa procedura è sufficiente fornire una nuova implementazione di questa interfaccia.
   \item{\scshape\bfseries Componenti che ne fanno uso}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS04 -- Gestione autenticazione}
@@ -1560,15 +1560,15 @@ Dal momento che il \inglese{presenter} ha la responsabilità di ricevere i coman
 
 Dal momento che per l'interazione con l'utente sono previste molteplici viste, è stato predisposto un \inglese{presenter} per ognuna di queste. Ogni vista detiene un riferimento al proprio \inglese{presenter} cui vengono inviate le richieste su risposta dell'interazione con l'utente, in quanto le operazioni del \inglese{presenter} sono impostate come funzioni di \inglese{callback} nell'interfaccia grafica.
 
-D'altro canto, i vari \inglese{presenter} interagiscono con le viste grazie alla conoscenza di una ``interfaccia'' per la loro manipolazione, in quanto tramite JavaScript è possibile intervenire sul \underline{DOM}\@. Tali considerazioni sono conformi all'utilizzo del \inglese{design pattern} MVP.\footnote{%
+I vari \inglese{presenter} interagiscono con le viste grazie alla conoscenza di una ``interfaccia'' per la loro manipolazione, in quanto tramite \textit{JavaScript} è possibile intervenire sul \underline{DOM}\@. Tali considerazioni sono conformi all'utilizzo del \inglese{design pattern} MVP.\footnote{%
   Per una descrizione più dettagliata del \inglese{pattern} MVP si rimanda alla sezione \ref{sec:MVP}\@.
 }
 
-Questo componente ha inoltre il compito di recuperare i dati presenti sul server relativi alla rubrica di un utente, la sua segreteria telefonica e lo storico delle chiamate che lo interessano. I diversi \inglese{presenter} del componente \textsf{Gestione GUI} hanno dunque anche il compito di interrogare il server al fin di procurarsi le informazioni con cui popolare l'interfaccia grafica utente.
+Questo componente ha inoltre il compito di recuperare i dati presenti sul server relativi alla rubrica di un utente, la segreteria telefonica e lo storico delle chiamate che lo interessano. I diversi \inglese{presenter} del componente \textsf{Gestione GUI} hanno dunque anche il compito di interrogare il server al fin di procurarsi le informazioni con cui popolare l'interfaccia grafica utente.
 
 Questi sono rappresentati dalle strutture del componente \textsf{Rappresentazione dati} e permangono internamente al \inglese{presenter} per essere disponibili a successive interrogazioni da parte della GUI senza coinvolgere nuovamente il server.
 
-La logica di comunicazione fra client e fra client e server è incapsulata all'interno delle classi facenti parte del componente \textsf{Gestione comunicazione}. Queste ultime sfruttano un canale di comunicazione bidirezionale client-server per interagire con il server in merito alle richieste di comunicazione con altri client, andando a creare appositi canali di comunicazione che si avvalgono della tecnologia WebRTC\@.
+La logica di comunicazione fra client, e fra client e server, è incapsulata all'interno delle classi facenti parte del componente \textsf{Gestione comunicazione}, queste ultime sfruttano un canale di comunicazione bidirezionale client-server per interagire con il server in merito alle richieste di comunicazione con altri client, andando a creare appositi canali di comunicazione che si avvalgono della tecnologia WebRTC\@.
 
 In sintesi, la sotto-architettura \texttt{clientpresenter} dispone dei seguenti componenti:
 \begin{itemize}[noitemsep,nolistsep]
@@ -1580,7 +1580,7 @@ che saranno descritte con maggiori dettagli nella sezione successiva.
 
 Si ricorda sin da ora che i nomi di tutte le interfacce e tutte le classi riportate nella sezione sono implicitamente parte del package \texttt{org.softwaresynthesis.mytalk.clientpresenter} pertanto tale prefisso sarà omesso nella loro denominazione.
 
-Nella progettazione ad alto livello è stato scelto di non tenere in considerazione il dominio tecnologico dell'applicativo, che non prevede la presenza di classi e interfacce. In questa sede, la progettazione sarà influenzata unicamente dalle specifiche e dai principi della programmazione orientata agli oggetti.
+Nella progettazione ad alto livello è stato scelto di non tenere in considerazione il dominio tecnologico dell'applicativo, che non prevede la presenza di classi e interfacce, la progettazione sarà pertanto influenzata unicamente dalle specifiche e dai principi della programmazione orientata agli oggetti.
 
 Tale scelta è motivata dalle seguenti considerazioni:
 \begin{itemize}
@@ -1596,7 +1596,7 @@ La presenza delle interfacce, delle relazioni di implementazione e l'estensione 
 \subsubsection{CP01 -- Gestione comunicazione}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-È il componente che rappresenta il nucleo logico fondamentale della comunicazione. In esso è presente la classe \texttt{kernel.CommunicationCenter} che ha la responsabilità di tener traccia delle comunicazioni aperte con i client usando la tecnologia WebRTC\@. Per compiere il proprio lavoro, tale classe si avvale delle funzionalità fornite dal webRTC per creare e gestire la comunicazione. Nello specifico vengono usate le classi:
+È il componente che rappresenta il nucleo logico fondamentale della comunicazione, in esso è presente la classe \texttt{kernel.CommunicationCenter} che ha la responsabilità di tener traccia delle comunicazioni aperte con i client usando la tecnologia WebRTC\@. Per compiere il proprio lavoro, tale classe si avvale delle funzionalità fornite dal webRTC per creare e gestire la comunicazione. Nello specifico vengono usate le classi:
 
 \begin{itemize}
 	\item PeerICECandidate;
@@ -2367,7 +2367,7 @@ Tale classe nasconde la complessità di gestione di una richiesta di download de
 
 \subsubsection*{Classi del package \texttt{org.softwaresynthesis.mytalk.server.authentication.servlet}}
 
-Ogni classe di tale package implementa Façade poiché nasconde l'iter per l'autenticazione (login, logout  e registrazione) di un utente svincolando l'utilizzatore dal doverlo conoscere. Nello specifico tali classi richiamano in più punti e in maniera sequenziale, classi presenti nel package \texttt{server.abook}, \texttt{server.dao} e \texttt{server.autenthication}.
+Ogni classe di tale package implementa Façade poiché nasconde l'iter per l'autenticazione (\inglese{login}, \inglese{logout}  e registrazione) di un utente svincolando l'utilizzatore dal doverlo conoscere. Nello specifico tali classi richiamano in più punti e in maniera sequenziale, classi presenti nel package \texttt{server.abook}, \texttt{server.dao} e \texttt{server.autenthication}.
 
 \begin{figure}[H]
   \centering
