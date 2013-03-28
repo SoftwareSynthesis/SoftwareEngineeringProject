@@ -644,7 +644,7 @@ Nessun attributo evidenziato.
 	Infine il metodo termina ritornando il valore di \inglese{flag};	
 	
 	\item{\method{+ insert(call: ICall): boolean}}\\
-	Metodo usato per inserire una chiamata nel database, riceve come parametro d'ingresso un oggetto \classname{abook.IGroup} e restituisce un valore booleano  pari a \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
+	Metodo usato per inserire una chiamata nel database, riceve come parametro d'ingresso un oggetto \classname{call.ICall} e restituisce un valore booleano  pari a \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
 	\begin{itemize}
 		\item viene inizializzata una variabile ti tipo \inglese{boolean} nominata \inglese{flag}, a \inglese{false};
 		\item si crea un istanza di \classname{HibernateUtil} util;
@@ -676,7 +676,7 @@ Nessun attributo evidenziato.
 		\item si crea un istanza di \texttt{List<ICall>} calls;
 		\item si crea un istanza di \texttt{Query} query;
 		\item si crea una stringa hqlQuery impostata per default a:\\
-			\verb|"from call as c where c.id = :id"|
+			\verb|"from call as c where c.mittente = :id or c.destinarario =:id"|
 		\item si crea un istanza di \texttt{Session} session;
 		\item si crea un istanza di \texttt{SessionFactory} factory;
 		\item si crea un istanza di \texttt{Transaction} transaction;
@@ -696,7 +696,7 @@ Nessun attributo evidenziato.
 		\item nel blocco catch: si effettua un \textit{rollback} a partire da \textit{transaction};
 		\item nel blocco finally: se \textit{session} è diverso da \textit{null}, si chiude mediante una chiamata di tipo \texttt{close()};
 	\end{itemize}
-	Il programma termina controllando se calls è diversa da \textit{null} e contiene almeno un elemento. Nel caso il programma termina ritornando il primo contatto presente nella lista. Altrimenti termina ritornando \textit{null}.
+	Il programma termina controllando se calls è diversa da \textit{null} e contiene almeno un elemento. Nel caso il programma termina ritornando la lista cosi ottenuta. Altrimenti termina ritornando \textit{null}.
 	
 \end{description}
 
@@ -776,7 +776,7 @@ Nessun attributo evidenziato.
 	Infine il metodo termina ritornando il valore di \inglese{flag};	
 	
 	\item{\method{+ insert(message: IMessage): boolean}}\\
-	Metodo usato per inserire una chiamata nel database, riceve come parametro d'ingresso un oggetto \classname{abook.IGroup} e restituisce un valore booleano  pari a \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
+	Metodo usato per inserire una chiamata nel database, riceve come parametro d'ingresso un oggetto \classname{message.IMessage} e restituisce un valore booleano  pari a \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
 	\begin{itemize}
 		\item viene inizializzata una variabile ti tipo \inglese{boolean} nominata \inglese{flag}, a \inglese{false};
 		\item si crea un istanza di \classname{HibernateUtil} util;
@@ -792,7 +792,7 @@ Nessun attributo evidenziato.
 			\item quindi a partire da util si inizializza factory mediante una chiamata \method{getFactory()};
 			\item analogamente a quanto fatto in precedenza, si inizializza \textit{session} tramite una chiamata \method{openSession()} eseguita a partire da \textit{factory};
 			\item transaction viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da session;
-			\item quindi si è pronti per eseguire l'istruzione di \textit{save} a partire da \textit{session} e passando come parametro group;
+			\item quindi si è pronti per eseguire l'istruzione di \textit{save} a partire da \textit{session} e passando come parametro message;
 			\item si esegue il commit;
 			\item si pone \textit{flag} a \inglese{true};
 		\end{itemize}
@@ -808,7 +808,7 @@ Nessun attributo evidenziato.
 		\item si crea un istanza di \texttt{List<IMessage>} messages;
 		\item si crea un istanza di \texttt{Query} query;
 		\item si crea una stringa hqlQuery impostata per default a:\\
-			\verb|"from call as c where c.id = :id"|
+			\verb|"from message as m where m.owner = :id"|
 		\item si crea un istanza di \texttt{Session} session;
 		\item si crea un istanza di \texttt{SessionFactory} factory;
 		\item si crea un istanza di \texttt{Transaction} transaction;
@@ -828,7 +828,7 @@ Nessun attributo evidenziato.
 		\item nel blocco catch: si effettua un \textit{rollback} a partire da \textit{transaction};
 		\item nel blocco finally: se \textit{session} è diverso da \textit{null}, si chiude mediante una chiamata di tipo \texttt{close()};
 	\end{itemize}
-	Il programma termina controllando se calls è diversa da \textit{null} e contiene almeno un elemento. Nel caso il programma termina ritornando il primo contatto presente nella lista. Altrimenti termina ritornando \textit{null}.
+	Il programma termina controllando se messages è diversa da \textit{null} e contiene almeno un elemento. Nel caso il programma termina ritornando la lista cosi ottenuta. Altrimenti termina ritornando \textit{null}.
 	
 \end{description}
 
