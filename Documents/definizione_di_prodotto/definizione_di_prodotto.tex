@@ -700,6 +700,111 @@ Nessun attributo evidenziato.
 	
 \end{description}
 
+%TODO da verificare
+
+\classsection{CallListDAO}
+
+\subsubsection*{Funzione}
+Classe che implementa il pattern DAO. Definisce le procedure d’inserimento, eliminazione ed aggiornamento di entry inerenti alla tabella CallLists. La classe inoltre fornisce metodi per interrogare il database ed ottenere dati utente.
+
+\subsubsection*{Relazioni d'uso}
+
+\begin{itemize}
+	\item \texttt{java.util.List}:
+	\item \texttt{org.hibernate.Query}:
+	\item \texttt{org.hibernate.Session}:
+	\item \texttt{org.hibernate.SessionFactory}:
+	\item \texttt{org.hibernate.Transaction}:
+	\item \classname{call.ICallList}:
+\end{itemize}
+
+\subsubsection*{Attributi}
+
+Nessun attributo evidenziato.
+
+\subsubsection*{Metodi}
+
+\begin{description}
+	\item{\method{+ delete(entry: ICallList): boolean}}\\
+	Metodo usato per cancellare una \textit{entry} dal database. Per \textit{entry} si intende un qualsiasi oggetto implementante l'interfaccia \classname{ICallList}. Il metodo riceve come parametro d'ingresso un oggetto \classname{call.ICallList} e restituisce un valore booleano \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
+	\begin{itemize}
+		\item viene inizializzata una variabile di tipo \inglese{boolean} nominata \textit{flag}, a \inglese{false};
+		\item si crea un istanza di \classname{HibernateUtil} util;
+		\item si crea un istanza di \texttt{Session} session;
+		\item si crea un istanza di \texttt{SessionFactory} factory;
+		\item si crea un istanza di \texttt{Transaction} transaction;
+	\end{itemize}
+	Quindi nel metodo deve essere definito un blocco \textit{try-catch} finally:
+	\begin{itemize}
+		\item nel blocco \textit{try}:
+		\begin{itemize}
+			\item util deve essere inizializzato mediante la chiamata \method{getIstance()} di \classname{HibernateUtil};
+			\item quindi a partire da \textit{util} si inizializza \textit{factory} mediante una chiamata \method{getFactory()};
+			\item analogamente a quanto fatto in precedenza, si inizializza \textit{session} tramite una chiamata \method{openSession()} eseguita a partire da \textit{factory};
+			\item transaction viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da \textit{session};
+			\item quindi si è pronti per eseguire l'istruzione di inglese{delete} a partire da \textit{session} e passando come parametro \textit{entry};
+			\item si esegue il \textit{commit};
+			\item si pone flag a \inglese{true};
+		\end{itemize}
+		\item nel blocco catch: si effettua un rollback a partire da transaction;
+		\item nel blocco finally: se \textit{session} è diverso da \textit{null}, si chiude mediante una chiamata di tipo \texttt{close()};
+	\end{itemize}
+	Infine il metodo termina ritornando il valore di \textit{flag};
+	
+	\item{\method{+ update(entry: ICallLIst): boolean}}\\
+	Metodo usato per modificare una \textit{entry} presente nel database. Il metodo riceve come parametro d'ingresso un oggetto \classname{call.ICallList} e restituisce un valore booleano \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
+	\begin{itemize}
+		\item viene inizializzata una variabile ti tipo \textit{boolean} nominata \textit{flag}, a \inglese{false};
+		\item si crea un istanza di \classname{HibernateUtil} util;
+		\item si crea un istanza di \texttt{Session} session;
+		\item si crea un istanza di \texttt{SessionFactory} factory;
+		\item si crea un istanza di \texttt{Transaction} transaction;
+	\end{itemize}
+	Quindi nel metodo deve essere definito un blocco \textit{try-catch} finally:
+	\begin{itemize}
+		\item nel blocco try:
+		\begin{itemize}
+			\item util deve essere inizializzato mediante la chiamata \method{getIstance()} di \classname{HibernateUtil};
+			\item quindi a partire da \textit{util} si inizializza \textit{factory} mediante una chiamata \method{getFactory()};
+			\item analogamente a quanto fatto in precedenza, si inizializza \textit{session} tramite una chiamata \method{openSession()} eseguita a partire da \textit{factory};
+			\item transaction viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da \textit{session};
+			\item quindi si è pronti per eseguire l'istruzione di \textit{update} a partire da \textit{session} e passando come parametro \textit{entry};
+			\item si esegue il commit;
+			\item si pone flag a \inglese{true};
+		\end{itemize}
+		\item nel blocco \textit{catch}: si effettua un \textit{rollback} a partire da \textit{transaction};
+		\item nel blocco \textit{finally}: se \textit{session} è diverso da \textit{null}, si chiude mediante una chiamata di tipo \texttt{close()};
+	\end{itemize}
+	Infine il metodo termina ritornando il valore di \textit{flag};	
+	
+	\item{\method{+ insert(entry: ICallLIst): boolean}}\\
+	Metodo usato per inserire una \textit{entry} nel database. Il metodo riceve come parametro d'ingresso un oggetto \classname{call.ICallLIst} e restituisce un valore booleano \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
+	\begin{itemize}
+		\item viene inizializzata una variabile ti tipo \textit{boolean} nominata \textit{flag}, a \inglese{false};
+		\item si crea un istanza di \classname{HibernateUtil} util;
+		\item si crea un istanza di \texttt{Session} session;
+		\item si crea un istanza di \texttt{SessionFactory} factory;
+		\item si crea un istanza di \texttt{Transaction} transaction;
+	\end{itemize}
+	Quindi nel metodo deve essere definito un blocco \textit{try-catch} finally:
+	\begin{itemize}
+		\item nel blocco \textit{try}:
+		\begin{itemize}
+			\item \textit{util} deve essere inizializzato mediante la chiamata \method{getIstance()} di \classname{HibernateUtil};
+			\item quindi a partire da \textit{util} si inizializza \textit{factory} mediante una chiamata \method{getFactory()};
+			\item analogamente a quanto fatto in precedenza, si inizializza \textit{session} tramite una chiamata \method{openSession()} eseguita a partire da \textit{factory};
+			\item \textit{transaction} viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da \textit{session};
+			\item quindi si è pronti per eseguire l'istruzione di \textit{save} a partire da \textit{session} e passando come parametro \textit{entry};
+			\item si esegue il \textit{commit};
+			\item si pone \textit{flag} a \inglese{true};
+		\end{itemize}
+		\item nel blocco \textit{catch}: si effettua un \textit{rollback} a partire da \textit{transaction};
+		\item nel blocco \textit{finally}: se \textit{session} è diverso da \textit{null}, si chiude mediante una chimata di tipo \texttt{close()};
+	\end{itemize}
+	Infine il metodo termina ritornando il valore di flag;
+	
+\end{description}
+
 \classsection{MessageDAO}
 
 \subsubsection*{Funzione}
@@ -1943,6 +2048,86 @@ Classe che implementa l'interfaccia \classname{ICall}.
 	Restituisce il contenuto del campo \memberdata{endDate}.
 	\item{\method{+ setEndDate(endDate: Date): void}}\\
 	Imposta la data di avvio della chiamata, sovrascrivendo il contenuto \memberdata{endData}.
+\end{description}
+
+\classsection{ICallList}
+
+\subsubsection*{Funzione}
+Interfaccia rappresentante una \textit{entry} di uno storico chiamate di un utente del sistema mytalk.
+
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+	\item \texttt{org.softwaresynthesis.mytalk.server.IMyTalkObject}: interfaccia da estendere. Ogni oggetto che implementerà l'interfaccia \classname{ICallList} dovrà essere in grado di convertire il proprio contenuto informativo in formato \textit{Json}.
+	\item \classname{IUserData}: l'interfaccia \classname{ICallList} definisce più metodi che restituiscono oggetti aventi tipo di ritorno \classname{IUserData}, essi sono i metodi \inglese{get} per ottenere l'utente che ha effettuato la chiamta. Analogamente \classname{IUserData} viene usato come parametro d'ingresso per i metodi \inglese{set} collegati ai metodi già citati.
+	\item \classname{ICall}: l'interfaccia \classname{ICallList} definiscono metodi che restituiscono oggetti aventi tipo di ritorno \classname{ICall}.
+\end{itemize}
+
+\subsubsection*{Metodi}
+\begin{description}
+	\item{\method{+ getId(): Long}}\\
+	Restituisce l'identificativo univoco di una \inglese{entry} di uno storico chiamate.
+	
+	\item{\method{+ setIdCall(call: ICall): void}}\\
+	Imposta l'id della chiamta \classname{ICall} (passato come parametro d'ingresso).
+	\item{\method{+ getIdCall(): IUserData}}\\
+	Restituisce un id di un oggetto avente tipo \classname{ICall} rappresentante una chiamata effettuata dall'utente.
+	
+	\item{\method{+ setIdUser(contact: IUserData): void}}\\
+	Imposta l'id dell'utente \classname{IUserData} (passato come parametro d'ingresso) come l'utente che ha effettuato la chiamata.
+	\item{\method{+ getIdUser(): IUserData}}\\
+	Restituisce l'id di oggetto avente tipo \classname{IUserData} rappresentante l'utente che ha effettuato la chiamata.
+	
+	\item{\method{+ setCaller(caller: boolean): void}}\\
+	Imposta l'utente che ha effettuato la chiamata come chiamante se il parametro ricevuto ha valore true.
+	\item{\method{+ getCaller(): boolean}}\\
+	Ritorna un valore di tipo bool se l'utente della chiamata è colui che l'ha iniziata o meno.
+\end{description}
+
+
+
+
+\classsection{CallList}
+
+\subsubsection*{Funzione}
+Classe che implementa l'interfaccia \classname{ICallList}.
+
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+	\item \texttt{call.ICallList}: interfaccia implementata dalla classe.
+\end{itemize}
+
+\subsubsection*{Attributi}
+
+\begin{itemize}
+	\item{\memberdata{-- id: long}}
+	Attributo contenente il codice identificativo dello storico chiamata.
+	\item{\memberdata{-- idCall: long}}
+	Attributo contenente il codice identificativo della chiamata.
+	\item{\memberdata{-- idUser: long}}
+	Attributo contenente il codice identificativo dell'utente partecipante alla chiamata.
+	\item{\memberdata{-- caller: boolean}}
+	Attributo che identifica se l'utente è il chiamante o meno.
+\end{itemize}
+
+\subsubsection*{Metodi}
+\begin{description}
+	\item{\method{+ getId(): Long}}\\
+	Restituisce il valore dell'attributo \memberdata{id}.
+	
+	\item{\method{+ setIdCall(call: Long): void}}\\
+	Imposta il valore dell'attributo \memberdata{idCall} con il valore ricevuto da parametro ``call''.
+	\item{\method{+ getIdCall(): Long}}\\
+	Restituisce il valore dell'attributo \memberdata{idCall}.
+	
+	\item{\method{+ setIdUser(contact: Long): void}}\\
+	Imposta il valore dell'attributo \memberdata{idUser} con il valore ricevuto da parametro ``contact''.
+	\item{\method{+ getIdUser(): Long}}\\
+	Restituisce il valore dell'attributo \memberdata{idUser}.
+	
+	\item{\method{+ setCaller(caller: boolean): void}}\\
+	Imposta il valore dell'attributo \memberdata{caller} con il valore ricevuto da parametro ``caller''.
+	\item{\method{+ getCaller(): boolean}}\\
+	Restituisce il valore dell'attributo \memberdata{caller}.
 \end{description}
 
 \subsection{Package org.softwaresynthesis.mytalk.server.call.servlet}\label{sec:callServlet}
