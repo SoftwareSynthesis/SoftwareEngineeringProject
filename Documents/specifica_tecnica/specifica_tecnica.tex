@@ -1659,13 +1659,13 @@ Per quanto riguarda invece la pagina principale dell'applicativo, cui si accede 
   \item[-] \texttt{guicontrol.ToolsPanelPresenter}, che ha il compito di gestire il pannello degli strumenti nell'interfaccia grafica.
 \end{itemize}
 
-La struttura delle classi che lo compongono mostra una corrispondenza biunivoca con gli elementi grafici presentati nella sezione~\ref{sec:gui} con un \inglese{presenter} per ognuno dei pannelli, cui si aggiunge un oggetto istanza di \texttt{guicontrol.PresenterMediator}.
+La struttura delle classi che lo compongono mostra una corrispondenza biunivoca con gli elementi grafici presentati nella sezione~\ref{sec:gui} con un \inglese{presenter} per ognuno dei pannelli cui si aggiunge un oggetto istanza di \texttt{guicontrol.PresenterMediator}.
 
 Ogni \inglese{presenter} facente parte di questo componente contiene al suo interno le funzioni di \inglese{callback} che vengono richiamate dall'elemento dell'interfaccia grafica corrispondente.
 
-D'altro canto, dal momento che il componente \textsf{Gestione GUI} è anche responsabile anche delle modifiche alle viste, le sottoclassi di \texttt{guicontrol.MainPanelPresenter} contengono anche le operazioni richiamate dall'esterno per l'aggiornamento dinamico della GUI\@.
+Dal momento che il componente \textsf{Gestione GUI} è anche responsabile anche delle modifiche alle viste, le sottoclassi di \texttt{guicontrol.MainPanelPresenter} contengono anche le operazioni richiamate dall'esterno per l'aggiornamento dinamico della GUI\@.
 
-L'oggetto \texttt{PresenterMediator}, invece, incapsula la collaborazione fra i vari \inglese{presenter} associati alla grafica e permette di gestire gli eventi generati da un elemento della GUI inviando a uno (o più) \inglese{presenter} i messaggi corrispondenti alle azioni da compiere.
+L'oggetto \texttt{PresenterMediator} invece incapsula la collaborazione fra i vari \inglese{presenter} associati alla grafica e permette di gestire gli eventi generati da un elemento della GUI inviando a uno (o più) \inglese{presenter} i messaggi corrispondenti alle azioni da compiere.
 
 	\item{\scshape\bfseries Diagramma delle classi:}\\
   \begin{figure}[H]
@@ -1771,7 +1771,7 @@ Gli oggetti \texttt{JSUserData} vengono creati a seguito di una richiesta proven
   \item{\scshape\bfseries Descrizione:}\\
 Classe avente il compito di rappresentare i gruppi della rubrica lato \inglese{presenter}, generato serializzando esclusivamente la parte che si vuole trasmettere ai client delle istanze del \inglese{transfer object} descritto sopra (\texttt{org.softwaresynthesis.mytalk.server.abook.Group}).
 
-In particolare, di un gruppo è possibile ottenere il nome e l'elenco dei contatti appartenenti al gruppo.
+In particolare di un gruppo è possibile ottenere il nome e l'elenco dei contatti appartenenti al gruppo.
 
 Gli oggetti \texttt{JSGroup} vengono creati a seguito di una richiesta proveniente dal \inglese{presenter} \texttt{guicontrol.GroupPanelPresenter} e sono successivamente impiegati  al fine di popolare l'interfaccia grafica con la lista dei gruppi utente.
 
@@ -1811,7 +1811,7 @@ Il \inglese{presenter} in questione rende inoltre possibile avviare una ricerca 
 
 I dati corrispondenti alla rubrica, ovvero le corrispondenti istanze di classi definite in \textsf{Rappresentazione dati}, se non sono presenti sul client devono essere recuperati dal server ed è responsabilità di questa classe contattare il \textsf{Façade del Server} al fine di ottenere le informazioni necessarie.
 
-Infine, in modo simile sono comunicati al server gli esiti delle operazioni di amministrazione sulla rubrica che hanno un effetto sulle informazioni di modello.
+Infine in modo simile sono comunicati al server gli esiti delle operazioni di amministrazione sulla rubrica che hanno un effetto sulle informazioni di modello.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1823,7 +1823,7 @@ Infine, in modo simile sono comunicati al server gli esiti delle operazioni di a
 \item \texttt{guicontrol.CallHistoryPanelPresenter}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Questo \inglese{presenter} gestisce l'elemento corrispondente al pannello dello storico delle chiamate presente nell'interfaccia grafica, permettendo la visualizzazione di un array di chiamate corrispondenti alle comunicazioni di un determinato utente.
+Questo \inglese{presenter} gestisce l'elemento corrispondente al pannello dello storico delle chiamate presente nell'interfaccia grafica, permettendo la visualizzazione di un \textit{array} di chiamate corrispondenti alle comunicazioni di un determinato utente.
 
 Poiché il componente grafico supervisionato è totalmente passivo, non sono presenti operazioni di \inglese{callback} da associare alle componenti grafiche vere e proprie.
 
@@ -1855,7 +1855,7 @@ Le principali funzioni di \inglese{callback} utilizzate dall'interfaccia grafica
 	\item{\scshape\bfseries Descrizione:}\\
 Tale \inglese{presenter} ha la responsabilità di controllare l'aggiornamento della sezione dell'interfaccia grafica incaricata di visualizzare il profilo di un utente in risposta alla selezione dalla rubrica o dall'esito di una ricerca.
 
-Poiché, inoltre, a partire da tale componente grafico è possibile avviare una comunicazione, tale classe comprende al proprio interno anche le funzioni che devono essere richiamate in risposta all'azione da parte dell'utente di dare avvio a una comunicazione.
+Poiché inoltre, a partire da tale componente grafico è possibile avviare una comunicazione, tale classe comprende al proprio interno anche le funzioni che devono essere richiamate in risposta all'azione da parte dell'utente di dare avvio a una comunicazione.
 
 Poiché da \texttt{org.softwaresynthesis.mytalk.clientview.ContactPanel} è possibile anche svolgere alcune attività di amministrazione della rubrica utente, in questo \inglese{presenter} sono presenti anche le funzioni di \inglese{callback} necessarie per l'aggiunta e la rimozione di un contatto particolare ad un gruppo, bloccare o sbloccare tale contatto, nonché per l'aggiunta dello stesso alla rubrica se il suo profilo è stato aperto a seguito di una ricerca fra gli utenti registrati nel sistema.
 
@@ -2110,9 +2110,9 @@ Il componente \textsf{Login} ha la responsabilità di ricevere in ingresso le cr
 \item \texttt{AddressBookPanel}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Pannello che permette la visualizzazione della rubrica dell'utente connesso al sistema, e di accedere ad alcune delle funzionalità di amministrazione della rubrica stessa (ad esempio l'aggiunta o la rimozione di gruppi).
+Pannello che permette la visualizzazione della rubrica dell'utente connesso al sistema e di accedere ad alcune delle funzionalità di amministrazione della rubrica stessa (ad esempio l'aggiunta o la rimozione di gruppi).
 
-In questo pannello sono anche presenti le funzionalità di ricerca fra gli utenti presenti nel sistema, con la visualizzazione dei risultati della ricerca al posto della lista dei contatti presenti in rubrica.
+In questo pannello sono anche presenti le funzionalità di ricerca fra gli utenti presenti nel sistema, con la visualizzazione dei risultati della ricerca sostituita alla lista dei contatti presenti in rubrica.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -2136,9 +2136,9 @@ Classe padre della gerarchia di oggetti grafici che possono comparire nella sezi
 \item \texttt{ToolsPanel}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Classe che rappresenta il pannello degli strumenti della \inglese{home screen} dell'applicativo, mediante il quale è possibile accedere alle funzionalità di ricerca, di segreteria telefonica, selezione della lingua, modifica dei dati dell'utente e storico delle chiamate.
+Classe che rappresenta il pannello degli strumenti della \inglese{home screen} dell'applicativo  mediante il quale è possibile accedere alle funzionalità di ricerca, di segreteria telefonica, selezione della lingua, modifica dei dati dell'utente e storico delle chiamate.
 
-All'occorrenza il pannello può essere messo in secondo piano e non essere più visibile per intero nella finestra principale. Inoltre, in questo pannello è visualizzato lo stato corrente dell'utente ed è possibile modificarlo per passare da ``occupato'' a ``disponibile'' o per disconnettersi e passare a ``\inglese{offline}''.
+All'occorrenza il pannello può essere messo in secondo piano e non essere più visibile per intero nella finestra principale. In questo pannello inoltre è visualizzato lo stato corrente dell'utente ed è possibile modificarlo per passare da ``occupato'' a ``disponibile'' o per disconnettersi e passare a \inglese{offline}.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -2178,7 +2178,7 @@ Tramite questo elemento grafico è possibile anche riprodurre il contenuto di un
 \item \texttt{GroupPanel}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Tramite questo pannello è possibile visionare i gruppi che compongono la rubrica dell'utente. i gruppi vengono rappresentanti mediante il loro nome all'interno di una lista. Affianco ad ogni nome comparirà un icona atta ad indicare la possibilità di eliminare il gruppo selezionato.
+Tramite questo pannello è possibile visionare i gruppi che compongono la rubrica dell'utente. I gruppi vengono rappresentanti mediante il loro nome all'interno di una lista e affianco ad ogni nome comparirà un icona atta ad indicare la possibilità di eliminare il gruppo selezionato.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -2202,7 +2202,7 @@ Tramite questo pannello grafico, dotato di un <input> per l'inserimento di una p
 \item \texttt{AccountSettingsPanel}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Questa classe è utilizzata per rappresentare il \underline{\inglese{form}} che si presenta all'utente per la modifica dei propri dati. Costituisce inoltre una sottoclasse di \texttt{MainPanel} e viene visualizzata quando l'utente preme il relativo pulsante nel pannello degli strumenti.
+Questa classe è utilizzata per rappresentare il \underline{\inglese{form}} che si presenta all'utente per la modifica dei propri dati, costituisce inoltre una sottoclasse di \texttt{MainPanel} e viene visualizzata quando l'utente preme il relativo pulsante nel pannello degli strumenti.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -2228,7 +2228,7 @@ Questa classe estende \texttt{MainPanel} e viene impiegata per rappresentare lo 
   \item{\scshape\bfseries Descrizione}\\
 Tale componente grafico si attiva nel momento in cui è stata avviata una forma di comunicazione, sia essa audio, audio/video oppure testuale. Per le comunicazioni audio e audio/video consente la visualizzazione dell'immagine associata al profilo dei destinatari oppure dei relativi \inglese{stream} video e permette di visualizzare le risorse condivise.
 
-Inoltre, tale entità grafica prevede anche la presenza di una o più aree di chat che non corrispondono necessariamente alla comunicazione in corso (perché è possibile avere più comunicazioni testuali in parallelo fra loro e con una comunicazione multimediale).
+Inoltre tale entità grafica prevede anche la presenza di una o più aree di chat che non corrispondono necessariamente alla comunicazione in corso (perché è possibile avere più comunicazioni testuali in parallelo fra loro e con una comunicazione multimediale).
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -2276,16 +2276,14 @@ Per una visione d'insieme dei componenti utilizzati da un \inglese{pattern}, e d
 \subsection{Data Access Object (DAO)}\label{sec:patterndao}
 
 \subsubsection{Scopo}
-Il \inglese{pattern} DAO ha lo scopo di disaccoppiare la logica di \inglese{business} dalla logica di accesso ai dati
-
-Questo si ottiene spostando la logica di accesso ai dati dai componenti di \inglese{business} stessi ad una classe DAO ad hoc per il DBMS scelto, rendendo i componenti che implementano la \inglese{business logic} indipendenti dalla natura del dispositivo di persistenza.
+Il \inglese{pattern} DAO ha lo scopo di disaccoppiare la logica di \inglese{business} dalla logica di accesso ai dati, questo si ottiene spostando la logica di accesso ai dati dai componenti di \inglese{business} stessi ad una classe DAO ad hoc per il DBMS scelto, rendendo i componenti che implementano la \inglese{business logic} indipendenti dalla natura del dispositivo di persistenza.
 
 Un simile approccio garantisce che un eventuale cambiamento del dispositivo di persistenza non comporti modifiche sui componenti di \inglese{business}.
 
 \subsubsection{Componenti che lo implementano}
 \begin{description}
 \item{\scshape\bfseries CS01 -- Gestione database}\\
-Le classi DAO consentono di isolare l'accesso alle tabelle del database dalla parte di \inglese{business logic} corrispondente alle entità TO, incapsulando in metodi di alto livello le operazioni sui record del database sottostante.
+Le classi DAO consentono di isolare l'accesso alle tabelle del database dalla parte di \inglese{business logic} corrispondente alle entità TO (\textit{transfer object}), incapsulando in metodi di alto livello le operazioni sui record del database sottostante.
 
 \begin{figure}[H]
   \centering
@@ -2293,7 +2291,7 @@ Le classi DAO consentono di isolare l'accesso alle tabelle del database dalla pa
   \caption{Applicazione del \inglese{pattern} Data Access Object}\label{fig:dao}
 \end{figure}
 
-Operando una distinzione di questo tipo, gli utenti esterni possono considerare gli oggetti che richiedono la mappatura nel database alla stregua di normali oggetti Java (POJO) senza preoccuparsi del meccanismo di persistenza dei dati.
+Operando una distinzione di questo tipo gli utenti esterni possono considerare gli oggetti che richiedono la mappatura nel database alla stregua di normali oggetti Java (POJO) senza preoccuparsi del meccanismo di persistenza dei dati.
 \end{description}
 
 \subsection{Façade}\label{sec:patternfacade}
@@ -2337,7 +2335,7 @@ Essendo già il diagramma sufficientemente complesso si ritiene che l'aggiunta d
 
 \subsubsection*{Classi del package \texttt{org.softwaresynthesis.mytalk.server.message.servlet}}
 
-Ogni classe di tale package implementa Façade poiché nasconde l'iter per la gestione della segreteria telefonica svincolando l'utilizzatore dal doverlo conoscere. Nello specifico tali classi richiamano in più punti e in maniera sequenziale classi presenti nel package \texttt{server.message} e \texttt{server.dao}.
+Ogni classe di tale package implementa Façade poiché nasconde l'iter per la gestione della segreteria telefonica svincolando l'utilizzatore dal doverlo conoscere, nello specifico tali classi richiamano in più punti e in maniera sequenziale classi presenti nel package \texttt{server.message} e \texttt{server.dao}.
 
 \begin{figure}[H]
   \centering
@@ -2347,7 +2345,7 @@ Ogni classe di tale package implementa Façade poiché nasconde l'iter per la ge
 
 \subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.connection.ChannelServlet}}
 
-Tale classe nasconde la complessità di gestione di una comunicazione client-server. Nello specifico svincola l'utilizzatore dal dover conoscere l'iter di utilizzo delle classi di \texttt{server.abook} e \texttt{server.connection}.
+Tale classe nasconde la complessità di gestione di una comunicazione client-server, nello specifico svincola l'utilizzatore dal dover conoscere l'iter di utilizzo delle classi di \texttt{server.abook} e \texttt{server.connection}.
 
 \begin{figure}[H]
   \centering
@@ -2357,7 +2355,7 @@ Tale classe nasconde la complessità di gestione di una comunicazione client-ser
 
 \subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.call.servlet.DownloadCallHistoryServlet}}
 
-Tale classe nasconde la complessità di gestione di una richiesta di download della lista delle chiamate. Nello specifico svincola l'utilizzatore dal dover conoscere l'iter di utilizzo delle classi di \texttt{server.abook}, \texttt{server.dao} e \texttt{server.call}.
+Tale classe nasconde la complessità di gestione di una richiesta di \inglese{download} della lista delle chiamate. Nello specifico svincola l'utilizzatore dal dover conoscere l'iter di utilizzo delle classi di \texttt{server.abook}, \texttt{server.dao} e \texttt{server.call}.
 
 \begin{figure}[H]
   \centering
@@ -2405,7 +2403,7 @@ Definisce un'interfaccia per il comportamento di un algoritmo generico, lasciand
 \begin{description}
 
   \item{\scshape\bfseries CS04 -- Gestione autenticazione}\\
-All'interno di tale classe, l'utilizzo del pattern si ha nel momento in cui è necessario definire una strategia di criptazione e decriptazione dei dati, passati dall'utente per eseguire l'autenticazione. L'interfaccia atta a definire l'algoritmo generico è \texttt{authentication.ISecurityStrategy} mentre una prima implementazione proposta dal team è \texttt{authentication.AESAlgorithm}, che definisce un algoritmo di criptazione basato su AES.
+All'interno di tale classe l'utilizzo del pattern si ha nel momento in cui è necessario definire una strategia di criptazione e decriptazione dei dati, passati dall'utente per eseguire l'autenticazione. L'interfaccia atta a definire l'algoritmo generico è \texttt{authentication.ISecurityStrategy} mentre una prima implementazione proposta dal team è \texttt{authentication.AESAlgorithm}, che definisce un algoritmo di criptazione basato su AES.
 
 %\begin{figure}[H]
 %  \centering
@@ -2442,19 +2440,19 @@ Qualora quest'ultimo fosse in grado di soddisfare tale richiesta con le risorse 
 Il vantaggio di un simile schema di interazione consiste nella riduzione del traffico di rete e nel conseguente incremento delle prestazioni in termini di velocità e, di conseguenza, dell'esperienza utente in generale.
 
 \subsubsection{Componenti che lo implementano}
-MVP viene utilizzato come il \inglese{pattern} più ad alto livello del nostro sistema. La distinzione fra \inglese{model}, \inglese{presenter} e \inglese{view} è infatti rispecchiata dalla suddivisione del sistema nelle tre sotto-architetture \texttt{server}, \texttt{clientpresenter} e \texttt{clientview}.
+MVP viene utilizzato come il \inglese{pattern} più ad alto livello del sistema: la distinzione fra \inglese{model}, \inglese{presenter} e \inglese{view} è infatti rispecchiata dalla suddivisione del sistema nelle tre sotto-architetture \texttt{server}, \texttt{clientpresenter} e \texttt{clientview}.
 
 In generale, l'utilizzo di MVP riduce l'accoppiamento tra le sotto-architetture minimizzando le modifiche richieste a ognuno di essi come conseguenza di cambiamenti all'interno degli altri.
 
-Inoltre, i componenti di questa sotto-architettura non sono vincolati a utilizzare la rete per accedere alle informazioni che sono memorizzate sul server quando queste sono già disponibili (e possono essere elaborate) sul client, migliorando quindi l'esperienza utente.
+Inoltre i componenti di questa sotto-architettura non sono vincolati a utilizzare la rete per accedere alle informazioni che sono memorizzate sul server quando queste sono già disponibili (e possono essere elaborate) sul client, migliorando quindi l'esperienza utente.
 
-In particolare, le componenti del sistema che prendono parte alle collaborazioni previste dal \inglese{pattern} MVP sono
+Le componenti del sistema che prendono parte alle collaborazioni previste dal \inglese{pattern} MVP sono
 \begin{description}
   \item{\scshape\bfseries CS01 -- Gestione database}\\
 Componente che ha il ruolo di gestire la persistenza dei dati sul server necessaria alla memorizzazione delle entità di interesse del modello dei dati.
 
   \item{\textsc{\bfseries CS06 -- Gestione chiamate}, \textsc{\bfseries CS03 -- Gestione rubrica} e \textsc{\bfseries CS05 -- Gestione segreteria}}\\
-Contengono le rappresentazioni delle entità della \inglese{business logic} lato server, che devono essere interrogate per ricavare le informazioni necessarie ai client in forma opportuna.
+Contengono le rappresentazioni delle entità della \inglese{business logic} lato server che devono essere interrogate per ricavare le informazioni necessarie ai client in forma opportuna.
 
   \item{\scshape\bfseries CS07 -- Façade del server}\\
 Componente del server interessato dalla ricezione delle richieste da parte dei \inglese{presenter}, recupera le informazioni di cui questi ultimi necessitano e le restituisce in forma serializzata e compatibile con il dominio applicativo dei client.
@@ -2493,7 +2491,7 @@ In questa sezione saranno descritti i diagrammi di attività che rappresentano i
 
 \subsection{Diagramma di attività generale}
 
-Il diagramma in figura \vref{fig:ADhome} rappresenta il flusso principale dell'applicazione \caName. Innanzitutto, l'accesso alle funzionalità del sistema è vincolato allo svolgimento con successo dell'azione di autenticazione, illustrata con maggiori dettagli nel diagramma di sotto-attività \vref{fig:ADautenticazione}.
+Il diagramma in figura \vref{fig:ADhome} rappresenta il flusso principale dell'applicazione \caName. L'accesso alle funzionalità del sistema è vincolato allo svolgimento con successo dell'azione di autenticazione, illustrata con maggiori dettagli nel diagramma di sotto-attività \vref{fig:ADautenticazione}.
 
 \begin{figure}[H]
 \centering
@@ -2624,7 +2622,7 @@ Esistono tre tipologie di comunicazione a seconda del mezzo utilizzato:
 \end{itemize}
 
 
-Tutte e tre le tipologie di connessione prevedono la condivisione di risorse, secondo le modalità riportate in figura \ref{fig:ADcondrisorse}. Inoltre, nel corso di una comunicazione di tipo audio oppure audio/video è possibile registrare una chiamata, secondo me modalità riportate in figura \ref{fig:ADregistrachiamata} nonché visualizzare le statistiche sulla comunicazione corrente (diagramma in fig.~\vref{fig:ADstatistiche}).
+Tutte e tre le tipologie di connessione prevedono la condivisione di risorse secondo le modalità riportate in figura \ref{fig:ADcondrisorse}. Inoltre, nel corso di una comunicazione di tipo audio oppure audio/video è possibile registrare una chiamata secondo le modalità riportate in figura \ref{fig:ADregistrachiamata}, nonché visualizzare le statistiche sulla comunicazione corrente (diagramma in fig.~\vref{fig:ADstatistiche}).
 
 \subsubsection{Diagramma di attività Comunicazione audio}
 La comunicazione audio (fig.~\vref{fig:ADcomaudio}) prevede la possibilità svolgimento di più azioni in parallelo, in particolare la registrazione, la condivisione di risorse, una comunicazione testuale e la visualizzazione delle statistiche sulla comunicazione in corso. Inoltre, a discrezione dell'utente, una comunicazione audio può essere promossa in una comunicazione audio/video oppure può essere estesa a nuovi partecipanti.
