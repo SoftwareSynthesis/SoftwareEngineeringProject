@@ -1,41 +1,128 @@
 package org.softwaresynthesis.mytalk.server.abook;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  * Test dei metodi della classe {@link AddressBookEntry}
  * 
- * @author 	Andrea Meneghinello
- * @version	%I%, %G%
+ * @author Andrea Meneghinello
+ * @version %I%, %G%
  */
-public class AddressBookEntryTest 
-{
+public class AddressBookEntryTest {
 	private static AddressBookEntry tester;
-	
+	// dati di test
+	private static IUserData contact;
+	private static IGroup group;
+
 	/**
-	 * Prepara i campi membro all'esecuzione
-	 * dei test
+	 * Crea l'oggetto da testare
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
+	 * @author Andrea Meneghinello
+	 * @version %I%, %G%
 	 */
-	public static void setupBeforeClass()
-	{
-		tester = new AddressBookEntry(1L);
-		tester.setBlocked(false);
+	@BeforeClass
+	public static void setupBeforeClass() {
+		tester = new AddressBookEntry();
+		contact = new UserData(1L);
+		contact.setMail("paperino@paperopoli.it");
+		group = new Group(1L);
 	}
-	
+
 	/**
-	 * Testa la corretta conversione di
-	 * una istanza di {@link AddressBookEntry}
-	 * in formato JSON
-	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
+	 * Testa la restituzione dell'id
 	 */
 	@Test
-	public static void testToJson()
-	{
-		//TODO
+	public void testSetGetId() {
+		Long id = 1L;
+		tester.setId(id);
+		Long result = tester.getId();
+		assertNotNull(result);
+		assertEquals(result, (Object) id);
+	}
+
+	/**
+	 * Verifica la corretta impostazione e recupero del contatto contenuto nella
+	 * voce della rubrica
+	 * 
+	 * @author Andrea Meneghinello
+	 * @version %I%, %G%
+	 */
+	@Test
+	public void testSetGetContact() {
+		tester.setContact(contact);
+		IUserData result = tester.getContact();
+		assertNotNull(result);
+		assertTrue(contact.equals(result));
+	}
+
+	/**
+	 * Verifica la corretta impostazione e il recupero del gruppo cui appartiene
+	 * la voce della rubrica
+	 */
+	@Test
+	public void testSetGetGroup() {
+		tester.setGroup(group);
+		IGroup result = tester.getGroup();
+		assertNotNull(result);
+		assertTrue(result.equals(group));
+	}
+
+	/**
+	 * Verifica la corretta impostazione e il recupero del proprietario della
+	 * voce della rubrica
+	 */
+	@Test
+	public void testSetGetOwner() {
+		tester.setOwner(contact);
+		IUserData result = tester.getOwner();
+		assertNotNull(result);
+		assertEquals(result, contact);
+	}
+
+	/**
+	 * Verifica che il contatto sia correttamente bloccato nella rubrica
+	 */
+	@Test
+	public void testSetGetBlocked() {
+		tester.setBlocked(true);
+		assertTrue(tester.getBlocked());
+		tester.setBlocked(false);
+		assertFalse(tester.getBlocked());
+	}
+
+	/**
+	 * Test del metodo equals
+	 */
+	@Test
+	public void testEquals() {
+		IAddressBookEntry other = new AddressBookEntry(1L);
+		other.setContact(contact);
+		other.setOwner(contact);
+		assertEquals(other, tester);
+	}
+
+	/**
+	 * Test del metodo toString()
+	 */
+	@Test
+	public void testToString() {
+		String string = String.format(
+				"AddressBookEntry[contact: %s, owner: %s, group: %s]", contact,
+				contact, group);
+		assertEquals(string, tester.toString());
+	}
+
+	/**
+	 * 
+	 */
+	@Test
+	public void testToJson() {
+		tester.setBlocked(false);
+		String string = String
+				.format("{\"id\":\"%d\", \"contact\":\"%s\", \"group\":\"%s\", \"blocked\":\"%s\"}",
+						contact.getId(), contact.toJson(), group.toJson(), false);
+		assertTrue(string.equals(tester.toJson()));
 	}
 }
