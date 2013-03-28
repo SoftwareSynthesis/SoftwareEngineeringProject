@@ -238,6 +238,13 @@ function CommunicationPanelPresenter() {
 
 		// azzero il div
 		element.innerHTML = "";
+		
+		var divHeader = document.createElement("div");
+        divHeader.className = "panelHeader";
+        var header = document.createElement("h1");
+        header.appendChild(document.createTextNode("pannello di comunicazione"));
+        divHeader.appendChild(header);
+        element.appendChild(divHeader);
 
 		// creo div contenente la chiamata vera e propria
 		var divCall = document.createElement('div');

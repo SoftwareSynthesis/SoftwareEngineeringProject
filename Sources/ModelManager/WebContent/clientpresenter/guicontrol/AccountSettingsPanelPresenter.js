@@ -186,11 +186,20 @@ function AccountSettingsPanelPresenter(url) {
     this.createPanel = function() {
         var element = document.createElement("div");
         element.setAttribute("id", "AccountSettingsPanel");
+
+        var divHeader = document.createElement("div");
+        divHeader.className = "panelHeader";
+        var header = document.createElement("h1");
+        header.appendChild(document.createTextNode("dati personali"));
+        divHeader.appendChild(header);
+        element.appendChild(divHeader);
+
         /*
          * Tutti gli elementi qui mostrati sono recuperati tramite il
          * riferimento al communicationcenter e la proprietà my in esso
          * contenuta, dove sono memorizzati i dati relativi all'utente.
          */
+
         var nameNode = document.createElement('li');
         nameNode.setAttribute("id", "name");
         nameNode.appendChild(document.createTextNode(communicationcenter.my.name));
