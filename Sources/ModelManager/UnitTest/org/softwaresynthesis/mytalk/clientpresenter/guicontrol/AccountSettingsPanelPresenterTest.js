@@ -114,7 +114,7 @@ test("testhasSomethingChanged()", function() {
 	expect(i);
 });
 
-test("TestOnChangeButtonPressed", function() {
+test("testOnChangeButtonPressed", function() {
 	var i = 0;
 	//stub di interfaccia grafica
 	var element = document.createElement("div");
