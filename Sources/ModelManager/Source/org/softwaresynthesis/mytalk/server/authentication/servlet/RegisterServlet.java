@@ -111,6 +111,7 @@ public final class RegisterServlet extends HttpServlet
 			{
 				//TODO salvare l'immagine nel server e memorizzare la path
 			}
+			user.setPath(path);
 			groupDAO = new GroupDAO();
 			userDAO = new UserDataDAO();
 			userDAO.insert(user);
