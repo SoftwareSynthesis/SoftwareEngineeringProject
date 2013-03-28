@@ -331,7 +331,7 @@ test("testRemoveContact()", function() {
 });
 
 test(
-		"testapplyFilterByString()",
+		"testApplyFilterByString()",
 		function() {
 
 			tester.setContacts({
@@ -371,7 +371,7 @@ test(
 
 			// controllo che funzioni il filtro per un contatto esistente
 			// tramite il cognome
-			var cerca_mail = "laupau@gmail.com"
+			var cerca_mail = "laupau@gmail.com";
 			ele = tester.applyFilterByString(cerca_mail);
 			equal(ele.length, 1,
 					"Trova un solo contatto che ha email laupau@gmail.com");
@@ -389,7 +389,7 @@ test(
 			expect(i);
 		});
 
-test("testaddGroup()", function() {
+test("testAddGroup()", function() {
 
 	var element = document.getElementById("AddressBookPanel");
 
@@ -703,7 +703,7 @@ test("testContactAlreadyPresent()", function() {
 });
 
 // TODO test ritorna il gruppo in cui e' un contatto
-test("testgetGroupsWhereContactsIs()", function() {
+test("testGetGroupsWhereContactsIs()", function() {
 	var i = 0;
 	tester.setContacts({
 		0 : {
