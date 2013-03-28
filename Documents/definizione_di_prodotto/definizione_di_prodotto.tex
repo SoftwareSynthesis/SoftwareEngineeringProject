@@ -571,7 +571,7 @@ Nessun attributo evidenziato.
 \classsection{CallDAO}
 
 \subsubsection*{Funzione}
-Classe che implementa il pattern DAO. Definisce le procedure d’inserimento, eliminazione ed aggiornamento di entry inerenti alla tabella Call. La classe inoltre fornisce metodi per interrogare il database ed ottenere la lista delle chiamate.
+Classe che implementa il pattern DAO, definisce le procedure d’inserimento, eliminazione ed aggiornamento di entry inerenti alla tabella Call, inoltre fornisce metodi per interrogare il database ed ottenere la lista delle chiamate.
 
 \subsubsection*{Relazioni d'uso}
 
@@ -592,7 +592,7 @@ Nessun attributo evidenziato.
 
 \begin{description}
 	\item{\method{+ delete(call: ICall): boolean}}\\
-	Metodo usato per cancellare una chiamata dal database. Il flusso principale inizia definendo le seguenti variabili:
+	Metodo usato per cancellare una chiamata dal database il cui flusso principale inizia definendo le seguenti variabili:
 	\begin{itemize}
 		\item viene inizializzata una variabile ti tipo boolean nominata flag, a \inglese{false};
 		\item si crea un istanza di \classname{HibernateUtil} util;
@@ -600,7 +600,7 @@ Nessun attributo evidenziato.
 		\item si crea un istanza di \texttt{SessionFactory} factory;
 		\item si crea un istanza di \texttt{Transaction} transaction;
 	\end{itemize}
-	Quindi nel metodo deve essere definito un blocco try catch finally:
+	Quindi nel metodo deve essere definito un blocco \textit{try-catch} finally:
 	\begin{itemize}
 		\item nel blocco try:
 		\begin{itemize}
@@ -612,13 +612,13 @@ Nessun attributo evidenziato.
 			\item si esegue il commit;
 			\item si pone flag a \inglese{true};
 		\end{itemize}
-		\item nel blocco catch: si effettua un rollback a partire da transaction;
-		\item nel blocco finally: se session è diverso da null, si chiude mediante una chimata di tipo close();
+		\item nel blocco catch: si effettua un \textit{rollback} a partire da \textit{transaction};
+		\item nel blocco finally: se session è diverso da \textit{null}, si chiude mediante una chimata di tipo \texttt{close()};
 	\end{itemize}
-	Infine il metodo termina ritornando il valore di flag;
+	Infine il metodo termina ritornando il valore di \textit{flag};
 	
 	\item{\method{+ update(call: ICall): boolean}}\\
-	Metodo usato per modificare una chiamata presente nel database. Il metodo riceve come parametro d'ingresso un oggetto \classname{call.Call} e restituisce un valore booleano  pari a \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
+	Metodo usato per modificare una chiamata presente nel database, riceve come parametro d'ingresso un oggetto \classname{call.Call} e restituisce un valore booleano pari a \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
 	\begin{itemize}
 		\item viene inizializzata una variabile ti tipo boolean nominata flag, a \inglese{false};
 		\item si crea un istanza di \classname{HibernateUtil} util;
@@ -626,7 +626,7 @@ Nessun attributo evidenziato.
 		\item si crea un istanza di \texttt{SessionFactory} factory;
 		\item si crea un istanza di \texttt{Transaction} transaction;
 	\end{itemize}
-	Quindi nel metodo deve essere definito un blocco try catch finally:
+	Quindi nel metodo deve essere definito un blocco \textit{try-catch} finally:
 	\begin{itemize}
 		\item nel blocco try:
 		\begin{itemize}
@@ -639,12 +639,12 @@ Nessun attributo evidenziato.
 			\item si pone \inglese{flag} a \inglese{true};
 		\end{itemize}
 		\item nel blocco catch: si effettua un \textit{rollback} a partire da \textit{transaction};
-		\item nel blocco finally: se session è diverso da null, si chiude mediante una chiamata di tipo \texttt{close()};
+		\item nel blocco finally: se session è diverso da \textit{null}, si chiude mediante una chiamata di tipo \texttt{close()};
 	\end{itemize}
 	Infine il metodo termina ritornando il valore di \inglese{flag};	
 	
 	\item{\method{+ insert(call: ICall): boolean}}\\
-	Metodo usato per inserire una chiamata nel database, riceve come parametro d'ingresso un oggetto \classname{call.ICall} e restituisce un valore booleano  pari a \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
+	Metodo usato per inserire una chiamata nel database, riceve come parametro d'ingresso un oggetto \classname{call.ICall} e restituisce un valore booleano pari a \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
 	\begin{itemize}
 		\item viene inizializzata una variabile ti tipo \inglese{boolean} nominata \inglese{flag}, a \inglese{false};
 		\item si crea un istanza di \classname{HibernateUtil} util;
@@ -681,7 +681,7 @@ Nessun attributo evidenziato.
 		\item si crea un istanza di \texttt{SessionFactory} factory;
 		\item si crea un istanza di \texttt{Transaction} transaction;
 	\end{itemize}
-	Quindi nel metodo deve essere definito un blocco try catch finally:
+	Quindi nel metodo deve essere definito un blocco \textit{try-catch} finally:
 	\begin{itemize}
 		\item nel blocco try:
 		\begin{itemize}
@@ -696,14 +696,14 @@ Nessun attributo evidenziato.
 		\item nel blocco catch: si effettua un \textit{rollback} a partire da \textit{transaction};
 		\item nel blocco finally: se \textit{session} è diverso da \textit{null}, si chiude mediante una chiamata di tipo \texttt{close()};
 	\end{itemize}
-	Il programma termina controllando se calls è diversa da \textit{null} e contiene almeno un elemento. Nel caso il programma termina ritornando la lista cosi ottenuta. Altrimenti termina ritornando \textit{null}.
+	Il programma termina controllando se calls è diversa da \textit{null} e contiene almeno un elemento. Nel caso il programma termina ritornando la lista cosi ottenuta, altrimenti ritornando \textit{null}.
 	
 \end{description}
 
 \classsection{MessageDAO}
 
 \subsubsection*{Funzione}
-Classe che implementa il pattern DAO. Definisce le procedure d’inserimento, eliminazione ed aggiornamento di entry inerenti alla tabella Message. La classe inoltre fornisce metodi per interrogare il database ed ottenere la lista delle chiamate.
+Classe che implementa il pattern DAO, definisce le procedure d’inserimento, eliminazione ed aggiornamento di entry inerenti alla tabella Message. La classe inoltre fornisce metodi per interrogare il database ed ottenere la lista delle chiamate.
 
 \subsubsection*{Relazioni d'uso}
 
@@ -724,7 +724,7 @@ Nessun attributo evidenziato.
 
 \begin{description}
 	\item{\method{+ delete(message: IMessage): boolean}}\\
-	Metodo usato per cancellare una chiamata dal database. Il flusso principale inizia definendo le seguenti variabili:
+	Metodo usato per cancellare una chiamata dal database, il cui flusso principale inizia definendo le seguenti variabili:
 	\begin{itemize}
 		\item viene inizializzata una variabile ti tipo boolean nominata flag, a \inglese{false};
 		\item si crea un istanza di \classname{HibernateUtil} util;
@@ -732,7 +732,7 @@ Nessun attributo evidenziato.
 		\item si crea un istanza di \texttt{SessionFactory} factory;
 		\item si crea un istanza di \texttt{Transaction} transaction;
 	\end{itemize}
-	Quindi nel metodo deve essere definito un blocco try catch finally:
+	Quindi nel metodo deve essere definito un blocco \textit{try-catch} finally:
 	\begin{itemize}
 		\item nel blocco try:
 		\begin{itemize}
@@ -744,13 +744,13 @@ Nessun attributo evidenziato.
 			\item si esegue il commit;
 			\item si pone flag a \inglese{true};
 		\end{itemize}
-		\item nel blocco catch: si effettua un rollback a partire da transaction;
-		\item nel blocco finally: se session è diverso da null, si chiude mediante una chimata di tipo close();
+		\item nel blocco catch: si effettua un \textit{rollback} a partire da \textit{transaction};
+		\item nel blocco finally: se session è diverso da \textit{null}, si chiude mediante una chimata di tipo \texttt{close()};
 	\end{itemize}
-	Infine il metodo termina ritornando il valore di flag;
+	Infine il metodo termina ritornando il valore di \textit{flag};
 	
 	\item{\method{+ update(message: IMessage): boolean}}\\
-	Metodo usato per modificare una chiamata presente nel database. Il metodo riceve come parametro d'ingresso un oggetto \classname{message.Message} e restituisce un valore booleano  pari a \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
+	Metodo usato per modificare una chiamata presente nel database, riceve come parametro d'ingresso un oggetto \classname{message.Message} e restituisce un valore booleano pari a \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
 	\begin{itemize}
 		\item viene inizializzata una variabile ti tipo boolean nominata flag, a \inglese{false};
 		\item si crea un istanza di \classname{HibernateUtil} util;
@@ -758,7 +758,7 @@ Nessun attributo evidenziato.
 		\item si crea un istanza di \texttt{SessionFactory} factory;
 		\item si crea un istanza di \texttt{Transaction} transaction;
 	\end{itemize}
-	Quindi nel metodo deve essere definito un blocco try catch finally:
+	Quindi nel metodo deve essere definito un blocco \textit{try-catch} finally:
 	\begin{itemize}
 		\item nel blocco try:
 		\begin{itemize}
@@ -771,7 +771,7 @@ Nessun attributo evidenziato.
 			\item si pone \inglese{flag} a \inglese{true};
 		\end{itemize}
 		\item nel blocco catch: si effettua un \textit{rollback} a partire da \textit{transaction};
-		\item nel blocco finally: se session è diverso da null, si chiude mediante una chiamata di tipo \texttt{close()};
+		\item nel blocco finally: se session è diverso da \textit{null}, si chiude mediante una chiamata di tipo \texttt{close()};
 	\end{itemize}
 	Infine il metodo termina ritornando il valore di \inglese{flag};	
 	
@@ -813,7 +813,7 @@ Nessun attributo evidenziato.
 		\item si crea un istanza di \texttt{SessionFactory} factory;
 		\item si crea un istanza di \texttt{Transaction} transaction;
 	\end{itemize}
-	Quindi nel metodo deve essere definito un blocco try catch finally:
+	Quindi nel metodo deve essere definito un blocco \textit{try-catch} finally:
 	\begin{itemize}
 		\item nel blocco try:
 		\begin{itemize}
@@ -1169,7 +1169,7 @@ Implementazione dell'interfaccia IAddressBookEntry.
 \classsection{AddressBookDoRemoveContactServlet}
 
 \subsubsection*{Funzione}
-\textit{Servlet} richiamata dal \textit{client} per eseguire l'eliminazione di un contatto presente nella propria rubrica.
+\textit{Servlet} richiamata dal client per eseguire l'eliminazione di un contatto presente nella propria rubrica.
 
 \subsubsection*{Relazioni d'uso}
 
@@ -1223,7 +1223,7 @@ Implementazione dell'interfaccia IAddressBookEntry.
 \classsection{AddressBookDoCreateGroupServlet}
 
 \subsubsection*{Funzione}
-\inglese{Servlet} richiamata dal \textit{client} per creare un nuovo gruppo nella propria rubrica.
+\inglese{Servlet} richiamata dal client per creare un nuovo gruppo nella propria rubrica.
 
 \subsubsection*{Relazioni d'uso}
 
@@ -1284,7 +1284,7 @@ Implementazione dell'interfaccia IAddressBookEntry.
 \classsection{AddressBookDoDeleteGroupServlet}
 
 \subsubsection*{Funzione}
-\inglese{Servlet} richiamata dal \textit{client} per eliminare un gruppo da una rubrica.
+\inglese{Servlet} richiamata dal client per eliminare un gruppo da una rubrica.
 
 \subsubsection*{Relazioni d'uso}
 
@@ -1346,7 +1346,7 @@ Implementazione dell'interfaccia IAddressBookEntry.
 \classsection{AddressBookDoInsertInGroupServlet}
 
 \subsubsection*{Funzione}
-\inglese{Servlet} richiamata dal \textit{client} per inserire un utente nella propria rubrica, all'interno di un gruppo ben determinato.
+\inglese{Servlet} richiamata dal client per inserire un utente nella propria rubrica, all'interno di un gruppo ben determinato.
 
 \subsubsection*{Relazioni d'uso}
 
@@ -1417,7 +1417,7 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 \classsection{AddressBookDoRemoveFromGroupServlet}
 
 \subsubsection*{Funzione}
-\inglese{Servlet} richiamata dal \textit{client} per inserire un utente nella propria rubrica, all'interno di un gruppo ben determinato.
+\inglese{Servlet} richiamata dal client per inserire un utente nella propria rubrica, all'interno di un gruppo ben determinato.
 
 \subsubsection*{Relazioni d'uso}
 
@@ -1491,7 +1491,7 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 \classsection{AddressBookDoBlockServlet}
 
 \subsubsection*{Funzione}
-\inglese{Servlet} richiamata dal \inglese{client} per bloccare un contatto presente nella propria rubrica.
+\inglese{Servlet} richiamata dal client per bloccare un contatto presente nella propria rubrica.
 
 \subsubsection*{Relazioni d'uso}
 
@@ -1561,7 +1561,7 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 \classsection{AddressBookDoUnblockServlet}
 
 \subsubsection*{Funzione}
-\inglese{Servlet} richiamata dal \textit{client} per sbloccare un contatto presente nella propria rubrica.
+\inglese{Servlet} richiamata dal client per sbloccare un contatto presente nella propria rubrica.
 
 \subsubsection*{Relazioni d'uso}
 
@@ -1631,7 +1631,7 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 \classsection{AddressBookDoSearchServlet}
 
 \subsubsection*{Funzione}
-\inglese{Servlet} richiamata dal \textit{client} per effettuare una ricerca sulla propria rubrica. La ricerca consiste nell'individuare tutti i contatti che contengono nei campi \textit{name}, \textit{surname} o \textit{email} la parola ricercata. Per eseguire questa procedura di ricerca ci si avvale del metodo \method{searchGeneric(nome\_parametro)} della classe \classname{UserDataDAO}.
+\inglese{Servlet} richiamata dal client per effettuare una ricerca sulla propria rubrica. La ricerca consiste nell'individuare tutti i contatti che contengono nei campi \textit{name}, \textit{surname} o \textit{email} la parola ricercata. Per eseguire questa procedura di ricerca ci si avvale del metodo \method{searchGeneric(nome\_parametro)} della classe \classname{UserDataDAO}.
 
 \subsubsection*{Relazioni d'uso}
 
@@ -1662,10 +1662,10 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 	Costruttore pubblico della \inglese{servlet}, richiama il costruttore della classe padre (chiamata a \texttt{super}).
 	
 	\item{\method{\# doGet(request HttpServletRequest, response HttpServletResponse): void}}\\
-	Metodo usato per eseguire una ricerca generica sui contatti presenti nella rubrica del \textit{client} (eseguito in risposta ad una richiesta HTTP con metodo \texttt{GET}). Poiché si intende gestire in modo univoco una richiesta a tale \inglese{servlet} (indifferentemente dalla tipologia d'invio dati) il metodo reindirizza il flusso principale al metodo \method{doPost()}.
+	Metodo usato per eseguire una ricerca generica sui contatti presenti nella rubrica del client (eseguito in risposta ad una richiesta HTTP con metodo \texttt{GET}). Poiché si intende gestire in modo univoco una richiesta a tale \inglese{servlet} (indifferentemente dalla tipologia d'invio dati) il metodo reindirizza il flusso principale al metodo \method{doPost()}.
 	
 	\item{\method{\# doPost(request HttpServletRequest, response HttpServletResponse): void}}\\	
-	Metodo usato per eseguire una ricerca generica sui contatti presenti nella rubrica del \textit{client} (eseguito in risposta ad una richiesta HTTP con metodo \texttt{POST}). Nell'ordine proposto, devono essere eseguite le seguenti operazioni:
+	Metodo usato per eseguire una ricerca generica sui contatti presenti nella rubrica del client (eseguito in risposta ad una richiesta HTTP con metodo \texttt{POST}). Nell'ordine proposto, devono essere eseguite le seguenti operazioni:
 	\begin{itemize}
 		\item creazione degli oggetti necessari al completamento dell'operazione:
 		\begin{itemize}
@@ -1686,7 +1686,7 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 			\verb|users = userDAO.searchGeneric(parameter)|;
 			\item a questo punto si dovrà predisporre un iteratore per scorrere la lista \textit{users};
 			\item si imposta \textit{result} al valore ``{'' e si entra in un ciclo \inglese{while} che potrà terminare solo quando l'iteratore già citato avrà raggiunto l'ultimo elemento ispezionabile;
-			\item dentro al ciclo \inglese{while} si procederà con la formattazione della stringa \textit{result} al fine di restituire al \textit{client} un formato sul quale possa operare. Nello specifico la stringa \textit{result} dovrà contenere (per ogni istanza di IUserData presente in \textit{users}):\\
+			\item dentro al ciclo \inglese{while} si procederà con la formattazione della stringa \textit{result} al fine di restituire al client un formato sul quale possa operare. Nello specifico la stringa \textit{result} dovrà contenere (per ogni istanza di IUserData presente in \textit{users}):\\
 			
 			\verb|\"ID_della_entry":{"name":"NOME_UTENTE",|\\
 			\verb|"surname":"COGNOME_UTENTE,"email":EMAIL_UTENTE",|\\
@@ -1694,7 +1694,7 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 			\verb|"state":"STATO","block":"BLOCCATO/SBLOCCATO"},|\\
 			
 			Si osservi che in quanto è riportato in precedenza, ciò che è scritto in maiuscolo corrisponde al valore effettivo di quel parametro, quindi per esempio la parola NOME\_UTENTE sarà di fatto sostituita dall'effettivo nome dell'istanza \classname{IUserData} attualmente sotto esame. Per ottenere tali valori ricorrerà ai metodi: \texttt{getName()}, \texttt{getSurname()}, \texttt{getMail()}, \texttt{getId()}, \texttt{getPath()} richiamabili a partire dall'\textit{entry} attualmente sotto esame.
-			\item al termine di tale procedura la stringa \textit{result} è pronta per essere restituita al \textit{client}, quindi si aggiunge a \textit{result} il valore ``}'', usato come carattere di terminazione.
+			\item al termine di tale procedura la stringa \textit{result} è pronta per essere restituita al client, quindi si aggiunge a \textit{result} il valore ``}'', usato come carattere di terminazione.
 		\end{itemize}
 	\end{itemize}
 	Il metodo termina scrivendo su \textit{writer} il contenuto di \textit{result}.
@@ -1706,7 +1706,7 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 \classsection{AddressBookGetContactsServlet}
 
 \subsubsection*{Funzione}
-\inglese{Servlet} richiamata dal \textit{client} per scaricare la lista dei contatti presenti nella propria rubrica.
+\inglese{Servlet} richiamata dal client per scaricare la lista dei contatti presenti nella propria rubrica.
 
 \subsubsection*{Relazioni d'uso}
 
@@ -1763,7 +1763,7 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 			\item viene inizializzato l'insieme \textit{contacts} tramite una chiamata \method{getAddressBook()} richiamata a partire dalla variabile \textit{user};
 			\item a questo punto si dovrà predisporre un iteratore per scorrere l'insieme \textit{contacts};
 			\item si imposta \textit{result} al valore ``{'' e si entra in un ciclo \inglese{while} che potrà terminare solo quando l'iteratore già citato avrà raggiunto l'ultimo elemento ispezionabile;
-			\item dentro al ciclo \inglese{while}, dopo aver impostato \textit{entry} al valore \texttt{next()} dell'iteratore, viene salvato in friend il contatto ritornato da una chiamata a \textit{entry}.\method{getContact()}. Si procederà  poi con la formattazione della stringa result al fine di restituire al \textit{client} un formato sul quale possa operare. Nello specifico la stringa result dovrà contenere (per ogni istanza di IUserData presente in users):\\
+			\item dentro al ciclo \inglese{while}, dopo aver impostato \textit{entry} al valore \texttt{next()} dell'iteratore, viene salvato in friend il contatto ritornato da una chiamata a \textit{entry}.\method{getContact()}. Si procederà  poi con la formattazione della stringa result al fine di restituire al client un formato sul quale possa operare. Nello specifico la stringa result dovrà contenere (per ogni istanza di IUserData presente in users):\\
 			
 			\verb|\"ID_della_entry":{"name":"NOME_UTENTE",|\\
 			\verb|"surname":"COGNOME_UTENTE,"email":EMAIL_UTENTE",|\\
@@ -1771,7 +1771,7 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 			\verb|"state":"STATO","block":"BLOCCATO/SBLOCCATO"},|\\
 			
 			Si osservi che in quanto è riportato in precedenza, ciò che è scritto in maiuscolo corrisponde al valore effettivo di quel parametro. Quindi per esempio la parola NOME\_UTENTE sarà di fatto sostituita dall'effettivo nome dell'istanza \classname{IUserData} attualmente sotto esame. Per ottenere tali valori si ricorre ai metodi: \texttt{getName()}, \texttt{getSurname()}, \texttt{getMail()}, \texttt{getId()}, \texttt{getPath()} richiamabili a partire da friend.
-			\item al termine di tale procedura la stringa \textit{result} è pronta per essere restituita al \textit{client}. Quindi si aggiunge a \textit{result} il valore ``}'', usato come carattere di terminazione.
+			\item al termine di tale procedura la stringa \textit{result} è pronta per essere restituita al client. Quindi si aggiunge a \textit{result} il valore ``}'', usato come carattere di terminazione.
 		\end{itemize}
 	\end{itemize}
 	Il metodo termina scrivendo su \textit{writer} il contenuto di \textit{result}.
@@ -1783,7 +1783,7 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 \classsection{AddressBookGetGroupsServlet}
 
 \subsubsection*{Funzione}
-\inglese{Servlet} richiamata dal \textit{client} per scaricare la propria rubrica, provvista di gruppi e contatti in essi presenti.
+\inglese{Servlet} richiamata dal client per scaricare la propria rubrica, provvista di gruppi e contatti in essi presenti.
 
 \subsubsection*{Relazioni d'uso}
 
@@ -2796,9 +2796,9 @@ La sotto-architettura \texttt{clientpresenter}, a livello di definizione di prod
 In ragione di ciò, al fine di facilitare al programmatore la comprensione del progetto (pesando quindi alle varie entità come a classi) senza però confonderlo in fase di stesura del codice, si è pensato di adoperare la seguente terminologia:
 
 \begin{description}
-	\item{\scshape\bfseries Attributi}: saranno definiti con una sintassi simile a quella già usata per la parte \inglese{server}, pertanto al nome dell'attributo sarà associato il tipo ``logico'' che idealmente rappresenta. In particolare emergono i seguenti casi:
+	\item{\scshape\bfseries Attributi}: saranno definiti con una sintassi simile a quella già usata per la parte server, pertanto al nome dell'attributo sarà associato il tipo ``logico'' che idealmente rappresenta. In particolare emergono i seguenti casi:
 		\begin{itemize}
-			\item Nodi DOM: come si vedrà alcuni attributi rappresentano nodi DOM già esistenti nella pagina HTML che definisce l'interfaccia utente e modificati (a \textit{run-time}) sulla base di informazioni ottenute dal \inglese{server}. Tali attributi dovranno essere codificati come:
+			\item Nodi DOM: come si vedrà alcuni attributi rappresentano nodi DOM già esistenti nella pagina HTML che definisce l'interfaccia utente e modificati (a \textit{run-time}) sulla base di informazioni ottenute dal server. Tali attributi dovranno essere codificati come:
 			
 			\begin{verbatim}
 				this.mio_attributo = document.getElementById(``id_DOM'');
@@ -2864,7 +2864,7 @@ In ragione di ciò, al fine di facilitare al programmatore la comprensione del p
 \classsection{AddressBookPanelPresenter}
 
 \subsubsection*{Funzione}
-Presenter incaricato di gestire il pannello della rubrica, contiene le funzioni associate ai \inglese{widget} grafici della vista relativi a quest'ultima e ha la responsabilità di aggiornare la vista sulla base dei dati ricevuti dal \inglese{server}.
+Presenter incaricato di gestire il pannello della rubrica, contiene le funzioni associate ai \inglese{widget} grafici della vista relativi a quest'ultima e ha la responsabilità di aggiornare la vista sulla base dei dati ricevuti dal server.
 
 \subsubsection*{Relazioni d'uso}
 Nessuna relazione d'uso evidenziata.
@@ -2917,7 +2917,7 @@ Quindi dopo aver creato questi elementi il metodo procede inserendo nel DOM il `
 Metodo che recupera i contatti e i gruppi della propria rubrica dal server usando la tecnologia AJAX. Il metodo crea una variabile contenente un istanza \texttt{XMLHttpRequest()}. Quindi con metodo \inglese{POST} inoltra la richiesta alla \inglese{servlet} il cui indirizzo è generato dalla concatenazione di \memberdata{urlServlet} con \memberdata{operation[1]}. Elabora quindi i dati ottenuti mediante il metodo \texttt{JSON.parse()} e li salva negli \textit{array} \memberdata{contacts} e \memberdata{groups}.
 	
 	\item{\method{+ setup(): void}}\\
-	Inserisce i contatti estratti dal \textit{server} all'interno della lista \texttt{AddressBookList} all'interno di \texttt{AddressBookPanel}.
+	Inserisce i contatti estratti dal server all'interno della lista \texttt{AddressBookList} all'interno di \texttt{AddressBookPanel}.
 	
 	\item{\method{+ displayContactList(contact: String[]): void}}\\
 	Metodo usato per visualizzare la lista dei contatti utente, esso prende il nodo DOM (già esistente) e destinato a contenere la lista dei contatti, popolandolo richiamando il metodo \method{addListItem()}.
@@ -2933,8 +2933,8 @@ Metodo utilizzato per aggiungere un'opzione all'elemento \memberdata{select} ric
 	
 	\item{\method{+ addContact(contact: Object(contact)): boolean}}\\
 	Metodo per l'aggiunta di un contatto alla rubrica, riceve come parametro un oggetto di tipo contatto da inserire, appunto, nella propria rubrica. 
-Per assicurarsi di non introdurre ridondanza ed aggiungere un contatto già presente il metodo esegue due controlli: uno lato \inglese{client} e uno lato \textit{server}. 
-Il controllo lato \inglese{client}, si scorre la lista \memberdata{contact} alla ricerca di un \texttt{contact} che cerca un \inglese{match} con il nuovo contatto. Nel caso sia già presente il metodo termina ritornando \inglese{false}. Per eseguire il controllo lato \inglese{server} il metodo contatta il \inglese{server} mediante la \inglese{servlet} \texttt{AddressBookDoAddContatctServlet}, questa verificherà se l'utente avente \texttt{id} \textit{contact} è già presente nella rubrica, nel caso non lo sia si occuperà di creare la nuova istanza di \texttt{AddressBookEntry} e la registrerà nel database, in caso contrario non esegue operazioni. 
+Per assicurarsi di non introdurre ridondanza ed aggiungere un contatto già presente il metodo esegue due controlli: uno lato client e uno lato server. 
+Il controllo lato client, si scorre la lista \memberdata{contact} alla ricerca di un \texttt{contact} che cerca un \inglese{match} con il nuovo contatto. Nel caso sia già presente il metodo termina ritornando \inglese{false}. Per eseguire il controllo lato server il metodo contatta il server mediante la \inglese{servlet} \texttt{AddressBookDoAddContatctServlet}, questa verificherà se l'utente avente \texttt{id} \textit{contact} è già presente nella rubrica, nel caso non lo sia si occuperà di creare la nuova istanza di \texttt{AddressBookEntry} e la registrerà nel database, in caso contrario non esegue operazioni. 
 La chiamata a \inglese{servlet} ritorna un valore booleano che sarà \textit{true} se l'inserimento ha avuto successo, \textit{false} altrimenti. 
 Se l'inserimento ha avuto successo il flusso principale prosegue eseguendo l'aggiornamento della rubrica in locale tramite la chiamata a metodo \method{setup()}. Il metodo termina infine ritornando \textit{true} se è stato aggiunto l'utente, altrimenti lancia un'eccezione.
 
@@ -2973,7 +2973,7 @@ Quindi viene avviato un ciclo \textit{for} che analizza ogni contatto presente i
 Se tale filtraggio da esito positivo, il contatto viene aggiunto all'\textit{array} dei contatti da restituire. Il metodo termina quando, dopo aver eseguito il ciclo \textit{for}, il metodo ritorna l'\textit{array} sopracitato.
 
 \item{\method{+ applyFilterByGroup(idGroup: int): array()}}\\
-Metodo che dato un intero come parametro d'ingresso filtra la lista di contatti presente in locale, restituendo un elenco dei contatti appartenenti al gruppo avente id uguale a idGroup, inoltre non deve interagire con il \inglese{server}, ovvero non vengono richiamate \inglese{servlet}. 
+Metodo che dato un intero come parametro d'ingresso filtra la lista di contatti presente in locale, restituendo un elenco dei contatti appartenenti al gruppo avente id uguale a idGroup, inoltre non deve interagire con il server, ovvero non vengono richiamate \inglese{servlet}. 
 
 Come per \method{applyFilterByString()} anche in questo caso il metodo deve creare un \textit{array} da popolare con i contatti appartenente al gruppo idGroup. Quindi viene eseguito un ciclo \inglese{for} che ispezione tutti i contatti presenti in \memberdata{contacts} e per ogni ciclo il metodo controlla i gruppi in cui compare il contatto i-esimo (tale azione si attua per mezzo di un secondo ciclo innestato), se si verifica una corrispondenza tra l'id del gruppo in esame con l'identificativo idGroup, si aggiunge il contatto all'\textit{array} creato in precedenza. Il metodo termina restituendo l'\textit{array} sopra-citato.
 
@@ -3038,7 +3038,7 @@ Il presenter si occupa anche di fornire delle funzionalità per il recupero dell
 Metodo che testa quanto ricevuto dal server e, in caso di login avvenuto correttamente, reindirizza il browser nel presenter finale dopo aver salvato i dati dell'utente. Il metodo inizia salvando in una variabile avente nome \inglese{user} il contenuto di data trattato attraverso una chiamata \texttt{JSON.parse(data)}, quindi se il contenuto di user non è nullo si procede richiamando il \texttt{communicationcenter} e impostando il valore di \texttt{communicationcenter.my} a \inglese{user}. Il metodo termina richiamando il metodo \method{hide()} e avviando la costruzione della UI mediante una chiamata \method{medietor.buildUI()}.
 	
 	\item{\method{+ sendAnswer(username: String, answer: String): void}}\\
-	Metodo per inviare la risposta alla domanda segreta al server, riceve due parametri d'ingresso: lo \inglese{username} dell'utente e la risposta (\inglese{answer}) da inviare al \inglese{server}. Come primo passo viene creata un istanza di \texttt{XMLHttpRequest} salvata in una variabile avente nome \textit{request}, successivamente si associa all'evento \texttt{onclick} di \textit{request} una funzione avente il compito di inviare la richiesta \textit{AJAX} al server, e di richiamare in risposta uno dei seguenti metodi:
+	Metodo per inviare la risposta alla domanda segreta al server, riceve due parametri d'ingresso: lo \inglese{username} dell'utente e la risposta (\inglese{answer}) da inviare al server. Come primo passo viene creata un istanza di \texttt{XMLHttpRequest} salvata in una variabile avente nome \textit{request}, successivamente si associa all'evento \texttt{onclick} di \textit{request} una funzione avente il compito di inviare la richiesta \textit{AJAX} al server, e di richiamare in risposta uno dei seguenti metodi:
 	\begin{itemize}
 		\item \method{correctAnswer()} nel caso la risposta inviata sia corretta;
 		\item \method{incorrectAnswer()} se invece la risposta inviata dall'utente è errata.
@@ -3101,7 +3101,7 @@ il messaggio sopracitato è temporaneo e dovrà essere rimosso allo scadere di u
 	\item{\method{+ getPassword(data: array()): String}}\\
 	Metodo che esegue il \inglese{login} inviando al server i dati di autenticazione, esso riceve come parametro d'ingresso un \textit{array} associativo contenente \textit{username} e \textit{password}.
 	
-	Il flusso principale inizia verificando il che il contenuto di \texttt{data.username} e di \texttt{data.password} non sia vuoto, quindi invia una richiesta \textit{AJAX} al \textit{server} (come sempre in questo caso è d'obbligo usare \verb|var request = new XMLHttpRequest();|).
+	Il flusso principale inizia verificando il che il contenuto di \texttt{data.username} e di \texttt{data.password} non sia vuoto, quindi invia una richiesta \textit{AJAX} al server (come sempre in questo caso è d'obbligo usare \verb|var request = new XMLHttpRequest();|).
 	Il programmatore dovrà associare all'evento \texttt{onreadystatechange} una funzione che si occupa di richiamare il metodo \method{testCredentials()}. Il passo successivo consiste ``nell'aprire'' la richiesta \textit{request} con un istruzione \texttt{open()} che riceve come parametro l'url della \inglese{servlet} associata (valore presente in \memberdata{servletURL}), successivamente viene usata un istruzione \texttt{setRequestHeader()} passando i seguenti parametri:
 	\begin{itemize}
 		\item[•] ``content-type'';
@@ -3214,7 +3214,7 @@ Nessuna relazione d'uso evidenziata.
 	Metodo che estrae dalla \inglese{form} il percorso dell'immagine del nuovo profilo utente e lo restituisce.
 	
 	\item{\method{+ register(userData: Arrey()): String}}\\
-	Metodo che Invia i dati ricevuti alla \inglese{servlet} per la creazione di un nuovo account utente. Tale metodo inizia creando un istanza (\inglese{request}) di \texttt{XMLHttpRequest} usata per comunicare con la \inglese{servlet}. Quindi il metodo abilita \textit{request} ad inviare un richiesta sincrona al \textit{server}, usando l'istruzione:\\
+	Metodo che Invia i dati ricevuti alla \inglese{servlet} per la creazione di un nuovo account utente. Tale metodo inizia creando un istanza (\inglese{request}) di \texttt{XMLHttpRequest} usata per comunicare con la \inglese{servlet}. Quindi il metodo abilita \textit{request} ad inviare un richiesta sincrona al server, usando l'istruzione:\\
 	
 	\verb|request.open("POST", servletURL, false)|\\
 	
@@ -3630,7 +3630,7 @@ Configura gli URL delle \inglese{servlet} da interrogare leggendoli dal file di 
 Più precisamente, si dovrà creare una ``XMLHttpRequest'' rivolta al file XML di configurazione dove sono riportate tutte le \inglese{servlet}, ricevuta la risposta si popolerà l'\textit{array} dichiarato nella classe (\inglese{servlet}).
 
 \item{\method{- getCalls(): String}}\\
-Ottiene tutta la lista delle chiamate effettuate e tracciate nel \textit{server}, una volta ricevuta risposta con relativi dati associati li utilizza come dati di ritorno. Per contattare la \inglese{servlet}, va usato come in precedenza ``XMLHttpRequest''.
+Ottiene tutta la lista delle chiamate effettuate e tracciate nel server, una volta ricevuta risposta con relativi dati associati li utilizza come dati di ritorno. Per contattare la \inglese{servlet}, va usato come in precedenza ``XMLHttpRequest''.
 
 \item{\method{- addListItem(call: String): void}}\\
 Aggiunge alla lista delle chiamate visualizzata nel CallHistoryPanel una nuova voce che corrisponde alla chiamata ricevuta da parametro. Ogni voce della lista contiene i dati relativi alla chiamata e non consente di effettuare alcuna azione su di essa.
@@ -3808,7 +3808,7 @@ Costruisce la stringa corrispondente alla \textit{query} che deve essere spedita
 \classsection{CommunicationCenter}
 
 \subsubsection*{Funzione}
-Classe logica che gestisce tutta la parte della comunicazione lato \textit{client}.
+Classe logica che gestisce tutta la parte della comunicazione lato client.
 
 \subsubsection*{Relazioni d'uso}
 Nessuna relazione d'uso evidenziata.
@@ -3848,24 +3848,24 @@ Metodo che ferma l'aggiornamento delle statistiche relative alla chiamata in cor
  Metodo che permette l'estrazione dei dati rappresentanti le statistiche della chiamata, esso riceve come parametro un oggetto (\memberdata{obj}), lo elabora, ed estrae solo i byte ricevuti e inviati. Ricavati questi dati, li visualizza nello \textit{span} corrispondente.
  
 \item{\method{- gotDescription(): void}}\\
-Metodo utilizzato da WebRTC che imposta la propria descrizione e la invia al \textit{client} chiamato in modo tale da poter instaurare la comunicazione. Verrà quindi prima di tutto utilizzata la funzione proprietaria di WebRTC \method{setLocalDescription} per impostare la propria descrizione e successivamente, mediante la \textit{websocket}, inviata al client \underline{peer} chiamato.
+Metodo utilizzato da WebRTC che imposta la propria descrizione e la invia al client chiamato in modo tale da poter instaurare la comunicazione. Verrà quindi prima di tutto utilizzata la funzione proprietaria di WebRTC \method{setLocalDescription} per impostare la propria descrizione e successivamente, mediante la \textit{websocket}, inviata al client \underline{peer} chiamato.
  
 \item{\method{+ connect(): void}}\\
-Metodo utilizzato per la creazione della connessione con il \textit{server}. Viene inizializzata la variabile \memberdata{websocket} richiamando il costruttore con un parametro (URL della servlet). Successivamente viene specificato il comportamento della \textit{websocket} per determinati eventi quali:
+Metodo utilizzato per la creazione della connessione con il server. Viene inizializzata la variabile \memberdata{websocket} richiamando il costruttore con un parametro (URL della servlet). Successivamente viene specificato il comportamento della \textit{websocket} per determinati eventi quali:
 \begin{itemize}
 \item \textbf{onopen}: istruzioni da eseguire quando la \textit{websocket} viene aperta. In questo caso, deve essere inviato alla \textit{websocket} il proprio \textit{id} utente in modo tale da identificare univocamente il canale aperto con il server.
 \item \textbf{onclose}: istruzioni da eseguire quando la \textit{websocket} viene chiusa per qualsiasi motivo, notificando il server di tale avvenimento.
 \item \textbf{onerror}: istruzioni da eseguire quando avviene un errore con la \textit{websocket}. Tale evento verrà notificato all'utente con un messaggio d'errore che descrive l'errore e l'atteggiamento da seguire.
-\item \textbf{onmessage}: metodo più corposo in quanto gestisce l'unico evento richiamato mentre avviene una comunicazione dal server verso il \textit{client}. Per diversificare i messaggi ricevuti, si è deciso di rappresentare il messaggio come un \textit{array} nel quale il primo elemento identifica il tipo di richiesta. In questo modo, avremo tre tipi:
+\item \textbf{onmessage}: metodo più corposo in quanto gestisce l'unico evento richiamato mentre avviene una comunicazione dal server verso il client. Per diversificare i messaggi ricevuti, si è deciso di rappresentare il messaggio come un \textit{array} nel quale il primo elemento identifica il tipo di richiesta. In questo modo, avremo tre tipi:
 \begin{itemize}
 \item type 2: riceve e gestisce una richiesta di chiamata. Imposta quindi con il metodo nativo di WebRTC \method{setRemoteDescription} la descrizione del \underline{peer} chiamante (secondo elemento dell'\textit{array} ricevuto) e la comunicazione può iniziare.
-\item type 3: riceve una richiesta con l'\textit{id} del chiamante come dato. Viene memorizzato nel \textit{client} in modo tale da conoscere il canale che il chiamante ha aperto con il server per future comunicazioni.
+\item type 3: riceve una richiesta con l'\textit{id} del chiamante come dato. Viene memorizzato nel client in modo tale da conoscere il canale che il chiamante ha aperto con il server per future comunicazioni.
 \item type 5: notifica il cambiamento di stato degli amici. I dati ricevuti contengono l'\textit{id} dell'utente e relativo nuovo stato, si procede quindi a modificare lo stato dell'utente nella rubrica.
 \end{itemize}
 \end{itemize}
  
 \item{\method{+ disconnect(): void}}\\
-Metodo utilizzato per disconnettersi dal sistema, tale evento deve essere notificato al \textit{server} tramite la \textit{websocket} inviando un messaggio di tipo 4 contenente il proprio \textit{id}.
+Metodo utilizzato per disconnettersi dal sistema, tale evento deve essere notificato al server tramite la \textit{websocket} inviando un messaggio di tipo 4 contenente il proprio \textit{id}.
 
 \item{\method{+ call(isCaller: boolean, contact: Object(contact)): void}}\\
 Metodo che gestisce la vera e propria chiamata tramite WebRTC.\\
