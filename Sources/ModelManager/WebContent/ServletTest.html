@@ -36,6 +36,8 @@
 				addressBookGetContacts();
 				addressBookDoAddContact();
 				addressBookDoRemoveContact();
+				addressBookDoInsertInGroup();
+				addressBookDoRemoveFromGroup();
 				
 				loginClose();
 			}
@@ -179,10 +181,57 @@
 					{
 						printResult("AddressBookDoRemoveContact", false);
 					}
+					
 				}
 				catch (exception)
 				{
 					printResult("AddressBookDoRemoveContact", false);
+				}
+			}
+			
+			function addressBookDoInsertInGroup()
+			{
+				var servletURI = "http://localhost:8080/MyTalk/addressBookDoInsertInGroup";
+				var parameters = "contactId=" + 2 + "&groupId=" + 2;
+				var result = callServlet(servletURI, parameters);
+				var parsed = JSON.parse(result);
+				try
+				{
+					if (parsed == true)
+					{
+						printResult("AddressBookDoInsertInGroup", true);
+					}
+					else
+					{
+						printResult("AddressBookDoInserInGroup", false);
+					}
+				}
+				catch (exception)
+				{
+					printResult("AddressBookDoInsertInGroup", false);
+				}
+			}
+			
+			function addressBookDoRemoveFromGroup()
+			{
+				var servletURI = "http://localhost:8080/MyTalk/addressBookDoRemoveFromGroup";
+				var parameters = "contactId=" + 2 + "&groupId=" + 2;
+				var result = callServlet(servletURI, parameters);
+				var parsed = JSON.parse(result);
+				try
+				{
+					if (parsed == true)
+					{
+						printResult("AddressBookDoRemoveFromGroup", true);
+					}
+					else
+					{
+						printResult("AddressBookDoRemoveFromGroup", false);
+					}
+				}
+				catch (exception)
+				{
+					printResult("AddressBookDoRemoveFromGroup", false);
 				}
 			}
 		</script>
@@ -230,6 +279,16 @@
 				<td>AddressBookDoRemoveContact</td>
 				<td id = "AddressBookDoRemoveContact"></td>
 				<td><button onclick = "addressBookDoRemoveContact()">Avvia test</button></td>
+			</tr>
+			<tr>
+				<td>AddressBookDoInsertInGroup</td>
+				<td id = "AddressBookDoInsertInGroup"></td>
+				<td><button onclick = "addressBookDoInsertInGroup()">Avvia test</button></td>
+			</tr>
+			<tr>
+				<td>AddressBookDoRemoveFromGroup</td>
+				<td id = "AddressBookDoRemoveFromGroup"></td>
+				<td><button onclick = "addressBookDoRemoveFromGroup()">Avvia test</button></td>
 			</tr>
 		</table>
 		<br />

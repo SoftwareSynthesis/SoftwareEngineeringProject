@@ -20,7 +20,7 @@ VALUES 	(1, 'indirizzo1@dominio.it', 'tQJu8lEBkXWy+YuqNKZsqA==', 'Come mi chiamo
 */		
 INSERT INTO Groups (ID_group, Name, ID_user)
 VALUES	(1, 'Gruppo 1', 5),
-		(2, 'Groupo 2', 5),
+		(2, 'Gruppo 2', 5),
 		(3, 'Gruppo 3', 5),
 		(4, 'Gruppo 4', 3),
 		(5, 'Gruppo 5', 3),
@@ -35,7 +35,7 @@ VALUES	(1, 'Gruppo 1', 5),
 		(14, 'addrBookEntry', 9);
 		
 INSERT INTO AddressBookEntries (ID_addressBookEntry, ID_user, ID_group, Owner, Blocked)
-VALUES	(1, 2, 6, 5, 0),
+VALUES	(1, 2, 1, 5, 0),
 		(2, 4, 2, 5, 0),
 		(3, 3, 3, 5, 0),
 		(4, 4, 5, 2, 0),

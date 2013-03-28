@@ -66,7 +66,7 @@ public final class AddressBookDoInsertInGroupServlet extends HttpServlet
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
 	{	
-		GroupDAO groupDAO = new GroupDAO();
+		GroupDAO groupDAO = null;
 		HttpSession session = null;
 		IAddressBookEntry entry = null;
 		IGroup group = null;
@@ -74,15 +74,19 @@ public final class AddressBookDoInsertInGroupServlet extends HttpServlet
 		IUserData user = null;
 		Long contactId = null;
 		Long groupId = null;
-		PrintWriter writer = response.getWriter();
+		PrintWriter writer = null;
+		String mail = null;
 		String result = null;
-		UserDataDAO userDAO = new UserDataDAO();
+		UserDataDAO userDAO = null;
 		try
 		{
 			session = request.getSession(false);
-			user = (IUserData)session.getAttribute("user");
+			mail = (String)session.getAttribute("username");
+			userDAO = new UserDataDAO();
+			groupDAO = new GroupDAO();
 			contactId = Long.parseLong(request.getParameter("contactId"));
 			groupId = Long.parseLong(request.getParameter("groupId"));
+			user = userDAO.getByEmail(mail);
 			friend = userDAO.getByID(contactId);
 			group = groupDAO.getByID(groupId);
 			if (group != null)
@@ -105,6 +109,10 @@ public final class AddressBookDoInsertInGroupServlet extends HttpServlet
 		{
 			result = "false";
 		}
-		writer.write(result);
+		finally
+		{
+			writer = response.getWriter();
+			writer.write(result);
+		}
 	}
 }
