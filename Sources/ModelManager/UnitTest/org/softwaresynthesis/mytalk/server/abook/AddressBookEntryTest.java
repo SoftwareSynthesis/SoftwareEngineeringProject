@@ -24,7 +24,7 @@ public class AddressBookEntryTest {
 	 */
 	@BeforeClass
 	public static void setupBeforeClass() {
-		tester = new AddressBookEntry();
+		tester = new AddressBookEntry(1L);
 		contact = new UserData(1L);
 		contact.setMail("paperino@paperopoli.it");
 		group = new Group(1L);
@@ -34,7 +34,7 @@ public class AddressBookEntryTest {
 	 * Testa la restituzione dell'id
 	 */
 	@Test
-	public void testSetGetId() {
+	public void testId() {
 		Long id = 1L;
 		tester.setId(id);
 		Long result = tester.getId();
@@ -50,7 +50,7 @@ public class AddressBookEntryTest {
 	 * @version %I%, %G%
 	 */
 	@Test
-	public void testSetGetContact() {
+	public void testContact() {
 		tester.setContact(contact);
 		IUserData result = tester.getContact();
 		assertNotNull(result);
@@ -62,7 +62,7 @@ public class AddressBookEntryTest {
 	 * la voce della rubrica
 	 */
 	@Test
-	public void testSetGetGroup() {
+	public void testGroup() {
 		tester.setGroup(group);
 		IGroup result = tester.getGroup();
 		assertNotNull(result);
@@ -74,7 +74,7 @@ public class AddressBookEntryTest {
 	 * voce della rubrica
 	 */
 	@Test
-	public void testSetGetOwner() {
+	public void testOwner() {
 		tester.setOwner(contact);
 		IUserData result = tester.getOwner();
 		assertNotNull(result);
@@ -85,7 +85,7 @@ public class AddressBookEntryTest {
 	 * Verifica che il contatto sia correttamente bloccato nella rubrica
 	 */
 	@Test
-	public void testSetGetBlocked() {
+	public void testBlocked() {
 		tester.setBlocked(true);
 		assertTrue(tester.getBlocked());
 		tester.setBlocked(false);
