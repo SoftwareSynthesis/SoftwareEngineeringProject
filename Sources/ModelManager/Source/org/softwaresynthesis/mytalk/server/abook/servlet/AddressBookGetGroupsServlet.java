@@ -14,6 +14,7 @@ import org.softwaresynthesis.mytalk.server.abook.IAddressBookEntry;
 import org.softwaresynthesis.mytalk.server.abook.IGroup;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
 import org.softwaresynthesis.mytalk.server.dao.GroupDAO;
+import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
 
 /**
  * Servlet cha ha il compito di ottenere
@@ -66,12 +67,16 @@ public final class AddressBookGetGroupsServlet extends HttpServlet
 		List<IGroup> groups = null;
 		PrintWriter writer = null;
 		Set<IAddressBookEntry> addEntry = null;
+		String mail = null;
 		String result = null;
+		UserDataDAO userDAO = null;
 		try
 		{
 			session = request.getSession(false);
-			user = (IUserData)session.getAttribute("user");
+			mail = (String)session.getAttribute("username");
+			userDAO = new UserDataDAO();
 			groupDAO = new GroupDAO();
+			user = userDAO.getByEmail(mail);
 			groups = groupDAO.getByOwner(user.getId());
 			if (groups != null)
 			{
@@ -112,7 +117,10 @@ public final class AddressBookGetGroupsServlet extends HttpServlet
 		{
 			result = "false";
 		}
-		writer = response.getWriter();
-		writer.write(result);
+		finally
+		{
+			writer = response.getWriter();
+			writer.write(result);
+		}
 	}
 }
