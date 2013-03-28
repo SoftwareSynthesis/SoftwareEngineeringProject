@@ -82,7 +82,7 @@ public class UserData implements IUserData
 	 * @param 	identifier	{@link Long} che identifica
 	 * 						un utente
 	 */
-	protected void setId(Long identifier)
+	public void setId(Long identifier)
 	{
 		this.id = identifier;
 	}

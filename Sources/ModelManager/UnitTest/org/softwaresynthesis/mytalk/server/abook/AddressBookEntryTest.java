@@ -31,7 +31,9 @@ public class AddressBookEntryTest {
 	}
 
 	/**
-	 * Testa la restituzione dell'id
+	 * Testa la restituzione dell'id e la sua impostazione 
+	 * 
+	 * @author diego
 	 */
 	@Test
 	public void testId() {
@@ -60,6 +62,8 @@ public class AddressBookEntryTest {
 	/**
 	 * Verifica la corretta impostazione e il recupero del gruppo cui appartiene
 	 * la voce della rubrica
+	 * 
+	 * @author diego
 	 */
 	@Test
 	public void testGroup() {
@@ -72,6 +76,8 @@ public class AddressBookEntryTest {
 	/**
 	 * Verifica la corretta impostazione e il recupero del proprietario della
 	 * voce della rubrica
+	 * 
+	 * @author diego
 	 */
 	@Test
 	public void testOwner() {
@@ -83,6 +89,8 @@ public class AddressBookEntryTest {
 
 	/**
 	 * Verifica che il contatto sia correttamente bloccato nella rubrica
+	 * 
+	 * @author diego
 	 */
 	@Test
 	public void testBlocked() {
@@ -93,7 +101,9 @@ public class AddressBookEntryTest {
 	}
 
 	/**
-	 * Test del metodo equals
+	 * Test del metodo equals di AddressBookEntry
+	 * 
+	 * @author diego
 	 */
 	@Test
 	public void testEquals() {
@@ -105,6 +115,8 @@ public class AddressBookEntryTest {
 
 	/**
 	 * Test del metodo toString()
+	 * 
+	 * @author diego
 	 */
 	@Test
 	public void testToString() {
@@ -115,7 +127,9 @@ public class AddressBookEntryTest {
 	}
 
 	/**
+	 * Verifica la traduzione in JSON dell'orgetto AddressBookEntry
 	 * 
+	 * @author diego
 	 */
 	@Test
 	public void testToJson() {

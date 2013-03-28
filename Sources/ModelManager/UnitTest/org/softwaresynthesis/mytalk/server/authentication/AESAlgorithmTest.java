@@ -8,24 +8,21 @@ import org.junit.Test;
 /**
  * Test dei metodi della classe {@link AESAlgorithm}
  * 
- * @author 	Andrea Meneghinello
- * @version	%I%, %G%
+ * @author Andrea Meneghinello
+ * @version %I%, %G%
  */
-public class AESAlgorithmTest
-{
+public class AESAlgorithmTest {
 	private static AESAlgorithm tester;
 	private static String plainText;
-	
+
 	/**
-	 * Inizializzazione degli oggetti utilizzati
-	 * per il test
+	 * Inizializzazione degli oggetti utilizzati per il test
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
+	 * @author Andrea Meneghinello
+	 * @version %I%, %G%
 	 */
 	@BeforeClass
-	public static void setUpBeforeClass()
-	{
+	public static void setUpBeforeClass() {
 		tester = new AESAlgorithm();
 		plainText = "testoInChiaro";
 	}
@@ -33,25 +30,32 @@ public class AESAlgorithmTest
 	/**
 	 * Test di codifica e decodifica di un testo
 	 * 
-	 * @author	Andrea Meneghinello
+	 * @author Andrea Meneghinello
 	 * @version %I%, %G%
 	 */
 	@Test
-	public void testEncodeAndDecode()
-	{
+	public void testEncodeAndDecode() {
 		boolean result = false;
 		String encodedText = null;
 		String decodedText = null;
-		try
-		{
+		try {
 			encodedText = tester.encode(plainText);
 			decodedText = tester.decode(encodedText);
 			result = decodedText.equals(plainText);
 			assertTrue(result);
-		}
-		catch (Exception ex)
-		{
+		} catch (Exception ex) {
 			fail(ex.getMessage());
 		}
+	}
+	
+	/**
+	 * Testa la conversione in stringa
+	 * 
+	 * @author diego
+	 */
+	@Test
+	public void testToString() {
+		String toCompare = "Algoritmo di crittografia AES a 128 bit";
+		assertTrue(toCompare.equals(tester.toString()));
 	}
 }

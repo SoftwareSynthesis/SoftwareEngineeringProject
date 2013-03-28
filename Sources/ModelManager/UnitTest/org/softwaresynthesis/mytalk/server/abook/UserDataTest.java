@@ -10,185 +10,165 @@ import org.junit.Test;
 /**
  * Test dei metodi della classe {@link AddressBookEntry}
  * 
- * @author 	Andrea Meneghinello
- * @version	%I%, %G%
+ * @author Andrea Meneghinello
+ * @version %I%, %G%
  */
-public class UserDataTest
-{
-	private static UserData tester;
-	
+public class UserDataTest {
+	private static IUserData tester;
+
 	/**
-	 * Preparazione dell'oggetto {@link UserData}
-	 * prima dell'esecuzione dei test
+	 * Preparazione dell'oggetto {@link UserData} prima dell'esecuzione dei test
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
+	 * @author Andrea Meneghinello
+	 * @version %I%, %G%
 	 */
 	@BeforeClass
-	public static void setupBeforeClass()
-	{
+	public static void setupBeforeClass() {
 		tester = new UserData(1L);
-		//tester.setEmail("indirizzo1@dominio.it");
+		tester.setMail("indirizzo1@dominio.it");
 		tester.setPassword("password");
 		tester.setQuestion("question");
 		tester.setAnswer("answer");
 		tester.setName("name");
 		tester.setSurname("surname");
-		//tester.setPicturePath("path");
+		tester.setPath("path");
 	}
-	
+
 	/**
-	 * Testa la corretta conversione di
-	 * una istanza di {@link AddressBookEntry}
+	 * Testa la corretta conversione di una istanza di {@link AddressBookEntry}
 	 * in formato JSON
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
+	 * @author Andrea Meneghinello
+	 * @version %I%, %G%
 	 */
 	@Test
-	public static void testToJson()
-	{
-		String toCompare = "{\"name\": \"name\", \"surname\": \"surname\", \"email\": \"indirizzo1@dominio.it\", \"picturePath\": \"path\", \"id\": \"1\"}";
+	public void testToJson() {
+		String toCompare = "{\"name\":\"name\", \"surname\":\"surname\", \"email\":\"indirizzo1@dominio.it\", \"id\":\"1\", \"picturePath\":\"path\"}";
 		String userJSON = tester.toJson();
 		assertNotNull(userJSON);
 		assertEquals(userJSON, toCompare);
 	}
-	
+
 	/**
-	 * Esegue un test sul metodo get
-	 * dell'ID
+	 * Esegue un test sul metodo get dell'ID
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
+	 * @author Andrea Meneghinello
+	 * @version %I%, %G%
 	 */
 	@Test
-	public static void testId()
-	{
-		Long id = tester.getId();
-		assertNotNull(id);
-		assertEquals(id, (Object)1L);
+	public void testId() {
+		Long id = 1L;
+		tester.setId(id);
+		Long result = tester.getId();
+		assertNotNull(result);
+		assertEquals(result, id);
 	}
-	
+
 	/**
-	 * Esegue un test sui metodi set/get
-	 * dell'e-mail
+	 * Esegue un test sui metodi set/get dell'e-mail
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
+	 * @author Andrea Meneghinello
+	 * @version %I%, %G%
 	 */
 	@Test
-	public static void testEmail()
-	{
-		//String mail = tester.getEmail();
-		//assertNotNull(mail);
-		//assertEquals(mail, "indirizzo1@dominio.it");
+	public void testEmail() {
+		 String mail = tester.getMail();
+		 assertNotNull(mail);
+		 assertEquals(mail, "indirizzo1@dominio.it");
 	}
-	
+
 	/**
-	 * Esegue un test sui metodi set/get
-	 * della password
+	 * Esegue un test sui metodi set/get della password
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
+	 * @author Andrea Meneghinello
+	 * @version %I%, %G%
 	 */
 	@Test
-	public static void testPassword()
-	{
+	public void testPassword() {
 		String password = tester.getPassword();
 		assertNotNull(password);
-		assertEquals(password, "indirizzo1@dominio.it");
+		assertEquals(password, "password");
 	}
-	
+
 	/**
-	 * Esegue un test sui metodi set/get
-	 * della domanda segreta
+	 * Esegue un test sui metodi set/get della domanda segreta
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
+	 * @author Andrea Meneghinello
+	 * @version %I%, %G%
 	 */
 	@Test
-	public static void testQuestion()
-	{
+	public void testQuestion() {
 		String question = tester.getQuestion();
 		assertNotNull(question);
 		assertEquals(question, "question");
 	}
-	
+
 	/**
-	 * Esegue un test sui metodi set/get
-	 * della risposta alla domanda segreta
+	 * Esegue un test sui metodi set/get della risposta alla domanda segreta
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
+	 * @author Andrea Meneghinello
+	 * @version %I%, %G%
 	 */
 	@Test
-	public static void testAnswer()
-	{
+	public void testAnswer() {
 		String answer = tester.getAnswer();
 		assertNotNull(answer);
 		assertEquals(answer, "answer");
 	}
-	
+
 	/**
-	 * Esegue un test sui metodi set/get
-	 * del nome utente
+	 * Esegue un test sui metodi set/get del nome utente
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
+	 * @author Andrea Meneghinello
+	 * @version %I%, %G%
 	 */
 	@Test
-	public static void testName()
-	{
+	public void testName() {
 		String name = tester.getName();
 		assertNotNull(name);
 		assertEquals(name, "name");
 	}
-	
+
 	/**
-	 * Esegue un test sui metodi set/get
-	 * del cognome
+	 * Esegue un test sui metodi set/get del cognome
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
+	 * @author Andrea Meneghinello
+	 * @version %I%, %G%
 	 */
 	@Test
-	public static void testSurname()
-	{
+	public void testSurname() {
 		String surname = tester.getSurname();
 		assertNotNull(surname);
 		assertEquals(surname, "surname");
 	}
-	
+
 	/**
-	 * Esegue un test sui metodi set/get
-	 * dell'immagine profilo
+	 * Esegue un test sui metodi set/get dell'immagine profilo
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
+	 * @author Andrea Meneghinello
+	 * @version %I%, %G%
 	 */
 	@Test
-	public static void testPicturePath()
-	{
-//		String path = tester.getPicturePath();
-//		assertNotNull(path);
-//		assertEquals(path, "path");
+	public void testPicturePath() {
+		 String path = tester.getPath();
+		 assertNotNull(path);
+		 assertEquals(path, "path");
 	}
-	
+
 	/**
 	 * Testa il metodo equals
 	 * 
-	 * @author	Andrea Meneghinello
-	 * @version	%I%, %G%
+	 * @author Andrea Meneghinello
+	 * @version %I%, %G%
 	 */
-	public static void testEquals()
-	{
-//		boolean result = false;
-//		UserData user = new UserData();
-//		user.setEmail("indirizzo1@dominio.it");
-//		result = tester.equals(user);
-//		assertTrue(result);
-//		user.setEmail("indirizzo2@dominio.it");
-//		result = tester.equals(user);
-//		assertFalse(result);
+	public void testEquals() {
+		 boolean result = false;
+		 IUserData user = new UserData();
+		 user.setMail("indirizzo1@dominio.it");
+		 result = tester.equals(user);
+		 assertTrue(result);
+		 user.setMail("indirizzo2@dominio.it");
+		 result = tester.equals(user);
+		 assertFalse(result);
 	}
 }

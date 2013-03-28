@@ -13,6 +13,13 @@ import org.softwaresynthesis.mytalk.server.IMyTalkObject;
 public interface IUserData extends IMyTalkObject
 {	
 	/**
+	 * Imposta l'identificativo dell'utente
+	 * 
+	 * @param id identificativo da impostare
+	 */
+	public void setId(Long id);
+	
+	/**
 	 * Restituisce l'identificativo univoco
 	 * dell'utente del sistema mytalk
 	 * 
