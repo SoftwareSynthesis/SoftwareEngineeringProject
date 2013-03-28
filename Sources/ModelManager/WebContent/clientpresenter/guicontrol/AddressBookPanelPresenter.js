@@ -703,7 +703,7 @@ function AddressBookPanelPresenter() {
 				if (groupContact == contact.id) {
 					// se i contatti coincidono aggiungo il gruppo alla lista di
 					// ritorno e blocco lo scorrimento dell'array
-					groupSelected[groups[group].id] = groups[group].name;
+					groupSelected[group] = groups[group];
 					// break;
 				}
 			}
