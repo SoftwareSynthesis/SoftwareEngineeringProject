@@ -76,7 +76,7 @@ public class AddressBookDoSearchServlet extends HttpServlet
 			userDAO = new UserDataDAO();
 			users = userDAO.searchGeneric(parameter);
 			iterator = users.iterator();
-			result = "{";Prova.Scrivi("INIZIO WHILE");
+			result = "{";
 			while(iterator.hasNext() == true)
 			{
 				entry = iterator.next();
@@ -97,7 +97,7 @@ public class AddressBookDoSearchServlet extends HttpServlet
 		}
 		catch (Exception ex)
 		{
-			result = "false";Prova.Scrivi(ex.getMessage());
+			result = "false";
 		}
 		finally
 		{
