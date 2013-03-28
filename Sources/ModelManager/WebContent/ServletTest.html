@@ -40,6 +40,7 @@
 				addressBookDoRemoveFromGroup();
 				addressBookDoCreateGroup();
 				addressBookDoDeleteGroup();
+				addressBookDoBlock();
 				
 				loginClose();
 			}
@@ -282,6 +283,29 @@
 					printResult("AddressBookDoDeleteGroup", false);
 				}
 			}
+			
+			function addressBookDoBlock()
+			{
+				var servletURI = "http://localhost:8080/MyTalk/addressBookDoBlock";
+				var parameters = "contactId=" + 4;
+				var result = callServlet(servletURI, parameters);
+				var parsed = JSON.parse(result);
+				try
+				{
+					if (parsed == true)
+					{
+						printResult("AddressBookDoBlock", true);
+					}
+					else
+					{
+						printResult("AddressBookDoBlock", false);
+					}
+				}
+				catch (exception)
+				{
+					printResult("AddressBookDoBlock", false);
+				}
+			}
 		</script>
 	</head>
 	<body>
@@ -347,6 +371,11 @@
 				<td>AddressBookDoDeleteGroup</td>
 				<td id = "AddressBookDoDeleteGroup"></td>
 				<td><button onclick = "addressBookDoDeleteGroup()">Avvia test</button></td>
+			</tr>
+			<tr>
+				<td>AddressBookDoBlock</td>
+				<td id = "AddressBookDoBlock"></td>
+				<td><button id = "addressBookDoBlock()">Avvia test</button></td>
 			</tr>
 		</table>
 		<br />
