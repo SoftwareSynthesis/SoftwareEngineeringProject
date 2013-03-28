@@ -264,14 +264,13 @@ Tali considerazioni di base, hanno portato il team a suddividere l'architettura 
 Le specifiche di ogni sotto-architettura saranno definite, rispettivamente nelle sezioni \vref{sec:database}, \vref{sec:server}, \vref{sec:clientpresenter} e \vref{sec:clientview}.
 
 Inoltre si fa presente che l'architettura generale, intesa come agglomerato delle tre sotto-architetture precedentemente elencate, fa uso del pattern MVP\@.
+Con tale ottica la sotto-architettura \texttt{server} ricopre il ruolo di \inglese{model}, \texttt{clientpresenter} costituisce invece il \inglese{presenter}, mentre \texttt{clientview} è la vista definita per questo progetto. Tra le considerazioni più interessanti che hanno portato alla scelta di questo \inglese{pattern}, va messa in evidenza la seguente:
 
-Sotto tale ottica la sotto-architettura \texttt{server} ricopre il ruolo di \inglese{model}, \texttt{clientpresenter} costituisce invece il \inglese{presenter}, mentre \texttt{clientview} è la vista definita per questo progetto. Tra le considerazioni più interessanti che hanno portato alla scelta di questo \inglese{pattern}, va messa in evidenza la seguente.
+assegnando a ogni sotto-architettura un ruolo specifico, si garantisce un alto livello di riutilizzo del codice (e.g. la vista comunica con il \inglese{presenter} poiché non conosce la logica di \inglese{business} del sistema).
 
-Assegnando a ogni sotto-architettura un ruolo specifico, si garantisce un alto livello di riutilizzo del codice (e.g. la vista comunica con il \inglese{presenter} poiché non conosce la logica di \inglese{business} del sistema).
+Di conseguenza, in un futuro si potrebbe riprendere la vista oggi definita e riutilizzarla in un altro progetto, andando solo a ridefinire, se necessario, un \inglese{presenter} che riproponga una nuovo adattamento della parte logica.
 
-Quindi in un futuro di potrebbe riprendere la vista oggi definita, e riutilizzarla in un altro progetto, andando solo a ridefinire, se necessario, un \inglese{presenter} che riproponga una nuovo adattamento della parte logica.
-
-Nelle sezioni successive, per ogni sotto-architettura sarà fornito un elenco dettagliato dei componenti che lo interessano. Si sottolinea che per componenti non sono da intendersi i sotto-package, bensì gli agglomerati di classi (potenzialmente prese da package diversi) che concorrono ad un fine comune: la definizione delle funzionalità del componente trattato.
+Nelle sezioni successive, per ogni sotto-architettura sarà fornito un elenco dettagliato dei componenti che lo interessano. Si sottolinea che per componenti non sono da intendersi i sotto-package, bensì gli agglomerati di classi (potenzialmente appartenenti a package diversi) che concorrono ad un fine comune: la definizione delle funzionalità del componente trattato.
 \clearpage
 
 \subsection{Logica di rete}
@@ -522,6 +521,7 @@ Nome attributo & Tipo & Opzionale & Vincoli\\
 \midrule
 ID\_group & Bigint unsigned & NO & PrimaryKey\\
 Name & Varchar(100) & NO & \\
+Owner & Bigint unsigned & NO & ForeignKey verso UserData\\
 \bottomrule
 \end{tabular}
 
@@ -1536,7 +1536,8 @@ Sottoclasse di \texttt{javax.servlet.http.HttpServlet} la cui responsabilità è
   \caption{Diagramma delle classi - Architettura \texttt{mytalk.server}}\label{fig:sottoarchserver}
 \end{figure}
 
-Il diagramma in figura \ref{fig:sottoarchserver} rappresenta solo ed esclusivamente le classi definite in sede di progettazione architetturale e non riporta invece tutte le interfacce/classi appartenenti a librerie esterne (ad es. \texttt{javax.servlet.http.HttpServlet}) che sono state estese o implementate nella sotto-architettura server. Tali informazioni, che avrebbero appesantito ulteriormente un diagramma già di grandi dimensioni sono invece riportate nei diagrammi dei singoli componenti del server e, ove richiesto, nei diagrammi illustrativi dei \inglese{design pattern} in cui sono coinvolte classi di librerie fornite da terze parti.
+Il diagramma in figura \ref{fig:sottoarchserver} rappresenta solo ed esclusivamente le classi definite in sede di progettazione architetturale e non riporta invece tutte le interfacce/classi appartenenti a librerie esterne (ad es. \texttt{javax.servlet.http.HttpServlet}) che sono state estese o implementate nella sotto-architettura server. Tali informazioni, che avrebbero appesantito ulteriormente un diagramma già di grandi dimensioni sono invece riportate nei diagrammi dei singoli componenti.
+Inoltre il diagramma non riporta le dipendenze.
 \clearpage
 
 %TODO fin qua Rizzi approva!
