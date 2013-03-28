@@ -8,9 +8,9 @@
 % Versione
 \newcommand{\docVers}{1.0}
 % Data creazione
-\newcommand{\creationDate}{2013-03-13}
+\newcommand{\creationDate}{2013-03-24}
 % Data ultima modifica
-\newcommand{\modificationDate}{2013-03-15}
+\newcommand{\modificationDate}{2013-03-25}
 % Stato in {Approvato, Non approvato}
 \newcommand{\docState}{Approvato}
 % Uso in {Interno, Esterno}
@@ -22,7 +22,7 @@
 % Approvato da
 \newcommand{\approvedBy}{Andrea Rizzi}
 % Verificatori
-\newcommand{\verifiedBy}{}
+\newcommand{\verifiedBy}{Marco Schivo}
 % Perscorso (relativo o assoluto) che punta alla directory contenente shared/
 % come sua sottodirectory (per comodità chiamiamola 'doc root').
 \newcommand{\docRoot}{..}
@@ -47,7 +47,11 @@
 \toprule
 Versione & Descrizione intervento & Redattore & Ruolo & Data\\
 \midrule % inserire qui il contenuto della tabella
-0.1 & Prima stesura documento & Stefano Farronato & Amministratore & 2013-03-13\\
+1.0 & Approvazione documento& Andrea Rizzi & Responsabile & 2013-03-25\\
+0.3 & Verifica del documento & Marco Schivo & Verificatore & 2013-03-25\\
+0.3 & Inserite immagini guida& Stefano Farronato & Verificatore & 2013-03-25\\
+0.2 & Documentate sezioni  di prerequisiti, materiale fornito e installazione& Stefano Farronato & Verificatore & 2013-03-24\\
+0.1 & Prima stesura documento & Stefano Farronato & Verificatore & 2013-03-24\\
 \bottomrule
 \end{tabularx}
 \newpage
@@ -86,10 +90,9 @@ L'installatore deve avere a disposizione:
 \item directory \caName{} contenente il codice compilato in formato \textit{.war};
 \item file \textit{.sql} per la creazione del database;
 \item files \textit{html} contenenti la documentazione delle classi.
-\end{itemize}
+\end{itemize} 
 
 \section{Installazione}
-\subsection{Operazioni preliminari}
 \begin{enumerate}
 \item Nella cartella di installazione di PhpMyAdmin aprire il file \texttt{config.inc.php} e verficare le seguenti variabili di sistema:
 \begin{itemize}
@@ -101,16 +104,13 @@ L'installatore deve avere a disposizione:
 \end{itemize}
 \item Configurare una variabile di ambiente, per l'utente che ha accesso al server, denominata \textit{MyTalkConfiguration} che punta alla cartella di installazione di \textit{TomCat 7};
 
-
 \item aprire il pannello di controllo di PhpMyAdmin, importare il file \textit{.sql} e confermare il caricamento
 
 \begin{figure}[H]
   \includegraphics[width=\textwidth]{ManInst_InstallazioneDB}
 \caption{Installazione Database}\label{fig:InstallazioneDB}
 \end{figure}
-
 una volta eseguita l'operazione, si sarà creato il database e la relativa struttura;
-
 
 \begin{figure}[H]
   \includegraphics[width=\textwidth]{ManInst_EsitoInstDB}
