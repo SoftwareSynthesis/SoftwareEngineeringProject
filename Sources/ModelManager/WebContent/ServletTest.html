@@ -30,13 +30,12 @@
 			
 			function callAllTest()
 			{
-				//Test per authentication.servlet
 				loginAuthentication();
 				loginDoRegistration();
 				
-				//Test per abook.servlet
 				addressBookGetContacts();
 				addressBookDoAddContact();
+				addressBookDoRemoveContact();
 				
 				loginClose();
 			}
@@ -163,6 +162,29 @@
 					printResult("AddressBookDoAddContact", false);
 				}
 			}
+			
+			function addressBookDoRemoveContact()
+			{
+				var servletURI = "http://localhost:8080/MyTalk/addressBookDoRemoveContact";
+				var parameters = "contactId=" + 1;
+				var result = callServlet(servletURI, parameters);
+				var parsed = JSON.parse(result);
+				try
+				{
+					if (parsed == true)
+					{
+						printResult("AddressBookDoRemoveContact", true);	
+					}
+					else
+					{
+						printResult("AddressBookDoRemoveContact", false);
+					}
+				}
+				catch (exception)
+				{
+					printResult("AddressBookDoRemoveContact", false);
+				}
+			}
 		</script>
 	</head>
 	<body>
@@ -204,7 +226,13 @@
 				<td id = "AddressBookDoAddContact"></td>
 				<td><button onclick = "addressBookDoAddContact()">Avvia test</button></td>
 			</tr>
+			<tr>
+				<td>AddressBookDoRemoveContact</td>
+				<td id = "AddressBookDoRemoveContact"></td>
+				<td><button onclick = "addressBookDoRemoveContact()">Avvia test</button></td>
+			</tr>
 		</table>
+		<br />
 		<button onclick = "callAllTest()">AVVIA TUTTI I TEST</button>
 	</body>
 </html>

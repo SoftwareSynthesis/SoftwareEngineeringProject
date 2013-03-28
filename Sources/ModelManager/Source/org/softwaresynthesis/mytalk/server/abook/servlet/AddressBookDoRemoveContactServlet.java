@@ -75,15 +75,18 @@ public final class AddressBookDoRemoveContactServlet extends HttpServlet
 		IUserData user = null;
 		IUserData friend = null;
 		Long contactId = null;
-		PrintWriter writer = response.getWriter();
+		PrintWriter writer = null;
 		Set<IAddressBookEntry> entrys = null;
+		String mail = null;
 		String result = null;
-		UserDataDAO userDAO = new UserDataDAO();
+		UserDataDAO userDAO = null;
 		try
 		{
 			session = request.getSession(false);
-			user = (IUserData)session.getAttribute("user");
+			mail = (String)session.getAttribute("username");
+			userDAO = new UserDataDAO();
 			contactId = Long.parseLong(request.getParameter("contactId"));
+			user = userDAO.getByEmail(mail);
 			friend = userDAO.getByID(contactId);
 			if (friend != null)
 			{
@@ -122,6 +125,10 @@ public final class AddressBookDoRemoveContactServlet extends HttpServlet
 		{
 			result = "false";
 		}
-		writer.write(result);
+		finally
+		{
+			writer = response.getWriter();
+			writer.write(result);
+		}
 	}
 }

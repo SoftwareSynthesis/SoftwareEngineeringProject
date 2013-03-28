@@ -76,8 +76,8 @@ L'installatore deve avere a disposizione:
 \item connessione alla rete internet;
 \item un server con installato \textit{Tomcat 7} (un contenitore servlet open source);
 \item il DBMS \textit{MySQL};
+\item console \textit{PhpMyAdmin} per l'amministrazione della base di dati;
 \item permessi per accedere alla sezione \textit{manager} di \textit{Tomcat};
-%TODO da chiedere a mene se serve ancora
 \item permessi per creare una variabile di sistema.
 \end{itemize} 
 
@@ -85,15 +85,27 @@ L'installatore deve avere a disposizione:
 \begin{itemize}
 \item directory \caName contenente il codice compilato in formato \textit{.war};
 \item file \textit{.sql} per la creazione del database;
-\item file \textit{javadoc.jar} contenente la documentazione.
+\item files \textit{html} contenenti la documentazione delle classi.
 \end{itemize}
 
 \section{Installazione}
 \subsection{Operazioni preliminari}
 %TODO specificare se serve un utente di APACHE e come configurare per mettere le lettere maiuscole
 \begin{enumerate}
-\item Aprire il pannello di controllo di Apache, importare il file .sql e confermare il caricamento. Una volta eseguita l'operazione, si sarà creato il database e la relativa struttura.
-\item Fare il deploy
+\item Installazione del DBMS mysql seguente la procedura standard descritta nel sito ufficiale;
+\item Installazione del servlet container Apache Tomcat 7;
+\item Nella cartella di installazione di PhpMyAdmin aprire il file 'config.inc.php' e verficare le seguenti variabili di sistema:
+\begin{itemize}
+\item $cfg['Servers'][$i]['auth_type'] sia impostata con il valore cookie (in modo da consentire l'accesso tramite username e password);
+\end{itemize}
+\item Nella cartella di installazione di PhpMyAdmin aprire il file 'my.ini' e verficare le seguenti variabili di sistema:
+\begin{itemize}
+\item lower_case_table_names sia impostata a 0 (in modo che mysql sia casesensitive)
+\end{itemize}
+\item Configurare una variabile di ambiente, per l'utente che ha accesso al server, denominata MyTalkConfiguration che punta alla cartella di installazione di Tomcat7;
+\item Aprire il pannello di controllo di PhpMyAdmin, importare il file .sql e confermare il caricamento. Una volta eseguita l'operazione, si sarà creato il database e la relativa struttura.
+\item Fare il deploy del file MyTalk.war nella sezione manager di Tomcat
+\item Verificare che il proprio server cosi configurato sia visibile dalla rete internet.
 \end{enumerate}
 
 \end{document}

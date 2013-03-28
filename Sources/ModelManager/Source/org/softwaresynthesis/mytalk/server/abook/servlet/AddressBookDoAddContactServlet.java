@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServlet;
 import org.softwaresynthesis.mytalk.server.abook.AddressBookEntry;
 import org.softwaresynthesis.mytalk.server.abook.IGroup;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
-import org.softwaresynthesis.mytalk.server.dao.AddressBookEntryDAO;
 import org.softwaresynthesis.mytalk.server.dao.GroupDAO;
 import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
 
@@ -70,7 +69,6 @@ public final class AddressBookDoAddContactServlet extends HttpServlet
 	{
 		AddressBookEntry myEntry = null;
 		AddressBookEntry frEntry = null;
-		AddressBookEntryDAO entryDAO = null;
 		IGroup frGroup = null;
 		IGroup myGroup = null;
 		HttpSession session = null;
