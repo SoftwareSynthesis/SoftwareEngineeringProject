@@ -339,7 +339,7 @@ function RegisterPanelPresenter(url) {
             try {
                 data.username = self.getUsername();
                 data.password = self.getPassword();
-                data.question = self.getQuetion();
+                data.question = self.getQuestion();
                 data.answer = self.getAnswer();
                 data.name = self.getName();
                 data.surname = self.getSurname();
