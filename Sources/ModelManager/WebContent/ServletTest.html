@@ -43,6 +43,7 @@
 				addressBookDoBlock();
 				addressBookDoUnblock();
 				addressBookGetGroups();
+				addressBookDoSearch()
 				
 				loginClose();
 			}
@@ -354,6 +355,30 @@
 					printResult("AddressBookGetGroups", false);
 				}
 			}
+			
+			function addressBookDoSearch()
+			{
+				var servletURI = "http://localhost:8080/MyTalk/addressBookDoSearch";
+				var parameters = "param=" + "Luca";
+				var result = callServlet(servletURI, parameters); console.log(result);
+				var parsed = JSON.parse(result);
+				try
+				{
+					for (var key in parsed)
+					{
+						if (parsed[key].name == "Luca")
+						{
+							printResult("AddressBookDoSearch", true);
+							return;
+						}
+					}
+					printResult("AddressBookDoSearch", false);
+				}
+				catch (exception)
+				{
+					printResult("AddressBookDoSearch", false);
+				}
+			}
 		</script>
 	</head>
 	<body>
@@ -420,6 +445,10 @@
 			<tr>
 				<td>AddressBookGetGroups</td>
 				<td id = "AddressBookGetGroups"></td>
+			</tr>
+			<tr>
+				<td>AddressBookDoSearch</td>
+				<td id = "AddressBookDoSearch"></td>
 			</tr>
 		</table>
 		<br />
