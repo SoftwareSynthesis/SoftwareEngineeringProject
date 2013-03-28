@@ -88,6 +88,7 @@ function ContactPanelPresenter() {
         var header = document.createElement("h1");
         header.appendChild(document.createTextNode("Scheda Contatto"));
         divHeader.appendChild(header);
+        element.appendChild(divHeader);
 
         var displayBlockedDiv = document.createElement("div");
         displayBlockedDiv.id = "displayBlockedDiv";
@@ -158,7 +159,6 @@ function ContactPanelPresenter() {
         buttonDiv.id = "buttonDiv";
 
         // apendo il sottoalbero al DOM
-        element.appendChild(divHeader);
         element.appendChild(displayBlockedDiv);
         element.appendChild(avatar);
         element.appendChild(ulData);
