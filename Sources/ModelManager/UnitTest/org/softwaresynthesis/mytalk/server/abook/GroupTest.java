@@ -104,6 +104,8 @@ public class GroupTest {
 
 	/**
 	 * Verifica la corretta impostazione e recupero del proprietario del gruppo
+	 * 
+	 * @author diego
 	 */
 	@Test
 	public void testOwner() {
@@ -115,6 +117,8 @@ public class GroupTest {
 
 	/**
 	 * Verifica la corretta impostazione e recupero della rubrica
+	 * 
+	 * @author diego
 	 */
 	@Test
 	public void testAddressBook() {
@@ -127,6 +131,8 @@ public class GroupTest {
 
 	/**
 	 * Verifica l'inserimento di un nuovo contatto all'interno del gruppo
+	 * 
+	 * @author diego
 	 */
 	@Test
 	public void testAddAddressBookEntry() {
@@ -135,10 +141,26 @@ public class GroupTest {
 		assertTrue(addressBook.contains(entry));
 	}
 	
+	/**
+	 * Verifica la rimozione di un contatto dal gruppo
+	 * 
+	 * @author diego
+	 */
 	@Test
 	public void testRemoveAddressBookEntry() {
 		tester.removeAddressBookEntry(entry);
 		Set<IAddressBookEntry> addressBook = tester.getAddressBook();
 		assertFalse(addressBook.contains(entry));
+	}
+	
+	/**
+	 * Testa la conversione in stringa dell'oggetto Group
+	 * 
+	 * @author diego
+	 */
+	@Test
+	public void testToString() {
+		String toCompare = String.format("Group[id: %d, name: %s]", tester.getId(), tester.getName());
+		assertEquals(toCompare, tester.toString());
 	}
 }
