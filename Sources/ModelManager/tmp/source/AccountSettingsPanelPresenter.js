@@ -99,7 +99,6 @@ function AccountSettingsPanelPresenter(url) {
 		var liName = document.createElement("li");
 		var labelName = document.createElement("label");
 		labelName.setAttribute("for", "name");
-		labelName.appendChild(document.createTextNode("Nome:"));
 		var inputName = document.createElement("input");
 		inputName.setAttribute("id", "name");
 		inputName.setAttribute("name", "name");
@@ -111,19 +110,28 @@ function AccountSettingsPanelPresenter(url) {
 		var liSurname = document.createElement("li");
 		var labelSurname = document.createElement("label");
 		labelSurname.setAttribute("for", "surname");
-		labelSurname.appendChild(document.createTextNode("Cognome:"));
 		var inputSurname = document.createElement("input");
 		inputSurname.setAttribute("id", "surname");
 		inputSurname.setAttribute("name", "surname");
 		inputSurname.setAttribute("value", communicationcenter.my.surname);
-		liSurname.appendChild(labelSurname);
-		liSurname.appendChild(inputSurname);
+		liName.appendChild(labelSurname);
+		liName.appendChild(inputSurname);
+
+		// list item per l'email
+		// var liMail = document.createElement("li");
+		// var labelMail = document.createElement("label");
+		// labelMail.setAttribute("for", "email");
+		// var inputMail = document.createElement("input");
+		// inputMail.setAttribute("id", "email");
+		// inputMail.setAttribute("name", "email");
+		// inputMail.setAttribute("value", communicationcenter.my.email);
+		// liName.appendChild(labelMail);
+		// liName.appendChild(inputMail);
 
 		// list item per l'immagine
 		var liPicture = document.createElement("li");
 		var labelPicture = document.createElement("label");
 		labelPicture.setAttribute("for", "picture");
-		labelPicture.appendChild(document.createTextNode("Immagine:"));
 		var inputPicture = document.createElement("input");
 		inputPicture.setAttribute("type", "file");
 		inputPicture.setAttribute("id", "picture");
@@ -203,6 +211,11 @@ function AccountSettingsPanelPresenter(url) {
 		surnameNode.appendChild(document
 				.createTextNode(communicationcenter.my.surname));
 
+		// var mailNode = document.createElement('li');
+		// mailNode.setAttribute("id", "mail");
+		// mailNode.appendChild(document
+		// .createTextNode(communicationcenter.my.email));
+
 		var pictureNode = document.createElement('img');
 		pictureNode.setAttribute("id", "picture");
 		pictureNode.setAttribute("src", communicationcenter.my.picturePath);
@@ -220,6 +233,7 @@ function AccountSettingsPanelPresenter(url) {
 		ulData.style.listStyleType = "none";
 		ulData.appendChild(nameNode);
 		ulData.appendChild(surnameNode);
+		// ulData.appendChild(mailNode);
 
 		// appende il sottoalbero al DOM
 		element.appendChild(pictureNode);
