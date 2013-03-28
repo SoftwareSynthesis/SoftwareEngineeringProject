@@ -56,5 +56,15 @@ public class AuthenticationDataTest {
 	public void testGetPassword() {
 		assertTrue(tester.getPassword().equals("password"));
 	}
+	
+	/**
+	 * Testa la conversione in stringa
+	 * 
+	 * @author diego
+	 */
+	public void testToString() {
+		String toCompare = "AuthenticationData[username: indirizzo1@dominio.it]";
+		assertTrue(toCompare.equals(tester.toString()));
+	}
 
 }
