@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import org.softwaresynthesis.mytalk.server.abook.AddressBookEntry;
 import org.softwaresynthesis.mytalk.server.abook.IGroup;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
+import org.softwaresynthesis.mytalk.server.dao.AddressBookEntryDAO;
 import org.softwaresynthesis.mytalk.server.dao.GroupDAO;
 import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
 
@@ -69,6 +70,7 @@ public final class AddressBookDoAddContactServlet extends HttpServlet
 	{
 		AddressBookEntry myEntry = null;
 		AddressBookEntry frEntry = null;
+		AddressBookEntryDAO entryDAO = null;
 		IGroup frGroup = null;
 		IGroup myGroup = null;
 		HttpSession session = null;
@@ -105,6 +107,9 @@ public final class AddressBookDoAddContactServlet extends HttpServlet
 				friend.addAddressBookEntry(frEntry);
 				userDAO.update(user);
 				userDAO.update(friend);
+//				entryDAO = new AddressBookEntryDAO();
+//				entryDAO.insert(myEntry);
+//				entryDAO.insert(frEntry);
 				result = "true";
 			}
 			else
@@ -115,6 +120,7 @@ public final class AddressBookDoAddContactServlet extends HttpServlet
 		catch (Exception ex)
 		{
 			result = "false";
+			Prova.Scrivi(ex.getMessage());
 		}
 		finally
 		{

@@ -1,5 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns = "http://www.w3.org/1999/xhtml" xml:lang = "it" lang = "it">
+<!DOCTYPE html>
+<html xmlns = "http://www.w3.org/1999/xhtml" lang = "it">
 	<head>
 	 	<meta http-equiv = "Content-Type" content = "text/html; UTF-8"/>
 		<title>Test servlet - MyTalk - SoftwareSynthesis</title>
@@ -26,6 +26,19 @@
 				{
 					cella.style.backgroundColor = "#CC0000";	
 				}
+			}
+			
+			function callAllTest()
+			{
+				//Test per authentication.servlet
+				loginAuthentication();
+				loginDoRegistration();
+				
+				//Test per abook.servlet
+				addressBookGetContacts();
+				addressBookDoAddContact();
+				
+				loginClose();
 			}
 			
 			function loginAuthentication()
@@ -81,8 +94,8 @@
 				var password = "password";
 				var question = "come mi chiamo";
 				var answer = "Andrea";
-				//var name = "andrea";
-				//var surname = "meneghinello";
+				var name = "andrea";
+				var surname = "meneghinello";
 				var servletURI = "http://localhost:8080/MyTalk/LoginDoRegistration";
 				var parameters = "username=" + username + "&password=" + password + "&question=" + question + "&answer=" + answer + "&name=" + name + "&surname=" + surname;
 				var result = callServlet(servletURI, parameters);
@@ -126,11 +139,35 @@
 					printResult("AddressBookGetContacts", false);
 				}
 			}
+			
+			function addressBookDoAddContact()
+			{
+				var servletURI = "http://localhost:8080/MyTalk/addressBookDoAddContact";
+				var contactId = 1;
+				var parameters = "contactId=" + contactId;
+				var result = callServlet(servletURI, parameters);
+				var parsed = JSON.parse(result);
+				try
+				{
+					if (parsed ==  true)	
+					{
+						printResult("AddressBookDoAddContact", true);
+					}
+					else
+					{
+						printResult("AddressBookDoAddContact", false);
+					}
+				}
+				catch (exception)
+				{
+					printResult("AddressBookDoAddContact", false);
+				}
+			}
 		</script>
 	</head>
 	<body>
 		<h1>Test delle servlet di MyTalk</h1>
-		<table border = "1px">
+		<table border = "1">
 			<tr>
 				<th style = "width:200px;">Nome della servlet</th>
 				<th style = "width:200px;">Esito del test</th>
@@ -162,6 +199,12 @@
 				<td id = "AddressBookGetContacts"></td>
 				<td><button onclick = "addressBookGetContacts()">Avvia test</button></td>
 			</tr>
+			<tr>
+				<td>AddressBookDoAddContact</td>
+				<td id = "AddressBookDoAddContact"></td>
+				<td><button onclick = "addressBookDoAddContact()">Avvia test</button></td>
+			</tr>
 		</table>
+		<button onclick = "callAllTest()">AVVIA TUTTI I TEST</button>
 	</body>
 </html>
