@@ -75,7 +75,7 @@ L'installatore deve avere a disposizione:
 \begin{itemize}
 \item connessione alla rete internet;
 \item un server con installato \textit{Tomcat 7} (un contenitore servlet open source);
-\item il DBMS \textit{MySQL};
+\item il DBMS \textit{MySQL}, per l'installazione seguire la procedura standard descritta nel sito ufficiale \url{www.mysql.com};
 \item console \textit{PhpMyAdmin} per l'amministrazione della base di dati;
 \item permessi per accedere alla sezione \textit{manager} di \textit{Tomcat};
 \item permessi per creare una variabile di sistema.
@@ -83,29 +83,63 @@ L'installatore deve avere a disposizione:
 
 \section{Materiale fornito}
 \begin{itemize}
-\item directory \caName contenente il codice compilato in formato \textit{.war};
+\item directory \caName{} contenente il codice compilato in formato \textit{.war};
 \item file \textit{.sql} per la creazione del database;
 \item files \textit{html} contenenti la documentazione delle classi.
 \end{itemize}
 
 \section{Installazione}
 \subsection{Operazioni preliminari}
-%TODO specificare se serve un utente di APACHE e come configurare per mettere le lettere maiuscole
 \begin{enumerate}
-\item Installazione del DBMS mysql seguente la procedura standard descritta nel sito ufficiale;
-\item Installazione del servlet container Apache Tomcat 7;
-\item Nella cartella di installazione di PhpMyAdmin aprire il file 'config.inc.php' e verficare le seguenti variabili di sistema:
+\item Nella cartella di installazione di PhpMyAdmin aprire il file \texttt{config.inc.php} e verficare le seguenti variabili di sistema:
 \begin{itemize}
-\item $cfg['Servers'][$i]['auth_type'] sia impostata con il valore cookie (in modo da consentire l'accesso tramite username e password);
+\item \verb+$cfg['Servers'][\$i]['auth_type']+ sia impostata con il valore \texttt{cookie} (in modo da consentire l'accesso tramite \textit{username} e \textit{password});
 \end{itemize}
-\item Nella cartella di installazione di PhpMyAdmin aprire il file 'my.ini' e verficare le seguenti variabili di sistema:
+\item Nella cartella di installazione di PhpMyAdmin aprire il file \texttt{my.ini} e verficare le seguenti variabili di sistema:
 \begin{itemize}
-\item lower_case_table_names sia impostata a 0 (in modo che mysql sia casesensitive)
+\item \texttt{lower\_case\_table\_names} sia impostata a 0 (in modo che MySQL sia \inglese{case-sensitive})
 \end{itemize}
-\item Configurare una variabile di ambiente, per l'utente che ha accesso al server, denominata MyTalkConfiguration che punta alla cartella di installazione di Tomcat7;
-\item Aprire il pannello di controllo di PhpMyAdmin, importare il file .sql e confermare il caricamento. Una volta eseguita l'operazione, si sarà creato il database e la relativa struttura.
-\item Fare il deploy del file MyTalk.war nella sezione manager di Tomcat
-\item Verificare che il proprio server cosi configurato sia visibile dalla rete internet.
+\item Configurare una variabile di ambiente, per l'utente che ha accesso al server, denominata \textit{MyTalkConfiguration} che punta alla cartella di installazione di \textit{TomCat 7};
+
+
+\item aprire il pannello di controllo di PhpMyAdmin, importare il file \textit{.sql} e confermare il caricamento
+
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{ManInst_InstallazioneDB}
+\caption{Installazione Database}\label{fig:InstallazioneDB}
+\end{figure}
+
+una volta eseguita l'operazione, si sarà creato il database e la relativa struttura;
+
+
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{ManInst_EsitoInstDB}
+\caption{Esito installazione Database}\label{fig:EsitoInstDB}
+\end{figure}
+
+
+\item Fare il deploy del file \textit{MyTalk.war} nella sezione manager di \textit{TomCat}
+
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{ManInst_Deploy}
+\caption{Deploy blabla}\label{fig:Deploy}
+\end{figure}
+
+al termine della procedura la schermata principale di \textit{TomCat} dovrà essere equivalente alla seguente;
+
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{ManInst_EsitoDeploy}
+\caption{Esito deploy blabla}\label{fig:EsitoDeploy}
+\end{figure}
+
+
+\item verificare infine che il proprio server cosi configurato sia visibile dalla rete internet.
 \end{enumerate}
+
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{ManInst_InstallazioneDB}
+\caption{Installazione Database}\label{fig:InstallazioneDB}
+\end{figure}
+
 
 \end{document}
