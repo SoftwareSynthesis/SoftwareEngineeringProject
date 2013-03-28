@@ -131,6 +131,7 @@ function ToolsPanelPresenter() {
      * @author Riccardo Tresoldi
      */
     this.logout = function() {
+    	// TODO contattare communicationcenter per la disconnessione
         var request = new XMLHttpRequest();
         request.open("POST", servlets[0], false);
         request.send();
