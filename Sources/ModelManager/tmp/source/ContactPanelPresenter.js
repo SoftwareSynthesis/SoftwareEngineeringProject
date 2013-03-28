@@ -57,8 +57,10 @@ function ContactPanelPresenter() {
 			var label = document.createElement("span");
 			var img = document.createElement("img");
 			img.className = "deleteGroupButton";
-			// TODO
-			img.src = "";
+			img.src = "img/close.png";
+			img.onclick=function(){
+			    //TODO eliminare gruppo
+			}
 			label.appendChild(document.createTextNode(groups[group].name));
 			label.appendChild(img);
 			label.className = "groupLabel";

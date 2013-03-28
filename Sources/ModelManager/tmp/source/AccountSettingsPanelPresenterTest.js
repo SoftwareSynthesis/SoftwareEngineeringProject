@@ -1,5 +1,5 @@
 module(
-		"AccontSettingsPanelPresenterTest",
+		"AccountSettingsPanelPresenterTest",
 		{
 			setup : function() {
 				communicationcenter = new Object();
@@ -114,6 +114,76 @@ test("testhasSomethingChanged()", function() {
 	expect(i);
 });
 
-test("TestOnChangeButtonPressed", function() {
-	// TODO da terminare
+test("testOnChangeButtonPressed", function() {
+	var i = 0;
+	//stub di interfaccia grafica
+	var element = document.createElement("div");
+	element.id = "AccountSettingsPanel";
+	document.body.appendChild(element);
+	
+	tester.onChangeButtonPressed();
+	var form = element.childNodes[0];
+	
+	equal(form.nodeName, "FORM", "elemento form aggiunto correttamente");
+	i++;
+	
+	var ul = form.childNodes[0];
+	equal(ul.nodeName, "UL", "lista dei contatti aggiunta correttamente");
+	i++;
+	
+	var list = ul.childNodes;
+	equal(list.length, 3, "i dati che possono essere modificati sono tre");
+	i++;
+	
+	var liName = list[0];
+	var liSurname = list[1];
+	var liPicture = list[2];
+	
+	var label = liName.childNodes[0];
+	var input = liName.childNodes[1];
+	
+	equal(liName.childNodes.length, 2, "numero di figli corretto");
+	i++;
+	equal(input.nodeName, "INPUT", "tipo dell'elemento corretto");
+	i++;
+	equal(label.getAttribute("for"), input.id, "label impostata correttamente");
+	i++;
+	equal(label.textContent, "Nome:", "contenuto della label impostato correttamente");
+	i++;
+	equal(input.value, communicationcenter.my.name, "valore corretto dell'input");
+	i++;
+	
+	
+	label = liSurname.childNodes[0];
+	input = liSurname.childNodes[1];
+	
+	equal(liSurname.childNodes.length, 2, "numero di figli corretto");
+	i++;
+	equal(input.nodeName, "INPUT", "tipo dell'elemento corretto");
+	i++;
+	equal(label.getAttribute("for"), input.id, "label impostata correttamente");
+	i++;
+	equal(label.textContent, "Cognome:", "contenuto della label impostato correttamente");
+	i++;
+	equal(input.value, communicationcenter.my.surname, "valore corretto dell'input");
+	i++;
+	
+	label = liPicture.childNodes[0];
+	input = liPicture.childNodes[1];
+	
+	equal(liPicture.childNodes.length, 2, "numero di figli corretto");
+	i++;
+	equal(input.nodeName, "INPUT", "tipo dell'elemento corretto");
+	i++;
+	equal(label.getAttribute("for"), input.id, "label impostata correttamente");
+	i++;
+	equal(label.textContent, "Immagine:", "contenuto della label impostato correttamente");
+	i++;
+	
+	var button = form.childNodes[1];
+	equal(button.nodeName, "BUTTON", "il pulsante ha il tipo corretto");
+	i++;
+	
+	document.body.removeChild(element);
+	expect(i);
 });
