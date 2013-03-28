@@ -2638,45 +2638,57 @@ Modulo di autenticazione utilizzato dal sistema \caName.
 
 \subsubsection*{Relazioni d'uso}
 \begin{itemize}
-	\item \texttt{java.io.IOException}:
-	\item \texttt{java.security.Principal}:
-	\item \texttt{java.util.Map}:
-	\item \texttt{java.util.Set}:
-	\item \texttt{javax.security.auth.callback.Callback}:
-	\item \texttt{javax.security.auth.callback.CallbackHandler}:
-	\item \texttt{javax.security.auth.callback.NameCallback}:
-	\item \texttt{javax.security.auth.callback.PasswordCallback}:
-	\item \texttt{javax.security.auth.callback.UnsupportedCallbackException}:
-	\item \texttt{javax.security.auth.login.FailedLoginException}:
-	\item \texttt{javax.security.auth.login.LoginException}:
-	\item \texttt{javax.security.auth.spi.LoginModule}:
-	\item \texttt{javax.security.auth.Subject}:
-	\item \classname{abook.IUserData}:
-	\item \classname{dao.UserDataDAO}:
+	\item \texttt{java.io.IOException}: la classe è in grado di rilanciare eccezioni relative a operazioni di IO.
+	\item \texttt{java.security.Principal}: cinterfaccia che definisce i dati di autenticazione di un utente.
+	\item \texttt{java.util.Map}: parametri passati ad \method{iniziaile()}.
+	\item \texttt{java.util.Set}: la classe può definire istanze di Set, per memorizzare i dati trattati.
+	\item \texttt{javax.security.auth.callback.Callback}: vettore utilizzato per contenere i dati di autenicazione.
+	\item \texttt{javax.security.auth.callback.CallbackHandler}: parametri passati ad \method{iniziaile()}.
+	\item \texttt{javax.security.auth.callback.NameCallback}: oggetto che contiene il name dell'utente da autenticare.
+	\item \texttt{javax.security.auth.callback.PasswordCallback}: oggetto che contiene la password dell'utente da autenticare
+	\item \texttt{javax.security.auth.callback.UnsupportedCallbackException}: la classe è in grado di rilanciare eccezioni relative a operazioni di UnsupportedCallback.
+	\item \texttt{javax.security.auth.login.FailedLoginException}: la classe è in grado di rilanciare eccezioni relative a operazioni di FailedLoginException.
+	\item \texttt{javax.security.auth.login.LoginException}: la classe è in grado di rilanciare eccezioni relative a operazioni di LoginException.
+	\item \texttt{javax.security.auth.spi.LoginModule}: interfaccia d'implementazione.
+	\item \texttt{javax.security.auth.Subject}: definisce il soggetto da autenticare.
+	\item \classname{abook.IUserData}: la classe interagisce con istanze di oggetti identificabili come utenti.
+	\item \classname{dao.UserDataDAO}: utilizzata per modificare il contenuto del database. Nello psecifico viene usata per interagire con la tabella UserData.
 \end{itemize}
 
 \subsubsection*{Attributi}
 \begin{description}
   \item{\memberdata{-- login: boolean}}\\
+  Attributo che determina se il login è avvenuto oppure no.
   \item{\memberdata{-- commit: boolean}}\\
+  Attributo che determina se il commit è già stato eseguito.
   \item{\memberdata{-- handler: CallbackHandler}}\\
+  Oggetto utilizzato per il caricamento delle credenzialie.
   \item{\memberdata{-- password: char[]}}\\
+  Attributo che che contiene la password immessa dall'utente.
   \item{\memberdata{-- username: String}}\\
+   Attributo che che contiene lo username immesso dall'utente.
   \item{\memberdata{-- principal: Principal}}\\
+  Contiene la caratteristica autenticativa del subject. Nel sistema MyTalk tale proprietà è riservata al campo mail.
   \item{\memberdata{-- subject: Subject}}\\
+  Attributo che definisce il soggetto da autenticare.
 \end{description}
 
 \subsubsection*{Metodi}
 \begin{description}
 	\item{\method{+ initialize(subject: Subject, handler: CallbackHandler, sharedState: Map, option: Map): void }}\\
+	Il metodo ha il compito di inizializzare gli attributi privati della classe con i parametri d'input.
 
 	\item{\method{+ login(): boolean throws LoginException}}\\
+	Metodo richiamato per verificare un riscontro tra i dati passati per l'autenticazione e i dati presenti nel database. Il metodo deve appoggiarsi alla classe \classname{UserDataDAO} per le operazione di estrazione dati dal database.
 	
 	\item{\method{+ commit(): boolean throws LoginException}}\\
+	Metodo richiamato direttamente dal framework se il login va a buon fine. Il suo scopo è quellodi inizializzare il subject con i relativi principle.
 	
 	\item{\method{+ abort(): boolean throws LoginException}}\\
+	Metodo usato per bloccare la procedura di login.
 	
 	\item{\method{+ logout(): boolean throws LoginException}}\\
+	Metodo per il logout del sistema. Il suo scopo è quello di eliminare il principle e il subject.
 
 \end{description}
 
@@ -4101,8 +4113,4 @@ Il sistema, dovendo essere contenuto in un'unica pagina web, dispone di un'unica
 \item parte centrale contenente il MainPanel.
 \end{itemize}
 Quest'ultimo, il MainPanel, è designato a cambiare il suo contenuto in base alle operazioni svolte dall'utente in quel dato momento. Ad esempio, se l'utente seleziona un contatto dalla propria rubrica, il pannello centrale conterrà la visualizzazione della scheda del contatto selezionato. Se invece avvia una chiamata, vedrà visualizzato il pannello delle chiamate. La vista è quindi demandata tutta ai presenter che la modificano in base alle richieste.
-\clearpage
-
-\section{Tracciamento della relazione componenti-requisiti}
-
 \end{document}
