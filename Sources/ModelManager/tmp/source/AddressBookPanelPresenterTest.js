@@ -331,7 +331,7 @@ test("testRemoveContact()", function() {
 });
 
 test(
-		"testapplyFilterByString()",
+		"testApplyFilterByString()",
 		function() {
 
 			tester.setContacts({
@@ -371,7 +371,7 @@ test(
 
 			// controllo che funzioni il filtro per un contatto esistente
 			// tramite il cognome
-			var cerca_mail = "laupau@gmail.com"
+			var cerca_mail = "laupau@gmail.com";
 			ele = tester.applyFilterByString(cerca_mail);
 			equal(ele.length, 1,
 					"Trova un solo contatto che ha email laupau@gmail.com");
@@ -389,7 +389,7 @@ test(
 			expect(i);
 		});
 
-test("testaddGroup()", function() {
+test("testAddGroup()", function() {
 
 	var element = document.getElementById("AddressBookPanel");
 
@@ -543,6 +543,8 @@ test("testapplyFilterByGroup()", function() {
 		}
 	});
 
+	
+	
 	var contact = tester.getContacts();
 	var laura = contact[0];
 
@@ -578,29 +580,58 @@ test("testapplyFilterByGroup()", function() {
 test("testAddContactInGroup()", function() {
 	var i = 0;
 	tester.setContacts({
-		0 : {
+		1: {
+			id : 1,
 			name : "Laura",
 			surname : "Pausini",
 			email : "laupau@gmail.com"
+		},
+		0: {
+			id : 0,
+			name : "Antonio",
+			surname : "Rossi",
+			email : "antros@gmail.com"
 		}
 	});
 	tester.setGroups({
 		0 : {
 			id : 0,
 			name : "famiglia",
-			contacts : []
+			contacts : [1]
 		}
 	});
+	
+	
+	
 	var contact = tester.getContacts();
-	var laura = contact[0];
+	var laura = contact[1];
+	var antonio = contact[0];
 	var group = tester.getGroups();
 	var famiglia = group[0];
+	
+	
+	try {
+		tester.addContactInGroup(antonio,famiglia);
+		ok(false, "errore non rilevato");
+		i++;
+	} catch (err) {
+		equal(err, "Il contatto è già presente nel gruppo.",
+				"Non è possibile aggiungere antonio...è già presente nel gruppo");
+		i++;
+	}
+	
+	
 
 	equal(tester.addContactInGroup(laura, famiglia), true,
 			"laura aggiunta correttamente");
 	i++;
+	
+	
+	
+	
 	expect(i);
 });
+
 
 test("testDeleteContactFromGroup()", function() {
 	var i = 0;
@@ -610,6 +641,13 @@ test("testDeleteContactFromGroup()", function() {
 			name : "Laura",
 			surname : "Pausini",
 			email : "laupau@gmail.com"
+		},
+		1 : {
+			id: 1,
+			name : "Antonio",
+			surname : "Rossi",
+			email : "antros@gmail.com"
+			
 		}
 	});
 	tester.setGroups({
@@ -621,8 +659,21 @@ test("testDeleteContactFromGroup()", function() {
 	});
 	var contact = tester.getContacts();
 	var laura = contact[0];
+	var antonio = contact[1];
 	var group = tester.getGroups();
 	var famiglia = group[0];
+	
+	
+	try {
+		tester.deleteContactFromGroup(antonio,famiglia);
+		ok(false, "errore non rilevato");
+		i++;
+	} catch (err) {
+		equal(err, 	"Il contatto non è presente nel gruppo.",
+				"eliminazione di antonio dal gruppo fallita!Antonio non e' presente nel gruppo");
+		i++;
+	}
+	
 
 	tester.deleteContactFromGroup(laura, famiglia);
 	equal(tester.deleteContactFromGroup(laura, famiglia), true,
@@ -630,6 +681,9 @@ test("testDeleteContactFromGroup()", function() {
 	i++;
 	expect(i);
 });
+
+
+	
 
 // test se il contatto e' gia' presente in rubrica
 test("testContactAlreadyPresent()", function() {
@@ -649,7 +703,7 @@ test("testContactAlreadyPresent()", function() {
 });
 
 // TODO test ritorna il gruppo in cui e' un contatto
-test("testgetGroupsWhereContactsIs()", function() {
+test("testGetGroupsWhereContactsIs()", function() {
 	var i = 0;
 	tester.setContacts({
 		0 : {
