@@ -16,7 +16,7 @@
 	         "surname" => "Pausini",
 	         "email" => "laupau@gmail.com",
 	         "id" => "0",
-	         "picturePath" => "img/contactImg/0.png",
+	         "picturePath" => "img/contactImg/Default.png",
 	         "state" => "offline",
 	         "blocked" => true
 	       )
