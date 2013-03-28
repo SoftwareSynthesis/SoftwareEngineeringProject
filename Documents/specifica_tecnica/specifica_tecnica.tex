@@ -972,6 +972,19 @@ Tale classe interagisce con il \inglese{framework} Hibernate e contiene la logic
     \item[-] \textsf{CS07 -- Façade del server}
   \end{itemize}
 \end{description}
+%TODO
+\item \texttt{CallListDAO}
+\begin{description}
+  \item{\scshape\bfseries Descrizione:}\\
+
+  \item{\scshape\bfseries Componenti che ne fanno uso:}
+  \begin{itemize}[noitemsep,nolistsep]
+   % \item[-] \textsf{CS01 -- Gestione database}
+   % \item[-] \textsf{CS07 -- Façade del server}
+	\item[-]  
+  \end{itemize}
+\end{description}
+
 
 \item \texttt{MessageDAO}
 \begin{description}
@@ -1396,6 +1409,27 @@ Classe \inglese{transfer object} che rappresenta le chiamate realizzate attraver
   \end{itemize}
 \end{description}
 
+\item \texttt{ICallList}
+\begin{description}
+  \item{\scshape\bfseries Descrizione:}\\
+%Classe \inglese{transfer object} che rappresenta le chiamate realizzate attraverso il sistema e implementa l'interfaccia \texttt{ICall}.
+  \item%{\scshape\bfseries Componenti che ne fanno uso:}
+  \begin{itemize}[noitemsep,nolistsep]
+    \item[-]% \textsf{CS06 -- Gestione chiamate}
+  \end{itemize}
+\end{description}
+
+\item \texttt{CallList}
+\begin{description}
+  \item {\scshape\bfseries Descrizione:}\\
+%Classe \inglese{transfer object} che rappresenta le chiamate realizzate attraverso il sistema e implementa l'interfaccia \texttt{ICall}.
+  \item %{\scshape\bfseries Componenti che ne fanno uso:}
+  \begin{itemize}[noitemsep,nolistsep]
+    \item[-]% \textsf{CS06 -- Gestione chiamate}
+  \end{itemize}
+\end{description}
+
+
 \end{itemize}
 
 \subsubsection{Package \texttt{org.softwaresynthesis.mytalk.server.call.servlet}}
@@ -1469,7 +1503,7 @@ Sottoclasse di \texttt{javax.servlet.http.HttpServlet} la cui responsabilità è
 	\item{\scshape\bfseries Descrizione}\\
 		La classe contiene le credenziali di accesso, fornite dall'utente, ed utilizzate da \texttt{CredentialLoader}.
 	\item{\scshape\bfseries Componenti che ne fanno uso}
-		\begin{itemize}[noitemsep],nolistsep]
+		\begin{itemize}[noitemsep,nolistsep]
 			\item[-] \textsf{CS04 -- Gestione autenticazione}
 			\item[-] \textsf{CS07 -- Façade del server}
 		\end{itemize}
@@ -1480,7 +1514,7 @@ Sottoclasse di \texttt{javax.servlet.http.HttpServlet} la cui responsabilità è
 	\item{\scshape\bfseries Descrizione}\\
 		Interfaccia che contiene la strategia di crittografia adottata dal sistema \caName per garantire la sicurezza dei dati dell'utente registrato al sistema stesso.
 	\item{\scshape\bfseries Componenti che ne fanno uso}
-		\begin{itemize}[noitemsep],nolistsep]
+		\begin{itemize}[noitemsep,nolistsep]
 			\item[-] \textsf{CS04 -- Gestione autenticazione}
     			\item[-] \textsf{CS07 -- Façade del server}
 		\end{itemize}
@@ -1492,7 +1526,7 @@ Sottoclasse di \texttt{javax.servlet.http.HttpServlet} la cui responsabilità è
 	\item{\scshape\bfseries Descrizione}\\
 		Implementa l'interfaccia \texttt{ISecurityStrategy} implementando la strategia di cripting, ovvero adottando l'algoritmo AES a 128 bit scelto dal team.
 	\item{\scshape\bfseries Componenti che ne fanno uso}
-		\begin{itemize}[noitemsep],nolistsep]
+		\begin{itemize}[noitemsep,nolistsep]
 			\item[-] \textsf{CS04 -- Gestione autenticazione}
     			\item[-] \textsf{CS07 -- Façade del server}
 		\end{itemize}
@@ -1554,17 +1588,17 @@ La sotto-architettura \texttt{clientpresenter}, nasce con lo scopo di imporre un
 
 Dal momento che il \inglese{presenter} ha la responsabilità di ricevere i comandi utente dalla vista e di sovrintendere all'aggiornamento della stessa, è prevista anche la presenza di una serie di oggetti necessari a gestire l'interazione con la vista, corrispondenti al componente \textsf{Gestione GUI}\@.
 
-Dal momento che per l'interazione con l'utente sono previste molteplici viste, è stato predisposto un \inglese{presenter} per ognuna di queste. Ogni vista detiene un riferimento al proprio \inglese{presenter} cui vengono inviate le richieste su risposta dell'interazione con l'utente, in quanto le operazioni del \inglese{presenter} sono impostate come funzioni di \inglese{callback} nell'interfaccia grafica.
+Dal momento che per l'interazione con l'utente sono previste molteplici viste, è stato predisposto un \inglese{presenter} per ognuna di queste. Ogni vista detiene un riferimento al proprio \inglese{presenter} al quale vengono inviate le richieste su risposta dell'interazione con l'utente, in quanto le operazioni del \inglese{presenter} sono impostate come funzioni di \inglese{callback} nell'interfaccia grafica.
 
 I vari \inglese{presenter} interagiscono con le viste grazie alla conoscenza di una ``interfaccia'' per la loro manipolazione, in quanto tramite \textit{JavaScript} è possibile intervenire sul \underline{DOM}\@. Tali considerazioni sono conformi all'utilizzo del \inglese{design pattern} MVP.\footnote{%
   Per una descrizione più dettagliata del \inglese{pattern} MVP si rimanda alla sezione \ref{sec:MVP}\@.
 }
 
-Questo componente ha inoltre il compito di recuperare i dati presenti sul server relativi alla rubrica di un utente, la segreteria telefonica e lo storico delle chiamate che lo interessano. I diversi \inglese{presenter} del componente \textsf{Gestione GUI} hanno dunque anche il compito di interrogare il server al fin di procurarsi le informazioni con cui popolare l'interfaccia grafica utente.
+Questo componente ha inoltre il compito di recuperare i dati presenti sul server relativi alla rubrica di un utente, la segreteria telefonica e lo storico delle chiamate che lo interessano. I diversi \inglese{presenter} del componente \textsf{Gestione GUI} hanno dunque anche il compito di interrogare il server al fine di procurarsi le informazioni con cui popolare l'interfaccia grafica utente.
 
-Questi sono rappresentati dalle strutture del componente \textsf{Rappresentazione dati} e permangono internamente al \inglese{presenter} per essere disponibili a successive interrogazioni da parte della GUI senza coinvolgere nuovamente il server.
+Le informazioni sono rappresentate dalle strutture del componente \textsf{Rappresentazione dati} e permangono internamente al \inglese{presenter} per essere disponibili a successive interrogazioni da parte della GUI senza coinvolgere nuovamente il server.
 
-La logica di comunicazione fra client, e fra client e server, è incapsulata all'interno delle classi facenti parte del componente \textsf{Gestione comunicazione}, queste ultime sfruttano un canale di comunicazione bidirezionale client-server per interagire con il server in merito alle richieste di comunicazione con altri client, andando a creare appositi canali di comunicazione che si avvalgono della tecnologia WebRTC\@.
+La logica di comunicazione fra client, e fra client e server, è incapsulata all'interno delle classi facenti parte del componente \textsf{Gestione comunicazione}. Queste ultime sfruttano un canale di comunicazione bidirezionale client-server per interagire con il server in merito alle richieste di comunicazione con altri client, andando a creare appositi canali di comunicazione che si avvalgono della tecnologia WebRTC\@.
 
 In sintesi, la sotto-architettura \texttt{clientpresenter} dispone dei seguenti componenti:
 \begin{itemize}[noitemsep,nolistsep]
@@ -1576,7 +1610,7 @@ che saranno descritte con maggiori dettagli nella sezione successiva.
 
 Si ricorda sin da ora che i nomi di tutte le interfacce e tutte le classi riportate nella sezione sono implicitamente parte del package \texttt{org.softwaresynthesis.mytalk.clientpresenter} pertanto tale prefisso sarà omesso nella loro denominazione.
 
-Nella progettazione ad alto livello è stato scelto di non tenere in considerazione il dominio tecnologico dell'applicativo, che non prevede la presenza di classi e interfacce, la progettazione sarà pertanto influenzata unicamente dalle specifiche e dai principi della programmazione orientata agli oggetti.
+Nella progettazione ad alto livello è stato scelto di non tenere in considerazione il dominio tecnologico dell'applicativo, che non prevede la presenza di classi e interfacce. La progettazione sarà pertanto influenzata unicamente dalle specifiche e dai principi della programmazione orientata agli oggetti.
 
 Tale scelta è motivata dalle seguenti considerazioni:
 \begin{itemize}
@@ -1592,7 +1626,7 @@ La presenza delle interfacce, delle relazioni di implementazione e l'estensione 
 \subsubsection{CP01 -- Gestione comunicazione}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-È il componente che rappresenta il nucleo logico fondamentale della comunicazione, in esso è presente la classe \texttt{kernel.CommunicationCenter} che ha la responsabilità di tener traccia delle comunicazioni aperte con i client usando la tecnologia WebRTC\@. Per compiere il proprio lavoro, tale classe si avvale delle funzionalità fornite dal webRTC per creare e gestire la comunicazione. Nello specifico vengono usate le classi:
+È il componente che rappresenta il nucleo logico fondamentale della comunicazione. In esso è presente la classe \texttt{kernel.CommunicationCenter} che ha la responsabilità di tener traccia delle comunicazioni aperte con i client usando la tecnologia WebRTC\@. Per compiere il proprio lavoro, tale classe si avvale delle funzionalità fornite dal webRTC per creare e gestire la comunicazione. Nello specifico vengono usate le classi:
 
 \begin{itemize}
 	\item PeerICECandidate;
@@ -1603,7 +1637,7 @@ La presenza delle interfacce, delle relazioni di implementazione e l'estensione 
 	\item{\scshape\bfseries Diagramma delle classi:}
   \begin{figure}[H]
     \centering
-    \includegraphics[width=.7\textwidth]{class_gestione_comunicazione}
+    \includegraphics[width=.7\textwidth]{class_gestione_comunicazione_pres}
     \caption{Diagramma delle classi - Gestione comunicazione}\label{fig:gestionecomunicazione}
   \end{figure}
 
@@ -1646,9 +1680,9 @@ I dati rappresentati in forma di oggetti sono necessari, in particolare, per la 
 	\item{\scshape\bfseries Descrizione:}\\
 Il componente ha il duplice ruolo di intercettare gli eventi che scaturiscono dall'interazione dell'utente con la GUI e di controllare l'aggiornamento della stessa a seguito dei cambiamenti che intervengono sul modello dei dati.
 
-Per quanto riguarda l'autenticazione, è prevista la presenza di un \inglese{presenter} per l'interfaccia di \inglese{login}, corrispondente all'oggetto \texttt{guicontrol.LoginPanelPresenter}. Anche per la registrazione vale la stessa considerazione, e tale funzionalità è destinata alla classe \texttt{guicontrol.RegisterPanelPresenter}
+Per quanto riguarda l'autenticazione, è prevista la presenza di un \inglese{presenter} per l'interfaccia di \inglese{login}, corrispondente all'oggetto \texttt{guicontrol.LoginPanelPresenter}. Anche per la registrazione vale la stessa considerazione e tale funzionalità è destinata alla classe \texttt{guicontrol.RegisterPanelPresenter}
 
-Per quanto riguarda invece la pagina principale dell'applicativo, cui si accede dopo aver effettuato l'autenticazione, è prevista la presenza di tre tipi principali di \inglese{presenter}:
+Per quanto riguarda invece la pagina principale dell'applicativo, alla quale si accede dopo aver effettuato l'autenticazione, è prevista la presenza di tre tipi principali di \inglese{presenter}:
 \begin{itemize}[noitemsep,nolistsep]
   \item[-] \texttt{guicontrol.AddressBookPanelPresenter}, che gestisce il pannello della rubrica presente nell'interfaccia grafica;
   \item[-] \texttt{guicontrol.MainPanelPresenter}, alla radice di una gerarchia di \inglese{presenter} destinati a gestire gli elementi che compaiono nella parte centrale dell'interfaccia grafica, comprende alcune operazioni comuni a questi elementi grafici (ad es. per l'inizializzazione o per la comparsa/scomparsa dell'elemento grafico associato);
