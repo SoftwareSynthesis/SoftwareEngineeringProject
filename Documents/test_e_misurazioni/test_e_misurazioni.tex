@@ -428,35 +428,34 @@ Tale verifica è composta da un solo test:
 \item \textit{testCreatePanel()} controlla che il numero dei figli del \textit{CommunicationPanel} siano esattamente due, che entrambi siano \texttt{<div>} e che il valore dell'attributo \texttt{id} del primo figlio sia ``divCall'' mentre del secondo ``divChat''. Verifica i figli dell'elemento per la visualizzazione delle chiamate (due elementi \texttt{<video>} e un ulteriore elemento \texttt{<div>} per la visualizzazione delle statistiche) e i figli dell'elemento per la visualizzazione delle chat.
 \item \textit{testUpdateTimer()} verifica che sia correttamente visualizzata la stringa passata come parametro in ingresso al metodo \texttt{updateTimer}. A tal fine è utilizzato uno \inglese{stub} per simulare per la vista, che espone verso il presenter la medesima interfaccia del pannello vero.
 \item \textit{testGetMyVideo()} verifica l'accesso alla parte di interfaccia grafica incaricata di visualizzare l'input proveniente dalla webcam dell'utente, utilizzando ancora uno \inglese{stub} per la vista mancante.
-\item \texttt{testGetOtherVideo()} verifica l'accesso alla parte di interfaccia grafica incaricata di visualizzare l'input proveniente dal client con cui si è instaurata una comunicazione.
-\item \texttt{testUpdateStarts()} verifica la corretta visualizzazione delle statistiche di comunicazione, tanto per i dati in ingresso che per i dati in uscita. A tal fine è utilizzato uno \inglese{stub} per simulare la presenza della vista durante l'esecuzione del test.
+\item \textit{testGetOtherVideo()} verifica l'accesso alla parte di interfaccia grafica incaricata di visualizzare l'input proveniente dal client con cui si è instaurata una comunicazione.
+\item \textit{testUpdateStarts()} verifica la corretta visualizzazione delle statistiche di comunicazione, tanto per i dati in ingresso che per i dati in uscita. A tal fine è utilizzato uno \inglese{stub} per simulare la presenza della vista durante l'esecuzione del test.
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
 \subsubsection{ContactPanelPresenterTest}
 \textbf{Verifica l'oggetto:} \textit{ContactPanelPresenter}.\\
-\textbf{Descrizione}: l'obbiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \textit{ContactPanel}.\\
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \textit{ContactPanel}.\\
 Tale verifica è composta da un solo test:
 \begin{itemize}
-\item \textit{testCreatePanel() } crea l'elemento \textit{ContactPanel}, estrae la lista dei suoi figli e controlla per ogni figlio che le informazioni siano coerenti con quelle inserite in input;
-%TODO MANCANO TEST
+\item \textit{testCreatePanel()} crea l'elemento \textit{ContactPanel}, estrae la lista dei suoi figli e controlla per ogni figlio che le informazioni siano coerenti con quelle inserite in input.
+\item \textit{testDisplay()} controlla la modifica dell'interfaccia grafica nel momento in cui deve essere visualizzato il \textit{ContactPanel} contenente i dati di un contatto selezionato. In particolare, il test controlla la visualizzazione dei dati (nome, cognome, indirizzo email) e la corretta impostazione dell'attributo \texttt{src} dell'elemento immagine presente nel pannello.
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
 \subsubsection{GroupPanelPresenterTest}
 \textbf{Verifica l'oggetto:} \textit{GroupPanelPresenter}.\\
-\textbf{Descrizione}: l'obbiettivo di questo test è verificare la corretta istanziazione del \textit{GroupPanel}, verificandone pertanto la corretta esecuzione della \inglese{form}.\\
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la corretta istanziazione del \textit{GroupPanel}, verificandone pertanto la corretta esecuzione della \inglese{form}.\\
 Tale verifica è composta da un solo test:
 \begin{itemize}
-\item \textit{testCreatePanel() }%TODO DA DESCRIVERE
-\item \textit{testDisplayContactList() }%TODO DA DESCRIVERE
-\item \textit{testAddListItem() } %TODO DA DESCRIVERE
+\item \textit{testCreatePanel()} verifica la corretta visualizzazione iniziale del pannello, in particolare, verificando che sia creata la lista dei gruppi presenti nella rubrica dell'utente associato al client.
+\item \textit{testDisplayContactList()} verifica la corretta visualizzazione dell'elenco dei gruppi della rubrica nel pannello dell'interfaccia utente, inserendo per ogni gruppo una voce che ne riporta il nome e che è corredata dai pulsanti di amministrazione (per l'eliminazione di un gruppo).
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
 \subsubsection{LoginPanelPresenterTest}
 \textbf{Verifica l'oggetto:} \textit{LoginPanelPresenter}.\\
-\textbf{Descrizione}: l'obbiettivo di questo test è verificare la corretta istanziazione del \textit{LoginPanel} popolato con dei dati coerenti rispetto allo scopo della \underline{\inglese{form}}.
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la corretta istanziazione del \textit{LoginPanel} popolato con dei dati coerenti rispetto allo scopo della \underline{\inglese{form}}.
 Tale verifica è composta da quattro test:
 \begin{itemize} 
 \item \textit{testInitialize() } mediante diversi metodi \textit{equal} controlla l'effettiva correttezza della \inglese{form} creata, sia nella forma che nel funzionamento;
