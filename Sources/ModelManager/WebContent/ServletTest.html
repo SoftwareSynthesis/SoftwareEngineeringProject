@@ -38,6 +38,8 @@
 				addressBookDoRemoveContact();
 				addressBookDoInsertInGroup();
 				addressBookDoRemoveFromGroup();
+				addressBookDoCreateGroup();
+				addressBookDoDeleteGroup();
 				
 				loginClose();
 			}
@@ -234,6 +236,52 @@
 					printResult("AddressBookDoRemoveFromGroup", false);
 				}
 			}
+			
+			function addressBookDoCreateGroup()
+			{
+				var servletURI = "http://localhost:8080/MyTalk/addressBookDoCreateGroup";
+				var parameters = "groupName=" + "GruppoTest";
+				var result = callServlet(servletURI, parameters);
+				var parsed = JSON.parse(result);
+				try
+				{
+					if (parsed == true)
+					{
+						printResult("AddressBookDoCreateGroup", true);
+					}
+					else
+					{
+						printResult("AddressBookDoCreateGroup", false);
+					}
+				}
+				catch (exception)
+				{
+					printResult("AddressBookDoCreateGroup", false);
+				}
+			}
+			
+			function addressBookDoDeleteGroup()
+			{
+				var servletURI = "http://localhost:8080/MyTalk/addressBookDoDeleteGroup";
+				var parameters = "groupId=" + 16;
+				var result = callServlet(servletURI, parameters);
+				var parsed = JSON.parse(result);
+				try
+				{
+					if (parsed == true)
+					{
+						printResult("AddressBookDoDeleteGroup", true);
+					}
+					else
+					{
+						printResult("AddressBookDoDeleteGroup", false);
+					}
+				}
+				catch (exception)
+				{
+					printResult("AddressBookDoDeleteGroup", false);
+				}
+			}
 		</script>
 	</head>
 	<body>
@@ -289,6 +337,16 @@
 				<td>AddressBookDoRemoveFromGroup</td>
 				<td id = "AddressBookDoRemoveFromGroup"></td>
 				<td><button onclick = "addressBookDoRemoveFromGroup()">Avvia test</button></td>
+			</tr>
+			<tr>
+				<td>AddressBookDoCreateGroup</td>
+				<td id = "AddressBookDoCreateGroup"></td>
+				<td><button onclick = "addressBookDoCreateGroup()">Avvia test</button></td>
+			</tr>
+			<tr>
+				<td>AddressBookDoDeleteGroup</td>
+				<td id = "AddressBookDoDeleteGroup"></td>
+				<td><button onclick = "addressBookDoDeleteGroup()">Avvia test</button></td>
 			</tr>
 		</table>
 		<br />

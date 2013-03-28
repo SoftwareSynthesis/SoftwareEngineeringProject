@@ -65,28 +65,29 @@ public final class AddressBookDoDeleteGroupServlet extends HttpServlet
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
 	{
-		AddressBookEntryDAO entryDAO = new AddressBookEntryDAO();
-		GroupDAO groupDAO = new GroupDAO();
+		AddressBookEntryDAO entryDAO = null;
+		GroupDAO groupDAO = null;
 		IGroup group = null;
 		IAddressBookEntry entry = null;
 		Iterator<IAddressBookEntry> iterator = null;
 		Long groupId = null;
-		PrintWriter writer = response.getWriter();
+		PrintWriter writer = null;
 		Set<IAddressBookEntry> entrys = null;
 		String result = null;
 		try
 		{
 			groupId = Long.parseLong(request.getParameter("groupId"));
+			groupDAO = new GroupDAO();
 			group = groupDAO.getByID(groupId);
 			if (group != null)
 			{
 				entrys = group.getAddressBook();
 				iterator = entrys.iterator();
+				entryDAO = new AddressBookEntryDAO();
 				while (iterator.hasNext() == true)
 				{
 					entry = iterator.next();
-					entry.setGroup(null);
-					entryDAO.update(entry);
+					entryDAO.delete(entry);
 				}
 				groupDAO.delete(group);
 				result = "true";
@@ -100,6 +101,10 @@ public final class AddressBookDoDeleteGroupServlet extends HttpServlet
 		{
 			result = "false";
 		}
-		writer.write(result);
+		finally
+		{
+			writer = response.getWriter();
+			writer.write(result);
+		}
 	}
 }

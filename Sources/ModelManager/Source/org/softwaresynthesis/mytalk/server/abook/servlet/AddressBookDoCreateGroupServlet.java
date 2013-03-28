@@ -11,6 +11,7 @@ import org.softwaresynthesis.mytalk.server.abook.Group;
 import org.softwaresynthesis.mytalk.server.abook.IGroup;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
 import org.softwaresynthesis.mytalk.server.dao.GroupDAO;
+import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
 
 /**
  * Servlet che ha il compito di inserire
@@ -64,23 +65,28 @@ public final class AddressBookDoCreateGroupServlet extends HttpServlet
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
 	{
-		GroupDAO groupDAO = new GroupDAO();
+		GroupDAO groupDAO = null;
 		HttpSession session = null;
 		IGroup group = null;
 		IUserData user = null;
-		PrintWriter writer = response.getWriter();
+		PrintWriter writer = null;
+		String mail = null;
 		String name = null;
 		String result = null;
+		UserDataDAO userDAO = null;
 		try
 		{
 			session = request.getSession(false);
-			user = (IUserData)session.getAttribute("user");
+			mail = (String)session.getAttribute("username");
+			userDAO = new UserDataDAO();
+			user = userDAO.getByEmail(mail);
 			name = request.getParameter("groupName");
 			if(name != null && name.equals("") == false)
 			{
 				group = new Group();
 				group.setName(name);
 				group.setOwner(user);
+				groupDAO = new GroupDAO();
 				groupDAO.insert(group);
 				result = "true";
 			}
@@ -93,6 +99,10 @@ public final class AddressBookDoCreateGroupServlet extends HttpServlet
 		{
 			result = "false";
 		}
-		writer.write(result);
+		finally
+		{
+			writer = response.getWriter();
+			writer.write(result);
+		}
 	}
 }

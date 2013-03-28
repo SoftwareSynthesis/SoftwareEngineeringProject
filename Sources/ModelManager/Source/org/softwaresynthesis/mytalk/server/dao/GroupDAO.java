@@ -1,6 +1,8 @@
 package org.softwaresynthesis.mytalk.server.dao;
 
+import java.util.Iterator;
 import java.util.List;
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -175,6 +177,7 @@ public class GroupDAO
 			if (groups.size() == 1 && groups.get(0) != null)
 			{
 				group = groups.get(0);
+				Hibernate.initialize(group.getAddressBook());
 			}
 			transaction.commit();
 		}
@@ -210,6 +213,8 @@ public class GroupDAO
 	public List<IGroup> getByOwner(Long owner)
 	{
 		HibernateUtil util = null;
+		IGroup group = null;
+		Iterator<IGroup> iterator = null;
 		List<IGroup> groups = null;
 		Query query = null;
 		Session session = null;
@@ -225,6 +230,12 @@ public class GroupDAO
 			query.setString("owner", owner.toString());
 			transaction = session.beginTransaction();
 			groups = (List<IGroup>)query.list();
+			iterator = groups.iterator();
+			while(iterator.hasNext() == true)
+			{
+				group = iterator.next();
+				Hibernate.initialize(group.getAddressBook());
+			}
 			transaction.commit();
 		}
 		catch (RuntimeException ex)
