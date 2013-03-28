@@ -37,8 +37,7 @@ VALUES	(1, 'Gruppo 1', 5),
 INSERT INTO AddressBookEntries (ID_addressBookEntry, ID_user, ID_group, Owner, Blocked)
 VALUES	(1, 2, 6, 5, 0),
 		(2, 4, 2, 5, 0),
-		(3, 1, 6, 5, 0),
-		(4, 3, 3, 5, 0),
-		(5, 4, 5, 2, 0),
-		(6, 1, 5, 3, 0),
-		(7, 2, 5, 3, 0);
+		(3, 3, 3, 5, 0),
+		(4, 4, 5, 2, 0),
+		(5, 1, 5, 3, 0),
+		(6, 2, 5, 3, 0);

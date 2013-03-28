@@ -69,6 +69,7 @@ public final class AddressBookDoRemoveContactServlet extends HttpServlet
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
 	{
 		AddressBookEntryDAO entryDAO = null;
+		boolean flag = false;
 		HttpSession session = null;
 		IAddressBookEntry entry = null;
 		Iterator<IAddressBookEntry> iterator = null;
@@ -93,27 +94,30 @@ public final class AddressBookDoRemoveContactServlet extends HttpServlet
 				entrys = user.getAddressBook();
 				iterator = entrys.iterator();
 				entryDAO = new AddressBookEntryDAO();
-				while (iterator.hasNext() == true)
+				while (iterator.hasNext() == true && flag == false)
 				{
 					entry = iterator.next();
-					if (entry.getContact().equals(friend) == true && entry.getOwner().equals(user) == true)
+					if (entry.getContact().equals(friend) == true)
 					{
 						user.removeAddressBookEntry(entry);
 						entryDAO.delete(entry);
+						flag = !flag;
 					}
 				}
 				userDAO.update(user);
 				entrys = friend.getAddressBook();
 				iterator = entrys.iterator();
+				flag = false;
 				while (iterator.hasNext() == true)
 				{
 					entry = iterator.next();
-					if (entry.getContact().equals(user) == true && entry.getOwner().equals(friend) == true)
+					if (entry.getContact().equals(user) == true)
 					{
 						friend.removeAddressBookEntry(entry);
 						entryDAO.delete(entry);
 					}
 				}
+				userDAO.update(friend);
 				result = "true";
 			}
 			else

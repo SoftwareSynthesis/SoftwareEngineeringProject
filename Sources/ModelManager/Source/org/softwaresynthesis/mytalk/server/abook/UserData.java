@@ -316,7 +316,6 @@ public class UserData implements IUserData
 	public void removeAddressBookEntry(IAddressBookEntry entry)
 	{
 		this.addressBook.remove(entry);
-		
 	}
 	
 	/**
