@@ -73,15 +73,18 @@ public final class AddressBookDoUnblockServlet extends HttpServlet
 		IUserData user = null;
 		IUserData friend = null;
 		Long contactId = null;
-		PrintWriter writer = response.getWriter();
+		PrintWriter writer = null;
 		Set<IAddressBookEntry> entrys = null;
+		String mail = null;
 		String result = null;
-		UserDataDAO userDAO = new UserDataDAO();
+		UserDataDAO userDAO = null;
 		try
 		{
 			session = request.getSession(false);
-			user = (IUserData)session.getAttribute("user");
+			mail = (String)session.getAttribute("username");
 			contactId = Long.parseLong(request.getParameter("contactId"));
+			userDAO = new UserDataDAO();
+			user = userDAO.getByEmail(mail);
 			friend = userDAO.getByID(contactId);
 			if (friend != null)
 			{
@@ -90,7 +93,7 @@ public final class AddressBookDoUnblockServlet extends HttpServlet
 				while (iterator.hasNext() == true)
 				{
 					entry = iterator.next();
-					if (entry.getContact().equals(friend) == true && entry.getOwner().equals(user) == true)
+					if (entry.getContact().equals(friend) == true)
 					{
 						entry.setBlocked(false);
 					}
@@ -107,6 +110,10 @@ public final class AddressBookDoUnblockServlet extends HttpServlet
 		{
 			result = "false";
 		}
-		writer.write(result);
+		finally
+		{
+			writer = response.getWriter();
+			writer.write(result);
+		}
 	}
 }

@@ -41,6 +41,7 @@
 				addressBookDoCreateGroup();
 				addressBookDoDeleteGroup();
 				addressBookDoBlock();
+				addressBookDoUnblock();
 				
 				loginClose();
 			}
@@ -306,6 +307,29 @@
 					printResult("AddressBookDoBlock", false);
 				}
 			}
+			
+			function addressBookDoUnblock()
+			{
+				var servletURI = "http://localhost:8080/MyTalk/addressBookDoUnblock";
+				var parameters = "contactId=" + 4;
+				var result = callServlet(servletURI, parameters);
+				var parsed = JSON.parse(result);
+				try
+				{
+					if (parsed == true)
+					{
+						printResult("AddressBookDoUnblock", true);
+					}
+					else
+					{
+						printResult("AddressBookDoUnblock", false);
+					}
+				}
+				catch (exception)
+				{
+					printResult("AddressBookDoUnblock", false);
+				}
+			}
 		</script>
 	</head>
 	<body>
@@ -314,68 +338,60 @@
 			<tr>
 				<th style = "width:200px;">Nome della servlet</th>
 				<th style = "width:200px;">Esito del test</th>
-				<th>Opioni</th>
 			</tr>
 			<tr>
-				<td colspan = "3" style = "color:#C00; text-align:center;">package authentication.servlet</td>
+				<td colspan = "2" style = "color:#C00; text-align:center;">package authentication.servlet</td>
 			</tr>
 			<tr>
 				<td>LoginAuthentication</td>
 				<td id = "LoginAuthentication"></td>
-				<td><button onclick = "loginAuthentication()">Avvia test</button></td>
 			</tr>
 			<tr>
 				<td>LoginClose</td>
 				<td id = "LoginClose"></td>
-				<td><button onclick = "loginClose()">Avvia test</button></td>
 			</tr>
 			<tr>
 				<td>LoginDoRegistration</td>
 				<td id = "LoginDoRegistration"></td>
-				<td><button onclick = "loginDoRegistration()">Avvia test</button></td>
 			</tr>
 			<tr>
-				<td colspan = "3" style = "text-align:center; color:#C00;">package abook.servlet</td>
+				<td colspan = "2" style = "text-align:center; color:#C00;">package abook.servlet</td>
 			</tr>
 			<tr>
 				<td>AddressBookGetContacts</td>
 				<td id = "AddressBookGetContacts"></td>
-				<td><button onclick = "addressBookGetContacts()">Avvia test</button></td>
 			</tr>
 			<tr>
 				<td>AddressBookDoAddContact</td>
 				<td id = "AddressBookDoAddContact"></td>
-				<td><button onclick = "addressBookDoAddContact()">Avvia test</button></td>
 			</tr>
 			<tr>
 				<td>AddressBookDoRemoveContact</td>
 				<td id = "AddressBookDoRemoveContact"></td>
-				<td><button onclick = "addressBookDoRemoveContact()">Avvia test</button></td>
 			</tr>
 			<tr>
 				<td>AddressBookDoInsertInGroup</td>
 				<td id = "AddressBookDoInsertInGroup"></td>
-				<td><button onclick = "addressBookDoInsertInGroup()">Avvia test</button></td>
 			</tr>
 			<tr>
 				<td>AddressBookDoRemoveFromGroup</td>
 				<td id = "AddressBookDoRemoveFromGroup"></td>
-				<td><button onclick = "addressBookDoRemoveFromGroup()">Avvia test</button></td>
 			</tr>
 			<tr>
 				<td>AddressBookDoCreateGroup</td>
 				<td id = "AddressBookDoCreateGroup"></td>
-				<td><button onclick = "addressBookDoCreateGroup()">Avvia test</button></td>
 			</tr>
 			<tr>
 				<td>AddressBookDoDeleteGroup</td>
 				<td id = "AddressBookDoDeleteGroup"></td>
-				<td><button onclick = "addressBookDoDeleteGroup()">Avvia test</button></td>
 			</tr>
 			<tr>
 				<td>AddressBookDoBlock</td>
 				<td id = "AddressBookDoBlock"></td>
-				<td><button id = "addressBookDoBlock()">Avvia test</button></td>
+			</tr>
+			<tr>
+				<td>AddressBookDoUnblock</td>
+				<td id = "AddressBookDoUnblock"></td>
 			</tr>
 		</table>
 		<br />
