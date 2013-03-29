@@ -2,15 +2,12 @@ package org.softwaresynthesis.mytalk.server.authentication.servlet;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
-
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-
 import javax.security.auth.login.LoginContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
