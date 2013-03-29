@@ -12,12 +12,15 @@ function CommunicationCenter() {
     this.videoComunication
     //E' un array di HTMLTextAreaElement
     this.openChat = new Array();
+    //oggetto che contiene i dati dell'utente
+    this.my = new Object();
 
     /**********************************************************
      VARIABILI PRIVATE
      ***********************************************************/
-    //oggetto che contiene i dati dell'utente
-    this.my = new Object();
+    //self=this per utilizzo nei meotdi
+    var self = this;
+
     //dichiaro globale la websocket per lo scambio di dati con la servlet
     var websocket;
     // URL della servlet con cui è necessario interagire
@@ -46,7 +49,7 @@ function CommunicationCenter() {
         var baseURL = XMLDocument.getElementsByTagName("baseURL")[0].childNodes[0].data;
         var name = XMLDocument.getElementById("channel").childNodes[0].data;
         //urlServlet = baseURL + name;
-        urlServlet="ws://localhost:8080/MyTalk/ChannelServlet";
+        urlServlet = "ws://localhost:8080/MyTalk/ChannelServlet";
     }
 
     /**
@@ -166,7 +169,7 @@ function CommunicationCenter() {
         //event handle per gestire l'apertura della socket
         websocket.onopen = function(evt) {
             //creo l'array da passare alla servlet per la connessione e l'invio
-            var ar = new Array("1", this.my.id);
+            var ar = new Array("1", self.my.id);
             websocket.send(JSON.stringify(ar));
 
             //eventuale segnale di avvenuta connessione con la servlet [per
