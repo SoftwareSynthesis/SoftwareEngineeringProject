@@ -95,7 +95,6 @@ Versione & Descrizione intervento & Membro & Ruolo & Data\\
 \newpage
 
 \section{Introduzione}
-\setcounter{table}{0}
 \subsection{Scopo del prodotto}
 \purpose
 
@@ -126,17 +125,20 @@ I test predisposti saranno descritti esaustivamente sia nella forma che nei risu
 \clearpage
 
 \subsection{Metriche sul codice}
-Per la parte \textit{Model} prima di tutto sono state calcolate, al fine di quantificare la ``dimensione'' di una componente, due metriche: il \inglese{Number Of Classes} (NOC) e il \inglese{Number Of Method} (NOM).
+Per la parte \textit{Model} prima di tutto sono state calcolate, al fine di quantificare la ``dimensione'' di un componente, due metriche: il \inglese{Number Of Classes} (NOC) e il \inglese{Number Of Method} (NOM).
 NOC rappresenta il numero totale delle classi che sono rappresentate all'interno del package, mentre il NOM rappresenta il numero dei metodi conteggiati, sempre per package.
 
 La tabella 1 riporta le misurazioni su tali metriche per i package del prodotto \caName{}, evidenziandone i più corposi dal punto di vista implementativo.
 
+\setcounter{table}{0}
 
-\begin{center}
-\rowcolors{2}{lightblue}{llightblue}\begin{longtable}{p{.55\textwidth}ll}
-\toprule Package & NOC  & NOM\\
+\begin{table}[H]
+\centering
+\rowcolors{2}{lightblue}{llightblue}
+\begin{tabular}{p{.55\textwidth}ll}
+\toprule
+Package & NOC  & NOM\\
 \midrule
-org.softwaresynthesis.mytalk.server & 0 & 0\\
 org.softwaresynthesis.mytalk.server.abook & 3 & 55\\
 org.softwaresynthesis.mytalk.server.abook.servlet & 12 & 33\\
 org.softwaresynthesis.mytalk.authentication & 5 & 22\\
@@ -144,23 +146,21 @@ org.softwaresynthesis.mytalk.authentication.servlet & 3 & 10\\
 org.softwaresynthesis.mytalk.connection & 2 & 10\\
 org.softwaresynthesis.mytalk.dao & 4 & 18\\
 \bottomrule
-\caption{Misurazioni metriche NOC e NOM} \label{tab: metricheNOCNOM}
-\end{longtable}
+\end{tabular}
+\caption{Misurazioni metriche NOC e NOM} \label{tab:metricheNOCNOM}
+\end{table}
 
-\end{center}
-
-
-Spingendosi più nel dettaglio si è deciso di esporre il \inglese{Total Line Of Code} (TLOC) e il \inglese{Method Lines Of Code} (MLOC).
+A un livello di dettaglio più elevato, si è deciso di esporre il \inglese{Total Line Of Code} (TLOC) e il \inglese{Method Lines Of Code} (MLOC).
 Come suggeriscono i nomi, TLOC rappresenta il numero totale di linee di codice (effettive, ovvero senza contare quelle commentate) all'interno di un'unità di compilazione, MLOC definisce invece il numero totale di linee di codice (sempre effettive) che definiscono i corpi dei metodi. 
 
-Come per NOC e NOM riportiamo la tabella \ref{tab: metricheTLOCMLOCserver} con le misurazioni su tali metriche relative ai package di \caName{}.
+Come per NOC e NOM riportiamo la tabella \ref{tab:metricheTLOCMLOCserver} con le misurazioni su tali metriche relative ai package di \caName{}.
 
-
-\begin{center}
-\rowcolors{2}{lightblue}{llightblue}\begin{longtable}{p{.55\textwidth}ll}
+\begin{table}[H]
+\centering
+\rowcolors{2}{lightblue}{llightblue}
+\begin{tabular}{p{.55\textwidth}ll}
 \toprule Package & TLOC  & MLOC\\
 \midrule
-org.softwaresynthesis.mytalk.server & 5 & 0\\
 org.softwaresynthesis.mytalk.server.abook & 390 & 277\\
 org.softwaresynthesis.mytalk.server.abook.servlet & 889 & 730\\
 org.softwaresynthesis.mytalk.authentication & 347 & 237\\
@@ -168,16 +168,19 @@ org.softwaresynthesis.mytalk.authentication.servlet & 225 & 185\\
 org.softwaresynthesis.mytalk.connection & 132 & 102\\
 org.softwaresynthesis.mytalk.dao & 632 & 138\\
 \bottomrule
-\caption{Misurazioni metriche TLOC e MLOC del server} \label{tab: metricheTLOCMLOCserver}
-\end{longtable}
-\end{center}
+\end{tabular}
+\caption{Misurazioni metriche TLOC e MLOC del server} \label{tab:metricheTLOCMLOCserver}
+\end{table}
 
 
-Coerentemente con le Norme di Progetto consultabili nel documento allegato\\ \textit{norme\_di\_progetto.3.0.pdf} si riporta l'indice di complessità ciclomatica (media) per ogni package. Tale misura è direttamente legata al numero di cammini linearmente indipendenti che compongono il grafo di controllo di flusso. Tale indice dovrebbe essere compreso tra 0 e 10 per definire il codice nella norma.
-Infine il \inglese(Lack Of Cohesion Of Methods) (LCOM3) indica il liello (medio) di coesione dei metodi, più tale livello risulta basso migliore risulterà essere la progettazione della classe. I valori possono quindi variare tra lo 0, che indica la massima coesione possibile, e 2, che ne identifica il valore minimo.
+Coerentemente con le disposizioni del documento \textit{norme\_di\_progetto.3.0.pdf} si riporta l'indice di complessità ciclomatica (media) per ogni \foreignlanguage{english}{package}. Tale misura è direttamente legata al numero di cammini linearmente indipendenti che compongono il grafo di controllo di flusso. Tale indice dovrebbe essere compreso tra 0 e 10 per definire il codice nella norma.
 
-\begin{center}
-\rowcolors{2}{lightblue}{llightblue}\begin{longtable}{p{.55\textwidth}ll}
+Infine il \inglese{Lack Of Cohesion Of Methods} (LCOM3) indica il livello (medio) di coesione dei metodi: più tale livello risulta basso migliore risulterà essere la progettazione della classe. I valori possono quindi variare tra lo 0 (che indica la massima coesione possibile) e 2 (che ne identifica il valore minimo).
+
+\begin{table}[H]
+\centering
+\rowcolors{2}{lightblue}{llightblue}
+\begin{tabular}{p{.55\textwidth}ll}
 \toprule Package & CC  & LCOM3\\
 \midrule
 org.softwaresynthesis.mytalk.server & 0 & 0\\
@@ -187,24 +190,25 @@ org.softwaresynthesis.mytalk.authentication & 1,682 & 0,18\\
 org.softwaresynthesis.mytalk.authentication.servlet & 1,8 & 0\\
 org.softwaresynthesis.mytalk.connection & 1,769 & 0,25\\
 org.softwaresynthesis.mytalk.dao & 3,895 & 0\\
-
 \bottomrule
+\end{tabular}
 \caption{Misurazioni metriche CC e LCOM3 del server} \label{tab: metricheCCLCOM3server}
-\end{longtable}
-\end{center}
+\end{table}
 
-La complessità ciclomatica media risulta essere di 1,868 con un massimo di 9 in un metodo di \textit{org.softwaresynthesis.mytalk.connection}, precisamente in \textit{PushInbound.java}.
+La complessità ciclomatica media risulta essere di 1,868 con un massimo di 9 in un metodo di \texttt{org.softwaresynthesis.mytalk.connection}, precisamente in \texttt{PushInbound.java}.
 
 Per la parte presenter vengono presentate due metriche già descritte per la parte \textit{model}: la complessità ciclomatica (media) e il TLOC, che ricordiamo essere il numero totale di linee di codice effettive, ovvero senza contare quelle non vuote o commentate.
 
-\begin{center}
-\rowcolors{2}{lightblue}{llightblue}\begin{longtable}{p{.55\textwidth}ll}
+\begin{table}[H]
+\centering
+\rowcolors{2}{lightblue}{llightblue}
+\begin{tabular}{p{.55\textwidth}ll}
 \toprule Package & CC  & TLOC\\
 \midrule
-AccountSettingPannelPresenter.js & 2 & 170\\
+AccountSettingPanelPresenter.js & 2 & 170\\
 AdressBookPanelPresenter.js & 2,95 & 467\\
 CallHistoryPanelPresenter.js & 1,25 & 78\\
-ComunicationPanelPresenter.js & 1,92 & 220\\
+CommunicationPanelPresenter.js & 1,92 & 220\\
 ContactPanelPresenter.js & 0,3 & 173\\
 GroupPanelPresenter.js & 1,5 & 48\\
 LoginPanelPresenter.js & 2 & 275\\
@@ -214,40 +218,45 @@ PresenterMediator.js & 1,38 & 156\\
 RegisterPanelPresenter.js & 3,08 & 246\\
 SearchResultPanelPresenter.js & 2,25 & 67\\
 ToolsPanelPresenter.js & 1,14 & 82\\
-
 \bottomrule
+\end{tabular}
 \caption{Misurazioni metriche TLOC e MLOC del presenter} \label{tab: metricheTLOCMLOCpresenter}
-\end{longtable}
-\end{center}
-Portando quindi una complessità ciclomatica media di 1,69 con un massimo di 9 in \textit{RegisterPanelPresenter.register}.
+\end{table}
+Il valore complessivo che se ne ricava è quindi una complessità ciclomatica media pari a 1,69 con un massimo di 9 in \texttt{RegisterPanelPresenter.js}.
 
 
 \section{Scopo dei test}
 I test riportati hanno lo scopo di dimostrare in modo oggettivo la bontà e la qualità di quanto prodotto a livello di codice. Tali test servono inoltre a rilevare \inglese{bug} non evidenziati (o non possibili da evidenziare) durante l'analisi statica del codice e vengono effettuati sui package relativi alla parte di \inglese{Model} e \inglese{Presenter} del modello MVP generale.
-Le verifiche relative alla parte \inglese{View} saranno al contrario effettuati successivamente a quelli sui componenti sopracitati, in quanto sarà necessario avere la certezza che tali componenti risultino stabili e privi (per quanto possibile) di \inglese{bug}. 
-Specifichiamo inoltre che tali verifiche saranno effettuati tramite i test di sistema specificati nel documento \textit{anilisi\_dei\_requisiti.3.0.pdf} allegato.
+
+Le verifiche relative alla parte \inglese{View} saranno al contrario effettuati successivamente a quelli sui componenti sopracitati, in quanto sarà necessario avere la certezza che tali componenti risultino stabili e privi (per quanto possibile) di \inglese{bug}.
+
+Si specifica inoltre che tali verifiche saranno effettuati tramite i test di sistema specificati nel documento \textit{anilisi\_dei\_requisiti.3.0.pdf} allegato.
+\clearpage
 
 Il team ha seguito la seguente sequenza di passi per la realizzazione e l'utilizzo delle varie funzioni di test:
-\begin{itemize}
+\begin{itemize}[noitemsep,nolistsep]
 \item individuazione preliminare delle funzionalità da testare;
 \item analisi, progettazione e successiva implementazione delle funzioni di test per le funzionalità individuate, stabilendo i dati di \inglese{input} e specificati gli \inglese{output} attesi;
 \item esecuzione delle funzioni di test create.
 \item analisi dei risultati dei test, confrontato i risultati con quelli attesi ed effettuato la correzione di eventuali anomalie riscontrate, verificata infine la ripetibilità del test stesso;
-\item registrati i risultati ottenuti.
+\item registrazione dei risultati ottenuti.
 \end{itemize}
 
 I test per la parte \inglese{Model} sono stati predisposti ed eseguiti usufruendo della libreria JUnit, in quanto questa parte della struttura è implementata mediante codice \underline{Java}.
+
 Per il componente \inglese{Presenter} si è deciso invece di usufruire di QUnit, coerentemente con il linguaggio scelto (\underline{JavaScript}) che lo implementa. Tale \underline{franework} risulta pratico in quanto permette di individuare facilmente quale metodo analizzato ha portato al fallimento del test, inoltre permette una netta separazione tra codice testato e i test effettivi.
 
 \section{Model}
-I test su questa parte del sistema mirano a verificare che la persistenza dei dati all'interno del \underline{server} sia gestita correttamente dal \underline{database}.
-Per l'esecuzione di questi test si è usata, coerentemente con le norme di progetto, la libreria \textit{JUnit}.
+Per l'esecuzione di questi test si è usata, coerentemente con le norme di progetto, la libreria JUnit.I test su questa parte del sistema hanno lo scopo di verificare che la persistenza dei dati all'interno del \underline{server} sia gestita correttamente dal \underline{database}, la corretta gestione dell'autenticazione degli utenti al sistema, e le funzionalità di connessione.
+
 Ogni test è inoltre stato eseguito più volte in modo da avere uno spettro più ampio di misurazioni e produrre una verifica più stabile e oggettiva possibile.
 
-\subsection{org.softwaresinthesis.mytalk.server.autentication}
+\subsection{Package \texttt{org.softwaresinthesis.mytalk.server.autentication}}
+
 \subsubsection{AESAlgorithmTest}
-\textbf{Verifica la Classe:}\textit{AESAlgorithm}.\\
-\textbf{Descrizione}:l'obiettivo di questo test è assicurare che l'algrotimo di cittografia AES utilizzato dal sistema \caName risulti affidabile e riesca a codificare e decodificare una stringa passata.\\
+\textbf{Verifica la Classe:} \texttt{AESAlgorithm}.\\
+\textbf{Descrizione}:l'obiettivo di questo test è assicurare che l'algoritmo di cittografia AES a 128 bit utilizzato dal sistema \caName{} risulti affidabile e riesca a codificare e decodificare una stringa passata.
+
 Tale test si compone di un due metodi:
 \begin{itemize}
 \item \texttt{testEncodeAndDecode() } effettua la codifica di una stringa passata, effettua successivamente la decodifica della stessa e la controlla con l'originale per verificarne l'uguaglianza.
@@ -259,8 +268,8 @@ Tale test si compone di un due metodi:
 \end{table}
 
 \subsubsection{AuthenticationDataTest}
-\textbf{Verifica la Classe:} \textit{AuthenticationData}.\\
-\textbf{Descrizione}:l'obiettivo di questo test è assicurare l'uguaglianza tra due oggetti che rappresentano le credenziali dell'utente inserite volutamente con gli stessi dati. Successivamente verrà effettuata anche una negazione di tale test per assicurarne l'efficacia.\\
+\textbf{Verifica la Classe:} \texttt{AuthenticationData}.\\
+\textbf{Descrizione}: l'obiettivo di questo test è assicurare l'uguaglianza tra due oggetti che rappresentano le credenziali dell'utente inserite volutamente con gli stessi dati. Successivamente verrà effettuata anche una negazione di tale test per assicurarne l'efficacia.\\
 Tale test si compone di due metodi:
 \begin{itemize}
 \item \texttt{testEquals() } testa che due oggetti diversi contenenti gli stessi dati passati al metodo restituiscano \textit{true} solo se sono effettivamente uguali;
@@ -272,12 +281,13 @@ Tale test si compone di due metodi:
 \end{table}
 
 \subsubsection{AuthenticationModuleTest}
-*Descrizione*
-Tale test si compone di X metodi:
+\textbf{Verifica la Classe:} \texttt{AuthenticationModule}.\\
+\textbf{Descrizione}: l'obiettivo del test è verificare le funzionalità di autenticazione offerte dal sistema server dell'applicativo.
+
+Tale test si compone di 3 metodi:
 \begin{itemize}
-\item \texttt{testLogin() }
-\item \texttt{testLogout() }
-\item \texttt{testAbort() }
+\item \texttt{testLogin()} verifica che l'accesso al sistema mediante le opportune credenziali avvenga con successo.
+\item \texttt{testLogout()} verifica che il modulo di autenticazione abbia il comportamento atteso nel momento in cui un utente autenticato richiede di uscire.
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
@@ -285,28 +295,29 @@ Tale test si compone di X metodi:
 \end{table}
 
 \subsubsection{CredentialLoaderTest}
-\textbf{Verifica la Classe:} \textit{CredentialLoarder}.\\
-\textbf{Descrizione}:l'obiettivo di questo test è assicurare che il vettore in cui celle contiente tutte le credenziali d'accesso dell'utente (coppia \textit{username-password}) venga popolato correttamente.\\
+\textbf{Verifica la Classe:} \texttt{CredentialLoarder}.\\
+\textbf{Descrizione}: l'obiettivo di questo test è assicurare che il vettore in cui celle contiente tutte le credenziali d'accesso dell'utente (coppia \textit{username-password}) venga popolato correttamente.\\
 Tale test si compone di un solo metodo:
 \begin{itemize}
-\item \texttt{testLoarder() } tale metodo carica nel vettore i campi \textit{username} e \textit{password} e controlla che siano effettivamente stati inseriti e i dati siano coerenti (uguali) con quelli iniziali.
+\item \texttt{testLoarder()} tale metodo carica nel vettore i campi \textit{username} e \textit{password} e controlla che siano effettivamente stati inseriti e i dati siano coerenti (uguali) con quelli iniziali.
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
 \subsubsection{PrincipalImplTest}
-\textbf{Verifica la Classe:} \textit{PrincipalImpl}.\\
-\textbf{Descrizione}:\\
+\textbf{Verifica la Classe:} \texttt{PrincipalImpl}.\\
+\textbf{Descrizione}: l'obiettivo del test è verificare la corretta gestione dell'attributo \texttt{element} all'interno della classe \texttt{PrincipalImpl}. A tal fine si controlla la possibilità di recuperare l'elemento interno e la definizione del metodo che testa l'uguaglianza fra due istanze di questa classe.
+
 Tale test si compone di tre metodi:
 \begin{itemize}
-\item \texttt{testGetName() }
-\item \texttt{testEqual() }
-\item \texttt{testToString() }
+\item \texttt{testGetName()} verifica che sia recuperato in maniera corretta l'elemento memorizzato all'interno del \texttt{PrincipalImpl}.
+\item \texttt{testEqual()} verifica che il test di uguaglianza fra istanze della classe dia i risultati attesi.
+\item \texttt{testToString()} verifica la corretta conversione in stringa delle istanze di questa classe.
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
-\subsection{org.softwaresinthesis.mytalk.server.authentication.servlet}
-\subsubsection{loginServletTest}
-\textbf{Verifica l'oggetto:} \textit{loginServlet}.\\
+\subsection{Package \texttt{org.softwaresinthesis.mytalk.server.authentication.servlet}}
+\subsubsection{LoginServletTest}
+\textbf{Verifica l'oggetto:} \texttt{LoginServlet}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è la verificare la possibilità di effettuare il login da parte di un utente ricevuta tramite richiesta HTTP POST, i possibili \inglese{input} riguardano dati passati (\textit{username} e \textit{password}) che possono essere corretti o non (campi dati vuoti, o che non corrispondono a nessun utente realmente registrato al sistema).
 Tale test si compone di tre metodi:
 \begin{itemize}
@@ -316,8 +327,8 @@ Tale test si compone di tre metodi:
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
-\subsubsection{logoutServletTest}
-\textbf{Verifica l'oggetto:} \textit{logoutServlet}.\\
+\subsubsection{LogoutServletTest}
+\textbf{Verifica l'oggetto:} \texttt{LogoutServlet}.\\
 \textbf{Descrizione}:l'obiettivo di questo test è la verificare l'effettivo logout da parte di un utente autenticato tramite richiesta HTTP POST.
 Tale test si compone di un solo metodo:
 
@@ -326,8 +337,8 @@ Tale test si compone di un solo metodo:
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
-\subsubsection{registerServletTest}
-\textbf{Verifica l'oggetto:} \textit{registerServlet}.\\
+\subsubsection{RegisterServletTest}
+\textbf{Verifica l'oggetto:} \texttt{RegisterServlet}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è la verificare che l'operazione di registrazione da parte di un utente ricevuta tramite richiesta HTTP POST, i possibili \inglese{input} riguardano dati passati per la registrazione stessa, che possono essere corretti o non (campi dati obbligatori vuoti, o errati).
 Tale test si compone di due metodi:
 \begin{itemize}
@@ -337,65 +348,68 @@ Tale test si compone di due metodi:
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
 
-\subsection{org.softwaresinthesis.mytalk.server.abook}
+\subsection{Package \texttt{org.softwaresinthesis.mytalk.server.abook}}
 
 \subsubsection{AdressBookEntryTest}
-\textbf{Verifica la Classe:} \textit{AdressBookEntry}.\\
-\textbf{Descrizione}:l'obiettivo di questo test è verificare la corretta conversione di un istanza di \textit{AddressBookEntry}.\\
+\textbf{Verifica la Classe:} \texttt{AdressBookEntry}.\\
+\textbf{Descrizione}:l'obiettivo di questo test è verificare la corretta gestione di un'istanza di \texttt{AddressBookEntry}.\\
 Tale test si compone di due metodi:
 \begin{itemize}
 \item \texttt{testToJson() } tale metodo riceve una stringa in formato json di una 	\textit{entry} della rubrica e verifica che quest'ultima sia equivalente a quella ottenuta dalla chiamata al metodo \textit{ToJson} sull'istanza della classe \textit{AddressBookEntry};
-\item\texttt{testEquals()} viene creato un oggetto \textit{AdressBookEntry} e viene confrontato con l'istanza dell'oggetto che ha invocato il metodo, restituendo \textit{true} se e solo se sono uguali.
+\item\texttt{testEquals()} viene creato un oggetto \texttt{AdressBookEntry} e viene confrontato con l'istanza dell'oggetto che ha invocato il metodo, restituendo \textit{true} se e solo se sono uguali.
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
 \subsubsection{GroupTest}
-\textbf{Verifica la Classe:} \textit{Group}.\\
-\textbf{Descrizione}:l'obiettivo di questo test è verificare la corretta conversione di un istanza di \textit{Group}.\\
+\textbf{Verifica la Classe:} \texttt{Group}.\\
+\textbf{Descrizione}:l'obiettivo di questo test è verificare la corretta gestione di un istanza di \texttt{Group}.\\
 Tale test si compone di quattro metodi:
 \begin{itemize}
-\item \texttt{testToJson() } tale metodo riceve una stringa in formato json di una 	\textit{entry} della rubrica e verifica che quest'ultima sia equivalente a quella ottenuta dalla chiamata al metodo \textit{ToJson} sull'istanza della classe \textit{Group};
-\item \texttt{testId() } verifica l'effettivo inserimento del campo \textit{id} mediante il metodo \texttt{getId()};
-\item \texttt{testName() } verifica l'effettivo inserimento del campo \textit{name} mediante il metodo \texttt{getName()};
-\item \texttt{testEquals()} viene creato un oggetto \textit{AdressBookEntry} e viene confrontato con l'istanza dell'oggetto che ha invocato il metodo, restituendo \textit{true} se e solo se sono uguali.
+\item \texttt{testToJson()} tale metodo riceve una stringa in formato json di una \textit{entry} della rubrica e verifica che quest'ultima sia equivalente a quella ottenuta dalla chiamata al metodo \texttt{ToJson} sull'istanza della classe \texttt{Group}.
+\item \texttt{testId()} verifica l'effettivo inserimento del campo \textit{id} mediante il metodo \texttt{getId()}.
+\item \texttt{testName()} verifica l'effettivo inserimento del campo \textit{name} mediante il metodo \texttt{getName()}.
+\item \texttt{testEquals()} viene creato un oggetto \texttt{AddressBookEntry} e viene confrontato con l'istanza dell'oggetto che ha invocato il metodo, restituendo \textit{true} se e solo se sono uguali.
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
 \subsubsection{UserDataTest}
-\textbf{Verifica la Classe:} \textit{UserData}.\\
-\textbf{Descrizione}:l'obiettivo di questo test è verificare la corretta conversione di un istanza di \textit{DataTest}. La classe inizializza inoltre un istanza di tale classe, impostandone i campi membro attraverso i metodi \textit{set}. Successivamente mediante i metodi \textit{get} vengono verificati gli effettivi inserimenti.\\
+\textbf{Verifica la Classe:} \texttt{UserData}.\\
+\textbf{Descrizione}:l'obiettivo di questo test è verificare la corretta gestione di un'istanza di \texttt{UserData}. La classe inizializza inoltre un istanza di tale classe, impostandone i campi membro attraverso i metodi \textit{set}. Successivamente mediante i metodi \textit{get} vengono verificati gli effettivi inserimenti.
+
 Tale test si compone di otto metodi:
 \begin{itemize}
-\item \texttt{testToJson() } tale metodo riceve una stringa in formato json di una 	\textit{entry} della rubrica e verifica che quest'ultima sia equivalente a quella ottenuta dalla chiamata al metodo \textit{ToJson} sull'istanza della classe \textit{DataTest};
-\item \texttt{testId() } verifica l'effettivo inserimento del campo \textit{id} mediante il metodo \textit{getId()};
-\item \texttt{testEmail() } verifica l'effettivo inserimento del campo \textit{email} mediante il metodo \texttt{getEmail()};
-\item \texttt{testPassword() } verifica l'effettivo inserimento del campo \textit{password} mediante il metodo \texttt{getPassword()};
-\item \texttt{testQuestion() } verifica l'effettivo inserimento del campo \textit{question} mediante il metodo \texttt{getQuestion()};
-\item \texttt{testAnswer() } verifica l'effettivo inserimento del campo \textit{answer} mediante il metodo \texttt{getAnswer()};
-\item \texttt{testName() } verifica l'effettivo inserimento del campo \textit{name} mediante il metodo \texttt{getName()};
-\item \texttt{testSurname() } verifica l'effettivo inserimento del campo \textit{surname} mediante il metodo \texttt{getSurname()};
-\item \texttt{testPicturePath() } verifica l'effettivo inserimento del campo \textit{picturePath} mediante il metodo \texttt{getPicturePath()};
+\item \texttt{testToJson()} tale metodo riceve una stringa in formato JSON di una \textit{entry} della rubrica e verifica che quest'ultima sia equivalente a quella ottenuta dalla chiamata al metodo \textit{ToJson} sull'istanza della classe \texttt{UserData}.
+\item \texttt{testId()} verifica l'effettivo inserimento del campo \textit{id} mediante il metodo \texttt{setId} e il suo recupero tramite \texttt{getId};
+\item \texttt{testEmail()} verifica l'effettivo inserimento del campo \textit{email} mediante il metodo \texttt{setMail} e il suo recupero tramite \texttt{getMail};
+\item \texttt{testPassword()} verifica l'effettivo inserimento del campo \textit{password} mediante il metodo \texttt{setPassword} e il suo recupero tramite \texttt{getPassword};
+\item \texttt{testQuestion()} verifica l'effettivo inserimento del campo \textit{question} mediante il metodo \texttt{setQuestion} e il suo recupero tramite \texttt{getQuestion};
+\item \texttt{testAnswer()} verifica l'effettivo inserimento del campo \textit{answer} mediante il metodo \texttt{setAnswer} e il suo recupero tramite \texttt{getAnswer};
+\item \texttt{testName()} verifica l'effettivo inserimento del campo \textit{name} mediante il metodo \texttt{setName} e il suo recupero tramite \texttt{getName};
+\item \texttt{testSurname()} verifica l'effettivo inserimento del campo \textit{surname} mediante il metodo \texttt{setSurname} e il suo recupero tramite \texttt{getSurname};
+\item \texttt{testPicturePath()} verifica l'effettivo inserimento del campo \textit{picturePath} mediante il metodo \texttt{setPath} e il suo recupero tramite \texttt{getPath};
 \item \texttt{testEquals()} verranno creati due oggetti \texttt{UserData} contenenti gli stessi dati, tale metodo restituirà \textit{true} se e solo se sono effettivamente uguali.
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
 
 \subsubsection{AdressBookEntryTest}
-\textbf{Verifica la Classe:} \textit{AdressBookEntry}.\\
-\textbf{Descrizione}:l'obiettivo di questo test è verificare la corretta conversione di un istanza di \textit{AddressBookEntry}.\\
+\textbf{Verifica la Classe:} \texttt{AdressBookEntry}.\\
+\textbf{Descrizione}:l'obiettivo del test è verificare la corretta gestione di un'istanza di \texttt{AddressBookEntry}.\\
 Tale test si compone di due metodi:
 \begin{itemize}
-\item \texttt{testToJson() } tale metodo riceve una stringa in formato json di una 	\textit{entry} della rubrica e verifica che quest'ultima sia equivalente a quella ottenuta dalla chiamata al metodo \textit{ToJson} sull'istanza della classe \textit{AddressBookEntry};
-\item \texttt{testEquals()} viene creato un oggetto \textit{AdressBookEntry} e viene confrontato con l'istanza dell'oggetto che ha invocato il metodo, restituendo \textit{true} se e solo se sono uguali.
+\item \texttt{testToJson()} tale metodo riceve una stringa in formato JSON di una \textit{entry} della rubrica e verifica che quest'ultima sia equivalente a quella ottenuta dalla chiamata al metodo \texttt{toJson} sull'istanza della classe \texttt{AddressBookEntry};
+\item \texttt{testEquals()} viene creato un oggetto \texttt{AdressBookEntry} e viene confrontato con l'istanza dell'oggetto che ha invocato il metodo, restituendo \textit{true} se e solo se sono uguali.
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
 
-\subsection{org.softwaresinthesis.mytalk.server.abook.servlet}
+\subsection{Package \texttt{org.softwaresinthesis.mytalk.server.abook.servlet}}
 
 \subsubsection{AddressBookDoAddContactServletTest}
-\textbf{Verifica l'oggetto:} \textit{AddressBookDoAddContactServlet}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di aggiungere un contatto \texttt{IUserData} all'interno di una rubrica utente. La possibilità di richiamare \texttt{AddressBookDoAddContactServlet} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica, i possibili \inglese{input} riguardano dati passati mediante \texttt{XMLhttpRequest} che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IUserData} realmente esistente) o non (campi dati vuoti, o che non corrispondono a nessun utente realmente registrato al sistema).
+\textbf{Verifica l'oggetto:} \texttt{AddressBookDoAddContactServlet}.\\
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di aggiungere un contatto \texttt{IUserData} all'interno di una rubrica utente.
+
+La possibilità di richiamare \texttt{AddressBookDoAddContactServlet} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica, i possibili \inglese{input} riguardano dati passati mediante \texttt{XMLHttpRequest} che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IUserData} realmente esistente) o non (campi dati vuoti, o che non corrispondono a nessun utente realmente registrato al sistema).
 Tale test si compone di tre metodi:
 \begin{itemize}
 \item \texttt{testAddCorrectContact()} verifica l'effettiva aggiunta di un contatto nella rubrica del richiedente, a partire da dati corretti (realmente apparteneneti all'utente aggiunto).
@@ -406,8 +420,10 @@ Tale test si compone di tre metodi:
 
 
 \subsubsection{AddressBookDoRemoveContactServletTest}
-\textbf{Verifica l'oggetto:} \textit{AddressBookDoRemoveContactServlet}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di rimuovere un utente presente nella rubrica del richiedente. Come per il test della \inglese{Servlet} precedentemente descritta, anche in questo caso si assume come precondizione l'autenticazione dell'utente richiedente e quindi l'effettiva esistenza della sua rubrica. I possibili \inglese{input} riguardano dati passati mediante \texttt{XMLhttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IUserData} realmente esistente e presente nella rubrica dell'utente) o non (campi dati vuoti, o che non corrispondono a nessun utente realmente registrato al sistema, o comunque corrispongono ad un utente registrato, ma il cui contatto non è presente nella rubrica del richiedente).
+\textbf{Verifica l'oggetto:} \texttt{AddressBookDoRemoveContactServlet}.\\
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di rimuovere un utente presente nella rubrica del richiedente. Come per il test della \inglese{Servlet} precedentemente descritta, anche in questo caso si assume come precondizione l'autenticazione dell'utente richiedente e quindi l'effettiva esistenza della sua rubrica.
+
+I possibili \inglese{input} riguardano dati passati mediante \texttt{XMLHttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IUserData} realmente esistente e presente nella rubrica dell'utente) o non (campi dati vuoti, o che non corrispondono a nessun utente realmente registrato al sistema, o comunque corrispongono ad un utente registrato, ma il cui contatto non è presente nella rubrica del richiedente).
 Tale test si compone di quattro metodi:
 \begin{itemize}
 \item \texttt{testRemoveCorrectUser()} verifica l'effettiva eliminazione di un contatto presente nella rubrica del richiedente, a partire da dati corretti (realmente apparteneneti all'utente da eliminare).
@@ -419,7 +435,7 @@ Tale test si compone di quattro metodi:
 
 \subsubsection{AddressBookDoCreateGroupServletTest}
 \textbf{Verifica l'oggetto:} \textit{AddressBookDoCreateGroupServlet}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di creare un gruppo \texttt{IGroup} all'interno di una rubrica utente. La possibilità di richiamare \texttt{AddressBookDoCreateGroupServlet} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica. I possibili \inglese{input} riguardano dati passati mediante \texttt{XMLhttpRequest}, che possono essere corretti (campi dati non vuoti) o non (campi dati vuoti).
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di creare un gruppo \texttt{IGroup} all'interno di una rubrica utente. La possibilità di richiamare \texttt{AddressBookDoCreateGroupServlet} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica. I possibili \inglese{input} riguardano dati passati mediante \texttt{XMLHttpRequest}, che possono essere corretti (campi dati non vuoti) o non (campi dati vuoti).
 Tale test si compone di due metodi:
 \begin{itemize}
 \item \texttt{testAddCorrectGroup()} verifica l'effettiva creazione di un gruppo nella rubrica del richiedente a partire da dati corretti (campi dati non vuoti).
@@ -429,7 +445,9 @@ Tale test si compone di due metodi:
 
 \subsubsection{AddressBookDoDeleteGroupServletTest}
 \textbf{Verifica l'oggetto:} \textit{AddressBookDoDeleteGroupServlet}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di eliminare un gruppo presente nella rubrica del richiedente. Come per il test della \inglese{Servlet} precedentemente descritta, si assume come precondizione l'autenticazione dell'utente richiedente e quindi l'effettiva esistenza della sua rubrica. I possibili \inglese{input} riguardano dati passati mediante \texttt{XMLhttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IGroup} realmente esistente e presente nella rubrica dell'utente) o non (campi dati vuoti, o che comunque non corrispondono a nessun gruppo realmente registrato al sistema, o comunque corrispongono ad un gruppo esistente, ma non presente nella rubrica del richiedente).
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di eliminare un gruppo presente nella rubrica del richiedente. Come per il test della \inglese{Servlet} precedentemente descritta, si assume come precondizione l'autenticazione dell'utente richiedente e quindi l'effettiva esistenza della sua rubrica.
+
+I possibili \inglese{input} riguardano dati passati mediante \texttt{XMLHttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IGroup} realmente esistente e presente nella rubrica dell'utente) o non (campi dati vuoti, o che comunque non corrispondono a nessun gruppo realmente registrato al sistema, o comunque corrispongono ad un gruppo esistente, ma non presente nella rubrica del richiedente).
 Tale test si compone di quattro metodi:
 \begin{itemize}
 \item \texttt{testRemoveCorrectGroup()} verifica l'effettiva eliminazione di un gruppo presente nella rubrica del richiedente a partire da dati corretti (realmente apparteneneti al gruppo da eliminare).
@@ -440,8 +458,10 @@ Tale test si compone di quattro metodi:
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
 \subsubsection{AddressBookDoInsertInGroupServletTest}
-\textbf{Verifica l'oggetto:} \textit{AddressBookDoInsertInGroupServlet}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di aggiungere un contatto \texttt{IUserData} all'interno di un gruppo \texttt{IGroup} presente nella rubrica del richiedente. La possibilità di richiamare \texttt{AddressBookDoInsertInGroupServlet} prende come precondizione l'autenticazione dell'utente richiedente e quindi l'effettiva esistenza della sua rubrica. I possibili \inglese{input} riguardano dati passati mediante \texttt{XMLhttpRequest} che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IUserData} realmente esistente e ad un \texttt{IGroup} realmente presente) o non (campi dati vuoti, o che comunque non corrispondono a nessun utente realmente registrato al sistema, o gruppo presente nella rubrica del richiedente).
+\textbf{Verifica l'oggetto:} \texttt{AddressBookDoInsertInGroupServlet}.\\
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di aggiungere un contatto \texttt{IUserData} all'interno di un gruppo \texttt{IGroup} presente nella rubrica del richiedente. La possibilità di richiamare \texttt{AddressBookDoInsertInGroupServlet} prende come precondizione l'autenticazione dell'utente richiedente e quindi l'effettiva esistenza della sua rubrica.
+
+I possibili \inglese{input} riguardano dati passati mediante \texttt{XMLHttpRequest} che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IUserData} realmente esistente e ad un \texttt{IGroup} realmente presente) o non (campi dati vuoti, o che comunque non corrispondono a nessun utente realmente registrato al sistema, o gruppo presente nella rubrica del richiedente).
 Tale test si compone di cinque metodi:
 \begin{itemize}
 \item \texttt{testAddCorrectContact()} verifica l'effettiva aggiunta di un contatto nella rubrica del richiedente (a gruppo precisato), a partire da dati corretti (realmente apparteneneti all'utente aggiunto).
@@ -453,8 +473,10 @@ Tale test si compone di cinque metodi:
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
 \subsubsection{AddressBookDoRemoveFromGroupServletTest}
-\textbf{Verifica l'oggetto:} \textit{AddressBookDoRemoveFromGroupServlet}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di rimuovere un conttatto da un gruppo presente nella rubrica del richiedente. Come per il test della \inglese{Servlet} precedentemente descritta, si assume come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica. I possibili \inglese{input} riguardano dati passati mediante \texttt{XMLhttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IGroup} realmente esistente e presente nella rubrica dell'utente, e ad un contatto registrato nel sistema) o non (campi dati vuoti, che non corrispondono a nessun gruppo realmente presente nel sistema, che corrispongono ad un gruppo esistente ma non presente nella rubrica del richiedente, che non corrispondono a nessun contatto registrato nel sistema).
+\textbf{Verifica l'oggetto:} \texttt{AddressBookDoRemoveFromGroupServlet}.\\
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di rimuovere un conttatto da un gruppo presente nella rubrica del richiedente. Come per il test della \inglese{Servlet} precedentemente descritta, si assume come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica.
+
+I possibili \inglese{input} riguardano dati passati mediante \texttt{XMLHttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IGroup} realmente esistente e presente nella rubrica dell'utente, e ad un contatto registrato nel sistema) o non (campi dati vuoti, che non corrispondono a nessun gruppo realmente presente nel sistema, che corrispongono ad un gruppo esistente ma non presente nella rubrica del richiedente, che non corrispondono a nessun contatto registrato nel sistema).
 Tale test si compone di quattro metodi:
 \begin{itemize}
 \item \texttt{testRemoveCorrectContact()} verifica l'effettiva eliminazione di un contatto presente (nel gruppo precisato) nella rubrica del richiedente, a partire da dati corretti (realmente apparteneneti alla coppia contatto-gruppo).
@@ -465,51 +487,62 @@ Tale test si compone di quattro metodi:
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
 \subsubsection{AddressBookDoBlockServletTest}
-\textbf{Verifica l'oggetto:} \textit{AddressBookDoBlockServlet}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di bloccare un contatto \texttt{IUserData} all'interno di una rubrica utente. La possibilità di richiamare \texttt{AddressBookDoAddContactServlet} prende come precondizione l'autenticazione dell'utente richiedente e quindi l'effettiva esistenza della sua rubrica. I possibili \inglese{input} riguardano dati passati mediante \texttt{XMLhttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IUserData} realmente esistente) o non (campi dati vuoti, o che comunque non corrispondono a nessun utente realmente registrato al sistema).
+\textbf{Verifica l'oggetto:} \texttt{AddressBookDoBlockServlet}.\\
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di bloccare un contatto all'interno di una rubrica utente. La possibilità di richiamare \texttt{AddressBookDoAddContactServlet} prende come precondizione l'autenticazione dell'utente richiedente e quindi l'effettiva esistenza della sua rubrica.
+
+I possibili \inglese{input} riguardano dati passati mediante \texttt{XMLhttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IUserData} realmente esistente) o non (campi dati vuoti, o che comunque non corrispondono a nessun utente realmente registrato al sistema).
 \begin{itemize}
-\item \textit{testBlockCorrectContact()} verifica l'avvenuto blocco del contatto precisato, nella rubrica del richiedente, a partire da dati corretti (realmente apparteneneti all'utente da bloccare).
-\item \textit{testBlockNotExistsContact()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di bloccare un utente non registrato nel sistema.
-\item \textit{testWrongData()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di bloccare un utente \texttt{IUserData} definito da dati non completi (campi dati vuoti) parzialmente o nella loro totalità.
+\item \texttt{testBlockCorrectContact()} verifica l'avvenuto blocco del contatto precisato, nella rubrica del richiedente, a partire da dati corretti (realmente apparteneneti all'utente da bloccare).
+\item \texttt{testBlockNotExistsContact()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di bloccare un utente non registrato nel sistema.
+\item \texttt{testWrongData()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di bloccare un utente \texttt{IUserData} definito da dati non completi (campi dati vuoti) parzialmente o nella loro totalità.
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
 \subsubsection{AddressBookDoUnblockServletTest}
 \textbf{Verifica l'oggetto:} \textit{AddressBookDoUnblockServlet}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di sbloccare un contatto \texttt{IUserData} (bloccato) all'interno di una rubrica utente. La possibilità di richiamare\\ \texttt{AddressBookDoUnblockServlet} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica. I possibili \inglese{input} riguardano dati passati mediante \texttt{XMLhttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IUserData} realmente esistente, bloccato, e presente nella rubrica del richiedente) o non (campi dati vuoti, o che comunque non corrispondono a nessun utente realmente registrato al sistema).
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di sbloccare un contatto \texttt{IUserData} (bloccato) all'interno di una rubrica utente. La possibilità di richiamare\\ \texttt{AddressBookDoUnblockServlet} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica.
+
+I possibili \inglese{input} riguardano dati passati mediante \texttt{XMLHttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IUserData} realmente esistente, bloccato, e presente nella rubrica del richiedente) o non (campi dati vuoti, o che comunque non corrispondono a nessun utente realmente registrato al sistema).
+
 Tale test si compone di tre metodi:
 \begin{itemize}
-\item \textit{testUnblockCorrectContact()} verifica l'avvenuto sblocco del contatto precisato, nella rubrica del richiedente, a partire da dati corretti (realmente apparteneneti all'utente da sbloccare).
-\item \textit{testUnblockNotExistsContact()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di sbloccare un utente non registrato nel sistema, o comunque non appartenente alla rubrica del richiedente.
-\item \textit{testWrongData()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di sbloccare un utente \texttt{IUserData} definito da dati non completi (campi dati vuoti) parzialmente o nella loro totalità.
+\item \texttt{testUnblockCorrectContact()} verifica l'avvenuto sblocco del contatto precisato, nella rubrica del richiedente, a partire da dati corretti (realmente apparteneneti all'utente da sbloccare).
+\item \texttt{testUnblockNotExistsContact()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di sbloccare un utente non registrato nel sistema, o comunque non appartenente alla rubrica del richiedente.
+\item \texttt{testWrongData()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di sbloccare un utente \texttt{IUserData} definito da dati non completi (campi dati vuoti) parzialmente o nella loro totalità.
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
 \subsubsection{AddressBookDoSearchServletTest}
-\textbf{Verifica l'oggetto:} \textit{AddressBookDoSearchServlet}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di ritornare una lista di contatti \texttt{IUserData} presenti nella rubrica del richiedente. La possibilità di richiamare \texttt{AddressBookGetContactsServlet} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica. I possibili input riguardano dati passati mediante \texttt{XMLhttpRequest}, che possono essere corretti (campi dati non vuoti) o non (campi dati vuoti).
+\textbf{Verifica l'oggetto:} \texttt{AddressBookDoSearchServlet}.\\
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di ritornare una lista di contatti presenti nella rubrica del richiedente. La possibilità di richiamare \texttt{AddressBookGetContactsServlet} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica.
+
+I possibili input riguardano dati passati mediante \texttt{XMLHttpRequest}, che possono essere corretti (campi dati non vuoti) o non (campi dati vuoti).
 Tale test si compone di tre metodi:
 \begin{itemize}
-\item \textit{testGetSearchContact()} verifica se gli utentei ottenuti in seguito all'operazione di ricerca sono tutti e soli gli utenti registrati nella rubrica del richiedente, e aventi o comee nome, cognome o mail, la parola ricercata.
-\item \textit{testGetSearchNotExistsContact()} verifica che, dato un input corretto, e relativo esclusivamente ad utenti presenti nel sistema ma non nella rubrica del richiedente, il numero di utenti restituiti dalla ricerca sia 0.
-\item \textit{testWrongData()} verifica che, dati in input valori scorretti, il numero di utenti restituiti dalla ricerca sia 0.
+\item \texttt{testGetSearchContact()} verifica se gli utentei ottenuti in seguito all'operazione di ricerca sono tutti e soli gli utenti registrati nella rubrica del richiedente, e aventi o comee nome, cognome o mail, la parola ricercata.
+\item \texttt{testGetSearchNotExistsContact()} verifica che, dato un input corretto, e relativo esclusivamente ad utenti presenti nel sistema ma non nella rubrica del richiedente, il numero di utenti restituiti dalla ricerca sia 0.
+\item \texttt{testWrongData()} verifica che, dati in input valori scorretti, il numero di utenti restituiti dalla ricerca sia 0.
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
 \subsubsection{AddressBookGetContactsServletTest}
 \textbf{Verifica l'oggetto:} \textit{AddressBookGetContactsServlet}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di ritornare un contatto \texttt{IUserData} presente nella rubrica del richiedente. La possibilità di richiamare \texttt{AddressBookGetContactsServlet} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica. I possibili input riguardano dati passati mediante \texttt{XMLhttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IUserData} realmente esistente e presente nella rubrica del richiedente) o non (campi dati vuoti, o che comunque non corrispondono a nessun utente realmente registrato al sistema).
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di ritornare un contatto presente nella rubrica del richiedente. La possibilità di richiamare \texttt{AddressBookGetContactsServlet} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica.
+
+I possibili input riguardano dati passati mediante \texttt{XMLHttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IUserData} realmente esistente e presente nella rubrica del richiedente) o non (campi dati vuoti, o che comunque non corrispondono a nessun utente realmente registrato al sistema).
 Tale test si compone di tre metodi:
 \begin{itemize}
-\item \textit{testGetCorrectContact()} verifica se l'utente ottenuto come output del metodo doPost() della \inglese{servlet} è effettivamente il contatto a cui appartengono i dati corretti.
-\item \textit{testGetNotExistsContact()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di ottenere un utente non registrato nel sistema, o comunque non appartenente alla rubrica del richiedente.
-\item \textit{testWrongData()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di ottenere un utente \texttt{IUserData} definito da dati non completi (campi dati vuoti) parzialmente o nella loro totalità.
+\item \texttt{testGetCorrectContact()} verifica se l'utente ottenuto come output del metodo doPost() della \inglese{servlet} è effettivamente il contatto a cui appartengono i dati corretti.
+\item \texttt{testGetNotExistsContact()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di ottenere un utente non registrato nel sistema, o comunque non appartenente alla rubrica del richiedente.
+\item \texttt{testWrongData()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di ottenere un utente \texttt{IUserData} definito da dati non completi (campi dati vuoti) parzialmente o nella loro totalità.
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
 \subsubsection{AddressBookGetGroupsServletTest}
-\textbf{Verifica l'oggetto:} \textit{AddressBookGetGroupsServlet}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di ritornare una lista di contatti \texttt{IUserData} presenti nella rubrica del richiedente, associati ai relativi gruppi di appartenenza. La possibilità di richiamare \texttt{AddressBookGetGroupsServlet} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica.
+\textbf{Verifica l'oggetto:} \texttt{AddressBookGetGroupsServlet}.\\
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di ritornare una lista di contatti \texttt{IUserData} presenti nella rubrica del richiedente, associati ai relativi gruppi di appartenenza.
+
+La possibilità di richiamare \texttt{AddressBookGetGroupsServlet} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica.
 Tale test si compone di un solo metodo:
 \begin{itemize}
 \item \textit{testGetGroupContact()} verifica se gli utentei ottenuti in associazione ai gruppi di appertenneza, sono tutti e soli gli utenti-gruppi presenti nella rubrica del richiedente.
@@ -520,53 +553,53 @@ Tale test si compone di un solo metodo:
 \subsection{org.softwaresinthesis.mytalk.server.dao}
 
 \subsubsection{HybernateUtilTest}
-\textbf{Verifica la Classe:} \textit{HybernateUtil}.\\
-\textbf{Descrizione}:l'obiettivo di questo test è assicurare la corretta esecuzione dei metodi della classe \textit{HibernateUtil}. \\
+\textbf{Verifica la Classe:} \texttt{HybernateUtil}.\\
+\textbf{Descrizione}:l'obiettivo di questo test è assicurare la corretta esecuzione dei metodi della classe \texttt{HibernateUtil}. \\
 Tale test si compone di due metodi:
 \begin{itemize}
-\item \texttt{testIstance() } l'obiettivo di questo test è testare l'effettiva presenza di un unica istanza della classe textit{HibernateUtil} mediante la creazione di due istanze e verificando che entrambi puntino alla stessa istanza dell'oggetto;
-\item \texttt{testGetFactory()} ha lo scopo di verifcare la presenza di una \textit{sessionFactory} configurata correttamente per la comunicazione con il database.
+\item \texttt{testIstance()} l'obiettivo di questo test è testare l'effettiva presenza di un unica istanza della classe textit{HibernateUtil} mediante la creazione di due istanze e verificando che entrambi puntino alla stessa istanza dell'oggetto;
+\item \texttt{testGetFactory()} ha lo scopo di verificare la presenza di una \texttt{SessionFactory} configurata correttamente per la comunicazione con il database.
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
 \subsubsection{UserDataDAOTest}
-\textbf{Verifica la Classe:} \textit{UserDataDAO}.\\
+\textbf{Verifica la Classe:} \texttt{UserDataDAO}.\\
 \textbf{Descrizione}:l'obiettivo di questo test è assicurare la corretta esecuzione delle operazioni CRUD (\textit{Create, Read, Update, Delete}) per gli oggetti di tipo \texttt{UserData} verso il database. \\
 Tale test si compone di cinque metodi:
 \begin{itemize}
 \item \texttt{testInsert()} tale metodo ha lo scopo di verificare il corretto inserimento di uno \texttt{UserData} all'interno del database;
 \item \texttt{testGetByEmail()} ha lo scopo di verificare il prelevamento dal database di uno \texttt{UserData} tramite l'indirizzo mail con cui si è registrato nel sistema;
-\item \texttt{testUpdate() } verifica se le modifiche ad un oggetto \texttt{UserData} siano effettive nel database;
-\item \texttt{testDelete() } verifica l'effettiva cancellazione di uno \texttt{UserData} dal database;
+\item \texttt{testUpdate()} verifica se le modifiche ad un oggetto \texttt{UserData} siano effettive nel database;
+\item \texttt{testDelete()} verifica l'effettiva cancellazione di uno \texttt{UserData} dal database;
 \item \texttt{testSearchGeneric()} verifica che sia presente uno \texttt{UserData} nel database mediante la ricerca fatta cercando un parametro di \inglese{input} che ha una corrispondenza con uno o più campi tra \textit{nome, cognome, email}.
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
 
 \subsubsection{AddressBookEntryDAOTest}
-\textbf{Verifica la Classe:} \textit{AddressBookEntryDAO}.\\
+\textbf{Verifica la Classe:} \texttt{AddressBookEntryDAO}.\\
 \textbf{Descrizione}:l'obiettivo di questo test è assicurare la corretta esecuzione delle operazioni CUD (\textit{Create, Update, Delete}) per gli oggetti di tipo \texttt{AddressBookEntry} nel database. \\
 Tale test si compone di tre metodi:
 \begin{itemize}
-\item \texttt{testInsert() } tale metodo ha lo scopo di verificare il corretto inserimento di un \texttt{AddressBookEntry} all'interno del database;
-\item \texttt{testDelete() } tale metodo ha lo scopo di verificare la corretta rimozione di un \texttt{AddressBookEntry} dal database;
-\item \texttt{testUpdate() } tale metodo ha lo scopo di verificare il corretto aggiornamento di un \texttt{AddressBookEntry} nel database nel caso sia stato modificato uno dei campi dati.
+\item \texttt{testInsert()} tale metodo ha lo scopo di verificare il corretto inserimento di un \texttt{AddressBookEntry} all'interno del database;
+\item \texttt{testDelete()} tale metodo ha lo scopo di verificare la corretta rimozione di un \texttt{AddressBookEntry} dal database;
+\item \texttt{testUpdate()} tale metodo ha lo scopo di verificare il corretto aggiornamento di un \texttt{AddressBookEntry} nel database nel caso sia stato modificato uno dei campi dati.
 
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
 
 \subsubsection{GroupDAOTest}
-\textbf{Verifica la Classe:} \textit{GroupDAO}.\\
+\textbf{Verifica la Classe:} \texttt{GroupDAO}.\\
 \textbf{Descrizione}:l'obiettivo di questo test è assicurare la corretta esecuzione delle operazioni CRUD (\textit{Create,Read, Update, Delete}) per gli oggetti di tipo \texttt{Group} e di ricerca di tali oggetti nel database. \\
 Tale test si compone di sei metodi:
 \begin{itemize}
-\item \texttt{testInsert() } tale metodo ha lo scopo di verificare il corretto inserimento di un \texttt{Group} all'interno del database;
-\item \texttt{testDelete() } tale metodo ha lo scopo di verificare la corretta rimozione di un \texttt{Group} dal database;
-\item \texttt{testUpdate() } tale metodo ha lo scopo di verificare il corretto aggiornamento di un \texttt{Group} nel database nel caso sia stato modificato uno dei campi dati.
-\item \texttt{testGetByID() } tale metodo ha lo scopo di verificare la corretta ricerca di un \texttt{Group} nel database tramite l'inserimento di un ID valido.
-\item \texttt{testGetByOwner() } tale metodo ha lo scopo di verificare la corretta ricerca di un \texttt{Group} nel database tramite il passaggio di un \texttt{Long} che corrisponde all'ID del proprietario del gruppo.
-\item \texttt{testGetByOwnerAndName() } tale metodo ha lo scopo di verificare la corretta ricerca di un \texttt{Group} nel database tramite il passaggio di un \texttt{Long} che corrisponde all'ID del proprietario del gruppo che di una stringa che corrisponde al nome del gruppo in formato \texttt{String}.
+\item \texttt{testInsert()} tale metodo ha lo scopo di verificare il corretto inserimento di un \texttt{Group} all'interno del database;
+\item \texttt{testDelete()} tale metodo ha lo scopo di verificare la corretta rimozione di un \texttt{Group} dal database;
+\item \texttt{testUpdate()} tale metodo ha lo scopo di verificare il corretto aggiornamento di un \texttt{Group} nel database nel caso sia stato modificato uno dei campi dati.
+\item \texttt{testGetByID()} tale metodo ha lo scopo di verificare la corretta ricerca di un \texttt{Group} nel database tramite l'inserimento di un ID valido.
+\item \texttt{testGetByOwner()} tale metodo ha lo scopo di verificare la corretta ricerca di un \texttt{Group} nel database tramite il passaggio di un \texttt{Long} che corrisponde all'ID del proprietario del gruppo.
+\item \texttt{testGetByOwnerAndName()} tale metodo ha lo scopo di verificare la corretta ricerca di un \texttt{Group} nel database tramite il passaggio di un \texttt{Long} che corrisponde all'ID del proprietario del gruppo che di una stringa che corrisponde al nome del gruppo in formato \texttt{String}.
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
@@ -577,9 +610,9 @@ I test sul presenter sono mirati a verificare che le classi di tale componente r
 Questa serie di test, come anticipato nelle prime pagine del documento, è stata eseguita mediante il \underline{\textit{framework}} \textit{Qunit}. Tali verifiche sono state implementate allo scopo di non testare soltanto il comportamento della specifica funzione, ma anche verificare lo stato di avanzamento del prodotto e il numero di bug evidenziati ancora esistenti.
 Ovviamente al termine di tali verifiche il risultato dovrà risultare positivo, ovvero i test dovranno essere \textit{tutti} superati.
 
-
-\subsection{AccountSettingsPanelPresenterTest}
-\textbf{Verifica l'oggetto:} \textit{AccountSettingsPanelPresenter}.\\
+\subsection{Package \texttt{org.softwaresynthesis.mytalk.clientpreenter.guicontrol}}
+\subsubsection{AccountSettingsPanelPresenterTest}
+\textbf{Verifica l'oggetto:} \texttt{AccountSettingsPanelPresenter}.\\
 \textbf{Descrizione}: verifica la corretta inizializzazione di \textit{AccountSettingPanel}, ovvero che l'albero sia stato costruito correttamente, e che il contenuto dei vari nodi sia stato inserito coerentemente. Verifica inoltre la corretta inizializazione del \inglese{\underline{form}} per la modifica dei dati personali e l'invio dei dati in forma corretta al server.
 Tale verifica è composta da quattro test:
 \begin{itemize}
@@ -591,20 +624,20 @@ Successivamente controlla che gli elementi della lista vengano visualizzati corr
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
-\subsection{AddressBookPanelPresenterTest}
-\textbf{Verifica l'oggetto:} \textit{AdressBookPanelPresenter}.\\
+\subsubsection{AddressBookPanelPresenterTest}
+\textbf{Verifica l'oggetto:} \texttt{AddressBookPanelPresenter}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è la verifica della correttezza di tutte le funzionalità offerte da \textit{AddressBookPanel}.\\
 Tale verifica è composta da sedici test:
 \begin{itemize}
-\item \texttt{testDeleteGroup() } il test controlla che avvenga la corretta eliminazione di un gruppo dalla rubrica, tramite l'uso di uno \inglese{stub}. Il test verifica anche l'effettivo sollevamento di un'eccezione quando si tenta di eliminare un gruppo non presente nella rubrica.
+\item \texttt{testDeleteGroup()} il test controlla che avvenga la corretta eliminazione di un gruppo dalla rubrica, tramite l'uso di uno \inglese{stub}. Il test verifica anche l'effettivo sollevamento di un'eccezione quando si tenta di eliminare un gruppo non presente nella rubrica.
 \item \texttt{testInitialize()} controlla che la rubrica venga costruita correttamente. Verifica in particolare che la rubrica sia composta di cinque figli dove il primo è un \textit{<h1>} e gli altri quattro sono \textit{<div>}. Controlla poi che ognuno dei cinque figli sia costruito correttamente. 
 \item \texttt{testSetup()} controlla il corretto funzionamento di \textit{setup()} ovvero che avvenga correttamente il popolamento della rubrica con i contatti, che vengono scaricati da uno \inglese{stub} che simula la presenza di una \inglese{servlet} lato server. 
 Il test avviene tramite la creazione di uno \inglese{stub} che emula i contatti dell'utente presenti nella sua rubrica. 
 Il test consiste nel controllo che avvenga l'inserimento dei contatti nella lista contenuta nella struttura dell'\textit{AdressBookPanel}. In particolare, oltre a controllare che il numero di contatti sia giusto (devono essere due), si verifica che sia corretto il loro nome, il loro cognome.
 \item \texttt{testHide()} verifica il comportamento del presenter nel momento in cui il pannello deve essere nascosto, vale a dire impostando correttamente le proprietà di visualizzazione dell'elemento grafico associato.
-\item \texttt{testAddContact() } il test verifica che avvenga il corretto inserimento di un contatto nella rubrica, tramite l'uso di uno \inglese{stub}. Il test verifica anche l'effettivo sollevamento di un'eccezione quando si tenta di inserire un contatto già presente nella rubrica.
+\item \texttt{testAddContact()} il test verifica che avvenga il corretto inserimento di un contatto nella rubrica, tramite l'uso di uno \inglese{stub}. Il test verifica anche l'effettivo sollevamento di un'eccezione quando si tenta di inserire un contatto già presente nella rubrica.
 \item \texttt{testRemoveContact()} il test verifica che avvenga la corretta eliminazione di un contatto, tramite l'uso di \inglese{stub}. Il test verifica anche l'effettivo sollevamento di un'eccezione quando si tenta di eliminare un contatto non presente nella rubrica.
-\item \texttt{testApplyFilterByString() } verifica il funzionamento del filtro per i contatti. Il test controlla che data in \inglese{input} una stringa vengano restituiti i contatti che contengono la stringa nel nome, nel cognome o nella mail. Il test controlla il funzionamento per ogni possibile parametro (nome, cognome, mail). Viene inoltre verificato che il risultato del filtraggio sia nullo qualora la stringa inserita non sia presente in nessuno dei campi di nessun contatto della rubrica.
+\item \texttt{testApplyFilterByString()} verifica il funzionamento del filtro per i contatti. Il test controlla che data in \inglese{input} una stringa vengano restituiti i contatti che contengono la stringa nel nome, nel cognome o nella mail. Il test controlla il funzionamento per ogni possibile parametro (nome, cognome, mail). Viene inoltre verificato che il risultato del filtraggio sia nullo qualora la stringa inserita non sia presente in nessuno dei campi di nessun contatto della rubrica.
 \item \texttt{testApplyFilterByString()} verifica il funzionamento del filtro per i contatti. Il test controlla che data in \inglese{input} una stringa vengano restituiti i contatti che contengono la stringa nel nome, nel cognome o nella mail. Il test controlla il funzionamento per ogni possibile parametro (nome, cognome, mail). Viene inoltre verificato che il risultato del filtraggio sia nullo qualora la stringa inserita non sia presente in nessuno dei campi di nessun contatto della rubrica.
 \item \texttt{testAddGroup()} il test verifica che avvenga il corretto inserimento di un gruppo nella rubrica, tramite l'uso di uno \inglese{stub}. Il test verifica anche l'effettivo sollevamento di un'eccezione quando si tenta di inserire un gruppo già presente nella rubrica.
 \item \texttt{testBlockUser()} il test controlla che il controlla il corretto funzionamento del blocco di un contatto tramite l'uso di uno \inglese{stub} per la \inglese{servlet} coivolta nell'operazione. Viene inoltre controllato l'effettivo sollevamento di un'eccezione nel caso in cui l'utente che si desidera bloccare sia già bloccato.
@@ -619,17 +652,17 @@ Il test consiste nel controllo che avvenga l'inserimento dei contatti nella list
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
-\subsection{CallHistoryPanelPresenterTest}
-\textbf{Verifica l'oggetto:} \textit{CallHistoryPanelPresenter}.\\
+\subsubsection{CallHistoryPanelPresenterTest}
+\textbf{Verifica l'oggetto:} \texttt{CallHistoryPanelPresenter}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \textit{CallHistoryPanel}.\\
 Tale verifica è composta da un solo test:
 \begin{itemize}
-\item \texttt{testCreatePanel() } controlla che CallHistoryPanel abbia un unico figlio e che quest'ultimo sia effettivamente una lista (che corrisponde allo storico delle chiamate).
+\item \texttt{testCreatePanel()} controlla che CallHistoryPanel abbia un unico figlio e che quest'ultimo sia effettivamente una lista (che corrisponde allo storico delle chiamate).
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
-\subsection{CommunicationPanelPresenterTest}
-\textbf{Verifica l'oggetto:} \textit{CommunicationPanelPresenter}.\\
+\subsubsection{CommunicationPanelPresenterTest}
+\textbf{Verifica l'oggetto:} \texttt{CommunicationPanelPresenter}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \textit{CommunicationPanel}.\\
 Tale verifica è composta da cinque test:
 \begin{itemize}
@@ -641,8 +674,8 @@ Tale verifica è composta da cinque test:
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
-\subsection{ContactPanelPresenterTest}
-\textbf{Verifica l'oggetto:} \textit{ContactPanelPresenter}.\\
+\subsubsection{ContactPanelPresenterTest}
+\textbf{Verifica l'oggetto:} \texttt{ContactPanelPresenter}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \textit{ContactPanel}.\\
 Tale verifica è composta da due test:
 \begin{itemize}
@@ -651,8 +684,8 @@ Tale verifica è composta da due test:
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
-\subsection{GroupPanelPresenterTest}
-\textbf{Verifica l'oggetto:} \textit{GroupPanelPresenter}.\\
+\subsubsection{GroupPanelPresenterTest}
+\textbf{Verifica l'oggetto:} \texttt{GroupPanelPresenter}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare la corretta istanziazione del \textit{GroupPanel}, verificandone pertanto la corretta esecuzione della \inglese{form}.\\
 Tale verifica è composta da due test:
 \begin{itemize}
@@ -661,8 +694,8 @@ Tale verifica è composta da due test:
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
-\subsection{LoginPanelPresenterTest}
-\textbf{Verifica l'oggetto:} \textit{LoginPanelPresenter}.\\
+\subsubsection{LoginPanelPresenterTest}
+\textbf{Verifica l'oggetto:} \texttt{LoginPanelPresenter}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare la corretta istanziazione del \textit{LoginPanel} popolato con dei dati coerenti rispetto allo scopo della \inglese{form}.
 Tale verifica è composta da sette test:
 \begin{itemize} 
@@ -676,18 +709,18 @@ Tale verifica è composta da sette test:
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
-\subsection{MainPanelPresenterTest}
-\textbf{Verifica l'oggetto:} \textit{MainPanelPresenter}.\\
+\subsubsection{MainPanelPresenterTest}
+\textbf{Verifica l'oggetto:} \texttt{MainPanelPresenter}.\\
 \textbf{Descrizione}:l'obiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \textit{MainPanel} e che il contenuto dei vari nodi sia stato inserito coerentemente, infine deve consentire la corretta visualizzazione dei sotto-pannelli.\\\\
 Tale verifica è composta da tre test:
 \begin{itemize}
-\item \texttt{testInitialize() } mediante diversi metodi \textit{equal} controlla l'effettiva correttezza della \inglese{form} creata, sia nella forma che nel funzionamento.
-\item \texttt{testDisplayChildPanel() } verifica la corretta visualizzazione di un elemento interno al pannello principale.
-\item \texttt{testHide() } controlla che venga correttamente nascosto il \inglese{form} principale prima dell'autenticazione.
+\item \texttt{testInitialize()} mediante diversi metodi \textit{equal} controlla l'effettiva correttezza della \inglese{form} creata, sia nella forma che nel funzionamento.
+\item \texttt{testDisplayChildPanel()} verifica la corretta visualizzazione di un elemento interno al pannello principale.
+\item \texttt{testHide()} controlla che venga correttamente nascosto il \inglese{form} principale prima dell'autenticazione.
 \end{itemize}
 
-\subsection{MessagePanelPresenterTest}
-\textbf{Verifica l'oggetto:} \textit{MessagePanelPresenter}.\\
+\subsubsection{MessagePanelPresenterTest}
+\textbf{Verifica l'oggetto:} \texttt{MessagePanelPresenter}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \textit{MessagePanel} e che il contenuto dei vari nodi sia stato inserito coerentemente.\\
 Tale verifica è composta da un solo test:
 \begin{itemize}
@@ -696,41 +729,41 @@ Successivamente estraggo la lista dei figli del primo figlio (il suo figlio deve
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
-\subsection{RegisterPanelPresenterTest}
-\textbf{Verifica l'oggetto:} \textit{RegisterPanelPresenter}.\\
+\subsubsection{RegisterPanelPresenterTest}
+\textbf{Verifica l'oggetto:} \texttt{RegisterPanelPresenter}.\\
 \textbf{Descrizione}:l'obiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \textit{RegisterPanel}, la possibilità di nascondere correttamente l'elemento \textit{RegisterPanel}, il corretto recupero dei dati inseriti nella \inglese{form} d'iscrizione e infine i test relativi al recupero delle singole informazioni passate in fase di registrazione.\\
 Tale verifica è composta da dieci test:
 \begin{itemize}
-\item \texttt{testInitialize() } mediante diversi metodi \texttt{equal} controlla l'effettiva correttezza della \inglese{form} creata, sia nella forma che nel funzionamento.
+\item \texttt{testInitialize()} mediante diversi metodi \texttt{equal} controlla l'effettiva correttezza della \inglese{form} creata, sia nella forma che nel funzionamento.
 \item \texttt{testHide() } controlla che venga correttamente nascosto il \inglese{form} di registrazione.
 \item \texttt{testRegister() } mediante diversi metodi \texttt{equal} controlla l'effettiva registrazione dei dati inseriti nella \inglese{form}, confrontandoli con quelli passati in ingresso.
 \item \texttt{testGetPicturePath()} crea una \inglese{form} compilata correttamente con l'immagine utente da inserire, successivamente prova a recuperarla mediante \texttt{getPicturePath}, verificando se è stata inserita correttamente (o meno).
 \item \texttt{testGetUsername() } crea una \inglese{form} compilata correttamente con lo \textit{username}, e prova a recuperarlo mediante \texttt{getUsername}, verificando se è stato inserito correttamente (o meno).
 \item \texttt{testGetPassword()} crea una \inglese{form} compilata correttamente con il campo \textit{password}, e prova a recuperarlo mediante \texttt{getPassword}, verificando se è stata inserita correttamente (o meno). Il test verifica anche il sollevamento di un'eccezione nel momento in cui non sia stata inserito alcun valore in questo campo.
 \item \texttt{testGetQuestion()}  crea una \inglese{form} compilata correttamente con il campo \textit{question}, e prova a recuperarlo mediante \texttt{getQuestion}, verificando se è stata inserita correttamente (o meno). Dal momento che si tratta di un dato obbligatorio, il test verifica anche che sia sollevata un'eccezione nel caso in cui non sia fornito alcun valore.
-\item \texttt{testGetAnswer() } crea una \inglese{form} compilata correttamente con il campo \textit{answer}, e prova a recuperarlo mediante \texttt{getAnswer}, verificando se è stata inserita correttamente (o meno). Dal momento che si tratta di un dato obbligatorio, il test verifica anche che sia sollevata un'eccezione nel caso in cui questo valore non sia fornito.
-\item \texttt{testGetName() }  crea una \inglese{form} compilata correttamente con il campo \textit{name}, e prova a recuperarlo mediante \texttt{getName}, verificando se è stato inserito correttamente (o meno).
-\item \texttt{testGetSurname() }  crea una \inglese{form} compilata correttamente con il campo \textit{surname}, e prova a recuperarlo mediante \texttt{getSurname}, verificando se è stata inserita correttamente (o meno).
+\item \texttt{testGetAnswer()} crea una \inglese{form} compilata correttamente con il campo \textit{answer}, e prova a recuperarlo mediante \texttt{getAnswer}, verificando se è stata inserita correttamente (o meno). Dal momento che si tratta di un dato obbligatorio, il test verifica anche che sia sollevata un'eccezione nel caso in cui questo valore non sia fornito.
+\item \texttt{testGetName()}  crea una \inglese{form} compilata correttamente con il campo \textit{name}, e prova a recuperarlo mediante \texttt{getName}, verificando se è stato inserito correttamente (o meno).
+\item \texttt{testGetSurname()}  crea una \inglese{form} compilata correttamente con il campo \textit{surname}, e prova a recuperarlo mediante \texttt{getSurname}, verificando se è stata inserita correttamente (o meno).
 
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
-\subsection{SearchResultPanelPresenterTest}
-\textbf{Verifica l'oggetto:} \textit{SearchResultPanelPresenter}.\\
+\subsubsection{SearchResultPanelPresenterTest}
+\textbf{Verifica l'oggetto:} \texttt{SearchResultPanelPresenter}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare che sia correttamente creato l'elemento grafico \textit{SearchResultPanel} e il comportamento del presenter nel momento in cui tale pannello deve essere aggiornato. Tale verifica è composta da due test:
 \begin{itemize}
-\item \texttt{testCreatePanel() } verifica che il pannello sia costruito e visualizzato in accordo con le specifiche della progettazione e, in particolare, che sia presente la lista dei contatti che corrispondono ai risultati della ricerca.
+\item \texttt{testCreatePanel()} verifica che il pannello sia costruito e visualizzato in accordo con le specifiche della progettazione e, in particolare, che sia presente la lista dei contatti che corrispondono ai risultati della ricerca.
 \item \texttt{testDisplayContactList()} verifica che sia visualizzata la lista dei contatti passata come parametro in ingresso al metodo \texttt{displayContactList} del presenter.
 \end{itemize}
 
-\subsection{ToolsPanelPresenterTest}
-\textbf{Verifica l'oggetto:} \textit{ToolsPanelPresenter}.\\
+\subsubsection{ToolsPanelPresenterTest}
+\textbf{Verifica l'oggetto:} \texttt{ToolsPanelPresenter}.\\
 \textbf{Descrizione}: l'obiettivo di tale test è verificare che sia correttamente creato il pannello degli strumenti dell'interfaccia grafica, nonché il comportamento del presenter nel momento in cui dalla vista è invocato il metodo che corrisponde all'uscita dal sistema.
 Tale verifica è composta da tre test:
 \begin{itemize}
-\item \texttt{testInitialize() } mediante diversi metodi \textit{equal} controlla l'effettiva correttezza della \inglese{form} creata, sia nella forma che nel funzionamento;
-\item \texttt{testHide() } controlla che venga correttamente nascosto il \inglese{form} degli strumenti;
-\item \texttt{testLogout() } controlla l'effettivo \inglese{logout} dell'utente autenticato al sistema.
+\item \texttt{testInitialize()} mediante diversi metodi \textit{equal} controlla l'effettiva correttezza della \inglese{form} creata, sia nella forma che nel funzionamento.
+\item \texttt{testHide()} controlla che venga correttamente nascosto il \inglese{form} degli strumenti.
+\item \texttt{testLogout()} controlla l'effettivo \inglese{logout} dell'utente autenticato al sistema.
 \end{itemize}
 \clearpage
 
@@ -741,7 +774,7 @@ Tale test è stato effettuato mediante il \underline{\inglese{plugin}} per Eclip
 \rowcolors{2}{lightblue}{llightblue}\begin{longtable}{p{.30\textwidth}ll}
 \toprule Componente & Copertura\\
 \midrule
-Model & X\%\\
+Model & 56,26\%\\
 Presenter & 67,74\% \\
 \bottomrule
 \end{longtable}
