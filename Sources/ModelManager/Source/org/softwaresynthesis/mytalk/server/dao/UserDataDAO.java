@@ -283,7 +283,7 @@ public class UserDataDAO
 		Query query = null;
 		Session session = null;
 		SessionFactory factory = null;
-		String hqlQuery = "from UserData as us where u.mail like :mail or u.name like :name or u.surname like :surname";
+		String hqlQuery = "from UserData as u where u.mail like :mail or u.name like :name or u.surname like :surname";
 		Transaction transaction = null;
 		try
 		{

@@ -26,7 +26,7 @@ public class UserDataDAOTest {
 	@BeforeClass
 	public static void setupBeforeClass() {
 		tester = new UserDataDAO();
-		user = new UserData();
+		user = new UserData(1L);
 		user.setMail("indirizzo6@dominio.it");
 		user.setPassword("password");
 		user.setQuestion("come mi chiamo");
@@ -60,6 +60,18 @@ public class UserDataDAOTest {
 		foundMail = found.getMail();
 		assertNotNull(foundMail);
 		assertEquals(mail, foundMail);
+	}
+
+	/**
+	 * Verifica che sia correttamente recuperato l'utente
+	 * 
+	 * @author diego
+	 */
+	@Test
+	public void testGetById() {
+		Long id = 1L;
+		IUserData found = tester.getByID(id);
+		assertNotNull(found);
 	}
 
 	/**
@@ -99,5 +111,17 @@ public class UserDataDAOTest {
 		assertNotNull(founds);
 		assertFalse(founds.size() == 0);
 		assertTrue(founds.contains(user));
+	}
+
+	/**
+	 * Verifica la corretta conversione in stringa degli oggetti della
+	 * classe UserDataDAO
+	 * 
+	 * @author diego
+	 */
+	@Test
+	public void testToString() {
+		String toCompare = "UserDataDAO";
+		assertTrue(toCompare.equals(tester.toString()));
 	}
 }
