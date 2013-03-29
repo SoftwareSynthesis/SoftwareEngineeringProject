@@ -35,19 +35,19 @@ function CommunicationCenter() {
      METODI PRIVATI
      ***********************************************************/
     /**
-     * 
+     *
      * @author Diego Beraldin
      */
     function getServletURLs() {
-		var configurationRequest = new XMLHttpRequest();
-		configurationRequest.open("POST", configurationFile, false);
-		configurationRequest.send();
-		var XMLDocument = configurationRequest.responseXML;
-		var baseURL = XMLDocument.getElementsByTagName("baseURL")[0].childNodes[0].data;
-		var name = XMLDocument.getElementById("channel").childNodes[0].data;
-		urlServlet = baseURL + name;
+        var configurationRequest = new XMLHttpRequest();
+        configurationRequest.open("POST", configurationFile, false);
+        configurationRequest.send();
+        var XMLDocument = configurationRequest.responseXML;
+        var baseURL = XMLDocument.getElementsByTagName("baseURL")[0].childNodes[0].data;
+        var name = XMLDocument.getElementById("channel").childNodes[0].data;
+        urlServlet = baseURL + name;
     }
-    
+
     /**
      * Funzione per formattare i bytes ricevuti.
      *
@@ -329,7 +329,8 @@ function CommunicationCenter() {
             pc.addStream(stream);
 
             if (isCaller == true) {
-                var ar = new Array("3", contact.id);
+                idOther = contact.id;
+                var ar = new Array("3", idOther);
                 websocket.send(JSON.stringify(ar));
                 pc.createOffer(gotDescription);
             } else
