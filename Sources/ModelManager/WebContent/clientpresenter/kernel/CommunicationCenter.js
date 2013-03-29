@@ -190,7 +190,9 @@ function CommunicationCenter() {
             } else if (type == "2") {
                 var signal = JSON.parse(str[1]);
                 if (pc == null) {
-                    presenters["main"].displayChildPanel(communicationpp.element);
+                    //TODO fare conferma di risposta
+                    var element = communicationpp.createPanel();
+                    presenters["main"].displayChildPanel(element);
                     //FIXME sistemare terzo parametro (onlyAudio)
                     call(false, idOther, false);
                 }
