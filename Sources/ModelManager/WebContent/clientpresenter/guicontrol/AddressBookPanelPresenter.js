@@ -181,6 +181,7 @@ function AddressBookPanelPresenter() {
         // creo la option
         var option = document.createElement("option");
         option.value = value;
+        //TODO autofocus if(text="addrBookEntry") option.createAttribute("","");
         option.appendChild(document.createTextNode(text));
 
         // appendo la nuova option alla select
@@ -270,7 +271,7 @@ function AddressBookPanelPresenter() {
         // appendo il sottoalbero al DOM
         element.appendChild(addressBookHeader);
         element.appendChild(divFilter);
-        element.appendChild(divSort);
+        //element.appendChild(divSort);
         element.appendChild(divList);
         element.appendChild(divGroup);
 

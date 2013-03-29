@@ -161,14 +161,11 @@ function CommunicationCenter() {
      * @author Marco Schivo
      */
     this.connect = function() {
-        /*TODO Sistemare la funzione in modo che se si disconnette senza
-         * rischiesta si riconnetta automaticamente
-         */
         websocket = new WebSocket(urlServlet);
         //event handle per gestire l'apertura della socket
         websocket.onopen = function(evt) {
             //creo l'array da passare alla servlet per la connessione e l'invio
-            var ar = new Array("1", my.id);
+            var ar = new Array("1", this.my.id);
             websocket.send(JSON.stringify(ar));
 
             //eventuale segnale di avvenuta connessione con la servlet [per
@@ -192,9 +189,11 @@ function CommunicationCenter() {
                 idOther = str[1];
             } else if (type == "2") {
                 var signal = JSON.parse(str[1]);
-                if (pc == null)
-                    //FIXME da sistemare la chiaata con tre parametri
-                    call(false);
+                if (pc == null) {
+                    presenters["main"].displayChildPanel(communicationpp.element);
+                    //FIXME sistemare terzo parametro (onlyAudio)
+                    call(false, idOther, false);
+                }
                 if ((signal.sdp) == null) {
                     pc.addIceCandidate(new RTCIceCandidate(signal));
                 } else {
@@ -203,7 +202,7 @@ function CommunicationCenter() {
             } else if (type == "5") {
                 var idUserChange = JSON.parse(str[1]);
                 var statusUserChange = JSON.parse(str[2]);
-                //può avere tre stati [available | occupied]
+                //può avere due stati [available | occupied]
                 //TODO modificare classe <li> dell'utente.
             }
         };
