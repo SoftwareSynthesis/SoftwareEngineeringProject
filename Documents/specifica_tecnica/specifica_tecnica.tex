@@ -614,7 +614,6 @@ Per chiarezza citiamo in tale sezione anche le classi che mappano le entità rap
 
 Precisiamo che le classi rappresentanti i \inglese{transfer object} si trovano a essere collocate in package e componenti diversi da \texttt{server.dao}. Si è ritenuto infatti sensato inserire tali classi in contesti maggiormente specializzati, ad esempio la classe corrispondente ai messaggi in segreteria verrà ad essere collocata in \texttt{server.message}, mentre quella corrispondente alle chiamate in \texttt{server.call}.
 
-In ultima, tale componente contiene anche un'interfaccia che dovrebbe essere implementata da ogni oggetto rappresentante un \inglese{Transfer Object}, tale interfaccia è \texttt{IMyTalkObject}, il cui compito è quello di descrivere il comportamento di un generico oggetto serializzabile in formato \texttt{JSON}.
 
 \item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -632,7 +631,6 @@ In ultima, tale componente contiene anche un'interfaccia che dovrebbe essere imp
 	  \item[-] \texttt{server.dao.UserDataDAO}
 	  \item[-] \texttt{server.dao.AddressBookEntryDAO}
 	  \item[-] \texttt{server.dao.HibernateUtil}
-	  \item[-] \texttt{server.IMyTalkObject}
 	\end{itemize}
 \end{description}
 
@@ -930,21 +928,6 @@ Tali dipendenze, di fondamentale importanza per l'architettura, sono però ripor
 
 \subsection{Descrizione delle classi}
 
-\subsubsection{Package \texttt{org.softwaresynthesis.mytalk.server}}
-\begin {itemize}[leftmargin=0em]
-
-\item \texttt{IMyTalkObject}
-\begin{description}
-  \item{\scshape\bfseries Descrizione:}\\
-Tale interfaccia definisce che l'oggetto che la implementa ha la possibilità di essere convertito in formato \textit{json} in modo da poter essere trasferito correttamente al client.
-
-  \item{\scshape\bfseries Componenti che ne fanno uso:}
-  \begin{itemize}[noitemsep,nolistsep]
-    \item[-] \textsf{CS01 -- Gestione Database}
-  \end{itemize}
-\end{description}
-\end{itemize}
-
 \subsubsection{Package \texttt{org.softwaresynthesis.mytalk.server.dao}}
 
 \begin{itemize}[leftmargin=0em]
@@ -964,7 +947,7 @@ Tale classe espone la funzione per la manipolazione di oggetti di tipo \texttt{I
 \item \texttt{CallDAO}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
-Tale classe interagisce con il \inglese{framework} Hibernate e contiene la logica per la manipolazione dei dati (in lettura e scrittura) nella tabella \textit{Call} del database.
+Tale classe interagisce con il \inglese{framework} Hibernate e contiene la logica per la manipolazione dei dati (in lettura e scrittura) nella tabella \textit{Calls} del database.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -972,16 +955,16 @@ Tale classe interagisce con il \inglese{framework} Hibernate e contiene la logic
     \item[-] \textsf{CS07 -- Façade del server}
   \end{itemize}
 \end{description}
-%TODO
+
 \item \texttt{CallListDAO}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
+  Tale classe interagisce con il \inglese{framework} Hibernate e contiene la logica per la manipolazione dei dati (in lettura e scrittura) nella tabella \textit{CallLists} del database che mappa la relazione molti a molti tra \textit{UserData} e \textit{Calls}.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-   % \item[-] \textsf{CS01 -- Gestione database}
-   % \item[-] \textsf{CS07 -- Façade del server}
-	\item[-]  
+    \item[-] \textsf{CS01 -- Gestione database}
+    \item[-] \textsf{CS07 -- Façade del server}
   \end{itemize}
 \end{description}
 
@@ -1412,20 +1395,21 @@ Classe \inglese{transfer object} che rappresenta le chiamate realizzate attraver
 \item \texttt{ICallList}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
-%Classe \inglese{transfer object} che rappresenta le chiamate realizzate attraverso il sistema e implementa l'interfaccia \texttt{ICall}.
-  \item%{\scshape\bfseries Componenti che ne fanno uso:}
+Interfaccia che contiene le operazioni astratte di accesso ai dati (metodi \inglese{get}/\inglese{set}) che caratterizzano una voce nella lista delle chiamate. 
+
+  \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-]% \textsf{CS06 -- Gestione chiamate}
+    \item[-] \textsf{CS06 -- Gestione chiamate}
   \end{itemize}
 \end{description}
 
 \item \texttt{CallList}
 \begin{description}
   \item {\scshape\bfseries Descrizione:}\\
-%Classe \inglese{transfer object} che rappresenta le chiamate realizzate attraverso il sistema e implementa l'interfaccia \texttt{ICall}.
-  \item %{\scshape\bfseries Componenti che ne fanno uso:}
+Classe \inglese{transfer object} che rappresenta una voce nella lista delle chiamate realizzate attraverso il sistema e implementa l'interfaccia \texttt{ICallList}.
+  \item {\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
-    \item[-]% \textsf{CS06 -- Gestione chiamate}
+    \item[-] \textsf{CS06 -- Gestione chiamate}
   \end{itemize}
 \end{description}
 
@@ -1630,7 +1614,7 @@ La presenza delle interfacce, delle relazioni di implementazione e l'estensione 
 
 \begin{itemize}
 	\item PeerICECandidate;
-	\item WebKitPeerConnection;
+	\item WebKitRTCPeerConnection;
 	\item PeerSessionDescription;
 \end{itemize}
 
@@ -1645,7 +1629,7 @@ La presenza delle interfacce, delle relazioni di implementazione e l'estensione 
 	\begin{itemize}[noitemsep,nolistsep]
 		\item[-] \texttt{kernel.CommunicationCenter}
 		\item[-] \texttt{PeerICECandidate}
-		\item[-] \texttt{WebKitPeerConnection}
+		\item[-] \texttt{WebKitRTCPeerConnection}
 		\item[-] \texttt{PeerSessionDescription}
 	\end{itemize}  
 \end{description}

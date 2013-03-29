@@ -379,13 +379,14 @@ MVP & CS01 -- Gestione database\\
 \rowcolors{4}{lightblue}{llightblue}\begin{longtable}{lp{0.7\textwidth}l}
 \toprule Componenti & Classi\\
 \midrule
-CS01 -- Gestione database & server.dao.CallDAO\\
+CS01 -- Gestione database
+& server.dao.CallDAO\\
+& server.dao.CallListDAO\\
 & server.dao.GroupDAO\\
 & server.dao.MessageDAO\\
 & server.dao.UserDataDAO\\
 & server.dao.AddressBookEntryDAO\\
 & server.dao.HibernateUtil\\
-& server.IMyTalkObject\\
 
 CS03 -- Gestione rubrica & server.abook.AddressBookEntry\\
 & server.abook.IAddressBookEntry\\
@@ -397,8 +398,11 @@ CS03 -- Gestione rubrica & server.abook.AddressBookEntry\\
 CS05 -- Gestione rubrica & server.message.IMessage\\
 & server.message.Message\\
 
-CS06 -- Gestione chiamate & server.call.ICall\\
+CS06 -- Gestione chiamate
+ & server.call.ICall\\
 & server.call.Call\\
+ & server.call.ICallList\\
+& server.call.CallList\\
 
 CS02 -- Gestione connessione & server.connection.PushInbound\\
 & org.apache.catalina.websocket.MessageInbound\\
@@ -439,7 +443,7 @@ CS07 -- Façade del server & server.connection.ChannelServlet\\
 
 CP01 -- Gestione comunicazione & clientpresenter.kernel.CommunicationCenter\\
 & PeerICECandidate\\
-& WebKitPeerConnection\\
+& WebKitRTCPeerConnection\\
 & PeerSessionDescription\\
 
 CP02 -- Rappresentazione dati & clientpresenter.data.JSCall\\
@@ -555,8 +559,11 @@ server.authentication.servlet.LoginServlet & CS07 -- Façade del server\\
 server.authentication.servlet.LogoutServlet & CS07 -- Façade del server\\
 server.authentication.servlet.RegisterServlet & CS07 -- Façade del server\\
 server.dao.CallDAO & CS01 -- Gestione database\\
+server.dao.CallListDAO & CS01 -- Gestione database\\
 server.call.Call & CS06 -- Gestione chiamate\\
 server.call.ICall & CS06 -- Gestione chiamate\\
+server.call.CallList & CS06 -- Gestione chiamate\\
+server.call.ICallList & CS06 -- Gestione chiamate\\
 server.call.servlet.DownloadCallHistoryManager & CS07 -- Façade del server\\
 server.connection.ChannelServlet & CS07 -- Façade del server\\
 server.connection.PushInbound & CS02 -- Gestione connessione\\
@@ -565,14 +572,13 @@ server.dao.GroupDAO & CS01 -- Gestione database\\
 server.dao.HibernateUtil & CS01 -- Gestione database\\
 server.dao.MessageDAO & CS01 -- Gestione database\\
 server.dao.UserDataDAO & CS01 -- Gestione database\\
-server.IMyTalkObject & CS01 -- Gestione database\\
 server.message.IMessage & CS05 -- Gestione rubrica\\
 server.message.Message & CS05 -- Gestione rubrica\\
 server.message.servlet.DeletMessageServlet & CS07 -- Façade del server\\
 server.message.servlet.DownloadMessageListServlet & CS07 -- Façade del server\\
 server.message.servlet.InsertMessageServlet & CS07 -- Façade del server\\
 server.message.servlet.UpdateStatusMessageServlet & CS07 -- Façade del server\\
-WebKitPeerConnection & CP01 -- Gestione comunicazione\\
+WebKitRTCPeerConnection & CP01 -- Gestione comunicazione\\
 
 \bottomrule
 \end{longtable}
