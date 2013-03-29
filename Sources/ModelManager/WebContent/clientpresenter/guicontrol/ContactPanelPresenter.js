@@ -29,7 +29,7 @@ function ContactPanelPresenter() {
      *            contact Contatto da controllare
      */
     function adjustBlockButtonDisplay(contact) {
-        if (contact.blocked) {
+        if (contact.blocked=="false")/*FIXME avvisare il puffo del server*/ {
             document.getElementById("displayBlockedDiv").style.display = "block";
             document.getElementById("blockButton").style.display = "none";
             document.getElementById("unlockButton").style.display = "inline";
