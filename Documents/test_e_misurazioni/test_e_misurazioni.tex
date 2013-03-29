@@ -363,10 +363,10 @@ Tale test si compone di un solo metodo:
 
 \subsubsection{AddressBookDoAddContactServletTest}
 \textbf{Verifica l'oggetto:} \textit{AddressBookDoAddContactServlet}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di aggiungere un contatto \texttt{IUserData} all'interno di una rubrica utente. La possibilità di richiamare \texttt{AddressBookDoAddContactServlet} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica. I possibili input riguardano dati passati mediante \texttt{XMLhttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IUserData} realmente esistente) o non (campi dati vuoti, o che comunque non corrispondono a nessun utente realmente registrato al sistema).
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di aggiungere un contatto \texttt{IUserData} all'interno di una rubrica utente. La possibilità di richiamare \texttt{AddressBookDoAddContactServlet} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica, i possibili input riguardano dati passati mediante \texttt{XMLhttpRequest} che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IUserData} realmente esistente) o non (campi dati vuoti, o che non corrispondono a nessun utente realmente registrato al sistema).
 \begin{itemize}
 \item \texttt{testAddCorrectContact()} verifica l'effettiva aggiunta di un contatto nella rubrica del richiedente, a partire da dati corretti (realmente apparteneneti all'utente aggiunto).
-\item \texttt{testAddNotExistsContact()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di aggiungere un utente non registrato nel sistema, alla rubrica del richiedente.
+\item \texttt{testAddNotExistsContact()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di aggiungere un utente non registrato nel sistema alla rubrica del richiedente.
 \item \texttt{testAddWrongData()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di aggiungere un utente \texttt{IUserData} definito da dati non completi (campi dati vuoti) parzialmente o nella loro totalità.
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
@@ -374,10 +374,10 @@ Tale test si compone di un solo metodo:
 
 \subsubsection{AddressBookDoRemoveContactServletTest}
 \textbf{Verifica l'oggetto:} \textit{AddressBookDoRemoveContactServlet}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di rimuovere un utente presente nella rubrica del richiedente. Come per il test della \inglese{Servlet} precedentemente descritta, anche qui si assume come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica. I possibili input riguardano dati passati mediante \texttt{XMLhttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IUserData} realmente esistente e presente nella rubrica dell'utente) o non (campi dati vuoti, o che comunque non corrispondono a nessun utente realmente registrato al sistema, o comunque corrispongono ad un utente registrato, ma il cui contatto non è presente nella rubrica del richiedente).
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di rimuovere un utente presente nella rubrica del richiedente. Come per il test della \inglese{Servlet} precedentemente descritta, anche in questo caso si assume come precondizione l'autenticazione dell'utente richiedente e quindi l'effettiva esistenza della sua rubrica. I possibili input riguardano dati passati mediante \texttt{XMLhttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IUserData} realmente esistente e presente nella rubrica dell'utente) o non (campi dati vuoti, o che non corrispondono a nessun utente realmente registrato al sistema, o comunque corrispongono ad un utente registrato, ma il cui contatto non è presente nella rubrica del richiedente).
 \begin{itemize}
 \item \texttt{testRemoveCorrectUser()} verifica l'effettiva eliminazione di un contatto presente nella rubrica del richiedente, a partire da dati corretti (realmente apparteneneti all'utente da eliminare).
-\item \texttt{testRemoveNotExistContact()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di rimuovere un utente non registrato nel sistema, dalla rubrica del richiedente.
+\item \texttt{testRemoveNotExistContact()} verifica la rilevazione dell'errore, causato dall'impossibilità di rimuovere un utente non registrato nel sistema, dalla rubrica del richiedente.
 \item \texttt{testRemoveNotFriendContact()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di rimuovere un contatto registrato al sistema, ma non presente nella rubrica del richiedente. 
 \item \texttt{testRemoveWrongData()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di rimuovere un utente \texttt{IUserData} definito da dati non completi (campi dati vuoti) parzialmente o nella loro totalità.
 \end{itemize}
@@ -387,16 +387,16 @@ Tale test si compone di un solo metodo:
 \textbf{Verifica l'oggetto:} \textit{AddressBookDoCreateGroupServlet}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di creare un gruppo \texttt{IGroup} all'interno di una rubrica utente. La possibilità di richiamare \texttt{AddressBookDoCreateGroupServlet} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica. I possibili input riguardano dati passati mediante \texttt{XMLhttpRequest}, che possono essere corretti (campi dati non vuoti) o non (campi dati vuoti).
 \begin{itemize}
-\item \texttt{testAddCorrectGroup()} verifica l'effettiva creazione di un gruppo nella rubrica del richiedente, a partire da dati corretti (campi dati non vuoti).
+\item \texttt{testAddCorrectGroup()} verifica l'effettiva creazione di un gruppo nella rubrica del richiedente a partire da dati corretti (campi dati non vuoti).
 \item \texttt{testAddWrongData()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di aggiungere un gruppo \texttt{IGroup} definito da dati non completi (campi dati vuoti) parzialmente o nella loro totalità.
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
 \subsubsection{AddressBookDoDeleteGroupServletTest}
 \textbf{Verifica l'oggetto:} \textit{AddressBookDoDeleteGroupServlet}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di eliminare un gruppo presente nella rubrica del richiedente. Come per il test della \inglese{Servlet} precedentemente descritta, anche qui si assume come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica. I possibili input riguardano dati passati mediante \texttt{XMLhttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IGroup} realmente esistente e presente nella rubrica dell'utente) o non (campi dati vuoti, o che comunque non corrispondono a nessun gruppo realmente registrato al sistema, o comunque corrispongono ad un gruppo esistente, ma non presente nella rubrica del richiedente).
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di eliminare un gruppo presente nella rubrica del richiedente. Come per il test della \inglese{Servlet} precedentemente descritta, si assume come precondizione l'autenticazione dell'utente richiedente e quindi l'effettiva esistenza della sua rubrica. I possibili input riguardano dati passati mediante \texttt{XMLhttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IGroup} realmente esistente e presente nella rubrica dell'utente) o non (campi dati vuoti, o che comunque non corrispondono a nessun gruppo realmente registrato al sistema, o comunque corrispongono ad un gruppo esistente, ma non presente nella rubrica del richiedente).
 \begin{itemize}
-\item \texttt{testRemoveCorrectGroup()} verifica l'effettiva eliminazione di un gruppo presente nella rubrica del richiedente, a partire da dati corretti (realmente apparteneneti al gruppo da eliminare).
+\item \texttt{testRemoveCorrectGroup()} verifica l'effettiva eliminazione di un gruppo presente nella rubrica del richiedente a partire da dati corretti (realmente apparteneneti al gruppo da eliminare).
 \item \texttt{testRemoveNotExistGroup()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di rimuovere un gruppo non presente nel sistema, dalla rubrica del richiedente.
 \item \texttt{testRemoveNotFriendContact()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di rimuovere un gruppo presente nel sistema, ma non presente nella rubrica del richiedente. 
 \item \texttt{testRemoveWrongData()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di rimuovere un gruppo \texttt{IGroup} definito da dati non completi (campi dati vuoti) parzialmente o nella loro totalità.
@@ -405,7 +405,7 @@ Tale test si compone di un solo metodo:
 
 \subsubsection{AddressBookDoInsertInGroupServletTest}
 \textbf{Verifica l'oggetto:} \textit{AddressBookDoInsertInGroupServlet}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di aggiungere un contatto \texttt{IUserData} all'interno di un gruppo \texttt{IGroup} presente nella rubrica del richiedente. La possibilità di richiamare \texttt{AddressBookDoInsertInGroupServlet} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica. I possibili input riguardano dati passati mediante \texttt{XMLhttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IUserData} realmente esistente e ad un \texttt{IGroup} realmente presente) o non (campi dati vuoti, o che comunque non corrispondono a nessun utente realmente registrato al sistema, o gruppo presente nella rubrica del richiedente).
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di aggiungere un contatto \texttt{IUserData} all'interno di un gruppo \texttt{IGroup} presente nella rubrica del richiedente. La possibilità di richiamare \texttt{AddressBookDoInsertInGroupServlet} prende come precondizione l'autenticazione dell'utente richiedente e quindi l'effettiva esistenza della sua rubrica. I possibili input riguardano dati passati mediante \texttt{XMLhttpRequest} che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IUserData} realmente esistente e ad un \texttt{IGroup} realmente presente) o non (campi dati vuoti, o che comunque non corrispondono a nessun utente realmente registrato al sistema, o gruppo presente nella rubrica del richiedente).
 \begin{itemize}
 \item \texttt{testAddCorrectContact()} verifica l'effettiva aggiunta di un contatto nella rubrica del richiedente (a gruppo precisato), a partire da dati corretti (realmente apparteneneti all'utente aggiunto).
 \item \texttt{testAddNotExistsContact()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di aggiungere un utente non registrato nel sistema, alla rubrica del richiedente (nel gruppo precisato).
@@ -417,12 +417,32 @@ Tale test si compone di un solo metodo:
 
 \subsubsection{AddressBookDoRemoveFromGroupServletTest}
 \textbf{Verifica l'oggetto:} \textit{AddressBookDoRemoveFromGroupServlet}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di rimuovere un conttatto da un gruppo presente nella rubrica del richiedente. Come per il test della \inglese{Servlet} precedentemente descritta, anche qui si assume come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica. I possibili input riguardano dati passati mediante \texttt{XMLhttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IGroup} realmente esistente e presente nella rubrica dell'utente, e ad un contatto registrato nel sistema) o non (campi dati vuoti; che non corrispondono a nessun gruppo realmente presente nel sistema; che corrispongono ad un gruppo esistente ma non presente nella rubrica del richiedente; che non corrispondono a nessun contatto registrato nel sistema).
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di rimuovere un conttatto da un gruppo presente nella rubrica del richiedente. Come per il test della \inglese{Servlet} precedentemente descritta, si assume come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica. I possibili input riguardano dati passati mediante \texttt{XMLhttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IGroup} realmente esistente e presente nella rubrica dell'utente, e ad un contatto registrato nel sistema) o non (campi dati vuoti, che non corrispondono a nessun gruppo realmente presente nel sistema, che corrispongono ad un gruppo esistente ma non presente nella rubrica del richiedente, che non corrispondono a nessun contatto registrato nel sistema).
 \begin{itemize}
 \item \texttt{testRemoveCorrectContact()} verifica l'effettiva eliminazione di un contatto presente (nel gruppo precisato) nella rubrica del richiedente, a partire da dati corretti (realmente apparteneneti alla coppia contatto-gruppo).
 \item \texttt{testRemoveNotExistUser()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di rimuovere un contatto non presente nel gruppo precisato.
 \item \texttt{testRemoveNotExistGroup()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di rimuovere un utente da un gruppo non presente nella rubrica dell'utente.
 \item \texttt{testRemoveWrongData()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di rimuovere un utente \texttt{IUserData} in un gruppo \texttt{IGroup} definito da dati non completi (campi dati vuoti) parzialmente o nella loro totalità.
+\end{itemize}
+\textbf{Risultato del test:} non sono stati rilevati errori.
+
+\subsubsection{AddressBookDoBlockServletTest}
+\textbf{Verifica l'oggetto:} \textit{AddressBookDoBlockServlet}.\\
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di bloccare un contatto \texttt{IUserData} all'interno di una rubrica utente. La possibilità di richiamare \texttt{AddressBookDoAddContactServlet} prende come precondizione l'autenticazione dell'utente richiedente e quindi l'effettiva esistenza della sua rubrica. I possibili input riguardano dati passati mediante \texttt{XMLhttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IUserData} realmente esistente) o non (campi dati vuoti, o che comunque non corrispondono a nessun utente realmente registrato al sistema).
+\begin{itemize}
+\item \textit{testBlockCorrectContact()} verifica l'avvenuto blocco del contatto precisato, nella rubrica del richiedente, a partire da dati corretti (realmente apparteneneti all'utente da bloccare).
+\item \textit{testBlockNotExistsContact()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di bloccare un utente non registrato nel sistema.
+\item \textit{testWrongData()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di bloccare un utente \texttt{IUserData} definito da dati non completi (campi dati vuoti) parzialmente o nella loro totalità.
+\end{itemize}
+\textbf{Risultato del test:} non sono stati rilevati errori.
+
+\subsubsection{AddressBookDoUnblockServletTest}
+\textbf{Verifica l'oggetto:} \textit{AddressBookDoUnblockServlet}.\\
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di sbloccare un contatto \texttt{IUserData} (bloccato) all'interno di una rubrica utente. La possibilità di richiamare \texttt{AddressBookDoUnblockServlet} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica. I possibili input riguardano dati passati mediante \texttt{XMLhttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IUserData} realmente esistente, bloccato, e presente nella rubrica del richiedente) o non (campi dati vuoti, o che comunque non corrispondono a nessun utente realmente registrato al sistema).
+\begin{itemize}
+\item \textit{testUnblockCorrectContact()} verifica l'avvenuto sblocco del contatto precisato, nella rubrica del richiedente, a partire da dati corretti (realmente apparteneneti all'utente da sbloccare).
+\item \textit{testUnblockNotExistsContact()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di sbloccare un utente non registrato nel sistema, o comunque non appartenente alla rubrica del richiedente.
+\item \textit{testWrongData()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di sbloccare un utente \texttt{IUserData} definito da dati non completi (campi dati vuoti) parzialmente o nella loro totalità.
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
