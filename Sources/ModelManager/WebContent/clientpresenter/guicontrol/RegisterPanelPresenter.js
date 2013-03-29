@@ -320,7 +320,7 @@ function RegisterPanelPresenter(url) {
 
         // pulsante di ritorno alla pagina di login
         var inputLogin = document.createElement('button');
-        inputLogin.type="submit";
+        inputLogin.type = "submit";
         inputLogin.appendChild(document.createTextNode("Indietro"));
         inputLogin.onclick = function() {
             //FIXME crea errore di duplicazione LoginUI se già premuti in
@@ -331,7 +331,7 @@ function RegisterPanelPresenter(url) {
 
         // pulsante di registrazione
         var inputRegister = document.createElement('button');
-        inputRegister.type= "submit";
+        inputRegister.type = "submit";
         inputRegister.appendChild(document.createTextNode("Registrati"));
         var self = this;
         inputRegister.onclick = function() {
@@ -377,6 +377,9 @@ function RegisterPanelPresenter(url) {
      * @author Diego Beraldin
      */
     this.hide = function() {
-        element.style.display = "none";
+        if (element) {
+            element.style.display = "none";
+            element.innerHTML = "";
+        }
     };
 }

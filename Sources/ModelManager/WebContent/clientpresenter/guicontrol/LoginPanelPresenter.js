@@ -268,6 +268,7 @@ function LoginPanelPresenter() {
     this.hide = function() {
         if (element) {
             element.style.display = "none";
+            element.innerHTML = "";
         }
     };
 
