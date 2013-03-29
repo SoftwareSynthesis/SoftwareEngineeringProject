@@ -361,14 +361,4 @@ function CommunicationCenter() {
             pc = null;
         }, 1000);
     };
-
-    //FIXME da sistemare la funzione associata all'event heandler onbeforeunload
-    /*window.onbeforeunload = function() {
-     if (pc != null) {
-     setTimeout(function() {
-     endCall();
-     }, 3000);
-     }
-     disconnect();
-     }*/
 }
