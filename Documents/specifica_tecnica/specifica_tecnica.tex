@@ -1673,7 +1673,7 @@ Per quanto riguarda invece la pagina principale dell'applicativo, alla quale si 
   \item[-] \texttt{guicontrol.ToolsPanelPresenter}, che ha il compito di gestire il pannello degli strumenti nell'interfaccia grafica.
 \end{itemize}
 
-La struttura delle classi che lo compongono mostra una corrispondenza biunivoca con gli elementi grafici presentati nella sezione~\ref{sec:gui} con un \inglese{presenter} per ognuno dei pannelli cui si aggiunge un oggetto istanza di \texttt{guicontrol.PresenterMediator}.
+La struttura delle classi che lo compongono mostra una corrispondenza biunivoca con gli elementi grafici presentati nella sezione~\ref{sec:clientview} con un \inglese{presenter} per ognuno dei pannelli cui si aggiunge un oggetto istanza di \texttt{guicontrol.PresenterMediator}.
 
 Ogni \inglese{presenter} facente parte di questo componente contiene al suo interno le funzioni di \inglese{callback} che vengono richiamate dall'elemento dell'interfaccia grafica corrispondente.
 
@@ -1718,7 +1718,7 @@ L'oggetto \texttt{PresenterMediator} invece incapsula la collaborazione fra i va
 \item \texttt{CommunicationCenter}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-È la classe che ha il compito di gestire la comunicazione con il server reagendo gli eventi che si verificano alla ricezione di un messaggio tramite il canale \texttt{server.connection.IChannel} (nel caso di una comunicazione entrante) oppure inviando tali messaggi al server (nel caso di una comunicazione uscente), al fine di stabilire una comunicazione client-client di tipo WebRTC\@.
+È la classe che ha il compito di gestire la comunicazione con il server reagendo agli eventi che si verificano alla ricezione di un messaggio tramite il canale \texttt{server.connection.IChannel} (nel caso di una comunicazione entrante) oppure inviando tali messaggi al server (nel caso di una comunicazione uscente), al fine di stabilire una comunicazione client-client di tipo WebRTC\@.
 
 Tale classe è inoltre stata implementata come Singleton, al fine di porre un limite superiore pari a uno al numero di istanze che sono presenti in ciascun client.
 
@@ -1767,7 +1767,7 @@ I messaggi della segreteria telefonica di un determinato utente vengono scaricat
 \item \texttt{JSUserData}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
-Classe avente il compito di rappresentare i contatti della rubrica lato \inglese{presenter}, generato serializzando esclusivamente la parte che si vuole trasmettere ai client delle istanze del \inglese{transfer object} descritto sopra (\texttt{org.softwaresynthesis.mytalk.server.abook.UserData}).
+Tale classe ha il compito di rappresentare i contatti della rubrica lato \inglese{presenter}, generata serializzando esclusivamente la parte che si vuole trasmettere ai client delle istanze del \inglese{transfer object} descritto sopra (\texttt{org.softwaresynthesis.mytalk.server.abook.UserData}).
 
 In particolare, di un utente-contatto è possibile ottenere lo \inglese{username}, i dati anagrafici (nome e cognome) nonché l'immagine associata al profilo personale, laddove queste ultime tre informazioni sono da considerarsi facoltative e potrebbero non essere disponibili per un determinato utente.
 
@@ -1783,7 +1783,7 @@ Gli oggetti \texttt{JSUserData} vengono creati a seguito di una richiesta proven
 \item \texttt{JSGroup}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
-Classe avente il compito di rappresentare i gruppi della rubrica lato \inglese{presenter}, generato serializzando esclusivamente la parte che si vuole trasmettere ai client delle istanze del \inglese{transfer object} descritto sopra (\texttt{org.softwaresynthesis.mytalk.server.abook.Group}).
+Classe avente il compito di rappresentare i gruppi della rubrica lato \inglese{presenter}, generata serializzando esclusivamente la parte che si vuole trasmettere ai client delle istanze del \inglese{transfer object} descritto sopra (\texttt{org.softwaresynthesis.mytalk.server.abook.Group}).
 
 In particolare di un gruppo è possibile ottenere il nome e l'elenco dei contatti appartenenti al gruppo.
 
@@ -1804,7 +1804,7 @@ Gli oggetti \texttt{JSGroup} vengono creati a seguito di una richiesta provenien
 \item \texttt{guicontrol.AccountSettingsPanelPresenter}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Si tratta del \inglese{presenter} richiamato dall'elemento grafico corrispondente al pannello \texttt{org.softwaresynthesis.mytalk.clientview.AccountSettingPanel} per la gestione dei dati relativi all'utente associato al client.
+Si tratta del \inglese{presenter} richiamato dall'elemento grafico corrispondente al pannello \texttt{org.softwaresynthesis.mytalk.clientview.AccountSettingsPanel} per la gestione dei dati relativi all'utente associato al client.
 
 Per questo motivo, l'oggetto \texttt{AccountSettingsPanelPresenter} ha il compito di mettere a disposizione per la vista le funzioni di \inglese{callback} che comportano la modifica di questi stessi dati. 
 
@@ -1841,7 +1841,7 @@ Questo \inglese{presenter} gestisce l'elemento corrispondente al pannello dello 
 
 Poiché il componente grafico supervisionato è totalmente passivo, non sono presenti operazioni di \inglese{callback} da associare alle componenti grafiche vere e proprie.
 
-Qualora i dati corrispondenti allo storico delle chiamate non fossero disponibili sul client che ospita questo \inglese{presenter} è inoltre responsabilità di quest'ultimo interrogare il server (attraverso il componente \textsf{Façade del server}) al fine di ottenere le informazioni necessarie.
+Qualora i dati corrispondenti allo storico delle chiamate non fossero disponibili sul client che ospita questo \inglese{presenter} è responsabilità di quest'ultimo interrogare il server (attraverso il componente \textsf{Façade del server}) al fine di ottenere le informazioni necessarie.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -2037,16 +2037,16 @@ Le motivazioni che hanno portato a separare tale sotto-architettura dalla parte 
  	\item \textbf{semplificare la manutenzione}: così come scrivere da zero una nuova vista, anche modificare quelle già presenti risulta essere più facile, per gli stessi motivi descritti al punto precedente.
 \end{itemize}
 
-La sotto-architettura \texttt{clientview} rappresenta quindi una vista di \inglese{default} fornita dal team, con lo scopo di rappresentare in modo chiaro ed organizzato le possibilità di iterazione, da parte dell'utente finale, con l'applicativo \caName.
+La sotto-architettura \texttt{clientview} rappresenta quindi una vista di \inglese{default} fornita dal team, con lo scopo di rappresentare in modo chiaro ed organizzato le possibilità di interazione da parte dell'utente finale con l'applicativo \caName.
 
 Nell'utilizzare tale vista l'utente non avrà alcuna percezione di come sia stata progettata l'architettura totale del sistema, svincolandolo cosi dal dover conoscere le procedure necessarie all'esecuzione di una determinata operazione.
 
-In figura \ref{fig:gui} si riporta un abbozzo dell'interfaccia grafica utente realizzata mediante le classi di questa sotto-architettura. In conformità con quanto stabilito dai requisiti (RSDO10.0.0) l'interfaccia si sviluppa in un'unica pagina.
+In figura \ref{fig: gui_alto} si riporta un abbozzo dell'interfaccia grafica utente realizzata mediante le classi di questa sotto-architettura. In conformità con quanto stabilito dai requisiti (RSDO10.0.0) l'interfaccia si sviluppa in un'unica pagina.
 
 \begin{figure}[h]
   \centering
   \includegraphics[width=.9\textwidth]{manual_main}
-  \caption{Rappresentazione ad alto livello della GUI}\label{fig:gui}
+  \caption{Rappresentazione ad alto livello della GUI}\label{fig: gui_alto}
 \end{figure}
 
 Per quanto riguarda la componentistica, la sotto-architettura \texttt{clientview} è costituita dai seguenti componenti:
@@ -2060,7 +2060,7 @@ I nomi di tutte le classi riportate nella presente sezione sono inoltre implicit
 
 Analogamente a quanto osservato per la sotto-architettura \texttt{clientpresenter}, la rappresentazione tramite classi e oggetti è utilizzata a livello prettamente logico indipendentemente dal dominio applicativo concreto di implementazione.
 
-In riferimento alla bozza di interfaccia utente presentata in figura \vref{fig:gui}, la parte denominata \texttt{AddressBookPanel} conterrà la lista degli utenti nella rubrica, mentre \texttt{ToolsPanel} conterrà i componenti grafici che rappresentano tutte le funzionalità offerte dal sistema. 
+In riferimento alla bozza di interfaccia utente presentata in figura \vref{fig: gui_alto}, la parte denominata \texttt{AddressBookPanel} conterrà la lista degli utenti nella rubrica, mentre \texttt{ToolsPanel} conterrà i componenti grafici che rappresentano tutte le funzionalità offerte dal sistema. 
 
 Il contenuto del \texttt{MainPanel}, invece, è destinato in relazione alla funzionalità scelta dall'utente in quel momento. Ad esempio, qualora l'utente selezioni un contatto presente nella rubrica, verrà visualizzato il profilo corrispondente al contatto scelto in \texttt{ContactPanel}, mentre nel caso in cui si attiva una forma di comunicazione, sarà visibile la parte grafica di un'istanza di \texttt{CommunicationPanel}.
 
@@ -2127,7 +2127,7 @@ Il componente \textsf{Login} ha la responsabilità di ricevere in ingresso le cr
   \item{\scshape\bfseries Descrizione}\\
 Pannello che permette la visualizzazione della rubrica dell'utente connesso al sistema e di accedere ad alcune delle funzionalità di amministrazione della rubrica stessa (ad esempio l'aggiunta o la rimozione di gruppi).
 
-In questo pannello sono anche presenti le funzionalità di ricerca fra gli utenti presenti nel sistema, con la visualizzazione dei risultati della ricerca sostituita alla lista dei contatti presenti in rubrica.
+In questo pannello sono anche presenti le funzionalità di ricerca fra gli utenti presenti nella rubrica, con la visualizzazione dei risultati della ricerca sostituita alla lista dei contatti presenti in rubrica.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
