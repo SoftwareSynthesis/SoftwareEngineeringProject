@@ -45,7 +45,8 @@ function CommunicationCenter() {
         var XMLDocument = configurationRequest.responseXML;
         var baseURL = XMLDocument.getElementsByTagName("baseURL")[0].childNodes[0].data;
         var name = XMLDocument.getElementById("channel").childNodes[0].data;
-        urlServlet = baseURL + name;
+        //urlServlet = baseURL + name;
+        urlServlet="ws://localhost:8080/MyTalk/ChannelServlet";
     }
 
     /**
