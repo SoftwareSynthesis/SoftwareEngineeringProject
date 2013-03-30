@@ -48,7 +48,7 @@ public class LoginServletTest {
 		String responseText = writer.toString();
 		assertFalse(responseText.length() == 0);
 		
-		//TODO approfondire questo test!
+		// FIXME se 'responseText' non fosse 'null' si potrebbe proseguire con il test!
 	}
 
 }
