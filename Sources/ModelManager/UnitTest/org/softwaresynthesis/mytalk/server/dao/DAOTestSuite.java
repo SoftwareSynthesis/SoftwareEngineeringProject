@@ -7,6 +7,6 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({ AddressBookEntryDAOTest.class, GroupDAOTest.class,
 		HibernateUtilTest.class, UserDataDAOTest.class })
-public class AllTests {
+public class DAOTestSuite {
 
 }
