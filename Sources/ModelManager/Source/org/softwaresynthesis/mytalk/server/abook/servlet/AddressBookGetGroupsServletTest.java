@@ -16,16 +16,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class AddressBookDoSearchServletTest {
+public class AddressBookGetGroupsServletTest {
 	
-	private static AddressBookDoSearchServlet tester;
+	private static AddressBookGetGroupsServlet tester;
 	private HttpServletRequest request;
 	private HttpServletResponse response;
 	private StringWriter writer;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		tester = new AddressBookDoSearchServlet();
+		tester = new AddressBookGetGroupsServlet();
 	}
 
 	@Before
@@ -37,9 +37,13 @@ public class AddressBookDoSearchServletTest {
 	}
 
 	@Test
-	public void testGetSearchContact() throws IOException, ServletException {		
+	public void testBlockCorrectContact() throws IOException, ServletException {
+		// crea una sessione di autenticazione
+		HttpSession mySession = mock(HttpSession.class);
+		when(mySession.getAttribute("username")).thenReturn("indirizzo5@dominio.it");
+		
 		// configura il comportamento della richiesta
-		when(request.getParameter("param")).thenReturn("pippo");
+		when(request.getSession(false)).thenReturn(mySession);
 		
 		// invoca il metodo da testare
 		tester.doPost(request, response);
@@ -47,8 +51,13 @@ public class AddressBookDoSearchServletTest {
 		// verifica l'output
 		writer.flush();
 		String responseText = writer.toString();
-		assertNotNull(responseText);
 		assertFalse(responseText.length() == 0);
-		// FIXME questo test non è completo e NON passa!
+		String toCompare = "{" + 
+		"\"1\":{\"name\":\"Gruppo 1\",\"id\":\"1\",\"contacts\":[1]}," + 
+				"\"3\":{\"name\":\"Gruppo 3\",\"id\":\"3\",\"contacts\":[]}," +
+		"\"10\":{\"name\":\"addrBookEntry\",\"id\":\"10\",\"contacts\":[23,29,26,41,15,35,32,17,9,11,13,20,38,44]}" +
+		"}";
+		assertEquals(toCompare, responseText);
+		
 	}
 }
