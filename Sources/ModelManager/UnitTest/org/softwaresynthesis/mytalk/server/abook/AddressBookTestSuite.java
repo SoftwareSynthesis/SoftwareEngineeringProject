@@ -12,7 +12,8 @@ import org.softwaresynthesis.mytalk.server.abook.servlet.*;
 		AddressBookDoRemoveContactServletTest.class,
 		AddressBookDoCreateGroupServletTest.class,
 		AddressBookDoDeleteGroupServletTest.class,
-		AddressBookDoInsertInGroupServletTest.class })
+		AddressBookDoInsertInGroupServletTest.class,
+		AddressBookDoRemoveFromGroupServletTest.class})
 public class AddressBookTestSuite {
 
 }
