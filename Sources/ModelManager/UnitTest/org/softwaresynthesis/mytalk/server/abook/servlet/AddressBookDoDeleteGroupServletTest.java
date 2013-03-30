@@ -16,15 +16,15 @@ import java.io.StringWriter;
 import java.io.PrintWriter;
 import java.io.IOException;
 
-public class AddressBookDoCreateGroupServletTest {
-	private static AddressBookDoCreateGroupServlet tester;
+public class AddressBookDoDeleteGroupServletTest {
+	private static AddressBookDoDeleteGroupServlet tester;
 	private HttpServletRequest request;
 	private HttpServletResponse response;
 	private StringWriter writer;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		tester = new AddressBookDoCreateGroupServlet();
+		tester = new AddressBookDoDeleteGroupServlet();
 	}
 
 	@Before
@@ -36,20 +36,44 @@ public class AddressBookDoCreateGroupServletTest {
 	}
 
 	@Test
-	public void testAddCorrectGroup() throws IOException, ServletException {
+	public void testRemoveCorrectGroup() throws IOException, ServletException {
 		// crea sessione di autenticazione
 		HttpSession mySession = mock(HttpSession.class);
 		when(mySession.getAttribute("username")).thenReturn("indirizzo5@dominio.it");
+		
 		// configura il comportamento della richiesta
 		when(request.getSession(false)).thenReturn(mySession);
-		when(request.getParameter("groupName")).thenReturn("gruppo0");
+		when(request.getParameter("groupId")).thenReturn("2");
+		
 		// invoca il metodo da testare
 		tester.doPost(request, response);
+		
 		// verifica l'output
 		writer.flush();
 		String responseText = writer.toString();
 		assertNotNull(responseText);
 		assertFalse(responseText.length() == 0);
 		assertEquals("true", responseText);
+	}
+	
+	@Test
+	public void testRemoveNotExistGroup() throws IOException, ServletException {
+		// crea sessione di autenticazione
+		HttpSession mySession = mock(HttpSession.class);
+		when(mySession.getAttribute("username")).thenReturn("indirizzo5@dominio.it");
+		
+		// configura il comportamento della richiesta
+		when(request.getSession(false)).thenReturn(mySession);
+		when(request.getParameter("groupId")).thenReturn("-1");
+		
+		// invoca il metodo da testare
+		tester.doPost(request, response);
+		
+		// verifica l'output
+		writer.flush();
+		String responseText = writer.toString();
+		assertNotNull(responseText);
+		assertFalse(responseText.length() == 0);
+		assertEquals("false", responseText);
 	}
 }

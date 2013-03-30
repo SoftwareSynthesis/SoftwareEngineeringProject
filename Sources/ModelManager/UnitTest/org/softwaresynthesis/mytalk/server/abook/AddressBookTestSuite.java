@@ -6,9 +6,13 @@ import org.junit.runners.Suite.SuiteClasses;
 import org.softwaresynthesis.mytalk.server.abook.servlet.*;
 
 @RunWith(Suite.class)
-@SuiteClasses({ AddressBookEntryTest.class, GroupTest.class, UserDataTest.class,
-	AddressBookGetContactsServletTest.class, AddressBookDoAddContactServletTest.class,
-	AddressBookDoRemoveContactServletTest.class, AddressBookDoCreateGroupServletTest.class})
+@SuiteClasses({ AddressBookEntryTest.class, GroupTest.class,
+		UserDataTest.class, AddressBookGetContactsServletTest.class,
+		AddressBookDoAddContactServletTest.class,
+		AddressBookDoRemoveContactServletTest.class,
+		AddressBookDoCreateGroupServletTest.class,
+		AddressBookDoDeleteGroupServletTest.class,
+		AddressBookDoInsertInGroupServletTest.class })
 public class AddressBookTestSuite {
 
 }
