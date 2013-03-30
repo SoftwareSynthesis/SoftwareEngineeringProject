@@ -50,8 +50,7 @@ public class PushInbound extends MessageInbound {
 		if(type.equals("1")){
 			Long value = gson.fromJson(array.get(1), Long.class);
 			setId(value);
-			String msg= "1|"+gson.fromJson(array.get(1), String.class);
-			getWsOutbound().writeTextMessage(CharBuffer.wrap(msg));
+			ChannelServlet.putClient(id, this);
 		}
 		//scambio dati per chiamata
 		else if (type.equals("2")){

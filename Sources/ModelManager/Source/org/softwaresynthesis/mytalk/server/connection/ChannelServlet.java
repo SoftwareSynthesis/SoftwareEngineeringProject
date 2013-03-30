@@ -41,10 +41,21 @@ public class ChannelServlet extends WebSocketServlet implements Servlet {
 	
 	protected StreamInbound createWebSocketInbound(String subProtocol, HttpServletRequest request) {
 		PushInbound channelClient = new PushInbound();
-		clients.put(channelClient.getId(), channelClient);
 		channelClient.setState(State.AVAILABLE);
 	    return channelClient;
 	}
+	
+	
+	/**
+	 * Inserisce un client dato l'identificativo nella HashMap
+	 * 
+	 * @param 	n		{@link Long} identificativo del canale
+	 * @param	c		{@link PushInbound} oggetto PushInbound
+	 */
+	public static void putClient(Long n, PushInbound c){
+		clients.put(n, c);
+	}
+	
 	
 	/**
 	 * Ricerca una connessione client dato l'identificativo
