@@ -8,7 +8,8 @@ import org.softwaresynthesis.mytalk.server.dao.DAOTestSuite;
 import org.softwaresynthesis.mytalk.server.authentication.AuthenticationTestSuite;
 
 @RunWith(Suite.class)
-@SuiteClasses({AddressBookTestSuite.class, DAOTestSuite.class, AuthenticationTestSuite.class})
+@SuiteClasses({ AddressBookTestSuite.class, DAOTestSuite.class,
+		AuthenticationTestSuite.class })
 public class AllTests {
 
 }
