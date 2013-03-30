@@ -22,7 +22,7 @@ function CommunicationCenter() {
     var self = this;
 
     //dichiaro globale la websocket per lo scambio di dati con la servlet
-    var websocket;
+    var websocket, pc;
     // URL della servlet con cui è necessario interagire
     var urlServlet;
     // configura l'URL della servlet
@@ -195,10 +195,10 @@ function CommunicationCenter() {
                 var signal = JSON.parse(str[1]);
                 if (pc == null) {
                     //TODO fare conferma di risposta
-                    var element = communicationpp.createPanel();
-                    presenters["main"].displayChildPanel(element);
+                    var element = mediator.getCommunicationPP().createPanel();
+                    mediator.getMainPanel().displayChildPanel(element);
                     //FIXME sistemare terzo parametro (onlyAudio)
-                    call(false, idOther, false);
+                    self.call(false, idOther, false);
                 }
                 if ((signal.sdp) == null) {
                     pc.addIceCandidate(new RTCIceCandidate(signal));
@@ -283,12 +283,13 @@ function CommunicationCenter() {
         pc.onaddstream = function(evt) {
             mediator.getCommunicationPP().getOtherVideo().src = URL.createObjectURL(evt.stream);
             //avvio il timer della chiamata
+            var time = 0;
             timer = setInterval(function() {
                 time++;
                 var now = formatTime(time);
                 //richiamo un metodo di CommunicationPanelPresenter per
                 // visualizzare il tempo.
-                mediator.getCommunicationPP.updateTimer(now);
+                mediator.getCommunicationPP().updateTimer(now);
             }, 1000);
             //Visualizzazione statistiche chiamata
             statCollector = setInterval(function() {

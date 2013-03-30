@@ -332,7 +332,7 @@ function CommunicationPanelPresenter() {
 	 *            isRecevedData rappresenta un flag booleano che determina se i
 	 *            dati sono ricenuti o inviati
 	 */
-	this.updateStarts = function(text, isRecevedData) {
+	this.updateStats = function(text, isRecevedData) {
 		var statDiv = document.getElementById("statDiv");
 		if (isRecevedData) {
 			statDiv.childNodes[0].childNodes[0].textContent = "Dati ricevuti: "

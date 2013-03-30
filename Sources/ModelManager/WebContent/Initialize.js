@@ -8,14 +8,13 @@ window.onload = function() {
 };
 
 window.onbeforeunload = function() {
-    if (confirm("Sei sicuro di volere uscire?")) {
-        if (pc != null) {
-            setTimeout(function() {
-                endCall();
-            }, 3000);
-        }
-        disconnect();
-    }else{
-        
+    //if (confirm("Sei sicuro di volere uscire?")) {
+    if (pc != null) {
+        setTimeout(function() {
+            endCall();
+        }, 3000);
     }
+    disconnect();
+    //}else{
+    //}
 }

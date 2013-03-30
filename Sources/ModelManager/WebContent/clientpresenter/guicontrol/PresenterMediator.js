@@ -406,4 +406,11 @@ function PresenterMediator() {
 	this.getCommunicationPP = function() {
 		return communicationpp;
 	};
+	
+	/*
+	 *TODO da sistemare [tres]
+	 */
+	this.getMainPanel=function(){
+	    return presenters["main"];
+	}
 }
