@@ -35,7 +35,7 @@ public class RegisterServletTest {
 	}
 
 	@Test
-	public void testDoPost() throws IOException, ServletException {
+	public void testRegisterCorrectUser() throws IOException, ServletException {
 		// configura il comportamento della richiesta
 		when(request.getParameter("username")).thenReturn("flabacco@gmail.com");
 		when(request.getParameter("password")).thenReturn("farfalla");
