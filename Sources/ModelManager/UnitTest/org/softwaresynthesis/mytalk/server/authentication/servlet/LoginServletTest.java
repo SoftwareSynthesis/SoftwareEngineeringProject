@@ -32,7 +32,7 @@ public class LoginServletTest {
 	}
 
 	@Test
-	public void testDoPost() throws Exception {
+	public void testLoginCorrectUser() throws Exception {
 		// configura il comportamento della richiesta
 		when(request.getParameter("username")).thenReturn(
 				"indirizzo5@dominio.it");

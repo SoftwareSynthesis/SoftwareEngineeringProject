@@ -35,7 +35,7 @@ public class LogoutServletTest {
 	}
 
 	@Test
-	public void testSuccessfulLogout() throws IOException, ServletException {
+	public void testLogoutCorrectUser() throws IOException, ServletException {
 		// imposta la richiesta per restituire una sessione che ha successo
 		HttpSession successSession = mock(HttpSession.class);
 		when(successSession.getAttribute("context")).thenReturn(mock(LoginContext.class));
@@ -55,7 +55,7 @@ public class LogoutServletTest {
 	}
 	
 	@Test
-	public void testUnsuccessfulLogout() throws IOException, ServletException {
+	public void testLogoutWrongUser() throws IOException, ServletException {
 		// imposta la richiesta per restituire una sessione che non ha successo
 		HttpSession failSession = mock(HttpSession.class);
 		when(request.getSession(false)).thenReturn(failSession);

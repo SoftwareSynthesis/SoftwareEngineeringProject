@@ -36,7 +36,7 @@ public class AddressBookGetContactsServletTest {
 	}
 
 	@Test
-	public void testDoPost() throws ServletException, IOException {
+	public void testGetCorrectContact() throws ServletException, IOException {
 		// crea una sessione che identifica l'utente 'indirizzo5@dominio.it'
 		HttpSession mySession = mock(HttpSession.class);
 		when(mySession.getAttribute("username")).thenReturn("indirizzo5@dominio.it");
