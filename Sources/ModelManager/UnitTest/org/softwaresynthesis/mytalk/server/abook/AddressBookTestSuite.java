@@ -7,7 +7,7 @@ import org.softwaresynthesis.mytalk.server.abook.servlet.*;
 
 @RunWith(Suite.class)
 @SuiteClasses({ AddressBookEntryTest.class, GroupTest.class, UserDataTest.class,
-	AddressBookGetContactsServletTest.class})
+	AddressBookGetContactsServletTest.class, AddressBookDoAddContactServletTest.class})
 public class AddressBookTestSuite {
 
 }
