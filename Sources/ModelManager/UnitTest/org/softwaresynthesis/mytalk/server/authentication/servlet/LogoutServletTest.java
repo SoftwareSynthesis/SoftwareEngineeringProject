@@ -20,7 +20,7 @@ import javax.servlet.http.HttpSession;
  * Verifica l'effettivo logout tramite la servlet dedicata, cui vengono inviate
  * le richieste HTTP POST da parte dei client
  * 
- * @author diego
+ * @author Diego Beraldin
  */
 public class LogoutServletTest {
 	// oggetto da testare
@@ -35,7 +35,7 @@ public class LogoutServletTest {
 	/**
 	 * Inizializza l'oggetto da testare in tutti i metodi di test
 	 * 
-	 * @author diego
+	 * @author Diego Beraldin
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() {
@@ -46,7 +46,7 @@ public class LogoutServletTest {
 	 * Prima di ogni test, ricrea gli stub e azzera il buffer in cui sarà
 	 * memorizzato il testo della risposta
 	 * 
-	 * @author diego
+	 * @author Diego Beraldin
 	 */
 	@Before
 	public void setUp() {
@@ -62,7 +62,7 @@ public class LogoutServletTest {
 	 * 
 	 * @throws IOException
 	 * @throws ServletException
-	 * @author diego
+	 * @author Diego Beraldin
 	 */
 	@Test
 	public void testLogoutCorrectUser() throws IOException, ServletException {
@@ -91,7 +91,7 @@ public class LogoutServletTest {
 	 * 
 	 * @throws IOException
 	 * @throws ServletException
-	 * @author diego
+	 * @author Diego Beraldin
 	 */
 	@Test
 	public void testLogoutWrongUser() throws IOException, ServletException {
@@ -104,8 +104,9 @@ public class LogoutServletTest {
 		when(response.getWriter()).thenReturn(new PrintWriter(writer));
 
 		// invoca il metodo da testare
-		writer.getBuffer().setLength(0);
 		tester.doPost(request, response);
+		
+		// verifica l'output
 		writer.flush();
 		String responseText = writer.toString();
 		assertFalse(responseText.length() == 0);
