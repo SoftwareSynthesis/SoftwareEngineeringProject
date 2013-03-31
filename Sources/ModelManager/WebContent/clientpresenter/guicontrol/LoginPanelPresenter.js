@@ -65,9 +65,23 @@ function LoginPanelPresenter() {
             communicationcenter.my = user;
             communicationcenter.connect();
             mediator.buildUI();
-        }else{
-            //TODO inserire qua il codice per restituire il login non avvenuto correttamente
+        } else {
+            //funzione che setta la grafica per tornare l'errore nel login
+            errorLogin();
         }
+    }
+
+    /**
+     * Funzione che setta le textBox del loginPanelPresenter con la classe per
+     * segnalare l'errore nel login e dunque il login non riuscito
+     *
+     * @author Riccardo Tresoldi
+     */
+    function errorLogin() {
+        var user = document.getElementById("username");
+        var pass = document.getElementById("password");
+        user.className += " error";
+        pass.className += " error";
     }
 
     /**
