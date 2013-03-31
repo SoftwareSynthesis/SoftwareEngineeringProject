@@ -65,6 +65,8 @@ function LoginPanelPresenter() {
             communicationcenter.my = user;
             communicationcenter.connect();
             mediator.buildUI();
+        }else{
+            //TODO inserire qua il codice per restituire il login non avvenuto correttamente
         }
     }
 
