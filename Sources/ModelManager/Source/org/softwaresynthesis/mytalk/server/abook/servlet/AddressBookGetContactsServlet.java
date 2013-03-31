@@ -99,6 +99,7 @@ public final class AddressBookGetContactsServlet extends HttpServlet
 				result += ", \"id\":\"" + friend.getId() + "\"";
 				result += ", \"picturePath\":\"" + friend.getPath() + "\"";
 				result += ", \"state\":\"" + ChannelServlet.getState(friend.getId()) + "\"";
+				// FIXME qui ci sono delle virgolette in più che devono essere corrette!
 				result += ", \"blocked\":\"" + entry.getBlocked() + "\"}";
 				if (iterator.hasNext() == true)
 				{
