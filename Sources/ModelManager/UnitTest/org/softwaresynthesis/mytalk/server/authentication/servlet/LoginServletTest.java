@@ -1,29 +1,53 @@
 package org.softwaresynthesis.mytalk.server.authentication.servlet;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.ServletException;
 
-//
-
+/**
+ * Testa la servlet di autenticazione, invocata tramite una richiesta HTTP POST
+ * che contiene come parametri lo username e la password di un utente registrato
+ * al sistema.
+ * 
+ * @author diego
+ */
 public class LoginServletTest {
 
+	// oggetto da testare
 	private static LoginServlet tester;
+	// stub di richiesta HTTP
 	private HttpServletRequest request;
+	// stub di risposta HTTP
 	private HttpServletResponse response;
+	// base per recuperare il testo della rispota
 	private StringWriter writer;
 
+	/**
+	 * Inizializza l'oggetto da testare (per tutti i metodi di test)
+	 * 
+	 * @author diego
+	 */
 	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
+	public static void setUpBeforeClass() {
 		tester = new LoginServlet();
 	}
-	
+
+	/**
+	 * Prima di ogni test, ricrea gli stub di richiesta e risposta e azzera il
+	 * buffer interno del writer che riceverà la risposta
+	 * 
+	 * @author diego
+	 */
 	@Before
 	public void setUp() {
 		request = mock(HttpServletRequest.class);
@@ -31,8 +55,15 @@ public class LoginServletTest {
 		writer = new StringWriter();
 	}
 
+	/**
+	 * Verifica l'accesso di un utente che è effettivamente registrato
+	 * 
+	 * @throws ServletException
+	 * @throws IOException
+	 * @author diego
+	 */
 	@Test
-	public void testLoginCorrectUser() throws Exception {
+	public void testLoginCorrectUser() throws ServletException, IOException {
 		// configura il comportamento della richiesta
 		when(request.getParameter("username")).thenReturn(
 				"indirizzo5@dominio.it");
@@ -42,13 +73,67 @@ public class LoginServletTest {
 
 		// invoca il metodo da testare
 		tester.doPost(request, response);
-		
+
 		// verifica l'output della servlet
 		writer.flush();
 		String responseText = writer.toString();
 		assertFalse(responseText.length() == 0);
-		
-		// FIXME se 'responseText' non fosse 'null' si potrebbe proseguire con il test!
+
+		// FIXME se 'responseText' non fosse la stringa 'null'
+		// assertEquals("true", responseText);
+	}
+
+	/**
+	 * Verifica l'impossibilità di accedere al sistema da parte di un utente che
+	 * non è registrato (mediante credenziali non valide)
+	 * 
+	 * @throws ServletException
+	 * @throws IOException
+	 * @author diego
+	 */
+	@Test
+	public void testLoginNotExistUser() throws IOException, ServletException {
+		// configura il comportamento della richiesta
+		when(request.getParameter("username")).thenReturn("dummy@dummy.du");
+		when(request.getParameter("password")).thenReturn("dummy");
+		// configura il comportamento della risposta
+		when(response.getWriter()).thenReturn(new PrintWriter(writer));
+
+		// invoca il metodo da testare
+		tester.doPost(request, response);
+
+		// verifica l'output della servlet
+		writer.flush();
+		String responseText = writer.toString();
+		assertFalse(responseText.length() == 0);
+		// FIXME se 'responseText' non fosse la stringa 'null'
+		// assertEquals("false", responseText);
+	}
+
+	/**
+	 * Verifica l'impossibilità di effettuare il login nel caso in cui non siano
+	 * forniti tutti i dati necessari all'autenticazione di un utente
+	 * 
+	 * @throws ServletException
+	 * @throws IOException
+	 * @author diego
+	 */
+	@Test
+	public void testLoginWrongUser() throws IOException, ServletException {
+		// configura il comportamento della richiesta
+		when(request.getParameter("username")).thenReturn("dummy@dummy.du");
+		// configura il comportamento della risposta
+		when(response.getWriter()).thenReturn(new PrintWriter(writer));
+
+		// invoca il metodo da testare
+		tester.doPost(request, response);
+
+		// verifica l'output della servlet
+		writer.flush();
+		String responseText = writer.toString();
+		assertFalse(responseText.length() == 0);
+		// FIXME se 'responseText' non fosse la stringa 'null'
+		// assertEquals("false", responseText);
 	}
 
 }
