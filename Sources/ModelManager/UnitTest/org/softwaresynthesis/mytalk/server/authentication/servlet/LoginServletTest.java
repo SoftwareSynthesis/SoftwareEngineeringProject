@@ -13,6 +13,7 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpSession;
 
 /**
  * Testa la servlet di autenticazione, invocata tramite una richiesta HTTP POST
@@ -68,6 +69,7 @@ public class LoginServletTest {
 		when(request.getParameter("username")).thenReturn(
 				"indirizzo5@dominio.it");
 		when(request.getParameter("password")).thenReturn("password");
+		when(request.getSession(true)).thenReturn(mock(HttpSession.class));
 		// configura il comportamento della risposta
 		when(response.getWriter()).thenReturn(new PrintWriter(writer));
 
@@ -78,9 +80,10 @@ public class LoginServletTest {
 		writer.flush();
 		String responseText = writer.toString();
 		assertFalse(responseText.length() == 0);
-
-		// FIXME se 'responseText' non fosse la stringa 'null'
-		// assertEquals("true", responseText);
+		
+		String toCompare = "{\"name\":\"luigi\", \"surname\":\"mannoio\", \"email\":\"indirizzo5@dominio.it\", "
+				+ "\"id\":\"5\", \"picturePath\":\"img/contactImg/Default.png\"}";
+		assertEquals(toCompare, responseText);
 	}
 
 	/**
