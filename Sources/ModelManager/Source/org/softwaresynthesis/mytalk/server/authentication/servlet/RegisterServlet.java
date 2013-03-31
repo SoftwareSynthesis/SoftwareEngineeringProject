@@ -116,6 +116,8 @@ public final class RegisterServlet extends HttpServlet
 			userDAO = new UserDataDAO();
 			userDAO.insert(user);
 			groupDAO.insert(group);
+			// FIXME nel client non abbiamo bisogno di 'true' ma di user.toJson()
+			// vedere riga 179 di RegisterPanelPresenter... la progettazione!! :(
 			result = "true";
 		}
 		catch (Exception ex)
