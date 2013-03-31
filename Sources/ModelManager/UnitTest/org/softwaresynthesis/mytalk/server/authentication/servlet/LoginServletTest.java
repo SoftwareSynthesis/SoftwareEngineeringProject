@@ -20,7 +20,7 @@ import javax.servlet.http.HttpSession;
  * che contiene come parametri lo username e la password di un utente registrato
  * al sistema.
  * 
- * @author diego
+ * @author Diego Beraldin
  */
 public class LoginServletTest {
 
@@ -36,7 +36,7 @@ public class LoginServletTest {
 	/**
 	 * Inizializza l'oggetto da testare (per tutti i metodi di test)
 	 * 
-	 * @author diego
+	 * @author Diego Beraldin
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() {
@@ -47,7 +47,7 @@ public class LoginServletTest {
 	 * Prima di ogni test, ricrea gli stub di richiesta e risposta e azzera il
 	 * buffer interno del writer che riceverà la risposta
 	 * 
-	 * @author diego
+	 * @author Diego Beraldin
 	 */
 	@Before
 	public void setUp() {
@@ -61,7 +61,7 @@ public class LoginServletTest {
 	 * 
 	 * @throws ServletException
 	 * @throws IOException
-	 * @author diego
+	 * @author Diego Beraldin
 	 */
 	@Test
 	public void testLoginCorrectUser() throws ServletException, IOException {
@@ -92,13 +92,14 @@ public class LoginServletTest {
 	 * 
 	 * @throws ServletException
 	 * @throws IOException
-	 * @author diego
+	 * @author Diego Beraldin
 	 */
 	@Test
 	public void testLoginNotExistUser() throws IOException, ServletException {
 		// configura il comportamento della richiesta
 		when(request.getParameter("username")).thenReturn("dummy@dummy.du");
 		when(request.getParameter("password")).thenReturn("dummy");
+		when(request.getSession(true)).thenReturn(mock(HttpSession.class));
 		// configura il comportamento della risposta
 		when(response.getWriter()).thenReturn(new PrintWriter(writer));
 
@@ -109,8 +110,7 @@ public class LoginServletTest {
 		writer.flush();
 		String responseText = writer.toString();
 		assertFalse(responseText.length() == 0);
-		// FIXME se 'responseText' non fosse la stringa 'null'
-		// assertEquals("false", responseText);
+		assertEquals("null", responseText);
 	}
 
 	/**
@@ -119,7 +119,7 @@ public class LoginServletTest {
 	 * 
 	 * @throws ServletException
 	 * @throws IOException
-	 * @author diego
+	 * @author Diego Beraldin
 	 */
 	@Test
 	public void testLoginWrongUser() throws IOException, ServletException {
@@ -135,8 +135,7 @@ public class LoginServletTest {
 		writer.flush();
 		String responseText = writer.toString();
 		assertFalse(responseText.length() == 0);
-		// FIXME se 'responseText' non fosse la stringa 'null'
-		// assertEquals("false", responseText);
+		assertEquals("null", responseText);
 	}
 
 }
