@@ -527,25 +527,25 @@ Tale test si compone di due metodi:
 
 \subsubsection{AddressBookGetContactsServletTest}
 \textbf{Verifica l'oggetto:} \texttt{AddressBookGetContactsServlet}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di ritornare un contatto presente nella rubrica del richiedente. La possibilità di richiamare \texttt{AddressBookGetContactsServlet} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica.
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di ottenere la lista dei contatti presenti nella rubrica del richiedente memorizzata sul server. La possibilità di richiamare \texttt{AddressBookGetContactsServlet} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica.
 
-I possibili input riguardano dati passati mediante \texttt{XMLHttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IUserData} realmente esistente e presente nella rubrica del richiedente) o non (campi dati vuoti, o che comunque non corrispondono a nessun utente realmente registrato al sistema).
-Tale test si compone di tre metodi:
+I possibili input riguardano dati passati mediante \texttt{XMLHttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IUserData} realmente esistente) o meno, se vuoti ad esempio.
+
+Tale test si compone di due metodi:
 \begin{itemize}
-\item \texttt{testGetCorrectContact()} verifica se l'utente ottenuto come output del metodo doPost() della \inglese{servlet} è effettivamente il contatto a cui appartengono i dati corretti.
-\item \texttt{testGetNotExistsContact()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di ottenere un utente non registrato nel sistema, o comunque non appartenente alla rubrica del richiedente.
-\item \texttt{testWrongData()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di ottenere un utente \texttt{IUserData} definito da dati non completi (campi dati vuoti) parzialmente o nella loro totalità.
+\item \texttt{testGetCorrectContacts()} verifica se la lista di utenti ottenuta come output del metodo \texttt{doPost} della \inglese{servlet} corrisponde effettivamente alla rubrica del richiedente.
+\item \texttt{testWrongData()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di ottenere la rubrica in caso di invio di dati non completi (campi dati vuoti) parzialmente o nella loro totalità.
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 
 \subsubsection{AddressBookGetGroupsServletTest}
 \textbf{Verifica l'oggetto:} \texttt{AddressBookGetGroupsServlet}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di ritornare una lista di contatti \texttt{IUserData} presenti nella rubrica del richiedente, associati ai relativi gruppi di appartenenza.
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di ritornare una lista di gruppi presenti nella rubrica del richiedente.
 
 La possibilità di richiamare \texttt{AddressBookGetGroupsServlet} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica.
 Tale test si compone di un solo metodo:
 \begin{itemize}
-\item \textit{testGetGroupContact()} verifica se gli utentei ottenuti in associazione ai gruppi di appertenneza, sono tutti e soli gli utenti-gruppi presenti nella rubrica del richiedente.
+\item \textit{testGetGroupContact()} verifica se gli utenti ottenuti in associazione ai gruppi di appertenneza, sono tutti e soli gli utenti-gruppi presenti nella rubrica del richiedente.
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
 

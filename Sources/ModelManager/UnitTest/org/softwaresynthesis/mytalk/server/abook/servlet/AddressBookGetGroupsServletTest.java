@@ -16,48 +16,81 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+/**
+ * Verifica la possibilità di scaricare la lista dei gruppi della propria
+ * rubrica, ognuno dei quali corredato dall'array degli id dei contatti che
+ * contiene
+ * 
+ * @author Diego Beraldin
+ */
 public class AddressBookGetGroupsServletTest {
-	
+	// oggetto da testare
 	private static AddressBookGetGroupsServlet tester;
+	// stub di richiesta HTTP
 	private HttpServletRequest request;
+	// stub di risposta HTTP
 	private HttpServletResponse response;
+	// writer su cui sarà scritto il testo della risposta
 	private StringWriter writer;
 
+	/**
+	 * Inizializza l'oggetto della verifica prima di tutti i test
+	 * 
+	 * @author Diego Beraldin
+	 */
 	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
+	public static void setUpBeforeClass() {
 		tester = new AddressBookGetGroupsServlet();
 	}
 
+	/**
+	 * Crea gli stub necessari all'esecuzione di tutti i metodi del test case e
+	 * azzera il buffer in cui sarà memorizzata la risposta ottenuta
+	 * 
+	 * @author Diego Beraldin
+	 */
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		request = mock(HttpServletRequest.class);
 		response = mock(HttpServletResponse.class);
 		writer = new StringWriter();
-		when(response.getWriter()).thenReturn(new PrintWriter(writer));
 	}
 
+	/**
+	 * Verifica la possibilità di scaricare i gruppi della rubrica memorizzati
+	 * nel server, e la lista dei contatti che appartengono a ciascun gruppo
+	 * 
+	 * @throws IOException
+	 * @throws ServletException
+	 * @author Diego Beraldin
+	 */
 	@Test
 	public void testBlockCorrectContact() throws IOException, ServletException {
 		// crea una sessione di autenticazione
 		HttpSession mySession = mock(HttpSession.class);
-		when(mySession.getAttribute("username")).thenReturn("indirizzo5@dominio.it");
-		
+		when(mySession.getAttribute("username")).thenReturn(
+				"indirizzo5@dominio.it");
+
 		// configura il comportamento della richiesta
 		when(request.getSession(false)).thenReturn(mySession);
-		
+
+		// configura il comportamento della risposta
+		when(response.getWriter()).thenReturn(new PrintWriter(writer));
+
 		// invoca il metodo da testare
 		tester.doPost(request, response);
-		
+
 		// verifica l'output
 		writer.flush();
 		String responseText = writer.toString();
+		assertNotNull(responseText);
 		assertFalse(responseText.length() == 0);
-		String toCompare = "{" + 
-		"\"1\":{\"name\":\"Gruppo 1\",\"id\":\"1\",\"contacts\":[1]}," + 
-				"\"3\":{\"name\":\"Gruppo 3\",\"id\":\"3\",\"contacts\":[]}," +
-		"\"10\":{\"name\":\"addrBookEntry\",\"id\":\"10\",\"contacts\":[23,29,26,41,15,35,32,17,9,11,13,20,38,44]}" +
-		"}";
+		String toCompare = "{"
+				+ "\"1\":{\"name\":\"Gruppo 1\",\"id\":\"1\",\"contacts\":[1]},"
+				+ "\"3\":{\"name\":\"Gruppo 3\",\"id\":\"3\",\"contacts\":[]},"
+				+ "\"10\":{\"name\":\"addrBookEntry\",\"id\":\"10\",\"contacts\":[23,29,26,41,15,35,32,17,9,11,13,20,38,44]}"
+				+ "}";
 		assertEquals(toCompare, responseText);
-		
+
 	}
 }
