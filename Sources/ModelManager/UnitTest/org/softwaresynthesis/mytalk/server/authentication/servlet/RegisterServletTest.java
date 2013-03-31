@@ -1,8 +1,9 @@
 package org.softwaresynthesis.mytalk.server.authentication.servlet;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.junit.Before;
@@ -14,12 +15,15 @@ import java.io.StringWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.DriverManager;
+import java.sql.Connection;
+import java.sql.Statement;
 
 /**
  * Verifica la possibilità di registrarsi al sistema mediante la servlet
  * dedicata, che viene interrogata mediante richieste HTTP POST.
  * 
- * @author diego
+ * @author Diego Beraldin
  */
 public class RegisterServletTest {
 	// oggetto da testare
@@ -34,7 +38,7 @@ public class RegisterServletTest {
 	/**
 	 * Inizializza l'oggetto da verificare prima di tutti i test
 	 * 
-	 * @author diego
+	 * @author Diego Beraldin
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() {
@@ -45,7 +49,7 @@ public class RegisterServletTest {
 	 * Prima di ogni test, ricrea gli stub necessari alla sua esecuzione e
 	 * azzera il buffer in cui verrà memorizzato il testo della risposta
 	 * 
-	 * @author diego
+	 * @author Diego Beraldin
 	 */
 	@Before
 	public void setUp() {
@@ -60,7 +64,7 @@ public class RegisterServletTest {
 	 * 
 	 * @throws IOException
 	 * @throws ServletException
-	 * @author diego
+	 * @author Diego Beraldin
 	 */
 	@Test
 	public void testRegisterCorrectUser() throws IOException, ServletException {
@@ -80,11 +84,22 @@ public class RegisterServletTest {
 		writer.flush();
 		String responseText = writer.toString();
 		assertNotNull(responseText);
-		// FIXME l'asserzione successiva fallisce!
-		assertTrue(responseText.length() == 0);
+		assertFalse(responseText.length() == 0);
 		// FIXME il client ha bisogno di user.toString() e non di 'true'!
 		assertEquals("true", responseText);
-		
+
+		// operazioni di clean-up al termine del test
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(
+					"jdbc:mysql://localhost/MyTalk", "root", "root");
+			Statement stmt = conn.createStatement();
+			stmt.execute("DELETE FROM Groups WHERE ID_user = (SELECT ID_user FROM UserData WHERE E_Mail = 'flabacco@gmail.com');");
+			stmt.execute("DELETE FROM UserData WHERE E_Mail = 'flabacco@gmail.com';");
+			conn.close();
+		} catch (Exception ex) {
+			fail(ex.getMessage());
+		}
 	}
 
 	/**
@@ -93,7 +108,7 @@ public class RegisterServletTest {
 	 * 
 	 * @throws IOException
 	 * @throws ServletException
-	 * @author diego
+	 * @author Diego Beraldin
 	 */
 	@Test
 	public void testRegisterWrongUser() throws IOException, ServletException {
@@ -113,8 +128,7 @@ public class RegisterServletTest {
 		writer.flush();
 		String responseText = writer.toString();
 		assertNotNull(responseText);
-		// FIXME da qua in poi non passano più i test!
-		assertTrue(responseText.length() == 0);
+		assertFalse(responseText.length() == 0);
 		assertEquals("false", responseText);
 	}
 
