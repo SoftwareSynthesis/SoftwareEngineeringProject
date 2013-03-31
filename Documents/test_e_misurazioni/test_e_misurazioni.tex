@@ -515,13 +515,12 @@ Tale test si compone di tre metodi:
 
 \subsubsection{AddressBookDoSearchServletTest}
 \textbf{Verifica l'oggetto:} \texttt{AddressBookDoSearchServlet}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di ritornare una lista di contatti presenti nella rubrica del richiedente. La possibilità di richiamare \texttt{AddressBookGetContactsServlet} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica.
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di ritornare una lista di contatti corrispondenti a determinati criteri ricerca specificati nella richiesta. La possibilità di richiamare \texttt{AddressBookGetContactsServlet} ha come precondizione l'autenticazione dell'utente richiedente.
 
 I possibili input riguardano dati passati mediante \texttt{XMLHttpRequest}, che possono essere corretti (campi dati non vuoti) o non (campi dati vuoti).
-Tale test si compone di tre metodi:
+Tale test si compone di due metodi:
 \begin{itemize}
-\item \texttt{testGetSearchContact()} verifica se gli utentei ottenuti in seguito all'operazione di ricerca sono tutti e soli gli utenti registrati nella rubrica del richiedente, e aventi o comee nome, cognome o mail, la parola ricercata.
-\item \texttt{testGetSearchNotExistsContact()} verifica che, dato un input corretto, e relativo esclusivamente ad utenti presenti nel sistema ma non nella rubrica del richiedente, il numero di utenti restituiti dalla ricerca sia 0.
+\item \texttt{testGetSearchContact()} verifica se gli utenti ottenuti in seguito all'operazione di ricerca sono tutti e soli gli utenti registrati nella rubrica del richiedente, e aventi o come nome, cognome o mail, la parola ricercata.
 \item \texttt{testWrongData()} verifica che, dati in input valori scorretti, il numero di utenti restituiti dalla ricerca sia 0.
 \end{itemize}
 \textbf{Risultato del test:} non sono stati rilevati errori.
