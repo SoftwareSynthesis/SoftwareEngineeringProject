@@ -9,7 +9,7 @@ import org.softwaresynthesis.mytalk.server.authentication.servlet.*;
 @SuiteClasses({ AESAlgorithmTest.class, AuthenticationDataTest.class,
 		AuthenticationModuleTest.class, CredentialLoaderTest.class,
 		PrincipalImplTest.class, LoginServletTest.class,
-		LogoutServletTest.class, RegisterServlet.class })
+		LogoutServletTest.class, RegisterServletTest.class })
 public class AuthenticationTestSuite {
 
 }
