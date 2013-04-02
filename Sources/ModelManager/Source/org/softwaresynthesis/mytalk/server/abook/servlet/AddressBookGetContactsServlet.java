@@ -90,6 +90,10 @@ public final class AddressBookGetContactsServlet extends HttpServlet
 			result = "{";
 			while(iterator.hasNext() == true)
 			{
+				/* FIXME iterazione troppo semplicistica: così mi ritrovo più volte
+				 * nella stringa di output i dati di uno stesso contatto quando questo
+				 * appare più volte (perché in gruppi diversi) nella rubrica di un utente!
+				 */
 				entry = iterator.next();
 				friend = entry.getContact();
 				result += "\"" + friend.getId() + "\":";
