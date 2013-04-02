@@ -1,10 +1,11 @@
 package org.softwaresynthesis.mytalk.server.authentication;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.NameCallback;
 import javax.security.auth.callback.PasswordCallback;
@@ -15,10 +16,13 @@ import org.junit.Test;
  * Test dei metodi della classe {@link CredentialLoader}
  * 
  * @author Andrea Meneghinello
+ * @author Diego Beraldin
  * @version %I%, %G%
  */
 public class CredentialLoaderTest {
+	// oggetto da testare
 	private static CredentialLoader tester;
+	// dati di autenticazione fittizi
 	private static AuthenticationData credential;
 
 	/**
@@ -29,7 +33,10 @@ public class CredentialLoaderTest {
 	 */
 	@BeforeClass
 	public static void setupBeforeClass() {
-		credential = new AuthenticationData("indirizzo1@dominio.it", "password");
+		credential = mock(AuthenticationData.class);
+		when(credential.getUsername()).thenReturn("indirizzo1@dominio.it");
+		when(credential.getPassword()).thenReturn("password");
+		tester = new CredentialLoader(credential, new AESAlgorithm());
 	}
 
 	/**
@@ -39,11 +46,10 @@ public class CredentialLoaderTest {
 	 * @version %I%, %G%
 	 */
 	@Test
-	public void testLoader() {
+	public void testHandle() {
 		Callback[] callbacks = new Callback[2];
 		callbacks[0] = new NameCallback("username");
 		callbacks[1] = new PasswordCallback("password", false);
-		tester = new CredentialLoader(credential, new AESAlgorithm());
 		NameCallback nc = null;
 		PasswordCallback pc = null;
 		String username = null;
@@ -66,7 +72,7 @@ public class CredentialLoaderTest {
 	/**
 	 * Testa conversione in stringa
 	 * 
-	 * @author diego
+	 * @author Diego Beraldin
 	 */
 	@Test
 	public void testToString() {
