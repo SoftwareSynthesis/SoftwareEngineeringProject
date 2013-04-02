@@ -71,6 +71,7 @@ public class CredentialLoaderTest {
 	@Test
 	public void testToString() {
 		String toCompare = "CredentialLoader";
-		assertTrue(toCompare.equals(tester.toString()));
+		String result = tester.toString();
+		assertEquals(toCompare, result);
 	}
 }

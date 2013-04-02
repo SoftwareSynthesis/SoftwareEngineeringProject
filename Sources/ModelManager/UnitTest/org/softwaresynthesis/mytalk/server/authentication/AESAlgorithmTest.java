@@ -1,8 +1,10 @@
 package org.softwaresynthesis.mytalk.server.authentication;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -12,11 +14,14 @@ import org.junit.Test;
  * @version %I%, %G%
  */
 public class AESAlgorithmTest {
+	// oggetto da testare
 	private static AESAlgorithm tester;
-	private static String plainText;
+	// attributi necessari ai singoli test
+	private String plainText;
+	private String cipherText;
 
 	/**
-	 * Inizializzazione degli oggetti utilizzati per il test
+	 * Inizializzazione dell'oggetto da testare
 	 * 
 	 * @author Andrea Meneghinello
 	 * @version %I%, %G%
@@ -24,25 +29,50 @@ public class AESAlgorithmTest {
 	@BeforeClass
 	public static void setUpBeforeClass() {
 		tester = new AESAlgorithm();
+
+	}
+	
+	/**
+	 * Crea gli oggetti necessari all'esecuzione di ogni test
+	 * 
+	 * @author Diego Beraldin
+	 */
+	@Before
+	public void setUp() {
 		plainText = "testoInChiaro";
+		cipherText = "uDWIvRHmVrCXVdjtZeYj1g==";
 	}
 
 	/**
-	 * Test di codifica e decodifica di un testo
+	 * Verifica che il testo sia correttamente codificato
 	 * 
 	 * @author Andrea Meneghinello
 	 * @version %I%, %G%
 	 */
 	@Test
-	public void testEncodeAndDecode() {
-		boolean result = false;
-		String encodedText = null;
-		String decodedText = null;
+	public void testEncode() {
+		String result = null;
 		try {
-			encodedText = tester.encode(plainText);
-			decodedText = tester.decode(encodedText);
-			result = decodedText.equals(plainText);
-			assertTrue(result);
+			result = tester.encode(plainText);
+			assertNotNull(result);
+			assertEquals(cipherText, result);
+		} catch (Exception ex) {
+			fail(ex.getMessage());
+		}
+	}
+	
+	/**
+	 * Verifica la corretta decodifica di un testo cifrato
+	 * 
+	 * @author Diego Beraldin
+	 */
+	@Test
+	public void testDecode() {
+		String result = null;
+		try {
+			result = tester.decode(cipherText);
+			assertNotNull(result);
+			assertEquals(plainText, result);
 		} catch (Exception ex) {
 			fail(ex.getMessage());
 		}
@@ -51,11 +81,12 @@ public class AESAlgorithmTest {
 	/**
 	 * Testa la conversione in stringa
 	 * 
-	 * @author diego
+	 * @author Diego Beraldin
 	 */
 	@Test
 	public void testToString() {
 		String toCompare = "Algoritmo di crittografia AES a 128 bit";
-		assertTrue(toCompare.equals(tester.toString()));
+		String result = tester.toString();
+		assertEquals(toCompare, result);
 	}
 }
