@@ -219,24 +219,6 @@ function CommunicationCenter() {
         };
     };
 
-    //FUNZIONE connect() ORIGINALE
-    /*function connect() {websocket = new
-    * WebSocket("ws://localhost:8080/channel/ChannelServlet");websocket.onopen
-    * = function(evt) {var id=
-    * document.getElementById("id").value;idutente=id;var ar= new Array("1",
-    * idutente);websocket.send(JSON.stringify(ar));var text=
-    * document.createTextNode("Connesso con id " +
-    * idutente);document.getElementById("label").innerHTML='';document.getElementById("label").appendChild(text);};websocket.onclose
-    * = function(evt) {var text=
-    * document.createTextNode("Disconnesso");document.getElementById("label").innerHTML='';document.getElementById("label").appendChild(text);};websocket.onmessage
-    * = function (evt) {var str= evt.data.split("|");var type=
-    * str[0];if(type=="3"){idOther= str[1];}else if(type=="2"){var signal=
-    * JSON.parse(str[1]);if (pc==null)call(false);if
-    * ((signal.sdp)==null){pc.addIceCandidate(new
-    * RTCIceCandidate(signal));}else{pc.setRemoteDescription(new
-    * RTCSessionDescription(signal));}}};websocket.onerror = function(evt)
-    * {alert("ERRORE");};}*/
-
     /**
      * Funzione per la disconnessione del client dal server.
      *
@@ -244,7 +226,7 @@ function CommunicationCenter() {
      */
     this.disconnect = function() {
         //creo array per inviare la rischiesta di disconnessione e lo invio
-        var ar = new Array("4", my.id);
+        var ar = new Array("4", self.my.id);
         websocket.send(JSON.stringify(ar));
         websocket.close();
     };
@@ -354,6 +336,7 @@ function CommunicationCenter() {
         localStream.stop();
         pc.createOffer(gotDescription);
         stopTimer();
+        stopStat();
         mediator.getCommunicationPP().getMyVideo().src = "";
         mediator.getCommunicationPP().getOtherVideo().src = "";
         //aspetto un secondo che pc finisca di comunicare la nuova offerta

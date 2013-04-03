@@ -181,8 +181,12 @@ function AddressBookPanelPresenter() {
         // creo la option
         var option = document.createElement("option");
         option.value = value;
-        //TODO autofocus if(text="addrBookEntry") option.createAttribute("","");
-        option.appendChild(document.createTextNode(text));
+        if ( text = "addrBookEntry") {
+            option.selected = true;
+            option.appendChild(document.createTextNode("Rubrica"));
+        } else {
+            option.appendChild(document.createTextNode(text));
+        }
 
         // appendo la nuova option alla select
         select.appendChild(option);
@@ -300,6 +304,10 @@ function AddressBookPanelPresenter() {
         // estraggo l'<ul> del Addressbook e lo inizializzo
         var ulList = document.getElementById("AddressBookList");
         ulList.innerHTML = "";
+
+        if (contacts.size() == 0) {
+            //TODO Aggiungere <li> per
+        }
         // ciclo i contatti e agiungo un <li> per ogni contatto
         for (var contact in contacts) {
             addListItem(ulList, contacts[contact]);
@@ -560,10 +568,8 @@ function AddressBookPanelPresenter() {
     };
 
     /**
-     * Elimina il contenuto preesistente e visualizza il nuovo contenuto
-     * filtrato della
-     * <ul>
-     * dei contatti
+     * Mostra la lista di contatti passata come parametro all'interno della
+     * AddressBookList
      *
      * NOTA PER I VERIFICATORI Richiede che il 'document' abbia al suo interno
      * un elemento di tipo '
@@ -581,6 +587,9 @@ function AddressBookPanelPresenter() {
         // TODO aggiungere una label per avvisare che i campi visualizzati sono
         // filtrati
 
+        if (filtredContacts.size() == 0) {
+            //TODO Aggiungere <li> con scritto "nessun contatto"
+        }
         for (var id in filtredContacts) {
             // ciclo i contatti e agiungo un <li> per ogni contatto
             addListItem(ulList, contacts[id]);
