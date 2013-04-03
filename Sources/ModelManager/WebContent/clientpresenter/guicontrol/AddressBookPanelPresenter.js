@@ -560,11 +560,13 @@ function AddressBookPanelPresenter() {
      */
     this.applyFilterByGroup = function(idGroup) {
         var filtredContactsID = groups[idGroup].contacts;
-        var filtredContacts = new Object();
-        for (var contact in filtredContactsID) {
-            filtredContacts[filtredContactsID[contact]] = contacts[filtredContactsID[contact]];
-        }
-        return filtredContacts;
+        /*var filtredContacts = new Object();
+         for (var contact in filtredContactsID) {
+         filtredContacts[filtredContactsID[contact]] =
+        contacts[filtredContactsID[contact]];
+         }
+         return filtredContacts;*/
+        return filtredContactsID;
     };
 
     /**
@@ -588,11 +590,13 @@ function AddressBookPanelPresenter() {
         // filtrati
 
         if (filtredContacts.size() == 0) {
-            //TODO Aggiungere <li> con scritto "nessun contatto"
+            var noContactLI = document.createElement("li");
+            noContactLI.appendChild(document.createTextNode("Nessun risultato"));
+            ulList.appendChild(noContactLI);
         }
         for (var id in filtredContacts) {
             // ciclo i contatti e agiungo un <li> per ogni contatto
-            addListItem(ulList, contacts[id]);
+            addListItem(ulList, contacts[filtredContacts[id]]);
         }
     };
 

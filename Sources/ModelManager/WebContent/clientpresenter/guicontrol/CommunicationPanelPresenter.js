@@ -257,6 +257,8 @@ function CommunicationPanelPresenter() {
         var myVideo = document.createElement('video');
         myVideo.id = "myVideo";
         myVideo.setAttribute("autoplay", "autoplay");
+        myVideo.setAttribute("muted", "muted");
+        //attribute poster per immagine di caricamento
         var otherVideo = document.createElement('video');
         otherVideo.id = "otherVideo";
         otherVideo.setAttribute("autoplay", "autoplay");
