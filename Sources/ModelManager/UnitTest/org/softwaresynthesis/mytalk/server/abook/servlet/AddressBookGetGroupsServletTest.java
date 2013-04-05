@@ -88,7 +88,7 @@ public class AddressBookGetGroupsServletTest {
 		String toCompare = "{"
 				+ "\"1\":{\"name\":\"Gruppo 1\",\"id\":\"1\",\"contacts\":[1]},"
 				+ "\"3\":{\"name\":\"Gruppo 3\",\"id\":\"3\",\"contacts\":[]},"
-				+ "\"10\":{\"name\":\"addrBookEntry\",\"id\":\"10\",\"contacts\":[23,29,26,41,15,35,32,17,9,11,13,20,38,44]}"
+				+ "\"10\":{\"name\":\"addrBookEntry\",\"id\":\"10\",\"contacts\":[]}"
 				+ "}";
 		assertEquals(toCompare, responseText);
 
