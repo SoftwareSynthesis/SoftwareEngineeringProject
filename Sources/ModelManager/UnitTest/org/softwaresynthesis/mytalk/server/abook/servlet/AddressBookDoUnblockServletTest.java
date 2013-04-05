@@ -3,6 +3,7 @@ package org.softwaresynthesis.mytalk.server.abook.servlet;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.junit.Before;
@@ -15,6 +16,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.sql.DriverManager;
+import java.sql.Connection;
+import java.sql.Statement;
+import java.sql.ResultSet;
 
 /**
  * Verifica la possibilità di sboccare un contatto all'interno della rubrica
@@ -73,10 +78,24 @@ public class AddressBookDoUnblockServletTest {
 
 		// configura il comportamento della richiesta
 		when(request.getSession(false)).thenReturn(mySession);
-		when(request.getParameter("contactId")).thenReturn("3");
+		when(request.getParameter("contactId")).thenReturn("2");
 
 		// configura il comportamento della risposta
 		when(response.getWriter()).thenReturn(new PrintWriter(writer));
+
+		// per prima cosa assicuriamoci che l'utente 1 nella rubrica di 5 sia
+		// davvero bloccato
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(
+					"jdbc:mysql://localhost/MyTalk", "root", "root");
+			Statement stmt = conn.createStatement();
+			stmt.execute("UPDATE AddressBookEntries SET Blocked = '0' WHERE Owner = '5' AND ID_User = '2'");
+			stmt.close();
+			conn.close();
+		} catch (Exception ex) {
+			fail(ex.getMessage());
+		}
 
 		// invoca il metodo da testare
 		tester.doPost(request, response);
@@ -88,6 +107,24 @@ public class AddressBookDoUnblockServletTest {
 		assertNotNull(responseText);
 		assertFalse(responseText.length() == 0);
 		assertEquals("true", responseText);
+
+		// controllo che sia stato effettivamente sbloccato
+		try {
+			Connection conn = DriverManager.getConnection(
+					"jdbc:mysql://localhost/MyTalk", "root", "root");
+			Statement stmt = conn.createStatement();
+			ResultSet result = stmt
+					.executeQuery("SELECT Blocked FROM AddressBookEntries WHERE Owner = '5' AND ID_user = '2'");
+			while (result.next()) {
+				Boolean blocked = result.getBoolean("Blocked");
+				System.err.println(blocked);
+				assertFalse(blocked);
+			}
+			stmt.close();
+			conn.close();
+		} catch (Exception ex) {
+			fail(ex.getMessage());
+		}
 	}
 
 	/**
@@ -98,29 +135,32 @@ public class AddressBookDoUnblockServletTest {
 	 * @throws ServletException
 	 * @author Diego Beraldin
 	 */
-	@Test
-	public void testUnblockNotExistContact() throws IOException,
-			ServletException {
-		// crea una sessione di autenticazione
-		HttpSession mySession = mock(HttpSession.class);
-		when(mySession.getAttribute("username")).thenReturn(
-				"indirizzo5@dominio.it");
-
-		// configura il comportamento della richiesta
-		when(request.getSession(false)).thenReturn(mySession);
-		when(request.getParameter("contactId")).thenReturn("-1");
-
-		// invoca il metodo da testare
-		tester.doPost(request, response);
-
-		// verifica l'output
-		writer.flush();
-		String responseText = writer.toString();
-		System.err.println(responseText);
-		assertNotNull(responseText);
-		assertFalse(responseText.length() == 0);
-		assertEquals("false", responseText);
-	}
+	 @Test
+	 public void testUnblockNotExistContact() throws IOException,
+	 ServletException {
+	 // crea una sessione di autenticazione
+	 HttpSession mySession = mock(HttpSession.class);
+	 when(mySession.getAttribute("username")).thenReturn(
+	 "indirizzo5@dominio.it");
+	
+	 // configura il comportamento della richiesta
+	 when(request.getSession(false)).thenReturn(mySession);
+	 when(request.getParameter("contactId")).thenReturn("-1");
+	 
+	 // configura il comportamento della risposta
+	 when(response.getWriter()).thenReturn(new PrintWriter(writer));
+	
+	 // invoca il metodo da testare
+	 tester.doPost(request, response);
+	
+	 // verifica l'output
+	 writer.flush();
+	 String responseText = writer.toString();
+	 System.err.println(responseText);
+	 assertNotNull(responseText);
+	 assertFalse(responseText.length() == 0);
+	 assertEquals("false", responseText);
+	 }
 
 	/**
 	 * Verifica la corretta gestione di una richiesta di sbloccare un contatto
@@ -131,25 +171,28 @@ public class AddressBookDoUnblockServletTest {
 	 * @throws ServletException
 	 * @author Diego Beraldin
 	 */
-	@Test
-	public void testWrongData() throws IOException, ServletException {
-		// crea una sessione di autenticazione
-		HttpSession mySession = mock(HttpSession.class);
-		when(mySession.getAttribute("username")).thenReturn(
-				"indirizzo5@dominio.it");
-
-		// configura il comportamento della richiesta (manca il parametro)
-		when(request.getSession(false)).thenReturn(mySession);
-
-		// invoca il metodo da testare
-		tester.doPost(request, response);
-
-		// verifica l'output
-		writer.flush();
-		String responseText = writer.toString();
-		System.err.println(responseText);
-		assertNotNull(responseText);
-		assertFalse(responseText.length() == 0);
-		assertEquals("false", responseText);
-	}
+	 @Test
+	 public void testWrongData() throws IOException, ServletException {
+	 // crea una sessione di autenticazione
+	 HttpSession mySession = mock(HttpSession.class);
+	 when(mySession.getAttribute("username")).thenReturn(
+	 "indirizzo5@dominio.it");
+	
+	 // configura il comportamento della richiesta (manca il parametro)
+	 when(request.getSession(false)).thenReturn(mySession);
+	 
+	 // configura il comportamento della risposta
+	 when(response.getWriter()).thenReturn(new PrintWriter(writer));
+	
+	 // invoca il metodo da testare
+	 tester.doPost(request, response);
+	
+	 // verifica l'output
+	 writer.flush();
+	 String responseText = writer.toString();
+	 System.err.println(responseText);
+	 assertNotNull(responseText);
+	 assertFalse(responseText.length() == 0);
+	 assertEquals("false", responseText);
+	 }
 }
