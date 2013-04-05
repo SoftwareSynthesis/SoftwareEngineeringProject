@@ -3,6 +3,7 @@ package org.softwaresynthesis.mytalk.server.abook.servlet;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.junit.Before;
@@ -15,11 +16,15 @@ import javax.servlet.http.HttpSession;
 import java.io.StringWriter;
 import java.io.PrintWriter;
 import java.io.IOException;
+import java.sql.DriverManager;
+import java.sql.Connection;
+import java.sql.Statement;
+import java.sql.ResultSet;
 
 /**
  * Verifica la possibilità di creare un nuovo gruppo nella rubrica di un utente
  * 
- * @author diego
+ * @author Diego Beraldin
  */
 public class AddressBookDoCreateGroupServletTest {
 	// oggetto da testare
@@ -30,29 +35,35 @@ public class AddressBookDoCreateGroupServletTest {
 	private HttpServletResponse response;
 	// contiene il buffer su cui sarà memorizzato il testo della risposta
 	private StringWriter writer;
+	// dati per l'accesso al database
+	private static String DB_URL;
+	private static String DB_USER;
+	private static String DB_PASSWORD;
 
 	/**
 	 * Inizializza l'oggetto da testare prima di tutti i test
 	 * 
-	 * @author diego
+	 * @author Diego Beraldin
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() {
 		tester = new AddressBookDoCreateGroupServlet();
+		DB_URL = "jdbc:mysql://localhost/MyTalk";
+		DB_USER = "root";
+		DB_PASSWORD = "root";
 	}
 
 	/**
 	 * Prima di ogni test, ricrea gli stub necessari alla sia esecuzione e
 	 * azzera il contenuto del buffer in cui sarà salvata la risposta
 	 * 
-	 * @author diego
+	 * @author Diego Beraldin
 	 */
 	@Before
 	public void setUp() {
 		request = mock(HttpServletRequest.class);
 		response = mock(HttpServletResponse.class);
 		writer = new StringWriter();
-
 	}
 
 	/**
@@ -61,7 +72,7 @@ public class AddressBookDoCreateGroupServletTest {
 	 * 
 	 * @throws IOException
 	 * @throws ServletException
-	 * @author diego
+	 * @author Diego Beraldin
 	 */
 	@Test
 	public void testAddCorrectGroup() throws IOException, ServletException {
@@ -72,7 +83,7 @@ public class AddressBookDoCreateGroupServletTest {
 
 		// configura il comportamento della richiesta
 		when(request.getSession(false)).thenReturn(mySession);
-		when(request.getParameter("groupName")).thenReturn("gruppo0");
+		when(request.getParameter("groupName")).thenReturn("dummygroup");
 
 		// configura il comportamento della risposta
 		when(response.getWriter()).thenReturn(new PrintWriter(writer));
@@ -86,6 +97,34 @@ public class AddressBookDoCreateGroupServletTest {
 		assertNotNull(responseText);
 		assertFalse(responseText.length() == 0);
 		assertEquals("true", responseText);
+		
+		// verifica l'effettivo inserimento del gruppo
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			Statement stmt = conn.createStatement();
+			ResultSet result = stmt.executeQuery("SELECT * FROM Groups WHERE Name = 'dummygroup';");
+			result.next();
+			String name = result.getString("Name");
+			assertEquals("dummygroup", name);
+			int ownerID = result.getInt("ID_user");
+			assertEquals(5, ownerID);
+			stmt.close();
+			conn.close();
+		} catch (Exception ex) {
+			fail(ex.getMessage());
+		}
+		
+		// effettua le operazioni di clean-up successive
+		try {
+			Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			Statement stmt = conn.createStatement();
+			stmt.executeUpdate("DELETE FROM Groups WHERE Name = 'dummygroup' AND ID_user = '5';");
+			stmt.close();
+			conn.close();
+		} catch (Exception ex) {
+			fail(ex.getMessage());
+		}
 	}
 
 	/**
@@ -94,7 +133,7 @@ public class AddressBookDoCreateGroupServletTest {
 	 * 
 	 * @throws IOException
 	 * @throws ServletException
-	 * @author diego
+	 * @author Diego Beraldin
 	 */
 	@Test
 	public void testAddWrongData() throws IOException, ServletException {

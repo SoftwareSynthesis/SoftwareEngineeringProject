@@ -25,7 +25,7 @@ import java.sql.Statement;
 /**
  * Verifica la possibilità di bloccare un contatto all'interno di una rubrica
  * 
- * @author diego
+ * @author Diego Beraldin
  */
 public class AddressBookDoBlockServletTest {
 	// oggetto da testare
@@ -44,7 +44,7 @@ public class AddressBookDoBlockServletTest {
 	/**
 	 * Inizializza l'oggetto da verificare prima di tutti i test
 	 * 
-	 * @author diego
+	 * @author Diego Beraldin
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() {
@@ -58,7 +58,7 @@ public class AddressBookDoBlockServletTest {
 	 * Ricrea prima di ogni test gli stub necessari alla sua esecuzione e azzera
 	 * il buffer in cui verrà memorizzato il testo della risposta
 	 * 
-	 * @author diego
+	 * @author Diego Beraldin
 	 */
 	@Before
 	public void setUp() {
@@ -74,7 +74,7 @@ public class AddressBookDoBlockServletTest {
 	 * 
 	 * @throws IOException
 	 * @throws ServletException
-	 * @author diego
+	 * @author Diego Beraldin
 	 */
 	@Test
 	public void testBlockCorrectContact() throws IOException, ServletException {
@@ -138,7 +138,7 @@ public class AddressBookDoBlockServletTest {
 	 * 
 	 * @throws IOException
 	 * @throws ServletException
-	 * @author diego
+	 * @author Diego Beraldin
 	 */
 	@Test
 	public void testBlockNotExistContact() throws IOException, ServletException {
@@ -172,7 +172,7 @@ public class AddressBookDoBlockServletTest {
 	 * 
 	 * @throws IOException
 	 * @throws ServletException
-	 * @author diego
+	 * @author Diego Beraldin
 	 */
 	@Test
 	public void testWrongData() throws IOException, ServletException {
