@@ -308,22 +308,43 @@ function CommunicationCenter() {
 
         //prende lo stream video locale, lo visualizza sul corrispetivo <video> e
         // lo invia agli altri peer
-        navigator.webkitGetUserMedia({
-            "audio" : true,
-            "video" : true
-        }, function(stream) {
-            mediator.getCommunicationPP().getMyVideo().src = URL.createObjectURL(stream);
-            localStream = stream;
-            pc.addStream(stream);
+        if (onlyAudio == true){
+			navigator.webkitGetUserMedia({
+				"audio" : true,
+				"video" : false
+			}, function(stream) {
+				mediator.getCommunicationPP().getMyVideo().src = URL.createObjectURL(stream);
+				localStream = stream;
+				pc.addStream(stream);
 
-            if (isCaller == true) {
-                idOther = contact.id;
-                var ar = new Array("3", idOther);
-                websocket.send(JSON.stringify(ar));
-                pc.createOffer(gotDescription);
-            } else
-                pc.createAnswer(gotDescription);
-        });
+				if (isCaller == true) {
+					idOther = contact.id;
+					var ar = new Array("3", idOther);
+					websocket.send(JSON.stringify(ar));
+					pc.createOffer(gotDescription);
+				} else
+					pc.createAnswer(gotDescription);
+			});
+		}
+		else
+		{
+			navigator.webkitGetUserMedia({
+				"audio" : true,
+				"video" : true
+			}, function(stream) {
+				mediator.getCommunicationPP().getMyVideo().src = URL.createObjectURL(stream);
+				localStream = stream;
+				pc.addStream(stream);
+
+				if (isCaller == true) {
+					idOther = contact.id;
+					var ar = new Array("3", idOther);
+					websocket.send(JSON.stringify(ar));
+					pc.createOffer(gotDescription);
+				} else
+					pc.createAnswer(gotDescription);
+			});
+		}
     };
 
     /**
