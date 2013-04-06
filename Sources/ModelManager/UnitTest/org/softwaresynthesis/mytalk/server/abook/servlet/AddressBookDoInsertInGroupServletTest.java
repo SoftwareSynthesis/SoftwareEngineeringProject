@@ -16,13 +16,17 @@ import javax.servlet.http.HttpSession;
 import java.io.StringWriter;
 import java.io.PrintWriter;
 import java.io.IOException;
+import java.sql.DriverManager;
+import java.sql.Connection;
+import java.sql.Statement;
+import java.sql.ResultSet;
 
 /**
  * Verifica la possibilità di aggiungere un contatto all'interno di un gruppo
  * della rubrica mediante la servlet dedicata a questo scopo, che viene invocata
  * tramite una richiesta HTTP con il metodo POST
  * 
- * @author diego
+ * @author Diego Beraldin
  */
 public class AddressBookDoInsertInGroupServletTest {
 	// oggetto da testare
@@ -33,23 +37,30 @@ public class AddressBookDoInsertInGroupServletTest {
 	private HttpServletResponse response;
 	// contiene il buffer in cui salvare il testo della risposta
 	private StringWriter writer;
+	// dati per effettuare l'accesso al database
+	private static String DB_URL;
+	private static String DB_USER;
+	private static String DB_PASSWORD;
 
 	/**
 	 * Inizializza l'oggetto da testare, prima di tutte le verifiche contenute
 	 * in questo test case
 	 * 
-	 * @author diego
+	 * @author Diego Beraldin
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() {
 		tester = new AddressBookDoInsertInGroupServlet();
+		DB_URL = "jdbc:mysql://localhost/MyTalk";
+		DB_USER = "root";
+		DB_PASSWORD = "root";
 	}
 
 	/**
 	 * Prima di ogni test, crea gli stub necessari alla sua esecuzione e azzera
 	 * il contenuto del buffer in cui sarà memorizzato il testo della risposta
 	 * 
-	 * @author diego
+	 * @author Diego Beraldin
 	 */
 	@Before
 	public void setUp() {
@@ -67,10 +78,105 @@ public class AddressBookDoInsertInGroupServletTest {
 	 * 
 	 * @throws IOException
 	 * @throws ServletException
+	 * @author Diego Beraldin
 	 */
 	@Test
 	public void testAddCorrectContact() throws IOException, ServletException {
-		fail("Non ancora implementato!");
+		int userID = -1;
+		int owner = -1;
+		int groupID = -1;
+		// operazioni preliminari: inserisce un utente di test nel sistema e
+		// crea un gruppo 'dummygroup' nella rubrica dell'utente identificato
+		// dall'indirizzo indirizzo5@dominio.it, che dovrà ospitare il nuovo
+		// utente
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(DB_URL, DB_USER,
+					DB_PASSWORD);
+			Statement stmt = conn.createStatement();
+			stmt.executeUpdate("INSERT INTO UserData (E_Mail, Password, Question, Answer) VALUES ('dummy@dummy.du', '*', '*', '*');");
+			ResultSet result = stmt
+					.executeQuery("SELECT ID_user FROM UserData WHERE E_Mail = 'dummy@dummy.du';");
+			while (result.next()) {
+				userID = result.getInt("ID_user");
+			}
+			result = stmt
+					.executeQuery("SELECT ID_user FROM UserData WHERE E_Mail = 'indirizzo5@dominio.it';");
+			while (result.next()) {
+				owner = result.getInt("ID_user");
+			}
+			stmt.executeUpdate(String
+					.format("INSERT INTO Groups(Name, ID_user) VALUES ('dummygroup', '%d');",
+							owner));
+			result = stmt
+					.executeQuery(String
+							.format("SELECT ID_group FROM Groups WHERE Name = 'dummygroup' AND ID_user = '%d';",
+									owner));
+			while (result.next()) {
+				groupID = result.getInt("ID_group");
+			}
+			stmt.close();
+			conn.close();
+		} catch (Exception ex) {
+			fail(ex.getMessage());
+		}
+
+		// crea una sessione di autenticazione valida per
+		// l'utente associato a 'indirizzo5@dominio.it'
+		HttpSession mySession = mock(HttpSession.class);
+		when(mySession.getAttribute("username")).thenReturn(
+				"indirizzo5@dominio.it");
+
+		// configura il comportamento della richiesta
+		when(request.getSession(false)).thenReturn(mySession);
+		when(request.getParameter("contactId")).thenReturn(
+				Integer.toString(userID));
+		when(request.getParameter("groupId")).thenReturn(
+				Integer.toString(groupID));
+
+		// configura il comportamento della risposta
+		when(response.getWriter()).thenReturn(new PrintWriter(writer));
+
+		// invoca il metodo da testare
+		tester.doPost(request, response);
+
+		writer.flush();
+		String responseText = writer.toString();
+
+		// verifica l'effettivo inserimento del contatto
+		try {
+			Connection conn = DriverManager.getConnection(DB_URL, DB_USER,
+					DB_PASSWORD);
+			Statement stmt = conn.createStatement();
+			ResultSet result = stmt
+					.executeQuery(String
+							.format("SELECT * FROM AddressBookEntries WHERE ID_user = '%d' AND Owner = '%d';",
+									userID, owner));
+			while (result.next()) {
+				int id = result.getInt("ID_group");
+				assertEquals(groupID, id);
+			}
+			stmt.close();
+			conn.close();
+		} catch (Exception ex) {
+			fail(ex.getMessage());
+		} finally {
+			// operazioni di clean-up
+			try {
+				Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+				Statement stmt = conn.createStatement();
+				stmt.executeUpdate(String.format("DELETE FROM Groups WHERE ID_group = '%d';", groupID));
+				stmt.executeUpdate(String.format("DELETE FROM UserData WHERE ID_user = '%d';", userID));
+				stmt.close();
+				conn.close();
+			} catch (Exception ex) {
+				fail(ex.getMessage());
+			}
+			// verifica l'output ottenuto dalla servlet
+			assertNotNull(responseText);
+			assertFalse(responseText.length() == 0);
+			assertEquals(responseText, "true");
+		}
 	}
 
 	/**
@@ -80,7 +186,7 @@ public class AddressBookDoInsertInGroupServletTest {
 	 * 
 	 * @throws IOException
 	 * @throws ServletException
-	 * @author diego
+	 * @author Diego Beraldin
 	 */
 	@Test
 	public void testAddNotExistContact() throws IOException, ServletException {
@@ -111,14 +217,37 @@ public class AddressBookDoInsertInGroupServletTest {
 	/**
 	 * Verifica la corretta gestione del fallimento dell'operazione di
 	 * inserimento di un utente in un gruppo nel momento in cui il gruppo
-	 * passato tramite la richiesta non è di proprietà dell'utente che la invia
-	 * alla servlet oggetto di test
+	 * passato tramite la richiesta non corrisponde a nessuno dei gruppi
+	 * presenti nel database
 	 * 
 	 * @throws IOException
 	 * @throws ServletException
+	 * @author Diego Beraldin
 	 */
+	@Test
 	public void testAddNotExistGroup() throws IOException, ServletException {
-		fail("Non ancora implementato!");
+		// crea una sessione di autenticazione
+		HttpSession mySession = mock(HttpSession.class);
+		when(mySession.getAttribute("username")).thenReturn(
+				"indirizzo5@dominio.it");
+
+		// configura il comportamento della richiesta
+		when(request.getSession(false)).thenReturn(mySession);
+		when(request.getParameter("contactId")).thenReturn("1");
+		when(request.getParameter("groupId")).thenReturn("-1");
+
+		// configura il comportamento della risposta
+		when(response.getWriter()).thenReturn(new PrintWriter(writer));
+
+		// invoca il metodo da testare
+		tester.doPost(request, response);
+
+		// verifica l'output
+		writer.flush();
+		String responseText = writer.toString();
+		assertNotNull(responseText);
+		assertFalse(responseText.length() == 0);
+		assertEquals("false", responseText);
 	}
 
 	/**
@@ -128,10 +257,10 @@ public class AddressBookDoInsertInGroupServletTest {
 	 * 
 	 * @throws IOException
 	 * @throws ServletException
-	 * @author diego
+	 * @author Diego Beraldin
 	 */
 	@Test
-	public void testAddNotWrongUserData() throws IOException, ServletException {
+	public void testAddWrongUserData() throws IOException, ServletException {
 		// crea una sessione di autenticazione
 		HttpSession mySession = mock(HttpSession.class);
 		when(mySession.getAttribute("username")).thenReturn(
@@ -162,7 +291,7 @@ public class AddressBookDoInsertInGroupServletTest {
 	 * 
 	 * @throws IOException
 	 * @throws ServletException
-	 * @author diego
+	 * @author Diego Beraldin
 	 */
 	@Test
 	public void testAddWrongGroupData() throws IOException, ServletException {
