@@ -3,6 +3,7 @@ package org.softwaresynthesis.mytalk.server.abook.servlet;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.junit.Before;
@@ -15,11 +16,15 @@ import javax.servlet.ServletException;
 import java.io.StringWriter;
 import java.io.PrintWriter;
 import java.io.IOException;
+import java.sql.DriverManager;
+import java.sql.Connection;
+import java.sql.Statement;
+import java.sql.ResultSet;
 
 /**
  * Verifica la possibilità di aggiungere un contatto alla propria rubrica
  * 
- * @author diego
+ * @author Diego Beraldin
  */
 public class AddressBookDoAddContactServletTest {
 	// oggetto da testare
@@ -30,22 +35,29 @@ public class AddressBookDoAddContactServletTest {
 	private HttpServletResponse response;
 	// buffer che memorizza il testo della risposta
 	private StringWriter writer;
+	// dati necessari per accedere al database
+	private static String DB_URL;
+	private static String DB_USER;
+	private static String DB_PASSWORD;
 
 	/**
 	 * Inizializza l'oggetto da testare prima di tutti i test
 	 * 
-	 * @author diego
+	 * @author Diego Beraldin
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() {
 		tester = new AddressBookDoAddContactServlet();
+		DB_URL = "jdbc:mysql://localhost/MyTalk";
+		DB_USER = "root";
+		DB_PASSWORD = "root";
 	}
 
 	/**
 	 * Prima di ogni test, ricrea gli stub necessari alla sua esecuzione e
 	 * azzera la stringa in cui è rappresentato il testo della risposta
 	 * 
-	 * @author diego
+	 * @author Diego Beraldin
 	 */
 	@Before
 	public void setUp() {
@@ -59,10 +71,32 @@ public class AddressBookDoAddContactServletTest {
 	 * 
 	 * @throws IOException
 	 * @throws ServletException
-	 * @author diego
+	 * @author Diego Beraldin
 	 */
 	@Test
 	public void testAddCorrectContact() throws IOException, ServletException {
+		int userID = -1;
+		int owner = -1;
+		// setup iniziale: inserisce un nuovo utente nel sistema (che sarà in
+		// seguito aggiunto alla propria rubrica da 'indirizzo5@dominio.it'
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(DB_URL, DB_USER,
+					DB_PASSWORD);
+			Statement stmt = conn.createStatement();
+			stmt.executeUpdate("INSERT INTO UserData(E_Mail, Password, Question, Answer) VALUES ('dummy@dummy.du', '*', '*', '*');");
+			ResultSet result = stmt
+					.executeQuery("SELECT ID_user FROM UserData WHERE E_Mail = 'dummy@dummy.du';");
+			while (result.next()) {
+				userID = result.getInt("ID_user");
+			}
+			stmt.executeUpdate(String.format("INSERT INTO Groups(Name, ID_user) VALUES ('addrBookEntry', '%d');", userID));
+			stmt.close();
+			conn.close();
+		} catch (Exception ex) {
+			fail(ex.getMessage());
+		}
+
 		// crea sessione identificativa per indirizzo5@dominio.it
 		HttpSession mySession = mock(HttpSession.class);
 		when(mySession.getAttribute("username")).thenReturn(
@@ -70,7 +104,8 @@ public class AddressBookDoAddContactServletTest {
 
 		// configura il comportamento della richiesta
 		when(request.getSession(false)).thenReturn(mySession);
-		when(request.getParameter("contactId")).thenReturn("2");
+		when(request.getParameter("contactId")).thenReturn(
+				Integer.toString(userID));
 
 		// configura il comportamento della risposta
 		when(response.getWriter()).thenReturn(new PrintWriter(writer));
@@ -78,16 +113,56 @@ public class AddressBookDoAddContactServletTest {
 		// invoca il metodo da testare
 		tester.doPost(request, response);
 
-		// verifica l'output
 		writer.flush();
 		String responseText = writer.toString();
-		assertNotNull(responseText);
-		assertFalse(responseText.length() == 0);
-		assertEquals("true", responseText);
-		/*
-		 * FIXME occorre poi rimuovere dal database il contatto aggiunto se
-		 * questo è un test di integrazione come sembra essere!
-		 */
+
+		// verifica l'effettivo inserimento della voce di rubrica
+		try {
+			Connection conn = DriverManager.getConnection(DB_URL, DB_USER,
+					DB_PASSWORD);
+			Statement stmt = conn.createStatement();
+			ResultSet result = stmt
+					.executeQuery("SELECT ID_user FROM UserData WHERE E_Mail = 'indirizzo5@dominio.it';");
+			result.next();
+			owner = result.getInt("ID_user");
+			result = stmt
+					.executeQuery(String
+							.format("SELECT * FROM AddressBookEntries WHERE ID_user = '%d' AND Owner = '%d'",
+									userID, owner));
+			int count = 0;
+			while (result.next()) {
+				count++;
+			}
+			assertEquals(1, count);
+			stmt.close();
+			conn.close();
+		} catch (Exception ex) {
+			fail(ex.getMessage());
+		} finally {
+			// clean-up finale
+			try {
+				Connection conn = DriverManager.getConnection(DB_URL, DB_USER,
+						DB_PASSWORD);
+				Statement stmt = conn.createStatement();
+				stmt.executeUpdate(String
+						.format("DELETE FROM AddressBookEntries WHERE ID_user = '%d' AND Owner = '%d';",
+								userID, owner));
+				stmt.executeUpdate(String
+						.format("DELETE FROM AddressBookEntries WHERE ID_user = '%d' AND Owner = '%d';",
+								owner, userID));
+				stmt.executeUpdate(String.format("DELETE FROM Groups WHERE ID_user = '%d';", userID));
+				stmt.executeUpdate(String.format(
+						"DELETE FROM UserData WHERE ID_user = '%d';", userID));
+				stmt.close();
+				conn.close();
+			} catch (Exception ex) {
+				fail(ex.getMessage());
+			}
+			// verifica l'output
+			assertNotNull(responseText);
+			assertFalse(responseText.length() == 0);
+			assertEquals("true", responseText);
+		}
 	}
 
 	/**
@@ -96,7 +171,7 @@ public class AddressBookDoAddContactServletTest {
 	 * 
 	 * @throws IOException
 	 * @throws ServletException
-	 * @author diego
+	 * @author Diego Beraldin
 	 */
 	@Test
 	public void testAddNotExistContact() throws IOException, ServletException {
@@ -130,7 +205,7 @@ public class AddressBookDoAddContactServletTest {
 	 * 
 	 * @throws IOException
 	 * @throws ServletException
-	 * @author diego
+	 * @author Diego Beraldin
 	 */
 	@Test
 	public void testAddWrongData() throws IOException, ServletException {
