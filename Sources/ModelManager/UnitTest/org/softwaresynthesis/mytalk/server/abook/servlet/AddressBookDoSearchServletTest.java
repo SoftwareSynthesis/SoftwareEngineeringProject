@@ -80,7 +80,13 @@ public class AddressBookDoSearchServletTest {
 		String responseText = writer.toString();
 		assertNotNull(responseText);
 		assertFalse(responseText.length() == 0);
-		// FIXME questo test non è completo e NON passa!
+		System.out.println(responseText);
+		String toCompare = "{\"1\":{\"name\":\"pippo\", "
+				+ "\"surname\":\"rossi\", "
+				+ "\"email\":\"indirizzo1@dominio.it\", \"id\":\"1\", "
+				+ "\"picturePath\":\"img/contactImg/Default.png\", "
+				+ "\"state\":\"offline\", " + "\"blocked\":\"false\"}}";
+		assertEquals(toCompare, responseText);
 	}
 
 	/**
@@ -92,22 +98,22 @@ public class AddressBookDoSearchServletTest {
 	 * @throws ServletException
 	 * @author Diego Beraldin
 	 */
-	@Test
-	public void testWrongData() throws IOException, ServletException {
-		// configura il comportamento della richiesta (parametro errato)
-		when(request.getParameter("para")).thenReturn("pippo");
-
-		// configura il comportamento della risposta
-		when(response.getWriter()).thenReturn(new PrintWriter(writer));
-
-		// invoca il metodo da testare
-		tester.doPost(request, response);
-
-		// verifica l'output
-		writer.flush();
-		String responseText = writer.toString();
-		assertNotNull(responseText);
-		assertFalse(responseText.length() == 0);
-		assertEquals("false", responseText);
-	}
+	 @Test
+	 public void testWrongData() throws IOException, ServletException {
+	 // configura il comportamento della richiesta (parametro errato)
+	 when(request.getParameter("para")).thenReturn("pippo");
+	
+	 // configura il comportamento della risposta
+	 when(response.getWriter()).thenReturn(new PrintWriter(writer));
+	
+	 // invoca il metodo da testare
+	 tester.doPost(request, response);
+	
+	 // verifica l'output
+	 writer.flush();
+	 String responseText = writer.toString();
+	 assertNotNull(responseText);
+	 assertFalse(responseText.length() == 0);
+	 assertEquals("false", responseText);
+	 }
 }

@@ -72,6 +72,7 @@ public class AddressBookDoSearchServlet extends HttpServlet
 		UserDataDAO userDAO = null;
 		try
 		{
+			// FIXME non gestito il caso in cui il parametro è nullo (dovrebbe restituire false)
 			parameter = request.getParameter("param");
 			userDAO = new UserDataDAO();
 			users = userDAO.searchGeneric(parameter);
