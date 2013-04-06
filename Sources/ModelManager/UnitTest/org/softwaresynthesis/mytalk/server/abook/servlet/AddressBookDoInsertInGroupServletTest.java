@@ -163,10 +163,13 @@ public class AddressBookDoInsertInGroupServletTest {
 		} finally {
 			// operazioni di clean-up
 			try {
-				Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+				Connection conn = DriverManager.getConnection(DB_URL, DB_USER,
+						DB_PASSWORD);
 				Statement stmt = conn.createStatement();
-				stmt.executeUpdate(String.format("DELETE FROM Groups WHERE ID_group = '%d';", groupID));
-				stmt.executeUpdate(String.format("DELETE FROM UserData WHERE ID_user = '%d';", userID));
+				stmt.executeUpdate(String.format(
+						"DELETE FROM Groups WHERE ID_group = '%d';", groupID));
+				stmt.executeUpdate(String.format(
+						"DELETE FROM UserData WHERE ID_user = '%d';", userID));
 				stmt.close();
 				conn.close();
 			} catch (Exception ex) {
@@ -249,6 +252,13 @@ public class AddressBookDoInsertInGroupServletTest {
 		assertFalse(responseText.length() == 0);
 		assertEquals("false", responseText);
 	}
+
+	/*
+	 * TODO verificare cosa succede se si tenta di aggiungere un utente in un
+	 * gruppo che non appartiene all'utente da cui proviene la richiesta di
+	 * aggiunta (forse era questo quel che si intendeva con l'espressione
+	 * testAddNotExistGroup() nel documento di pianificazione
+	 */
 
 	/**
 	 * Verifica il fallimento dell'operazione di inserimento di un contatto in
