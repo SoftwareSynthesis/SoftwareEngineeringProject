@@ -90,6 +90,8 @@ public final class AddressBookDoRemoveFromGroupServlet extends HttpServlet {
 			group = groupDAO.getByID(groupId);
 			if (group != null)
 			{
+				// FIXME sei sicuro che sia il modo giusto di fare le cose?
+				// dopo l'update(user) la AddressBookEntry è bella che rimasta nel database!
 				entry = new AddressBookEntry();
 				entry.setBlocked(false);
 				entry.setOwner(user);
