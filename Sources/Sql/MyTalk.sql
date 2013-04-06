@@ -23,7 +23,7 @@ CREATE TABLE UserData
 	Answer						VARCHAR(100)				NOT NULL,
 	Name						VARCHAR(100),
 	Surname						VARCHAR(100),
-	Picture						VARCHAR(100)				NOT NULL,
+	Picture						VARCHAR(100)				NOT NULL,			DEFAULT 'img/contactImg/Default.png',
 	
 	PRIMARY KEY(ID_user),
 	UNIQUE(E_Mail)
