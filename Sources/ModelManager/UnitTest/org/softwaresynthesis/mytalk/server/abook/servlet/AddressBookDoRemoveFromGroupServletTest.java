@@ -286,7 +286,60 @@ public class AddressBookDoRemoveFromGroupServletTest {
 	 */
 	@Test
 	public void testNotExistGroup() throws IOException, ServletException {
-		fail("Non ho voglia di farlo");
+		// fase preliminare: crea gli oggetti per il test
+		int userID = createDummyUser("dummy@dummy.du");
+		int owner = getTestOwner();
+		int groupID = createDummyGroup("addrBookEntry", owner);
+		
+		// inserisce l'utente dummy nella rubrica dell'utente
+		try {
+			Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			Statement stmt = conn.createStatement();
+			stmt.executeUpdate(String.
+				format("INSERT INTO AddressBookEntries(ID_user, ID_group, Owner, Blocked) VALUES ('%d', '%d', '%d', 0);",
+						userID, groupID, owner));
+			stmt.close();
+			conn.close();
+		} catch (Exception ex) {
+			fail(ex.getMessage());
+		}
+		
+		// crea una sessione di autenticazione
+		HttpSession mySession = mock(HttpSession.class);
+		
+		// configura il comportamento della richiesta
+		when(request.getSession(false)).thenReturn(mySession);
+		when(request.getParameter("groupId")).thenReturn("-1");
+		when(request.getParameter("contactId")).thenReturn(Integer.toString(userID));
+		
+		// configura il comportamento della risposta
+		when(response.getWriter()).thenReturn(new PrintWriter(writer));
+		
+		// invoca il metodo da testare
+		tester.doPost(request, response);
+		writer.flush();
+		String responseText = writer.toString();
+		
+		// clean-up
+		try {
+			Connection conn = DriverManager.getConnection(DB_URL, DB_USER,
+					DB_PASSWORD);
+			Statement stmt = conn.createStatement();
+			stmt.executeUpdate(String.format(
+					"DELETE FROM AddressBookEntries WHERE ID_user = '%d' AND Owner = '%d' AND ID_group = '%d';",
+					userID, owner, groupID));
+			stmt.executeUpdate(String.format(
+					"DELETE FROM Groups WHERE ID_group = '%d';", groupID));
+			stmt.executeUpdate(String.format(
+					"DELETE FROM UserData WHERE ID_user = '%d';", userID));
+			stmt.close();
+			conn.close();
+		} catch (Exception ex) {
+			fail(ex.getMessage());
+		}
+		assertNotNull(responseText);
+		assertFalse(responseText.length() == 0);
+		assertEquals("false", responseText);
 	}
 
 	/**
