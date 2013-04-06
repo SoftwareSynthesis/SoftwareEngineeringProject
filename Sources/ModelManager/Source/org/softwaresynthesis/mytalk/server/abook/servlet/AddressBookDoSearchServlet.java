@@ -87,10 +87,9 @@ public class AddressBookDoSearchServlet extends HttpServlet
 				result += ", \"email\":\"" + entry.getMail() + "\"";
 				result += ", \"id\":\"" + entry.getId() + "\"";
 				result += ", \"picturePath\":\"" + entry.getPath() + "\"";
+				// FIXME perché sempre offline?
 				result += ", \"state\":\"offline\"";
-				// FIXME doppio errore!
-				// 1) perché sempre false?
-				// 2) anche qui c'è una coppia di virgolette in più
+				// FIXME anche qui c'è una coppia di virgolette in più
 				result += ", \"blocked\":\"false\"}";
 				if (iterator.hasNext() == true)
 				{
