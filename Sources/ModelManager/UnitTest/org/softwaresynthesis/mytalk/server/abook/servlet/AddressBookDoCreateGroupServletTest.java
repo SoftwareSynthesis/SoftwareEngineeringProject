@@ -91,19 +91,17 @@ public class AddressBookDoCreateGroupServletTest {
 		// invoca il metodo da testare
 		tester.doPost(request, response);
 
-		// verifica l'output
 		writer.flush();
 		String responseText = writer.toString();
-		assertNotNull(responseText);
-		assertFalse(responseText.length() == 0);
-		assertEquals("true", responseText);
-		
+
 		// verifica l'effettivo inserimento del gruppo
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			Connection conn = DriverManager.getConnection(DB_URL, DB_USER,
+					DB_PASSWORD);
 			Statement stmt = conn.createStatement();
-			ResultSet result = stmt.executeQuery("SELECT * FROM Groups WHERE Name = 'dummygroup';");
+			ResultSet result = stmt
+					.executeQuery("SELECT * FROM Groups WHERE Name = 'dummygroup';");
 			result.next();
 			String name = result.getString("Name");
 			assertEquals("dummygroup", name);
@@ -113,17 +111,23 @@ public class AddressBookDoCreateGroupServletTest {
 			conn.close();
 		} catch (Exception ex) {
 			fail(ex.getMessage());
-		}
-		
-		// effettua le operazioni di clean-up successive
-		try {
-			Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-			Statement stmt = conn.createStatement();
-			stmt.executeUpdate("DELETE FROM Groups WHERE Name = 'dummygroup' AND ID_user = '5';");
-			stmt.close();
-			conn.close();
-		} catch (Exception ex) {
-			fail(ex.getMessage());
+		} finally {
+
+			// effettua le operazioni di clean-up successive
+			try {
+				Connection conn = DriverManager.getConnection(DB_URL, DB_USER,
+						DB_PASSWORD);
+				Statement stmt = conn.createStatement();
+				stmt.executeUpdate("DELETE FROM Groups WHERE Name = 'dummygroup' AND ID_user = '5';");
+				stmt.close();
+				conn.close();
+			} catch (Exception ex) {
+				fail(ex.getMessage());
+			}
+			// verifica l'output ottenuto dalla servlet
+			assertNotNull(responseText);
+			assertFalse(responseText.length() == 0);
+			assertEquals("true", responseText);
 		}
 	}
 

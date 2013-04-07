@@ -93,12 +93,8 @@ public class AddressBookDoBlockServletTest {
 		// invoca il metodo da testare
 		tester.doPost(request, response);
 
-		// verifica l'output
 		writer.flush();
 		String responseText = writer.toString();
-		assertNotNull(responseText);
-		assertFalse(responseText.length() == 0);
-		assertEquals("true", responseText);
 
 		// verifica che il blocco sia stato effettivo e su TUTTE le entries
 		try {
@@ -117,18 +113,22 @@ public class AddressBookDoBlockServletTest {
 
 		} catch (Exception ex) {
 			fail(ex.getMessage());
-		}
-
-		// effettua un po' di operazioni di clean-up finali
-		try {
-			Connection conn = DriverManager.getConnection(DB_URL, DB_USER,
-					DB_PASSWORD);
-			Statement stmt = conn.createStatement();
-			stmt.executeUpdate("UPDATE AddressBookEntries SET Blocked = '0' WHERE Owner = '5' AND ID_user = '2'");
-			stmt.close();
-			conn.close();
-		} catch (Exception ex) {
-			fail(ex.getMessage());
+		} finally {
+			// effettua un po' di operazioni di clean-up finali
+			try {
+				Connection conn = DriverManager.getConnection(DB_URL, DB_USER,
+						DB_PASSWORD);
+				Statement stmt = conn.createStatement();
+				stmt.executeUpdate("UPDATE AddressBookEntries SET Blocked = '0' WHERE Owner = '5' AND ID_user = '2'");
+				stmt.close();
+				conn.close();
+			} catch (Exception ex) {
+				fail(ex.getMessage());
+			}
+			// verifica l'output ottenuto dalla servlet
+			assertNotNull(responseText);
+			assertFalse(responseText.length() == 0);
+			assertEquals("true", responseText);
 		}
 	}
 
