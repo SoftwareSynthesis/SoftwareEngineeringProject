@@ -2,6 +2,7 @@ package org.softwaresynthesis.mytalk.server.authentication;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import java.security.Principal;
 import java.util.Set;
@@ -13,12 +14,11 @@ import org.junit.Test;
 
 /**
  * Verifica la possibilità di effettuare un login al sistema
- *
+ * 
  * @author Andrea Meneghinello
  * @author Diego Beraldin
  */
 public class AuthenticationModuleTest {
-	// FIXME tutto questo test è da rivedere!
 	private static LoginContext tester;
 
 	@BeforeClass
@@ -45,6 +45,18 @@ public class AuthenticationModuleTest {
 			principalsArray = principals.toArray();
 			data = principalsArray[0].toString();
 			assertEquals("PrincipalImpl[element: indirizzo5@dominio.it]", data);
+		} catch (LoginException ex) {
+			fail(ex.getMessage());
+		}
+	}
+
+	@Test
+	public void testLogout() {
+		try {
+			tester.logout();
+			Subject subject = tester.getSubject();
+			Set<Principal> principals = subject.getPrincipals();
+			assertTrue(principals.size() == 0);
 		} catch (LoginException ex) {
 			fail(ex.getMessage());
 		}
