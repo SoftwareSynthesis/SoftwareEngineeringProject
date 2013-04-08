@@ -128,6 +128,13 @@ public class AddressBookDoRemoveContactServletTest {
 		tester.doPost(request, response);
 
 		try {
+			// verifica l'output ottenuto dalla servlet
+			writer.flush();
+			String responseText = writer.toString();
+			assertNotNull(responseText);
+			assertFalse(responseText.length() == 0);
+			assertEquals("true", responseText);
+
 			// verifica che il contatto sia stato effettivamente eliminato
 			Connection conn = DriverManager.getConnection(DB_URL, DB_USER,
 					DB_PASSWORD);
@@ -140,8 +147,8 @@ public class AddressBookDoRemoveContactServletTest {
 			assertFalse(notEmpty);
 			stmt.close();
 			conn.close();
-		} catch (Exception ex) {
-			fail(ex.getMessage());
+		} catch (Throwable error) {
+			fail(error.getMessage());
 		} finally {
 			try {
 				// operazioni di clean-up
@@ -149,18 +156,14 @@ public class AddressBookDoRemoveContactServletTest {
 						DB_PASSWORD);
 				Statement stmt = conn.createStatement();
 				stmt.executeUpdate("DELETE FROM UserData WHERE E_Mail = 'dummy@dummy.du';");
+				stmt.executeUpdate(String.format(
+						"DELETE FROM UserData WHERE ID_user = '%d';", userID));
 				stmt.close();
 				conn.close();
 			} catch (Exception ex) {
 				fail(ex.getMessage());
 			}
 		}
-		// verifica l'output ottenuto dalla servlet
-		writer.flush();
-		String responseText = writer.toString();
-		assertNotNull(responseText);
-		assertFalse(responseText.length() == 0);
-		assertEquals("true", responseText);
 	}
 
 	/**
@@ -243,23 +246,28 @@ public class AddressBookDoRemoveContactServletTest {
 		// invoca il metodo da testare
 		tester.doPost(request, response);
 
-		// clean-up finale (elimina il contatto inserito ai fini del test)
 		try {
-			Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-			Statement stmt = conn.createStatement();
-			stmt.executeUpdate("DELETE FROM UserData WHERE E_Mail = 'dummy@dummy.du';");
-			stmt.close();
-			conn.close();
-		} catch (Exception ex) {
-			fail(ex.getMessage());
+			// verifica l'output ottenuto dalla servlet
+			writer.flush();
+			String responseText = writer.toString();
+			assertNotNull(responseText);
+			assertFalse(responseText.length() == 0);
+			assertEquals(false, responseText);
+		} catch (Throwable error) {
+			fail(error.getMessage());
+		} finally {
+			// clean-up finale (elimina il contatto inserito ai fini del test)
+			try {
+				Connection conn = DriverManager.getConnection(DB_URL, DB_USER,
+						DB_PASSWORD);
+				Statement stmt = conn.createStatement();
+				stmt.executeUpdate("DELETE FROM UserData WHERE E_Mail = 'dummy@dummy.du';");
+				stmt.close();
+				conn.close();
+			} catch (Exception ex) {
+				fail(ex.getMessage());
+			}
 		}
-		
-		// verifica l'output ottenuto dalla servlet
-		writer.flush();
-		String responseText = writer.toString();
-		assertNotNull(responseText);
-		assertFalse(responseText.length() == 0);
-		assertEquals(false, responseText);
 	}
 
 	/**
@@ -293,5 +301,4 @@ public class AddressBookDoRemoveContactServletTest {
 		assertFalse(responseText.length() == 0);
 		assertEquals("false", responseText);
 	}
-
 }

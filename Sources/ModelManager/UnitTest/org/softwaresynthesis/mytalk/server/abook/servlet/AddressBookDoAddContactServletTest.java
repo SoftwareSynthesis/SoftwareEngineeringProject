@@ -113,11 +113,15 @@ public class AddressBookDoAddContactServletTest {
 		// invoca il metodo da testare
 		tester.doPost(request, response);
 
-		writer.flush();
-		String responseText = writer.toString();
-
-		// verifica l'effettivo inserimento della voce di rubrica
 		try {
+			// verifica l'output
+			writer.flush();
+			String responseText = writer.toString();
+			assertNotNull(responseText);
+			assertFalse(responseText.length() == 0);
+			assertEquals("true", responseText);
+			
+			// verifica l'effettivo inserimento della voce di rubrica
 			Connection conn = DriverManager.getConnection(DB_URL, DB_USER,
 					DB_PASSWORD);
 			Statement stmt = conn.createStatement();
@@ -136,8 +140,8 @@ public class AddressBookDoAddContactServletTest {
 			assertEquals(1, count);
 			stmt.close();
 			conn.close();
-		} catch (Exception ex) {
-			fail(ex.getMessage());
+		} catch (Throwable error) {
+			fail(error.getMessage());
 		} finally {
 			// clean-up finale
 			try {
@@ -158,10 +162,6 @@ public class AddressBookDoAddContactServletTest {
 			} catch (Exception ex) {
 				fail(ex.getMessage());
 			}
-			// verifica l'output
-			assertNotNull(responseText);
-			assertFalse(responseText.length() == 0);
-			assertEquals("true", responseText);
 		}
 	}
 

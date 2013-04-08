@@ -112,15 +112,15 @@ public class AddressBookDoDeleteGroupServletTest {
 		// invoca il metodo da testare
 		tester.doPost(request, response);
 
-		// verifica l'output
-		writer.flush();
-		String responseText = writer.toString();
-		assertNotNull(responseText);
-		assertFalse(responseText.length() == 0);
-		assertEquals("true", responseText);
-
-		// verifica che il gruppo sia stato effettivamente cancellato
 		try {
+			// verifica l'output
+			writer.flush();
+			String responseText = writer.toString();
+			assertNotNull(responseText);
+			assertFalse(responseText.length() == 0);
+			assertEquals("true", responseText);
+
+			// verifica che il gruppo sia stato effettivamente cancellato
 			Connection conn = DriverManager.getConnection(DB_URL, DB_USER,
 					DB_PASSWORD);
 			Statement stmt = conn.createStatement();
@@ -128,8 +128,18 @@ public class AddressBookDoDeleteGroupServletTest {
 					.executeQuery("SELECT * FROM Groups WHERE ID_user = '5' AND Name = 'dummygroup';");
 			boolean notEmpty = result.next();
 			assertFalse(notEmpty);
-		} catch (Exception ex) {
-			fail(ex.getMessage());
+		} catch (Throwable error) {
+			fail(error.getMessage());
+		} finally {
+			try {
+				Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+				Statement stmt = conn.createStatement();
+				stmt.executeUpdate(String.format("DELETE FROM Groups WHERE ID_group = '%d';", groupID));
+				stmt.close();
+				conn.close();
+			} catch (Exception ex) {
+				fail(ex.getMessage());
+			}
 		}
 	}
 
@@ -223,12 +233,15 @@ public class AddressBookDoDeleteGroupServletTest {
 
 		// invoca il metodo da testare
 		tester.doPost(request, response);
-		
-		writer.flush();
-		String responseText = writer.toString();
 
-		// verifiche finali
 		try {
+			// verifica l'output ottenuto dalla servlet
+			writer.flush();
+			String responseText = writer.toString();
+			assertNotNull(responseText);
+			assertFalse(responseText.length() == 0);
+			assertEquals("false", responseText);
+			
 			// verifica che il gruppo non viene eliminato
 			Connection conn = DriverManager.getConnection(DB_URL, DB_USER,
 					DB_PASSWORD);
@@ -239,8 +252,8 @@ public class AddressBookDoDeleteGroupServletTest {
 			stmt.close();
 			conn.close();
 			assertFalse(empty);
-		} catch (Exception ex) {
-			fail(ex.getMessage());
+		} catch (Throwable error) {
+			fail(error.getMessage());
 		} finally {
 			// clean-up finale: elimina l'utente finto e il gruppo finto
 			try {
@@ -255,10 +268,6 @@ public class AddressBookDoDeleteGroupServletTest {
 			} catch (Exception ex) {
 				fail(ex.getMessage());
 			}
-			// verifica l'output ottenuto dalla servlet
-			assertNotNull(responseText);
-			assertFalse(responseText.length() == 0);
-			assertEquals("false", responseText);
 		}
 	}
 

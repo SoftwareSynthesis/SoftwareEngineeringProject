@@ -140,11 +140,15 @@ public class AddressBookDoInsertInGroupServletTest {
 		// invoca il metodo da testare
 		tester.doPost(request, response);
 
-		writer.flush();
-		String responseText = writer.toString();
-
-		// verifica l'effettivo inserimento del contatto
 		try {
+			// verifica l'output ottenuto dalla servlet
+			writer.flush();
+			String responseText = writer.toString();
+			assertNotNull(responseText);
+			assertFalse(responseText.length() == 0);
+			assertEquals(responseText, "true");
+			
+			// verifica l'effettivo inserimento del contatto
 			Connection conn = DriverManager.getConnection(DB_URL, DB_USER,
 					DB_PASSWORD);
 			Statement stmt = conn.createStatement();
@@ -158,8 +162,8 @@ public class AddressBookDoInsertInGroupServletTest {
 			}
 			stmt.close();
 			conn.close();
-		} catch (Exception ex) {
-			fail(ex.getMessage());
+		} catch (Throwable error) {
+			fail(error.getMessage());
 		} finally {
 			// operazioni di clean-up
 			try {
@@ -175,10 +179,6 @@ public class AddressBookDoInsertInGroupServletTest {
 			} catch (Exception ex) {
 				fail(ex.getMessage());
 			}
-			// verifica l'output ottenuto dalla servlet
-			assertNotNull(responseText);
-			assertFalse(responseText.length() == 0);
-			assertEquals(responseText, "true");
 		}
 	}
 

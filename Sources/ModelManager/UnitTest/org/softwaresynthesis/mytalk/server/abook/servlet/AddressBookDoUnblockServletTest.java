@@ -35,6 +35,10 @@ public class AddressBookDoUnblockServletTest {
 	private HttpServletResponse response;
 	// contiene il buffer su cui è scritto il testo della risposta
 	private StringWriter writer;
+	// dati per accedere al database
+	private static String DB_URL;
+	private static String DB_USER;
+	private static String DB_PASSWORD;
 
 	/**
 	 * Inizializza l'oggetto da verificare prima di tutti i test
@@ -44,6 +48,9 @@ public class AddressBookDoUnblockServletTest {
 	@BeforeClass
 	public static void setUpBeforeClass() {
 		tester = new AddressBookDoUnblockServlet();
+		DB_URL = "jdbc:mysql://localhost/MyTalk";
+		DB_USER = "root";
+		DB_PASSWORD = "root";
 	}
 
 	/**
@@ -87,10 +94,10 @@ public class AddressBookDoUnblockServletTest {
 		// davvero bloccato
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost/MyTalk", "root", "root");
+			Connection conn = DriverManager.getConnection(DB_URL, DB_USER,
+					DB_PASSWORD);
 			Statement stmt = conn.createStatement();
-			stmt.execute("UPDATE AddressBookEntries SET Blocked = '0' WHERE Owner = '5' AND ID_User = '2'");
+			stmt.execute("UPDATE AddressBookEntries SET Blocked = '1' WHERE Owner = '5' AND ID_User = '2'");
 			stmt.close();
 			conn.close();
 		} catch (Exception ex) {
@@ -100,16 +107,16 @@ public class AddressBookDoUnblockServletTest {
 		// invoca il metodo da testare
 		tester.doPost(request, response);
 
-		// verifica l'output
-		writer.flush();
-		String responseText = writer.toString();
-		System.err.println(responseText);
-		assertNotNull(responseText);
-		assertFalse(responseText.length() == 0);
-		assertEquals("true", responseText);
-
-		// controllo che sia stato effettivamente sbloccato
 		try {
+			// verifica l'output
+			writer.flush();
+			String responseText = writer.toString();
+			System.err.println(responseText);
+			assertNotNull(responseText);
+			assertFalse(responseText.length() == 0);
+			assertEquals("true", responseText);
+
+			// controllo che sia stato effettivamente sbloccato
 			Connection conn = DriverManager.getConnection(
 					"jdbc:mysql://localhost/MyTalk", "root", "root");
 			Statement stmt = conn.createStatement();
@@ -122,8 +129,20 @@ public class AddressBookDoUnblockServletTest {
 			}
 			stmt.close();
 			conn.close();
-		} catch (Exception ex) {
-			fail(ex.getMessage());
+		} catch (Throwable error) {
+			fail(error.getMessage());
+		} finally {
+			try {
+				// ripristina lo status quo ante del test
+				Connection conn = DriverManager.getConnection(DB_URL, DB_USER,
+						DB_PASSWORD);
+				Statement stmt = conn.createStatement();
+				stmt.executeUpdate("UPDATE AddressBookEntries SET Blocked = '0' WHERE Owner = '5' AND ID_user = '2'");
+				stmt.close();
+				conn.close();
+			} catch (Exception ex) {
+				fail(ex.getMessage());
+			}
 		}
 	}
 
@@ -135,32 +154,32 @@ public class AddressBookDoUnblockServletTest {
 	 * @throws ServletException
 	 * @author Diego Beraldin
 	 */
-	 @Test
-	 public void testUnblockNotExistContact() throws IOException,
-	 ServletException {
-	 // crea una sessione di autenticazione
-	 HttpSession mySession = mock(HttpSession.class);
-	 when(mySession.getAttribute("username")).thenReturn(
-	 "indirizzo5@dominio.it");
-	
-	 // configura il comportamento della richiesta
-	 when(request.getSession(false)).thenReturn(mySession);
-	 when(request.getParameter("contactId")).thenReturn("-1");
-	 
-	 // configura il comportamento della risposta
-	 when(response.getWriter()).thenReturn(new PrintWriter(writer));
-	
-	 // invoca il metodo da testare
-	 tester.doPost(request, response);
-	
-	 // verifica l'output
-	 writer.flush();
-	 String responseText = writer.toString();
-	 System.err.println(responseText);
-	 assertNotNull(responseText);
-	 assertFalse(responseText.length() == 0);
-	 assertEquals("false", responseText);
-	 }
+	@Test
+	public void testUnblockNotExistContact() throws IOException,
+			ServletException {
+		// crea una sessione di autenticazione
+		HttpSession mySession = mock(HttpSession.class);
+		when(mySession.getAttribute("username")).thenReturn(
+				"indirizzo5@dominio.it");
+
+		// configura il comportamento della richiesta
+		when(request.getSession(false)).thenReturn(mySession);
+		when(request.getParameter("contactId")).thenReturn("-1");
+
+		// configura il comportamento della risposta
+		when(response.getWriter()).thenReturn(new PrintWriter(writer));
+
+		// invoca il metodo da testare
+		tester.doPost(request, response);
+
+		// verifica l'output
+		writer.flush();
+		String responseText = writer.toString();
+		System.err.println(responseText);
+		assertNotNull(responseText);
+		assertFalse(responseText.length() == 0);
+		assertEquals("false", responseText);
+	}
 
 	/**
 	 * Verifica la corretta gestione di una richiesta di sbloccare un contatto
@@ -171,28 +190,28 @@ public class AddressBookDoUnblockServletTest {
 	 * @throws ServletException
 	 * @author Diego Beraldin
 	 */
-	 @Test
-	 public void testWrongData() throws IOException, ServletException {
-	 // crea una sessione di autenticazione
-	 HttpSession mySession = mock(HttpSession.class);
-	 when(mySession.getAttribute("username")).thenReturn(
-	 "indirizzo5@dominio.it");
-	
-	 // configura il comportamento della richiesta (manca il parametro)
-	 when(request.getSession(false)).thenReturn(mySession);
-	 
-	 // configura il comportamento della risposta
-	 when(response.getWriter()).thenReturn(new PrintWriter(writer));
-	
-	 // invoca il metodo da testare
-	 tester.doPost(request, response);
-	
-	 // verifica l'output
-	 writer.flush();
-	 String responseText = writer.toString();
-	 System.err.println(responseText);
-	 assertNotNull(responseText);
-	 assertFalse(responseText.length() == 0);
-	 assertEquals("false", responseText);
-	 }
+	@Test
+	public void testWrongData() throws IOException, ServletException {
+		// crea una sessione di autenticazione
+		HttpSession mySession = mock(HttpSession.class);
+		when(mySession.getAttribute("username")).thenReturn(
+				"indirizzo5@dominio.it");
+
+		// configura il comportamento della richiesta (manca il parametro)
+		when(request.getSession(false)).thenReturn(mySession);
+
+		// configura il comportamento della risposta
+		when(response.getWriter()).thenReturn(new PrintWriter(writer));
+
+		// invoca il metodo da testare
+		tester.doPost(request, response);
+
+		// verifica l'output
+		writer.flush();
+		String responseText = writer.toString();
+		System.err.println(responseText);
+		assertNotNull(responseText);
+		assertFalse(responseText.length() == 0);
+		assertEquals("false", responseText);
+	}
 }
