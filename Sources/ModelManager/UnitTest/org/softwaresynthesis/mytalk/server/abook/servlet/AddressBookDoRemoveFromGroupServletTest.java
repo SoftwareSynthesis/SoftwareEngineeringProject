@@ -184,11 +184,15 @@ public class AddressBookDoRemoveFromGroupServletTest {
 		// invoca il metodo da testare
 		tester.doPost(request, response);
 
-		writer.flush();
-		String responseText = writer.toString();
-
-		// verifica l'effettiva rimozione del contatto dal gruppo
 		try {
+			// verifica l'output ricevuto dalla servlet
+			writer.flush();
+			String responseText = writer.toString();
+			assertNotNull(responseText);
+			assertFalse(responseText.length() == 0);
+			assertEquals("true", responseText);
+
+			// verifica l'effettiva rimozione del contatto dal gruppo
 			Connection conn = DriverManager.getConnection(DB_URL, DB_USER,
 					DB_PASSWORD);
 			Statement stmt = conn.createStatement();
@@ -200,8 +204,8 @@ public class AddressBookDoRemoveFromGroupServletTest {
 			stmt.close();
 			conn.close();
 			assertTrue(empty);
-		} catch (Exception ex) {
-			fail(ex.getMessage());
+		} catch (Throwable error) {
+			fail(error.getMessage());
 		} finally {
 			try {
 				// operazioni di clean-up
@@ -217,9 +221,6 @@ public class AddressBookDoRemoveFromGroupServletTest {
 			} catch (Exception ex) {
 				fail(ex.getMessage());
 			}
-			assertNotNull(responseText);
-			assertFalse(responseText.length() == 0);
-			assertEquals("true", responseText);
 		}
 	}
 
@@ -239,40 +240,48 @@ public class AddressBookDoRemoveFromGroupServletTest {
 		int owner = getTestOwner();
 		int groupID = createDummyGroup("dummygroup", owner);
 		// l'utente 'dummy@dummy.du' non appartiene al gruppo 'dummygroup'
-		
+
 		// crea una sessione di autenticazione
 		HttpSession mySession = mock(HttpSession.class);
-		
+
 		// configura il comportamento della richiesta
 		when(request.getSession(false)).thenReturn(mySession);
-		when(request.getParameter("groupId")).thenReturn(Integer.toString(groupID));
-		when(request.getParameter("contactId")).thenReturn(Integer.toString(userID));
-		
+		when(request.getParameter("groupId")).thenReturn(
+				Integer.toString(groupID));
+		when(request.getParameter("contactId")).thenReturn(
+				Integer.toString(userID));
+
 		// configura il comportamento della risposta
 		when(response.getWriter()).thenReturn(new PrintWriter(writer));
-		
+
 		// invoca il metodo da testare
 		tester.doPost(request, response);
-		writer.flush();
-		String responseText = writer.toString();
-		
-		// clean-up
+
 		try {
-			Connection conn = DriverManager.getConnection(DB_URL, DB_USER,
-					DB_PASSWORD);
-			Statement stmt = conn.createStatement();
-			stmt.executeUpdate(String.format(
-					"DELETE FROM Groups WHERE ID_group = '%d';", groupID));
-			stmt.executeUpdate(String.format(
-					"DELETE FROM UserData WHERE ID_user = '%d';", userID));
-			stmt.close();
-			conn.close();
-		} catch (Exception ex) {
-			fail(ex.getMessage());
+			// verifica l'output ricevuto dalla servlet
+			writer.flush();
+			String responseText = writer.toString();
+			assertNotNull(responseText);
+			assertFalse(responseText.length() == 0);
+			assertEquals("false", responseText);
+		} catch (Throwable error) {
+			fail(error.getMessage());
+		} finally {
+			// operazioni di clean-up
+			try {
+				Connection conn = DriverManager.getConnection(DB_URL, DB_USER,
+						DB_PASSWORD);
+				Statement stmt = conn.createStatement();
+				stmt.executeUpdate(String.format(
+						"DELETE FROM Groups WHERE ID_group = '%d';", groupID));
+				stmt.executeUpdate(String.format(
+						"DELETE FROM UserData WHERE ID_user = '%d';", userID));
+				stmt.close();
+				conn.close();
+			} catch (Exception ex) {
+				fail(ex.getMessage());
+			}
 		}
-		assertNotNull(responseText);
-		assertFalse(responseText.length() == 0);
-		assertEquals("false", responseText);
 	}
 
 	/**
@@ -290,56 +299,64 @@ public class AddressBookDoRemoveFromGroupServletTest {
 		int userID = createDummyUser("dummy@dummy.du");
 		int owner = getTestOwner();
 		int groupID = createDummyGroup("addrBookEntry", owner);
-		
+
 		// inserisce l'utente dummy nella rubrica dell'utente
-		try {
-			Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-			Statement stmt = conn.createStatement();
-			stmt.executeUpdate(String.
-				format("INSERT INTO AddressBookEntries(ID_user, ID_group, Owner, Blocked) VALUES ('%d', '%d', '%d', 0);",
-						userID, groupID, owner));
-			stmt.close();
-			conn.close();
-		} catch (Exception ex) {
-			fail(ex.getMessage());
-		}
-		
-		// crea una sessione di autenticazione
-		HttpSession mySession = mock(HttpSession.class);
-		
-		// configura il comportamento della richiesta
-		when(request.getSession(false)).thenReturn(mySession);
-		when(request.getParameter("groupId")).thenReturn("-1");
-		when(request.getParameter("contactId")).thenReturn(Integer.toString(userID));
-		
-		// configura il comportamento della risposta
-		when(response.getWriter()).thenReturn(new PrintWriter(writer));
-		
-		// invoca il metodo da testare
-		tester.doPost(request, response);
-		writer.flush();
-		String responseText = writer.toString();
-		
-		// clean-up
 		try {
 			Connection conn = DriverManager.getConnection(DB_URL, DB_USER,
 					DB_PASSWORD);
 			Statement stmt = conn.createStatement();
-			stmt.executeUpdate(String.format(
-					"DELETE FROM AddressBookEntries WHERE ID_user = '%d' AND Owner = '%d' AND ID_group = '%d';",
-					userID, owner, groupID));
-			stmt.executeUpdate(String.format(
-					"DELETE FROM Groups WHERE ID_group = '%d';", groupID));
-			stmt.executeUpdate(String.format(
-					"DELETE FROM UserData WHERE ID_user = '%d';", userID));
+			stmt.executeUpdate(String
+					.format("INSERT INTO AddressBookEntries(ID_user, ID_group, Owner, Blocked) VALUES ('%d', '%d', '%d', 0);",
+							userID, groupID, owner));
 			stmt.close();
 			conn.close();
 		} catch (Exception ex) {
 			fail(ex.getMessage());
 		}
-		assertNotNull(responseText);
-		assertFalse(responseText.length() == 0);
-		assertEquals("false", responseText);
+
+		// crea una sessione di autenticazione
+		HttpSession mySession = mock(HttpSession.class);
+
+		// configura il comportamento della richiesta
+		when(request.getSession(false)).thenReturn(mySession);
+		when(request.getParameter("groupId")).thenReturn("-1");
+		when(request.getParameter("contactId")).thenReturn(
+				Integer.toString(userID));
+
+		// configura il comportamento della risposta
+		when(response.getWriter()).thenReturn(new PrintWriter(writer));
+
+		// invoca il metodo da testare
+		tester.doPost(request, response);
+
+		try {
+			// verifica l'output ricevuto dalla servlet
+			writer.flush();
+			String responseText = writer.toString();
+			assertNotNull(responseText);
+			assertFalse(responseText.length() == 0);
+			assertEquals("false", responseText);
+		} catch (Throwable error) {
+			fail(error.getMessage());
+		} finally {
+			// operazioni di clean-up
+			try {
+				Connection conn = DriverManager.getConnection(DB_URL, DB_USER,
+						DB_PASSWORD);
+				Statement stmt = conn.createStatement();
+				stmt.executeUpdate(String
+						.format("DELETE FROM AddressBookEntries WHERE ID_user = '%d' AND Owner = '%d' AND ID_group = '%d';",
+								userID, owner, groupID));
+				stmt.executeUpdate(String.format(
+						"DELETE FROM Groups WHERE ID_group = '%d';", groupID));
+				stmt.executeUpdate(String.format(
+						"DELETE FROM UserData WHERE ID_user = '%d';", userID));
+				stmt.close();
+				conn.close();
+			} catch (Exception ex) {
+				fail(ex.getMessage());
+			}
+		}
 	}
 
 	/**
@@ -374,5 +391,4 @@ public class AddressBookDoRemoveFromGroupServletTest {
 		assertFalse(responseText.length() == 0);
 		assertEquals("false", responseText);
 	}
-
 }

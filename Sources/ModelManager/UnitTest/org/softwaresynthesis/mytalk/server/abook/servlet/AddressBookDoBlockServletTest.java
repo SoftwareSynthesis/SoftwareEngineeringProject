@@ -92,12 +92,16 @@ public class AddressBookDoBlockServletTest {
 
 		// invoca il metodo da testare
 		tester.doPost(request, response);
-
-		writer.flush();
-		String responseText = writer.toString();
-
-		// verifica che il blocco sia stato effettivo e su TUTTE le entries
+		
 		try {
+			// verifica l'output ottenuto dalla servlet
+			writer.flush();
+			String responseText = writer.toString();
+			assertNotNull(responseText);
+			assertFalse(responseText.length() == 0);
+			assertEquals("true", responseText);
+			
+			// verifica che il blocco sia stato effettivo e su TUTTE le entries
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(DB_URL, DB_USER,
 					DB_PASSWORD);
@@ -110,9 +114,8 @@ public class AddressBookDoBlockServletTest {
 			}
 			stmt.close();
 			conn.close();
-
-		} catch (Exception ex) {
-			fail(ex.getMessage());
+		} catch (Throwable error) {
+			fail(error.getMessage());
 		} finally {
 			// effettua un po' di operazioni di clean-up finali
 			try {
@@ -125,10 +128,6 @@ public class AddressBookDoBlockServletTest {
 			} catch (Exception ex) {
 				fail(ex.getMessage());
 			}
-			// verifica l'output ottenuto dalla servlet
-			assertNotNull(responseText);
-			assertFalse(responseText.length() == 0);
-			assertEquals("true", responseText);
 		}
 	}
 
