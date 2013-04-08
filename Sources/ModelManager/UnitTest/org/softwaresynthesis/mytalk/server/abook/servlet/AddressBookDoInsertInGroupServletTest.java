@@ -1,6 +1,7 @@
 package org.softwaresynthesis.mytalk.server.abook.servlet;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -326,6 +327,19 @@ public class AddressBookDoInsertInGroupServletTest {
 		tester.doPost(request, response);
 
 		try {
+			// verifica che l'inserimento NON abbia avuto luogo
+			Connection conn = DriverManager.getConnection(DB_URL, DB_USER,
+					DB_PASSWORD);
+			Statement stmt = conn.createStatement();
+			ResultSet result = stmt
+					.executeQuery(String
+							.format("SELECT * FROM AddressBookEntries WHERE ID_user = '%d' AND ID_group = '%d';",
+									userID, groupID));
+			boolean empty = !result.next();
+			assertTrue(empty);
+			stmt.close();
+			conn.close();
+
 			// verifica l'output ricevuto dalla servlet
 			writer.flush();
 			String responseText = writer.toString();
