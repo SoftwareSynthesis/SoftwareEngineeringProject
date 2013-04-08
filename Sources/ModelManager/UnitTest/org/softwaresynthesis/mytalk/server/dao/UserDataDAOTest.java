@@ -27,7 +27,7 @@ public class UserDataDAOTest {
 	public static void setupBeforeClass() {
 		tester = new UserDataDAO();
 		user = new UserData(1L);
-		user.setMail("indirizzo6@dominio.it");
+		user.setMail("indirizzo10@dominio.it");
 		user.setPassword("password");
 		user.setQuestion("come mi chiamo");
 		user.setAnswer("maria");
@@ -53,7 +53,7 @@ public class UserDataDAOTest {
 	@Test
 	public void testGetByEmail() {
 		IUserData found = null;
-		String mail = "indirizzo6@dominio.it";
+		String mail = "indirizzo2@dominio.it";
 		String foundMail = null;
 		found = tester.getByEmail(mail);
 		assertNotNull(found);
