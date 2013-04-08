@@ -83,22 +83,26 @@ public class RegisterServletTest {
 		// verifica l'output
 		writer.flush();
 		String responseText = writer.toString();
-		assertNotNull(responseText);
-		assertFalse(responseText.length() == 0);
-		// FIXME il client ha bisogno di user.toString() e non di 'true'!
-		assertEquals("true", responseText);
-
-		// operazioni di clean-up al termine del test
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost/MyTalk", "root", "root");
-			Statement stmt = conn.createStatement();
-			stmt.execute("DELETE FROM Groups WHERE ID_user = (SELECT ID_user FROM UserData WHERE E_Mail = 'flabacco@gmail.com');");
-			stmt.execute("DELETE FROM UserData WHERE E_Mail = 'flabacco@gmail.com';");
-			conn.close();
-		} catch (Exception ex) {
-			fail(ex.getMessage());
+			assertNotNull(responseText);
+			assertFalse(responseText.length() == 0);
+			// FIXME il client ha bisogno di user.toString() e non di 'true'!
+			assertEquals("true", responseText);
+		} catch (AssertionError err) {
+			fail(err.getMessage());
+		} finally {
+			// operazioni di clean-up al termine del test
+			try {
+				Class.forName("com.mysql.jdbc.Driver");
+				Connection conn = DriverManager.getConnection(
+						"jdbc:mysql://localhost/MyTalk", "root", "root");
+				Statement stmt = conn.createStatement();
+				stmt.execute("DELETE FROM Groups WHERE ID_user = (SELECT ID_user FROM UserData WHERE E_Mail = 'flabacco@gmail.com');");
+				stmt.execute("DELETE FROM UserData WHERE E_Mail = 'flabacco@gmail.com';");
+				conn.close();
+			} catch (Exception ex) {
+				fail(ex.getMessage());
+			}
 		}
 	}
 
