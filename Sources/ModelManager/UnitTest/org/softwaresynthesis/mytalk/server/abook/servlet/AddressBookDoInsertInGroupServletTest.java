@@ -67,7 +67,76 @@ public class AddressBookDoInsertInGroupServletTest {
 		request = mock(HttpServletRequest.class);
 		response = mock(HttpServletResponse.class);
 		writer = new StringWriter();
+	}
 
+	private int createDummyUser(String email) {
+		int user = -1;
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(DB_URL, DB_USER,
+					DB_PASSWORD);
+			Statement stmt = conn.createStatement();
+			stmt.executeUpdate(String
+					.format("INSERT INTO UserData (E_Mail, Password, Question, Answer) VALUES ('%s', '*', '*', '*');",
+							email));
+			ResultSet result = stmt
+					.executeQuery(String
+							.format("SELECT ID_user FROM UserData WHERE E_Mail = '%s';",
+									email));
+			while (result.next()) {
+				user = result.getInt("ID_user");
+			}
+			stmt.close();
+			conn.close();
+		} catch (Exception ex) {
+			fail(ex.getMessage());
+		}
+		return user;
+	}
+
+	private int getTestOwner() {
+		int owner = -1;
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(DB_URL, DB_USER,
+					DB_PASSWORD);
+			Statement stmt = conn.createStatement();
+			ResultSet result = stmt
+					.executeQuery("SELECT ID_user FROM UserData WHERE E_Mail = 'indirizzo5@dominio.it';");
+			while (result.next()) {
+				owner = result.getInt("ID_user");
+			}
+			stmt.close();
+			conn.close();
+		} catch (Exception ex) {
+			fail(ex.getMessage());
+		}
+		return owner;
+	}
+
+	private int createDummyGroup(String name, int owner) {
+		int group = -1;
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(DB_URL, DB_USER,
+					DB_PASSWORD);
+			Statement stmt = conn.createStatement();
+			stmt.executeUpdate(String.format(
+					"INSERT INTO Groups(Name, ID_user) VALUES ('%s', '%d');",
+					name, owner));
+			ResultSet result = stmt
+					.executeQuery(String
+							.format("SELECT ID_group FROM Groups WHERE Name = '%s' AND ID_user = '%d';",
+									name, owner));
+			while (result.next()) {
+				group = result.getInt("ID_group");
+			}
+			stmt.close();
+			conn.close();
+		} catch (Exception ex) {
+			fail(ex.getMessage());
+		}
+		return group;
 	}
 
 	/**
@@ -82,44 +151,13 @@ public class AddressBookDoInsertInGroupServletTest {
 	 */
 	@Test
 	public void testAddCorrectContact() throws IOException, ServletException {
-		int userID = -1;
-		int owner = -1;
-		int groupID = -1;
 		// operazioni preliminari: inserisce un utente di test nel sistema e
 		// crea un gruppo 'dummygroup' nella rubrica dell'utente identificato
 		// dall'indirizzo indirizzo5@dominio.it, che dovrà ospitare il nuovo
 		// utente
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(DB_URL, DB_USER,
-					DB_PASSWORD);
-			Statement stmt = conn.createStatement();
-			stmt.executeUpdate("INSERT INTO UserData (E_Mail, Password, Question, Answer) VALUES ('dummy@dummy.du', '*', '*', '*');");
-			ResultSet result = stmt
-					.executeQuery("SELECT ID_user FROM UserData WHERE E_Mail = 'dummy@dummy.du';");
-			while (result.next()) {
-				userID = result.getInt("ID_user");
-			}
-			result = stmt
-					.executeQuery("SELECT ID_user FROM UserData WHERE E_Mail = 'indirizzo5@dominio.it';");
-			while (result.next()) {
-				owner = result.getInt("ID_user");
-			}
-			stmt.executeUpdate(String
-					.format("INSERT INTO Groups(Name, ID_user) VALUES ('dummygroup', '%d');",
-							owner));
-			result = stmt
-					.executeQuery(String
-							.format("SELECT ID_group FROM Groups WHERE Name = 'dummygroup' AND ID_user = '%d';",
-									owner));
-			while (result.next()) {
-				groupID = result.getInt("ID_group");
-			}
-			stmt.close();
-			conn.close();
-		} catch (Exception ex) {
-			fail(ex.getMessage());
-		}
+		int userID = createDummyUser("dummy@dummy.du");
+		int owner = getTestOwner();
+		int groupID = createDummyGroup("dummygroup", owner);
 
 		// crea una sessione di autenticazione valida per
 		// l'utente associato a 'indirizzo5@dominio.it'
@@ -147,7 +185,7 @@ public class AddressBookDoInsertInGroupServletTest {
 			assertNotNull(responseText);
 			assertFalse(responseText.length() == 0);
 			assertEquals(responseText, "true");
-			
+
 			// verifica l'effettivo inserimento del contatto
 			Connection conn = DriverManager.getConnection(DB_URL, DB_USER,
 					DB_PASSWORD);
@@ -253,12 +291,67 @@ public class AddressBookDoInsertInGroupServletTest {
 		assertEquals("false", responseText);
 	}
 
-	/*
-	 * TODO verificare cosa succede se si tenta di aggiungere un utente in un
-	 * gruppo che non appartiene all'utente da cui proviene la richiesta di
-	 * aggiunta (forse era questo quel che si intendeva con l'espressione
-	 * testAddNotExistGroup() nel documento di pianificazione
+	/**
+	 * Verifica il comportamento della servlet nel momento in cui si tenta di
+	 * aggiungere un utente in un gruppo che non appartiene all'utente da cui
+	 * proviene la richiesta di aggiunta
+	 * 
+	 * @throws IOException
+	 * @throws ServletException
+	 * @author Diego Beraldin
 	 */
+	@Test
+	public void testAddInNotOwnedGroup() throws IOException, ServletException {
+		int otherUserID = createDummyUser("dummy2@dummy.du");
+		// il gruppo appartiene ad OtherUser
+		int groupID = createDummyGroup("dummygroup", otherUserID);
+		int userID = createDummyUser("dummy@dummy.du");
+
+		// crea sessione di autenticazione
+		HttpSession mySession = mock(HttpSession.class);
+		when(mySession.getAttribute("username")).thenReturn(
+				"indirizzo5@dominio.it");
+
+		// configura il comportamento della risposta
+		when(request.getSession(false)).thenReturn(mySession);
+		when(request.getParameter("groupId")).thenReturn(
+				Integer.toString(groupID));
+		when(request.getParameter("contactId")).thenReturn(
+				Integer.toString(userID));
+
+		// configura il comportamento della risposta
+		when(response.getWriter()).thenReturn(new PrintWriter(writer));
+
+		// invoca il metodo da testare
+		tester.doPost(request, response);
+
+		try {
+			// verifica l'output ricevuto dalla servlet
+			writer.flush();
+			String responseText = writer.toString();
+			assertNotNull(responseText);
+			assertFalse(responseText.length() == 0);
+			assertEquals("false", responseText);
+		} catch (Throwable error) {
+			fail(error.getMessage());
+		} finally {
+			// operazioni di clean-up
+			try {
+				Connection conn = DriverManager.getConnection(DB_URL, DB_USER,
+						DB_PASSWORD);
+				Statement stmt = conn.createStatement();
+				stmt.executeUpdate(String.format(
+						"DELETE FROM Groups WHERE ID_group = '%d';", groupID));
+				stmt.executeUpdate(String
+						.format("DELETE FROM UserData WHERE ID_user = '%d' OR ID_User = '%d';",
+								userID, otherUserID));
+				stmt.close();
+				conn.close();
+			} catch (Exception ex) {
+				fail(ex.getMessage());
+			}
+		}
+	}
 
 	/**
 	 * Verifica il fallimento dell'operazione di inserimento di un contatto in
