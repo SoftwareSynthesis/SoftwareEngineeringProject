@@ -65,7 +65,7 @@ public class AddressBookGetGroupsServletTest {
 	 * @author Diego Beraldin
 	 */
 	@Test
-	public void testBlockCorrectContact() throws IOException, ServletException {
+	public void testGetGroupContact() throws IOException, ServletException {
 		// crea una sessione di autenticazione
 		HttpSession mySession = mock(HttpSession.class);
 		when(mySession.getAttribute("username")).thenReturn(
@@ -88,7 +88,7 @@ public class AddressBookGetGroupsServletTest {
 		String toCompare = "{"
 				+ "\"1\":{\"name\":\"Gruppo 1\",\"id\":\"1\",\"contacts\":[1]},"
 				+ "\"3\":{\"name\":\"Gruppo 3\",\"id\":\"3\",\"contacts\":[]},"
-				+ "\"10\":{\"name\":\"addrBookEntry\",\"id\":\"10\",\"contacts\":[]}"
+				+ "\"64\":{\"name\":\"addrBookEntry\",\"id\":\"64\",\"contacts\":[]}"
 				+ "}";
 		assertEquals(toCompare, responseText);
 

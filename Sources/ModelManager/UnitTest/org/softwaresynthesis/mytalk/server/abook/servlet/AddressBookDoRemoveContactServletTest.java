@@ -259,7 +259,7 @@ public class AddressBookDoRemoveContactServletTest {
 		String responseText = writer.toString();
 		assertNotNull(responseText);
 		assertFalse(responseText.length() == 0);
-		assertEquals(responseText, "false");
+		assertEquals(false, responseText);
 	}
 
 	/**

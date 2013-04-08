@@ -223,16 +223,12 @@ public class AddressBookDoDeleteGroupServletTest {
 
 		// invoca il metodo da testare
 		tester.doPost(request, response);
+		
+		writer.flush();
+		String responseText = writer.toString();
 
 		// verifiche finali
 		try {
-			// verifica l'output ottenuto dalla servlet
-			writer.flush();
-			String responseText = writer.toString();
-			assertNotNull(responseText);
-			assertFalse(responseText.length() == 0);
-			assertEquals("false", responseText);
-			
 			// verifica che il gruppo non viene eliminato
 			Connection conn = DriverManager.getConnection(DB_URL, DB_USER,
 					DB_PASSWORD);
@@ -259,6 +255,10 @@ public class AddressBookDoDeleteGroupServletTest {
 			} catch (Exception ex) {
 				fail(ex.getMessage());
 			}
+			// verifica l'output ottenuto dalla servlet
+			assertNotNull(responseText);
+			assertFalse(responseText.length() == 0);
+			assertEquals("false", responseText);
 		}
 	}
 
