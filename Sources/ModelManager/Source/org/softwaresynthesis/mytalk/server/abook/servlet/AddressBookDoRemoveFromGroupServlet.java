@@ -7,10 +7,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.softwaresynthesis.mytalk.server.abook.AddressBookEntry;
 import org.softwaresynthesis.mytalk.server.abook.IAddressBookEntry;
 import org.softwaresynthesis.mytalk.server.abook.IGroup;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
+import org.softwaresynthesis.mytalk.server.dao.AddressBookEntryDAO;
 import org.softwaresynthesis.mytalk.server.dao.GroupDAO;
 import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
 
@@ -65,6 +65,7 @@ public final class AddressBookDoRemoveFromGroupServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
+		AddressBookEntryDAO entryDAO = null;
 		GroupDAO groupDAO = null;
 		HttpSession session = null;
 		IAddressBookEntry entry = null;
@@ -92,14 +93,19 @@ public final class AddressBookDoRemoveFromGroupServlet extends HttpServlet {
 			{
 				// FIXME sei sicuro che sia il modo giusto di fare le cose?
 				// dopo l'update(user) la AddressBookEntry è bella che rimasta nel database!
-				entry = new AddressBookEntry();
-				entry.setBlocked(false);
-				entry.setOwner(user);
-				entry.setContact(friend);
-				entry.setGroup(group);
-				user.removeAddressBookEntry(entry);
-				userDAO.update(user);
-				result = "true";
+				entryDAO = new AddressBookEntryDAO();
+				entry = entryDAO.getParticular(friend.getMail(), user.getMail(), group.getId().toString());
+				if (entry != null)
+				{
+					user.removeAddressBookEntry(entry);
+					userDAO.update(user);
+					entryDAO.delete(entry);
+					result = "true";
+				}
+				else
+				{
+					result = "false";
+				}
 			}
 			else
 			{

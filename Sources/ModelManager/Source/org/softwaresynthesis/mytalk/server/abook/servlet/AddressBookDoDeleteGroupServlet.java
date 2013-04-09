@@ -8,10 +8,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpSession;
+
 import org.softwaresynthesis.mytalk.server.abook.IAddressBookEntry;
 import org.softwaresynthesis.mytalk.server.abook.IGroup;
+import org.softwaresynthesis.mytalk.server.abook.IUserData;
 import org.softwaresynthesis.mytalk.server.dao.AddressBookEntryDAO;
 import org.softwaresynthesis.mytalk.server.dao.GroupDAO;
+import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
 
 /**
  * Servlet cha ha il compito di eliminare
@@ -67,20 +71,32 @@ public final class AddressBookDoDeleteGroupServlet extends HttpServlet
 	{
 		AddressBookEntryDAO entryDAO = null;
 		GroupDAO groupDAO = null;
+		HttpSession session = null;
 		IGroup group = null;
 		IAddressBookEntry entry = null;
 		Iterator<IAddressBookEntry> iterator = null;
+		IUserData user = null;
 		Long groupId = null;
 		PrintWriter writer = null;
 		Set<IAddressBookEntry> entrys = null;
+		String mail = null;
 		String result = null;
+		UserDataDAO userDAO = null;
 		try
 		{
 			groupId = Long.parseLong(request.getParameter("groupId"));
+			session = request.getSession(false);
+			mail = (String)session.getAttribute("username");
+			userDAO = new UserDataDAO();
+			user = userDAO.getByEmail(mail);
 			groupDAO = new GroupDAO();
 			group = groupDAO.getByID(groupId);
 			if (group != null)
 			{
+				if (group.getOwner().equals(user) == false)
+				{
+					throw new Exception();
+				}
 				entrys = group.getAddressBook();
 				iterator = entrys.iterator();
 				entryDAO = new AddressBookEntryDAO();
