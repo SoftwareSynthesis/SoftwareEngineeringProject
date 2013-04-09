@@ -20,7 +20,7 @@ public class ChannelServletTest {
 	private static ChannelServlet tester;
 
 	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
+	public static void setUpBeforeClass() {
 		tester = new ChannelServlet();
 	}
 
