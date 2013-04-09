@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.softwaresynthesis.mytalk.server.abook.AddressBookEntry;
 import org.softwaresynthesis.mytalk.server.abook.IAddressBookEntry;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
 import org.softwaresynthesis.mytalk.server.dao.AddressBookEntryDAO;
@@ -69,9 +70,9 @@ public final class AddressBookDoRemoveContactServlet extends HttpServlet
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
 	{
 		AddressBookEntryDAO entryDAO = null;
-		boolean flag = false;
 		HttpSession session = null;
 		IAddressBookEntry entry = null;
+		IAddressBookEntry toCompare = null;
 		Iterator<IAddressBookEntry> iterator = null;
 		IUserData user = null;
 		IUserData friend = null;
@@ -92,22 +93,27 @@ public final class AddressBookDoRemoveContactServlet extends HttpServlet
 			if (friend != null)
 			{
 				entrys = user.getAddressBook();
+				toCompare = new AddressBookEntry();
+				toCompare.setContact(friend);
+				toCompare.setOwner(user);
+				if (entrys.contains(toCompare) == false)
+				{
+					throw new Exception();
+				}
 				iterator = entrys.iterator();
 				entryDAO = new AddressBookEntryDAO();
-				while (iterator.hasNext() == true && flag == false)
+				while (iterator.hasNext() == true)
 				{
 					entry = iterator.next();
 					if (entry.getContact().equals(friend) == true)
 					{
 						user.removeAddressBookEntry(entry);
 						entryDAO.delete(entry);
-						flag = !flag;
 					}
 				}
 				userDAO.update(user);
 				entrys = friend.getAddressBook();
 				iterator = entrys.iterator();
-				flag = false;
 				while (iterator.hasNext() == true)
 				{
 					entry = iterator.next();
