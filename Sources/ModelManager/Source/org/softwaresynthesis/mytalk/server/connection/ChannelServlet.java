@@ -99,6 +99,7 @@ public class ChannelServlet extends WebSocketServlet implements Servlet {
 		if (ps != null)
 		{
 			state = ps.getState();
+			// FIXME deve diventare state.toString().toLowerCase();
 			result = state.toString();
 		}
 		else
