@@ -107,4 +107,26 @@ public class ChannelServlet extends WebSocketServlet implements Servlet {
 		}
 		return result;
 	}
+	
+	/**
+	 * Consente l'accesso alla mappa dei client
+	 * 
+	 * @return {@link Map} contenente gli identificativi degli utenti
+	 * 			e le connessioni ad essi associate
+	 * @author Diego Beraldin
+	 */
+	static Map<Long, PushInbound> getClients() {
+		return clients;
+	}
+	
+	/**
+	 * Consente di sovrascrivere la mappa dei clients
+	 * 
+	 * @param map	{@link Map} che contiene le associazioni fra gli id
+	 * 				degli utenti e i relativi canali di connessione
+	 * @author Diego Beraldin
+	 */
+	static void setClients(Map<Long, PushInbound> map) {
+		clients = map;
+	}
 }
