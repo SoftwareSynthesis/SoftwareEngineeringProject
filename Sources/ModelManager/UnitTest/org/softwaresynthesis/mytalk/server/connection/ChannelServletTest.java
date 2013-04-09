@@ -70,9 +70,8 @@ public class ChannelServletTest {
 		PushInbound channel = mock(PushInbound.class);
 		Long id0 = 1L;
 		Long id1 = 2L;
-		Map<Long, PushInbound> clients = new HashMap<Long, PushInbound>();
+		Map<Long, PushInbound> clients = ChannelServlet.getClients();
 		clients.put(id0, channel);
-		ChannelServlet.setClients(clients);
 
 		try {
 			// verifica cosa succede con un oggetto PushInbound valido
@@ -96,9 +95,8 @@ public class ChannelServletTest {
 		// crea un client per il test e lo inserisce nella mappa
 		PushInbound channel = mock(PushInbound.class);
 		Long id = 1L;
-		Map<Long, PushInbound> clients = new HashMap<Long, PushInbound>();
+		Map<Long, PushInbound> clients = ChannelServlet.getClients();
 		clients.put(id, channel);
-		ChannelServlet.setClients(clients);
 
 		try {
 			// invoca il metodo da testare
@@ -125,10 +123,9 @@ public class ChannelServletTest {
 		Long idOccupied = 2L;
 		Long idOffline = 3L;
 		// inserisce la mappa fra i dati accessibili alla servlet
-		Map<Long, PushInbound> clients = new HashMap<Long, PushInbound>();
+		Map<Long, PushInbound> clients = ChannelServlet.getClients();
 		clients.put(idAvailable, channelAvailable);
 		clients.put(idOccupied, channelOccupied);
-		ChannelServlet.setClients(clients);
 
 		try {
 			// test con utente presente e offline

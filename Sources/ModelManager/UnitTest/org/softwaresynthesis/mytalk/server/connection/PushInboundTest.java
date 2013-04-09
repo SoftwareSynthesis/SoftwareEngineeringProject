@@ -44,15 +44,19 @@ public class PushInboundTest {
 	}
 
 	@Test
-	public void testIdentifyClient() {
+	public void testConnectClient() {
+		// prepara i dati per il test
 		Long id = 1L;
+		// crea un finto messaggio
 		CharBuffer message = mock(CharBuffer.class);
-		// per verificare identificazione
 		when(message.toString()).thenReturn(
 				"[\"1\", \"" + id.toString() + "\"]");
 
 		try {
+			// invoca il metodo da testare
 			tester.onTextMessage(message);
+
+			// verifica che il client sia stato inserito correttamente
 			Map<Long, PushInbound> clients = ChannelServlet.getClients();
 			assertFalse(clients.isEmpty());
 			assertEquals(1, clients.size());
@@ -64,4 +68,31 @@ public class PushInboundTest {
 		}
 	}
 
+	@Test
+	public void testDisconnectClient() {
+		// crea i dati per il test
+		Map<Long, PushInbound> clients = ChannelServlet.getClients();
+		Long id = 1L;
+		PushInbound channel = mock(PushInbound.class);
+		clients.put(id, channel);
+
+		// crea un finto messaggio
+		CharBuffer message = mock(CharBuffer.class);
+		when(message.toString()).thenReturn(
+				"[\"4\", \"" + id.toString() + "\"]");
+
+		try {
+			// invoca il metodo da testare
+			tester.onTextMessage(message);
+
+			// verifica la rimozione effettiva del canale
+			assertFalse(clients.containsKey(id));
+			assertTrue(clients.isEmpty());
+		} catch (Throwable error) {
+			fail(error.getMessage());
+		} finally {
+			// azzera nuovamente l'array dei clients
+			ChannelServlet.setClients(new HashMap<Long, PushInbound>());
+		}
+	}
 }
