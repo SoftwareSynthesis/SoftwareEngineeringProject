@@ -89,7 +89,7 @@ public class AddressBookGetContactsServletTest {
 		String toCompare = "{\"2\":{"
 				+ "\"name\":\"marco\", \"surname\":\"verdi\", \"email\":\"indirizzo2@dominio.it\", "
 				+ "\"id\":\"2\", \"picturePath\":\"img/contactImg/Default.png\", \"state\":\"offline\", "
-				+ "\"blocked\":\"false\"}}";
+				+ "\"blocked\":false}}";
 		assertEquals(toCompare, responseText);
 	}
 

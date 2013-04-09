@@ -76,6 +76,7 @@ public class AddressBookDoDeleteGroupServletTest {
 	@Test
 	public void testRemoveCorrectGroup() throws IOException, ServletException {
 		int groupID = -1;
+		int owner = -1;
 
 		// inserisce un gruppo per il test
 		try {
@@ -83,13 +84,23 @@ public class AddressBookDoDeleteGroupServletTest {
 			Connection conn = DriverManager.getConnection(DB_URL, DB_USER,
 					DB_PASSWORD);
 			Statement stmt = conn.createStatement();
-			// inserisce il gruppo nel database
-			stmt.executeUpdate("INSERT INTO Groups(Name, ID_user) VALUES ('dummygroup', '5');");
-			// recupera l'identificativo del gruppo che è appena stato inserito
 			ResultSet result = stmt
-					.executeQuery("SELECT ID_group FROM Groups WHERE Name = 'dummygroup' AND ID_user = '5';");
-			result.next();
-			groupID = result.getInt("ID_group");
+					.executeQuery("SELECT ID_user FROM UserData WHERE E_Mail = 'indirizzo5@dominio.it'");
+			while (result.next()) {
+				owner = result.getInt("ID_user");
+			}
+			// inserisce il gruppo nel database
+			stmt.executeUpdate(String
+					.format("INSERT INTO Groups(Name, ID_user) VALUES ('dummygroup', '%d');",
+							owner));
+			// recupera l'identificativo del gruppo che è appena stato inserito
+			result = stmt
+					.executeQuery(String
+							.format("SELECT ID_group FROM Groups WHERE Name = 'dummygroup' AND ID_user = '%d';",
+									owner));
+			while (result.next()) {
+				groupID = result.getInt("ID_group");
+			}
 			stmt.close();
 			conn.close();
 		} catch (Exception ex) {
@@ -132,9 +143,11 @@ public class AddressBookDoDeleteGroupServletTest {
 			fail(error.getMessage());
 		} finally {
 			try {
-				Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+				Connection conn = DriverManager.getConnection(DB_URL, DB_USER,
+						DB_PASSWORD);
 				Statement stmt = conn.createStatement();
-				stmt.executeUpdate(String.format("DELETE FROM Groups WHERE ID_group = '%d';", groupID));
+				stmt.executeUpdate(String.format(
+						"DELETE FROM Groups WHERE ID_group = '%d';", groupID));
 				stmt.close();
 				conn.close();
 			} catch (Exception ex) {
@@ -241,7 +254,7 @@ public class AddressBookDoDeleteGroupServletTest {
 			assertNotNull(responseText);
 			assertFalse(responseText.length() == 0);
 			assertEquals("false", responseText);
-			
+
 			// verifica che il gruppo non viene eliminato
 			Connection conn = DriverManager.getConnection(DB_URL, DB_USER,
 					DB_PASSWORD);
