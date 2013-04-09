@@ -327,6 +327,13 @@ public class AddressBookDoInsertInGroupServletTest {
 		tester.doPost(request, response);
 
 		try {
+			// verifica l'output ricevuto dalla servlet
+			writer.flush();
+			String responseText = writer.toString();
+			assertNotNull(responseText);
+			assertFalse(responseText.length() == 0);
+			assertEquals("false", responseText);
+			
 			// verifica che l'inserimento NON abbia avuto luogo
 			Connection conn = DriverManager.getConnection(DB_URL, DB_USER,
 					DB_PASSWORD);
@@ -339,13 +346,6 @@ public class AddressBookDoInsertInGroupServletTest {
 			assertTrue(empty);
 			stmt.close();
 			conn.close();
-
-			// verifica l'output ricevuto dalla servlet
-			writer.flush();
-			String responseText = writer.toString();
-			assertNotNull(responseText);
-			assertFalse(responseText.length() == 0);
-			assertEquals("false", responseText);
 		} catch (Throwable error) {
 			fail(error.getMessage());
 		} finally {

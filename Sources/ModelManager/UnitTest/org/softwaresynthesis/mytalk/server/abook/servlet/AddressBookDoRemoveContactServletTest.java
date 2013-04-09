@@ -155,6 +155,9 @@ public class AddressBookDoRemoveContactServletTest {
 				Connection conn = DriverManager.getConnection(DB_URL, DB_USER,
 						DB_PASSWORD);
 				Statement stmt = conn.createStatement();
+				stmt.executeUpdate(String.format(
+						"DELETE FROM AddressBookEntries WHERE ID_user = '%d'",
+						userID));
 				stmt.executeUpdate("DELETE FROM UserData WHERE E_Mail = 'dummy@dummy.du';");
 				stmt.executeUpdate(String.format(
 						"DELETE FROM UserData WHERE ID_user = '%d';", userID));
