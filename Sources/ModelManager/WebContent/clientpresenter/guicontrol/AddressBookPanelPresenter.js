@@ -179,7 +179,7 @@ function AddressBookPanelPresenter() {
         // creo la option
         var option = document.createElement("option");
         option.value = value;
-        if ( text = "addrBookEntry") {
+        if ( text == "addrBookEntry") {
             option.selected = true;
             option.appendChild(document.createTextNode("Rubrica"));
         } else {
@@ -303,7 +303,7 @@ function AddressBookPanelPresenter() {
         var ulList = document.getElementById("AddressBookList");
         ulList.innerHTML = "";
 
-        if (contacts.size() == 0) {
+        if (Object.size(contacts) == 0) {
             //TODO Aggiungere <li> per indicare che non ci sono contatti in
             // rubrica
         }
@@ -584,7 +584,7 @@ function AddressBookPanelPresenter() {
         // TODO aggiungere una label per avvisare che i campi visualizzati sono
         // filtrati
 
-        if (filtredContacts.size() == 0) {
+        if (filtredContacts.length == 0) {
             var noContactLI = document.createElement("li");
             noContactLI.appendChild(document.createTextNode("Nessun risultato"));
             ulList.appendChild(noContactLI);
