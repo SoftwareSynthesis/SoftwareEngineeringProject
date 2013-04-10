@@ -530,7 +530,7 @@ function AddressBookPanelPresenter() {
      * @author Riccardo Tresoldi
      * @param {String}
      *            param string da cercare tra i contatti
-     * @returns {Array} lista di contatti filtrata
+     * @returns {Array} lista di ID dei contatti filtrati
      */
     this.applyFilterByString = function(param) {
         // creo array di utenti filtrati
@@ -555,16 +555,12 @@ function AddressBookPanelPresenter() {
      * @author Riccardo Tresoldi
      * @param {Number}
      *            idGroup id del gruppo su cui filtrare i contatti
-     * @returns {Array} lista di contatti filtrata
+     * @returns {Array} lista di ID dei contatti filtrati
      */
     this.applyFilterByGroup = function(idGroup) {
+        //ottengo i contatti del gruppo passato per parametro
         var filtredContactsID = groups[idGroup].contacts;
-        /*var filtredContacts = new Object();
-         for (var contact in filtredContactsID) {
-         filtredContacts[filtredContactsID[contact]] =
-         contacts[filtredContactsID[contact]];
-         }
-         return filtredContacts;*/
+        //ritorno la lista di ID
         return filtredContactsID;
     };
 
@@ -578,7 +574,7 @@ function AddressBookPanelPresenter() {
      *
      * @author Ricardo tresoldi
      * @param {Array}
-     *            filtredContacts Array di id di contatti
+     *            filtredContacts Array di ID di contatti
      */
     this.showFilter = function(filtredContacts) {
         // estraggo l'<ul> del Addressbook e lo inizializzo

@@ -74,5 +74,24 @@ public class GroupDAOTest {
 		boolean result = tester.delete(group);
 		assertTrue(result);
 	}
-
+	
+	@Test
+	public void testGetByIdNonexistent() {
+		Long id = -1L;
+		IGroup result = tester.getByID(id);
+		assertNull(result);
+	}
+	
+	@Test
+	public void testGetByOwnerAndNameNonexistent() {
+		IGroup result = tester.getByOwnerAndName(owner.getId(), "");
+		assertNull(result);
+	}
+	
+	@Test
+	public void testGetByOwnerNonexistent() {
+		Long id = -1L;
+		List<IGroup> result = tester.getByOwner(id);
+		assertTrue(result.isEmpty());
+	}
 }

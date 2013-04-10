@@ -95,4 +95,79 @@ public class PushInboundTest {
 			ChannelServlet.setClients(new HashMap<Long, PushInbound>());
 		}
 	}
+
+	// FIXME questo test è pura e semplice fuffa
+	@Test(expected = NullPointerException.class)
+	public void testExchangeData() {
+		// crea i dati per il test
+		Map<Long, PushInbound> clients = ChannelServlet.getClients();
+		Long id = 1L;
+		PushInbound channel = new PushInbound();
+		clients.put(id, channel);
+
+		// crea un finto messaggio
+		CharBuffer message = mock(CharBuffer.class);
+		when(message.toString()).thenReturn(
+				"[\"2\", \"" + id.toString() + "\", \"dummy\"]");
+
+		try {
+			// invoca metodo da testare
+			tester.onTextMessage(message);
+		} catch (IOException ex) {
+			fail(ex.getMessage());
+		} finally {
+			// azzera nuovamente l'array dei clients
+			ChannelServlet.setClients(new HashMap<Long, PushInbound>());
+		}
+	}
+
+	// FIXME questo test è pura e semplice fuffa
+	@Test(expected = NullPointerException.class)
+	public void testSendId() {
+		// crea i dati per il test
+		Map<Long, PushInbound> clients = ChannelServlet.getClients();
+		Long id = 1L;
+		PushInbound channel = new PushInbound();
+		clients.put(id, channel);
+
+		// crea un finto messaggio
+		CharBuffer message = mock(CharBuffer.class);
+		when(message.toString()).thenReturn(
+				"[\"3\", \"" + id.toString() + "\"]");
+
+		try {
+			// invoca metodo da testare
+			tester.onTextMessage(message);
+		} catch (IOException ex) {
+			fail(ex.getMessage());
+		} finally {
+			// azzera nuovamente l'array dei clients
+			ChannelServlet.setClients(new HashMap<Long, PushInbound>());
+		}
+	}
+
+	// FIXME questo test è pura e semplice fuffa
+	@Test(expected = NullPointerException.class)
+	public void testNotifyStateChange() {
+		// crea i dati per il test
+		Map<Long, PushInbound> clients = ChannelServlet.getClients();
+		Long id = 1L;
+		PushInbound channel = new PushInbound();
+		clients.put(id, channel);
+
+		// crea un finto messaggio
+		CharBuffer message = mock(CharBuffer.class);
+		when(message.toString()).thenReturn(
+				"[\"5\", \"" + id.toString() + "\", \"dummy\"]");
+
+		try {
+			// invoca metodo da testare
+			tester.onTextMessage(message);
+		} catch (IOException ex) {
+			fail(ex.getMessage());
+		} finally {
+		}
+		// azzera nuovamente l'array dei clients
+		ChannelServlet.setClients(new HashMap<Long, PushInbound>());
+	}
 }
