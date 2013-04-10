@@ -189,6 +189,7 @@ function RegisterPanelPresenter(url) {
      * @author Stefano Farronato
      */
     this.initialize = function() {
+        //TODO INSERIRE UNA LABEL "OBBLIGATORIO" AI CAMPI DATI CHE LO SONO!
         element.innerHTML = "";
 
         element.style.display = "block";

@@ -171,9 +171,9 @@ function CommunicationCenter() {
             //creo l'array da passare alla servlet per la connessione e l'invio
             var ar = new Array("1", self.my.id);
             websocket.send(JSON.stringify(ar));
-
-            //eventuale segnale di avvenuta connessione con la servlet [per
-            // esempio spia verde o rossa]
+            //informo gli utenti della mia rubrica che sono online 
+            var informOtherAboutMyStatus = new Array("5", self.my.email, "available");
+            websocket.send(JSON.stringify(informOtherAboutMyStatus));
         };
         //event handle per gestire la chiusura della socket
         websocket.onclose = function(evt) {
@@ -209,13 +209,13 @@ function CommunicationCenter() {
                 var idUserChange = JSON.parse(str[1]);
                 var statusUserChange = JSON.parse(str[2]);
                 //può avere due stati [available | occupied]
-                //TODO modificare classe <li> dell'utente.
+                //TODO 
             }
         };
         //event handle per gestire gli errori avvenuti della socket
         websocket.onerror = function(evt) {
             //nel caso la servlet restituisse un errore
-            alert("È avvenuto un problema nel serve che tuttavia potrebbe non compromettere la chiamata se già avviata.");
+            alert("È avvenuto un problema nel server che tuttavia potrebbe non compromettere la chiamata se già avviata.");
         };
     };
 

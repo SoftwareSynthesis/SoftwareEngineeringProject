@@ -136,20 +136,18 @@ function AddressBookPanelPresenter() {
         }
         if (name == "")
             name += contact.email;
-        var avatar = contact.picturePath;
 
         // imposto gli attributi corretti
-        item.setAttribute("id", contact.id);
-        item.setAttribute("class", contact.state);
-        // la variabile 'mediator' è una variabile globale
+        item.id = contact.id;
+        item.className = contact.state;
         item.onclick = function() {
             mediator.onContactSelected(contact);
         };
 
         // genero i valori da attribuire all'<li>
         var avatarNode = document.createElement('img');
-        avatarNode.setAttribute("src", avatar);
-        // avatarNode.setAttribute("class", "");
+        var avatar = contact.picturePath;
+        avatarNode.src = avatar;
 
         var textNode = document.createTextNode(name);
 
@@ -306,7 +304,8 @@ function AddressBookPanelPresenter() {
         ulList.innerHTML = "";
 
         if (contacts.size() == 0) {
-            //TODO Aggiungere <li> per
+            //TODO Aggiungere <li> per indicare che non ci sono contatti in
+            // rubrica
         }
         // ciclo i contatti e agiungo un <li> per ogni contatto
         for (var contact in contacts) {
@@ -563,7 +562,7 @@ function AddressBookPanelPresenter() {
         /*var filtredContacts = new Object();
          for (var contact in filtredContactsID) {
          filtredContacts[filtredContactsID[contact]] =
-        contacts[filtredContactsID[contact]];
+         contacts[filtredContactsID[contact]];
          }
          return filtredContacts;*/
         return filtredContactsID;
