@@ -69,7 +69,8 @@ public class LoginServletTest {
 		when(request.getParameter("username")).thenReturn(
 				"indirizzo5@dominio.it");
 		when(request.getParameter("password")).thenReturn("password");
-		when(request.getSession(true)).thenReturn(mock(HttpSession.class));
+		HttpSession session = mock(HttpSession.class);
+		when(request.getSession(false)).thenReturn(session);
 		// configura il comportamento della risposta
 		when(response.getWriter()).thenReturn(new PrintWriter(writer));
 
@@ -99,7 +100,8 @@ public class LoginServletTest {
 		// configura il comportamento della richiesta
 		when(request.getParameter("username")).thenReturn("dummy@dummy.du");
 		when(request.getParameter("password")).thenReturn("dummy");
-		when(request.getSession(true)).thenReturn(mock(HttpSession.class));
+		HttpSession session = mock(HttpSession.class);
+		when(request.getSession(false)).thenReturn(session);
 		// configura il comportamento della risposta
 		when(response.getWriter()).thenReturn(new PrintWriter(writer));
 

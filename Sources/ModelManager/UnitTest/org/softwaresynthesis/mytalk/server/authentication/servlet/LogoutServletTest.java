@@ -68,8 +68,8 @@ public class LogoutServletTest {
 	public void testLogoutCorrectUser() throws IOException, ServletException {
 		// imposta la richiesta per restituire una sessione che ha successo
 		HttpSession successSession = mock(HttpSession.class);
-		when(successSession.getAttribute("context")).thenReturn(
-				mock(LoginContext.class));
+		LoginContext context = mock(LoginContext.class);
+		when(successSession.getAttribute("context")).thenReturn(context);
 		when(request.getSession(false)).thenReturn(successSession);
 
 		// configura il comportamento della risposta

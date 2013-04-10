@@ -23,8 +23,10 @@ public class AuthenticationModuleTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws LoginException {
-		System.setProperty("java.security.auth.login.config",
-				"/var/lib/tomcat7/webapps/MyTalk/Conf/LoginConfiguration.conf");
+		String path = System.getenv("MyTalkConfiguration");
+		String separator = System.getProperty("file.separator");
+		path += separator + "MyTalk" + separator + "Conf" + separator + "LoginConfiguration.conf";
+		System.setProperty("java.security.auth.login.config", path);
 		AuthenticationData data = new AuthenticationData(
 				"indirizzo5@dominio.it", "password");
 		CredentialLoader loader = new CredentialLoader(data, new AESAlgorithm());
