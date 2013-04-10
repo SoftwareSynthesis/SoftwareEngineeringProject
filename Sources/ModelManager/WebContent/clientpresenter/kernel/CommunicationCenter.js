@@ -63,20 +63,20 @@ function CommunicationCenter() {
         if (bytes <= 1048576) {
             var kb = bytes / 1024;
             kb = Math.round(kb);
-            kb += " KB/s";
+            kb += " KB";
             return kb;
         } else {
             var mb = bytes / 1048576;
             var cifre = mb.toString();
             var cifreArray = cifre.split(".");
             if (cifreArray[0].length >= 1) {
-                return (cifre.substring(0, 4)) + " MB/s";
+                return (cifre.substring(0, 4)) + " MB";
             }
             if (cifreArray[0].length >= 2) {
-                return (cifre.substring(0, 5)) + " MB/s";
+                return (cifre.substring(0, 5)) + " MB";
             }
             if (cifreArray[0].length >= 3) {
-                return (cifre.substring(0, 6)) + " MB/s";
+                return (cifre.substring(0, 6)) + " MB";
             }
         }
     }
@@ -209,7 +209,7 @@ function CommunicationCenter() {
                 var idUserChange = JSON.parse(str[1]);
                 var statusUserChange = JSON.parse(str[2]);
                 //può avere due stati [available | occupied]
-                //TODO 
+                mediator.onChangeAddressBooksContactState(idUserChange, statusUserChange);
             }
         };
         //event handle per gestire gli errori avvenuti della socket

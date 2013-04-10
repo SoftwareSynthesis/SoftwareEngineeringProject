@@ -706,7 +706,7 @@ function AddressBookPanelPresenter() {
                     // se i contatti coincidono aggiungo il gruppo alla lista di
                     // ritorno e blocco lo scorrimento dell'array
                     groupSelected[group] = groups[group];
-                    // break;
+                    break;
                 }
             }
         }
@@ -714,6 +714,25 @@ function AddressBookPanelPresenter() {
         return groupSelected;
     };
 
+    /**
+     * Funzione per cambiare l'immagine dell'indicatore di stato di un contatto
+     * nella rubrica
+     *
+     * @param {Array} contact rappresenta il contatto a cui settare lo stato
+     * @param {String} state rappresenta lo stato da settare
+     * @author Riccardo Tresoldi
+     */
+    this.setStateToContact = function(contact, state) {
+        //controllo che il contatto sia presente nella rubrica
+        if (contacts[contact.id]) {
+            //imposto il valore in contacts
+            contacts[contact.id].state = state;
+            //imposto l'src dell'immagine giusta
+            var liUser = document.getElementById(contact.id);
+            var imgState = liUser.getElementsByTagName("img")[1];
+            imgState.src = getImageSrc(contact);
+        }
+    }
     /*
      * FILE JSON CHE RAFFIGURA LA RUBRICA { "idUser1":{ "name": "", "surname":
      * "", "email": "", "id": "", "picturePath": "", "state": "", "blocked":
