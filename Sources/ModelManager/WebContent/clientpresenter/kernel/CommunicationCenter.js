@@ -9,7 +9,7 @@ function CommunicationCenter() {
      VARIABILI PUBBLICHE
      ***********************************************************/
     //TODO Contiene i dati della videochiamata
-    this.videoComunication
+    this.videoComunication;
     //E' un array di HTMLTextAreaElement
     this.openChat = new Array();
     //oggetto che contiene i dati dell'utente
