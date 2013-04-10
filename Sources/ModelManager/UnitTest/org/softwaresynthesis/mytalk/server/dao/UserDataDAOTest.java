@@ -3,6 +3,7 @@ package org.softwaresynthesis.mytalk.server.dao;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import java.util.List;
 import org.junit.BeforeClass;
@@ -123,5 +124,20 @@ public class UserDataDAOTest {
 	public void testToString() {
 		String toCompare = "UserDataDAO";
 		assertTrue(toCompare.equals(tester.toString()));
+	}
+	
+	@Test
+	public void testGetByEmailNonexistent() {
+		IUserData found = null;
+		String mail = "dummy@dummy.du";
+		found = tester.getByEmail(mail);
+		assertNull(found);
+	}
+	
+	@Test
+	public void testGetByIdNonexistent() {
+		Long id = -1L;
+		IUserData found = tester.getByID(id);
+		assertNull(found);
 	}
 }
