@@ -95,6 +95,15 @@ function ToolsPanelPresenter() {
         //attaccare il comportamento all'elemento '<select>'
         selectLanguage.onchange = function() {
         };*/
+        
+        // permette di tornare alla chiamata se ce n'era una attiva
+        // FIXME preventivo
+        var liCommunication = null;
+        if (communicationcenter.openChat.length || communicationcenter.videoCommunication) {
+        	liCommunication = document.createElement("li");
+        	liCommunication.appendChild(document.createTextNode("Chiamata"));
+        	liCommunication.onclick = mediator.displayCommunicaionPanel;
+        }
 
         // costruisce la lista aggiungendo tutti gli elementi
         ulFunction.appendChild(liAnswering);
@@ -102,6 +111,9 @@ function ToolsPanelPresenter() {
         ulFunction.appendChild(liCallList);
         ulFunction.appendChild(liGroup);
         //ulFunction.appendChild(liLanguage);
+        if (liCommunication) {
+        	ulFunction.appendChild(liCommunication);
+        }
         divFunction.appendChild(ulFunction);
 
         // contenuto del '<div>' per gli stati dell'utente
