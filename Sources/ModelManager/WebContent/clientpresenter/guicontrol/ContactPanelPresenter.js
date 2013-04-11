@@ -60,13 +60,13 @@ function ContactPanelPresenter() {
             img.className = "deleteGroupButton";
             img.src = "img/close.png";
             img.onclick = function() {
-                //TODO eliminare gruppo
+                mediator.onGroupRemoved(groups[group]);
             }
             label.appendChild(document.createTextNode(groups[group].name));
             label.appendChild(img);
             label.className = "groupLabel";
             div.appendChild(label);
-            // gestire hover con CSS
+            // TODO gestire hover con CSS
         }
     }
 
@@ -189,7 +189,6 @@ function ContactPanelPresenter() {
      * @author Riccardo Tresoldi
      */
     this.display = function(contact) {
-        // FIXME: si può fare con un ciclo, se imposto una classe?
         document.getElementById("contactName").appendChild(document.createTextNode(contact.name));
         document.getElementById("contactSurname").appendChild(document.createTextNode(contact.surname));
         document.getElementById("contactEmail").appendChild(document.createTextNode(contact.email));
