@@ -95,6 +95,13 @@ function ToolsPanelPresenter() {
         //attaccare il comportamento all'elemento '<select>'
         selectLanguage.onchange = function() {
         };*/
+        
+        // funzione di ricerca
+        var liSearch = document.createElement("li");
+        liSearch.appendChild(document.createTextNode("Ricerca"));
+        liSearch.onclick = function() {
+        	mediator.displaySearchResultPanel();
+        };
 
         // costruisce la lista aggiungendo tutti gli elementi
         ulFunction.appendChild(liAnswering);
@@ -102,9 +109,7 @@ function ToolsPanelPresenter() {
         ulFunction.appendChild(liCallList);
         ulFunction.appendChild(liGroup);
         //ulFunction.appendChild(liLanguage);
-        if (liCommunication) {
-        	ulFunction.appendChild(liCommunication);
-        }
+        ulFunction.appendChild(liSearch);
         divFunction.appendChild(ulFunction);
 
         // contenuto del '<div>' per gli stati dell'utente
@@ -177,7 +182,6 @@ function ToolsPanelPresenter() {
 
     /*
      * TODO:
-     * - implementare la ricerca degli utenti sul sistema
-     * - aggiunta utente [resultpannel->mediator->aBpresenter]
+     * - aggiunta utente [resultpanel->mediator->ABPanelpresenter]
      */
 }
