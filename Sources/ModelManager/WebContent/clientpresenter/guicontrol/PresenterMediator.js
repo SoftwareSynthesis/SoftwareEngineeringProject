@@ -377,6 +377,7 @@ function PresenterMediator() {
         presenters["main"].displayChildPanel(element);
         communicationpp.addChat(user);
         communicationpp.displayChat(user);
+        this.addCommunicationToTools();
     };
 
     /**
@@ -392,6 +393,7 @@ function PresenterMediator() {
     this.onCall = function(contact, onlyAudio) {
         var element = communicationpp.createPanel();
         presenters["main"].displayChildPanel(element);
+        this.addCommunicationToTools();
         communicationcenter.call(true, contact, onlyAudio);
     };
 
@@ -412,7 +414,8 @@ function PresenterMediator() {
      */
     this.getMainPanel = function() {
         return presenters["main"];
-    }
+    };
+    
     /**
      * Funzione per settare l'immagine corretta dello stato di un contatto della
      * rubrica
@@ -428,5 +431,30 @@ function PresenterMediator() {
         var contact=presenters["addressbook"].contacts[contactId];
         //invoco la funzione del AddressBookPanelPresenter
         presenters["addressbook"].setStateToContact(contact, state);
-    }
+    };
+    
+
+	/**
+	* Permette di rimuovere dal ToolsPanel il pulsante che fa
+	* ritornare alle chiamate/chat attive in un determinato momento
+	* 
+	* @author Diego Beraldin
+	*/
+	this.removeCommunicationToTools = function() {
+		if (communicationcenter.openChat.length == 0 || !communicationcenter.videoCommunication) {
+			presenters["tools"].removeCommunicationFunction();
+		}
+	};
+    
+    /**
+	 * Permette di aggiungere dal ToolsPanel il pulsante che fa
+	 * ritornare alle chiamate/chat attive
+	 * 
+	 * @author Diego Beraldin
+	 */
+	 this.addCommunicationToTools = function() {
+		if (communicationcenter.openChat.length > 0 || communicationcenter.videoCommunication) {
+			presenters["tools"].addCommunicationFunction();
+		}
+	};
 }

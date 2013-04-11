@@ -95,15 +95,6 @@ function ToolsPanelPresenter() {
         //attaccare il comportamento all'elemento '<select>'
         selectLanguage.onchange = function() {
         };*/
-        
-        // permette di tornare alla chiamata se ce n'era una attiva
-        // FIXME preventivo
-        var liCommunication = null;
-        if (communicationcenter.openChat.length || communicationcenter.videoCommunication) {
-        	liCommunication = document.createElement("li");
-        	liCommunication.appendChild(document.createTextNode("Chiamata"));
-        	liCommunication.onclick = mediator.displayCommunicaionPanel;
-        }
 
         // costruisce la lista aggiungendo tutti gli elementi
         ulFunction.appendChild(liAnswering);
@@ -152,6 +143,36 @@ function ToolsPanelPresenter() {
             alert("Ops... qualcosa &egrave; andato storto nel server!");
         }
 
+    };
+    
+    /**
+     * Aggiunge il pulsante che permette di ritornare al pannello delle
+     * comunicazioni, se ve ne sono di attive
+     * 
+     * @author Diego Beraldin
+     */
+    this.addCommunicationFunction = function() {
+    	// crea il nuovo elemento della lista
+        var liCommunication = document.createElement("li");
+        liCommunication.id = "CallFunction";
+        liCommunication.appendChild(document.createTextNode("Chiamata"));
+        liCommunication.onclick = mediator.displayCommunicaionPanel;
+        
+        // lo aggiunge in coda alla lista
+        var ulFunctions = document.getElementById("ToolsList");
+        ulFunctions.appendChild(liCommunication);
+    };
+    
+    /**
+     * Nasconde il pulsante che permette di ritornare al pannello
+     * delle comunicazioni dal ToolsPanel
+     * 
+     * @author Diego Beraldin
+     */
+    this.removeCommunicationFunction = function() {
+    	var ulFunctions = document.getElementById("ToolsList");
+    	var liCommunication = document.getElementById("CallFunction");
+    	ulFunctions.removeChild(liCommunication);
     };
 
     /*
