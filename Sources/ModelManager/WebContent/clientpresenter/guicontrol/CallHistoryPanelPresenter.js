@@ -93,6 +93,7 @@ function CallHistoryPanelPresenter(url) {
 		var ulHistory = document.createElement('ul');
 		ulHistory.id = "ulHistory";
 		element.appendChild(ulHistory);
+		this.setup();
 		return element;
 	};
 
