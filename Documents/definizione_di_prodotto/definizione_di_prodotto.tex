@@ -220,7 +220,7 @@ Nessun attributo evidenziato.
 			\item[6)] eseguire il comando \inglese{commit} per confermare l'operazione del punto precedente.
 		\end{itemize}
 		
-Poiché l'iter presentato potrà causare il lancio di un'eccezione, il codice dovrà essere gestito in un blocco \inglese{try-catch}. Nel caso incorra tale evento, il flusso di processo dovrà ristabilire la situazione iniziale richiamando il metodo \texttt{rollback()} dell'istanza di tipo \texttt{org.hibernate.Transaction} creata al punto 4 dell'iter. In ogni caso il metodo deve terminare chiudendo la sessione aperta al punto 2.
+Poiché l'iter presentato potrà causare il solleva di un'eccezione, il codice dovrà essere gestito in un blocco \inglese{try-catch}. Nel caso incorra tale evento, il flusso di processo dovrà ristabilire la situazione iniziale richiamando il metodo \texttt{rollback()} dell'istanza di tipo \texttt{org.hibernate.Transaction} creata al punto 4 dell'iter. In ogni caso il metodo deve terminare chiudendo la sessione aperta al punto 2.
 
 	\item{\method{+ delete(user: IUserData): boolean}}\\
 	Metodo usato per eliminare un utente registrato nel sistema, riceve come parametro un istanza di un oggetto \classname{abook.IUserData}. Il metodo dovrà eseguire nell'ordine le seguenti operazioni:
@@ -233,7 +233,7 @@ Poiché l'iter presentato potrà causare il lancio di un'eccezione, il codice do
 			\item[6)] eseguire il comando \inglese{commit} per confermare l'operazione del punto precedente.
 		\end{itemize}
 		
-Poiché l'iter presentato può causare il lancio di un'eccezione, il codice dovrà essere gestito in un blocco \inglese{try-catch}. Nel caso incorra tale evento, il flusso di processo dovrà ristabilire la situazione iniziale richiamando il metodo \texttt{rollback()} dell'istanza di tipo \texttt{org.hibernate.Transaction} creata al punto 4 dell'iter. In ogni caso il metodo deve terminare chiudendo la sessione aperta al punto 2.
+Poiché l'iter presentato può causare il solleva di un'eccezione, il codice dovrà essere gestito in un blocco \inglese{try-catch}. Nel caso incorra tale evento, il flusso di processo dovrà ristabilire la situazione iniziale richiamando il metodo \texttt{rollback()} dell'istanza di tipo \texttt{org.hibernate.Transaction} creata al punto 4 dell'iter. In ogni caso il metodo deve terminare chiudendo la sessione aperta al punto 2.
 
 \item{\method{+ update(user: IUserData): boolean}}\\
 	Metodo usato per modificare i dati di un utente registrato nel sistema, riceve come parametro un istanza di un oggetto \classname{abook.IUserData}. Il metodo dovrà eseguire nell'ordine le seguenti operazioni:
@@ -246,7 +246,7 @@ Poiché l'iter presentato può causare il lancio di un'eccezione, il codice dovr
 			\item[6)] eseguire il comando \inglese{commit} per confermare l'operazione del punto precedente.
 		\end{itemize}
 		
-Poiché l'iter presentato può causare il lancio di un'eccezione, il codice dovrà essere gestito in un blocco \inglese{try-catch}. Nel caso incorra il lancio tale evento, il flusso di processo dovrà ristabilire la situazione iniziale richiamando il metodo \texttt{rollback()} dell'istanza di tipo \texttt{org.hibernate.Transaction} creata al punto 4 dell'iter. In ogni caso il metodo deve terminare chiudendo la sessione aperta al punto 2.
+Poiché l'iter presentato può causare il solleva di un'eccezione, il codice dovrà essere gestito in un blocco \inglese{try-catch}. Nel caso incorra tale evento, il flusso di processo dovrà ristabilire la situazione iniziale richiamando il metodo \texttt{rollback()} dell'istanza di tipo \texttt{org.hibernate.Transaction} creata al punto 4 dell'iter. In ogni caso il metodo deve terminare chiudendo la sessione aperta al punto 2.
 
 	\item{\method{+ getByNameAndSurname(name: String, surname: String): List<IUserData>}}\\
 	Metodo usato per effettuare un interrogazione al database atta ad ottenere la lista degli utenti aventi un determinato nome e cognome, riceve come parametri il nome e il cognome da ricercare. Il metodo dovrà eseguire nell'ordine le seguenti operazioni:
@@ -1227,7 +1227,7 @@ Implementazione dell'interfaccia IAddressBookEntry.
 \begin{itemize}
 	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
-	\item \texttt{javax.servlet.ServletException}: eccezione lanciabile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{javax.servlet.ServletException}: eccezione sollevabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{LoginManager}.
 	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
 	\item \texttt{javax.security.auth.login.LoginContext}: classe usata in \method{doPost()} per eseguite la \textit{logout} dal sistema.
@@ -1281,7 +1281,7 @@ Implementazione dell'interfaccia IAddressBookEntry.
 \begin{itemize}
 	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
-	\item \texttt{javax.servlet.ServletException}: eccezione lanciabile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{javax.servlet.ServletException}: eccezione sollevabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{LoginManager}.
 	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
 	\item \texttt{javax.security.auth.login.LoginContext}: classe usata in \method{doPost()} per eseguite la logout dal sistema.
@@ -1897,7 +1897,7 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
 	\item \texttt{java.util.List}: usata per memorizzare l'insieme di \classname{IGroup} da restituire in seguito alla richiesta di ricerca.
 	\item \texttt{java.util.Set}: usata per memorizzare l'insieme di \classname{IAddressBookEntry} da restituire in seguito alla richiesta di ricerca.
-	\item \texttt{javax.servlet.ServletException}: eccezione lanciabile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{javax.servlet.ServletException}: eccezione sollevabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{LoginManager}.
 	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
 	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in uscita dalla chiamata a \inglese{servlet}).
@@ -2119,7 +2119,7 @@ Classe che implementa l'interfaccia \classname{ICallList}.
 \begin{itemize}
 	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
-	\item \texttt{javax.servlet.ServletException}: eccezione rilancibile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{javax.servlet.ServletException}: eccezione sollevabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{DownloadCallHistoryServlet}.
 	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
 	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in uscita dalla chiamata a \inglese{servlet}).
@@ -2265,7 +2265,7 @@ Classe che implementa l'interfaccia \classname{IMessage}.
 \begin{itemize}
 	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
-	\item \texttt{javax.servlet.ServletException}: eccezione rilancibile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{javax.servlet.ServletException}: eccezione sollevabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{DownloadCallHistoryServlet}.
 	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
 	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in uscita dalla chiamata a \inglese{servlet}).
@@ -2311,7 +2311,7 @@ Classe che implementa l'interfaccia \classname{IMessage}.
 \begin{itemize}
 	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
-	\item \texttt{javax.servlet.ServletException}: eccezione rilancibile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{javax.servlet.ServletException}: eccezione sollevabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{DownloadCallHistoryServlet}.
 	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
 	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in uscita dalla chiamata a \inglese{servlet}).
@@ -2362,7 +2362,7 @@ La \inglese{servlet} permette di effettuare una transizione di stato da ``non le
 \begin{itemize}
 	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
-	\item \texttt{javax.servlet.ServletException}: eccezione rilancibile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{javax.servlet.ServletException}: eccezione sollevabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{DownloadCallHistoryServlet}.
 	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
 	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in uscita dalla chiamata a \inglese{servlet}).
@@ -2408,7 +2408,7 @@ La \inglese{servlet} permette di effettuare una transizione di stato da ``non le
 \begin{itemize}
 	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
-	\item \texttt{javax.servlet.ServletException}: eccezione rilancibile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{javax.servlet.ServletException}: eccezione sollevabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{DownloadCallHistoryServlet}.
 	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
 	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in uscita dalla chiamata a \inglese{servlet}).
@@ -2463,15 +2463,15 @@ Nessuna relazione d'uso evidenziata.
 \begin{description}
 	\item{\method{+ encrypt(plainText: String): String}}\\
 	Cripta la stringa di testo ricevuta come parametro.\\\\
-	Il metodo può lanciare eccezioni:
+	Il metodo può solleva eccezioni:
 	\begin{itemize}
-		\item \exception{Exception}: il metodo lancia un'eccezione.
+		\item \exception{Exception}: il metodo solleva un'eccezione.
 	\end{itemize}
 	\item{\method{+ decrypt(encryptedText: String)}}\\
 	Decripta la stringa di testo ricevuta come parametro.\\\\
-	Il metodo può lanciare eccezioni:
+	Il metodo può sollevare eccezioni:
 	\begin{itemize}
-		\item \exception{Exception}: il metodo lancia un'eccezione.
+		\item \exception{Exception}: il metodo solleva un'eccezione.
 	\end{itemize}
 \end{description}
 
@@ -2502,20 +2502,20 @@ Implementazione della strategia di codifica/decodifica con l'uso dell'algoritmo 
 \begin{description}
 	\item{\method{- generateKey(): Key}}\\
 	Metodo che restituisce una chiave di tipo \texttt{java.security.Key}, a partire dall'array \memberdata{keyValue}. Per fare ciò, il metodo usa il costruttore di \texttt{javax.crypto.spec.SecretKeySpec}.
-	Il metodo può lanciare eccezioni:
+	Il metodo può sollevare eccezioni:
 	\begin{itemize}
-		\item \exception{Exception}: il metodo può lanciare un'eccezione generica.
+		\item \exception{Exception}: il metodo può sollevare un'eccezione generica.
 	\end{itemize}
 	\item{\method{+ encrypt(plainText: String): String}}\\
 	Metodo usato per criptare un testo di tipo \texttt{String} passato come parametro d'ingresso. Il metodo usa una chiave ottenuta a partire dal metodo \method{generateKey()} in associazione alla classe \texttt{javax.crypto.Cipher} per criptare il testo tramite l'algoritmo AES.
 	\begin{itemize}
-		\item \exception{Exception}: il metodo lancia un'eccezione.
+		\item \exception{Exception}: il metodo solleva un'eccezione.
 	\end{itemize}
 	\item{\method{+ decrypt(encryptedText: String)}}\\
 	Decripta la stringa di testo ricevuta come parametro, attuando una procedura inversa a quella presentata nel metodo \method{encrypt(plainText: String)}\\\\
-	Il metodo può lanciare eccezioni:
+	Il metodo può sollevare eccezioni:
 	\begin{itemize}
-		\item \exception{Exception}: il metodo può lanciare un'eccezione generica.
+		\item \exception{Exception}: il metodo può sollevare un'eccezione generica.
 	\end{itemize}
 \end{description}
 
@@ -2616,7 +2616,7 @@ Modulo di autenticazione utilizzato dal sistema \caName.
 
 \subsubsection*{Relazioni d'uso}
 \begin{itemize}
-	\item \texttt{java.io.IOException}: la classe è in grado di rilanciare eccezioni relative a operazioni di IO.
+	\item \texttt{java.io.IOException}: la classe è in grado di sollevare eccezioni relative a operazioni di IO.
 	\item \texttt{java.security.Principal}: cinterfaccia che definisce i dati di autenticazione di un utente.
 	\item \texttt{java.util.Map}: parametri passati ad \method{iniziaile()}.
 	\item \texttt{java.util.Set}: la classe può definire istanze di Set, per memorizzare i dati trattati.
@@ -2624,9 +2624,9 @@ Modulo di autenticazione utilizzato dal sistema \caName.
 	\item \texttt{javax.security.auth.callback.CallbackHandler}: parametri passati ad \method{iniziaile()}.
 	\item \texttt{javax.security.auth.callback.NameCallback}: oggetto che contiene il name dell'utente da autenticare.
 	\item \texttt{javax.security.auth.callback.PasswordCallback}: oggetto che contiene la password dell'utente da autenticare
-	\item \texttt{javax.security.auth.callback.UnsupportedCallbackException}: la classe è in grado di rilanciare eccezioni relative a operazioni di UnsupportedCallback.
-	\item \texttt{javax.security.auth.login.FailedLoginException}: la classe è in grado di rilanciare eccezioni relative a operazioni di FailedLoginException.
-	\item \texttt{javax.security.auth.login.LoginException}: la classe è in grado di rilanciare eccezioni relative a operazioni di LoginException.
+	\item \texttt{javax.security.auth.callback.UnsupportedCallbackException}: la classe è in grado di sollevare eccezioni relative a operazioni di UnsupportedCallback.
+	\item \texttt{javax.security.auth.login.FailedLoginException}: la classe è in grado di sollevare eccezioni relative a operazioni di FailedLoginException.
+	\item \texttt{javax.security.auth.login.LoginException}: la classe è in grado di sollevare eccezioni relative a operazioni di LoginException.
 	\item \texttt{javax.security.auth.spi.LoginModule}: interfaccia d'implementazione.
 	\item \texttt{javax.security.auth.Subject}: definisce il soggetto da autenticare.
 	\item \classname{abook.IUserData}: la classe interagisce con istanze di oggetti identificabili come utenti.
@@ -2681,8 +2681,8 @@ Permette di caricare le credenziali di autenticazione, fornite dall'utente, per 
 	\item \texttt{javax.security.auth.callback.CallbackHandler}: Interfaccia implementata dalla classe.
 	\item \texttt{javax.security.auth.callback.NameCallback}: tipo di dato richiesto in ingresso per completare la parte di login.
 	\item \texttt{javax.security.auth.callback.PasswordCallback}: tipo di dato richiesto in ingresso per completare la parte di login.
-	\item \texttt{java.io.IOException}: eccezione che può essere lanciata dal metodo \texttt{handle} definito dall'interfaccia \texttt{javax.security.auth.callback.CallbackHandler}.
-	\item \texttt{javax.security.auth.callback.UnsupportedCallbackException}: eccezione che può essere lanciata dal metodo \texttt{handle} definito dall'interfaccia \texttt{javax.security.auth.callback.CallbackHandler}.
+	\item \texttt{java.io.IOException}: eccezione che può essere sollevata dal metodo \texttt{handle} definito dall'interfaccia \texttt{javax.security.auth.callback.CallbackHandler}.
+	\item \texttt{javax.security.auth.callback.UnsupportedCallbackException}: eccezione che può essere sollevata dal metodo \texttt{handle} definito dall'interfaccia \texttt{javax.security.auth.callback.CallbackHandler}.
 \end{itemize}
 
 \subsubsection*{Attributi}
@@ -2700,7 +2700,7 @@ Permette di caricare le credenziali di autenticazione, fornite dall'utente, per 
 
 	\item{\method{+ handle(callbacks: Callback[]): void}}\\
 	Effettua il caricamento e crittografa delle credenziali fornite dall'utente per la fase di login\\\\
-	Il metodo può lanciare eccezioni:
+	Il metodo può sollevare eccezioni:
 	\begin{itemize}
 		\item \exception{IOException}
 		\item \exception{UnsupportedCallbackException}
@@ -2720,7 +2720,7 @@ Permette di caricare le credenziali di autenticazione, fornite dall'utente, per 
 \begin{itemize}
 	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
-	\item \texttt{javax.servlet.ServletException}: eccezione rilancibile dai metodi \method{doPost()} e \method{doGet()}.
+	\item \texttt{javax.servlet.ServletException}: eccezione sollevabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{LoginManager}.
 	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
 	\item \texttt{javax.security.auth.login.LoginContext}: classe usata in \method{doPost()} per eseguite la logout dal sistema.
@@ -2885,7 +2885,7 @@ Classe per la definizione di un apposito canale di comunicazione client-server. 
 
 \subsubsection*{Relazioni d'uso}
 \begin{itemize}
-	\item \texttt{java.io.IOException}: Eccezione che può lanciare il metodo \method{OnTextMessage()}.
+	\item \texttt{java.io.IOException}: Eccezione che può sollevare il metodo \method{OnTextMessage()}.
 	\item \texttt{java.nio.CharBuffer}: tipologia di \textit{buffer} usata per memorizzare il messaggio ricevuto come parametro d'ingresso.
 	\item \texttt{java.util.Iterator}: usata per scorrere il contenuto dell'insieme di \classname{AddressBookEntry}
 	\item \texttt{java.util.Set}: struttura dati usata per memorizzare le \inglese{entry} (\classname{AddressBookEntry}) che costituiscono la rubrica dell'utente.
@@ -3133,25 +3133,25 @@ Metodo utilizzato per aggiungere un'opzione all'elemento \memberdata{select} ric
 Per assicurarsi di non introdurre ridondanza ed aggiungere un contatto già presente il metodo esegue due controlli: uno lato \inglese{client} e uno lato \textit{server}. 
 Il controllo lato \inglese{client}, si scorre la lista \memberdata{contact} alla ricerca di un \texttt{contact} che cerca un \inglese{match} con il nuovo contatto. Nel caso sia già presente il metodo termina ritornando \inglese{false}. Per eseguire il controllo lato \inglese{server} il metodo contatta il \inglese{server} mediante la \inglese{servlet} \texttt{AddressBookDoAddContatctServlet}, questa verificherà se l'utente avente \texttt{id} \textit{contact} è già presente nella rubrica, nel caso non lo sia si occuperà di creare la nuova istanza di \texttt{AddressBookEntry} e la registrerà nel database, in caso contrario non esegue operazioni. 
 La chiamata a \inglese{servlet} ritorna un valore booleano che sarà \textit{true} se l'inserimento ha avuto successo, \textit{false} altrimenti. 
-Se l'inserimento ha avuto successo il flusso principale prosegue eseguendo l'aggiornamento della rubrica in locale tramite la chiamata a metodo \method{setup()}. Il metodo termina infine ritornando \textit{true} se è stato aggiunto l'utente, altrimenti lancia un'eccezione.
+Se l'inserimento ha avuto successo il flusso principale prosegue eseguendo l'aggiornamento della rubrica in locale tramite la chiamata a metodo \method{setup()}. Il metodo termina infine ritornando \textit{true} se è stato aggiunto l'utente, altrimenti solleva un'eccezione.
 
 	\item{\method{+ removeContact(contact: Obj): boolean}}\\
 Metodo il cui funzionamento è analogo a quello precedentemente definito, si occupa di eliminare un contatto conoscendone l'\texttt{id} passato per parametro d'ingresso. Il flusso principale esegue due controlli per verificare la presenza dell'utente nella rubrica (analogamente a quanto visto nel caso precedente). 
-Dopo tale verifica, se il contatto è realmente presente nella rubrica, la \inglese{servlet} \texttt{AddressBookDoRemoveContactServlet} avrà eseguito la cancellazione come conseguenza al match effettuato in fase di verifica, nel caso il metodo richiama \method{setup()} per rieseguire l'aggiornamento della rubrica. Il metodo ritorna infine \textit{true} se effettivamente il contatto era presente ed è stato eliminato, altrimenti lancia un'eccezione.
+Dopo tale verifica, se il contatto è realmente presente nella rubrica, la \inglese{servlet} \texttt{AddressBookDoRemoveContactServlet} avrà eseguito la cancellazione come conseguenza al match effettuato in fase di verifica, nel caso il metodo richiama \method{setup()} per rieseguire l'aggiornamento della rubrica. Il metodo ritorna infine \textit{true} se effettivamente il contatto era presente ed è stato eliminato, altrimenti solleva un'eccezione.
 
 	\item{\method{+ addGroup(name: String): boolean}}\\
-	Metodo per l'aggiunta di un nuovo gruppo nella rubrica, permette l'aggiunta di gruppi con nomi duplicati (ossia nomi di gruppi già presenti nella rubrica). Il flusso principale richiama la \inglese{servlet} \texttt{AddressBookDoCreateGroupServlet} con il nome del gruppo da creare. Successivamente, se la \inglese{servlet} ha dato \method{setup()} esito positivo, viene richiamata il metodo \inglese{setup} che aggiorna la rubrica locale, altrimenti lancia un'eccezione.
+	Metodo per l'aggiunta di un nuovo gruppo nella rubrica, permette l'aggiunta di gruppi con nomi duplicati (ossia nomi di gruppi già presenti nella rubrica). Il flusso principale richiama la \inglese{servlet} \texttt{AddressBookDoCreateGroupServlet} con il nome del gruppo da creare. Successivamente, se la \inglese{servlet} ha dato \method{setup()} esito positivo, viene richiamata il metodo \inglese{setup} che aggiorna la rubrica locale, altrimenti solleva un'eccezione.
 	
 	\item{\method{+ deleteGroup(idGroup: int): boolean}}\\
-	Metodo per l'eliminazione di un nuovo gruppo presente nella rubrica, riceve come parametro d'ingresso l'\texttt{id} del gruppo da eliminare. Il flusso principale richiama la \inglese{servlet} \texttt{AddressBookDoRemoveGroupServlet} passandogli l'\texttt{id} del gruppo candidato all'eliminazione. Quindi, se la \inglese{servlet} notifica l'effettiva esistenza di un gruppo con tale \texttt{id}, essa si occupa dell'eliminazione e il flusso principale prosegue richiamando il metodo \inglese{setup} se la eliminazione ha avuto buon fine, altrimenti lancia un'eccezione.
+	Metodo per l'eliminazione di un nuovo gruppo presente nella rubrica, riceve come parametro d'ingresso l'\texttt{id} del gruppo da eliminare. Il flusso principale richiama la \inglese{servlet} \texttt{AddressBookDoRemoveGroupServlet} passandogli l'\texttt{id} del gruppo candidato all'eliminazione. Quindi, se la \inglese{servlet} notifica l'effettiva esistenza di un gruppo con tale \texttt{id}, essa si occupa dell'eliminazione e il flusso principale prosegue richiamando il metodo \inglese{setup} se la eliminazione ha avuto buon fine, altrimenti solleva un'eccezione.
 	
 	\item{\method{+ addContactInGroup(contact: Object(contact), group: Object(contact)): boolean}}\\
 	Metodo per l'aggiunta di un contatto in un gruppo ben definito, riceve come parametro d'ingresso il contatto e il gruppo.
-Il metodo richiama da prima \method{contactExistInGroup}, successivamente il flusso principale richiama la \inglese{servlet} \texttt{AddressBookDoInsertInGroupServlet} passandogli i parametri d'ingresso, quindi se la \inglese{servlet} notifica l'effettiva esistenza di un gruppo con il nome ricevuto, essa si occupa di aggiungervi il contatto e il flusso principale ritorna al metodo \method{setup()} per aggiornare la rubrica in locale, ritorna infine un \inglese{feedback} booleano a \textit{true} per dare notifica se l'operazione ha avuto buon fine, altrimenti rilancia un'eccezione.
+Il metodo richiama da prima \method{contactExistInGroup}, successivamente il flusso principale richiama la \inglese{servlet} \texttt{AddressBookDoInsertInGroupServlet} passandogli i parametri d'ingresso, quindi se la \inglese{servlet} notifica l'effettiva esistenza di un gruppo con il nome ricevuto, essa si occupa di aggiungervi il contatto e il flusso principale ritorna al metodo \method{setup()} per aggiornare la rubrica in locale, ritorna infine un \inglese{feedback} booleano a \textit{true} per dare notifica se l'operazione ha avuto buon fine, altrimenti solleva un'eccezione.
 	
 	\item{\method{+ deleteContactFromGroup(contact: Object(contact), group: Object(group)): boolean}}\\
 	Metodo per l'eliminazione di un contatto presente in un gruppo, riceve come parametro d'ingresso il gruppo su cui effettuare la ricerca del contatto da eliminare e il contatto. 
-Il metodo richiama da prima \method{contactExistInGroup}, poi Il flusso principale richiama la \inglese{servlet} \texttt{AddressBookDoRemoveFromGroupServlet} passandogli i parametri d'ingresso, la \inglese{servlet} notifica l'effettiva esistenza di un gruppo con il nome ricevuto che contiene il contatto candidato all'eliminazione, essa si occupa dell'eliminazione e il flusso principale ritorna al metodo \method{setup()} per aggiornare la rubrica in locale, ritorna infine un \inglese{feedback} booleano per dare notifica sull'esito dell'operazione: \textit{true}\textit{true} se è stato creato il nuovo gruppo, altrimenti lancia un'eccezione.
+Il metodo richiama da prima \method{contactExistInGroup}, poi Il flusso principale richiama la \inglese{servlet} \texttt{AddressBookDoRemoveFromGroupServlet} passandogli i parametri d'ingresso, la \inglese{servlet} notifica l'effettiva esistenza di un gruppo con il nome ricevuto che contiene il contatto candidato all'eliminazione, essa si occupa dell'eliminazione e il flusso principale ritorna al metodo \method{setup()} per aggiornare la rubrica in locale, ritorna infine un \inglese{feedback} booleano per dare notifica sull'esito dell'operazione: \textit{true}\textit{true} se è stato creato il nuovo gruppo, altrimenti solleva un'eccezione.
 	
 	\item{\method{- contactExistInGroup(contact: Object(contact), group: Object(group)): boolean}}\\
 Metodo che verifica l'esistenza di un contato in un determinato gruppo, restituisce un \inglese{feedback} booleano per confermare o meno l'esistenza dell'utente ricercato nel gruppo designato.
