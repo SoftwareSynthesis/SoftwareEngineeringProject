@@ -3,6 +3,7 @@ package org.softwaresynthesis.mytalk.server.abook.servlet;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.junit.Before;
@@ -15,6 +16,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.util.Map;
 
 /**
  * Verifica la possibilità di scaricare la rubrica di un utente autenticato al
@@ -56,6 +60,46 @@ public class AddressBookGetContactsServletTest {
 		writer = new StringWriter();
 	}
 
+	private static class JsContact {
+		private String name;
+		private String surname;
+		private String email;
+		private Long id;
+		private String picturePath;
+		private String state;
+		private boolean blocked;
+
+		public boolean equals(Object other) {
+			boolean equal = false;
+			if (other instanceof JsContact) {
+				JsContact another = (JsContact) other;
+				equal = name.equals(another.name)
+						&& surname.equals(another.surname)
+						&& email.equals(another.email) && id == another.id
+						&& picturePath.equals(another.picturePath)
+						&& state.equals(another.state)
+						&& blocked == another.blocked;
+			}
+			return equal;
+		}
+
+		public JsContact() {
+		}
+
+		public String toString() {
+			String result = "{";
+			result += "name: " + name + ", ";
+			result += "surname: " + surname + ", ";
+			result += "email: " + email + ", ";
+			result += "id: " + id + ", ";
+			result += "picturePath: " + picturePath + ", ";
+			result += "state: " + state + ", ";
+			result += "blocked: " + blocked;
+			result += "}";
+			return result;
+		}
+	}
+
 	/**
 	 * Verifica che sia correttamente scaricata la rubrica di un utente
 	 * registrato nel sistema
@@ -82,15 +126,23 @@ public class AddressBookGetContactsServletTest {
 
 		// verifica l'output
 		writer.flush();
+		Gson gson = new Gson();
 		String responseText = writer.toString();
 		assertNotNull(responseText);
 		assertFalse(responseText.length() == 0);
+		Map<String, JsContact> addressBook = gson.fromJson(responseText,
+				new TypeToken<Map<String, JsContact>>() {
+					// classe anonima che non fa nulla ;)
+				}.getType());
 
-		String toCompare = "{\"2\":{"
-				+ "\"name\":\"marco\", \"surname\":\"verdi\", \"email\":\"indirizzo2@dominio.it\", "
-				+ "\"id\":\"2\", \"picturePath\":\"img/contactImg/Default.png\", \"state\":\"offline\", "
-				+ "\"blocked\":false}}";
-		assertEquals(toCompare, responseText);
+		JsContact marco = gson.fromJson("{\"name\":\"marco\", "
+				+ "\"surname\":\"verdi\", "
+				+ "\"email\":\"indirizzo2@dominio.it\", " + "\"id\":\"2\", "
+				+ "\"picturePath\":\"img/contactImg/Default.png\", "
+				+ "\"state\":\"offline\", " + "\"blocked\":false}",
+				JsContact.class);
+
+		assertTrue(addressBook.containsValue(marco));
 	}
 
 	/**
