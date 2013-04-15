@@ -209,6 +209,29 @@ function PresenterMediator() {
             alert(err);
         }
     };
+    
+
+   /**
+    * Restituisce la lista dei contatti che sono stati scaricati
+	 * dall'AddressBookPanelPresenter
+	 * 
+	 * @returns {Object} i contatti presenti nella rubrica
+	 * @author Diego Beraldin
+	 */
+    this.getAddressBookContacts = function() {
+    	return presenters["addressbook"].getContacts();
+    };
+    
+    /**
+     * Restituice la lista dei gruppi che sono stati scaricati
+     * dall'AddressBookPanelPresenter
+     * 
+     * @returns {Object} i gruppi presenti nella rubrica
+     * @author Diego Beraldin
+     */
+    this.getAddressBookGroups = function() {
+    	return presenters["addressbook"].getGroups();
+    };
 
     /**
      * Provoca la creazione del pannello della segreteria e la sua
