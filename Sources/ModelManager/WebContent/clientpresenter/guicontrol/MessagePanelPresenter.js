@@ -59,19 +59,41 @@ function MessagePanelPresenter(url) {
 	 *            message messaggio della segreteria che corrisponde a
 	 *            'JSMessage' ed è caratterizzato da sender, receiver, id,
 	 *            status, video, src e date
-	 * @author Riccardo Tresoldi
+	 * @author Riccardo Tresoldi, Elena Zecchinato
 	 */
+	
+	// TODO controllo di quello che ho fatto=)
 	function addListItem(message) {
 		var messageList = document.getElementById("messageList");
 		var item = document.createElement("li");
-		// TODO costruire il list item
+	
+		var status = document.createElement("img");
+		var elimina  = document.createElement("img");
+		
+		
+		item.appendChild(status);
+		item.appendChild(message.sender);
+		item.appendChild(message.data);
+		item.appendChild(elimina);
+		
+	
 		item.onclick = function() {
+			
 			/*
-			 * TODO agganciare una funzione che gestisca il comportamento al
+			 * agganciare una funzione che gestisca il comportamento al
 			 * click dei messaggi (impostando l'attributo src del video)
+			 * tipo con il tag video 
 			 */
-		}
+			
+		var video=documento.getElementById("messageVideo");
+        video.src = message.id; //CAPIRE SE CI VUOLE IL PATH
+				
+		};
+		
+		//Quando ho finito appendo il nuovo elemento appena creato.
 		messageList.appendChild(item);
+		
+		
 	}
 
 	/**
@@ -136,10 +158,10 @@ function MessagePanelPresenter(url) {
 		element.setAttribute("id", "MessagePanel");
 		// creo elemento <video>, <audio> e <img> (nel caso non ci sia video)
 		
-		 var header = document.createElement("h1");
-		 header.appendChild(document.createTextNode("Messaggi Segreteria"));
-		 divHeader.appendChild(header);
-		 element.appendChild(divHeader);
+		var header = document.createElement("h1");
+		header.appendChild(document.createTextNode("Messaggi Segreteria"));
+		divHeader.appendChild(header);
+		element.appendChild(divHeader);
 		
 		var video = document.createElement("video");
 		video.setAttribute("id", "messageVideo");
@@ -149,9 +171,6 @@ function MessagePanelPresenter(url) {
 		source.setAttribute("type", "");
 		video.appendChild(source);
 
-		
-		
-		
 		
 		// creo la lista dei messaggi
 		var divMessageList = document.createElement("div");
