@@ -179,9 +179,4 @@ function ToolsPanelPresenter() {
     	var liCommunication = document.getElementById("CallFunction");
     	ulFunctions.removeChild(liCommunication);
     };
-
-    /*
-     * TODO:
-     * - aggiunta utente [resultpanel->mediator->ABPanelpresenter]
-     */
 }

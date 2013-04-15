@@ -324,8 +324,6 @@ function RegisterPanelPresenter(url) {
         inputLogin.type = "submit";
         inputLogin.appendChild(document.createTextNode("Indietro"));
         inputLogin.onclick = function() {
-            //FIXME crea errore di duplicazione LoginUI se già premuti in
-            // precedenza
             self.hide();
             mediator.buildLoginUI();
         };
