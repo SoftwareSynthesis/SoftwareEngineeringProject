@@ -1,6 +1,6 @@
 /**
- * Presenter incaricato di gestire il pannello che visualizza i risultati di
- * ricerca
+ * Presenter incaricato di gestire il pannello che visualizza i risultati di una
+ * ricerca fra gli utenti registrati al sistema
  * 
  * @constructor
  * @this {SearchResultPanelPresenter}
@@ -36,6 +36,8 @@ function SearchResultPanelPresenter(url) {
 	 * ogni caso mostra l'email memorizzata nel sistema. La funzione è
 	 * utilizzata per generare la lista dei contatti
 	 * 
+	 * FIXME questo dovrebbe essere portato a fattor comune per tutti i contatti
+	 * 
 	 * @param contact
 	 *            il contatto a partire dal quale deve essere generata
 	 *            l'etichetta del nome
@@ -59,31 +61,62 @@ function SearchResultPanelPresenter(url) {
 	}
 
 	/**
+	 * Recupera il percoso dell'immagine di stato per un determinato contatto
+	 * 
+	 * FIXME questo dovrebbe essere portato a fattor comune per tutti i contatti
+	 * 
+	 * @param {Object}
+	 *            contact il contatto di cui recuperare l'immagine di stato
+	 * @author Riccardo Tresoldi
+	 */
+	function getImageSrc(contact) {
+		path = "";
+		switch (contact.state) {
+		case "available":
+			path = "img/stateavailable.png";
+			break;
+		case "occupied":
+			path = "img/stateoccupied.png";
+			break;
+		default:
+			path = "img/stateoffline.png";
+			break;
+		}
+		return path;
+	}
+
+	/**
 	 * Aggiunge un contatto ad una lista (pensato per essere visualizzato nel
 	 * pannello dei risultati di una ricerca, in cui è quindi possibile anche
 	 * aggiungere un nuovo contatto alla propria rubrica
 	 * 
-	 * @param {HTMLUListElement}
-	 *            list la lista cui deve essere aggiunta la nuova voce
 	 * @param {Object}
 	 *            contact il contatto a partire dal quale generare la voce da
 	 *            aggiungere alla listas
 	 * @see PresenterMediator#onContactSeleted(contact)
 	 * @author Diego Beraldin
 	 */
-	function addListItem(list, contact) {
+	function addListItem(contact) {
 		var item = document.createElement("li");
 		item.setAttribute("id", contact.id);
-		// costruisce il nodo
+
+		// immagine del contatto
 		var avatarNode = document.createElement('img');
 		avatarNode.setAttribute("src", contact.picturePathatar);
+
+		// nome del contatto
 		var name = createNameLabel(contact);
 		var textNode = document.createTextNode(name);
+
+		// stato del contatto
+		var stateNode = document.createElement('img');
+		stateNode.src = getImageSrc(contact);
+
 		// aggiunge i sottonodi al 'li' appena creato
 		item.appendChild(avatarNode);
 		item.appendChild(textNode);
-		// FIXME cos'è statusNode??!?!?
-		item.appendChild(statusNode);
+		item.appendChild(stateNode);
+
 		// comportamento del list item al click del mouse
 		item.onclick = function() {
 			mediator.onContactSelected(contact);
@@ -91,6 +124,7 @@ function SearchResultPanelPresenter(url) {
 		item.appendChild(button);
 
 		// aggiunge il 'li' alla lista ricevuta come parametro
+		var list = document.getElementById("userList");
 		list.appendChild(item);
 	}
 
@@ -103,12 +137,23 @@ function SearchResultPanelPresenter(url) {
 	 * @author Diego Beraldin
 	 */
 	this.createPanel = function() {
+		// crea l'elemento
 		var element = document.createElement("div");
-		element.setAttribute("id", "SearchResultPanel");
+		element.id = "SearchResultPanel";
+		// crea l'intestazione
+		var header = document.createElement("h1");
+		header.appendChild(document.createTextNode("Ricerca utenti"));
+		var divHeader = document.createElement("div");
+		divHeader.className = "panelHeader";
+		divHeader.appendChild(header);
+		element.appendChild(divHeader);
+
+		// crea la lista degli utenti
 		userList = document.createElement("ul");
-		userList.id = "userList"
+		userList.id = "userList";
 		// aggiunge al sottoalbero il nuovo elemento
 		element.appendChild(userList);
+
 		return element;
 	};
 
@@ -123,8 +168,8 @@ function SearchResultPanelPresenter(url) {
 	this.displayContactList = function(contacts) {
 		var userList = document.getElementById("userList");
 		userList.innerHTML = "";
-		for ( var c in contacts) {
-			addListItem(userList, c);
+		for ( var con in contacts) {
+			addListItem(con);
 		}
 	};
 }
