@@ -60,7 +60,7 @@ function ContactPanelPresenter() {
             img.className = "deleteGroupButton";
             img.src = "img/close.png";
             img.onclick = function() {
-                mediator.onGroupRemoved(groups[group]);
+                mediator.onContactRemovedFromGroup(contact, groups[group]);
             }
             label.appendChild(document.createTextNode(groups[group].name));
             label.appendChild(img);

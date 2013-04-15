@@ -91,16 +91,14 @@ function PresenterMediator() {
      * comunica all'AddressBookPanelPresenter di aggiungere un contatto
      *
      * @see AddressBookPanelPresenter#addContact({Number})
-     * @param {Number}
-     *            userID id dell'utente che deve essere aggiunto alla rubrica
+     * @param {Object} contact utente che deve essere aggiunto alla rubrica
      * @return {Boolean} true se l'aggiunta è avvenuta con successo
      * @author Diego Beraldin
      * @author Riccardo Tresoldi
      */
-    this.onContactAdded = function(userID) {
-        // FIXME correggere passando il contatto e non l'id di esso
+    this.onContactAdded = function(contact) {
         try {
-            return presenters["addressbook"].addContact(userID);
+            return presenters["addressbook"].addContact(contact);
         } catch (err) {
             alert(err);
         }
@@ -111,12 +109,10 @@ function PresenterMediator() {
      * comunica all'AddressBookPanelPresenter di rimuovere un contatto
      *
      * @author Riccardo Tresoldi
-     * @param {Number}
-     *            userID rappresenta l'id del contato da rimuovere
+     * @param {Number} contact rappresenta il contato da rimuovere
      */
-    this.onContactRemoved = function(userID) {
-        // FIXME correggere passando il contatto e non l'id di esso
-        presenters["addressbook"].removeContact(userID);
+    this.onContactRemoved = function(contact) {
+        presenters["addressbook"].removeContact(contact);
     };
 
     /**
@@ -149,14 +145,10 @@ function PresenterMediator() {
      * gruppo
      *
      * @author Riccardo Tresoldi
-     * @param {Number}
-     *            contact rappresenta l'id del contato da aggiungere
-     * @param {Number}
-     *            group rappresenta l'id del gruppo in cui aggiungere il
-     *            contatto
+     * @param {Number} contact rappresenta il contato da aggiungere
+     * @param {Number} group rappresenta il gruppo in cui aggiungere il contatto
      */
-    this.onContactAddeddInGroup = function(contact, group) {
-        // FIXME correggere passando il contatto e non l'id di esso
+    this.onContactAddedInGroup = function(contact, group) {
         presenters["addressbook"].addContactInGroup(contact, group);
     };
 
@@ -166,14 +158,11 @@ function PresenterMediator() {
      * gruppo
      *
      * @author Riccardo Tresoldi
-     * @param {Number}
-     *            contact rappresenta l'id del contato da rimuovere
-     * @param {Number}
-     *            group rappresenta l'id del gruppo da cui rimuovere il contatto
+     * @param {Number} contact rappresenta il contato da rimuovere
+     * @param {Number} group rappresenta il gruppo da cui rimuovere il contatto
      */
     this.onContactRemovedFromGroup = function(contact, group) {
-        // FIXME correggere passando il contatto e non l'id di esso
-        presenters["addressbook"].removeContactFromGroup(contact, group);
+        presenters["addressbook"].deleteContactFromGroup(contact, group);
     };
 
     /**
@@ -181,8 +170,7 @@ function PresenterMediator() {
      * all'AddressBookPanelPresenter il blocco di un utente
      *
      * @author Riccardo Tresoldi
-     * @param {Object}
-     *            contact reppresenta il contatto da bloccare
+     * @param {Object} contact reppresenta il contatto da bloccare
      * @return {Boolean} true solo se il contatto è stato bloccato con successo
      */
     this.onBlockContact = function(contact) {
@@ -422,12 +410,13 @@ function PresenterMediator() {
      *
      * @author Riccardo Tresoldi
      * @param {String} text testo da visualizzare
-     * @param {Boolean} isRecevedData rappresenta un flag booleano che determina se i dati sono ricenuti o inviati
+     * @param {Boolean} isRecevedData rappresenta un flag booleano che determina
+     * se i dati sono ricenuti o inviati
      */
     this.communicationPPUpdateStats = function(text, isRecevedData) {
         communicationpp.updateStats();
     };
-    
+
     /**
      * Per richiamare la funzione updateTimer() del CommunicationPP
      *
