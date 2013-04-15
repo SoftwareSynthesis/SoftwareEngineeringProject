@@ -42,18 +42,12 @@ function MessagePanelPresenter(url) {
 		for ( var i in names) {
 			servlets.push(baseURL + names[i]);
 		}
+		
+		
+		
 	}
 
-	/**
-	 * Elimina un messaggio dalla segreteria contattando la servlet responsabile
-	 * dell'operazione e scaricando nuovamente i messaggi
-	 * 
-	 * @param {Number}
-	 *            idMessage id del messaggio che deve essere cancellato
-	 */
-	function deleteMessage(idMessage) {
-		// TODO da finire
-	}
+	
 
 	/**
 	 * Aggiunge un messaggio a una lista per creare l'elenco della segreteria
@@ -134,6 +128,10 @@ function MessagePanelPresenter(url) {
 	 *            il pannello che deve diventare la segreteria telefonica
 	 * @returns {HTMLDivElement} pannello contenente la segreteria telefonica
 	 * @author Riccardo Tresoldi
+	 * 
+	 * 
+	 * 
+	 * fFARE LA STORIA DELL'H1
 	 */
 	this.createPanel = function(element) {
 		var element = document.createElement("div");
@@ -172,4 +170,37 @@ function MessagePanelPresenter(url) {
 			this.addListItem(message);
 		}
 	};
+	
+	
+	/**
+	 * Elimina un messaggio dalla segreteria contattando la servlet responsabile
+	 * dell'operazione e scaricando nuovamente i messaggi
+	 * 
+	 * @param {Number}
+	 *            idMessage id del messaggio che deve essere cancellato
+	 *  @author Elena Zecchinato
+	 */
+	 this.deleteMessage = function(idMessage) {
+		
+		var request = new XMLHttpRequest();
+			request.open("POST", servlets[2], false);
+			request.send();
+			result=JSON.parse(request.responseText);
+			
+			if (result == true) {
+	            this.setup();
+	            return true;}
+		
+			throw "Ops... qualcosa è andato storto nel server.";
+		
+	};
+	
+
 }
+
+
+
+
+
+
+
