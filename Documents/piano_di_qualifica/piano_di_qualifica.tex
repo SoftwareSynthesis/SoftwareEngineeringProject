@@ -845,7 +845,7 @@ Per la parte presenter vengono presentate due metriche già descritte per la par
 \toprule Package & CC  & TLOC\\
 \midrule
 AccountSettingPanelPresenter.js & 2 & 170\\
-AdressBookPanelPresenter.js & 2,95 & 467\\
+AddressBookPanelPresenter.js & 2,95 & 467\\
 CallHistoryPanelPresenter.js & 1,25 & 78\\
 CommunicationPanelPresenter.js & 1,92 & 220\\
 ContactPanelPresenter.js & 0,3 & 173\\
@@ -892,7 +892,7 @@ Ogni test è inoltre stato eseguito più volte in modo da avere uno spettro più
 
 \subsubsection{\texttt{org.softwaresinthesis.mytalk.server.autentication}}
 \begin{itemize}
-\item \textbf{AESAlgorithmTest}\\
+\item \textbf{TM1.01: AESAlgorithmTest}\\
 \textbf{Verifica la Classe:} \texttt{AESAlgorithm}.\\
 \textbf{Descrizione}:l'obiettivo di questo test è assicurare che l'algoritmo di cittografia AES a 128 bit utilizzato dal sistema \caName{} risulti affidabile e riesca a codificare e decodificare una stringa passata.
 
@@ -906,7 +906,7 @@ Tale test si compone di un due metodi:
 \begin{table}
 \end{table}
 
-\item \textbf{AuthenticationDataTest}\\
+\item \textbf{TM1.02: AuthenticationDataTest}\\
 \textbf{Verifica la Classe:} \texttt{AuthenticationData}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è assicurare l'uguaglianza tra due oggetti che rappresentano le credenziali dell'utente inserite volutamente con gli stessi dati. Successivamente verrà effettuata anche una negazione di tale test per assicurarne l'efficacia.\\
 Tale test si compone di due metodi:
@@ -919,7 +919,7 @@ Tale test si compone di due metodi:
 \begin{table}
 \end{table}
 
-\item \textbf{AuthenticationModuleTest}\\
+\item \textbf{TM1.03: AuthenticationModuleTest}\\
 \textbf{Verifica la Classe:} \texttt{AuthenticationModule}.\\
 \textbf{Descrizione}: l'obiettivo del test è verificare le funzionalità di autenticazione offerte dal sistema server dell'applicativo.
 
@@ -933,7 +933,7 @@ Tale test si compone di 3 metodi:
 \begin{table}
 \end{table}
 
-\item \textbf{CredentialLoaderTest}\\
+\item \textbf{TM1.04: CredentialLoaderTest}\\
 \textbf{Verifica la Classe:} \texttt{CredentialLoarder}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è assicurare che il vettore in cui celle contiente tutte le credenziali d'accesso dell'utente (coppia \textit{username-password}) venga popolato correttamente.\\
 Tale test si compone di un solo metodo:
@@ -942,10 +942,9 @@ Tale test si compone di un solo metodo:
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{PrincipalImplTest}\\
+\item \textbf{TM1.05: PrincipalImplTest}\\
 \textbf{Verifica la Classe:} \texttt{PrincipalImpl}.\\
 \textbf{Descrizione}: l'obiettivo del test è verificare la corretta gestione dell'attributo \texttt{element} all'interno della classe \texttt{PrincipalImpl}. A tal fine si controlla la possibilità di recuperare l'elemento interno e la definizione del metodo che testa l'uguaglianza fra due istanze di questa classe.
-
 Tale test si compone di tre metodi:
 \begin{itemize}
 \item \texttt{testGetName()} verifica che sia recuperato in maniera corretta l'elemento memorizzato all'interno del \texttt{PrincipalImpl}.
@@ -954,9 +953,10 @@ Tale test si compone di tre metodi:
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 \end{itemize}
+
 \subsubsection{\texttt{org.softwaresinthesis.mytalk.server.authentication.servlet}}
 \begin{itemize}
-\item \textbf{LoginServletTest}\\
+\item \textbf{TM2.01: LoginServletTest}\\
 \textbf{Verifica l'oggetto:} \texttt{LoginServlet}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di effettuare il login da parte di un utente ricevuta tramite richiesta HTTP POST I possibili \inglese{input} riguardano dati passati (\textit{username} e \textit{password}) che possono essere corretti o non (campi dati vuoti, o che non corrispondono a nessun utente realmente registrato al sistema).
 Tale test si compone di tre metodi:
@@ -967,7 +967,7 @@ Tale test si compone di tre metodi:
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{LogoutServletTest}\\
+\item \textbf{TM2.02: LogoutServletTest}\\
 \textbf{Verifica l'oggetto:} \texttt{LogoutServlet}.\\
 \textbf{Descrizione}:l'obiettivo di questo test è verificare l'effettivo logout da parte di un utente autenticato tramite richiesta HTTP POST.
 Tale test si compone di due metodi:
@@ -978,7 +978,7 @@ Tale test si compone di due metodi:
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{RegisterServletTest}\\
+\item \textbf{TM2.03: RegisterServletTest}\\
 \textbf{Verifica l'oggetto:} \texttt{RegisterServlet}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è la verifica che l'operazione di registrazione da parte di un utente ricevuta tramite richiesta HTTP POST, i possibili \inglese{input} riguardano dati passati per la registrazione stessa, che possono essere corretti o non (campi dati obbligatori vuoti, o errati).
 Tale test si compone di due metodi:
@@ -987,21 +987,21 @@ Tale test si compone di due metodi:
 \item \texttt{testRegisterWrongUser()}  verifica l'effettivo fallimento nella registrazione di un utente al sistema una volta inseriti dati errati in \inglese{input}.
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
-
+\end{itemize}
 
 \subsubsection{\texttt{org.softwaresinthesis.mytalk.server.abook}}
-
-\item \textbf{AdressBookEntryTest}\\
-\textbf{Verifica la Classe:} \texttt{AdressBookEntry}.\\
+\begin{itemize}
+\item \textbf{TM3.01: AddressBookEntryTest}\\
+\textbf{Verifica la Classe:} \texttt{AddressBookEntry}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare la corretta gestione di un'istanza di \texttt{AddressBookEntry}.\\
 Tale test si compone di due metodi:
 \begin{itemize}
 \item \texttt{testToJson() } tale metodo riceve una stringa in formato json di una 	\textit{entry} della rubrica e verifica che quest'ultima sia equivalente a quella ottenuta dalla chiamata al metodo \textit{ToJson} sull'istanza della classe \textit{AddressBookEntry};
-\item\texttt{testEquals()} viene creato un oggetto \texttt{AdressBookEntry} e viene confrontato con l'istanza dell'oggetto che ha invocato il metodo, restituendo \textit{true} se e solo se sono uguali.
+\item\texttt{testEquals()} viene creato un oggetto \texttt{AddressBookEntry} e viene confrontato con l'istanza dell'oggetto che ha invocato il metodo, restituendo \textit{true} se e solo se sono uguali.
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{GroupTest}\\
+\item \textbf{TM3.02: GroupTest}\\
 \textbf{Verifica la Classe:} \texttt{Group}.\\
 \textbf{Descrizione}:l'obiettivo di questo test è verificare la corretta gestione di un istanza di \texttt{Group}.\\
 Tale test si compone di quattro metodi:
@@ -1013,7 +1013,7 @@ Tale test si compone di quattro metodi:
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{UserDataTest}\\
+\item \textbf{TM3.03: UserDataTest}\\
 \textbf{Verifica la Classe:} \texttt{UserData}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare la corretta gestione di un'istanza di \texttt{UserData}. La classe inizializza inoltre un istanza di tale classe, impostandone i campi membro attraverso i metodi \textit{set}. Successivamente mediante i metodi \textit{get} vengono verificati gli effettivi inserimenti.
 
@@ -1031,22 +1031,11 @@ Tale test si compone di otto metodi:
 \item \texttt{testEquals()} verranno creati due oggetti \texttt{UserData} contenenti gli stessi dati, tale metodo restituirà \textit{true} se e solo se sono effettivamente uguali.
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
-
-
-\item \textbf{AdressBookEntryTest}\\
-\textbf{Verifica la Classe:} \texttt{AdressBookEntry}.\\
-\textbf{Descrizione}: l'obiettivo del test è verificare la corretta gestione di un'istanza di \texttt{AddressBookEntry}.\\
-Tale test si compone di due metodi:
-\begin{itemize}
-\item \texttt{testToJson()} tale metodo riceve una stringa in formato JSON di una \textit{entry} della rubrica e verifica che quest'ultima sia equivalente a quella ottenuta dalla chiamata al metodo \texttt{toJson} sull'istanza della classe \texttt{AddressBookEntry};
-\item \texttt{testEquals()} viene creato un oggetto \texttt{AdressBookEntry} e viene confrontato con l'istanza dell'oggetto che ha invocato il metodo, restituendo \textit{true} se e solo se sono uguali.
-\end{itemize}
-\textbf{Risultato del test:} superato con successo.
 \end{itemize}
 
 \subsubsection{\texttt{org.softwaresinthesis.mytalk.server.abook.servlet}}
 \begin{itemize}
-\item \textbf{AddressBookDoAddContactServletTest}\\
+\item \textbf{TM4.01: AddressBookDoAddContactServletTest}\\
 \textbf{Verifica l'oggetto:} \texttt{AddressBookDoAddContactServlet}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di aggiungere un contatto \texttt{IUserData} all'interno di una rubrica utente.
 
@@ -1060,7 +1049,7 @@ Tale test si compone di tre metodi:
 \textbf{Risultato del test:} superato con successo.
 
 
-\item \textbf{AddressBookDoRemoveContactServletTest}\\
+\item \textbf{TM4.02: AddressBookDoRemoveContactServletTest}\\
 \textbf{Verifica l'oggetto:} \texttt{AddressBookDoRemoveContactServlet}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di rimuovere un utente presente nella rubrica del richiedente. Come per il test della \inglese{Servlet} precedentemente descritta, anche in questo caso si assume come precondizione l'autenticazione dell'utente richiedente e quindi l'effettiva esistenza della sua rubrica.
 
@@ -1074,7 +1063,7 @@ Tale test si compone di quattro metodi:
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{AddressBookDoCreateGroupServletTest}\\
+\item \textbf{TM4.03: AddressBookDoCreateGroupServletTest}\\
 \textbf{Verifica l'oggetto:} \texttt{AddressBookDoCreateGroupServlet}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di creare un gruppo \texttt{IGroup} all'interno di una rubrica utente. La possibilità di richiamare \texttt{AddressBookDoCreateGroupServlet} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica. I possibili \inglese{input} riguardano dati passati mediante \texttt{XMLHttpRequest}, che possono essere corretti (campi dati non vuoti) o non (campi dati vuoti).
 Tale test si compone di due metodi:
@@ -1084,7 +1073,7 @@ Tale test si compone di due metodi:
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{AddressBookDoDeleteGroupServletTest}\\
+\item \textbf{TM4.04: AddressBookDoDeleteGroupServletTest}\\
 \textbf{Verifica l'oggetto:} \texttt{AddressBookDoDeleteGroupServlet}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di eliminare un gruppo presente nella rubrica del richiedente. Come per il test della \inglese{Servlet} precedentemente descritta, si assume come precondizione l'autenticazione dell'utente richiedente e quindi l'effettiva esistenza della sua rubrica.
 
@@ -1098,7 +1087,7 @@ Tale test si compone di quattro metodi:
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{AddressBookDoInsertInGroupServletTest}\\
+\item \textbf{TM4.05: AddressBookDoInsertInGroupServletTest}\\
 \textbf{Verifica l'oggetto:} \texttt{AddressBookDoInsertInGroupServlet}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di aggiungere un contatto \texttt{IUserData} all'interno di un gruppo \texttt{IGroup} presente nella rubrica del richiedente. La possibilità di richiamare \texttt{AddressBookDoInsertInGroupServlet} prende come precondizione l'autenticazione dell'utente richiedente e quindi l'effettiva esistenza della sua rubrica.
 
@@ -1114,7 +1103,7 @@ Tale test si compone di cinque metodi:
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{AddressBookDoRemoveFromGroupServletTest}\\
+\item \textbf{TM4.06: AddressBookDoRemoveFromGroupServletTest}\\
 \textbf{Verifica l'oggetto:} \texttt{AddressBookDoRemoveFromGroupServlet}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di rimuovere un conttatto da un gruppo presente nella rubrica del richiedente. Come per il test della \inglese{Servlet} precedentemente descritta, si assume come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica.
 
@@ -1128,7 +1117,7 @@ Tale test si compone di quattro metodi:
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{AddressBookDoBlockServletTest}\\
+\item \textbf{TM4.07: AddressBookDoBlockServletTest}\\
 \textbf{Verifica l'oggetto:} \texttt{AddressBookDoBlockServlet}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di bloccare un contatto all'interno di una rubrica utente. La possibilità di richiamare \texttt{AddressBookDoAddContactServlet} prende come precondizione l'autenticazione dell'utente richiedente e quindi l'effettiva esistenza della sua rubrica.
 
@@ -1140,7 +1129,7 @@ I possibili \inglese{input} riguardano dati passati mediante \texttt{XMLhttpRequ
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{AddressBookDoUnblockServletTest}\\
+\item \textbf{TM4.08: AddressBookDoUnblockServletTest}\\
 \textbf{Verifica l'oggetto:} \textit{AddressBookDoUnblockServlet}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di sbloccare un contatto \texttt{IUserData} (bloccato) all'interno di una rubrica utente. La possibilità di richiamare\\ \texttt{AddressBookDoUnblockServlet} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica.
 
@@ -1154,7 +1143,7 @@ Tale test si compone di tre metodi:
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{AddressBookDoSearchServletTest}\\
+\item \textbf{TM4.09: AddressBookDoSearchServletTest}\\
 \textbf{Verifica l'oggetto:} \texttt{AddressBookDoSearchServlet}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di ritornare una lista di contatti corrispondenti a determinati criteri ricerca specificati nella richiesta. La possibilità di richiamare \texttt{AddressBookGetContactsServlet} ha come precondizione l'autenticazione dell'utente richiedente.
 
@@ -1166,7 +1155,7 @@ Tale test si compone di due metodi:
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{AddressBookGetContactsServletTest}\\
+\item \textbf{TM4.10: AddressBookGetContactsServletTest}\\
 \textbf{Verifica l'oggetto:} \texttt{AddressBookGetContactsServlet}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di ottenere la lista dei contatti presenti nella rubrica del richiedente memorizzata sul server. La possibilità di richiamare \texttt{AddressBookGetContactsServlet} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica.
 
@@ -1179,7 +1168,7 @@ Tale test si compone di due metodi:
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{AddressBookGetGroupsServletTest}\\
+\item \textbf{TM4.11: AddressBookGetGroupsServletTest}\\
 \textbf{Verifica l'oggetto:} \texttt{AddressBookGetGroupsServlet}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di ritornare una lista di gruppi presenti nella rubrica del richiedente.
 
@@ -1193,7 +1182,7 @@ Tale test si compone di un solo metodo:
 
 \subsubsection{org.softwaresinthesis.mytalk.server.dao}
 \begin{itemize}
-\item \textbf{HibernateUtilTest}\\
+\item \textbf{TM5.01: HibernateUtilTest}\\
 \textbf{Verifica la Classe:} \texttt{HibernateUtil}.\\
 \textbf{Descrizione}:l'obiettivo di questo test è assicurare la corretta esecuzione dei metodi della classe \texttt{HibernateUtil}. \\
 Tale test si compone di due metodi:
@@ -1203,7 +1192,7 @@ Tale test si compone di due metodi:
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{UserDataDAOTest}\\
+\item \textbf{TM5.02: UserDataDAOTest}\\
 \textbf{Verifica la Classe:} \texttt{UserDataDAO}.\\
 \textbf{Descrizione}:l'obiettivo di questo test è assicurare la corretta esecuzione delle operazioni CRUD (\textit{Create, Read, Update, Delete}) per gli oggetti di tipo \texttt{UserData} verso il database. \\
 Tale test si compone di cinque metodi:
@@ -1217,7 +1206,7 @@ Tale test si compone di cinque metodi:
 \textbf{Risultato del test:} superato con successo.
 
 
-\item \textbf{AddressBookEntryDAOTest}\\
+\item \textbf{TM5.03: AddressBookEntryDAOTest}\\
 \textbf{Verifica la Classe:} \texttt{AddressBookEntryDAO}.\\
 \textbf{Descrizione}:l'obiettivo di questo test è assicurare la corretta esecuzione delle operazioni CUD (\textit{Create, Update, Delete}) per gli oggetti di tipo \texttt{AddressBookEntry} nel database. \\
 Tale test si compone di tre metodi:
@@ -1230,7 +1219,7 @@ Tale test si compone di tre metodi:
 \textbf{Risultato del test:} superato con successo.
 
 
-\item \textbf{GroupDAOTest}\\
+\item \textbf{TM5.04: GroupDAOTest}\\
 \textbf{Verifica la Classe:} \texttt{GroupDAO}.\\
 \textbf{Descrizione}:l'obiettivo di questo test è assicurare la corretta esecuzione delle operazioni CRUD (\textit{Create,Read, Update, Delete}) per gli oggetti di tipo \texttt{Group} e di ricerca di tali oggetti nel database. \\
 Tale test si compone di sei metodi:
@@ -1243,7 +1232,47 @@ Tale test si compone di sei metodi:
 \item \texttt{testGetByOwnerAndName()} tale metodo ha lo scopo di verificare la corretta ricerca di un \texttt{Group} nel database tramite il passaggio di un \texttt{Long} che corrisponde all'ID del proprietario del gruppo che di una stringa che corrisponde al nome del gruppo in formato \texttt{String}.
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
+
 \end{itemize}
+
+\subsubsection{Riassunto esiti test Model}
+Di seguito viene riportata una tabella alla scopo di riassumere i test effettuati e il loro esito finale, così da renderne più pratica la consultazione e la tracciabilità degli stessi.
+
+\begin{center}
+\rowcolors{2}{lightblue}{llightblue}\begin{longtable}{p{.20\textwidth}ll}
+\toprule Codice del Test & Nome del test  & Esito del test\\
+\midrule
+
+TM1.01 & AESAlgorithmTest &Superato\\
+TM1.02 & AuthenticationDataTest &Superato\\
+TM1.03 & AuthenticationModuleTest &Superato\\
+TM1.04 & CredentialLoaderTest &Superato\\
+TM1.05 & PrincipalImplTest &Superato\\
+TM2.01 & LoginServletTest &Superato\\
+TM2.02 & LogoutServletTest &Superato\\
+TM2.03 & RegisterServletTest &Superato\\
+TM3.01 & AddressBookEntryTest &Superato\\
+TM3.02 & GroupTest &Superato\\
+TM3.03 & UserDataTest &Superato\\
+TM4.01 & AddressBookDoAddContactServletTest &Superato\\
+TM4.02 & AddressBookDoRemoveContactServletTest &Superato\\
+TM4.03 & AddressBookDoCreateGroupServletTest &Superato\\
+TM4.04 & AddressBookDoDeleteGroupServletTest &Superato\\
+TM4.05 & AddressBookDoInsertInGroupServletTest &Superato\\
+TM4.06 & AddressBookDoRemoveFromGroupServletTest &Superato\\
+TM4.07 & AddressBookDoBlockServletTest &Superato\\
+TM4.08 & AddressBookDoUnblockServletTest &Superato\\
+TM4.09 & AddressBookDoSearchServletTest &Superato\\
+TM4.10 & AddressBookGetContactsServletTest &Superato\\
+TM4.11 & AddressBookGetGroupsServletTest &Superato\\
+TM5.01 & HibernateUtilTest &Superato\\
+TM5.02 & UserDataDAOTest &Superato\\
+TM5.03 & AddressBookEntryDAOTest &Superato\\
+TM5.04 & GroupDAOTest &Superato\\
+
+\bottomrule
+\end{longtable}
+\end{center}
 
 \subsection{Presenter}
 I test sul presenter mirano a verificare che le classi di tale componente rispettino il comportamento atteso, recuperando i dati tramite l'interazione con il \textit{model}, componente di cui i test sono riportati nella sezione precedente.
@@ -1254,7 +1283,7 @@ Ovviamente al termine di tali verifiche il risultato dovrà risultare positivo, 
 \subsubsection{\texttt{org.softwaresynthesis.mytalk.clientpreenter.guicontrol}}
 
 \begin{itemize}
-\item \textbf{AccountSettingsPanelPresenterTest}\\
+\item \textbf{TP1.01: AccountSettingsPanelPresenterTest}\\
 \textbf{Verifica l'oggetto:} \texttt{AccountSettingsPanelPresenter}.\\
 \textbf{Descrizione}: verifica la corretta inizializzazione di \textit{AccountSettingPanel}, ovvero che l'albero sia stato costruito correttamente, e che il contenuto dei vari nodi sia stato inserito coerentemente. Verifica inoltre la corretta inizializazione del \inglese{\underline{form}} per la modifica dei dati personali e l'invio dei dati in forma corretta al server.
 Tale verifica è composta da quattro test:
@@ -1267,7 +1296,7 @@ Successivamente controlla che gli elementi della lista vengano visualizzati corr
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{AddressBookPanelPresenterTest}\\
+\item \textbf{TP1.02:AddressBookPanelPresenterTest}\\
 \textbf{Verifica l'oggetto:} \texttt{AddressBookPanelPresenter}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è la verifica della correttezza di tutte le funzionalità offerte da \textit{AddressBookPanel}.\\
 Tale verifica è composta da sedici test:
@@ -1276,7 +1305,7 @@ Tale verifica è composta da sedici test:
 \item \texttt{testInitialize()} controlla che la rubrica venga costruita correttamente. Verifica in particolare che la rubrica sia composta di cinque figli dove il primo è un \textit{<h1>} e gli altri quattro sono \textit{<div>}. Controlla poi che ognuno dei cinque figli sia costruito correttamente. 
 \item \texttt{testSetup()} controlla il corretto funzionamento di \textit{setup()} ovvero che avvenga correttamente il popolamento della rubrica con i contatti, che vengono scaricati da uno \inglese{stub} che simula la presenza di una \inglese{servlet} lato server. 
 Il test avviene tramite la creazione di uno \inglese{stub} che emula i contatti dell'utente presenti nella sua rubrica. 
-Il test consiste nel controllo che avvenga l'inserimento dei contatti nella lista contenuta nella struttura dell'\textit{AdressBookPanel}. In particolare, oltre a controllare che il numero di contatti sia giusto (devono essere due), si verifica che sia corretto il loro nome, il loro cognome.
+Il test consiste nel controllo che avvenga l'inserimento dei contatti nella lista contenuta nella struttura dell'\textit{AddressBookPanel}. In particolare, oltre a controllare che il numero di contatti sia giusto (devono essere due), si verifica che sia corretto il loro nome, il loro cognome.
 \item \texttt{testHide()} verifica il comportamento del presenter nel momento in cui il pannello deve essere nascosto, vale a dire impostando correttamente le proprietà di visualizzazione dell'elemento grafico associato.
 \item \texttt{testAddContact()} il test verifica che avvenga il corretto inserimento di un contatto nella rubrica, tramite l'uso di uno \inglese{stub}. Il test verifica anche l'effettivo sollevamento di un'eccezione quando si tenta di inserire un contatto già presente nella rubrica.
 \item \texttt{testRemoveContact()} il test verifica che avvenga la corretta eliminazione di un contatto, tramite l'uso di \inglese{stub}. Il test verifica anche l'effettivo sollevamento di un'eccezione quando si tenta di eliminare un contatto non presente nella rubrica.
@@ -1295,7 +1324,7 @@ Il test consiste nel controllo che avvenga l'inserimento dei contatti nella list
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{CallHistoryPanelPresenterTest}\\
+\item \textbf{TP.103: CallHistoryPanelPresenterTest}\\
 \textbf{Verifica l'oggetto:} \texttt{CallHistoryPanelPresenter}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \textit{CallHistoryPanel}.\\
 Tale verifica è composta da un solo test:
@@ -1304,7 +1333,7 @@ Tale verifica è composta da un solo test:
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{CommunicationPanelPresenterTest}\\
+\item \textbf{TP1.04: CommunicationPanelPresenterTest}\\
 \textbf{Verifica l'oggetto:} \texttt{CommunicationPanelPresenter}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \textit{CommunicationPanel}.\\
 Tale verifica è composta da cinque test:
@@ -1317,7 +1346,7 @@ Tale verifica è composta da cinque test:
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{ContactPanelPresenterTest}\\
+\item \textbf{TP1.05: ContactPanelPresenterTest}\\
 \textbf{Verifica l'oggetto:} \texttt{ContactPanelPresenter}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \textit{ContactPanel}.\\
 Tale verifica è composta da due test:
@@ -1327,7 +1356,7 @@ Tale verifica è composta da due test:
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{GroupPanelPresenterTest}\\
+\item \textbf{TP1.06: GroupPanelPresenterTest}\\
 \textbf{Verifica l'oggetto:} \texttt{GroupPanelPresenter}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare la corretta istanziazione del \textit{GroupPanel}, verificandone pertanto la corretta esecuzione della \inglese{form}.\\
 Tale verifica è composta da due test:
@@ -1337,7 +1366,7 @@ Tale verifica è composta da due test:
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{LoginPanelPresenterTest}\\
+\item \textbf{TP1.07: LoginPanelPresenterTest}\\
 \textbf{Verifica l'oggetto:} \texttt{LoginPanelPresenter}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare la corretta istanziazione del \textit{LoginPanel} popolato con dei dati coerenti rispetto allo scopo della \inglese{form}.
 Tale verifica è composta da sette test:
@@ -1352,7 +1381,7 @@ Tale verifica è composta da sette test:
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{MainPanelPresenterTest}\\
+\item \textbf{TP1.08: MainPanelPresenterTest}\\
 \textbf{Verifica l'oggetto:} \texttt{MainPanelPresenter}.\\
 \textbf{Descrizione}:l'obiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \textit{MainPanel} e che il contenuto dei vari nodi sia stato inserito coerentemente, infine deve consentire la corretta visualizzazione dei sotto-pannelli.\\\\
 Tale verifica è composta da tre test:
@@ -1362,7 +1391,7 @@ Tale verifica è composta da tre test:
 \item \texttt{testHide()} controlla che venga correttamente nascosto il \inglese{form} principale prima dell'autenticazione.
 \end{itemize}
 
-\item \textbf{MessagePanelPresenterTest}\\
+\item \textbf{TP1.09: MessagePanelPresenterTest}\\
 \textbf{Verifica l'oggetto:} \texttt{MessagePanelPresenter}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \textit{MessagePanel} e che il contenuto dei vari nodi sia stato inserito coerentemente.\\
 Tale verifica è composta da un solo test:
@@ -1372,7 +1401,7 @@ Successivamente estraggo la lista dei figli del primo figlio (il suo figlio deve
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{RegisterPanelPresenterTest}\\
+\item \textbf{TP1.10: RegisterPanelPresenterTest}\\
 \textbf{Verifica l'oggetto:} \texttt{RegisterPanelPresenter}.\\
 \textbf{Descrizione}:l'obiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \textit{RegisterPanel}, la possibilità di nascondere correttamente l'elemento \textit{RegisterPanel}, il corretto recupero dei dati inseriti nella \inglese{form} d'iscrizione e infine i test relativi al recupero delle singole informazioni passate in fase di registrazione.\\
 Tale verifica è composta da dieci test:
@@ -1391,7 +1420,7 @@ Tale verifica è composta da dieci test:
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{SearchResultPanelPresenterTest}\\
+\item \textbf{TP1.11: SearchResultPanelPresenterTest}\\
 \textbf{Verifica l'oggetto:} \texttt{SearchResultPanelPresenter}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare che sia correttamente creato l'elemento grafico \textit{SearchResultPanel} e il comportamento del presenter nel momento in cui tale pannello deve essere aggiornato. Tale verifica è composta da due test:
 \begin{itemize}
@@ -1399,7 +1428,7 @@ Tale verifica è composta da dieci test:
 \item \texttt{testDisplayContactList()} verifica che sia visualizzata la lista dei contatti passata come parametro in ingresso al metodo \texttt{displayContactList} del presenter.
 \end{itemize}
 
-\item \textbf{ToolsPanelPresenterTest}\\
+\item \textbf{TP1.12: ToolsPanelPresenterTest}\\
 \textbf{Verifica l'oggetto:} \texttt{ToolsPanelPresenter}.\\
 \textbf{Descrizione}: l'obiettivo di tale test è verificare che sia correttamente creato il pannello degli strumenti dell'interfaccia grafica, nonché il comportamento del presenter nel momento in cui dalla vista è invocato il metodo che corrisponde all'uscita dal sistema.
 Tale verifica è composta da tre test:
@@ -1410,6 +1439,31 @@ Tale verifica è composta da tre test:
 \end{itemize}
 \clearpage
 \end{itemize}
+
+\subsubsection{Riassunto esiti test Presenter}
+Di seguito viene riportata una tabella alla scopo di riassumere i test effettuati e il loro esito finale, così da renderne più pratica la consultazione e la tracciabilità degli stessi.
+
+\begin{center}
+\rowcolors{2}{lightblue}{llightblue}\begin{longtable}{p{.10\textwidth}ll}
+\toprule Codice del Test & Nome del test  & Esito del test\\
+\midrule
+
+TP1.01 & AccountSettingsPanelPresenterTest &Superato\\
+TP1.02 & AddressBookPanelPresenterTest &Superato\\
+TP1.03 & CallHistoryPanelPresenterTest &Superato\\
+TP1.04 & CommunicationPanelPresenterTest &Superato\\
+TP1.05 & ContactPanelPresenterTest &Superato\\
+TP1.06 & GroupPanelPresenterTest &Superato\\
+TP1.07 & LoginPanelPresenterTest &Superato\\
+TP1.08 & MainPanelPresenterTest &Superato\\
+TP1.09 & MainPanelPresenterTest &Superato\\
+TP1.10 & RegisterPanelPresenterTest &Superato\\
+TP1.11 & SearchResultPanelPresenterTest &Superato\\
+TP1.12 & ToolsPanelPresenterTest &Superato\\
+
+\bottomrule
+\end{longtable}
+\end{center}
 
 \subsection{Test Coverage}
 Tale test è stato effettuato mediante il \underline{\inglese{plugin}} per Eclipse \textit{EclLemma} per la parte Java (quindi nel \textit{Model}) e con \textit{JSCoverage} per la parte \textit{JavaScript} (per il presenter) definendo quindi le percentuali di codice che è stato sottoposto a test per i singoli componenti dell'applicazione.\\\\
