@@ -130,13 +130,17 @@ function MessagePanelPresenter(url) {
 	 * @author Riccardo Tresoldi
 	 * 
 	 * 
-	 * 
-	 * fFARE LA STORIA DELL'H1
 	 */
 	this.createPanel = function(element) {
 		var element = document.createElement("div");
 		element.setAttribute("id", "MessagePanel");
 		// creo elemento <video>, <audio> e <img> (nel caso non ci sia video)
+		
+		 var header = document.createElement("h1");
+		 header.appendChild(document.createTextNode("Messaggi Segreteria"));
+		 divHeader.appendChild(header);
+		 element.appendChild(divHeader);
+		
 		var video = document.createElement("video");
 		video.setAttribute("id", "messageVideo");
 		video.setAttribute("controls", "controls");
@@ -145,6 +149,10 @@ function MessagePanelPresenter(url) {
 		source.setAttribute("type", "");
 		video.appendChild(source);
 
+		
+		
+		
+		
 		// creo la lista dei messaggi
 		var divMessageList = document.createElement("div");
 		divMessageList.setAttribute("id", "divMessage");
