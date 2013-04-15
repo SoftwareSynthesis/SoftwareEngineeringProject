@@ -69,8 +69,8 @@ function CallHistoryPanelPresenter(url) {
 		var list = document.getElementById("ulHistory");
 		var item = document.createElement("li");
 		// TODO probabilmente da modificare in futuro
-		var text = document.createTextNode(call.user + " " + call.startdate
-				+ " " + call.enddate);
+		var text = document.createTextNode(call.name + " " + call.start
+				+ " " + call.end);
 		item.appendChild(text);
 		list.appendChild(item);
 	}
@@ -90,6 +90,15 @@ function CallHistoryPanelPresenter(url) {
 		var element = document.createElement("div");
 		element.setAttribute("id", "CallHistoryPanel");
 		// creo contenuto di CallHistory
+		
+		var divHeader = document.createElement("div");
+	    divHeader.className = "panelHeader";
+	    var header = document.createElement("h1");
+	    header.appendChild(document.createTextNode("Storico Chiamate"));
+	    divHeader.appendChild(header);
+	    element.appendChild(divHeader);
+		
+		
 		var ulHistory = document.createElement('ul');
 		ulHistory.id = "ulHistory";
 		element.appendChild(ulHistory);
@@ -105,7 +114,7 @@ function CallHistoryPanelPresenter(url) {
 	 */
 	this.setup = function() {
 		calls = getCalls();
-		for ( var call in calls) {
+		for (var call in calls) {
 			addListItem(call);
 		}
 	};
