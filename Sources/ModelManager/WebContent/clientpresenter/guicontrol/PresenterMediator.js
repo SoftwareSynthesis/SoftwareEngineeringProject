@@ -398,24 +398,56 @@ function PresenterMediator() {
     };
 
     /**
-     * Funzione per ottenere il ComunicationPanelPresenter
+     * Funzione per ottenere l'elemento "myVideo" del CommunicationPP
      *
-     * @author Diego Beraldin
      * @author Riccardo Tresoldi
-     *
-     * @return {Object} ritorna il comunicationPP
+     * @return {} tag video che contiene il mio stream
      */
-    this.getCommunicationPP = function() {
-        return communicationpp;
+    this.getCommunicationPPMyVideo = function() {
+        return communicationpp.getMyVideo();
+    };
+
+    /**
+     * Funzione per ottenere l'elemento "otherVideo" del CommunicationPP
+     *
+     * @author Riccardo Tresoldi
+     * @return {} tag video che contiene lo stream dell'altro utente
+     */
+    this.getCommunicationPPOtherVideo = function() {
+        return communicationpp.getOtherVideo();
+    };
+
+    /**
+     * Per richiamare la funzione updateStats() del CommunicationPP
+     *
+     * @author Riccardo Tresoldi
+     * @param {String} text testo da visualizzare
+     * @param {Boolean} isRecevedData rappresenta un flag booleano che determina se i dati sono ricenuti o inviati
+     */
+    this.communicationPPUpdateStats = function(text, isRecevedData) {
+        communicationpp.updateStats();
+    };
+    
+    /**
+     * Per richiamare la funzione updateTimer() del CommunicationPP
+     *
+     * @author Riccardo Tresoldi
+     * @param {String} text minuti da visualizzare
+     */
+    this.communicationPPUpdateTimer = function(text) {
+        communicationpp.updateTimer(text);
     };
 
     /*
-     *TODO da sistemare [tres]
-     */
-    this.getMainPanel = function() {
-        return presenters["main"];
+    EVENTUALMENTE DA TOGLIERE
+    this.getCommunicationPP = function() {
+    return communicationpp;
     };
-    
+    this.getMainPanel = function() {
+    return presenters["main"];
+    };
+    */
+
     /**
      * Funzione per settare l'immagine corretta dello stato di un contatto della
      * rubrica
@@ -428,33 +460,32 @@ function PresenterMediator() {
      */
     this.onChangeAddressBooksContactState = function(contactId, state) {
         //ottengo il contatto
-        var contact=presenters["addressbook"].contacts[contactId];
+        var contact = presenters["addressbook"].contacts[contactId];
         //invoco la funzione del AddressBookPanelPresenter
         presenters["addressbook"].setStateToContact(contact, state);
     };
-    
 
-	/**
-	* Permette di rimuovere dal ToolsPanel il pulsante che fa
-	* ritornare alle chiamate/chat attive in un determinato momento
-	* 
-	* @author Diego Beraldin
-	*/
-	this.removeCommunicationToTools = function() {
-		if (communicationcenter.openChat.length == 0 || !communicationcenter.videoCommunication) {
-			presenters["tools"].removeCommunicationFunction();
-		}
-	};
-    
     /**
-	 * Permette di aggiungere dal ToolsPanel il pulsante che fa
-	 * ritornare alle chiamate/chat attive
-	 * 
-	 * @author Diego Beraldin
-	 */
-	 this.addCommunicationToTools = function() {
-		if (communicationcenter.openChat.length > 0 || communicationcenter.videoCommunication) {
-			presenters["tools"].addCommunicationFunction();
-		}
-	};
+     * Permette di rimuovere dal ToolsPanel il pulsante che fa
+     * ritornare alle chiamate/chat attive in un determinato momento
+     *
+     * @author Diego Beraldin
+     */
+    this.removeCommunicationToTools = function() {
+        if (communicationcenter.openChat.length == 0 || !communicationcenter.videoCommunication) {
+            presenters["tools"].removeCommunicationFunction();
+        }
+    };
+
+    /**
+     * Permette di aggiungere dal ToolsPanel il pulsante che fa
+     * ritornare alle chiamate/chat attive
+     *
+     * @author Diego Beraldin
+     */
+    this.addCommunicationToTools = function() {
+        if (communicationcenter.openChat.length > 0 || communicationcenter.videoCommunication) {
+            presenters["tools"].addCommunicationFunction();
+        }
+    };
 }

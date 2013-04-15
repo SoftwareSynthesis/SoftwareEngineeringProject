@@ -134,10 +134,10 @@ function CommunicationCenter() {
             names = obj.names();
             for (var i = 0; i < names.length; ++i) {
                 if (names[i] == "bytesReceived") {
-                    mediator.getCommunicationPP().updateStats(formatBytes(obj.stat(names[i])), true);
+                    mediator.CommunicationPPUpdateStats(formatBytes(obj.stat(names[i])), true);
                 }
                 if (names[i] == "bytesSent") {
-                    mediator.getCommunicationPP().updateStats(formatBytes(obj.stat(names[i])), false);
+                    mediator.communicationPPUpdateStats(formatBytes(obj.stat(names[i])), false);
                 }
             }
         }
@@ -195,8 +195,9 @@ function CommunicationCenter() {
                 var signal = JSON.parse(str[1]);
                 if (pc == null) {
                     //TODO fare conferma di risposta
-                    var element = mediator.getCommunicationPP().createPanel();
-                    mediator.getMainPanel().displayChildPanel(element);
+                    mediator.displayCommunicationPanel();
+                    /*var element = mediator.getCommunicationPP().createPanel();
+                    mediator.getMainPanel().displayChildPanel(element); FUNZIONAVA CON QUESTO!*/
                     //FIXME sistemare terzo parametro (onlyAudio)
                     self.call(false, idOther, false);
                 }
@@ -263,7 +264,7 @@ function CommunicationCenter() {
         //quando arriva un remoteStream lo visualizo nell corrispettivo elemento
         // <video>
         pc.onaddstream = function(evt) {
-            mediator.getCommunicationPP().getOtherVideo().src = URL.createObjectURL(evt.stream);
+            mediator.getCommunicationPPOtherVideo().src = URL.createObjectURL(evt.stream);
             //avvio il timer della chiamata
             var time = 0;
             timer = setInterval(function() {
@@ -271,7 +272,7 @@ function CommunicationCenter() {
                 var now = formatTime(time);
                 //richiamo un metodo di CommunicationPanelPresenter per
                 // visualizzare il tempo.
-                mediator.getCommunicationPP().updateTimer(now);
+                mediator.communicationPPUpdateTimer(now);
             }, 1000);
             //Visualizzazione statistiche chiamata
             statCollector = setInterval(function() {
@@ -288,8 +289,8 @@ function CommunicationCenter() {
                             }
                         });
                     } else {
-                        mediator.getCommunicationPP().updateStats("Browser not supported", false);
-                        mediator.getCommunicationPP().updateStats("Browser not supported", true);
+                        mediator.communicationPPUpdateStats("Browser not supported", false);
+                        mediator.CommunicationPPUpdateStats("Browser not supported", true);
                     }
                 }
             }, 1000);
@@ -300,8 +301,8 @@ function CommunicationCenter() {
             localStream.stop();
             stopTimer();
             stopStat();
-            mediator.getCommunicationPP().getMyVideo().src = "";
-            mediator.getCommunicationPP().getOtherVideo().src = "";
+            mediator.getCommunicationPPMyVideo().src = "";
+            mediator.getCommunicationPPOtherVideo().src = "";
             pc.close();
             pc = null;
         };
@@ -313,7 +314,7 @@ function CommunicationCenter() {
 				"audio" : true,
 				"video" : false
 			}, function(stream) {
-				mediator.getCommunicationPP().getMyVideo().src = URL.createObjectURL(stream);
+				mediator.getCommunicationPPMyVideo().src = URL.createObjectURL(stream);
 				localStream = stream;
 				pc.addStream(stream);
 
@@ -332,7 +333,7 @@ function CommunicationCenter() {
 				"audio" : true,
 				"video" : true
 			}, function(stream) {
-				mediator.getCommunicationPP().getMyVideo().src = URL.createObjectURL(stream);
+				mediator.getCommunicationPPMyVideo().src = URL.createObjectURL(stream);
 				localStream = stream;
 				pc.addStream(stream);
 
@@ -358,8 +359,8 @@ function CommunicationCenter() {
         pc.createOffer(gotDescription);
         stopTimer();
         stopStat();
-        mediator.getCommunicationPP().getMyVideo().src = "";
-        mediator.getCommunicationPP().getOtherVideo().src = "";
+        mediator.getCommunicationPPMyVideo().src = "";
+        mediator.getCommunicationPPOtherVideo().src = "";
         //aspetto un secondo che pc finisca di comunicare la nuova offerta
         setTimeout(function() {
             pc.close();
