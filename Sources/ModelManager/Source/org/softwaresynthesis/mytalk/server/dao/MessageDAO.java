@@ -22,7 +22,7 @@ public class MessageDAO
 	 * 
 	 * @param 	message	{@link IMessage} che deve essere eliminato
 	 * 					dal database
-	 * @return	true se l'operazione è andata a buon fine, false altrimenti
+	 * @return	true se l'operazione e' andata a buon fine, false altrimenti
 	 */
 	public boolean delete(IMessage message)
 	{
@@ -64,7 +64,7 @@ public class MessageDAO
 	 * 
 	 * @param 	message	{@link IMessage} che deve
 	 * 					essere aggiornato
-	 * @return	true se l'operazione è andata buon fine,
+	 * @return	true se l'operazione e' andata buon fine,
 	 * 			false altrimenti
 	 */
 	public boolean update(IMessage message)
