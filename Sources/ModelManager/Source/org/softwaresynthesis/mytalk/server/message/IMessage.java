@@ -1,6 +1,5 @@
-package org.softwaresynthesis.mytalk.server.abook;
+package org.softwaresynthesis.mytalk.server.message;
 
-import java.util.Set;
 import org.softwaresynthesis.mytalk.server.IMyTalkObject;
 
 /**
@@ -67,16 +66,16 @@ public interface IMessage extends IMyTalkObject
 	public void setReceiver(Long id);
 	
 	/**
-	 * Restituisce 1 se il messaggio non è
+	 * Restituisce 1 se il messaggio non e'
 	 * ancora stato letto, 0 altrimenti
 	 * 
-	 * @return	{@link Long} che rappresenta se il messaggio è nuovo o meno
+	 * @return	{@link Long} che rappresenta se il messaggio e' nuovo o meno
 	 */
 	public Long getNewer();
 	
 	/**
 	 * Imposta lo stato del messagggio, 
-	 * 1 se è nuovo, 0 altrimenti
+	 * 1 se e' nuovo, 0 altrimenti
 	 * 
 	 * @param 	newer	{@link Long} con lo stato
 	 * 						del messaggio (1 se nuovo, 0 altrimenti)
@@ -84,7 +83,7 @@ public interface IMessage extends IMyTalkObject
 	public void setNewer(Long newer);
 	
 	/**
-	 * Restituisce 1 se il messaggio è di tipo
+	 * Restituisce 1 se il messaggio e' di tipo
 	 * video, 0 se solo audio
 	 * 
 	 * @return	{@link Long} che rappresenta il
@@ -96,7 +95,7 @@ public interface IMessage extends IMyTalkObject
 	 * Imposta il tipo del messaggio in segreteria
 	 * 
 	 * @param 	video	{@link Long} che identifica se il
-	 * 					messaggio è di tipo video (1)
+	 * 					messaggio e' di tipo video (1)
 	 * 					o solo audio (0)
 	 */
 	public void setVideo(Long video);
@@ -113,5 +112,5 @@ public interface IMessage extends IMyTalkObject
 	 * 
 	 * @param 	date {@link Date} con la data del messaggio di segreteria
 	 */
-	public void setDate(Date name);
+	public void setDate(Date date);
 }
