@@ -179,6 +179,7 @@ function GroupPanelPresenter(url) {
 		for ( var contact in candidateContacts) {
 			var box = document.createElement("checkbox");
 			box.id = contact.id;
+			box.value = contact.id;
 			var label = document.createElement("label");
 			label.setAttribute("for", contact.id);
 			label
@@ -193,9 +194,9 @@ function GroupPanelPresenter(url) {
 		button.appendChild(document.createTextNode("Aggiungi"));
 		button.onclick = function() {
 			var checkedContacts = form.getElementsByTagName("checkbox");
-			for ( var contact in checkedContacts)
-				if (contact.checked == "checked") {
-					mediator.addContactInGroup(contact, group);
+			for ( var contactbox in checkedContacts)
+				if (contactbox.checked == true) {
+					mediator.addContactInGroup(contacts[contactbox.value], group);
 				}
 		};
 		form.appendChild(button);
