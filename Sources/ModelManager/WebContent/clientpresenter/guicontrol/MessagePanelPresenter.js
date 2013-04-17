@@ -42,14 +42,7 @@ function MessagePanelPresenter(url) {
 		for ( var i in names) {
 			servlets.push(baseURL + names[i]);
 		}
-		
-		
-		
-	}
-	
-	
-//servlet vuile parametro
-	
+	}	
 
 	/**
 	 * Aggiunge un messaggio a una lista per creare l'elenco della segreteria
@@ -72,68 +65,29 @@ function MessagePanelPresenter(url) {
 		var status = document.createElement("img");
 		var elimina  = document.createElement("img");
 		
-		
 		item.appendChild(status);
 		item.appendChild(document.createTextNode(message.sender));
 		item.appendChild(document.createTextNode(message.date));
 		item.appendChild(elimina);
 		
-		var x=this;
+		var self=this;
 		
 		item.onclick = function() {
-			
-			/*
-			 * agganciare una funzione che gestisca il comportamento al
-			 * click dei messaggi (impostando l'attributo src del video)
-			 * tipo con il tag video 
-			 */
-		//imposto il messaggio come letto
-		
+		// imposto il messaggio come letto
 		var stato=true;
-		x.setAsRead(message,stato);
-		
+		self.setAsRead(message,stato);
 		
 		var video=documento.getElementById("messageVideo");
         video.src = ""; // TODO CI VUOLE IL PATH
-				
 		};
 		
-		////
-/*funzione che gestisce il l'eliminazione*/
-		var self=this;
 		
 		status.onclick = function() {
-		self.deleteMessage(message);};
+			self.deleteMessage(message);
+		};
 		
-		//Quando ho finito appendo il nuovo elemento appena creato.
-		messageList.appendChild(item);
-		
-		
-	}//guarda su app
-
-	/**
-	 * Rende lo stato di un messaggio "letto" oppure "non letto"
-	 * 
-	 * @author Riccardo Tresoldi
-	 * @param idMessage
-	 *            il messaggio che deve essere modificato
-	 * @param valueToSet
-	 *            [true: "letto"] oppure [false: "non letto"]
-	 * @throws {String}
-	 *             un errore se il non è stato possibile cambiare lo stato del
-	 *             messaggio
-	 */
-	function setAsRead(idMessage, valueToSet) {
-		var request = new XMLHttpRequest();
-		request.open("POST", servlets[1], false);
-		request.setRequestHeader("Content-type",
-				"application/x-www-form-urlencoded");
-		request.send("idMessage=" + idMessage + "&read=" + valueToSet);
-		outcome = JSON.parse(request.responseText);
-		if (!outcome) {
-			throw "Impossibile impostare lo stato del messaggio a "
-					+ (valueToSet ? " letto " : " non letto") + "!";
-		}
+		// quando ho finito appendo il nuovo elemento appena creato.
+		messageList.appendChild(item);	
 	}
 
 	/**
@@ -148,8 +102,7 @@ function MessagePanelPresenter(url) {
 		request.open("POST", servlets[0], false);
 		request.send();
 		messages = JSON.parse(request.responseText);
-	}
-	;
+	};
 
 	/***************************************************************************
 	 * METODI PUBBLICI
@@ -165,8 +118,6 @@ function MessagePanelPresenter(url) {
 	 *            il pannello che deve diventare la segreteria telefonica
 	 * @returns {HTMLDivElement} pannello contenente la segreteria telefonica
 	 * @author Riccardo Tresoldi
-	 * 
-	 * 
 	 */
 	this.createPanel = function(element) {
 		var element = document.createElement("div");
@@ -237,22 +188,30 @@ function MessagePanelPresenter(url) {
 		
 	};
 	
-	
-	
-	
-	this.setAsRead = function(idMesssage,valueToSet){
+	/**
+	 * Rende lo stato di un messaggio "letto" oppure "non letto"
+	 * 
+	 * @author Riccardo Tresoldi
+	 * @param {Object} message
+	 *            il messaggio che deve essere modificato
+	 * @param {Boolean} valueToSet
+	 *            [true: "letto"] oppure [false: "non letto"]
+	 * @throws {String}
+	 *             un errore se il non è stato possibile cambiare lo stato del
+	 *             messaggio
+	 */
+	this.setAsRead = function(message, valueToSet) {
 		var request = new XMLHttpRequest();
 		request.open("POST", servlets[1], false);
-		request.send(id.idMessage, valueToSet);
-		result=JSON.parse(request.responseText);
-		
-		
-		if (result == true) {
-            this.setup();
-            return true;}
-	};	
-
-
+		request.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		request.send("idMessage=" + message.id + "&read=" + valueToSet);
+		outcome = JSON.parse(request.responseText);
+		if (!outcome) {
+			throw "Impossibile impostare lo stato del messaggio a "
+					+ (valueToSet ? " letto " : " non letto") + "!";
+		}
+	};
 }
 
 
