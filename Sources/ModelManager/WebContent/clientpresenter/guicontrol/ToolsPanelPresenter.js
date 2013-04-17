@@ -163,8 +163,7 @@ function ToolsPanelPresenter() {
         liCommunication.appendChild(document.createTextNode("Chiamata"));
         liCommunication.onclick = function() {
         	mediator.displayCommunicaionPanel();
-        }
-        
+        };
         // lo aggiunge in coda alla lista
         var ulFunctions = document.getElementById("ToolsList");
         ulFunctions.appendChild(liCommunication);
@@ -179,6 +178,8 @@ function ToolsPanelPresenter() {
     this.removeCommunicationFunction = function() {
     	var ulFunctions = document.getElementById("ToolsList");
     	var liCommunication = document.getElementById("CallFunction");
-    	ulFunctions.removeChild(liCommunication);
+    	if (liCommunication) {
+    		ulFunctions.removeChild(liCommunication);
+    	}
     };
 }
