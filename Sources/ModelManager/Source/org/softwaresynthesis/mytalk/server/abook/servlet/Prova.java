@@ -1,11 +1,7 @@
 package org.softwaresynthesis.mytalk.server.abook.servlet;
-import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.PrintStream;
-import java.io.PrintWriter;
 
 
 public class Prova {
@@ -36,6 +32,5 @@ public class Prova {
 			outFile.close();
 		}
 		catch (FileNotFoundException exception){}
-		catch (IOException exception){}
 	}
 }

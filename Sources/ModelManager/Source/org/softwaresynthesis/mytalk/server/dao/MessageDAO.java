@@ -1,13 +1,11 @@
 package org.softwaresynthesis.mytalk.server.dao;
 
 import java.util.List;
-
-import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.softwaresynthesis.mytalk.server.abook.IGroup;
+import org.softwaresynthesis.mytalk.server.abook.IUserData;
 import org.softwaresynthesis.mytalk.server.message.IMessage;
 
 /**
@@ -244,5 +242,57 @@ public class MessageDAO
 			}
 		}
 		return message;
+	}
+	
+	/**
+	 * Interroga il database per ottenere una lista di
+	 * {@link IMessage} appartenenti ad un utente
+	 * 
+	 * @param 	receiver	idenficatore del destinatario
+	 * @return	lista di {@link IMessage} del destinatario
+	 * 			presenti sul server
+	 */
+	@SuppressWarnings("unchecked")
+	public List<IMessage> getByReceiver(IUserData receiver)
+	{
+		HibernateUtil util = null;
+		List<IMessage> messages = null;
+		Query query = null;
+		Session session = null;
+		SessionFactory factory = null;
+		String hqlQuery = "from Messages as m where m.receiver.id = :id";
+		Transaction transaction = null;
+		try
+		{
+			util = HibernateUtil.getInstance();
+			factory = util.getFactory();
+			session = factory.openSession();
+			query = session.createQuery(hqlQuery);
+			query.setString("id", receiver.getId().toString());
+			transaction = session.beginTransaction();
+			messages = (List<IMessage>)query.list();
+			if (messages.size() == 0)
+			{
+				throw new RuntimeException();
+			}
+			transaction.commit();
+		}
+		catch (RuntimeException ex)
+		{
+			if (transaction != null)
+			{
+				transaction.rollback();
+			}
+			messages = null;
+		}
+		finally
+		{
+			if (session != null)
+			{
+				session.flush();
+				session.close();
+			}
+		}
+		return messages;
 	}
 }
