@@ -3,6 +3,7 @@ package org.softwaresynthesis.mytalk.server.message.servlet;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.softwaresynthesis.mytalk.server.abook.IAddressBookEntry;
 import org.softwaresynthesis.mytalk.server.dao.MessageDAO;
 import org.softwaresynthesis.mytalk.server.message.IMessage;
 
@@ -68,34 +70,40 @@ public class GetMessagesServlet extends HttpServlet
 		Long id = null;
 		MessageDAO messageDAO = null;
 		List<IMessage> messages = null;
-		File file = null;
-		String path = null;
+		Iterator<IMessage> messageIter = null;
+		IMessage message = null;
 		String separator = null;
 		try
 		{
 			id = Long.parseLong(request.getParameter("idUser"));
+			separator = System.getProperty("file.separator");
 			messageDAO = new MessageDAO();
 			messages = messageDAO.getByReceiver(id);
-			if (messages != null){
-				
-				messageDAO.delete(message);
-				path = System.getenv("MyTalkConfiguration");
-				separator = System.getProperty("file.separator");
-				path += separator + "MyTalk" + separator + "Secretariat" + separator;
-				path += id.toString() + ".wav";
-				file = new File(path);
-				if(!(file.delete()))
+			if (messages != null)
+			{
+				messageIter = messages.iterator();
+				result = "[";
+				while (messageIter.hasNext() == true)
 				{
-					result = "false";
+					message = messageIter.next();
+					result += "{";
+					result += "\"id\":\"" + message.getId() + "\"";
+					result += ", \"sender\":\"" + message.getSender() + "\"";
+					result += ", \"status\":\"" + message.getNewer() + "\"";
+					result += ", \"video\":\"" + message.getVideo() + "\"";
+					result += ", \"date\":\"" + message.getDate() + "\"";
+					result += ", \"src\":\"Secretariat" + separator + message.getId() + ".wav\"";
+					if (messageIter.hasNext() == true)
+					{
+						result += "},";
+					}
 				}
-				else
-				{
-					result = "true";
-				}
+				result += "}]";
+			
 			}
 			else
 			{
-				result = "false";
+				result = "[]";
 			}
 		}catch(Exception ex)
 		{
