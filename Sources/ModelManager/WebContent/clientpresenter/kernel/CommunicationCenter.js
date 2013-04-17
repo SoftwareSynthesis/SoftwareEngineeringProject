@@ -372,8 +372,17 @@ function CommunicationCenter() {
      * @author Riccardo Tresoldi
      * @param {String} state è lo stato in cui voglio essere messo
      */
-    this.cambioStato = function(state) {
+    this.changeState = function(state) {
         var ar = new Array("5", state);
         websocket.send(JSON.stringify(ar));
     }
+    
+    /**
+	 * Verifica la presenza di una eventuale connessione WebSocket aperta con il server
+	 * 
+	 * @author Riccardo Tresoldi
+	 */
+	this.isPCDefined = function() {
+		return (pc != null && pc != undefined);
+	};
 }

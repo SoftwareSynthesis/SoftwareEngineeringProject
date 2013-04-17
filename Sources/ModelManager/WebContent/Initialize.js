@@ -8,16 +8,8 @@ window.onload = function() {
 };
 
 window.onbeforeunload = function() {
-    //if (confirm("Sei sicuro di volere uscire?")) {
-    if (pc != null) {
-        setTimeout(function() {
-            endCall();
-        }, 3000);
-    }
-    communicationcenter.disconnect();
-    //}else{
-    //}
-}
+    mediator.logout();
+};
 
 Object.size = function(obj) {
     var size = 0, key;

@@ -217,7 +217,7 @@ function ToolsPanelPresenter() {
         //ottengo il valore corrente della select
         var currentValue = selectState.options[selectedIndex].value;
         //Inviare il messaggio con websoket;
-        communicationcenter.cambioStato(currentValue);
+        communicationcenter.changeState(currentValue);
         return selectState;
     };
 }
