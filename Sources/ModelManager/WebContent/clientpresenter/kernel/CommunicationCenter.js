@@ -194,12 +194,17 @@ function CommunicationCenter() {
             } else if (type == "2") {
                 var signal = JSON.parse(str[1]);
                 if (pc == null) {
-                    //TODO fare conferma di risposta
-                    mediator.displayCommunicationPanel();
-                    /*var element = mediator.getCommunicationPP().createPanel();
-                    mediator.getMainPanel().displayChildPanel(element); FUNZIONAVA CON QUESTO!*/
-                    //FIXME sistemare terzo parametro (onlyAudio)
-                    self.call(false, idOther, false);
+                    if (CommunicationCenter.acceptCall()) {
+                        mediator.displayCommunicationPanel();
+                        /*XXX var element = mediator.getCommunicationPP().createPanel();
+                        mediator.getMainPanel().displayChildPanel(element); FUNZIONAVA CON QUESTO!*/
+                        //FIXME sistemare terzo parametro (onlyAudio)
+                        self.call(false, idOther, false);
+                    } else {
+                        var ar = new Array("5", state);
+                        websocket.send(JSON.stringify(ar));
+                        return;
+                    }
                 }
                 if ((signal.sdp) == null) {
                     pc.addIceCandidate(new RTCIceCandidate(signal));
@@ -376,13 +381,30 @@ function CommunicationCenter() {
         var ar = new Array("5", state);
         websocket.send(JSON.stringify(ar));
     }
+    /**
+     * Verifica la presenza di una eventuale connessione WebSocket aperta con il
+     * server
+     *
+     * @author Riccardo Tresoldi
+     */
+    this.isPCDefined = function() {
+        return (pc != null && pc != undefined);
+    };
     
     /**
-	 * Verifica la presenza di una eventuale connessione WebSocket aperta con il server
-	 * 
-	 * @author Riccardo Tresoldi
-	 */
-	this.isPCDefined = function() {
-		return (pc != null && pc != undefined);
-	};
+     * funzione che visualizza la richiesta di rispondere ad una chiamata in arrivo
+     * @author Riccardo Tresoldi
+     * @return {Boolean} true solo se desidero rispondere
+     */
+    this.acceptCall=function(){
+        // visualizzo la richiesta di risposta
+        //    fai partire RING
+        //    oscura tutto
+        //    visualizza pannello
+        //    onclick di qualche pulsante
+        //        togli pannello
+        //        togli oscuramento
+        //    ferma RING 
+        // se la rischiesta ha sucesso return true else return false
+    }
 }
