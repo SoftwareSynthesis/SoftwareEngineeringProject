@@ -324,6 +324,24 @@ Una comunicazione nasce tra due utenti, colui che effettua la chiamata e colui c
 \end{enumerate}
 \clearpage
 
+\subsection{Struttura di rappresentazione delle sotto-architetture}
+
+La progettazione di ogni singola sotto-architettura è caratterizzata da tre ``costrutti logici'' più volte richiamati per meglio identificare la struttura della sotto-architettura e i compiti che le classi identificati hanno in essa. Abbiamo pertanto:
+
+\begin{description}
+	\item{\scshape\bfseries Componenti}: sono costrutti logici che racchiudono classi tra loro coese e identificano delle sezioni architetturali con scopi ben precisi, in modo che la ricerca di una determinata classe possa avvenire con facilità individuandone la presenza in una componente a seconda del nome ad essa attribuitogli (e.g. la ricerca di una classe avente lo scopo di gestire una comunicazione client-client risulterà intuitivamente più semplice a fronte dell'esistenza di una componente denominata ``Gestione Comunicazione'').
+	\item{\scshape\bfseries Classi}: sono le unità fisiche atte a risolvere un determinato problema (Requisito). Esse sono fisicamente racchiuse un package e logicamente possono appartenere ad un unica componente.
+	\item{\scshape\bfseries Package}: rappresentano l'aggregazione fisica di classi. Un package racchiude classi secondo due principi:
+		\begin{itemize}
+			\item Modifiche: la modifica di una classe può comportare la modifica delle classi presenti nello stesso package;
+			\item Coesione: le classi facenti parte del package sono tra loro coese.
+		\end{itemize}
+		
+		Con ciò non ci si confonda: una componente non coincide necessariamente con un package. Il team ha fatto emergere la possibilità che una classe non possa (in virtù del primo principio di modifica) appartenere ad un package che meglio ne rappresenta il significato (quindi il principio di modifica surclassa il principio di coesione). Di conseguenza per dare una visione più concettuale, e quindi legata alla logica del sistema, è stato deciso di raffigurare ad alto livello le classi come appartenenti ad una determinata componente, mentre a basso livello vengono racchiuse in un package.
+\end{description}
+
+\clearpage
+
 \section{Architettura del database}\label{sec:database}
 
 Come già citato nella parte introduttiva all'architettura, il server si appoggia ad un database dove sono registrati i dati del sistema. La progettazione di tale database passa per due fasi (come appreso dal manuale ``Sistemi di basi di dati''): la progettazione concettuale e la progettazione logica.
