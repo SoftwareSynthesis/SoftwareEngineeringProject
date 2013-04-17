@@ -14,7 +14,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import org.softwaresynthesis.mytalk.server.abook.IUserData;
+import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
 import org.softwaresynthesis.mytalk.server.message.GenerateFileName;
+import org.softwaresynthesis.mytalk.server.message.IMessage;
+import org.softwaresynthesis.mytalk.server.message.Message;
 
 import sun.misc.IOUtils;
 
@@ -80,6 +84,10 @@ public class AddMessageServlet extends HttpServlet
 		FileOutputStream out = null;
 		String path = null;
 		String separator = null;
+		UserDataDAO userDAO = null;
+		IUserData send = null;
+		IUserData rec = null;
+		IMessage message = null;
 
 		try {
 			sender = Long.parseLong(getValue(request.getPart("sender")));
@@ -97,9 +105,13 @@ public class AddMessageServlet extends HttpServlet
 			out = new FileOutputStream(path);
 			out.write(IOUtils.readFully(inputStream, -1, false));
 			out.close();
-			// TODO da implementare salvataggio su DB
-			// da salvare inputStream nel db o solo nome?
-			
+			userDAO = new UserDataDAO();
+			send = userDAO.getByID(sender);
+			rec = userDAO.getByID(receiver);
+			message = new Message();
+			message.setId(file.next());
+			message.setSender(send);
+			message.setReceiver(rec);
 			result = "true";
 			writer = response.getWriter();
 			writer.write(result);
