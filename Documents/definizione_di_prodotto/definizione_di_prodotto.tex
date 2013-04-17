@@ -167,9 +167,9 @@ Inizializza un'unica \inglese{factory} per le sessioni, utilizzate da \textit{Hi
 \subsubsection*{Attributi}
 
 \begin{itemize}
-	\item{\memberdata{-- \underline{instance}: HibernateUtil}}\\
+	\item{\memberdata{\underline{-- instance: HibernateUtil}}}\\
 	Attributo usato per implementare il \inglese{pattern} singleton. Tale istanza verrà inizializzata tramite il metodo statico \method{getIstance()}, assicurando che l'attributo non sia già stato inizializzato in precedenza.
-	\item{\memberdata{-- \underline{sessionFactory}: SessionFactory}}\\
+	\item{\memberdata{-- sessionFactory: SessionFactory}}\\
 	Attributo contenente la \inglese{factory} delle sessioni verso il database.
 \end{itemize}
 
@@ -178,9 +178,9 @@ Inizializza un'unica \inglese{factory} per le sessioni, utilizzate da \textit{Hi
 \begin{description}
 	\item{\method{-- HibernateUtil()}}\\
 	Costruttore privato della classe, definito \inglese{private} in correlazione all'applicazione del \inglese{pattern} singleton.
-	\item{\method{+ getInstance(): HibernateUtil}}\\
+	\item{\method{\underline{+ getInstance(): HibernateUtil}}}\\
 	Metodo pubblico che ritorna l'istanza \memberdata{istance}. Il metodo controlla se \memberdata{istance} è già stata inizializzata, nel caso in cui non lo sia il metodo dovrà generare un istanza di HibernateUtil richiamando il costruttore privato \method{HibernateUtil()} e assegnare il valore ritornato all'attributo \memberdata{istance}. Il programma termina restituendo \memberdata{istance}.
-	\item{\method{+ getSessionFactory(): SessionFactory}}\\
+	\item{\method{\underline{+ getSessionFactory(): SessionFactory}}}\\
 	Metodo che ritorna l'attributo \memberdata{sessionFactory}.
 \end{description}
 
@@ -203,7 +203,12 @@ Classe che implementa il pattern DAO. Definisce le procedure d'inserimento, elim
 
 \subsubsection*{Attributi}
 
-Nessun attributo evidenziato.
+\begin{itemize}
+	\item{\memberdata{-- util: HibernateUtil}}\\
+	Attributo usato per mantenere un riferimento alla singola istanza di HibernateUtil.
+	\item{\memberdata{-- factory: SessionFactory}}\\
+	Attributo usato per mantenere un riferimento ad un'istanza di SessionFactory.
+\end{itemize}
 
 \subsubsection*{Metodi}
 
@@ -322,7 +327,12 @@ Classe che implementa il pattern DAO. Definisce le procedure d’inserimento, el
 
 \subsubsection*{Attributi}
 
-Nessun attributo evidenziato.
+\begin{itemize}
+	\item{\memberdata{-- util: HibernateUtil}}\\
+	Attributo usato per mantenere un riferimento alla singola istanza di HibernateUtil.
+	\item{\memberdata{-- factory: SessionFactory}}\\
+	Attributo usato per mantenere un riferimento ad un'istanza di SessionFactory.
+\end{itemize}
 
 \subsubsection*{Metodi}
 
@@ -331,9 +341,7 @@ Nessun attributo evidenziato.
 	Metodo usato per cancellare un gruppo dal database. Per gruppo si intende un qualsiasi oggetto implementante l'interfaccia \classname{abook.IGroup}. Il metodo riceve come parametro d'ingresso un oggetto \classname{abook.IGroup} e restituisce un valore booleano  pari a \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
 	\begin{itemize}
 		\item viene inizializzata una variabile ti tipo boolean nominata flag, a \inglese{false};
-		\item si crea un istanza di \classname{HibernateUtil} util;
 		\item si crea un istanza di \texttt{Session} session;
-		\item si crea un istanza di \texttt{SessionFactory} factory;
 		\item si crea un istanza di \texttt{Transaction} transaction;
 	\end{itemize}
 	Quindi nel metodo deve essere definito un blocco try catch finally:
@@ -357,9 +365,7 @@ Nessun attributo evidenziato.
 	Metodo usato per modificare un gruppo dal database. Il metodo riceve come parametro d'ingresso un oggetto \classname{abook.IGroup} e restituisce un valore booleano  pari a \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
 	\begin{itemize}
 		\item viene inizializzata una variabile ti tipo boolean nominata flag, a \inglese{false};
-		\item si crea un istanza di \classname{HibernateUtil} util;
 		\item si crea un istanza di \texttt{Session} session;
-		\item si crea un istanza di \texttt{SessionFactory} factory;
 		\item si crea un istanza di \texttt{Transaction} transaction;
 	\end{itemize}
 	Quindi nel metodo deve essere definito un blocco try catch finally:
@@ -383,9 +389,7 @@ Nessun attributo evidenziato.
 	Metodo usato per inserire un gruppo nel database, riceve come parametro d'ingresso un oggetto \classname{abook.IGroup} e restituisce un valore booleano  pari a \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
 	\begin{itemize}
 		\item viene inizializzata una variabile ti tipo \inglese{boolean} nominata \inglese{flag}, a \inglese{false};
-		\item si crea un istanza di \classname{HibernateUtil} util;
 		\item si crea un istanza di \texttt{Session} session;
-		\item si crea un istanza di \texttt{SessionFactory} factory;
 		\item si crea un istanza di \texttt{Transaction} transaction;
 	\end{itemize}
 	Quindi nel metodo deve essere definito un blocco \textit{try-catch} finally:
@@ -408,13 +412,11 @@ Nessun attributo evidenziato.
 	\item{\method{+ getByID(identifier: long): IGroup}}\\
 	Metodo usato per interrogare il database ed ottenere un istanza di \classname{IGroup} avente come identificativo, l'id del gruppo ricevuto come parametro d'ingresso. Il flusso principale inizia definendo le seguenti variabili:
 	\begin{itemize}
-		\item si crea un istanza di \classname{HibernateUtil} util;
 		\item si crea un istanza di \texttt{List<IGroup>} groups;
 		\item si crea un istanza di \texttt{Query} query;
 		\item si crea una stringa hqlQuery impostata per default a:\\
 			\verb|"from Group as g where g.id = :id"|
 		\item si crea un istanza di \texttt{Session} session;
-		\item si crea un istanza di \texttt{SessionFactory} factory;
 		\item si crea un istanza di \texttt{Transaction} transaction;
 	\end{itemize}
 	Quindi nel metodo deve essere definito un blocco try catch finally:
@@ -437,13 +439,11 @@ Nessun attributo evidenziato.
 	\item{\method{+ getByOwner(owner: long): List<IGroup>}}\\
 	Metodo usato per interrogare il database ed ottenere una lista di istanze di \classname{IGroup} aventi come possessore dei gruppi l'utente con id uguale al valore \textit{owner} passato come parametro. Il flusso principale inizia definendo le seguenti variabili:
 	\begin{itemize}
-		\item si crea un istanza di \classname{HibernateUtil} util;
 		\item si crea un istanza di \texttt{List<IGroup>} groups;
 		\item si crea un istanza di \texttt{Query} query;
 		\item si crea una stringa hqlQuery impostata per default a:\\
 			\verb|"from Group as g where g.owner = :owner"|
 		\item si crea un istanza di \texttt{Session} session;
-		\item si crea un istanza di \texttt{SessionFactory} factory;
 		\item si crea un istanza di \texttt{Transaction} transaction;
 	\end{itemize}
 	Quindi nel metodo deve essere definito un blocco \textit{try-catch} finally:
@@ -483,7 +483,12 @@ Classe che implementa il pattern DAO. Definisce le procedure d'inserimento, elim
 
 \subsubsection*{Attributi}
 
-Nessun attributo evidenziato.
+\begin{itemize}
+	\item{\memberdata{-- util: HibernateUtil}}\\
+	Attributo usato per mantenere un riferimento alla singola istanza di HibernateUtil.
+	\item{\memberdata{-- factory: SessionFactory}}\\
+	Attributo usato per mantenere un riferimento ad un'istanza di SessionFactory.
+\end{itemize}
 
 \subsubsection*{Metodi}
 
@@ -492,9 +497,7 @@ Nessun attributo evidenziato.
 	Metodo usato per cancellare una \textit{entry} dal database. Per \textit{entry} si intende un qualsiasi oggetto implementante l'interfaccia \classname{IAddressBookEntry}. Il metodo riceve come parametro d'ingresso un oggetto \classname{abook.IAddressBookEntry} e restituisce un valore booleano \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
 	\begin{itemize}
 		\item viene inizializzata una variabile di tipo \inglese{boolean} nominata \textit{flag}, a \inglese{false};
-		\item si crea un istanza di \classname{HibernateUtil} util;
 		\item si crea un istanza di \texttt{Session} session;
-		\item si crea un istanza di \texttt{SessionFactory} factory;
 		\item si crea un istanza di \texttt{Transaction} transaction;
 	\end{itemize}
 	Quindi nel metodo deve essere definito un blocco \textit{try-catch} finally:
@@ -518,9 +521,7 @@ Nessun attributo evidenziato.
 	Metodo usato per modificare una \textit{entry} presente nel database. Il metodo riceve come parametro d'ingresso un oggetto \classname{abook.IAddressBookEntry} e restituisce un valore booleano \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
 	\begin{itemize}
 		\item viene inizializzata una variabile ti tipo \textit{boolean} nominata \textit{flag}, a \inglese{false};
-		\item si crea un istanza di \classname{HibernateUtil} util;
 		\item si crea un istanza di \texttt{Session} session;
-		\item si crea un istanza di \texttt{SessionFactory} factory;
 		\item si crea un istanza di \texttt{Transaction} transaction;
 	\end{itemize}
 	Quindi nel metodo deve essere definito un blocco \textit{try-catch} finally:
@@ -544,9 +545,7 @@ Nessun attributo evidenziato.
 	Metodo usato per inserire una \textit{entry} nel database. Il metodo riceve come parametro d'ingresso un oggetto \classname{abook.IAddressBookEntry} e restituisce un valore booleano \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
 	\begin{itemize}
 		\item viene inizializzata una variabile ti tipo \textit{boolean} nominata \textit{flag}, a \inglese{false};
-		\item si crea un istanza di \classname{HibernateUtil} util;
 		\item si crea un istanza di \texttt{Session} session;
-		\item si crea un istanza di \texttt{SessionFactory} factory;
 		\item si crea un istanza di \texttt{Transaction} transaction;
 	\end{itemize}
 	Quindi nel metodo deve essere definito un blocco \textit{try-catch} finally:
@@ -586,7 +585,12 @@ Classe che implementa il pattern DAO. Definisce le procedure d’inserimento, el
 
 \subsubsection*{Attributi}
 
-Nessun attributo evidenziato.
+\begin{itemize}
+	\item{\memberdata{-- util: HibernateUtil}}\\
+	Attributo usato per mantenere un riferimento alla singola istanza di HibernateUtil.
+	\item{\memberdata{-- factory: SessionFactory}}\\
+	Attributo usato per mantenere un riferimento ad un'istanza di SessionFactory.
+\end{itemize}
 
 \subsubsection*{Metodi}
 
@@ -595,9 +599,7 @@ Nessun attributo evidenziato.
 	Metodo usato per cancellare una chiamata dal database. Il flusso principale inizia definendo le seguenti variabili:
 	\begin{itemize}
 		\item viene inizializzata una variabile ti tipo boolean nominata flag, a \inglese{false};
-		\item si crea un istanza di \classname{HibernateUtil} util;
 		\item si crea un istanza di \texttt{Session} session;
-		\item si crea un istanza di \texttt{SessionFactory} factory;
 		\item si crea un istanza di \texttt{Transaction} transaction;
 	\end{itemize}
 	Quindi nel metodo deve essere definito un blocco try catch finally:
@@ -647,9 +649,7 @@ Nessun attributo evidenziato.
 	Metodo usato per inserire una chiamata nel database, riceve come parametro d'ingresso un oggetto \classname{call.ICall} e restituisce un valore booleano  pari a \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
 	\begin{itemize}
 		\item viene inizializzata una variabile ti tipo \inglese{boolean} nominata \inglese{flag}, a \inglese{false};
-		\item si crea un istanza di \classname{HibernateUtil} util;
 		\item si crea un istanza di \texttt{Session} session;
-		\item si crea un istanza di \texttt{SessionFactory} factory;
 		\item si crea un istanza di \texttt{Transaction} transaction;
 	\end{itemize}
 	Quindi nel metodo deve essere definito un blocco \textit{try-catch} finally:
@@ -672,13 +672,11 @@ Nessun attributo evidenziato.
 	\item{\method{+ getByID(identifier: long): ICall}}\\
 	Metodo usato per interrogare il database ed ottenere un istanza di \classname{ICall} avente come identificativo, l'id della chiamata ricevuta come parametro d'ingresso. Il flusso principale inizia definendo le seguenti variabili:
 	\begin{itemize}
-		\item si crea un istanza di \classname{HibernateUtil} util;
 		\item si crea un istanza di \texttt{List<ICall>} calls;
 		\item si crea un istanza di \texttt{Query} query;
 		\item si crea una stringa hqlQuery impostata per default a:\\
 			\verb|"from call as c where c.mittente = :id or c.destinarario =:id"|
 		\item si crea un istanza di \texttt{Session} session;
-		\item si crea un istanza di \texttt{SessionFactory} factory;
 		\item si crea un istanza di \texttt{Transaction} transaction;
 	\end{itemize}
 	Quindi nel metodo deve essere definito un blocco try catch finally:
@@ -720,7 +718,12 @@ Classe che implementa il pattern DAO. Definisce le procedure d’inserimento, el
 
 \subsubsection*{Attributi}
 
-Nessun attributo evidenziato.
+\begin{itemize}
+	\item{\memberdata{-- util: HibernateUtil}}\\
+	Attributo usato per mantenere un riferimento alla singola istanza di HibernateUtil.
+	\item{\memberdata{-- factory: SessionFactory}}\\
+	Attributo usato per mantenere un riferimento ad un'istanza di SessionFactory.
+\end{itemize}
 
 \subsubsection*{Metodi}
 
@@ -729,9 +732,7 @@ Nessun attributo evidenziato.
 	Metodo usato per cancellare una \textit{entry} dal database. Per \textit{entry} si intende un qualsiasi oggetto implementante l'interfaccia \classname{ICallList}. Il metodo riceve come parametro d'ingresso un oggetto \classname{call.ICallList} e restituisce un valore booleano \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
 	\begin{itemize}
 		\item viene inizializzata una variabile di tipo \inglese{boolean} nominata \textit{flag}, a \inglese{false};
-		\item si crea un istanza di \classname{HibernateUtil} util;
 		\item si crea un istanza di \texttt{Session} session;
-		\item si crea un istanza di \texttt{SessionFactory} factory;
 		\item si crea un istanza di \texttt{Transaction} transaction;
 	\end{itemize}
 	Quindi nel metodo deve essere definito un blocco \textit{try-catch} finally:
@@ -755,9 +756,7 @@ Nessun attributo evidenziato.
 	Metodo usato per modificare una \textit{entry} presente nel database. Il metodo riceve come parametro d'ingresso un oggetto \classname{call.ICallList} e restituisce un valore booleano \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
 	\begin{itemize}
 		\item viene inizializzata una variabile ti tipo \textit{boolean} nominata \textit{flag}, a \inglese{false};
-		\item si crea un istanza di \classname{HibernateUtil} util;
 		\item si crea un istanza di \texttt{Session} session;
-		\item si crea un istanza di \texttt{SessionFactory} factory;
 		\item si crea un istanza di \texttt{Transaction} transaction;
 	\end{itemize}
 	Quindi nel metodo deve essere definito un blocco \textit{try-catch} finally:
@@ -781,9 +780,7 @@ Nessun attributo evidenziato.
 	Metodo usato per inserire una \textit{entry} nel database. Il metodo riceve come parametro d'ingresso un oggetto \classname{call.ICallLIst} e restituisce un valore booleano \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
 	\begin{itemize}
 		\item viene inizializzata una variabile ti tipo \textit{boolean} nominata \textit{flag}, a \inglese{false};
-		\item si crea un istanza di \classname{HibernateUtil} util;
 		\item si crea un istanza di \texttt{Session} session;
-		\item si crea un istanza di \texttt{SessionFactory} factory;
 		\item si crea un istanza di \texttt{Transaction} transaction;
 	\end{itemize}
 	Quindi nel metodo deve essere definito un blocco \textit{try-catch} finally:
@@ -823,7 +820,12 @@ Classe che implementa il pattern DAO. Definisce le procedure d’inserimento, el
 
 \subsubsection*{Attributi}
 
-Nessun attributo evidenziato.
+\begin{itemize}
+	\item{\memberdata{-- util: HibernateUtil}}\\
+	Attributo usato per mantenere un riferimento alla singola istanza di HibernateUtil.
+	\item{\memberdata{-- factory: SessionFactory}}\\
+	Attributo usato per mantenere un riferimento ad un'istanza di SessionFactory.
+\end{itemize}
 
 \subsubsection*{Metodi}
 
@@ -832,9 +834,7 @@ Nessun attributo evidenziato.
 	Metodo usato per cancellare una chiamata dal database. Il flusso principale inizia definendo le seguenti variabili:
 	\begin{itemize}
 		\item viene inizializzata una variabile ti tipo boolean nominata flag, a \inglese{false};
-		\item si crea un istanza di \classname{HibernateUtil} util;
 		\item si crea un istanza di \texttt{Session} session;
-		\item si crea un istanza di \texttt{SessionFactory} factory;
 		\item si crea un istanza di \texttt{Transaction} transaction;
 	\end{itemize}
 	Quindi nel metodo deve essere definito un blocco try catch finally:
@@ -858,9 +858,7 @@ Nessun attributo evidenziato.
 	Metodo usato per modificare una chiamata presente nel database. Il metodo riceve come parametro d'ingresso un oggetto \classname{message.Message} e restituisce un valore booleano  pari a \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
 	\begin{itemize}
 		\item viene inizializzata una variabile ti tipo boolean nominata flag, a \inglese{false};
-		\item si crea un istanza di \classname{HibernateUtil} util;
 		\item si crea un istanza di \texttt{Session} session;
-		\item si crea un istanza di \texttt{SessionFactory} factory;
 		\item si crea un istanza di \texttt{Transaction} transaction;
 	\end{itemize}
 	Quindi nel metodo deve essere definito un blocco try catch finally:
@@ -884,9 +882,7 @@ Nessun attributo evidenziato.
 	Metodo usato per inserire una chiamata nel database, riceve come parametro d'ingresso un oggetto \classname{message.IMessage} e restituisce un valore booleano  pari a \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
 	\begin{itemize}
 		\item viene inizializzata una variabile ti tipo \inglese{boolean} nominata \inglese{flag}, a \inglese{false};
-		\item si crea un istanza di \classname{HibernateUtil} util;
 		\item si crea un istanza di \texttt{Session} session;
-		\item si crea un istanza di \texttt{SessionFactory} factory;
 		\item si crea un istanza di \texttt{Transaction} transaction;
 	\end{itemize}
 	Quindi nel metodo deve essere definito un blocco \textit{try-catch} finally:
@@ -909,13 +905,11 @@ Nessun attributo evidenziato.
 	\item{\method{+ getByID(identifier: long): List<IMessage>}}\\
 	Metodo usato per interrogare il database ed ottenere una lista d'istanze di \classname{IMessage} aventi come identificativo dell'utente proprietario del messaggio, l'identificativo ricevuto come parametro d'ingresso. Il flusso principale inizia definendo le seguenti variabili:
 	\begin{itemize}
-		\item si crea un istanza di \classname{HibernateUtil} util;
 		\item si crea un istanza di \texttt{List<IMessage>} messages;
 		\item si crea un istanza di \texttt{Query} query;
 		\item si crea una stringa hqlQuery impostata per default a:\\
 			\verb|"from message as m where m.owner = :id"|
 		\item si crea un istanza di \texttt{Session} session;
-		\item si crea un istanza di \texttt{SessionFactory} factory;
 		\item si crea un istanza di \texttt{Transaction} transaction;
 	\end{itemize}
 	Quindi nel metodo deve essere definito un blocco try catch finally:
