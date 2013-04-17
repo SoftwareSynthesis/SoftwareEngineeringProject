@@ -9,7 +9,7 @@ function CommunicationCenter() {
      VARIABILI PUBBLICHE
      ***********************************************************/
     //TODO Contiene i dati della videochiamata
-    this.videoComunication;
+    this.videoComunication
     //E' un array di HTMLTextAreaElement
     this.openChat = new Array();
     //oggetto che contiene i dati dell'utente
@@ -171,7 +171,7 @@ function CommunicationCenter() {
             //creo l'array da passare alla servlet per la connessione e l'invio
             var ar = new Array("1", self.my.id);
             websocket.send(JSON.stringify(ar));
-            //informo gli utenti della mia rubrica che sono online 
+            //informo gli utenti della mia rubrica che sono online
             var informOtherAboutMyStatus = new Array("5", self.my.email, "available");
             websocket.send(JSON.stringify(informOtherAboutMyStatus));
         };
@@ -309,43 +309,41 @@ function CommunicationCenter() {
 
         //prende lo stream video locale, lo visualizza sul corrispetivo <video> e
         // lo invia agli altri peer
-        if (onlyAudio == true){
-			navigator.webkitGetUserMedia({
-				"audio" : true,
-				"video" : false
-			}, function(stream) {
-				mediator.getCommunicationPPMyVideo().src = URL.createObjectURL(stream);
-				localStream = stream;
-				pc.addStream(stream);
+        if (onlyAudio == true) {
+            navigator.webkitGetUserMedia({
+                "audio" : true,
+                "video" : false
+            }, function(stream) {
+                mediator.getCommunicationPPMyVideo().src = URL.createObjectURL(stream);
+                localStream = stream;
+                pc.addStream(stream);
 
-				if (isCaller == true) {
-					idOther = contact.id;
-					var ar = new Array("3", idOther);
-					websocket.send(JSON.stringify(ar));
-					pc.createOffer(gotDescription);
-				} else
-					pc.createAnswer(gotDescription);
-			});
-		}
-		else
-		{
-			navigator.webkitGetUserMedia({
-				"audio" : true,
-				"video" : true
-			}, function(stream) {
-				mediator.getCommunicationPPMyVideo().src = URL.createObjectURL(stream);
-				localStream = stream;
-				pc.addStream(stream);
+                if (isCaller == true) {
+                    idOther = contact.id;
+                    var ar = new Array("3", idOther);
+                    websocket.send(JSON.stringify(ar));
+                    pc.createOffer(gotDescription);
+                } else
+                    pc.createAnswer(gotDescription);
+            });
+        } else {
+            navigator.webkitGetUserMedia({
+                "audio" : true,
+                "video" : true
+            }, function(stream) {
+                mediator.getCommunicationPPMyVideo().src = URL.createObjectURL(stream);
+                localStream = stream;
+                pc.addStream(stream);
 
-				if (isCaller == true) {
-					idOther = contact.id;
-					var ar = new Array("3", idOther);
-					websocket.send(JSON.stringify(ar));
-					pc.createOffer(gotDescription);
-				} else
-					pc.createAnswer(gotDescription);
-			});
-		}
+                if (isCaller == true) {
+                    idOther = contact.id;
+                    var ar = new Array("3", idOther);
+                    websocket.send(JSON.stringify(ar));
+                    pc.createOffer(gotDescription);
+                } else
+                    pc.createAnswer(gotDescription);
+            });
+        }
     };
 
     /**
@@ -367,4 +365,15 @@ function CommunicationCenter() {
             pc = null;
         }, 1000);
     };
+
+    /**
+     * funzione per cambiare lo stato utente
+     *
+     * @author Riccardo Tresoldi
+     * @param {String} state è lo stato in cui voglio essere messo
+     */
+    this.cambioStato = function(state) {
+        var ar = new Array("5", state);
+        websocket.send(JSON.stringify(ar));
+    }
 }

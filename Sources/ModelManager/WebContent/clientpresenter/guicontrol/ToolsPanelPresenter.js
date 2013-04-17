@@ -30,6 +30,34 @@ function ToolsPanelPresenter() {
         servlets.push(baseURL + name);
     }
 
+    /**
+     * funzione per l'inizializzazione della select che gestisce il cambio di
+     * stato
+     *
+     * @author Riccardo Tresoldi
+     * @return {HTMLSelectElement} l'elemento HTML select che rappresenta lo
+     * stato dell'utente
+     */
+    function initializeSelectState() {
+        //ottengo l'elemento dal DOM
+        var selectState = document.getElementById("selectState");
+        //Controllo che non sia già stato inizzializzato
+        if (selectState.length != 0)
+            //se è già stato inizializato lo ritorno senza aggiungere altre
+            // <option>
+            return selectState;
+        //Se arivo qua vuol dire che non è ancora stata inizializzata e dunque lo
+        // inizializzo e aggiungo gli <option> adeguati
+        selectState.add(new Option("Disponibile", "available"), null);
+        selectState.add(new Option("Occupato", "occupied"), null);
+        //aggancio l'evento onChange
+        selectState.onChange = function() {
+            ToolsPanelPresenter.updateStateValue();
+        }
+        //ritorno l'elemento <select> inizializzato
+        return selectState;
+    }
+
     /**********************************************************
      METODI PUBBLICI
      ***********************************************************/
@@ -81,27 +109,11 @@ function ToolsPanelPresenter() {
             mediator.displayGroupPanel();
         };
 
-        // funzione selezione lingua
-        /*var liLanguage = document.createElement("li");
-        var selectLanguage = document.createElement("select");
-        var optionItalian = document.createElement("option");
-        optionItalian.setAttribute("value", "italian");
-        optionItalian.appendChild(document.createTextNode("Italiano"));
-        var optionEnglish = document.createElement("option");
-        optionEnglish.setAttribute("value", "english");
-        optionEnglish.appendChild(document.createTextNode("Inglese"));
-        selectLanguage.appendChild(optionItalian);
-        selectLanguage.appendChild(optionEnglish);
-        liLanguage.appendChild(selectLanguage);
-        //attaccare il comportamento all'elemento '<select>'
-        selectLanguage.onchange = function() {
-        };*/
-        
         // funzione di ricerca
         var liSearch = document.createElement("li");
         liSearch.appendChild(document.createTextNode("Ricerca"));
         liSearch.onclick = function() {
-        	mediator.displaySearchResultPanel();
+            mediator.displaySearchResultPanel();
         };
 
         // costruisce la lista aggiungendo tutti gli elementi
@@ -109,7 +121,6 @@ function ToolsPanelPresenter() {
         ulFunction.appendChild(liSetting);
         ulFunction.appendChild(liCallList);
         ulFunction.appendChild(liGroup);
-        //ulFunction.appendChild(liLanguage);
         ulFunction.appendChild(liSearch);
         divFunction.appendChild(ulFunction);
 
@@ -117,6 +128,7 @@ function ToolsPanelPresenter() {
         var divState = document.createElement("div");
         var state = document.createElement("select");
         state.id = "selectState";
+        this.initializeSelectState();
         divState.appendChild(state);
 
         // aggiunge il sottoalbero al DOM dell'elemento controllato
@@ -139,7 +151,7 @@ function ToolsPanelPresenter() {
      *
      * @author Riccardo Tresoldi
      */
-	    this.logout = function() {
+    this.logout = function() {
 		// chiede conferma all'utente
 		var answer = confirm("Sei sicuro di voler uscire?");
 		if (answer) {
@@ -163,8 +175,8 @@ function ToolsPanelPresenter() {
 	 * 
 	 * @author Diego Beraldin
 	 */
-    this.addCommunicationFunction = function() {
-    	// crea il nuovo elemento della lista
+	this.addCommunicationFunction = function() {
+        // crea il nuovo elemento della lista
         var liCommunication = document.createElement("li");
         liCommunication.id = "CallFunction";
         liCommunication.appendChild(document.createTextNode("Chiamata"));
@@ -175,11 +187,11 @@ function ToolsPanelPresenter() {
         var ulFunctions = document.getElementById("ToolsList");
         ulFunctions.appendChild(liCommunication);
     };
-    
+
     /**
      * Nasconde il pulsante che permette di ritornare al pannello
      * delle comunicazioni dal ToolsPanel
-     * 
+     *
      * @author Diego Beraldin
      */
     this.removeCommunicationFunction = function() {
@@ -188,5 +200,24 @@ function ToolsPanelPresenter() {
     	if (liCommunication) {
     		ulFunctions.removeChild(liCommunication);
     	}
+    };
+
+    /**
+     * Imposta il valore della select che contiene lo stato dell'utente al valore
+     * corretto
+     *
+     * @author Riccardo Tresoldi
+     *
+     * @return {HTMLSelectElement} l'elemento HTML select che rappresenta lo
+     * stato dell'utente
+     */
+    this.updateStateValue = function() {
+       //ottengo la select
+        var selectState = initializeSelectState();
+        //ottengo il valore corrente della select
+        var currentValue = selectState.options[selectedIndex].value;
+        //Inviare il messaggio con websoket;
+        communicationcenter.cambioStato(currentValue);
+        return selectState;
     };
 }
