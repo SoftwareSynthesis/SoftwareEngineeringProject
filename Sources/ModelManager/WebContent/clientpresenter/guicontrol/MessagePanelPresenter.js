@@ -86,6 +86,12 @@ function MessagePanelPresenter(url) {
 			self.deleteMessage(message);
 		};
 		
+		
+		elimina.onclick = function() {
+			stato=message.status;
+			self.setAsRead(message,!stato);
+		};
+		
 		// quando ho finito appendo il nuovo elemento appena creato.
 		messageList.appendChild(item);	
 	}
