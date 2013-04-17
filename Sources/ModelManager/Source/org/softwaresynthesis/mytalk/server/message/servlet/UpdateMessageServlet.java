@@ -2,37 +2,36 @@ package org.softwaresynthesis.mytalk.server.message.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Iterator;
-import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.softwaresynthesis.mytalk.server.dao.MessageDAO;
 import org.softwaresynthesis.mytalk.server.message.IMessage;
 
 /**
- * Servlet implementation class GetMessagesServlet
+ * Servlet implementation class UpdateMessageServlet
  */
-@WebServlet("/GetMessagesServlet")
-public class GetMessagesServlet extends HttpServlet 
-{
-	private static final long serialVersionUID = 1000057L;
+@WebServlet("/UpdateMessageServlet")
+public class UpdateMessageServlet extends HttpServlet {
+	private static final long serialVersionUID = 1000058L;
        
     /**
-     * inizializzazione della servlet
+     * Inizializza la servlet
      */
-    public GetMessagesServlet() {
+    public UpdateMessageServlet() {
         super();
     }
 
     /**
-	 * Restiuisce i messaggi in segreteria
-	 * di un utente tramite richiesta HTTP GET
+	 * Modifica un messaggio in segreteria
+	 * tramite richiesta HTTP GET
 	 * 
 	 * @param	request		contiene i parametri di input
-	 * 						(idUser) per il
+	 * 						(msgSegreteria, stato) per il
 	 * 						corretto svolgimento dell'operazione	
 	 * @param	response	contiene le risposte prodotte dalla
 	 * 						servlet che verranno inviate ai client
@@ -47,11 +46,11 @@ public class GetMessagesServlet extends HttpServlet
 	}
 
 	/**
-	 * Restiuisce i messaggi in segreteria
-	 * di un utente tramite richiesta HTTP POST
+	 * Modifica un messaggio in segreteria
+	 * tramite richiesta HTTP POST
 	 * 
 	 * @param	request		contiene i parametri di input
-	 * 						(idUser) per il
+	 * 						(msgSegreteria, stato) per il
 	 * 						corretto svolgimento dell'operazione	
 	 * @param	response	contiene le risposte prodotte dalla
 	 * 						servlet che verranno inviate ai client
@@ -60,48 +59,28 @@ public class GetMessagesServlet extends HttpServlet
 	 * @throws	{@link ServletException} se si verificano errori
 	 * 			interni alla servlet
 	 */
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String result = null;
 		PrintWriter writer = null;
 		Long id = null;
 		MessageDAO messageDAO = null;
-		List<IMessage> messages = null;
-		Iterator<IMessage> messageIter = null;
 		IMessage message = null;
-		String separator = null;
-		HttpSession session = null;
+		Long stato = null;
 		try
 		{
-			session = request.getSession(false);
-			id = (Long)session.getAttribute("id");
-			separator = System.getProperty("file.separator");
+			id = Long.parseLong(request.getParameter("id"));
+			stato = Long.parseLong(request.getParameter("valueToSet"));
 			messageDAO = new MessageDAO();
-			messages = messageDAO.getByReceiver(id);
-			if (messages != null)
-			{
-				messageIter = messages.iterator();
-				result = "[";
-				while (messageIter.hasNext() == true)
-				{
-					message = messageIter.next();
-					result += "{";
-					result += "\"id\":\"" + message.getId() + "\"";
-					result += ", \"sender\":\"" + message.getSender() + "\"";
-					result += ", \"status\":\"" + message.getNewer() + "\"";
-					result += ", \"video\":\"" + message.getVideo() + "\"";
-					result += ", \"date\":\"" + message.getDate() + "\"";
-					result += ", \"src\":\"Secretariat" + separator + message.getId() + ".wav\"";
-					if (messageIter.hasNext() == true)
-					{
-						result += "},";
-					}
-				}
-				result += "}]";
-			
+			message = messageDAO.getByID(id);
+			if (message != null){
+				message.setNewer(stato);
+				messageDAO.update(message);
+				result = "true";
 			}
 			else
 			{
-				result = "[]";
+				result = "false";
 			}
 		}catch(Exception ex)
 		{
