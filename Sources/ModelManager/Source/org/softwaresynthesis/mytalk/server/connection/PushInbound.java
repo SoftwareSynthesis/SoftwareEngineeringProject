@@ -73,17 +73,16 @@ public class PushInbound extends MessageInbound {
 			ChannelServlet.removeClient(remove);
 		}
 		//notifica cambio stato ad utenti della rubrica
-		//array[1]= email, array[2]={available|||offline||occupied} per stato
+		//array[1]={available|||offline||occupied} per stato
 		else if (type.equals("5")){
 			UserDataDAO database= new UserDataDAO();
-			String email= gson.fromJson(array.get(1), String.class);
-			String status= gson.fromJson(array.get(2), String.class);
-			IUserData utente= database.getByEmail(email);
+			String status= gson.fromJson(array.get(1), String.class);
+			IUserData utente= database.getById(this.id);
 			if(status.equals("available")){setState(State.AVAILABLE);}					
 			if(status.equals("occupied")){setState(State.OCCUPIED);}
 			
 			//ricavo tutti gli amici con metodo da definire
-			Set<IAddressBookEntry> friends= utente.getAddressBook();
+			Set<IAddressBookEntry> friends = utente.getAddressBook();
 			Iterator<IAddressBookEntry> iter = friends.iterator();
 			while(iter.hasNext())
 			{
