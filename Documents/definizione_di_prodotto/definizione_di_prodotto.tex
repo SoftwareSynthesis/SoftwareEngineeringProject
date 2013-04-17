@@ -1264,9 +1264,9 @@ Implementazione dell'interfaccia IAddressBookEntry.
 		\item si crea un istanza di tipo \classname{IUserData} che conterrà ``l'utente'' che dovrà essere registrato nella rubrica del chiamante. L'oggetto dovrà essere istanziato in seguito ad una chiamata:\\
 		\verb|userDAO.getByID(contactId)|;
 	\end{itemize}
-	Quindi se l'amico (che dovrò andare a registrare) è stato correttamente istanziato (amico != null) allora il flusso principale procede creando e impostando un istanza di \classname{AddressBookEntry}. Il metodo termina ``scrivendo'' \inglese{true} all'interno di un istanza di \texttt{PrintWriter} creata a partire da \texttt{response.getWriter()} ed eseguendo il metodo \method{addAddressBookEntry()} (passando l'entry creata in precedenza) a partire dall'istanza che rappresenta l'utente richiedente.
+	Quindi se il contatto (che dovrò andare a registrare) è stato correttamente istanziato (contatto != null) allora il flusso principale procede creando e impostando un istanza di \classname{AddressBookEntry}. Il metodo termina ``scrivendo'' \inglese{true} all'interno di un istanza di \texttt{PrintWriter} creata a partire da \texttt{response.getWriter()} ed eseguendo il metodo \method{addAddressBookEntry()} (passando l'entry creata in precedenza) a partire dall'istanza che rappresenta l'utente richiedente.
 	
-	Se invece si è osservato che l'oggetto contenente l'amico da aggiungere, ha valore uguale a null, allora il metodo termina scrivendo \inglese{false} all'intero della dello stesso \texttt{PrintWriter} già citato.
+	Se invece si è osservato che l'oggetto contenente il contatto da aggiungere, ha valore uguale a null, allora il metodo termina scrivendo \inglese{false} all'intero della dello stesso \texttt{PrintWriter} già citato.
 \end{description}
 
 %TODO da verificare
@@ -1318,9 +1318,9 @@ Implementazione dell'interfaccia IAddressBookEntry.
 		\item si crea un istanza di tipo \classname{IUserData} che conterrà ``l'utente'' che dovrà essere eliminato dalla rubrica del chiamante. L'oggetto dovrà essere istanziato in seguito ad una chiamata:\\
 		\verb|userDAO.getByID(contactId)|;
 	\end{itemize}
-	Quindi se l'amico (che dovrò andare a cancellare dalla lista) è stato correttamente istanziato (\texttt{amico != null}) allora il flusso principale procede creando e impostando un istanza di \classname{AddressBookEntry}. Quindi a partire dall'oggetto che rappresenta l'utente richiedente, viene richiamato il metodo \method{removeAddressBookEntry()}. Il metodo termina ``scrivendo'' \inglese{true} all'interno di un istanza di \texttt{PrintWriter} creata a partire da \texttt{response.getWriter()}.
+	Quindi se il contatto (che dovrò andare a cancellare dalla lista) è stato correttamente istanziato (\texttt{contatto != null}) allora il flusso principale procede creando e impostando un istanza di \classname{AddressBookEntry}. Quindi a partire dall'oggetto che rappresenta l'utente richiedente, viene richiamato il metodo \method{removeAddressBookEntry()}. Il metodo termina ``scrivendo'' \inglese{true} all'interno di un istanza di \texttt{PrintWriter} creata a partire da \texttt{response.getWriter()}.
 	
-	Se invece si è osservato che l'oggetto contenente l'amico da rimuovere, ha valore uguale a \textit{null}, allora il metodo termina impostando \inglese{false} all'intero della dello stesso \texttt{PrintWriter} già citato.
+	Se invece si è osservato che l'oggetto contenente il contatto da rimuovere, ha valore uguale a \textit{null}, allora il metodo termina impostando \inglese{false} all'intero della dello stesso \texttt{PrintWriter} già citato.
 \end{description}
 
 %TODO da verificare
