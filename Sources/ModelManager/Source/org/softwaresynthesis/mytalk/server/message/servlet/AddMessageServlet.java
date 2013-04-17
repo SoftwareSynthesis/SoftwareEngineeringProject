@@ -105,7 +105,7 @@ public class AddMessageServlet extends HttpServlet
 			}
 			path = System.getenv("MyTalkConfiguration");
 			separator = System.getProperty("file.separator");
-			path += separator + "MyTalk" + separator + "Secretariat";
+			path += separator + "MyTalk" + separator + "Secretariat" + separator;
 			file = new GenerateFileName();
 			path += file.next().toString() + ".wav";
 			out = new FileOutputStream(path);
