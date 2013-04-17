@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+
+import org.softwaresynthesis.mytalk.server.message.GenerateFileName;
+
 import sun.misc.IOUtils;
 
 
@@ -69,6 +72,7 @@ public class AddMessageServlet extends HttpServlet
 	 protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String result = null;
 		PrintWriter writer = null;
+		GenerateFileName file = null;
 		Long sender = null;
 		Long receiver = null;
 		InputStream inputStream = null;
@@ -88,7 +92,9 @@ public class AddMessageServlet extends HttpServlet
 			path = System.getenv("MyTalkConfiguration");
 			separator = System.getProperty("file.separator");
 			path += separator + "MyTalk" + separator + "Secretariat";
-			out = new FileOutputStream("registration.wav");
+			file = new GenerateFileName();
+			path += file.next().toString() + ".wav";
+			out = new FileOutputStream(path);
 			out.write(IOUtils.readFully(inputStream, -1, false));
 			out.close();
 			// TODO da implementare salvataggio su DB
