@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
+import org.softwaresynthesis.mytalk.server.dao.MessageDAO;
 import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
 import org.softwaresynthesis.mytalk.server.message.GenerateFileName;
 import org.softwaresynthesis.mytalk.server.message.IMessage;
