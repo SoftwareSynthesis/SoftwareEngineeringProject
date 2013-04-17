@@ -213,7 +213,6 @@ function AddressBookPanelPresenter() {
     /***************************************************************************
      * METODI PUBBLICI
      **************************************************************************/
-
     /**
      * Inizializza 'AddressBookPanel' e lo popola con i contatti della rubrica
      *
@@ -254,7 +253,8 @@ function AddressBookPanelPresenter() {
         selectGroup.onchange = function() {
             var idGroupSelected = selectGroup.options[selectGroup.selectedIndex].value;
             var filtredContacts = self.applyFilterByGroup(idGroupSelected);
-            self.showFilter(filtredContacts);
+            var isWhitelist = groups[idGroupSelected].name == "addrBookEntry";
+            self.showFilter(filtredContacts, isWhitelist);
         };
         // creo contenuto divSort
         var selectSort = document.createElement('select');
@@ -570,20 +570,43 @@ function AddressBookPanelPresenter() {
      * AddressBookList
      *
      * NOTA PER I VERIFICATORI Richiede che il 'document' abbia al suo interno
-     * un elemento di tipo '
-     * <ul>' con 'id' uguale a 'AddressBookList'
+     * un elemento di tipo '<ul>' con 'id' uguale a 'AddressBookList'
      *
-     * @author Ricardo tresoldi
      * @param {Array}
      *            filtredContacts Array di ID di contatti
+     *  @author Ricardo tresoldi
+     *  @author Diego Beraldin
      */
-    this.showFilter = function(filtredContacts) {
+    this.showFilter = function(filtredContacts, isDefaultGroup) {
         // estraggo l'<ul> del Addressbook e lo inizializzo
         var ulList = document.getElementById("AddressBookList");
         ulList.innerHTML = "";
 
-        // TODO aggiungere una label per avvisare che i campi visualizzati sono
-        // filtrati
+		if (isDefaultGroup) {
+			// etichetta per filtraggio
+			var liFilter = document.createElement("li");
+			liFilter.id = "filterLabel";
+			liFilter.appendChild(document.createTextNode("Filtraggio"));
+			// pulsante per la chiusura
+			var closeImg = document.createElement("img");
+			//TODO da impostare questo valore
+			closeImg.src = "";
+			var self = this;
+			closeImg.onclick = function() {
+				// elimina il filtraggio
+				// FIXME sento puzza di ricorsione (indiretta)!
+				var idWhitelist = -1;
+				for (var key in groups) {
+					if (groups[key].name == "addrBookEntry") {
+						idWhitelist = key;
+						break;
+					}
+				}
+				self.applyFilterByGroup(idWhitelist);
+			};
+			liFilter.appendChild(closeImg);
+			ulList.appendChild(liFilter);
+		}
 
         if (filtredContacts.length == 0) {
             var noContactLI = document.createElement("li");
@@ -698,7 +721,7 @@ function AddressBookPanelPresenter() {
         for (var group in groups) {
             // ciclo tutti i contatti di un gruppo
             for (var groupContact in groups[group].contacts) {
-                // contriollo se il contatto è uguale al contatto del gruppo
+                // controllo se il contatto è uguale al contatto del gruppo
                 if (groupContact == contact.id) {
                     // se i contatti coincidono aggiungo il gruppo alla lista di
                     // ritorno e blocco lo scorrimento dell'array
@@ -720,11 +743,11 @@ function AddressBookPanelPresenter() {
      * @author Riccardo Tresoldi
      */
     this.setStateToContact = function(contact, state) {
-        //controllo che il contatto sia presente nella rubrica
+        // controllo che il contatto sia presente nella rubrica
         if (contacts[contact.id]) {
-            //imposto il valore in contacts
+            // imposto il valore in contacts
             contacts[contact.id].state = state;
-            //imposto l'src dell'immagine giusta
+            // imposto l'src dell'immagine giusta
             var liUser = document.getElementById(contact.id);
             var imgState = liUser.getElementsByTagName("img")[1];
             imgState.src = getImageSrc(contact);
