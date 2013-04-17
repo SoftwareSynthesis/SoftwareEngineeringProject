@@ -5,7 +5,6 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.softwaresynthesis.mytalk.server.abook.IUserData;
 import org.softwaresynthesis.mytalk.server.message.IMessage;
 
 /**
@@ -253,7 +252,7 @@ public class MessageDAO
 	 * 			presenti sul server
 	 */
 	@SuppressWarnings("unchecked")
-	public List<IMessage> getByReceiver(IUserData receiver)
+	public List<IMessage> getByReceiver(Long receiver)
 	{
 		HibernateUtil util = null;
 		List<IMessage> messages = null;
@@ -268,7 +267,7 @@ public class MessageDAO
 			factory = util.getFactory();
 			session = factory.openSession();
 			query = session.createQuery(hqlQuery);
-			query.setString("id", receiver.getId().toString());
+			query.setString("id", receiver.toString());
 			transaction = session.beginTransaction();
 			messages = (List<IMessage>)query.list();
 			if (messages.size() == 0)
