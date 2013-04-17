@@ -138,24 +138,30 @@ function ToolsPanelPresenter() {
      *
      * @author Riccardo Tresoldi
      */
-    this.logout = function() {
-    	communicationcenter.disconnect();
-        var request = new XMLHttpRequest();
-        request.open("POST", servlets[0], false);
-        request.send();
-        var result = JSON.parse(request.responseText);
-        if (!result) {
-            alert("Ops... qualcosa &egrave; andato storto nel server!");
-        }
-
-    };
+	    this.logout = function() {
+		// chiede conferma all'utente
+		var answer = confirm("Sei sicuro di voler uscire?");
+		if (answer) {
+			var request = new XMLHttpRequest();
+			request.open("POST", servlets[0], false);
+			request.send();
+			var result = JSON.parse(request.responseText);
+			if (!result) {
+				alert("Ops... qualcosa &egrave; andato storto nel server!");
+			}
+			communicationcenter.disconnect();
+			mediator = new PresenterMediator();
+			communicationcenter = new communicationCenter();
+			mediator.buildLoginUI();
+		}
+	};
     
     /**
-     * Aggiunge il pulsante che permette di ritornare al pannello delle
-     * comunicazioni, se ve ne sono di attive
-     * 
-     * @author Diego Beraldin
-     */
+	 * Aggiunge il pulsante che permette di ritornare al pannello delle
+	 * comunicazioni, se ve ne sono di attive
+	 * 
+	 * @author Diego Beraldin
+	 */
     this.addCommunicationFunction = function() {
     	// crea il nuovo elemento della lista
         var liCommunication = document.createElement("li");
