@@ -86,15 +86,22 @@ function MessagePanelPresenter(url) {
 			 */
 			
 		var video=documento.getElementById("messageVideo");
-        video.src = message.id; //CAPIRE SE CI VUOLE IL PATH
+        video.src = ""; //CAPIRE SE CI VUOLE IL PATH
 				
 		};
+		
+		////
+/*funzione che gestisce il l'eliminazione*/
+		var self=this;
+		
+		status.onclick = function() {
+		self.deleteMessage(message);};
 		
 		//Quando ho finito appendo il nuovo elemento appena creato.
 		messageList.appendChild(item);
 		
 		
-	}
+	}//guarda su app
 
 	/**
 	 * Rende lo stato di un messaggio "letto" oppure "non letto"
@@ -211,7 +218,7 @@ function MessagePanelPresenter(url) {
 		
 		var request = new XMLHttpRequest();
 			request.open("POST", servlets[2], false);
-			request.send();
+			request.send(id.idMessage);
 			result=JSON.parse(request.responseText);
 			
 			if (result == true) {
@@ -225,6 +232,8 @@ function MessagePanelPresenter(url) {
 
 }
 
+
+/*funzione che cambia lo stato???*/
 
 
 
