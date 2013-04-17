@@ -74,6 +74,8 @@ public class AddMessageServlet extends HttpServlet
 		InputStream inputStream = null;
 		Part filePart = null;
 		FileOutputStream out = null;
+		String path = null;
+		String separator = null;
 
 		try {
 			sender = Long.parseLong(getValue(request.getPart("sender")));
@@ -83,6 +85,9 @@ public class AddMessageServlet extends HttpServlet
 			{
 				inputStream = filePart.getInputStream();
 			}
+			path = System.getenv("MyTalkConfiguration");
+			separator = System.getProperty("file.separator");
+			path += separator + "MyTalk" + separator + "Secretariat";
 			out = new FileOutputStream("registration.wav");
 			out.write(IOUtils.readFully(inputStream, -1, false));
 			out.close();

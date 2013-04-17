@@ -35,7 +35,6 @@ public final class LoginServlet extends HttpServlet
 	{
 		super();
 		String path = System.getenv("MyTalkConfiguration");
-//		path += "\\MyTalk\\Conf\\LoginConfiguration.conf";
 		String separator = System.getProperty("file.separator");
 		path += separator + "MyTalk" + separator + "Conf" + separator + "LoginConfiguration.conf";
 		System.setProperty("java.security.auth.login.config", path);

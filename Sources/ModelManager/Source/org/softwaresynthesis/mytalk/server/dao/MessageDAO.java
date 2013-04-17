@@ -1,7 +1,5 @@
 package org.softwaresynthesis.mytalk.server.dao;
 
-import java.util.List;
-
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -142,5 +140,51 @@ public class MessageDAO
 			}
 		}
 		return flag;
+	}
+	
+	/**
+	 * Interroga il database per ottenere il valore
+	 * massimo dell'ID dei messaggi
+	 * 
+	 * @return	istanza di {@link Long} che rappresenta
+	 * 			la massima chiave presente nel database
+	 */
+	public Long getMaxKey()
+	{
+		HibernateUtil util = null;
+		Long result = null;
+		Query query = null;
+		Session session = null;
+		SessionFactory factory = null;
+		String hqlQuery = null;
+		Transaction transaction = null;
+		try
+		{
+			util = HibernateUtil.getInstance();
+			factory = util.getFactory();
+			hqlQuery = "max(id) from Messages";
+			session = factory.openSession();
+			query = session.createQuery(hqlQuery);
+			transaction = session.beginTransaction();
+			result = (Long)query.uniqueResult();
+			transaction.commit();
+			
+		}
+		catch (RuntimeException ex)
+		{
+			if (transaction != null)
+			{
+				transaction.rollback();
+			}
+		}
+		finally
+		{
+			if (session != null)
+			{
+				session.flush();
+				session.close();
+			}
+		}
+		return result;
 	}
 }
