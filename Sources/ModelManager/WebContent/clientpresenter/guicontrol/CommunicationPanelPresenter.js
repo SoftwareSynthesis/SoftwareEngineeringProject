@@ -66,6 +66,7 @@ function CommunicationPanelPresenter() {
         var self = this;
         closeChatButton.onclick = function() {
             self.removeChat(user);
+            mediator.addOrRemoveCommunicationToTools();
         };
         item.onclick = function() {
             self.displayChat(user);
@@ -288,7 +289,10 @@ function CommunicationPanelPresenter() {
             closeButton.type = "button";
             closeButton.appendChild(document.createTextNode("Termina"));
             closeButton.id = "closeButton";
-            closeButton.onclick = communicationcenter.endCall;
+            closeButton.onclick = function() {
+            	communicationcenter.endCall();
+            	mediator.addOrRemoveCommunicationToTools();
+            };
 
             // appendo i child al divCall
             divCall.appendChild(myVideo);

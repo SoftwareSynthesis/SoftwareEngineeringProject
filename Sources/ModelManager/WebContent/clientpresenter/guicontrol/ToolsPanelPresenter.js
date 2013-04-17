@@ -161,7 +161,9 @@ function ToolsPanelPresenter() {
         var liCommunication = document.createElement("li");
         liCommunication.id = "CallFunction";
         liCommunication.appendChild(document.createTextNode("Chiamata"));
-        liCommunication.onclick = mediator.displayCommunicaionPanel;
+        liCommunication.onclick = function() {
+        	mediator.displayCommunicaionPanel();
+        }
         
         // lo aggiunge in coda alla lista
         var ulFunctions = document.getElementById("ToolsList");
