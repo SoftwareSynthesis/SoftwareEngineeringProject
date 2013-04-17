@@ -1,9 +1,13 @@
 package org.softwaresynthesis.mytalk.server.dao;
 
+import java.util.List;
+
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.softwaresynthesis.mytalk.server.abook.IGroup;
 import org.softwaresynthesis.mytalk.server.message.IMessage;
 
 /**
@@ -186,5 +190,59 @@ public class MessageDAO
 			}
 		}
 		return result;
+	}
+	
+	/**
+	 * Interroga il database per ottenere un istanza 
+	 * {@link IMessage} che ha quell'identificatore
+	 * 
+	 * @param 	identifier	idenficatore dello {@link IMessage}
+	 * @return	istanza di {@link IMessage} che e'
+	 * 			registrato con l'identificatore fornito
+	 * 			in input, altrimenti null
+	 */
+	@SuppressWarnings("unchecked")
+	public IMessage getByID(Long identifier)
+	{
+		HibernateUtil util = null;
+		IMessage message = null;
+		List<IMessage> messages = null;
+		Query query = null;
+		Session session = null;
+		SessionFactory factory = null;
+		String hqlQuery = "from Messages as m where m.id = :id";
+		Transaction transaction = null;
+		try
+		{
+			util = HibernateUtil.getInstance();
+			factory = util.getFactory();
+			session = factory.openSession();
+			query = session.createQuery(hqlQuery);
+			query.setString("id", identifier.toString());
+			transaction = session.beginTransaction();
+			messages = (List<IMessage>)query.list();
+			if (messages.size() == 1 && messages.get(0) != null)
+			{
+				message = messages.get(0);
+			}
+			transaction.commit();
+		}
+		catch (RuntimeException ex)
+		{
+			if (transaction != null)
+			{
+				transaction.rollback();
+			}
+			messages = null;
+		}
+		finally
+		{
+			if (session != null)
+			{
+				session.flush();
+				session.close();
+			}
+		}
+		return message;
 	}
 }
