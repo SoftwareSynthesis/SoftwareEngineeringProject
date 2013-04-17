@@ -367,4 +367,13 @@ function CommunicationCenter() {
             pc = null;
         }, 1000);
     };
+    
+    /**
+	 * Verifica la presenza di una eventuale connessione WebSocket aperta con il server
+	 * 
+	 * @author Riccardo Tresoldi
+	 */
+	this.isPCDefined = function() {
+		return (pc != null && pc != undefined);
+	};
 }
