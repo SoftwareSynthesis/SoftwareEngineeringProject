@@ -59,7 +59,7 @@ function MessagePanelPresenter(url) {
 	 * 
 	 * @param {Object}
 	 *            message messaggio della segreteria che corrisponde a
-	 *            'JSMessage' ed è caratterizzato da sender, receiver, id,
+	 *            'JSMessage' ed è caratterizzato da sender, id,
 	 *            status, video, src e date
 	 * @author Riccardo Tresoldi, Elena Zecchinato
 	 */
@@ -74,8 +74,8 @@ function MessagePanelPresenter(url) {
 		
 		
 		item.appendChild(status);
-		item.appendChild(message.sender);
-		item.appendChild(message.data);
+		item.appendChild(document.createTextNode(message.sender));
+		item.appendChild(document.createTextNode(message.date));
 		item.appendChild(elimina);
 		
 		var x=this;
