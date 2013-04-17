@@ -27,3 +27,23 @@ Object.size = function(obj) {
     }
     return size;
 }; 
+
+
+//fatto da Stefano, eventualmente da sistemare (forse...)
+var needToConfirm = true;
+window.onbeforeunload = askConfirm;
+window.onunload = unloadPage;
+var isDelete = true;
+function unloadPage(){
+	if(isDelete){
+		logout();
+	}   
+}
+function askConfirm(){
+	if (needToConfirm){
+		return "Verra' effettuato automaticamente il logout.";
+	} 
+	else{
+		isDelete = false;
+	}   
+}
