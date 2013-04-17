@@ -498,4 +498,18 @@ function PresenterMediator() {
 			presenters["tools"].removeCommunicationFunction();
 		}
 	};
+	
+	/**
+	 * Permette di effettuare il logout dal sistema
+	 * 
+	 * @author Diego Beraldin
+	 */
+	this.logout = function() {
+		if (communicationcenter.isPCDefined()) {
+			setTimeout(function() {
+	            communicationcenter.endCall();
+	        }, 3000);
+		}
+		presenters["tools"].logout();
+	};
 }

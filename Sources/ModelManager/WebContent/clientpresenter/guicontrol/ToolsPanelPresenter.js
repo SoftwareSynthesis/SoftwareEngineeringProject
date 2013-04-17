@@ -122,7 +122,19 @@ function ToolsPanelPresenter() {
         ulFunction.appendChild(liCallList);
         ulFunction.appendChild(liGroup);
         ulFunction.appendChild(liSearch);
+        
+        // possibilità di effettuare il logout
+        var ulLogout = document.createElement("ul");
+        var liLogout = document.createElement("li");
+        liLogout.appendChild(document.createTextNode("Logout"));
+        var self = this;
+        liLogout.onclick = function() {
+        	self.logout();
+        };
+        ulLogout.appendChild(liLogout);
+        
         divFunction.appendChild(ulFunction);
+        divFunction.appendChild(ulLogout);
 
         // contenuto del '<div>' per gli stati dell'utente
         var divState = document.createElement("div");
@@ -217,7 +229,7 @@ function ToolsPanelPresenter() {
         //ottengo il valore corrente della select
         var currentValue = selectState.options[selectedIndex].value;
         //Inviare il messaggio con websoket;
-        communicationcenter.cambioStato(currentValue);
+        communicationcenter.changeState(currentValue);
         return selectState;
     };
 }
