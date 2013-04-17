@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package = "org.softwaresynthesis.mytalk.server.message">
+	<class name = "Message" table = "Messages">
+		<id name = "id" type = "long" column = "ID_message" unsaved-value = "null" />
+		<property name = "newer" column = "Newer" type = "Long" not-null = "false"/>
+		<property name = "video" column = "Video" type = "Long" not-null = "false"/>
+		<property name = "date" column = "Start_date" type = "string" not-null = "false"/>
+		<many-to-one name = "sender" class = "UserData" column = "Sender" not-null = "false" fetch = "join"/>
+		<many-to-one name = "receiver" class = "UserData" column = "Receiver" not-null = "false" fetch = "join"/>
+	</class> 
+</hibernate-mapping>

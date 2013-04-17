@@ -23,7 +23,7 @@ CREATE TABLE UserData
 	Answer						VARCHAR(100)				NOT NULL,
 	Name						VARCHAR(100),
 	Surname						VARCHAR(100),
-	Picture						VARCHAR(100)				NOT NULL,			DEFAULT 'img/contactImg/Default.png',
+	Picture						VARCHAR(100)				NOT NULL			DEFAULT 'img/contactImg/Default.png',
 	
 	PRIMARY KEY(ID_user),
 	UNIQUE(E_Mail)
@@ -50,12 +50,12 @@ CREATE TABLE Groups
 
 CREATE TABLE Messages
 (
-	ID_message					BIGINT UNSIGNED				NOT NULL			AUTO_INCREMENT,
+	ID_message					BIGINT UNSIGNED				NOT NULL,
 	Sender						BIGINT UNSIGNED				NOT NULL,
 	Receiver					BIGINT UNSIGNED				NOT NULL,
 	Newer						TINYINT						NOT NULL			DEFAULT 1,
 	Video						TINYINT						NOT NULL			DEFAULT 0,
-	Start_date					TIMESTAMP					NOT NULL			DEFAULT CURRENT_TIMESTAMP,
+	Start_date					VARCHAR(10)					NOT NULL,
 	
 	PRIMARY KEY(ID_message),
 	FOREIGN KEY(Sender) REFERENCES UserData(ID_user),

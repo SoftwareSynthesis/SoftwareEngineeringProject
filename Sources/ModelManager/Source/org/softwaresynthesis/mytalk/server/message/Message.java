@@ -1,5 +1,7 @@
 package org.softwaresynthesis.mytalk.server.message;
 
+import org.softwaresynthesis.mytalk.server.abook.IUserData;
+
 /**
  * Rappresentazione di un messaggio in segreteria del sistema mytalk
  *
@@ -9,11 +11,11 @@ package org.softwaresynthesis.mytalk.server.message;
 public class Message implements IMessage 
 {
 	private Long id;
-	private Long sender;
-	private Long receiver;
+	private IUserData sender;
+	private IUserData receiver;
 	private Long newer;
 	private Long video;
-	private Date date;
+	private String date;
 	
 	/**
 	 * Crea un messaggio privo di dati
@@ -32,6 +34,7 @@ public class Message implements IMessage
 	public String toJson() 
 	{
 		//TODO da implementare?
+		return "";
 	}
 
 	/**
@@ -63,7 +66,7 @@ public class Message implements IMessage
 	 * @return	{@link Long} rappresentante
 	 * 			l'id dell'utente mittente
 	 */
-	public Long getSender()
+	public IUserData getSender()
 	{
 		return this.sender;
 	}
@@ -76,7 +79,7 @@ public class Message implements IMessage
 	 * 					id dell'utente
 	 * 					mittente
 	 */
-	public void setSender(Long id)
+	public void setSender(IUserData id)
 	{
 		this.sender = id;
 	}
@@ -88,7 +91,7 @@ public class Message implements IMessage
 	 * @return	{@link Long} rappresentante
 	 * 			l'id dell'utente destinatario
 	 */
-	public Long getReceiver()
+	public IUserData getReceiver()
 	{
 		return this.receiver;
 	}
@@ -101,7 +104,7 @@ public class Message implements IMessage
 	 * 					id dell'utente
 	 * 					destinatario
 	 */
-	public void setReceiver(Long id)
+	public void setReceiver(IUserData id)
 	{
 		this.receiver = id;
 	}
@@ -158,7 +161,7 @@ public class Message implements IMessage
 	 * 
 	 * @return	{@link Date} con la data del messaggio di segreteria
 	 */
-	public Date getDate()
+	public String getDate()
 	{
 		return this.date;
 	}
@@ -168,7 +171,7 @@ public class Message implements IMessage
 	 * 
 	 * @param 	date {@link Date} con la data del messaggio di segreteria
 	 */
-	public void setDate(Date date)
+	public void setDate(String date)
 	{
 		this.date= date;
 	}

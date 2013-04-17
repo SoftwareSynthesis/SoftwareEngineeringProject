@@ -1,6 +1,7 @@
 package org.softwaresynthesis.mytalk.server.message;
 
 import org.softwaresynthesis.mytalk.server.IMyTalkObject;
+import org.softwaresynthesis.mytalk.server.abook.IUserData;
 
 /**
  * Rappresentazione di un messaggio di segreteria
@@ -34,7 +35,7 @@ public interface IMessage extends IMyTalkObject
 	 * @return	{@link Long} rappresentante
 	 * 			l'id dell'utente mittente
 	 */
-	public Long getSender();
+	public IUserData getSender();
 	
 	/**
 	 * Imposta l'id dell'utente mittente
@@ -44,7 +45,7 @@ public interface IMessage extends IMyTalkObject
 	 * 					id dell'utente
 	 * 					mittente
 	 */
-	public void setSender(Long id);
+	public void setSender(IUserData id);
 	
 		/**
 	 * Restituisce l'Id dell'utente destinatario
@@ -53,7 +54,7 @@ public interface IMessage extends IMyTalkObject
 	 * @return	{@link Long} rappresentante
 	 * 			l'id dell'utente destinatario
 	 */
-	public Long getReceiver();
+	public IUserData getReceiver();
 	
 	/**
 	 * Imposta l'id dell'utente destinatario
@@ -63,7 +64,7 @@ public interface IMessage extends IMyTalkObject
 	 * 					id dell'utente
 	 * 					destinatario
 	 */
-	public void setReceiver(Long id);
+	public void setReceiver(IUserData id);
 	
 	/**
 	 * Restituisce 1 se il messaggio non e'
@@ -105,12 +106,12 @@ public interface IMessage extends IMyTalkObject
 	 * 
 	 * @return	{@link Date} con la data del messaggio di segreteria
 	 */
-	public Date getDate();
+	public String getDate();
 	
 	/**
 	 * Imposta la data del messaggio
 	 * 
 	 * @param 	date {@link Date} con la data del messaggio di segreteria
 	 */
-	public void setDate(Date date);
+	public void setDate(String date);
 }

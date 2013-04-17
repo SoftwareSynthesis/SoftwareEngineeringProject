@@ -6,9 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.nio.channels.Channel;
-import java.nio.channels.Channels;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -16,7 +13,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-
 import sun.misc.IOUtils;
 
 
@@ -80,8 +76,8 @@ public class AddMessageServlet extends HttpServlet
 		FileOutputStream out = null;
 
 		try {
-			sender = getValue(request.getPart("sender"));
-			receiver = getValue(request.getPart("receiver"));
+			sender = Long.parseLong(getValue(request.getPart("sender")));
+			receiver = Long.parseLong(getValue(request.getPart("receiver")));
 			filePart = request.getPart("msg");
 			if (filePart != null)
 			{
