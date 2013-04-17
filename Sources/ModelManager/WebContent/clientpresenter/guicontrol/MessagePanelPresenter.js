@@ -46,7 +46,9 @@ function MessagePanelPresenter(url) {
 		
 		
 	}
-
+	
+	
+//servlet vuile parametro
 	
 
 	/**
@@ -62,7 +64,7 @@ function MessagePanelPresenter(url) {
 	 * @author Riccardo Tresoldi, Elena Zecchinato
 	 */
 	
-	// TODO controllo di quello che ho fatto=)
+	
 	function addListItem(message) {
 		var messageList = document.getElementById("messageList");
 		var item = document.createElement("li");
@@ -76,7 +78,8 @@ function MessagePanelPresenter(url) {
 		item.appendChild(message.data);
 		item.appendChild(elimina);
 		
-	
+		var x=this;
+		
 		item.onclick = function() {
 			
 			/*
@@ -84,9 +87,14 @@ function MessagePanelPresenter(url) {
 			 * click dei messaggi (impostando l'attributo src del video)
 			 * tipo con il tag video 
 			 */
-			
+		//imposto il messaggio come letto
+		
+		var stato=true;
+		x.setAsRead(message,stato);
+		
+		
 		var video=documento.getElementById("messageVideo");
-        video.src = ""; //CAPIRE SE CI VUOLE IL PATH
+        video.src = ""; // TODO CI VUOLE IL PATH
 				
 		};
 		
@@ -229,11 +237,25 @@ function MessagePanelPresenter(url) {
 		
 	};
 	
+	
+	
+	
+	this.setAsRead = function(idMesssage,valueToSet){
+		var request = new XMLHttpRequest();
+		request.open("POST", servlets[1], false);
+		request.send(id.idMessage, valueToSet);
+		result=JSON.parse(request.responseText);
+		
+		
+		if (result == true) {
+            this.setup();
+            return true;}
+	};	
+
 
 }
 
 
-/*funzione che cambia lo stato???*/
 
 
 
