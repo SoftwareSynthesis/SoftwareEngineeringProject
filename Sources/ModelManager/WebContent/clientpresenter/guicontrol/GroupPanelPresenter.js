@@ -43,6 +43,41 @@ function GroupPanelPresenter(url) {
 	}
 
 	/**
+	 * Crea la lista dei contatti che sono presenti nel gruppo
+	 * 
+	 * @param group
+	 * @returns {HTMLUListElement} la lista dei contatti appartenenti a un
+	 *          gruppo con il pulsante per la rimozione dallo stesso
+	 * @author Diego Beraldin
+	 */
+	function createContactList(group) {
+		var list = document.createElement("ul");
+		list.style.display = "none";
+		for ( var id in group.contacts) {
+			var contactName = createNameLabel(contacts[id]);
+			var nameNode = document.createTextNode(contactName);
+
+			// pulsante per la cancellazione del contatto dal gruppo
+			var deleteContactImg = document.createElement("img");
+			// TODO da impostare questo campo srcF
+			deleteContactImg.src = "";
+			deleteContactImg.className = "deleteContact";
+			deleteContactImg.onclick = function() {
+				mediator.onContactRemovedFromGroup(contacts[id], group);
+			};
+
+			// crea l'elemento della lista
+			var contactItem = document.createElement("li");
+			contactItem.appendChild(nameNode);
+			contactItem.appendChild(deleteContactImg);
+
+			// appende il nodo in fondo alla lista
+			list.appendChild(contactItem);
+		}
+		return list;
+	}
+
+	/**
 	 * Aggiunge un gruppo ad una lista
 	 * 
 	 * @param {HTMLUListElement}
@@ -61,45 +96,25 @@ function GroupPanelPresenter(url) {
 		var expandGroupImg = document.createElement("img");
 		var addToGroupImg = document.createElement("img");
 		var deleteGroupImg = document.createElement("img");
-		// TODO da stabilire questi due campi src
-		deleteGroupImg.src = "";
-		expandGroupImg.src = "";
-		addToGroupImg.src = "";
 		expandGroupImg.className = "showGroupContacts";
 		addToGroupImg.className = "addContactInGroup";
 		deleteGroupImg.className = "deleteGroup";
+		// TODO da stabilire questi campi src
+		deleteGroupImg.src = "";
+		expandGroupImg.src = "";
+		addToGroupImg.src = "";
 
-		// crea la lista dei contatti che sono presenti nel gruppo
-		var list = document.createElement("ul");
-		list.style.display = "none";
-		for ( var id in group.contacts) {
-			var contactName = createNameLabel(contacts[id]);
-			var nameNode = document.createTextNode(contactName);
-
-			// pulsante per la cancellazione del contatto dal gruppo
-			var deleteContactImg = document.createElement("img");
-			deleteContactImg.src = "";
-			deleteContactImg.className = "deleteContact";
-			deleteContactImg.onclick = function() {
-				mediator.onContactRemovedFromGroup(contacts[id], group);
-			};
-
-			// crea l'elemento della lista
-			var contactItem = document.createElement("li");
-			contactItem.appendChild(nameNode);
-			contactItem.appendChild(deleteContactImg);
-
-			// appende il nodo in fondo alla lista
-			list.appendChild(contactItem);
-		}
+		var list = createContactList(group);
 		item.appendChild(list);
 
+		// azioni associate ai pulsanti
 		expandGroupImg.onclick = function() {
 			if (list.style.display == "none") {
 				// se la lista degli utenti non era visibile la mostra
 				list.style.display = "block";
 			} else {
-				// altrimenti lo rende invisibile
+				// altrimenti la rende invisibile e cancella il form per
+				// l'aggiunta di nuovi contatti a un gruppo
 				var form = item.lastChild();
 				if (form.nodeName == "FORM") {
 					item.removeChild(form);
@@ -115,7 +130,6 @@ function GroupPanelPresenter(url) {
 			item.appendChild(form);
 		};
 
-		// attribuisce all'immagine il comando di eliminare il gruppo
 		deleteGroupImg.onclick = function() {
 			// chiedo conferma per l'eliminazione
 			var userConfirm = confirm("Sei sicuro di voler eliminare questo gruppo?\n"
@@ -158,6 +172,7 @@ function GroupPanelPresenter(url) {
 			}
 		}
 
+		// insieme che dovrà contenere i campi del form
 		var set = document.createElement("fieldset");
 
 		// appende al form tutte le checkbox
