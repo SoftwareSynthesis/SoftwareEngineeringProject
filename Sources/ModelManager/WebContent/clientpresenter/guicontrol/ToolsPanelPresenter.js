@@ -12,6 +12,7 @@ function ToolsPanelPresenter() {
      ***********************************************************/
     //elemento controllato da questo presenter
     var element = document.getElementById("ToolsPanel");
+    element.innerHTML = "";
     // URL delle servlet
     var servlets = new Array();
     getServletURLs();

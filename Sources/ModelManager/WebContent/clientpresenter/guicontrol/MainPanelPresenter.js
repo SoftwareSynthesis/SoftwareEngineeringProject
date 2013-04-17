@@ -12,6 +12,7 @@ function MainPanelPresenter() {
 	 **************************************************************************/
 	// elemento controllato da questo presenter
 	var element = document.getElementById("MainPanel");
+	element.innerHTML = "";
 
 	/***************************************************************************
 	 * METODI PUBBICI

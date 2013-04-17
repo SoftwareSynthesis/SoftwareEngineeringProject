@@ -13,6 +13,7 @@ function RegisterPanelPresenter(url) {
      **************************************************************************/
     // elemento controllato da questo presenter
     var element = document.getElementById("RegisterPanel");
+    element.innerHTML = "";
     // URL della servlet con cui questo presenter
     var servlets = new Array();
     // costruisce l'array delle servlet

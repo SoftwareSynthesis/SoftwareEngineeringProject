@@ -18,6 +18,7 @@ function AddressBookPanelPresenter() {
      **************************************************************************/
     // elemento controllato da questo presenter
     var element = document.getElementById("AddressBookPanel");
+    element.innerHTML = "";
 
     /*
     * OPERATION ON SERVER: - 0 = ottieni i contatti della rubrica - 1 =

@@ -18,6 +18,7 @@ function LoginPanelPresenter() {
 
     // elemento controllato da questo presenter
     var element = document.getElementById("LoginPanel");
+    element.innerHTML = "";
     // array degli URL delle servlet che sono utilizzate qui dentro
     var servlets = new Array();
     // inizializza gli URL delle servlet
