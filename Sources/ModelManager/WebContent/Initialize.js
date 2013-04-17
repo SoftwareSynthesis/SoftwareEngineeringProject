@@ -7,10 +7,6 @@ window.onload = function() {
     mediator.buildLoginUI();
 };
 
-window.onbeforeunload = function() {
-    mediator.logout();
-};
-
 Object.size = function(obj) {
     var size = 0, key;
     for (key in obj) {
@@ -18,7 +14,23 @@ Object.size = function(obj) {
             size++;
     }
     return size;
-}; 
+};
+
+// alternativa alla versione successiva che non capisco tanto bene (diego)
+
+var isAboutToExit = false;
+
+window.onbeforeunload = function() {
+	var answer = confirm("Sicuro di voler uscire?");
+	if (answer) {
+		isAboutToExit = true;
+	}
+};
+window.onunload = function() {
+	if (isAboutToExit) {
+		mediator.logout();
+	}
+};
 
 
 //fatto da Stefano, eventualmente da sistemare (forse...)

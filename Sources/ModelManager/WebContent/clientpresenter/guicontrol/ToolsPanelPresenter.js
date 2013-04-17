@@ -129,7 +129,16 @@ function ToolsPanelPresenter() {
         liLogout.appendChild(document.createTextNode("Logout"));
         var self = this;
         liLogout.onclick = function() {
-        	self.logout();
+        	var answer = confirm("Sei sicuro di voler uscire?");
+    		if (answer) {
+    			// effettua la disconnessione dal server
+    			self.logout();
+    			// ricrea le variabili globali e azzera la UI
+    			mediator = new PresenterMediator();
+    			communicationcenter = new communicationCenter();
+    			// ricostruisce il form di login
+    			mediator.buildLoginUI();
+    		}
         };
         ulLogout.appendChild(liLogout);
         
@@ -157,27 +166,21 @@ function ToolsPanelPresenter() {
     this.hide = function() {
         this.element.style.display = "none";
     };
-
+	
     /**
-     * Effettua il logout comunicandolo alla servlet
-     *
-     * @author Riccardo Tresoldi
-     */
+	 * Effettua il logout comunicandolo alla servlet e chiudendo il canale di
+	 * comunicazione che era stato aperto con il server
+	 * 
+	 * @author Riccardo Tresoldi
+	 */
     this.logout = function() {
-		// chiede conferma all'utente
-		var answer = confirm("Sei sicuro di voler uscire?");
-		if (answer) {
-			var request = new XMLHttpRequest();
-			request.open("POST", servlets[0], false);
-			request.send();
-			var result = JSON.parse(request.responseText);
-			if (!result) {
-				alert("Ops... qualcosa &egrave; andato storto nel server!");
-			}
-			communicationcenter.disconnect();
-			mediator = new PresenterMediator();
-			communicationcenter = new communicationCenter();
-			mediator.buildLoginUI();
+		communicationcenter.disconnect();
+		var request = new XMLHttpRequest();
+		request.open("POST", servlets[0], false);
+		request.send();
+		var result = JSON.parse(request.responseText);
+		if (!result) {
+			alert("Ops... qualcosa &egrave; andato storto nel server!");
 		}
 	};
     
