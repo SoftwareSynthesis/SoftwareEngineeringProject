@@ -67,6 +67,7 @@
 Versione & Descrizione intervento & Membro & Ruolo & Data\\
 \midrule
 
+2.1 & Aggiunte considerazione sugli svantaggi degli strumenti utilizzati & Andrea Rizzi & Verificatore & 2013-04-17\\
 2.0 & Approvazione del documento & Diego Beraldin & Responsabile & 2013-02-20\\
 1.10 & Correzione errori segnalate dal verificatore & Andrea Rizzi & Progettista & 2013-02-18\\
 1.9 & Verifica del documento & Andrea Meneghinello & Verificatore & 2013-02-19\\
@@ -172,6 +173,9 @@ L'utilizzo del linguaggio \underline{Java} è richiesto dal proponente esclusiva
 \item[-] garantisce la portabilità del codice (a livello di bytecode), l'indipendenza dalla piattaforma fisica di esecuzione grazie alla JVM e l'integrazione nell'ambiente di esecuzione del proponente (\underline{TomCat}).
 \end{itemize}
 
+\subsubsection*{Svantaggi}
+Nessun svantaggio evidenziato.
+
  
 \subsection{Web server Apache}
 
@@ -183,6 +187,9 @@ La struttura dell'applicativo si basa su pagine web scritte in \underline{HTML5}
   \item[-] diversi membri del team hanno già lavorato su tale struttura, il costo in termini di tempo per istruire il personale è dunque ridotto al minimo;
   \item[-] Apache offre funzioni di controllo per la sicurezza come quelli che compie il \inglese{proxy};
 \end{itemize}
+
+\subsubsection*{Svantaggi}
+Nessun svantaggio evidenziato.
   
 \subsection{RDBMS MySQL}
 
@@ -198,6 +205,9 @@ Ciò richiede che l'applicativo sia dotato di un sistema di memorizzazione perma
   \item[-] tale DBMS supporta le transazioni, essenziali nel nostro progetto per la manipolazione e la lettura dei dati memorizzati.
 \end{itemize}
 
+\subsubsection*{Svantaggi}
+Nessun svantaggio evidenziato.
+
 \subsection{Servlet container TomCat}
 
 L'applicativo dovrà disporre di un lato server ed un lato client. Se da una parte il lato client è rappresentato dall'ambiente di esecuzione del browser che ha il compito di visualizzare una pagina web fornita tramite un server Apache ed eseguire gli \inglese{script} ad essa associati, dall'altra l'applicativo server sarà strutturato tramite delle \inglese{servlet} Java che, per conformità con i software usati, saranno caricate nel \inglese{servlet container} di TomCat che si appoggia sul già citato Apache.
@@ -207,6 +217,11 @@ L'applicativo dovrà disporre di un lato server ed un lato client. Se da una par
 \begin{itemize}[noitemsep,nolistsep]
   \item[-] Alcuni membri del gruppo hanno già lavorato in passato con Tomcat; la loro esperienza potrà tornare utile velocizzando la fase d'apprendimento, da parte dei membri che ancora non lo conoscono;
   \item[-] contiene le librerie WebSocket.
+\end{itemize}
+
+\subsubsection*{Svantaggi}
+\begin{itemize}[noitemsep,nolistsep]
+  \item[-] Dovranno essere predisposte delle ore di formazione per quei membri del gruppo che non hanno conoscenze sull'utilizzo di tale strumento.
 \end{itemize}
 
 \subsection{Hibernate}\label{sec:hibernate}
@@ -221,6 +236,12 @@ Hibernate è un \inglese{framework} Java utilizzato per facilitare l'utilizzo di
 \item[-] l'applicazione rimane portabile in tutti i sistemi di gestione supportati, con un basso \inglese{overhead}.
 \end{itemize}
 
+\subsubsection*{Svantaggi}
+\begin{itemize}[noitemsep,nolistsep]
+  \item[-] Dovranno essere predisposte delle ore di formazione per quei membri del gruppo che non hanno conoscenze sull'utilizzo di tale strumento.
+  \item[-] Rischio di problematiche di progettazione legate ad un erronea comprensione dell'uso di Hibernate.
+\end{itemize}
+
 \subsection{JAAS}\label{sec:hibernate}
 
 JAAS (\inglese{Java Authentication and Authorization Service}) è un \inglese{framework} Java utilizzato per la gestione della sicurezza.
@@ -232,6 +253,11 @@ JAAS (\inglese{Java Authentication and Authorization Service}) è un \inglese{fr
 	\item[-] facilità nel gestire autenticazione e autorizzazione.
 \end{itemize}
 
+\subsubsection*{Svantaggi}
+\begin{itemize}[noitemsep,nolistsep]
+  \item[-] Dovranno essere predisposte delle ore di formazione per quei membri del gruppo che non hanno conoscenze sull'utilizzo di tale strumento.
+\end{itemize}
+
 \subsection{WebRTC}\label{sec:hibernate}
 
 WebRTC è il \inglese{framework} JavaScript richiesto da capitolato per gestire le comunicazioni VOIP.
@@ -240,6 +266,13 @@ WebRTC è il \inglese{framework} JavaScript richiesto da capitolato per gestire 
 \begin{itemize}[noitemsep,nolistsep]
 	\item[-] Facilita l'iter di connessione e gestione della comunicazione, evitando l'utilizzo diretto delle WebSocket;
 	\item[-] riduce il \inglese{total cost of ownership} nella creazione di applicativi VOIP (poiché non richiede l'installazione di componenti aggiuntivi e si basa esclusivamente sul browser da cui è lanciato l'applicativo).
+\end{itemize}
+
+\subsubsection*{Svantaggi}
+\begin{itemize}[noitemsep,nolistsep]
+  \item[-] Dovranno essere predisposte delle ore di formazione per quei membri del gruppo che non hanno conoscenze sull'utilizzo di tale strumento.
+  \item[-] Rischio di problematiche di progettazione legate ad un erronea comprensione dell'uso di WebRTC.
+  \item[-] Spesa di prototipazione (usa e getta) per comprendere a pieno le potenzialità del \inglese{framework}.
 \end{itemize}
 
 \clearpage
