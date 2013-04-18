@@ -13,8 +13,6 @@ function ContactPanelPresenter() {
     /***************************************************************************
      * VARIABILI PRIVATE
      **************************************************************************/
-    // elemento controllato da questo presenter
-    this.element = document.getElementById("ContactPanel");
 
     /***************************************************************************
      * METODI PRIVATI
@@ -130,7 +128,7 @@ function ContactPanelPresenter() {
         chatButton.id = "chatButton";
         chatButton.appendChild(document.createTextNode("Avvia Chat Testuale"));
 
-        // pulsante per agiungere utente alla rubrica
+        // pulsante per aggiungere utente alla rubrica
         var addToAddressBookButton = document.createElement('button');
         addToAddressBookButton.type = "button";
         addToAddressBookButton.id = "addToAddressBookButton";
@@ -149,6 +147,12 @@ function ContactPanelPresenter() {
         unlockButton.id = "unlockButton";
         unlockButton.style.display = "none";
         unlockButton.appendChild(document.createTextNode("Sblocca"));
+        
+        // pulsante per rimuovere il contatto dalla rubrica
+        var removeFromAddressBookButton = document.createElement("button");
+        removeFromAddressBookButton.type = "button";
+        removeFromAddressBookButton.id = "removeFromAddressBookButton";
+        removeFromAddressBookButton.appendChild(document.createTextNode("Rimuovi dalla Rubrica"));
 
         // appendo i sottonodi alla lista dei dati dell'utente
         var ulData = document.createElement('ul');
@@ -156,20 +160,22 @@ function ContactPanelPresenter() {
         ulData.appendChild(surname);
         ulData.appendChild(email);
 
+        // costruisco la parte del pannello con i pulsanti
         var buttonDiv = document.createElement("div");
         buttonDiv.id = "buttonDiv";
-
-        // apendo il sottoalbero al DOM
-        element.appendChild(displayBlockedDiv);
-        element.appendChild(avatar);
-        element.appendChild(ulData);
-        element.appendChild(groupsDiv);
         buttonDiv.appendChild(callButton);
         buttonDiv.appendChild(videoCallButton);
         buttonDiv.appendChild(chatButton);
         buttonDiv.appendChild(addToAddressBookButton);
+        buttonDiv.appendChild(removeFromAddressBookButton);
         buttonDiv.appendChild(blockButton);
         buttonDiv.appendChild(unlockButton);
+
+        // appendo il sottoalbero al DOM
+        element.appendChild(displayBlockedDiv);
+        element.appendChild(avatar);
+        element.appendChild(ulData);
+        element.appendChild(groupsDiv);
         element.appendChild(buttonDiv);
 
         return element;
@@ -201,6 +207,7 @@ function ContactPanelPresenter() {
         var chatButton = document.getElementById("chatButton");
         var videoCallButton = document.getElementById("videoCallButton");
         var callButton = document.getElementById("callButton");
+        var removeFromAddressBookButton = document.getElementById("removeFromAddressBookButton");
 
         var self = this;
 
@@ -212,6 +219,10 @@ function ContactPanelPresenter() {
         // associo gli eventi onClick ai bottoni
         addToAddressBookButton.onclick = function() {
             mediator.onContactAdded(contact.id);
+        };
+        
+        removeFromAddressBookButton.onclick = function() {
+        	mediator.onContactRemoved(contact.id);
         };
 
         blockButton.onclick = function() {
