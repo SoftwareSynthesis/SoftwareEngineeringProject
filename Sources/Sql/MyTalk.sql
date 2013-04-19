@@ -32,8 +32,8 @@ CREATE TABLE UserData
 CREATE TABLE Calls
 (
 	ID_call						BIGINT UNSIGNED				NOT NULL			AUTO_INCREMENT,
-	Start_date					VARCHAR						NOT NULL,
-	End_date					VARCHAR,
+	Start_date					VARCHAR(16)					NOT NULL,
+	End_date					VARCHAR(16),
 	
 	PRIMARY KEY(ID_call)
 );
