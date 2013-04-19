@@ -31,7 +31,7 @@ CREATE TABLE UserData
 
 CREATE TABLE Calls
 (
-	ID_call						BIGINT UNSIGNED				NOT NULL			AUTO_INCREMENT,
+	ID_call						VARCHAR(100)				NOT NULL,
 	Start_date					VARCHAR(16)					NOT NULL,
 	End_date					VARCHAR(16),
 	
@@ -65,7 +65,7 @@ CREATE TABLE Messages
 CREATE TABLE CallLists
 (
 	ID_callList					BIGINT UNSIGNED				NOT NULL			AUTO_INCREMENT,
-	ID_call						BIGINT UNSIGNED				NOT NULL,
+	ID_call						VARCHAR(100)				NOT NULL,
 	ID_user						BIGINT UNSIGNED				NOT NULL,
 	Caller						TINYINT						NOT NULL			DEFAULT 0,
 	

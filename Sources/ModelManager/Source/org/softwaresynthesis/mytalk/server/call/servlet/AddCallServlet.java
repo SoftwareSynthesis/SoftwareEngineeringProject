@@ -83,6 +83,7 @@ public class AddCallServlet extends HttpServlet
 		GregorianCalendar gc = null;
 		String data = null;
 		CallDAO callDAO = null;
+		String idCall = null;
 		Long caller = null;
 		
 		try
@@ -97,32 +98,42 @@ public class AddCallServlet extends HttpServlet
 			int day = gc.get(Calendar.DAY_OF_MONTH);
 			int month = gc.get(Calendar.MONTH);
 			int year = gc.get(Calendar.YEAR);
-			data = "" + year + "-" + month + "-" + day;
+			int hour = gc.get(Calendar.HOUR_OF_DAY);
+			int min = gc.get(Calendar.MINUTE);
+			data = "" + year + "-" + month + "-" + day + " " + hour + "-" + min;
+			idCall = "" + myId + "-" + data;
+			call.setId(idCall);
 			call.setStartDate(data);
 			callDAO.insert(call);
 			
-			callListDAO = new CallListDAO();
-			userDataDAO = new UserDataDAO();
-			myUser = userDataDAO.getByID(myId);
-			friend = userDataDAO.getByID(idFriend);
-			if (myUser != null)
+			call = callDAO.getById(idCall);
+			
+			if (call != null)
 			{
-				callList = new CallList();
-				callList.setIdUser(myUser);
-				callList.setIdCall(call);
-				callList.setCaller(caller);
-				callListDAO.insert(callList);
-			}
-			if (friend != null)
-			{
-				callList = new CallList();
-				callList.setIdUser(friend);
-				callList.setIdCall(call);
-				callList.setCaller(caller);
-				callListDAO.insert(callList);
+				callListDAO = new CallListDAO();
+				userDataDAO = new UserDataDAO();
+				myUser = userDataDAO.getByID(myId);
+				friend = userDataDAO.getByID(idFriend);
+				
+				if (myUser != null)
+				{
+					callList = new CallList();
+					callList.setIdUser(myUser);
+					callList.setIdCall(call);
+					callList.setCaller(caller);
+					callListDAO.insert(callList);
+				}
+				if (friend != null)
+				{
+					callList = new CallList();
+					callList.setIdUser(friend);
+					callList.setIdCall(call);
+					callList.setCaller(caller);
+					callListDAO.insert(callList);
+				}
 			}
 			
-			result = "true";
+			result = idCall;
 			writer = response.getWriter();
 			writer.write(result);
 		}
