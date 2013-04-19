@@ -83,8 +83,8 @@ public class AddressBookGetContactsServletTest {
 			return equal;
 		}
 
-		public JsContact() {
-		}
+//		public JsContact() {
+//		}
 
 		public String toString() {
 			String result = "{";
