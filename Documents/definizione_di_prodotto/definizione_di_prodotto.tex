@@ -2073,6 +2073,10 @@ Interfaccia che rappresenta una chiamata effettuata dal sistema \caName. Gli ogg
 	\item \texttt{java.util.Date}: tipo utilizzato per definire la data d'inizio e fine di una chiamata.
 \end{itemize}
 
+\subsubsection*{Classi estese ed interfacce implementate}
+
+Nessuna relazione evidenziata.
+
 \subsubsection*{Metodi}
 \begin{description}
 	\item{\method{+ getId(): Long}}\\
@@ -2095,6 +2099,11 @@ Classe che implementa l'interfaccia \classname{ICall}.
 \subsubsection*{Relazioni d'uso}
 \begin{itemize}
 	\item \texttt{java.util.Date}: tipo utilizzato per definire la data d'inizio e fine di una chiamata.
+\end{itemize}
+
+\subsubsection*{Classi estese ed interfacce implementate}
+\begin{itemize}
+	\item \classname{ICall} interfacci d'implementazione.
 \end{itemize}
 
 \subsubsection*{Attributi}
@@ -2129,9 +2138,13 @@ Interfaccia rappresentante una \textit{entry} di uno storico chiamate di un uten
 
 \subsubsection*{Relazioni d'uso}
 \begin{itemize}
-	\item \texttt{org.softwaresynthesis.mytalk.server.IMyTalkObject}: interfaccia da estendere. Ogni oggetto che implementerà l'interfaccia \classname{ICallList} dovrà essere in grado di convertire il proprio contenuto informativo in formato \textit{Json}.
 	\item \classname{IUserData}: l'interfaccia \classname{ICallList} definisce più metodi che restituiscono oggetti aventi tipo di ritorno \classname{IUserData}, essi sono i metodi \inglese{get} per ottenere l'utente che ha effettuato la chiamta. Analogamente \classname{IUserData} viene usato come parametro d'ingresso per i metodi \inglese{set} collegati ai metodi già citati.
 	\item \classname{ICall}: l'interfaccia \classname{ICallList} definiscono metodi che restituiscono oggetti aventi tipo di ritorno \classname{ICall}.
+\end{itemize}
+
+\subsubsection*{Classi estese ed interfacce implementate}
+\begin{itemize}
+	\item \texttt{org.softwaresynthesis.mytalk.server.IMyTalkObject}: interfaccia da estendere. Ogni oggetto che implementerà l'interfaccia \classname{ICallList} dovrà essere in grado di convertire il proprio contenuto informativo in formato \textit{Json}.
 \end{itemize}
 
 \subsubsection*{Metodi}
@@ -2164,6 +2177,10 @@ Interfaccia rappresentante una \textit{entry} di uno storico chiamate di un uten
 Classe che implementa l'interfaccia \classname{ICallList}.
 
 \subsubsection*{Relazioni d'uso}
+
+Nessuna relazione evidenziata.
+
+\subsubsection*{Classi estese ed interfacce implementate}
 \begin{itemize}
 	\item \texttt{call.ICallList}: interfaccia implementata dalla classe.
 \end{itemize}
@@ -2214,12 +2231,16 @@ Classe che implementa l'interfaccia \classname{ICallList}.
 	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
 	\item \texttt{javax.servlet.ServletException}: eccezione sollevabile dai metodi \method{doPost()} e \method{doGet()}.
-	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{DownloadCallHistoryServlet}.
 	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
 	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in uscita dalla chiamata a \inglese{servlet}).
 	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
 	\item \classname{call.ICall}: usata per definire un oggetto rappresentante una chiamata.
 	\item \classname{abook.IUserData}: usata per definire un utente generico, che ha partecipato alla chiamata.
+\end{itemize}
+
+\subsubsection*{Classi estese ed interfacce implementate}
+\begin{itemize}
+		\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{DownloadCallHistoryServlet}.
 \end{itemize}
 
 \subsubsection*{Attributi}
