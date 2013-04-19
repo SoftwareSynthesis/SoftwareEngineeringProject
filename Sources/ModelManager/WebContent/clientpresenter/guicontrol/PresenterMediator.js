@@ -538,4 +538,44 @@ function PresenterMediator() {
 		}
 		presenters["tools"].logout();
 	};
+	
+	/**
+	 * Permette di ottenere il contatto avendo solo l'ID dello stesso
+	 * 
+	 * @author Riccardo Tresoldi
+	 * @param {Number} idContact ID del contatto di cui si vuole ottenere l'oggetto
+	 * @return {Object} oggetto che rappresenta il contatto con l'ID passato come parametro
+	 */
+    this.getContactById = function(idContact) {
+        return presenters["addressbook"].getContact(idContact);
+    }
+	
+	/**
+	 * Funzione richiamata per gestire l'evento di chiamata in arrivo
+	 * 
+	 * @author Riccardo Tresoldi
+	 * @param {Object} caller rappresenta il contatto che sta chiamando
+	 */
+	this.onIncomeCall = function(caller){
+	    communicationpp.showAnswerBox(caller);
+	}
+	
+	/**
+	 * Attiva la suoneria
+	 * 
+	 * @author Riccardo Tresoldi
+	 * @param {String} evt tipo di evento che richiede la suoneria
+	 */
+	this.startRinging = function(evt){
+	    communicationpp.startRinging(evt);
+	}
+	
+	/**
+     * Ferma la suoneria
+     * 
+     * @author Riccardo Tresoldi
+     */
+    this.stopRinging = function(){
+        communicationpp.stopRinging();
+    }
 }
