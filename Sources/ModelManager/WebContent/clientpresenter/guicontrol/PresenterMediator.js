@@ -137,7 +137,7 @@ function PresenterMediator() {
 	 * 
 	 * @author Riccardo Tresoldi
 	 * @param {Number}
-	 *            contact id del contatto da rimuovere
+	 *            contact contatto da rimuovere
 	 */
 	this.onContactRemoved = function(contact) {
 		presenters["addressbook"].removeContact(contact);

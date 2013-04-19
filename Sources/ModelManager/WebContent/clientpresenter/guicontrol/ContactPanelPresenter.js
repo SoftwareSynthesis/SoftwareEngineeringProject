@@ -218,11 +218,11 @@ function ContactPanelPresenter() {
 
         // associo gli eventi onClick ai bottoni
         addToAddressBookButton.onclick = function() {
-            mediator.onContactAdded(contact.id);
+            mediator.onContactAdded(contact);
         };
         
         removeFromAddressBookButton.onclick = function() {
-        	mediator.onContactRemoved(contact.id);
+        	mediator.onContactRemoved(contact);
         };
 
         blockButton.onclick = function() {
