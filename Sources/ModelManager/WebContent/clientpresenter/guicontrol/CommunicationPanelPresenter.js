@@ -14,6 +14,11 @@ function CommunicationPanelPresenter() {
     // array associativo di tutte le chat che ho aperte in un dato momento
     // gli elementi memorizzati in questo array sono {HTMLDivElements}
     var chatElements = new Object();
+    var intervalRing = null;
+    var audio = {
+        income : new Audio("incomeRingtone.wav"),
+        outcome : new Audio("outcomeRingtone.wav")
+    };
 
     /***************************************************************************
      * METODI PRIVATI
@@ -114,6 +119,23 @@ function CommunicationPanelPresenter() {
 
         element.appendChild(form);
         return element;
+    }
+
+    /**
+     * Funzione che nasconde il messaggio che avvisa l'arrivo della chiamata
+     *
+     * @author Riccardo Tresoldi
+     */
+    function removeAnswerBox() {
+        //estraggo gli elementi da rimuovere
+        overlay = document.getElementById('overlayAnswerBox');
+        answerBox = document.getElementById('answerBox');
+        //setto la visibilità a 'none'
+        overlay.style.display = "none";
+        answerBox.style.display = "none";
+        //elimino dal DOM gli elementi
+        document.removeChild(overlay);
+        document.removeChild(answerBox);
     }
 
     /***************************************************************************
@@ -290,8 +312,8 @@ function CommunicationPanelPresenter() {
             closeButton.appendChild(document.createTextNode("Termina"));
             closeButton.id = "closeButton";
             closeButton.onclick = function() {
-            	communicationcenter.endCall();
-            	mediator.addOrRemoveCommunicationToTools();
+                communicationcenter.endCall();
+                mediator.addOrRemoveCommunicationToTools();
             };
 
             // appendo i child al divCall
@@ -350,7 +372,7 @@ function CommunicationPanelPresenter() {
             statDiv.childNodes[0].childNodes[1].textContent = "Dati inviati: " + text;
 
         }
-    }; 
+    };
 
     /**
      * Funzione che restituisce l'elemento video myVideo dove viene visualizzato
@@ -372,5 +394,83 @@ function CommunicationPanelPresenter() {
      */
     this.getOtherVideo = function() {
         return document.getElementById("otherVideo");
+    };
+
+    /**
+     * Funzione che mostra il messaggio che avvisa l'arrivo della chiamata
+     *
+     * @author Riccardo Tresoldi
+     * @param {Object} caller contatto che rappresenta il chiamante
+     */
+    this.showAnswerBox = function(caller) {
+        var body = document.getElementsByTagName("body").item(0);
+        //creo il div di sfondo
+        var overlay = document.createElement("div");
+        overlay.id = "overlayAnswerBox";
+        //creo il div con la richiesta di risposta
+        var answerBox = document.createElement("div");
+        answerBox.id = "answerBox";
+        //creo gli elementi della finestra di risposta
+        //label generica
+        var labelAnswerBox = document.createElement("span");
+        labelAnswerBox.appendChild(document.createTextNode("Chiamata in arrivo da:"));
+        labelAnswerBox.id = "labelAnswerBox";
+        //label con nome del chiamante
+        var nameCallerAnswerBox = document.createElement("span");
+        nameCallerAnswerBox.appendChild(document.createTextNode(mediator.createNameLabel(caller)));
+        nameCallerAnswerBox.id = "nameCallerAnswerBox";
+        //pulsante per rifiutare la chiamata
+        var refuseCallButton = document.createElement("button");
+        refuseCallButton.appendChild(document.createTextNode("Rifiuta"));
+        refuseCallButton.type = "button";
+        refuseCallButton.id = "refuseCallButton";
+        refuseCallButton.onclick = function() {
+            removeAnswerBox();
+            communicationcenter.refuseCall();
+        };
+        //pulsante per accettare la chiamata
+        var acceptCallButton = document.createElement("button");
+        acceptCallButton.appendChild(document.createTextNode("Accetta"));
+        acceptCallButton.type = "button";
+        acceptCallButton.id = "acceptCallButton";
+        acceptCallButton.onclick = function() {
+            removeAnswerBox();
+            communicationcenter.acceptCall();
+        };
+        //appendo tutti gli elementi al div
+        answerBox.appendChild(labelAnswerBox);
+        answerBox.appendChild(nameCallerAnswerBox);
+        answerBox.appendChild(refuseCallButton);
+        answerBox.appendChild(acceptCallButton);
+        //appendo i div appena creati al body
+        body.appendChild(overlay);
+        body.appendChild(answerBox);
+    };
+
+    /**
+     * Funzione che fa partire una suoneria
+     *
+     * @author Riccardo tresoldi
+     * @param {String} evt evento che richiede la suoneria
+     */
+    this.startRinging = function(evt) {
+        if (!intervalRing) {
+            intervalRing = setInterval(function() {
+                audio[evt].play();
+            }, 1000);
+        }
+    };
+
+    /**
+     * Funzione che fa partire una suoneria
+     *
+     * @author Riccardo tresoldi
+     */
+    this.stopRinging = function() {
+        if (intervalRing) {
+            clearInterval(intervalRing);
+            intervalRing = null;
+        }
+
     };
 }

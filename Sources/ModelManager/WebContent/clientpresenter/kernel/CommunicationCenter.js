@@ -194,17 +194,8 @@ function CommunicationCenter() {
             } else if (type == "2") {
                 var signal = JSON.parse(str[1]);
                 if (pc == null) {
-                    if (CommunicationCenter.acceptCall()) {
-                        mediator.displayCommunicationPanel();
-                        /*XXX var element = mediator.getCommunicationPP().createPanel();
-                        mediator.getMainPanel().displayChildPanel(element); FUNZIONAVA CON QUESTO!*/
-                        //FIXME sistemare terzo parametro (onlyAudio)
-                        self.call(false, idOther, false);
-                    } else {
-                        var ar = new Array("5", state);
-                        websocket.send(JSON.stringify(ar));
-                        return;
-                    }
+                    //chiamo la funzione che gestisce la chiamata in arrivo
+                    CommunicationCenter.handleCall(mediator.getContactById(idOther));
                 }
                 if ((signal.sdp) == null) {
                     pc.addIceCandidate(new RTCIceCandidate(signal));
@@ -394,17 +385,36 @@ function CommunicationCenter() {
     /**
      * funzione che visualizza la richiesta di rispondere ad una chiamata in arrivo
      * @author Riccardo Tresoldi
+     * @param {Object} caller id del contatto che sta chiamando
      * @return {Boolean} true solo se desidero rispondere
      */
-    this.acceptCall=function(){
-        // visualizzo la richiesta di risposta
-        //    fai partire RING
-        //    oscura tutto
-        //    visualizza pannello
-        //    onclick di qualche pulsante
-        //        togli pannello
-        //        togli oscuramento
-        //    ferma RING 
-        // se la rischiesta ha sucesso return true else return false
+    this.handleCall = function(caller){
+        mediator.startRinging("income");
+        mediator.onIncomeCall();
     }
+    
+    /**
+     * Funzione per gestire la risposta alla chiamata
+     * 
+     * @author Riccardo Tresoldi
+     * @param {Object} caller Oggetto che rappresenta il chiamante
+     */
+    this.acceptCall = function(caller) {
+        mediator.stopRinging();
+        mediator.displayCommunicationPanel();
+        //FIXME sistemare terzo parametro (onlyAudio)
+        this.call(false, caller.id, false);
+    };
+    
+    /**
+     * Funzione per gestire il rifiuto alla chiamata
+     * 
+     * @author Riccardo Tresoldi
+     */
+    this.refuseCall = function() {
+        mediator.stopRinging();
+        var ar = new Array("6");
+        if (websocket)
+            websocket.send(JSON.stringify(ar));
+    };
 }

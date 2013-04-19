@@ -739,6 +739,18 @@ function AddressBookPanelPresenter() {
             imgState.src = getImageSrc(contact);
         }
     }
+    
+    /**
+     * Funzione che dato in input l'ID di un contatto ritorna il contatto
+     * 
+     * @author Riccardo Tresoldi
+     * @param {Number} idContact ID del contatto da ritornare
+     * @return {Object} contatto con ID passato come parametro
+     */
+    this.getContact = function(idContact){
+        return contacts[idContact];
+    }
+    
     /*
      * FILE JSON CHE RAFFIGURA LA RUBRICA { "idUser1":{ "name": "", "surname":
      * "", "email": "", "id": "", "picturePath": "", "state": "", "blocked":
