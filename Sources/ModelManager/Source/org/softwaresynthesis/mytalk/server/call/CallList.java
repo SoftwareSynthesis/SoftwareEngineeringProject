@@ -1,15 +1,23 @@
 package org.softwaresynthesis.mytalk.server.call;
 
-import org.softwaresynthesis.mytalk.server.IMyTalkObject;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
 
-public interface ICallList extends IMyTalkObject {
+public class CallList implements ICallList {
+	
+	private Long id;
+	private IUserData user;
+	private ICall call;
+	private Long caller;
+
 	/**
 	 * Imposta l'identificativo della lista chiamata
 	 * 
 	 * @param id identificativo da impostare
 	 */
-	public void setId(Long id);
+	public void setId(Long id)
+	{
+		this.id = id;
+	}
 	
 	/**
 	 * Restituisce l'identificativo univoco
@@ -18,7 +26,10 @@ public interface ICallList extends IMyTalkObject {
 	 * @return	identificativo del messaggio di
 	 * 			tipo {@link Long}
 	 */
-	public Long getId();
+	public Long getId()
+	{
+		return this.id;
+	}
 	
 	/**
 	 * Imposta la chiamata a cui appartiene 
@@ -26,7 +37,10 @@ public interface ICallList extends IMyTalkObject {
 	 * @param 	call	{@link ICall}
 	 * 					chiamata a cui si riferisce
 	 */
-	public void setIdCall(ICall call);
+	public void setIdCall(ICall call)
+	{
+		this.call = call;
+	}
 	
 		/**
 	 * Restituisce la chiamata
@@ -34,7 +48,10 @@ public interface ICallList extends IMyTalkObject {
 	 * @return	{@link ICall} rappresentante
 	 * 			la chiamata
 	 */
-	public ICall getIdCall();
+	public ICall getIdCall()
+	{
+		return this.call;
+	}
 	
 	/**
 	 * Imposta l'utente
@@ -43,7 +60,10 @@ public interface ICallList extends IMyTalkObject {
 	 * @param 	idUser	{@link Long}
 	 * 					utente che partecipa
 	 */
-	public void setIdUser(IUserData idUser);
+	public void setIdUser(IUserData idUser)
+	{
+		this.user = idUser;
+	}
 	
 		/**
 	 * Restituisce l'utente coinvolto
@@ -52,7 +72,10 @@ public interface ICallList extends IMyTalkObject {
 	 * @return	{@link IUserData} rappresentante
 	 * 			l'utente
 	 */
-	public IUserData getIdUser();
+	public IUserData getIdUser()
+	{
+		return this.user;
+	}
 	
 	/**
 	 * Imposta l'attributo caller a true se
@@ -60,7 +83,10 @@ public interface ICallList extends IMyTalkObject {
 	 * 
 	 * @param 	caller	{@link boolean}
 	 */
-	public void setCaller(Long caller);
+	public void setCaller(Long caller)
+	{
+		this.caller = caller;
+	}
 	
 		/**
 	 * Restituisce true se l'utente in questione
@@ -68,5 +94,14 @@ public interface ICallList extends IMyTalkObject {
 	 * 
 	 * @return	{@link boolean}
 	 */
-	public Long getCaller();
+	public Long getCaller()
+	{
+		return this.caller;
+	}
+
+		@Override
+	public String toJson()
+	{
+		return null;
+	}
 }
