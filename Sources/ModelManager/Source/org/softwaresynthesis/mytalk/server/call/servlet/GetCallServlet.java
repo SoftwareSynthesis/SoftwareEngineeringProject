@@ -9,8 +9,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.softwaresynthesis.mytalk.server.dao.CallDAO;
-import org.softwaresynthesis.mytalk.server.message.ICall;
+import javax.servlet.http.HttpSession;
+
+import org.softwaresynthesis.mytalk.server.abook.IUserData;
+import org.softwaresynthesis.mytalk.server.call.ICallList;
+import org.softwaresynthesis.mytalk.server.dao.CallListDAO;
+import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
 
 /**
  * Servlet implementation class GetCallServlet
@@ -46,7 +50,7 @@ public class GetCallServlet extends HttpServlet
 	}
 
 	/**
-	 * Restiuisce la lista chiamate
+	 * Restituisce la lista chiamate
 	 * di un utente tramite richiesta HTTP POST
 	 * 
 	 * @param	request		contiene i parametri di input per il
@@ -62,46 +66,43 @@ public class GetCallServlet extends HttpServlet
 		String result = null;
 		PrintWriter writer = null;
 		Long id = null;
-		CallDAO callDAO = null;
-		List<ICall> calls = null;
-		Iterator<ICall> callIter = null;
-		ICall call = null;
-		String separator = null;
+		CallListDAO callListDAO = null;
+		//CallDAO callDAO = null;
+		List<ICallList> callsList = null;
+		IUserData myUser = null;
+		UserDataDAO userDataDAO = null;
+		Iterator<ICallList> callListIter = null;
+		ICallList callList = null;
 		HttpSession session = null;
 		try
 		{
 			session = request.getSession(false);
 			id = (Long)session.getAttribute("id");
-			separator = System.getProperty("file.separator");
-			callDAO = new CallDAO();
-			calls = callDAO.getById(id);
-			if (messages != null)
-			{
-				messageIter = messages.iterator();
+			callListDAO = new CallListDAO();
+			userDataDAO = new UserDataDAO();
+			myUser = userDataDAO.getByID(id);
+			callsList = callListDAO.getByUser(myUser);
+			if (callsList != null){
+				callListIter = callsList.iterator();
 				result = "[";
-				while (messageIter.hasNext() == true)
+				while (callListIter.hasNext() == true)
 				{
-					message = messageIter.next();
+					callList = callListIter.next();
 					result += "{";
-					result += "\"id\":\"" + message.getId() + "\"";
-					result += ", \"sender\":\"" + message.getSender() + "\"";
-					result += ", \"status\":\"" + message.getNewer() + "\"";
-					result += ", \"video\":\"" + message.getVideo() + "\"";
-					result += ", \"date\":\"" + message.getDate() + "\"";
-					result += ", \"src\":\"Secretariat" + separator + message.getId() + ".wav\"";
-					if (messageIter.hasNext() == true)
+					result += "\"name\":\"" + callList.getIdUser().getName() + " " + callList.getIdUser().getSurname() + "\"";
+					result += ", \"start\":\"" + callList.getIdCall().getStartDate() + "\"";
+					result += ", \"end\":\"" + callList.getIdCall().getEndDate() + "\"";
+					result += ", \"caller\":\"" + callList.getCaller() + "\"";
+					if (callListIter.hasNext() == true)
 					{
 						result += "},";
 					}
 				}
 				result += "}]";
-			
 			}
-			else
-			{
-				result = "[]";
-			}
-		}catch(Exception ex)
+			result = "[]";
+		}
+		catch(Exception ex)
 		{
 			result = "false";
 		}
