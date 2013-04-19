@@ -1,5 +1,7 @@
 package org.softwaresynthesis.mytalk.server.call;
 
+import java.util.Set;
+
 /**
  * Rappresentazione della chiamata in MyTalk
  * 
@@ -48,4 +50,36 @@ public interface ICall
 	 * 						di fine
 	 */
 	public void setEndDate(String dateTime);
+	
+	/**
+	 * Restituisce i partecipanti alla chiamata
+	 *
+	 * @return	{@link Set} partecipanti alla
+	 * 			chiamata	
+	 */
+	public Set<ICallList> getCallList();
+	
+	/**
+	 * Inserisce i partecipanti alla chiamata
+	 * 
+	 * @param 	callList	{@link Set} partecipanti
+	 * 						alla chiamata@param callList
+	 */
+	public void setCallList(Set<ICallList> callList);
+	
+	/**
+	 * Aggiunge un partecipante alla chiamata
+	 * 
+	 * @param 	callList	{@link ICallList} con
+	 * 						le informazioni del partecipante
+	 */
+	public void addCallList(ICallList callList);
+	
+	/**
+	 * Rimuove un partecipante dalla chiamata
+	 * 
+	 * @param	callList 	{@link ICallList} con
+	 * 						le informazione del partecipante 						
+	 */
+	public void removeCallList(ICallList callList);
 }
