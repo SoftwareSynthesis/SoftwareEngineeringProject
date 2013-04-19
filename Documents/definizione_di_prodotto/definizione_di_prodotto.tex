@@ -974,9 +974,14 @@ Interfaccia rappresentante il comportamento di un generico utente del sistema. L
 \subsubsection*{Relazioni d'uso}
 
 \begin{itemize}
-	\item \texttt{org.softwaresynthesis.mytalk.server.IMyTalkObject}: interfaccia da estendere. Ogni oggetto che implementerà l'interfaccia \classname{IUserData} dovrà essere in grado di convertire il proprio contenuto informativo in formato \textit{Json}.
 	\item \classname{AddressBookEntry}: l'interfaccia definisce dei metodi per la manipolazione di dati \classname{AddressBookEntry}.
 \end{itemize}
+
+\subsubsection*{Classi estese ed interfacce implementate}
+\begin{itemize}
+	\item \texttt{org.softwaresynthesis.mytalk.server.IMyTalkObject}: interfaccia da estendere. Ogni oggetto che implementerà l'interfaccia \classname{IUserData} dovrà essere in grado di convertire il proprio contenuto informativo in formato \textit{Json}.
+\end{itemize}
+
 
 \subsubsection*{Metodi}
 \begin{description}
@@ -1023,6 +1028,9 @@ Interfaccia rappresentante un gruppo di una rubrica utente del sistema \caName.
 
 \subsubsection*{Relazioni d'uso}
 
+Nessuna relazione evidenziata.
+
+\subsubsection*{Classi estese ed interfacce implementate}
 \begin{itemize}
 		\item \texttt{org.softwaresynthesis.mytalk.server.IMyTalkObject}: interfaccia da estendere. Ogni oggetto che implementerà l'interfaccia \classname{IGroup} dovrà essere in grado di convertire il proprio contenuto informativo in formato \textit{Json}.
 \end{itemize}
@@ -1044,8 +1052,12 @@ Interfaccia rappresentante una \textit{entry} di una rubrica utente del sistema 
 
 \subsubsection*{Relazioni d'uso}
 \begin{itemize}
-	\item \texttt{org.softwaresynthesis.mytalk.server.IMyTalkObject}: interfaccia da estendere. Ogni oggetto che implementerà l'interfaccia \classname{IAddressBookEntry} dovrà essere in grado di convertire il proprio contenuto informativo in formato \textit{Json}.
 	\item \classname{IUserData}: l'interfaccia \classname{IAddressBookEntry} definisce più metodi che restituiscono oggetti aventi tipo di ritorno \classname{IUserData}, essi sono i metodi \inglese{get} per ottenere il ``proprietario'' della rubrica e per ottenere l'utente registrato nella rubrica. Analogamente \classname{IUserData} viene usato come parametro d'ingresso per i metodi \inglese{set} collegati ai metodi già citati.
+\end{itemize}
+
+\subsubsection*{Classi estese ed interfacce implementate}
+\begin{itemize}
+		\item \texttt{org.softwaresynthesis.mytalk.server.IMyTalkObject}: interfaccia da estendere. Ogni oggetto che implementerà l'interfaccia \classname{IAddressBookEntry} dovrà essere in grado di convertire il proprio contenuto informativo in formato \textit{Json}.
 \end{itemize}
 
 \subsubsection*{Metodi}
@@ -1073,8 +1085,11 @@ Implementazione dell'interfaccia \classname{IUserData}. Un istanza della classe 
 
 \subsubsection*{Relazioni d'uso}
 
+Nessuna relazione evidenziata
+
+\subsubsection*{Classi estese ed interfacce implementate}
 \begin{itemize}
-	\item{IUserData}: interfaccia da implementare.
+		\item{IUserData}: interfaccia da implementare.
 \end{itemize}
 
 \subsubsection*{Attributi}
@@ -1158,9 +1173,13 @@ Implementazione dell'interfaccia \classname{IGroup}.
 
 \subsubsection*{Relazioni d'uso}
 
+Nessuna relazione evidenziata.
+
+\subsubsection*{Classi estese ed interfacce implementate}
 \begin{itemize}
 	\item \classname{IGroup}: interfaccia d'implementazione.
 \end{itemize}
+
 
 \subsubsection*{Attributi}
 
@@ -1195,8 +1214,12 @@ Implementazione dell'interfaccia IAddressBookEntry.
 \subsubsection*{Relazioni d'uso}
 
 \begin{itemize}
-	\item \classname{IAddressBookEntry}: interfaccia d'implementazione della classe.
 	\item \classname{IUserData}: usata per definire gli attributi destinati a identificare il possessore dell'istanza di \classname{AddressBookEntry} e il relativo contatto in essa registrato.
+\end{itemize}
+
+\subsubsection*{Classi estese ed interfacce implementate}
+\begin{itemize}
+	\item \classname{IAddressBookEntry}: interfaccia d'implementazione della classe.
 \end{itemize}
 
 \subsubsection*{Attributi}
@@ -1263,6 +1286,10 @@ Implementazione dell'interfaccia IAddressBookEntry.
 	\item \classname{org.softwaresynthesis.mytalk.server.dao.UserDataDAO}: classe usata per comunicare tramite Hibernate con la tabella UserData della base di dati.
 \end{itemize}
 
+\subsubsection*{Classi estese ed interfacce implementate}
+
+Nessuna relazione evidenziata.
+
 \subsubsection*{Attributi}
 
 \begin{itemize}
@@ -1317,6 +1344,10 @@ Implementazione dell'interfaccia IAddressBookEntry.
 	\item \classname{org.softwaresynthesis.mytalk.server.dao.UserDataDAO}: classe usata per comunicare tramite Hibernate con la tabella UserData della base di dati.
 \end{itemize}
 
+\subsubsection*{Classi estese ed interfacce implementate}
+
+Nessuna relazione evidenziata
+
 \subsubsection*{Attributi}
 
 \begin{itemize}
@@ -1370,6 +1401,10 @@ Implementazione dell'interfaccia IAddressBookEntry.
 	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
 	\item \classname{org.softwaresynthesis.mytalk.server.dao.UserDataDAO}: classe usata per comunicare tramite Hibernate con la tabella UserData della base di dati.
 \end{itemize}
+
+\subsubsection*{Classi estese ed interfacce implementate}
+
+Nessuna relazione evidenziata.
 
 \subsubsection*{Attributi}
 
@@ -1431,6 +1466,10 @@ Implementazione dell'interfaccia IAddressBookEntry.
 	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
 	\item \classname{org.softwaresynthesis.mytalk.server.dao.UserDataDAO}: classe usata per comunicare tramite Hibernate con la tabella UserData della base di dati.
 \end{itemize}
+
+\subsubsection*{Classi estese ed interfacce implementate}
+
+Nessuna relazione evidenziata.
 
 \subsubsection*{Attributi}
 
@@ -1499,6 +1538,10 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 	\item \classname{dao.UserDataDAO}: classe usata per comunicare tramite \textit{Hibernate} con la tabella UserData della base di dati.
 \end{itemize}
 
+\subsubsection*{Classi estese ed interfacce implementate}
+
+Nessuna relazione evidenziata.
+
 \subsubsection*{Attributi}
 
 \begin{itemize}
@@ -1558,7 +1601,7 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
 	\item \texttt{javax.servlet.ServletException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{LoginManager}.
-	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
+	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
 	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in uscita dalla chiamata a \inglese{servlet}).
 	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
 	\item \classname{abook.IAddressBookEntry}:Interfaccia che definisce il comportamento di una generica \inglese{entry} della rubrica utente. La classe che verrà descritta crea istanze di tipo \classname{abook.IAddressBookEntry}.
@@ -1569,6 +1612,10 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 	\item \classname{dao.GroupDAO}: classe usata per comunicare tramite \textit{Hibernate} con la tabella Group della base di dati.
 	\item \classname{dao.UserDataDAO}: classe usata per comunicare tramite \textit{Hibernate} con la tabella UserData della base di dati.
 \end{itemize}
+
+\subsubsection*{Classi estese ed interfacce implementate}
+
+Nessuna relazione evidenziata.
 
 \subsubsection*{Attributi}
 
@@ -1632,13 +1679,17 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
 	\item \texttt{javax.servlet.ServletException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{LoginManager}.
-	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
+	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
 	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in uscita dalla chiamata a \inglese{servlet}).
 	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
 	\item \classname{abook.IAddressBookEntry}:Interfaccia che definisce il comportamento di una generica \inglese{entry} della rubrica utente. La classe che verrà descritta crea istanze di tipo \classname{abook.IAddressBookEntry}.
 	\item \classname{abook.IUserData}:Interfaccia che definisce il comportamento di un utente generico. La classe che verrà descritta crea istanze di tipo \classname{abook.IUserData}.
 	\item \classname{dao.UserDataDAO}: classe usata per comunicare tramite \textit{Hibernate} con la tabella UserData della base di dati.
 \end{itemize}
+
+\subsubsection*{Classi estese ed interfacce implementate}
+
+Nessuna relazione evidenziata.
 
 \subsubsection*{Attributi}
 
@@ -1703,12 +1754,16 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 	\item \texttt{javax.servlet.ServletException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
 	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{LoginManager}.
 	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
-	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la inglese{servlet} (inoltra i dati in uscita dalla chiamata a \inglese{servlet}).
+	\item \texttt{javax.servlet.http.HttpServletResponse}: classe usata per la comunicazione con la inglese{servlet} (inoltra i dati in uscita dalla chiamata a \inglese{servlet}).
 	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
 	\item \classname{abook.IAddressBookEntry}:Interfaccia che definisce il comportamento di una generica \inglese{entry} della rubrica utente. La classe che verrà descritta crea istanze di tipo \classname{abook.IAddressBookEntry}.
 	\item \classname{abook.IUserData}:Interfaccia che definisce il comportamento di un utente generico. La classe che verrà descritta crea istanze di tipo \classname{abook.IUserData}.
 	\item \classname{dao.UserDataDAO}: classe usata per comunicare tramite \textit{Hibernate} con la tabella UserData della base di dati.
 \end{itemize}
+
+\subsubsection*{Classi estese ed interfacce implementate}
+
+Nessuna relazione evidenziata.
 
 \subsubsection*{Attributi}
 
@@ -1779,6 +1834,10 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 	\item \classname{abook.IUserData}:Interfaccia che definisce il comportamento di un utente generico. La classe che verrà descritta crea istanze di tipo \classname{abook.IUserData}.
 	\item \classname{dao.UserDataDAO}: classe usata per comunicare tramite \textit{Hibernate} con la tabella UserData della base di dati.
 \end{itemize}
+
+\subsubsection*{Classi estese ed interfacce implementate}
+
+Nessuna relazione evidenziata.
 
 \subsubsection*{Attributi}
 
@@ -1855,6 +1914,10 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 	\item \classname{abook.IUserData}:Interfaccia che definisce il comportamento di un utente generico. La classe che verrà descritta crea istanze di tipo \classname{abook.IUserData}.
 	\item \classname{dao.UserDataDAO}: classe usata per comunicare tramite Hibernate con la tabella UserData della base di dati.
 \end{itemize}
+
+\subsubsection*{Classi estese ed interfacce implementate}
+
+Nessuna relazione evidenziata.
 
 \subsubsection*{Attributi}
 
@@ -1934,6 +1997,10 @@ Interfaccia che definisce il comportamento di un gruppo generico. La classe che 
 		\item \classname{abook.IGroup}:Interfaccia che definisce il comportamento di un gruppo generico. La classe che verrà descritta crea istanze di tipo \classname{abook.IGroup}.
 	\item \classname{dao.GroupDAO}: classe usata per comunicare tramite \textit{Hibernate} con la tabella Group della base di dati.
 \end{itemize}
+
+\subsubsection*{Classi estese ed interfacce implementate}
+
+Nessuna relazione evidenziata.
 
 \subsubsection*{Attributi}
 
