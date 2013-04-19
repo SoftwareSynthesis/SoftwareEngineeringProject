@@ -18,31 +18,6 @@ function GroupPanelPresenter(url) {
 	 * FUNZIONI PRIVATE
 	 **************************************************************************/
 	/**
-	 * Crea l'etichetta che contiene il nome di un determinato contatto
-	 * 
-	 * FIXME dovrebbe essere portato a fattor comune per tutti i contatti
-	 * 
-	 * @param {Object}
-	 *            contact il contatto da cui deve essere estratto il nome
-	 * @returns {String} la stringa che contiene il nome del contatto
-	 * @author Marco Schivo
-	 */
-	function createNameLabel(contact) {
-		var name = "";
-		if (contact.name != null)
-			name += contact.name;
-		if (contact.surname != null) {
-			if (name != "")
-				name += " ";
-			name += contact.surname;
-		}
-		if (name == "") {
-			name += contact.email;
-		}
-		return name;
-	}
-
-	/**
 	 * Crea la lista dei contatti che sono presenti nel gruppo
 	 * 
 	 * @param group
@@ -54,7 +29,7 @@ function GroupPanelPresenter(url) {
 		var list = document.createElement("ul");
 		list.style.display = "none";
 		for ( var id in group.contacts) {
-			var contactName = createNameLabel(contacts[id]);
+			var contactName = mediator.createNameLabel(contacts[id]);
 			var nameNode = document.createTextNode(contactName);
 
 			// pulsante per la cancellazione del contatto dal gruppo
@@ -184,7 +159,7 @@ function GroupPanelPresenter(url) {
 			label.setAttribute("for", contact.id);
 			label
 					.appendChild(document
-							.createTextNode(createNameLabel(contact)));
+							.createTextNode(mediator.createNameLabel(contact)));
 			set.appendChild(box);
 		}
 		form.appendChild(set);

@@ -122,21 +122,7 @@ function AddressBookPanelPresenter() {
         // creo l'elemento <li>
         var item = document.createElement("li");
 
-        /*
-         * creo le variabili contenenti i dati del contatto da attribuire al
-         * 'li', dove le proprietà name, surname e presenter sono le tipiche
-         * degli oggetti JSUserData
-         */
-        var name = "";
-        if (contact.name != null)
-            name += contact.name;
-        if (contact.surname != null) {
-            if (name != "")
-                name += " ";
-            name += contact.surname;
-        }
-        if (name == "")
-            name += contact.email;
+        var name = mediator.createNameLabel(contact);
 
         // imposto gli attributi corretti
         item.id = contact.id;

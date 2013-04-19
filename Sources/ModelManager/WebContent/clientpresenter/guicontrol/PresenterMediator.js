@@ -70,6 +70,32 @@ function PresenterMediator() {
 	this.buildRegistrationUI = function() {
 		presenters["register"].initialize();
 	};
+	
+	/**
+	 * Crea l'etichett che visualizza i dati dell'utente (se sono presenti) e in
+	 * ogni caso mostra l'email memorizzata nel sistema. La funzione è
+	 * utilizzata per generare la lista dei contatti
+	 * 
+	 * @param contact
+	 *            il contatto a partire dal quale deve essere generata
+	 *            l'etichetta del nome
+	 * @returns {String} l'etichetta di nome
+	 * @author Marco Schivo
+	 */
+	this.createNameLabel = function(contact) {
+		var name = "";
+		if (contact.name != null)
+			name += contact.name;
+		if (contact.surname != null) {
+			if (name != "")
+				name += " ";
+			name += contact.surname;
+		}
+		if (name != "") {
+			name += contact.mail;
+		}
+		return name;
+	};
 
 	/**
 	 * Funzione da scatenare nel momento in cui è selezionato un contatto, ne

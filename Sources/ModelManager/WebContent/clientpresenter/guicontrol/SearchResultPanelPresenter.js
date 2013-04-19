@@ -32,35 +32,6 @@ function SearchResultPanelPresenter(url) {
 	}
 
 	/**
-	 * Crea l'etichett che visualizza i dati dell'utente (se sono presenti) e in
-	 * ogni caso mostra l'email memorizzata nel sistema. La funzione è
-	 * utilizzata per generare la lista dei contatti
-	 * 
-	 * FIXME questo dovrebbe essere portato a fattor comune per tutti i contatti
-	 * 
-	 * @param contact
-	 *            il contatto a partire dal quale deve essere generata
-	 *            l'etichetta del nome
-	 * @returns {String} l'etichetta di nome
-	 * @author Marco Schivo
-	 */
-	function createNameLabel(contact) {
-		var name = "";
-		if (contact.name != null)
-			name += contact.name;
-		if (contact.surname != null) {
-			if (name != "")
-				name += " ";
-			name += contact.surname;
-		}
-		if (name != "")
-			name += " - ";
-		// visualizza sempre l'email
-		name += contact.mail;
-		return name;
-	}
-
-	/**
 	 * Recupera il percoso dell'immagine di stato per un determinato contatto
 	 * 
 	 * FIXME questo dovrebbe essere portato a fattor comune per tutti i contatti
@@ -105,7 +76,7 @@ function SearchResultPanelPresenter(url) {
 		avatarNode.setAttribute("src", contact.picturePathatar);
 
 		// nome del contatto
-		var name = createNameLabel(contact);
+		var name = mediator.createNameLabel(contact);
 		var textNode = document.createTextNode(name);
 
 		// stato del contatto
