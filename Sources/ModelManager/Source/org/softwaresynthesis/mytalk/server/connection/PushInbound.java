@@ -77,7 +77,7 @@ public class PushInbound extends MessageInbound {
 		else if (type.equals("5")){
 			UserDataDAO database= new UserDataDAO();
 			String status= gson.fromJson(array.get(1), String.class);
-			IUserData utente= database.getById(this.id);
+			IUserData utente= database.getByID(this.id);
 			if(status.equals("available")){setState(State.AVAILABLE);}					
 			if(status.equals("occupied")){setState(State.OCCUPIED);}
 			
