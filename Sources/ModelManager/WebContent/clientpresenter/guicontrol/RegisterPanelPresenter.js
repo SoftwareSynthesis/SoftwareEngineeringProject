@@ -210,7 +210,7 @@ function RegisterPanelPresenter(url) {
         // label
         var labelUserName = document.createElement('label');
         labelUserName.setAttribute("for", "username");
-        labelUserName.innerHTML = "Indirizzo email: ";
+        labelUserName.innerHTML = "Indirizzo email *: ";
         // input
         var inputUserName = document.createElement('input');
         inputUserName.setAttribute("type", "email");
@@ -227,7 +227,7 @@ function RegisterPanelPresenter(url) {
         // label
         var labelPassword = document.createElement('label');
         labelPassword.setAttribute("for", "password");
-        labelPassword.innerHTML = "Password: ";
+        labelPassword.innerHTML = "Password *: ";
         // input
         var inputPassword = document.createElement('input');
         inputPassword.setAttribute("type", "password");
@@ -244,7 +244,7 @@ function RegisterPanelPresenter(url) {
         // label
         var labelSecretQ = document.createElement('label');
         labelSecretQ.setAttribute("for", "question");
-        labelSecretQ.innerHTML = "Domanda segreta: ";
+        labelSecretQ.innerHTML = "Domanda segreta *: ";
         // input
         var inputSecretQ = document.createElement('input');
         inputSecretQ.setAttribute("type", "text");
@@ -261,7 +261,7 @@ function RegisterPanelPresenter(url) {
         // label
         var labelAnswerSQ = document.createElement('label');
         labelAnswerSQ.setAttribute("for", "answer");
-        labelAnswerSQ.innerHTML = "Risposta: ";
+        labelAnswerSQ.innerHTML = "Risposta *: ";
         // input
         var inputAnswerSQ = document.createElement('input');
         inputAnswerSQ.setAttribute("type", "text");
@@ -349,6 +349,11 @@ function RegisterPanelPresenter(url) {
                 alert(err);
             }
         };
+		var RequiredData = document.createElement('li');
+		RequiredData.setAttribute("class","RequireData");
+		RequiredData.type="string";
+        RequiredData.appendChild(document.createTextNode("I dati contrassegnati da * sono obbligatori per la registrazione"));
+		
         // creazione dell'item per i pulsante
         var divButtons = document.createElement('div');
         divButtons.appendChild(inputLogin);
@@ -363,6 +368,7 @@ function RegisterPanelPresenter(url) {
         ulData.appendChild(liLastName);
         ulData.appendChild(liPicture);
         registerForm.appendChild(ulData);
+		ulData.appendChild(RequiredData);
         registerForm.appendChild(divButtons);
 
         // appende il form al DOM della pagin
