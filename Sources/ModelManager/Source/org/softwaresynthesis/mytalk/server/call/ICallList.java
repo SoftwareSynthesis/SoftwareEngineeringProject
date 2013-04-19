@@ -21,38 +21,38 @@ public interface ICallList extends IMyTalkObject {
 	public Long getId();
 	
 	/**
-	 * Imposta l'id della chiamata 
+	 * Imposta la chiamata a cui appartiene 
 	 * 
-	 * @param 	idCall	{@link Long}
-	 * 					id della chiamata
+	 * @param 	call	{@link ICall}
+	 * 					chiamata a cui si riferisce
 	 */
-	public void setIdCall(Long idCall);
+	public void setIdCall(ICall call);
 	
 		/**
-	 * Restituisce l'Id della chiamata
+	 * Restituisce la chiamata
 	 * 
-	 * @return	{@link Long} rappresentante
-	 * 			l'id della chiamata
+	 * @return	{@link ICall} rappresentante
+	 * 			la chiamata
 	 */
-	public Long getIdCall();
+	public ICall getIdCall();
 	
 	/**
-	 * Imposta l'id dell'utente
+	 * Imposta l'utente
 	 * coinvolto nella chiamata 
 	 * 
 	 * @param 	idUser	{@link Long}
-	 * 					id dell'utente
+	 * 					utente che partecipa
 	 */
-	public void setIdUser(Long idUser);
+	public void setIdUser(IUserData idUser);
 	
 		/**
-	 * Restituisce l'Id dell'utente coinvolto
+	 * Restituisce l'utente coinvolto
 	 * nella chiamata
 	 * 
-	 * @return	{@link Long} rappresentante
-	 * 			l'id dell'utente
+	 * @return	{@link IUserData} rappresentante
+	 * 			l'utente
 	 */
-	public Long getIdUser();
+	public IUserData getIdUser();
 	
 	/**
 	 * Imposta l'attributo caller a true se
