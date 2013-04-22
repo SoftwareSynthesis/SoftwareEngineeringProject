@@ -3,34 +3,36 @@
 <configuration xmlns="http://softwaresynthesis.org">
 	<baseURL>http://172.20.10.4:8080/MyTalk/</baseURL>
 	<servletGroup name="login">
-		<servlet id="authentication">LoginAuthentication</servlet>
-		<servlet id="registration">LoginDoRegistration</servlet>
-		<servlet id="close">LoginClose</servlet>
+		<servlet id="login">LoginAuthentication</servlet>
+		<servlet id="register">LoginDoRegistration</servlet>
+		<servlet id="logout">LoginClose</servlet>
 		<servlet id="question">LoginGetSecretQuestion</servlet>
 		<servlet id="answer">LoginDoSecretAnswer</servlet>
 	</servletGroup>
 	<servletGroup name="addressbook">
-		<servlet id="addcontact">AddressBookDoAddContact</servlet>
-		<servlet id="block">AddressBookDoBlock</servlet>
-		<servlet id="creategroup">AddressBookDoCreateGroup</servlet>
-		<servlet id="deletegroup">AddressBookDoDeleteGroup</servlet>
-		<servlet id="insert">AddressBookDoInsertInGroup</servlet>
-		<servlet id="remove">AddressBookDoRemoveFromGroup</servlet>
+		<servlet id="addContact">AddressBookDoAddContact</servlet>
+		<servlet id="blockContact">AddressBookDoBlock</servlet>
+		<servlet id="createGroup">AddressBookDoCreateGroup</servlet>
+		<servlet id="deleteGroup">AddressBookDoDeleteGroup</servlet>
+		<servlet id="insertInGroup">AddressBookDoInsertInGroup</servlet>
+		<servlet id="deleteFromGroup">AddressBookDoRemoveFromGroup</servlet>
 		<servlet id="search">AddressBookDoSearch</servlet>
-		<servlet id="unblock">AddressBookDoUnblock</servlet>
-		<servlet id="getgroups">AddressBookGetGroups</servlet>
-		<servlet id="getcontacts">AddressBookGetContacts</servlet>
-		<servlet id="deletecontact">AddressBookDoDeleteContact</servlet>
-		<servlet id="accountsettings">AccountSettings</servlet>
+		<servlet id="unblockContact">AddressBookDoUnblock</servlet>
+		<servlet id="getGroups">AddressBookGetGroups</servlet>
+		<servlet id="getContacts">AddressBookGetContacts</servlet>
+		<servlet id="deleteContact">AddressBookDoDeleteContact</servlet>
+		<servlet id="accountSettings">AccountSettings</servlet>
 	</servletGroup>
 	<servletGroup name="callhistory">
-		<servlet id="getcalls">DownloadCallHistory</servlet>
+		<servlet id="addCall">AddCall</servlet>
+		<servlet id="endCall">EndCall</servlet>
+		<servlet id="getCalls">GetCallServlet</servlet>
 	</servletGroup>
 	<servletGroup name="message">
-		<servlet id="getmessages">DownloadMessageList</servlet>
-		<servlet id="createmessage">InsertMessage</servlet>
-		<servlet id="deletemessage">DeleteMessage</servlet>
-		<servlet id="setmessagestatus">UpdateStatusMessage</servlet>
+		<servlet id="getMessages">DownloadMessageList</servlet>
+		<servlet id="addMessage">InsertMessage</servlet>
+		<servlet id="deleteMessage">DeleteMessage</servlet>
+		<servlet id="updateMessage">UpdateStatusMessage</servlet>
 	</servletGroup>
 	<servletGroup name="connection">
 		<servlet id="channel">ChannelServlet</servlet>
