@@ -9,33 +9,63 @@ function PhoneCallsRegistryPresenter() {
     var audio_context;
     var recorder;
 
+    //FIXME potrebbe essere nel mediator
+    /**
+     * Funzione che ritorna il codice HTML della view
+     *
+     * @author Riccardo Tresoldi
+     * @return {HTMLElement}
+     */
+    this.getView = function() {
+        // ottengo il frammento di codice HTML dalla view
+        var viewRequest = new XMLHttpRequest();
+        viewRequest.open("POST", View["PhoneCallsRegistry"], false);
+        viewRequest.send();
+        // ritorno il frammendto di codice ottenuto
+        return viewRequest.responseXML;
+    };
+
+    /**
+     * Funzione per mostrare la view
+     *
+     * @author Riccardo Tresoldi
+     */
+    this.showView = function() {
+        // ottengo la view con l'apposita funzione
+        var view = this.getview();
+        // mostro la view con il popup
+        /*TODO la seguente funzione deve essere creata in mediator e deve
+         permettere di passare un frammento di codice da visualizzare*/
+        mediator.showPupup(view);
+    };
+
     /**
      *
      */
-    function startUserMedia(stream) {
+    this.startUserMedia = function(stream) {
         // creo lo stream media
         var input = audio_context.createMediaStreamSource(stream);
         // collego lo stream audio
         input.connect(audio_context.destination);
         // Inizializzo l'oggetto record per registrare l'imput
         recorder = new Recorder(input);
-    }
+    };
 
     /**
      *
      */
-    function startRecording(button) {
+    this.startRecording = function(button) {
         //inizio la registrazione
         recorder && recorder.record();
         //gestione GUI
         button.disabled = true;
         button.nextElementSibling.disabled = false;
-    }
+    };
 
     /**
      * @param {Object} button
      */
-    function stopRecording(button) {
+    this.stopRecording = function(button) {
         //ferma la registrazione
         recorder && recorder.stop();
         //gestione GUI
@@ -45,13 +75,13 @@ function PhoneCallsRegistryPresenter() {
         //createDownloadLink();
         //pulisco il buffer di registrazione
         recorder.clear();
-    }
+    };
 
     /**
      *
      * @param {Object} audio
      */
-    function sendRecording(audio) {
+    this.sendRecording = function(audio) {
         var xhr = new XMLHttpRequest();
         // invio chiamata servlet da modificare
         xhr.open("POST", "http://localhost:8080/Channel/Segreteria", false);
@@ -62,7 +92,7 @@ function PhoneCallsRegistryPresenter() {
         formData.append("msg", audio);
         formData.append("contactId", id);
         xhr.send(formData);
-    }
+    };
 
     /**
      *
@@ -93,7 +123,7 @@ function PhoneCallsRegistryPresenter() {
         });
     }
 
-    //inizializza 
+    //inizializza
     window.onload = function init() {
         try {
             // webkit shim
