@@ -443,8 +443,13 @@ function CommunicationPanelPresenter() {
         answerBox.appendChild(refuseCallButton);
         answerBox.appendChild(acceptCallButton);
         //appendo i div appena creati al body
-        body.appendChild(overlay);
-        body.appendChild(answerBox);
+        if ( bodyFirstChild = body.firstChild) {
+            body.insertBefore(overlay, bodyFirstChild);
+            body.insertBefore(answerBox, bodyFirstChild);
+        } else {
+            body.appendChild(overlay);
+            body.appendChild(answerBox);
+        }
     };
 
     /**
