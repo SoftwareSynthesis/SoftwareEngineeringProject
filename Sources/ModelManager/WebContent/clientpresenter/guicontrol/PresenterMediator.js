@@ -9,6 +9,21 @@ function PresenterMediator() {
     /***************************************************************************
      * VARIABILI PRIVATE
      **************************************************************************/
+	// array delle viste che devono essere visualizzate
+	var View = {
+			AccountSettingsView: "AccountSettingsView.html",
+			AddressBookView: "AddressBookView.html",
+			CallHistoryView: "CallHistoryView.html",
+			GroupPanelView: "CommunicationView.html",
+			LoginPanelView: "LoginPanelView.html",
+			MainPanelView: "MainPanelView.html",
+			MessageView: "MessageView.html",
+			PhoneCallsRegistry: "PhoneCallsRegistryView.html",
+			RegisterView: "RegisterView.html",
+			SearchResultView: "SearchResultView.html",
+			ToolsView: "ToolsView.html"
+	};
+	
     // array associativo contentente i riferimenti ai presenter di primo livello
     var presenters = new Array();
     presenters["login"] = new LoginPanelPresenter();
@@ -626,4 +641,22 @@ function PresenterMediator() {
         document.removeChild(answerBox);
     };
 
+	/**
+	 * Restituisce la vista da visualizzare nell'interfaccia grafica
+	 * in base alla stringa passata come parametro, utilizzata come chiave
+	 * per l'array associativo delle viste contenuto qui.
+	 * 
+	 * @param {String} key
+	 * @returns {HTMLElement}
+	 * @author Riccardo Tresoldi
+	 */
+	this.getView = function(key) {
+		// ottengo il frammento di codice HTML dalla view
+		var viewRequest = new XMLHttpRequest();
+		viewRequest.open("GET", View[key], false);
+		viewRequest.responseType = "document";
+		viewRequest.send();
+		// ritorno il frammendto di codice ottenuto
+		return viewRequest.responseXML.body.childNodes[0];
+	};
 }
