@@ -2603,16 +2603,16 @@ Nessuna relazione d'uso evidenziata.
 \subsubsection*{Metodi}
 \begin{description}
 	\item{\method{+ encrypt(plainText: String): String}}\\
-	Cripta la stringa di testo ricevuta come parametro.\\\\
+	Cripta la stringa di testo ricevuta come parametro e la restituisce al chiamante.\\\\
 	Il metodo può solleva eccezioni:
 	\begin{itemize}
-		\item \exception{Exception}: il metodo solleva un'eccezione.
+		\item \exception{IOException}: l'implementazione di tale metodo dovrà predisporre il lancio di un eccezione qualora il messaggio passato al metodo (plainText) sia vuoto.
 	\end{itemize}
 	\item{\method{+ decrypt(encryptedText: String)}}\\
-	Decripta la stringa di testo ricevuta come parametro.\\\\
+	Decripta la stringa di testo ricevuta come parametro e la restituisce al chiamante.\\\\
 	Il metodo può sollevare eccezioni:
 	\begin{itemize}
-		\item \exception{Exception}: il metodo solleva un'eccezione.
+		\item \exception{IOException}: l'implementazione di tale metodo dovrà predisporre il lancio di un eccezione qualora il messaggio passato al metodo (plainText) sia vuoto.
 	\end{itemize}
 \end{description}
 
@@ -3143,7 +3143,7 @@ Inizialmente il metodo crea un istanza per ognuno dei seguenti oggetti:
 \begin{description}
   \item{\memberdata{\underline{-- \{frozen\} serialVersionUID: long}}}\\
   Utilizzato come ID univoco per identificare un oggetto serializzabile.
-  \item{\memberdata{\underline{-- \{frozen\} clients: Vector<PushInbound>}}}\\
+  \item{\memberdata{-- \{frozen\} clients: Vector<PushInbound>}}\\
   Vettore contenente i canali di comunicazione server-client. Un canale di comunicazione \texttt{PushInbound} viene creato dal Server al momento dell'autenticazione di un utente (al quale poi viene associato).
 \end{description}
 
