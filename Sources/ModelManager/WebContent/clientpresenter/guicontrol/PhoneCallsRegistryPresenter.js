@@ -9,55 +9,54 @@ function PhoneCallsRegistryPresenter() {
     /*CAMPI DATI PRIVATI*/
     var audio_context;
     var recorder;
-    /*******************/
 
-    /*FUNZIONI PUBBLICHE*/
-    /**
-     * Funzione che ritorna il codice HTML della view
-     *
-     * @author Riccardo Tresoldi
-     * @return {HTMLElement}
-     */
-    this.getView = function() {
-        // ottengo il frammento di codice HTML dalla view
-        var viewRequest = new XMLHttpRequest();
-        viewRequest.open("GET", View["PhoneCallsRegistry"], false);
-        viewRequest.responseType = "document";
-        viewRequest.send();
-        // ritorno il frammendto di codice ottenuto
-        return viewRequest.responseXML.body.childNodes[0];
+    /*FUNZIONI PRIVATE*/
+    function initializeStream() {
+        audio_context = new AudioContext;
+        navigator.getUserMedia({
+            audio : true,
+            video : false
+        }, startUserMedia);
     };
 
+    /*FUNZIONI PUBBLICHE*/
     /**
      * Funzione per mostrare la view
      *
      * @author Riccardo Tresoldi
      */
-    this.showView = function() {
+    this.showView = function(receiver) {
         // ottengo la view con l'apposita funzione
-        var view = this.getview();
+        var view = mediator.getView("PhoneCallRegistry");
         // mostro la view con il popup
-        mediator.showPupup(view);
+        mediator.showPopup();
         // modifico la view
         var phonecallsregistrypresenter = this;
         var startRecordButton = document.getElementById("startRedord");
+        startRecordButton.disabled = false;
         var stopRecordButton = document.getElementById("stopRedord");
+        stopRecordButton.disabled = true;
         var sendRecordButton = document.getElementById("sendRedord");
+        sendRecordButton.disabled = true;
         startRecordButton.onclick = function() {
-            //TODO
+            startRecordButton.disabled = true;
+            initializeStream();
+            stopRecordButton.disabled = false;
         };
         stopRecordButton.onclick = function() {
-            //TODO
+            stopRecordButton.disabled = true;
+            stopRecording();
+            startRecordButton.disabled = false;
         };
         sendRecordButton.click = function() {
-            //TODO
+            startRecordButton.disabled = true;
+            stopRecordButton.disabled = true;
+            sendRecording(receiver);
+            mediator.removePopup();
         };
     };
     /********************/
 
-    /**
-     *
-     */
     function startUserMedia(stream) {
         // creo lo stream media
         var input = audio_context.createMediaStreamSource(stream);
@@ -67,52 +66,32 @@ function PhoneCallsRegistryPresenter() {
         recorder = new Recorder(input);
     }
 
-    /**
-     *
-     */
-    function startRecording(button) {
+    function startRecording() {
         //inizio la registrazione
         recorder && recorder.record();
-        //gestione GUI
-        button.disabled = true;
-        button.nextElementSibling.disabled = false;
     };
 
-    /**
-     * @param {Object} button
-     */
-    function stopRecording(button) {
+    function stopRecording() {
         //ferma la registrazione
         recorder && recorder.stop();
-        //gestione GUI
-        button.disabled = true;
-        button.previousElementSibling.disabled = false;
         // creo link per il download
         //createDownloadLink();
         //pulisco il buffer di registrazione
         recorder.clear();
     };
 
-    /**
-     *
-     * @param {Object} audio
-     */
-    function sendRecording(audio) {
+    function sendRecording(audio, recever) {
+        //TODO gestire audio
         var xhr = new XMLHttpRequest();
-        // invio chiamata servlet da modificare
+        // invio chiamata servlet da modificare FIXME
         xhr.open("POST", "http://localhost:8080/Channel/Segreteria", false);
-        //id dell'utente a cui inviare la registrazione
-        var id = 55;
         //creo elemento che invio alla servlet contenente la registrazione
         var formData = new FormData();
         formData.append("msg", audio);
-        formData.append("contactId", id);
+        formData.append("contactId", recever.id);
         xhr.send(formData);
     };
 
-    /**
-     *
-     */
     //TODO da valutare la necessità
     function createDownloadLink() {
         recorder && recorder.exportWAV(function(blob) {
@@ -139,26 +118,4 @@ function PhoneCallsRegistryPresenter() {
         });
     }
 
-    //inizializza
-    window.onload = function init() {
-        try {
-            // webkit shim
-            window.AudioContext = window.AudioContext || window.webkitAudioContext;
-            navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
-            window.URL = window.URL || window.webkitURL;
-
-            audio_context = new AudioContext;
-            __log('Audio context set up.');
-            __log('navigator.getUserMedia ' + (navigator.getUserMedia ? 'available.' : 'not present!'));
-        } catch (e) {
-            alert('No web audio support in this browser!');
-        }
-
-        navigator.getUserMedia({
-            audio : true,
-            video : false
-        }, startUserMedia, function(e) {
-            __log('No live audio input: ' + e);
-        });
-    };
 }
