@@ -581,11 +581,13 @@ function PresenterMediator() {
      * Richede in input una porzione di codice HTMLDivElement da mostrare
      *
      * @author Riccardo Tresoldi
-     * @param {String} content stringa contenente il frammento HTML
+     * @param {HTMLDivElement} content elemento da visualizzare
      * @param {HTMLDivElement} Ritorna l'elemento HTML dell'anwerBox
      */
     this.showPopup = function(content) {
-        //
+        if (document.getElementsByTagName("answerBox") || document.getElementsByTagName("overlayAnswerBox")) {
+            return null;
+        }
         var body = document.getElementsByTagName("body").item(0);
         //creo il div di sfondo
         var overlay = document.createElement("div");
