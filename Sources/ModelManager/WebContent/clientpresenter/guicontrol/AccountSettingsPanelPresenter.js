@@ -12,10 +12,28 @@ function AccountSettingsPanelPresenter(url) {
     /***************************************************************************
      * VARIABILI PRIVATE
      **************************************************************************/
+    // url della servlet con cui il presenter deve comunicare
+    var servlets = new Array();
+    getServletURLs();
 
     /***************************************************************************
      * METODI PRIVATI
      **************************************************************************/
+    /**
+     * Configura gli indirizzi delle servlet con cui il presenter deve
+     * comunicare per svolgere le proprie operazioni
+     *
+     * @author Diego Beraldin
+     */
+    function getServletURLs() {
+        var configurationRequest = new XMLHttpRequest();
+        configurationRequest.open("POST", configurationFile, false);
+        configurationRequest.send();
+        var XMLDocument = configurationRequest.responseXML;
+        var baseURL = XMLDocument.getElementsByTagName("baseURL")[0].childNodes[0].data;
+        var name = XMLDocument.getElementById("accountsettings").childNodes[0].data;
+        servlets.push(baseURL + name);
+    }
 
     /***************************************************************************
      * METODI PUBBLICI
@@ -141,9 +159,9 @@ function AccountSettingsPanelPresenter(url) {
             // verifica se è cambiato qualcosa e agisce di conseguenza
             if (self.hasSomethingChanged(data)) {
                 var request = new XMLHttpRequest();
-                request.open("POST", commandURL, false);
+                request.open("POST", servlets[0], false);
                 request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                request.send("operation=accountSettings&" + self.buildQueryString(data));
+                request.send(self.buildQueryString(data));
                 // FIXME aggiornare il communicationcenter.my
             }
             mediator.displayAccountSettingsPanel();

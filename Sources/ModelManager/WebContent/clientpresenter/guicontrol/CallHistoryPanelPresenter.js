@@ -10,12 +10,32 @@ function CallHistoryPanelPresenter(url) {
 	/***************************************************************************
 	 * VARIABILI PRIVATE
 	 **************************************************************************/
+	// URL delle servlet con cui deve relazionarsi questo presenter
+	var servlets = new Array();
+	// configura gli indirizzi delle servlet
+	getServletURLs();
 	// array (enumerativo) delle chiamate scaricate dal server
 	var calls = new Array();
 
 	/***************************************************************************
 	 * METODI PRIVATI
 	 **************************************************************************/
+	/**
+	 * Configura gli indirizzi delle servlet con cui il presenter ha l'esigenza
+	 * di comunicare per svolgere le proprie operazioni
+	 * 
+	 * @author Diego Beraldin
+	 */
+	function getServletURLs() {
+		var configurationRequest = new XMLHttpRequest();
+		configurationRequest.open("POST", configurationFile, false);
+		configurationRequest.send();
+		var XMLDocument = configurationRequest.responseXML;
+		var baseURL = XMLDocument.getElementsByTagName("baseURL")[0].childNodes[0].data;
+		var name = XMLDocument.getElementById("getcalls").childNodes[0].data;
+		servlets.push(baseURL + name);
+	}
+
 	/**
 	 * Scarica la lista delle chiamate che sono state effettuate dall'utente
 	 * associato a questo client
@@ -25,9 +45,8 @@ function CallHistoryPanelPresenter(url) {
 	 */
 	function getCalls() {
 		var request = new XMLHttpRequest();
-		request.open("POST", commandURL, false);
-		request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		request.send("operation=getCalls");
+		request.open("POST", servlets[0], false);
+		request.send();
 		return JSON.parse(request.responseText);
 	}
 

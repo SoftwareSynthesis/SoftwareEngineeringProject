@@ -16,8 +16,6 @@ Object.size = function(obj) {
     return size;
 };
 
-var commandURL = "http://localhost:8080/MyTalk/CommandManager";
-
 // alternativa alla versione successiva che non capisco tanto bene (diego)
 
 var isAboutToExit = false;

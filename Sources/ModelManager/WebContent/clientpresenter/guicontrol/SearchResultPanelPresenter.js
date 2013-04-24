@@ -13,10 +13,23 @@ function SearchResultPanelPresenter(url) {
 	/***************************************************************************
 	 * VARIABILI PRIVATE
 	 **************************************************************************/
+	// indirizzo della servlet con cui il presenter deve interfacciarsi
+	var servlets = new Array();
+	// inizializza i normi delle servlet
+	getServletURLs();
 
 	/***************************************************************************
 	 * METODI PRIVATI
 	 **************************************************************************/
+	function getServletURLs() {
+		var configurationRequest = new XMLHttpRequest();
+		configurationRequest.open("POST", configurationFile, false);
+		configurationRequest.send();
+		var XMLDocument = configurationRequest.responseXML;
+		var baseURL = XMLDocument.getElementsByTagName("baseURL")[0].childNodes[0].data;
+		var name = XMLDocument.getElementById("search").childNodes[0].data;
+		servlets.push(baseURL + name);
+	}
 
 	/**
 	 * Recupera il percoso dell'immagine di stato per un determinato contatto

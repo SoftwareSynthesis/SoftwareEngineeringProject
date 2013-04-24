@@ -12,10 +12,38 @@ function MessagePanelPresenter(url) {
 	 **************************************************************************/
 	// array di messaggi
 	var messages = new Array();
+	// url delle servlet da contattare per i messaggi
+	var servlets = new Array();
+	// popola l'array degli URL delle servlet con il contenuto corretto
+	getServletURLs();
 
 	/***************************************************************************
 	 * METODI PRIVATI
-	 **************************************************************************/	
+	 **************************************************************************/
+	/**
+	 * Configura gli URL delle servlet da interrogare leggendoli dal file di
+	 * configurazione in base alle operazioni che questo presenter deve essere
+	 * in grado di compiere
+	 * 
+	 * @author Diego Beraldin
+	 */
+	function getServletURLs() {
+		var configurationRequest = new XMLHttpRequest();
+		configurationRequest.open("POST", configurationFile, false);
+		configurationRequest.send();
+		var XMLDocument = configurationRequest.responseXML;
+		var baseURL = XMLDocument.getElementsByTagName("baseURL")[0].childNodes[0].data;
+
+		var names = Array();
+		names.push(XMLDocument.getElementById("getmessages").childNodes[0].data);
+		names.push(XMLDocument.getElementById("setmessagestatus").childNodes[0].data);
+		names.push(XMLDocument.getElementById("deletemessage").childNodes[0].data);
+
+		for ( var i in names) {
+			servlets.push(baseURL + names[i]);
+		}
+	}	
+
 	/**
 	 * Aggiunge un messaggio a una lista per creare l'elenco della segreteria
 	 * telefonica creando il list item corrispondente (con la stringa
@@ -77,9 +105,8 @@ function MessagePanelPresenter(url) {
 	 */
 	function getMessages() {
 		var request = new XMLHttpRequest();
-		request.open("POST", commandURL, false);
-		request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		request.send("operation=getMessages");
+		request.open("POST", servlets[0], false);
+		request.send();
 		messages = JSON.parse(request.responseText);
 	};
 
@@ -155,9 +182,8 @@ function MessagePanelPresenter(url) {
 	 this.deleteMessage = function(idMessage) {
 		
 		var request = new XMLHttpRequest();
-			request.open("POST", commandURL, false);
-			request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-			request.send("operation=deleteMessage&idMessage=" + idMessage);
+			request.open("POST", servlets[2], false);
+			request.send(id.idMessage);
 			result=JSON.parse(request.responseText);
 			
 			if (result == true) {
@@ -182,10 +208,10 @@ function MessagePanelPresenter(url) {
 	 */
 	this.setAsRead = function(message, valueToSet) {
 		var request = new XMLHttpRequest();
-		request.open("POST", commandURL, false);
+		request.open("POST", servlets[1], false);
 		request.setRequestHeader("Content-type",
 				"application/x-www-form-urlencoded");
-		request.send("operation=updateMessage&idMessage=" + message.id + "&read=" + valueToSet);
+		request.send("idMessage=" + message.id + "&read=" + valueToSet);
 		outcome = JSON.parse(request.responseText);
 		if (!outcome) {
 			throw "Impossibile impostare lo stato del messaggio a "

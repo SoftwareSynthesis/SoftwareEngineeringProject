@@ -13,10 +13,23 @@ function ToolsPanelPresenter() {
     //elemento controllato da questo presenter
     var element = document.getElementById("ToolsPanel");
     element.innerHTML = "";
+    // URL delle servlet
+    var servlets = new Array();
+    getServletURLs();
 
     /**********************************************************
      METODI PRIVATI
      ***********************************************************/
+    function getServletURLs() {
+        var configurationRequest = new XMLHttpRequest();
+        configurationRequest.open("POST", configurationFile, false);
+        configurationRequest.send();
+        var XMLDocument = configurationRequest.responseXML;
+        var baseURL = XMLDocument.getElementsByTagName("baseURL")[0].childNodes[0].data;
+        var name = XMLDocument.getElementById("close").childNodes[0].data;
+        servlets.push(baseURL + name);
+    }
+
     /**
      * funzione per l'inizializzazione della select che gestisce il cambio di
      * stato
@@ -163,9 +176,8 @@ function ToolsPanelPresenter() {
     this.logout = function() {
 		communicationcenter.disconnect();
 		var request = new XMLHttpRequest();
-		request.open("POST", commandURL, false);
-		request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		request.send("operation=logout");
+		request.open("POST", servlets[0], false);
+		request.send();
 		var result = JSON.parse(request.responseText);
 		if (!result) {
 			alert("Ops... qualcosa &egrave; andato storto nel server!");
