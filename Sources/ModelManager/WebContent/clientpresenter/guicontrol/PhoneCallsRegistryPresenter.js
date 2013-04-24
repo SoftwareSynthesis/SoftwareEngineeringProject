@@ -20,10 +20,11 @@ function PhoneCallsRegistryPresenter() {
     this.getView = function() {
         // ottengo il frammento di codice HTML dalla view
         var viewRequest = new XMLHttpRequest();
-        viewRequest.open("POST", View["PhoneCallsRegistry"], false);
+        viewRequest.open("GET", View["PhoneCallsRegistry"], false);
+        viewRequest.responseType = "document";
         viewRequest.send();
         // ritorno il frammendto di codice ottenuto
-        return viewRequest.responseXML;
+        return viewRequest.responseXML.body.childNodes[0];
     };
 
     /**
@@ -35,9 +36,21 @@ function PhoneCallsRegistryPresenter() {
         // ottengo la view con l'apposita funzione
         var view = this.getview();
         // mostro la view con il popup
-        /*TODO la seguente funzione deve essere creata in mediator e deve
-         permettere di passare un frammento di codice da visualizzare*/
         mediator.showPupup(view);
+        // modifico la view
+        var phonecallsregistrypresenter = this;
+        var startRecordButton = document.getElementById("startRedord");
+        var stopRecordButton = document.getElementById("stopRedord");
+        var sendRecordButton = document.getElementById("sendRedord");
+        startRecordButton.onclick = function() {
+            //TODO
+        };
+        stopRecordButton.onclick = function() {
+            //TODO
+        };
+        sendRecordButton.click = function() {
+            //TODO
+        };
     };
 
     /**
