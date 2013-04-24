@@ -9,6 +9,8 @@ function PhoneCallsRegistryPresenter() {
     /*CAMPI DATI PRIVATI*/
     var audio_context;
     var recorder;
+	var objAudio;
+	var localStream;
 
     /*FUNZIONI PRIVATE*/
     function initializeStream() {
@@ -58,6 +60,7 @@ function PhoneCallsRegistryPresenter() {
     /********************/
 
     function startUserMedia(stream) {
+		localStream = stream;
         // creo lo stream media
         var input = audio_context.createMediaStreamSource(stream);
         // collego lo stream audio
@@ -77,23 +80,29 @@ function PhoneCallsRegistryPresenter() {
         // creo link per il download
         //createDownloadLink();
         //pulisco il buffer di registrazione
-        recorder.clear();
+		recorder && recorder.exportWAV(function(blob) {
+            objAudio = blob;
+		});
+		localStream.stop();
+		recorder.clear();
     };
 
-    function sendRecording(audio, recever) {
+    function sendRecording(recever) {
         //TODO gestire audio
         var xhr = new XMLHttpRequest();
         // invio chiamata servlet da modificare FIXME
         xhr.open("POST", "http://localhost:8080/Channel/Segreteria", false);
         //creo elemento che invio alla servlet contenente la registrazione
         var formData = new FormData();
-        formData.append("msg", audio);
+        formData.append("msg", objAudio);
         formData.append("contactId", recever.id);
         xhr.send(formData);
     };
 
     //TODO da valutare la necessità
-    function createDownloadLink() {
+    //Se serve da rivedere, ora non corretto
+	/*
+	function createDownloadLink() {
         recorder && recorder.exportWAV(function(blob) {
             objAudio = blob;
             var url = URL.createObjectURL(blob);
@@ -117,5 +126,6 @@ function PhoneCallsRegistryPresenter() {
             recordingslist.appendChild(li);
         });
     }
+	*/
 
 }
