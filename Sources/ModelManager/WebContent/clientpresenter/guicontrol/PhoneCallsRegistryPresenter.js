@@ -8,6 +8,7 @@
 function PhoneCallsRegistryPresenter() {
     var audio_context;
     var recorder;
+	var localStream;
 
     //FIXME potrebbe essere nel mediator
     /**
@@ -68,6 +69,8 @@ function PhoneCallsRegistryPresenter() {
     this.stopRecording = function(button) {
         //ferma la registrazione
         recorder && recorder.stop();
+		//chiude l'input dalla fotocamera
+		localStream.stop();
         //gestione GUI
         button.disabled = true;
         button.previousElementSibling.disabled = false;
