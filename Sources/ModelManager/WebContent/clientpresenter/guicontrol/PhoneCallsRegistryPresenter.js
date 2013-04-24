@@ -6,11 +6,12 @@
  * @author Riccardo Tresoldi
  */
 function PhoneCallsRegistryPresenter() {
+    /*CAMPI DATI PRIVATI*/
     var audio_context;
     var recorder;
-	var localStream;
+    /*******************/
 
-    //FIXME potrebbe essere nel mediator
+    /*FUNZIONI PUBBLICHE*/
     /**
      * Funzione che ritorna il codice HTML della view
      *
@@ -52,23 +53,24 @@ function PhoneCallsRegistryPresenter() {
             //TODO
         };
     };
+    /********************/
 
     /**
      *
      */
-    this.startUserMedia = function(stream) {
+    function startUserMedia(stream) {
         // creo lo stream media
         var input = audio_context.createMediaStreamSource(stream);
         // collego lo stream audio
         input.connect(audio_context.destination);
         // Inizializzo l'oggetto record per registrare l'imput
         recorder = new Recorder(input);
-    };
+    }
 
     /**
      *
      */
-    this.startRecording = function(button) {
+    function startRecording(button) {
         //inizio la registrazione
         recorder && recorder.record();
         //gestione GUI
@@ -79,11 +81,9 @@ function PhoneCallsRegistryPresenter() {
     /**
      * @param {Object} button
      */
-    this.stopRecording = function(button) {
+    function stopRecording(button) {
         //ferma la registrazione
         recorder && recorder.stop();
-		//chiude l'input dalla fotocamera
-		localStream.stop();
         //gestione GUI
         button.disabled = true;
         button.previousElementSibling.disabled = false;
@@ -97,7 +97,7 @@ function PhoneCallsRegistryPresenter() {
      *
      * @param {Object} audio
      */
-    this.sendRecording = function(audio) {
+    function sendRecording(audio) {
         var xhr = new XMLHttpRequest();
         // invio chiamata servlet da modificare
         xhr.open("POST", "http://localhost:8080/Channel/Segreteria", false);
