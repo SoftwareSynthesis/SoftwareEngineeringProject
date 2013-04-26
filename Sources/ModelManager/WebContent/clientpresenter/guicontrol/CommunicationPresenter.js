@@ -242,7 +242,8 @@ function CommunicationPanelPresenter() {
      */
     this.appendToChat = function(user, text) {
         var divContainerChat = chatElements[user.id];
-        var textArea = divContainerChat.getElementById("chatText");
+        
+        var textArea = document.evaluate("//node()[@id='chatText']", divContainerChat, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
         textArea.value += ("io:" + text + "\n");
     };
 
@@ -258,86 +259,15 @@ function CommunicationPanelPresenter() {
      * @author Riccardo Tresoldi
      */
     this.createPanel = function() {
-        // FIXME preventivo
         if (element == null) {
-            element = document.createElement('div');
-            element.setAttribute("id", "CommunicationPanel");
+            element = mediator.getView("CommunicationView");
 
-            // azzero il div
-            element.innerHTML = "";
-
-            var divHeader = document.createElement("div");
-            divHeader.className = "panelHeader";
-            var header = document.createElement("h1");
-            header.appendChild(document.createTextNode("pannello di comunicazione"));
-            divHeader.appendChild(header);
-            element.appendChild(divHeader);
-
-            // creo div contenente la chiamata vera e propria
-            var divCall = document.createElement('div');
-            divCall.id = "divCall";
-            // creo div contenente le chat testuali
-            var divChat = document.createElement('div');
-            divChat.id = "divChat";
-
-            // creo gli elementi video per la videochat
-            var myVideo = document.createElement('video');
-            myVideo.id = "myVideo";
-            myVideo.setAttribute("autoplay", "autoplay");
-            myVideo.setAttribute("muted", "muted");
-            // attribute poster per immagine di caricamento
-            var otherVideo = document.createElement('video');
-            otherVideo.id = "otherVideo";
-            otherVideo.setAttribute("autoplay", "autoplay");
-
-            // creo div per visualizzare le statistiche della chiamata
-            statDiv = document.createElement("div");
-            statDiv.id = "statDiv";
-            var statSpan = document.createElement("span");
-            statSpan.id = "statSpan";
-            var statReceved = document.createElement("span");
-            statReceved.id = "statReceved";
-            var statSend = document.createElement("span");
-            statSend.id = "statSend";
-            statSpan.appendChild(statReceved);
-            statSpan.appendChild(statSend);
-            var timerSpan = document.createElement("span");
-            timerSpan.id = "timerSpan";
-            statDiv.appendChild(statSpan);
-            statDiv.appendChild(timerSpan);
-
-            // creo i bottoni per per la gestione della chiamata
-            var closeButton = document.createElement('button');
-            closeButton.type = "button";
-            closeButton.appendChild(document.createTextNode("Termina"));
-            closeButton.id = "closeButton";
+            // configura la vista
+            var closeButton = document.evaluate("//node()[@id='closeButton']", element, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
             closeButton.onclick = function() {
                 communicationcenter.endCall();
                 mediator.addOrRemoveCommunicationToTools();
             };
-
-            // appendo i child al divCall
-            divCall.appendChild(myVideo);
-            divCall.appendChild(otherVideo);
-            divCall.appendChild(statDiv);
-            divCall.appendChild(closeButton);
-
-            // creo gli elementi per la chat testuale
-            // creo l'<ul> per le schede delle chat aperte
-            var ulOpenChat = document.createElement('ul');
-            ulOpenChat.id = "ulOpenChat";
-
-            // creo il div per la visualizzazione della chat selezionata.
-            // var divContainerChat = document.createElement('div');
-            // divContainerChat.id = "divContainerChat";
-
-            // appendo la lista al <div> della chat
-            divChat.appendChild(ulOpenChat);
-            // divChat.appendChild(divContainerChat);
-
-            // apendo il sottoalbero al DOM
-            element.appendChild(divCall);
-            element.appendChild(divChat);
         }
         return element;
     };

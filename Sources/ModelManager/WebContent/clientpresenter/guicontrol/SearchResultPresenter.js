@@ -95,23 +95,7 @@ function SearchResultPanelPresenter(url) {
 	 * @author Diego Beraldin
 	 */
 	this.createPanel = function() {
-		// crea l'elemento
-		var element = document.createElement("div");
-		element.id = "SearchResultPanel";
-		// crea l'intestazione
-		var header = document.createElement("h1");
-		header.appendChild(document.createTextNode("Ricerca utenti"));
-		var divHeader = document.createElement("div");
-		divHeader.className = "panelHeader";
-		divHeader.appendChild(header);
-		element.appendChild(divHeader);
-
-		// crea la lista degli utenti
-		userList = document.createElement("ul");
-		userList.id = "userList";
-		// aggiunge al sottoalbero il nuovo elemento
-		element.appendChild(userList);
-
+		var element = mediator.getView("SearchResultView");
 		return element;
 	};
 

@@ -267,6 +267,22 @@ function PresenterMediator() {
     this.getAddressBookGroups = function() {
         return presenters["addressbook"].getGroups();
     };
+    
+    /**
+     * Provoca la creazione del pannello dei gruppo e la sua
+     * visualizzazione all'interno del MainPanel come elemento figlio. La
+     * costruzione del pannello è affidata al metodo createPanel che viene reso
+     * disponibile da tutti i presenter di secondo livello
+     * 
+     * @see MainPanel#displayChildPanel({HTMLDivElement})
+     * @see GroupPanelPresenter#createPanel()
+     * @author Diego Beraldin
+     */
+    this.displayGroupPanel = function() {
+    	var element = grouppp.createPanel();
+    	presenters["main"].displayChildPanel(element);
+    	grouppp.setup();
+    };
 
     /**
      * Provoca la creazione del pannello della segreteria e la sua
@@ -281,6 +297,7 @@ function PresenterMediator() {
     this.displayMessagePanel = function() {
         var element = messagepp.createPanel();
         presenters["main"].displayChildPanel(element);
+        messagepp.setup();
     };
 
     /**
@@ -307,6 +324,7 @@ function PresenterMediator() {
     this.displayCallHistoryPanel = function() {
         var element = callhistorypp.createPanel();
         presenters["main"].displayChildPanel(element);
+        callhistorypp.setup();
     };
 
     /**
@@ -647,7 +665,7 @@ function PresenterMediator() {
 	 * per l'array associativo delle viste contenuto qui.
 	 * 
 	 * @param {String} key
-	 * @returns {HTMLElement}
+	 * @returns {HTMLDivElement}
 	 * @author Riccardo Tresoldi
 	 */
 	this.getView = function(key) {

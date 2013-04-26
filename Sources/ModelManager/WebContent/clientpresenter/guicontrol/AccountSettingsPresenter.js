@@ -165,53 +165,33 @@ function AccountSettingsPanelPresenter(url) {
      * @author Elena Zecchinato
      * @author Diego Beraldin
      */
-    this.createPanel = function() {
-        var element = document.createElement("div");
-        element.setAttribute("id", "AccountSettingsPanel");
+	 this.createPanel = function() {
+		var self = this;
+		// ottiene un riferimento alla vista
+		var element = mediator.getview("AccountSettingsView");
 
-        var divHeader = document.createElement("div");
-        divHeader.className = "panelHeader";
-        var header = document.createElement("h1");
-        header.appendChild(document.createTextNode("dati personali"));
-        divHeader.appendChild(header);
-        element.appendChild(divHeader);
+		// configura la vista
+		var nameNode = document.evaluate("//node[@id='name']", element, null,
+				XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+		nameNode.appendChild(document
+				.createTextNode(communicationcenter.my.name));
 
-        /*
-         * Tutti gli elementi qui mostrati sono recuperati tramite il
-         * riferimento al communicationcenter e la proprietà my in esso
-         * contenuta, dove sono memorizzati i dati relativi all'utente.
-         */
+		var surnameNode = document.evaluate("//node[@id='surname']", element,
+				null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+		surnameNode.appendChild(document
+				.createTextNode(communicationcenter.my.surname));
 
-        var nameNode = document.createElement('li');
-        nameNode.setAttribute("id", "name");
-        nameNode.appendChild(document.createTextNode(communicationcenter.my.name));
+		var pictureNode = document.evaluate("//node[@id='picture']", element,
+				null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+		pictureNode.src = communicationcenter.my.picturePath;
 
-        var surnameNode = document.createElement('li');
-        nameNode.setAttribute("id", "surname");
-        surnameNode.appendChild(document.createTextNode(communicationcenter.my.surname));
-
-        var pictureNode = document.createElement('img');
-        pictureNode.setAttribute("id", "picture");
-        pictureNode.setAttribute("src", communicationcenter.my.picturePath);
-
-        var changeButton = document.createElement('button');
-        changeButton.setAttribute("type", "button");
-        changeButton.appendChild(document.createTextNode("Modifica dati"));
-        // TODO da testare il funzionamento quando viene premuto il pulsante
-        changeButton.onclick = this.onChangeButtonPressed;
+		var changeButton = document.evaluate("//node[@id='changeButton']",
+				element, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+		changeButton.onclick = function() {
+			self.onChangeButtonPressed();
+		};
 
         // FIXME possono cambiare anche password, domanda segreta e risposta!?
-
-        // appende i sottonodi ai nodi principali
-        var ulData = document.createElement('ul');
-        ulData.style.listStyleType = "none";
-        ulData.appendChild(nameNode);
-        ulData.appendChild(surnameNode);
-
-        // appende il sottoalbero al DOM
-        element.appendChild(pictureNode);
-        element.appendChild(ulData);
-        element.appendChild(changeButton);
-        return element;
+		return element;
     };
 }

@@ -99,34 +99,7 @@ function MessagePanelPresenter(url) {
 	 * @author Riccardo Tresoldi
 	 */
 	this.createPanel = function(element) {
-		var element = document.createElement("div");
-		element.setAttribute("id", "MessagePanel");
-		// creo elemento <video>, <audio> e <img> (nel caso non ci sia video)
-		
-		var header = document.createElement("h1");
-		header.appendChild(document.createTextNode("Messaggi Segreteria"));
-		divHeader.appendChild(header);
-		element.appendChild(divHeader);
-		
-		var video = document.createElement("video");
-		video.setAttribute("id", "messageVideo");
-		video.setAttribute("controls", "controls");
-		var source = document.createElement("source");
-		source.setAttribute("src", "");
-		source.setAttribute("type", "");
-		video.appendChild(source);
-
-		
-		// creo la lista dei messaggi
-		var divMessageList = document.createElement("div");
-		divMessageList.setAttribute("id", "divMessage");
-		var messageList = document.createElement("ul");
-		messageList.setAttribute("id", "messageList");
-		divMessageList.appendChild(messageList);
-		this.setup();
-		// appendo al this.element
-		element.appendChild(video);
-		element.appendChild(divMessageList);
+		var element = mediator.getView("MessageView");
 		return element;
 	};
 

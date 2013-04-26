@@ -68,22 +68,7 @@ function CallHistoryPanelPresenter(url) {
 	 * @author Elena Zecchinato
 	 */
 	this.createPanel = function() {
-		var element = document.createElement("div");
-		element.setAttribute("id", "CallHistoryPanel");
-		// creo contenuto di CallHistory
-		
-		var divHeader = document.createElement("div");
-	    divHeader.className = "panelHeader";
-	    var header = document.createElement("h1");
-	    header.appendChild(document.createTextNode("Storico Chiamate"));
-	    divHeader.appendChild(header);
-	    element.appendChild(divHeader);
-		
-		
-		var ulHistory = document.createElement('ul');
-		ulHistory.id = "ulHistory";
-		element.appendChild(ulHistory);
-		this.setup();
+		var element = mediator.getView("CallHistoryView");
 		return element;
 	};
 

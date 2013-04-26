@@ -189,25 +189,7 @@ function GroupPanelPresenter(url) {
 	 * @author Riccardo Tresoldi
 	 */
 	this.createPanel = function() {
-		// creazione dell'elemento
-		var element = document.createElement("div");
-		element.id = "groupPanel";
-
-		// creazione dell'intestazione
-		var header = document.createElement("h1");
-		header.appendChild(document.createTextNode("Gestione gruppi"));
-		var divHeader = document.createElement("div");
-		divHeader.className = "panelHeader";
-		divHeader.appendChild(header);
-
-		// creazione della lista dei gruppi
-		groupList = document.createElement("ul");
-		groupList.id = "groupList";
-
-		// aggiunge al sottoalbero i nuovi elementi
-		element.appendChild(divHeader);
-		element.appendChild(groupList);
-		this.setup();
+		var element = mediator.getView("GroupView");
 		return element;
 	};
 
