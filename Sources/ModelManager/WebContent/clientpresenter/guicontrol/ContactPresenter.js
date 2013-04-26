@@ -79,105 +79,11 @@ function ContactPanelPresenter() {
      * @author Elena Zecchinato
      */
     this.createPanel = function() {
-        var element = document.createElement("div");
-        element.setAttribute("id", "ContactPanel");
-
-        var divHeader = document.createElement("div");
-        divHeader.className = "panelHeader";
-        var header = document.createElement("h1");
-        header.appendChild(document.createTextNode("Scheda Contatto"));
-        divHeader.appendChild(header);
-        element.appendChild(divHeader);
-
-        var displayBlockedDiv = document.createElement("div");
-        displayBlockedDiv.id = "displayBlockedDiv";
-        displayBlockedDiv.appendChild(document.createTextNode("Contatto Bloccato"));
-        displayBlockedDiv.style.display = "none";
-
-        var name = document.createElement('li');
-        name.setAttribute("id", "contactName");
-
-        var surname = document.createElement('li');
-        surname.setAttribute("id", "contactSurname");
-
-        var email = document.createElement('li');
-        email.setAttribute("id", "contactEmail");
-
-        var avatar = document.createElement('img');
-        avatar.setAttribute("id", "contactAvatar");
-        avatar.setAttribute("src", "");
-
-        var groupsDiv = document.createElement("div");
-        groupsDiv.id = "groupsDiv";
-
-        // pulsante per chiamata audio
-        var callButton = document.createElement('button');
-        callButton.type = "button";
-        callButton.id = "callButton";
-        callButton.appendChild(document.createTextNode("Chiama"));
-
-        // pulsante per chiamata audio/video
-        var videoCallButton = document.createElement('button');
-        videoCallButton.type = "button";
-        videoCallButton.id = "videoCallButton";
-        videoCallButton.appendChild(document.createTextNode("Video-chiama"));
-
-        // pulsante per chat testuale
-        var chatButton = document.createElement('button');
-        chatButton.type = "button";
-        chatButton.id = "chatButton";
-        chatButton.appendChild(document.createTextNode("Avvia Chat Testuale"));
-
-        // pulsante per aggiungere utente alla rubrica
-        var addToAddressBookButton = document.createElement('button');
-        addToAddressBookButton.type = "button";
-        addToAddressBookButton.id = "addToAddressBookButton";
-        addToAddressBookButton.appendChild(document.createTextNode("Aggiungi in Rubrica"));
-
-        // pulsante per bloccare l'utente
-        var blockButton = document.createElement('button');
-        blockButton.type = "button";
-        blockButton.id = "blockButton";
-        blockButton.style.display = "none";
-        blockButton.appendChild(document.createTextNode("Blocca"));
-
-        // pulsante per sbloccare l'utente
-        var unlockButton = document.createElement('button');
-        unlockButton.type = "button";
-        unlockButton.id = "unlockButton";
-        unlockButton.style.display = "none";
-        unlockButton.appendChild(document.createTextNode("Sblocca"));
-        
-        // pulsante per rimuovere il contatto dalla rubrica
-        var removeFromAddressBookButton = document.createElement("button");
-        removeFromAddressBookButton.type = "button";
-        removeFromAddressBookButton.id = "removeFromAddressBookButton";
-        removeFromAddressBookButton.appendChild(document.createTextNode("Rimuovi dalla Rubrica"));
-
-        // appendo i sottonodi alla lista dei dati dell'utente
-        var ulData = document.createElement('ul');
-        ulData.appendChild(name);
-        ulData.appendChild(surname);
-        ulData.appendChild(email);
-
-        // costruisco la parte del pannello con i pulsanti
-        var buttonDiv = document.createElement("div");
-        buttonDiv.id = "buttonDiv";
-        buttonDiv.appendChild(callButton);
-        buttonDiv.appendChild(videoCallButton);
-        buttonDiv.appendChild(chatButton);
-        buttonDiv.appendChild(addToAddressBookButton);
-        buttonDiv.appendChild(removeFromAddressBookButton);
-        buttonDiv.appendChild(blockButton);
-        buttonDiv.appendChild(unlockButton);
-
-        // appendo il sottoalbero al DOM
-        element.appendChild(displayBlockedDiv);
-        element.appendChild(avatar);
-        element.appendChild(ulData);
-        element.appendChild(groupsDiv);
-        element.appendChild(buttonDiv);
-
+        // ottiene un riferiment alla vista
+    	var element = mediator.getView("ContactView");
+    	
+       // configura la vista
+       // TODO sbaglio o manca qualcosa?
         return element;
     };
 
@@ -208,8 +114,6 @@ function ContactPanelPresenter() {
         var videoCallButton = document.getElementById("videoCallButton");
         var callButton = document.getElementById("callButton");
         var removeFromAddressBookButton = document.getElementById("removeFromAddressBookButton");
-
-        var self = this;
 
         adjustBlockButtonDisplay(contact);
 
