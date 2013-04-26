@@ -20,21 +20,10 @@ Object.size = function(obj) {
     return size;
 };
 
-/* TODO da sistemare perchè non va bene
-// alternativa alla versione successiva che non capisco tanto bene (diego)
-var isAboutToExit = false;
+var commandURL = "http://localhost:8080/MyTalk/CommandManager";
 
-window.onbeforeunload = function() {
-    var answer = confirm("Sicuro di voler uscire?");
-    if (answer) {
-        isAboutToExit = true;
-    }
-};
-window.onunload = function() {
-    if (isAboutToExit) {
-        mediator.logout();
-    }
-};
+/* TODO da sistemare perchè non va bene
+
 
 //fatto da Stefano, eventualmente da sistemare (forse...)
 var needToConfirm = true;

@@ -11,45 +11,13 @@ function LoginPanelPresenter() {
     /***************************************************************************
      * VARIABILI PRIVATE
      **************************************************************************/
-    /*
-    * 0 = LoginAutentication 1 = LoginClose 2 = LoginGetSecretQuestion 3 =
-    * LoginDoSecretAnswer 4 = LoginDoRegistration
-    */
-
     // elemento controllato da questo presenter
     var element = document.getElementById("LoginPanel");
     element.innerHTML = "";
-    // array degli URL delle servlet che sono utilizzate qui dentro
-    var servlets = new Array();
-    // inizializza gli URL delle servlet
-    getServletURLs();
 
     /***************************************************************************
      * METODI PRIVATI
      **************************************************************************/
-    /**
-     * Configura gli URL delle servlet da interrogare leggendoli dal file di
-     * configurazione
-     *
-     * @author Diego Beraldin
-     */
-    function getServletURLs() {
-        var configurationRequest = new XMLHttpRequest();
-        configurationRequest.open("POST", configurationFile, false);
-        configurationRequest.send();
-        var XMLDocument = configurationRequest.responseXML;
-        var baseURL = XMLDocument.getElementsByTagName("baseURL")[0].childNodes[0].data;
-
-        var names = Array();
-        names.push(XMLDocument.getElementById("authentication").childNodes[0].data);
-        names.push(XMLDocument.getElementById("question").childNodes[0].data);
-        names.push(XMLDocument.getElementById("answer").childNodes[0].data);
-
-        for (var i in names) {
-            servlets.push(baseURL + names[i]);
-        }
-    }
-
     /**
      * Testa quanto ricevuto dal server e, in caso di login avvenuto
      * correttamente reindirizza il browser nella pagina finale dopo aver
@@ -133,9 +101,9 @@ function LoginPanelPresenter() {
     function getSecretQuestion(username) {
         var question = "";
         var request = new XMLHttpRequest();
-        request.open("POST", servlets[1], false);
+        request.open("POST", commandURL, false);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        request.send("username=" + encodeURIComponent(username));
+        request.send("operation=question&username=" + encodeURIComponent(username));
         question = request.responseText;
         return question;
     }
@@ -155,9 +123,9 @@ function LoginPanelPresenter() {
      */
     this.hasAnsweredCorrectly = function(username, answer) {
         var request = new XMLHttpRequest();
-        request.open("POST", servlets[2], false);
+        request.open("POST", commandURL, false);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        request.send("username=" + encodeURIComponent(username) + "&answer=" + encodeURIComponent(answer));
+        request.send("operation=answer&username=" + encodeURIComponent(username) + "&answer=" + encodeURIComponent(answer));
         return JSON.parse(request.responseText);
     };
 
@@ -267,9 +235,9 @@ function LoginPanelPresenter() {
     this.login = function(data) {
         // invia la richiesta AJAX al server
         var request = new XMLHttpRequest();
-        request.open("POST", servlets[0], false);
+        request.open("POST", commandURL, false);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        var querystring = "username=" + encodeURIComponent(data.username) + "&password=" + encodeURIComponent(data.password);
+        var querystring = "operation=login&username=" + encodeURIComponent(data.username) + "&password=" + encodeURIComponent(data.password);
         request.send(querystring);
         testCredentials(request.responseText);
         return querystring;
