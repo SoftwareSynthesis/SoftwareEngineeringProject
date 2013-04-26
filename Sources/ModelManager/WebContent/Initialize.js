@@ -4,9 +4,9 @@ window.onload = function() {
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
     window.URL = window.URL || window.webkitURL;
     // VARIABILI GLOBALI per cui i programmatori meritano il taglio delle dita
-    configurationFile = "Conf/servletlocation.xml";
     mediator = new PresenterMediator();
     communicationcenter = new CommunicationCenter();
+    commandURL = "http://localhost:8080/MyTalk/CommandManager";
     // crea l'interfaccia di autenticazione
     mediator.buildLoginUI();
 };
@@ -19,8 +19,6 @@ Object.size = function(obj) {
     }
     return size;
 };
-
-var commandURL = "http://localhost:8080/MyTalk/CommandManager";
 
 /* TODO da sistemare perchè non va bene
 

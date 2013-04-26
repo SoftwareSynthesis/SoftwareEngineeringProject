@@ -14,9 +14,9 @@ function PresenterMediator() {
 			AccountSettingsView: "AccountSettingsView.html",
 			AddressBookView: "AddressBookView.html",
 			CallHistoryView: "CallHistoryView.html",
-			GroupPanelView: "CommunicationView.html",
-			LoginPanelView: "LoginPanelView.html",
-			MainPanelView: "MainPanelView.html",
+			GroupView: "CommunicationView.html",
+			LoginView: "LoginView.html",
+			MainView: "MainView.html",
 			MessageView: "MessageView.html",
 			PhoneCallsRegistry: "PhoneCallsRegistryView.html",
 			RegisterView: "RegisterView.html",
@@ -653,7 +653,7 @@ function PresenterMediator() {
 	this.getView = function(key) {
 		// ottengo il frammento di codice HTML dalla view
 		var viewRequest = new XMLHttpRequest();
-		viewRequest.open("GET", View[key], false);
+		viewRequest.open("GET", "clientview/" + View[key], false);
 		viewRequest.responseType = "document";
 		viewRequest.send();
 		// ritorno il frammendto di codice ottenuto

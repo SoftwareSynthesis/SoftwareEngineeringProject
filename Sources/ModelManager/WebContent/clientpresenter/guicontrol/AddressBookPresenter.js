@@ -17,8 +17,7 @@ function AddressBookPanelPresenter() {
      * VARIABILI PRIVATE
      **************************************************************************/
     // elemento controllato da questo presenter
-    var element = document.getElementById("AddressBookPanel");
-    element.innerHTML = "";
+    var element;
     // array dei contatti della rubrica dell'utente
     var contacts = new Array();
     // array dei gruppi della rubrica
@@ -158,66 +157,32 @@ function AddressBookPanelPresenter() {
      * Inizializza 'AddressBookPanel' e lo popola con i contatti della rubrica
      *
      * @author Riccardo Tresoldi
+     * @author Diego Beraldin
      */
     this.initialize = function() {
-        // mi imposto come visibile
-        element.style.display = "block";
-        element.innerHTML = "";
-        // creo i tre div principali
-        var addressBookHeader = document.createElement('h1');
-        var divFilter = document.createElement('div');
-        var divSort = document.createElement('div');
-        var divList = document.createElement('div');
-        var divGroup = document.createElement('div');
-        addressBookHeader.appendChild(document.createTextNode("RUBRICA"));
-        divFilter.id = "divFilter";
-        divSort.id = "divSort";
-        divList.id = "divList";
-        divGroup.id = "divGroup";
-
-        // creo contenuto divFilter
-        var inputText = document.createElement('input');
-        inputText.type = "text";
-        var inputButton = document.createElement('input');
-        inputButton.type = "image";
-        inputButton.src = "img/search.png";
-
-        var selectGroup = document.createElement('select');
-        selectGroup.id = "selectGroup";
-        // attribuisco gli eventi per la ricerca
-        var self = this;
+    	var self = this;
+    	
+    	// ottiene la propria vista
+    	element = mediator.getView("AddressBookView");
+    	
+    	// posiziona il pannello sulla pagina
+    	document.body.appendChild(element);
+    	
+    	// configura il comportamento della vista
+    	var inputButton = document.getElementById("inputButton");
         inputButton.onclick = function() {
             var serchField = inputText.value;
             var filtredContacts = self.applyFilterByString(serchField);
             self.showFilter(filtredContacts);
         };
+        
+        var selectGroup = document.getElementById("selectGroup");
         selectGroup.onchange = function() {
             var idGroupSelected = selectGroup.options[selectGroup.selectedIndex].value;
             var filtredContacts = self.applyFilterByGroup(idGroupSelected);
             var isWhitelist = groups[idGroupSelected].name == "addrBookEntry";
             self.showFilter(filtredContacts, isWhitelist);
         };
-        // creo contenuto divSort
-        var selectSort = document.createElement('select');
-        selectSort.id = "selectSort";
-
-        // creo contenuto divList
-        var ul = document.createElement('ul');
-        ul.id = "AddressBookList";
-
-        // appendo i sottonodi ai nodi principali
-        divFilter.appendChild(inputText);
-        divFilter.appendChild(inputButton);
-        divSort.appendChild(selectSort);
-        divList.appendChild(ul);
-        divGroup.appendChild(selectGroup);
-
-        // appendo il sottoalbero al DOM
-        element.appendChild(addressBookHeader);
-        element.appendChild(divFilter);
-        //element.appendChild(divSort);
-        element.appendChild(divList);
-        element.appendChild(divGroup);
 
         // visualizza i contatti nel pannello
         this.setup();
@@ -271,7 +236,7 @@ function AddressBookPanelPresenter() {
      */
     this.hide = function() {
         if (element) {
-            element.style.display = "none";
+            document.body.removeChild(element);
         }
     };
 

@@ -11,8 +11,7 @@ function MainPanelPresenter() {
 	 * VARIABILI PRIVATE
 	 **************************************************************************/
 	// elemento controllato da questo presenter
-	var element = document.getElementById("MainPanel");
-	element.innerHTML = "";
+	var element;
 
 	/***************************************************************************
 	 * METODI PUBBICI
@@ -22,10 +21,11 @@ function MainPanelPresenter() {
 	 * centrale della finestra
 	 * 
 	 * @author Elena Zecchinato
+	 * @author Diego Beraldin
 	 */
 	this.initialize = function() {
-		element.style.display = "block";
-		element.innerHTML = "";
+		element = mediator.getView("MainView");
+		document.body.appendChild(element);
 	};
 
 	/**
@@ -47,6 +47,8 @@ function MainPanelPresenter() {
 	 * @author Diego Beraldin
 	 */
 	this.hide = function() {
-		element.style.display = "none";
+		if (element) {
+			document.body.removeChild(element);
+		}
 	};
 }

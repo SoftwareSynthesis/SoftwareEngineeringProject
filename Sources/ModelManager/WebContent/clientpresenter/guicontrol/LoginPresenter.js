@@ -12,8 +12,7 @@ function LoginPanelPresenter() {
      * VARIABILI PRIVATE
      **************************************************************************/
     // elemento controllato da questo presenter
-    var element = document.getElementById("LoginPanel");
-    element.innerHTML = "";
+    var element;
 
     /***************************************************************************
      * METODI PRIVATI
@@ -252,8 +251,7 @@ function LoginPanelPresenter() {
      */
     this.hide = function() {
         if (element) {
-            element.style.display = "none";
-            element.innerHTML = "";
+            document.body.removeChild(element);
         }
     };
 
@@ -267,58 +265,14 @@ function LoginPanelPresenter() {
      * @author Diego Beraldin
      */
     this.initialize = function() {
-        element.innerHTML = "";
-        element.style.display = "block";
-        // creazione dell'elemento form
-        var loginForm = document.createElement('fieldset');
-        loginForm.id = "loginForm";
-
-        // div per logo
-        var divLogo = document.createElement("div");
-        divLogo.id = "logo";
-
-        // creazione dell'elemento <ul> contenuto nel form
-        var ulData = document.createElement('ul');
-
-        // creazione dell'item per lo username
-        var liUserName = document.createElement('li');
-        // label
-        var labelUserName = document.createElement('label');
-        labelUserName.setAttribute("for", "username");
-        labelUserName.innerHTML = "Nome utente: ";
-        // input
-        var inputUserName = document.createElement('input');
-        inputUserName.type = "email";
-        inputUserName.id = "username";
-        inputUserName.name = "username";
-        inputUserName.setAttribute("placeholder", "yourname@email.com");
-        inputUserName.setAttribute("required", "required");
-        // costruisce il list item con la label e l'input
-        liUserName.appendChild(labelUserName);
-        liUserName.appendChild(inputUserName);
-
-        // crea l'item per la password
-        var liPassword = document.createElement('li');
-        // label
-        var labelPassword = document.createElement('label');
-        labelPassword.setAttribute("for", "password");
-        labelPassword.innerHTML = "Password: ";
-        // input
-        var inputPassword = document.createElement('input');
-        inputPassword.type = "password";
-        inputPassword.id = "password";
-        inputPassword.name = "password";
-        inputPassword.setAttribute("placeholder", "password");
-        inputPassword.setAttribute("required", "required");
-        // costruisce il list item con la label e l'input
-        liPassword.appendChild(labelPassword);
-        liPassword.appendChild(inputPassword);
-
-        // pulsante di login
-        var inputLogin = document.createElement('button');
-        inputLogin.type = "submit";
-        inputLogin.appendChild(document.createTextNode('Login'));
-        var self = this;
+    	// ottiene la propria vista
+    	element = mediator.getView("LoginView");
+    	
+    	// attacca il pannello alla pagina
+    	document.body.appendChild(element);
+    	
+    	// configura il comportamento della vista
+    	var inputLogin = document.getElementById("inputLogin");
         inputLogin.onclick = function() {
             try {
                 var data = new Object();
@@ -329,19 +283,14 @@ function LoginPanelPresenter() {
                 alert(err);
             }
         };
-        // pulsante di registrazione
-        var inputRegister = document.createElement('button');
-        inputRegister.type = "submit";
-        inputRegister.appendChild(document.createTextNode('Registrazione'));
+        
+        var inputRegister = document.getElementById("inputRegister");
         inputRegister.onclick = function() {
             self.hide();
             mediator.buildRegistrationUI();
         };
-        // pulsante per recuperare la password
-        var inputRetrievePassword = document.createElement("button");
-        inputRetrievePassword.type = "submit";
-        ;
-        inputRetrievePassword.appendChild(document.createTextNode('Recupera password'));
+        
+        var inputRetrievePassword = document.getElementById("inputRetrievePassword");
         inputRetrievePassword.onclick = function() {
             try {
                 var form = self.buildRetrievePasswordForm();
@@ -350,21 +299,5 @@ function LoginPanelPresenter() {
                 alert(err);
             }
         };
-
-        // creazione dell'item per i pulsanti
-        var liButtons = document.createElement('li');
-        liButtons.appendChild(inputLogin);
-        liButtons.appendChild(inputRegister);
-        liButtons.appendChild(inputRetrievePassword);
-
-        // appende tutti gli elementi al form
-        ulData.appendChild(liUserName);
-        ulData.appendChild(liPassword);
-        ulData.appendChild(liButtons);
-        loginForm.appendChild(divLogo);
-        loginForm.appendChild(ulData);
-
-        // appende il form al DOM della pagina
-        element.appendChild(loginForm);
     };
 }
