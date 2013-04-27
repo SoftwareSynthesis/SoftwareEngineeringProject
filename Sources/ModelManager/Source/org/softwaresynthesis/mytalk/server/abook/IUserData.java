@@ -184,7 +184,7 @@ public interface IUserData extends IMyTalkObject
 	 * 
 	 * @param 	entry	{@link IAddressBookEntry} contatto da aggiungere
 	 */
-	public void addAddressBookEntry(IAddressBookEntry entry);
+	public boolean addAddressBookEntry(IAddressBookEntry entry);
 	
 	/**
 	 * Aggiunge una nuova chiamata allo storico dell'utente
@@ -192,7 +192,7 @@ public interface IUserData extends IMyTalkObject
 	 * @param 	call	{@link ICallList} nuova chiamata da
 	 * 					aggiungere
 	 */
-	public void addCall(ICallList call);
+	public boolean addCall(ICallList call);
 	
 	/**
 	 * Aggiunge un nuovo messaggio alla segreteria dell'utente
@@ -200,14 +200,14 @@ public interface IUserData extends IMyTalkObject
 	 * @param 	message	{@link IMessage} nuovo messaggio da lasciare
 	 * 					in segreteria
 	 */
-	public void addMessage(IMessage message);
+	public boolean addMessage(IMessage message);
 	
 	/**
 	 * Rimuove un contatto dall rubrica di un utente
 	 * 
 	 * @param 	entry	{@link IAddressBookEntry} contatto da rimuovere 
 	 */
-	public void removeAddressBookEntry(IAddressBookEntry entry);
+	public boolean removeAddressBookEntry(IAddressBookEntry entry);
 	
 	/**
 	 * Rimuove una chiamata dallo storico del contatto
@@ -215,7 +215,7 @@ public interface IUserData extends IMyTalkObject
 	 * @param 	call	{@link ICallList} chiamata da rimuore
 	 * 					dallo storico
 	 */
-	public void removeCall(ICallList call);
+	public boolean removeCall(ICallList call);
 	
 	/**
 	 * Rimuove un messaggio dalla segreteria dell'utente
@@ -223,5 +223,5 @@ public interface IUserData extends IMyTalkObject
 	 * @param 	message	{@link IMessage} da rimuovere dalla
 	 * 					segreteria
 	 */
-	public void removeMessage(IMessage message);
+	public boolean removeMessage(IMessage message);
 }
