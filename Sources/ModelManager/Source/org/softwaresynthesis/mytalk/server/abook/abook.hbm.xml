@@ -1,0 +1,54 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package = "org.softwaresynthesis.mytalk.server.abook">
+	
+	<!-- Mapping per UserData -> utente del sistema MyTalk -->
+	<class name = "UserData" table = "UserData">
+		<id name = "id" type = "long" column = "ID_user" unsaved-value = "null">
+			<generator class = "identity" />
+		</id>
+		<property name = "mail" column = "E_Mail" type = "string" unique = "true" update = "false" not-null = "true" />
+		<property name = "password" column = "Password" type = "string" not-null = "true" />
+		<property name = "question" column = "Question" type = "string" not-null = "true" />
+		<property name = "answer" column = "Answer" type = "String" not-null = "true" />
+		<property name = "name" column = "Name" type = "string" not-null = "false" />
+		<property name = "surname" column = "Surname" type = "string" not-null = "false" />
+		<property name = "path" column = "Picture" type = "string" not-null = "true" />
+		<set name = "addressBook" table = "AddressBookEntries" lazy = "true" inverse = "false" fetch = "join" cascade = "save-update">
+			<key column = "Owner" not-null = "true" />
+			<one-to-many class = "AddressBookEntry" />
+		</set>
+		<set name = "calls" table = "CallList" lazy = "true" inverse = "true" fetch = "join" cascade = "save-update">
+			<key column = "ID_user" not-null = "true" />
+			<one-to-many class = "org.softwaresynthesis.mytalk.server.call.CallList" />
+		</set>
+		<set name = "messages" table = "Messages" lazy = "true" inverse = "true" fetch = "join" cascade = "save-update">
+			<key column = "Receiver" not-null = "true" />
+			<one-to-many class = "org.softwaresynthesis.mytalk.server.message.Messages" />
+		</set>
+	</class>
+	
+	<!-- Mapping per Group -> gruppo di una rubrica utente -->
+	<class name = "Group" table = "Groups">
+		<id name = "id" type = "long" column = "ID_group" unsaved-value = "null">
+			<generator class = "identity" />
+		</id>
+		<property name = "name" column = "Name" type = "String" not-null = "true" />
+		<set name = "addressBook" table = "AddressBookEntries" lazy = "true" inverse = "true" fetch = "join" cascade = "saved-update">
+			<key column = "ID_group" not-null = "true" />
+			<one-to-many class = "AddressBookEntry" />
+		</set>
+	</class>
+	
+	<!-- Mapping per AddressBookEntry -> contatto della rubrica di un utente -->
+	<class name = "AddressBookEntry" table = "AddressBookEntries">
+		<id name = "id" type = "long" column = "ID_addressBookEntry" unsaved-value = "null">
+			<generator class = "identity" />
+		</id>
+		<property name = "blocked" column = "Blocked" type = "boolean" not-null = "true" />
+		<many-to-one name = "contact" class = "UserData" column = "ID_user" not-null = "true" fetch = "join" />
+		<many-to-one name = "owner" class = "UserData" column = "Owner" not-null = "true" fetch = "join" />
+		<many-to-one name = "group" class = "Group" column = "ID_group" not-null = "true" fetch = "join" />
+	</class>
+</hibernate-mapping>
