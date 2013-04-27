@@ -48,12 +48,12 @@ public interface IGroup extends IMyTalkObject
 	 * 
 	 * @param 	entry	{@link IAddressBookEntry} contatto da aggiungere
 	 */
-	public void addAddressBookEntry(IAddressBookEntry entry);
+	public boolean addAddressBookEntry(IAddressBookEntry entry);
 	
 	/**
 	 * Rimuove un contatto dal gruppo
 	 * 
 	 * @param 	entry	{@link IAddressBookEntry} contatto da rimuovere
 	 */
-	public void removeAddressBookEntry(IAddressBookEntry entry);
+	public boolean removeAddressBookEntry(IAddressBookEntry entry);
 }
