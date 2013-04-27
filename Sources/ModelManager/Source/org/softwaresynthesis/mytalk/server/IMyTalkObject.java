@@ -16,15 +16,4 @@ public interface IMyTalkObject
 	 * 			l'oggetto
 	 */
 	public Long getId();
-	
-	/**
-	 * Compara due oggetti per determinare l'uguaglianza
-	 * 
-	 * @param 	object	{@link Object} che dovrà essere
-	 * 					comparato con l'istanza
-	 * @return	true se le due istanze rappresentano lo
-	 * 			stesso oggetto, false altriementi
-	 */
-	@Override
-	public boolean equals(Object object);
 }
