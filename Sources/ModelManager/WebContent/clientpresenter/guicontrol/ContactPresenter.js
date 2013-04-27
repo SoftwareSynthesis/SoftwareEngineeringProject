@@ -27,7 +27,8 @@ function ContactPanelPresenter() {
      *            contact Contatto da controllare
      */
     function adjustBlockButtonDisplay(contact) {
-        if (contact.blocked == true)/*FIXME avvisare il puffo del server [dovrebbe funzionare... controllare]*/
+        if (contact.blocked == true)/*FIXME avvisare il puffo del server
+         * [dovrebbe funzionare... controllare]*/
         {
             document.getElementById("displayBlockedDiv").style.display = "block";
             document.getElementById("blockButton").style.display = "none";
@@ -124,9 +125,9 @@ function ContactPanelPresenter() {
         addToAddressBookButton.onclick = function() {
             mediator.onContactAdded(contact);
         };
-        
+
         removeFromAddressBookButton.onclick = function() {
-        	mediator.onContactRemoved(contact);
+            mediator.onContactRemoved(contact);
         };
 
         blockButton.onclick = function() {
@@ -155,5 +156,8 @@ function ContactPanelPresenter() {
         }
     };
 
-    // TODO fare funzuone che popola groupsDiv
+    //TODO funzione che gestisce il l'evento di "becameOffline" di un utente
+    //TODO funzione che gestisce il l'evento di "becameAvaiable" di un utente
+    //TODO funzione che gestisce il l'evento di "becameOccupied" di un utente
+    //FIXME sistemare gestione evento utente bloccato
 }
