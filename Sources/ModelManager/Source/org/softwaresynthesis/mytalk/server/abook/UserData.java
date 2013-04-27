@@ -19,11 +19,22 @@ public class UserData implements IUserData
 	private Set<ICallList> calls;
 	private Set<IMessage> messages;
 	
+	/**
+	 * Costruisce una nuova istanza priva
+	 * di valori
+	 */
 	public UserData()
 	{
 		this(-1L);
 	}
 	
+	/**
+	 * Costruisce una nuova istanza assegnandogli
+	 * un identificativo
+	 * 
+	 * @param 	identifier	{@link Long} identificativo
+	 * 						associato
+	 */
 	public UserData(Long identifier)
 	{
 		this.id = identifier;

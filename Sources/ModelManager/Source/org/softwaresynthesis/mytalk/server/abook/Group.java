@@ -9,11 +9,22 @@ public class Group implements IGroup
 	private String name;
 	private Set<IAddressBookEntry> entrys;
 	
+	/**
+	 * Costruisce una nuova istanza priva
+	 * di valori
+	 */
 	public Group()
 	{
 		this(-1L);
 	}
 	
+	/**
+	 * Costruisce una nuova istanza assegnandogli
+	 * un identificativo
+	 * 
+	 * @param 	identifier	{@link Long} identificativo
+	 * 						associato
+	 */
 	public Group(Long identifier)
 	{
 		this.id = identifier;

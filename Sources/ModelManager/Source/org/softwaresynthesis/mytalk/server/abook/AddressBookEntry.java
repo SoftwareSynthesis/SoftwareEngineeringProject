@@ -8,11 +8,22 @@ public class AddressBookEntry implements IAddressBookEntry
 	private IUserData owner;
 	private boolean blocked;
 	
+	/**
+	 * Costruisce una nuova istanza priva
+	 * di valori
+	 */
 	public AddressBookEntry()
 	{
 		this(-1L);
 	}
 	
+	/**
+	 * Costruisce una nuove istanza assegnandogli
+	 * un identificativo
+	 * 
+	 * @param 	identifier	{@link Long} identificativo
+	 * 						associato
+	 */
 	public AddressBookEntry(Long identifier)
 	{
 		this.id = identifier;
