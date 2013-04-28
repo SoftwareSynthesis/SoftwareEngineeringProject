@@ -1,0 +1,17 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package = "org.softwaresynthesis.mytalk.server.message">
+	
+	<!-- Mapping per Message -> messaggio della segreteria -->
+	<class name = "Message" table = "Messages">
+		<id name = "id" type = "long" column = "ID_message" unsaved-value = "null">
+			<generator class = "identity" />
+		</id>
+		<property name = "date" column = "Start_date" type = "timestamp" not-null = "true" />
+		<property name = "newer" column = "Newer" type = "boolean" not-null = "true" />
+		<property name = "video" column = "Video" type = "boolean" not-null = "true" />
+		<many-to-one name = "sender" class = "org.softwaresynthesis.mytalk.server.abook.UserData" column = "Sender" not-null = "true" fetch = "join" />
+		<many-to-one name = "receiver" class = "org.softwaresynthesis.mytalk.server.abook.UserDate" column = "Receiver" not-null = "true" fetch = "join" />
+	</class>
+</hibernate-mapping>
