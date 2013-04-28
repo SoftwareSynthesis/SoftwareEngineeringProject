@@ -18,7 +18,7 @@ public class AddressBookEntry implements IAddressBookEntry
 	}
 	
 	/**
-	 * Costruisce una nuove istanza assegnandogli
+	 * Costruisce una nuova istanza assegnandogli
 	 * un identificativo
 	 * 
 	 * @param 	identifier	{@link Long} identificativo
