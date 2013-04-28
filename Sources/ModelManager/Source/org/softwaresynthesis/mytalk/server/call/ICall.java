@@ -62,7 +62,7 @@ public interface ICall extends IMyTalkObject
 	 * @param 	call	{@link ICallList} partecipante alla
 	 * 					chiamata
 	 */
-	public void addCall(ICallList call);
+	public boolean addCall(ICallList call);
 	
 	/**
 	 * Rimuove una partecipante alla chiamata
@@ -70,5 +70,5 @@ public interface ICall extends IMyTalkObject
 	 * @param 	call	{@link ICallList} partecipante alla
 	 * 					chiamata
 	 */
-	public void removeCall(ICallList call);
+	public boolean removeCall(ICallList call);
 }
