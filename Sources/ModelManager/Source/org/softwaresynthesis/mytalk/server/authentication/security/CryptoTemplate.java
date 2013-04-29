@@ -46,6 +46,16 @@ public abstract class CryptoTemplate
 	}
 	
 	/**
+	 * Passo finale dell'algoritmo
+	 * 
+	 * @param 	text	{@link String} testo da manipolare
+	 * @return	{@link String} testo manipolato
+	 * @throws 	Exception	{@link Exception} in caso di
+	 * 						errori durante il processo
+	 */
+	public abstract String completeAlgorithm(String text) throws Exception;
+	
+	/**
 	 * Restituisce il cifratore alle sottoclassi
 	 * in modo che possano criptare/decriptare il
 	 * testo
@@ -68,14 +78,4 @@ public abstract class CryptoTemplate
 	{
 		return this.generated;
 	}
-	
-	/**
-	 * Passo finale dell'algoritmo
-	 * 
-	 * @param 	text	{@link String} testo da manipolare
-	 * @return	{@link String} testo manipolato
-	 * @throws 	Exception	{@link Exception} in caso di
-	 * 						errori durante il processo
-	 */
-	public abstract String completeAlgorithm(String text) throws Exception;
 }

@@ -14,8 +14,8 @@ public class AESAlgorithm implements ISecurityStrategy
 	public String encode(String plainText) throws Exception 
 	{
 		String result = null;
-		template = new Encode();
-		result = template.execute(plainText);
+		this.template = new Encode();
+		result = this.template.execute(plainText);
 		return result;
 	}
 
@@ -23,8 +23,8 @@ public class AESAlgorithm implements ISecurityStrategy
 	public String decode(String encodedText) throws Exception 
 	{
 		String result = null;
-		template = new Decode();
-		result = template.execute(encodedText);
+		this.template = new Decode();
+		result = this.template.execute(encodedText);
 		return result;
 	}
 }
