@@ -22,6 +22,13 @@ public class AuthenticationModule implements LoginModule
 	private Principal principal;
 	private Subject subject;
 	
+	/**
+	 * Crea un modulo per l'autenticazione
+	 * di un utente nel sistema MyTalk
+	 * 
+	 * @param 	strategy	{@link ISecurityStrategy} strategia di
+	 * 						crittografia dei dati
+	 */
 	public AuthenticationModule(ISecurityStrategy strategy)
 	{
 		this.strategy = strategy;
@@ -102,6 +109,13 @@ public class AuthenticationModule implements LoginModule
 		this.password = null;
 	}
 
+	/**
+	 * Effettua l'autenticazione di un utente
+	 * nel sistema MyTalk
+	 * 
+	 * @throws 	{@link LoginException} se l'operazione non
+	 * 			dovesse andarea a buon fine
+	 */
 	@Override
 	public boolean login() throws LoginException 
 	{
@@ -131,6 +145,12 @@ public class AuthenticationModule implements LoginModule
 		return false;
 	}
 
+	/**
+	 * Effettua il logout dal sistema MyTalk
+	 * 
+	 * @throws	{@link LoginException} se l'operazione non
+	 * 			dovesse andare a buon fine
+	 */
 	@Override
 	public boolean logout() throws LoginException 
 	{
