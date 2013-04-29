@@ -4316,13 +4316,162 @@ Metodo richiamato per terminare una chiamata, a cascata viene richiamato il meto
 \clearpage
 
 \section{Specifica sotto-architettura clientview}\label{sec:clientviewarchitecture}
-Il sistema, dovendo essere contenuto in un'unica pagina web, dispone di un'unica vista che viene modificata all'occorrenza dai vari presenter. Tale vista è suddivisa in tre parti:
+Il sistema dispone di dodici viste, ognuna associata ad ogni presenter. Tali viste si modificano all'occorrenza dopo una chiamata del presenter relativo.
+
+\subsection{AccountSettingsView}
+\subsubsection*{Funzione}
+Vista associata al presenter \classname{AccountSettingsPresenter}.
+\subsubsection*{Elementi}
 \begin{itemize}
-\item parte sinistra contenente il pannello della propria rubrica;
-\item parte destra contenente il pannello degli strumenti;
-\item parte centrale contenente il MainPanel.
+\item \textit{div} contenente i dati personali;
+\item \textit{ul} contenente 3 \textit{li} per:
+\begin{itemize}
+\item nome;
+\item cognome;
+\item immagine profilo.
 \end{itemize}
-Quest'ultimo, il MainPanel, è designato a cambiare il suo contenuto in base alle operazioni svolte dall'utente in quel dato momento. Ad esempio, se l'utente seleziona un contatto dalla propria rubrica, il pannello centrale conterrà la visualizzazione della scheda del contatto selezionato. Se invece avvia una chiamata, vedrà visualizzato il pannello delle chiamate. La vista è quindi demandata tutta ai presenter che la modificano in base alle richieste.
+\item \textit{button} che rimanda alla modifica dei dati personali.
+\end{itemize}
+
+\subsection{AddressBookView}
+\subsubsection*{Funzione}
+Vista associata al presenter \classname{AddressBookPresenter}. Utilizzata per la visualizzazione della rubrica personale.
+\subsubsection*{Elementi}
+\begin{itemize}
+\item \textit{div} contenente un elemento di tipo \textit{text} e un \textit{button} per una ricerca veloce nella propria rubrica;
+\item \textit{div} contenente un \textit{ul} dove verranno visualizzati tutti i contatti della rubrica;
+\item \textit{div} contenente una \textit{select} utilizzata per ordinare la rubrica in base ai parametri dati;
+\item \textit{div} contenente una \textit{select} dove sono elencati i gruppi della propria rubrica.
+\end{itemize}
+
+\subsection{CallHistoryView}
+\subsubsection*{Funzione}
+Vista associata al presenter \classname{CallHistoryPresenter}. Utilizzata per la visualizzazione dello storico chiamate.
+\subsubsection*{Elementi}
+\begin{itemize}
+\item \textit{div} contenente un \textit{ul} dove verrà visualizzato lo storico chiamate.
+\end{itemize}
+
+\subsection{CommunicationView}
+\subsubsection*{Funzione}
+Vista associata al presenter \classname{CommunicationPresenter}. Utilizzata inizialmente durante una chiamata.
+\subsubsection*{Elementi}
+\begin{itemize}
+\item \textit{div} contenente un elemento di tipo \textit{text} e un \textit{button} per una ricerca veloce nella propria rubrica;
+\item \textit{div} contenente due elementi \textit{video} rispettivamente utilizzati per visualizzare lo stream della propria fotocamera e dell'altro client;
+\item \textit{div} contenente 3 \textit{span} utilizzati per visualizzare le statistiche, ossia i dati inviati, i dati ricevuto e il tempo di comunicazione;
+\item \textit{button} per terminare la chiamata.
+\end{itemize}
+
+\subsection{ContactView}
+\subsubsection*{Funzione}
+Vista associata al presenter \classname{ContactPresenter}. Utilizzate per visualizzare il profilo di un utente.
+\subsubsection*{Elementi}
+\begin{itemize}
+\item \textit{div} contenente un elemento di tipo \textit{ul} con 4 \textit{li}:
+\begin{itemize}
+\item nome;
+\item cognome;
+\item email;
+\item gruppi a cui appartiene se il contatto è presente nella mia rubrica.
+\end{itemize}
+\item \textit{button} per avviare una chiamata audio;
+\item \textit{button} per avviare una video chiamata;
+\item \textit{button} per avviare una chat;
+\item \textit{button} per lasciare un messaggio in segreteria;
+\item \textit{button} per aggiungere il contatto nella propria rubrica se non presente;
+\item \textit{button} per rimuovere il contatto dalla propria rubrica se presente;
+\item \textit{button} per bloccare il contatto se presente nella propria rubrica e non bloccato;
+\item \textit{button} per sbloccare il contatto se presente nella propria rubrica e bloccato.
+\end{itemize}
+
+\subsection{GroupView}
+\subsubsection*{Funzione}
+Vista associata al presenter \classname{GroupPresenter}. Utilizzata per la visualizzazione dei gruppi della propria rubrica.
+\subsubsection*{Elementi}
+\begin{itemize}
+\item \textit{div} contenente un \textit{ul} dove verranno inseriti tanti \textit{li} quanti i gruppi presenti nella proria rubrica.
+\end{itemize}
+
+\subsection{LoginView}
+\subsubsection*{Funzione}
+Vista associata al presenter \classname{LoginPresenter}. Utilizzata per effettuare il login nel sistema.
+\subsubsection*{Elementi}
+\begin{itemize}
+\item \textit{div} contenente un elemento di tipo \textit{ul} con 2 \textit{li} utilizzati per inserire:
+\begin{itemize}
+\item username;
+\item password.
+\end{itemize}
+\item \textit{button} per effettuare il login;
+\item \textit{button} per effettuare la registrazione al sistema;
+\item \textit{button} per recuperare i dati dimenticati.
+\end{itemize}
+
+\subsection{MessageView}
+\subsubsection*{Funzione}
+Vista associata al presenter \classname{MessagePresenter}. Utilizzata per visualizzare i messaggi presenti nella propria segreteria.
+\subsubsection*{Elementi}
+\begin{itemize}
+\item \textit{div} contenente un elemento di tipo \textit{video} per la visualizzazione del messaggio;
+\item \textit{div} contenente un elemento \textit{ul} che avrà tanti \textit{li} quanti sono i messaggi presenti in segreteria.
+\end{itemize}
+
+\subsection{PhoneCallsRegistryView}
+\subsubsection*{Funzione}
+Vista associata al presenter \classname{PhoneCallsRegistryPresenter}. Utilizzata per lasciare un messaggio in segreteria ad un utente non in linea.
+\subsubsection*{Elementi}
+\begin{itemize}
+\item \textit{button} per iniziare la registrazione del messaggio;
+\item \textit{button} per terminare la registrazione;
+\item \textit{button} per inviare la registrazione appena effettuata.
+\end{itemize}
+
+\subsection{RegisterView}
+\subsubsection*{Funzione}
+Vista associata al presenter \classname{RegisterPresenter}. Utilizzata per effettuare la registrazione al sistema.
+\subsubsection*{Elementi}
+\begin{itemize}
+\item elemento di tipo \textit{ul} con 7 \textit{li} per:
+\begin{itemize}
+\item nome;
+\item cognome;
+\item email;
+\item password;
+\item domanda segreta;
+\item risposta alla domanda segreta;
+\item immagine del profilo.
+\end{itemize}
+\item \textit{button} per tornare indietro;
+\item \textit{button} per registrarsi con i dati inseriti.
+\end{itemize}
+
+\subsection{SearchResultView}
+\subsubsection*{Funzione}
+Vista associata al presenter \classname{SearchResultPresenter}. Utilizzata per visualizzare i risultati di una ricerca.
+\subsubsection*{Elementi}
+\begin{itemize}
+\item \textit{div} contenente un elemento di tipo \textit{ul} con tanti \textit{li} quanti i risultati ritornati dalla ricerca.
+\end{itemize}
+
+\subsection{ToolsView}
+\subsubsection*{Funzione}
+Vista associata al presenter \classname{ToolsPresenter}. Utilizzata per visualizzare gli strumenti disponibili all'utente.
+\subsubsection*{Elementi}
+\begin{itemize}
+\item \textit{select} dove poter scegliere il proprio stato (disponibile, occupato);
+\item elemento di tipo \textit{ul} con 6 \textit{li} per:
+\begin{itemize}
+\item accedere alla segreteria;
+\item accedere alle impostazioni;
+\item accedere allo storico chiamate;
+\item accedere alla sezione dei gruppi;
+\item accedere alla sezione dove effettuare una ricerca;
+\item effettuare il logout.
+\end{itemize}
+\end{itemize}
+
+
 
 \clearpage
 
@@ -4332,6 +4481,6 @@ Al fine di rendere evidente l'associazione di necessità e sufficienza che inter
 
 \subsection{Requisiti - classi}
 
-\subsection{classi - requisiti}
+\subsection{Classi - requisiti}
 
 \end{document}
