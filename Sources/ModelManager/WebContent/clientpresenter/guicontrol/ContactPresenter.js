@@ -41,6 +41,39 @@ function ContactPanelPresenter() {
     }
 
     /**
+     * Funzione che sistema la grafica della visualizzazione del contatto in base
+     * allo stato del contatto stesso, visualizzando i giusti pulsanti
+     *
+     * @author Riccardo Tresoldi
+     * @param {Object} contact oggetto che rappresenta il contatto
+     */
+    function adjustGUIOnContactState(contact) {
+        //controllo quale è lo stato del contatto
+        var state = constact.state;
+        var chatButton = document.getElementById("chatButton");
+        var videoCallButton = document.getElementById("videoCallButton");
+        var callButton = document.getElementById("callButton");
+        var messageButton = document.getElementById("messageButton");
+        switch(contact.state) {
+            case "avaiable":
+                //visualizzo solo pulsanti per chiamata
+                messageButton.style.display = "none";
+                chatButton.style.display = "inline";
+                callButton.style.display = "inline";
+                videoCallButton.style.display = "inline";
+                break;
+            default:
+                //visualizzo solo pulsanti per messaggio segreteria
+                messageButton.style.display = "inline";
+                chatButton.style.display = "none";
+                callButton.style.display = "none";
+                videoCallButton.style.display = "none";
+                break;
+
+        }
+    }
+
+    /**
      * Funzione che popola il div groupsDiv che contiene le label dei gruppi
      *
      * @author Riccardo Tresoldi
@@ -69,9 +102,7 @@ function ContactPanelPresenter() {
         }
     }
 
-    /***************************************************************************
-     * METODI PUBBLICI
-     **************************************************************************/
+    /***************METODI PUBBLICI********************/
     /**
      * Inizializza il pannello che mostra le informazioni dei contatti della
      * rubrica, quando ne viene selezionato uno dal pannello della rubrica
@@ -81,10 +112,10 @@ function ContactPanelPresenter() {
      */
     this.createPanel = function() {
         // ottiene un riferiment alla vista
-    	var element = mediator.getView("ContactView");
-    	
-       // configura la vista
-       // TODO sbaglio o manca qualcosa?
+        var element = mediator.getView("ContactView");
+
+        // configura la vista
+        // TODO sbaglio o manca qualcosa?
         return element;
     };
 
@@ -117,6 +148,7 @@ function ContactPanelPresenter() {
         var removeFromAddressBookButton = document.getElementById("removeFromAddressBookButton");
 
         adjustBlockButtonDisplay(contact);
+        adjustGUIOnContactState(contact);
 
         // popolo le label dei gruppi al div groupsDiv
         buildGroupsDiv(contact);
@@ -154,7 +186,15 @@ function ContactPanelPresenter() {
         if (mediator.contactAlreadyPresent(contact)) {
             document.getElementById("addToAddressBookButton").style.display = "none";
         }
+
+        //gestisco l'evento di cambio stato
+        document.addEventListener("changeAddressBooksContactState", function(evt) {
+            if (contact.id == evt.idUserChange)
+                adjustGUIOnContactState(contact);
+        });
     };
+
+    /********GESTIONE EVENTI*******/
 
     //TODO funzione che gestisce il l'evento di "becameOffline" di un utente
     //TODO funzione che gestisce il l'evento di "becameAvaiable" di un utente

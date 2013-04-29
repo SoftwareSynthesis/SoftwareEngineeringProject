@@ -187,10 +187,11 @@ function CommunicationCenter() {
                     pc.setRemoteDescription(new RTCSessionDescription(signal));
                 }
             } else if (type == "5") {
-                var idUserChange = JSON.parse(str[1]);
-                var statusUserChange = JSON.parse(str[2]);
-                //può avere due stati [available | occupied]
-                mediator.onChangeAddressBooksContactState(idUserChange, statusUserChange);
+                changeAddressBooksContactState.idUserChange = JSON.parse(str[1]);
+                changeAddressBooksContactState.statusUserChange = JSON.parse(str[2]);
+                document.dispatchEvent(changeAddressBooksContactState);
+            } else if (type == "6") {
+                
             }
         };
         //event handle per gestire gli errori avvenuti della socket
