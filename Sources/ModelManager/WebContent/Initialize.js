@@ -9,6 +9,9 @@ window.onload = function() {
     commandURL = "http://localhost:8080/MyTalk/CommandManager";
     // crea l'interfaccia di autenticazione
     mediator.buildLoginUI();
+    
+    //CREAZIONI EVENTI PERSONALIZZATI
+    var changeAddressBooksContactState = new CustomEvent("changeAddressBooksContactState");
 };
 
 Object.size = function(obj) {

@@ -536,12 +536,13 @@ function PresenterMediator() {
      *            state È lo stato da impostare al contatto passato come
      *            parametro
      */
-    this.onChangeAddressBooksContactState = function(contactId, state) {
+    //TODO da eliminare
+    /*this.onChangeAddressBooksContactState = function(contactId, state) {
         // ottengo il contatto
         var contact = presenters["addressbook"].contacts[contactId];
         // invoco la funzione del AddressBookPanelPresenter
         presenters["addressbook"].setStateToContact(contact, state);
-    };
+    };*/
 
     /**
      * Permette di aggiungere o rimuovere a seconda delle necessità dal

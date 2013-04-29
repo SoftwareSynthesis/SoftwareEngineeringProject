@@ -57,7 +57,7 @@ function AccountSettingsPanelPresenter(url) {
             querystring += "&surname=" + data.surname;
         }
         if (data.picturePath && data.picturePath.length) {
-            querystring += "&picturePath=" + data.picturePath
+            querystring += "&picturePath=" + data.picturePath;
         }
         return querystring;
     };

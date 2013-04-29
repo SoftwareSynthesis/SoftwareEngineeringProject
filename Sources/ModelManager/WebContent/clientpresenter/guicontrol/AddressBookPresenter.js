@@ -47,6 +47,10 @@ function AddressBookPanelPresenter() {
         groups = JSON.parse(groupRequest.responseText);
     }
 
+    /**
+     * Recupera l'indirizzo dell'immagine dello stato in base allo stato del
+     * contatto passato per
+     */
     function getImageSrc(contact) {
         path = "";
         switch (contact.state) {
@@ -120,7 +124,7 @@ function AddressBookPanelPresenter() {
         // creo la option
         var option = document.createElement("option");
         option.value = value;
-        if ( text == "addrBookEntry") {
+        if (text == "addrBookEntry") {
             option.selected = true;
             option.appendChild(document.createTextNode("Rubrica"));
         } else {
@@ -150,6 +154,26 @@ function AddressBookPanelPresenter() {
         return false;
     }
 
+    /**
+     * Funzione per cambiare l'immagine dell'indicatore di stato di un contatto
+     * nella rubrica
+     *
+     * @param {Array} contact rappresenta il contatto a cui settare lo stato
+     * @param {String} state rappresenta lo stato da settare
+     * @author Riccardo Tresoldi
+     */
+    function setStateToContact(contact, state) {
+        // controllo che il contatto sia presente nella rubrica
+        if (contacts[contact.id]) {
+            // imposto il valore in contacts
+            contacts[contact.id].state = state;
+            // imposto l'src dell'immagine giusta
+            var liUser = document.getElementById(contact.id);
+            var imgState = liUser.getElementsByTagName("img")[1];
+            imgState.src = getImageSrc(contact);
+        }
+    }
+
     /***************************************************************************
      * METODI PUBBLICI
      **************************************************************************/
@@ -160,22 +184,22 @@ function AddressBookPanelPresenter() {
      * @author Diego Beraldin
      */
     this.initialize = function() {
-    	var self = this;
-    	
-    	// ottiene la propria vista
-    	element = mediator.getView("AddressBookView");
-    	
-    	// posiziona il pannello sulla pagina
-    	document.body.appendChild(element);
-    	
-    	// configura il comportamento della vista
-    	var inputButton = document.getElementById("inputButton");
+        var self = this;
+
+        // ottiene la propria vista
+        element = mediator.getView("AddressBookView");
+
+        // posiziona il pannello sulla pagina
+        document.body.appendChild(element);
+
+        // configura il comportamento della vista
+        var inputButton = document.getElementById("inputButton");
         inputButton.onclick = function() {
             var serchField = inputText.value;
             var filtredContacts = self.applyFilterByString(serchField);
             self.showFilter(filtredContacts);
         };
-        
+
         var selectGroup = document.getElementById("selectGroup");
         selectGroup.onchange = function() {
             var idGroupSelected = selectGroup.options[selectGroup.selectedIndex].value;
@@ -488,31 +512,31 @@ function AddressBookPanelPresenter() {
         var ulList = document.getElementById("AddressBookList");
         ulList.innerHTML = "";
 
-		if (isDefaultGroup) {
-			// etichetta per filtraggio
-			var liFilter = document.createElement("li");
-			liFilter.id = "filterLabel";
-			liFilter.appendChild(document.createTextNode("Filtraggio"));
-			// pulsante per la chiusura
-			var closeImg = document.createElement("img");
-			//TODO da impostare questo valore
-			closeImg.src = "";
-			var self = this;
-			closeImg.onclick = function() {
-				// elimina il filtraggio
-				// FIXME sento puzza di ricorsione (indiretta)!
-				var idWhitelist = -1;
-				for (var key in groups) {
-					if (groups[key].name == "addrBookEntry") {
-						idWhitelist = key;
-						break;
-					}
-				}
-				self.applyFilterByGroup(idWhitelist);
-			};
-			liFilter.appendChild(closeImg);
-			ulList.appendChild(liFilter);
-		}
+        if (isDefaultGroup) {
+            // etichetta per filtraggio
+            var liFilter = document.createElement("li");
+            liFilter.id = "filterLabel";
+            liFilter.appendChild(document.createTextNode("Filtraggio"));
+            // pulsante per la chiusura
+            var closeImg = document.createElement("img");
+            //TODO da impostare questo valore
+            closeImg.src = "";
+            var self = this;
+            closeImg.onclick = function() {
+                // elimina il filtraggio
+                // FIXME sento puzza di ricorsione (indiretta)!
+                var idWhitelist = -1;
+                for (var key in groups) {
+                    if (groups[key].name == "addrBookEntry") {
+                        idWhitelist = key;
+                        break;
+                    }
+                }
+                self.applyFilterByGroup(idWhitelist);
+            };
+            liFilter.appendChild(closeImg);
+            ulList.appendChild(liFilter);
+        }
 
         if (filtredContacts.length == 0) {
             var noContactLI = document.createElement("li");
@@ -641,36 +665,15 @@ function AddressBookPanelPresenter() {
     };
 
     /**
-     * Funzione per cambiare l'immagine dell'indicatore di stato di un contatto
-     * nella rubrica
-     *
-     * @param {Array} contact rappresenta il contatto a cui settare lo stato
-     * @param {String} state rappresenta lo stato da settare
-     * @author Riccardo Tresoldi
-     */
-    this.setStateToContact = function(contact, state) {
-        // controllo che il contatto sia presente nella rubrica
-        if (contacts[contact.id]) {
-            // imposto il valore in contacts
-            contacts[contact.id].state = state;
-            // imposto l'src dell'immagine giusta
-            var liUser = document.getElementById(contact.id);
-            var imgState = liUser.getElementsByTagName("img")[1];
-            imgState.src = getImageSrc(contact);
-        }
-    }
-    
-    /**
      * Funzione che dato in input l'ID di un contatto ritorna il contatto
-     * 
+     *
      * @author Riccardo Tresoldi
      * @param {Number} idContact ID del contatto da ritornare
      * @return {Object} contatto con ID passato come parametro
      */
-    this.getContact = function(idContact){
+    this.getContact = function(idContact) {
         return contacts[idContact];
     }
-    
     /*
      * FILE JSON CHE RAFFIGURA LA RUBRICA { "idUser1":{ "name": "", "surname":
      * "", "email": "", "id": "", "picturePath": "", "state": "", "blocked":
@@ -695,4 +698,9 @@ function AddressBookPanelPresenter() {
     this.setGroups = function(cont) {
         groups = cont;
     };
+
+    /********GESTIONE EVENTI*******/
+    document.addEventListener("changeAddressBooksContactState", function(evt) {
+        setStateToContact(evt.idUserChange, statusUserChange);
+    });
 }
