@@ -49,10 +49,13 @@ function AddressBookPanelPresenter() {
 
     /**
      * Recupera l'indirizzo dell'immagine dello stato in base allo stato del
-     * contatto passato per
+     * contatto passato come parametro
+     * 
+     * @author Diego Beraldin
+     * @param {Object} contact oggetto rappresentante il contatto
      */
     function getImageSrc(contact) {
-        path = "";
+        var path = "";
         switch (contact.state) {
             case "available":
                 path = "img/stateavailable.png";
