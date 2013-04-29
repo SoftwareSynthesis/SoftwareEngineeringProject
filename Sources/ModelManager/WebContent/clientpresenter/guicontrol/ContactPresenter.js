@@ -27,9 +27,7 @@ function ContactPanelPresenter() {
      *            contact Contatto da controllare
      */
     function adjustBlockButtonDisplay(contact) {
-        if (contact.blocked == true)/*FIXME avvisare il puffo del server
-         * [dovrebbe funzionare... controllare]*/
-        {
+        if (contact.blocked == true) {
             document.getElementById("displayBlockedDiv").style.display = "block";
             document.getElementById("blockButton").style.display = "none";
             document.getElementById("unlockButton").style.display = "inline";
@@ -111,11 +109,8 @@ function ContactPanelPresenter() {
      * @author Elena Zecchinato
      */
     this.createPanel = function() {
-        // ottiene un riferiment alla vista
+        // ottiene un riferimento alla vista
         var element = mediator.getView("ContactView");
-
-        // configura la vista
-        // TODO sbaglio o manca qualcosa?
         return element;
     };
 
