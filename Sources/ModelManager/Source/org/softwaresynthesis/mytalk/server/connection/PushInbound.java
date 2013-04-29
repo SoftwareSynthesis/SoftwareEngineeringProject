@@ -93,6 +93,10 @@ public class PushInbound extends MessageInbound {
 				sendTo.getWsOutbound().writeTextMessage(CharBuffer.wrap(msg));
 			}
 		}
+		else if (type.equals("6"){
+			String msg = "6|";
+			this.getWsOutbound().writeTextMessage(CharBuffer.wrap(msg));
+		}
 	}
 
 }
