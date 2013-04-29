@@ -301,19 +301,6 @@ function PresenterMediator() {
     };
 
     /**
-     * Provoca la creazione del pannello delle impostazioni dell'utente e la sua
-     * visualizzazione all'interno del MainPanel.
-     *
-     * @see MainPanel#displayChildPanel({HTMLDivElement})
-     * @see AccountSettingsPanelPresenter#createPanel({HTMLDivElement})
-     * @author Diego Beraldin
-     */
-    this.displayAccountSettingsPanel = function() {
-        var element = callhistorypp.createPanel();
-        presenters["main"].displayChildPanel(element);
-    };
-
-    /**
      * Provoca la creazione del pannello dello storico delle chiamate e la sua
      * visualizzazione all'interno del MainPanel.
      *
