@@ -13,7 +13,7 @@ function ContactPanelPresenter() {
     /***************************************************************************
      * VARIABILI PRIVATE
      **************************************************************************/
-
+    var currentContact = null;
     /***************************************************************************
      * METODI PRIVATI
      **************************************************************************/
@@ -67,7 +67,6 @@ function ContactPanelPresenter() {
                 callButton.style.display = "none";
                 videoCallButton.style.display = "none";
                 break;
-
         }
     }
 
@@ -128,6 +127,7 @@ function ContactPanelPresenter() {
      * @author Riccardo Tresoldi
      */
     this.display = function(contact) {
+        currentContact = contact;
         document.getElementById("contactName").appendChild(document.createTextNode(contact.name));
         document.getElementById("contactSurname").appendChild(document.createTextNode(contact.surname));
         document.getElementById("contactEmail").appendChild(document.createTextNode(contact.email));
@@ -181,18 +181,13 @@ function ContactPanelPresenter() {
         if (mediator.contactAlreadyPresent(contact)) {
             document.getElementById("addToAddressBookButton").style.display = "none";
         }
-
-        //gestisco l'evento di cambio stato
-        document.addEventListener("changeAddressBooksContactState", function(evt) {
-            if (contact.id == evt.idUserChange)
-                adjustGUIOnContactState(contact);
-        });
     };
 
     /********GESTIONE EVENTI*******/
-
-    //TODO funzione che gestisce il l'evento di "becameOffline" di un utente
-    //TODO funzione che gestisce il l'evento di "becameAvaiable" di un utente
-    //TODO funzione che gestisce il l'evento di "becameOccupied" di un utente
+    //gestisco l'evento di cambio stato
+    document.addEventListener("changeAddressBooksContactState", function(evt) {
+        if (currentContact.id == evt.idUserChange)
+            adjustGUIOnContactState(currentContact);
+    });
     //FIXME sistemare gestione evento utente bloccato
 }

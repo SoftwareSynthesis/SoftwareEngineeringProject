@@ -149,6 +149,7 @@ function CommunicationCenter() {
      * @author Marco Schivo
      */
     this.connect = function() {
+        var self = this;
         websocket = new WebSocket(urlServlet);
         //event handle per gestire l'apertura della socket
         websocket.onopen = function(evt) {
@@ -172,6 +173,7 @@ function CommunicationCenter() {
             /*{ 3 : ottengo id della persona che mi sta chiamando,
              *  2 : quando inizia la chiamata,
              *  5 : cambio stato altri utenti
+             *  6 : notifica rifiuto chiamata
              *} */
             if (type == "3") {
                 idOther = str[1];
@@ -179,7 +181,7 @@ function CommunicationCenter() {
                 var signal = JSON.parse(str[1]);
                 if (pc == null) {
                     //chiamo la funzione che gestisce la chiamata in arrivo
-                    CommunicationCenter.handleCall(mediator.getContactById(idOther));
+                    self.handleCall(mediator.getContactById(idOther));
                 }
                 if ((signal.sdp) == null) {
                     pc.addIceCandidate(new RTCIceCandidate(signal));
@@ -191,7 +193,7 @@ function CommunicationCenter() {
                 changeAddressBooksContactState.statusUserChange = JSON.parse(str[2]);
                 document.dispatchEvent(changeAddressBooksContactState);
             } else if (type == "6") {
-                
+                self.refusedCall();
             }
         };
         //event handle per gestire gli errori avvenuti della socket
@@ -348,6 +350,20 @@ function CommunicationCenter() {
     };
 
     /**
+     * Funzione per gestire il rifiuto della chiamata da parte dell'altro utente
+     *
+     * @author Riccardo Tresoldi
+     */
+    this.refusedCall = function() {
+        localStream.stop();
+        stopTimer();
+        stopStat();
+        mediator.getCommunicationPPMyVideo().src = "";
+        mediator.getCommunicationPPOtherVideo().src = "";
+        pc.close();
+        pc = null;
+    }
+    /**
      * funzione per cambiare lo stato utente
      *
      * @author Riccardo Tresoldi
@@ -366,21 +382,21 @@ function CommunicationCenter() {
     this.isPCDefined = function() {
         return (pc != null && pc != undefined);
     };
-    
+
     /**
-     * funzione che visualizza la richiesta di rispondere ad una chiamata in arrivo
+     * funzione che visualizza la richiesta di rispondere ad una chiamata in
+     * arrivo
      * @author Riccardo Tresoldi
      * @param {Object} caller id del contatto che sta chiamando
      * @return {Boolean} true solo se desidero rispondere
      */
-    this.handleCall = function(caller){
+    this.handleCall = function(caller) {
         mediator.startRinging("income");
         mediator.onIncomeCall();
     }
-    
     /**
      * Funzione per gestire la risposta alla chiamata
-     * 
+     *
      * @author Riccardo Tresoldi
      * @param {Object} caller Oggetto che rappresenta il chiamante
      */
@@ -390,10 +406,10 @@ function CommunicationCenter() {
         //FIXME sistemare terzo parametro (onlyAudio)
         this.call(false, caller.id, false);
     };
-    
+
     /**
      * Funzione per gestire il rifiuto alla chiamata
-     * 
+     *
      * @author Riccardo Tresoldi
      */
     this.refuseCall = function() {
