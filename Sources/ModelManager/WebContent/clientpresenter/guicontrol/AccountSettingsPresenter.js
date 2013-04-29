@@ -171,21 +171,21 @@ function AccountSettingsPanelPresenter(url) {
 		var element = mediator.getview("AccountSettingsView");
 
 		// configura la vista
-		var nameNode = document.evaluate("//node[@id='name']", element, null,
+		var nameNode = document.evaluate("//node()[@id='name']", element, null,
 				XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
 		nameNode.appendChild(document
 				.createTextNode(communicationcenter.my.name));
 
-		var surnameNode = document.evaluate("//node[@id='surname']", element,
+		var surnameNode = document.evaluate("//node()[@id='surname']", element,
 				null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
 		surnameNode.appendChild(document
 				.createTextNode(communicationcenter.my.surname));
 
-		var pictureNode = document.evaluate("//node[@id='picture']", element,
+		var pictureNode = document.evaluate("//node()[@id='picture']", element,
 				null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
 		pictureNode.src = communicationcenter.my.picturePath;
 
-		var changeButton = document.evaluate("//node[@id='changeButton']",
+		var changeButton = document.evaluate("//node()[@id='changeButton']",
 				element, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
 		changeButton.onclick = function() {
 			self.onChangeButtonPressed();
