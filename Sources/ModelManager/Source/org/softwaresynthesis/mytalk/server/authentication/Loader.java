@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author 	Andrea Meneghinello
  * @version	3.0
  */
-public abstract class Loader implements Callback 
+abstract class Loader implements Callback 
 {
 	private	Callback callback;
 	

@@ -11,10 +11,10 @@ import sun.misc.BASE64Encoder;
  * @author 	Andrea Meneghinello
  * @version 3.0
  */
-public class Encode extends CryptoTemplate 
+class Encode extends CryptoTemplate 
 {	
 	@Override
-	public String completeAlgorithm(String text) throws Exception 
+	String completeAlgorithm(String text) throws Exception 
 	{
 		BASE64Encoder encoder = new BASE64Encoder();
 		byte[] buffer = text.getBytes();

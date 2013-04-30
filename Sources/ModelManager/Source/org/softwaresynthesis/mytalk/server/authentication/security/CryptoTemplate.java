@@ -11,7 +11,7 @@ import javax.crypto.spec.SecretKeySpec;
  * @author 	Andrea Meneghinello
  * @version	3.0
  */
-public abstract class CryptoTemplate 
+abstract class CryptoTemplate 
 {
 	private byte[] key;
 	private Cipher cipher;
@@ -53,7 +53,7 @@ public abstract class CryptoTemplate
 	 * @throws 	Exception	{@link Exception} in caso di
 	 * 						errori durante il processo
 	 */
-	public abstract String completeAlgorithm(String text) throws Exception;
+	abstract String completeAlgorithm(String text) throws Exception;
 	
 	/**
 	 * Restituisce il cifratore alle sottoclassi
