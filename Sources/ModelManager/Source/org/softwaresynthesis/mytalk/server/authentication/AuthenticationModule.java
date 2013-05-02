@@ -11,7 +11,7 @@ import javax.security.auth.login.LoginException;
 import javax.security.auth.spi.LoginModule;
 import org.softwaresynthesis.mytalk.server.authentication.security.ISecurityStrategy;
 
-public class AuthenticationModule implements LoginModule 
+public final class AuthenticationModule implements LoginModule 
 {
 	private boolean login;
 	private boolean commit;

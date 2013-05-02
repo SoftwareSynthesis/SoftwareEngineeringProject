@@ -6,7 +6,7 @@ package org.softwaresynthesis.mytalk.server.authentication.security;
  * @author 	Andrea Meneghinello
  * @version 3.0
  */
-public class AESAlgorithm implements ISecurityStrategy
+public final class AESAlgorithm implements ISecurityStrategy
 {
 	private CryptoTemplate template;
 	

@@ -13,7 +13,7 @@ import org.softwaresynthesis.mytalk.server.authentication.security.ISecurityStra
  * @author 	Andrea Meneghinello
  * @version	3.0
  */
-class PasswordLoader extends Loader 
+final class PasswordLoader extends Loader 
 {
 	private ISecurityStrategy strategy;
 	

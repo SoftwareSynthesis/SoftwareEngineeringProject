@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author 	Andrea Meneghinello
  * @version	3.0
  */
-public class CredentialLoader implements CallbackHandler
+public final class CredentialLoader implements CallbackHandler
 {
 	private HttpServletRequest input;
 	

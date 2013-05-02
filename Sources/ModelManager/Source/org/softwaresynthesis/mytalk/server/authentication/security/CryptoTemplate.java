@@ -36,7 +36,7 @@ abstract class CryptoTemplate
 	 * 						in caso di errori durante la
 	 * 						procedura
 	 */
-	public String execute(String text) throws Exception
+	public final String execute(String text) throws Exception
 	{
 		String result = null;
 		cipher = Cipher.getInstance("AES");

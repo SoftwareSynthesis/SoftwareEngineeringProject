@@ -11,7 +11,7 @@ import sun.misc.BASE64Encoder;
  * @author 	Andrea Meneghinello
  * @version 3.0
  */
-class Encode extends CryptoTemplate 
+final class Encode extends CryptoTemplate 
 {	
 	@Override
 	String completeAlgorithm(String text) throws Exception 

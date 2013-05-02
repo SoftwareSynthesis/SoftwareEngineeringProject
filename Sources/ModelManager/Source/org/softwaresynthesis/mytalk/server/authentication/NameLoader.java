@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author 	Andrea Meneghinello
  * @version	3.0
  */
-class NameLoader extends Loader 
+final class NameLoader extends Loader 
 {
 	/**
 	 * Costruisce un caricatore per lo
