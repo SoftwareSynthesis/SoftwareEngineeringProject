@@ -41,14 +41,14 @@ public class GroupTest {
 	 * Testa il metodo get dell'identificatore
 	 * 
 	 * @author Andrea Meneghinello
-	 * @version 1.0
+	 * @author Diego Beraldin
+	 * @version 2.0
 	 */
 	@Test
 	public void testId() {
-		Long id = 1L;
 		Long result = tester.getId();
 		assertNotNull(result);
-		assertEquals(id, result);
+		assertEquals((Object) 1L, result);
 	}
 
 	/**

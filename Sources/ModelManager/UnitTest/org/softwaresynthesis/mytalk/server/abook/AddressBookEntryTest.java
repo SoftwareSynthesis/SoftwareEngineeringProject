@@ -28,7 +28,7 @@ public class AddressBookEntryTest {
 	 * Crea l'oggetto da testare
 	 * 
 	 * @author Andrea Meneghinello
-	 * @version %I%, %G%
+	 * @version 1.0
 	 */
 	@BeforeClass
 	public static void setupBeforeClass() {
@@ -43,13 +43,13 @@ public class AddressBookEntryTest {
 	 * Testa la restituzione dell'id e la sua impostazione 
 	 * 
 	 * @author Diego Beraldin
+	 * @version 2.0
 	 */
 	@Test
 	public void testGetId() {
-		Long id = 1L;
 		Long result = tester.getId();
 		assertNotNull(result);
-		assertEquals(result, id);
+		assertEquals((Object) 1L, result);
 	}
 
 	/**
@@ -57,7 +57,7 @@ public class AddressBookEntryTest {
 	 * voce della rubrica
 	 * 
 	 * @author Andrea Meneghinello
-	 * @version %I%, %G%
+	 * @version 1.0
 	 */
 	@Test
 	public void testContact() {
@@ -72,6 +72,7 @@ public class AddressBookEntryTest {
 	 * la voce della rubrica
 	 * 
 	 * @author Diego Beraldin
+	 * @version 2.0
 	 */
 	@Test
 	public void testGroup() {
@@ -86,6 +87,7 @@ public class AddressBookEntryTest {
 	 * voce della rubrica
 	 * 
 	 * @author Diego Beraldin
+	 * @version 2.0
 	 */
 	@Test
 	public void testOwner() {
@@ -99,6 +101,7 @@ public class AddressBookEntryTest {
 	 * Verifica che il contatto sia correttamente bloccato nella rubrica
 	 * 
 	 * @author Diego Beraldin
+	 * @version 2.0
 	 */
 	@Test
 	public void testBlocked() {
@@ -112,6 +115,7 @@ public class AddressBookEntryTest {
 	 * Test del metodo equals di AddressBookEntry
 	 * 
 	 * @author Diego Beraldin
+	 * @version 2.0
 	 */
 	@Test
 	public void testEquals() {
