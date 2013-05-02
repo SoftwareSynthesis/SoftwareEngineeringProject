@@ -162,5 +162,10 @@ public class ControllerManager extends WebSocketServlet implements Servlet
 		catch (InstantiationException ex)
 		{
 		}
+		finally
+		{
+			controllerName = null;
+			controller = null;
+		}
 	}
 }
