@@ -615,7 +615,7 @@ Tale sotto-architettura definisce le specifiche e le funzionalità dell'applicat
 	\item[-] \textsf{CS04 -- Gestione autenticazione};
 	\item[-] \textsf{CS05 -- Gestione segreteria};
 	\item[-] \textsf{CS06 -- Gestione chiamate};
-	\item[-] \textsf{CS07 -- Façade del server}.
+	\item[-] \textsf{CS07 -- Gestione controller}.
 \end{itemize}
 
 I componenti sopracitati verranno definiti rispettivamente nelle sottosezioni \ref{sec:cs01}, \ref{sec:cs02}, \ref{sec:cs03}, \ref{sec:cs04}, \ref{sec:cs05}, \ref{sec:cs06} e \ref{sec:cs07}. Si sottolinea sin da ora che il server è l'unico in grado di comunicare con il database su cui si poggia l'applicativo.
@@ -631,21 +631,20 @@ Infine si fa notare che i nomi di tutte le classi riportate nella presente sezio
 \item{\scshape\bfseries Descrizione:}\\
 Tale componente si occupa di rappresentare la struttura del database relazionale su cui poggia l'applicativo, tramite esso il sistema potrà quindi effettuare operazione di lettura e scrittura di entità all'interno del database.
 
-Nucleo logico di tale componente è la classe Singleton \texttt{HibernateUtil}, il cui compito è implementare una \inglese{factory} per le sessioni verso il database. Tali sessioni si basano sul file di configurazione di Hibernate, tra le cui informazioni compare anche la tipologia di DBMS utilizzata.
+Nucleo logico del componente è la classe Singleton \texttt{SessionManager} (implementazione dell'interfaccia \texttt{ISession}), il cui compito è implementare una \inglese{factory} per le sessioni verso il database. Tali sessioni si basano sul file di configurazione di Hibernate, tra le cui informazioni compare anche la tipologia di DBMS utilizzata.
 
-Le classi che fanno parte  di questo componente sono quelle che costituiscono i \inglese{data access object} (DAO). Tali classi hanno il compito di inoltrare richieste per la modifica e la lettura dei dati (\inglese{Create}, \inglese{Read}, \inglese{Update} e \inglese{Delete}) nelle corrispondenti entità del database.
-	
-	Tali classi sono:
-	\begin{itemize}
-	  \item[-] \texttt{dao.AddressBookEntryDAO}
-		\item[-] \texttt{dao.CallDAO}
-		\item[-] \texttt{dao.GroupDAO}
-		\item[-] \texttt{dao.MessageDAO}
-		\item[-] \texttt{dao.UserDataDAO}
-		\item[-] \texttt{dao.CallListDAO}
-	\end{itemize}
+Hibernate necessita di definire una classe atta a rappresentare la struttura di un generico oggetto del database, essa è denominata \texttt{DataPersistanceManager}.
+Per ogni oggetto del database così creato, sono predisposte delle operazioni per garantirne la modifica e permettere il ritorno dei dati in essi contenuti. Tali procedure sono descritte mediante  classi che implementano il \inglese{pattern} \inglese{template method}:
 
-Per chiarezza citiamo in tale sezione anche le classi che mappano le entità rappresentate nel database. Tali sono dotate di variabili di istanza che corrispondono ai campi dei \inglese{record}. Le operazioni disponibili su questo genere di oggetti comprendono i metodi \inglese{get}/\inglese{set} associati ai campi delle tabelle del database e sono rese disponibili dalle interfacce (una per ogni entità) implementate dalle classi.\footnote{%
+\begin{description}
+\item[-] \texttt{GetUtil}: classe astratta che contiene i metodi per ottenere i valori dei campi dati intrinsechi dell'oggetto, essa viene quindi estesa da quattro sottoclassi: \texttt{GetCallUtil}, \texttt{GetGroupUtil}, \texttt{GetUserDataUtil} e \texttt{NotInitialize} ;
+\item[-] \texttt{ModifyUtil}: una classe astratta che descrive una generica operazione di modifica ai campi dati dell'oggetto. Essa viene quindi estesa da tre sottoclassi: \texttt{DeleteUtil}, \texttt{UpdateUtil}, \texttt{InsertUtil}.
+\end{description}
+
+\texttt{DataPersistanceManager} ha la possibilità di creare (e usare) delle implementazioni dell'interfaccia \texttt{IMyTalkObject} che descrive il comportamento di un generico \textit{TrasferObject}.
+
+
+Per chiarezza citiamo in tale sezione anche le classi che mappano le entità rappresentate nel database (implementazione di \texttt{IMyTalkObject}). Tali sono dotate di variabili di istanza che corrispondono ai campi dei \inglese{record}. Le operazioni disponibili su questo genere di oggetti comprendono i metodi \inglese{get}/\inglese{set} associati ai campi delle tabelle del database e sono rese disponibili dalle interfacce (una per ogni entità) implementate dalle classi.\footnote{%
 	Per chiarezza, si precisa che tali classi corrispondono a quelle che nella logica di programmazione in Hibernate prendono il nome di \inglese{Transfer Object} (TO)\@.
 	}
 	\begin{itemize}
@@ -675,17 +674,18 @@ Precisiamo che le classi rappresentanti i \inglese{transfer object} si trovano a
 
 	\item{\scshape\bfseries Classi utilizzate:}
 	\begin{itemize}[nolistsep, noitemsep]
-	  \item[-] \texttt{server.dao.CallDAO}
-	   \item[-] \texttt{server.dao.CallListDAO}
-	  \item[-] \texttt{server.dao.GroupDAO}
-	  \item[-] \texttt{server.dao.MessageDAO}
-	  \item[-] \texttt{server.dao.UserDataDAO}
-	  \item[-] \texttt{server.dao.AddressBookEntryDAO}
-	  \item[-] \texttt{server.dao.HibernateUtil}
+	  \item[-] \texttt{server.dao.ISession}
+	  \item[-] \texttt{server.dao.SessionManager}
+	  \item[-] \texttt{server.dao.DataPersistanceManager}
+	  \item[-] \texttt{server.dao.GetUtil}
+	  \item[-] \texttt{server.dao.ModifyUtil}
+	  \item[-] \texttt{server.dao.DeleteUtil}
+	  \item[-] \texttt{server.dao.UpdateUtil}
+	  \item[-] \texttt{server.dao.InsertUtil}
+	  \item[-] \texttt{server.IMyTalkObject}
+	  
 	\end{itemize}
 \end{description}
-
-%TODO Dio sia lodato, questa classe è stata salvata! SIA LODE E GLORIA AL SIGNORE!
 
 \subsubsection{CS02 -- Gestione connessione}\label{sec:cs02}
 \begin{description}
@@ -694,7 +694,7 @@ Tale componente ingloba le classi destinate a stabilire le \inglese{routine} di 
 
 La comunicazione bidirezionale fra il server e i client è ottenuta estendendo la classe fornita dalle librerie di \textit{TomCat} \texttt{org.apache.catalina.websocket.MessageInbound} mediante \texttt{connection.PushInbound}. In particolare sarà realizzato l'\inglese{overriding} del metodo \texttt{onTextMessage(CharBuffer)} in modo da permettere al componente \textsf{Gestione connessione} del server di reagire correttamente ai messaggi provenienti dal client in forma testuale.
 
-Un ruolo essenziale è inoltre svolto dalla \inglese{servlet} \texttt{connection.ChanelServlet}, realizzata estendendo mediante ereditarietà la classe fornita dalle librerie di \textit{Apache TomCat} \texttt{org.apache.catalina.websocket.WebSocketServlet}. Tale \inglese{servlet} non fa parte di questa componente, viene qui citata unicamente per chiarire l'interazione tra il client e il server in merito alla comunicazione. La \inglese{servlet} risiede, come si vedrà in seguito, nella componente \textsf{CS07 -- Gestione Façade}.
+Un ruolo essenziale è inoltre svolto dalla \inglese{servlet} \texttt{connection.ControllerManager}, realizzata estendendo mediante ereditarietà la classe fornita dalle librerie di \textit{Apache TomCat} \texttt{org.apache.catalina.websocket.WebSocketServlet}. Tale \inglese{servlet} non fa parte di questa componente, viene qui citata unicamente per chiarire l'interazione tra il client e il server in merito alla comunicazione. La \inglese{servlet} risiede, come si vedrà in seguito, nella componente \textsf{CS07 -- Gestione Controller}.
 
 La caratteristica fondamentale della \inglese{servlet}, che rappresenta inoltre un punto di accesso centralizzato alle funzionalità del componente \textsf{Gestione connessione}, è quella di fare \inglese{overriding} del metodo \texttt{createWebSocketInbound(String, HttpServletRequest)} al fine di restituire un opportuno sottotipo di \texttt{org.apache.catalina.websocket.StreamInbound}. Il tipo dinamico dell'oggetto ritornato da \texttt{connection.ConnectionManager} corrisponde infatti proprio a \texttt{connection.PushInbound} in modo che lato client l'invocazione del costruttore di \texttt{WebSocket} (passando come parametro l'URL della \inglese{servlet}) crei una connessione del tipo voluto.
 
@@ -747,7 +747,7 @@ Infine sono state predisposte 12 \inglese{servlet} per interagire con le classi 
 	\item \texttt{abook.servlet.AccountSettingsServlet}
 \end{itemize}
 
-Le loro funzionalità riguardano principalmente le possibilità di modificare, creare e cancellare istanze di oggetti del tipo \texttt{transfer object} e quindi riconducibili ad oggetti fisicamente presenti nel database. Le \inglese{servlet} saranno descritte con maggiori dettaglio nella sezione \vref{sec:cs07} (\textsf{CS07 -- Façade del server}).
+Le loro funzionalità riguardano principalmente le possibilità di modificare, creare e cancellare istanze di oggetti del tipo \texttt{transfer object} e quindi riconducibili ad oggetti fisicamente presenti nel database. Le \inglese{servlet} saranno descritte con maggiori dettaglio nella sezione \vref{sec:cs07} (\textsf{CS07 -- Gestione controller}).
 
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -869,7 +869,7 @@ Infine, allo scopo di consentire ai client l'accesso alle funzionalità di quest
 
 %TODO Dio sia lodato, questa classe è stata salvata! SIA LODE E GLORIA AL SIGNORE!
 
-\subsubsection{CS07 -- Façade del server}\label{sec:cs07}
+\subsubsection{CS07 -- Gestione Controller}\label{sec:cs07}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Tale componente ha il ruolo di offrire ai client una serie di punti di accesso alle funzionalità del sistema server. Dal momento che tale interazione avviene in un contesto distribuito, i punti di accesso ai componenti del server sono stati implementati come \inglese{servlet} Java destinate a essere eseguite nell'ambiente del \inglese{servlet container} fornito da \textit{Apache TomCat}.
@@ -942,7 +942,7 @@ Infine lo scaricamento e la gestione della segreteria telefonica (di competenza 
 \begin{figure}[H]
   \centering
   \includegraphics[width=.7\textwidth]{class_facade_server}
-  \caption{Diagramma delle classi - Façade del server}\label{fig:facadeserver}
+  \caption{Diagramma delle classi - Gestione controller}\label{fig:facadeserver}
 \end{figure}
 
 Il diagramma in figura \ref{fig:facadeserver} rappresenta la gerarchia delle \inglese{servlet} di Façade ma non mostra in dettaglio le dipendenze fra ognuna di queste e i componenti interni ai sotto-package \texttt{abook}, \texttt{authentication}, \texttt{call}, \texttt{connection} e \texttt{message} per non appesantire troppo la notazione.
@@ -983,92 +983,145 @@ Tali dipendenze, di fondamentale importanza per l'architettura, sono però ripor
 
 \begin{itemize}[leftmargin=0em]
 
-\item \texttt{AddressBookEntryDAO}
+\item \texttt{ISession}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
-Tale classe espone la funzione per la manipolazione di oggetti di tipo \texttt{IAddressBookEntry} con il database.
-
+Interfaccia che definisce un generico componente che gestisce una sessione Hibernate.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS01 -- Gestione database}
-    \item[-] \textsf{CS07 -- Façade del server}
+    \item[-] \textsf{CS07 -- Gestione controller}
   \end{itemize}
 \end{description}
 
-\item \texttt{CallDAO}
+\item \texttt{DataPersistanceManager}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
-Tale classe interagisce con il \inglese{framework} Hibernate e contiene la logica per la manipolazione dei dati (in lettura e scrittura) nella tabella \textit{Calls} del database.
+Classe che rappresenta una generica istanza di una tabella del database gestito mediante Hibernate, la classe contiene associazioni:
+\begin{itemize}
+\item alla sessione Hibernate in corso (riferimento ad un oggetto \texttt{ISession});
+\item alla classe che definisce le operazioni di get (\texttt{GetUtil)};
+\item alla classe che definisce le operazioni di modifica ai campi membro dell'oggetto rappresentato (\texttt{ModifyUtil)}.
+\end{itemize}
+Presenta inoltre una dipendenza di tipo \inglese{create} e \inglese{use} all'interfaccia \texttt{IMyTalkObject}.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS01 -- Gestione database}
-    \item[-] \textsf{CS07 -- Façade del server}
+    \item[-] \textsf{CS07 -- Gestione Controller}
   \end{itemize}
 \end{description}
 
-\item \texttt{CallListDAO}
+\item \texttt{GetUtil}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
-  Tale classe interagisce con il \inglese{framework} Hibernate e contiene la logica per la manipolazione dei dati (in lettura e scrittura) nella tabella \textit{CallLists} del database che mappa la relazione molti a molti tra \textit{UserData} e \textit{Calls}.
-
+classe astratta che utilizza il \inglese{pattern} template method, ha il compito di estrarre i dati richiesti dal database e inizializzarli per renderli utilizzabili dalla componente che ne ha fatto richiesta.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS01 -- Gestione database}
-    \item[-] \textsf{CS07 -- Façade del server}
+    \item[-] \textsf{CS07 -- Gestione controller}
+  \end{itemize}
+\end{description}
+
+\item \texttt{GetCallUtil}
+\begin{description}
+  \item{\scshape\bfseries Descrizione:}\\
+classe che estende \texttt{GetUtil}, ridefinisce l'algoritmo del metodo astratto per l'inizializzazione dei dati relativi alla chiamata.
+  \item{\scshape\bfseries Componenti che ne fanno uso:}
+  \begin{itemize}[noitemsep,nolistsep]
+    \item[-] \textsf{CS01 -- Gestione database}
+    \item[-] \textsf{CS07 -- Gestione controller}
+  \end{itemize}
+\end{description}
+
+\item \texttt{GetGroupUtil}
+\begin{description}
+  \item{\scshape\bfseries Descrizione:}\\
+classe che estende \texttt{GetUtil}, ridefinisce l'algoritmo del metodo astratto per l'inizializzazione dei dati relativi ai gruppi.
+  \item{\scshape\bfseries Componenti che ne fanno uso:}
+  \begin{itemize}[noitemsep,nolistsep]
+    \item[-] \textsf{CS01 -- Gestione database}
+    \item[-] \textsf{CS07 -- Gestione controller}
+  \end{itemize}
+\end{description}
+
+\item \texttt{GetUserDataUtil}
+\begin{description}
+  \item{\scshape\bfseries Descrizione:}\\
+classe che estende \texttt{GetUtil}, ridefinisce l'algoritmo del metodo astratto per l'inizializzazione dei dati relativi all'utente.
+  \item{\scshape\bfseries Componenti che ne fanno uso:}
+  \begin{itemize}[noitemsep,nolistsep]
+    \item[-] \textsf{CS01 -- Gestione database}
+    \item[-] \textsf{CS07 -- Gestione controller}
+  \end{itemize}
+\end{description}
+
+\item \texttt{NotInitialize }
+\begin{description}
+  \item{\scshape\bfseries Descrizione:}\\
+classe che estende \texttt{GetUtil}, ridefinisce l'algoritmo del metodo astratto per la gestione dei
+transfer object che non hanno nulla da inizializzare (\texttt{AddressBookEntry}, \texttt{ICallList}, \texttt{IMessage}).
+  \item{\scshape\bfseries Componenti che ne fanno uso:}
+  \begin{itemize}[noitemsep,nolistsep]
+    \item[-] \textsf{CS01 -- Gestione database}
+    \item[-] \textsf{CS07 -- Gestione controller}
+  \end{itemize}
+\end{description}
+
+\item \texttt{ModifyUtil}
+\begin{description}
+  \item{\scshape\bfseries Descrizione:}\\
+classe astratta che utilizza il \inglese{pattern} template method, ha il compito di modificare i campi dati degli oggetti \textit{transfer object}.
+  \item{\scshape\bfseries Componenti che ne fanno uso:}
+  \begin{itemize}[noitemsep,nolistsep]
+    \item[-] \textsf{CS01 -- Gestione database}
+    \item[-] \textsf{CS07 -- Gestione controller}
+  \end{itemize}
+\end{description}
+
+\item \texttt{DeleteUtil}
+\begin{description}
+  \item{\scshape\bfseries Descrizione:}\\
+classe che estende \texttt{ModifyUtil}, ridefinisce l'algoritmo del metodo astratto per eliminare i dati.
+  \item{\scshape\bfseries Componenti che ne fanno uso:}
+  \begin{itemize}[noitemsep,nolistsep]
+    \item[-] \textsf{CS01 -- Gestione database}
+    \item[-] \textsf{CS07 -- Gestione controller}
+  \end{itemize}
+\end{description}
+
+\item \texttt{UpdateUtil}
+\begin{description}
+  \item{\scshape\bfseries Descrizione:}\\
+classe che estende \texttt{ModifyUtil}, ridefinisce l'algoritmo del metodo astratto per aggiornare i dati.
+  \item{\scshape\bfseries Componenti che ne fanno uso:}
+  \begin{itemize}[noitemsep,nolistsep]
+    \item[-] \textsf{CS01 -- Gestione database}
+    \item[-] \textsf{CS07 -- Gestione controller}
   \end{itemize}
 \end{description}
 
 
-\item \texttt{MessageDAO}
+\item \texttt{InsertUtil}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
-
-Tale classe interagisce con il \inglese{framework} Hibernate e contiene la logica per la manipolazione dei dati (in lettura e scrittura) nella tabella \textit{Message} del database.
-
+classe che estende \texttt{ModifyUtil}, ridefinisce l'algoritmo del metodo astratto per inserire dei dati.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS01 -- Gestione database}
-    \item[-] \textsf{CS07 -- Façade del server}
+    \item[-] \textsf{CS07 -- Gestione controller}
   \end{itemize}
 \end{description}
 
-\item \texttt{GroupDAO}
+\item \texttt{SessionManager}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
-
-Tale classe interagisce con il \inglese{framework} Hibernate e contiene la logica per la manipolazione dei dati (in lettura e scrittura) nella tabella \textit{Group} del database.
+Classe che implementa il \inglese{pattern} Singleton e che viene utilizzata dalla classe \texttt{DataPersistanceManager} al fine di ottenere un riferimento alla sessione di connessione al DBMS tramite la quale effettuare le transazioni corrispondenti alle operazioni volte ad assicurare la persistenza dei dati. Tale classe implementa la classe \texttt{ISession}.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS01 -- Gestione database}
-    \item[-] \textsf{CS07 -- Façade del server}
-  \end{itemize}
-\end{description}
-
-\item \texttt{UserDataDAO}
-\begin{description}
-  \item{\scshape\bfseries Descrizione:}\\
-
-Tale classe interagisce con il \inglese{framework} Hibernate e contiene la logica per la manipolazione dei dati (in lettura e scrittura) nella tabella \textit{UserData} del database.
-
-  \item{\scshape\bfseries Componenti che ne fanno uso:}
-  \begin{itemize}[noitemsep,nolistsep]
-    \item[-] \textsf{CS01 -- Gestione database}
-    \item[-] \textsf{CS04 -- Gestione autenticazione}
-    \item[-] \textsf{CS07 -- Façade del server}
-  \end{itemize}
-\end{description}
-
-\item \texttt{HibernateUtil}
-\begin{description}
-  \item{\scshape\bfseries Descrizione:}\\
-Classe che implementa il \inglese{pattern} Singleton e che viene utilizzata dalle classi DAO al fine di ottenere un riferimento alla sessione di connessione al DBMS tramite la quale effettuare le transazioni corrispondenti alle operazioni volte ad assicurare la persistenza dei dati.
-
-  \item{\scshape\bfseries Componenti che ne fanno uso:}
-  \begin{itemize}[noitemsep,nolistsep]
-    \item[-] \textsf{CS01 -- Gestione database}
-    \item[-] \textsf{CS07 -- Façade del server}
+    \item[-] \textsf{CS07 -- Gestione controller}
   \end{itemize}
 \end{description}
 
@@ -1088,7 +1141,7 @@ Il comportamento della sotto-architettura server in risposta ai messaggi ricevut
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS02 -- Gestione connessione}
-    \item[-] \textsf{CS07 -- Façade del server}
+    \item[-] \textsf{CS07 -- Gestione controller}
   \end{itemize}
   \end{description}
   
@@ -1100,7 +1153,7 @@ Classe che attraverso un tipo enumerativo rappresenta lo stato in cui si trova u
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}
     \item[-] \textsf{CS02 -- Gestione rubrica}
-    \item[-] \textsf{CS07 -- Façade del server}
+    \item[-] \textsf{CS07 -- Gestione controller}
    \end{itemize}
 \end{description}
 
@@ -1119,7 +1172,7 @@ In ultima, la \inglese{servlet} si occupa di notificare i cambiamenti di stato d
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \textsf{CS02 -- Gestione connessione}
 	  \item[-] \textsf{CS03 -- Gestione rubrica}
-	  \item[-] \textsf{CS07 -- Façade del server}
+	  \item[-] \textsf{CS07 -- Gestione controller}
 	\end{itemize}
 \end{description}
 
@@ -1137,7 +1190,7 @@ Interfaccia che raccoglie le operazioni per la gestione di un utente appartenent
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \textsf{CS03 -- Gestione rubrica}
-      \item[-] \textsf{CS07 -- Façade del server}
+      \item[-] \textsf{CS07 -- Gestione controller}
 	\end{itemize}
 \end{description}
 
@@ -1151,7 +1204,7 @@ Permette di accedere al contatto, al suo gruppo e di determinare se tale utente 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \textsf{CS03 -- Gestione rubrica}
-	  \item[-] \textsf{CS07 -- Façade del server}
+	  \item[-] \textsf{CS07 -- Gestione controller}
 	\end{itemize}
 \end{description}
 
@@ -1163,7 +1216,7 @@ Interfaccia per le classi che rappresentano gli utenti, è dotata di operazioni 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \textsf{CS03 -- Gestione rubrica}
-	  \item[-] \textsf{CS07 -- Façade del server}
+	  \item[-] \textsf{CS07 -- Gestione controller}
 	\end{itemize}
 \end{description}
 
@@ -1178,7 +1231,7 @@ Classe \inglese{transfer object} che implementa l'interfaccia \texttt{IUserData}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \textsf{CS03 -- Gestione rubrica}
 	  \item[-] \textsf{CS04 -- Gestione autenticazione}
-	  \item[-] \textsf{CS07 -- Façade del server}
+	  \item[-] \textsf{CS07 -- Gestione controller}
 	\end{itemize}
 \end{description}
 
@@ -1190,7 +1243,7 @@ Interfaccia per i gruppi interni alla rubrica di un utente, prevede un'operazion
 	\item{\scshape\bfseries Componenti che ne fanno uso:} 
 	  \begin{itemize}[noitemsep,nolistsep]
 	    \item[-] \textsf{CS03 -- Gestione rubrica}
-	    \item[-] \textsf{CS07 -- Façade del server}
+	    \item[-] \textsf{CS07 -- Gestione controller}
 	  \end{itemize}
 \end{description}
 
@@ -1202,7 +1255,7 @@ Implementazione dell'interfaccia \texttt{IGroup} che costituisce anche il \ingle
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	  \begin{itemize}[noitemsep,nolistsep]
 	    \item[-] \textsf{CS03 -- Gestione rubrica}
-	    \item[-] \textsf{CS07 -- Façade del server}
+	    \item[-] \textsf{CS07 -- Gestione controller}
 	  \end{itemize}
 \end{description}
 
@@ -1222,7 +1275,7 @@ Implementazione dell'interfaccia \texttt{IGroup} che costituisce anche il \ingle
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \textsf{CS03 -- Gestione rubrica}
-	  \item[-] \textsf{CS07 -- Façade del server}
+	  \item[-] \textsf{CS07 -- Gestione controller}
 	\end{itemize}
 \end{description}
 
@@ -1234,7 +1287,7 @@ Implementazione dell'interfaccia \texttt{IGroup} che costituisce anche il \ingle
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \textsf{CS03 -- Gestione rubrica }
-	  \item[-] \textsf{CS07 -- Façade del server}
+	  \item[-] \textsf{CS07 -- Gestione controller}
 	\end{itemize}
 \end{description}
 
@@ -1245,7 +1298,7 @@ Implementazione dell'interfaccia \texttt{IGroup} che costituisce anche il \ingle
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \textsf{CS03 -- Gestione rubrica }
-	  \item[-] \textsf{CS07 -- Façade del server}
+	  \item[-] \textsf{CS07 -- Gestione controller}
 	\end{itemize}
 \end{description}
 
@@ -1256,7 +1309,7 @@ Implementazione dell'interfaccia \texttt{IGroup} che costituisce anche il \ingle
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \textsf{CS03 -- Gestione rubrica }
-	  \item[-] \textsf{CS07 -- Façade del server}
+	  \item[-] \textsf{CS07 -- Gestione controller}
 	\end{itemize}
 \end{description}
 
@@ -1268,7 +1321,7 @@ Implementazione dell'interfaccia \texttt{IGroup} che costituisce anche il \ingle
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \textsf{CS03 -- Gestione rubrica }
-	  \item[-] \textsf{CS07 -- Façade del server}
+	  \item[-] \textsf{CS07 -- Gestione controller}
 	\end{itemize}
 \end{description}
 
@@ -1280,7 +1333,7 @@ Implementazione dell'interfaccia \texttt{IGroup} che costituisce anche il \ingle
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \textsf{CS03 -- Gestione rubrica }
-	  \item[-] \textsf{CS07 -- Façade del server}
+	  \item[-] \textsf{CS07 -- Gestione controller}
 	\end{itemize}
 \end{description}
 
@@ -1292,7 +1345,7 @@ Implementazione dell'interfaccia \texttt{IGroup} che costituisce anche il \ingle
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \textsf{CS03 -- Gestione rubrica }
-	  \item[-] \textsf{CS07 -- Façade del server}
+	  \item[-] \textsf{CS07 -- Gestione controller}
 	\end{itemize}
 \end{description}
 
@@ -1304,7 +1357,7 @@ Implementazione dell'interfaccia \texttt{IGroup} che costituisce anche il \ingle
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \textsf{CS03 -- Gestione rubrica }
-	  \item[-] \textsf{CS07 -- Façade del server}
+	  \item[-] \textsf{CS07 -- Gestione controller}
 	\end{itemize}
 \end{description}
 
@@ -1316,7 +1369,7 @@ Implementazione dell'interfaccia \texttt{IGroup} che costituisce anche il \ingle
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \textsf{CS03 -- Gestione rubrica }
-	  \item[-] \textsf{CS07 -- Façade del server}
+	  \item[-] \textsf{CS07 -- Gestione controller}
 	\end{itemize}
 \end{description}
 
@@ -1328,7 +1381,7 @@ Implementazione dell'interfaccia \texttt{IGroup} che costituisce anche il \ingle
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \textsf{CS03 -- Gestione rubrica }
-	  \item[-] \textsf{CS07 -- Façade del server}
+	  \item[-] \textsf{CS07 -- Gestione controller}
 	\end{itemize}
 \end{description}
 
@@ -1346,7 +1399,7 @@ Interfaccia che dichiara le operazioni astratte (\inglese{get}/\inglese{set}) ne
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS05 -- Gestione segreteria}
-	\item[-] \textsf{CS07 -- Façade del server}
+	\item[-] \textsf{CS07 -- Gestione controller}
   \end{itemize}
 \end{description}
 
@@ -1358,7 +1411,7 @@ Classe \inglese{transfer object} che rappresenta un messaggio di natura audio o 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	  \begin{itemize}[noitemsep,nolistsep]
 	    \item[-] \textsf{CS05 -- Gestione segreteria}
-	    \item[-] \textsf{CS07 -- Façade del server}
+	    \item[-] \textsf{CS07 -- Gestione controller}
 	  \end{itemize}
 \end{description}
 
@@ -1375,7 +1428,7 @@ Sottoclasse di \texttt{javax.servlet.http.HttpServlet} che rappresenta un punto 
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \textsf{CS07 -- Façade del server}
+	  \item[-] \textsf{CS07 -- Gestione controller}
 	  \item[-] \textsf{CP03 -- Gestione GUI}
 	\end{itemize}
 \end{description}
@@ -1387,7 +1440,7 @@ Sottoclasse di \texttt{javax.servlet.http.HttpServlet} che rappresenta un punto 
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \textsf{CS07 -- Façade del server}
+	  \item[-] \textsf{CS07 -- Gestione controller}
 	  \item[-] \textsf{CP03 -- Gestione GUI}
 	\end{itemize}
 \end{description}
@@ -1399,7 +1452,7 @@ Sottoclasse di \texttt{javax.servlet.http.HttpServlet} che rappresenta un punto 
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \textsf{CS07 -- Façade del server}
+	  \item[-] \textsf{CS07 -- Gestione controller}
 	  \item[-] \textsf{CP03 -- Gestione GUI}
 	\end{itemize}
 \end{description}
@@ -1411,7 +1464,7 @@ Sottoclasse di \texttt{javax.servlet.http.HttpServlet} che rappresenta un punto 
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \textsf{CS07 -- Façade del server}
+	  \item[-] \textsf{CS07 -- Gestione controller}
 	  \item[-] \textsf{CP03 -- Gestione GUI}
 	\end{itemize}
 \end{description}
@@ -1429,7 +1482,7 @@ Interfaccia che contiene le operazioni astratte di accesso ai dati (metodi \ingl
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS06 -- Gestione chiamate}
-	\item[-] \textsf{CS07 -- Façade del server}
+	\item[-] \textsf{CS07 -- Gestione controller}
   \end{itemize}
 \end{description}
 
@@ -1478,7 +1531,7 @@ Sottoclasse di \texttt{javax.servlet.http.HttpServlet} la cui responsabilità è
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \textsf{CS07 -- Façade del server}
+	  \item[-] \textsf{CS07 -- Gestione controller}
 	  \item[-] \textsf{CP03 -- Gestione GUI}
 	\end{itemize}
 \end{description}
@@ -1496,7 +1549,7 @@ Sottoclasse di \texttt{javax.servlet.http.HttpServlet} la cui responsabilità è
   \item{\scshape\bfseries Componenti che ne fanno uso}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS04 -- Gestione autenticazione}
-    \item[-] \textsf{CS07 -- Façade del server}
+    \item[-] \textsf{CS07 -- Gestione controller}
   \end{itemize}
 \end{description}
 
@@ -1507,7 +1560,7 @@ Sottoclasse di \texttt{javax.servlet.http.HttpServlet} la cui responsabilità è
   \item{\scshape\bfseries Componenti che ne fanno uso}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS04 -- Gestione autenticazione}
-    \item[-] \textsf{CS07 -- Façade del server}
+    \item[-] \textsf{CS07 -- Gestione controller}
   \end{itemize}
 \end{description}
 
@@ -1518,7 +1571,7 @@ Sottoclasse di \texttt{javax.servlet.http.HttpServlet} la cui responsabilità è
   \item{\scshape\bfseries Componenti che ne fanno uso}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS04 -- Gestione autenticazione}
-    \item[-] \textsf{CS07 -- Façade del server}
+    \item[-] \textsf{CS07 -- Gestione controller}
   \end{itemize}
 \end{description}
 
@@ -1529,7 +1582,7 @@ Sottoclasse di \texttt{javax.servlet.http.HttpServlet} la cui responsabilità è
 	\item{\scshape\bfseries Componenti che ne fanno uso}
 		\begin{itemize}[noitemsep],nolistsep]
 			\item[-] \textsf{CS04 -- Gestione autenticazione}
-    		\item[-] \textsf{CS07 -- Façade del server}
+    		\item[-] \textsf{CS07 -- Gestione controller}
 		\end{itemize}
 \end{description}
 
@@ -1540,7 +1593,7 @@ Sottoclasse di \texttt{javax.servlet.http.HttpServlet} la cui responsabilità è
 	\item{\scshape\bfseries Componenti che ne fanno uso}
 		\begin{itemize}[noitemsep,nolistsep]
 			\item[-] \textsf{CS04 -- Gestione autenticazione}
-			\item[-] \textsf{CS07 -- Façade del server}
+			\item[-] \textsf{CS07 -- Gestione controller}
 		\end{itemize}
 \end{description}
 
@@ -1551,7 +1604,7 @@ Sottoclasse di \texttt{javax.servlet.http.HttpServlet} la cui responsabilità è
 	\item{\scshape\bfseries Componenti che ne fanno uso}
 		\begin{itemize}[noitemsep,nolistsep]
 			\item[-] \textsf{CS04 -- Gestione autenticazione}
-    			\item[-] \textsf{CS07 -- Façade del server}
+    			\item[-] \textsf{CS07 -- Gestione controller}
 		\end{itemize}
 \end{description}
 
@@ -1563,7 +1616,7 @@ Sottoclasse di \texttt{javax.servlet.http.HttpServlet} la cui responsabilità è
 	\item{\scshape\bfseries Componenti che ne fanno uso}
 		\begin{itemize}[noitemsep,nolistsep]
 			\item[-] \textsf{CS04 -- Gestione autenticazione}
-    			\item[-] \textsf{CS07 -- Façade del server}
+    			\item[-] \textsf{CS07 -- Gestione controller}
 		\end{itemize}
 \end{description}
 
@@ -1874,7 +1927,7 @@ Tale \inglese{presenter} viene richiamato dall'elemento grafico corrispondente a
 Il \inglese{presenter} in questione rende inoltre possibile avviare una ricerca fra gli utenti registrati nel sistema nonché rilevare che l'operazione di ricerca è conclusa (e conseguentemente visualizzare nuovamente la rubrica). 
 
 
-I dati corrispondenti alla rubrica, ovvero le corrispondenti istanze di classi definite in \textsf{Rappresentazione dati}, se non sono presenti sul client devono essere recuperati dal server ed è responsabilità di questa classe contattare il \textsf{Façade del Server} al fine di ottenere le informazioni necessarie.
+I dati corrispondenti alla rubrica, ovvero le corrispondenti istanze di classi definite in \textsf{Rappresentazione dati}, se non sono presenti sul client devono essere recuperati dal server ed è responsabilità di questa classe contattare la \textsf{Gestione controller} al fine di ottenere le informazioni necessarie.
 
 Infine in modo simile sono comunicati al server gli esiti delle operazioni di amministrazione sulla rubrica che hanno un effetto sulle informazioni di modello.
 
@@ -1892,7 +1945,7 @@ Questo \inglese{presenter} gestisce l'elemento corrispondente al pannello dello 
 
 Poiché il componente grafico supervisionato è totalmente passivo, non sono presenti operazioni di \inglese{callback} da associare alle componenti grafiche vere e proprie.
 
-Qualora i dati corrispondenti allo storico delle chiamate non fossero disponibili sul client che ospita questo \inglese{presenter} è responsabilità di quest'ultimo interrogare il server (attraverso il componente \textsf{Façade del server}) al fine di ottenere le informazioni necessarie.
+Qualora i dati corrispondenti allo storico delle chiamate non fossero disponibili sul client che ospita questo \inglese{presenter} è responsabilità di quest'ultimo interrogare il server (attraverso il componente \textsf{Gestione controller}) al fine di ottenere le informazioni necessarie.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1965,7 +2018,7 @@ Tale \inglese{presenter} ha la responsabilità di controllare l'aggiornamento de
 \item \texttt{guicontrol.LoginPanelPresenter}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
-Tale \inglese{presenter} ha il compito di ricevere dall'interfaccia grafica i dati di autenticazione, associando un suo metodo all'evento \texttt{onSubmit} del \inglese{form} di \inglese{login}, e in seguito inoltrarli alla sotto-architettura server tramite una \inglese{servlet} del componente \textsf{Façade del server}.
+Tale \inglese{presenter} ha il compito di ricevere dall'interfaccia grafica i dati di autenticazione, associando un suo metodo all'evento \texttt{onSubmit} del \inglese{form} di \inglese{login}, e in seguito inoltrarli alla sotto-architettura server tramite una \inglese{servlet} del componente \textsf{Gestione controller}.
 
 L'oggetto \texttt{LoginPanelPresenter} permette semplicemente di comunicare al server i dati di \inglese{login} inseriti dall'utente.
   
@@ -1999,7 +2052,7 @@ Poiché a partire dalla vista associata è possibile avviare/arrestare la riprod
 
 Qualora i dati corrispondenti alla segreteria telefonica di un utente non fossero disponibili sul client, è responsabilità di questa classe interrogare il server al fine di ottenere le informazioni necessarie nonché istanziare le opportune classi di \textsf{Rappresentazione dati}.
 
-Infine, per le operazioni che hanno effetto sulla rappresentazione del modello dei dati sul server, quali la cancellazione di un messaggio o il cambiamento di stato di un messaggio, devono essere notificati al server attraverso il componente \textsf{Façade del server}.
+Infine, per le operazioni che hanno effetto sulla rappresentazione del modello dei dati sul server, quali la cancellazione di un messaggio o il cambiamento di stato di un messaggio, devono essere notificati al server attraverso il componente \textsf{Gestione controller}.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -2026,7 +2079,7 @@ A tale scopo, è necessario che tutti i \inglese{presenter} si registrino su di 
 \item \texttt{guicontrol.RegisterPanelPresenter}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Tale \inglese{presenter} ha il compito di ricevere dall'interfaccia grafica i dati con cui desidera registrarsi un utente, associando un suo metodo all'evento \texttt{onSubmit} del \inglese{form} di registrazione, e in seguito inoltrarli alla sotto-architettura server tramite una \inglese{servlet} del componente \textsf{Façade del server}.
+Tale \inglese{presenter} ha il compito di ricevere dall'interfaccia grafica i dati con cui desidera registrarsi un utente, associando un suo metodo all'evento \texttt{onSubmit} del \inglese{form} di registrazione, e in seguito inoltrarli alla sotto-architettura server tramite una \inglese{servlet} del componente \textsf{Gestione controller}.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -2061,7 +2114,7 @@ D'altra parte, gli eventi scatenati dall'interazione dell'utente con il pannello
 
 In tal modo è possibile far comparire o scomparire il pannello di gestione dei dati personali corrispondenti al proprio account, della segreteria, la gestione dei gruppi e lo storico delle chiamate.
 
-Poiché inoltre da \texttt{org.softwaresynthesis.mytalk.clienview.ToolsPanel} è possibile impostare il proprio stato, il \inglese{presenter} ad esso associato contiene le funzioni che notificano l'avvenuto cambiamento di stato al componente \textsf{Façade del server}.
+Poiché inoltre da \texttt{org.softwaresynthesis.mytalk.clienview.ToolsPanel} è possibile impostare il proprio stato, il \inglese{presenter} ad esso associato contiene le funzioni che notificano l'avvenuto cambiamento di stato al componente \textsf{Gestione controller}.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -2369,7 +2422,7 @@ Façade definisce inoltre un'interfaccia di livello più alto che rende la sotto
 
 \subsubsection{Componenti che lo implementano}
 \begin{description}
-  \item{\scshape\bfseries CS07-- Façade del server}\\
+  \item{\scshape\bfseries CS07-- Gestione controller}\\
 Questa componente della sotto-architettura server fornisce una serie di punti di accesso centralizzati (\inglese{servlet}) per i componenti \textsf{Gestione rubrica}, \textsf{Gestione connessione}, \textsf{Gestione segreteria}, \textsf{Gestione chiamate} e \textsf{Gestione autentcazione} secondo la tabella riportata nella sezione \vref{sec:cs07}. In pratica è possibile pensare ad ogni \inglese{servlet} come ad un façade atto a nascondere l'iter procedurale per la realizzazione di una determinata operazione.
 \end{description}
 
@@ -2522,7 +2575,7 @@ Componente che ha il ruolo di gestire la persistenza dei dati sul server necessa
   \item{\textsc{\bfseries CS06 -- Gestione chiamate}, \textsc{\bfseries CS03 -- Gestione rubrica} e \textsc{\bfseries CS05 -- Gestione segreteria}}\\
 Contengono le rappresentazioni delle entità della \inglese{business logic} lato server che devono essere interrogate per ricavare le informazioni necessarie ai client in forma opportuna.
 
-  \item{\scshape\bfseries CS07 -- Façade del server}\\
+  \item{\scshape\bfseries CS07 -- Gestione controller}\\
 Componente del server interessato dalla ricezione delle richieste da parte dei \inglese{presenter}, recupera le informazioni di cui questi ultimi necessitano e le restituisce in forma serializzata e compatibile con il dominio applicativo dei client.
 
   \item{\scshape\bfseries CP04 -- Gestione comunicazione}\\
@@ -2543,7 +2596,7 @@ Il \inglese{pattern} creazionale Singleton, garantisce che una determinata class
 \subsubsection{Componenti che lo implementano}
 \begin{description}
   \item{\scshape\bfseries CS01 -- Gestione database}\\
-La classe \texttt{server.dao.HibernateUtil} è implementata come Singleton dal momento che si desidera che in ogni momento ne sia attiva un'unica istanza. Tramite i metodi che essa mette a disposizione, le classi DAO sono in grado di procurarsi un riferimento alla sessione di connessione al DBMS al fine di effettuare le transazioni di cui necessitano.
+La classe \texttt{server.dao.SessionManager} è implementata come Singleton dal momento che si desidera che in ogni momento ne sia attiva un'unica istanza. Tramite i metodi che essa mette a disposizione, le classi DAO sono in grado di procurarsi un riferimento alla sessione di connessione al DBMS al fine di effettuare le transazioni di cui necessitano.
 
 \begin{figure}[H]
   \centering
