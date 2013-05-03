@@ -37,7 +37,7 @@ public class SessionManager implements ISessionManager
 	}
 
 	@Override
-	public SessionFactory getSessionFacotry() 
+	public SessionFactory getSessionFactory() 
 	{
 		return this.factory;
 	}

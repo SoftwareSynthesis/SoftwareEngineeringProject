@@ -20,5 +20,5 @@ public interface ISessionManager
 	 * 			creazione di sessioni di connessione
 	 * 			con la base di dati
 	 */
-	public SessionFactory getSessionFacotry();
+	public SessionFactory getSessionFactory();
 }
