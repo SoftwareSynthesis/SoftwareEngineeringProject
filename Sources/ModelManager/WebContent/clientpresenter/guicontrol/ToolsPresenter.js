@@ -11,8 +11,7 @@ function ToolsPanelPresenter() {
      VARIABILI PRIVATE
      ***********************************************************/
     //elemento controllato da questo presenter
-    var element = document.getElementById("ToolsPanel");
-    element.innerHTML = "";
+    var element;
 
     /**********************************************************
      METODI PRIVATI
@@ -55,67 +54,49 @@ function ToolsPanelPresenter() {
      * @author Diego Beraldin
      */
     this.initialize = function() {
-        element.innerHTML = "";
-        // imposta il pannello come visibile
+        var self = this;
+
+        // ottiene la propria vista
+        element = mediator.getView("ToolsView");
+
+        // posiziona il pannello sulla pagina
+        document.body.appendChild(element);
+        
+        
+        
+        
+        
         element.style.display = "block";
 
-        //header
-        var header = document.createElement("h1");
-        header.appendChild(document.createTextNode("STRUMENTI"));
-
-        // contenuto del '<div>' delle funzionalità
-        var divFunction = document.createElement("div");
-        var ulFunction = document.createElement("ul");
-        ulFunction.id = "ToolsList";
+        var ulFunction = document.getElementById("ToolsList");
 
         // funzione messaggi
-        var liAnswering = document.createElement("li");
-        liAnswering.appendChild(document.createTextNode("Segreteria"));
-        liAnswering.onclick = function() {
+        document.getElementById("liAnswering").onclick = function() {
             mediator.displayMessagePanel();
         };
 
         // funzione impostazioni account
-        var liSetting = document.createElement("li");
-        liSetting.appendChild(document.createTextNode("Impostazioni"));
-        liSetting.onclick = function() {
+        document.getElementById("liSetting").onclick = function() {
             mediator.displayAccountSettingsPanel();
         };
 
         // funzione lista chiamate
-        var liCallList = document.createElement("li");
-        liCallList.appendChild(document.createTextNode("Lista chiamate"));
-        liCallList.onclick = function() {
+        document.getElementById("liCallList").onclick = function() {
             mediator.displayCallHistoryPanel();
         };
 
         // funzione gestione contatti
-        var liGroup = document.createElement("li");
-        liGroup.appendChild(document.createTextNode("Gruppi"));
-        liGroup.onclick = function() {
+        document.getElementById("liGroup").onclick = function() {
             mediator.displayGroupPanel();
         };
 
         // funzione di ricerca
-        var liSearch = document.createElement("li");
-        liSearch.appendChild(document.createTextNode("Ricerca"));
-        liSearch.onclick = function() {
+        document.getElementById("liSearch").onclick = function() {
             mediator.displaySearchResultPanel();
         };
-
-        // costruisce la lista aggiungendo tutti gli elementi
-        ulFunction.appendChild(liAnswering);
-        ulFunction.appendChild(liSetting);
-        ulFunction.appendChild(liCallList);
-        ulFunction.appendChild(liGroup);
-        ulFunction.appendChild(liSearch);
         
         // possibilità di effettuare il logout
-        var ulLogout = document.createElement("ul");
-        var liLogout = document.createElement("li");
-        liLogout.appendChild(document.createTextNode("Logout"));
-        var self = this;
-        liLogout.onclick = function() {
+        document.createElement("liLogout").onclick = function() {
         	var answer = confirm("Sei sicuro di voler uscire?");
     		if (answer) {
     			// effettua la disconnessione dal server
@@ -127,22 +108,9 @@ function ToolsPanelPresenter() {
     			mediator.buildLoginUI();
     		}
         };
-        ulLogout.appendChild(liLogout);
-        
-        divFunction.appendChild(ulFunction);
-        divFunction.appendChild(ulLogout);
-
-        // contenuto del '<div>' per gli stati dell'utente
-        var divState = document.createElement("div");
-        var state = document.createElement("select");
-        state.id = "selectState";
+       
+       //inizializzo la select del 
         this.initializeSelectState();
-        divState.appendChild(state);
-
-        // aggiunge il sottoalbero al DOM dell'elemento controllato
-        element.appendChild(header);
-        element.appendChild(divState);
-        element.appendChild(divFunction);
     };
 
     /**

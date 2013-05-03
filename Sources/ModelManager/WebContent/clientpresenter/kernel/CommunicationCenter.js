@@ -26,12 +26,6 @@ function CommunicationCenter() {
     // URL della servlet con cui è necessario interagire
     var urlServlet = "ws://localhost:8080/MyTalk/ChannelServlet";
 
-    //codice che dovrebbe rendere usabile webRTC da ogni browser che lo supporti DA TESTARE
-    /*
-    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
-    RTCPeerConnection = RTCPeerConnection || webkitRTCPeerConnection || mozRTCPeerConnection || msRTCPeerConnection;
-    */
-
     /**********************************************************
      METODI PRIVATI
      ***********************************************************/
