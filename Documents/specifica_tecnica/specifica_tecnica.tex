@@ -2402,7 +2402,7 @@ Un simile approccio garantisce che un eventuale cambiamento del dispositivo di p
 \subsubsection{Componenti che lo implementano}
 \begin{description}
 \item{\scshape\bfseries CS01 -- Gestione database}\\
-Le classi DAO consentono di isolare l'accesso alle tabelle del database dalla parte di \inglese{business logic} corrispondente alle entità TO (\textit{transfer object}), incapsulando in metodi di alto livello le operazioni sui record del database sottostante.
+La classe DAO Data Persistance Manager, consente di isolare l'accesso alle tabelle del database dalla parte di \inglese{business logic} corrispondente alle entità TO (\textit{transfer object}), incapsulando in metodi di alto livello le operazioni sui record del database sottostante.
 
 \begin{figure}[H]
   \centering
@@ -2413,17 +2413,15 @@ Le classi DAO consentono di isolare l'accesso alle tabelle del database dalla pa
 Operando una distinzione di questo tipo gli utenti esterni possono considerare gli oggetti che richiedono la mappatura nel database alla stregua di normali oggetti Java (POJO) senza preoccuparsi del meccanismo di persistenza dei dati.
 \end{description}
 
-\subsection{Façade}\label{sec:patternfacade}
+\subsection{Front Controller}\label{sec:patternfacade}
 
 \subsubsection{Scopo}
-Fornire un'interfaccia unificata per un insieme di interfacce o classi presenti in una sotto-architettura, nascondendo i dettagli implementativi di quest'ultima.
-
-Façade definisce inoltre un'interfaccia di livello più alto che rende la sotto-architettura più semplice da utilizzare e riduce il numero di dipendenze funzionali fra i componenti appartenenti a sotto-architetture esterne e le classi del server.
+Fornire un punto d'ingresso centralizzato per la gestione delle richieste, definisce inoltre un'interfaccia di livello più alto che rende la sotto-architettura più semplice da utilizzare e riduce il numero di dipendenze funzionali fra i componenti appartenenti a sotto-architetture esterne e le classi del server.
 
 \subsubsection{Componenti che lo implementano}
 \begin{description}
   \item{\scshape\bfseries CS07-- Gestione controller}\\
-Questa componente della sotto-architettura server fornisce una serie di punti di accesso centralizzati (\inglese{servlet}) per i componenti \textsf{Gestione rubrica}, \textsf{Gestione connessione}, \textsf{Gestione segreteria}, \textsf{Gestione chiamate} e \textsf{Gestione autentcazione} secondo la tabella riportata nella sezione \vref{sec:cs07}. In pratica è possibile pensare ad ogni \inglese{servlet} come ad un façade atto a nascondere l'iter procedurale per la realizzazione di una determinata operazione.
+Questa componente della sotto-architettura server fornisce una serie di punti di accesso centralizzati (\inglese{servlet}) per i componenti \textsf{Gestione rubrica}, \textsf{Gestione connessione}, \textsf{Gestione segreteria}, \textsf{Gestione chiamate} e \textsf{Gestione autenticazione} secondo la tabella riportata nella sezione \vref{sec:cs07}. In pratica è possibile pensare ad ogni \inglese{servlet} come ad un façade atto a nascondere l'iter procedurale per la realizzazione di una determinata operazione.
 \end{description}
 
 \subsubsection*{Classi del package \texttt{org.softwaresynthesis.mytalk.server.abook.servlet}}
@@ -2534,6 +2532,13 @@ All'interno di tale classe l'utilizzo del pattern si ha nel momento in cui è ne
 
 \end{description}
 
+\subsection{Template Method}
+\subsubsection{Scopo}
+Permette di definire la struttura di un algoritmo lasciando alle sottoclassi il compito di implementarne alcuni passi specifici in modo da personalizzare il comportamento delle sottoclassi senza dover necessariamente riscrivere il codice comune a tali algoritmi.
+
+\subsubsection{Componenti che lo implementano}
+parappappaaaaaaaaa!!!
+
 \subsection{Model-View-Presenter}\label{sec:MVP}
 
 \subsubsection{Scopo}
@@ -2591,12 +2596,12 @@ Corrisponde all'insieme delle viste ed è accessibile al \inglese{presenter} tra
 \subsection{Singleton}
 
 \subsubsection{Scopo}
-Il \inglese{pattern} creazionale Singleton, garantisce che una determinata classe possa essere istanziata una sola volta, e di fornirne un punto di accesso globale. Questo \inglese{pattern} va utilizzato negli ambiti in cui si ha la necessità che l'accesso ad una determinata entità sia unico, in modo da permettere la gestione ottimale della risorsa stessa.
+Il \inglese{pattern} creazionale Singleton, garantisce che una determinata classe possa essere istanziata una sola volta e di fornirne un punto di accesso globale. Questo \inglese{pattern} va utilizzato negli ambiti in cui si ha la necessità che l'accesso ad una determinata entità sia unico, in modo da permettere la gestione ottimale della risorsa stessa.
 
 \subsubsection{Componenti che lo implementano}
 \begin{description}
   \item{\scshape\bfseries CS01 -- Gestione database}\\
-La classe \texttt{server.dao.SessionManager} è implementata come Singleton dal momento che si desidera che in ogni momento ne sia attiva un'unica istanza. Tramite i metodi che essa mette a disposizione, le classi DAO sono in grado di procurarsi un riferimento alla sessione di connessione al DBMS al fine di effettuare le transazioni di cui necessitano.
+La classe \texttt{server.dao.SessionManager} è implementata come Singleton dal momento che si desidera che in ogni momento ne sia attiva un'unica istanza. 
 
 \begin{figure}[H]
   \centering
