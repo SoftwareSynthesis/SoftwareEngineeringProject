@@ -884,59 +884,85 @@ La mappatura fra componenti del server e le rispettive \inglese{servlet} di Faç
 \rowcolors{2}{lightblue}{llightblue}
 \begin{tabular}{>{\sffamily}l>{\ttfamily}p{.6\textwidth}}
 \toprule
-\textbf{\rmfamily Componente} & \textbf{\rmfamily Servlet di Façade}\\
+\textbf{\rmfamily Componente} & \textbf{\rmfamily Controller}\\
 \midrule
-CS02 -- Gestione connessione & connection.ChannelServlet\\
-CS03 -- Gestione rubrica & abook.servlet.AddressBookDoAddContactServlet\\
-& abook.servlet.AddressBookDoRemoveContactServlet\\
-& abook.servlet.AddressBookDoCreateGroupServlet\\
-& abook.servlet.AddressBookDoDeletGroupServlet\\
-& abook.servlet.AddressBookDoInsertInGroupServlet\\
-& abook.servlet.AddressBookDoRemoveInGroupServlet\\
-& abook.servlet.AddressBookDoBlockServlet\\
-& abook.servlet.AddressBookDoUnblockServlet\\
-& abook.servlet.AddressBookGetContactsServlet\\
-& abook.servlet.AddressBookGetGroupsServlet\\
-& abook.servlet.AddressBookDoSearchServlet\\
-& abook.servlet.AccountSettingsServlet\\
-CS04 -- Gestione autenticazione & authentication.servlet.LoginServlet\\
-& authentication.servlet.LogoutServlet\\
-& authentication.servlet.RegisterServlet\\
-CS05 -- Gestione segreteria & message.servlet.InsertMessageServlet\\
-& message.servlet.DeletMessageServlet\\
-& message.servlet.UpdateStatusMessageServlet\\
-& message.servlet.DownloadMessageListServlet\\
-CS06 -- Gestione chiamate & call.servlet.DownloadCallHistoryManager\\
+CS03 -- Gestione rubrica 
+
+
+& abook.controller.AddContactController\\
+& abook.controller.DeleteContactController\\
+& abook.controller.AddGroupController\\
+& abook.controller.DeleteGroupController\\
+& abook.controller.AddInGroupController\\
+& abook.controller.DeleteFromGroupController\\
+& abook.controller.BlockContactController\\
+& abook.controller.UnblockContactController\\
+& abook.controller.GetContactsController\\
+& abook.controller.GetGroupsController\\
+& abook.controller.AddressBookDoSearchController\\
+& abook.controller.AccountSettingsController\\
+
+
+CS04 -- Gestione autenticazione 
+
+
+& authentication.controller.LoginController\\
+& authentication.controller.LogoutController\\
+& authentication.controller.RegisterController\\
+& authentication.controller.QuestionController\\
+& authentication.controller.AnswerController\\
+
+
+
+CS05 -- Gestione segreteria 
+
+& message.controller.AddMessageController\\
+& message.controller.DeleteMessageController\\
+& message.controller.UpdateMessageController\\
+& message.controller.GetMessagesController\\
+
+
+
+CS06 -- Gestione chiamate 
+
+& call.controller.GetCallsController\\
+& call.controller.AddCallController\\
+
 \bottomrule
 \end{tabular}
 \end{center}
 
-In particolare \texttt{connection.ChannelServlet} è coinvolto dopo la fase di \inglese{login}, una volta che è stata accertata la validità dell'autenticazione, interagisce con \textsf{Gestione connessione} allo scopo di creare un canale di comunicazione fra il server e il client, secondo le modalità illustrate nella sezione \ref{sec:cs02}.\footnote{%
+In particolare \texttt{connection.ChannelServlet} è coinvolto dopo la fase di \inglese{login}, una volta che è stata accertata la validità dell'autenticazione, interagisce con \textsf{Gestione connessione} allo scopo di creare un canale di comunicazione fra il server e il client, secondo le modalità illustrate nella sezione \ref{sec:cs02}.
+
+
+
+
+\footnote{%
 Tale classe, come anticipato nella descrizione a pagina \pageref{sec:cs02}, non è in realtà sottotipo diretto di \texttt{javax.servlet.http.HttpServlet}, ma estende \texttt{org.apache.catalina.websocket.WebSocketServlet} che a sua volta è sottoclasse di \texttt{javax.servlet.http.HttpServlet}.
 }
 
 Il compito di interfacciarsi con \textsf{Gestione rubrica} per recuperare la rubrica associata ad un utente e per riflettere sul server le operazioni di amministrazione della rubrica spetta invece al pacchetto di \inglese{servlet} \texttt{abook.servlet}. Tale \inglese{servlet} risponde anche alle richieste dei client per le azioni di aggiornamento e modifica dell'account personale dell'utente associato al client. Nello specifico si ha:
 
 \begin{itemize}
-	  \item[-] \texttt{abook.servlet.AddressBookDoAddContactServlet}: richiamata da un client per aggiungere un contatto alla propria rubrica utente;
-	  \item[-] \texttt{abook.servlet.AddressBookDoRemoveContactServlet}: richiamata da un client per rimuovere un contatto dalla propria rubrica;
-	  \item[-] \texttt{abook.servlet.AddressBookDoCreateGroupServlet}: richiamata da un client per creare un nuovo gruppo contatti;
-	  \item[-] \texttt{abook.servlet.AddressBookDoDeletGroupServlet}: richiamata da un client per eliminare un gruppo;
-	  \item[-] \texttt{abook.servlet.AddressBookDoInsertInGroupServlet}: richiamata da un client per inserire un contatto in un gruppo;
-	  \item[-] \texttt{abook.servlet.AddressBookDoRemoveInGroupServlet}: richiamata da un client per rimuovere un contatto da un gruppo della propria rubrica;
-	  \item[-] \texttt{abook.servlet.AddressBookDoBlockServlet}: richiamata da un client per bloccare un contatto presente nella propria rubrica, indifferentemente dai gruppi (della rubrica del client) in cui esso si trova;
-	  \item[-] \texttt{abook.servlet.AddressBookDoUnblockServlet}: richiamata da un client per sbloccare un contatto presente nella propria rubrica;
-	  \item[-] \texttt{abook.servlet.AddressBookGetContactsServlet}: richiamata da un client per scaricare la lista dei contatti presenti nella propria rubrica;
-	  \item[-] \texttt{abook.servlet.AddressBookGetGroupsServlet}: richiamata da un client per scaricare lista dei contatti e dei gruppi in cui essi sono inseriti;
-	  \item[-] \texttt{abook.servlet.AddressBookDoSearchServlet}: utilizzata per ricercare gli utente contenenti nei parametri nome, cognome o mail, una parola chiave usata per fare la ricerca e passata alla \inglese{servlet};
-	  \item[-] \texttt{abook.servlet.AccountSettingsServlet}: richiamata da un client per modificare i propri dati personali memorizzati nel server.
+	  \item[-] \texttt{abook.controller.AddContactController}: richiamata da un client per aggiungere un contatto alla propria rubrica utente;
+	  \item[-] \texttt{abook.controller.DeleteContactController}: richiamata da un client per rimuovere un contatto dalla propria rubrica;
+	  \item[-] \texttt{abook.controller.AddGroupController}: richiamata da un client per creare un nuovo gruppo contatti;
+	  \item[-] \texttt{abook.controller.DeleteGroupController}: richiamata da un client per eliminare un gruppo;
+	  \item[-] \texttt{abook.controller.AddInGroupController}: richiamata da un client per inserire un contatto in un gruppo;
+	  \item[-] \texttt{abook.controller.DeleteInGroupController}: richiamata da un client per rimuovere un contatto da un gruppo della propria rubrica;
+	  \item[-] \texttt{abook.controller.BlockContactController}: richiamata da un client per bloccare un contatto presente nella propria rubrica, indifferentemente dai gruppi (della rubrica del client) in cui esso si trova;
+	  \item[-] \texttt{abook.controller.UnblockContactController}: richiamata da un client per sbloccare un contatto presente nella propria rubrica;
+	  \item[-] \texttt{abook.controller.GetContactsController}: richiamata da un client per scaricare la lista dei contatti presenti nella propria rubrica;
+	  \item[-] \texttt{abook.controller.GetGroupsController}: richiamata da un client per scaricare lista dei contatti e dei gruppi in cui essi sono inseriti;
+	  \item[-] \texttt{abook.controller.SearchController}: utilizzata per ricercare gli utente contenenti nei parametri nome, cognome o mail, una parola chiave usata per fare la ricerca e passata alla \inglese{servlet};
+	  \item[-] \texttt{abook.controller.AccountSettingsController}: richiamata da un client per modificare i propri dati personali memorizzati nel server.
 \end{itemize}
 
-I cambiamenti di stato di un utente sono invece processati da \texttt{connection.ChannelServlet} che fornisce di conseguenza anch'esso un punto d'accesso al componente \textsf{Gestione rubrica}.
+I cambiamenti di stato di un utente sono invece processati da \texttt{Controller Manager} che fornisce di conseguenza anch'esso un punto d'accesso al componente \textsf{Gestione rubrica}.
 
-Ai fini del \inglese{login} è utilizzata invece la \inglese{servlet} \texttt{authentication.servlet.LoginServlet}, che ha il compito di interfacciarsi con il sistema di autenticazione e, in particolare, con l'istanza del sottotipo di \texttt{javax.security.auth.spi.LoginModule} in uso per verificare le credenziali. Inoltre come già accennato sono presenti la \inglese{servlet} per il \inglese{logout} \texttt{authentication.servlet.LogoutServlet} e quella per la registrazione al sistema \texttt{authentication.servlet.RegisterServlet}.
+Ai fini del \inglese{login} è utilizzato invece il \inglese{controller} \texttt{authentication.controller.LoginController}, che ha il compito di interfacciarsi con il sistema di autenticazione e, in particolare, con l'istanza del sottotipo di \texttt{javax.security.auth.spi.LoginModule} in uso per verificare le credenziali. Inoltre come già accennato sono presenti il \inglese{controller} per il \inglese{logout} \texttt{authentication.controller.LogoutController}, quello per la registrazione al sistema \texttt{authentication.controller.RegisterController} e quelli per la domanda segreta e la risposta alla medesima, rispettivamente \texttt{authentication.controller.QuestionController} e \texttt{authentication.controller.AnswerController}.\\
 
-Infine lo scaricamento e la gestione della segreteria telefonica (di competenza di \textsf{Gestione segreteria}) e dello storico delle chiamate (per quanto riguarda il componente \textsf{Gestione chiamate}) avvengono in risposta alle richieste dei client pervenute al pacchetto di servlet \texttt{message.servlet} e \texttt{call.servlet.DownloadCallHistoryServlet} rispettivamente. 
+Infine il download e la gestione della segreteria telefonica (di competenza di \textsf{Gestione segreteria}) e dello storico delle chiamate (per quanto riguarda il componente \textsf{Gestione chiamate}) avvengono in risposta alle richieste dei client pervenute al pacchetto di controller \texttt{message.controller} e \texttt{call.controller.GetCallsController} rispettivamente. 
 
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -945,33 +971,36 @@ Infine lo scaricamento e la gestione della segreteria telefonica (di competenza 
   \caption{Diagramma delle classi - Gestione controller}\label{fig:facadeserver}
 \end{figure}
 
-Il diagramma in figura \ref{fig:facadeserver} rappresenta la gerarchia delle \inglese{servlet} di Façade ma non mostra in dettaglio le dipendenze fra ognuna di queste e i componenti interni ai sotto-package \texttt{abook}, \texttt{authentication}, \texttt{call}, \texttt{connection} e \texttt{message} per non appesantire troppo la notazione.
+Il diagramma in figura \ref{fig:facadeserver} rappresenta la gerarchia dei \inglese{controller} del front controller ma non mostra in dettaglio le dipendenze fra ognuna di questi e i componenti interni ai sotto-package \texttt{abook}, \texttt{authentication}, \texttt{call}, \texttt{connection} e \texttt{message} per non appesantire troppo la notazione.
 
-Tali dipendenze, di fondamentale importanza per l'architettura, sono però riportate nei diagrammi della sezione \vref{sec:patternfacade} in cui è descritta con maggiori dettagli l'applicazione del \inglese{design pattern} Façade.
+Tali dipendenze, di fondamentale importanza per l'architettura, sono però riportate nei diagrammi della sezione \vref{sec:patternfacade} in cui è descritta con maggiori dettagli l'applicazione del \inglese{design pattern} front controller.
 	
 	\item{\scshape\bfseries Classi utilizzate:}\\
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \texttt{connection.ChannelServlet}
-	  \item[-] \texttt{abook.servlet.AddressBookDoAddContactServlet}
-	  \item[-] \texttt{abook.servlet.AddressBookDoRemoveContactServlet}
-	  \item[-] \texttt{abook.servlet.AddressBookDoCreateGroupServlet}
-	  \item[-] \texttt{abook.servlet.AddressBookDoDeletGroupServlet}
-	  \item[-] \texttt{abook.servlet.AddressBookDoInsertInGroupServlet}
-	  \item[-] \texttt{abook.servlet.AddressBookDoRemoveInGroupServlet}
-	  \item[-] \texttt{abook.servlet.AddressBookDoBlockServlet}
-	  \item[-] \texttt{abook.servlet.AddressBookDoUnblockServlet}
-	  \item[-] \texttt{abook.servlet.AddressBookGetContactsServlet}
-	  \item[-] \texttt{abook.servlet.AddressBookGetGroupsServlet}
-	  \item[-] \texttt{abook.servlet.AddressBookDoSearchServlet}
-	\item[-] \texttt{abook.servlet.AccountSettingaServlet}	  
-	  \item[-] \texttt{authentication.servlet.LoginServlet}
-	  \item[-] \texttt{authentication.servlet.LogoutServlet}
-	  \item[-] \texttt{authentication.servlet.RegisterServlet}
-	  \item[-] \texttt{message.servlet.InsertMessageServlet}
-	  \item[-] \texttt{message.servlet.DeletMessageServlet}
-	  \item[-] \texttt{message.servlet.UpdateStatusMessageServlet}
-	  \item[-] \texttt{message.servlet.DownloadMessageListServlet}
-	  \item[-] \texttt{call.servlet.DownloadCallHistoryManager}
+	  \item[-] \texttt{abook.controller.AddContactController}
+	  \item[-] \texttt{abook.controller.DeleteContactController}
+	  \item[-] \texttt{abook.controller.AddGroupController}
+	  \item[-] \texttt{abook.controller.DeleteGroupController}
+	  \item[-] \texttt{abook.controller.AddInGroupController}
+	  \item[-] \texttt{abook.controller.RemoveFromGroupController}
+	  \item[-] \texttt{abook.controller.BlockContactController}
+	  \item[-] \texttt{abook.controller.UnblockContactController}
+	  \item[-] \texttt{abook.controller.GetContactsController}
+	  \item[-] \texttt{abook.controller.GetGroupsController}
+	  \item[-] \texttt{abook.controller.SearchController}
+	  \item[-] \texttt{abook.controller.AccountSettingsController}	  
+	  \item[-] \texttt{authentication.controller.LoginController}
+	  \item[-] \texttt{authentication.controller.LogoutController}
+	  \item[-] \texttt{authentication.controller.RegisterController}
+	  \item[-] \texttt{authentication.controller.QuestionController}
+	  \item[-] \texttt{authentication.controller.AnswerController}
+	  \item[-] \texttt{message.controller.AddMessageController}
+	  \item[-] \texttt{message.controller.DeleteMessageController}
+	  \item[-] \texttt{message.controller.UpdateMessageController}
+	  \item[-] \texttt{message.controller.GetMessagesController}
+	  \item[-] \texttt{call.controller.GetCallsController}
+	  \item[-] \texttt{call.controller.AddCallController}
 	  \item[-] \texttt{javax.servlet.http.HttpServlet}
 	  \item[-] \texttt{org.apache.catalina.websocket.WebSocketServlet}
 	\end{itemize}
