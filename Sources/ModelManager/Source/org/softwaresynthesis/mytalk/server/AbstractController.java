@@ -11,7 +11,7 @@ import org.softwaresynthesis.mytalk.server.abook.IUserData;
  * @author 	Andrea Meneghinello
  * @version 3.0
  */
-abstract class AbstractController implements IController
+public abstract class AbstractController implements IController
 {
 	private IUserData user;
 	
