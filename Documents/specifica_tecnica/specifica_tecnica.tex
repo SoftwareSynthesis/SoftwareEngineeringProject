@@ -817,13 +817,13 @@ I messaggi in segreteria, che possono essere di natura audio o audio/video, corr
 
 La collezione di messaggi aventi un determinato utente come destinatario può essere ottenuta tramite un'operazione dichiarata nell'interfaccia \texttt{abook.IUserData}.
 
-Per consentire ai client di accedere alle funzionalità gestite da questo componente sono state predisposte delle \inglese{servlet} che, per loro natura, estendono \texttt{javax.servlet.http.HttpServlet} e che saranno descritte con maggiori dettagli nella sezione \vref{sec:cs07}. Al fine di comunicare le funzionalità proposte viene di seguito riportata la lista delle \inglese{servlet} che comunicano con tale componente:
+Per consentire ai client di accedere alle funzionalità gestite da questo componente sono state predisposte dei \inglese{controller} e saranno descritti con maggiori dettagli nella sezione \vref{sec:cs07}. Al fine di comunicare le funzionalità proposte viene di seguito riportata la lista dei \inglese{controller} che comunicano con tale componente:
 
 \begin{itemize}
-	\item \texttt{message.servlet.InsertMessageServlet}: viene utilizzata da un client \textit{A} per lasciare un messaggio nella segreteria di un client \textit{B};
-	\item \texttt{message.servlet.DeletMessageServlet}: viene utilizzata da un client per rimuovere un messaggio presente nella propria segreteria;
-	\item \texttt{message.servlet.UpdateStatusMessageServlet}: viene utilizzata per modificare lo stato di un messaggio da ``da leggere'' a ``letto'';
-	\item \texttt{message.servlet.DownloadMessageListServlet}: viene utilizzata da un client per scaricare la lista dei messaggi presenti nella sua segreteria;
+	\item \texttt{message.controller.AddMessageController}: viene utilizzata da un client \textit{A} per lasciare un messaggio nella segreteria di un client \textit{B};
+	\item \texttt{message.controller.DeleteMessageController}: viene utilizzata da un client per rimuovere un messaggio presente nella propria segreteria;
+	\item \texttt{message.controller.UpdateMessageController}: viene utilizzata per modificare lo stato di un messaggio da ``da leggere'' a ``letto'';
+	\item \texttt{message.controller.GetMessagesController}: viene utilizzata da un client per scaricare la lista dei messaggi presenti nella sua segreteria;
 \end{itemize}
 
 	\item{\scshape\bfseries Diagramma delle classi:}
@@ -849,7 +849,7 @@ Le classi di questo componente hanno il ruolo di definire una strutturata per de
 
 La componente contiene l'interfaccia \texttt{ICall} e la sua implementazione lato server \texttt{Call}, che rappresenta il \inglese{transfer object} per la rappresentazione delle chiamate che deve essere mappata nel database.
 
-Infine, allo scopo di consentire ai client l'accesso alle funzionalità di questo componente, è stata prevista una \inglese{servlet} \texttt{call.servlet.DownloadCallHistoryServlet} che estende \texttt{javax.servlet.http.HttpServlet} il cui ruolo sarà descritto con maggiori dettagli nella sezione \vref{sec:cs07}.
+Infine, allo scopo di consentire ai client l'accesso alle funzionalità di questo componente, è stata prevista un \inglese{controller} \texttt{call.controller.GetCallsController} il cui ruolo sarà descritto con maggiori dettagli nella sezione \vref{sec:cs07}.
 
   \item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -872,13 +872,11 @@ Infine, allo scopo di consentire ai client l'accesso alle funzionalità di quest
 \subsubsection{CS07 -- Gestione Controller}\label{sec:cs07}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Tale componente ha il ruolo di offrire ai client una serie di punti di accesso alle funzionalità del sistema server. Dal momento che tale interazione avviene in un contesto distribuito, i punti di accesso ai componenti del server sono stati implementati come \inglese{servlet} Java destinate a essere eseguite nell'ambiente del \inglese{servlet container} fornito da \textit{Apache TomCat}.
-
-Per questo motivo, tali Façade saranno realizzate come estensioni della classe di libreria \texttt{javax.servlet.http.HttpServlet}, al fine di creare un sistema di risposta lato server che prenderà in carico le richieste provenienti dai client.
+Tale componente ha il ruolo di offrire ai client un punto di accesso alle funzionalità del sistema server. Dal momento che tale interazione avviene in un contesto distribuito, il punto di accesso ai componenti del server è stato implementato come una \inglese{servlet} Java destinata ad essere eseguita nell'ambiente del \inglese{servlet container} fornito da \textit{Apache TomCat}.
 
 La classe Java \texttt{HttpServlet} implementa un sistema di \inglese{listening} che permette di monitorare costantemente richieste in ingresso. Queste ultime possono essere di duplice natura e corrispondono ai metodi di invio dei dati previsti dal protocollo HTTP (\texttt{GET} e \texttt{POST}).
 
-La mappatura fra componenti del server e le rispettive \inglese{servlet} di Façade, implementate come sottoclassi di \texttt{javax.servlet.http.HttpServlet}, è illustrata dalla tabella seguente:
+La mappatura fra componenti del server e i rispettivi \inglese{controller} è illustrata dalla tabella seguente:
 
 \begin{center}
 \rowcolors{2}{lightblue}{llightblue}
@@ -2450,23 +2448,25 @@ Fornire un punto d'ingresso centralizzato per la gestione delle richieste, defin
 \subsubsection{Componenti che lo implementano}
 \begin{description}
   \item{\scshape\bfseries CS07-- Gestione controller}\\
-Questa componente della sotto-architettura server fornisce una serie di punti di accesso centralizzati (\inglese{servlet}) per i componenti \textsf{Gestione rubrica}, \textsf{Gestione connessione}, \textsf{Gestione segreteria}, \textsf{Gestione chiamate} e \textsf{Gestione autenticazione} secondo la tabella riportata nella sezione \vref{sec:cs07}. In pratica è possibile pensare ad ogni \inglese{servlet} come ad un façade atto a nascondere l'iter procedurale per la realizzazione di una determinata operazione.
+Questa componente della sotto-architettura server fornisce una serie di punti di accesso centralizzati (\inglese{servlet}) per i componenti \textsf{Gestione rubrica}, \textsf{Gestione connessione}, \textsf{Gestione segreteria}, \textsf{Gestione chiamate} e \textsf{Gestione autenticazione} secondo la tabella riportata nella sezione \vref{sec:cs07}. In pratica è possibile pensare ad ogni \inglese{controller} come ad un façade atto a nascondere l'iter procedurale per la realizzazione di una determinata operazione.
 \end{description}
 
-\subsubsection*{Classi del package \texttt{org.softwaresynthesis.mytalk.server.abook.servlet}}
+\subsubsection*{Classi del package \texttt{org.softwaresynthesis.mytalk.server.abook.controller}}
 
-Ogni classe di tale package implementa Façade poiché nasconde l'iter per la gestione della rubrica svincolando l'utilizzatore dal doverlo conoscere. Nello specifico tali classi richiamano in più punti e in maniera sequenziale, classi presenti nel package \texttt{server.abook} e \texttt{server.dao}.
+Ogni classe di tale package implementa Front Controller poiché nasconde l'iter per la gestione della rubrica svincolando l'utilizzatore dal doverlo conoscere. Nello specifico tali classi richiamano in più punti e in maniera sequenziale, classi presenti nel package \texttt{server.abook} e \texttt{server.dao}.
 
 \begin{figure}[H]
   \centering
    \includegraphics[width=.7\textwidth]{pattern_facade_rubrica}
-  \caption{Applicazione del \inglese{pattern} Façade a \textsf{Gestione rubrica}}\label{fig:facadeaddressbook1}
+  \caption{Applicazione del \inglese{pattern} Front Controller a \textsf{Gestione rubrica}}\label{fig:facadeaddressbook1}
 \end{figure}
 
+
+%VA CANCELLATO QUESTO PEZZO: VENGONO IMPLEMENTATE LE CENTINAIA DI FRECCE NEL DIAGRAMMA
 Essendo già il diagramma sufficientemente complesso si ritiene che l'aggiunta di tutte le frecce che rappresentano le dipendenza lo rendano completamente illeggibile, per tale ragione le dipendenze si riportano in forma di elenco, in particolare:
 \begin{itemize}[noitemsep,nolistsep,leftmargin=.5em]
-  \item[-] la \inglese{servlet} \texttt{AddressBookDoAddContactsServlet} ha una dipendenza da \texttt{AddressBookEntry}, \texttt{IGroup}, \texttt{IUserData}, \texttt{GroupDAO} e \texttt{UserDataDAO};
-  \item[-] \texttt{AddressBookDoBlockServlet} dipende da \texttt{IAddressBookEntry}, \texttt{IUserData} e \texttt{UserDataDAO};
+  \item[-] il \inglese{controller} \texttt{AddContactController} ha una dipendenza da \texttt{AddressBookEntry}, \texttt{IGroup}, \texttt{IUserData}, \texttt{dao.DataPersistanceManager} e \texttt{UserData};
+  \item[-] \texttt{BlockServlet} dipende da \texttt{IAddressBookEntry}, \texttt{IUserData} e \texttt{UserDataDAO};
   \item[-] \texttt{AddressBookDoCreateGroupServlet} dipende da \texttt{Group}, \texttt{IGroup}, \texttt{IUserData} e \texttt{GroupDAO};
   \item[-] la \inglese{servlet}  \texttt{AddressBookDoDeleteGroupServlet} dipende invece da \texttt{IAddressBookEntry}, \texttt{IGroup}, \texttt{AddressBookEntryDAO} e \texttt{GroupDAO};
   \item[-] \texttt{AddressBookDoInsertInGroupServlet} dipende da \texttt{AddressBookEntry}, \texttt{IAddressBookEntry}, \texttt{IGroup}, \texttt{IUserData}, \texttt{GroupDAO} \texttt{UserDataDAO};
@@ -2479,14 +2479,14 @@ Essendo già il diagramma sufficientemente complesso si ritiene che l'aggiunta d
   \item[-] \texttt{AccountSettingsServlet} dipende da \texttt{IUserData} e \texttt{UserDataDAO}.
 \end{itemize}
 
-\subsubsection*{Classi del package \texttt{org.softwaresynthesis.mytalk.server.message.servlet}}
+\subsubsection*{Classi del package \texttt{org.softwaresynthesis.mytalk.server.message.controller}}
 
-Ogni classe di tale package implementa Façade poiché nasconde l'iter per la gestione della segreteria telefonica svincolando l'utilizzatore dal doverlo conoscere, nello specifico tali classi richiamano in più punti e in maniera sequenziale classi presenti nel package \texttt{server.message} e \texttt{server.dao}.
+Ogni classe di tale package implementa Front Controller poiché nasconde l'iter per la gestione della segreteria telefonica svincolando l'utilizzatore dal doverlo conoscere, nello specifico tali classi richiamano in più punti e in maniera sequenziale classi presenti nel package \texttt{server.message} e \texttt{server.dao}.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=.7\textwidth]{pattern_facade_segreteria}
-  \caption{Applicazione del \inglese{pattern} Façade a \textsf{Gestione segreteria}}\label{fig:facadeaddressbook2}
+  \caption{Applicazione del \inglese{pattern} Front Controller a \textsf{Gestione segreteria}}\label{fig:facadeaddressbook2}
 \end{figure}
 
 \subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.connection.ChannelServlet}}
@@ -2496,7 +2496,7 @@ Tale classe nasconde la complessità di gestione di una comunicazione client-ser
 \begin{figure}[H]
   \centering
      \includegraphics[width=.7\textwidth]{pattern_facade_connessione}
-  \caption{Applicazione del \inglese{pattern} Façade a \textsf{Gestione connessione}}\label{fig:facadeconnection}
+  \caption{Applicazione del \inglese{pattern} Front Controller a \textsf{Gestione connessione}}\label{fig:facadeconnection}
 \end{figure}
 
 \subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.call.servlet.DownloadCallHistoryServlet}}
@@ -2506,17 +2506,17 @@ Tale classe nasconde la complessità di gestione di una richiesta di \inglese{do
 \begin{figure}[H]
   \centering
    \includegraphics[width=.7\textwidth]{pattern_facade_chiamate}
-  \caption{Applicazione del \inglese{pattern} Façade a \textsf{Gestione chiamate}}\label{fig:facadestate}
+  \caption{Applicazione del \inglese{pattern} Front Controller a \textsf{Gestione chiamate}}\label{fig:facadestate}
 \end{figure}
 
 \subsubsection*{Classi del package \texttt{org.softwaresynthesis.mytalk.server.authentication.servlet}}
 
-Ogni classe di tale package implementa Façade poiché nasconde l'iter per l'autenticazione (\inglese{login}, \inglese{logout}  e registrazione) di un utente svincolando l'utilizzatore dal doverlo conoscere. Nello specifico tali classi richiamano in più punti e in maniera sequenziale, classi presenti nel package \texttt{server.abook}, \texttt{server.dao} e \texttt{server.autenthication}.
+Ogni classe di tale package implementa Front Controller poiché nasconde l'iter per l'autenticazione (\inglese{login}, \inglese{logout}  e registrazione) di un utente svincolando l'utilizzatore dal doverlo conoscere. Nello specifico tali classi richiamano in più punti e in maniera sequenziale, classi presenti nel package \texttt{server.abook}, \texttt{server.dao} e \texttt{server.autenthication}.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=.7\textwidth]{pattern_facade_autenticazione}
-  \caption{Applicazione del \inglese{pattern} Façade a \textsf{Gestione autenticazione}}\label{fig:facademessage}
+  \caption{Applicazione del \inglese{pattern} Front Controller a \textsf{Gestione autenticazione}}\label{fig:facademessage}
 \end{figure}
 
 
