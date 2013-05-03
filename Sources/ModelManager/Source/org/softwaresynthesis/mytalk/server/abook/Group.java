@@ -95,7 +95,7 @@ public class Group implements IGroup
 		{
 			toCompare = (Group)obj;
 			toCompareName = toCompare.getName();
-			if (this.getName().equals(toCompareName))
+			if (this.name.equals(toCompareName))
 			{
 				result = true;
 			}
