@@ -1,16 +1,24 @@
 package org.softwaresynthesis.mytalk.server.abook;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  * Test dei metodi della classe {@link AddressBookEntry}
  * 
  * @author Andrea Meneghinello
- * @version %I%, %G%
+ * @author Diego Beraldin
+ * @version 2.0
  */
 public class AddressBookEntryTest {
+	// oggetto da testare
 	private static AddressBookEntry tester;
 	// dati di test
 	private static IUserData contact;
@@ -20,28 +28,28 @@ public class AddressBookEntryTest {
 	 * Crea l'oggetto da testare
 	 * 
 	 * @author Andrea Meneghinello
-	 * @version %I%, %G%
+	 * @version 1.0
 	 */
 	@BeforeClass
 	public static void setupBeforeClass() {
 		tester = new AddressBookEntry(1L);
 		contact = new UserData(1L);
 		contact.setMail("paperino@paperopoli.it");
-		group = new Group(1L);
+		group = mock(IGroup.class);
+		when(group.getName()).thenReturn("dummy");
 	}
 
 	/**
 	 * Testa la restituzione dell'id e la sua impostazione 
 	 * 
-	 * @author diego
+	 * @author Diego Beraldin
+	 * @version 2.0
 	 */
 	@Test
-	public void testId() {
-		Long id = 1L;
-		tester.setId(id);
+	public void testGetId() {
 		Long result = tester.getId();
 		assertNotNull(result);
-		assertEquals(result, (Object) id);
+		assertEquals((Object) 1L, result);
 	}
 
 	/**
@@ -49,35 +57,37 @@ public class AddressBookEntryTest {
 	 * voce della rubrica
 	 * 
 	 * @author Andrea Meneghinello
-	 * @version %I%, %G%
+	 * @version 1.0
 	 */
 	@Test
 	public void testContact() {
 		tester.setContact(contact);
 		IUserData result = tester.getContact();
 		assertNotNull(result);
-		assertTrue(contact.equals(result));
+		assertEquals(contact, result);
 	}
 
 	/**
 	 * Verifica la corretta impostazione e il recupero del gruppo cui appartiene
 	 * la voce della rubrica
 	 * 
-	 * @author diego
+	 * @author Diego Beraldin
+	 * @version 2.0
 	 */
 	@Test
 	public void testGroup() {
 		tester.setGroup(group);
 		IGroup result = tester.getGroup();
 		assertNotNull(result);
-		assertTrue(result.equals(group));
+		assertEquals(group, result);
 	}
 
 	/**
 	 * Verifica la corretta impostazione e il recupero del proprietario della
 	 * voce della rubrica
 	 * 
-	 * @author diego
+	 * @author Diego Beraldin
+	 * @version 2.0
 	 */
 	@Test
 	public void testOwner() {
@@ -90,7 +100,8 @@ public class AddressBookEntryTest {
 	/**
 	 * Verifica che il contatto sia correttamente bloccato nella rubrica
 	 * 
-	 * @author diego
+	 * @author Diego Beraldin
+	 * @version 2.0
 	 */
 	@Test
 	public void testBlocked() {
@@ -103,7 +114,8 @@ public class AddressBookEntryTest {
 	/**
 	 * Test del metodo equals di AddressBookEntry
 	 * 
-	 * @author diego
+	 * @author Diego Beraldin
+	 * @version 2.0
 	 */
 	@Test
 	public void testEquals() {
@@ -111,32 +123,5 @@ public class AddressBookEntryTest {
 		other.setContact(contact);
 		other.setOwner(contact);
 		assertEquals(other, tester);
-	}
-
-	/**
-	 * Test del metodo toString()
-	 * 
-	 * @author diego
-	 */
-	@Test
-	public void testToString() {
-		String string = String.format(
-				"AddressBookEntry[contact: %s, owner: %s, group: %s]", contact,
-				contact, group);
-		assertEquals(string, tester.toString());
-	}
-
-	/**
-	 * Verifica la traduzione in JSON dell'orgetto AddressBookEntry
-	 * 
-	 * @author diego
-	 */
-	@Test
-	public void testToJson() {
-		tester.setBlocked(false);
-		String string = String
-				.format("{\"id\":\"%d\", \"contact\":\"%s\", \"group\":\"%s\", \"blocked\":\"%s\"}",
-						contact.getId(), contact.toJson(), group.toJson(), false);
-		assertTrue(string.equals(tester.toJson()));
 	}
 }

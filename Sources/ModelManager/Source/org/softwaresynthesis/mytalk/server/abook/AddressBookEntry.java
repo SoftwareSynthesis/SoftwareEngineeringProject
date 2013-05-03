@@ -50,7 +50,7 @@ public class AddressBookEntry implements IAddressBookEntry
 	@Override
 	public IGroup getGroup() 
 	{
-		return group;
+		return this.group;
 	}
 
 	@Override
