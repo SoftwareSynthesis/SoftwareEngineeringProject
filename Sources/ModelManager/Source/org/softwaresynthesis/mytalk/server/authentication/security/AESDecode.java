@@ -11,10 +11,10 @@ import sun.misc.BASE64Decoder;
  * @author 	Andrea Meneghinello
  * @version 3.0
  */
-final class Decode extends CryptoTemplate 
+final class AESDecode extends AESTemplate 
 {	
 	@Override
-	String completeAlgorithm(String text) throws Exception 
+	protected final String completeAlgorithm(String text) throws Exception 
 	{
 		BASE64Decoder decoder = new BASE64Decoder();
 		byte[] buffer = decoder.decodeBuffer(text);

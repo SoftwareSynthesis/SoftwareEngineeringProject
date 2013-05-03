@@ -11,17 +11,17 @@ import javax.crypto.spec.SecretKeySpec;
  * @author 	Andrea Meneghinello
  * @version	3.0
  */
-abstract class CryptoTemplate 
+abstract class AESTemplate 
 {
 	private byte[] key;
 	private Cipher cipher;
 	private Key generated;
 	
 	/**
-	 * Inizializza il CryptoTemplate con la chiave
+	 * Inizializza il AESTemplate con la chiave
 	 * di cifratura
 	 */
-	public CryptoTemplate()
+	public AESTemplate()
 	{
 		this.key = new byte[]{'C', 'p', '2', 'Q', 'j', 'w', 'M', 'F', '7', 'e', 'j', 'N', 't', 'd', 'b', '1'};
 	}
@@ -53,7 +53,7 @@ abstract class CryptoTemplate
 	 * @throws 	Exception	{@link Exception} in caso di
 	 * 						errori durante il processo
 	 */
-	abstract String completeAlgorithm(String text) throws Exception;
+	protected abstract String completeAlgorithm(String text) throws Exception;
 	
 	/**
 	 * Restituisce il cifratore alle sottoclassi
