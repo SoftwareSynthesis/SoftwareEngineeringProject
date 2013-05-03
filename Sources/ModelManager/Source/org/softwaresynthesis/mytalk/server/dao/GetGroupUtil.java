@@ -28,7 +28,7 @@ final class GetGroupUtil extends GetUtil
 	}
 
 	@Override
-	protected void doInitialize(List<IMyTalkObject> collection) 
+	protected final void doInitialize(List<IMyTalkObject> collection) 
 	{
 		IGroup group = null;
 		Iterator<IMyTalkObject> iterator = collection.iterator();

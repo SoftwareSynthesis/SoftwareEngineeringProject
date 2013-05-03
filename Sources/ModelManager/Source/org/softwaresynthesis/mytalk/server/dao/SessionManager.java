@@ -10,7 +10,7 @@ import org.hibernate.cfg.Configuration;
  * @author 	Andrea Meneghinello
  * @version 3.0
  */
-public class SessionManager implements ISessionManager 
+class SessionManager implements ISessionManager 
 {
 	private static SessionManager instance = null;
 	

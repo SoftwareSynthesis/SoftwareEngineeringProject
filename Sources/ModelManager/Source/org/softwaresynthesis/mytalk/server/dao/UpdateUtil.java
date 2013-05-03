@@ -24,7 +24,7 @@ final class UpdateUtil extends ModifyUtil
 	}
 
 	@Override
-	protected void doAction(Session session, IMyTalkObject object) 
+	protected final void doAction(Session session, IMyTalkObject object) 
 	{
 		session.update(object);
 	}

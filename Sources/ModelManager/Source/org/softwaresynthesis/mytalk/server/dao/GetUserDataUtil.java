@@ -28,7 +28,7 @@ final class GetUserDataUtil extends GetUtil
 	}
 	
 	@Override
-	protected void doInitialize(List<IMyTalkObject> collection) 
+	protected final void doInitialize(List<IMyTalkObject> collection) 
 	{
 		Iterator<IMyTalkObject> iterator = collection.iterator();
 		IUserData user = null;

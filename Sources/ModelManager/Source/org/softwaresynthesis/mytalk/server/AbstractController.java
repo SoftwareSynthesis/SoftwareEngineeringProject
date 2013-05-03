@@ -24,7 +24,7 @@ public abstract class AbstractController implements IController
 	}
 	
 	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse response) 
+	public final void execute(HttpServletRequest request, HttpServletResponse response) 
 	{
 		if (this.check(request))
 		{

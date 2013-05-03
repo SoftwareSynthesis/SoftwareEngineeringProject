@@ -28,7 +28,7 @@ final class GetCallUtil extends GetUtil
 	}
 	
 	@Override
-	protected void doInitialize(List<IMyTalkObject> collection) 
+	protected final void doInitialize(List<IMyTalkObject> collection) 
 	{
 		ICall call = null;
 		Iterator<IMyTalkObject> iterator = collection.iterator();

@@ -24,7 +24,7 @@ final class DeleteUtil extends ModifyUtil
 	}
 
 	@Override
-	protected void doAction(Session session, IMyTalkObject object) 
+	protected final void doAction(Session session, IMyTalkObject object) 
 	{
 		session.delete(object);
 	}

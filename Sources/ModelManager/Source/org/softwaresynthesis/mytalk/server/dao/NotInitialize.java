@@ -27,7 +27,8 @@ final class NotInitialize extends GetUtil
 	}
 
 	@Override
-	protected void doInitialize(List<IMyTalkObject> collection) 
+	protected final void doInitialize(List<IMyTalkObject> collection) 
 	{
+		return;
 	}
 }
