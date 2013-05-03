@@ -77,7 +77,7 @@ public class GroupTest {
 		tester.setName("dummy");
 		IGroup other = mock(Group.class);
 		when(other.getName()).thenReturn("dummy");
-		assertEquals(tester, other);
+		assertTrue(tester.equals(other));
 		when(other.getName()).thenReturn("pippo");
 		assertFalse(tester.equals(other));
 	}
