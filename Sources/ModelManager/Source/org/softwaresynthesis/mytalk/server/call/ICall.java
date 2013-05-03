@@ -39,7 +39,7 @@ public interface ICall extends IMyTalkObject
 	 * 
 	 * @param 	endDate	{@link Date} data di fine
 	 */
-	public void setDate(Date endDate);
+	public void setEndDate(Date endDate);
 	
 	/**
 	 * Restituisce la lista dei partecipanti alla chiamata

@@ -65,7 +65,7 @@ public class Call implements ICall
 	}
 
 	@Override
-	public void setDate(Date endDate) 
+	public void setEndDate(Date endDate) 
 	{
 		this.end = endDate;
 	}
