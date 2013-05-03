@@ -40,7 +40,7 @@ public class AddressBookEntryTest {
 	}
 
 	/**
-	 * Testa la restituzione dell'id e la sua impostazione 
+	 * Testa la restituzione dell'id del contatto
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0

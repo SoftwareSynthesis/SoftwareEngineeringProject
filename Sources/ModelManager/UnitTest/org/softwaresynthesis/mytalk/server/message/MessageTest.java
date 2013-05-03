@@ -1,6 +1,7 @@
 package org.softwaresynthesis.mytalk.server.message;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -20,21 +21,22 @@ import org.softwaresynthesis.mytalk.server.abook.UserData;
  * @version 2.0
  */
 public class MessageTest {
+	// oggetto da testare
 	private static Message tester;
+	// dati di test
 	private static Date dummyDate;
-	private static boolean isVideo;
-	private static boolean isNew;
 	private static IUserData sender;
 	private static IUserData receiver;
 
+	/**
+	 * Inizia i dati necessari all'esecuzione dei test
+	 */
 	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
+	public static void setUpBeforeClass() {
 		// inizializza l'oggetto da testare
 		tester = new Message(1L);
 		// inizializza i dati necessari al test
 		dummyDate = mock(Date.class);
-		isVideo = false;
-		isNew = false;
 		receiver = mock(UserData.class);
 		when(receiver.getMail()).thenReturn("indirizzo5@dominio.it");
 		sender = mock(UserData.class);
@@ -92,10 +94,14 @@ public class MessageTest {
 	 */
 	@Test
 	public void testNewer() {
-		tester.setNewer(isNew);
+		tester.setNewer(true);
 		boolean result = tester.getNewer();
 		assertNotNull(result);
-		assertEquals(isNew, result);
+		assertTrue(result);
+		tester.setNewer(false);
+		result = tester.getNewer();
+		assertNotNull(result);
+		assertFalse(result);
 	}
 
 	/**
@@ -107,10 +113,14 @@ public class MessageTest {
 	 */
 	@Test
 	public void testVideo() {
-		tester.setVideo(isVideo);
+		tester.setVideo(true);
 		boolean result = tester.getVideo();
 		assertNotNull(result);
-		assertEquals(isVideo, result);
+		assertTrue(result);
+		tester.setVideo(false);
+		result = tester.getVideo();
+		assertNotNull(result);
+		assertFalse(result);
 	}
 
 	/**
