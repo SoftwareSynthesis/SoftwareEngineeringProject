@@ -2,6 +2,7 @@ package org.softwaresynthesis.mytalk.server;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.softwaresynthesis.mytalk.server.abook.IUserData;
 
 /**
  * Implementa la struttura di esecuzione di
@@ -12,6 +13,16 @@ import javax.servlet.http.HttpServletResponse;
  */
 abstract class AbstractController implements IController
 {
+	private IUserData user;
+	
+	/**
+	 * Crea un istanza del nuovo controller
+	 */
+	public AbstractController()
+	{
+		this.user = null;
+	}
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) 
 	{
@@ -42,4 +53,9 @@ abstract class AbstractController implements IController
 	 * @param 	response	{@link HttpServletResponse} parametri in output dal controller
 	 */
 	protected abstract void doAction(HttpServletRequest request, HttpServletResponse response);
+	
+	IUserData getUser()
+	{
+		return this.user;
+	}
 }
