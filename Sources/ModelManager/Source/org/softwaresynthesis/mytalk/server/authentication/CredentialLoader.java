@@ -5,6 +5,7 @@ import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.servlet.http.HttpServletRequest;
+import org.softwaresynthesis.mytalk.server.authentication.security.ISecurityStrategy;
 
 /**
  * La classe ha il compito di predisporre le credenziali
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 public final class CredentialLoader implements CallbackHandler
 {
 	private HttpServletRequest input;
+	private ISecurityStrategy strategy;
 	
 	/**
 	 * Crea una nuova istanza del caricatore di credenziali
@@ -24,9 +26,10 @@ public final class CredentialLoader implements CallbackHandler
 	 * @param 	inputData	{@link HttpServletRequest} dati in input
 	 * @param 	strategy	{@link ISecurityStrategy} strategia di codifica
 	 */
-	public CredentialLoader(HttpServletRequest inputData)
+	public CredentialLoader(HttpServletRequest inputData, ISecurityStrategy strategy)
 	{
 		this.input = inputData;
+		this.strategy = strategy;
 	}
 	
 	@Override
@@ -38,5 +41,16 @@ public final class CredentialLoader implements CallbackHandler
 			loader = (Loader)callbacks[i];
 			loader.load(this.input);
 		}
+	}
+	
+	/**
+	 * Restituisce la strategia di codifica
+	 * delle credenziali
+	 * 
+	 * @return 	{@link ISecurityStrategy} strategia di codifica
+	 */
+	ISecurityStrategy getSecurityStrategy()
+	{
+		return this.strategy;
 	}
 }

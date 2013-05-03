@@ -8,13 +8,13 @@ package org.softwaresynthesis.mytalk.server.authentication.security;
  */
 public final class AESAlgorithm implements ISecurityStrategy
 {
-	private CryptoTemplate template;
+	private AESTemplate template;
 	
 	@Override
 	public String encode(String plainText) throws Exception 
 	{
 		String result = null;
-		this.template = new Encode();
+		this.template = new AESEncode();
 		result = this.template.execute(plainText);
 		return result;
 	}
@@ -23,7 +23,7 @@ public final class AESAlgorithm implements ISecurityStrategy
 	public String decode(String encodedText) throws Exception 
 	{
 		String result = null;
-		this.template = new Decode();
+		this.template = new AESDecode();
 		result = this.template.execute(encodedText);
 		return result;
 	}

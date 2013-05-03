@@ -9,30 +9,16 @@ import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.security.auth.login.LoginException;
 import javax.security.auth.spi.LoginModule;
-import org.softwaresynthesis.mytalk.server.authentication.security.ISecurityStrategy;
 
 public final class AuthenticationModule implements LoginModule 
 {
 	private boolean login;
 	private boolean commit;
-	private CallbackHandler handler;
-	private ISecurityStrategy strategy;
-	private String password;
-	private String username;
+	private CredentialLoader handler;
+	private String password;			//TODO controllare se veramente necessario
+	private String username;			//TODO controllare se veramente necessario
 	private Principal principal;
 	private Subject subject;
-	
-	/**
-	 * Crea un modulo per l'autenticazione
-	 * di un utente nel sistema MyTalk
-	 * 
-	 * @param 	strategy	{@link ISecurityStrategy} strategia di
-	 * 						crittografia dei dati
-	 */
-	public AuthenticationModule(ISecurityStrategy strategy)
-	{
-		this.strategy = strategy;
-	}
 
 	/**
 	 * Termina la procedura di login cancellando
@@ -102,7 +88,7 @@ public final class AuthenticationModule implements LoginModule
 	{
 		this.login = false;
 		this.commit = false;
-		this.handler = handler;
+		this.handler = (CredentialLoader)handler;
 		this.subject = subject;
 		this.principal = null;
 		this.username = null;
@@ -124,7 +110,7 @@ public final class AuthenticationModule implements LoginModule
 		{
 			callbacks = new Loader[2];
 			callbacks[0] = new NameLoader();
-			callbacks[1] = new PasswordLoader(this.strategy);
+			callbacks[1] = new PasswordLoader(this.handler.getSecurityStrategy());
 			try
 			{
 				this.handler.handle(callbacks);
