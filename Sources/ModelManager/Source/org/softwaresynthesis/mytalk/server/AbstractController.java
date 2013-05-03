@@ -54,6 +54,11 @@ public abstract class AbstractController implements IController
 	 */
 	protected abstract void doAction(HttpServletRequest request, HttpServletResponse response);
 	
+	/**
+	 * Restituisce l'utente che ha fatto il login
+	 * 
+	 * @return	{@link IUserData} utente autenticato
+	 */
 	IUserData getUser()
 	{
 		return this.user;
