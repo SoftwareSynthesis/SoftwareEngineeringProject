@@ -5,6 +5,8 @@ import org.softwaresynthesis.mytalk.server.IMyTalkObject;
 import org.softwaresynthesis.mytalk.server.abook.IAddressBookEntry;
 import org.softwaresynthesis.mytalk.server.abook.IGroup;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
+import org.softwaresynthesis.mytalk.server.call.ICall;
+import org.softwaresynthesis.mytalk.server.message.IMessage;
 
 /**
  * Punto di accesso alla basi di dati del sistema
@@ -17,8 +19,6 @@ import org.softwaresynthesis.mytalk.server.abook.IUserData;
 public class DataPersistanceManager 
 {
 	private ISessionManager manager;
-	private GetUtil get;
-	private ModifyUtil modify;
 	
 	/**
 	 * Crea una nuova istanza dell'oggetto
@@ -35,7 +35,7 @@ public class DataPersistanceManager
 	 * 					sessioni di comunicazione con la base
 	 * 					di dati del sistema MyTalk
 	 */
-	public DataPersistanceManager(ISessionManager manager)
+	protected DataPersistanceManager(ISessionManager manager)
 	{
 		this.manager = manager;
 	}
@@ -50,11 +50,8 @@ public class DataPersistanceManager
 	 */
 	public boolean delete(IMyTalkObject object)
 	{
-		boolean result = false;
-		this.modify = new DeleteUtil(this.manager);
-		result = this.modify.execute(object);
-		this.modify = null;
-		return result;
+		//TODO
+		return false;
 	}
 	
 	/**
@@ -67,11 +64,8 @@ public class DataPersistanceManager
 	 */
 	public boolean insert(IMyTalkObject object)
 	{
-		boolean result = false;
-		this.modify = new InsertUtil(this.manager);
-		result = this.modify.execute(object);
-		this.modify = null;
-		return result;
+		//TODO
+		return false;
 	}
 	
 	/**
@@ -84,11 +78,8 @@ public class DataPersistanceManager
 	 */
 	public boolean update(IMyTalkObject object)
 	{
-		boolean result = false;
-		this.modify = new InsertUtil(this.manager);
-		result = this.modify.execute(object);
-		this.modify = null;
-		return result;
+		//TODO
+		return false;
 	}
 	
 	/**
@@ -101,15 +92,77 @@ public class DataPersistanceManager
 	 */
 	public IAddressBookEntry getAddressBookEntry(IUserData contact, IUserData owner, IGroup group)
 	{
-		IAddressBookEntry result = null;
-		List<IMyTalkObject> collection = null;
-		String query = "from AddressBookEntry as a where a.owner.mail = " + owner.getMail() + " and a.contact.mail = " + contact.getMail() + "and a.group.id = " + group.getId();
-		this.get = new NotInitialize(this.manager);
-		collection = this.get.execute(query);
-		if (collection != null && collection.get(0) != null)
-		{
-			result = (IAddressBookEntry)collection.get(0);
-		}
-		return result;
+//		IAddressBookEntry result = null;
+//		List<IMyTalkObject> collection = null;
+//		String query = "from AddressBookEntry as a where a.owner.mail = " + owner.getMail() + " and a.contact.mail = " + contact.getMail() + "and a.group.id = " + group.getId();
+//		this.get = new NotInitialize(this.manager);
+//		collection = this.get.execute(query);
+//		if (collection != null && collection.get(0) != null)
+//		{
+//			result = (IAddressBookEntry)collection.get(0);
+//		}
+//		return result;
+		//TODO
+		return null;
+	}
+	
+	public List<ICall> getCallHistory(IUserData user)
+	{
+		//TODO
+		return null;
+	}
+	
+	public IGroup getGroup(Long id)
+	{
+		//TODO
+		return null;
+	}
+	
+	public List<IGroup> getGroup(IUserData owner)
+	{
+		//TODO
+		return null;
+	}
+	
+	public IGroup getGroup(IUserData owner, String name)
+	{
+		//TODO
+		return null;
+	}
+	
+	public Long getMessageNewKey()
+	{
+		//TODO
+		return null;
+	}
+	
+	public IMessage getMessage(Long id)
+	{
+		//TODO
+		return null;
+	}
+	
+	public List<IMessage> getMessages(IUserData receiver)
+	{
+		//TODO
+		return null;
+	}
+	
+	public IUserData getUserData(String mail)
+	{
+		//TODO
+		return null;
+	}
+	
+	public IUserData getUserData(Long id)
+	{
+		//TODO
+		return null;
+	}
+	
+	public List<IUserData> getUserDatas(String mail, String name, String surname)
+	{
+		//TODO
+		return null;
 	}
 }
