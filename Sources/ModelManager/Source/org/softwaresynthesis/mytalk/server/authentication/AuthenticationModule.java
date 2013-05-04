@@ -7,16 +7,18 @@ import java.util.Set;
 import javax.security.auth.Subject;
 import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.callback.UnsupportedCallbackException;
+import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
 import javax.security.auth.spi.LoginModule;
+import org.softwaresynthesis.mytalk.server.abook.IUserData;
+import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
 
 public final class AuthenticationModule implements LoginModule 
 {
 	private boolean login;
 	private boolean commit;
 	private CredentialLoader handler;
-	private String password;			//TODO controllare se veramente necessario
-	private String username;			//TODO controllare se veramente necessario
+	private String username;
 	private Principal principal;
 	private Subject subject;
 
@@ -41,7 +43,6 @@ public final class AuthenticationModule implements LoginModule
 			{
 				this.login = false;
 				this.username = null;
-				this.password = null;
 				this.principal = null;
 			}
 			else
@@ -70,7 +71,6 @@ public final class AuthenticationModule implements LoginModule
 			principals.add(this.principal);
 		}
 		this.username = null;
-		this.password = null;
 		this.commit = true;
 		return true;
 	}
@@ -92,7 +92,6 @@ public final class AuthenticationModule implements LoginModule
 		this.subject = subject;
 		this.principal = null;
 		this.username = null;
-		this.password = null;
 	}
 
 	/**
@@ -105,7 +104,11 @@ public final class AuthenticationModule implements LoginModule
 	@Override
 	public boolean login() throws LoginException 
 	{
+		DataPersistanceManager dao;
 		Loader[] callbacks = null;
+		IUserData user = null;
+		String toComparePassword = null;
+		String username = null;
 		if (this.handler != null)
 		{
 			callbacks = new Loader[2];
@@ -124,11 +127,28 @@ public final class AuthenticationModule implements LoginModule
 				throw new LoginException(ex.getMessage());
 			}
 		}
-		this.username = callbacks[0].getData();
-		this.password = callbacks[1].getData();
-		
-		//TODO Implementare la connessione con il DAO
-		return false;
+		username = callbacks[0].getData();
+		dao = new DataPersistanceManager();
+		user = dao.getUserData(username);
+		if (user != null)
+		{
+			toComparePassword = user.getPassword();
+			if (toComparePassword.equals(callbacks[1].getData()))
+			{
+				this.login = true;
+				return true;
+			}
+			else
+			{
+				this.login = false;
+				this.username = null;
+				throw new FailedLoginException("Password errata");
+			}
+		}
+		else
+		{
+			throw new FailedLoginException("Username errato");
+		}
 	}
 
 	/**
@@ -145,7 +165,6 @@ public final class AuthenticationModule implements LoginModule
 		this.login = false;
 		this.commit = false;
 		this.username = null;
-		this.password = null;
 		return true;
 	}
 
