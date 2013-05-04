@@ -159,12 +159,36 @@ public class DataPersistanceManager
 		return null;
 	}
 	
+	/**
+	 * Cerca un utente con una determinata mail
+	 * 
+	 * @param 	mail	{@link String} mail associata all'utente
+	 * 					che si desidera cercare nella base di dati 
+	 * @return	{@link IUserData} se esiste un utente che si è registrato
+	 * 			con la mail fornita in input, altrimenti null
+	 */
 	public IUserData getUserData(String mail)
 	{
-		//TODO
-		return null;
+		GetUtil select = this.factory.getUserDataUtil(this.manager);
+		IUserData result = null;
+		List<IMyTalkObject> collection = null;
+		String query = "from UserData as u where u.mail = " + mail;
+		collection = select.execute(query);
+		if (collection != null && collection.isEmpty() == false)
+		{
+			result = (IUserData)collection.get(0);
+		}
+		return result;
 	}
 	
+	/**
+	 * Cerca un utente con un determinato ID
+	 * 
+	 * @param 	id	{@link Long} id associato all'utente
+	 * 				che si desidera cercare nella base di dati
+	 * @return	{@link IUserData} se esiste un utente con tale ID,
+	 * 			altrimenti null
+	 */
 	public IUserData getUserData(Long id)
 	{
 		GetUtil select = this.factory.getUserDataUtil(this.manager);
@@ -172,7 +196,7 @@ public class DataPersistanceManager
 		List<IMyTalkObject> collection = null;
 		String query = "from UserData as u where u.id = " + id;
 		collection = select.execute(query);
-		if (collection != null && collection.get(0) != null)
+		if (collection != null && collection.isEmpty() == false)
 		{
 			result = (IUserData)collection.get(0);
 		}
