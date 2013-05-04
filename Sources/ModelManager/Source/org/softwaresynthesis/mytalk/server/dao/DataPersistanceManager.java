@@ -1,5 +1,7 @@
 package org.softwaresynthesis.mytalk.server.dao;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import org.softwaresynthesis.mytalk.server.IMyTalkObject;
 import org.softwaresynthesis.mytalk.server.abook.IAddressBookEntry;
@@ -203,9 +205,30 @@ public class DataPersistanceManager
 		return result;
 	}
 	
+	/**
+	 * Cerca un utente nella base di dati
+	 * 
+	 * @param 	mail		{@link String} indirizzo mail con cui un utente potrebbe essersi registrato
+	 * @param 	name		{@link String} nome con cui l'utente potrebbe essersi registrato
+	 * @param 	surname		{@link String} cognome con cui l'utente potrebbe essersi registrato;
+	 * @return	{@link List<IUserData} con i risultati della ricerca
+	 */
 	public List<IUserData> getUserDatas(String mail, String name, String surname)
 	{
-		//TODO
-		return null;
+		GetUtil select = this.factory.getUserDataUtil(this.manager);
+		Iterator<IMyTalkObject> iterator = null;
+		List<IMyTalkObject> collection = null;
+		List<IUserData> result = null;
+		String query = "from UserData as u where u.mail like " + mail + " or u.name like " + name + " or u.surname like " + surname;
+		IUserData user = null;
+		collection = select.execute(query);
+		iterator = collection.iterator();
+		result = new ArrayList<IUserData>();
+		while (iterator.hasNext())
+		{
+			user = (IUserData)iterator.next();
+			result.add(user);
+		}
+		return result;
 	}
 }
