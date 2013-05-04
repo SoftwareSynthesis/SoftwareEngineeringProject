@@ -40,13 +40,13 @@ public class AddressBookEntryTest {
 	}
 
 	/**
-	 * Testa la restituzione dell'id e la sua impostazione 
+	 * Testa la restituzione dell'id del contatto
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
 	 */
 	@Test
-	public void testGetId() {
+	public void testId() {
 		Long result = tester.getId();
 		assertNotNull(result);
 		assertEquals((Object) 1L, result);
@@ -119,9 +119,9 @@ public class AddressBookEntryTest {
 	 */
 	@Test
 	public void testEquals() {
-		IAddressBookEntry other = new AddressBookEntry(1L);
-		other.setContact(contact);
-		other.setOwner(contact);
-		assertEquals(other, tester);
+		IAddressBookEntry other = mock(AddressBookEntry.class);
+		when(other.getContact()).thenReturn(contact);
+		when(other.getOwner()).thenReturn(contact);
+		assertTrue(tester.equals(other));
 	}
 }

@@ -222,7 +222,8 @@ public class UserDataTest {
 	}
 
 	/**
-	 * FIXME Chiarire lo scopo di questo test!
+	 * Testa l'aggiunta di una nuova chiamata nello storico delle chiamate di un
+	 * determinato utente
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
@@ -261,7 +262,8 @@ public class UserDataTest {
 	}
 
 	/**
-	 * FIXME Chiarire lo scopo di questo test!
+	 * Testa la rimozione di una chiamata dallo storico delle chiamate di un
+	 * determinato utente
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0

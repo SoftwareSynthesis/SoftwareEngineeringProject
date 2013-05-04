@@ -1,53 +1,52 @@
-package org.softwaresynthesis.mytalk.server.authentication;
+package org.softwaresynthesis.mytalk.server.authentication.security;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
+
 import org.junit.BeforeClass;
-import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Test dei metodi della classe {@link AESAlgorithm}
+ * Test dei metodi della classe {@link AESAlgorithm}. In realtà la correttezza
+ * di questo test deriva direttamente dalla correttezza delle classi Encode e
+ * Decode nonché della classe astratta che estendono (CryptoTemplate)
  * 
  * @author Andrea Meneghinello
- * @version %I%, %G%
+ * @author Diego Beraldin
+ * @version 2.0
  */
 public class AESAlgorithmTest {
 	// oggetto da testare
 	private static AESAlgorithm tester;
 	// attributi necessari ai singoli test
-	private String plainText;
-	private String cipherText;
+	private static String plainText;
+	private static String cipherText;
 
 	/**
-	 * Inizializzazione dell'oggetto da testare
+	 * Inizializzazione dell'oggetto da testare e degli oggetti necessari
+	 * all'esecuzione di tutti i test
 	 * 
 	 * @author Andrea Meneghinello
-	 * @version %I%, %G%
+	 * @author Diego Beraldin
+	 * @version 2.0
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() {
+		// oggetto da testare
 		tester = new AESAlgorithm();
-
-	}
-	
-	/**
-	 * Crea gli oggetti necessari all'esecuzione di ogni test
-	 * 
-	 * @author Diego Beraldin
-	 */
-	@Before
-	public void setUp() {
+		// dati di test
 		plainText = "testoInChiaro";
 		cipherText = "uDWIvRHmVrCXVdjtZeYj1g==";
 	}
 
 	/**
-	 * Verifica che il testo sia correttamente codificato
+	 * Verifica che una stringa di esempio sia correttamente codificata mediante
+	 * il confronto con la sua versione cifrata (nota a priori)
 	 * 
 	 * @author Andrea Meneghinello
-	 * @version %I%, %G%
+	 * @author Diego Beraldin
+	 * @version 1.0
 	 */
 	@Test
 	public void testEncode() {
@@ -60,11 +59,13 @@ public class AESAlgorithmTest {
 			fail(ex.getMessage());
 		}
 	}
-	
+
 	/**
-	 * Verifica la corretta decodifica di un testo cifrato
+	 * Verifica la corretta decodifica di un testo cifrato la cui controparte in
+	 * chiaro è nota
 	 * 
 	 * @author Diego Beraldin
+	 * @version 1.0
 	 */
 	@Test
 	public void testDecode() {
@@ -76,17 +77,5 @@ public class AESAlgorithmTest {
 		} catch (Exception ex) {
 			fail(ex.getMessage());
 		}
-	}
-	
-	/**
-	 * Testa la conversione in stringa
-	 * 
-	 * @author Diego Beraldin
-	 */
-	@Test
-	public void testToString() {
-		String toCompare = "Algoritmo di crittografia AES a 128 bit";
-		String result = tester.toString();
-		assertEquals(toCompare, result);
 	}
 }
