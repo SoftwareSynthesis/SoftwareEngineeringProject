@@ -34,6 +34,7 @@ public class CallTest {
 	@BeforeClass
 	public static void setUpBeforeClass() {
 		tester = new Call(1L);
+		tester.setId(1L);
 		startDate = mock(Date.class);
 		endDate = mock(Date.class);
 		call = mock(ICallList.class);
@@ -60,8 +61,8 @@ public class CallTest {
 	 */
 	@Test
 	public void testStartDate() {
-		tester.setStartDate(startDate);
-		Date result = tester.getStartDate();
+		tester.setStart(startDate);
+		Date result = tester.getStart();
 		assertNotNull(result);
 		assertEquals(startDate, result);
 	}
@@ -74,8 +75,8 @@ public class CallTest {
 	 */
 	@Test
 	public void testEndDate() {
-		tester.setEndDate(endDate);
-		Date result = tester.getEndDate();
+		tester.setEnd(endDate);
+		Date result = tester.getEnd();
 		assertNotNull(result);
 		assertEquals(endDate, result);
 	}
@@ -90,8 +91,8 @@ public class CallTest {
 	@Test
 	public void testCallList() {
 		Set<ICallList> calls = new HashSet<ICallList>();
-		tester.setCallList(calls);
-		Set<ICallList> result = tester.getCallList();
+		tester.setCalls(calls);
+		Set<ICallList> result = tester.getCalls();
 		assertNotNull(result);
 		assertEquals(calls, result);
 	}
@@ -105,7 +106,7 @@ public class CallTest {
 	 */
 	@Test
 	public void testAddCall() {
-		Set<ICallList> calls = tester.getCallList();
+		Set<ICallList> calls = tester.getCalls();
 		tester.addCall(call);
 		assertTrue(calls.contains(call));
 	}
@@ -119,7 +120,7 @@ public class CallTest {
 	 */
 	@Test
 	public void testRemoveCall() {
-		Set<ICallList> calls = tester.getCallList();
+		Set<ICallList> calls = tester.getCalls();
 		tester.removeCall(call);
 		assertFalse(calls.contains(call));
 	}

@@ -34,6 +34,12 @@ public class AddressBookEntry implements IAddressBookEntry
 	{
 		return this.id;
 	}
+	
+	@Override
+	public void setId(Long id)
+	{
+		this.id = id;
+	}
 
 	@Override
 	public IUserData getContact()

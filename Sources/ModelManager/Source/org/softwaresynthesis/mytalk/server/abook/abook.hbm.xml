@@ -11,21 +11,21 @@
 		<property name = "mail" column = "E_Mail" type = "string" unique = "true" update = "false" not-null = "true" />
 		<property name = "password" column = "Password" type = "string" not-null = "true" />
 		<property name = "question" column = "Question" type = "string" not-null = "true" />
-		<property name = "answer" column = "Answer" type = "String" not-null = "true" />
+		<property name = "answer" column = "Answer" type = "string" not-null = "true" />
 		<property name = "name" column = "Name" type = "string" not-null = "false" />
 		<property name = "surname" column = "Surname" type = "string" not-null = "false" />
-		<property name = "path" column = "Picture" type = "string" not-null = "true" />
-		<set name = "addressBook" table = "AddressBookEntries" lazy = "true" inverse = "false" fetch = "join" cascade = "save-update">
+		<property name = "path" column = "Picture" type = "string" not-null = "false" />
+		<set name = "addressBook" table = "AddressBookEntries" lazy = "true" inverse = "true" fetch = "join" cascade = "save-update">
 			<key column = "Owner" not-null = "true" />
 			<one-to-many class = "AddressBookEntry" />
 		</set>
-		<set name = "calls" table = "CallList" lazy = "true" inverse = "true" fetch = "join" cascade = "save-update">
+		<set name = "calls" table = "CallLists" lazy = "true" inverse = "true" fetch = "join" cascade = "save-update">
 			<key column = "ID_user" not-null = "true" />
 			<one-to-many class = "org.softwaresynthesis.mytalk.server.call.CallList" />
 		</set>
 		<set name = "messages" table = "Messages" lazy = "true" inverse = "true" fetch = "join" cascade = "save-update">
 			<key column = "Receiver" not-null = "true" />
-			<one-to-many class = "org.softwaresynthesis.mytalk.server.message.Messages" />
+			<one-to-many class = "org.softwaresynthesis.mytalk.server.message.Message" />
 		</set>
 	</class>
 	
@@ -34,8 +34,8 @@
 		<id name = "id" type = "long" column = "ID_group" unsaved-value = "null">
 			<generator class = "identity" />
 		</id>
-		<property name = "name" column = "Name" type = "String" not-null = "true" />
-		<set name = "addressBook" table = "AddressBookEntries" lazy = "true" inverse = "true" fetch = "join" cascade = "saved-update">
+		<property name = "name" column = "Name" type = "string" not-null = "true" />
+		<set name = "addressBook" table = "AddressBookEntries" lazy = "true" inverse = "true" fetch = "join" cascade = "save-update">
 			<key column = "ID_group" not-null = "true" />
 			<one-to-many class = "AddressBookEntry" />
 		</set>

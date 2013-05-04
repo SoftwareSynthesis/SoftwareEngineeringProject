@@ -45,39 +45,45 @@ public class Call implements ICall
 	{
 		return this.id;
 	}
+	
+	@Override
+	public void setId(Long id)
+	{
+		this.id = id;
+	}
 
 	@Override
-	public Date getStartDate() 
+	public Date getStart() 
 	{
 		return this.start;
 	}
 
 	@Override
-	public void setStartDate(Date startDate)
+	public void setStart(Date startDate)
 	{
 		this.start = startDate;
 	}
 
 	@Override
-	public Date getEndDate() 
+	public Date getEnd() 
 	{
 		return this.end;
 	}
 
 	@Override
-	public void setEndDate(Date endDate) 
+	public void setEnd(Date endDate) 
 	{
 		this.end = endDate;
 	}
 
 	@Override
-	public Set<ICallList> getCallList() 
+	public Set<ICallList> getCalls() 
 	{
 		return this.calls;
 	}
 
 	@Override
-	public void setCallList(Set<ICallList> callList) 
+	public void setCalls(Set<ICallList> callList) 
 	{
 		this.calls = callList;
 	}

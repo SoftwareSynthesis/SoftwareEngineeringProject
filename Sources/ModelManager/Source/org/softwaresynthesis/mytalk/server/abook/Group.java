@@ -7,7 +7,7 @@ public class Group implements IGroup
 {
 	private Long id;
 	private String name;
-	private Set<IAddressBookEntry> entrys;
+	private Set<IAddressBookEntry> addressBook;
 	
 	/**
 	 * Costruisce una nuova istanza priva
@@ -28,13 +28,19 @@ public class Group implements IGroup
 	public Group(Long identifier)
 	{
 		this.id = identifier;
-		this.entrys = new HashSet<IAddressBookEntry>();
+		this.addressBook = new HashSet<IAddressBookEntry>();
 	}
 	
 	@Override
 	public Long getId()
 	{
 		return this.id;
+	}
+	
+	@Override
+	public void setId(Long id)
+	{
+		this.id = id;
 	}
 
 	@Override
@@ -52,13 +58,13 @@ public class Group implements IGroup
 	@Override
 	public Set<IAddressBookEntry> getAddressBook() 
 	{
-		return this.entrys;
+		return this.addressBook;
 	}
 
 	@Override
 	public void setAddressBook(Set<IAddressBookEntry> addressBook)
 	{
-		this.entrys = addressBook;
+		this.addressBook = addressBook;
 	}
 
 	@Override
@@ -66,14 +72,14 @@ public class Group implements IGroup
 	{
 		boolean result = false;
 		entry.setGroup(this);
-		result = this.entrys.add(entry);
+		result = this.addressBook.add(entry);
 		return result;
 	}
 
 	@Override
 	public boolean removeAddressBookEntry(IAddressBookEntry entry) 
 	{
-		boolean result = this.entrys.remove(entry);
+		boolean result = this.addressBook.remove(entry);
 		return result;
 	}
 	

@@ -33,6 +33,7 @@ public class AddressBookEntryTest {
 	@BeforeClass
 	public static void setupBeforeClass() {
 		tester = new AddressBookEntry(1L);
+		tester.setId(1L);
 		contact = new UserData(1L);
 		contact.setMail("paperino@paperopoli.it");
 		group = mock(IGroup.class);

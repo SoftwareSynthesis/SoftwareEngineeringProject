@@ -18,35 +18,35 @@ public interface ICall extends IMyTalkObject
 	 * 
 	 * @return	{@link Date} data di inizio conversazione
 	 */
-	public Date getStartDate();
+	public Date getStart();
 	
 	/**
 	 * Imposta la data di inizio della conversazione
 	 * 
 	 * @param 	startDate	{@link Date} data di inizio
 	 */
-	public void setStartDate(Date startDate);
+	public void setStart(Date startDate);
 	
 	/**
 	 * Restituisce la data di fine della conversazione
 	 * 
 	 * @return {@link Date} data di fine conversazione
 	 */
-	public Date getEndDate();
+	public Date getEnd();
 	
 	/**
 	 * Imposta la data di fine conversazione
 	 * 
 	 * @param 	endDate	{@link Date} data di fine
 	 */
-	public void setEndDate(Date endDate);
+	public void setEnd(Date endDate);
 	
 	/**
 	 * Restituisce la lista dei partecipanti alla chiamata
 	 * 
 	 * @return	{@link Set<ICallList>} lista dei partecipanti
 	 */
-	public Set<ICallList> getCallList();
+	public Set<ICallList> getCalls();
 	
 	/**
 	 * Imposta la lista dei partecipanti alla chiamata
@@ -54,7 +54,7 @@ public interface ICall extends IMyTalkObject
 	 * @param 	callList	{@link Set<ICallList>} lista dei
 	 * 						partecipanti
 	 */
-	public void setCallList(Set<ICallList> callList);
+	public void setCalls(Set<ICallList> callList);
 	
 	/**
 	 * Aggiunge un partecipante alla chiamata

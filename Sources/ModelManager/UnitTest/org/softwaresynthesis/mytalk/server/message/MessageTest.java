@@ -35,6 +35,7 @@ public class MessageTest {
 	public static void setUpBeforeClass() {
 		// inizializza l'oggetto da testare
 		tester = new Message(1L);
+		tester.setId(1L);
 		// inizializza i dati necessari al test
 		dummyDate = mock(Date.class);
 		receiver = mock(UserData.class);

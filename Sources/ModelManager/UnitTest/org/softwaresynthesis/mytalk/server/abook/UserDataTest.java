@@ -39,6 +39,7 @@ public class UserDataTest {
 	@BeforeClass
 	public static void setupBeforeClass() {
 		tester = new UserData(1L);
+		tester.setId(1L);
 		tester.setMail("indirizzo1@dominio.it");
 		tester.setPassword("password");
 		tester.setQuestion("question");
@@ -187,7 +188,7 @@ public class UserDataTest {
 	@Test
 	public void testCallList() {
 		Set<ICallList> calls = new HashSet<ICallList>();
-		tester.setCallList(calls);
+		tester.setCalls(calls);
 		Set<IAddressBookEntry> result = tester.getAddressBook();
 		assertNotNull(result);
 		assertEquals(calls, result);
@@ -202,8 +203,8 @@ public class UserDataTest {
 	@Test
 	public void testMessage() {
 		Set<IMessage> messages = new HashSet<IMessage>();
-		tester.setMessage(messages);
-		Set<IMessage> result = tester.getMessage();
+		tester.setMessages(messages);
+		Set<IMessage> result = tester.getMessages();
 		assertNotNull(result);
 		assertEquals(messages, result);
 	}
@@ -230,7 +231,7 @@ public class UserDataTest {
 	 */
 	@Test
 	public void testAddCall() {
-		Set<ICallList> calls = tester.getCallList();
+		Set<ICallList> calls = tester.getCalls();
 		tester.addCall(newCall);
 		assertTrue(calls.contains(newCall));
 	}
@@ -243,7 +244,7 @@ public class UserDataTest {
 	 */
 	@Test
 	public void testAddMessage() {
-		Set<IMessage> messages = tester.getMessage();
+		Set<IMessage> messages = tester.getMessages();
 		tester.addMessage(newMessage);
 		assertTrue(messages.contains(newMessage));
 	}
@@ -270,7 +271,7 @@ public class UserDataTest {
 	 */
 	@Test
 	public void testRemoveCall() {
-		Set<ICallList> calls = tester.getCallList();
+		Set<ICallList> calls = tester.getCalls();
 		tester.removeCall(newCall);
 		assertFalse(calls.contains(newCall));
 	}
@@ -283,7 +284,7 @@ public class UserDataTest {
 	 */
 	@Test
 	public void testRemoveMessage() {
-		Set<IMessage> messages = tester.getMessage();
+		Set<IMessage> messages = tester.getMessages();
 		tester.removeMessage(newMessage);
 		assertFalse(messages.contains(newMessage));
 	}

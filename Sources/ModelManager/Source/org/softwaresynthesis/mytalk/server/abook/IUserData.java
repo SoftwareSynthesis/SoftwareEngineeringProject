@@ -153,7 +153,7 @@ public interface IUserData extends IMyTalkObject
 	 * 
 	 * @return {@link Set<ICallList>} lista delle chiamate
 	 */
-	public Set<ICallList> getCallList();
+	public Set<ICallList> getCalls();
 	
 	/**
 	 * Imposta la lista chiamate dell'utente del sistema
@@ -162,14 +162,14 @@ public interface IUserData extends IMyTalkObject
 	 * @param 	callList	{@link Set<ICallList>} lista
 	 * 						delle chiamate
 	 */
-	public void setCallList(Set<ICallList> callList);
+	public void setCalls(Set<ICallList> callList);
 	
 	/**
 	 * Restituisce la lista dei messaggi presenti in segreteria
 	 * 
 	 * @return	{@link Set<IMessage>} lista dei messaggi
 	 */
-	public Set<IMessage> getMessage();
+	public Set<IMessage> getMessages();
 	
 	/**
 	 * Imposta la lista dei messaggi presenti in segreteria
@@ -177,7 +177,7 @@ public interface IUserData extends IMyTalkObject
 	 * @param 	messages	{@link Set<IMessage>} lista dei
 	 * 						messaggi
 	 */
-	public void setMessage(Set<IMessage> messages);
+	public void setMessages(Set<IMessage> messages);
 	
 	/**
 	 * Aggiunge un nuovo contatto all rubrica di un utente

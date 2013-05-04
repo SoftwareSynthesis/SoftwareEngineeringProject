@@ -15,7 +15,7 @@ public class UserData implements IUserData
 	private String name;
 	private String surname;
 	private String path;
-	private Set<IAddressBookEntry> entrys;
+	private Set<IAddressBookEntry> addressBook;
 	private Set<ICallList> calls;
 	private Set<IMessage> messages;
 	
@@ -38,7 +38,7 @@ public class UserData implements IUserData
 	public UserData(Long identifier)
 	{
 		this.id = identifier;
-		this.entrys = new HashSet<IAddressBookEntry>();
+		this.addressBook = new HashSet<IAddressBookEntry>();
 		this.calls = new HashSet<ICallList>();
 		this.messages = new HashSet<IMessage>();
 	}
@@ -47,6 +47,12 @@ public class UserData implements IUserData
 	public Long getId() 
 	{
 		return this.id;
+	}
+	
+	@Override
+	public void setId(Long id)
+	{
+		this.id = id;
 	}
 
 	@Override
@@ -136,35 +142,35 @@ public class UserData implements IUserData
 	@Override
 	public Set<IAddressBookEntry> getAddressBook() 
 	{
-		return this.entrys;
+		return this.addressBook;
 	}
 
 	@Override
 	public void setAddressBook(Set<IAddressBookEntry> addressBook) 
 	{
-		this.entrys = addressBook;
+		this.addressBook = addressBook;
 	}
 
 	@Override
-	public Set<ICallList> getCallList() 
+	public Set<ICallList> getCalls() 
 	{
 		return this.calls;
 	}
 
 	@Override
-	public void setCallList(Set<ICallList> callList) 
+	public void setCalls(Set<ICallList> callList) 
 	{
 		this.calls = callList;
 	}
 
 	@Override
-	public Set<IMessage> getMessage()
+	public Set<IMessage> getMessages()
 	{
 		return this.messages;
 	}
 
 	@Override
-	public void setMessage(Set<IMessage> messages) 
+	public void setMessages(Set<IMessage> messages) 
 	{
 		this.messages = messages;
 	}
@@ -174,7 +180,7 @@ public class UserData implements IUserData
 	{
 		boolean result = false;
 		entry.setOwner(this);
-		result = this.entrys.add(entry);
+		result = this.addressBook.add(entry);
 		return result;
 	}
 
@@ -199,7 +205,7 @@ public class UserData implements IUserData
 	@Override
 	public boolean removeAddressBookEntry(IAddressBookEntry entry) 
 	{
-		boolean result = this.entrys.remove(entry);
+		boolean result = this.addressBook.remove(entry);
 		return result;
 	}
 

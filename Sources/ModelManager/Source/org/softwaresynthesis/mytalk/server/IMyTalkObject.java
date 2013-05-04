@@ -16,4 +16,11 @@ public interface IMyTalkObject
 	 * 			l'oggetto
 	 */
 	public Long getId();
+	
+	/**
+	 * Imposta l'identificativo dell'oggetto
+	 * 
+	 * @param 	id	{@link Long} identificativo dell'oggetto
+	 */
+	public void setId(Long id);
 }

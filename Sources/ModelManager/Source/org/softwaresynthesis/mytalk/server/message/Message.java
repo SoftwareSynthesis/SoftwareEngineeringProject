@@ -46,6 +46,12 @@ public class Message implements IMessage
 	{
 		return this.id;
 	}
+	
+	@Override
+	public void setId(Long id)
+	{
+		this.id = id;
+	}
 
 	@Override
 	public IUserData getSender()

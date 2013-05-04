@@ -33,6 +33,7 @@ public class GroupTest {
 	@BeforeClass
 	public static void setupBeforeClass() {
 		tester = new Group(1L);
+		tester.setId(1L);
 		contact.setMail("paperino@paperopoli.it");
 		entry = new AddressBookEntry(1L);
 	}

@@ -34,6 +34,7 @@ public class CallListTest {
 	@BeforeClass
 	public static void setUpBeforeClass() {
 		tester = new CallList(1L);
+		tester.setId(1L);
 		user = mock(IUserData.class);
 		when(user.getMail()).thenReturn("indirizzo5@dominio.it");
 		call = mock(ICall.class);

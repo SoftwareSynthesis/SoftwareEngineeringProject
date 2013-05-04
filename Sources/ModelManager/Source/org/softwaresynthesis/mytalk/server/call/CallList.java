@@ -43,6 +43,12 @@ public class CallList implements ICallList
 	{
 		return this.id;
 	}
+	
+	@Override
+	public void setId(Long id)
+	{
+		this.id = id;
+	}
 
 	@Override
 	public IUserData getUser() 
