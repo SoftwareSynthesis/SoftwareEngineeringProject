@@ -20,8 +20,8 @@ public class AESAlgorithmTest {
 	// oggetto da testare
 	private static AESAlgorithm tester;
 	// attributi necessari ai singoli test
-	private static String plainText;
-	private static String cipherText;
+	private static final String plainText = "testoInChiaro";
+	private static final String cipherText = "uDWIvRHmVrCXVdjtZeYj1g==";
 
 	/**
 	 * Inizializzazione dell'oggetto da testare e degli oggetti necessari
@@ -35,9 +35,6 @@ public class AESAlgorithmTest {
 	public static void setUpBeforeClass() {
 		// oggetto da testare
 		tester = new AESAlgorithm();
-		// dati di test
-		plainText = "testoInChiaro";
-		cipherText = "uDWIvRHmVrCXVdjtZeYj1g==";
 	}
 
 	/**
