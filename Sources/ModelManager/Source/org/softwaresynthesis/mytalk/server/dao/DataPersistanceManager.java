@@ -5,6 +5,9 @@ import org.softwaresynthesis.mytalk.server.IMyTalkObject;
 import org.softwaresynthesis.mytalk.server.abook.IAddressBookEntry;
 import org.softwaresynthesis.mytalk.server.abook.IGroup;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
+import org.softwaresynthesis.mytalk.server.dao.util.GetUtil;
+import org.softwaresynthesis.mytalk.server.dao.util.ModifyUtil;
+import org.softwaresynthesis.mytalk.server.dao.util.UtilFactory;
 import org.softwaresynthesis.mytalk.server.call.ICall;
 import org.softwaresynthesis.mytalk.server.message.IMessage;
 
@@ -19,13 +22,14 @@ import org.softwaresynthesis.mytalk.server.message.IMessage;
 public class DataPersistanceManager 
 {
 	private ISessionManager manager;
+	private UtilFactory factory;
 	
 	/**
 	 * Crea una nuova istanza dell'oggetto
 	 */
 	public DataPersistanceManager()
 	{
-		this(SessionManager.getInstance());
+		this(SessionManager.getInstance(), new UtilFactory());
 	}
 	
 	/**
@@ -35,9 +39,10 @@ public class DataPersistanceManager
 	 * 					sessioni di comunicazione con la base
 	 * 					di dati del sistema MyTalk
 	 */
-	protected DataPersistanceManager(ISessionManager manager)
+	protected DataPersistanceManager(ISessionManager manager, UtilFactory factory)
 	{
 		this.manager = manager;
+		this.factory = factory;
 	}
 	
 	/**
@@ -50,8 +55,10 @@ public class DataPersistanceManager
 	 */
 	public boolean delete(IMyTalkObject object)
 	{
-		//TODO
-		return false;
+		boolean result = false;
+		ModifyUtil delete = this.factory.getDeleteUtil(this.manager);
+		result = delete.execute(object);
+		return result;
 	}
 	
 	/**
@@ -64,8 +71,10 @@ public class DataPersistanceManager
 	 */
 	public boolean insert(IMyTalkObject object)
 	{
-		//TODO
-		return false;
+		boolean result = false;
+		ModifyUtil insert = this.factory.getInsertUtil(this.manager);
+		result = insert.execute(object);
+		return result;
 	}
 	
 	/**
@@ -78,8 +87,10 @@ public class DataPersistanceManager
 	 */
 	public boolean update(IMyTalkObject object)
 	{
-		//TODO
-		return false;
+		boolean result = false;
+		ModifyUtil update = this.factory.getUpdateUtil(this.manager);
+		result = update.execute(object);
+		return result;
 	}
 	
 	/**
@@ -156,8 +167,16 @@ public class DataPersistanceManager
 	
 	public IUserData getUserData(Long id)
 	{
-		//TODO
-		return null;
+		GetUtil select = this.factory.getUserDataUtil(this.manager);
+		IUserData result = null;
+		List<IMyTalkObject> collection = null;
+		String query = "from UserData as u where u.id = " + id;
+		collection = select.execute(query);
+		if (collection != null && collection.get(0) != null)
+		{
+			result = (IUserData)collection.get(0);
+		}
+		return result;
 	}
 	
 	public List<IUserData> getUserDatas(String mail, String name, String surname)
