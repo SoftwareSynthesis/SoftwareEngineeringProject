@@ -56,19 +56,17 @@ public class CredentialLoaderTest {
 	 * 
 	 * @author Andrea Meneghinello
 	 * @author Diego Beraldin
-	 * @version 1.1
+	 * @version 2.0
 	 */
 	@Test
 	public void testHandle() {
 		Callback[] callbacks = new Callback[2];
-		callbacks[0] = new NameCallback(username);
-		callbacks[1] = new PasswordCallback(password, false);
+		callbacks[0] = new NameLoader();
+		callbacks[1] = new PasswordLoader(strategy);
 		try {
 			tester.handle(callbacks);
-			NameCallback nc = (NameCallback) callbacks[0];
-			PasswordCallback pc = (PasswordCallback) callbacks[1];
-			String retrievedUsername = nc.getName();
-			String retrievedPassword = new String(pc.getPassword());
+			String retrievedUsername = ((Loader) callbacks[0]).getData();
+			String retrievedPassword = new String(((Loader) callbacks[1]).getData());
 			assertNotNull(retrievedUsername);
 			assertNotNull(retrievedPassword);
 			assertEquals(username, retrievedUsername);
