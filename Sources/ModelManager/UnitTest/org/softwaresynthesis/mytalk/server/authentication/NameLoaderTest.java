@@ -23,7 +23,7 @@ import org.junit.Test;
  */
 public class NameLoaderTest {
 	private static Loader tester;
-	private static String username;
+	private static final String username = "indirizzo5@dominio.it";
 	private HttpServletRequest request;
 
 	/**
@@ -36,8 +36,6 @@ public class NameLoaderTest {
 	public static void setUpBeforeClass() {
 		// oggetto da testare
 		tester = new NameLoader();
-		// dati di test
-		username = "indirizzo5@dominio.it";
 	}
 
 	/**

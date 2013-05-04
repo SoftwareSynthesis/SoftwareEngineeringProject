@@ -17,8 +17,8 @@ import org.junit.Test;
  */
 public class AESEncodeTest {
 	private static AESTemplate tester;
-	private static String plainText;
-	private static String cipherText;
+	private static final String plainText = "paperino";
+	private static final String cipherText = "Ub92LcoN/pLMLZnz6Bg4CA==";
 
 	/**
 	 * Inizializza l'oggetto da sottoporre a verifica e crea i dati necessari
@@ -31,9 +31,6 @@ public class AESEncodeTest {
 	public static void setUpBeforeClass() {
 		// oggetto da testare
 		tester = new AESEncode();
-		// dati di test
-		plainText = "paperino";
-		cipherText = "Ub92LcoN/pLMLZnz6Bg4CA==";
 	}
 
 	/**

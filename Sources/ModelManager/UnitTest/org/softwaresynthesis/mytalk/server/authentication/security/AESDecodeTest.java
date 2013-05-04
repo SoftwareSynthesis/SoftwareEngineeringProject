@@ -18,8 +18,8 @@ import org.junit.Test;
  */
 public class AESDecodeTest {
 	private static AESTemplate tester;
-	private static String cipherText;
-	private static String plainText;
+	private static final String cipherText = "Ub92LcoN/pLMLZnz6Bg4CA==";
+	private static final String plainText = "paperino";
 
 	/**
 	 * Inizializza l'oggetto da sottoporre a verifica e i dati necessari
@@ -32,9 +32,6 @@ public class AESDecodeTest {
 	public static void setUpBeforeClass() {
 		// oggetto da testare
 		tester = new AESDecode();
-		// dati di test
-		plainText = "paperino";
-		cipherText = "Ub92LcoN/pLMLZnz6Bg4CA==";
 	}
 
 	/**

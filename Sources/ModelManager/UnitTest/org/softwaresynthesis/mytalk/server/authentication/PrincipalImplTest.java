@@ -22,7 +22,7 @@ import org.junit.Test;
  */
 public class PrincipalImplTest {
 	private static Principal tester;
-	private static String element;
+	private static final String element = "pippo";
 
 	/**
 	 * Inizializza i dati di test e l'oggetto da sottoporrea verifica
@@ -32,7 +32,6 @@ public class PrincipalImplTest {
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() {
-		element = "pippo";
 		tester = new PrincipalImpl(element);
 	}
 

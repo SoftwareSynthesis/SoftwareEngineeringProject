@@ -26,7 +26,7 @@ import org.softwaresynthesis.mytalk.server.authentication.security.ISecurityStra
 public class PasswordLoaderTest {
 	private static Loader tester;
 	private static ISecurityStrategy strategy;
-	private static String password;
+	private static final String password = "password";
 	private HttpServletRequest request;
 
 	/**
@@ -39,8 +39,6 @@ public class PasswordLoaderTest {
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		// dati di test
-		password = "password";
 		// strategia di autenticazione
 		strategy = mock(ISecurityStrategy.class);
 		when(strategy.encode(password)).thenReturn(password);

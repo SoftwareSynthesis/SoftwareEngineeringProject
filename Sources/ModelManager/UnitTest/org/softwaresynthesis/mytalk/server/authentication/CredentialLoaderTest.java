@@ -1,7 +1,6 @@
 package org.softwaresynthesis.mytalk.server.authentication;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
@@ -27,8 +26,8 @@ public class CredentialLoaderTest {
 	private static CredentialLoader tester;
 	private static HttpServletRequest request;
 	private static ISecurityStrategy strategy;
-	private static String password;
-	private static String username;
+	private static final String password = "password";
+	private static final String username = "indirizzo5@dominio.it";
 
 	/**
 	 * Inizializzazione dei dati ausiliari e dell'oggetto da testare
@@ -39,9 +38,6 @@ public class CredentialLoaderTest {
 	 */
 	@BeforeClass
 	public static void setupBeforeClass() throws Exception {
-		// dati di test
-		password = "password";
-		username = "indrizzo5@dominio.it";
 		// configura il comportamento della richiesta HTTP
 		request = mock(HttpServletRequest.class);
 		when(request.getParameter("username")).thenReturn(username);
