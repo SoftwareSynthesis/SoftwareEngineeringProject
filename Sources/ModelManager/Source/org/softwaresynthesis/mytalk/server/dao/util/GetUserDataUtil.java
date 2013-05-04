@@ -37,8 +37,8 @@ final class GetUserDataUtil extends GetUtil
 		{
 			user = (IUserData)iterator.next();
 			Hibernate.initialize(user.getAddressBook());
-			Hibernate.initialize(user.getMessage());
-			Hibernate.initialize(user.getCallList());
+			Hibernate.initialize(user.getMessages());
+			Hibernate.initialize(user.getCalls());
 		}
 	}
 }

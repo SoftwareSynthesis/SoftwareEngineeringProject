@@ -15,7 +15,7 @@ import org.softwaresynthesis.mytalk.server.dao.ISessionManager;
  * @author 	Andrea Meneghinello
  * @version	3.0
  */
-abstract class GetUtil 
+public abstract class GetUtil 
 {
 	private ISessionManager manager;
 	

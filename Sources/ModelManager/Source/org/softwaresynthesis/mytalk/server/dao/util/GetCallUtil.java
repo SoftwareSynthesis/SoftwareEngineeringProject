@@ -36,7 +36,7 @@ final class GetCallUtil extends GetUtil
 		while(iterator.hasNext())
 		{
 			call = (ICall)iterator.next();
-			Hibernate.initialize(call.getCallList());
+			Hibernate.initialize(call.getCalls());
 		}
 	}
 }
