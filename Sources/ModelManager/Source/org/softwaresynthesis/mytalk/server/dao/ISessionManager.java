@@ -9,7 +9,7 @@ import org.hibernate.SessionFactory;
  * @author 	Andrea Meneghinello
  * @version	3.0
  */
-interface ISessionManager 
+public interface ISessionManager 
 {
 	/**
 	 * Restituisce una factory configurata
