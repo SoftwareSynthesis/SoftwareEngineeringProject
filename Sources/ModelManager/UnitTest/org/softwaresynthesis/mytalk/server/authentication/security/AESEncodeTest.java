@@ -15,8 +15,8 @@ import org.junit.Test;
  * @author Diego Beraldin
  * @version 2.0
  */
-public class EncodeTest {
-	private static CryptoTemplate tester;
+public class AESEncodeTest {
+	private static AESTemplate tester;
 	private static String plainText;
 	private static String cipherText;
 
@@ -30,7 +30,7 @@ public class EncodeTest {
 	@BeforeClass
 	public static void setUpBeforeClass() {
 		// oggetto da testare
-		tester = new Encode();
+		tester = new AESEncode();
 		// dati di test
 		plainText = "paperino";
 		cipherText = "Ub92LcoN/pLMLZnz6Bg4CA==";

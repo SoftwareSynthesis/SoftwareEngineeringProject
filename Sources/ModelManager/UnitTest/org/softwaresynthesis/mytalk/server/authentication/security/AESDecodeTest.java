@@ -16,8 +16,8 @@ import org.junit.Test;
  * @author Diego Beraldin
  * @version 2.0
  */
-public class DecodeTest {
-	private static CryptoTemplate tester;
+public class AESDecodeTest {
+	private static AESTemplate tester;
 	private static String cipherText;
 	private static String plainText;
 
@@ -31,7 +31,7 @@ public class DecodeTest {
 	@BeforeClass
 	public static void setUpBeforeClass() {
 		// oggetto da testare
-		tester = new Decode();
+		tester = new AESDecode();
 		// dati di test
 		plainText = "paperino";
 		cipherText = "Ub92LcoN/pLMLZnz6Bg4CA==";
