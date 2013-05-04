@@ -1,9 +1,10 @@
-package org.softwaresynthesis.mytalk.server.dao;
+package org.softwaresynthesis.mytalk.server.dao.util;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.softwaresynthesis.mytalk.server.IMyTalkObject;
+import org.softwaresynthesis.mytalk.server.dao.ISessionManager;
 
 /**
  * Classe base astratta per le operazione di Insert,

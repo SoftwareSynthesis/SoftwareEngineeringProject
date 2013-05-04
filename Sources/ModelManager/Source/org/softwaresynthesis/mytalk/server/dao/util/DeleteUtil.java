@@ -1,7 +1,8 @@
-package org.softwaresynthesis.mytalk.server.dao;
+package org.softwaresynthesis.mytalk.server.dao.util;
 
 import org.hibernate.Session;
 import org.softwaresynthesis.mytalk.server.IMyTalkObject;
+import org.softwaresynthesis.mytalk.server.dao.ISessionManager;
 
 /**
  * Oggetto per la rimozione di un record

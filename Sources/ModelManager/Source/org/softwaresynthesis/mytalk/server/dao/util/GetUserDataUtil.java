@@ -1,28 +1,29 @@
-package org.softwaresynthesis.mytalk.server.dao;
+package org.softwaresynthesis.mytalk.server.dao.util;
 
 import java.util.Iterator;
 import java.util.List;
 import org.hibernate.Hibernate;
 import org.softwaresynthesis.mytalk.server.IMyTalkObject;
-import org.softwaresynthesis.mytalk.server.call.ICall;
+import org.softwaresynthesis.mytalk.server.abook.IUserData;
+import org.softwaresynthesis.mytalk.server.dao.ISessionManager;
 
 /**
  * Permette di inizializzare le collezioni di dati
- * nella chiamata
+ * nell'utente
  * 
  * @author 	Andrea Meneghinello
  * @version 3.0
  */
-final class GetCallUtil extends GetUtil 
+final class GetUserDataUtil extends GetUtil 
 {
 	/**
 	 * Crea una nuova istanza per l'inizializzazione
-	 * delle lista degli utenti coinvolti nella chiamata
+	 * delle collezioni di dati nell'utente
 	 * 
 	 * @param manager 	{@link ISessionManager} gestore della
 	 * 					sessione di comunicazione con il database
 	 */
-	public GetCallUtil(ISessionManager manager)
+	public GetUserDataUtil(ISessionManager manager)
 	{
 		super(manager);
 	}
@@ -30,12 +31,14 @@ final class GetCallUtil extends GetUtil
 	@Override
 	protected final void doInitialize(List<IMyTalkObject> collection) 
 	{
-		ICall call = null;
 		Iterator<IMyTalkObject> iterator = collection.iterator();
+		IUserData user = null;
 		while(iterator.hasNext())
 		{
-			call = (ICall)iterator.next();
-			Hibernate.initialize(call.getCallList());
+			user = (IUserData)iterator.next();
+			Hibernate.initialize(user.getAddressBook());
+			Hibernate.initialize(user.getMessage());
+			Hibernate.initialize(user.getCallList());
 		}
 	}
 }

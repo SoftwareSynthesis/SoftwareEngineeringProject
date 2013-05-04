@@ -1,8 +1,9 @@
-package org.softwaresynthesis.mytalk.server.dao;
+package org.softwaresynthesis.mytalk.server.dao.util;
 
 import java.util.List;
 
 import org.softwaresynthesis.mytalk.server.IMyTalkObject;
+import org.softwaresynthesis.mytalk.server.dao.ISessionManager;
 
 /**
  * Crea un componente che non ha bisogno

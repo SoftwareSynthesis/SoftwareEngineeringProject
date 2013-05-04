@@ -1,10 +1,11 @@
-package org.softwaresynthesis.mytalk.server.dao;
+package org.softwaresynthesis.mytalk.server.dao.util;
 
 import java.util.Iterator;
 import java.util.List;
 import org.hibernate.Hibernate;
 import org.softwaresynthesis.mytalk.server.IMyTalkObject;
 import org.softwaresynthesis.mytalk.server.abook.IGroup;
+import org.softwaresynthesis.mytalk.server.dao.ISessionManager;
 
 /**
  * Permette di inizializzare le collezioni di dati
