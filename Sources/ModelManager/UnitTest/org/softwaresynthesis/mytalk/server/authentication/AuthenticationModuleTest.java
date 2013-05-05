@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.softwaresynthesis.mytalk.server.authentication.security.AESAlgorithm;
 import org.softwaresynthesis.mytalk.server.authentication.security.ISecurityStrategy;
 
 /**
@@ -31,6 +30,7 @@ public class AuthenticationModuleTest {
 	private static LoginContext tester;
 	private static HttpServletRequest request;
 	private static ISecurityStrategy strategy;
+	private static CredentialLoader loader;
 	private static final String username = "indirizzo5@dominio.it";
 	private static final String password = "password";
 
@@ -46,25 +46,29 @@ public class AuthenticationModuleTest {
 		// imposta proprietà di sistema necessaria per l'autenticazione
 		String path = System.getenv("MyTalkConfiguration");
 		String separator = System.getProperty("file.separator");
-		path += separator + "MyTalk" + separator + "Conf" + separator + "LoginConfiguration.conf";
+		path += separator + "MyTalk" + separator + "Conf" + separator
+				+ "LoginConfiguration.conf";
 		System.setProperty("java.security.auth.login.config", path);
-		
+
 		// configura il comportamento della richiesta HTTP
 		request = mock(HttpServletRequest.class);
 		when(request.getParameter("username")).thenReturn(username);
 		when(request.getParameter("password")).thenReturn(password);
-		
+
 		// configura il comportamento della strategia di crittografia
 		strategy = mock(ISecurityStrategy.class);
 		when(strategy.encode(password)).thenReturn(password);
-		
-		// inizializza l'oggetto da testare (?)
-		CredentialLoader loader = new CredentialLoader(request, new AESAlgorithm());
+
+		// inizializza il loader (non bisognerebbe farlo così!)
+		loader = new CredentialLoader(request, strategy);
+
+		// inizializza l'oggetto da testare
 		tester = new LoginContext("Configuration", loader);
 	}
 
 	/**
-	 * TODO Da terminare!
+	 * @author Andrea Meneghinello
+	 * @version 1.0
 	 */
 	@Test
 	public void testLogin() {
@@ -86,7 +90,8 @@ public class AuthenticationModuleTest {
 	}
 
 	/**
-	 * TODO da terminare!
+	 * @author Andrea Meneghinello
+	 * @version 1.0
 	 */
 	@Test
 	public void testLogout() {
