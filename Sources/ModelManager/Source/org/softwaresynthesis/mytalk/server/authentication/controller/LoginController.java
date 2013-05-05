@@ -19,7 +19,7 @@ import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
  * @author 	Marco Schivo
  * @version 3.0
  */
-public class LoginController extends AbstractController
+public final class LoginController extends AbstractController
 {
 	/**
 	 * Inizializza il controller per eseguire
