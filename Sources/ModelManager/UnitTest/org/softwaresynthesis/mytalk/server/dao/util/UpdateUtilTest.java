@@ -6,6 +6,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.doThrow;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -16,15 +17,15 @@ import org.softwaresynthesis.mytalk.server.IMyTalkObject;
 import org.softwaresynthesis.mytalk.server.dao.ISessionManager;
 
 /**
- * Test di {@link InsertUtil} che testa il 'template method' execute e la
+ * Test di {@link UpdateUtil} che testa il 'template method' execute e la
  * corretta implementazione del doAction che, se tutto va a buon fine, invoca il
- * metodo save() sulla sessione. Il test è fatto in modo da coprire tutti i rami
- * e la gestione delle eccezioni che viene fatta in ModifyUtil.
+ * metodo update() sulla sessione. Il test è fatto in modo da coprire tutti i
+ * rami e la gestione delle eccezioni che viene fatta in ModifyUtil.
  * 
  * @author Diego Beraldin
  * @version 2.0
  */
-public class InsertUtilTest {
+public class UpdateUtilTest {
 	// dati di test (simula un oggetto da rendere persistente)
 	private final IMyTalkObject object = mock(IMyTalkObject.class);
 	// transazione fittizia sul database
@@ -36,7 +37,7 @@ public class InsertUtilTest {
 	// SessionManager fittizio per generare la SessionFactory
 	private final ISessionManager manager = mock(ISessionManager.class);
 	// oggetto da testare
-	private final InsertUtil tester = new InsertUtil(manager);
+	private final UpdateUtil tester = new UpdateUtil(manager);
 
 	/**
 	 * Reinizializza il comportamento dei mock prima di ciascuno dei test
@@ -60,16 +61,17 @@ public class InsertUtilTest {
 	}
 
 	/**
-	 * Test che verifica che l'esecuzione di un inserimento nel database sia
-	 * portata a termine in maniera corretta. In particolare si verifica che il
-	 * metodo execute sia invocato con successo e restituendo <code>true</code>
-	 * e che nel corso della sua esecuzione sia invocato: una (e una sola) volta
-	 * il metodo getSessionFactory() su SessionManager, una (e una sola) volta
-	 * openSession() su SessionFactory, una (e una sola) volta
-	 * beginTransaction() sulla sessione, una (e una sola) volta save(object)
-	 * sulla sessione, una (e una sola) volta commit() sulla transazione, una (e
-	 * una sola) volta flush() sulla sessione, una (e una sola) volta close()
-	 * sulla sessione e che non sia MAI invocato rollback() sulla transazione.
+	 * Test che verifica che l'esecuzione di un aggiornamento di un record nel
+	 * database sia portata a termine in maniera corretta. In particolare si
+	 * verifica che il metodo execute sia invocato con successo e restituendo
+	 * <code>true</code> e che nel corso della sua esecuzione siano invocati:
+	 * una (e una sola) volta il metodo getSessionFactory() su SessionManager,
+	 * una (e una sola) volta openSession() su SessionFactory, una (e una sola)
+	 * volta beginTransaction() sulla sessione, una (e una sola) volta
+	 * update(object) sulla sessione, una (e una sola) volta commit() sulla
+	 * transazione, una (e una sola) volta flush() sulla sessione, una (e una
+	 * sola) volta close() sulla sessione e che non sia MAI invocato rollback()
+	 * sulla transazione che va a buon fine.
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
@@ -83,7 +85,7 @@ public class InsertUtilTest {
 		verify(manager).getSessionFactory();
 		verify(factory).openSession();
 		verify(session).beginTransaction();
-		verify(session).save(object);
+		verify(session).update(object);
 		verify(transaction).commit();
 		verify(transaction, never()).rollback();
 		verify(session).flush();
@@ -99,7 +101,7 @@ public class InsertUtilTest {
 	 * database. Questo avviene facendo in modo che all'invocazione di
 	 * beginTransaction() sulla sessione sia sollevata una RuntimeException. In
 	 * particolare, il test controlla che il metodo execute restituisca il
-	 * valore <code>false</code>, che non sia invocato MAI il metodo save()
+	 * valore <code>false</code>, che non sia invocato MAI il metodo update()
 	 * sulla sessione al di fuori di una transazione e che non siano mai
 	 * invocati i metodi commit() e rollback() di una transazione di fatto
 	 * inesistente. Il test si assicura invece che la sessione costruita, aperta
@@ -120,7 +122,7 @@ public class InsertUtilTest {
 		verify(manager).getSessionFactory();
 		verify(factory).openSession();
 		verify(session).beginTransaction();
-		verify(session, never()).save(object);
+		verify(session, never()).update(object);
 		verify(transaction, never()).commit();
 		verify(transaction, never()).rollback();
 		verify(session).flush();
@@ -137,17 +139,17 @@ public class InsertUtilTest {
 	 * il test verifica che sia invocato correttamente il rollback() della
 	 * transazione (e MAI il commit()), e che la sessione sia creata, aperta,
 	 * utilizzata per avviare una transazione e chiusa nel modo corretto. Anche
-	 * in questo caso si controlla che il metodo execute di InsertUtil
-	 * restituisca, come atteso, <code>false</code> perché l'operazione che
-	 * doveva essere svolta non è andata a buon fine.
+	 * in questo caso si controlla che il metodo execute di UpdateUtil
+	 * restituisca, come atteso, <code>false</code> perché l'operazione di
+	 * aggiornamento che doveva essere svolta non è andata a buon fine.
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
 	 */
 	@Test
 	public void testExecuteUnableToPerformAction() {
-		// impedisce il salvataggio
-		when(session.save(object)).thenThrow(new RuntimeException());
+		// impedisce l'aggiornamento lanciando un'eccezione non controllata
+		doThrow(new RuntimeException()).when(session).update(object);
 
 		// invoca il metodo da testare
 		Boolean result = tester.execute(object);
@@ -156,7 +158,7 @@ public class InsertUtilTest {
 		verify(manager).getSessionFactory();
 		verify(factory).openSession();
 		verify(session).beginTransaction();
-		verify(session).save(object);
+		verify(session).update(object);
 		verify(transaction, never()).commit();
 		verify(transaction).rollback();
 		verify(session).flush();
