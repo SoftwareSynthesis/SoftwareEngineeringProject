@@ -11,13 +11,14 @@ import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
 import javax.security.auth.spi.LoginModule;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
+import org.softwaresynthesis.mytalk.server.authentication.security.ISecurityStrategy;
 import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
 
 public final class AuthenticationModule implements LoginModule 
 {
 	private boolean login;
 	private boolean commit;
-	private CredentialLoader handler;
+	private CallbackHandler handler;
 	private String username;
 	private Principal principal;
 	private Subject subject;
@@ -88,7 +89,7 @@ public final class AuthenticationModule implements LoginModule
 	{
 		this.login = false;
 		this.commit = false;
-		this.handler = (CredentialLoader)handler;
+		this.handler = handler;
 		this.subject = subject;
 		this.principal = null;
 		this.username = null;
@@ -107,13 +108,15 @@ public final class AuthenticationModule implements LoginModule
 		DataPersistanceManager dao;
 		Loader[] callbacks = null;
 		IUserData user = null;
+		ISecurityStrategy strategy = null;
 		String toComparePassword = null;
 		String username = null;
 		if (this.handler != null)
 		{
 			callbacks = new Loader[2];
 			callbacks[0] = new NameLoader();
-			callbacks[1] = new PasswordLoader(this.handler.getSecurityStrategy());
+			strategy = ((CredentialLoader)this.handler).getSecurityStrategy();
+			callbacks[1] = new PasswordLoader(strategy);
 			try
 			{
 				this.handler.handle(callbacks);
