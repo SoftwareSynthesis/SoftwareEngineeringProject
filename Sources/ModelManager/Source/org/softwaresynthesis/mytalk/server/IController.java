@@ -1,5 +1,6 @@
 package org.softwaresynthesis.mytalk.server;
 
+import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -21,5 +22,5 @@ public interface IController
 	 * @param 	response	{@link HttpServletResponse} contine le informazione inviate dal server
 	 * 						per informare il client dell'esito della richiesta
 	 */
-	public void execute(HttpServletRequest request, HttpServletResponse response);
+	public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException;
 }

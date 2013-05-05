@@ -1,8 +1,9 @@
 package org.softwaresynthesis.mytalk.server;
 
+import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.softwaresynthesis.mytalk.server.abook.IUserData;
+import javax.servlet.http.HttpSession;
 
 /**
  * Implementa la struttura di esecuzione di
@@ -13,18 +14,10 @@ import org.softwaresynthesis.mytalk.server.abook.IUserData;
  */
 public abstract class AbstractController implements IController
 {
-	private IUserData user;
-	
-	/**
-	 * Crea un istanza del nuovo controller
-	 */
-	public AbstractController()
-	{
-		this.user = null;
-	}
+	private String userMail;
 	
 	@Override
-	public final void execute(HttpServletRequest request, HttpServletResponse response) 
+	public final void execute(HttpServletRequest request, HttpServletResponse response) throws IOException
 	{
 		if (this.check(request))
 		{
@@ -35,15 +28,24 @@ public abstract class AbstractController implements IController
 	/**
 	 * Verifica se l'utente è autenticato presso il
 	 * sistema e possa di conseguenza portare a termine
-	 * l'operazione
+	 * l'operazione richiesta
 	 * 
 	 * @param 	request	{@link HttpServletRequest} richiesta giunta dal client
 	 * @return	true se l'utente è autorizzato a procedere, false altrimenti
 	 */
 	protected boolean check(HttpServletRequest request)
 	{
-		//TODO
-		return false;
+		boolean result = false;
+		HttpSession session = request.getSession(false);
+		if (session != null)
+		{
+			String mail = (String)session.getAttribute("username");
+			if (mail != null && mail.equals("") == false)
+			{
+				result = true;
+			}
+		}
+		return result;
 	}
 	
 	/**
@@ -52,15 +54,29 @@ public abstract class AbstractController implements IController
 	 * @param 	request		{@link HttpServletRequest} parametri in input dall'utente
 	 * @param 	response	{@link HttpServletResponse} parametri in output dal controller
 	 */
-	protected abstract void doAction(HttpServletRequest request, HttpServletResponse response);
+	protected abstract void doAction(HttpServletRequest request, HttpServletResponse response) throws IOException;
 	
 	/**
-	 * Restituisce l'utente che ha fatto il login
+	 * Restituisce l'indirizzo mail dell'utente che
+	 * ha fatto il login
 	 * 
-	 * @return	{@link IUserData} utente autenticato
+	 * @return	{@link String} indirizzo mail dell'utente
+	 * 			autenticato
 	 */
-	IUserData getUser()
+	protected String getUserMail()
 	{
-		return this.user;
+		return this.userMail;
+	}
+	
+	/**
+	 * Imposta l'indirizzo mail dell'utente che
+	 * ha fatto il login
+	 * 
+	 * @param 	mail	{@link String} indirizzo mail
+	 * 					dell'utente autenticato
+	 */
+	protected void setUserMail(String mail)
+	{
+		this.userMail = mail;
 	}
 }
