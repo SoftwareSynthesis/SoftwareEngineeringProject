@@ -328,6 +328,7 @@ function CommunicationCenter() {
      * @author Marco Schivo
      */
     this.endCall = function() {
+        //TODO aggiungere probabile invio rischiesta fine chiamata per segnalarlo asd server
         pc.removeStream(localStream);
         localStream.stop();
         pc.createOffer(gotDescription);
