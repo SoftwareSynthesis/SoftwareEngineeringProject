@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.softwaresynthesis.mytalk.server.authentication.security.AESAlgorithm;
+import org.softwaresynthesis.mytalk.server.authentication.security.ISecurityStrategy;
 import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
 
 /**
@@ -99,5 +101,18 @@ public abstract class AbstractController implements IController
 	protected DataPersistanceManager getDAOFactory()
 	{
 		return new DataPersistanceManager();
+	}
+	
+	/**
+	 * Metodo factory per la creazione dell'algoritmo
+	 * di crittografia usato durante la procedura di
+	 * login
+	 * 
+	 * @return	{@link ISecurityStrategy} algoritmo di
+	 * 			crittografia
+	 */
+	protected ISecurityStrategy getSecurityStrategyFactory()
+	{
+		return new AESAlgorithm();
 	}
 }

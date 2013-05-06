@@ -56,7 +56,7 @@ public final class LoginController extends AbstractController
 		String result = null;		
 		try
 		{
-			strategy = this.strategyFactory();
+			strategy = super.getSecurityStrategyFactory();
 			loader = this.loaderFactory(request, strategy);
 			context = this.contextFactory("Configuration", loader);
 			context.login();

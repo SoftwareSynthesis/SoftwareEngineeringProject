@@ -41,7 +41,7 @@ public final class RegisterController extends AbstractController
 		String surname = null;
 		try
 		{
-			strategy = this.strategyFactory();
+			strategy = super.getSecurityStrategyFactory();
 			mail = this.getParameter(request, "username");
 			password = this.getParameter(request, "password");
 			password = strategy.encode(password);
