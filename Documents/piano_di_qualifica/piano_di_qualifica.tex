@@ -1047,7 +1047,7 @@ Tale test si compone di quattro metodi:
 verifica la corretta impostazione ed il recupero del del campo \textit{name}. Il controllo avviene verificando che l'oggetto restituito non sia \textit{null} e che esso sia uguale al nuovo nome impostato. 
 \item \texttt{testEquals()} 
 verifica il corretto funzionamento del metodo \texttt{equals()} controllando la corrispondenza di nomi. 
-\item \texttt{testAddressBook)} verifica la corretta impostazione e recupero dei contatti appartenenti ad un gruppo.
+\item \texttt{testAddressBook()} verifica la corretta impostazione e recupero dei contatti appartenenti ad un gruppo.
 Il controllo avviene verificando che l'oggetto restituito non sia \textit{null} e che esso corrisponda alla nuova collezione inserita.
 In questo modo si verificano entrambe le funzioni.
 \item \texttt{testAddAddressBookEntry()}verifica il corretto inserimento di un nuovo contatto all'interno di un gruppo controllando l'effettiva la presenza del nuovo elemento aggiunto.
@@ -1072,23 +1072,29 @@ verifica l'effettiva restituzione del campo \textit{id} controllando che l'ogget
 \item \texttt{testAnswer()} verifica che la risposta alla domanda per il recupero della password venga restituita correttamente controllando che l'oggetto restituito non sia \textit{null} e che esso sia uguale alla risposta alla domanda di recupero password dell'oggetto su cui viene effettuato il test.
 \item \texttt{testName()}verifica che il nome venga restituito correttamente controllando che l'oggetto restituito non sia \textit{null} e che esso sia uguale alla al campo dati \textit{name} dell'oggetto su cui viene effettuato il test.
 \item \texttt{testSurname()}verifica che il cognome venga restituito correttamente controllando che l'oggetto restituito non sia \textit{null} e che esso sia uguale alla al campo dati \textit{surname} dell'oggetto su cui viene effettuato il test.
-\item \texttt{testAddressBook()} 
-\item \texttt{testCallList()}
-\item \texttt{testMessage()} 
+\item \texttt{testAddressBook()} verifica il corretto funzionamento dell'impostazione e recupero dei contatti della rubrica.
+Il controllo avviene verificando che l'oggetto restituito non sia \textit{null} e che esso corrisponda alla nuova collezione inserita.
+In questo modo si verificano entrambe le funzioni.
 
-\item \texttt{testAddressBookEntry()} 
+\item \texttt{testCallList()} controlla la corretta impostazione e recupero dello storico delle chiamate.
+Il test avviene verificando che l'oggetto restituito non sia \textit{null} e che esso corrisponda alla nuova collezione inserita.
+\item \texttt{testMessage()} verifica la corretta impostazione e recupero della lista dei messaggi presenti in segreteria.
+Il controllo avviene verificando che l'oggetto restituito non sia \textit{null} e che esso corrisponda alla nuova collezione inserita.
+\item \texttt{testAddAddressBookEntry()} verifica il corretto funzionamento dell'aggiunta di un contatto alla rubrica.
+Il controllo avviene verificando che il nuovo oggetto inserito sia presente nella rubrica.
+\item \texttt{testAddCall()} verifica il corretto inserimento di una chiamata nello storico delle chiamate.
+Il controllo avviene verificando che il nuovo oggetto inserito sia presente nella lista delle chiamate. 
+\item \texttt{testAddMessage()}  verifica il corretto inserimento di un messaggio nella lista dei messaggi presenti in segreteria.
+Il controllo avviene verificando che il nuovo oggetto inserito sia presente nella lista dei messaggi in segreteria. 
 
-\item \texttt{testAddCall()}
+\item \texttt{testRemoveAddressBookEntry()} verifica la corretta eliminazione di un contatto dalla rubrica.
+Il controllo avviene verificando l'oggetto eliminato non sia presenti nella rubrica.  
 
-\item \texttt{testAddMessage()} 
+\item \texttt{testRemoveCall()} controlla il corretto funzionamento della rimozione di una chiamata dallo storico delle chiamate. La veririca avviene controllando che l'oggetto eliminato non sia presente nella lista delle chiamate.
 
-\item \texttt{testRemoveAddressBookEntry()} 
-
-\item \texttt{testRemoveCall()}
-
-\item \texttt{testRemoveMessage()}
-
-\item \texttt{testEquals()}
+\item \texttt{testRemoveMessage()} verifica la corretta eliminazione di un messaggio dalla lista dei messaggi presenti in segreteria.
+Il controllo avviene verificando l'oggetto eliminato non sia presenti nella lista dei messaggi presenti in segreteria. 
+\item \texttt{testEquals()} controlla  il corretto funzionamento del metodo \texttt{equals()}. Il metodo si basa sul test di uguaglianza tra \texttt{email}, viene infatti controllata l'uguaglianza tra due voci della rubrica verificando che le loro \texttt{email} coincidano. 
 
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
