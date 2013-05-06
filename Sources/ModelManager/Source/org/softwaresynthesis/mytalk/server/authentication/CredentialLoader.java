@@ -35,7 +35,6 @@ public final class CredentialLoader implements CallbackHandler
 	@Override
 	public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException 
 	{
-		System.out.println("FIN QUI ARRIVO");
 		Loader loader = null;
 		for(int i = 0; i < callbacks.length; i++)
 		{
