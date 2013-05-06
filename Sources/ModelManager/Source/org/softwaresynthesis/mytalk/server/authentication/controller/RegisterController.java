@@ -41,7 +41,7 @@ public final class RegisterController extends AbstractController
 		String surname = null;
 		try
 		{
-			strategy = new AESAlgorithm();
+			strategy = this.strategyFactory();
 			mail = this.getParameter(request, "username");
 			password = this.getParameter(request, "password");
 			password = strategy.encode(password);
@@ -67,7 +67,7 @@ public final class RegisterController extends AbstractController
 				//TODO Salvare immagine utente
 			}
 			user.setPath(path);
-			dao = new DataPersistanceManager();
+			dao = this.DAOFactory();
 			dao.insert(user);
 			result = "{\"name\":\"" + user.getName() + "\"";
 			result += ", \"surname\":\"" + user.getSurname() + "\"";
@@ -95,6 +95,31 @@ public final class RegisterController extends AbstractController
 	protected boolean check(HttpServletRequest request)
 	{
 		return true;
+	}
+	
+	/**
+	 * Metodo factory per la creazione dell'algoritmo
+	 * di crittografia usato durante la procedura di
+	 * login
+	 * 
+	 * @return	{@link ISecurityStrategy} algoritmo di
+	 * 			crittografia
+	 */
+	ISecurityStrategy strategyFactory()
+	{
+		return new AESAlgorithm();
+	}
+	
+	/**
+	 * Metodo factory per la creazione del punto di
+	 * accesso verso il database
+	 * 
+	 * @return 	{@link DataPersistanceManager} punto di accesso
+	 * 			verso il database
+	 */
+	DataPersistanceManager DAOFactory()
+	{
+		return new DataPersistanceManager();
 	}
 	
 	/**
