@@ -970,7 +970,12 @@ Tale test si compone di 3 metodi:
 \textbf{Descrizione}: l'obiettivo di questo test è assicurare che il vettore in cui celle contiente tutte le credenziali d'accesso dell'utente (coppia \textit{username-password}) venga popolato correttamente.\\
 Tale test si compone di un solo metodo:
 \begin{itemize}
-\item \texttt{testLoader()} tale metodo carica nel vettore i campi \textit{username} e \textit{password} e controlla che siano effettivamente stati inseriti e i dati siano coerenti (uguali) con quelli iniziali.
+
+\item \texttt{testHandle()} verifica il corretto funzionamento del metodo \texttt{handle()}. Il controllo avviene verificando che le credenziali (\texttt{username}e \texttt{password}) siano contenute nella richiesta al server. In particolare viene controllato che gli oggetti \texttt{username} e \texttt{password} non siano \texttt{null} e che siano uguali allo username e password dell'oggetto sul quale viene effettuato il test.
+
+
+\item \texttt{testSecurityStrategy()} controlla che sia possibile ottenere la strategia di crittografia in uso verificando che l'oggetto restituito non sia \texttt{null} e che questo corrisponda con la strategia in uso.
+
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
