@@ -174,7 +174,7 @@ public class DataPersistanceManager
 		GetUtil select = this.factory.getUserDataUtil(this.manager);
 		IUserData result = null;
 		List<IMyTalkObject> collection = null;
-		String query = "from UserData as u where u.mail = " + mail;
+		String query = "from UserData as u where u.mail = " + "'" + mail + "'";
 		collection = select.execute(query);
 		if (collection != null && collection.isEmpty() == false)
 		{
@@ -219,7 +219,7 @@ public class DataPersistanceManager
 		Iterator<IMyTalkObject> iterator = null;
 		List<IMyTalkObject> collection = null;
 		List<IUserData> result = null;
-		String query = "from UserData as u where u.mail like " + mail + " or u.name like " + name + " or u.surname like " + surname;
+		String query = "from UserData as u where u.mail like '" + mail + "' or u.name like '" + name + "' or u.surname like '" + surname + "'";
 		IUserData user = null;
 		collection = select.execute(query);
 		iterator = collection.iterator();
