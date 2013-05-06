@@ -1,6 +1,7 @@
 package org.softwaresynthesis.mytalk.server;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -19,9 +20,15 @@ public abstract class AbstractController implements IController
 	@Override
 	public final void execute(HttpServletRequest request, HttpServletResponse response) throws IOException
 	{
+		PrintWriter writer = null;
 		if (this.check(request))
 		{
 			this.doAction(request, response);
+		}
+		else
+		{
+			writer = response.getWriter();
+			writer.write("null");
 		}
 	}
 	
