@@ -3,6 +3,7 @@ package org.softwaresynthesis.mytalk.server.authentication;
 import java.io.IOException;
 import javax.security.auth.callback.Callback;
 import javax.servlet.http.HttpServletRequest;
+import org.softwaresynthesis.mytalk.server.authentication.security.ISecurityStrategy;
 
 /**
  * Caricatore generico di credenziali
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 abstract class Loader implements Callback 
 {
 	private	Callback callback;
+	private ISecurityStrategy strategy;
 	
 	/**
 	 * Crea il caricatore con la giusta istanza di callback
@@ -50,5 +52,27 @@ abstract class Loader implements Callback
 	protected Callback getCallback()
 	{
 		return this.callback;
+	}
+	
+	/**
+	 * Restituisce la strategia di crittografia
+	 * 
+	 * @return	{@link ISecurityStrategy} strategia di crittografia
+	 * 			adottata
+	 */
+	protected ISecurityStrategy getSecurityStrategy()
+	{
+		return this.strategy;
+	}
+	
+	/**
+	 * Imposta la strategia di crittografica
+	 * 
+	 * @param 	strategy	{@link ISecurityStrategy} strategia
+	 * 						di crittografia
+	 */
+	protected void setSecurityStrategy(ISecurityStrategy strategy)
+	{
+		this.strategy = strategy;
 	}
 }

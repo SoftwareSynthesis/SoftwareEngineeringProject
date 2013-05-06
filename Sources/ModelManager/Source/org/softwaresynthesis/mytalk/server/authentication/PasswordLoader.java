@@ -14,29 +14,28 @@ import org.softwaresynthesis.mytalk.server.authentication.security.ISecurityStra
  * @version	3.0
  */
 final class PasswordLoader extends Loader 
-{
-	private ISecurityStrategy strategy;
-	
+{	
 	/**
 	 * Costruisce un caricatore per la
 	 * password
 	 */
-	public PasswordLoader(ISecurityStrategy strategy)
+	public PasswordLoader()
 	{
 		super(new PasswordCallback("password", false));
-		this.strategy = strategy;
 	}
 	
 	@Override
 	public void load(HttpServletRequest request) throws IOException 
 	{
 		char[] cryptedStringArray = null;
+		ISecurityStrategy strategy = null;
 		PasswordCallback callback = (PasswordCallback)super.getCallback();
 		String cryptedValue = null;
 		String password = request.getParameter("password");
 		try
 		{
-			cryptedValue = this.strategy.encode(password);
+			strategy = super.getSecurityStrategy();
+			cryptedValue = strategy.encode(password);
 			cryptedStringArray = cryptedValue.toCharArray();
 			callback.setPassword(cryptedStringArray);
 		}
