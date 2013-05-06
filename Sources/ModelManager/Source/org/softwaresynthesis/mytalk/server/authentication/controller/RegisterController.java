@@ -67,7 +67,7 @@ public final class RegisterController extends AbstractController
 				//TODO Salvare immagine utente
 			}
 			user.setPath(path);
-			dao = this.DAOFactory();
+			dao = super.getDAOFactory();
 			dao.insert(user);
 			result = "{\"name\":\"" + user.getName() + "\"";
 			result += ", \"surname\":\"" + user.getSurname() + "\"";

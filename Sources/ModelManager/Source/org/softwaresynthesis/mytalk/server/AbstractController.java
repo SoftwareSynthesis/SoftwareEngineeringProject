@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
+
 /**
  * Implementa la struttura di esecuzione di
  * ogni singolo controller.
@@ -85,5 +87,17 @@ public abstract class AbstractController implements IController
 	protected void setUserMail(String mail)
 	{
 		this.userMail = mail;
+	}
+	
+	/**
+	 * Metodo factory per la creazione di un punto di
+	 * accesso verso il database del sistema MyTalk
+	 * 
+	 * @return	{@link DataPersistanceManager} restituisce
+	 * 			un punto di accesso alla base di dati
+	 */
+	protected DataPersistanceManager getDAOFactory()
+	{
+		return new DataPersistanceManager();
 	}
 }
