@@ -3,6 +3,7 @@ package org.softwaresynthesis.mytalk.server.authentication.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.security.auth.login.LoginContext;
+import javax.security.auth.login.LoginException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -10,6 +11,7 @@ import org.softwaresynthesis.mytalk.server.AbstractController;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
 import org.softwaresynthesis.mytalk.server.authentication.CredentialLoader;
 import org.softwaresynthesis.mytalk.server.authentication.security.AESAlgorithm;
+import org.softwaresynthesis.mytalk.server.authentication.security.ISecurityStrategy;
 import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
 
 /**
@@ -43,10 +45,10 @@ public final class LoginController extends AbstractController
 	@Override
 	protected void doAction(HttpServletRequest request,	HttpServletResponse response) throws IOException
 	{
-		AESAlgorithm algorithm = null;
 		CredentialLoader loader = null;
 		DataPersistanceManager dao = null;
 		HttpSession session = null;
+		ISecurityStrategy strategy = null;
 		IUserData user = null;
 		LoginContext context = null;
 		PrintWriter writer = null;
@@ -54,9 +56,9 @@ public final class LoginController extends AbstractController
 		String result = null;		
 		try
 		{
-			algorithm = new AESAlgorithm();
-			loader = new CredentialLoader(request, algorithm);
-			context = new LoginContext("Configuration", loader);
+			strategy = this.strategyFactory();
+			loader = this.loaderFactory(request, strategy);
+			context = this.contextFactory("Configuration", loader);
 			context.login();
 			dao = new DataPersistanceManager();
 			email = request.getParameter("username");
@@ -106,5 +108,47 @@ public final class LoginController extends AbstractController
 	protected boolean check(HttpServletRequest request)
 	{
 		return true;
+	}
+	
+	/**
+	 * Metodo factory per la creazione dell'algoritmo
+	 * di crittografia usato durante la procedura di
+	 * login
+	 * 
+	 * @return	{@link ISecurityStrategy} algoritmo di
+	 * 			crittografia
+	 */
+	ISecurityStrategy strategyFactory()
+	{
+		return new AESAlgorithm();
+	}
+	
+	/**
+	 * Metodo factory per la creazione del caricatore
+	 * per le credenziali utente
+	 * 
+	 * @param 	request 	{@link HttpServletRequest} parametri di input
+	 * 						con i dati forniti dall'utente
+	 * @param 	strategy	{@link ISecurityStrategy} algoritmo di crittografia
+	 * @return
+	 */
+	CredentialLoader loaderFactory(HttpServletRequest request, ISecurityStrategy strategy)
+	{
+		return new CredentialLoader(request, strategy);
+	}
+	
+	/**
+	 * Metodo factory per la creazione del contesto per
+	 * la procedura di login
+	 * 
+	 * @param 	ruleName	{@link String} nome del contesto da istanziare
+	 * @param 	loader		{@link CredentialLoader} caricatore per le credenziali
+	 * @return
+	 * @throws 	LoginException	se non si riesce a configurare l'ambiente per
+	 * 							il login
+	 */
+	LoginContext contextFactory(String ruleName, CredentialLoader loader) throws LoginException
+	{
+		return new LoginContext(ruleName, loader);
 	}
 }
