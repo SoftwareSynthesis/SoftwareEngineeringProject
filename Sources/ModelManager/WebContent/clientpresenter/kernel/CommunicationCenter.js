@@ -227,9 +227,8 @@ function CommunicationCenter() {
                 "url" : "stun:stun.l.google.com:19302"
             }]
         };
-        //FIXME da togliere il prefisso webkit quando saremo certi che funzioni
-        // [RTCPeerConnection = webkitRTCPeerConnection]
-        pc = new webkitRTCPeerConnection(configuration);
+        
+        pc = new RTCPeerConnection(configuration);
 
         //invio tutti gli ICECandidate agli altri peer
         pc.onicecandidate = function(evt) {
@@ -287,7 +286,7 @@ function CommunicationCenter() {
         //prende lo stream video locale, lo visualizza sul corrispetivo <video> e
         // lo invia agli altri peer
         if (onlyAudio == true) {
-            navigator.webkitGetUserMedia({
+            navigator.GetUserMedia({
                 "audio" : true,
                 "video" : false
             }, function(stream) {
@@ -304,7 +303,7 @@ function CommunicationCenter() {
                     pc.createAnswer(gotDescription);
             });
         } else {
-            navigator.webkitGetUserMedia({
+            navigator.GetUserMedia({
                 "audio" : true,
                 "video" : true
             }, function(stream) {
