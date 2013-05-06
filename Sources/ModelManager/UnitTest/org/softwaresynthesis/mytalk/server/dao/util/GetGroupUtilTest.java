@@ -9,6 +9,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -18,6 +19,7 @@ import org.hibernate.classic.Session;
 import org.junit.Before;
 import org.junit.Test;
 import org.softwaresynthesis.mytalk.server.IMyTalkObject;
+import org.softwaresynthesis.mytalk.server.abook.Group;
 import org.softwaresynthesis.mytalk.server.abook.UserData;
 import org.softwaresynthesis.mytalk.server.dao.ISessionManager;
 
@@ -28,9 +30,9 @@ import org.softwaresynthesis.mytalk.server.dao.ISessionManager;
  * @author Diego Beraldin
  * @version 2.0
  */
-public class GetUserDataUtilTest {
-	// utente fittizio per i test
-	private final UserData user = mock(UserData.class);
+public class GetGroupUtilTest {
+	// gruppo fittizio per i test
+	private final Group group = mock(Group.class);
 	// finta HQLQuery
 	private final Query hql = mock(Query.class);
 	// finta collezione di IMyTalkObject
@@ -46,7 +48,7 @@ public class GetUserDataUtilTest {
 	// SessionManager fittizio da passare al costruttore
 	private final ISessionManager manager = mock(ISessionManager.class);
 	// oggetto da testare
-	private final GetUtil tester = new GetUserDataUtil(manager);
+	private final GetUtil tester = new GetGroupUtil(manager);
 
 	/**
 	 * Reinizializza il comportamento dei mock prima di ciascuno dei test
@@ -57,8 +59,8 @@ public class GetUserDataUtilTest {
 	 */
 	@Before
 	public void setUp() {
-		// configura l'utente e lo aggiunge alla lista
-		list.add(user);
+		// configura il mock del gruppo e lo aggiunge alla lista
+		list.add(group);
 		// configura il comportamento della HQL query
 		when(hql.list()).thenReturn(list);
 		// configura il comportamento della sessione
@@ -75,15 +77,15 @@ public class GetUserDataUtilTest {
 	 * vada a buon fine e, in particolare, verifica che la lista ritornata sia
 	 * ottenuta mediante il metodo list() invocato sulla query HQL ottenuta
 	 * sulla sessione a partire dalla stringa passata come parametro al metodo.
-	 * È inoltre verificato che sugli utenti della lista siano invocati i metodi
-	 * getAddressBook(), getMessages() e getCalls() per ottenere le collezioni
-	 * che devono essere inizializzate con Hibernate. Il test verifica anche che
-	 * sia ottenuta una SessionFactory a partire dal SessionManager e che a
-	 * partire da questa sia ottenuta una sessione, che sia aperta una
-	 * transazione e creata una query HQL, su cui si invoca list(). È infine
-	 * verificato che si termini con successo la transazione tramite il metodo
-	 * commit() e che la sessione di interazione con il database sia finalizzata
-	 * in modo corretto con i metodi flush() e close().
+	 * È inoltre verificato che sui gruppi della lista sia invocato il metodo
+	 * getAddressBook() per ottenere la collezione che deve essere inizializzata
+	 * con Hibernate. Il test verifica anche che sia ottenuta una SessionFactory
+	 * a partire dal SessionManager e che a partire da questa sia ottenuta una
+	 * sessione, che sia aperta una transazione e creata una query HQL, su cui
+	 * si invoca list(). È infine verificato che si termini con successo la
+	 * transazione tramite il metodo commit() e che la sessione di interazione
+	 * con il database sia finalizzata in modo corretto con i metodi flush() e
+	 * close().
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
@@ -103,9 +105,7 @@ public class GetUserDataUtilTest {
 		verify(transaction, never()).rollback();
 		verify(session).flush();
 		verify(session).close();
-		verify(user).getAddressBook();
-		verify(user).getMessages();
-		verify(user).getCalls();
+		verify(group).getAddressBook();
 
 		// verifica la correttezza del risultato ottenuto
 		assertNotNull(resultingList);
@@ -120,9 +120,9 @@ public class GetUserDataUtilTest {
 	 * invocato il metodo list() che effettua la query. Il test assicura altresì
 	 * che la sessione sia aperta e finalizzata in modo corretto e che sia
 	 * utilizzata sia per creare la query sul database che per tentare di
-	 * avviare una transazione. Infine, si controlla che non siano mai invocati i
-	 * metodi sulla lista di utenti associata alla query, dal momento che non è
-	 * possibile avviare una transazione.
+	 * avviare una transazione. Infine, si cotrolla che non siano mai invocati i
+	 * metodi di inizializzazione sulla lista di gruppi associata alla query,
+	 * dal momento che non è possibile avviare una transazione.
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
@@ -145,9 +145,7 @@ public class GetUserDataUtilTest {
 		verify(transaction, never()).rollback();
 		verify(session).flush();
 		verify(session).close();
-		verify(user, never()).getAddressBook();
-		verify(user, never()).getMessages();
-		verify(user, never()).getCalls();
+		verify(group, never()).getAddressBook();
 
 		// verifica il risultato ottenuto
 		assertNull(resultingList);
@@ -161,7 +159,7 @@ public class GetUserDataUtilTest {
 	 * Inoltre, è garantito che durante l'esecuzione del metodo sia aperta una
 	 * sessione di interazione con il database e che quest'ultima sia
 	 * finalizzata in modo corretto. Infine, si controlla che non siano mai
-	 * invocati metodi sulla lista di utenti che corrisponde alla query di
+	 * invocati metodi sulla lista di gruppi che corrisponde alla query di
 	 * ricerca con cui è invocato execute, dal momento che in fase di
 	 * interrogazione del database avviene un errore.
 	 * 
@@ -187,9 +185,7 @@ public class GetUserDataUtilTest {
 		verify(transaction).rollback();
 		verify(session).flush();
 		verify(session).close();
-		verify(user, never()).getAddressBook();
-		verify(user, never()).getMessages();
-		verify(user, never()).getCalls();
+		verify(group, never()).getAddressBook();
 
 		// verifica il risultato ottenuto
 		assertNull(resultingList);
