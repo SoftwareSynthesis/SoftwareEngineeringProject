@@ -7,6 +7,7 @@ public class Group implements IGroup
 {
 	private Long id;
 	private String name;
+	private IUserData owner;
 	private Set<IAddressBookEntry> addressBook;
 	
 	/**
@@ -55,6 +56,18 @@ public class Group implements IGroup
 		this.name = name;
 	}
 
+	@Override
+	public IUserData getOwner()
+	{
+		return this.owner;
+	}
+	
+	@Override
+	public void setOwner(IUserData owner)
+	{
+		this.owner = owner;
+	}
+	
 	@Override
 	public Set<IAddressBookEntry> getAddressBook() 
 	{

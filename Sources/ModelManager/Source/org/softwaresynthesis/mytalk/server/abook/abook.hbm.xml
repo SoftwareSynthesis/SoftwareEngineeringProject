@@ -39,6 +39,7 @@
 			<key column = "ID_group" not-null = "true" />
 			<one-to-many class = "AddressBookEntry" />
 		</set>
+		<many-to-one name = "owner" class = "UserData" column = "ID_Owner" not-null = "true" fetch = "join" />
 	</class>
 	
 	<!-- Mapping per AddressBookEntry -> contatto della rubrica di un utente -->
