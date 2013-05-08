@@ -14,7 +14,7 @@ import org.softwaresynthesis.mytalk.server.dao.ISessionManager;
  * @author 	Andrea Meneghinello
  * @version 3.0
  */
-final class GetUserDataUtil extends GetUtil 
+class GetUserDataUtil extends GetUtil 
 {
 	/**
 	 * Crea una nuova istanza per l'inizializzazione

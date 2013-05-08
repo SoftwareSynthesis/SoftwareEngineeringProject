@@ -12,7 +12,7 @@ import org.softwaresynthesis.mytalk.server.dao.ISessionManager;
  * @author 	Andrea Meneghinello
  * @version	3.0
  */
-final class NotInitialize extends GetUtil 
+class NotInitialize extends GetUtil 
 {
 	/**
 	 * Crea una nuova istanza per le componenti che

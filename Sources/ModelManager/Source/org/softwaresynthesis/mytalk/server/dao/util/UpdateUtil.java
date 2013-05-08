@@ -11,7 +11,7 @@ import org.softwaresynthesis.mytalk.server.dao.ISessionManager;
  * @author 	Andrea Meneghinello
  * @version	3.0
  */
-final class UpdateUtil extends ModifyUtil 
+class UpdateUtil extends ModifyUtil 
 {
 	/**
 	 * Crea un istanza per l'aggiornamento di un record
