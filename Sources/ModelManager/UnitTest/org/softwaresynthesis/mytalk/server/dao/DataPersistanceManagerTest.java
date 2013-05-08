@@ -435,13 +435,30 @@ public class DataPersistanceManagerTest {
 	}
 
 	/**
-	 * TODO da completare una volta che il metodo sarà definitivo
+	 * 
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
 	 */
 	@Test
 	public void testGetUserDataGeneric() {
-		fail("Non ho voglia/tempo di farlo");
+		String mail = "indirizzo5@dominio.it";
+		String name = "paperino";
+		String surname = "de paperoni";
+		String query = "from UserData as u where u.mail like '" + mail + "' or u.name like '" + name + "' or u.surname like '" + surname + "'";
+		// mock della collezione di utenti
+		@SuppressWarnings("unchecked")
+		List<IMyTalkObject> list = mock(List.class);
+		// configura il comportamento dei mock
+		when(getter.execute(query)).thenReturn(list);
+		
+		// invoca il metodo da testare
+		List<IUserData> result = tester.getUserDatas(mail, name, surname);
+		
+		// verifica l'output
+		assertNotNull(result);
+		assertEquals(list, result);
+		
+		// TODO verificare il corretto utilizzo dei mock
 	}
 }
