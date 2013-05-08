@@ -265,14 +265,14 @@ function LoginPanelPresenter() {
      * @author Diego Beraldin
      */
     this.initialize = function() {
-    	// ottiene la propria vista
-    	element = mediator.getView("LoginView");
-    	
-    	// attacca il pannello alla pagina
-    	document.body.appendChild(element);
-    	
-    	// configura il comportamento della vista
-    	var inputLogin = document.getElementById("inputLogin");
+        // ottiene la propria vista
+        element = mediator.getView("LoginView");
+
+        // attacca il pannello alla pagina
+        document.body.insertBefore(element, document.getElementsByTagName("footer")[0]);
+
+        // configura il comportamento della vista
+        var inputLogin = document.getElementById("inputLogin");
         inputLogin.onclick = function() {
             try {
                 var data = new Object();
@@ -283,13 +283,13 @@ function LoginPanelPresenter() {
                 alert(err);
             }
         };
-        
+
         var inputRegister = document.getElementById("inputRegister");
         inputRegister.onclick = function() {
             self.hide();
             mediator.buildRegistrationUI();
         };
-        
+
         var inputRetrievePassword = document.getElementById("inputRetrievePassword");
         inputRetrievePassword.onclick = function() {
             try {
