@@ -7,7 +7,6 @@ import java.io.PrintWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-
 import org.softwaresynthesis.mytalk.server.AbstractController;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
 import org.softwaresynthesis.mytalk.server.abook.UserData;
@@ -79,12 +78,11 @@ public final class RegisterController extends AbstractController
 				if (filePart != null)
 				{
 					inputStream = filePart.getInputStream();
-				}
-				path = "img/contactImg/" + mail + ".png";
-				out = new FileOutputStream(path);
-				out.write(IOUtils.readFully(inputStream, -1, false));
-				out.close();
-				
+					path = "img/contactImg/" + mail + ".png";
+					out = new FileOutputStream(path);
+					out.write(IOUtils.readFully(inputStream, -1, false));
+					out.close();
+				}				
 			}
 			user.setPath(path);
 			dao = super.getDAOFactory();
