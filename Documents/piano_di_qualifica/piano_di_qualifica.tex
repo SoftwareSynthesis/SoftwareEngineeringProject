@@ -1112,7 +1112,7 @@ Tale test si compone di otto metodi:
 \begin{itemize}
 \item \texttt{testId()} 
 verifica l'effettiva restituzione del campo \textit{id} controllando che l'oggetto restituito non sia \textit{null} e che sia uguale al valore con cui era stato inizializzato l'oggetto sottoposto al test.
-\item \texttt{testEmail()} verifica che la mail venga restituita correttamente controllando che l'oggetto restituito non sia \textit{null} e che esso sia uguale alla mail dell'oggetto su cui viene effettuato il test. 
+\item \texttt{testEmail()} verifica che la mail venga impostata restituita correttamente. Il controllo avviene verificando che l'oggetto restituito non sia \textit{null} e che esso sia uguale alla mail impostata. In questo modo viene controllata sia l'impostazione che la restituzione. 
 \item \texttt{testPassword()} controlla che la password venga restituita correttamente verificando che l'oggetto restituito non sia \textit{null} e che esso sia uguale alla alla password dell'oggetto su cui viene effettuato il test.
 \item \texttt{testQuestion()} verifica l'effettivo inserimento del campo \textit{question} verifica che la domanda per il recupero password venga restituita correttamente controllando che l'oggetto restituito non sia \textit{null} e che esso sia uguale alla domanda di recupero dell'oggetto su cui viene effettuato il test.
 \item \texttt{testAnswer()} verifica che la risposta alla domanda per il recupero della password venga restituita correttamente controllando che l'oggetto restituito non sia \textit{null} e che esso sia uguale alla risposta alla domanda di recupero password dell'oggetto su cui viene effettuato il test.
@@ -1347,6 +1347,69 @@ Tale test si compone di sei metodi:
 \textbf{Risultato del test:} superato con successo.
 
 \end{itemize}
+
+
+
+\subsubsection{\texttt{org.softwaresinthesis.mytalk.server.call}}
+\begin{itemize}
+\item \textbf{TM5.01: CallListTest}\\
+\textbf{Verifica la Classe:} \texttt{CallList}.\\
+\textbf{Descrizione}:
+
+Tale test si compone di quattro metodi:
+\begin{itemize}
+\item \texttt{testId() } controlla che il recupero dell'identificatore di un oggetto \texttt{CallList}avvenga in modo corretto. 
+Il test avviene verificando che l'oggetto restituito non sia \textit{null} e che esso sia uguale al valore con cui era stato inizializzato l'oggetto sottoposto al test.
+\item \texttt{testUser() } verifica che l'impostazione e il recupero dell'utente al quale è associata la voce della tabella \texttt{CallLists} avvenga correttamente. 
+Il controllo avviene verificando che l'oggetto restituito non sia \textit{null} e che esso sia uguale all'utente impostato. In questo modo vengono controllate ambedue le funzionalità.
+\item \texttt{testCall()} verifica che l'impostazione e il recupero della chiamata alla quale è associata la voce della tabelle \texttt{CallLists} avvenga in modo corretto. Il controllo avviene verificando che l'oggetto restituito non sia \textit{null} e che esso sia uguale alla chiamata impostata. In questo modo vengono controllate ambedue le funzioni.
+
+\item \texttt{testCaller()} verifica la corretta esecuzione  dell'impostazione e del recupero del dato booleano associato alla voce della tabella \texttt{CallLists}. Tale dato booleano indica se l'utente risulta essere il chiamante.
+Il controllo avviene verificando il funzionamento sia nel caso in cui il booleano abbia valore \texttt{true} sia nel caso in cui esso abbia valore \texttt{false}.
+In entrambe i casi viene controllato che l'oggetto restituito non sia \textit{null} e che esso sia uguale all'ultima impostazione. (\texttt{true} nel primo caso, \texttt{false} nel secondo.
+
+ 
+\end{itemize}
+\textbf{Risultato del test:} superato con successo.
+
+\item \textbf{TM5.02: CallTest}\\
+\textbf{Verifica la Classe:} \texttt{Call}.\\
+\textbf{Descrizione}:
+
+Tale test si compone di sette metodi:
+\begin{itemize}
+\item \texttt{testId()} controlla che il recupero dell'identificatore di una chiamata avvenga in modo corretto. 
+Il test avviene verificando che l'oggetto restituito non sia \textit{null} e che esso sia uguale al valore con cui era stato inizializzato l'oggetto sottoposto al test.
+\item \texttt{testStartDate()} verifica che l'impostazione e il recupero della data di inizio della chiamata avvenga correttamente.
+Il controllo avviene verificando che l'oggetto restituito non sia \texttt{null} e che esso sia uguale alla data impostata. In questo modo viene controllata sia l'impostazione che il recupero della data di inizio della chiamata.
+
+\item \texttt{testEndDate()} controlla che l'impostazione e il recupero della data di fine della chiamata avvenga correttamente.
+Il test avviene verificando che l'oggetto restituito non sia \texttt{null} e che esso sia uguale alla data impostata. In questo modo viene controllata sia l'impostazione che il recupero della data di fine della chiamata.
+
+\item \texttt{testCallList()} verifica la corretta impostazione  della collezione di oggetti \texttt{CallList} che coinvolgono una determinata chiamta. 
+Il controllo avviene verificando che l'oggetto restituito non sia \texttt{null} e che esso sia uguale alla collezione impostata.
+
+\item \texttt{testAddCall()} controlla il corretto funzionamento dell'inserimento di un oggetto \texttt{CallList} alla collezione di voci che sono associate ad una determinata chiamata. La verifica avviene controllando che la collezione contenga il nuovo oggetto inserito.
+
+\item \texttt{testRemoveCall()} controlla il corretto funzionamento dell'eliminazione di un oggetto \texttt{CallList} dalla collezione di voci che sono associate ad una determinata chiamata. La verifica avviene controllando che la collezione non contenga il nuovo oggetto inserito.
+
+\item \texttt{testEquals()}
+verifica il corretto funzionamento del metodo \texttt{equals()}. Viene creato un oggetto \texttt{Call} e viene confrontato con l'oggetto sottoposto a verifica tramite il metodo \texttt{equals()} che restituisce \textit{true} se e solo se sono uguali.
+ 
+\end{itemize}
+\textbf{Risultato del test:} superato con successo.
+
+
+\end{itemize}
+
+
+
+
+
+
+
+
+
 
 \subsubsection{Riassunto esiti test Model}
 Di seguito viene riportata una tabella alla scopo di riassumere i test effettuati e il loro esito finale, così da renderne più pratica la consultazione e la tracciabilità degli stessi.
