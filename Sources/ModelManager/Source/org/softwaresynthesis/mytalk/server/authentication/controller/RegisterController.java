@@ -77,7 +77,7 @@ public final class RegisterController extends AbstractController
 		}
 		catch (Exception ex)
 		{
-			result = "false";
+			result = "null";
 		}
 		finally
 		{

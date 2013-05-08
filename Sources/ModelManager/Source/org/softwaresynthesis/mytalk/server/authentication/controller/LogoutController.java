@@ -37,7 +37,7 @@ public final class LogoutController extends AbstractController
 		}
 		catch (Exception ex)
 		{
-			result = "false";
+			result = "null";
 		}
 		finally
 		{
