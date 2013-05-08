@@ -60,7 +60,7 @@ public class CredentialLoaderTest {
 	public void testHandle() {
 		Callback[] callbacks = new Callback[2];
 		callbacks[0] = new NameLoader();
-		callbacks[1] = new PasswordLoader(strategy);
+		callbacks[1] = new PasswordLoader();
 		try {
 			tester.handle(callbacks);
 			String retrievedUsername = ((Loader) callbacks[0]).getData();

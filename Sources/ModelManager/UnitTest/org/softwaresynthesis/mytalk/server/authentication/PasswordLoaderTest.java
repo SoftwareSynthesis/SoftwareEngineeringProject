@@ -13,7 +13,6 @@ import javax.security.auth.callback.PasswordCallback;
 import javax.servlet.http.HttpServletRequest;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.softwaresynthesis.mytalk.server.authentication.security.ISecurityStrategy;
 
@@ -24,38 +23,33 @@ import org.softwaresynthesis.mytalk.server.authentication.security.ISecurityStra
  * @version 2.0
  */
 public class PasswordLoaderTest {
-	private static Loader tester;
-	private static ISecurityStrategy strategy;
+	// stringa che simula la password da caricare
 	private static final String password = "password";
-	private HttpServletRequest request;
-
-	/**
-	 * Inizializza i dati che sono comuni a tutti i test, in particolare, la
-	 * stringa di prova, un mock della strategia di autenticazione e l'oggetto
-	 * da testare
-	 * 
-	 * @author Diego Beraldin
-	 * @version 2.0
-	 */
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-		// strategia di autenticazione
-		strategy = mock(ISecurityStrategy.class);
-		when(strategy.encode(password)).thenReturn(password);
-		// oggetto da testare
-		tester = new PasswordLoader(strategy);
-	}
+	// strategia di autenticazione dittizia
+	private final ISecurityStrategy strategy = mock(ISecurityStrategy.class);
+	// mock della richiesta HTTP
+	private final HttpServletRequest request = mock(HttpServletRequest.class);
+	// oggetto da testare
+	private Loader tester = new PasswordLoader();
 
 	/**
 	 * Reinizializza prima di ogni test il mock di richiesta HTTP (necessario
 	 * farlo per contare il numero di invocazioni di metodi sul mock con verify)
+	 * e la strategia di crittografia. Configura inoltre l'oggetto da sottoporre
+	 * a verifica in modo da mettere a disposizione di quest'ultimo la strategia
+	 * di crittografia fittizia.
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
 	 */
 	@Before
-	public void setUp() {
-		request = mock(HttpServletRequest.class);
+	public void setUp() throws Exception {
+		// configura il comportamento della strategia di crittografia
+		when(strategy.encode(password)).thenReturn(password);
+		// configura la richiesta HTTP
+		when(request.getParameter("password")).thenReturn(password);
+		// configura l'oggetto da tester
+		tester.setSecurityStrategy(strategy);
 	}
 
 	/**
@@ -69,6 +63,9 @@ public class PasswordLoaderTest {
 	 */
 	@Test(expected = IOException.class)
 	public void testLoadMissingPassword() throws IOException {
+		// impedisce l'estrazione del parametro
+		when(request.getParameter("password")).thenReturn(null);
+		
 		// invoca il metodo da testare
 		tester.load(request);
 
