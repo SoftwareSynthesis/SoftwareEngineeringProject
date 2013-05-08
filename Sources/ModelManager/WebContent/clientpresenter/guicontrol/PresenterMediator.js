@@ -662,6 +662,6 @@ function PresenterMediator() {
 		viewRequest.open("GET", "clientview/" + View[key], false);
 		viewRequest.send();
 		// ritorno il frammendto di codice ottenuto
-		return viewRequest.responseXML.firstNode;
+		return viewRequest.responseXML.firstChild;
 	};
 }
