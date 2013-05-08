@@ -35,7 +35,7 @@ public abstract class ModifyUtil
 	 * @param 	object	{@link IMyTalkObject} oggetto soggetto del comando
 	 * @return	true se l'operazione è andata a buon fine, false altrimenti
 	 */
-	public final boolean execute(IMyTalkObject object)
+	public boolean execute(IMyTalkObject object)
 	{
 		boolean result = false;
 		Session session = null;

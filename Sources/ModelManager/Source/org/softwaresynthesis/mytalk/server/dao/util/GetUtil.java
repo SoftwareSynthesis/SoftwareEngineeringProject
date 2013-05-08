@@ -37,7 +37,7 @@ public abstract class GetUtil
 	 * @return	{@link List} restituisce il result set	
 	 */
 	@SuppressWarnings("unchecked")
-	public final List<IMyTalkObject> execute(String query)
+	public List<IMyTalkObject> execute(String query)
 	{
 		List<IMyTalkObject> collection = null;
 		Query hqlQuery = null;
