@@ -5,7 +5,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ ChannelServletTest.class, PushInboundTest.class })
+@SuiteClasses({ PushInboundTest.class })
 public class ConnectionTestSuite {
 
 }
