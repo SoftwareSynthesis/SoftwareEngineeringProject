@@ -2434,7 +2434,7 @@ Implementazione di \texttt{IMessagePanel}.
   \end{itemize}
 \end{description}
 
-\item \texttt{GroupPanel}
+\item \texttt{IGroupPanel}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
 Tramite questo pannello è possibile visionare i gruppi che compongono la rubrica dell'utente. I gruppi vengono rappresentanti mediante il loro nome all'interno di una lista e affianco ad ogni nome comparirà un icona atta ad indicare la possibilità di eliminare il gruppo selezionato.
@@ -2446,7 +2446,19 @@ Tramite questo pannello è possibile visionare i gruppi che compongono la rubric
   \end{itemize}
 \end{description}
 
-\item \texttt{SearchPanel}
+\item \texttt{GroupPanel}
+\begin{description}
+  \item{\scshape\bfseries Descrizione}\\
+Implementazione di \texttt{IGroupPanel}.
+
+  \item{\scshape\bfseries Componenti che ne fanno uso:}
+  \begin{itemize}[noitemsep,nolistsep]
+    \item[-] \textsf{CV01 -- GUI}
+    \item[-] \textsf{CP03 -- Gestione GUI}
+  \end{itemize}
+\end{description}
+
+\item \texttt{ISearchPanel}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
 Tramite questo pannello grafico, dotato di un <input> per l'inserimento di una parola chiave, è possibile ricercare nella propria rubrica tutti i contatti contenenti nel nome, cognome o indirizzo mail, la parola da ricercare. Una ricerca tramite questo pannello aggiorna il MainPanel con la lista dei contatti corretti secondo la ricerca.
@@ -2458,7 +2470,19 @@ Tramite questo pannello grafico, dotato di un <input> per l'inserimento di una p
   \end{itemize}
 \end{description}
 
-\item \texttt{AccountSettingsPanel}
+\item \texttt{SearchPanel}
+\begin{description}
+  \item{\scshape\bfseries Descrizione}\\
+Implementazione di \texttt{ISearchPanel}.
+
+  \item{\scshape\bfseries Componenti che ne fanno uso:}
+  \begin{itemize}[noitemsep,nolistsep]
+    \item[-] \textsf{CV01 -- GUI}
+    \item[-] \textsf{CP03 -- Gestione GUI}
+  \end{itemize}
+\end{description}
+
+\item \texttt{IAccountSettingsPanel}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
 Questa classe è utilizzata per rappresentare il \underline{\inglese{form}} che si presenta all'utente per la modifica dei propri dati, costituisce inoltre una sottoclasse di \texttt{MainPanel} e viene visualizzata quando l'utente preme il relativo pulsante nel pannello degli strumenti.
@@ -2470,7 +2494,19 @@ Questa classe è utilizzata per rappresentare il \underline{\inglese{form}} che 
   \end{itemize}
 \end{description}
 
-\item \texttt{CallHistoryPanel}
+\item \texttt{AccountSettingsPanel}
+\begin{description}
+  \item{\scshape\bfseries Descrizione}\\
+Implementazione di \texttt{IAccountSettingPanel}.
+
+  \item{\scshape\bfseries Componenti che ne fanno uso:}
+  \begin{itemize}[noitemsep,nolistsep]
+    \item[-] \textsf{CV01 -- GUI}
+    \item[-] \textsf{CP03 -- Gestione GUI}
+  \end{itemize}
+\end{description}
+
+\item \texttt{ICallHistoryPanel}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
 Questa classe estende \texttt{MainPanel} e viene impiegata per rappresentare lo storico delle chiamate visualizzato quando l'utente attiva il pulsante corrispondente presente nel \texttt{ToolsPanel}. Oltre alla visualizzazione dello storico delle chiamate non è prevista alcuna forma di interazione attiva con l'utente.
@@ -2482,7 +2518,19 @@ Questa classe estende \texttt{MainPanel} e viene impiegata per rappresentare lo 
   \end{itemize}
 \end{description}
 
-\item \texttt{CommunicationPanel}
+\item \texttt{CallHistoryPanel}
+\begin{description}
+  \item{\scshape\bfseries Descrizione}\\
+Implementazione di \texttt{ICallHistoryPanel}.
+
+  \item{\scshape\bfseries Componenti che ne fanno uso:}
+  \begin{itemize}[noitemsep,nolistsep]
+    \item[-] \textsf{CV01 -- GUI}
+    \item[-] \textsf{CP03 -- Gestione GUI}
+  \end{itemize}
+\end{description}
+
+\item \texttt{ICommunicationPanel}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
 Tale componente grafico si attiva nel momento in cui è stata avviata una forma di comunicazione, sia essa audio, audio/video oppure testuale. Per le comunicazioni audio e audio/video consente la visualizzazione dell'immagine associata al profilo dei destinatari oppure dei relativi \inglese{stream} video e permette di visualizzare le risorse condivise.
@@ -2496,7 +2544,19 @@ Inoltre tale entità grafica prevede anche la presenza di una o più aree di cha
   \end{itemize}
 \end{description}
 
-\item \texttt{LoginPanel}
+\item \texttt{CommunicationPanel}
+\begin{description}
+  \item{\scshape\bfseries Descrizione}\\
+Implementazione di \texttt{CommunicationPanel}.
+
+  \item{\scshape\bfseries Componenti che ne fanno uso:}
+  \begin{itemize}[noitemsep,nolistsep]
+    \item[-] \textsf{CV01 -- GUI}
+    \item[-] \textsf{CP03 -- Gestione GUI}
+  \end{itemize}
+\end{description}
+
+\item \texttt{ILoginPanel}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
 Per la descrizione di questo elemento grafico si rimanda alla sezione \vref{sec:cv02}.
@@ -2507,10 +2567,32 @@ Per la descrizione di questo elemento grafico si rimanda alla sezione \vref{sec:
   \end{itemize}
 \end{description}
 
-\item \texttt{RegisterPanel}
+\item \texttt{LoginPanel}
+\begin{description}
+  \item{\scshape\bfseries Descrizione}\\
+Implementazione di \texttt{ILoginPanel}.
+
+  \item{\scshape\bfseries Componenti che ne fanno uso}
+  \begin{itemize}[noitemsep,nolistsep]
+    \item[-] \textsf{CV02 -- Login}
+  \end{itemize}
+\end{description}
+
+\item \texttt{IRegisterPanel}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
 Pannello contenente la form per la registrazione utente.
+
+  \item{\scshape\bfseries Componenti che ne fanno uso}
+  \begin{itemize}[noitemsep,nolistsep]
+    \item[-] \textsf{CV02 -- Login}
+  \end{itemize}
+\end{description}
+
+\item \texttt{RegisterPanel}
+\begin{description}
+  \item{\scshape\bfseries Descrizione}\\
+Implementazione di \texttt{IPanelPresenter}.
 
   \item{\scshape\bfseries Componenti che ne fanno uso}
   \begin{itemize}[noitemsep,nolistsep]
