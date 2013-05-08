@@ -2255,6 +2255,16 @@ Si noti che tale componente demanda tutta la logica di applicazione al \inglese{
 
 	\item{\scshape\bfseries Classi utilizzate:} 
 	\begin{itemize}[noitemsep,nolistsep]
+		\item[-] \texttt{IMainPanel}
+		\item[-] \texttt{IToolsPanel}
+		\item[-] \texttt{IAddressBookPanel}
+		\item[-] \texttt{IContactPanel}
+		\item[-] \texttt{IMessagePanel}
+		\item[-] \texttt{IGroupPanel}
+		\item[-] \texttt{ISearchPanel}
+		\item[-] \texttt{IAccountSettingsPanel}
+		\item[-] \texttt{ICallHistoryPanel}
+		\item[-] \texttt{ICommunicationPanel}
 		\item[-] \texttt{MainPanel}
 		\item[-] \texttt{ToolsPanel}
 		\item[-] \texttt{AddressBookPanel}
@@ -2282,6 +2292,8 @@ Il componente \textsf{Login} ha la responsabilità di ricevere in ingresso le cr
 
   \item{\scshape\bfseries Classi utilizzate}
   \begin{itemize}[noitemsep,nolistsep]
+  	\item \texttt{ILoginPanel}
+    \item \texttt{IRegisterPanel}
     \item \texttt{LoginPanel}
     \item \texttt{RegisterPanel}
   \end{itemize}
@@ -2294,7 +2306,7 @@ Il componente \textsf{Login} ha la responsabilità di ricevere in ingresso le cr
 
 \begin{itemize}[leftmargin=0em]
 
-\item \texttt{AddressBookPanel}
+\item \texttt{IAddressBookPanel}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
 Pannello che permette la visualizzazione della rubrica dell'utente connesso al sistema e di accedere ad alcune delle funzionalità di amministrazione della rubrica stessa (ad esempio l'aggiunta o la rimozione di gruppi).
@@ -2308,7 +2320,19 @@ In questo pannello sono anche presenti le funzionalità di ricerca fra gli utent
   \end{itemize}
 \end{description}
 
-\item \texttt{MainPanel}
+\item \texttt{AddressBookPanel}
+\begin{description}
+  \item{\scshape\bfseries Descrizione}\\
+Implementazione di \texttt{IAddressBookPanel}.
+
+  \item{\scshape\bfseries Componenti che ne fanno uso:}
+  \begin{itemize}[noitemsep,nolistsep]
+    \item[-] \textsf{CV01 -- GUI}
+    \item[-] \textsf{CP03 -- Gestione GUI}
+  \end{itemize}
+\end{description}
+
+\item \texttt{IMainPanel}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
 Classe padre della gerarchia di oggetti grafici che possono comparire nella sezione principale dell'interfaccia utente. Ogni sua specializzazione definisce un nuovo tipo di pannello che costituisce l'elemento in primo piano dell'applicazione.
@@ -2320,12 +2344,50 @@ Classe padre della gerarchia di oggetti grafici che possono comparire nella sezi
   \end{itemize}
 \end{description}
 
+\item \texttt{MainPanel}
+\begin{description}
+  \item{\scshape\bfseries Descrizione}\\
+Implementazione di \texttt{IMainPanel}
+
+  \item{\scshape\bfseries Componenti che ne fanno uso:}
+  \begin{itemize}[noitemsep,nolistsep]
+    \item[-] \textsf{CV01 -- GUI}
+    \item[-] \textsf{CP03 -- Gestione GUI}
+  \end{itemize}
+\end{description}
+
+\item \texttt{IToolsPanel}
+\begin{description}
+  \item{\scshape\bfseries Descrizione}\\
+Pannello che rappresenta il pannello degli strumenti della \inglese{home screen} dell'applicativo  mediante il quale è possibile accedere alle funzionalità di ricerca, di segreteria telefonica, selezione della lingua, modifica dei dati dell'utente e storico delle chiamate.
+
+All'occorrenza il pannello può essere messo in secondo piano e non essere più visibile per intero nella finestra principale. In questo pannello inoltre è visualizzato lo stato corrente dell'utente ed è possibile modificarlo per passare da ``occupato'' a ``disponibile'' o per disconnettersi e passare a \inglese{offline}.
+
+  \item{\scshape\bfseries Componenti che ne fanno uso:}
+  \begin{itemize}[noitemsep,nolistsep]
+    \item[-] \textsf{CV01 -- GUI}
+    \item[-] \textsf{CP03 -- Gestione GUI}
+  \end{itemize}
+\end{description}
+
 \item \texttt{ToolsPanel}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Classe che rappresenta il pannello degli strumenti della \inglese{home screen} dell'applicativo  mediante il quale è possibile accedere alle funzionalità di ricerca, di segreteria telefonica, selezione della lingua, modifica dei dati dell'utente e storico delle chiamate.
+Implementazione di \texttt{IToolsPanel}.
 
-All'occorrenza il pannello può essere messo in secondo piano e non essere più visibile per intero nella finestra principale. In questo pannello inoltre è visualizzato lo stato corrente dell'utente ed è possibile modificarlo per passare da ``occupato'' a ``disponibile'' o per disconnettersi e passare a \inglese{offline}.
+  \item{\scshape\bfseries Componenti che ne fanno uso:}
+  \begin{itemize}[noitemsep,nolistsep]
+    \item[-] \textsf{CV01 -- GUI}
+    \item[-] \textsf{CP03 -- Gestione GUI}
+  \end{itemize}
+\end{description}
+
+\item \texttt{IContactPanel}
+\begin{description}
+  \item{\scshape\bfseries Descrizione}\\
+Pannello che estende \texttt{IMainPanel} utilizzato per rappresentare il profilo di un utente. Solo accedendo quest'ultimo sarà possibile avviare una comunicazione con l'utente. Il contatto viene visualizzato selezionando l'utente dalla rubrica oppure tra i risultati di una ricerca.
+
+Attraverso questo pannello è inoltre possibile effettuare alcune operazioni di amministrazione sulla rubrica: aggiungere o rimuovere un utente ad uno dei gruppi della propria rubrica, bloccare un contatto o, se il profilo visualizzato corrisponde a un utente che non appartiene alla rubrica personale, aggiungerlo ad essa.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -2337,9 +2399,21 @@ All'occorrenza il pannello può essere messo in secondo piano e non essere più 
 \item \texttt{ContactPanel}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Sottoclasse di \texttt{MainPanel} utilizzata per rappresentare il profilo di un utente. Solo accedendo quest'ultimo sarà possibile avviare una comunicazione con l'utente. Il contatto viene visualizzato selezionando l'utente dalla rubrica oppure tra i risultati di una ricerca.
+Implementazione di \texttt{IContactPanel}.
 
-Attraverso questo pannello è inoltre possibile effettuare alcune operazioni di amministrazione sulla rubrica: aggiungere o rimuovere un utente ad uno dei gruppi della propria rubrica, bloccare un contatto o, se il profilo visualizzato corrisponde a un utente che non appartiene alla rubrica personale, aggiungerlo ad essa.
+  \item{\scshape\bfseries Componenti che ne fanno uso:}
+  \begin{itemize}[noitemsep,nolistsep]
+    \item[-] \textsf{CV01 -- GUI}
+    \item[-] \textsf{CP03 -- Gestione GUI}
+  \end{itemize}
+\end{description}
+
+\item \texttt{IMessagePanel}
+\begin{description}
+  \item{\scshape\bfseries Descrizione}\\
+Questa Interfaccia, che estende \texttt{IMainPanel}, permette di accedere all'elenco dei messaggi in segreteria di un determinato utente e ne permette la gestione. La visualizzazione si attiva quando viene premuto il relativo pulsante mostrato dall'istanza di \texttt{ToolsPanel}.
+
+Tramite questo elemento grafico è possibile anche riprodurre il contenuto di un messaggio, dopo che quest'ultimo è stato scaricato dal server (se non era già presente in memoria), arrestarne la riproduzione oppure cancellarlo se non si desidera che venga conservato.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -2351,9 +2425,7 @@ Attraverso questo pannello è inoltre possibile effettuare alcune operazioni di 
 \item \texttt{MessagePanel}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Questa sottoclasse di \texttt{MainPanel} permette di accedere all'elenco dei messaggi in segreteria di un determinato utente e ne permette la gestione. La visualizzazione si attiva quando viene premuto il relativo pulsante mostrato dall'istanza di \texttt{ToolsPanel}.
-
-Tramite questo elemento grafico è possibile anche riprodurre il contenuto di un messaggio, dopo che quest'ultimo è stato scaricato dal server (se non era già presente in memoria), arrestarne la riproduzione oppure cancellarlo se non si desidera che venga conservato.
+Implementazione di \texttt{IMessagePanel}.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
