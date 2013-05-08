@@ -1,15 +1,21 @@
 package org.softwaresynthesis.mytalk.server.authentication.controller;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+
 import org.softwaresynthesis.mytalk.server.AbstractController;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
 import org.softwaresynthesis.mytalk.server.abook.UserData;
 import org.softwaresynthesis.mytalk.server.authentication.security.AESAlgorithm;
 import org.softwaresynthesis.mytalk.server.authentication.security.ISecurityStrategy;
 import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
+
+import sun.misc.IOUtils;
 
 /**
  * Controller che gestisce la registrazione
@@ -39,6 +45,11 @@ public final class RegisterController extends AbstractController
 		String question = null;
 		String result = null;
 		String surname = null;
+		InputStream inputStream = null;
+		Part filePart = null;
+		FileOutputStream out = null;
+		
+		
 		try
 		{
 			strategy = super.getSecurityStrategyFactory();
@@ -64,7 +75,16 @@ public final class RegisterController extends AbstractController
 			}
 			else
 			{
-				//TODO Salvare immagine utente
+				filePart = request.getPart("picturePath");
+				if (filePart != null)
+				{
+					inputStream = filePart.getInputStream();
+				}
+				path = "img/contactImg/" + mail + ".png";
+				out = new FileOutputStream(path);
+				out.write(IOUtils.readFully(inputStream, -1, false));
+				out.close();
+				
 			}
 			user.setPath(path);
 			dao = super.getDAOFactory();
