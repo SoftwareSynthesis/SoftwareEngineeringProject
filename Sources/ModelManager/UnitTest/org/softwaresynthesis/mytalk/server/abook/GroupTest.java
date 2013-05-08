@@ -84,6 +84,22 @@ public class GroupTest {
 	}
 
 	/**
+	 * Verifica la corretta impostazione e il recupero del proprietario di un
+	 * gruppo della rubricca
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testOwner() {
+		IUserData owner = mock(IUserData.class);
+		tester.setOwner(owner);
+		IUserData result = tester.getOwner();
+		assertNotNull(result);
+		assertEquals(owner, result);
+	}
+
+	/**
 	 * Verifica la corretta impostazione e recupero della rubrica
 	 * 
 	 * @author Diego Beraldin
@@ -110,7 +126,7 @@ public class GroupTest {
 		Set<IAddressBookEntry> addressBook = tester.getAddressBook();
 		assertTrue(addressBook.contains(entry));
 	}
-	
+
 	/**
 	 * Verifica la rimozione di un contatto dal gruppo
 	 * 
