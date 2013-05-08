@@ -108,7 +108,6 @@ public final class AuthenticationModule implements LoginModule
 		Loader[] callbacks = null;
 		IUserData user = null;
 		String toComparePassword = null;
-		String username = null;
 		if (this.handler != null)
 		{
 			callbacks = new Loader[2];
@@ -127,7 +126,7 @@ public final class AuthenticationModule implements LoginModule
 				throw new LoginException(ex.getMessage());
 			}
 		}
-		username = callbacks[0].getData();
+		this.username = callbacks[0].getData();
 		dao = new DataPersistanceManager();
 		user = dao.getUserData(username);
 		if (user != null)
