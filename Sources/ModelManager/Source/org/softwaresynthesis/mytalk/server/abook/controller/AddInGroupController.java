@@ -2,22 +2,21 @@ package org.softwaresynthesis.mytalk.server.abook.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Iterator;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.softwaresynthesis.mytalk.server.AbstractController;
+import org.softwaresynthesis.mytalk.server.abook.AddressBookEntry;
 import org.softwaresynthesis.mytalk.server.abook.IAddressBookEntry;
+import org.softwaresynthesis.mytalk.server.abook.IGroup;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
 import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
 
-public class BlockContactController extends AbstractController{
-
+public class AddInGroupController extends AbstractController{
 	/**
-	 * Blocca un contatto
-	 * nella propria rubrica
+	 * Aggiunge un contatto in un gruppo
+	 * della propria rubrica
 	 */
 	@Override
 	protected void doAction(HttpServletRequest request, HttpServletResponse response) throws IOException 
@@ -25,33 +24,33 @@ public class BlockContactController extends AbstractController{
 		DataPersistanceManager dao = null;
 		String result = null;
 		PrintWriter writer = null;
+		Long contactId = null;
+		Long groupId = null;
 		String email = null;
 		IUserData myUser = null;
 		IUserData friend = null;
-		Long idFriend = null;
-		Set<IAddressBookEntry> entrys = null;
-		Iterator<IAddressBookEntry> iterator = null;
+		IGroup group = null;
 		IAddressBookEntry entry = null;
 		
 		try
 		{
-			idFriend = Long.parseLong(request.getParameter("contactId"));
 			dao = super.getDAOFactory();
+			contactId = Long.parseLong(request.getParameter("contactId"));
+			groupId = Long.parseLong(request.getParameter("groupId"));
 			email = super.getUserMail();
 			myUser = dao.getUserData(email);
-			friend = dao.getUserData(idFriend);
-			if (friend != null){
-				entrys = myUser.getAddressBook();
-				iterator = entrys.iterator();
-				while (iterator.hasNext() == true)
-				{
-					entry = iterator.next();
-					if (entry.getContact().equals(friend) == true)
-					{
-						entry.setBlocked(true);
-					}
-				}
-				dao.update(entry);
+			friend = dao.getUserData(contactId);
+			group = dao.getGroup(groupId);
+			if (group != null)
+			{
+				entry = new AddressBookEntry();
+				entry.setBlocked(false);
+				entry.setOwner(myUser);
+				entry.setContact(friend);
+				entry.setGroup(group);
+				myUser.addAddressBookEntry(entry);
+				dao.insert(entry);
+				dao.update(myUser);
 				result = "true";
 			}
 			else

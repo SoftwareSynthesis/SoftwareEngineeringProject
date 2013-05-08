@@ -43,7 +43,7 @@ public class AddGroupController extends AbstractController {
 		}
 		catch (Exception ex)
 		{
-			result = "false";
+			result = "null";
 		}
 		finally
 		{
