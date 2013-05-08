@@ -32,8 +32,8 @@ CREATE TABLE UserData
 CREATE TABLE Calls
 (
 	ID_call						VARCHAR(100)				NOT NULL,
-	Start_date					VARCHAR(16)					NOT NULL,
-	End_date					VARCHAR(16),
+	Start_date					TIMESTAMP					NOT NULL,
+	End_date					TIMESTAMP,
 	
 	PRIMARY KEY(ID_call)
 );
@@ -55,7 +55,7 @@ CREATE TABLE Messages
 	Receiver					BIGINT UNSIGNED				NOT NULL,
 	Newer						TINYINT						NOT NULL			DEFAULT 1,
 	Video						TINYINT						NOT NULL			DEFAULT 0,
-	Start_date					VARCHAR(10)					NOT NULL,
+	Start_date					TIMESTAMP					NOT NULL,
 	
 	PRIMARY KEY(ID_message),
 	FOREIGN KEY(Sender) REFERENCES UserData(ID_user),

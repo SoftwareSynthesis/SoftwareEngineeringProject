@@ -1,117 +1,93 @@
 package org.softwaresynthesis.mytalk.server.message;
 
+import java.util.Date;
 import org.softwaresynthesis.mytalk.server.IMyTalkObject;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
 
 /**
- * Rappresentazione di un messaggio di segreteria
- * del sistema mytalk
+ * Rappresenta un messaggio lasciato nella segreteria
+ * di un utente del sistema MyTalk
  * 
- * @author 	Marco Schivo
- * @version	1.0
+ * @author 	Andrea Meneghinello
+ * @version	3.0
  */
-public interface IMessage extends IMyTalkObject
-{	
+public interface IMessage extends IMyTalkObject 
+{
 	/**
-	 * Imposta l'identificativo del messaggio
+	 * Restituisce il mittente del messaggio
 	 * 
-	 * @param id identificativo da impostare
-	 */
-	public void setId(Long id);
-	
-	/**
-	 * Restituisce l'identificativo univoco
-	 * del messaggio di segreteria
-	 * 
-	 * @return	identificativo del messaggio di
-	 * 			tipo {@link Long}
-	 */
-	public Long getId();
-	
-	/**
-	 * Restituisce l'Id dell'utente che ha
-	 * inviato il messaggio di segreteria
-	 * 
-	 * @return	{@link Long} rappresentante
-	 * 			l'id dell'utente mittente
+	 * @return	{@link IUserData} mittente del messaggio
 	 */
 	public IUserData getSender();
 	
 	/**
-	 * Imposta l'id dell'utente mittente
-	 * del messaggio in segreteria 
+	 * Imposta il mittente del messaggio
 	 * 
-	 * @param 	id	{@link Long}
-	 * 					id dell'utente
-	 * 					mittente
+	 * @param 	sender	{@link IUserData} mittente del
+	 * 					messaggio
 	 */
-	public void setSender(IUserData id);
+	public void setSender(IUserData sender);
 	
-		/**
-	 * Restituisce l'Id dell'utente destinatario
-	 * del messaggio di segreteria
+	/**
+	 * Restituisce il destinatario del messaggio
 	 * 
-	 * @return	{@link Long} rappresentante
-	 * 			l'id dell'utente destinatario
+	 * @return	{@link IUserData} destinatario del messaggio
 	 */
 	public IUserData getReceiver();
 	
 	/**
-	 * Imposta l'id dell'utente destinatario
-	 * del messaggio in segreteria 
+	 * Imposta il destinatario del messaggio
 	 * 
-	 * @param 	id	{@link Long}
-	 * 					id dell'utente
-	 * 					destinatario
+	 * @param 	receiver	{@link IUserData} destinatario del
+	 * 						messaggio
 	 */
-	public void setReceiver(IUserData id);
+	public void setReceiver(IUserData receiver);
 	
 	/**
-	 * Restituisce 1 se il messaggio non e'
-	 * ancora stato letto, 0 altrimenti
+	 * Restituisce true se il messaggio è nuovo, false altrimenti
 	 * 
-	 * @return	{@link Long} che rappresenta se il messaggio e' nuovo o meno
+	 * @return	valore {@link boolean} che determina se il messaggio
+	 * 			è nuovo o meno
 	 */
-	public Long getNewer();
+	public boolean getNewer();
 	
 	/**
-	 * Imposta lo stato del messagggio, 
-	 * 1 se e' nuovo, 0 altrimenti
+	 * Imposta se un messaggio è già stato ascoltato o meno
 	 * 
-	 * @param 	newer	{@link Long} con lo stato
-	 * 						del messaggio (1 se nuovo, 0 altrimenti)
+	 * @param 	newer	{@link boolean} true se il messaggio non è
+	 * 					stato ascoltato, false altrimenti
 	 */
-	public void setNewer(Long newer);
+	public void setNewer(boolean newer);
 	
 	/**
-	 * Restituisce 1 se il messaggio e' di tipo
-	 * video, 0 se solo audio
+	 * Restituisce true se il messaggio è audio/video, false altrimenti
 	 * 
-	 * @return	{@link Long} che rappresenta il
-	 * 			tipo di messaggio
+	 * @return	valore {@link boolean} che determina se si tratta di un
+	 * 			messaggio audio/video o meno
 	 */
-	public Long getVideo();
+	public boolean getVideo();
 	
 	/**
-	 * Imposta il tipo del messaggio in segreteria
+	 * Imposta un valore che determina se il messaggio è audio/video
+	 * o meno
 	 * 
-	 * @param 	video	{@link Long} che identifica se il
-	 * 					messaggio e' di tipo video (1)
-	 * 					o solo audio (0)
+	 * @param 	video	{@link boolean} true se è un messaggio audio/video,
+	 * 					false altrimenti
 	 */
-	public void setVideo(Long video);
+	public void setVideo(boolean video);
 	
 	/**
-	 * Restituisce la data del messaggio in segreteria
+	 * Restituisce la data di quando è stato lasciato il messaggio
 	 * 
-	 * @return	{@link Date} con la data del messaggio di segreteria
+	 * @return	{@link Date} data in cui è stato registrato il messaggio
 	 */
-	public String getDate();
+	public Date getDate();
 	
 	/**
-	 * Imposta la data del messaggio
+	 * Imposta la data di quanto è stato lasciato il messaggio
 	 * 
-	 * @param 	date {@link Date} con la data del messaggio di segreteria
+	 * @param 	date	{@link Date} data di quanto è stato lasciato
+	 * 					il messaggio
 	 */
-	public void setDate(String date);
+	public void setDate(Date date);
 }

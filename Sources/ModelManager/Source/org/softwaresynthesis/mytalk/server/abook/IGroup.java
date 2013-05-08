@@ -1,89 +1,59 @@
 package org.softwaresynthesis.mytalk.server.abook;
 
 import java.util.Set;
+
 import org.softwaresynthesis.mytalk.server.IMyTalkObject;
 
 /**
- * Rappresenta un gruppo di una
- * rubrica utente
+ * Rappresenta un gruppo della rubrica
  * 
- * @author 	Andrea MEneghinello
- * @version 1.0
+ * @author 	Andrea Meneghinello
+ * @version	3.0
  */
-public interface IGroup extends IMyTalkObject
+public interface IGroup extends IMyTalkObject 
 {
-	/**
-	 * Restituisce l'identificatore univoco
-	 * del gruppo
-	 * 
-	 * @return	{@link Long} che identifica
-	 * 			univocamente il gruppo
-	 */
-	public Long getId();
-	
 	/**
 	 * Restituisce il nome del gruppo
 	 * 
-	 * @return	{@link String} con il
-	 * 			nome del gruppo
+	 * @return	{@link String} nome del gruppo
 	 */
 	public String getName();
 	
 	/**
 	 * Imposta il nome del gruppo
 	 * 
-	 * @param 	name	{@link String} con
-	 * 					il nome del gruppo
+	 * @param 	name	{@link String} nome del
+	 * 					gruppo
 	 */
 	public void setName(String name);
 	
 	/**
-	 * Restituisce il proprietario del
-	 * gruppo
+	 * Restituisce i contatti appartenenti al gruppo
 	 * 
-	 * @return	{@link IUserData} proprietario
-	 * 			del gruppo
-	 */
-	public IUserData getOwner();
-	
-	/**
-	 * Imposta il proprietario di un gruppo
-	 * 
-	 * @param 	owner	{@link IUserData} proprietario
-	 * 					del gruppo
-	 */
-	public void setOwner(IUserData owner);
-	
-	/**
-	 * Restituisce i contatti appartenenti
-	 * al gruppo
-	 * 
-	 * @return	{@link Set} con i contatti
-	 * 			del gruppo
+	 * @return	{@link Set<IAddressBookEntry>} lista dei
+	 * 			contatti
 	 */
 	public Set<IAddressBookEntry> getAddressBook();
 	
 	/**
-	 * Aggiunge un contatto al gruppo
+	 * Imposta i contatti appartenenti al gruppo
 	 * 
-	 * @param 	addressBook	{@link AddressBookEntry} da
-	 * 						aggiungere al gruppo
+	 * @param 	addressBook 	{@link Set<IAddressBookEntry>}
+	 * 							contatti appartenenti al gruppo
 	 */
 	public void setAddressBook(Set<IAddressBookEntry> addressBook);
 	
 	/**
-	 * Aggiunge un contatto al gruppo
+	 * Aggiunge un nuovo contatto al gruppo
 	 * 
-	 * @param 	entry 	{@link AddressBookEntry}
-	 * 					da aggiungere al gruppo
+	 * @param 	entry	{@link IAddressBookEntry} contatto da aggiungere
 	 */
-	public void addAddressBookEntry(IAddressBookEntry entry);
+	public boolean addAddressBookEntry(IAddressBookEntry entry);
 	
 	/**
 	 * Rimuove un contatto dal gruppo
 	 * 
-	 * @param	entry	{@link AddressBookEntry}
-	 * 					da rimuovere dal gruppo
+	 * @param 	entry	{@link IAddressBookEntry} contatto da rimuovere
 	 */
-	public void removeAddressBookEntry(IAddressBookEntry entry);
+	public boolean removeAddressBookEntry(IAddressBookEntry entry);
 }

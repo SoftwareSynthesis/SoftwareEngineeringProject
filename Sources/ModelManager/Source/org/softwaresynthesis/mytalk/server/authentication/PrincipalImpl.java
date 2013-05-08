@@ -3,72 +3,55 @@ package org.softwaresynthesis.mytalk.server.authentication;
 import java.io.Serializable;
 import java.security.Principal;
 
-/**
- * Oggetto che rappresenta una caratteristica identificativa
- * dell'utente che ha superato la fase di login
- * 
- * @author 	Andrea Meneghinello
- * @version	1.0
- */
 public class PrincipalImpl implements Principal, Serializable 
 {
 	private static final long serialVersionUID = 19981917L;
+	
 	private String element;
 	
 	/**
-	 * Crea un oggetto contentente una caratteristica
-	 * identificativa dell'utente che ha superato la
-	 * procedura di autenticazione
+	 * Crea una istanza con l'elemento identificativo
+	 * stabilito durante la procedura di login. Tale
+	 * elemento permette di identificare univocamente
+	 * il soggetto che ha superato la fase di login
 	 * 
-	 * @param 	element	{@link String} con l'elemento
-	 * 					identificativo
+	 * @param 	identifierElement	{@link String} caratteristica
+	 * 								identificativa
 	 */
-	public PrincipalImpl(String element)
+	public PrincipalImpl(String identifierElement)
 	{
-		this.element = element;
+		this.element = identifierElement;
 	}
 	
-	/**
-	 * Restituisce la caratteristica identificativa
-	 * dell'utente
-	 * 
-	 * @return	{@link String} con la caratteristica
-	 * 			identificativa
-	 */
 	@Override
-	public String getName()
+	public String getName() 
 	{
 		return this.element;
 	}
 	
 	/**
-	 * Compara due istanze di PrincipalImpl
+	 * Determina se due istanze rappresentano lo stesso
+	 * oggetto PrincipalImpl
 	 * 
-	 * @param	toCompare	{@link Object} da confrontare
-	 * @return	true se le due istanze sono uguali, false
-	 * 			altrimenti
+	 * @param	obj	{@link Object} istanza da verificare
+	 * @return	true se le due istanze rappresentano lo
+	 * 			stesso oggetto, false altrimenti
 	 */
-	public boolean equals(Object toCompare)
+	@Override
+	public boolean equals(Object obj)
 	{
-		PrincipalImpl principal = null;
 		boolean result = false;
-		if (toCompare instanceof PrincipalImpl)
+		PrincipalImpl toCompare = null;
+		String toCompareElement = null;
+		if (obj instanceof PrincipalImpl)
 		{
-			principal = (PrincipalImpl)toCompare;
-			result = this.element.equals(principal.element);
+			toCompare = (PrincipalImpl)obj;
+			toCompareElement = toCompare.getName();
+			if (this.element.equals(toCompareElement))
+			{
+				result = true;
+			}
 		}
-		return result;
-	}
-	
-	/**
-	 * Restituisce l'istanza di PrincipalImpl sotto forma
-	 * di {@link String}
-	 * 
-	 * @return	{@link String} rappresentante l'istanza
-	 */
-	public String toString()
-	{
-		String result = String.format("PrincipalImpl[element: %s]", this.element);
 		return result;
 	}
 }

@@ -3,98 +3,55 @@ package org.softwaresynthesis.mytalk.server.authentication;
 import java.io.IOException;
 import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.CallbackHandler;
-import javax.security.auth.callback.NameCallback;
-import javax.security.auth.callback.PasswordCallback;
 import javax.security.auth.callback.UnsupportedCallbackException;
+import javax.servlet.http.HttpServletRequest;
+import org.softwaresynthesis.mytalk.server.authentication.security.ISecurityStrategy;
 
 /**
- * Ha il compito di caricare e convertire
- * le credenziali di accesso in modo che
- * possano essere utilizzate correttamente
- * dalla procedura di login
+ * La classe ha il compito di predisporre le credenziali
+ * di accesso, fornite dall'utente, per la successiva fase
+ * di autenticazione.
  * 
- * @author Andrea
- * @version 1.0
+ * @author 	Andrea Meneghinello
+ * @version	3.0
  */
-public class CredentialLoader implements CallbackHandler 
+public final class CredentialLoader implements CallbackHandler
 {
-	private IAuthenticationData credential;
+	private HttpServletRequest input;
 	private ISecurityStrategy strategy;
-
+	
 	/**
-	 * Crea un istanza di un oggetto che ha il compito
-	 * di preparare le credenziali per la fase di login
+	 * Crea una nuova istanza del caricatore di credenziali
 	 * 
-	 * @param 	credential	{@link String} credenziali di accesso
-	 * 						fornite dall'utente
-	 * @param 	strategy	{@link ISecurityStrategy} di codifica
-	 * 						da utilizzare
+	 * @param 	inputData	{@link HttpServletRequest} dati in input
+	 * @param 	strategy	{@link ISecurityStrategy} strategia di codifica
 	 */
-	public CredentialLoader(IAuthenticationData credential, ISecurityStrategy strategy)
+	public CredentialLoader(HttpServletRequest inputData, ISecurityStrategy strategy)
 	{
-		this.credential = credential;
+		this.input = inputData;
 		this.strategy = strategy;
 	}
 	
-	/**
-	 * Prepara le credenziali di accesso fonrite per la
-	 * procedura di login
-	 * 
-	 * @param	callbacks	vettore  di {@link Callback} da
-	 * 						popolare con le credenziali
-	 */
 	@Override
 	public void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException 
 	{
-		char[] cryptedStringArray = null;
-		String cryptedValue = null;
-		NameCallback name = null;
-		PasswordCallback password = null;
-		if (this.credential == null)
+		Loader loader = null;
+		for(int i = 0; i < callbacks.length; i++)
 		{
-			throw new IOException("Nessuna credenziale di accesso reperita");
+			loader = (Loader)callbacks[i];
+			loader.setSecurityStrategy(this.strategy);
+			loader.load(this.input);
 		}
-		for (int i = 0; i < callbacks.length; i++)
-		{
-			if (callbacks[i] instanceof NameCallback)
-			{
-				name = (NameCallback)callbacks[i];
-				name.setName(this.credential.getUsername());
-			}
-			else
-			{
-				if (callbacks[i] instanceof PasswordCallback)
-				{
-					password = (PasswordCallback)callbacks[i];
-					try
-					{
-						cryptedValue = this.strategy.encode(this.credential.getPassword());
-					}
-					catch (Exception ex)
-					{
-						throw new IOException("Errori durante la codifica");
-					}
-					cryptedStringArray = cryptedValue.toCharArray();
-					password.setPassword(cryptedStringArray);
-					cryptedStringArray = null;
-					cryptedValue = null;
-				}
-				else
-				{
-					throw new UnsupportedCallbackException(callbacks[i], "Callback non supportata dal sistema");
-				}
-			}
-		}
-		this.credential = null;
 	}
-
+	
 	/**
-	 * Restituisce l'istanza in formato {@link String}
+	 * Restituisce la strategia di codifica
+	 * delle credenziali
 	 * 
-	 * @return	{@link String} rappresentante l'istanza
+	 * @return 	{@link ISecurityStrategy} strategia di codifica
 	 */
-	public String toString()
+	ISecurityStrategy getSecurityStrategy()
 	{
-		return "CredentialLoader";
+		return this.strategy;
 	}
 }

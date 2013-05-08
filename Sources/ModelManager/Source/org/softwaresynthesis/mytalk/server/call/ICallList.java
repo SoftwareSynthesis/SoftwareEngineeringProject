@@ -3,70 +3,60 @@ package org.softwaresynthesis.mytalk.server.call;
 import org.softwaresynthesis.mytalk.server.IMyTalkObject;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
 
-public interface ICallList extends IMyTalkObject {
+/**
+ * Rappresenta informazioni di dettaglio sui partecipanti
+ * ad una chiamata effettuata con il sistema MyTalk
+ * 
+ * @author 	Andrea Meneghinello
+ * @version	3.0
+ */
+public interface ICallList extends IMyTalkObject 
+{
 	/**
-	 * Imposta l'identificativo della lista chiamata
+	 * Restituisce l'utente coinvolto nella chiamta
 	 * 
-	 * @param id identificativo da impostare
+	 * @return	{@link IUserData} utente coinvolto
+	 * 			nella chiamata
 	 */
-	public void setId(Long id);
-	
-	/**
-	 * Restituisce l'identificativo univoco
-	 * della lista chiamata
-	 * 
-	 * @return	identificativo del messaggio di
-	 * 			tipo {@link Long}
-	 */
-	public Long getId();
-	
-	/**
-	 * Imposta la chiamata a cui appartiene 
-	 * 
-	 * @param 	call	{@link ICall}
-	 * 					chiamata a cui si riferisce
-	 */
-	public void setIdCall(ICall call);
-	
-		/**
-	 * Restituisce la chiamata
-	 * 
-	 * @return	{@link ICall} rappresentante
-	 * 			la chiamata
-	 */
-	public ICall getIdCall();
+	public IUserData getUser();
 	
 	/**
-	 * Imposta l'utente
-	 * coinvolto nella chiamata 
+	 * Imposto l'utente coinvolto nella chiamata
 	 * 
-	 * @param 	idUser	{@link Long}
-	 * 					utente che partecipa
+	 * @param 	user	{@link IUserData} utente
+	 * 					coinvolto nella chiamata
 	 */
-	public void setIdUser(IUserData idUser);
-	
-		/**
-	 * Restituisce l'utente coinvolto
-	 * nella chiamata
-	 * 
-	 * @return	{@link IUserData} rappresentante
-	 * 			l'utente
-	 */
-	public IUserData getIdUser();
+	public void setUser(IUserData user);
 	
 	/**
-	 * Imposta l'attributo caller a true se
-	 * l'utente e' il chiamante, false altrimenti
+	 * Restituisce la chiamata a cui ha partecipato
+	 * l'utente
 	 * 
-	 * @param 	caller	{@link boolean}
+	 * @return {@link ICall} chiamata a cui ha partecipato
 	 */
-	public void setCaller(Long caller);
+	public ICall getCall();
 	
-		/**
-	 * Restituisce true se l'utente in questione
-	 * e' il chiamante, false altrimenti
+	/**
+	 * Imposto la chiamata in cui ha partecipato l'utente
 	 * 
-	 * @return	{@link boolean}
+	 * @param 	call	{@link ICall} chiamata a cui ha partecipato
 	 */
-	public Long getCaller();
+	public void setCall(ICall call);
+	
+	/**
+	 * Restituisce true se l'utente ha avviato la chiamata,
+	 * false altrimenti
+	 * 
+	 * @return	{@link boolean} valore che determina se l'utente
+	 * 			è il chiamante o meno
+	 */
+	public boolean getCaller();
+	
+	/**
+	 * Imposta true se l'utente è il chiamante, false altrimenti
+	 * 
+	 * @param 	caller	{@link boolean} valore che determina se l'utente
+	 * 					è il chiamante o meno
+	 */
+	public void setCaller(boolean caller);
 }

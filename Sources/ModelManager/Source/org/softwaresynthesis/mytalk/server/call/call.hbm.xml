@@ -1,0 +1,28 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package = "org.softwaresynthesis.mytalk.server.call">
+	
+	<!-- Mapping per Call -> chiamata effettuta attraverso il sistema MyTalk -->
+	<class name = "Call" table = "Calls">
+		<id name = "id" type = "long" column = "ID_call" unsaved-value = "null">
+			<generator class = "identity" />
+		</id>
+		<property name = "start" column = "Start_date" type = "timestamp" not-null = "true" />
+		<property name = "end" column = "End_date" type = "timestamp" not-null = "false" />
+		<set name = "calls" table = "CallLists" lazy = "true" inverse = "true" fetch = "join" cascade = "save-update">
+			<key column = "ID_call" not-null = "true" />
+			<one-to-many class = "CallList" />
+		</set>
+	</class>
+	
+	<!-- Mapping per CallList -> dettaglio di una chiamata -->
+	<class name = "CallList" table = "CallLists">
+		<id name = "id" type = "long" column = "ID_CallList" unsaved-value = "null">
+			<generator class = "identity" />
+		</id>
+		<property name = "caller" column = "Caller" type = "boolean" not-null = "true" />
+		<many-to-one name = "call" class = "Call" column = "ID_call" not-null = "true" fetch = "join" />
+		<many-to-one name = "user" class = "org.softwaresynthesis.mytalk.server.abook.UserData" column = "ID_user" not-null = "true" fetch = "join" />
+	</class>
+</hibernate-mapping>

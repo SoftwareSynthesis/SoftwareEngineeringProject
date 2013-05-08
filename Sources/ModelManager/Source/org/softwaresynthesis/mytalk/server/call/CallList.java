@@ -2,106 +2,115 @@ package org.softwaresynthesis.mytalk.server.call;
 
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
 
-public class CallList implements ICallList {
-	
+/**
+ * Rappresenta informazioni di dettaglio per
+ * una chiamata effettuata con il sistema
+ * MyTalk
+ * 
+ * @author 	Andrea Meneghinello
+ * @version 3.0
+ */
+public class CallList implements ICallList
+{
 	private Long id;
 	private IUserData user;
 	private ICall call;
-	private Long caller;
-
+	private boolean caller;
+	
 	/**
-	 * Imposta l'identificativo della lista chiamata
-	 * 
-	 * @param id identificativo da impostare
+	 * Costruisce una nuova istanza priva
+	 * di valori
 	 */
-	public void setId(Long id)
+	public CallList()
 	{
-		this.id = id;
+		this(-1L);
 	}
 	
 	/**
-	 * Restituisce l'identificativo univoco
-	 * della lista chiamata
+	 * Costruisce una nuova istanza assegnandogli
+	 * un identificativo
 	 * 
-	 * @return	identificativo del messaggio di
-	 * 			tipo {@link Long}
+	 * @param 	identifier	{@link Long} identificativo
+	 * 						associato
 	 */
+	public CallList(Long identifier)
+	{
+		this.id = identifier;
+	}
+	
+	@Override
 	public Long getId()
 	{
 		return this.id;
 	}
 	
-	/**
-	 * Imposta la chiamata a cui appartiene 
-	 * 
-	 * @param 	call	{@link ICall}
-	 * 					chiamata a cui si riferisce
-	 */
-	public void setIdCall(ICall call)
+	@Override
+	public void setId(Long id)
 	{
-		this.call = call;
+		this.id = id;
 	}
-	
-		/**
-	 * Restituisce la chiamata
-	 * 
-	 * @return	{@link ICall} rappresentante
-	 * 			la chiamata
-	 */
-	public ICall getIdCall()
-	{
-		return this.call;
-	}
-	
-	/**
-	 * Imposta l'utente
-	 * coinvolto nella chiamata 
-	 * 
-	 * @param 	idUser	{@link Long}
-	 * 					utente che partecipa
-	 */
-	public void setIdUser(IUserData idUser)
-	{
-		this.user = idUser;
-	}
-	
-		/**
-	 * Restituisce l'utente coinvolto
-	 * nella chiamata
-	 * 
-	 * @return	{@link IUserData} rappresentante
-	 * 			l'utente
-	 */
-	public IUserData getIdUser()
+
+	@Override
+	public IUserData getUser() 
 	{
 		return this.user;
 	}
-	
-	/**
-	 * Imposta l'attributo caller a true se
-	 * l'utente e' il chiamante, false altrimenti
-	 * 
-	 * @param 	caller	{@link boolean}
-	 */
-	public void setCaller(Long caller)
+
+	@Override
+	public void setUser(IUserData user) 
 	{
-		this.caller = caller;
+		this.user = user;
 	}
-	
-		/**
-	 * Restituisce true se l'utente in questione
-	 * e' il chiamante, false altrimenti
-	 * 
-	 * @return	{@link boolean}
-	 */
-	public Long getCaller()
+
+	@Override
+	public ICall getCall()
+	{
+		return this.call;
+	}
+
+	@Override
+	public void setCall(ICall call) 
+	{
+		this.call = call;
+	}
+
+	@Override
+	public boolean getCaller() 
 	{
 		return this.caller;
 	}
 
-		@Override
-	public String toJson()
+	@Override
+	public void setCaller(boolean caller) 
 	{
-		return null;
+		this.caller = caller;
+	}
+	
+	/**
+	 * Determina se due istanze rappresenta lo stesso
+	 * oggetto CallList
+	 * 
+	 * @param	obj	{@link Object} istanza da verificare
+	 * @return 	true se le due istanze rappresentano lo
+	 * 			stesso oggetto, false altrimenti
+	 */
+	@Override
+	public boolean equals(Object obj)
+	{
+		boolean result = false;
+		ICall toCompareCall = null;
+		CallList toCompare = null;
+		IUserData toCompareUser = null;
+		if (obj instanceof CallList)
+		{
+			toCompare = (CallList)obj;
+			toCompareCall = toCompare.getCall();
+			toCompareUser = toCompare.getUser();
+			if (this.call.equals(toCompareCall) && this.user.equals(toCompareUser))
+			{
+				result = true;
+			}
+		}
+		return result;
 	}
 }

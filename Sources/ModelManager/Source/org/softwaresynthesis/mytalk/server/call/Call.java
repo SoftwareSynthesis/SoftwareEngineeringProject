@@ -1,24 +1,43 @@
 package org.softwaresynthesis.mytalk.server.call;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Rappresenta una chiamata effettuata con
+ * il sistema MyTalk
+ * 
+ * @author 	Andrea Meneghinello
+ * @version	3.0
+ */
 public class Call implements ICall 
 {
 	private Long id;
-	private String start;
-	private String end;
-	private Set<ICallList> callLists;
+	private Date start;
+	private Date end;
+	private Set<ICallList> calls;
 	
+	/**
+	 * Costruisce una nuova istanza priva
+	 * di valori
+	 */
 	public Call()
 	{
-		this.callLists = new HashSet<ICallList>();
+		this(-1L);
 	}
 	
-	public Call(Long id)
+	/**
+	 * Costruisce una nuova istanza assegnandogli
+	 * un identificativo
+	 * 
+	 * @param 	identifier	{@link Long} identificativo
+	 * 						associato
+	 */
+	public Call(Long identifier)
 	{
-		this();
-		this.setId(id);
+		this.id = identifier;
+		this.calls = new HashSet<ICallList>();
 	}
 	
 	@Override
@@ -27,74 +46,86 @@ public class Call implements ICall
 		return this.id;
 	}
 	
-	/**
-	 * Imposta l'identificativo della chiamata
-	 * 
-	 * @param 	id	{@link Long} che identifica
-	 * 				la chiamata
-	 */
-	protected void setId(Long id)
+	@Override
+	public void setId(Long id)
 	{
 		this.id = id;
 	}
 
 	@Override
-	public String getStartDate() 
+	public Date getStart() 
 	{
 		return this.start;
 	}
 
 	@Override
-	public void setStartDate(String dateTime)
+	public void setStart(Date startDate)
 	{
-		this.start = dateTime;
+		this.start = startDate;
 	}
 
 	@Override
-	public String getEndDate() 
+	public Date getEnd() 
 	{
-		return end;
+		return this.end;
 	}
 
 	@Override
-	public void setEndDate(String dateTime) 
+	public void setEnd(Date endDate) 
 	{
-		this.end = dateTime;
+		this.end = endDate;
 	}
-	
+
 	@Override
-	public Set<ICallList> getCallList()
+	public Set<ICallList> getCalls() 
 	{
-		return this.callLists;
+		return this.calls;
 	}
-	
+
 	@Override
-	public void setCallList(Set<ICallList> callList)
+	public void setCalls(Set<ICallList> callList) 
 	{
-		this.callLists = callList;
+		this.calls = callList;
 	}
-	
+
 	@Override
-	public void addCallList(ICallList callList)
+	public boolean addCall(ICallList call) 
 	{
-		this.callLists.add(callList);
+		boolean result = false;
+		call.setCall(this);
+		result = this.calls.add(call);
+		return result;
 	}
-	
+
 	@Override
-	public void removeCallList(ICallList callList)
+	public boolean removeCall(ICallList call) 
 	{
-		this.callLists.remove(callList);
+		boolean result = this.calls.remove(call);
+		return result;
 	}
 	
+	/**
+	 * Determina se due istanze rappresentano lo stesso
+	 * oggetto Call
+	 * 
+	 * @param	obj	{@link Object} istanza da verifcare
+	 * @return	true se le due istanze rappresentano lo
+	 * 			stesso oggetto, false altrimenti
+	 */
 	@Override
 	public boolean equals(Object obj)
 	{
 		boolean result = false;
 		Call toCompare = null;
+		Long toCompareId = null;
 		if (obj instanceof Call)
 		{
 			toCompare = (Call)obj;
-			result = this.id.equals(toCompare.getId());
+			toCompareId = toCompare.getId();
+			if (this.id.equals(toCompareId))
+			{
+				result = true;
+			}
 		}
 		return result;
 	}

@@ -1,85 +1,74 @@
 package org.softwaresynthesis.mytalk.server.call;
 
+import java.util.Date;
 import java.util.Set;
+import org.softwaresynthesis.mytalk.server.IMyTalkObject;
 
 /**
- * Rappresentazione della chiamata in MyTalk
+ * Rappresenta una chiamata effettuata attraverso il
+ * sistema Mytalk
  * 
- * @author 	Andrea Meneghinello
- * @version 1.0
+ * @author	Andrea Meneghinello
+ * @version	3.0
  */
-public interface ICall 
+public interface ICall extends IMyTalkObject
 {
 	/**
-	 * Restituisce l'identificativo della chiamata
+	 * Restituisce la data di inizio della conversazione
 	 * 
-	 * @return	{@link Long} rappresentante la chiamata
+	 * @return	{@link Date} data di inizio conversazione
 	 */
-	public Long getId();
+	public Date getStart();
 	
 	/**
-	 * Restituisce la data e l'ora di avvio
-	 * della chiamata
+	 * Imposta la data di inizio della conversazione
 	 * 
-	 * @return	{@link String} con data e ora
-	 * 			di avvio
+	 * @param 	startDate	{@link Date} data di inizio
 	 */
-	public String getStartDate();
+	public void setStart(Date startDate);
 	
 	/**
-	 * Imposta la data e ora di inizio della chiamata
+	 * Restituisce la data di fine della conversazione
 	 * 
-	 * @param 	dateTime	{@link String} con data e ora
-	 * 						di avvio
+	 * @return {@link Date} data di fine conversazione
 	 */
-	public void setStartDate(String dateTime);
+	public Date getEnd();
 	
 	/**
-	 * Restituisce la data e l'ora di fine
-	 * della chiamata
+	 * Imposta la data di fine conversazione
 	 * 
-	 * @return	{@link String} con data e ora
-	 * 			di fine
+	 * @param 	endDate	{@link Date} data di fine
 	 */
-	public String getEndDate();
+	public void setEnd(Date endDate);
 	
 	/**
-	 * Imposta la data e ora di fine della chiamata
+	 * Restituisce la lista dei partecipanti alla chiamata
 	 * 
-	 * @param 	dateTime	{@link String} con data e ora
-	 * 						di fine
+	 * @return	{@link Set<ICallList>} lista dei partecipanti
 	 */
-	public void setEndDate(String dateTime);
+	public Set<ICallList> getCalls();
 	
 	/**
-	 * Restituisce i partecipanti alla chiamata
-	 *
-	 * @return	{@link Set} partecipanti alla
-	 * 			chiamata	
-	 */
-	public Set<ICallList> getCallList();
-	
-	/**
-	 * Inserisce i partecipanti alla chiamata
+	 * Imposta la lista dei partecipanti alla chiamata
 	 * 
-	 * @param 	callList	{@link Set} partecipanti
-	 * 						alla chiamata@param callList
+	 * @param 	callList	{@link Set<ICallList>} lista dei
+	 * 						partecipanti
 	 */
-	public void setCallList(Set<ICallList> callList);
+	public void setCalls(Set<ICallList> callList);
 	
 	/**
 	 * Aggiunge un partecipante alla chiamata
 	 * 
-	 * @param 	callList	{@link ICallList} con
-	 * 						le informazioni del partecipante
+	 * @param 	call	{@link ICallList} partecipante alla
+	 * 					chiamata
 	 */
-	public void addCallList(ICallList callList);
+	public boolean addCall(ICallList call);
 	
 	/**
-	 * Rimuove un partecipante dalla chiamata
+	 * Rimuove una partecipante alla chiamata
 	 * 
-	 * @param	callList 	{@link ICallList} con
-	 * 						le informazione del partecipante 						
+	 * @param 	call	{@link ICallList} partecipante alla
+	 * 					chiamata
 	 */
-	public void removeCallList(ICallList callList);
+	public boolean removeCall(ICallList call);
 }

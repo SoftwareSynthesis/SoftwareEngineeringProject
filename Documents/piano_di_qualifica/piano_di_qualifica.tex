@@ -970,7 +970,12 @@ Tale test si compone di 3 metodi:
 \textbf{Descrizione}: l'obiettivo di questo test è assicurare che il vettore in cui celle contiente tutte le credenziali d'accesso dell'utente (coppia \textit{username-password}) venga popolato correttamente.\\
 Tale test si compone di un solo metodo:
 \begin{itemize}
-\item \texttt{testLoader()} tale metodo carica nel vettore i campi \textit{username} e \textit{password} e controlla che siano effettivamente stati inseriti e i dati siano coerenti (uguali) con quelli iniziali.
+
+\item \texttt{testHandle()} verifica il corretto funzionamento del metodo \texttt{handle()}. Il controllo avviene verificando che le credenziali (\texttt{username}e \texttt{password}) siano contenute nella richiesta al server. In particolare viene controllato che gli oggetti \texttt{username} e \texttt{password} non siano \texttt{null} e che siano uguali allo username e password dell'oggetto sul quale viene effettuato il test.
+
+
+\item \texttt{testSecurityStrategy()} controlla che sia possibile ottenere la strategia di crittografia in uso verificando che l'oggetto restituito non sia \texttt{null} e che questo corrisponda con la strategia in uso.
+
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
@@ -1028,8 +1033,12 @@ Tale test si compone di due metodi:
 \textbf{Descrizione}: l'obiettivo di questo test è verificare la corretta gestione di un'istanza di \texttt{AddressBookEntry}.\\
 Tale test si compone di due metodi:
 \begin{itemize}
-\item \texttt{testToJson() } tale metodo riceve una stringa in formato json di una 	\textit{entry} della rubrica e verifica che quest'ultima sia equivalente a quella ottenuta dalla chiamata al metodo \textit{ToJson} sull'istanza della classe \textit{AddressBookEntry};
-\item\texttt{testEquals()} viene creato un oggetto \texttt{AddressBookEntry} e viene confrontato con l'istanza dell'oggetto che ha invocato il metodo, restituendo \textit{true} se e solo se sono uguali.
+\item \texttt{testId()} verifica la corretta restituzione dell'id verificando che l'oggetto restituito non sia \textit{null} e che sia uguale al valore con cui era stato inizializzato l'oggetto sottoposto al test.
+\item \texttt{testContact()} verifica la corretta impostazione e restituzione del contatto nella voce della rubrica. Tale verifica avviene tramite il controllo che il contatto restituito non sia \textit{null} e che esso sia uguale al nuovo contatto impostato. In questo modo vengono controllate entrambe le funzioni.
+\item \texttt{testGroup()} verifica la corretta impostazione ed il recupero del gruppo a cui appartiene la voce della rubrica. Il controllo avviene verificando che l'oggetto restituito non sia \textit{null} e che esso sia uguale al gruppo impostato. 
+\item \texttt{testOwner()} controlla il corretto recupero del proprietario ed l'impostazione di questo dalla voce della rubrica. La verifica avviene controllando che l'oggetto restituito non sia \textit{null} e che questo sia uguale al nuovo proprietario impostato. In questo modo si verificano entrambe le funzionalità.
+\item \texttt{testBlocked()} verifica che avvenga correttamente il blocco del contatto in rubrica invocando il blocco nell'oggetto sottoposto al test e verificandone l'esito.
+\item\texttt{testEquals()} controlla  il corretto funzionamento del metodo \texttt{equals()}. Viene creato un oggetto \texttt{AddressBookEntry} e viene confrontato con l'oggetto sottoposto a verifica tramite il metodo \texttt{equals()} che restituisce \textit{true} se e solo se sono uguali.
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
@@ -1038,10 +1047,19 @@ Tale test si compone di due metodi:
 \textbf{Descrizione}:l'obiettivo di questo test è verificare la corretta gestione di un istanza di \texttt{Group}.\\
 Tale test si compone di quattro metodi:
 \begin{itemize}
-\item \texttt{testToJson()} tale metodo riceve una stringa in formato json di una \textit{entry} della rubrica e verifica che quest'ultima sia equivalente a quella ottenuta dalla chiamata al metodo \texttt{ToJson} sull'istanza della classe \texttt{Group}.
-\item \texttt{testId()} verifica l'effettivo inserimento del campo \textit{id} mediante il metodo \texttt{getId()}.
-\item \texttt{testName()} verifica l'effettivo inserimento del campo \textit{name} mediante il metodo \texttt{getName()}.
-\item \texttt{testEquals()} viene creato un oggetto \texttt{AddressBookEntry} e viene confrontato con l'istanza dell'oggetto che ha invocato il metodo, restituendo \textit{true} se e solo se sono uguali.
+\item \texttt{testId()} verifica l'effettiva restituzione del campo \textit{id} controllando che l'oggetto restituito non sia \textit{null} e che sia uguale al valore con cui era stato inizializzato l'oggetto sottoposto al test.
+\item \texttt{testName()}
+verifica la corretta impostazione ed il recupero del del campo \textit{name}. Il controllo avviene verificando che l'oggetto restituito non sia \textit{null} e che esso sia uguale al nuovo nome impostato. 
+\item \texttt{testEquals()} 
+verifica il corretto funzionamento del metodo \texttt{equals()} controllando la corrispondenza di nomi. 
+\item \texttt{testAddressBook()} verifica la corretta impostazione e recupero dei contatti appartenenti ad un gruppo.
+Il controllo avviene verificando che l'oggetto restituito non sia \textit{null} e che esso corrisponda alla nuova collezione inserita.
+In questo modo si verificano entrambe le funzioni.
+\item \texttt{testAddAddressBookEntry()}verifica il corretto inserimento di un nuovo contatto all'interno di un gruppo controllando l'effettiva la presenza del nuovo elemento aggiunto.
+
+\item \texttt{testRemoveAddressBookEntry()}  
+verifica la corretta eliminazione di un nuovo contatto all'interno di un gruppo controllando che il contatto non sia più presente nella rubrica.
+
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
@@ -1051,16 +1069,38 @@ Tale test si compone di quattro metodi:
 
 Tale test si compone di otto metodi:
 \begin{itemize}
-\item \texttt{testToJson()} tale metodo riceve una stringa in formato JSON di una \textit{entry} della rubrica e verifica che quest'ultima sia equivalente a quella ottenuta dalla chiamata al metodo \textit{ToJson} sull'istanza della classe \texttt{UserData}.
-\item \texttt{testId()} verifica l'effettivo inserimento del campo \textit{id} mediante il metodo \texttt{setId} e il suo recupero tramite \texttt{getId};
-\item \texttt{testEmail()} verifica l'effettivo inserimento del campo \textit{email} mediante il metodo \texttt{setMail} e il suo recupero tramite \texttt{getMail};
-\item \texttt{testPassword()} verifica l'effettivo inserimento del campo \textit{password} mediante il metodo \texttt{setPassword} e il suo recupero tramite \texttt{getPassword};
-\item \texttt{testQuestion()} verifica l'effettivo inserimento del campo \textit{question} mediante il metodo \texttt{setQuestion} e il suo recupero tramite \texttt{getQuestion};
-\item \texttt{testAnswer()} verifica l'effettivo inserimento del campo \textit{answer} mediante il metodo \texttt{setAnswer} e il suo recupero tramite \texttt{getAnswer};
-\item \texttt{testName()} verifica l'effettivo inserimento del campo \textit{name} mediante il metodo \texttt{setName} e il suo recupero tramite \texttt{getName};
-\item \texttt{testSurname()} verifica l'effettivo inserimento del campo \textit{surname} mediante il metodo \texttt{setSurname} e il suo recupero tramite \texttt{getSurname};
-\item \texttt{testPicturePath()} verifica l'effettivo inserimento del campo \textit{picturePath} mediante il metodo \texttt{setPath} e il suo recupero tramite \texttt{getPath};
-\item \texttt{testEquals()} verranno creati due oggetti \texttt{UserData} contenenti gli stessi dati, tale metodo restituirà \textit{true} se e solo se sono effettivamente uguali.
+\item \texttt{testId()} 
+verifica l'effettiva restituzione del campo \textit{id} controllando che l'oggetto restituito non sia \textit{null} e che sia uguale al valore con cui era stato inizializzato l'oggetto sottoposto al test.
+\item \texttt{testEmail()} verifica che la mail venga restituita correttamente controllando che l'oggetto restituito non sia \textit{null} e che esso sia uguale alla mail dell'oggetto su cui viene effettuato il test. 
+\item \texttt{testPassword()} controlla che la password venga restituita correttamente verificando che l'oggetto restituito non sia \textit{null} e che esso sia uguale alla alla password dell'oggetto su cui viene effettuato il test.
+\item \texttt{testQuestion()} verifica l'effettivo inserimento del campo \textit{question} verifica che la domanda per il recupero password venga restituita correttamente controllando che l'oggetto restituito non sia \textit{null} e che esso sia uguale alla domanda di recupero dell'oggetto su cui viene effettuato il test.
+\item \texttt{testAnswer()} verifica che la risposta alla domanda per il recupero della password venga restituita correttamente controllando che l'oggetto restituito non sia \textit{null} e che esso sia uguale alla risposta alla domanda di recupero password dell'oggetto su cui viene effettuato il test.
+\item \texttt{testName()}verifica che il nome venga restituito correttamente controllando che l'oggetto restituito non sia \textit{null} e che esso sia uguale alla al campo dati \textit{name} dell'oggetto su cui viene effettuato il test.
+\item \texttt{testSurname()}verifica che il cognome venga restituito correttamente controllando che l'oggetto restituito non sia \textit{null} e che esso sia uguale alla al campo dati \textit{surname} dell'oggetto su cui viene effettuato il test.
+\item \texttt{testAddressBook()} verifica il corretto funzionamento dell'impostazione e recupero dei contatti della rubrica.
+Il controllo avviene verificando che l'oggetto restituito non sia \textit{null} e che esso corrisponda alla nuova collezione inserita.
+In questo modo si verificano entrambe le funzioni.
+
+\item \texttt{testCallList()} controlla la corretta impostazione e recupero dello storico delle chiamate.
+Il test avviene verificando che l'oggetto restituito non sia \textit{null} e che esso corrisponda alla nuova collezione inserita.
+\item \texttt{testMessage()} verifica la corretta impostazione e recupero della lista dei messaggi presenti in segreteria.
+Il controllo avviene verificando che l'oggetto restituito non sia \textit{null} e che esso corrisponda alla nuova collezione inserita.
+\item \texttt{testAddAddressBookEntry()} verifica il corretto funzionamento dell'aggiunta di un contatto alla rubrica.
+Il controllo avviene verificando che il nuovo oggetto inserito sia presente nella rubrica.
+\item \texttt{testAddCall()} verifica il corretto inserimento di una chiamata nello storico delle chiamate.
+Il controllo avviene verificando che il nuovo oggetto inserito sia presente nella lista delle chiamate. 
+\item \texttt{testAddMessage()}  verifica il corretto inserimento di un messaggio nella lista dei messaggi presenti in segreteria.
+Il controllo avviene verificando che il nuovo oggetto inserito sia presente nella lista dei messaggi in segreteria. 
+
+\item \texttt{testRemoveAddressBookEntry()} verifica la corretta eliminazione di un contatto dalla rubrica.
+Il controllo avviene verificando l'oggetto eliminato non sia presenti nella rubrica.  
+
+\item \texttt{testRemoveCall()} controlla il corretto funzionamento della rimozione di una chiamata dallo storico delle chiamate. La veririca avviene controllando che l'oggetto eliminato non sia presente nella lista delle chiamate.
+
+\item \texttt{testRemoveMessage()} verifica la corretta eliminazione di un messaggio dalla lista dei messaggi presenti in segreteria.
+Il controllo avviene verificando l'oggetto eliminato non sia presenti nella lista dei messaggi presenti in segreteria. 
+\item \texttt{testEquals()} controlla  il corretto funzionamento del metodo \texttt{equals()}. Il metodo si basa sul test di uguaglianza tra \texttt{email}, viene infatti controllata l'uguaglianza tra due voci della rubrica verificando che le loro \texttt{email} coincidano. 
+
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 \end{itemize}

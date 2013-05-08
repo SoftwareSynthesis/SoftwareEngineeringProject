@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -15,7 +17,7 @@ import org.junit.Test;
  * Test dei metodi della classe {@link Group}
  * 
  * @author Andrea Meneghinello
- * @version %I%, %G%
+ * @version 2.0
  */
 public class GroupTest {
 	private static Group tester;
@@ -26,11 +28,12 @@ public class GroupTest {
 	 * Preparazione dell'oggetto {@link UserData} prima dell'esecuzione dei test
 	 * 
 	 * @author Andrea Meneghinello
-	 * @version %I%, %G%
+	 * @version 1.0
 	 */
 	@BeforeClass
 	public static void setupBeforeClass() {
-		tester = new Group();
+		tester = new Group(1L);
+		tester.setId(1L);
 		contact.setMail("paperino@paperopoli.it");
 		entry = new AddressBookEntry(1L);
 	}
@@ -39,22 +42,21 @@ public class GroupTest {
 	 * Testa il metodo get dell'identificatore
 	 * 
 	 * @author Andrea Meneghinello
-	 * @version %I%, %G%
+	 * @author Diego Beraldin
+	 * @version 2.0
 	 */
 	@Test
 	public void testId() {
-		Long id = 1L;
-		tester.setId(id);
 		Long result = tester.getId();
 		assertNotNull(result);
-		assertEquals(result, id);
+		assertEquals((Object) 1L, result);
 	}
 
 	/**
 	 * Testa i metodi set/get del nome del gruppo
 	 * 
 	 * @author Andrea Meneghinello
-	 * @version %I%, %G%
+	 * @version 1.0
 	 */
 	@Test
 	public void testName() {
@@ -68,57 +70,24 @@ public class GroupTest {
 	/**
 	 * Testa il metodo equals
 	 * 
-	 * @author Andrea Meneghinello
-	 * @version %I%, %G%
+	 * @author Diego Beraldin
+	 * @version 2.0
 	 */
 	@Test
 	public void testEquals() {
-		boolean result = false;
-		Group group1 = new Group(1L);
-		Group group2 = new Group(2L);
-		result = tester.equals(group1);
-		assertTrue(result);
-		result = tester.equals(group2);
-		assertFalse(result);
-	}
-
-	/**
-	 * Testa la corretta conversione di una istanza di {@link AddressBookEntry}
-	 * in formato JSON
-	 * 
-	 * @author Andrea Meneghinello
-	 * @version %I%, %G%
-	 */
-	@Test
-	public void testToJson() {
-		String name = "name";
-		tester.setName(name);
-		Long id = 1L;
-		tester.setId(id);
-		String toCompare = String.format("{\"id\":\"%d\", \"name\":\"%s\"}",
-				id, name);
-		String groupJSON = tester.toJson();
-		assertNotNull(groupJSON);
-		assertEquals(groupJSON, toCompare);
-	}
-
-	/**
-	 * Verifica la corretta impostazione e recupero del proprietario del gruppo
-	 * 
-	 * @author diego
-	 */
-	@Test
-	public void testOwner() {
-		tester.setOwner(contact);
-		IUserData result = tester.getOwner();
-		assertNotNull(result);
-		assertEquals(contact, result);
+		tester.setName("dummy");
+		IGroup other = mock(Group.class);
+		when(other.getName()).thenReturn("dummy");
+		assertTrue(tester.equals(other));
+		when(other.getName()).thenReturn("pippo");
+		assertFalse(tester.equals(other));
 	}
 
 	/**
 	 * Verifica la corretta impostazione e recupero della rubrica
 	 * 
-	 * @author diego
+	 * @author Diego Beraldin
+	 * @version 1.0
 	 */
 	@Test
 	public void testAddressBook() {
@@ -132,7 +101,8 @@ public class GroupTest {
 	/**
 	 * Verifica l'inserimento di un nuovo contatto all'interno del gruppo
 	 * 
-	 * @author diego
+	 * @author Diego Beraldin
+	 * @version 1.0
 	 */
 	@Test
 	public void testAddAddressBookEntry() {
@@ -144,23 +114,13 @@ public class GroupTest {
 	/**
 	 * Verifica la rimozione di un contatto dal gruppo
 	 * 
-	 * @author diego
+	 * @author Diego Beraldin
+	 * @version 1.0
 	 */
 	@Test
 	public void testRemoveAddressBookEntry() {
 		tester.removeAddressBookEntry(entry);
 		Set<IAddressBookEntry> addressBook = tester.getAddressBook();
 		assertFalse(addressBook.contains(entry));
-	}
-	
-	/**
-	 * Testa la conversione in stringa dell'oggetto Group
-	 * 
-	 * @author diego
-	 */
-	@Test
-	public void testToString() {
-		String toCompare = String.format("Group[id: %d, name: %s]", tester.getId(), tester.getName());
-		assertEquals(toCompare, tester.toString());
 	}
 }

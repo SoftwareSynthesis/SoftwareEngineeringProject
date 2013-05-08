@@ -1,22 +1,26 @@
 package org.softwaresynthesis.mytalk.server;
 
 /**
- * Definisce che l'oggetto che la implementa ha la
- * possibilità di essere convertito in formato
- * json in modo da poter essere trasferito al
- * client
+ * Rappresenta un generico oggetto dell'applicativo
+ * MyTalk
  * 
  * @author 	Andrea Meneghinello
- * @version 1.0
+ * @version	3.0
  */
 public interface IMyTalkObject 
 {
 	/**
-	 * Converte l'oggetto di invocazione in una
-	 * stringa json interpretabile dai client
+	 * Restituisce l'identificativo dell'oggetto
 	 * 
-	 * @return	rappresentazione in {@link String}
-	 * 			dell'oggetto di invocazione 
+	 * @return	{@link Long} rappresentante univocamente
+	 * 			l'oggetto
 	 */
-	public String toJson();
+	public Long getId();
+	
+	/**
+	 * Imposta l'identificativo dell'oggetto
+	 * 
+	 * @param 	id	{@link Long} identificativo dell'oggetto
+	 */
+	public void setId(Long id);
 }

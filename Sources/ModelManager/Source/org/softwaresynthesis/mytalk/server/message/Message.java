@@ -1,178 +1,145 @@
 package org.softwaresynthesis.mytalk.server.message;
 
+import java.util.Date;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
 
 /**
- * Rappresentazione di un messaggio in segreteria del sistema mytalk
- *
- * @author 	Marco Schivo
- * @version	1.0
+ * Rappresenta un messaggio lasciato nella
+ * segreteria di un utente del sistema
+ * MyTalk
+ * 
+ * @author 	Andrea Meneghinello
+ * @version	3.0
  */
 public class Message implements IMessage 
 {
 	private Long id;
 	private IUserData sender;
 	private IUserData receiver;
-	private Long newer;
-	private Long video;
-	private String date;
+	private boolean newer;
+	private boolean video;
+	private Date date;
 	
 	/**
-	 * Crea un messaggio privo di dati
+	 * Costruisce una nuova istanza priva
+	 * di valori
 	 */
-	public Message() {}
+	public Message()
+	{
+		this(-1L);
+	}
 	
 	/**
-	 * Restituisce l'istanza sottoforma di stringa
-	 * JSON in modo che possa essere utilizzata
-	 * nella parte client
+	 * Costruisce una nuova istanza assegnadogli
+	 * un identificativo
 	 * 
-	 * @return	{@link String} in formato JSON
-	 * 			dell'istanza
+	 * @param 	identifier	{@link Long} idenfiticativo
+	 * 						associato
 	 */
+	public Message(Long identifier)
+	{
+		this.id = identifier;
+	}
+	
 	@Override
-	public String toJson() 
-	{
-		//TODO da implementare?
-		return "";
-	}
-
-	/**
-	 * Imposta l'identificativo del messaggio
-	 * 
-	 * @param id identificativo da impostare
-	 */
-	public void setId(Long id)
-	{
-		this.id = id;
-	}
-	
-	/**
-	 * Restituisce l'identificativo univoco
-	 * del messaggio di segreteria
-	 * 
-	 * @return	identificativo del messaggio di
-	 * 			tipo {@link Long}
-	 */
-	public Long getId()
+	public Long getId() 
 	{
 		return this.id;
 	}
 	
-	/**
-	 * Restituisce l'Id dell'utente che ha
-	 * inviato il messaggio di segreteria
-	 * 
-	 * @return	{@link Long} rappresentante
-	 * 			l'id dell'utente mittente
-	 */
+	@Override
+	public void setId(Long id)
+	{
+		this.id = id;
+	}
+
+	@Override
 	public IUserData getSender()
 	{
 		return this.sender;
 	}
-	
-	/**
-	 * Imposta l'id dell'utente mittente
-	 * del messaggio in segreteria 
-	 * 
-	 * @param 	id	{@link Long}
-	 * 					id dell'utente
-	 * 					mittente
-	 */
-	public void setSender(IUserData id)
+
+	@Override
+	public void setSender(IUserData sender)
 	{
-		this.sender = id;
+		this.sender = sender;
 	}
-	
-		/**
-	 * Restituisce l'Id dell'utente destinatario
-	 * del messaggio di segreteria
-	 * 
-	 * @return	{@link Long} rappresentante
-	 * 			l'id dell'utente destinatario
-	 */
-	public IUserData getReceiver()
+
+	@Override
+	public IUserData getReceiver() 
 	{
 		return this.receiver;
 	}
-	
-	/**
-	 * Imposta l'id dell'utente destinatario
-	 * del messaggio in segreteria 
-	 * 
-	 * @param 	id	{@link Long}
-	 * 					id dell'utente
-	 * 					destinatario
-	 */
-	public void setReceiver(IUserData id)
+
+	@Override
+	public void setReceiver(IUserData receiver) 
 	{
-		this.receiver = id;
+		this.receiver = receiver;
 	}
-	
-	/**
-	 * Restituisce 1 se il messaggio non e'
-	 * ancora stato letto, 0 altrimenti
-	 * 
-	 * @return	{@link Long} che rappresenta se il messaggio e' nuovo o meno
-	 */
-	public Long getNewer()
+
+	@Override
+	public boolean getNewer() 
 	{
 		return this.newer;
 	}
-	
-	/**
-	 * Imposta lo stato del messagggio, 
-	 * 1 se e' nuovo, 0 altrimenti
-	 * 
-	 * @param 	newer	{@link Long} con lo stato
-	 * 						del messaggio (1 se nuovo, 0 altrimenti)
-	 */
-	public void setNewer(Long newer)
+
+	@Override
+	public void setNewer(boolean newer) 
 	{
 		this.newer = newer;
 	}
-	
-	/**
-	 * Restituisce 1 se il messaggio e' di tipo
-	 * video, 0 se solo audio
-	 * 
-	 * @return	{@link Long} che rappresenta il
-	 * 			tipo di messaggio
-	 */
-	public Long getVideo()
+
+	@Override
+	public boolean getVideo() 
 	{
 		return this.video;
 	}
-	
-	/**
-	 * Imposta il tipo del messaggio in segreteria
-	 * 
-	 * @param 	video	{@link Long} che identifica se il
-	 * 					messaggio e' di tipo video (1)
-	 * 					o solo audio (0)
-	 */
-	public void setVideo(Long video)
+
+	@Override
+	public void setVideo(boolean video) 
 	{
 		this.video = video;
 	}
-	
-	/**
-	 * Restituisce la data del messaggio in segreteria
-	 * 
-	 * @return	{@link Date} con la data del messaggio di segreteria
-	 */
-	public String getDate()
+
+	@Override
+	public Date getDate()
 	{
 		return this.date;
 	}
+
+	@Override
+	public void setDate(Date date) 
+	{
+		this.date = date;
+	}
 	
 	/**
-	 * Imposta la data del messaggio
+	 * Determina se due istanze rappresentano lo stesso
+	 * oggetto Message
 	 * 
-	 * @param 	date {@link Date} con la data del messaggio di segreteria
+	 * @param	obj	{@link Object} istanza da verificare
+	 * @return	true se le due istanze rappresentano lo
+	 * 			stesso oggetto, false altrimenti
 	 */
-	public void setDate(String date)
+	@Override
+	public boolean equals(Object obj)
 	{
-		this.date= date;
+		boolean result = false;
+		Date toCompareDate = null;
+		IUserData toCompareSender = null;
+		IUserData toCompareReceiver = null;
+		Message toCompare = null;
+		if (obj instanceof Message)
+		{
+			toCompare = (Message)obj;
+			toCompareSender = toCompare.getSender();
+			toCompareReceiver = toCompare.getReceiver();
+			toCompareDate = toCompare.getDate();
+			if (this.sender.equals(toCompareSender) && this.receiver.equals(toCompareReceiver) && this.date.equals(toCompareDate))
+			{
+				result = true;
+			}
+		}
+		return result;
 	}
 }
