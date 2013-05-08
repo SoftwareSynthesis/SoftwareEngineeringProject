@@ -1072,7 +1072,7 @@ Tale test si compone di due metodi:
 \item \textbf{TM3.01: AddressBookEntryTest}\\
 \textbf{Verifica la Classe:} \texttt{AddressBookEntry}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare la corretta gestione di un'istanza di \texttt{AddressBookEntry}.\\
-Tale test si compone di due metodi:
+Tale test si compone di sei metodi:
 \begin{itemize}
 \item \texttt{testId()} verifica la corretta restituzione dell'id verificando che l'oggetto restituito non sia \textit{null} e che sia uguale al valore con cui era stato inizializzato l'oggetto sottoposto al test.
 \item \texttt{testContact()} verifica la corretta impostazione e restituzione del contatto nella voce della rubrica. Tale verifica avviene tramite il controllo che il contatto restituito non sia \textit{null} e che esso sia uguale al nuovo contatto impostato. In questo modo vengono controllate entrambe le funzioni.
@@ -1086,7 +1086,7 @@ Tale test si compone di due metodi:
 \item \textbf{TM3.02: GroupTest}\\
 \textbf{Verifica la Classe:} \texttt{Group}.\\
 \textbf{Descrizione}:l'obiettivo di questo test è verificare la corretta gestione di un istanza di \texttt{Group}.\\
-Tale test si compone di quattro metodi:
+Tale test si compone di sette metodi:
 \begin{itemize}
 \item \texttt{testId()} verifica l'effettiva restituzione del campo \textit{id} controllando che l'oggetto restituito non sia \textit{null} e che sia uguale al valore con cui era stato inizializzato l'oggetto sottoposto al test.
 \item \texttt{testName()}
@@ -1106,9 +1106,9 @@ verifica la corretta eliminazione di un nuovo contatto all'interno di un gruppo 
 
 \item \textbf{TM3.03: UserDataTest}\\
 \textbf{Verifica la Classe:} \texttt{UserData}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la corretta gestione di un'istanza di \texttt{UserData}. La classe inizializza inoltre un istanza di tale classe, impostandone i campi membro attraverso i metodi \textit{set}. Successivamente mediante i metodi \textit{get} vengono verificati gli effettivi inserimenti.
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la corretta gestione di un'istanza della classe \texttt{UserData}. Vengono controllati tutti i metodi disponibili a questa classe, in particolare quelli relativi alla gestione dei sui diversi campi dati.
 
-Tale test si compone di otto metodi:
+Tale test si compone di quattordici metodi:
 \begin{itemize}
 \item \texttt{testId()} 
 verifica l'effettiva restituzione del campo \textit{id} controllando che l'oggetto restituito non sia \textit{null} e che sia uguale al valore con cui era stato inizializzato l'oggetto sottoposto al test.
@@ -1146,9 +1146,11 @@ Il controllo avviene verificando l'oggetto eliminato non sia presenti nella list
 \textbf{Risultato del test:} superato con successo.
 \end{itemize}
 
-\subsubsection{\texttt{org.softwaresinthesis.mytalk.server.abook.servlet}}
+\subsubsection{\texttt{org.softwaresinthesis.mytalk.server.abook.controller}}
 \begin{itemize}
 \item \textbf{TM4.01: AddressBookDoAddContactServletTest}\\
+
+
 \textbf{Verifica l'oggetto:} \texttt{AddressBookDoAddContactServlet}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di aggiungere un contatto \texttt{IUserData} all'interno di una rubrica utente.
 
@@ -1354,7 +1356,7 @@ Tale test si compone di sei metodi:
 \begin{itemize}
 \item \textbf{TM5.01: CallListTest}\\
 \textbf{Verifica la Classe:} \texttt{CallList}.\\
-\textbf{Descrizione}:
+\textbf{Descrizione}: L'obiettivo di questo test è controllare che un'istanza della classe \texttt{CallList} venga gestita in modo corretto. Vengono verificati tutti i metodi disponibili alla classe, in particoalri quelli relativi alla gestione dei sui campi dati.
 
 Tale test si compone di quattro metodi:
 \begin{itemize}
@@ -1374,7 +1376,8 @@ In entrambe i casi viene controllato che l'oggetto restituito non sia \textit{nu
 
 \item \textbf{TM5.02: CallTest}\\
 \textbf{Verifica la Classe:} \texttt{Call}.\\
-\textbf{Descrizione}:
+\textbf{Descrizione}: L'obiettivo di questo test è controllare che un'istanza della classe \texttt{Call} venga gestita in modo corretto. Vengono verificati tutti i metodi disponibili alla classe, in particolare quelli relativi alla gestione dei sui campi dati.
+
 
 Tale test si compone di sette metodi:
 \begin{itemize}
@@ -1403,7 +1406,38 @@ verifica il corretto funzionamento del metodo \texttt{equals()}. Viene creato un
 \end{itemize}
 
 
+\subsubsection{\texttt{org.softwaresinthesis.mytalk.server.message}}
+\begin{itemize}
 
+\item \textbf{TM6.01: MessageTest}\\
+\textbf{Verifica la Classe:} \texttt{Message}.\\
+\textbf{Descrizione}: L'obiettivo di questo test è controllare che un'istanza della classe \texttt{Message} venga gestita in modo corretto.
+
+Tale test si compone di sette metodi:
+\begin{itemize}
+\item \texttt{testId()} controlla che il recupero dell'identificatore di un messaggio in segreteria avvenga in modo corretto. 
+Il test avviene verificando che l'oggetto restituito non sia \textit{null} e che esso sia uguale al valore con cui era stato inizializzato l'oggetto sottoposto al test.
+\item \texttt{testSender()} verifica il corretto recupero e impostazione del mittente del messaggio di di segreteria.
+Il controllo avviene verificando che l'oggetto restituito non sia \texttt{null} e che esso sia uguale al mittente impostato. In questo modo vengono controllate ambedue le funzionalità.
+\item \texttt{testReceiver()} controlla il corretto recupero e impostazione del destinatario del messaggio di di segreteria.
+Il la verifica avviene controllando che l'oggetto restituito non sia \texttt{null} e che esso sia uguale al destinatario impostato. In questo modo vengono controllate entrambe le funzionalità. 
+
+\item \texttt{testNewer()} verifica il corretto recupero e impostazione del campo dati \texttt{newer} che corrisponde ad un booleano che indica se il messaggio non è ancora stato letto (valore \texttt{true}) oppure no (valore \texttt{false}.  mittente del messaggio di di segreteria.
+Il controllo avviene sia per il caso di impostazione e recupero del campo dati con valore 	\texttt{true} che 	\texttt{false}. Viene verificato in entrambe i casi che l'oggetto restituito non sia \texttt{null} e che esso sia uguale a \texttt{true} per il primo caso e \texttt{false} nel secondo.
+
+\item \texttt{testVideo()}  verifica il corretto recupero e impostazione del campo dati \texttt{video} che corrisponde ad un booleano che indica se il messaggio è di tipo audio/video (valore \texttt{true}) oppure di solo tipo audio (valore \texttt{false}.
+Il controllo avviene sia per il caso di impostazione e recupero del campo dati con valore 	\texttt{true} che 	\texttt{false}. Viene verificato in entrambe i casi che l'oggetto restituito non sia \texttt{null} e che esso sia uguale a \texttt{true} per il primo caso e \texttt{false} nel secondo.
+
+\item \texttt{testDate()} controlla il corretto recupero e impostazione della data del messaggio di di segreteria.
+Il la verifica avviene controllando che l'oggetto restituito non sia \texttt{null} e che esso sia uguale alla data impostato. In questo modo vengono controllate entrambe le funzionalità. 
+
+
+\item \texttt{testEquals()}
+verifica il corretto funzionamento del metodo \texttt{equals()}. Viene creato un oggetto \texttt{Message} e viene confrontato con l'oggetto sottoposto a verifica tramite il metodo \texttt{equals()} che restituisce \textit{true} se e solo se sono uguali.
+ 
+\end{itemize}
+\textbf{Risultato del test:} superato con successo.
+\end{itemize}
 
 
 
