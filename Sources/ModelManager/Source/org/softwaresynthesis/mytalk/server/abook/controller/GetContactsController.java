@@ -41,24 +41,25 @@ public class GetContactsController extends AbstractController{
 			result = "{";
 			while(iterator.hasNext() == true)
 			{
-				/* FIXME iterazione troppo semplicistica: così mi ritrovo più volte
-				 * nella stringa di output i dati di uno stesso contatto quando questo
-				 * appare più volte (perché in gruppi diversi) nella rubrica di un utente!
-				 */
 				entry = iterator.next();
-				friend = entry.getContact();
-				result += "\"" + friend.getId() + "\":";
-				result += "{\"name\":\"" + friend.getName() + "\"";
-				result += ", \"surname\":\"" + friend.getSurname() + "\"";
-				result += ", \"email\":\"" + friend.getMail() + "\"";
-				result += ", \"id\":\"" + friend.getId() + "\"";
-				result += ", \"picturePath\":\"" + friend.getPath() + "\"";
-				result += ", \"state\":\"" + ChannelServlet.getState(friend.getId()) + "\"";
-				result += ", \"blocked\":\"" + entry.getBlocked() + "\"}";
-				if (iterator.hasNext() == true)
-				{
-					result += ",";
+				//Se gruppo == null, allora il contatto è nella rubrica "normale"
+				if (entry.getGroup() == null){
+					friend = entry.getContact();
+					result += "\"" + friend.getId() + "\":";
+					result += "{\"name\":\"" + friend.getName() + "\"";
+					result += ", \"surname\":\"" + friend.getSurname() + "\"";
+					result += ", \"email\":\"" + friend.getMail() + "\"";
+					result += ", \"id\":\"" + friend.getId() + "\"";
+					result += ", \"picturePath\":\"" + friend.getPath() + "\"";
+					result += ", \"state\":\"" + ChannelServlet.getState(friend.getId()) + "\"";
+					result += ", \"blocked\":\"" + entry.getBlocked() + "\"}";
+					if (iterator.hasNext() == true)
+					{
+						result += ",";
+					}
 				}
+				//FIXME da sistemare la virgola, nel caso l'ultima entry sia un contatto in un gruppo
+				//		(resta una virgola)
 			}
 			result += "}";
 			
