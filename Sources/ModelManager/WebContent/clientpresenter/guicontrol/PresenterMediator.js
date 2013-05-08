@@ -11,17 +11,17 @@ function PresenterMediator() {
      **************************************************************************/
 	// array delle viste che devono essere visualizzate
 	var View = {
-			AccountSettingsView: "AccountSettingsView.html",
-			AddressBookView: "AddressBookView.html",
-			CallHistoryView: "CallHistoryView.html",
-			GroupView: "CommunicationView.html",
-			LoginView: "LoginView.html",
-			MainView: "MainView.html",
-			MessageView: "MessageView.html",
-			PhoneCallsRegistry: "PhoneCallsRegistryView.html",
-			RegisterView: "RegisterView.html",
-			SearchResultView: "SearchResultView.html",
-			ToolsView: "ToolsView.html"
+			AccountSettingsView: "AccountSettingsView.xml",
+			AddressBookView: "AddressBookView.xml",
+			CallHistoryView: "CallHistoryView.xml",
+			GroupView: "CommunicationView.xml",
+			LoginView: "LoginView.xml",
+			MainView: "MainView.xml",
+			MessageView: "MessageView.xml",
+			PhoneCallsRegistry: "PhoneCallsRegistryView.xml",
+			RegisterView: "RegisterView.xml",
+			SearchResultView: "SearchResultView.xml",
+			ToolsView: "ToolsView.xml"
 	};
 	
     // array associativo contentente i riferimenti ai presenter di primo livello
@@ -660,9 +660,8 @@ function PresenterMediator() {
 		// ottengo il frammento di codice HTML dalla view
 		var viewRequest = new XMLHttpRequest();
 		viewRequest.open("GET", "clientview/" + View[key], false);
-		viewRequest.responseType = "document";
 		viewRequest.send();
 		// ritorno il frammendto di codice ottenuto
-		return viewRequest.responseXML.body.childNodes[0];
+		return viewRequest.responseXML.firstNode;
 	};
 }
