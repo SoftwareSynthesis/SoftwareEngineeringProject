@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatcher;
 import org.softwaresynthesis.mytalk.server.IMyTalkObject;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
@@ -178,7 +179,7 @@ public class DataPersistanceManagerTest {
 		// configura il comportamento del mock per la cancellazione
 		when(modifier.execute(object)).thenReturn(true);
 		// invoca il metodo da testare
-		boolean result = tester.delete(object);
+		boolean result = tester.update(object);
 		// verifica il risultato ottenuto
 		assertNotNull(result);
 		assertTrue(result);
@@ -203,7 +204,7 @@ public class DataPersistanceManagerTest {
 		// configura il comportamento del mock per la cancellazione
 		when(modifier.execute(object)).thenReturn(false);
 		// invoca il metodo da testare
-		boolean result = tester.insert(object);
+		boolean result = tester.update(object);
 		// verifica il risultato ottenuto
 		assertNotNull(result);
 		assertFalse(result);
@@ -293,13 +294,9 @@ public class DataPersistanceManagerTest {
 		verify(factory).getUserDataUtil(manager);
 		verify(getter).execute(query);
 		verify(list).isEmpty();
-		verify(list).get(0);
-		verify(list, never()).get(argThat(new ArgumentMatcher<Integer>() {
-			@Override
-			public boolean matches(Object arg) {
-				return ((Integer) arg).intValue() > 0;
-			}
-		}));
+		ArgumentCaptor<Integer> argument = ArgumentCaptor.forClass(Integer.class);
+		verify(list).get(argument.capture());
+		assertTrue(argument.getValue() == 0);
 	}
 
 	/**
@@ -384,13 +381,10 @@ public class DataPersistanceManagerTest {
 		verify(factory).getUserDataUtil(manager);
 		verify(getter).execute(query);
 		verify(list).isEmpty();
-		verify(list).get(0);
-		verify(list, never()).get(argThat(new ArgumentMatcher<Integer>() {
-			@Override
-			public boolean matches(Object arg) {
-				return ((Integer) arg).intValue() > 0;
-			}
-		}));
+		ArgumentCaptor<Integer> argument = ArgumentCaptor
+				.forClass(Integer.class);
+		verify(list).get(argument.capture());
+		assertTrue(argument.getValue() == 0);
 	}
 
 	/**
@@ -445,20 +439,24 @@ public class DataPersistanceManagerTest {
 		String mail = "indirizzo5@dominio.it";
 		String name = "paperino";
 		String surname = "de paperoni";
-		String query = "from UserData as u where u.mail like '" + mail + "' or u.name like '" + name + "' or u.surname like '" + surname + "'";
+		String query = "from UserData as u where u.mail like '" + mail
+				+ "' or u.name like '" + name + "' or u.surname like '"
+				+ surname + "'";
 		// mock della collezione di utenti
 		@SuppressWarnings("unchecked")
 		List<IMyTalkObject> list = mock(List.class);
 		// configura il comportamento dei mock
 		when(getter.execute(query)).thenReturn(list);
-		
+
 		// invoca il metodo da testare
 		List<IUserData> result = tester.getUserDatas(mail, name, surname);
-		
+
 		// verifica l'output
 		assertNotNull(result);
 		assertEquals(list, result);
-		
-		// TODO verificare il corretto utilizzo dei mock
+
+		// verifica il corretto utilizzo dei mock
+		verify(factory).getUserDataUtil(manager);
+		verify(getter).execute(query);
 	}
 }
