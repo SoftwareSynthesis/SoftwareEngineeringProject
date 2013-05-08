@@ -217,19 +217,9 @@ public class DataPersistanceManager
 	public List<IUserData> getUserDatas(String mail, String name, String surname)
 	{
 		GetUtil select = this.factory.getUserDataUtil(this.manager);
-		//Iterator<IMyTalkObject> iterator = null;
-		//List<IMyTalkObject> collection = null;
 		List<IUserData> result = null;
 		String query = "from UserData as u where u.mail like '" + mail + "' or u.name like '" + name + "' or u.surname like '" + surname + "'";
-		//IUserData user = null;
 		result = (List)select.execute(query);
-		//iterator = collection.iterator();
-		//result = new ArrayList<IUserData>();
-		//while (iterator.hasNext())
-		//{
-			//user = (IUserData)iterator.next();
-			//result.add(user);
-		//}
 		return result;
 	}
 }
