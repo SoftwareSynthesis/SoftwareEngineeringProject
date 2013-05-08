@@ -10,7 +10,6 @@ import static org.mockito.Mockito.when;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.softwaresynthesis.mytalk.server.call.CallList;
 import org.softwaresynthesis.mytalk.server.call.ICallList;
@@ -25,34 +24,21 @@ import org.softwaresynthesis.mytalk.server.message.Message;
  * @version 2.0
  */
 public class UserDataTest {
-	private static IUserData tester;
-	private static IMessage newMessage;
-	private static IAddressBookEntry newEntry;
-	private static ICallList newCall;
-
-	/**
-	 * Preparazione dell'oggetto {@link UserData} prima dell'esecuzione dei test
-	 * 
-	 * @author Andrea Meneghinello
-	 * @version 1.0
-	 */
-	@BeforeClass
-	public static void setupBeforeClass() {
-		tester = new UserData(1L);
-		tester.setId(1L);
-		tester.setMail("indirizzo1@dominio.it");
-		tester.setPassword("password");
-		tester.setQuestion("question");
-		tester.setAnswer("answer");
-		tester.setName("name");
-		tester.setSurname("surname");
-		tester.setPath("path");
-
-		newMessage = mock(Message.class);
-		newEntry = mock(AddressBookEntry.class);
-		newCall = mock(CallList.class);
-	}
-
+	// dati di test
+	private final Long id = 1L;
+	private final String email = "indrizzo5@dominio.it";
+	private final String password = "password";
+	private final String question = "ThisIsNotAQuestion";
+	private final String answer = "ThisIsNotAnAnswer";
+	private final String name = "paperino";
+	private final String surname = "de paperoni";
+	private final String path = "ThisIsNotAPath";
+	// oggetto da testare
+	private final IUserData tester = new UserData();
+	private static IMessage newMessage = mock(Message.class);
+	private static IAddressBookEntry newEntry = mock(AddressBookEntry.class);
+	private static ICallList newCall = mock(CallList.class);
+	
 	/**
 	 * Esegue un test sul metodo get dell'ID
 	 * 
@@ -62,9 +48,10 @@ public class UserDataTest {
 	 */
 	@Test
 	public void testId() {
+		tester.setId(id);
 		Long result = tester.getId();
 		assertNotNull(result);
-		assertEquals((Object) 1L, result);
+		assertEquals(id, result);
 	}
 
 	/**
@@ -76,9 +63,10 @@ public class UserDataTest {
 	 */
 	@Test
 	public void testEmail() {
-		String mail = tester.getMail();
-		assertNotNull(mail);
-		assertEquals("indirizzo1@dominio.it", mail);
+		tester.setMail(email);
+		String result = tester.getMail();
+		assertNotNull(result);
+		assertEquals(result, email);
 	}
 
 	/**
@@ -90,9 +78,10 @@ public class UserDataTest {
 	 */
 	@Test
 	public void testPassword() {
-		String password = tester.getPassword();
-		assertNotNull(password);
-		assertEquals("password", password);
+		tester.setPassword(password);
+		String result = tester.getPassword();
+		assertNotNull(result);
+		assertEquals(password, result);
 	}
 
 	/**
@@ -104,9 +93,10 @@ public class UserDataTest {
 	 */
 	@Test
 	public void testQuestion() {
-		String question = tester.getQuestion();
-		assertNotNull(question);
-		assertEquals("question", question);
+		tester.setQuestion(question);
+		String result = tester.getQuestion();
+		assertNotNull(result);
+		assertEquals(question, result);
 	}
 
 	/**
@@ -118,9 +108,10 @@ public class UserDataTest {
 	 */
 	@Test
 	public void testAnswer() {
-		String answer = tester.getAnswer();
-		assertNotNull(answer);
-		assertEquals("answer", answer);
+		tester.setAnswer(answer);
+		String result = tester.getAnswer();
+		assertNotNull(result);
+		assertEquals(answer, result);
 	}
 
 	/**
@@ -132,9 +123,10 @@ public class UserDataTest {
 	 */
 	@Test
 	public void testName() {
-		String name = tester.getName();
-		assertNotNull(name);
-		assertEquals("name", name);
+		tester.setName(name);
+		String result = tester.getName();
+		assertNotNull(result);
+		assertEquals(name, result);
 	}
 
 	/**
@@ -146,22 +138,25 @@ public class UserDataTest {
 	 */
 	@Test
 	public void testSurname() {
-		String surname = tester.getSurname();
-		assertNotNull(surname);
-		assertEquals("surname", surname);
+		tester.setSurname(surname);
+		String result = tester.getSurname();
+		assertNotNull(result);
+		assertEquals(surname, result);
 	}
 
 	/**
 	 * Esegue un test sui metodi set/get dell'immagine profilo
 	 * 
 	 * @author Andrea Meneghinello
+	 * @author Diego Beraldin
 	 * @version 2.0
 	 */
 	@Test
 	public void testPicturePath() {
-		String path = tester.getPath();
-		assertNotNull(path);
-		assertEquals("path", path);
+		tester.setPath(path);
+		String result = tester.getPath();
+		assertNotNull(result);
+		assertEquals(path, result);
 	}
 
 	/**
@@ -298,8 +293,9 @@ public class UserDataTest {
 	 */
 	@Test
 	public void testEquals() {
+		tester.setMail(email);
 		IUserData user = mock(UserData.class);
-		when(user.getMail()).thenReturn("indirizzo1@dominio.it");
+		when(user.getMail()).thenReturn(email);
 		assertTrue(tester.equals(user));
 		when(user.getMail()).thenReturn("indirizzo2@dominio.it");
 		assertFalse(tester.equals(user));
