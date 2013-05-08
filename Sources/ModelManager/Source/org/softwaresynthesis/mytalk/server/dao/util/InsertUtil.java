@@ -11,7 +11,7 @@ import org.softwaresynthesis.mytalk.server.dao.ISessionManager;
  * @author 	Andrea Meneghinello
  * @version	3.0
  */
-class InsertUtil extends ModifyUtil 
+final class InsertUtil extends ModifyUtil 
 {
 	/**
 	 * Crea un istanza per l'inserimento di un record

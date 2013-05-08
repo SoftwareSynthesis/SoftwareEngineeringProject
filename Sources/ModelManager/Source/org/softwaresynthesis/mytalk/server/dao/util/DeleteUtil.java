@@ -11,7 +11,7 @@ import org.softwaresynthesis.mytalk.server.dao.ISessionManager;
  * @author 	Andrea Meneghinello
  * @version 3.0
  */
-class DeleteUtil extends ModifyUtil 
+final class DeleteUtil extends ModifyUtil 
 {
 	/**
 	 * Crea un istanza per la cancellazione di un record
