@@ -28,6 +28,21 @@ public interface IGroup extends IMyTalkObject
 	public void setName(String name);
 	
 	/**
+	 * Restituisce il proprietario del gruppo
+	 * 
+	 * @return	{@link IUserData} utente proprietario
+	 */
+	public IUserData getOwner();
+	
+	/**
+	 * Imposta il proprietario del gruppo
+	 * 
+	 * @param 	user	{@link IUserData}
+	 * 					proprietario del gruppo
+	 */
+	public void setOwner(IUserData owner);
+	
+	/**
 	 * Restituisce i contatti appartenenti al gruppo
 	 * 
 	 * @return	{@link Set<IAddressBookEntry>} lista dei
