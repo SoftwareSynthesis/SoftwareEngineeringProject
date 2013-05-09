@@ -46,6 +46,10 @@ public class AbstractControllerTest {
 			Mockito.CALLS_REAL_METHODS);
 
 	/**
+	 * Configura tutti gli oggetti che sono necessari all'esecuzione di tutti i
+	 * test (all'occorrenza il comportamento di qualche mock potrà essere
+	 * ridefinito in determinati test particolari se il comportamento che deve
+	 * esibire è diverso da quello predefinsito)
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
@@ -89,6 +93,14 @@ public class AbstractControllerTest {
 		}
 	}
 
+	/**
+	 * Verifica che sia possibile ottenere un'istanza valida di
+	 * {@link DataPersistanceManager} dall'interno del controller astratto e di
+	 * tutte le sue sottoclassi.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
 	@Test
 	public void testGetDAOFactory() {
 		// invoca il metodo da testare
@@ -97,6 +109,14 @@ public class AbstractControllerTest {
 		assertNotNull(manager);
 	}
 
+	/**
+	 * Verifica che sia possibile recuperare un riferimento a una strategia di
+	 * autenticazione valida e, in particolare, che si tratti di un'istanza
+	 * dell'algoritmo di crittografia AES a 128 bit che è stato prescelto.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
 	@Test
 	public void testGetSecurityStrategyFactory() {
 		// invoca il metodo da testare
@@ -106,6 +126,18 @@ public class AbstractControllerTest {
 		assertTrue(algorithm instanceof AESAlgorithm);
 	}
 
+	/**
+	 * Verifica il comportamento della classe nel momento in cui si invoca il
+	 * metodo check tramite una richiesta HTTP associata ad una sessione valida,
+	 * vale a dire che contiene i dati necessari ad identificare l'utente dopo
+	 * che è avvenuta la registrazione. Il test verifica che in tal caso il
+	 * metodo check restituisca, come atteso, <code>true</code> e che la
+	 * richiesta HTTP e la sessione ad essa associata siano utilizzate nel modo
+	 * corretto.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
 	@Test
 	public void testCheckSuccessfully() {
 		// invoca il metodo da testare
@@ -113,33 +145,44 @@ public class AbstractControllerTest {
 		// verifica il risultato ottenuto
 		assertNotNull(result);
 		assertTrue(result);
-		
+
 		// verifica il corretto utilizzo dei mock
 		verify(request).getSession(anyBoolean());
 		verify(session).getAttribute("username");
-		
+
 	}
 
-//	@Test
-//	public void testCheckUnsuccessfully() {
-//		// invalida la sessione di autenticazione
-//		when(session.getAttribute("username")).thenReturn("");
-//
-//		// invoca il metodo da testare
-//		Boolean result = tester.check(request);
-//
-//		// verifica l'output ottenuto
-//		assertNotNull(result);
-//		assertFalse(result);
-//
-//		// verifica l'utilizzo corretto dei mock
-//		verify(request).getSession(anyBoolean());
-//		verify(session).getAttribute("username");
-//	}
+	/**
+	 * Verifica il comportamento del metodo check nel momento in cui la
+	 * richiesta che viene passata ad esso come parametro non corrisponde ad un
+	 * utente autenticato, vale a dire non è associata a una sessione
+	 * all'interno della quale sono memorizzati i dati identificativi
+	 * dell'utente. Il test si assicura che in tal caso il metodo check
+	 * restituisca, come atteso, il valore <code>false</code>, verificando
+	 * inoltre che i mock della richiesta HTTP e della sessione ad essa
+	 * associata siano utilizzati nel modo corretto.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testCheckUnsuccessfully() {
+		// invalida la sessione di autenticazione
+		when(session.getAttribute("username")).thenReturn("");
+
+		// invoca il metodo da testare
+		Boolean result = tester.check(request);
+
+		// verifica l'output ottenuto
+		assertNotNull(result);
+		assertFalse(result);
+
+		// verifica l'utilizzo corretto dei mock
+		verify(request).getSession(anyBoolean());
+		verify(session).getAttribute("username");
+	}
 
 	/**
-	 * XXX questo test funziona solo se è eseguito per ultimo!
-	 * 
 	 * Verifica il comportamento del metodo execute quando il controllo di
 	 * autenticazione è superato. In particolare, il test controlla che sia
 	 * invocato il metodo doAction e che sulla risposta sia effettivamente
@@ -150,7 +193,7 @@ public class AbstractControllerTest {
 	 * @version 2.0
 	 */
 	@Test
-	public void testExecute() {
+	public void testExecuteSuccessfully() {
 		// riconfigura il doAction in modo che scriva qualcosa sulla risposta
 		try {
 			doAnswer(new Answer<Void>() {
@@ -184,11 +227,13 @@ public class AbstractControllerTest {
 
 		// verifica il corretto utilizzo dei mock
 		try {
+			verify(tester).check(request);
 			verify(tester).doAction(request, response);
 			verify(response).getWriter();
-			// XXX non posso verificare check
 		} catch (IOException e) {
 			fail(e.getMessage());
 		}
 	}
+
+	// TODO dovrebbe essere fatto anche un testExecuteUnsuccessfully
 }
