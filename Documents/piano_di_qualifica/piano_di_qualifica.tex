@@ -1297,54 +1297,217 @@ Tale test si compone di un solo metodo:
 
 \subsubsection{org.softwaresinthesis.mytalk.server.dao}
 \begin{itemize}
-\item \textbf{TM5.01: HibernateUtilTest}\\
-\textbf{Verifica la Classe:} \texttt{HibernateUtil}.\\
-\textbf{Descrizione}:l'obiettivo di questo test è assicurare la corretta esecuzione dei metodi della classe \texttt{HibernateUtil}. \\
+
+
+\item \textbf{TM5.01: DataPersistanceManagerTest}\\
+\textbf{Verifica la Classe:} \texttt{DataPersistanceManager}.\\
+\textbf{Descrizione}:l'obiettivo di questo test è .....
+Tale test si compone di diciannove metodi:
+\begin{itemize}
+\item \texttt{testDeleteSuccessfully()} 
+
+\item \texttt{testDeletensuccessfully()} 
+
+\item \texttt{testInsertSuccessfully()} 
+
+\item \texttt{}testInsertUnsuccessfully()
+
+\item \texttt{testUpdateSuccessfully()} 
+
+\item \texttt{testUpdateUnsuccessfully()}
+
+\item \texttt{testGetAddressBookEntry()} 
+
+\item \texttt{}testGetCallHistory()
+
+\item \texttt{testGetGroupLong()} 
+
+\item \texttt{testGetGroupIUserData()}
+
+\item \texttt{testGetGroupIUserDataString()}
+
+\item \texttt{testGetMessageNewKey()} 
+
+\item \texttt{}testGetMessage()
+
+\item \texttt{}testGetMessages()
+
+\item \texttt{testGetUserDataByEmail()}
+
+\item \texttt{testGetUserDataByEmailEmpty()} 
+
+\item \texttt{testGetUserDataById()} 
+
+\item \texttt{testGetUserDataByIdEmpty()}
+
+\item \texttt{testGetUserDataGeneric()}
+
+\end{itemize}
+\textbf{Risultato del test:} superato con successo.
+
+
+
+
+\item \textbf{TM5.02: SessionManagerTest}\\
+\textbf{Verifica la Classe:} \texttt{SessionManager}.\\
+\textbf{Descrizione}:l'obiettivo di questo test è .....
 Tale test si compone di due metodi:
 \begin{itemize}
-\item \texttt{testIstance()} l'obiettivo di questo test è assicurare l'effettiva presenza di un unica istanza della classe textit{HibernateUtil} mediante la creazione di due istanze e verificando che entrambi puntino alla stessa istanza dell'oggetto;
-\item \texttt{testGetFactory()} ha lo scopo di verificare la presenza di una \texttt{SessionFactory} configurata correttamente per la comunicazione con il database.
-\end{itemize}
-\textbf{Risultato del test:} superato con successo.
+\item \texttt{testGetSessionFactory()} 
 
-\item \textbf{TM5.02: UserDataDAOTest}\\
-\textbf{Verifica la Classe:} \texttt{UserDataDAO}.\\
-\textbf{Descrizione}:l'obiettivo di questo test è assicurare la corretta esecuzione delle operazioni CRUD (\textit{Create, Read, Update, Delete}) per gli oggetti di tipo \texttt{UserData} verso il database. \\
-Tale test si compone di cinque metodi:
-\begin{itemize}
-\item \texttt{testInsert()} tale metodo ha lo scopo di verificare il corretto inserimento di uno \texttt{UserData} all'interno del database;
-\item \texttt{testGetByEmail()} ha lo scopo di verificare il prelevamento dal database di uno \texttt{UserData} tramite l'indirizzo mail con cui si è registrato nel sistema;
-\item \texttt{testUpdate()} verifica se le modifiche ad un oggetto \texttt{UserData} siano effettive nel database;
-\item \texttt{testDelete()} verifica l'effettiva cancellazione di uno \texttt{UserData} dal database;
-\item \texttt{testSearchGeneric()} verifica che sia presente uno \texttt{UserData} nel database mediante la ricerca fatta cercando un parametro di \inglese{input} che ha una corrispondenza con uno o più campi tra \textit{nome, cognome, email}.
+\item \texttt{testGetInstance()}
+
+
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
 
-\item \textbf{TM5.03: AddressBookEntryDAOTest}\\
-\textbf{Verifica la Classe:} \texttt{AddressBookEntryDAO}.\\
-\textbf{Descrizione}:l'obiettivo di questo test è assicurare la corretta esecuzione delle operazioni CUD (\textit{Create, Update, Delete}) per gli oggetti di tipo \texttt{AddressBookEntry} nel database. \\
+\item \textbf{TM5.03: DeleteUtilTest}\\
+\textbf{Verifica la Classe:} \texttt{DeleteUtil}.\\
+\textbf{Descrizione}:l'obiettivo di questo test è .....
 Tale test si compone di tre metodi:
 \begin{itemize}
-\item \texttt{testInsert()} tale metodo ha lo scopo di verificare il corretto inserimento di un \texttt{AddressBookEntry} all'interno del database;
-\item \texttt{testDelete()} tale metodo ha lo scopo di verificare la corretta rimozione di un \texttt{AddressBookEntry} dal database;
-\item \texttt{testUpdate()} tale metodo ha lo scopo di verificare il corretto aggiornamento di un \texttt{AddressBookEntry} nel database nel caso sia stato modificato uno dei campi dati.
+\item \texttt{testExecuteCorrectly()} 
+verifica che l'esecuzione di una cancellazione nel database sia portata a termine correttamente. Il test avviene verificando che il metodo \texttt{execute} sia invocato con successo controllando che l'oggetto restituito abbia valore *******\texttt{true}. Viene inoltre controllato il corretto funzionamento della sequenza di operazioni necessarie a svolgere l'eliminazione nel database, in particolare viene verificato che non venga eseguita l'operazione di \texttt{rollback} sulla transazione, la quale significherebbe che la transazione non è andata a buon fine.
+
+\item \texttt{testExecuteWithoutTransaction()}  verifica il comportamento del metodo \texttt{execute}nel momento in cui si verifica un'errore e non è possibile iniziare una transazione verso il database ed il metodo deve restituite ****\texttt{false}. Il controllo avviene verificando che nel momento in cui deve iniziare la transazione venga sollevata un'eccezione di tipo \texttt{RunTimeException}. Oltre a questo viene verificato il corretto funzionamento della sequenza di istruzioni necessarie a svolgere una transazione nel database, ovvero viene controllato che nessuna di queste venga eseguita. Inoltre il test si assicura che la sessione costruita venga aperta e chiusa correttamente.
+
+\item \texttt{testExecuteUnableToPerformAction()} verifica il comportamento della classe nel momento in cui, dopo l'apertura di una sessione e l'avvio di una transazione, non è possibile portare a termine una scrittura sul database. In particolare il test verifica che venga invocato correttamente il \texttt{rollback} della transazione e che la sessione sia creata, aperta e utilizzata per avviare una transazione e chiusa nel modo corretto. Anche in questo caso il metodo \texttt{execute} deve restituire ***\texttt{false} mentre per tutte le istruzioni necessarie a svolgere l'operazione eccetto il \texttt{commit} deve essere verificato che esse siano eseguite correttamente.
 
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
 
-\item \textbf{TM5.04: GroupDAOTest}\\
-\textbf{Verifica la Classe:} \texttt{GroupDAO}.\\
-\textbf{Descrizione}:l'obiettivo di questo test è assicurare la corretta esecuzione delle operazioni CRUD (\textit{Create,Read, Update, Delete}) per gli oggetti di tipo \texttt{Group} e di ricerca di tali oggetti nel database. \\
-Tale test si compone di sei metodi:
+\item \textbf{TM5.04: GetCallUtilTest}\\
+\textbf{Verifica la Classe:} \texttt{GetCallUtil}.\\
+\textbf{Descrizione}:l'obiettivo di questo test è .....
+Tale test si compone di tre metodi:
 \begin{itemize}
-\item \texttt{testInsert()} tale metodo ha lo scopo di verificare il corretto inserimento di un \texttt{Group} all'interno del database;
-\item \texttt{testDelete()} tale metodo ha lo scopo di verificare la corretta rimozione di un \texttt{Group} dal database;
-\item \texttt{testUpdate()} tale metodo ha lo scopo di verificare il corretto aggiornamento di un \texttt{Group} nel database nel caso sia stato modificato uno dei campi dati.
-\item \texttt{testGetByID()} tale metodo ha lo scopo di verificare la corretta ricerca di un \texttt{Group} nel database tramite l'inserimento di un ID valido.
-\item \texttt{testGetByOwner()} tale metodo ha lo scopo di verificare la corretta ricerca di un \texttt{Group} nel database tramite il passaggio di un \texttt{Long} che corrisponde all'ID del proprietario del gruppo.
-\item \texttt{testGetByOwnerAndName()} tale metodo ha lo scopo di verificare la corretta ricerca di un \texttt{Group} nel database tramite il passaggio di un \texttt{Long} che corrisponde all'ID del proprietario del gruppo che di una stringa che corrisponde al nome del gruppo in formato \texttt{String}.
+\item \texttt{testExecuteCorrectly()} 
+verifica che l'esecuzione di una di una ricerca nel database che va a buon fine  sia portata a termine correttamente. 
+Il controllo avviene verificando che la lista restituita sia ottenuta mediante il metodo \texttt{list()}. 
+Viene inoltre controllato il corretto funzionamento della sequenza di operazioni necessarie a svolgere la ricerca nel database, in particolare viene verificato che non venga eseguita l'operazione di \texttt{rollback} sulla transazione, la quale significherebbe che la transazione non è andata a buon fine.
+
+
+
+\item \texttt{testExecuteWithoutTransaction()}
+verifica il comportamento della classe nel momento in cui è possibile avviare una transazione per l'interazione con il database.
+La verifica si basa sul controllo della mancata esecuzione dei metodi \texttt{rollback} e \texttt{commit}, che non devono infatti essere invocati su una transazione inesistente.
+
+
+\item \texttt{testExecuteUnableToPerformQuery()}
+****************
+controlla il comportamento del metodo \texttt{execute} nel caso in cui al momento di effettuare la query verificarsi di un evento eccezionale. In particolare, il test assicura che non sia mai invocato il metodo \texttt{commit()} sulla transazione e che sia invece invocato il \texttt{rollback()}.Inoltre p garantito che durante l'esecuzione del metodo dia aperta una sessione di interazione con il database e che quest'ultima sia finalizzata in modo corretto. Infine, si controlla che non siano mai invocati i metodi sulla lista di chiamate che corrisponde alla query di ricerca con cui è invocato il metodo \texttt{execute}, dal momento che in fase di interrogazione del database avviene un errore.
+
+
+
+
+
+
+\end{itemize}
+\textbf{Risultato del test:} superato con successo.
+
+
+
+
+\item \textbf{TM5.05: GetGroupUtilTest}\\
+\textbf{Verifica la Classe:} \texttt{GetGrouplUtil}.\\
+\textbf{Descrizione}:l'obiettivo di questo test è .....
+Tale test si compone di tre metodi:
+\begin{itemize}
+\item \texttt{testExecuteCorrectly()} 
+
+\item \texttt{testExecuteWithoutTransaction()}
+
+\item \texttt{testExecuteUnableToPerformQuery()}
+
+\end{itemize}
+\textbf{Risultato del test:} superato con successo.
+
+
+
+\item \textbf{TM5.06: GetUserDataUtilTest}\\
+\textbf{Verifica la Classe:} \texttt{GetUserDataUtil}.\\
+\textbf{Descrizione}:l'obiettivo di questo test è .....
+Tale test si compone di tre metodi:
+\begin{itemize}
+\item \texttt{testExecuteCorrectly()} 
+
+\item \texttt{testExecuteWithoutTransaction()}
+
+\item \texttt{testExecuteUnableToPerformQuery()}
+
+\end{itemize}
+\textbf{Risultato del test:} superato con successo.
+
+
+\item \textbf{TM5.07: InsertUtilTest}\\
+\textbf{Verifica la Classe:} \texttt{InsertUtil}.\\
+\textbf{Descrizione}:l'obiettivo di questo test è .....
+Tale test si compone di tre metodi:
+\begin{itemize}
+\item \texttt{testExecuteCorrectly()} 
+
+\item \texttt{testExecuteWithoutTransaction()}
+
+\item \texttt{testExecuteUnableToPerformAction()}
+
+\end{itemize}
+\textbf{Risultato del test:} superato con successo.
+
+
+
+
+\item \textbf{TM5.08: NotInitializeTest}\\
+\textbf{Verifica la Classe:} \texttt{NotInitialize}.\\
+\textbf{Descrizione}:l'obiettivo di questo test è .....
+Tale test si compone di tre metodi:
+\begin{itemize}
+\item \texttt{testExecuteCorrectly()} 
+
+\item \texttt{testExecuteWithoutTransaction()}
+
+\item \texttt{testExecuteUnableToPerformQuery()}
+
+\end{itemize}
+\textbf{Risultato del test:} superato con successo.
+
+
+\item \textbf{TM5.09: UpdateUtilTest}\\
+\textbf{Verifica la Classe:} \texttt{UpdateUtil}.\\
+\textbf{Descrizione}:l'obiettivo di questo test è .....
+Tale test si compone di tre metodi:
+\begin{itemize}
+\item \texttt{testExecuteCorrectly()} 
+
+\item \texttt{testExecuteWithoutTransaction()}
+
+\item \texttt{testExecuteUnableToPerformAction()}
+
+\end{itemize}
+\textbf{Risultato del test:} superato con successo.
+
+
+
+\item \textbf{TM5.10: UtilFactoryTest}\\
+\textbf{Verifica la Classe:} \texttt{UtilFactory}.\\
+\textbf{Descrizione}:l'obiettivo di questo test è .....
+Tale test si compone di sette metodi:
+\begin{itemize}
+\item \texttt{testGetDeleteUtil()} 
+
+\item \texttt{testGetInsertUtil()} 
+
+\item \texttt{testGetUpdateUtil()} 
+
+\item \texttt{testGetCallUtil()} 
+
+\item \texttt{testGetGroupUtil()}
+
+\item \texttt{testGetUserDataUtil()}
+
+\item \texttt{testGetGenericUtil()}
+
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
