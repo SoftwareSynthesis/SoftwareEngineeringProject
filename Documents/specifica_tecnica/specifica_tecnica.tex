@@ -774,15 +774,22 @@ Le loro funzionalità riguardano principalmente le possibilità di modificare, c
   \item{\scshape\bfseries Descrizione:}\\
 L'autenticazione passa attraverso due fasi: la richiesta di \inglese{login} e l'approvazione (\inglese{commit}). La richiesta di \inglese{login} verifica le credenziali di accesso con i dati memorizzati all'interno del database, mentre la richiesta di \inglese{commit} assegna al \inglese{subject} che ha attivato la procedura di autenticazione, dei valori identificativi che permettano di identificarlo finché esso utilizza il sistema software.
 
-Quando un utente avvia la procedura di autenticazione la \inglese{servlet} che espone le funzionalità di questo componente, \texttt{authentication.servlet.LoginServlet} (che estende a sua volta \texttt{javax.servlet.http.HttpServlet}) crea il contesto di autenticazione generando un istanza di \texttt{authentication.CredentialLoader} che ha il compito di caricare le credenziali di accesso e accede al file di configurazione per istanziare il giusto modulo per l'autenticazione, costituito dalla classe \texttt{authentication.AuthenticationModule}.
+Quando un utente avvia la procedura di autenticazione il controller che espone le funzionalità di questo componente, \texttt{authentication.controller.LoginController} crea il contesto di autenticazione generando un istanza di \texttt{authentication.CredentialLoader} che ha il compito di caricare le credenziali di accesso (caricando i dati di autenticazione mediante \texttt{authentication.NameLoader} e \texttt{authentication.PasswordLoader}) e accede al file di configurazione per istanziare il giusto modulo per l'autenticazione, costituito dalla classe \texttt{authentication.AuthenticationModule}.
 
-La componente predispone anche le funzionalità da usare per eseguire il \inglese{logout} di un utente registrato nel sistema, e la registrazione al sistema stesso. Tale funzionalità saranno richiamabili mediante 2 servlet:
+La componente predispone anche le funzionalità da usare per eseguire il \inglese{logout} di un utente registrato nel sistema, e la registrazione al sistema stesso. Tale funzionalità saranno richiamabili mediante 2 controller:
 \begin{itemize}
-	\item \texttt{authentication.servlet.LogoutServlet}
-	\item \texttt{authentication.servlet.RegisterServlet}
+	\item \texttt{authentication.controller.LogoutController}
+	\item \texttt{authentication.controller.RegisterController}
 \end{itemize}
 
-Per garantire un buon livello di sicurezza nell'invio dei dati (\texttt{authentication.AuthenticationData}) il sistema si appoggia ad un sistema di criptazione basato su algoritmo AES. La classe che fornisce tale funzionalità è \texttt{authentication.AESAlgoritm}, implementazione dell'interfaccia \texttt{authentication.ISecurityStrategy}.
+Altri due controller sono predisposti per il recupero della password. Nello specifico: 
+
+\begin{itemize}
+	\item \texttt{authentication.controller.QuestionController}: per richiedere al server la domanda segreta a cui rispondere.
+	\item \texttt{authentication.controller.AnswerController} per richiedere al server la validazione della risposta inserita dall'utente.
+\end{itemize}
+
+Per garantire un buon livello di sicurezza nell'invio dei dati l'applicativo si appoggia ad un sistema di criptazione basato su algoritmo AES. La classe che fornisce tali funzionalità è \texttt{authentication.security.AESAlgorithm}, implementazione di \texttt{authentication.security.ISecurityStrategy}. Tale classe fornisce due procedure, quella per criptare i dati e quella per decriptarli. Esse sono rappresentate dalle classi \texttt{authentication.security.AESEncode} e \texttt{authentication.security.AESDecode}. Entrambe estendono la classe astratta \texttt{authentication.security.AESTemplate} e basano la propria implementazione sul \inglese{pattern} \texttt{Template Method}.
   
   \item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -797,10 +804,14 @@ Per garantire un buon livello di sicurezza nell'invio dei dati (\texttt{authenti
     \item[-] \texttt{authentication.AuthenticationModule}
 	\item[-] \texttt{authentication.CredentialLoader}
 	\item[-] \texttt{authentication.PrincipalImpl}
-	\item[-] \texttt{authentication.IAuthenticationData}
- 	\item[-] \texttt{authentication.AuthenticationData}
- 	\item[-] \texttt{authentication.AESAlgorithm}
-  	\item[-] \texttt{authentication.ISecurityStrategy}
+	\item[-] \texttt{authentication.Loader}
+	\item[-] \texttt{authentication.NameLoader}
+	\item[-] \texttt{authentication.PasswordLoader}
+	\item[-] \texttt{authentication.security.ISecurityStrategy}
+ 	\item[-] \texttt{authentication.security.AESAlgorithm}
+ 	\item[-] \texttt{authentication.security.AESTemplate}
+ 	\item[-] \texttt{authentication.security.AESEncode}
+ 	\item[-] \texttt{authentication.security.AESDecode}	
  	\item[-] \texttt{javax.security.auth.spi.LoginModule}
  	\item[-] \texttt{javax.security.auth.callback.CallbackHandler}
  	\item[-] \texttt{javax.security.Principal}
@@ -1002,7 +1013,7 @@ Tali dipendenze, di fondamentale importanza per l'architettura, sono però ripor
 	\end{itemize}
 \end{description}
 
-\subsubsection{CS08 - Front controller}
+\subsubsection{CS08 -- Front controller}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Tale componente ha il ruolo di offrire ai client un punto di accesso alle funzionalità del sistema server descritte nel paragrafo precedente. Dal momento che tale interazione avviene in un contesto distribuito, il punto di accesso ai componenti del server è stato implementato come una \inglese{servlet} Java destinata ad essere eseguita nell'ambiente del \inglese{servlet container} fornito da \textit{Apache TomCat}.
