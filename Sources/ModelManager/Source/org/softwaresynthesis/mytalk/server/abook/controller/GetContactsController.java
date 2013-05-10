@@ -30,6 +30,7 @@ public class GetContactsController extends AbstractController{
 		Set<IAddressBookEntry> contacts = null;
 		IAddressBookEntry entry = null;
 		Iterator<IAddressBookEntry> iterator = null;
+		Boolean first = null;
 		
 		try
 		{
@@ -39,11 +40,17 @@ public class GetContactsController extends AbstractController{
 			contacts = myUser.getAddressBook();
 			iterator = contacts.iterator();
 			result = "{";
+			first = true;
 			while(iterator.hasNext() == true)
 			{
 				entry = iterator.next();
-				//Se gruppo == null, allora il contatto è nella rubrica "normale"
+				//Se gruppo == null, allora il contatto non è in un gruppo
 				if (entry.getGroup() == null){
+					if (first == false)
+					{
+						result += ",";
+					}
+					first = false;
 					friend = entry.getContact();
 					result += "\"" + friend.getId() + "\":";
 					result += "{\"name\":\"" + friend.getName() + "\"";
@@ -52,17 +59,10 @@ public class GetContactsController extends AbstractController{
 					result += ", \"id\":\"" + friend.getId() + "\"";
 					result += ", \"picturePath\":\"" + friend.getPath() + "\"";
 					result += ", \"state\":\"" + ChannelServlet.getState(friend.getId()) + "\"";
-					result += ", \"blocked\":\"" + entry.getBlocked() + "\"}";
-					if (iterator.hasNext() == true)
-					{
-						result += ",";
-					}
+					result += ", \"blocked\":" + entry.getBlocked() + "}";
 				}
-				//FIXME da sistemare la virgola, nel caso l'ultima entry sia un contatto in un gruppo
-				//		(resta una virgola)
 			}
 			result += "}";
-			
 		}
 		catch (Exception ex)
 		{
