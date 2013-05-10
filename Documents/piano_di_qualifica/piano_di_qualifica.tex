@@ -938,19 +938,6 @@ Tale test si compone di un due metodi:
 \begin{table}
 \end{table}
 
-\item \textbf{TM1.02: AuthenticationDataTest}\\
-\textbf{Verifica la Classe:} \texttt{AuthenticationData}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è assicurare l'uguaglianza tra due oggetti che rappresentano le credenziali dell'utente inserite volutamente con gli stessi dati. Successivamente verrà effettuata anche una negazione di tale test per assicurarne l'efficacia.\\
-Tale test si compone di due metodi:
-\begin{itemize}
-\item \texttt{testEquals() } testa che due oggetti diversi contenenti gli stessi dati passati al metodo restituiscano \textit{true} solo se sono effettivamente uguali;
-\item \texttt{testDifferent()}testa che due oggetti diversi contenenti diversi dati passati al metodo restituiscano \textit{true} solo se sono effettivamente differenti.
-\end{itemize}
-\textbf{Risultato del test:} superato con successo.
-
-\begin{table}
-\end{table}
-
 \item \textbf{TM1.03: AuthenticationModuleTest}\\
 \textbf{Verifica la Classe:} \texttt{AuthenticationModule}.\\
 \textbf{Descrizione}: l'obiettivo del test è verificare le funzionalità di autenticazione offerte dal sistema server dell'applicativo.
@@ -982,35 +969,29 @@ Tale test si compone di un solo metodo:
 
 \item \textbf{TM1.04: NameLoaderTest}\\
 \textbf{Verifica la Classe:} \texttt{NameLoarder}.\\
-\textbf{Descrizione}: .....
+\textbf{Descrizione}: %TODO: MANCA LA DESCRIZIONE
 Tale test si compone di tre metodi:
 \begin{itemize}
 
-\item \texttt{testLoadMissingUserName()} verifica il corretto funzionamento della classe nel caso in cui la richiesta al server non contenga tutti i parametri necessari. Il controllo avviene verificando che venga sollevata un'eccezione di tipo \texttt{IOException}, come ci si aspetta nel caso in cui non tutti i parametri necessari siano forniti al metodo.
+\item \texttt{testLoadMissingUserName()} verifica il comportamento della classe nel caso in cui il metodo \texttt{load} sia invocato con una richiesta HTTP che non contiene tutti i parametri necessari allo svolgimento corretto dell'operazione, in particolare nel test in assenza dello \textit{username}. Il test controlla che la richiesta sia gestita correttamente (invocando solo una volta il metodo \texttt{getParameter}) e ha successo solo se viene sollevata un'eccezione di tipo \textit{IOException}, come coerentemente atteso nel caso non tutti i parametri necessari siano forniti al metodo.
 
+\item \texttt{testLoadCorrectUsername()} verifica il corretto comportamento del metodo \texttt{load} nel momento in cui la richiesta HTTP contiene tutti i parametri necessari. In particolare è verificato che si invochi una ed una sola volta il metodo \texttt{getParameter} sulla richiesta per estrarre lo \textit{username}\textit{callback} interno al \textit{loader} sia effettivamente un \texttt{NameCallback} cui è associato il nome utente che era stato passato tramite la richiesta.
 
-\item \texttt{testLoadCorrectUsername()}verifica il corretto funzionamento della classe nel caso in cui la richiesta al server contenga tutti i parametri necessari. boh...
-\item
-\texttt{testGetData()} boh.
+\item \texttt{testGetData()} verifica che siano estratti in modo corretto i dati dal \textit{callback} interno, in particolare che il nome utente restituito sia lo stesso associato al \textit{callback}.
 
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
 \item \textbf{TM1.04: PasswordLoaderTest}\\
 \textbf{Verifica la Classe:} \texttt{PasswordLoarder}.\\
-\textbf{Descrizione}: ....\\
+\textbf{Descrizione}: %TODO: MANCA LA DESCRIZIONE
 Tale test si compone di tre metodi:
 \begin{itemize}
 
-\item \texttt{testLoadMissingPassword()} verifica il corretto funzionamento della classe nel caso in cui la richiesta al server non contenga tutti i parametri necessari. Il controllo avviene verificando che venga sollevata un'eccezione di tipo \texttt{IOException}, come ci si aspetta nel caso in cui non tutti i parametri necessari siano forniti al metodo.
+\item \texttt{testLoadMissingPassword()} verifica il comportamento di \texttt{PasswordLoader} nel momento in cui viene gestita una richiesta che non contiene tutti i parametri sufficienti per portare a termine l'esecuzione della richiesta stessa. Il test ha successo se e solo se viene sollevata un'eccezione di tipo \textit{IOException}, come coerentemente atteso dalla classe.
 
+\item \texttt{testLoadCorrectPassword()} verifica il corretto funzionamento della classe nel caso in cui la richiesta al server contenga tutti i parametri necessari. Nello specifico, viene controllato che venga correttamente invocato una e una sola volta il metodo \texttt{getParameter} sulla richiesta per recuperare il valore della \textit{password} e che la strategia di codifica sia utilizzata una sola volta per effettuare la crittografia della \textit{password} stessa. Si verifica inoltre che al termine dell'operazione di \textit{callback} interno al \texttt{PasswordLoader} sia un \texttt{PasswordCallBack} e che la \textit{password} ad esso associata corrisponda alla versione crittografata di quella impostata tramite la richiesta.
 
-\item \texttt{testPasswordLoaderCorrectPassword()}verifica il corretto funzionamento della classe nel caso in cui la richiesta al server contenga tutti i parametri necessari. boh...
-
-Viene controllato il corretto funzionamento del recupero della password e che la strategia di codifica di essa sia invocata una sola volta per effettuare la crittografia della password. Viene inoltre verificato che la password corrisponda alla versione crittografata di quella impostata tramite la richiesta.
-
-
-\item
 \texttt{testGetData()} Verifica che sia possibile recuperare correttamente la password memorizzata all'interno dell'oggetto.
 Il controllo avviene verificando che l'oggetto restituito coincida con la password impostata.
  
@@ -1026,9 +1007,9 @@ Il controllo avviene verificando che l'oggetto restituito coincida con la passwo
 Tale test si compone di tre metodi:
 \begin{itemize}
 \item \texttt{testGetName()} verifica che sia recuperato in maniera corretta l'elemento memorizzato all'interno del \texttt{PrincipalImpl}.
-\item \texttt{testEqual()} verifica che il test di uguaglianza fra istanze della classe dia i risultati attesi.
-\item \texttt{testToString()} verifica la corretta conversione in stringa delle istanze di questa classe.
-\end{itemize}
+
+\item \texttt{testEqual()} verifica l'implementazione del metodo di uguaglianza fra due \texttt{PrincipalImpl}, essa è basata sul confronto fra gli elementi identificativi che li caratterizzano e che si suppongono essere univoci per ogni elemento del domiino dei \texttt{Principal}.
+
 \textbf{Risultato del test:} superato con successo.
 \end{itemize}
 
@@ -1344,7 +1325,6 @@ Tale test si compone di diciannove metodi:
 
 \end{itemize} 
 \textbf{Risultato del test:} superato con successo.
-
 
 
 
