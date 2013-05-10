@@ -1644,6 +1644,8 @@ Classe \inglese{transfer object} che rappresenta una voce nella lista delle chia
   \end{itemize}
 \end{description}
 
+\subsubsection{Package \texttt{org.softwaresynthesis.mytalk.server.authentication.security}}
+
 \item \texttt{ISecurityStrategy}
 \begin{description}
 	\item{\scshape\bfseries Descrizione}\\
@@ -1654,8 +1656,6 @@ Classe \inglese{transfer object} che rappresenta una voce nella lista delle chia
     			\item[-] \textsf{CS07 -- Gestione controller}
 		\end{itemize}
 \end{description}
-
-\subsubsection{Package \texttt{org.softwaresynthesis.mytalk.server.authentication.security}}
 
 \item \texttt{AESAlgorithm}
 \begin{description}
@@ -1668,10 +1668,42 @@ Classe \inglese{transfer object} che rappresenta una voce nella lista delle chia
 		\end{itemize}
 \end{description}
 
+\item \texttt{AESTemplate}
+\begin{description}
+	\item{\scshape\bfseries Descrizione}\\
+		Classe astratta che utilizza il template method per definire  una procedura inerente all'uso di AES, lasciando alle classi che la estendono il compito di definire l'implementazione dell'algoritmo procedurale.
+	\item{\scshape\bfseries Componenti che ne fanno uso}
+		\begin{itemize}[noitemsep,nolistsep]
+			\item[-] \textsf{CS04 -- Gestione autenticazione}
+    			\item[-] \textsf{CS07 -- Gestione controller}
+		\end{itemize}
+\end{description}
+
+\item \texttt{AESEncode}
+\begin{description}
+	\item{\scshape\bfseries Descrizione}\\
+		Classe che estende \texttt{AESTemplate} definendo l'algoritmo di criptazione dei dati.
+	\item{\scshape\bfseries Componenti che ne fanno uso}
+		\begin{itemize}[noitemsep,nolistsep]
+			\item[-] \textsf{CS04 -- Gestione autenticazione}
+    			\item[-] \textsf{CS07 -- Gestione controller}
+		\end{itemize}
+\end{description}
+
+\item \texttt{AESDecode}
+\begin{description}
+	\item{\scshape\bfseries Descrizione}\\
+		Classe che estende \texttt{AESTemplate} definendo l'algoritmo di decodifica dei dati.
+	\item{\scshape\bfseries Componenti che ne fanno uso}
+		\begin{itemize}[noitemsep,nolistsep]
+			\item[-] \textsf{CS04 -- Gestione autenticazione}
+    			\item[-] \textsf{CS07 -- Gestione controller}
+		\end{itemize}
+\end{description}
+
 \end{itemize}
 
-
-\subsubsection{Package \texttt{org.softwaresynthesis.mytalk.server.authentication.servlet}}
+\subsubsection{Package \texttt{org.softwaresynthesis.mytalk.server.authentication.controller}}
 
 \begin{itemize}[noitemsep,nolistsep]
 
