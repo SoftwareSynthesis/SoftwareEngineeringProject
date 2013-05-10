@@ -858,7 +858,7 @@ Per consentire ai client di accedere alle funzionalità gestite da questo compon
   \item{\scshape\bfseries Descrizione:}\\
 Le classi di questo componente hanno il ruolo di definire una strutturata per definire lo storico delle chiamate di un utente e, conseguentemente, l'accesso ai dati relativi a una chiamata (data, mittente e $n\geq1$ destinatari della chiamata).
 
-La componente contiene l'interfaccia \texttt{ICall} e la sua implementazione lato server \texttt{Call}, che rappresenta il \inglese{transfer object} per la rappresentazione delle chiamate che deve essere mappata nel database.
+La componente contiene l'interfaccia \texttt{ICall} e la sua implementazione lato server \texttt{Call}, che rappresenta il \inglese{transfer object} per la rappresentazione della chiamata che deve essere mappata nel database. Ogni chiamata \texttt{ICall} è associata ad un istanza di un oggetto implementante \texttt{ICallList}. Nel nostro caso tale oggetto sarà un istanza di \texttt{CallList}.
 
 Infine, allo scopo di consentire ai client l'accesso alle funzionalità di questo componente, è stata prevista un \inglese{controller} \texttt{call.controller.GetCallsController} il cui ruolo sarà descritto con maggiori dettagli nella sezione \vref{sec:cs07}.
 
@@ -873,8 +873,8 @@ Infine, allo scopo di consentire ai client l'accesso alle funzionalità di quest
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \texttt{call.ICall}
     \item[-] \texttt{call.Call}
-     \item[-] \texttt{call.ICall}
-    \item[-] \texttt{call.Call}
+    \item[-] \texttt{call.ICallList}
+    \item[-] \texttt{call.CallList}
   \end{itemize}
 \end{description}
 
