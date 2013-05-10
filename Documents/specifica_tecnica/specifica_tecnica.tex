@@ -1037,6 +1037,44 @@ Il diagramma in figura X rappresenta l'implementazione generica del \inglese{fro
 \end{description}
 \subsection{Descrizione delle classi}
 
+\subsubsection{Package \texttt{org.softwaresynthesis.mytalk.server}}
+
+\begin{itemize}[leftmargin=0em]
+
+\item \texttt{IController}
+\begin{description}
+  \item{\scshape\bfseries Descrizione:}\\
+Interfaccia che definisce un generico controller.
+  \item{\scshape\bfseries Componenti che ne fanno uso:}
+  \begin{itemize}[noitemsep,nolistsep]
+    \item[-] \textsf{CS07 -- Gestione controller}
+    \item[-] \textsf{CS08 -- Front controller}
+  \end{itemize}
+\end{description}
+
+\item \texttt{AbstractController}
+\begin{description}
+  \item{\scshape\bfseries Descrizione:}\\
+Classe astratta che implementa \texttt{IController}. Fornisce un implementazione di base di un controller generico.
+  \item{\scshape\bfseries Componenti che ne fanno uso:}
+  \begin{itemize}[noitemsep,nolistsep]
+    \item[-] \textsf{CS07 -- Gestione controller}
+    \item[-] \textsf{CS08 -- Front controller}
+  \end{itemize}
+\end{description}
+
+\item \texttt{ControllerManager}
+\begin{description}
+  \item{\scshape\bfseries Descrizione:}\\
+Classe che costituisce il front controller del server. Ogni richiesta inoltrata al server dovrà passare per questa classe. Essa avrà quindi il compito di riconoscere il tipo di richiesta (tramite un associazione nomi richiesta - classe destinataria), e di creare quindi un istanza del controller associato.
+  \item{\scshape\bfseries Componenti che ne fanno uso:}
+  \begin{itemize}[noitemsep,nolistsep]
+    \item[-] \textsf{CS08 -- Front controller}
+  \end{itemize}
+\end{description}
+
+\end{itemize}
+
 \subsubsection{Package \texttt{org.softwaresynthesis.mytalk.server.dao}}
 
 \begin{itemize}[leftmargin=0em]
