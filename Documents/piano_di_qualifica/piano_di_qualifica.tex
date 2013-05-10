@@ -1444,10 +1444,15 @@ verifica che l'esecuzione di un inserimento nel database sia portata a termine c
 Tale test si compone di tre metodi:
 \begin{itemize}
 \item \texttt{testExecuteCorrectly()} 
+verifica il corretto comportamento della ricerca nel database con successo delle istanze di classi che non contengono campi dati di tipo collezione ovvero \texttt{Message}, texttt{addressbookentry}, texttt{callList}.  
+Il controllo avviene verificando che la lista restituita sia ottenuta mediante il metodo \texttt{list()}. 
+Viene inoltre controllato il corretto funzionamento della sequenza di operazioni necessarie a svolgere la ricerca nel database, in particolare viene verificato che non venga eseguita l'operazione di \texttt{rollback} sulla transazione, la quale significherebbe che la transazione non è andata a buon fine.
 
-\item \texttt{testExecuteWithoutTransaction()}
 
-\item \texttt{testExecuteUnableToPerformQuery()}
+\item \texttt{testExecuteWithoutTransaction()} verifica il comportamento del metodo \texttt{execute}nel momento in cui si verifica un'errore e non è possibile iniziare una transazione verso il database ed il metodo deve restituite il valore \texttt{false}. Il controllo avviene verificando che nel momento in cui deve iniziare la transazione venga sollevata un'eccezione di tipo \texttt{RunTimeException}. Oltre a questo viene verificato il corretto funzionamento della sequenza di istruzioni necessarie a svolgere una transazione nel database, ovvero viene controllato che nessuna di queste venga eseguita. Inoltre il test si assicura che la sessione costruita venga aperta e chiusa correttamente.
+
+\item \texttt{testExecuteUnableToPerformQuery()} controlla il comportamento del metodo \texttt{execute} nel caso in cui al momento di effettuare la query dovesse verificarsi di un evento eccezionale. In particolare, il test assicura che non sia mai invocato il metodo \texttt{commit()} sulla transazione e che sia invece invocato il \texttt{rollback()}.Inoltre è garantito che durante l'esecuzione del metodo sia aperta una sessione di interazione con il database e che quest'ultima sia finalizzata in modo corretto. Infine, si controlla che non siano mai invocati i metodi sulla lista di chiamate che corrisponde alla query di ricerca con cui è invocato il metodo \texttt{execute}, dal momento che in fase di interrogazione del database avviene un errore.
+
 
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
