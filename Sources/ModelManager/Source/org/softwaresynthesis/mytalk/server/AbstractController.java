@@ -53,6 +53,7 @@ public abstract class AbstractController implements IController
 			String mail = (String)session.getAttribute("username");
 			if (mail != null && mail.equals("") == false)
 			{
+				this.userMail = mail;
 				result = true;
 			}
 		}
@@ -77,18 +78,6 @@ public abstract class AbstractController implements IController
 	protected String getUserMail()
 	{
 		return this.userMail;
-	}
-	
-	/**
-	 * Imposta l'indirizzo mail dell'utente che
-	 * ha fatto il login
-	 * 
-	 * @param 	mail	{@link String} indirizzo mail
-	 * 					dell'utente autenticato
-	 */
-	protected void setUserMail(String mail)
-	{
-		this.userMail = mail;
 	}
 	
 	/**

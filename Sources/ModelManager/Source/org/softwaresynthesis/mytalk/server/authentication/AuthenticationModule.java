@@ -166,5 +166,4 @@ public final class AuthenticationModule implements LoginModule
 		this.username = null;
 		return true;
 	}
-
 }

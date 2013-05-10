@@ -68,7 +68,6 @@ public final class LoginController extends AbstractController
 				session = request.getSession(true);
 				session.setAttribute("context", context);
 				session.setAttribute("username", user.getMail());
-				this.setUserMail(user.getMail());
 				result = "{\"name\":\"" + user.getName() + "\"";
 				result += ", \"surname\":\"" + user.getSurname() + "\"";
 				result += ", \"email\":\"" + user.getMail() + "\"";
