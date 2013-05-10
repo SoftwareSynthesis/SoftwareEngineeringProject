@@ -885,7 +885,7 @@ Infine, allo scopo di consentire ai client l'accesso alle funzionalità di quest
 	\item{\scshape\bfseries Descrizione:}\\
 Il componente ha il ruolo di descrivere tutte le funzionalità che il sistema server è in grado di svolgere, ad esempio il blocco di un contatto, l'aggiunta dello stesso alla rubrica, ad un gruppo, o la ricerca di uno specifico nel database generale. A tali funzionalità si accede mediante un front controller (CS08, descritto nel paragrafo successivo) che implementa un sistema che permette di monitorare le richieste sulle stesse.
 
-La mappatura fra componenti del server e i rispettivi \inglese{controller} è illustrata dalla tabella seguente:
+Per ogni operazione viene definito un controller (classe che estende \texttt{AbstracController}, un implementazione di \texttt{IController}. La mappatura fra componenti del server e i rispettivi \inglese{controller} è illustrata dalla seguente tabella:
 
 \begin{center}
 \rowcolors{2}{lightblue}{llightblue}
@@ -984,6 +984,8 @@ Tali dipendenze, di fondamentale importanza per l'architettura, sono però ripor
 	
 	\item{\scshape\bfseries Classi utilizzate:}\\
 	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-] \texttt{IController}
+	  \item[-] \texttt{AbstractController}
 	  \item[-] \texttt{connection.ChannelServlet}
 	  \item[-] \texttt{abook.controller.AddContactController}
 	  \item[-] \texttt{abook.controller.DeleteContactController}
@@ -1020,39 +1022,16 @@ Tale componente ha il ruolo di offrire ai client un punto di accesso alle funzio
 
 La classe Java \texttt{HttpServlet} implementa un sistema di \inglese{listening} che permette di monitorare costantemente richieste in ingresso. Queste ultime possono essere di duplice natura e corrispondono ai metodi di invio dei dati previsti dal protocollo HTTP (\texttt{GET} e \texttt{POST}).
 
+Per riconoscere il tipo di richiesta inoltrata il \inglese{front controller}, rappresentato dalla classe \texttt{ControllerManager}, si appoggia ad un \inglese{file .properties} contenente le associazioni tra i nomi dei controller e i percorsi delle classi corrispondenti.
+
 	\item{\scshape\bfseries Diagramma delle classi:}\\
 %TODO: INSERIRE DIAGRAMMA CLASSI FRONT CONTROLLER
 
-Il diagramma in figura X rappresenta l'implementazione generica del front controller che, come anticipato, nasconde agli utilizzatori l'iter per la gestione dei specifici servizi (rubrica, segreteria, autenticazione, etc.). Per ogni servizio è descritta con maggiori dettagli e la relativa rappresentazione grafica, l'applicazione del \inglese{design pattern} nel paragrafo \vref{sec:patternfacade}.
+Il diagramma in figura X rappresenta l'implementazione generica del \inglese{front controller} che, come anticipato, nasconde agli utilizzatori l'iter per la gestione dei specifici servizi (rubrica, segreteria, autenticazione, etc.). Per ogni servizio è descritta con maggiori dettagli e la relativa rappresentazione grafica, l'applicazione del \inglese{design pattern} nel paragrafo \vref{sec:patternfacade}.
 
 \item{\scshape\bfseries Classi utilizzate:}\\
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \texttt{connection.ChannelServlet}
-	  \item[-] \texttt{abook.controller.AddContactController}
-	  \item[-] \texttt{abook.controller.DeleteContactController}
-	  \item[-] \texttt{abook.controller.AddGroupController}
-	  \item[-] \texttt{abook.controller.DeleteGroupController}
-	  \item[-] \texttt{abook.controller.AddInGroupController}
-	  \item[-] \texttt{abook.controller.RemoveFromGroupController}
-	  \item[-] \texttt{abook.controller.BlockContactController}
-	  \item[-] \texttt{abook.controller.UnblockContactController}
-	  \item[-] \texttt{abook.controller.GetContactsController}
-	  \item[-] \texttt{abook.controller.GetGroupsController}
-	  \item[-] \texttt{abook.controller.SearchController}
-	  \item[-] \texttt{abook.controller.AccountSettingsController}	  
-	  \item[-] \texttt{authentication.controller.LoginController}
-	  \item[-] \texttt{authentication.controller.LogoutController}
-	  \item[-] \texttt{authentication.controller.RegisterController}
-	  \item[-] \texttt{authentication.controller.QuestionController}
-	  \item[-] \texttt{authentication.controller.AnswerController}
-	  \item[-] \texttt{message.controller.AddMessageController}
-	  \item[-] \texttt{message.controller.DeleteMessageController}
-	  \item[-] \texttt{message.controller.UpdateMessageController}
-	  \item[-] \texttt{message.controller.GetMessagesController}
-	  \item[-] \texttt{call.controller.GetCallsController}
-	  \item[-] \texttt{call.controller.AddCallController}
-	  \item[-] \texttt{javax.servlet.http.HttpServlet}
-	  \item[-] \texttt{org.apache.catalina.websocket.WebSocketServlet}
+	  \item[-] \texttt{ControllerManager}
 	\end{itemize}
 
 \end{description}
