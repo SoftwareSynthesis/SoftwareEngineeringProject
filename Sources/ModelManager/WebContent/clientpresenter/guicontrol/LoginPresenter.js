@@ -11,9 +11,6 @@ function LoginPanelPresenter() {
     /***************************************************************************
      * VARIABILI PRIVATE
      **************************************************************************/
-    // elemento controllato da questo presenter
-    var element;
-    //mediator.getView("login");
 
     /***************************************************************************
      * METODI PRIVATI
@@ -267,9 +264,9 @@ function LoginPanelPresenter() {
      */
     this.initialize = function(view) {
         // attacca il pannello alla pagina
-        var x = document.createElement("div");
-        document.body.insertBefore(x, document.getElementsByTagName("footer")[0]);
-        x.innerHTML=view.outerHTML;
+        var dummyDiv = document.createElement("div");
+        document.body.insertBefore(dummyDiv, document.getElementsByTagName("footer")[0]);
+        dummyDiv.innerHTML=view.outerHTML;
 
         // configura il comportamento della vista
         var inputLogin = document.getElementById("inputLogin");
@@ -286,8 +283,9 @@ function LoginPanelPresenter() {
 
         var inputRegister = document.getElementById("inputRegister");
         inputRegister.onclick = function() {
-            self.hide();
-            mediator.buildRegistrationUI();
+            document.dispatchEvent(showRegistrationPanel);
+            /*self.hide();
+            mediator.buildRegistrationUI();*/
         };
 
         var inputRetrievePassword = document.getElementById("inputRetrievePassword");

@@ -2,6 +2,7 @@ window.onload = function() {
     //CREAZIONI EVENTI PERSONALIZZATI
     changeAddressBooksContactState = new CustomEvent("changeAddressBooksContactState");
     loadedView = new CustomEvent("loadedView");
+    showRegistrationPanel =new CustomEvent("showRegistrationPanel");
 
     //Inizializzazione delle funzioni
     window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext || window.msAudioContext;

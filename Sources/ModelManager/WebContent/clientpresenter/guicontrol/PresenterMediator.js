@@ -11,17 +11,17 @@ function PresenterMediator() {
      **************************************************************************/
     // array delle viste che devono essere visualizzate
     var View = {
-        accountSettings : "AccountSettingsView.xml",
-        addressBook : "AddressBookView.xml",
-        callHistory : "CallHistoryView.xml",
-        group : "CommunicationView.xml",
+        accountSettings : "AccountSettingsView.html",
+        addressBook : "AddressBookView.html",
+        callHistory : "CallHistoryView.html",
+        group : "CommunicationView.html",
         login : "LoginView.html",
-        main : "MainView.xml",
-        message : "MessageView.xml",
-        phoneCallsRegistry : "PhoneCallsRegistryView.xml",
-        register : "RegisterView.xml",
-        searchResult : "SearchResultView.xml",
-        tools : "ToolsView.xml"
+        main : "MainView.html",
+        message : "MessageView.html",
+        phoneCallsRegistry : "PhoneCallsRegistryView.html",
+        register : "RegisterView.html",
+        searchResult : "SearchResultView.html",
+        tools : "ToolsView.html"
     };
 
     // array associativo contentente i riferimenti ai presenter di primo livello
@@ -79,7 +79,6 @@ function PresenterMediator() {
      */
     this.buildLoginUI = function() {
         this.getView("login");
-        //presenters["login"].initialize();
     };
 
     /**
@@ -673,6 +672,8 @@ function PresenterMediator() {
         viewRequest.send();
         viewRequest.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
+                //FIXME inutile! posso direttamente richiamare il contenuto di
+                // onLoadView senza chiamare l'evento
                 loadedView.view = viewRequest.responseXML.body.firstChild;
                 loadedView.presenter = key;
                 document.dispatchEvent(loadedView);
@@ -698,7 +699,9 @@ function PresenterMediator() {
         }
     }
 
-
+    /***************************************************************************
+     * LISTNER DEGLI EVENTI
+     **************************************************************************/
     document.addEventListener("loadedView", function(evt) {
         onLoadedView(evt.presenter, evt.view);
     });

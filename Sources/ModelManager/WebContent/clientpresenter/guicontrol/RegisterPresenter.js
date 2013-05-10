@@ -17,6 +17,15 @@ function RegisterPanelPresenter(url) {
     /***************************************************************************
      * METODI PRIVATI
      **************************************************************************/
+    /**
+     * Funzione per gestire l'evento in cui viene visualizzato il pannello di
+     * registrazione
+     * @author Riccardo Tresoldi
+     */
+    function onShowRegistrationPanel() {
+        //elimina eventuale GUI già visualizzata
+        mediator.getView('register');
+    }
 
     /***************************************************************************
      * METODI PUBBLICI
@@ -170,16 +179,15 @@ function RegisterPanelPresenter(url) {
      * @author Stefano Farronato
      * @author Diego Beraldin
      */
-    this.initialize = function() {
-    	var self = this;
-    	// ottiene un riferimento alla propria vista
-    	element = mediator.getView("RegisterView");
-    	
-    	// aggiunge il pannello che gestisce alla pagina
-    	document.appendChild(element);
-    	
-    	// configura il comportamento della vista
-    	var inputLogin = document.getElementById("inputLogin");
+    this.initialize = function(view) {
+        var self = this;
+        // attacca il pannello alla pagina
+        var dummyDiv = document.createElement("div");
+        document.body.insertBefore(dummyDiv, document.getElementsByTagName("footer")[0]);
+        dummyDiv.innerHTML=view.outerHTML;
+
+        // configura il comportamento della vista
+        var inputLogin = document.getElementById("inputLogin");
         inputLogin.onclick = function() {
             self.hide();
             mediator.buildLoginUI();
@@ -216,4 +224,9 @@ function RegisterPanelPresenter(url) {
             document.body.removeChild(element);
         }
     };
+
+    //GESTIONE EVENTI
+    document.addEventListener("showRegistrationPanel", function(evt) {
+        onShowRegistrationPanel();
+    })
 }
