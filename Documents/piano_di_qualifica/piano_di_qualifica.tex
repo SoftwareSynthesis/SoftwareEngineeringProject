@@ -1304,17 +1304,17 @@ Tale test si compone di un solo metodo:
 \textbf{Descrizione}:l'obiettivo di questo test è .....
 Tale test si compone di diciannove metodi:
 \begin{itemize}
-\item \texttt{testDeleteSuccessfully()} 
+\item \texttt{testDeleteSuccessfully()} esegue una cancellazione che volontariamente non va a buon fine, verificando che sia invocato il metodo \texttt{getDeleteUtil()} per procurarsi  un istanza di \texttt{DeleteUtil}. Si verifica che se l'operazione ha successo, il metodo restituisca correttamente \texttt{true}.
 
-\item \texttt{testDeletensuccessfully()} 
+\item \texttt{testDeleteUnsuccessfully()} esegue una cancellazione che volontariamente non va a buon fine, verificando che sia invocato il metodo \texttt{getDeleteUtil()} sulla \inglese{factory} per procurarsi  un istanza di \texttt{DeleteUtil}. Verifica che sia invocato il metodo \texttt{execute()} per la cancellazione, e che il valore restituito da tale metodo sia \texttt{false}, come coerentemente atteso nel caso in cui l'operazione sul database non sia andata a buon fine.
 
-\item \texttt{testInsertSuccessfully()} 
+\item \texttt{testInsertSuccessfully()} esegue un inserimento che va a buon fine, verificando che sia invocato correttamente il metodo \texttt{getInsertUtil()} per ottenere un istanza di \texttt{InsertUtil}. Nel corso del test si verifica inoltre che, se l'operazione ha successo, il metodo restituisca correttamente \texttt{true}.
 
-\item \texttt{}testInsertUnsuccessfully()
+\item \texttt{}testInsertUnsuccessfully() esegue un inserimento che non va a buon fine, verificando che sia invocato correttamente il metodo \texttt{getInserUtil()} sulla \inglese{factory} per procurarsi un istanza di \texttt{InsertUtil}. Verifica inoltre che sia invocato il metodo \texttt{execute()} per portare a termine l'operazione di inserimento, e che il valore restituito dal metodo sia \texttt{false} come coerentemente atteso nel caso in cui l'operazione sul database non sia andata a buon fine.
 
-\item \texttt{testUpdateSuccessfully()} 
+\item \texttt{testUpdateSuccessfully()} esegue un'operazione di aggiornamento correttamente (va a buon fine) e verifica che sia invocato il metodo \texttt{getUpdateUtil()} per ottenere un istanza di \texttt{UpdateUtil}. Nel corso del test si verifica inoltre che, se l'operazione ha successo, il metodo restituisca correttamente \texttt{true}.
 
-\item \texttt{testUpdateUnsuccessfully()}
+\item \texttt{testUpdateUnsuccessfully()} esegue un'operazione di aggiornamento che non va a buon fine, verificando che sia invocato il metodo \texttt{getUpdateUtil()} sulla \inglese{factory} per ottenere un istanza di \texttt{UpdateUtil}. Viene verificato che sia invocato il metodo \texttt{execute()} per per portare a termine l'aggiornamento e che il valore restituito da tale metodo sia \texttt{false}, come coerentemente atteso nel caso in cui l'operazione sul database non vada a buon fine.
 
 \item \texttt{testGetAddressBookEntry()} 
 
@@ -1332,17 +1332,17 @@ Tale test si compone di diciannove metodi:
 
 \item \texttt{}testGetMessages()
 
-\item \texttt{testGetUserDataByEmail()}
+\item \texttt{testGetUserDataByEmail()} verifica la possibilità di recuperare i dati di un utente dal database disponendo del relativo indirizzo email. In particolare, il test assicura che il risultato sia coerente con quanto atteso (in base a quanto configurato nel \inglese{mock} di \texttt{GetUserDataUtil}, verificando inoltre quindi il corretto utilizzo del \inglese{mock} stesso). In particolare tale test verifica che sia eseguita esattamente la query impostata nella variabile 'query' e il fatto che dalla collezione di oggetti ritornata da \texttt{execute()} e \texttt{GetUtil} sia estratto il primo elemento e non sia \textit{mai} invocato \texttt{get} con argomenti superiori allo zero, che la lista sia scorsa solo se non è vuota e che la \texttt{UtilFactory} sia utilizzata per procurarsi la corretta istanza di \texttt{GetUtil}.
 
-\item \texttt{testGetUserDataByEmailEmpty()} 
+\item \texttt{testGetUserDataByEmailEmpty()} verifica il comportamento della classe nel momento in cui si tenta di recuperare un utente tramite un indirizzo email inesistente (la query di ricerca restituisce un insieme vuoto). Il test assicura che la collezione restituita sia, come atteso, il riferimento nullo. Il test ha inoltre verifica il corretto utilizzo dei \inglese{mock}, cioè che sia utilizzata la classe \inglese{factory} per ottenere il \texttt{GetUtil} corretto, che il metodo \texttt{execute()} di quest'ultimo sia invocato esattamente con la stringa impostata nella variabile query, che si controlli che la collezione restituita è vuota e, infine, che non sia mai invocato il metodo \texttt{get} su quest'ultima con un parametro intero.
 
-\item \texttt{testGetUserDataById()} 
+\item \texttt{testGetUserDataById()} verifica la possibilità di recuperare i dati di un utente dal database disponendo del relativo numero identificativo. In particolare, il test assicura che il risultato sia uguale alle attese (in base a come è stato configurato il \inglese{mock} di \texttt{GetUserDataUtil}, verificando quindi il corretto utilizzo del \inglese{mock} stesso). In particolare tale test verifica che sia eseguita esattamente la query impostata nella variabile 'query' e il fatto che dalla collezione di oggetti ritornata dalla \texttt{execute()} del \texttt{GetUtil} sia estratto il primo elemento e non sia \textit{mai} invocato \texttt{get} con argomenti superiori allo zero, che la lista sia scorsa solo se non è vuota e che la \texttt{UtilFactory} sia utilizzata per procurarsi la corretta istanza di \texttt{GetUtil}.
 
-\item \texttt{testGetUserDataByIdEmpty()}
+\item \texttt{testGetUserDataByIdEmpty()} verifica il comportamento della classe nel momento in cui si tenta di recuperare un utente con un \textit{id} inesistente (la query di ricerca restituisce un insieme vuoto). Il test assicura che in questo caso la collezione restituita sia, coerentemente a quanto atteso, il riferimento nullo. Inoltre tale test verifica il corretto utilizzo del \inglese{mock}, cioè che sia utilizzata la classe \inglese{factory} per ottenere il \texttt{GetUtil} corretto, che il metodo \texttt{execute()} di quest'ultimo sia invocato esattamente col la stringa impostata nella variabile 'query', che si controlli che la collezione restituita è vuota e, dal momento che appare come tale, che non sia \textit{mai} invocato il metodo \texttt{get} su quest'ultima con un parametro intero.
 
-\item \texttt{testGetUserDataGeneric()}
+\item \texttt{testGetUserDataGeneric()} verifica il comportamento della classe nel momento in cui si tenta di recuperare i dati di un utente a partire da una stringa contenuta nei suoi campi dati. In particolare, il test assicura che il risultato sia uguale alle attese (in base a come è stato configurato il \inglese{mock} di \texttt{GetUserDataUtil}, verificando quindi il corretto utilizzo del \inglese{mock} stesso). In particolare tale test verifica che sia eseguita esattamente la query impostata nella variabile 'query' e il fatto che dalla collezione di oggetti ritornata dalla \texttt{execute()} del \texttt{GetUtil} sia estratto il primo elemento e non sia \textit{mai} invocato \texttt{get} con argomenti superiori allo zero, che la lista sia scorsa solo se non è vuota e che la \texttt{UtilFactory} sia utilizzata per procurarsi la corretta istanza di \texttt{GetUtil}.
 
-\end{itemize}
+\end{itemize} 
 \textbf{Risultato del test:} superato con successo.
 
 
