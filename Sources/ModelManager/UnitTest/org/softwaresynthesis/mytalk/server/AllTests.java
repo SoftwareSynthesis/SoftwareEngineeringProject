@@ -10,7 +10,8 @@ import org.softwaresynthesis.mytalk.server.message.MessageTestSuite;
 
 @RunWith(Suite.class)
 @SuiteClasses({ AddressBookTestSuite.class, DAOTestSuite.class,
-		CallTestSuite.class, MessageTestSuite.class })
+		CallTestSuite.class, MessageTestSuite.class,
+		AbstractControllerTest.class, ControllerManagerTest.class })
 public class AllTests {
 
 }
