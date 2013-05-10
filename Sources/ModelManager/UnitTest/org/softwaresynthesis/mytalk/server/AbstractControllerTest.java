@@ -235,5 +235,42 @@ public class AbstractControllerTest {
 		}
 	}
 
-	// TODO dovrebbe essere fatto anche un testExecuteUnsuccessfully
+	/**
+	 * Verifica il comportamento della classe nel momento in cui viene invocato
+	 * il metodo con una richiesta non associata a una sessione di
+	 * autenticazione valida. Il test in questo caso verifica che sia eseguito
+	 * il metodo check una volta, che non sia MAI eseguito il metodo doAction()
+	 * del controller e che sulla risposta sia stampata, come richiesto, la
+	 * stringa 'null' dopo aver estratto il writer ad essa associato.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testExecuteUnsuccessfully() {
+		// fa in modo che il test effettuato da check non sia superato
+		when(session.getAttribute("username")).thenReturn("");
+
+		// invoca il metodo da testare
+		try {
+			tester.execute(request, response);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			fail(e.getMessage());
+		}
+
+		// verifica il risultato ottenuto
+		String result = writer.toString();
+		assertNotNull(result);
+		assertEquals("null", result);
+
+		// verifica il corretto utilizzo dei mock
+		try {
+			verify(tester).check(request);
+			verify(tester, never()).doAction(request, response);
+			verify(response).getWriter();
+		} catch (IOException e) {
+			fail(e.getMessage());
+		}
+	}
 }
