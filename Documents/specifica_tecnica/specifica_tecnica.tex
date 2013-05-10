@@ -1474,14 +1474,14 @@ Classe \inglese{transfer object} che rappresenta un messaggio di natura audio o 
 
 \end{itemize}
 
-\subsubsection{Package \texttt{org.softwaresynthesis.mytalk.server.message.servlet}}
+\subsubsection{Package \texttt{org.softwaresynthesis.mytalk.server.message.controller}}
 
 \begin{itemize}[noitemsep,nolistsep]
 
-\item \texttt{InsertMessageServlet}
+\item \texttt{AddMessageController}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Sottoclasse di \texttt{javax.servlet.http.HttpServlet} che rappresenta un punto di accesso al componente \textsf{Gestione segreteria} e nello specifico consente di inserire un nuovo messaggio nella segreteria di un utente del sistema.
+\inglese{Controller} che consente di inserire un nuovo messaggio nella segreteria di un utente del sistema.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1490,10 +1490,10 @@ Sottoclasse di \texttt{javax.servlet.http.HttpServlet} che rappresenta un punto 
 	\end{itemize}
 \end{description}
 
-\item \texttt{UpdateStatusMessageServlet}
+\item \texttt{UpdateMessageController}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Sottoclasse di \texttt{javax.servlet.http.HttpServlet} che rappresenta un punto di accesso al componente \textsf{Gestione segreteria} e nello specifico consente di modificare lo stato di un messaggio presente nella segreteria utente.
+\inglese{Controller} che consente di modificare lo stato di un messaggio presente nella segreteria utente.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1502,10 +1502,10 @@ Sottoclasse di \texttt{javax.servlet.http.HttpServlet} che rappresenta un punto 
 	\end{itemize}
 \end{description}
 
-\item \texttt{DeleteMessageServlet}
+\item \texttt{DeleteMessageController}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Sottoclasse di \texttt{javax.servlet.http.HttpServlet} che rappresenta un punto di accesso al componente \textsf{Gestione segreteria} e nello specifico consente l'eliminazione di un messaggio presente nella segreteria del client che richiede l'operazione di cancellazione.
+\inglese{Controller} che consente l'eliminazione di un messaggio presente nella segreteria del client che richiede l'operazione di cancellazione.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1514,10 +1514,10 @@ Sottoclasse di \texttt{javax.servlet.http.HttpServlet} che rappresenta un punto 
 	\end{itemize}
 \end{description}
 
-\item \texttt{DownloadMessageListServlet}
+\item \texttt{GetMessageController}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Sottoclasse di \texttt{javax.servlet.http.HttpServlet} che rappresenta un punto di accesso al componente \textsf{Gestione segreteria} e nello specifico permette di scaricare la lista dei messaggi.
+\inglese{Controller} che permette di scaricare la lista dei messaggi di un determinato utente.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1577,14 +1577,26 @@ Classe \inglese{transfer object} che rappresenta una voce nella lista delle chia
 
 \end{itemize}
 
-\subsubsection{Package \texttt{org.softwaresynthesis.mytalk.server.call.servlet}}
+\subsubsection{Package \texttt{org.softwaresynthesis.mytalk.server.call.controller}}
 
 \begin{itemize}[noitemsep,nolistsep]
 
-\item \texttt{DownloadCallHistoryServlet}
+\item \texttt{GetCallController}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Sottoclasse di \texttt{javax.servlet.http.HttpServlet} la cui responsabilità è intercettare le richieste aventi come oggetto lo storico delle chiamate utente, che deve essere restituito dal server al client in forma opportunamente serializzata per l'interscambio di dati. Non è previsto invece alcun tipo di operazione ``attiva'' sui dati memorizzati nel server.
+\inglese{Controller} la cui responsabilità è intercettare le richieste aventi come oggetto lo storico delle chiamate utente, che deve essere restituito dal server al client in forma opportunamente serializzata per l'interscambio di dati. Non è previsto invece alcun tipo di operazione ``attiva'' sui dati memorizzati nel server.
+
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-] \textsf{CS07 -- Gestione controller}
+	  \item[-] \textsf{CP03 -- Gestione GUI}
+	\end{itemize}
+\end{description}
+
+\item \texttt{AddCallController}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:}\\
+\inglese{Controller} avente il compito di aggiungere alla lista delle chiamate di un utente, una nuova chiamata effettuata da quest'ultimo.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1632,28 +1644,6 @@ Sottoclasse di \texttt{javax.servlet.http.HttpServlet} la cui responsabilità è
   \end{itemize}
 \end{description}
 
-\item \texttt{IAuthenticationData}
-\begin{description}
-	\item{\scshape\bfseries Descrizione}\\
-		Interfaccia che contiene le credenziali fornite in \inglese{input} dall'utente per avviare successivamente la procedura di \inglese{login} al sistema \caName.
-	\item{\scshape\bfseries Componenti che ne fanno uso}
-		\begin{itemize}[noitemsep],nolistsep]
-			\item[-] \textsf{CS04 -- Gestione autenticazione}
-    		\item[-] \textsf{CS07 -- Gestione controller}
-		\end{itemize}
-\end{description}
-
-\item \texttt{AuthenticationData}
-\begin{description}
-	\item{\scshape\bfseries Descrizione}\\
-		La classe contiene le credenziali di accesso, fornite dall'utente, ed utilizzate da \texttt{CredentialLoader}.
-	\item{\scshape\bfseries Componenti che ne fanno uso}
-		\begin{itemize}[noitemsep,nolistsep]
-			\item[-] \textsf{CS04 -- Gestione autenticazione}
-			\item[-] \textsf{CS07 -- Gestione controller}
-		\end{itemize}
-\end{description}
-
 \item \texttt{ISecurityStrategy}
 \begin{description}
 	\item{\scshape\bfseries Descrizione}\\
@@ -1665,6 +1655,7 @@ Sottoclasse di \texttt{javax.servlet.http.HttpServlet} la cui responsabilità è
 		\end{itemize}
 \end{description}
 
+\subsubsection{Package \texttt{org.softwaresynthesis.mytalk.server.authentication.security}}
 
 \item \texttt{AESAlgorithm}
 \begin{description}
