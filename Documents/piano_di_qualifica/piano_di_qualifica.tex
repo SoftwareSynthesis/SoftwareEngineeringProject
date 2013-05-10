@@ -922,6 +922,41 @@ Per l'esecuzione di questi test si è usata, coerentemente con le norme di proge
 
 Ogni test è inoltre stato eseguito più volte in modo da avere uno spettro più ampio di misurazioni e produrre una verifica più stabile e oggettiva possibile.
 
+
+\subsubsection{\texttt{org.softwaresinthesis.mytalk.server}}
+\begin{itemize}
+
+\item \textbf{TM1.01: AbstractControllerTest}\\
+\textbf{Verifica la Classe:} \texttt{AbstractController}.\\
+\textbf{Descrizione}: l'obiettivo del test è controllare il corretto funzionamento della classe \texttt{AbstractController}.
+ 
+Tale test si compone di sei metodi:
+ 
+\item \texttt{testGetSecurityStrategyFactory()} verifica che sia possibile recuperare un riferimento a una strategia di autenticazione valida e, in particolare, che si tratti di un'istanza dell'algoritmo di crittografia AES a 128 bit che è stato prescelto. Il controllo viene effettuato verificando, dopo l'invocazione del metodo \texttt{getSecurityStrategyFactory} sull'oggetto su cui viene effettuato il test, che l'oggetto restituito non sia \texttt{null} e che esso sia un'istanza della classe AESAlgirithm.
+
+\item \texttt{testGetDAOFactory()} verifica che sia possibile recuperare un riferimento ad un'istanza di \texttt{DataPersistenceManager} per la gestione dell'interazione con il database. Il controllo avviene verificando che l'oggetto restituito non sia \texttt{null}.
+
+\item \texttt{testGetCheckSuccessfully()} verifica il comportamento della classe nel momento in cui viene invocato il metodo \texttt{check} tramite una richiesta HTTP associata ad una sessione valida. ovvero che contiene tutti i dati necessari ad identificare l'utente dopo che è avvenuta la registrazione. Il test avviene verificando che il metodo \texttt{check} restituisca il valore \texttt{true} e che la richiesta HTTP e la sessione ad essa associata siano utilizzate in modo corretto.
+
+\item \texttt{testGetCheckUnsuccessfully()} verifica che il comportamento del metodo \texttt{check} nel momento in cui la richiesta che viene passata ad esso come parametro non corrisponde ad un utente autenticato, vale a dire non è associata a una sessione all'interno della quale sono memorizzati i dati identificativi dell'utente. Il test si assicura che in tal caso il metodo check restituisca, come atteso, il valore \texttt{false}.
+
+\item \texttt{testExecuteSuccessfully()} verifica il comportamento del metodo \texttt{execute} quando il controllo di autenticazione è superato. Il test avviene verificando che venga eseguito il \texttt{doAction} e che nella risposta HTTP passata al metodo \texttt{execute} sia  stampato il testo che il \texttt{doAction} è stato configurato per scrivere.
+
+\item \texttt{testExecuteUnsuccessfully()}
+controlla il corretto funzionamento della classe nel caso in cui viene invocato il metodo con una richiesta non associata a una sessione di autenticazione valida.
+Il test in questo caso verifica che sia eseguito il metodo \texttt{check} una volta, che non sia mai eseguito il metodo \texttt{doAction()} e che sulla risposta sia stampata, come richiesto, la stringa \texttt{null}.
+
+
+
+\textbf{Risultato del test:} superato con successo.
+\end{itemize}
+
+
+
+
+
+
+
 \subsubsection{\texttt{org.softwaresinthesis.mytalk.server.autentication}}
 \begin{itemize}
 \item \textbf{TM1.01: AESAlgorithmTest}\\
