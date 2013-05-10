@@ -9,21 +9,21 @@ function PresenterMediator() {
     /***************************************************************************
      * VARIABILI PRIVATE
      **************************************************************************/
-	// array delle viste che devono essere visualizzate
-	var View = {
-			AccountSettingsView: "AccountSettingsView.xml",
-			AddressBookView: "AddressBookView.xml",
-			CallHistoryView: "CallHistoryView.xml",
-			GroupView: "CommunicationView.xml",
-			LoginView: "LoginView.xml",
-			MainView: "MainView.xml",
-			MessageView: "MessageView.xml",
-			PhoneCallsRegistry: "PhoneCallsRegistryView.xml",
-			RegisterView: "RegisterView.xml",
-			SearchResultView: "SearchResultView.xml",
-			ToolsView: "ToolsView.xml"
-	};
-	
+    // array delle viste che devono essere visualizzate
+    var View = {
+        AccountSettingsView : "AccountSettingsView.xml",
+        AddressBookView : "AddressBookView.xml",
+        CallHistoryView : "CallHistoryView.xml",
+        GroupView : "CommunicationView.xml",
+        LoginView : "LoginView.xml",
+        MainView : "MainView.xml",
+        MessageView : "MessageView.xml",
+        PhoneCallsRegistry : "PhoneCallsRegistryView.xml",
+        RegisterView : "RegisterView.xml",
+        SearchResultView : "SearchResultView.xml",
+        ToolsView : "ToolsView.xml"
+    };
+
     // array associativo contentente i riferimenti ai presenter di primo livello
     var presenters = new Array();
     presenters["login"] = new LoginPanelPresenter();
@@ -267,21 +267,21 @@ function PresenterMediator() {
     this.getAddressBookGroups = function() {
         return presenters["addressbook"].getGroups();
     };
-    
+
     /**
      * Provoca la creazione del pannello dei gruppo e la sua
      * visualizzazione all'interno del MainPanel come elemento figlio. La
      * costruzione del pannello è affidata al metodo createPanel che viene reso
      * disponibile da tutti i presenter di secondo livello
-     * 
+     *
      * @see MainPanel#displayChildPanel({HTMLDivElement})
      * @see GroupPanelPresenter#createPanel()
      * @author Diego Beraldin
      */
     this.displayGroupPanel = function() {
-    	var element = grouppp.createPanel();
-    	presenters["main"].displayChildPanel(element);
-    	grouppp.setup();
+        var element = grouppp.createPanel();
+        presenters["main"].displayChildPanel(element);
+        grouppp.setup();
     };
 
     /**
@@ -525,10 +525,10 @@ function PresenterMediator() {
      */
     //TODO da eliminare
     /*this.onChangeAddressBooksContactState = function(contactId, state) {
-        // ottengo il contatto
-        var contact = presenters["addressbook"].contacts[contactId];
-        // invoco la funzione del AddressBookPanelPresenter
-        presenters["addressbook"].setStateToContact(contact, state);
+    // ottengo il contatto
+    var contact = presenters["addressbook"].contacts[contactId];
+    // invoco la funzione del AddressBookPanelPresenter
+    presenters["addressbook"].setStateToContact(contact, state);
     };*/
 
     /**
@@ -647,21 +647,29 @@ function PresenterMediator() {
         document.removeChild(answerBox);
     };
 
-	/**
-	 * Restituisce la vista da visualizzare nell'interfaccia grafica
-	 * in base alla stringa passata come parametro, utilizzata come chiave
-	 * per l'array associativo delle viste contenuto qui.
-	 * 
-	 * @param {String} key
-	 * @returns {HTMLDivElement}
-	 * @author Riccardo Tresoldi
-	 */
-	this.getView = function(key) {
-		// ottengo il frammento di codice HTML dalla view
-		var viewRequest = new XMLHttpRequest();
-		viewRequest.open("GET", "clientview/" + View[key], false);
-		viewRequest.send();
-		// ritorno il frammendto di codice ottenuto
-		return viewRequest.responseXML.firstChild;
-	};
+    /**
+     * Restituisce la vista da visualizzare nell'interfaccia grafica
+     * in base alla stringa passata come parametro, utilizzata come chiave
+     * per l'array associativo delle viste contenuto qui.
+     *
+     * @param {String} key
+     * @returns {HTMLDivElement}
+     * @author Riccardo Tresoldi
+     */
+    this.getView = function(key) {
+        // ottengo il frammento di codice HTML dalla view
+        var viewRequest = new XMLHttpRequest();
+        viewRequest.responseType="document";
+        viewRequest.open("GET", "clientview/" + View[key], false);
+        viewRequest.send();
+        // ritorno il frammendto di codice ottenuto
+        return viewRequest.responseXML.body.firstChild;
+
+        /*var xmlString = viewRequest.responseText;
+         var parser = new DOMParser();
+         var doc = parser.parseFromString(xmlString, "application/xhtml");
+         alert(xmlString);
+         alert(doc);
+         return doc;*/
+    };
 }

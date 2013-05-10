@@ -267,6 +267,7 @@ function LoginPanelPresenter() {
     this.initialize = function() {
         // ottiene la propria vista
         element = mediator.getView("LoginView");
+        alert(element);
 
         // attacca il pannello alla pagina
         document.body.insertBefore(element, document.getElementsByTagName("footer")[0]);
