@@ -885,7 +885,7 @@ Infine, allo scopo di consentire ai client l'accesso alle funzionalità di quest
 	\item{\scshape\bfseries Descrizione:}\\
 Il componente ha il ruolo di descrivere tutte le funzionalità che il sistema server è in grado di svolgere, ad esempio il blocco di un contatto, l'aggiunta dello stesso alla rubrica, ad un gruppo, o la ricerca di uno specifico nel database generale. A tali funzionalità si accede mediante un front controller (CS08, descritto nel paragrafo successivo) che implementa un sistema che permette di monitorare le richieste sulle stesse.
 
-Per ogni operazione viene definito un controller (classe che estende \texttt{AbstracController}, un implementazione di \texttt{IController}. La mappatura fra componenti del server e i rispettivi \inglese{controller} è illustrata dalla seguente tabella:
+Per ogni operazione viene definito un controller (classe che estende \texttt{AbstracController}, un implementazione di \texttt{IController}). La mappatura fra componenti del server e i rispettivi \inglese{controller} è illustrata dalla seguente tabella:
 
 \begin{center}
 \rowcolors{2}{lightblue}{llightblue}
@@ -1320,15 +1320,14 @@ Implementazione dell'interfaccia \texttt{IGroup} che costituisce anche il \ingle
 \end{itemize}
 
 
-\subsubsection{Package \texttt{org.softwaresynthesis.mytalk.server.abook.servlet}}
+\subsubsection{Package \texttt{org.softwaresynthesis.mytalk.server.abook.controller}}
 
 \begin{itemize}[leftmargin=0em]
 
-
-\item \texttt{AddressBookDoAddContactServlet}
+\item \texttt{AddContactController}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-\textit{Servlet} il cui compito consiste nell'aggiungere alla rubrica personale dell'utente un nuovo contatto tra quelli registrati al sistema \caName.
+\textit{Controller} il cui compito consiste nell'aggiungere alla rubrica personale dell'utente un nuovo contatto tra quelli registrati al sistema \caName.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1337,10 +1336,10 @@ Implementazione dell'interfaccia \texttt{IGroup} che costituisce anche il \ingle
 	\end{itemize}
 \end{description}
 
-\item \texttt{AddressBookDoRemoveContactServlet}
+\item \texttt{RemoveContactController}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-\textit{Servlet} il cui compito consiste nel rimuovere dalla rubrica personale dell'utente un contatto tra quelli presenti nella rubrica stessa.
+\textit{Controller} il cui compito consiste nel rimuovere dalla rubrica personale dell'utente un contatto tra quelli presenti nella rubrica stessa.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1349,10 +1348,10 @@ Implementazione dell'interfaccia \texttt{IGroup} che costituisce anche il \ingle
 	\end{itemize}
 \end{description}
 
-\item \texttt{AddressBookDoBlockServlet}
+\item \texttt{BlockContactController}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-\textit{Servlet} il cui compito consiste nel bloccare un contatto presente nella rubrica dell'utente, in questo modo lo stesso non può essere più contattato dal contatto.
+\textit{Controller} il cui compito consiste nel bloccare un contatto presente nella rubrica dell'utente, in questo modo lo stesso non può essere più contattato dal contatto.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \textsf{CS03 -- Gestione rubrica }
@@ -1360,10 +1359,10 @@ Implementazione dell'interfaccia \texttt{IGroup} che costituisce anche il \ingle
 	\end{itemize}
 \end{description}
 
-\item \texttt{AddressBookDoUnblockServlet}
+\item \texttt{UnblockContactController}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-\textit{Servlet} il cui compito consiste nello sbloccare un contatto presente nella rubrica dell'utente, in questo modo lo stesso può essere contattato dal contatto che era stato in precedenza bloccato.
+\textit{Controller} il cui compito consiste nello sbloccare un contatto presente nella rubrica dell'utente, in questo modo lo stesso può essere contattato dal contatto che era stato in precedenza bloccato.
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \textsf{CS03 -- Gestione rubrica }
@@ -1371,22 +1370,10 @@ Implementazione dell'interfaccia \texttt{IGroup} che costituisce anche il \ingle
 	\end{itemize}
 \end{description}
 
-\item \texttt{AddressBookDoCreateGroupServlet}
+\item \texttt{CreateGroupController}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-\textit{Servlet} il cui compito consiste inserire un nuovo gruppo in cui inserire gli utenti presenti nella rubrica personale dell'utente.
-
-	\item{\scshape\bfseries Componenti che ne fanno uso:}
-	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \textsf{CS03 -- Gestione rubrica }
-	  \item[-] \textsf{CS07 -- Gestione controller}
-	\end{itemize}
-\end{description}
-
-\item \texttt{AddressBookDoDeleteGroupServlet}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:}\\
-\textit{Servlet} il cui compito consiste eliminare un gruppo creato in precedenza e quindi presente nella rubrica personale dell'utente.
+\textit{Controller} il cui compito consiste inserire un nuovo gruppo in cui inserire gli utenti presenti nella rubrica personale dell'utente.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1395,10 +1382,10 @@ Implementazione dell'interfaccia \texttt{IGroup} che costituisce anche il \ingle
 	\end{itemize}
 \end{description}
 
-\item \texttt{AddressBookDoInsertInGroupServlet}
+\item \texttt{DeleteGroupController}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-\textit{Servlet} il cui compito consiste nell'inserire un contatto presente nella rubrica dell'utente ad un gruppo esistente nella rubrica personale.
+\textit{Controller} il cui compito consiste eliminare un gruppo creato in precedenza e quindi presente nella rubrica personale dell'utente.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1407,10 +1394,10 @@ Implementazione dell'interfaccia \texttt{IGroup} che costituisce anche il \ingle
 	\end{itemize}
 \end{description}
 
-\item \texttt{AddressBookDoRemoveFromGroupServlet}
+\item \texttt{AddInGroupController}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-\textit{Servlet} il cui compito consiste rimuovere un contatto presente nella rubrica dell'utente da un gruppo esistente nella rubrica personale.
+\textit{Controller} il cui compito consiste nell'inserire un contatto presente nella rubrica dell'utente ad un gruppo esistente nella rubrica personale.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1419,10 +1406,10 @@ Implementazione dell'interfaccia \texttt{IGroup} che costituisce anche il \ingle
 	\end{itemize}
 \end{description}
 
-\item \texttt{AddressBookGetContactsServlet}
+\item \texttt{DeleteFromGroupController}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-\textit{Servlet} il cui compito consiste nel fornire la rubrica di un utente iscritto al sistema \caName.
+\textit{Controller} il cui compito consiste rimuovere un contatto presente nella rubrica dell'utente da un gruppo esistente nella rubrica personale.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1431,10 +1418,22 @@ Implementazione dell'interfaccia \texttt{IGroup} che costituisce anche il \ingle
 	\end{itemize}
 \end{description}
 
-\item \texttt{AccountSettingsServlet}
+\item \texttt{GetContactsController}
+\begin{description}
+	\item{\scshape\bfseries Descrizione:}\\
+\textit{Controller} il cui compito consiste nel fornire la rubrica di un utente iscritto al sistema \caName.
+
+	\item{\scshape\bfseries Componenti che ne fanno uso:}
+	\begin{itemize}[noitemsep,nolistsep]
+	  \item[-] \textsf{CS03 -- Gestione rubrica }
+	  \item[-] \textsf{CS07 -- Gestione controller}
+	\end{itemize}
+\end{description}
+
+\item \texttt{AccountSettingsController}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}
-\textit{Servlet} che ha il compito di permettere la modifica dei dati personali di un utente iscritto al sistema \caName.
+\textit{Controller} che ha il compito di permettere la modifica dei dati personali di un utente iscritto al sistema \caName.
   
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   	\begin{itemize}[noitemsep,nolistsep]
