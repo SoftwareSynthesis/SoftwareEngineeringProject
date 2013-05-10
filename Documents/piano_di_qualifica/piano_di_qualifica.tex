@@ -1332,8 +1332,8 @@ Tale test si compone di diciannove metodi:
 Tale test si compone di due metodi: 
 \begin{itemize}
 \item \texttt{testGetSessionFactory()} verifica che sia possibile ottenere una \textit{SessionFactory} a partire dal \textit{SessionManager} di invocazione e che tale sia univoca indipendentemente dal riferimento su cui è invocato \texttt{getSessionFactory()}.
-RICOMINCIADAQUI
-\item \texttt{testGetInstance()}
+
+\item \texttt{testGetInstance()} verifica che tutti i riferimenti ottenuti tramite \texttt{getIstance()} siano validi e puntino allo stesso oggetto nello \inglese{heap}.
 
 
 \end{itemize}
@@ -1388,18 +1388,23 @@ controlla il comportamento del metodo \texttt{execute} nel caso in cui al moment
 
 \item \textbf{TM5.05: GetGroupUtilTest}\\
 \textbf{Verifica la Classe:} \texttt{GetGrouplUtil}.\\
-\textbf{Descrizione}:l'obiettivo di questo test è .....
+\textbf{Descrizione}: TODO: AGGIUNGERE DESCRIZIONE
 Tale test si compone di tre metodi:
 \begin{itemize}
-\item \texttt{testExecuteCorrectly()} 
+\item \texttt{testExecuteCorrectly()} verifica la corretta esecuzione del metodo nel caso in cui la ricerca vada correttamente a buon fine. In particolare verifica che la lista ritornata sia ottenuta mediante il metodo \texttt{list()} invocato sulla query HQL ottenuta sulla sessione a partire dalla stringa passata come parametro al metodo.
+Viene inoltre verificato che sui gruppi della lista sia invocato il metodo \texttt{getAddressBook()} per ottenere la collezione da inizializzare, sia ottenuta una \textit{SessionFactory} a partire dal \textit{SessionManager} e che (a partire da questa) sia ottenuta una sessione.
+Verifica infine che sia aperta una transazione e creata una query HQL su cui si invoca \texttt{list()} e che si termini con successo la transazione tramite il metodo \texttt{commit()}.
+La sessione di interazione con il database deve inoltre essere finalizzata in modo corretto con i metodi \texttt{flush()} e \texttt{close()}.
 
-\item \texttt{testExecuteWithoutTransaction()}
+\item \texttt{testExecuteWithoutTransaction()} verifica il corretto comportamento della classe nel momento in cui non è possibile avviare una transazione per l'interazione con il database. Esso verifica che non siano mai stati invocati i metodi \texttt{rollback()} e \texttt{commit()} e \texttt{list()} su una transazione inesistenze.
+Il test assicura inoltre che la sessione sia aperta e finalizzata correttamente, e che sia utilizzata per creare la query sul database che per tentare di avviare una transazione.
+Infine, viene controllato che non siano mai invocati i metodi di inizializzazione sulla lista di gruppi associata alla query, dal momento che non è possibile avviare una transazione.
 
-\item \texttt{testExecuteUnableToPerformQuery()}
+\item \texttt{testExecuteUnableToPerformQuery()} verifica il comportamento del metodo \texttt{execute} nel caso in cui al momento di effettuare la query dovesse verificarsi un evento eccezionale. In particolare, il test assicura che non sia mai invocato il metodo \texttt{commit()} sulla transazione e che sia invece invocato il \texttt{rollback()}.
+E' garantito inoltre che durante l'esecuzione del metodo sia aperta una sessione d'interazione con il databasa e che quest'ultima sia finalizzata in modo corretto. Infine, viene controllato che non siano mai invocati metodi sulla lista di gruppi che corrisponde alla query di ricerca con cui è invocato \texttt{execute}, visto che in fase di interrogazione al database avviene un errore.
 
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
-
 
 
 \item \textbf{TM5.06: GetUserDataUtilTest}\\
@@ -1474,22 +1479,22 @@ verifica che l'esecuzione di un aggiornamento nel database sia portata a termine
 
 \item \textbf{TM5.10: UtilFactoryTest}\\
 \textbf{Verifica la Classe:} \texttt{UtilFactory}.\\
-\textbf{Descrizione}:l'obiettivo di questo test è .....
+\textbf{Descrizione}: TODO: DA DESCRIVERE
 Tale test si compone di sette metodi:
 \begin{itemize}
-\item \texttt{testGetDeleteUtil()} 
+\item \texttt{testGetDeleteUtil()} verifica la possibilità di ottenere un'istanza valida di \texttt{DeleteUtil} a partire dalla classe \textit{factory}, e che il \textit{SessionManager} sia utilizzato nel modo corretto per la costruzione dell'oggetto da restituire.
 
-\item \texttt{testGetInsertUtil()} 
+\item \texttt{testGetInsertUtil()} verifica che sia possibile ottenere un'istanza valida di \texttt{InsertUtil} a partire dalla classe \inglese{factory}, e che il \texttt{SessionManager} sia utilizzato nel modo corretto per la costruzione dell'oggetto da restituire.
 
-\item \texttt{testGetUpdateUtil()} 
+\item \texttt{testGetUpdateUtil()} verifica che sia possibile ottenere un'istanza valida di \texttt{UpdateUtil} a partire dalla classe \inglese{factory}, e che il \texttt{SessionManager} sia utilizzato nel modo corretto per la costruzione dell'oggetto da restituire.
 
-\item \texttt{testGetCallUtil()} 
+\item \texttt{testGetCallUtil()} verifica che sia possibile ottenere un'istanza valida di \texttt{GetCallUtil} a partire dalla classe \inglese{factory}, e che il \texttt{SessionManager} sia utilizzato nel modo corretto per la costruzione dell'oggetto da restituire.
 
-\item \texttt{testGetGroupUtil()}
+\item \texttt{testGetGroupUtil()} verifica che sia possibile ottenere un'istanza valida di \texttt{GetGroupUtil} a partire dalla classe \inglese{factory}, e che il \texttt{SessionManager} sia utilizzato nel modo corretto per la costruzione dell'oggetto da restituire.
 
-\item \texttt{testGetUserDataUtil()}
+\item \texttt{testGetUserDataUtil()} verifica che sia possibile ottenere un'istanza valida di \texttt{GetUserDataUtil} a partire dalla classe \inglese{factory}, e che il \texttt{SessionManager} sia utilizzato nel modo corretto per la costruzione dell'oggetto da restituire.
 
-\item \texttt{testGetGenericUtil()}
+\item \texttt{testGetGenericUtil()} verifica che sia possibile ottenere un'istanza valida di \texttt{NotInitialize} a partire dalla classe \inglese{factory}, e che il \texttt{SessionManager} sia utilizzato nel modo corretto per la costruzione dell'oggetto da restituire.
 
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
