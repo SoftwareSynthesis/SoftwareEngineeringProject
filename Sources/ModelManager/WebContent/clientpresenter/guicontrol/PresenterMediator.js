@@ -11,17 +11,17 @@ function PresenterMediator() {
      **************************************************************************/
     // array delle viste che devono essere visualizzate
     var View = {
-        AccountSettingsView : "AccountSettingsView.xml",
-        AddressBookView : "AddressBookView.xml",
-        CallHistoryView : "CallHistoryView.xml",
-        GroupView : "CommunicationView.xml",
-        LoginView : "LoginView.xml",
-        MainView : "MainView.xml",
-        MessageView : "MessageView.xml",
-        PhoneCallsRegistry : "PhoneCallsRegistryView.xml",
-        RegisterView : "RegisterView.xml",
-        SearchResultView : "SearchResultView.xml",
-        ToolsView : "ToolsView.xml"
+        accountSettings : "AccountSettingsView.xml",
+        addressBook : "AddressBookView.xml",
+        callHistory : "CallHistoryView.xml",
+        group : "CommunicationView.xml",
+        login : "LoginView.html",
+        main : "MainView.xml",
+        message : "MessageView.xml",
+        phoneCallsRegistry : "PhoneCallsRegistryView.xml",
+        register : "RegisterView.xml",
+        searchResult : "SearchResultView.xml",
+        tools : "ToolsView.xml"
     };
 
     // array associativo contentente i riferimenti ai presenter di primo livello
@@ -36,11 +36,19 @@ function PresenterMediator() {
     var accountsettingspp = new AccountSettingsPanelPresenter();
     var communicationpp = new CommunicationPanelPresenter();
     var contactpp = new ContactPanelPresenter();
-    // presenter che non sono ancora utilizzati
-    // var callhistorypp = new CallHistoryPanelPresenter();
-    // var messagepp = new MessagePanelPresenter();
+    var callhistorypp = new CallHistoryPanelPresenter();
+    var messagepp = new MessagePanelPresenter();
     var searchresultpp = new SearchResultPanelPresenter();
     var grouppp = new GroupPanelPresenter();
+    //creo array per rendere accessibili i presenter
+    var secondaryPresenter = new Array();
+    secondaryPresenter["accountSettings"] = accountsettingspp;
+    secondaryPresenter["communication"] = communicationpp
+    secondaryPresenter["contact"] = contactpp
+    secondaryPresenter["callHistory"] = callhistorypp
+    secondaryPresenter["message"] = messagepp
+    secondaryPresenter["searchResult"] = searchresultpp
+    secondaryPresenter["group"] = grouppp
 
     /***************************************************************************
      * METODI PUBBLICI
@@ -70,7 +78,8 @@ function PresenterMediator() {
      * @author Diego Beraldin
      */
     this.buildLoginUI = function() {
-        presenters["login"].initialize();
+        this.getView("login");
+        //presenters["login"].initialize();
     };
 
     /**
@@ -652,24 +661,45 @@ function PresenterMediator() {
      * in base alla stringa passata come parametro, utilizzata come chiave
      * per l'array associativo delle viste contenuto qui.
      *
-     * @param {String} key
-     * @returns {HTMLDivElement}
+     * @param {String} key nome del presenter di cui richiamare la view
+     * @returns {HTMLDivElement} elemento HTML da agganciare al documento
      * @author Riccardo Tresoldi
      */
     this.getView = function(key) {
         // ottengo il frammento di codice HTML dalla view
         var viewRequest = new XMLHttpRequest();
-        viewRequest.responseType="document";
-        viewRequest.open("GET", "clientview/" + View[key], false);
+        viewRequest.responseType = "document";
+        viewRequest.open("GET", "clientview/" + View[key], true);
         viewRequest.send();
-        // ritorno il frammendto di codice ottenuto
-        return viewRequest.responseXML.body.firstChild;
-
-        /*var xmlString = viewRequest.responseText;
-         var parser = new DOMParser();
-         var doc = parser.parseFromString(xmlString, "application/xhtml");
-         alert(xmlString);
-         alert(doc);
-         return doc;*/
+        viewRequest.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                loadedView.view = viewRequest.responseXML.body.firstChild;
+                loadedView.presenter = key;
+                document.dispatchEvent(loadedView);
+            }
+        }
     };
+
+    /**
+     * Event Heandler per gestire il caricamento di una View
+     *
+     * @author Riccardo Tresoldi
+     * @param {String} presenter il presenter di cui si è richiesta la view
+     * @param {HTMLDivElement} view la view da passare all'initialize
+     */
+    function onLoadedView(presenter, view) {
+        if (presenters[presenter]) {
+            presenters[presenter].initialize(view);
+        } else if (secondaryPresenter[presenter]) {
+            //secondaryPresenter[presenter].createPanel(view);
+            alert("secondaryPresenter[" + presenter + "] - Da gestire");
+        } else {
+            alert("onLoadedView non gestita");
+        }
+    }
+
+
+    document.addEventListener("loadedView", function(evt) {
+        onLoadedView(evt.presenter, evt.view);
+    });
 }

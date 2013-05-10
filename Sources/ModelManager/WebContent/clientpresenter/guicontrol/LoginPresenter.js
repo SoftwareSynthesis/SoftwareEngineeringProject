@@ -13,6 +13,7 @@ function LoginPanelPresenter() {
      **************************************************************************/
     // elemento controllato da questo presenter
     var element;
+    //mediator.getView("login");
 
     /***************************************************************************
      * METODI PRIVATI
@@ -264,13 +265,11 @@ function LoginPanelPresenter() {
      *
      * @author Diego Beraldin
      */
-    this.initialize = function() {
-        // ottiene la propria vista
-        element = mediator.getView("LoginView");
-        alert(element);
-
+    this.initialize = function(view) {
         // attacca il pannello alla pagina
-        document.body.insertBefore(element, document.getElementsByTagName("footer")[0]);
+        var x = document.createElement("div");
+        document.body.insertBefore(x, document.getElementsByTagName("footer")[0]);
+        x.innerHTML=view.outerHTML;
 
         // configura il comportamento della vista
         var inputLogin = document.getElementById("inputLogin");

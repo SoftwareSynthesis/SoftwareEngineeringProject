@@ -1,4 +1,8 @@
 window.onload = function() {
+    //CREAZIONI EVENTI PERSONALIZZATI
+    changeAddressBooksContactState = new CustomEvent("changeAddressBooksContactState");
+    loadedView = new CustomEvent("loadedView");
+
     //Inizializzazione delle funzioni
     window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext || window.msAudioContext;
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
@@ -12,9 +16,6 @@ window.onload = function() {
     commandURL = "http://localhost:8080/MyTalk/CommandManager";
     // crea l'interfaccia di autenticazione
     mediator.buildLoginUI();
-
-    //CREAZIONI EVENTI PERSONALIZZATI
-    var changeAddressBooksContactState = new CustomEvent("changeAddressBooksContactState");
 };
 
 Object.size = function(obj) {
