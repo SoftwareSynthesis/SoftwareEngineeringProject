@@ -69,31 +69,6 @@ public class AbstractControllerTest {
 	}
 
 	/**
-	 * Verifica che sia possibile impostare e recuperare l'indirizzo email
-	 * dell'utente che richiede l'utilizzo del controller.
-	 * 
-	 * @author Diego Beraldin
-	 * @version 2.0
-	 */
-	@Test
-	public void testUserMail() {
-		// invoca i metodi da testare
-		tester.setUserMail(emailAddress);
-		String result = tester.getUserMail();
-		// verifica del risultato ottenuto
-		assertNotNull(result);
-		assertEquals(emailAddress, result);
-		// verifica che non siano fatte operazioni non richieste
-		try {
-			verify(tester, never()).check(request);
-			verify(tester, never()).doAction(request, response);
-			verify(tester, never()).execute(request, response);
-		} catch (IOException e) {
-			fail(e.getMessage());
-		}
-	}
-
-	/**
 	 * Verifica che sia possibile ottenere un'istanza valida di
 	 * {@link DataPersistanceManager} dall'interno del controller astratto e di
 	 * tutte le sue sottoclassi.
@@ -145,6 +120,11 @@ public class AbstractControllerTest {
 		// verifica il risultato ottenuto
 		assertNotNull(result);
 		assertTrue(result);
+		
+		// verifica che il campo userMail sia inizializzato
+		String email = tester.getUserMail();
+		assertNotNull(email);
+		assertEquals(emailAddress, email);
 
 		// verifica il corretto utilizzo dei mock
 		verify(request).getSession(anyBoolean());
@@ -176,6 +156,10 @@ public class AbstractControllerTest {
 		// verifica l'output ottenuto
 		assertNotNull(result);
 		assertFalse(result);
+		
+		// verifica che il campo email sia rimasto non inizializzato
+		String mail = tester.getUserMail();
+		assertNull(mail);
 
 		// verifica l'utilizzo corretto dei mock
 		verify(request).getSession(anyBoolean());
