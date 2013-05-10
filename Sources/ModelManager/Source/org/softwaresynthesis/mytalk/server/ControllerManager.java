@@ -54,7 +54,7 @@ public class ControllerManager extends WebSocketServlet implements Servlet
 	 * @throws 	InstantiationException	se non si riesce ad instanziare un oggetto di tale classe
 	 */
 	@SuppressWarnings("rawtypes")
-	private IController createController(String classPath) throws ClassNotFoundException, IllegalAccessException, InstantiationException
+	IController createController(String classPath) throws ClassNotFoundException, IllegalAccessException, InstantiationException
 	{
 		Class classDefinition = Class.forName(classPath);
 		IController controller = (IController)classDefinition.newInstance();
