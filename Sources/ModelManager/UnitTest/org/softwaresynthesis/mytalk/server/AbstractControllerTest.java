@@ -1,7 +1,18 @@
 package org.softwaresynthesis.mytalk.server;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.mockito.Matchers.anyBoolean;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -120,7 +131,7 @@ public class AbstractControllerTest {
 		// verifica il risultato ottenuto
 		assertNotNull(result);
 		assertTrue(result);
-		
+
 		// verifica che il campo userMail sia inizializzato
 		String email = tester.getUserMail();
 		assertNotNull(email);
@@ -156,7 +167,7 @@ public class AbstractControllerTest {
 		// verifica l'output ottenuto
 		assertNotNull(result);
 		assertFalse(result);
-		
+
 		// verifica che il campo email sia rimasto non inizializzato
 		String mail = tester.getUserMail();
 		assertNull(mail);
