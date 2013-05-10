@@ -15,7 +15,10 @@ import javax.servlet.http.HttpSession;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
+import org.softwaresynthesis.mytalk.server.authentication.CredentialLoader;
 import org.softwaresynthesis.mytalk.server.authentication.security.ISecurityStrategy;
 import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
 
@@ -27,6 +30,8 @@ public class LoginControllerTest {
 	private final String path = "img/contactImg/Default.png";
 	private final Long id = 1L;
 	private final IUserData user = mock(IUserData.class);
+	// mock di CredentialLoader
+	private final CredentialLoader loader = mock(CredentialLoader.class);
 	// mock del contesto di autenticazione
 	private final LoginContext context = mock(LoginContext.class);
 	// mock della sessione di autenticazione
@@ -44,22 +49,28 @@ public class LoginControllerTest {
 	/**
 	 * Oggetto da testare dove si fa overriding al volo dei metodi 'factory'
 	 * facendo in modo che restituiscano i mock (che sono dei campi dati privati
-	 * della classe contenitore).
+	 * della classe contenitore) invece dei reali oggetti
 	 */
 	private final LoginController tester = new LoginController() {
 		@Override
 		protected ISecurityStrategy getSecurityStrategyFactory() {
 			return strategy;
 		}
-		
+
 		@Override
 		protected DataPersistanceManager getDAOFactory() {
 			return dao;
 		}
-		
+
 		@Override
-		protected LoginContext contextFactory() {
+		LoginContext contextFactory(String rule, CredentialLoader loader) {
 			return context;
+		}
+
+		@Override
+		CredentialLoader loaderFactory(HttpServletRequest request,
+				ISecurityStrategy strategy) {
+			return loader;
 		}
 	};
 
@@ -71,23 +82,47 @@ public class LoginControllerTest {
 		when(user.getSurname()).thenReturn(surname);
 		when(user.getId()).thenReturn(id);
 		when(user.getPath()).thenReturn(path);
+
 		// configura il comportamento della gestione della persistenza
 		when(dao.getUserData(username)).thenReturn(user);
+
 		// configura il comportamento della strategia di crittografia in modo da
 		// non crittografare di fatto nulla (non mi interessa testarla)
-		ArgumentCaptor<String> arg = ArgumentCaptor.forClass(String.class);
-		when(strategy.encode(arg.capture())).thenReturn(arg.getValue());
-		// azzera il buffer per il testo della risposta
+		when(strategy.encode(anyString())).thenAnswer(new Answer<String>() {
+			@Override
+			public String answer(InvocationOnMock invocation) {
+				return (String) invocation.getArguments()[0];
+			}
+		});
+
+		// azzera il buffer per il testo della risposta e la configura
 		writer = new StringWriter();
-		// configura il comportamento della risposta
 		when(response.getWriter()).thenReturn(new PrintWriter(writer));
+
 		// configura il comportamento della richiesta
 		when(request.getSession(anyBoolean())).thenReturn(session);
+		when(request.getParameter("username")).thenReturn(username);
 	}
 
+	/**
+	 * TODO da terminare
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
 	@Test
-	public void test() {
-		fail("Not yet implemented");
+	public void testDoActionSuccessfully() {
+	
+		try {
+			// invoca il metodo da testare
+			tester.doAction(request, response);
+			
+			// verifica l'output
+			writer.flush();
+			String responseText = writer.toString();
+			assertNotNull(responseText);
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}
 	}
 
 }

@@ -15,7 +15,7 @@ import org.softwaresynthesis.mytalk.server.authentication.security.ISecurityStra
  * @author 	Andrea Meneghinello
  * @version	3.0
  */
-public final class CredentialLoader implements CallbackHandler
+public class CredentialLoader implements CallbackHandler
 {
 	private HttpServletRequest input;
 	private ISecurityStrategy strategy;
