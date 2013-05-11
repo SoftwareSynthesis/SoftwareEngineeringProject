@@ -16,7 +16,7 @@ import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
  * @author 	Andrea Meneghinello
  * @version	3.0
  */
-public final class QuestionController extends AbstractController 
+public class QuestionController extends AbstractController 
 {
 	/**
 	 * Propone la domanda per il recupero della
@@ -25,7 +25,7 @@ public final class QuestionController extends AbstractController
 	@Override
 	protected void doAction(HttpServletRequest request,	HttpServletResponse response) throws IOException 
 	{
-		DataPersistanceManager dao = super.getDAOFactory();
+		DataPersistanceManager dao = getDAOFactory();
 		String mail = super.getUserMail();
 		IUserData user = dao.getUserData(mail);
 		String question = user.getQuestion();

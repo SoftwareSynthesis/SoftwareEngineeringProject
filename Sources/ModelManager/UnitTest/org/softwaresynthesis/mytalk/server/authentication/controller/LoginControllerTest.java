@@ -93,7 +93,8 @@ public class LoginControllerTest {
 	/**
 	 * Reinizializza il comportamento dei mock prima di ogni test (può
 	 * occasionalmente essere sovrascritto nel corpo di un metodo di test per
-	 * configurazioni particolari).
+	 * configurazioni particolari) e azzera il contenuto del buffer in cui sarà
+	 * memorizzato il testo della risposta.
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
@@ -246,5 +247,6 @@ public class LoginControllerTest {
 		assertTrue(tester.check(request));
 		// verifica il corretto utilizzo dei mock
 		verify(request, never()).getSession(anyBoolean());
+		verify(request, never()).getParameter(anyString());
 	}
 }

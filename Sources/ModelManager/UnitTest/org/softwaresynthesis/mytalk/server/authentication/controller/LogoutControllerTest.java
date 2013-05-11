@@ -43,7 +43,8 @@ public class LogoutControllerTest {
 
 	/**
 	 * Reinizializza il comportamento di tutti i mock prima dell'esecuzione di
-	 * ciascuna delle verifiche contenute in questo caso di test.
+	 * ciascuna delle verifiche contenute in questo caso di test e azzera il
+	 * contenuto del buffer in cui sarà salvato il testo della risposta.
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
