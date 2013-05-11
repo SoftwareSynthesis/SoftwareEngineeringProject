@@ -1,7 +1,6 @@
 package org.softwaresynthesis.mytalk.server.authentication.controller;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
@@ -151,7 +150,6 @@ public class LoginControllerTest {
 		// verifica l'output
 		writer.flush();
 		String responseText = writer.toString();
-		assertNotNull(responseText);
 		String toCompare = String
 				.format("{\"name\":\"%s\", \"surname\":\"%s\", \"email\":\"%s\", \"id\":\"%s\", \"picturePath\":\"%s\"}",
 						user.getName(), user.getSurname(), user.getMail(),
@@ -190,7 +188,6 @@ public class LoginControllerTest {
 		// verifica l'output
 		writer.flush();
 		String responseText = writer.toString();
-		assertNotNull(responseText);
 		assertEquals("null", responseText);
 
 		// verifica il corretto utilizzo dei mock
@@ -222,7 +219,6 @@ public class LoginControllerTest {
 		// verifica l'output
 		writer.flush();
 		String responseText = writer.toString();
-		assertNotNull(responseText);
 		assertEquals("null", responseText);
 
 		// verifica il corretto utilizzo dei mock
