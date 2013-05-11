@@ -23,7 +23,7 @@ import sun.misc.IOUtils;
  * @author 	Andrea Meneghinello
  * @version	3.0
  */
-public final class RegisterController extends AbstractController 
+public class RegisterController extends AbstractController 
 {
 	/**
 	 * Esegue la registrazione di un nuovo utente
@@ -51,7 +51,7 @@ public final class RegisterController extends AbstractController
 		
 		try
 		{
-			strategy = super.getSecurityStrategyFactory();
+			strategy = getSecurityStrategyFactory();
 			mail = this.getParameter(request, "username");
 			password = this.getParameter(request, "password");
 			password = strategy.encode(password);
@@ -85,7 +85,7 @@ public final class RegisterController extends AbstractController
 				}				
 			}
 			user.setPath(path);
-			dao = super.getDAOFactory();
+			dao = getDAOFactory();
 			dao.insert(user);
 			result = "{\"name\":\"" + user.getName() + "\"";
 			result += ", \"surname\":\"" + user.getSurname() + "\"";
