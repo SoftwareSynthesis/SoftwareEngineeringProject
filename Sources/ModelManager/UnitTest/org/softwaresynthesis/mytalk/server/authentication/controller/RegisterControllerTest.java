@@ -1,10 +1,13 @@
 package org.softwaresynthesis.mytalk.server.authentication.controller;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -20,8 +23,14 @@ import javax.servlet.http.Part;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
+import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.stubbing.Answer;
+import org.softwaresynthesis.mytalk.server.IMyTalkObject;
+import org.softwaresynthesis.mytalk.server.abook.IUserData;
+import org.softwaresynthesis.mytalk.server.abook.UserData;
 import org.softwaresynthesis.mytalk.server.authentication.security.ISecurityStrategy;
 import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
 
@@ -33,7 +42,7 @@ public class RegisterControllerTest {
 	private final String answer = "Antonella";
 	private final String name = "paperino";
 	private final String surname = "de paperoni";
-	private final String picturePath = "ThisIsNotAPath.jpg";
+	private final String picturePath = "";
 	@Mock
 	private InputStream istream;
 	@Mock
@@ -51,6 +60,14 @@ public class RegisterControllerTest {
 
 	@Before
 	public void setUp() throws Exception {
+		// configura il comportamento della strategia di crittografia
+		when(strategy.encode(anyString())).thenAnswer(new Answer<String>() {
+			@Override
+			public String answer(InvocationOnMock invocation) {
+				return (String) invocation.getArguments()[0];
+			}
+		});
+
 		// configura il comportamento del contenuto multipart
 		when(filePart.getInputStream()).thenReturn(istream);
 		// configura il comportamento della richiesta
@@ -77,6 +94,11 @@ public class RegisterControllerTest {
 			protected DataPersistanceManager getDAOFactory() {
 				return dao;
 			}
+
+			@Override
+			protected ISecurityStrategy getSecurityStrategyFactory() {
+				return strategy;
+			}
 		};
 	}
 
@@ -100,13 +122,80 @@ public class RegisterControllerTest {
 		verify(request, never()).getParameter(anyString());
 	}
 
+	/**
+	 * TODO da documentare per bene!
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
 	@Test
-	public void testRegisterCorrectUser() {
-		fail("Not yet implemented");
+	public void testRegisterCorrectUser() throws Exception {
+		// invoca il metodo da testare
+		tester.doAction(request, response);
+
+		// verifica l'output ottenuto
+		writer.flush();
+		String responseText = writer.toString();
+		String toCompare = String
+				.format("{\"name\":\"%s\", \"surname\":\"%s\", \"email\":\"%s\", \"id\":\"%s\", \"picturePath\":\"%s\"}",
+						name, surname, username, -1,
+						"img/contactImg/Default.png");
+		assertEquals(toCompare, responseText);
+
+		// verifica il corretto uso dei mock
+		ArgumentCaptor<UserData> argument = ArgumentCaptor
+				.forClass(UserData.class);
+		verify(dao).insert(argument.capture());
+		IUserData captured = argument.getValue();
+		assertEquals(username, captured.getMail());
+		assertEquals(question, captured.getQuestion());
+		assertEquals(answer, captured.getAnswer());
+		assertEquals(password, captured.getPassword());
+		assertEquals(name, captured.getName());
+		assertEquals(surname, captured.getSurname());
+		assertEquals("img/contactImg/Default.png", captured.getPath());
+		verify(response).getWriter();
+		verify(request, times(7)).getParameter(anyString());
+		verify(strategy).encode(answer);
+		verify(strategy).encode(password);
 	}
 
+	/**
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
 	@Test
-	public void testRegisterWrongUser() {
-		fail("Not yet implemented");
+	public void testRegisterCorrectUserWithPicture() throws Exception {
+		fail("Non passa causa FileNotFoundException");
+	}
+
+	/**
+	 * Verifica l'impossibilità di portare a termine la procedura di
+	 * registrazione per un utente la cui richiesta non contiene tutti i dati
+	 * necessari alla registrazione, ad esempio il nome utente. Il test verifica
+	 * che il testo stampato sulla pagina di risposta sia la stringa 'null' come
+	 * atteso, e che non siano MAI effettuate in casi simili operazioni di
+	 * inserimento nel database.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testRegisterWrongUser() throws Exception {
+		// rimuove un parametro obbligatorio per la registrazione
+		when(request.getParameter("username")).thenReturn(null);
+
+		// invoca il metodo da testare
+		tester.doAction(request, response);
+
+		// verifica l'output ottenuto
+		writer.flush();
+		String responseText = writer.toString();
+		assertEquals("null", responseText);
+
+		// verifica il corretto utilizzo dei mock
+		verify(dao, never()).insert(any(IMyTalkObject.class));
+		// TODO da terminare
 	}
 }
