@@ -56,11 +56,11 @@ public class LoginController extends AbstractController
 		String result = null;		
 		try
 		{
-			strategy = super.getSecurityStrategyFactory();
+			strategy = getSecurityStrategyFactory();
 			loader = this.loaderFactory(request, strategy);
 			context = this.contextFactory("Configuration", loader);
 			context.login();
-			dao = super.getDAOFactory();
+			dao = getDAOFactory();
 			email = request.getParameter("username");
 			user = dao.getUserData(email);
 			if(user != null)
