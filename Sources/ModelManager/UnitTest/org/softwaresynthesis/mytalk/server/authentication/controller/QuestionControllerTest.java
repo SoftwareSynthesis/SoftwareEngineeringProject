@@ -16,7 +16,6 @@ import java.io.Writer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -36,8 +35,6 @@ public class QuestionControllerTest {
 	private final String question = "Come si chiama la mia gatta?";
 	// mock di un utente del sistema
 	private final IUserData user = mock(IUserData.class);
-	// mock di sessione di autenticazione
-	private final HttpSession session = mock(HttpSession.class);
 	// mock della richiesta HTTP
 	private final HttpServletRequest request = mock(HttpServletRequest.class);
 	// mock della risposta HTTP
@@ -77,10 +74,8 @@ public class QuestionControllerTest {
 		writer = new StringWriter();
 		// configura il comportamento della risposta
 		when(response.getWriter()).thenReturn(new PrintWriter(writer));
-		// configura il comportamento della sessione
-		when(session.getAttribute("username")).thenReturn(username);
 		// configura il comportamento della richiesta
-		when(request.getSession(anyBoolean())).thenReturn(session);
+		when(request.getParameter("username")).thenReturn(username);
 	}
 
 	/**
