@@ -14,7 +14,6 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -188,19 +187,16 @@ public class AbstractControllerTest {
 	 * @version 2.0
 	 */
 	@Test
-	public void testExecuteSuccessfully() {
+	public void testExecuteSuccessfully() throws Exception {
 		// riconfigura il doAction in modo che scriva qualcosa sulla risposta
 		try {
 			doAnswer(new Answer<Void>() {
 				@Override
-				public Void answer(InvocationOnMock invocation) {
+				public Void answer(InvocationOnMock invocation)
+						throws Exception {
 					Object[] args = invocation.getArguments();
 					HttpServletResponse mockResponse = (HttpServletResponse) args[1];
-					try {
-						mockResponse.getWriter().write("true");
-					} catch (Exception e) {
-						fail(e.getMessage());
-					}
+					mockResponse.getWriter().write("true");
 					return null;
 				}
 			}).when(tester).doAction(request, response);
@@ -209,25 +205,18 @@ public class AbstractControllerTest {
 		}
 
 		// invoca il metodo da testare
-		try {
-			tester.execute(request, response);
-		} catch (IOException e) {
-			fail(e.getMessage());
-		}
+		tester.execute(request, response);
 
 		// verifica l'output ottenuto
+		writer.flush();
 		String result = writer.toString();
 		assertNotNull(result);
 		assertEquals("true", result);
 
 		// verifica il corretto utilizzo dei mock
-		try {
-			verify(tester).check(request);
-			verify(tester).doAction(request, response);
-			verify(response).getWriter();
-		} catch (IOException e) {
-			fail(e.getMessage());
-		}
+		verify(tester).check(request);
+		verify(tester).doAction(request, response);
+		verify(response).getWriter();
 	}
 
 	/**
@@ -242,30 +231,23 @@ public class AbstractControllerTest {
 	 * @version 2.0
 	 */
 	@Test
-	public void testExecuteUnsuccessfully() {
+	public void testExecuteUnsuccessfully() throws Exception {
 		// fa in modo che il test effettuato da check non sia superato
 		when(session.getAttribute("username")).thenReturn("");
 
 		// invoca il metodo da testare
-		try {
-			tester.execute(request, response);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			fail(e.getMessage());
-		}
+		tester.execute(request, response);
 
 		// verifica il risultato ottenuto
+		writer.flush();
 		String result = writer.toString();
 		assertNotNull(result);
 		assertEquals("null", result);
 
 		// verifica il corretto utilizzo dei mock
-		try {
-			verify(tester).check(request);
-			verify(tester, never()).doAction(request, response);
-			verify(response).getWriter();
-		} catch (IOException e) {
-			fail(e.getMessage());
-		}
+		verify(tester).check(request);
+		verify(tester, never()).doAction(request, response);
+		verify(response).getWriter();
+
 	}
 }

@@ -72,17 +72,12 @@ public class AuthenticationModuleTest {
 	@Test
 	public void testLogin() {
 		Subject subject = null;
-		Object[] principalsArray = null;
 		Set<Principal> principals = null;
-		String data = null;
 		try {
 			tester.login();
 			subject = tester.getSubject();
 			principals = subject.getPrincipals();
 			assertNotNull(principals);
-			principalsArray = principals.toArray();
-			data = principalsArray[0].toString();
-			//assertEquals("PrincipalImpl[element: indirizzo5@dominio.it]", data);
 		} catch (LoginException ex) {
 			fail(ex.getMessage());
 		}
