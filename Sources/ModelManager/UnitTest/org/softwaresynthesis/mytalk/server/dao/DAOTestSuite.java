@@ -13,8 +13,8 @@ import org.softwaresynthesis.mytalk.server.dao.util.UpdateUtilTest;
 import org.softwaresynthesis.mytalk.server.dao.util.UtilFactoryTest;
 
 @RunWith(Suite.class)
-@SuiteClasses({ SessionManagerTest.class, DeleteUtilTest.class,
-		GetCallUtilTest.class, GetGroupUtilTest.class,
+@SuiteClasses({ DataPersistanceManagerTest.class, SessionManagerTest.class,
+		DeleteUtilTest.class, GetCallUtilTest.class, GetGroupUtilTest.class,
 		GetUserDataUtilTest.class, InsertUtilTest.class,
 		NotInitializeTest.class, UpdateUtilTest.class, UtilFactoryTest.class })
 public class DAOTestSuite {
