@@ -4,15 +4,17 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 /**
  * Test della classe Call che modella le chiamate fra gli utenti
@@ -20,26 +22,32 @@ import org.junit.Test;
  * @author Diego Beraldin
  * @version 2.0
  */
+@RunWith(MockitoJUnitRunner.class)
 public class CallTest {
-	// oggetto da testare
-	private static Call tester;
-	// altri dati necessari al test
-	private static Date startDate;
-	private static Date endDate;
-	private static ICallList call;
+	@Mock
+	private Date startDate;
+	@Mock
+	private Date endDate;
+	@Mock
+	private ICallList call;
+	@Mock
+	private Call other;
+	private Call tester;
 
 	/**
-	 * Inizializza i dati necessari ai test
+	 * Inizializza l'oggetto da sottoporre a verifica
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
 	 */
-	@BeforeClass
-	public static void setUpBeforeClass() {
+	@Before
+	public void setUp() {
+		// inizializza l'oggetto da testare
 		tester = new Call(1L);
-		tester.setId(1L);
-		startDate = mock(Date.class);
-		endDate = mock(Date.class);
-		call = mock(ICallList.class);
+		// configura il mock
+		when(other.getId()).thenReturn(1L);
 	}
-
+	
 	/**
 	 * Verifica il corretto recupero del numero identificativo delle chiamate
 	 * 
@@ -134,8 +142,6 @@ public class CallTest {
 	 */
 	@Test
 	public void testEquals() {
-		ICall other = mock(Call.class);
-		when(other.getId()).thenReturn(1L);
 		assertTrue(tester.equals(other));
 		when(other.getId()).thenReturn(-1L);
 		assertFalse(tester.equals(other));

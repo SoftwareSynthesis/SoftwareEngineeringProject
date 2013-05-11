@@ -10,7 +10,11 @@ import static org.mockito.Mockito.when;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.softwaresynthesis.mytalk.server.call.CallList;
 import org.softwaresynthesis.mytalk.server.call.ICallList;
 import org.softwaresynthesis.mytalk.server.message.IMessage;
@@ -23,8 +27,8 @@ import org.softwaresynthesis.mytalk.server.message.Message;
  * @author Diego Beraldin
  * @version 2.0
  */
+@RunWith(MockitoJUnitRunner.class)
 public class UserDataTest {
-	// dati di test
 	private final Long id = 1L;
 	private final String email = "indrizzo5@dominio.it";
 	private final String password = "password";
@@ -33,11 +37,24 @@ public class UserDataTest {
 	private final String name = "paperino";
 	private final String surname = "de paperoni";
 	private final String path = "ThisIsNotAPath";
-	// oggetto da testare
-	private final IUserData tester = new UserData();
-	private static IMessage newMessage = mock(Message.class);
-	private static IAddressBookEntry newEntry = mock(AddressBookEntry.class);
-	private static ICallList newCall = mock(CallList.class);
+	@Mock
+	private Message newMessage;
+	@Mock
+	private AddressBookEntry newEntry;
+	@Mock
+	private CallList newCall;
+	private IUserData tester;
+
+	/**
+	 * Inizializza l'oggetto da testare
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Before
+	public void setUp() {
+		tester = new UserData();
+	}
 	
 	/**
 	 * Esegue un test sul metodo get dell'ID

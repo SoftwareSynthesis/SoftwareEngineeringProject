@@ -3,7 +3,6 @@ package org.softwaresynthesis.mytalk.server.authentication;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.security.Principal;
@@ -14,8 +13,12 @@ import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
 import javax.servlet.http.HttpServletRequest;
 
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.softwaresynthesis.mytalk.server.authentication.security.ISecurityStrategy;
 
 /**
@@ -25,13 +28,17 @@ import org.softwaresynthesis.mytalk.server.authentication.security.ISecurityStra
  * @author Diego Beraldin
  * @version 2.0
  */
+@RunWith(MockitoJUnitRunner.class)
 public class AuthenticationModuleTest {
-	private static LoginContext tester;
-	private static HttpServletRequest request;
-	private static ISecurityStrategy strategy;
-	private static CredentialLoader loader;
-	private static final String username = "indirizzo5@dominio.it";
-	private static final String password = "password";
+	private final String username = "indirizzo5@dominio.it";
+	private final String password = "password";
+	@Mock
+	private HttpServletRequest request;
+	@Mock
+	private ISecurityStrategy strategy;
+	@Mock
+	private CredentialLoader loader;
+	private LoginContext tester;
 
 	/**
 	 * Inizializza i dati necessari all'esecuzione dei test
@@ -48,14 +55,22 @@ public class AuthenticationModuleTest {
 		path += separator + "MyTalk" + separator + "Conf" + separator
 				+ "LoginConfiguration.conf";
 		System.setProperty("java.security.auth.login.config", path);
+	}
 
+	/**
+	 * Reinizializza il comportamento dei mock e crea l'oggetto da testare prima
+	 * di ogni verifica contenuta in questo caso di test
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Before
+	public void setUp() throws Exception {
 		// configura il comportamento della richiesta HTTP
-		request = mock(HttpServletRequest.class);
 		when(request.getParameter("username")).thenReturn(username);
 		when(request.getParameter("password")).thenReturn(password);
 
 		// configura il comportamento della strategia di crittografia
-		strategy = mock(ISecurityStrategy.class);
 		when(strategy.encode(password)).thenReturn("tQJu8lEBkXWy+YuqNKZsqA==");
 
 		// inizializza il loader (non bisognerebbe farlo così!)
@@ -66,6 +81,8 @@ public class AuthenticationModuleTest {
 	}
 
 	/**
+	 * TODO questa documentazione manca!
+	 * 
 	 * @author Andrea Meneghinello
 	 * @version 1.0
 	 */
@@ -84,6 +101,8 @@ public class AuthenticationModuleTest {
 	}
 
 	/**
+	 * TODO questa documentazione manca!
+	 * 
 	 * @author Andrea Meneghinello
 	 * @version 1.0
 	 */

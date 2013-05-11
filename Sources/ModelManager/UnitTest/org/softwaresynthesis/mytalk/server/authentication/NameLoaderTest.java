@@ -12,8 +12,10 @@ import javax.security.auth.callback.NameCallback;
 import javax.servlet.http.HttpServletRequest;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 /**
  * Verifica della classe {@link NameLoader}
@@ -21,22 +23,12 @@ import org.junit.Test;
  * @author Diego Beraldin
  * @version 2.0
  */
+@RunWith(MockitoJUnitRunner.class)
 public class NameLoaderTest {
-	private static Loader tester;
-	private static final String username = "indirizzo5@dominio.it";
+	private final String username = "indirizzo5@dominio.it";
+	@Mock
 	private HttpServletRequest request;
-
-	/**
-	 * Inizializza i dati che sono comuni a tutti i test
-	 * 
-	 * @author Diego Beraldin
-	 * @version 2.0
-	 */
-	@BeforeClass
-	public static void setUpBeforeClass() {
-		// oggetto da testare
-		tester = new NameLoader();
-	}
+	private Loader tester;
 
 	/**
 	 * Reinizializza prima di ogni test il mock di richiesta HTTP (necessario
@@ -48,6 +40,7 @@ public class NameLoaderTest {
 	@Before
 	public void setUp() {
 		request = mock(HttpServletRequest.class);
+		tester = new NameLoader();
 	}
 
 	/**

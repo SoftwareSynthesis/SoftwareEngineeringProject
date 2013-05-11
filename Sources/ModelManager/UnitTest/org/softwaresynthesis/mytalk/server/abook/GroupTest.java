@@ -10,8 +10,11 @@ import static org.mockito.Mockito.when;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 /**
  * Test dei metodi della classe {@link Group}
@@ -19,23 +22,29 @@ import org.junit.Test;
  * @author Andrea Meneghinello
  * @version 2.0
  */
+@RunWith(MockitoJUnitRunner.class)
 public class GroupTest {
-	private static Group tester;
-	private static IUserData contact = new UserData(1L);
-	private static IAddressBookEntry entry;
+	@Mock
+	private IUserData contact;
+	@Mock
+	private IAddressBookEntry entry;
+	private Group tester;
 
 	/**
-	 * Preparazione dell'oggetto {@link UserData} prima dell'esecuzione dei test
+	 * Reimposta il comportamento dei mock e reinizializza l'oggetto da testare
+	 * prima di ogni verifica di questo caso di test
 	 * 
-	 * @author Andrea Meneghinello
-	 * @version 1.0
+	 * @author Diego Beraldin
+	 * @version 2.0
 	 */
-	@BeforeClass
-	public static void setupBeforeClass() {
+	@Before
+	public void setUp() {
+		// configura il comportamento dei mock
+		when(contact.getId()).thenReturn(1L);
+		when(contact.getMail()).thenReturn("paperino@paperopoli.it");
+		when(entry.getId()).thenReturn(1L);
+		// inizializza l'oggetto da testare
 		tester = new Group(1L);
-		tester.setId(1L);
-		contact.setMail("paperino@paperopoli.it");
-		entry = new AddressBookEntry(1L);
 	}
 
 	/**

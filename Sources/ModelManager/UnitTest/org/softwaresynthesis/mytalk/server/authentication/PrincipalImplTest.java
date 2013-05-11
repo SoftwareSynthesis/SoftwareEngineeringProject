@@ -8,7 +8,7 @@ import static org.mockito.Mockito.when;
 
 import java.security.Principal;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -21,20 +21,20 @@ import org.junit.Test;
  * @version 2.0
  */
 public class PrincipalImplTest {
-	private static Principal tester;
-	private static final String element = "pippo";
+	private final String element = "pippo";
+	private Principal tester;
 
 	/**
-	 * Inizializza i dati di test e l'oggetto da sottoporrea verifica
+	 * Inizializza l'oggetto da testare prima di ogni test
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
 	 */
-	@BeforeClass
-	public static void setUpBeforeClass() {
-		tester = new PrincipalImpl(element);
+	@Before
+	public void setUp() {
+		 tester = new PrincipalImpl(element);
 	}
-
+	
 	/**
 	 * Testa che l'elemento identificativo univoco che caratterizza il Principal
 	 * sia recuperato correttamente a partire da una istanza di PrincipalImpl

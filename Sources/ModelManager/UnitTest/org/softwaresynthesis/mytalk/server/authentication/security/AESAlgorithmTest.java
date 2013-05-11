@@ -2,9 +2,8 @@ package org.softwaresynthesis.mytalk.server.authentication.security;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -17,23 +16,18 @@ import org.junit.Test;
  * @version 2.0
  */
 public class AESAlgorithmTest {
-	// oggetto da testare
-	private static AESAlgorithm tester;
-	// attributi necessari ai singoli test
-	private static final String plainText = "testoInChiaro";
-	private static final String cipherText = "uDWIvRHmVrCXVdjtZeYj1g==";
+	private final String plainText = "testoInChiaro";
+	private final String cipherText = "uDWIvRHmVrCXVdjtZeYj1g==";
+	private AESAlgorithm tester;
 
 	/**
-	 * Inizializzazione dell'oggetto da testare e degli oggetti necessari
-	 * all'esecuzione di tutti i test
+	 * Inizializza l'oggetto da testare
 	 * 
-	 * @author Andrea Meneghinello
 	 * @author Diego Beraldin
 	 * @version 2.0
 	 */
-	@BeforeClass
-	public static void setUpBeforeClass() {
-		// oggetto da testare
+	@Before
+	public void setUp() {
 		tester = new AESAlgorithm();
 	}
 
@@ -46,15 +40,11 @@ public class AESAlgorithmTest {
 	 * @version 1.0
 	 */
 	@Test
-	public void testEncode() {
+	public void testEncode() throws Exception {
 		String result = null;
-		try {
-			result = tester.encode(plainText);
-			assertNotNull(result);
-			assertEquals(cipherText, result);
-		} catch (Exception ex) {
-			fail(ex.getMessage());
-		}
+		result = tester.encode(plainText);
+		assertNotNull(result);
+		assertEquals(cipherText, result);
 	}
 
 	/**
@@ -65,14 +55,10 @@ public class AESAlgorithmTest {
 	 * @version 1.0
 	 */
 	@Test
-	public void testDecode() {
+	public void testDecode() throws Exception {
 		String result = null;
-		try {
-			result = tester.decode(cipherText);
-			assertNotNull(result);
-			assertEquals(plainText, result);
-		} catch (Exception ex) {
-			fail(ex.getMessage());
-		}
+		result = tester.decode(cipherText);
+		assertNotNull(result);
+		assertEquals(plainText, result);
 	}
 }

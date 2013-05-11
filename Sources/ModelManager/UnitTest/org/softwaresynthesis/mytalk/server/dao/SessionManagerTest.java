@@ -4,6 +4,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import org.hibernate.SessionFactory;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -13,8 +14,18 @@ import org.junit.Test;
  * @version 2.0
  */
 public class SessionManagerTest {
-	// oggetto da testare
-	private static final SessionManager tester = SessionManager.getInstance();
+	private SessionManager tester;
+
+	/**
+	 * Inizializza l'oggetto da testare
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Before
+	public void setUp() {
+		tester = SessionManager.getInstance();
+	}
 
 	/**
 	 * Verifica che sia possibile ottenere una SessionFactory a partire dal

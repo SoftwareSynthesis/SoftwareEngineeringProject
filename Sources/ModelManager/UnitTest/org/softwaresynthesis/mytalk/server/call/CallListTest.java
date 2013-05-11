@@ -4,11 +4,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
 
 /**
@@ -18,27 +20,33 @@ import org.softwaresynthesis.mytalk.server.abook.IUserData;
  * @author Diego Beraldin
  * @version 2.0
  */
+@RunWith(MockitoJUnitRunner.class)
 public class CallListTest {
+	// dati di test
+	@Mock
+	private IUserData user;
+	@Mock
+	private ICall call;
+	@Mock
+	private CallList other;
+
 	// oggetto da testare
-	private static CallList tester;
-	// altri dati di test (stub)
-	private static IUserData user;
-	private static ICall call;
+	private CallList tester;
 
 	/**
-	 * Inizializza i dati necessari all'esecuzione dei test
+	 * Configura il comportamento dei mock prima di ogni test e inizializza
+	 * l'oggetto da sottoporre a verifica
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
 	 */
-	@BeforeClass
-	public static void setUpBeforeClass() {
-		tester = new CallList(1L);
-		tester.setId(1L);
-		user = mock(IUserData.class);
+	@Before
+	public void setUp() {
 		when(user.getMail()).thenReturn("indirizzo5@dominio.it");
-		call = mock(ICall.class);
 		when(call.getId()).thenReturn(1L);
+		when(other.getCall()).thenReturn(call);
+		when(other.getUser()).thenReturn(user);
+		tester = new CallList(1L);
 	}
 
 	/**
@@ -101,5 +109,20 @@ public class CallListTest {
 		result = tester.getCaller();
 		assertNotNull(result);
 		assertFalse(result);
+	}
+
+	/**
+	 * Verifica il corretto comportamento del metodo equal che si basa sulla
+	 * chiamata e sull'utente coivolto in essa che caratterizzano ogni voce
+	 * della tabella CallLists del sistema di persistenza
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testEquals() {
+		tester.setCall(call);
+		tester.setUser(user);
+		assertTrue(tester.equals(other));
 	}
 }

@@ -3,7 +3,6 @@ package org.softwaresynthesis.mytalk.server.dao.util;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -13,6 +12,9 @@ import org.hibernate.Transaction;
 import org.hibernate.classic.Session;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.softwaresynthesis.mytalk.server.IMyTalkObject;
 import org.softwaresynthesis.mytalk.server.dao.ISessionManager;
 
@@ -25,19 +27,19 @@ import org.softwaresynthesis.mytalk.server.dao.ISessionManager;
  * @author Diego Beraldin
  * @version 2.0
  */
+@RunWith(MockitoJUnitRunner.class)
 public class DeleteUtilTest {
-	// dati di test (simula un oggetto da rendere persistente)
-	private final IMyTalkObject object = mock(IMyTalkObject.class);
-	// transazione fittizia sul database
-	private final Transaction transaction = mock(Transaction.class);
-	// sessione fittizia di interazione con il database
-	private final Session session = mock(Session.class);
-	// SessionFactory fittizia per generare la sessione
-	private final SessionFactory factory = mock(SessionFactory.class);
-	// SessionManager fittizio per generare la SessionFactory
-	private final ISessionManager manager = mock(ISessionManager.class);
-	// oggetto da testare
-	private final DeleteUtil tester = new DeleteUtil(manager);
+	@Mock
+	private IMyTalkObject object;
+	@Mock
+	private Transaction transaction;
+	@Mock
+	private Session session;
+	@Mock
+	private SessionFactory factory;
+	@Mock
+	private ISessionManager manager;
+	private DeleteUtil tester;
 
 	/**
 	 * Reinizializza il comportamento dei mock prima di ciascuno dei test
@@ -52,12 +54,12 @@ public class DeleteUtilTest {
 	public void setUp() {
 		// configura il comportamento della sessione
 		when(session.beginTransaction()).thenReturn(transaction);
-
 		// configura il comportamento della factory
 		when(factory.openSession()).thenReturn(session);
-
 		// configura il comportamento del gestore di sessioni
 		when(manager.getSessionFactory()).thenReturn(factory);
+		// inizializza l'oggetto da testare
+		tester = new DeleteUtil(manager);
 	}
 
 	/**

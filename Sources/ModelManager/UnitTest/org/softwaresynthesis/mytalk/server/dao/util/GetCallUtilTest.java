@@ -3,7 +3,6 @@ package org.softwaresynthesis.mytalk.server.dao.util;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -17,6 +16,9 @@ import org.hibernate.Transaction;
 import org.hibernate.classic.Session;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.softwaresynthesis.mytalk.server.IMyTalkObject;
 import org.softwaresynthesis.mytalk.server.call.Call;
 import org.softwaresynthesis.mytalk.server.dao.ISessionManager;
@@ -27,25 +29,23 @@ import org.softwaresynthesis.mytalk.server.dao.ISessionManager;
  * @author Diego Beraldin
  * @version 2.0
  */
+@RunWith(MockitoJUnitRunner.class)
 public class GetCallUtilTest {
-	// chiamata fittizia per i test
-	private final Call call = mock(Call.class);
-	// finta HQLQuery
-	private final Query hql = mock(Query.class);
-	// finta collezione di IMyTalkObject
 	private final List<IMyTalkObject> list = new ArrayList<IMyTalkObject>();
-	// query di test
 	private final String query = "ThisIsNotAQuery";
-	// transazione fittizia sul database
-	private final Transaction transaction = mock(Transaction.class);
-	// sessione fittizia che deve essere restituita dalla factory
-	private final Session session = mock(Session.class);
-	// SessionFactory fittizia che deve essere ottenuta dal SessionManager
-	private final SessionFactory factory = mock(SessionFactory.class);
-	// SessionManager fittizio da passare al costruttore
-	private final ISessionManager manager = mock(ISessionManager.class);
-	// oggetto da testare
-	private final GetUtil tester = new GetCallUtil(manager);
+	@Mock
+	private Call call;
+	@Mock
+	private Query hql;
+	@Mock
+	private Transaction transaction;
+	@Mock
+	private Session session;
+	@Mock
+	private SessionFactory factory;
+	@Mock
+	private ISessionManager manager;
+	private GetUtil tester;
 
 	/**
 	 * Reinizializza il comportamento dei mock prima di ciascuno dei test
@@ -67,6 +67,8 @@ public class GetCallUtilTest {
 		when(factory.openSession()).thenReturn(session);
 		// configura il comportamento del SessionManager
 		when(manager.getSessionFactory()).thenReturn(factory);
+		// inizializza l'oggetto da testare
+		tester = new GetCallUtil(manager);
 	}
 
 	/**

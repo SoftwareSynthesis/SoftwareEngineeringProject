@@ -25,28 +25,33 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 
+/**
+ * Verifica della classe {@link ControllerManager}
+ * 
+ * @author Diego Beraldin
+ * @version 2.0
+ */
+@RunWith(MockitoJUnitRunner.class)
 public class ControllerManagerTest {
-	// controller fittizio per gli scopi del test
-	private final IController controller = mock(IController.class);
-	// mock della richiesta HTTP
-	private final HttpServletRequest request = mock(HttpServletRequest.class);
-	// mock della risposta HTTP
-	private final HttpServletResponse response = mock(HttpServletResponse.class);
-	// mock di configurazione da passare al metodo init della servlet
-	private final ServletConfig configuration = mock(ServletConfig.class);
-	// stringa corrispondente
 	private final String operation = "login";
-	// nome qualificato della classe controller da istanziare
 	private final String className = "org.softwaresynthesis.mytalk.server.authentication.controller.LoginController";
-	// writer associato alla risposta HTTP
+	@Mock
+	private IController controller;
+	@Mock
+	private HttpServletRequest request;
+	@Mock
+	private HttpServletResponse response;
+	@Mock
+	private ServletConfig configuration;
 	private Writer writer;
-	// oggetto da testare
-	private final ControllerManager tester = mock(ControllerManager.class,
-			Mockito.CALLS_REAL_METHODS);
+	private ControllerManager tester;
 
 	/**
 	 * Inizializza l'oggetto da sottoporre a verifica prima di tutti i test in
@@ -80,6 +85,8 @@ public class ControllerManagerTest {
 			}
 		}).when(controller)
 				.execute(any(HttpServletRequest.class), eq(response));
+		// inizializza l'oggetto da testare
+		tester = mock(ControllerManager.class, Mockito.CALLS_REAL_METHODS);
 	}
 
 	/**

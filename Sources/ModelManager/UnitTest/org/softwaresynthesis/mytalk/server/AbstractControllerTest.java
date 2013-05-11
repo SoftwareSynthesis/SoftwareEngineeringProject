@@ -23,8 +23,11 @@ import javax.servlet.http.HttpSession;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 import org.softwaresynthesis.mytalk.server.authentication.security.AESAlgorithm;
 import org.softwaresynthesis.mytalk.server.authentication.security.ISecurityStrategy;
@@ -40,20 +43,17 @@ import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
  * @author Diego Beraldin
  * @version 2.0
  */
+@RunWith(MockitoJUnitRunner.class)
 public class AbstractControllerTest {
-	// dati di test
 	private final String emailAddress = "indirizzo5@dominio.it";
-	// finta richiesta HTTP
-	private final HttpServletRequest request = mock(HttpServletRequest.class);
-	// finta risposta HTTP
-	private final HttpServletResponse response = mock(HttpServletResponse.class);
-	// finta sessione di autenticazione
-	private final HttpSession session = mock(HttpSession.class);
-	// contiene lo StringBuffer su cui è scritta la risposta
+	@Mock
+	private HttpServletRequest request;
+	@Mock
+	private HttpServletResponse response;
+	@Mock
+	private HttpSession session;
 	private StringWriter writer;
-	// oggetto da testare
-	private final AbstractController tester = mock(AbstractController.class,
-			Mockito.CALLS_REAL_METHODS);
+	private AbstractController tester;
 
 	/**
 	 * Configura tutti gli oggetti che sono necessari all'esecuzione di tutti i
@@ -66,6 +66,8 @@ public class AbstractControllerTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
+		// inizializza l'oggetto da testare
+		tester = mock(AbstractController.class, Mockito.CALLS_REAL_METHODS);
 		// configura il comportamento della sessione
 		when(session.getAttribute("username")).thenReturn(emailAddress);
 		// configura il comportamento della richiesta

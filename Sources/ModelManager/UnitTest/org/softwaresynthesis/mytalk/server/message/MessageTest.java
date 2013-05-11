@@ -4,15 +4,16 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.Date;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
-import org.softwaresynthesis.mytalk.server.abook.UserData;
 
 /**
  * Test della classe Message
@@ -20,28 +21,32 @@ import org.softwaresynthesis.mytalk.server.abook.UserData;
  * @author Diego Beraldin
  * @version 2.0
  */
+@RunWith(MockitoJUnitRunner.class)
 public class MessageTest {
-	// oggetto da testare
-	private static Message tester;
-	// dati di test
-	private static Date dummyDate;
-	private static IUserData sender;
-	private static IUserData receiver;
+	@Mock
+	private Date dummyDate;
+	@Mock
+	private IUserData sender;
+	@Mock
+	private IUserData receiver;
+	@Mock
+	private Message other;
+	private Message tester;
 
 	/**
-	 * Inizia i dati necessari all'esecuzione dei test
+	 * Reimposta il comportamento dei mock e inizializza l'oggetto da testare
+	 * prima di ogni test
 	 */
-	@BeforeClass
-	public static void setUpBeforeClass() {
+	@Before
+	public void setUp() {
+		// configura i mock
+		when(receiver.getMail()).thenReturn("indirizzo5@dominio.it");
+		when(sender.getMail()).thenReturn("indirizzo5@dominio.it");
+		when(other.getSender()).thenReturn(sender);
+		when(other.getReceiver()).thenReturn(receiver);
+		when(other.getDate()).thenReturn(dummyDate);
 		// inizializza l'oggetto da testare
 		tester = new Message(1L);
-		tester.setId(1L);
-		// inizializza i dati necessari al test
-		dummyDate = mock(Date.class);
-		receiver = mock(UserData.class);
-		when(receiver.getMail()).thenReturn("indirizzo5@dominio.it");
-		sender = mock(UserData.class);
-		when(sender.getMail()).thenReturn("indirizzo5@dominio.it");
 	}
 
 	/**
@@ -138,13 +143,19 @@ public class MessageTest {
 		assertNotNull(result);
 		assertEquals(dummyDate, result);
 	}
-	
+
+	/**
+	 * Verifica che il metodo equals basato sul mittente, il destinatario e la
+	 * data di invio del messaggio sia implementato correttamente.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
 	@Test
 	public void testEquals() {
-		Message other = mock(Message.class);
-		when(other.getSender()).thenReturn(sender);
-		when(other.getReceiver()).thenReturn(receiver);
-		when(other.getDate()).thenReturn(dummyDate);
+		tester.setSender(sender);
+		tester.setReceiver(receiver);
+		tester.setDate(dummyDate);
 		assertTrue(tester.equals(other));
 	}
 }

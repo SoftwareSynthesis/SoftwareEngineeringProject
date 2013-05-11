@@ -6,7 +6,6 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -23,7 +22,10 @@ import javax.servlet.http.HttpSession;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
 import org.softwaresynthesis.mytalk.server.authentication.CredentialLoader;
@@ -37,58 +39,31 @@ import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
  * @author Diego Beraldin
  * @version 2.0
  */
+@RunWith(MockitoJUnitRunner.class)
 public class LoginControllerTest {
-	// dati fittizi necessari test
 	private final String username = "indirizzo5@dominio.it";
 	private final String name = "paperino";
 	private final String surname = "de paperoni";
 	private final String path = "img/contactImg/Default.png";
 	private final Long id = 1L;
-	private final IUserData user = mock(IUserData.class);
-	// mock di CredentialLoader
-	private final CredentialLoader loader = mock(CredentialLoader.class);
-	// mock del contesto di autenticazione
-	private final LoginContext context = mock(LoginContext.class);
-	// mock della sessione di autenticazione
-	private final HttpSession session = mock(HttpSession.class);
-	// mock della gestione della persistenza
-	private final DataPersistanceManager dao = mock(DataPersistanceManager.class);
-	// mock della strategia di crittografia
-	private final ISecurityStrategy strategy = mock(ISecurityStrategy.class);
-	// mock della richiesta HTTP
-	private final HttpServletRequest request = mock(HttpServletRequest.class);
-	// mock della risposta HTTP
-	private final HttpServletResponse response = mock(HttpServletResponse.class);
-	// writer da associare alla risposta
+	@Mock
+	private IUserData user;
+	@Mock
+	private CredentialLoader loader;
+	@Mock
+	private LoginContext context;
+	@Mock
+	private HttpSession session;
+	@Mock
+	private DataPersistanceManager dao;
+	@Mock
+	private ISecurityStrategy strategy;
+	@Mock
+	private HttpServletRequest request;
+	@Mock
+	private HttpServletResponse response;
 	private Writer writer;
-
-	/*
-	 * Oggetto da testare dove si fa overriding al volo dei metodi 'factory'
-	 * facendo in modo che restituiscano i mock (che sono dei campi dati privati
-	 * della classe contenitore) invece dei reali oggetti.
-	 */
-	private final LoginController tester = new LoginController() {
-		@Override
-		protected ISecurityStrategy getSecurityStrategyFactory() {
-			return strategy;
-		}
-
-		@Override
-		protected DataPersistanceManager getDAOFactory() {
-			return dao;
-		}
-
-		@Override
-		LoginContext contextFactory(String rule, CredentialLoader loader) {
-			return context;
-		}
-
-		@Override
-		CredentialLoader loaderFactory(HttpServletRequest request,
-				ISecurityStrategy strategy) {
-			return loader;
-		}
-	};
+	private LoginController tester;
 
 	/**
 	 * Reinizializza il comportamento dei mock prima di ogni test (può
@@ -127,6 +102,34 @@ public class LoginControllerTest {
 		// configura il comportamento della richiesta
 		when(request.getSession(anyBoolean())).thenReturn(session);
 		when(request.getParameter("username")).thenReturn(username);
+		
+		/*
+		 * Oggetto da testare dove si fa overriding al volo dei metodi 'factory'
+		 * facendo in modo che restituiscano i mock (che sono dei campi dati privati
+		 * della classe contenitore) invece dei reali oggetti.
+		 */
+		tester = new LoginController() {
+			@Override
+			protected ISecurityStrategy getSecurityStrategyFactory() {
+				return strategy;
+			}
+
+			@Override
+			protected DataPersistanceManager getDAOFactory() {
+				return dao;
+			}
+
+			@Override
+			LoginContext contextFactory(String rule, CredentialLoader loader) {
+				return context;
+			}
+
+			@Override
+			CredentialLoader loaderFactory(HttpServletRequest request,
+					ISecurityStrategy strategy) {
+				return loader;
+			}
+		};
 	}
 
 	/**

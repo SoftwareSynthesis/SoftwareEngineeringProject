@@ -3,7 +3,6 @@ package org.softwaresynthesis.mytalk.server.authentication.controller;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -19,6 +18,9 @@ import javax.servlet.http.HttpSession;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 /**
  * Verifica della classe {@link LogoutController} che in questa nuova versione
@@ -27,19 +29,18 @@ import org.junit.Test;
  * @author Diego Beraldin
  * @version 2.0
  */
+@RunWith(MockitoJUnitRunner.class)
 public class LogoutControllerTest {
-	// mock di contesto di autenticazione
-	private final LoginContext context = mock(LoginContext.class);
-	// mock di sessione di autenticazione
-	private final HttpSession session = mock(HttpSession.class);
-	// mock di richiesta HTTP
-	private final HttpServletRequest request = mock(HttpServletRequest.class);
-	// mock di risposta HTTP
-	private final HttpServletResponse response = mock(HttpServletResponse.class);
-	// writer contenente lo StringBuffer associato alla risposta
+	@Mock
+	private LoginContext context;
+	@Mock
+	private HttpSession session;
+	@Mock
+	private HttpServletRequest request;
+	@Mock
+	private HttpServletResponse response;
 	private Writer writer;
-	// qui l'oggetto da testare può essere una vera istanza di LogoutController
-	private final LogoutController tester = new LogoutController();
+	private LogoutController tester;
 
 	/**
 	 * Reinizializza il comportamento di tutti i mock prima dell'esecuzione di
@@ -59,6 +60,8 @@ public class LogoutControllerTest {
 		when(request.getSession(anyBoolean())).thenReturn(session);
 		// configura il comportamento della sessione
 		when(session.getAttribute("context")).thenReturn(context);
+		// inizializza l'oggetto da testare (qui non occorrono sottoclassi)
+		tester = new LogoutController();
 	}
 
 	/**

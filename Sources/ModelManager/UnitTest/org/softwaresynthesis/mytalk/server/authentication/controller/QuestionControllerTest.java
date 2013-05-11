@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -19,6 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
 import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
 
@@ -29,31 +31,20 @@ import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
  * @author Diego Beraldin
  * @version 2.0
  */
+@RunWith(MockitoJUnitRunner.class)
 public class QuestionControllerTest {
-	// dati di test
 	private final String username = "indirizzo5@dominio.it";
 	private final String question = "Come si chiama la mia gatta?";
-	// mock di un utente del sistema
-	private final IUserData user = mock(IUserData.class);
-	// mock della richiesta HTTP
-	private final HttpServletRequest request = mock(HttpServletRequest.class);
-	// mock della risposta HTTP
-	private final HttpServletResponse response = mock(HttpServletResponse.class);
-	// writer su cui scrivere la risposta
+	@Mock
+	private IUserData user;
+	@Mock
+	private HttpServletRequest request;
+	@Mock
+	private HttpServletResponse response;
+	@Mock
+	private DataPersistanceManager dao;
 	private Writer writer;
-	// mock del gestore della persistenza
-	private final DataPersistanceManager dao = mock(DataPersistanceManager.class);
-	/*
-	 * Oggetto da testare in cui viene fatto al volo l'overriding di quel che
-	 * non mi interessa testare (perché non contiene logica) e sostituisco
-	 * l'istanza di ritorno con un opportuno mock necessario ai test.
-	 */
-	private final QuestionController tester = new QuestionController() {
-		@Override
-		protected DataPersistanceManager getDAOFactory() {
-			return dao;
-		}
-	};
+	private QuestionController tester;
 
 	/**
 	 * Reinizializza il comportamento dei mock e azzera il contenuto del buffer
@@ -76,6 +67,19 @@ public class QuestionControllerTest {
 		when(response.getWriter()).thenReturn(new PrintWriter(writer));
 		// configura il comportamento della richiesta
 		when(request.getParameter("username")).thenReturn(username);
+
+		/*
+		 * Oggetto da testare in cui viene fatto al volo l'overriding di quel
+		 * che non mi interessa testare (perché non contiene logica) e
+		 * sostituisco l'istanza di ritorno con un opportuno mock necessario ai
+		 * test.
+		 */
+		tester = new QuestionController() {
+			@Override
+			protected DataPersistanceManager getDAOFactory() {
+				return dao;
+			}
+		};
 	}
 
 	/**
@@ -83,9 +87,9 @@ public class QuestionControllerTest {
 	 * modo corretto, tale cioè da restituire <code>true</code> in ogni caso,
 	 * indipendentemente dalla richiesta che viene passata ad esso come
 	 * parametro. Il test si assicura di questo verificando il risultato e
-	 * assciurandosi che la richiesta HTTP non sia utilizzata per estrarre
-	 * parametri o informazioni di sessione che potrebbero influenzare il
-	 * risultato.
+	 * sincerandosi del fatto che la richiesta HTTP non sia utilizzata per
+	 * estrarre parametri o informazioni di sessione che potrebbero influenzare
+	 * il risultato.
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0

@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -17,20 +17,18 @@ import org.junit.Test;
  * @version 2.0
  */
 public class AESDecodeTest {
-	private static AESTemplate tester;
-	private static final String cipherText = "Ub92LcoN/pLMLZnz6Bg4CA==";
-	private static final String plainText = "paperino";
+	private final String cipherText = "Ub92LcoN/pLMLZnz6Bg4CA==";
+	private final String plainText = "paperino";
+	private AESTemplate tester;
 
 	/**
-	 * Inizializza l'oggetto da sottoporre a verifica e i dati necessari
-	 * all'esecuzione di tutte le verifiche di questo test cases
+	 * Inizializza l'oggetto da testare
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
 	 */
-	@BeforeClass
-	public static void setUpBeforeClass() {
-		// oggetto da testare
+	@Before
+	public void setUp() {
 		tester = new AESDecode();
 	}
 

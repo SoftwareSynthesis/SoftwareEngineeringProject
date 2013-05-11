@@ -2,12 +2,14 @@ package org.softwaresynthesis.mytalk.server.dao.util;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.softwaresynthesis.mytalk.server.dao.ISessionManager;
 
 /**
@@ -19,22 +21,21 @@ import org.softwaresynthesis.mytalk.server.dao.ISessionManager;
  * @author Diego Beraldin
  * @version 2.0
  */
+@RunWith(MockitoJUnitRunner.class)
 public class UtilFactoryTest {
-	// oggetto da testare
-	private static final UtilFactory tester = new UtilFactory();
-	// sessione necessaria per creare gli oggetti di utilità
+	@Mock
 	private ISessionManager session;
-
+	private  UtilFactory tester;
+	
 	/**
-	 * Reinizializza il mock del SessionManager prima di ogni test (necessario
-	 * per verificare che sia utilizzato nel modo corretto)
+	 * Reinizializza l'oggetto da testare
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
 	 */
 	@Before
 	public void setUp() {
-		session = mock(ISessionManager.class);
+		tester = new UtilFactory();
 	}
 
 	/**

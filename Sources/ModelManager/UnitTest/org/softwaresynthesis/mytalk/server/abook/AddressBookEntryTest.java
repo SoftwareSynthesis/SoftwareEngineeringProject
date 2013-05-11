@@ -4,11 +4,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 /**
  * Test dei metodi della classe {@link AddressBookEntry}
@@ -17,27 +19,33 @@ import org.junit.Test;
  * @author Diego Beraldin
  * @version 2.0
  */
+@RunWith(MockitoJUnitRunner.class)
 public class AddressBookEntryTest {
-	// oggetto da testare
-	private static AddressBookEntry tester;
-	// dati di test
-	private static IUserData contact;
-	private static IGroup group;
+	@Mock
+	private UserData contact;
+	@Mock
+	private Group group;
+	@Mock
+	private AddressBookEntry other;
+	private AddressBookEntry tester;
 
 	/**
-	 * Crea l'oggetto da testare
+	 * Reinizializza i mock prima di ogni test
 	 * 
-	 * @author Andrea Meneghinello
-	 * @version 1.0
+	 * @author Diego Beraldin
+	 * @version 2.0
 	 */
-	@BeforeClass
-	public static void setupBeforeClass() {
-		tester = new AddressBookEntry(1L);
-		tester.setId(1L);
-		contact = new UserData(1L);
-		contact.setMail("paperino@paperopoli.it");
-		group = mock(IGroup.class);
+	@Before
+	public void setUp() {
+		// configura il comportamento del contatto
+		when(contact.getId()).thenReturn(1L);
+		when(contact.getMail()).thenReturn("paperino@paperopoli.it");
+		// configura il comportamento del gruppo
 		when(group.getName()).thenReturn("dummy");
+		when(other.getContact()).thenReturn(contact);
+		when(other.getOwner()).thenReturn(contact);
+		// inizializza l'oggetto da testare
+		tester =  new AddressBookEntry(1L);
 	}
 
 	/**
@@ -120,9 +128,8 @@ public class AddressBookEntryTest {
 	 */
 	@Test
 	public void testEquals() {
-		IAddressBookEntry other = mock(AddressBookEntry.class);
-		when(other.getContact()).thenReturn(contact);
-		when(other.getOwner()).thenReturn(contact);
+		tester.setContact(contact);
+		tester.setOwner(contact);
 		assertTrue(tester.equals(other));
 	}
 }

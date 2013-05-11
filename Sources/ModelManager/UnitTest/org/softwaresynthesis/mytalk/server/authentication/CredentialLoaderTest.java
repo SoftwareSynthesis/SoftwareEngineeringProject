@@ -1,16 +1,17 @@
 package org.softwaresynthesis.mytalk.server.authentication;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import javax.security.auth.callback.Callback;
 import javax.servlet.http.HttpServletRequest;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.softwaresynthesis.mytalk.server.authentication.security.ISecurityStrategy;
 
 /**
@@ -20,30 +21,30 @@ import org.softwaresynthesis.mytalk.server.authentication.security.ISecurityStra
  * @author Diego Beraldin
  * @version 2.0
  */
+@RunWith(MockitoJUnitRunner.class)
 public class CredentialLoaderTest {
-	private static CredentialLoader tester;
-	private static HttpServletRequest request;
-	private static ISecurityStrategy strategy;
-	private static final String password = "password";
-	private static final String username = "indirizzo5@dominio.it";
+	private final String password = "password";
+	private final String username = "indirizzo5@dominio.it";
+	@Mock
+	private HttpServletRequest request;
+	@Mock
+	private ISecurityStrategy strategy;
+	private CredentialLoader tester;
 
 	/**
 	 * Inizializzazione dei dati ausiliari e dell'oggetto da testare
 	 * 
-	 * @author Andrea Meneghinello
 	 * @author Diego Beraldin
 	 * @version 2.0
 	 */
-	@BeforeClass
-	public static void setupBeforeClass() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		// configura il comportamento della richiesta HTTP
-		request = mock(HttpServletRequest.class);
 		when(request.getParameter("username")).thenReturn(username);
 		when(request.getParameter("password")).thenReturn(password);
 		// configura il comportamento della strategia di crittografia
-		strategy = mock(ISecurityStrategy.class);
 		when(strategy.encode(password)).thenReturn(password);
-		// crea l'oggetto da testare
+		// inizializza l'oggetto da testare
 		tester = new CredentialLoader(request, strategy);
 	}
 

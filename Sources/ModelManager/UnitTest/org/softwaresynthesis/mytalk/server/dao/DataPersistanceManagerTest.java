@@ -16,7 +16,10 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.softwaresynthesis.mytalk.server.IMyTalkObject;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
 import org.softwaresynthesis.mytalk.server.dao.util.GetUtil;
@@ -30,20 +33,19 @@ import org.softwaresynthesis.mytalk.server.dao.util.UtilFactory;
  * @author Diego Beraldin
  * @version 2.0
  */
+@RunWith(MockitoJUnitRunner.class)
 public class DataPersistanceManagerTest {
-	// oggetto fittizio del database
-	private final IMyTalkObject object = mock(IMyTalkObject.class);
-	// un po' di mock per le utilità
-	private final GetUtil getter = mock(GetUtil.class);
-	private final ModifyUtil modifier = mock(ModifyUtil.class);
-	// ecco il magnifico mock della classe factory che permetterà ai
-	// verificatori di fare un bel po' di giochi di prestigio :)
-	private final UtilFactory factory = mock(UtilFactory.class);
-	// sessione fittizia di comunicazione con il database
-	private final ISessionManager manager = mock(ISessionManager.class);
-	// oggetto da testare
-	private final DataPersistanceManager tester = new DataPersistanceManager(
-			manager, factory);
+	@Mock
+	private IMyTalkObject object;
+	@Mock
+	private GetUtil getter;
+	@Mock
+	private ModifyUtil modifier;
+	@Mock
+	private UtilFactory factory;
+	@Mock
+	private ISessionManager manager;
+	private DataPersistanceManager tester;
 
 	/**
 	 * Inizializza il comportamento dei mock che sono comuni a tutti i test e,
@@ -62,6 +64,8 @@ public class DataPersistanceManagerTest {
 		when(factory.getDeleteUtil(manager)).thenReturn(modifier);
 		when(factory.getInsertUtil(manager)).thenReturn(modifier);
 		when(factory.getUpdateUtil(manager)).thenReturn(modifier);
+		// inizialzza l'oggetto da testare
+		tester = new DataPersistanceManager(manager, factory);
 	}
 
 	/**
@@ -292,7 +296,8 @@ public class DataPersistanceManagerTest {
 		verify(factory).getUserDataUtil(manager);
 		verify(getter).execute(query);
 		verify(list).isEmpty();
-		ArgumentCaptor<Integer> argument = ArgumentCaptor.forClass(Integer.class);
+		ArgumentCaptor<Integer> argument = ArgumentCaptor
+				.forClass(Integer.class);
 		verify(list).get(argument.capture());
 		assertTrue(argument.getValue() == 0);
 	}
@@ -427,7 +432,14 @@ public class DataPersistanceManagerTest {
 	}
 
 	/**
-	 * 
+	 * Verifica la possibilità di recuperare i dati di un utente dal database
+	 * disponendo di una stringa che può comparire come sottostringa del nome,
+	 * del cognome oppure del nome utente. In particolare, il test assicura che
+	 * il risultato sia uguale alle attese (in base a come è stato configurato
+	 * il mock di GetUserDataUtil), e verifica inoltre il corretto utilizzo dei
+	 * mock. In particolare, verifica che sia eseguita ESATTAMENTE la query
+	 * impostata nella variabile 'query' e che la UtilFactory sia utilizzata per
+	 * procurarsi la corretta istanza di GetUtil.
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0

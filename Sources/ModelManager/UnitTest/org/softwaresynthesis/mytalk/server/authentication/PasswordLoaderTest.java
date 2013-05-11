@@ -3,7 +3,6 @@ package org.softwaresynthesis.mytalk.server.authentication;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -14,6 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.softwaresynthesis.mytalk.server.authentication.security.ISecurityStrategy;
 
 /**
@@ -22,15 +24,14 @@ import org.softwaresynthesis.mytalk.server.authentication.security.ISecurityStra
  * @author Diego Beraldin
  * @version 2.0
  */
+@RunWith(MockitoJUnitRunner.class)
 public class PasswordLoaderTest {
-	// stringa che simula la password da caricare
-	private static final String password = "password";
-	// strategia di autenticazione dittizia
-	private final ISecurityStrategy strategy = mock(ISecurityStrategy.class);
-	// mock della richiesta HTTP
-	private final HttpServletRequest request = mock(HttpServletRequest.class);
-	// oggetto da testare
-	private Loader tester = new PasswordLoader();
+	private final String password = "password";
+	@Mock
+	private ISecurityStrategy strategy;
+	@Mock
+	private HttpServletRequest request;
+	private Loader tester;
 
 	/**
 	 * Reinizializza prima di ogni test il mock di richiesta HTTP (necessario
@@ -44,6 +45,8 @@ public class PasswordLoaderTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
+		// inizializza l'oggetto da testare
+		tester = new PasswordLoader();
 		// configura il comportamento della strategia di crittografia
 		when(strategy.encode(password)).thenReturn(password);
 		// configura la richiesta HTTP
@@ -65,7 +68,7 @@ public class PasswordLoaderTest {
 	public void testLoadMissingPassword() throws IOException {
 		// impedisce l'estrazione del parametro
 		when(request.getParameter("password")).thenReturn(null);
-		
+
 		// invoca il metodo da testare
 		tester.load(request);
 
@@ -132,5 +135,4 @@ public class PasswordLoaderTest {
 		// verifica l'output
 		assertEquals(password, result);
 	}
-
 }
