@@ -25,7 +25,7 @@ import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
  * @author 	Andrea Meneghinello
  * @version	3.0
  */
-public final class AnswerController extends AbstractController
+public class AnswerController extends AbstractController
 {
 	/**
 	 * Verifica la risposta fornita alla domanda
@@ -36,8 +36,8 @@ public final class AnswerController extends AbstractController
 	@Override
 	protected void doAction(HttpServletRequest request, HttpServletResponse response) throws IOException 
 	{
-		DataPersistanceManager dao = super.getDAOFactory();
-		ISecurityStrategy strategy = super.getSecurityStrategyFactory();
+		DataPersistanceManager dao = getDAOFactory();
+		ISecurityStrategy strategy = getSecurityStrategyFactory();
 		String mail = super.getUserMail();
 		String answer = request.getParameter("answer");
 		String result = null;
