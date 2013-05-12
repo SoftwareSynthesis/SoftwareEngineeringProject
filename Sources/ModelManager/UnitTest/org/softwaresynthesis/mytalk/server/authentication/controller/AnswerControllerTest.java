@@ -1,9 +1,13 @@
 package org.softwaresynthesis.mytalk.server.authentication.controller;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.*;
-import static org.junit.Assert.*;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.when;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -23,6 +27,9 @@ import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
 
 /**
  * Verifica della classe {@link AnswerController}
+ * 
+ * TODO il test NON è ancora completo e può quindi essere preso come riferimento
+ * per scrivere la documentazione solo in via provvisoria e informale!
  * 
  * @author Diego Beraldin
  * @version 2.0
@@ -112,6 +119,8 @@ public class AnswerControllerTest {
 	 * Verifica la possibilità di recuperare la password da parte di un utente
 	 * che è registrato al sistema e che fornisce pertanto uno username valido.
 	 * 
+	 * TODO questo sarebbe da completare dopo refactoring della classe!
+	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
 	 */
@@ -126,6 +135,40 @@ public class AnswerControllerTest {
 		assertEquals(answer, responseText);
 
 		// verifica il corretto utilizzo dei mock
-		// TODO da completare
+		verify(dao).getUserData(username);
+		verify(strategy).encode(answer);
+		verify(strategy).decode(encryptedPassword);
+		verify(request).getParameter("answer");
+		verify(request).getParameter("username");
+		verify(user).getAnswer();
+	}
+
+	/**
+	 * Verifica l'impossibilità di recuperare la password da parte di un utente
+	 * che fornisce uno username non presente nella base di dati.
+	 * 
+	 * TODO questo sarebbe da completare dopo refactoring della classe!
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testRecoverPasswordUnsuccessfully() throws Exception {
+		String fakeUsername = "pippo";
+		when(request.getParameter("username")).thenReturn(fakeUsername);
+		when(dao.getUserData(fakeUsername)).thenReturn(null);
+
+		// invoca il metodo da testare
+		tester.doAction(request, response);
+
+		// verifica l'output ottenuto
+		writer.flush();
+		String responseText = writer.toString();
+		assertEquals("null", responseText);
+
+		// verifica il corretto utilizzo dei mock
+		verify(dao).getUserData(fakeUsername);
+		verifyZeroInteractions(strategy);
+		verifyZeroInteractions(user);
 	}
 }
