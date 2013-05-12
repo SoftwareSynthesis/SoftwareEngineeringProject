@@ -2,7 +2,6 @@ package org.softwaresynthesis.mytalk.server.authentication.controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
@@ -24,6 +23,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -42,7 +42,7 @@ public class RegisterControllerTest {
 	private final String answer = "Antonella";
 	private final String name = "paperino";
 	private final String surname = "de paperoni";
-	private final String picturePath = "";
+	private final String picturePath = "ThisIsNotAPath";
 	@Mock
 	private InputStream istream;
 	@Mock
@@ -55,6 +55,8 @@ public class RegisterControllerTest {
 	private HttpServletRequest request;
 	@Mock
 	private HttpServletResponse response;
+	@Captor
+	private ArgumentCaptor<IUserData> argument;
 	private Writer writer;
 	private RegisterController tester;
 
@@ -77,7 +79,6 @@ public class RegisterControllerTest {
 		when(request.getParameter("answer")).thenReturn(answer);
 		when(request.getParameter("name")).thenReturn(name);
 		when(request.getParameter("surname")).thenReturn(surname);
-		when(request.getParameter("picturePath")).thenReturn(picturePath);
 		when(request.getPart("picturePath")).thenReturn(filePart);
 		// azzera il contenuto dello StringBuffer per la risposta
 		writer = new StringWriter();
@@ -123,7 +124,18 @@ public class RegisterControllerTest {
 	}
 
 	/**
-	 * TODO da documentare per bene!
+	 * Il test ha lo scopo di verificare la corretta registrazione al sistema di
+	 * un utente a partire da una richiesta contenente tutti i parametri
+	 * necessari obbligatoriamente per portare a termine l'operazione e tutti i
+	 * parametri facoltativi fatto salvo per l'immagine personale. In
+	 * particolare, si controlla che la stringa stampata sulla pagina di
+	 * risposta corrisponda, come atteso, alla rappresentazione in formato JSON
+	 * dei dati dell'utente. Inoltre, il test assicura che avvenga
+	 * effettivamente l'inserimento dei dati del nuovo utente nel database del
+	 * sistema e che l'oggetto {@link UserData} inserito contenga effettivamente
+	 * i dati corrispondenti alla richiesta, verificando che sia utilizzato
+	 * l'algoritmo di crittografia per la password e per la risposta alla
+	 * domanda segreta.
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
@@ -143,8 +155,6 @@ public class RegisterControllerTest {
 		assertEquals(toCompare, responseText);
 
 		// verifica il corretto uso dei mock
-		ArgumentCaptor<UserData> argument = ArgumentCaptor
-				.forClass(UserData.class);
 		verify(dao).insert(argument.capture());
 		IUserData captured = argument.getValue();
 		assertEquals(username, captured.getMail());
@@ -161,13 +171,51 @@ public class RegisterControllerTest {
 	}
 
 	/**
+	 * Il test ha lo scopo di verificare la corretta registrazione al sistema di
+	 * un utente a partire da una richiesta contenente tutti i parametri
+	 * necessari obbligatoriamente per portare a termine l'operazione nonché
+	 * tutti i parametri facoltativi. In particolare, si controlla che la
+	 * stringa stampata sulla pagina di risposta corrisponda, come atteso, alla
+	 * rappresentazione in formato JSON dei dati dell'utente. Inoltre, il test
+	 * assicura che avvenga effettivamente l'inserimento dei dati del nuovo
+	 * utente nel database del sistema e che l'oggetto {@link UserData} inserito
+	 * contenga effettivamente i dati corrispondenti alla richiesta, verificando
+	 * che sia utilizzato l'algoritmo di crittografia per la password e per la
+	 * risposta alla domanda segreta.
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
 	 */
 	@Test
 	public void testRegisterCorrectUserWithPicture() throws Exception {
-		fail("Non passa causa FileNotFoundException");
+		// associa il percorso di un'immagine alla richiesta HTTP
+		when(request.getParameter("picturePath")).thenReturn(picturePath);
+
+		// invoca il metodo da testare
+		tester.doAction(request, response);
+
+		// verifica l'output ottenuto
+		writer.flush();
+		String responseText = writer.toString();
+		String toCompare = String
+				.format("{\"name\":\"%s\", \"surname\":\"%s\", \"email\":\"%s\", \"id\":\"%s\", \"picturePath\":\"%s\"}",
+						name, surname, username, -1, picturePath);
+		assertEquals(toCompare, responseText);
+
+		// verifica il corretto utilizzo dei mock
+		verify(dao).insert(argument.capture());
+		IUserData captured = argument.getValue();
+		assertEquals(username, captured.getMail());
+		assertEquals(question, captured.getQuestion());
+		assertEquals(answer, captured.getAnswer());
+		assertEquals(password, captured.getPassword());
+		assertEquals(name, captured.getName());
+		assertEquals(surname, captured.getSurname());
+		assertEquals(picturePath, captured.getPath());
+		verify(response).getWriter();
+		verify(request, times(7)).getParameter(anyString());
+		verify(strategy).encode(answer);
+		verify(strategy).encode(password);
 	}
 
 	/**
@@ -175,8 +223,9 @@ public class RegisterControllerTest {
 	 * registrazione per un utente la cui richiesta non contiene tutti i dati
 	 * necessari alla registrazione, ad esempio il nome utente. Il test verifica
 	 * che il testo stampato sulla pagina di risposta sia la stringa 'null' come
-	 * atteso, e che non siano MAI effettuate in casi simili operazioni di
-	 * inserimento nel database.
+	 * atteso, che non sia MAI utilizzato l'algoritmo di crittografia e che non
+	 * siano MAI effettuate in casi simili operazioni di inserimento nella base
+	 * di dati del server.
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
@@ -196,6 +245,6 @@ public class RegisterControllerTest {
 
 		// verifica il corretto utilizzo dei mock
 		verify(dao, never()).insert(any(IMyTalkObject.class));
-		// TODO da terminare
+		verify(strategy, never()).encode(anyString());
 	}
 }
