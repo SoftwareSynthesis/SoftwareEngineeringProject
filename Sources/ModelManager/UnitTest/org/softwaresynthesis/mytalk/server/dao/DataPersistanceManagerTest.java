@@ -7,7 +7,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -18,6 +17,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.softwaresynthesis.mytalk.server.IMyTalkObject;
@@ -45,6 +45,12 @@ public class DataPersistanceManagerTest {
 	private UtilFactory factory;
 	@Mock
 	private ISessionManager manager;
+	@Mock
+	private IUserData user;
+	@Mock
+	private List<IMyTalkObject> list;
+	@Captor
+	private ArgumentCaptor<Integer> arg;
 	private DataPersistanceManager tester;
 
 	/**
@@ -276,11 +282,6 @@ public class DataPersistanceManagerTest {
 		String mail = "ThisIsNotAnEmailAddress";
 		// query che deve essere eseguita
 		String query = "from UserData as u where u.mail = " + "'" + mail + "'";
-		// mock dell'utente
-		IUserData user = mock(IUserData.class);
-		// mock della collezione di utenti
-		@SuppressWarnings("unchecked")
-		List<IMyTalkObject> list = mock(List.class);
 		// configura il comportamento dei mock
 		when(list.get(0)).thenReturn(user);
 		when(getter.execute(query)).thenReturn(list);
@@ -296,10 +297,8 @@ public class DataPersistanceManagerTest {
 		verify(factory).getUserDataUtil(manager);
 		verify(getter).execute(query);
 		verify(list).isEmpty();
-		ArgumentCaptor<Integer> argument = ArgumentCaptor
-				.forClass(Integer.class);
-		verify(list).get(argument.capture());
-		assertTrue(argument.getValue() == 0);
+		verify(list).get(arg.capture());
+		assertTrue(arg.getValue() == 0);
 	}
 
 	/**
@@ -323,9 +322,6 @@ public class DataPersistanceManagerTest {
 		String mail = "ThisIsNotAnEmailAddress";
 		// query che deve essere eseguita
 		String query = "from UserData as u where u.mail = " + "'" + mail + "'";
-		// mock della collezione di utenti
-		@SuppressWarnings("unchecked")
-		List<IMyTalkObject> list = mock(List.class);
 		// configura il comportamento dei mock
 		when(list.isEmpty()).thenReturn(true);
 		when(getter.execute(query)).thenReturn(list);
@@ -364,11 +360,6 @@ public class DataPersistanceManagerTest {
 		Long id = 1L;
 		// query che deve essere eseguita
 		String query = "from UserData as u where u.id = " + id;
-		// mock dell'utente
-		IUserData user = mock(IUserData.class);
-		// mock della collezione di utenti
-		@SuppressWarnings("unchecked")
-		List<IMyTalkObject> list = mock(List.class);
 		// configura il comportamento dei mock
 		when(list.get(0)).thenReturn(user);
 		when(getter.execute(query)).thenReturn(list);
@@ -384,10 +375,8 @@ public class DataPersistanceManagerTest {
 		verify(factory).getUserDataUtil(manager);
 		verify(getter).execute(query);
 		verify(list).isEmpty();
-		ArgumentCaptor<Integer> argument = ArgumentCaptor
-				.forClass(Integer.class);
-		verify(list).get(argument.capture());
-		assertTrue(argument.getValue() == 0);
+		verify(list).get(arg.capture());
+		assertTrue(arg.getValue() == 0);
 	}
 
 	/**
@@ -411,9 +400,6 @@ public class DataPersistanceManagerTest {
 		Long id = 1L;
 		// query che deve essere eseguita
 		String query = "from UserData as u where u.id = " + id;
-		// mock della collezione di utenti
-		@SuppressWarnings("unchecked")
-		List<IMyTalkObject> list = mock(List.class);
 		// configura il comportamento dei mock
 		when(list.isEmpty()).thenReturn(true);
 		when(getter.execute(query)).thenReturn(list);
@@ -452,9 +438,6 @@ public class DataPersistanceManagerTest {
 		String query = "from UserData as u where u.mail like '" + mail
 				+ "' or u.name like '" + name + "' or u.surname like '"
 				+ surname + "'";
-		// mock della collezione di utenti
-		@SuppressWarnings("unchecked")
-		List<IMyTalkObject> list = mock(List.class);
 		// configura il comportamento dei mock
 		when(getter.execute(query)).thenReturn(list);
 
