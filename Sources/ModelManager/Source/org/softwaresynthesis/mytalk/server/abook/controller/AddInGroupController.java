@@ -34,7 +34,7 @@ public class AddInGroupController extends AbstractController{
 		
 		try
 		{
-			dao = super.getDAOFactory();
+			dao = getDAOFactory();
 			contactId = Long.parseLong(request.getParameter("contactId"));
 			groupId = Long.parseLong(request.getParameter("groupId"));
 			email = super.getUserMail();
