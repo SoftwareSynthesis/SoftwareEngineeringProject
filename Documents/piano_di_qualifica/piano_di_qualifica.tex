@@ -1073,40 +1073,107 @@ Tale test si compone di tre metodi:
 \end{itemize}
 
 \end{itemize}
-\subsubsection{\texttt{org.softwaresinthesis.mytalk.server.authentication.servlet}}
+\subsubsection{\texttt{org.softwaresinthesis.mytalk.server.authentication.controller}}
 \begin{itemize}
-\item \textbf{TM2.01: LoginServletTest}\\
-\textbf{Verifica l'oggetto:} \texttt{LoginServlet}.\\
+\item \textbf{TM2.01: LoginControllerTest}\\
+\textbf{Verifica l'oggetto:} \texttt{LoginController}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di effettuare il login da parte di un utente ricevuta tramite richiesta HTTP POST I possibili \inglese{input} riguardano dati passati (\textit{username} e \textit{password}) che possono essere corretti o non (campi dati vuoti, o che non corrispondono a nessun utente realmente registrato al sistema).
-Tale test si compone di tre metodi:
+Tale test si compone di quattro metodi:
 \begin{itemize}
-\item \texttt{testLoginCorrectUser()} verifica l'effettivo \textit{login} di un utente registrato nel sistema, tramite l'inserimento di dati corretti.
-\item \texttt{testLoginNotExistsUser()} verifica l'effettivo fallimento del \textit{login} di un utente non registrato al sistema.
-\item \texttt{testLoginWrongUser()} verifica l'effettivo fallimento del \textit{login} di un utente  registrato al sistema, ma che non ha inserito dati corretti per il \textit{login} stesso.
+
+\item \texttt{testLoginCorrectUser()} verifica il corretto funzionamento dell'accesso al sistema da parte di un utente registrato. Il controllo avviene tramite l'inserimento di dati corretti.
+
+\item \texttt{testLoginWrongUser()} verifica l'effettivo fallimento del \textit{login} di un utente  non registrato al sistema. Il test avviene simulando il sollevamento di un'eccezione di tipo \texttt{LoginException} durante l'esecuzione di \texttt{login()}. Il test verifica che non sia effettuato alcun accesso al \inglese{database} da parte del \texttt{controller} e che non sia creta nessuna sessione di autenticazione.
+
+\item \texttt{testLoginInvalidSession()} 
+verifica il comportamento della classe nel momento in cui avviene un errore nella manipolazione della sessione associata alla richiesta HTTP. Il test avviene verificando che il risultato stampato sulla risposta sia la stringa \texttt{null} e inoltre viene verificato che la sessione sia resa non valida tramite l'uso di mock.
+
+\item \texttt{testCheck()} verifica il corretto funzionamento del metodo \texttt{check}. Il controllo avviene verificando che l'oggetto restituito abbia valore \texttt{true}.
+
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{TM2.02: LogoutServletTest}\\
-\textbf{Verifica l'oggetto:} \texttt{LogoutServlet}.\\
-\textbf{Descrizione}:l'obiettivo di questo test è verificare l'effettivo logout da parte di un utente autenticato tramite richiesta HTTP POST.
+\item \textbf{TM2.02: LogoutControllerTest}\\
+\textbf{Verifica l'oggetto:} \texttt{LogoutController}.\\
+\textbf{Descrizione}:l'obiettivo di questo test è verificare l'effettivo \inglese{logout} da parte di un utente autenticato tramite richiesta HTTP POST.
 Tale test si compone di due metodi:
 
 \begin{itemize}
-\item \texttt{testLogoutCorrectUser()}  verifica l'effettivo \textit{logout} da parte di un utente registrato nel sistema.
-\item \texttt{testLogoutWrongUser()} verifica l'impossibilità di effettuare \textit{logout} da parte di un utente che non è autenticato al sistema, ovvero a fronte di una richiesta cui non è associata alcuna sessione.
+
+\item \texttt{testLogoutCorrectUser()} verifica il corretto funzionamento del \inglese{logout} dal sistema da parte di un utente che ha superato la fase di autenticazione. Il controllo avviene verificando che la richiesta sia utilizzata correttamente ovvero con il parametro che abbia valore \texttt{false}, per ottenere la sessione. Inoltre si verifica che dalla sessione sia recuperato il contesto di autenticazione. Si controlla infine che il metodo \texttt{logout} sia invocato sul contesto, e che in seguito all'invocazione la sessione risulti essere effettivamente invalidata.
+
+\item \texttt{testLogoutWrongUser()}  controlla il comportamento della classe nel caso in cui la richiesta di \inglese{logout} provenga da un utente che non ha effettuato previamente l'autenticazione al sistema. Tale situazione viene simulata impedendo di recuperare la sessione associata alla richiesta HTTP. Il test avviene verificando che sia stampata sulla risposta la stringa \texttt{null}.
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{TM2.03: RegisterServletTest}\\
-\textbf{Verifica l'oggetto:} \texttt{RegisterServlet}.\\
+\item \textbf{TM2.03: RegisterControllerTest}\\
+\textbf{Verifica l'oggetto:} \texttt{RegisterController}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è la verifica che l'operazione di registrazione da parte di un utente ricevuta tramite richiesta HTTP POST, i possibili \inglese{input} riguardano dati passati per la registrazione stessa, che possono essere corretti o non (campi dati obbligatori vuoti, o errati).
-Tale test si compone di due metodi:
+Tale test si compone di quattro metodi:
 \begin{itemize}
-\item \texttt{testRegisterCorrectUser()} verifica l'effettiva registrazione di un utente al sistema una volta inseriti dati corretti in \inglese{input}.
-\item \texttt{testRegisterWrongUser()}  verifica l'effettivo fallimento nella registrazione di un utente al sistema una volta inseriti dati errati in \inglese{input}.
+\item \texttt{testRegisterCorrectUser()} verifica il corretto funzionamento della registrazione al sistema di un utente a partire da una richiesta contenente tutti i parametri necessari obbligatoriamente per portare a termine l'operazione e tutti i parametri facoltativi, eccetto l'immagine personale. 
+Il test avviene verificando che la stringa stampata sulla pagina di risposta corrisponda, come attesa, alla rappresentazione in formato JSON dei dati dell'utente. Inoltre il test controlla che avvenga l'effettivo inserimento dei dati del nuovo utente nel database del sistema
+
+\item \texttt{testRegisterCorrectUserwithPicture()}
+
+
+\item \texttt{testRegisterWrongUser()} 
+
+\item \texttt{testCheck()} 
 \end{itemize}
+
 \textbf{Risultato del test:} superato con successo.
+
+
+
+
+\item \textbf{TM2.03: QuestionControllerTest}\\
+\textbf{Verifica l'oggetto:} \texttt{QuestionController}.\\
+\textbf{Descrizione}: 
+
+Questo test si compone di due metodi:
+\begin{itemize}
+
+\item \texttt{testGetQuestion()} 
+
+\item \texttt{testCheck()} 
 \end{itemize}
+
+\textbf{Risultato del test:} superato con successo.
+
+
+
+
+\item \textbf{TM2.03: AnswerControllerTest}\\
+\textbf{Verifica l'oggetto:} \texttt{AnswerController}.\\
+\textbf{Descrizione}: 
+
+Questo test si compone di tre metodi:
+\begin{itemize}
+\item \texttt{testRecoverPasswordSuccesfully()} 
+
+
+\item \texttt{testRecoverPasswordUnsuccesfully()} 
+
+\item \texttt{testRegisterCorrectUserwithPicture()}
+
+
+\item \texttt{testRegisterWrongUser()} 
+
+\item \texttt{testCheck()} 
+\end{itemize}
+
+\textbf{Risultato del test:} superato con successo.
+
+
+
+\end{itemize}
+
+
+
+
+
+
 
 \subsubsection{\texttt{org.softwaresinthesis.mytalk.server.abook}}
 \begin{itemize}
