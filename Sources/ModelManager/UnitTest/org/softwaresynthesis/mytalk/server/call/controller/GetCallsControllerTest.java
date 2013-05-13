@@ -1,7 +1,11 @@
 package org.softwaresynthesis.mytalk.server.call.controller;
 
-import static org.mockito.Mockito.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.anyBoolean;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.when;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -33,12 +37,13 @@ import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
 @RunWith(MockitoJUnitRunner.class)
 public class GetCallsControllerTest {
 	private final String username = "indirizzo5@dominio.it";
-	private final String callerName = "paolino";
-	private final String callerSurname = "paperino";
+	private final String calleeName = "paolino";
+	private final String calleeSurname = "paperino";
 	private final boolean isCaller = true;
 	private Writer writer;
 	private GetCallsController tester;
 	private Date startDate = new Date(1368437034437L);
+	Set<ICallList> callListSet;
 	@Mock
 	private HttpSession session;
 	@Mock
@@ -50,8 +55,9 @@ public class GetCallsControllerTest {
 	@Mock
 	private IUserData user;
 	@Mock
+	private IUserData callee;
+	@Mock
 	private IUserData caller;
-	Set<ICallList> callListSet;
 	@Mock
 	ICallList callList;
 	@Mock
@@ -75,9 +81,9 @@ public class GetCallsControllerTest {
 		callListSet.add(callList);
 		// configura il comportamento dell'utente che richiede la lista
 		when(user.getCalls()).thenReturn(callListSet);
-		// configura il comportamento del chiamante
-		when(caller.getName()).thenReturn(callerName);
-		when(caller.getSurname()).thenReturn(callerSurname);
+		// configura il comportamento del chiamato
+		when(callee.getName()).thenReturn(calleeName);
+		when(callee.getSurname()).thenReturn(calleeSurname);
 		// configura il comportamento della chiamata
 		when(call.getStart()).thenReturn(startDate);
 		// configura il comprotamento della sessione
@@ -99,7 +105,16 @@ public class GetCallsControllerTest {
 	}
 
 	/**
-	 * TODO da documentare!
+	 * Verifica il comportamento del metodo doAction quando viene invocato da
+	 * parte di un utente registrato al sistema e a cui è asscoiata una lista di
+	 * chiamate non vuota nel database del sistema. Il test verifica che
+	 * l'output ottenuto corrisponda alla rappresentazione in formato JSON di un
+	 * array enumerativo di oggetti che corrispondono alle chiamate, ognuna
+	 * caratterizzata dal nome dell'altro utente coinvolto nella chiamata, dalla
+	 * data di avvio e da un flag booleano che permettere di distinguere le
+	 * chiamate in ingresso dalle chiamate in uscita. Durante la verifica è
+	 * inoltre verificato il corretto utilizzo dei mock, in particolare
+	 * l'estrazione dei dati dal sistema di persistenza
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
@@ -114,25 +129,32 @@ public class GetCallsControllerTest {
 		String responseText = writer.toString();
 		String toCompare = String.format(
 				"[{\"name\": \"%s %s\", \"start\":\"%s\", \"caller\":\"%s\"}]",
-				callerName, callerSurname, startDate, isCaller);
+				calleeName, calleeSurname, startDate, isCaller);
 		assertEquals(toCompare, responseText);
 
 		// verifica il corretto utilizzo dei mock
 		verify(request).getSession(false);
+		verify(response).getWriter();
 		verify(session).getAttribute("username");
 		verify(dao.getUserData(username));
 		verify(user).getCalls();
-		verify(user).getName();
-		verify(user).getSurname();
+		verify(callee).getName();
+		verify(callee).getSurname();
 		verify(callList).getUser();
 		verify(callList).getCall();
-		verify(call).getStart();
 		verify(call).getStart();
 	}
 
 	/**
-	 *  TODO da documentare!
-	 *  
+	 * Verifica il comportamento della metodo doAction nel momento in cui
+	 * l'utente da cui proviene la richiesta non è presente nel database. Un
+	 * simile avvenimento viene simulato facendo in modo che il riferimento
+	 * ottenuto dal gestore di persistenza non sia valido. In questo caso il
+	 * test verifica che la stringa restituita sia effettivamente 'null' come
+	 * desiderato e che non avvenga alcuna interazione con i mock che
+	 * corrispondono all'utente, all'altro utente coinvolto nella chiamata, alla
+	 * CallList e alla chiamata stessa.
+	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
 	 */
@@ -150,22 +172,32 @@ public class GetCallsControllerTest {
 		assertEquals("null", responseText);
 
 		// verifica il corretto utilizzo dei mock
+		verify(response).getWriter();
 		verify(request).getSession(false);
 		verify(session).getAttribute("username");
 		verify(dao.getUserData(username));
+		verifyZeroInteractions(callee);
 		verifyZeroInteractions(user);
 		verifyZeroInteractions(callList);
 		verifyZeroInteractions(call);
 	}
-	
+
 	/**
-	 * TODO da documentare!
+	 * Verifica il comportamento del metodo doAction nel momento in cui viene
+	 * invocato con una richiesta proveniente da un utente il cui storico delle
+	 * chiamate relativo è vuoto. Il test in questo caso verifica che la stringa
+	 * stampata sulla risposta HTTP sia '[]', che corrisponde alla
+	 * rappresentazione in formato JSON di un array vuoto. È inoltre verificato
+	 * il corretto utilizzo dei mock, verificando che sia estratto l'utente dal
+	 * sistema di persistenza dei dati e che sia recuperata la lista (vuota) di
+	 * chiamate ad esso associata.
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
 	 */
 	@Test
 	public void testGetCallsEmptyList() throws Exception {
+		// sovrascrive quanto fatto nel setUp()
 		callListSet = new HashSet<ICallList>();
 
 		// invoca il metodo da testare
@@ -177,12 +209,12 @@ public class GetCallsControllerTest {
 		assertEquals("[]", responseText);
 
 		// verifica il corretto utilizzo dei mock
+		verify(response).getWriter();
 		verify(request).getSession(false);
 		verify(session).getAttribute("username");
 		verify(dao.getUserData(username));
 		verify(user).getCalls();
-		verify(user, never()).getName();
-		verify(user, never()).getSurname();
+		verifyZeroInteractions(callee);
 		verifyZeroInteractions(callList);
 		verifyZeroInteractions(call);
 	}
