@@ -11,6 +11,7 @@ function LoginPanelPresenter() {
     /***************************************************************************
      * VARIABILI PRIVATE
      **************************************************************************/
+    var thisPresenter = this;
 
     /***************************************************************************
      * METODI PRIVATI
@@ -273,9 +274,9 @@ function LoginPanelPresenter() {
         inputLogin.onclick = function() {
             try {
                 var data = new Object();
-                data.username = self.getUsername();
-                data.password = self.getPassword();
-                self.login(data);
+                data.username = thisPresenter.getUsername();
+                data.password = thisPresenter.getPassword();
+                thisPresenter.login(data);
             } catch (err) {
                 alert(err);
             }
@@ -284,14 +285,12 @@ function LoginPanelPresenter() {
         var inputRegister = document.getElementById("inputRegister");
         inputRegister.onclick = function() {
             document.dispatchEvent(showRegistrationPanel);
-            /*self.hide();
-            mediator.buildRegistrationUI();*/
         };
 
         var inputRetrievePassword = document.getElementById("inputRetrievePassword");
         inputRetrievePassword.onclick = function() {
             try {
-                var form = self.buildRetrievePasswordForm();
+                var form = thisPresenter.buildRetrievePasswordForm();
                 element.appendChild(form);
             } catch (err) {
                 alert(err);

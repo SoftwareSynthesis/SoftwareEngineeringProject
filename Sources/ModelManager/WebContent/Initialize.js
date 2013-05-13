@@ -14,7 +14,8 @@ window.onload = function() {
     // VARIABILI GLOBALI per cui i programmatori meritano il taglio delle dita
     mediator = new PresenterMediator();
     communicationcenter = new CommunicationCenter();
-    commandURL = "http://localhost:8080/MyTalk/CommandManager";
+    //commandURL = "http://localhost:8080/MyTalk/CommandManager";
+    commandURL = "http://localhost/webalizer/ModelManager/WebContent/conf/controllerManagerStub.php";
     // crea l'interfaccia di autenticazione
     mediator.buildLoginUI();
 };
