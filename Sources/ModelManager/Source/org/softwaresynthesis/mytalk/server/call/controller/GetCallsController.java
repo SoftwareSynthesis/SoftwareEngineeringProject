@@ -32,7 +32,7 @@ public class GetCallsController extends AbstractController{
 		
 		try
 		{
-			dao = super.getDAOFactory();
+			dao = getDAOFactory();
 			email = super.getUserMail();
 			user = dao.getUserData(email);
 			callsList = user.getCalls();

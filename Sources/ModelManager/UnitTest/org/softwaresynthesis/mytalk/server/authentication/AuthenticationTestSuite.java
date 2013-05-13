@@ -15,7 +15,8 @@ import org.softwaresynthesis.mytalk.server.authentication.security.AESEncodeTest
 		CredentialLoaderTest.class, NameLoaderTest.class,
 		PasswordLoaderTest.class, PrincipalImplTest.class,
 		LoginControllerTest.class, LogoutControllerTest.class,
-		QuestionControllerTest.class, RegisterControllerTest.class })
+		QuestionControllerTest.class, RegisterControllerTest.class,
+		AnswerControllerTest.class })
 public class AuthenticationTestSuite {
 
 }
