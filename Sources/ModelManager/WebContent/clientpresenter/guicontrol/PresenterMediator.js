@@ -70,31 +70,6 @@ function PresenterMediator() {
     };
 
     /**
-     * Visualizza l'interfaccia di autenticazione al sistema, che comprende il
-     * form di login (a.k.a. LoginPanel), chiamando in causa il {@link
-     * LoginPanelPresenter} per la sua costruzione
-     *
-     * @see LoginPanelPresenter#initialize()
-     * @author Diego Beraldin
-     */
-    this.buildLoginUI = function() {
-        this.getView("login");
-    };
-
-    /**
-     * Visualizza il form di registrazione (a.k.a. RegisterPanel) al sistema per
-     * gli utenti che devono creare un nuovo account, demandando al {@link
-     * RegisterPanelPresenter} il compito di creare il pannello per
-     * l'inserimento dei dati di registrazione
-     *
-     * @see RegisterPanelPresenter#initialize()
-     * @author Diego Beraldin
-     */
-    this.buildRegistrationUI = function() {
-        presenters["register"].initialize();
-    };
-
-    /**
      * Crea l'etichett che visualizza i dati dell'utente (se sono presenti) e in
      * ogni caso mostra l'email memorizzata nel sistema. La funzione è
      * utilizzata per generare la lista dei contatti
