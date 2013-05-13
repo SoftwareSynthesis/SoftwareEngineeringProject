@@ -107,6 +107,9 @@ public class AddContactControllerTest {
 		assertEquals("true", responseText);
 
 		// verifica il corretto utilizzo dei mock
+		verify(request).getSession(false);
+		verify(request.getParameter("contactId"));
+		verify(response).getWriter();
 		verify(dao).getUserData(friendId);
 		verify(dao).getUserData(username);
 		verify(dao, times(2)).insert(argument.capture());
@@ -145,9 +148,43 @@ public class AddContactControllerTest {
 		assertEquals("null", responseText);
 
 		// verifica il corretto utilizzo dei mock
+		verify(request).getSession(false);
+		verify(request.getParameter("contactId"));
+		verify(response).getWriter();
 		verify(dao).getUserData(friendId);
 		verify(dao, never()).getUserData(username);
 		verifyZeroInteractions(friend);
 		verify(dao, never()).insert(any(IAddressBookEntry.class));
+	}
+
+	/**
+	 * Verifica il comportamento della classe nel momento in cui il metodo
+	 * doAction è invocato passando come parametro una richiesta che non
+	 * contiene tutte le informazioni necessarie per portare a termine
+	 * l'operazione. Il test verifica che sia stampata sulla risposta la stringa
+	 * 'null' e che non sia effettuata alcuna operazione sul database.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testAddMissingData() throws Exception {
+		// richiesta con parametro mancante
+		when(request.getParameter("contactId")).thenReturn(null);
+
+		// invoca il metodo da testare
+		tester.doAction(request, response);
+
+		// verifica l'output ottenuto
+		writer.flush();
+		String responseText = writer.toString();
+		assertEquals("null", responseText);
+
+		// verifica il corretto utilizzo dei mock
+		verify(request).getSession(false);
+		verify(request.getParameter("contactId"));
+		verify(response).getWriter();
+		verifyZeroInteractions(dao);
+		verifyZeroInteractions(friend);
 	}
 }
