@@ -30,7 +30,7 @@ public class AddContactController extends AbstractController {
 		try
 		{
 			idUser = Long.parseLong(request.getParameter("contactId"));
-			dao = super.getDAOFactory();
+			dao = getDAOFactory();
 			friend = dao.getUserData(idUser);
 			myEntry = new AddressBookEntry();
 			frEntry = new AddressBookEntry();
