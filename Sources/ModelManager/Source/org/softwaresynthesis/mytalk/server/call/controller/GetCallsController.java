@@ -54,7 +54,10 @@ public class GetCallsController extends AbstractController{
 				}
 				result += "}]";
 			}
-			result = "[]";
+			else
+			{
+				result = "[]";
+			}
 		}
 		catch (Exception ex)
 		{
