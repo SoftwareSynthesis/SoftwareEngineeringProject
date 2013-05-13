@@ -957,14 +957,17 @@ Il test in questo caso verifica che sia eseguito il metodo \texttt{check} una vo
 \textbf{Verifica la Classe:} \texttt{ControllerManager}.\\
 \textbf{Descrizione}: l'obiettivo del test è controllare il corretto funzionamento della classe \texttt{ControllerManager}.
  
-Tale test si compone di tre metodi:
+Tale test si compone di quattro metodi:
  \begin{itemize}
  
-\item \texttt{testInit()}
+\item \texttt{testInit()} verifica la corretta inizializzazione della \inglese{servlet} e il fatto che, a inizializzazione avvenuta, sia possibile ottenere la mappa contenente i nomi dei \texttt{controller}. Il controllo avviene verificando che l'oggetto restituito non sia \textsl{null}, che esso non sia vuoto e infine che il numero di \texttt{controller} sia quello esatto.
 
-\item \texttt{testDoPost()} 
+\item \texttt{testDoPost()} verifica il comportamento della \inglese{servlet} nel momento in cui viene invocato il metodo \texttt{doPost}. In particoalare, si verifica che sia invocato il parametro \texttt{operation} dalla richiesta HTTP, e che sia invocato correttamente il metodo \texttt{execute} sul \texttt{controller} associato all'operazione passando a quest'ultimo la richiesta e la risposta con cui è invocato il metodo da testare. 
 
-\item \texttt{testDestroy()} 
+\item \texttt{testDestroy()} verifica il comportamento della classe nel momento in cui viene invocato il metodo \texttt{destroy()}. In particolare il test si assicura la variabile di istanza che memorizza la mappa che associa le operazioni ai nomi dei \texttt{controller} sia impostata a \texttt{null}.
+Il test avviene verificando che l'oggetto restituito sia \texttt{null}.
+%tTODO
+\item \texttt{testCreateWebSocket()} 
 
  \end{itemize}
 \textbf{Risultato del test:} superato con successo.
