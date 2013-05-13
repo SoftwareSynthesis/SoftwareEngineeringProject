@@ -673,11 +673,24 @@ function PresenterMediator() {
             alert("onLoadedView non gestita");
         }
     }
+    
+    /**
+     * Gestiore dell'evento che rimuove ogni pannello
+     * @author Riccardo Tresoldi
+     */
+    function onRemoveAllPanel(){
+        document.dispatchEvent(removeLoginPanel);
+        document.dispatchEvent(removeRegistrationPanel);
+        document.dispatchEvent(removeAddressBookPanel);
+    }
 
     /***************************************************************************
      * LISTNER DEGLI EVENTI
      **************************************************************************/
     document.addEventListener("loadedView", function(evt) {
         onLoadedView(evt.presenter, evt.view);
+    });
+    document.addEventListener("removeAllPanel", function(evt){
+       onRemoveAllPanel(); 
     });
 }

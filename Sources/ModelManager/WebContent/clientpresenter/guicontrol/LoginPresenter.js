@@ -24,7 +24,7 @@ function LoginPanelPresenter() {
      */
     function onShowLoginPanel() {
         //elimina eventuale GUI già visualizzata
-        document.dispatchEvent(removeRegistrationPanel);
+        document.dispatchEvent(removeAllPanel);
         mediator.getView('login');
     }
 
@@ -135,8 +135,8 @@ function LoginPanelPresenter() {
      * @author Riccardo Tresoldi
      */
     this.destroy = function() {
-        var thisPanelParent = thisPanel.parentElement;
-        thisPanelParent.removeChild(thisPanel);
+        var thisPanelParent = thisPanel.parentElement.parentElement;
+        thisPanelParent.removeChild(thisPanel.parentElement);
     };
 
     /**

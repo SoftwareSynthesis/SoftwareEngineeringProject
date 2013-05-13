@@ -6,8 +6,6 @@
  *
  * @constructor
  * @this {AddressBookPanelPresenter}
- * @param {String}
- *            url URL della servlet con cui il presenter deve comunicare
  * @author Marco Schivo
  * @author Riccardo Tresoldi
  * @author Diego Beraldin
@@ -16,8 +14,8 @@ function AddressBookPanelPresenter() {
     /***************************************************************************
      * VARIABILI PRIVATE
      **************************************************************************/
-    // elemento controllato da questo presenter
-    var element;
+    var thisPresenter = this;
+    var thisPanel;
     // array dei contatti della rubrica dell'utente
     var contacts = new Array();
     // array dei gruppi della rubrica
@@ -26,6 +24,26 @@ function AddressBookPanelPresenter() {
     /***************************************************************************
      * METODI PRIVATI
      **************************************************************************/
+    /**
+     * Funzione per gestire l'evento in cui viene visualizzato il pannello della
+     * rubrica indirizzi
+     * @author Riccardo Tresoldi
+     */
+    function onShowLoginPanel() {
+        //elimina eventuale GUI già visualizzata
+        document.dispatchEvent(allPanel);
+        mediator.getView('addressBook');
+    }
+
+    /**
+     * Funzione per gestire l'evento in cui viene rimosso il pannello della
+     * rubrica indirizzi
+     * @author Riccardo Tresoldi
+     */
+    function onRemoveLoginPanel() {
+        thisPresenter.destroy();
+    }
+
     /**
      * Recupera i contatti e i gruppi della propria rubrica dal server tramite
      * AJAX
@@ -50,7 +68,7 @@ function AddressBookPanelPresenter() {
     /**
      * Recupera l'indirizzo dell'immagine dello stato in base allo stato del
      * contatto passato come parametro
-     * 
+     *
      * @author Diego Beraldin
      * @param {Object} contact oggetto rappresentante il contatto
      */
@@ -190,10 +208,10 @@ function AddressBookPanelPresenter() {
         var self = this;
 
         // ottiene la propria vista
-        element = mediator.getView("AddressBookView");
+        thisPanel = mediator.getView("AddressBookView");
 
         // posiziona il pannello sulla pagina
-        document.body.appendChild(element);
+        document.body.appendChild(thisPanel);
 
         // configura il comportamento della vista
         var inputButton = document.getElementById("inputButton");
@@ -262,8 +280,8 @@ function AddressBookPanelPresenter() {
      * @author Diego Beraldin
      */
     this.hide = function() {
-        if (element) {
-            document.body.removeChild(element);
+        if (thisPanel) {
+            thisPanel.style.display = "none";
         }
     };
 
@@ -702,8 +720,16 @@ function AddressBookPanelPresenter() {
         groups = cont;
     };
 
-    /********GESTIONE EVENTI*******/
+    /***************************************************************************
+     * LISTNER DEGLI EVENTI
+     **************************************************************************/
     document.addEventListener("changeAddressBooksContactState", function(evt) {
         setStateToContact(evt.idUserChange, statusUserChange);
+    });
+    document.addEventListener("showAddressBookPanel", function(evt) {
+        onShowAddressBookPanel();
+    });
+    document.addEventListener("removeAddressBookPanel", function(evt) {
+        onRemoveAddressBookPanel();
     });
 }

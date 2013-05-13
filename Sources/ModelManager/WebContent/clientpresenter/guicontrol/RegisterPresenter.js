@@ -23,7 +23,7 @@ function RegisterPanelPresenter() {
      */
     function onShowRegistrationPanel() {
         // TODO elimina eventuale GUI già visualizzata
-        document.dispatchEvent(removeLoginPanel);
+        document.dispatchEvent(removeAllPanel);
         mediator.getView('register');
     }
 
@@ -44,8 +44,8 @@ function RegisterPanelPresenter() {
      * @author Riccardo Tresoldi
      */
     this.destroy = function() {
-        var thisPanelParent = thisPanel.parentElement;
-        thisPanelParent.removeChild(thisPanel);
+        var thisPanelParent = thisPanel.parentElement.parentElement;
+        thisPanelParent.removeChild(thisPanel.parentElement);
     };
 
     /**
@@ -239,8 +239,8 @@ function RegisterPanelPresenter() {
      * @author Diego Beraldin
      */
     this.hide = function() {
-        if (thisPresenter) {
-            thisPresenter.style.display = "none";
+        if (thisPanel) {
+            thisPanel.style.display = "none";
         }
     };
 

@@ -3,11 +3,14 @@ window.onload = function() {
     changeAddressBooksContactState = new CustomEvent("changeAddressBooksContactState");
     loadedView = new CustomEvent("loadedView");
     //eventi creazione pannelli
-    showRegistrationPanel = new CustomEvent("showRegistrationPanel");
     showLoginPanel = new CustomEvent("showLoginPanel");
+    showRegistrationPanel = new CustomEvent("showRegistrationPanel");
+    showAddressBookPanel = new CustomEvent("showAddressBookPanel");
     //eventi rimozione pannelli
-    removeRegistrationPanel = new CustomEvent("removeRegistrationPanel");
     removeLoginPanel = new CustomEvent("removeLoginPanel");
+    removeRegistrationPanel = new CustomEvent("removeRegistrationPanel");
+    removeAddressBookPanel = new CustomEvent("removeAddressBookPanel");
+    removeAllPanel = new CustomEvent("removeAllPanel");
 
     //Inizializzazione delle funzioni
     window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext || window.msAudioContext;
