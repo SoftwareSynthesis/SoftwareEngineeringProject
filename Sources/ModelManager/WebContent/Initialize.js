@@ -2,7 +2,12 @@ window.onload = function() {
     //CREAZIONI EVENTI PERSONALIZZATI
     changeAddressBooksContactState = new CustomEvent("changeAddressBooksContactState");
     loadedView = new CustomEvent("loadedView");
-    showRegistrationPanel =new CustomEvent("showRegistrationPanel");
+    //eventi creazione pannelli
+    showRegistrationPanel = new CustomEvent("showRegistrationPanel");
+    showLoginPanel = new CustomEvent("showLoginPanel");
+    //eventi rimozione pannelli
+    removeRegistrationPanel = new CustomEvent("removeRegistrationPanel");
+    removeLoginPanel = new CustomEvent("removeLoginPanel");
 
     //Inizializzazione delle funzioni
     window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext || window.msAudioContext;
@@ -15,6 +20,7 @@ window.onload = function() {
     mediator = new PresenterMediator();
     communicationcenter = new CommunicationCenter();
     //commandURL = "http://localhost:8080/MyTalk/CommandManager";
+    //FIXME DELETEME stub!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     commandURL = "http://localhost/webalizer/ModelManager/WebContent/conf/controllerManagerStub.php";
     // crea l'interfaccia di autenticazione
     mediator.buildLoginUI();
