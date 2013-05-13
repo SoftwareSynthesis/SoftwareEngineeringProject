@@ -280,7 +280,7 @@ function LoginPanelPresenter() {
      */
     this.hide = function() {
         if (thisPanel) {
-            document.body.removeChild(thisPanel);
+            thisPanel.style.display = "none";
         }
     };
 

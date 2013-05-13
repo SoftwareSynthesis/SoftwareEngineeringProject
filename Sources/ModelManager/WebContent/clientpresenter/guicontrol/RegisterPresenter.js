@@ -240,7 +240,7 @@ function RegisterPanelPresenter() {
      */
     this.hide = function() {
         if (thisPresenter) {
-            document.body.removeChild(thisPresenter);
+            thisPresenter.style.display = "none";
         }
     };
 

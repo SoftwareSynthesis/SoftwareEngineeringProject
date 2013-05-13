@@ -23,7 +23,9 @@ window.onload = function() {
     //FIXME DELETEME stub!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     commandURL = "http://localhost/webalizer/ModelManager/WebContent/conf/controllerManagerStub.php";
     // crea l'interfaccia di autenticazione
-    mediator.buildLoginUI();
+
+    //Creo la UI per il Login
+    document.dispatchEvent(showLoginPanel);
 };
 
 Object.size = function(obj) {

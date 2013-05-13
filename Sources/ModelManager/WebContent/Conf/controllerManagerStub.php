@@ -13,6 +13,10 @@ switch($operation) {
         $result["email"] = "mario.rossi@gmail.com";
         break;
 
+    case "question" :
+        $result = "Quale e' la risposta?";
+        break;
+
     default :
         $result = false;
         break;
