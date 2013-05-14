@@ -36,8 +36,8 @@ public class BlockContactController extends AbstractController{
 		try
 		{
 			idFriend = Long.parseLong(request.getParameter("contactId"));
-			dao = super.getDAOFactory();
-			email = super.getUserMail();
+			dao = getDAOFactory();
+			email = getUserMail();
 			myUser = dao.getUserData(email);
 			friend = dao.getUserData(idFriend);
 			if (friend != null){
