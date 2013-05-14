@@ -8,7 +8,7 @@ import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -27,7 +27,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
@@ -68,8 +67,6 @@ public class ControllerManagerTest {
 		writer = new StringWriter();
 		// inizializza il comportamento della risposta
 		when(response.getWriter()).thenReturn(new PrintWriter(writer));
-		// inizializza la mappa dei controller
-		tester.init(configuration);
 		// configura il comportamento del mock del controller
 		doAnswer(new Answer<Void>() {
 			@Override
@@ -86,7 +83,9 @@ public class ControllerManagerTest {
 		}).when(controller)
 				.execute(any(HttpServletRequest.class), eq(response));
 		// inizializza l'oggetto da testare
-		tester = mock(ControllerManager.class, Mockito.CALLS_REAL_METHODS);
+		tester = spy(new ControllerManager());
+		// inizializza la mappa dei controller
+		tester.init(configuration);
 	}
 
 	/**
