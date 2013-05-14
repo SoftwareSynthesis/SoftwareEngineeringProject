@@ -35,11 +35,11 @@ public class DeleteContactController extends AbstractController{
 		
 		try
 		{
-			dao = super.getDAOFactory();
-			email = super.getUserMail();
-			myUser = dao.getUserData(email);
+			dao = getDAOFactory();
+			email = getUserMail();
 			idFriend = Long.parseLong(request.getParameter("contactId"));
 			friend = dao.getUserData(idFriend);
+			myUser = dao.getUserData(email);
 			if (friend != null)
 			{
 				entrys = myUser.getAddressBook();
