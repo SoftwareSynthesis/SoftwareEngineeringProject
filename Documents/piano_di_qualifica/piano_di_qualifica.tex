@@ -1505,14 +1505,18 @@ La verifica si basa sul controllo della mancata esecuzione dei metodi \texttt{ro
 \item \texttt{testExecuteUnableToPerformQuery()}
 controlla il comportamento del metodo \texttt{execute} nel caso in cui al momento di effettuare la query dovesse verificarsi di un evento eccezionale. In particolare, il test assicura che non sia mai invocato il metodo \texttt{commit()} sulla transazione e che sia invece invocato il \texttt{rollback()}.Inoltre è garantito che durante l'esecuzione del metodo sia aperta una sessione di interazione con il database e che quest'ultima sia finalizzata in modo corretto. Infine, si controlla che non siano mai invocati i metodi sulla lista di chiamate che corrisponde alla query di ricerca con cui è invocato il metodo \texttt{execute}, dal momento che in fase di interrogazione del database avviene un errore.
 
-
-
-
-
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-
+\item \textbf{TM5.05: GetCallsControllerTest} 
+\textbf{Descrizione}: TODO: AGGIUNGERE DESCRIZIONE
+Tale test si compone di tre metodi:
+\begin{itemize}
+\item \texttt{testGetCallsCorrectUser()} verifica il comportamento del metodo \texttt{doAction} quando viene invocato da parte di un utente registrato al sistema e a cui è associata una lista di chiamate non vuota nel database del sistema. Il test verifica che l'output ottenuto corrisponda alla rappresentazione in formato JSON di un array enumerativo di oggetti che corrispondono alle chiamate, ognuna caratterizzata dal nome dell'altro utente coinvolto nella chiamata, dalla data di avvio e da un \inglese{flag} booleano che permette di distinguere le chiamate in ingresso dalle chiamate in uscita. Durante la verifica è inoltre controllato il corretto utilizzo dei \inglese{mock}, in particolare l'estrazione dei dati dal sistema di persistenza.\\
+\textbf{Verifica la Classe:} \texttt{GetCallsController}.\\
+\item \texttt{testGetCallsWrongUser()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui l'utente da cui proviene la richiesta non è presente nel database. Un simile avvenimento viene simulato facendo in modo che il riferimento ottenuto dal gestore di persistenza non sia valido. In questo caso il test verifica che la stringa restituita sia effettivamente \texttt{null} come desiderato e che non avvenga alcuna interazione con i \inglese{mock} che corrispondono all'utente, all'altro utente coinvolto nella chiamata, alla \textit{CallList} e alla chiamata stessa.
+\item \texttt{testGetCallsEmptyList()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui viene invocato con una richiesta proveniente da un utente il cui storico delle chiamate relativo è vuoto. Il test in questo caso verifica che la stringa stampata sulla risposta \texttt{HTTP} sia \texttt{[]}, che corrisponde alla rappresentazione in formato JSON di un array vuoto. È inoltre verificato il corretto utilizzo dei \texttt{mock}, verificando che sia estratto l'utente dal sistema di persistenza dei dati e che sia recuperata la lista (vuota) di chiamate ad esso associata.
+\end{itemize}
 
 
 \item \textbf{TM5.05: GetGroupUtilTest}\\
