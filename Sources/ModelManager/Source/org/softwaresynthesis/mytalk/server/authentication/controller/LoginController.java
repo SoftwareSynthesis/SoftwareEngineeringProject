@@ -2,15 +2,16 @@ package org.softwaresynthesis.mytalk.server.authentication.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import org.softwaresynthesis.mytalk.server.AbstractController;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
 import org.softwaresynthesis.mytalk.server.authentication.CredentialLoader;
-import org.softwaresynthesis.mytalk.server.authentication.security.AESAlgorithm;
 import org.softwaresynthesis.mytalk.server.authentication.security.ISecurityStrategy;
 import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
 
@@ -57,8 +58,8 @@ public class LoginController extends AbstractController
 		try
 		{
 			strategy = getSecurityStrategyFactory();
-			loader = this.loaderFactory(request, strategy);
-			context = this.contextFactory("Configuration", loader);
+			loader = this.getLoaderFactory(request, strategy);
+			context = this.getContextFactory("Configuration", loader);
 			context.login();
 			dao = getDAOFactory();
 			email = request.getParameter("username");
@@ -110,19 +111,6 @@ public class LoginController extends AbstractController
 	}
 	
 	/**
-	 * Metodo factory per la creazione dell'algoritmo
-	 * di crittografia usato durante la procedura di
-	 * login
-	 * 
-	 * @return	{@link ISecurityStrategy} algoritmo di
-	 * 			crittografia
-	 */
-	ISecurityStrategy strategyFactory()
-	{
-		return new AESAlgorithm();
-	}
-	
-	/**
 	 * Metodo factory per la creazione del caricatore
 	 * per le credenziali utente
 	 * 
@@ -131,7 +119,7 @@ public class LoginController extends AbstractController
 	 * @param 	strategy	{@link ISecurityStrategy} algoritmo di crittografia
 	 * @return
 	 */
-	CredentialLoader loaderFactory(HttpServletRequest request, ISecurityStrategy strategy)
+	CredentialLoader getLoaderFactory(HttpServletRequest request, ISecurityStrategy strategy)
 	{
 		return new CredentialLoader(request, strategy);
 	}
@@ -146,7 +134,7 @@ public class LoginController extends AbstractController
 	 * @throws 	LoginException	se non si riesce a configurare l'ambiente per
 	 * 							il login
 	 */
-	LoginContext contextFactory(String ruleName, CredentialLoader loader) throws LoginException
+	LoginContext getContextFactory(String ruleName, CredentialLoader loader) throws LoginException
 	{
 		return new LoginContext(ruleName, loader);
 	}

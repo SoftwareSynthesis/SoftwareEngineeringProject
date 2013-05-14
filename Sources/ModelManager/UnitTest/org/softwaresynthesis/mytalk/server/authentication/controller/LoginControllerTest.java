@@ -120,12 +120,12 @@ public class LoginControllerTest {
 			}
 
 			@Override
-			LoginContext contextFactory(String rule, CredentialLoader loader) {
+			LoginContext getContextFactory(String rule, CredentialLoader loader) {
 				return context;
 			}
 
 			@Override
-			CredentialLoader loaderFactory(HttpServletRequest request,
+			CredentialLoader getLoaderFactory(HttpServletRequest request,
 					ISecurityStrategy strategy) {
 				return loader;
 			}
