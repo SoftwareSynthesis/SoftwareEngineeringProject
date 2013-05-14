@@ -32,7 +32,7 @@ public class AddGroupController extends AbstractController {
 		{
 			name = request.getParameter("groupName");
 			dao = getDAOFactory();
-			myEmail = super.getUserMail();
+			myEmail = getUserMail();
 			myUser = dao.getUserData(myEmail);
 			group = new Group();
 			group.setName(name);

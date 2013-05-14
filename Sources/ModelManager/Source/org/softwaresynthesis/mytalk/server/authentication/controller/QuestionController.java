@@ -26,7 +26,7 @@ public class QuestionController extends AbstractController
 	protected void doAction(HttpServletRequest request,	HttpServletResponse response) throws IOException 
 	{
 		DataPersistanceManager dao = getDAOFactory();
-		String mail = super.getUserMail();
+		String mail = request.getParameter("username");
 		IUserData user = dao.getUserData(mail);
 		String question = user.getQuestion();
 		PrintWriter writer = response.getWriter();

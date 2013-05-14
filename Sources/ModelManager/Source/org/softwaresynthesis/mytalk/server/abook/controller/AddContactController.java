@@ -34,7 +34,7 @@ public class AddContactController extends AbstractController {
 			friend = dao.getUserData(idUser);
 			myEntry = new AddressBookEntry();
 			frEntry = new AddressBookEntry();
-			myEmail = super.getUserMail();
+			myEmail = getUserMail();
 			myUser = dao.getUserData(myEmail);
 			
 			myEntry.setContact(friend);

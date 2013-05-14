@@ -3,7 +3,6 @@ package org.softwaresynthesis.mytalk.server.abook.controller;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -16,7 +15,6 @@ import java.io.Writer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -30,6 +28,7 @@ import org.softwaresynthesis.mytalk.server.abook.IUserData;
 import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
 
 /**
+ * Verifica della classe {@link AddContactController}
  * 
  * @author Diego Beraldin
  * @version 2.0
@@ -40,8 +39,6 @@ public class AddContactControllerTest {
 	private final Long friendId = 1L;
 	private Writer writer;
 	private AddContactController tester;
-	@Mock
-	private HttpSession session;
 	@Mock
 	private HttpServletRequest request;
 	@Mock
@@ -67,10 +64,7 @@ public class AddContactControllerTest {
 		// configura il comportamento della risposta
 		writer = new StringWriter();
 		when(response.getWriter()).thenReturn(new PrintWriter(writer));
-		// configura il comportamento della sessione
-		when(session.getAttribute("username")).thenReturn(username);
 		// configura il comportamento della richiesta
-		when(request.getSession(anyBoolean())).thenReturn(session);
 		when(request.getParameter("contactId")).thenReturn(friendId.toString());
 		// configura il comportamento del gestore di persistenza
 		when(dao.getUserData(username)).thenReturn(user);
@@ -80,6 +74,11 @@ public class AddContactControllerTest {
 			@Override
 			protected DataPersistanceManager getDAOFactory() {
 				return dao;
+			}
+
+			@Override
+			protected String getUserMail() {
+				return username;
 			}
 		};
 	}
@@ -107,8 +106,7 @@ public class AddContactControllerTest {
 		assertEquals("true", responseText);
 
 		// verifica il corretto utilizzo dei mock
-		verify(request).getSession(false);
-		verify(request.getParameter("contactId"));
+		verify(request).getParameter("contactId");
 		verify(response).getWriter();
 		verify(dao).getUserData(friendId);
 		verify(dao).getUserData(username);
@@ -117,10 +115,10 @@ public class AddContactControllerTest {
 		IAddressBookEntry userEntry = argument.getAllValues().get(1);
 		assertFalse(friendEntry.getBlocked());
 		assertFalse(userEntry.getBlocked());
-		assertEquals(user, friendEntry.getContact());
-		assertEquals(friend, userEntry.getContact());
-		assertEquals(user, userEntry.getOwner());
-		assertEquals(friend, friendEntry.getOwner());
+		assertEquals(friend, friendEntry.getContact());
+		assertEquals(user, userEntry.getContact());
+		assertEquals(friend, userEntry.getOwner());
+		assertEquals(user, friendEntry.getOwner());
 	}
 
 	/**
@@ -148,8 +146,7 @@ public class AddContactControllerTest {
 		assertEquals("null", responseText);
 
 		// verifica il corretto utilizzo dei mock
-		verify(request).getSession(false);
-		verify(request.getParameter("contactId"));
+		verify(request).getParameter("contactId");
 		verify(response).getWriter();
 		verify(dao).getUserData(friendId);
 		verify(dao, never()).getUserData(username);
@@ -181,8 +178,7 @@ public class AddContactControllerTest {
 		assertEquals("null", responseText);
 
 		// verifica il corretto utilizzo dei mock
-		verify(request).getSession(false);
-		verify(request.getParameter("contactId"));
+		verify(request).getParameter("contactId");
 		verify(response).getWriter();
 		verifyZeroInteractions(dao);
 		verifyZeroInteractions(friend);

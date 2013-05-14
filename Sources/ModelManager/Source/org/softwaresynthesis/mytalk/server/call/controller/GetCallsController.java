@@ -33,7 +33,7 @@ public class GetCallsController extends AbstractController{
 		try
 		{
 			dao = getDAOFactory();
-			email = super.getUserMail();
+			email = getUserMail();
 			user = dao.getUserData(email);
 			callsList = user.getCalls();
 			if (callsList != null){
@@ -47,12 +47,13 @@ public class GetCallsController extends AbstractController{
 					result += "\"name\":\"" + callList.getUser().getName() + " " + callList.getUser().getSurname() + "\"";
 					result += ", \"start\":\"" + callList.getCall().getStart() + "\"";
 					result += ", \"caller\":\"" + callList.getCaller() + "\"";
+					result += "}";
 					if (callListIter.hasNext() == true)
 					{
-						result += "},";
+						result += ", ";
 					}
 				}
-				result += "}]";
+				result += "]";
 			}
 			else
 			{

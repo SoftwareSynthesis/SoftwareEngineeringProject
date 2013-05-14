@@ -38,7 +38,7 @@ public class AnswerController extends AbstractController
 	{
 		DataPersistanceManager dao = getDAOFactory();
 		ISecurityStrategy strategy = getSecurityStrategyFactory();
-		String mail = super.getUserMail();
+		String mail = request.getParameter("username");
 		String answer = request.getParameter("answer");
 		String result = null;
 		String password = null;

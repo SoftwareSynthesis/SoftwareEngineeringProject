@@ -2,7 +2,6 @@ package org.softwaresynthesis.mytalk.server.abook.controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
@@ -13,7 +12,6 @@ import java.io.Writer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -46,8 +44,6 @@ public class AddGroupControllerTest {
 	@Mock
 	private HttpServletResponse response;
 	@Mock
-	private HttpSession session;
-	@Mock
 	private IUserData user;
 	@Captor
 	private ArgumentCaptor<IGroup> argument;
@@ -63,10 +59,7 @@ public class AddGroupControllerTest {
 	public void setUp() throws Exception {
 		// comportamento del gestore della persistenza dei dati
 		when(dao.getUserData(username)).thenReturn(user);
-		// comportamento della sessione
-		when(session.getAttribute("username")).thenReturn(username);
 		// configura il comportamento della richiesta
-		when(request.getSession(anyBoolean())).thenReturn(session);
 		when(request.getParameter("groupName")).thenReturn(groupName);
 		// configura il comportamento della risposta
 		writer = new StringWriter();
@@ -77,6 +70,11 @@ public class AddGroupControllerTest {
 			@Override
 			protected DataPersistanceManager getDAOFactory() {
 				return dao;
+			}
+			
+			@Override
+			protected String getUserMail() {
+				return username;
 			}
 		};
 	}
@@ -108,7 +106,6 @@ public class AddGroupControllerTest {
 		verify(response).getWriter();
 		verify(request).getSession(false);
 		verify(request).getParameter("groupName");
-		verify(session).getAttribute("username");
 		verify(dao).getUserData(username);
 		verify(dao).insert(argument.capture());
 		IGroup group = argument.getValue();
@@ -136,7 +133,6 @@ public class AddGroupControllerTest {
 
 		// verifica il corretto utilizzo dei mock
 		verify(request).getSession(false);
-		verify(session).getAttribute("username");
 		verify(request).getParameter("groupName");
 		verify(response).getWriter();
 		verify(dao).getUserData(username);
@@ -164,7 +160,6 @@ public class AddGroupControllerTest {
 
 		// verifica il corretto utilizzo dei mock
 		verify(request).getSession(false);
-		verify(session).getAttribute("username");
 		verify(request).getParameter("groupName");
 		verify(response).getWriter();
 		verifyZeroInteractions(dao);

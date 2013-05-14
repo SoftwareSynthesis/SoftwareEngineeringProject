@@ -132,7 +132,7 @@ public class AnswerControllerTest {
 		// verifica l'output
 		writer.flush();
 		String responseText = writer.toString();
-		assertEquals(answer, responseText);
+		assertEquals("true", responseText);
 
 		// verifica il corretto utilizzo dei mock
 		verify(dao).getUserData(username);

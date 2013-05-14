@@ -1,7 +1,7 @@
 package org.softwaresynthesis.mytalk.server.abook.controller;
 
-import static org.mockito.Mockito.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -9,7 +9,6 @@ import java.io.Writer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -37,8 +36,6 @@ public class AddInGroupControllerTest {
 	private Writer writer;
 	private AddInGroupController tester;
 	@Mock
-	private HttpSession session;
-	@Mock
 	private HttpServletRequest request;
 	@Mock
 	private HttpServletResponse response;
@@ -64,10 +61,7 @@ public class AddInGroupControllerTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		// configura la sessione
-		when(session.getAttribute("username")).thenReturn(username);
 		// configura la richiesta
-		when(request.getSession(anyBoolean())).thenReturn(session);
 		when(request.getParameter("contactId"))
 				.thenReturn(contactId.toString());
 		when(request.getParameter("groupId")).thenReturn(groupId.toString());

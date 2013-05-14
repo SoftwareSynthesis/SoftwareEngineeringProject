@@ -1,8 +1,8 @@
 package org.softwaresynthesis.mytalk.server.call.controller;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
@@ -16,7 +16,6 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -45,8 +44,6 @@ public class GetCallsControllerTest {
 	private Date startDate = new Date(1368437034437L);
 	Set<ICallList> callListSet;
 	@Mock
-	private HttpSession session;
-	@Mock
 	private HttpServletRequest request;
 	@Mock
 	private HttpServletResponse response;
@@ -73,7 +70,7 @@ public class GetCallsControllerTest {
 	@Before
 	public void setUp() throws Exception {
 		// configura il comportamento della CallList
-		when(callList.getUser()).thenReturn(caller);
+		when(callList.getUser()).thenReturn(callee);
 		when(callList.getCall()).thenReturn(call);
 		when(callList.getCaller()).thenReturn(isCaller);
 		// aggiunge la callList all'insieme di CallList
@@ -86,10 +83,6 @@ public class GetCallsControllerTest {
 		when(callee.getSurname()).thenReturn(calleeSurname);
 		// configura il comportamento della chiamata
 		when(call.getStart()).thenReturn(startDate);
-		// configura il comprotamento della sessione
-		when(session.getAttribute("username")).thenReturn(username);
-		// configura il comportamento della richiesta
-		when(request.getSession(anyBoolean())).thenReturn(session);
 		// configura il comportamento del gestore di persistenza
 		when(dao.getUserData(username)).thenReturn(user);
 		// configura il comportamento della risposta
@@ -100,6 +93,11 @@ public class GetCallsControllerTest {
 			@Override
 			protected DataPersistanceManager getDAOFactory() {
 				return dao;
+			}
+
+			@Override
+			protected String getUserMail() {
+				return username;
 			}
 		};
 	}
@@ -128,19 +126,17 @@ public class GetCallsControllerTest {
 		writer.flush();
 		String responseText = writer.toString();
 		String toCompare = String.format(
-				"[{\"name\": \"%s %s\", \"start\":\"%s\", \"caller\":\"%s\"}]",
+				"[{\"name\":\"%s %s\", \"start\":\"%s\", \"caller\":\"%s\"}]",
 				calleeName, calleeSurname, startDate, isCaller);
 		assertEquals(toCompare, responseText);
 
 		// verifica il corretto utilizzo dei mock
-		verify(request).getSession(false);
 		verify(response).getWriter();
-		verify(session).getAttribute("username");
-		verify(dao.getUserData(username));
+		verify(dao).getUserData(username);
 		verify(user).getCalls();
 		verify(callee).getName();
 		verify(callee).getSurname();
-		verify(callList).getUser();
+		verify(callList, times(2)).getUser();
 		verify(callList).getCall();
 		verify(call).getStart();
 	}
@@ -173,9 +169,7 @@ public class GetCallsControllerTest {
 
 		// verifica il corretto utilizzo dei mock
 		verify(response).getWriter();
-		verify(request).getSession(false);
-		verify(session).getAttribute("username");
-		verify(dao.getUserData(username));
+		verify(dao).getUserData(username);
 		verifyZeroInteractions(callee);
 		verifyZeroInteractions(user);
 		verifyZeroInteractions(callList);
@@ -199,6 +193,7 @@ public class GetCallsControllerTest {
 	public void testGetCallsEmptyList() throws Exception {
 		// sovrascrive quanto fatto nel setUp()
 		callListSet = new HashSet<ICallList>();
+		when(user.getCalls()).thenReturn(callListSet);
 
 		// invoca il metodo da testare
 		tester.doAction(request, response);
@@ -210,9 +205,7 @@ public class GetCallsControllerTest {
 
 		// verifica il corretto utilizzo dei mock
 		verify(response).getWriter();
-		verify(request).getSession(false);
-		verify(session).getAttribute("username");
-		verify(dao.getUserData(username));
+		verify(dao).getUserData(username);
 		verify(user).getCalls();
 		verifyZeroInteractions(callee);
 		verifyZeroInteractions(callList);
