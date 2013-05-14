@@ -1,6 +1,11 @@
 package org.softwaresynthesis.mytalk.server.abook.controller;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 import java.io.PrintWriter;
@@ -17,6 +22,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.softwaresynthesis.mytalk.server.IMyTalkObject;
 import org.softwaresynthesis.mytalk.server.abook.IAddressBookEntry;
 import org.softwaresynthesis.mytalk.server.abook.IGroup;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
@@ -78,11 +84,24 @@ public class AddInGroupControllerTest {
 			protected DataPersistanceManager getDAOFactory() {
 				return dao;
 			}
+
+			@Override
+			protected String getUserMail() {
+				return username;
+			}
 		};
 	}
 
 	/**
-	 * TODO da terminare!
+	 * Verifica il comportamento del metodo doAction nel momento in cui è
+	 * invocato con una richiesta proveniente da un utente autenticato e che
+	 * contiene tutti i parametri necessari per portare a termine con successo
+	 * l'operazione. In particolare, il test verifica che la stringa stampata
+	 * sulla risposta HTTP sia, come desiderato, 'true', nonché che nel database
+	 * siano effettuate le operazioni corrette vale a dire l'inserimento di una
+	 * nuova AddressBookEntry (con i campi Owner, Contact e Blocked impostati in
+	 * maniera corretta) e che sia effettuata un'operazione di update per
+	 * l'utente possessore della rubrica che viene aggiornata.
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
@@ -98,16 +117,39 @@ public class AddInGroupControllerTest {
 		assertEquals("true", responseText);
 
 		// verifica il corretto utilizzo dei mock
+		verify(response).getWriter();
+		verify(request).getParameter("contactId");
+		verify(request).getParameter("groupId");
+		verify(dao).getUserData(username);
+		verify(dao).getUserData(contactId);
+		verify(dao).getGroup(groupId);
+		verify(user).addAddressBookEntry(argEntry.capture());
+		IAddressBookEntry entry = argEntry.getValue();
+		assertFalse(entry.getBlocked());
+		assertEquals(user, entry.getOwner());
+		assertEquals(contact, entry.getContact());
+		assertEquals(group, entry.getGroup());
+		verify(dao).insert(entry);
+		verify(dao).update(user);
 	}
 
 	/**
-	 * TODO da terminare!
+	 * Verifica il comportamento della classe nel momento in cui il metodo
+	 * doAction è invocato con il parametro 'contactId' che non corrisponde ad
+	 * alcuno degli utenti che sono presenti nella base di dati. Il test
+	 * verifica che la stringa stampata nel testo della risposta HTTP
+	 * corrisponda alla stringa 'null', come desiderato. Inoltre, è verificato
+	 * che non siano MAI effettuate operazioni di inserimento e di aggiornamento
+	 * nella base di dati.
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
 	 */
 	@Test
 	public void testAddNotExistContact() throws Exception {
+		// impedisce di recuperare il contatto dal database
+		when(dao.getUserData(contactId)).thenReturn(null);
+
 		// invoca il metodo da testare
 		tester.doAction(request, response);
 
@@ -117,16 +159,35 @@ public class AddInGroupControllerTest {
 		assertEquals("null", responseText);
 
 		// verifica il corretto utilizzo dei mock
+		verify(response).getWriter();
+		verify(request).getParameter("contactId");
+		verify(request).getParameter("groupId");
+		verify(dao).getUserData(username);
+		verify(dao).getUserData(contactId);
+		verify(dao).getGroup(groupId);
+		verify(dao, never()).insert(any(IMyTalkObject.class));
+		verify(dao, never()).update(any(IMyTalkObject.class));
+		verifyZeroInteractions(contact);
+		verifyZeroInteractions(user);
 	}
 
 	/**
-	 * TODO da terminare!
+	 * Verifica il comportamento della classe nel momento in cui il metodo
+	 * doAction è invocato con il parametro 'groupId' che non corrisponde ad
+	 * alcuno degli utenti che sono presenti nella base di dati. Il test
+	 * verifica che la stringa stampata nel testo della risposta HTTP
+	 * corrisponda alla stringa 'null', come desiderato. Inoltre, è verificato
+	 * che non siano MAI effettuate operazioni di inserimento e di aggiornamento
+	 * nella base di dati.
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
 	 */
 	@Test
 	public void testAddNotExistGroup() throws Exception {
+		// impedisce di recuperare il gruppo dal database
+		when(dao.getGroup(groupId)).thenReturn(null);
+
 		// invoca il metodo da testare
 		tester.doAction(request, response);
 
@@ -136,16 +197,34 @@ public class AddInGroupControllerTest {
 		assertEquals("null", responseText);
 
 		// verifica il corretto utilizzo dei mock
+		verify(response).getWriter();
+		verify(request).getParameter("contactId");
+		verify(request).getParameter("groupId");
+		verify(dao).getUserData(username);
+		verify(dao).getUserData(contactId);
+		verify(dao).getGroup(groupId);
+		verifyZeroInteractions(user);
+		verify(dao, never()).insert(any(IMyTalkObject.class));
+		verify(dao, never()).update(any(IMyTalkObject.class));
+		verifyZeroInteractions(contact);
 	}
 
 	/**
-	 * TODO da terminare!
+	 * Verifica il comportamento della classe nel momento in cui l'operazione
+	 * richiesta corrisponde all'inserimento di un contatto in un gruppo che non
+	 * è di proprietà dell'utente da cui proviene la richiesta. Il test verifica
+	 * che in questo caso il testo stampato nella risposta sia, come desiderato,
+	 * la stringa 'null' e che non sia effettuata alcuna operazione di
+	 * aggiornamento dei dati dell'utente che ha richiesto l'inserimento.
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
 	 */
 	@Test
 	public void testAddNotOwnedGroup() throws Exception {
+		// impedisce l'inserimento (errore determinato dal trigger)
+		when(dao.insert(any(IAddressBookEntry.class))).thenReturn(false);
+
 		// invoca il metodo da testare
 		tester.doAction(request, response);
 
@@ -155,10 +234,28 @@ public class AddInGroupControllerTest {
 		assertEquals("null", responseText);
 
 		// verifica il corretto utilizzo dei mock
+		verify(response).getWriter();
+		verify(request).getParameter("contactId");
+		verify(request).getParameter("groupId");
+		verify(dao).getUserData(username);
+		verify(dao).getUserData(contactId);
+		verify(dao).getGroup(groupId);
+		verify(user).addAddressBookEntry(argEntry.capture());
+		IAddressBookEntry entry = argEntry.getValue();
+		verify(dao).insert(entry);
+		verifyZeroInteractions(user);
+		verify(dao, never()).update(any(IMyTalkObject.class));
+		verifyZeroInteractions(contact);
 	}
 
 	/**
-	 * TODO da terminare!
+	 * Verifica il comportamento della classe nel momento in cui il metodo
+	 * doAction è invocato con una richiesta HTTP che non contiene tutti i
+	 * parametri necessari per portare a termine con successo l'operazione, in
+	 * particolare nel caso in cui non è presente il parametro 'contactId'. Il
+	 * test controlla, in particolare, che la il testo stampato nella risposta
+	 * corrisponda, come atteso, alla stringa 'null' e che non sia effettuata
+	 * ALCUNA operazione sul gestore della persistenza dei dati.
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
@@ -177,10 +274,22 @@ public class AddInGroupControllerTest {
 		assertEquals("null", responseText);
 
 		// verifica il corretto utilizzo dei mock
+		verify(response).getWriter();
+		verify(request).getParameter("contactId");
+		verify(request, never()).getParameter("groupId");
+		verifyZeroInteractions(dao);
+		verifyZeroInteractions(user);
+		verifyZeroInteractions(contact);
 	}
 
 	/**
-	 * TODO da terminare!
+	 * Verifica il comportamento della classe nel momento in cui il metodo
+	 * doAction è invocato con una richiesta HTTP che non contiene tutti i
+	 * parametri necessari per portare a termine con successo l'operazione, in
+	 * particolare nel caso in cui non è presente il parametro 'groupId'. Il
+	 * test controlla, in particolare, che la il testo stampato nella risposta
+	 * corrisponda, come atteso, alla stringa 'null' e che non sia effettuata
+	 * ALCUNA operazione sul gestore della persistenza dei dati.
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
@@ -188,7 +297,7 @@ public class AddInGroupControllerTest {
 	@Test
 	public void testAddWrongGroup() throws Exception {
 		// parametro mancante
-		when(request.getParameter("contactId")).thenReturn(null);
+		when(request.getParameter("groupId")).thenReturn(null);
 
 		// invoca il metodo da testare
 		tester.doAction(request, response);
@@ -199,5 +308,11 @@ public class AddInGroupControllerTest {
 		assertEquals("null", responseText);
 
 		// verifica il corretto utilizzo dei mock
+		verify(response).getWriter();
+		verify(request).getParameter("contactId");
+		verify(request).getParameter("groupId");
+		verifyZeroInteractions(dao);
+		verifyZeroInteractions(user);
+		verifyZeroInteractions(contact);
 	}
 }

@@ -37,7 +37,7 @@ public class AddInGroupController extends AbstractController{
 			dao = getDAOFactory();
 			contactId = Long.parseLong(request.getParameter("contactId"));
 			groupId = Long.parseLong(request.getParameter("groupId"));
-			email = super.getUserMail();
+			email = getUserMail();
 			myUser = dao.getUserData(email);
 			friend = dao.getUserData(contactId);
 			group = dao.getGroup(groupId);
