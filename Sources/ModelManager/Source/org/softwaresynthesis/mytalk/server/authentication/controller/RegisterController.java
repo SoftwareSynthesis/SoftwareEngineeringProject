@@ -4,13 +4,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+
 import org.softwaresynthesis.mytalk.server.AbstractController;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
 import org.softwaresynthesis.mytalk.server.abook.UserData;
-import org.softwaresynthesis.mytalk.server.authentication.security.AESAlgorithm;
 import org.softwaresynthesis.mytalk.server.authentication.security.ISecurityStrategy;
 import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
 
@@ -113,31 +114,6 @@ public class RegisterController extends AbstractController
 	protected boolean check(HttpServletRequest request)
 	{
 		return true;
-	}
-	
-	/**
-	 * Metodo factory per la creazione dell'algoritmo
-	 * di crittografia usato durante la procedura di
-	 * login
-	 * 
-	 * @return	{@link ISecurityStrategy} algoritmo di
-	 * 			crittografia
-	 */
-	ISecurityStrategy strategyFactory()
-	{
-		return new AESAlgorithm();
-	}
-	
-	/**
-	 * Metodo factory per la creazione del punto di
-	 * accesso verso il database
-	 * 
-	 * @return 	{@link DataPersistanceManager} punto di accesso
-	 * 			verso il database
-	 */
-	DataPersistanceManager DAOFactory()
-	{
-		return new DataPersistanceManager();
 	}
 	
 	/**
