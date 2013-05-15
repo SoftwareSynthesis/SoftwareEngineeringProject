@@ -1,6 +1,12 @@
 package org.softwaresynthesis.mytalk.server.abook.controller;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.when;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -14,16 +20,18 @@ import javax.servlet.http.HttpServletResponse;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.softwaresynthesis.mytalk.server.abook.IAddressBookEntry;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
 import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
 
-import static org.mockito.Mockito.*;
-
+/**
+ * Verifica della classe {@link DeleteContactController}
+ * 
+ * @author Diego Beraldin
+ * @version 2.0
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class DeleteContactControllerTest {
 	private final Long contactId = 1L;
@@ -46,11 +54,14 @@ public class DeleteContactControllerTest {
 	private IAddressBookEntry userEntry;
 	@Mock
 	private IAddressBookEntry contactEntry;
-	@Captor
-	private ArgumentCaptor<IAddressBookEntry> argEntry;
-	@Captor
-	private ArgumentCaptor<IUserData> argUser;
 
+	/**
+	 * Configura il comportamento dei mock condivisi e inizializza l'oggetto da
+	 * testare prima di ognuna delle verifiche contenute in questo caso di test.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
 	@Before
 	public void setUp() throws Exception {
 		// comportamento del contatto e rubrica
@@ -87,6 +98,19 @@ public class DeleteContactControllerTest {
 	}
 
 	/**
+	 * Verifica il comportamento del metodo doAction nel momento in cui è
+	 * invocato con una richiesta che contiene tutti i parametri necessari per
+	 * portare a termine l'operazione di cancellazione. Il test verifica che il
+	 * testo stampato sulla risposta sia, come atteso, la stringa 'true', che
+	 * sia estratta dalla base di dati la rubrica di entrambi gli utenti
+	 * coinvolti nell'operazione e che da ognuna delle voci della rubrica sia
+	 * estratto il contatto per effettuare le operazioni di confronto. Inoltre
+	 * il test verifica che sia invocato il metodo removeAddressBookEntr sugli
+	 * utenti e che in seguito siano aggiornati gli oggetti tramite il gestore
+	 * della persistenza dei dati, e che quest'ultimo sia utilizzato infine per
+	 * la cancellazione delle voci di rubrica corrispondenti alla richiesta di
+	 * eliminazione ricevuta dal controller.
+	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
 	 */
@@ -94,12 +118,12 @@ public class DeleteContactControllerTest {
 	public void testDeleteCorrectUser() throws Exception {
 		// invoca il metodo da testare
 		tester.doAction(request, response);
-		
+
 		// verifica l'output
 		writer.flush();
 		String responseText = writer.toString();
 		assertEquals("true", responseText);
-		
+
 		// verifica il corretto utilizzo dei mock
 		verify(response).getWriter();
 		verify(request).getParameter("contactId");
@@ -116,6 +140,14 @@ public class DeleteContactControllerTest {
 	}
 
 	/**
+	 * Verifica il comportamento del metodo doAction nel momento in cui è
+	 * invocato con una richiesta contenente un parametro 'contactId' che non
+	 * corrisponde all'identificativo di alcuno degli utenti registrati nel
+	 * sistema. Il test verifica che in questo caso il testo stampato sulla
+	 * risposta HTTP corrisponda, come desiderato dal client, alla stringa
+	 * 'null' e che non siano mai effettuate operazioni di aggiornamento degli
+	 * utenti né cancellazioni di voci di rubrica.
+	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
 	 */
@@ -123,15 +155,15 @@ public class DeleteContactControllerTest {
 	public void testDeleteNotExistContact() throws Exception {
 		// impedisce il recupero
 		when(dao.getUserData(contactId)).thenReturn(null);
-		
+
 		// invoca il metodo da testare
 		tester.doAction(request, response);
-		
+
 		// verifica l'output
 		writer.flush();
 		String responseText = writer.toString();
 		assertEquals("null", responseText);
-		
+
 		// verifica il corretto utilizzo dei mock
 		verify(response).getWriter();
 		verify(request).getParameter("contactId");
@@ -142,27 +174,66 @@ public class DeleteContactControllerTest {
 		verifyZeroInteractions(contactEntry);
 		verifyZeroInteractions(userEntry);
 		verify(dao, never()).delete(any(IAddressBookEntry.class));
+		verify(dao, never()).update(user);
+		verify(dao, never()).update(contact);
 	}
-	
+
 	/**
+	 * Verifica il comportamento del metodo doAction nel momento in cui il
+	 * 'contactId' contenuto come parametro nella richiesta non corrisponde ad
+	 * un contatto che appartiene alla rubrica dell'utente. In questo caso il
+	 * test verifica che sulla risposta sia stampata la stringa 'null', come
+	 * desiderato in caso di errore e che non sia effettuata alcuna operazione
+	 * di aggiornamento e di cancellazione dalla base di dati.
+	 * 
+	 * FIXME il test non passa, il controller non fa alcun danno ma siamo sicuri
+	 * di volere la stringa 'null' anche in questo caso?
+	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
 	 */
 	@Test
 	public void testDeleteNotFriendContact() throws Exception {
+		// toglie il contact dalla rubrica dell'user e viceversa
+		IUserData other = mock(IUserData.class);
+		when(userEntry.getContact()).thenReturn(other);
+		when(contactEntry.getContact()).thenReturn(other);
+
 		// invoca il metodo da testare
 		tester.doAction(request, response);
-		
+
 		// verifica l'output
 		writer.flush();
 		String responseText = writer.toString();
 		assertEquals("null", responseText);
-		
+
 		// verifica il corretto utilizzo dei mock
-		fail("Non ho tempo di farlo!");
+		verify(response).getWriter();
+		verify(request).getParameter("contactId");
+		verify(dao).getUserData(username);
+		verify(dao).getUserData(contactId);
+		verify(user).getAddressBook();
+		verify(contact).getAddressBook();
+		verify(userEntry).getContact();
+		verify(contactEntry).getContact();
+		verify(user, never()).removeAddressBookEntry(
+				any(IAddressBookEntry.class));
+		verify(contact, never()).removeAddressBookEntry(
+				any(IAddressBookEntry.class));
+		verify(dao, never()).delete(any(IAddressBookEntry.class));
+		verify(dao, never()).update(any(IUserData.class));
 	}
-	
+
 	/**
+	 * Verifica il comportamento del metodo doAction nel momento in cui la
+	 * richiesta HTTP che gli viene passata come parametro non contiene tutti i
+	 * dati necessari al completamento con successo dell'operazione di
+	 * cancellazione dalla rubrica degli utenti. Il test verifica che sulla
+	 * risposta sia effettivamente stampata la stringa 'null', che denota il
+	 * verificarsi di un errore nel server, e che non sia effettuata ALCUNA
+	 * operazione (né di estrazione, né di cancellazione, né di aggiornamento)
+	 * sulla base di dati.
+	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
 	 */
@@ -170,15 +241,15 @@ public class DeleteContactControllerTest {
 	public void testDeleteWrongData() throws Exception {
 		// impedice recupero del parametro dalla richiesta
 		when(request.getParameter("contactId")).thenReturn(null);
-		
+
 		// invoca il metodo da testare
 		tester.doAction(request, response);
-		
+
 		// verifica l'output
 		writer.flush();
 		String responseText = writer.toString();
 		assertEquals("null", responseText);
-		
+
 		// verifica il corretto utilizzo dei mock
 		verify(response).getWriter();
 		verify(request).getParameter("contactId");
