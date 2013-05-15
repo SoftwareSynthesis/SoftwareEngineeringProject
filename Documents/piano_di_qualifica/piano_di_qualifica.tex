@@ -1256,8 +1256,8 @@ Il controllo avviene verificando l'oggetto eliminato non sia presenti nella list
 
 \subsubsection{\texttt{org.softwaresinthesis.mytalk.server.abook.controller}}
 \begin{itemize}
-\item \textbf{TM4.01: AddressBookDoAddContactServletTest}\\
 
+\item \textbf{TM4.01: AddressBookDoAddContactServletTest}\\
 
 \textbf{Verifica l'oggetto:} \texttt{AddressBookDoAddContactServlet}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di aggiungere un contatto \texttt{IUserData} all'interno di una rubrica utente.
@@ -1340,15 +1340,16 @@ Tale test si compone di quattro metodi:
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{TM4.07: AddressBookDoBlockServletTest}\\
-\textbf{Verifica l'oggetto:} \texttt{AddressBookDoBlockServlet}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di bloccare un contatto all'interno di una rubrica utente. La possibilità di richiamare \texttt{AddressBookDoAddContactServlet} prende come precondizione l'autenticazione dell'utente richiedente e quindi l'effettiva esistenza della sua rubrica.
+\item \textbf{TM4.07: BlockContactControllerTest}\\
+\textbf{Verifica l'oggetto:} \texttt{BlockContactController}.\\
+\textbf{Descrizione}:TODO: DA DESCRIVERE
 
-I possibili \inglese{input} riguardano dati passati mediante \texttt{XMLhttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IUserData} realmente esistente) o non (campi dati vuoti, o che comunque non corrispondono a nessun utente realmente registrato al sistema).
 \begin{itemize}
-\item \texttt{testBlockCorrectContact()} verifica l'avvenuto blocco del contatto precisato, nella rubrica del richiedente, a partire da dati corretti (realmente apparteneneti all'utente da bloccare).
-\item \texttt{testBlockNotExistsContact()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di bloccare un utente non registrato nel sistema.
-\item \texttt{testWrongData()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di bloccare un utente \texttt{IUserData} definito da dati non completi (campi dati vuoti) parzialmente o nella loro totalità.
+\item \texttt{testBlockCorrectContact()} verifica il comportamento del metodo \texttt{doAction} del controller esso va a buon fine perchè invocato con una richiesta che contiene al suo interno tutti i dati necessari a portare a termine l'operazione. In particolare il test verifica che il testo stampato sulla risposta HTTP corrisponda alla stringa \texttt{true} e che sia utilizzato in maniera corretta il sistema di persistenza per recuperare i dati e per aggiornare la voce della rubrica impostando il campo \texttt{Blocked} a \texttt{true} dell'utente che ha inviato la richiesta al \textit{controller}.
+
+\item \texttt{testBlockNotExistsContact()} verifica il comportamento della classe nel momento in cui viene invocato il metodo \texttt{doAction} con una richiesta contenente un parametro \texttt{contactId} che non corrisponde ad alcuno degli utenti del sistema memorizzati nella base dati. In particolare il test verifica che il testo stampato sulla risposta sia la stringa \texttt{null}, come desiderato, e che non sia effettuata alcuna operazione di aggiornamento delle voci di rubrica presenti nel database.
+
+\item \texttt{testWrongData()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui la richiesta HTTP con cui viene invocato non contiene tutti i dati necessari per portare a termine con successo l'operazione, in particolare perché non è possibile individuare univocamente il contatto da bloccare. Il test verifica che in una simile situazione il testo di risposta sia, come desiderato, la stringa \texttt{null} e che non sia effettuata alcuna operazione ne sul sistema di persistenza ne sui \textit{mock} degli utenti messi a disposizione in questo test.
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
@@ -1451,6 +1452,27 @@ Tale test si compone di diciannove metodi:
 \item \texttt{testGetUserDataGeneric()} verifica il comportamento della classe nel momento in cui si tenta di recuperare i dati di un utente a partire da una stringa contenuta nei suoi campi dati. In particolare, il test assicura che il risultato sia uguale alle attese (in base a come è stato configurato il \inglese{mock} di \texttt{GetUserDataUtil}, verificando quindi il corretto utilizzo del \inglese{mock} stesso). In particolare tale test verifica che sia eseguita esattamente la query impostata nella variabile 'query' e il fatto che dalla collezione di oggetti ritornata dalla \texttt{execute()} del \texttt{GetUtil} sia estratto il primo elemento e non sia \textit{mai} invocato \texttt{get} con argomenti superiori allo zero, che la lista sia scorsa solo se non è vuota e che la \texttt{UtilFactory} sia utilizzata per procurarsi la corretta istanza di \texttt{GetUtil}.
 
 \end{itemize} 
+\textbf{Risultato del test:} superato con successo.
+
+%TODO: NON TROVAVO QUELLO DA SOSTITUIRE, SCRITTO NUOVO, EVENTUALMENTE CANCELLARE IL VECCHIO TEST
+\item \textbf{TM5.02: AddInGroupControllerTest}\\
+\textbf{Verifica la Classe:} \texttt{AddInGroupController}.\\
+\textbf{Descrizione}: %TODO: DA DESCRIVERE
+Tale test si compone di due metodi: 
+\begin{itemize}
+\item \texttt{testAddCorrectContact()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui è invocato con una richiesta proveniente da un utente autenticato e che contiene tutti i parametri necessari per portare a termine con successo l'operazione. In particolare, il test verifica che la stringa stampata sulla risposta HTTP sia, come desiderato, \texttt{true}, nonchè che nel database siano effettuate le operazioni corretta, ovvero che l'inserimento di una nuova AddressBookEntry (con i campi \texttt{Owner}, \texttt{Contact} e \texttt{Blocked} impostati in maniera corretta) e che sia effettuata un'operazione di update per l'utente possessore della rubrica che viene aggiornata.
+
+\item \texttt{testAddNotExistContact()} verifica il comportamento della classe nel momento in cui il metodo \texttt{doAction} è invocato con il parametro \texttt{contactId} che non corrisponde ad alcuno degli utenti che sono presenti nella base di dati. Il test verifica che la stringa stampata nel testo della risposta HTTP corrisponda alla stringa \texttt{null}, come desiderato. Inoltre, è verificato che non siano \textit{mai} effettuate operazioni di inserimento e di aggiornamento della base di dati.
+
+\item \texttt{testAddNotExistGroup()} verifica il comportamento della classe nel momento in cui il metodo \texttt{doAction} è invocato con il parametro \texttt{groupId} che non corrisponde ad alcuno degli utenti che sono presenti nella base di dati. Il test verifica che la stringa stampata nel testo della risposta HTTP corrisponda alla stringa \texttt{null}, come desiderato. Inoltre, è verificato che non siano \textit{mai} effettuate operazioni di inserimento e di aggiornamento della base di dati.
+
+\item \texttt{testAddNotOwnedGroup()} verifica il comportamento della classe nel momento in cui l'operazione richiesta corrisponde all'inserimento di un contatto in un gruppo che non è di proprietà dell'utente da cui proviene la richiesta. Il test verifica che in questo caso il testo stampato nella risposta sia, come desiderato, la stringa \texttt{null} e che non sia effettuata alcuna operazione di aggiornamento dei dati dell'utente che ha richiesto l'inserimento.
+
+\item \texttt{testAddWrongUserData()} verifica il comportamento della classe nel momento in cui il metodo \texttt{doAction} è invocato con una richiesta HTTP che non contiene tutti i parametri necessari per portare a termine con successo l'operazione, in particolare nel caso in cui non è presente il paramentro \texttt{contactId}. Il test controlla, in particolare, che il testo stampato nella risposta corrisponda, come atteso, alla stringa \texttt{null} e che non sia effettuata alcuna operazione sul gestore della persistenza dei dati.
+
+\item \texttt{testAddWrongGrup()} } verifica il comportamento della classe nel momento in cui il metodo \texttt{doAction} è invocato con una richiesta HTTP che non contiene tutti i parametri necessari per portare a termine con successo l'operazione, in particolare nel caso in cui non è presente il paramentro \texttt{groupId}. Il test controlla, in particolare, che il testo stampato nella risposta corrisponda, come atteso, alla stringa \texttt{null} e che non sia effettuata alcuna operazione sul gestore della persistenza dei dati.
+
+\end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
 
