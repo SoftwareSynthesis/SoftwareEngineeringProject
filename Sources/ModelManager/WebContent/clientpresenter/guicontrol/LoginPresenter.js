@@ -52,7 +52,7 @@ function LoginPanelPresenter() {
             // 'communicationcenter' deve essere una variabile globale
             communicationcenter.my = user;
             communicationcenter.connect();
-            mediator.buildUI();
+            document.dispatchEvent(showUIPanels);
         } else {
             //funzione che setta la grafica per tornare l'errore nel login
             errorLogin();

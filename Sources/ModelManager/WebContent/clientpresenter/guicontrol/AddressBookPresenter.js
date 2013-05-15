@@ -29,9 +29,7 @@ function AddressBookPanelPresenter() {
      * rubrica indirizzi
      * @author Riccardo Tresoldi
      */
-    function onShowLoginPanel() {
-        //elimina eventuale GUI già visualizzata
-        document.dispatchEvent(allPanel);
+    function onShowAddressBookPanel() {
         mediator.getView('addressBook');
     }
 
@@ -40,7 +38,7 @@ function AddressBookPanelPresenter() {
      * rubrica indirizzi
      * @author Riccardo Tresoldi
      */
-    function onRemoveLoginPanel() {
+    function onRemoveAddressBookPanel() {
         thisPresenter.destroy();
     }
 
@@ -198,35 +196,41 @@ function AddressBookPanelPresenter() {
     /***************************************************************************
      * METODI PUBBLICI
      **************************************************************************/
+    /** VIEW
+     * Distruttore del pannello
+     * @author Riccardo Tresoldi
+     */
+    this.destroy = function() {
+        var thisPanelParent = thisPanel.parentElement.parentElement;
+        thisPanelParent.removeChild(thisPanel.parentElement);
+    };
+    
     /**
      * Inizializza 'AddressBookPanel' e lo popola con i contatti della rubrica
      *
      * @author Riccardo Tresoldi
      * @author Diego Beraldin
      */
-    this.initialize = function() {
-        var self = this;
-
-        // ottiene la propria vista
-        thisPanel = mediator.getView("AddressBookView");
-
+    this.initialize = function(view) {
         // posiziona il pannello sulla pagina
-        document.body.appendChild(thisPanel);
+        var dummyDiv = document.createElement("div");
+        document.body.insertBefore(dummyDiv, document.getElementsByTagName("footer")[0]);
+        dummyDiv.innerHTML = view.outerHTML;
 
         // configura il comportamento della vista
         var inputButton = document.getElementById("inputButton");
         inputButton.onclick = function() {
             var serchField = inputText.value;
-            var filtredContacts = self.applyFilterByString(serchField);
-            self.showFilter(filtredContacts);
+            var filtredContacts = thisPresenter.applyFilterByString(serchField);
+            thisPresenter.showFilter(filtredContacts);
         };
 
         var selectGroup = document.getElementById("selectGroup");
         selectGroup.onchange = function() {
             var idGroupSelected = selectGroup.options[selectGroup.selectedIndex].value;
-            var filtredContacts = self.applyFilterByGroup(idGroupSelected);
+            var filtredContacts = thisPresenter.applyFilterByGroup(idGroupSelected);
             var isWhitelist = groups[idGroupSelected].name == "addrBookEntry";
-            self.showFilter(filtredContacts, isWhitelist);
+            thisPresenter.showFilter(filtredContacts, isWhitelist);
         };
 
         // visualizza i contatti nel pannello
@@ -542,7 +546,6 @@ function AddressBookPanelPresenter() {
             var closeImg = document.createElement("img");
             //TODO da impostare questo valore
             closeImg.src = "";
-            var self = this;
             closeImg.onclick = function() {
                 // elimina il filtraggio
                 // FIXME sento puzza di ricorsione (indiretta)!
@@ -553,7 +556,7 @@ function AddressBookPanelPresenter() {
                         break;
                     }
                 }
-                self.applyFilterByGroup(idWhitelist);
+                thisPresenter.applyFilterByGroup(idWhitelist);
             };
             liFilter.appendChild(closeImg);
             ulList.appendChild(liFilter);

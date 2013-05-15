@@ -5,12 +5,13 @@ window.onload = function() {
     //eventi creazione pannelli
     showLoginPanel = new CustomEvent("showLoginPanel");
     showRegistrationPanel = new CustomEvent("showRegistrationPanel");
+    showUIPanels = new CustomEvent("showUIPanels");
     showAddressBookPanel = new CustomEvent("showAddressBookPanel");
     //eventi rimozione pannelli
+    removeAllPanel = new CustomEvent("removeAllPanel");
     removeLoginPanel = new CustomEvent("removeLoginPanel");
     removeRegistrationPanel = new CustomEvent("removeRegistrationPanel");
     removeAddressBookPanel = new CustomEvent("removeAddressBookPanel");
-    removeAllPanel = new CustomEvent("removeAllPanel");
 
     //Inizializzazione delle funzioni
     window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext || window.msAudioContext;

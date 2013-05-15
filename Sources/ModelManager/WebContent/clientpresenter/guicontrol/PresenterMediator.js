@@ -28,7 +28,7 @@ function PresenterMediator() {
     var presenters = new Array();
     presenters["login"] = new LoginPanelPresenter();
     presenters["register"] = new RegisterPanelPresenter();
-    presenters["addressbook"] = new AddressBookPanelPresenter();
+    presenters["addressBook"] = new AddressBookPanelPresenter();
     presenters["tools"] = new ToolsPanelPresenter();
     presenters["main"] = new MainPanelPresenter();
 
@@ -53,22 +53,6 @@ function PresenterMediator() {
     /***************************************************************************
      * METODI PUBBLICI
      **************************************************************************/
-
-    /**
-     * Inizializza l'interfaccia grafica delegando ai presenter il compito di
-     * disegnare gli elementi principali dell'interfaccia, incaricando i
-     * presenter di primo livello di creare e popolare i rispettivi pannelli
-     *
-     * @author Diego Beraldin
-     */
-    this.buildUI = function() {
-        presenters["register"].hide();
-        presenters["login"].hide();
-        presenters["addressbook"].initialize();
-        presenters["main"].initialize();
-        presenters["tools"].initialize();
-    };
-
     /**
      * Crea l'etichett che visualizza i dati dell'utente (se sono presenti) e in
      * ogni caso mostra l'email memorizzata nel sistema. La funzione è
@@ -673,16 +657,29 @@ function PresenterMediator() {
             alert("onLoadedView non gestita");
         }
     }
-    
+
     /**
      * Gestiore dell'evento che rimuove ogni pannello
      * @author Riccardo Tresoldi
      */
-    function onRemoveAllPanel(){
+    function onRemoveAllPanel() {
         document.dispatchEvent(removeLoginPanel);
         document.dispatchEvent(removeRegistrationPanel);
         document.dispatchEvent(removeAddressBookPanel);
     }
+
+    /**
+     * Gestisce l'evento che richiama la costruzione dell'interfaccia grafica
+     * dell'applicativo, dopo l'avvenuto login
+     *
+     * @author Riccardo Tresoldi
+     */
+    function onShowUIPanels() {
+        document.dispatchEvent(removeAllPanel);
+        document.dispatchEvent(showAddressBookPanel);
+        // TODO mainPannel
+        // TODO toolsPannel
+    };
 
     /***************************************************************************
      * LISTNER DEGLI EVENTI
@@ -690,7 +687,10 @@ function PresenterMediator() {
     document.addEventListener("loadedView", function(evt) {
         onLoadedView(evt.presenter, evt.view);
     });
-    document.addEventListener("removeAllPanel", function(evt){
-       onRemoveAllPanel(); 
+    document.addEventListener("removeAllPanel", function(evt) {
+        onRemoveAllPanel();
+    });
+    document.addEventListener("showUIPanels", function(evt) {
+        onShowUIPanels();
     });
 }
