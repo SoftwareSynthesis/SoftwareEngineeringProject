@@ -14,9 +14,27 @@ function ContactPanelPresenter() {
      * VARIABILI PRIVATE
      **************************************************************************/
     var currentContact = null;
+    var thisPresenter = this;
+    
     /***************************************************************************
      * METODI PRIVATI
      **************************************************************************/
+    /**
+     * Funzione per gestire l'evento in cui viene visualizzato il pannello del contatto
+     * @author Riccardo Tresoldi
+     */
+    function onShowContactPanel() {
+        mediator.getView('contact');
+    }
+
+    /**
+     * Funzione per gestire l'evento in cui viene rimosso il pannello del contatto
+     * @author Riccardo Tresoldi
+     */
+    function onRemoveContactPanel() {
+        //FIXME thisPresenter.destroy();
+    }
+    
     /**
      * Funzione che controlla se il contatto passato come parametro è bloccato o
      * no sistemando la vista in modo da lasciare consistente la visualizzazione
@@ -99,20 +117,9 @@ function ContactPanelPresenter() {
         }
     }
 
-    /***************METODI PUBBLICI********************/
-    /**
-     * Inizializza il pannello che mostra le informazioni dei contatti della
-     * rubrica, quando ne viene selezionato uno dal pannello della rubrica
-     *
-     * @returns {HTMLDivElement} pannello 'ContactPanel' costruito
-     * @author Elena Zecchinato
-     */
-    this.createPanel = function() {
-        // ottiene un riferimento alla vista
-        var element = mediator.getView("ContactView");
-        return element;
-    };
-
+    /***************************************************************************
+     * METODI PUBBLICI
+     **************************************************************************/
     /**
      * Visualizza un contatto nel pannello principale popolando il contenuto dei
      * <li> del pannello oppure impostando il percorso dell'immagine. NOTA PER I
@@ -183,11 +190,13 @@ function ContactPanelPresenter() {
         }
     };
 
-    /********GESTIONE EVENTI*******/
-    //gestisco l'evento di cambio stato
+    /***************************************************************************
+     * LISTNER DEGLI EVENTI
+     **************************************************************************/
     document.addEventListener("changeAddressBooksContactState", function(evt) {
         if (currentContact.id == evt.idUserChange)
             adjustGUIOnContactState(currentContact);
     });
+    
     //FIXME sistemare gestione evento utente bloccato
 }
