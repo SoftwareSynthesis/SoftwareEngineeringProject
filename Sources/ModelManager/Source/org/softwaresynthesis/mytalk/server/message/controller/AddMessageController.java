@@ -6,12 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
+import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
@@ -35,7 +30,6 @@ public class AddMessageController extends AbstractController{
 		DataPersistanceManager dao = null;
 		String result = null;
 		PrintWriter writer = null;
-		GenerateFileName file = null;
 		String sender = null;
 		Long receiver = null;
 		InputStream inputStream = null;
@@ -46,8 +40,6 @@ public class AddMessageController extends AbstractController{
 		IUserData send = null;
 		IUserData rec = null;
 		IMessage message = null;
-		GregorianCalendar gc = null;
-		String data = null;
 		
 		try
 		{
@@ -62,26 +54,17 @@ public class AddMessageController extends AbstractController{
 			
 			separator = System.getProperty("file.separator");
 			path = "Secretariat" + separator;
-			file = new GenerateFileName();
-			path += file.next().toString() + ".wav";
+			path += dao.getMessageNewKey() + ".wav";
 			out = new FileOutputStream(path);
 			out.write(IOUtils.readFully(inputStream, -1, false));
 			out.close();
 			send = dao.getUserData(sender);
 			rec = dao.getUserData(receiver);
 			message = new Message();
-			message.setId(file.next());
+			message.setId(dao.getMessageNewKey());
 			message.setSender(send);
 			message.setReceiver(rec);
-			
-			gc = new GregorianCalendar();
-			int day = gc.get(Calendar.DAY_OF_MONTH);
-			int month = gc.get(Calendar.MONTH);
-			int year = gc.get(Calendar.YEAR);
-			data = "" + year + "-" + month + "-" + day;
-			/* FIXME da sistemare la data
-			message.setDate(data);
-			*/
+			message.setDate(new Date());
 			dao.insert(message);
 			
 			result = "true";

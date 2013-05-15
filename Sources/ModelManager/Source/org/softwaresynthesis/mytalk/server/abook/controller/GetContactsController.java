@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.softwaresynthesis.mytalk.server.AbstractController;
+import org.softwaresynthesis.mytalk.server.ControllerManager;
 import org.softwaresynthesis.mytalk.server.abook.IAddressBookEntry;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
 import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
@@ -44,7 +45,7 @@ public class GetContactsController extends AbstractController{
 			while(iterator.hasNext() == true)
 			{
 				entry = iterator.next();
-				//Se gruppo == null, allora il contatto non è in un gruppo
+				//Se gruppo == null, allora il contatto non ï¿½ in un gruppo
 				if (entry.getGroup() == null){
 					if (first == false)
 					{
@@ -58,7 +59,7 @@ public class GetContactsController extends AbstractController{
 					result += ", \"email\":\"" + friend.getMail() + "\"";
 					result += ", \"id\":\"" + friend.getId() + "\"";
 					result += ", \"picturePath\":\"" + friend.getPath() + "\"";
-					result += ", \"state\":\"" + ChannelServlet.getState(friend.getId()) + "\"";
+					result += ", \"state\":\"" + ControllerManager.getState(friend.getId()) + "\"";
 					result += ", \"blocked\":" + entry.getBlocked() + "}";
 				}
 			}

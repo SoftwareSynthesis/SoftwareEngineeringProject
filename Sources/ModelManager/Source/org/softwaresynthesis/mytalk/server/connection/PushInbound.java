@@ -9,9 +9,10 @@ import java.util.Set;
 import org.apache.catalina.websocket.MessageInbound;
 import com.google.gson.*;
 
+import org.softwaresynthesis.mytalk.server.ControllerManager;
 import org.softwaresynthesis.mytalk.server.abook.IAddressBookEntry;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
-import org.softwaresynthesis.mytalk.server.dao.UserDataDAO;
+import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
 
 public class PushInbound extends MessageInbound {
 
@@ -50,34 +51,34 @@ public class PushInbound extends MessageInbound {
 		if(type.equals("1")){
 			Long value = gson.fromJson(array.get(1), Long.class);
 			setId(value);
-			ChannelServlet.putClient(id, this);
+			ControllerManager.putClient(id, this);
 		}
 		//scambio dati per chiamata
 		else if (type.equals("2")){
 			Long client = gson.fromJson(array.get(1), Long.class);
-			PushInbound sendTo= ChannelServlet.findClient(client);
+			PushInbound sendTo= ControllerManager.findClient(client);
 			String msg = "2|" + gson.fromJson(array.get(2), String.class);
 			sendTo.getWsOutbound().writeTextMessage(CharBuffer.wrap(msg));
 		}
 		//manda mio id al chiamato
 		else if (type.equals("3")){
 			Long client = gson.fromJson(array.get(1), Long.class);
-			PushInbound sendTo= ChannelServlet.findClient(client);
+			PushInbound sendTo= ControllerManager.findClient(client);
 			String msg = "3|" + id;
 			sendTo.getWsOutbound().writeTextMessage(CharBuffer.wrap(msg));
 		}
 		//disconnessione ed eliminazione canale
 		else if (type.equals("4")){
 			Long client = gson.fromJson(array.get(1), Long.class);
-			PushInbound remove= ChannelServlet.findClient(client);
-			ChannelServlet.removeClient(remove);
+			PushInbound remove= ControllerManager.findClient(client);
+			ControllerManager.removeClient(remove);
 		}
 		//notifica cambio stato ad utenti della rubrica
 		//array[1]={available|||offline||occupied} per stato
 		else if (type.equals("5")){
-			UserDataDAO database= new UserDataDAO();
+			DataPersistanceManager database= new DataPersistanceManager();
 			String status= gson.fromJson(array.get(1), String.class);
-			IUserData utente= database.getByID(this.id);
+			IUserData utente= database.getUserData(this.id);
 			if(status.equals("available")){setState(State.AVAILABLE);}					
 			if(status.equals("occupied")){setState(State.OCCUPIED);}
 			
@@ -88,12 +89,12 @@ public class PushInbound extends MessageInbound {
 			{
 				IAddressBookEntry entry = (IAddressBookEntry)iter.next();
 				Long idFriend=entry.getContact().getId();
-				PushInbound sendTo= ChannelServlet.findClient(idFriend);
+				PushInbound sendTo= ControllerManager.findClient(idFriend);
 				String msg = "5|" + id + "|" + state;
 				sendTo.getWsOutbound().writeTextMessage(CharBuffer.wrap(msg));
 			}
 		}
-		else if (type.equals("6"){
+		else if (type.equals("6")){
 			String msg = "6|";
 			this.getWsOutbound().writeTextMessage(CharBuffer.wrap(msg));
 		}
