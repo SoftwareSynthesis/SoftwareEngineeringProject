@@ -545,7 +545,7 @@ function AddressBookPanelPresenter() {
         var ulList = document.getElementById("AddressBookList");
         ulList.innerHTML = "";
 
-        if (isDefaultGroup) {
+        if (!isDefaultGroup) {
             // etichetta per filtraggio
             var liFilter = document.createElement("li");
             liFilter.id = "filterLabel";
