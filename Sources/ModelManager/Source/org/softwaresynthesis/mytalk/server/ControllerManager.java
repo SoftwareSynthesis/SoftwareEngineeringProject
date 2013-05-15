@@ -2,7 +2,9 @@ package org.softwaresynthesis.mytalk.server;
 
 import java.io.IOException;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
@@ -11,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.catalina.websocket.StreamInbound;
 import org.apache.catalina.websocket.WebSocketServlet;
+import org.softwaresynthesis.mytalk.server.connection.PushInbound;
+import org.softwaresynthesis.mytalk.server.connection.PushInbound.State;
 
 /**
  * Rappresenta il punto di accesso alle operazioni
@@ -22,7 +26,7 @@ import org.apache.catalina.websocket.WebSocketServlet;
 public class ControllerManager extends WebSocketServlet implements Servlet 
 {
 	private static final long serialVersionUID = 10001L;
-	
+	static Map<Long, PushInbound> clients= new HashMap<Long, PushInbound>();
 	private Hashtable<String, String> controllers;
 	
 	/**
@@ -100,9 +104,73 @@ public class ControllerManager extends WebSocketServlet implements Servlet
 	@Override
 	protected StreamInbound createWebSocketInbound(String arg0, HttpServletRequest arg1) 
 	{
-		// TODO Auto-generated method stub
-		return null;
+		PushInbound channelClient = new PushInbound();
+		channelClient.setState(State.AVAILABLE);
+	    return channelClient;
 	}
+	
+	/**
+	 * Inserisce un client dato l'identificativo nella HashMap
+	 * 
+	 * @param 	n		{@link Long} identificativo del canale
+	 * @param	c		{@link PushInbound} oggetto PushInbound
+	 */
+	public static void putClient(Long n, PushInbound c){
+		clients.put(n, c);
+	}
+	
+	
+	/**
+	 * Ricerca una connessione client dato l'identificativo
+	 * 
+	 * @param 	n		{@link Long} identificativo del canale
+	 */
+	public static PushInbound findClient(Long n){
+		PushInbound client= clients.get(n);
+		if(client != null)
+			return client;
+		else
+			return null;
+	}
+	
+	/**
+	 * Rimuove una connessione client
+	 * 
+	 * @param 	c		{@link PushInbound} canale da rimuovere
+	 */
+	public static void removeClient(PushInbound c){
+		for (Long key : clients.keySet()) {
+			if (clients.get(key)==c) {
+				clients.remove(key) ;
+			}
+		}
+	}
+
+	/**
+	 * Restituisce lo stato di un utente
+	 * 
+	 * @param 	identifier	{@link Long} identificatore
+	 * 						dello {@link org.softwaresynthesis.mytalk.server.abook.IUserData}
+	 * @return	{@link String} con lo stato
+	 */
+	public static String getState(Long identifier)
+	{
+		PushInbound ps = null;
+		State state = null;
+		String result = null;
+		ps = clients.get(identifier);
+		if (ps != null)
+		{
+			state = ps.getState();
+			result = state.toString().toLowerCase();
+		}
+		else
+		{
+			result = "offline";
+		}
+		return result;
+	}
+	
 	
 	/**
 	 * Risponde alla richiesta giunta dal client in
