@@ -6,11 +6,15 @@ $result = array();
 /* Suddivido i vari casi */
 switch($operation) {
     case "login" :
-        $result["name"] = "Mario";
-        $result["surname"] = "Rossi";
-        $result["picturePath"] = "default.png";
-        $result["id"] = 2;
-        $result["email"] = "mario.rossi@gmail.com";
+        if ($_REQUEST["username"]=="pr@va.com" & $_REQUEST["password"]=="p") {
+            $result["name"] = "Mario";
+            $result["surname"] = "Rossi";
+            $result["picturePath"] = "default.png";
+            $result["id"] = 2;
+            $result["email"] = "mario.rossi@gmail.com";
+        } else {
+            $result = null;
+        }
         break;
 
     case "question" :
@@ -18,7 +22,7 @@ switch($operation) {
         break;
 
     default :
-        $result = false;
+        $result = null;
         break;
 }
 
