@@ -37,6 +37,7 @@ public class SearchController extends AbstractController
 		try
 		{
 			parameter = request.getParameter("param");
+			dao = getDAOFactory();
 			resultSet = dao.getUserDatas(parameter, parameter, parameter);
 			iterator = resultSet.iterator();
 			result = "{";

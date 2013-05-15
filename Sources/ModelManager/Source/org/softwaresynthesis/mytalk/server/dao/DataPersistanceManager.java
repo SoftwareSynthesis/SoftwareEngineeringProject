@@ -1,7 +1,5 @@
 package org.softwaresynthesis.mytalk.server.dao;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import org.softwaresynthesis.mytalk.server.IMyTalkObject;
 import org.softwaresynthesis.mytalk.server.abook.IAddressBookEntry;
