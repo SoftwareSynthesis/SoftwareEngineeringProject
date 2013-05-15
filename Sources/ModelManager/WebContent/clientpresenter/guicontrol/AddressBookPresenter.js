@@ -204,7 +204,7 @@ function AddressBookPanelPresenter() {
         var thisPanelParent = thisPanel.parentElement.parentElement;
         thisPanelParent.removeChild(thisPanel.parentElement);
     };
-    
+
     /**
      * Inizializza 'AddressBookPanel' e lo popola con i contatti della rubrica
      *
@@ -216,6 +216,9 @@ function AddressBookPanelPresenter() {
         var dummyDiv = document.createElement("div");
         document.body.insertBefore(dummyDiv, document.getElementsByTagName("footer")[0]);
         dummyDiv.innerHTML = view.outerHTML;
+
+        //salvo un riferimento all'elemento DOM appena creato
+        thisPanel = document.getElementById("AddressBookPanel");
 
         // configura il comportamento della vista
         var inputButton = document.getElementById("inputButton");

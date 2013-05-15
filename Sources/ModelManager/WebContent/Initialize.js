@@ -7,11 +7,13 @@ window.onload = function() {
     showRegistrationPanel = new CustomEvent("showRegistrationPanel");
     showUIPanels = new CustomEvent("showUIPanels");
     showAddressBookPanel = new CustomEvent("showAddressBookPanel");
+    showToolsPanel = new CustomEvent("showToolsPanel");
     //eventi rimozione pannelli
     removeAllPanel = new CustomEvent("removeAllPanel");
     removeLoginPanel = new CustomEvent("removeLoginPanel");
     removeRegistrationPanel = new CustomEvent("removeRegistrationPanel");
     removeAddressBookPanel = new CustomEvent("removeAddressBookPanel");
+    removeToolsPanel = new CustomEvent("removeToolsPanel");
 
     //Inizializzazione delle funzioni
     window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext || window.msAudioContext;
