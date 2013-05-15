@@ -2,13 +2,11 @@ package org.softwaresynthesis.mytalk.server.dao;
 
 import java.util.List;
 import org.softwaresynthesis.mytalk.server.IMyTalkObject;
-import org.softwaresynthesis.mytalk.server.abook.IAddressBookEntry;
 import org.softwaresynthesis.mytalk.server.abook.IGroup;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
 import org.softwaresynthesis.mytalk.server.dao.util.GetUtil;
 import org.softwaresynthesis.mytalk.server.dao.util.ModifyUtil;
 import org.softwaresynthesis.mytalk.server.dao.util.UtilFactory;
-import org.softwaresynthesis.mytalk.server.call.ICall;
 import org.softwaresynthesis.mytalk.server.message.IMessage;
 
 /**
@@ -94,69 +92,109 @@ public class DataPersistanceManager
 	}
 	
 	/**
-	 * Restituisce un contatto della rubrica
+	 * Restituisce un gruppo della rubrica
 	 * 
-	 * @param 	contact	{@link IUserData} contatto da ricercare
-	 * @param 	owner	{@link IUserData} proprietario del contatto
-	 * @param 	group	{@link IGroup} gruppo a cui appartiene
-	 * @return	{@link IAddressBookEntry} restituisce il contatto ricercato
+	 * @param 	id	{@link Long} id del gruppo da ricercare
+	 * @return	{@link IGroup} restituisce il gruppo ricercato
 	 */
-	public IAddressBookEntry getAddressBookEntry(IUserData contact, IUserData owner, IGroup group)
-	{
-//		IAddressBookEntry result = null;
-//		List<IMyTalkObject> collection = null;
-//		String query = "from AddressBookEntry as a where a.owner.mail = " + owner.getMail() + " and a.contact.mail = " + contact.getMail() + "and a.group.id = " + group.getId();
-//		this.get = new NotInitialize(this.manager);
-//		collection = this.get.execute(query);
-//		if (collection != null && collection.get(0) != null)
-//		{
-//			result = (IAddressBookEntry)collection.get(0);
-//		}
-//		return result;
-		//TODO
-		return null;
-	}
-	
-	public List<ICall> getCallHistory(IUserData user)
-	{
-		//TODO
-		return null;
-	}
-	
+
 	public IGroup getGroup(Long id)
 	{
-		//TODO
-		return null;
+		GetUtil select = this.factory.getGroupUtil(this.manager);
+		IGroup result = null;
+		List<IMyTalkObject> collection = null;
+		String query = "from Groups as g where g.id = " + "'" + id + "'";
+		collection = select.execute(query);
+		if (collection != null && collection.isEmpty() == false)
+		{
+			result = (IGroup)collection.get(0);
+		}
+		return result;
 	}
 	
+	/**
+	 * Restituisce i gruppi della rubrica
+	 * 
+	 * @param 	owner	{@link IUserData} proprietario del gruppo da ricercare
+	 * @return	{@link List<IGroup>} restituisce la lista dei gruppi ricercata
+	 */
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List<IGroup> getGroup(IUserData owner)
 	{
-		//TODO
-		return null;
+		GetUtil select = this.factory.getGroupUtil(this.manager);
+		List<IGroup> result = null;
+		List<IMyTalkObject> collection = null;
+		String query = "from Groups as g where g.owner = " + "'" + owner + "'";
+		collection = select.execute(query);
+		if (collection != null && collection.isEmpty() == false)
+		{
+			result = (List)collection;
+		}
+		return result;
 	}
 	
-	public IGroup getGroup(IUserData owner, String name)
-	{
-		//TODO
-		return null;
-	}
+	/**
+	 * Restituisce l'id del prossimo messaggio di segreteria
+	 *
+	 * @return	{@link Long} restituisce l'id del prossimo messaggio in segreteria
+	 */
 	
 	public Long getMessageNewKey()
 	{
-		//TODO
-		return null;
+		GetUtil select = this.factory.getGenericUtil(this.manager);
+		Long id = null;
+		Long result = null;
+		String query = "max(id) from Messages";
+		id = select.uniqueResult(query);
+		if (id != null)
+		{
+			result = (Long)id + 1;
+		}
+		return result;
 	}
+	
+	/**
+	 * Restituisce un messaggio di segreteria
+	 * 
+	 * @param 	id	{@link Long} id del messaggio da ricercare
+	 * @return	{@link IMessage} restituisce il messaggio di segreteria ricercato
+	 */
 	
 	public IMessage getMessage(Long id)
 	{
-		//TODO
-		return null;
+		GetUtil select = this.factory.getGenericUtil(this.manager);
+		IMessage result = null;
+		List<IMyTalkObject> collection = null;
+		String query = "from Messages as m where m.id = " + "'" + id + "'";
+		collection = select.execute(query);
+		if (collection != null && collection.isEmpty() == false)
+		{
+			result = (IMessage)collection.get(0);
+		}
+		return result;
 	}
 	
+	/**
+	 * Restituisce una lista di messaggi di segreteria
+	 * 
+	 * @param 	receiver {@link IUserData} destinatario del messaggio da ricercare
+	 * @return	{@link List<IMessage>} lista di messaggi ricercati
+	 */
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List<IMessage> getMessages(IUserData receiver)
 	{
-		//TODO
-		return null;
+		GetUtil select = this.factory.getGenericUtil(this.manager);
+		List<IMessage> result = null;
+		List<IMyTalkObject> collection = null;
+		String query = "from Messages as m where m.receiver = " + "'" + receiver + "'";
+		collection = select.execute(query);
+		if (collection != null && collection.isEmpty() == false)
+		{
+			result = (List)collection;
+		}
+		return result;
 	}
 	
 	/**
@@ -164,7 +202,7 @@ public class DataPersistanceManager
 	 * 
 	 * @param 	mail	{@link String} mail associata all'utente
 	 * 					che si desidera cercare nella base di dati 
-	 * @return	{@link IUserData} se esiste un utente che si è registrato
+	 * @return	{@link IUserData} se esiste un utente che si e' registrato
 	 * 			con la mail fornita in input, altrimenti null
 	 */
 	public IUserData getUserData(String mail)
@@ -209,7 +247,7 @@ public class DataPersistanceManager
 	 * @param 	mail		{@link String} indirizzo mail con cui un utente potrebbe essersi registrato
 	 * @param 	name		{@link String} nome con cui l'utente potrebbe essersi registrato
 	 * @param 	surname		{@link String} cognome con cui l'utente potrebbe essersi registrato;
-	 * @return	{@link List<IUserData} con i risultati della ricerca
+	 * @return	{@link List<IUserData>} con i risultati della ricerca
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List<IUserData> getUserDatas(String mail, String name, String surname)
