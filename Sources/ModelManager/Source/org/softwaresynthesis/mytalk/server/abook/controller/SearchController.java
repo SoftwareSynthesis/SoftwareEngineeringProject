@@ -55,8 +55,8 @@ public class SearchController extends AbstractController
 				{
 					result += ",";
 				}
-				result += "}";
 			}
+			result += "}";
 		}
 		catch (Exception ex)
 		{
