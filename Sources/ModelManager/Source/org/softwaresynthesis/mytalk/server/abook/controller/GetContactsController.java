@@ -35,8 +35,8 @@ public class GetContactsController extends AbstractController{
 		
 		try
 		{
-			dao = super.getDAOFactory();
-			email = super.getUserMail();
+			dao = getDAOFactory();
+			email = getUserMail();
 			myUser = dao.getUserData(email);
 			contacts = myUser.getAddressBook();
 			iterator = contacts.iterator();
@@ -59,7 +59,7 @@ public class GetContactsController extends AbstractController{
 					result += ", \"email\":\"" + friend.getMail() + "\"";
 					result += ", \"id\":\"" + friend.getId() + "\"";
 					result += ", \"picturePath\":\"" + friend.getPath() + "\"";
-					result += ", \"state\":\"" + ControllerManager.getState(friend.getId()) + "\"";
+					result += ", \"state\":\"" + getContactState(friend) + "\"";
 					result += ", \"blocked\":" + entry.getBlocked() + "}";
 				}
 			}
@@ -74,5 +74,18 @@ public class GetContactsController extends AbstractController{
 			writer = response.getWriter();
 			writer.write(result);
 		}
+	}
+	
+	/**
+	 * Restituisce la rappresentazione a stringa dello stato del contatto
+	 * 
+	 * @param contact
+	 *            il contatto di cui deve essere recuperato lo stato
+	 * @return una stringa che identifica lo stato
+	 */
+	String getContactState(IUserData contact)
+	{
+		String state = ControllerManager.getState(contact.getId());
+		return state;
 	}
 }
