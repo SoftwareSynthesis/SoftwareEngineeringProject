@@ -12,6 +12,8 @@ import org.softwaresynthesis.mytalk.server.abook.controller.DeleteFromGroupContr
 import org.softwaresynthesis.mytalk.server.abook.controller.DeleteGroupControllerTest;
 import org.softwaresynthesis.mytalk.server.abook.controller.GetContactsControllerTest;
 import org.softwaresynthesis.mytalk.server.abook.controller.GetGroupsControllerTest;
+import org.softwaresynthesis.mytalk.server.abook.controller.SearchControllerTest;
+import org.softwaresynthesis.mytalk.server.abook.controller.UnblockContactControllerTest;
 
 @RunWith(Suite.class)
 @SuiteClasses({ AddressBookEntryTest.class, GroupTest.class,
@@ -19,7 +21,8 @@ import org.softwaresynthesis.mytalk.server.abook.controller.GetGroupsControllerT
 		AddGroupControllerTest.class, AddInGroupControllerTest.class,
 		BlockContactControllerTest.class, DeleteContactControllerTest.class,
 		DeleteFromGroupControllerTest.class, DeleteGroupControllerTest.class,
-		GetContactsControllerTest.class, GetGroupsControllerTest.class })
+		GetContactsControllerTest.class, GetGroupsControllerTest.class,
+		SearchControllerTest.class, UnblockContactControllerTest.class })
 public class AddressBookTestSuite {
 
 }
