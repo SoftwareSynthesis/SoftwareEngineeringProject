@@ -1310,21 +1310,26 @@ Tale test si compone di quattro metodi:
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{TM4.05: AddressBookDoInsertInGroupServletTest}\\
-\textbf{Verifica l'oggetto:} \texttt{AddressBookDoInsertInGroupServlet}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di aggiungere un contatto \texttt{IUserData} all'interno di un gruppo \texttt{IGroup} presente nella rubrica del richiedente. La possibilità di richiamare \texttt{AddressBookDoInsertInGroupServlet} prende come precondizione l'autenticazione dell'utente richiedente e quindi l'effettiva esistenza della sua rubrica.
-
-I possibili \inglese{input} riguardano dati passati mediante \texttt{XMLHttpRequest} che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IUserData} realmente esistente e ad un \texttt{IGroup} realmente presente) o non (campi dati vuoti, o che comunque non corrispondono a nessun utente realmente registrato al sistema, o gruppo presente nella rubrica del richiedente).
-Tale test si compone di cinque metodi:
+\item \textbf{TM5.02: AddInGroupControllerTest}\\
+\textbf{Verifica la Classe:} \texttt{AddInGroupController}.\\
+\textbf{Descrizione}: %TODO: DA DESCRIVERE
+Tale test si compone di due metodi: 
 \begin{itemize}
-\item \texttt{testAddCorrectContact()} verifica l'effettiva aggiunta di un contatto nella rubrica del richiedente (all'interno di un gruppo precisato), a partire da dati corretti (realmente apparteneneti all'utente aggiunto).
-\item \texttt{testAddNotExistsContact()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di aggiungere un utente non registrato nel sistema, alla rubrica del richiedente (nel gruppo precisato).
-\item \texttt{testAddNotOwnedGroup()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di aggiungere un utente in un gruppo che non è di proprietà del richiedente.
-\item \texttt{testAddNotExistsGroup()} verifica la rilevazione dell'errore scaturito dall'impossibilità di aggiungere un utente in un gruppo che non esiste.
-\item \texttt{testAddWrongUserData()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di aggiungere un utente \texttt{IUserData} definito da dati non completi (campi dati vuoti) parzialmente o nella loro totalità.
-\item \texttt{testAddWrongGroupData()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di aggiungere un utente \texttt{IUserData} in un gruppo \texttt{IGroup} definito da dati non completi (campi dati vuoti) parzialmente o nella loro totalità.
+\item \texttt{testAddCorrectContact()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui è invocato con una richiesta proveniente da un utente autenticato e che contiene tutti i parametri necessari per portare a termine con successo l'operazione. In particolare, il test verifica che la stringa stampata sulla risposta HTTP sia, come desiderato, \texttt{true}, nonchè che nel database siano effettuate le operazioni corretta, ovvero che l'inserimento di una nuova AddressBookEntry (con i campi \texttt{Owner}, \texttt{Contact} e \texttt{Blocked} impostati in maniera corretta) e che sia effettuata un'operazione di update per l'utente possessore della rubrica che viene aggiornata.
+
+\item \texttt{testAddNotExistContact()} verifica il comportamento della classe nel momento in cui il metodo \texttt{doAction} è invocato con il parametro \texttt{contactId} che non corrisponde ad alcuno degli utenti che sono presenti nella base di dati. Il test verifica che la stringa stampata nel testo della risposta HTTP corrisponda alla stringa \texttt{null}, come desiderato. Inoltre, è verificato che non siano \textit{mai} effettuate operazioni di inserimento e di aggiornamento della base di dati.
+
+\item \texttt{testAddNotExistGroup()} verifica il comportamento della classe nel momento in cui il metodo \texttt{doAction} è invocato con il parametro \texttt{groupId} che non corrisponde ad alcuno degli utenti che sono presenti nella base di dati. Il test verifica che la stringa stampata nel testo della risposta HTTP corrisponda alla stringa \texttt{null}, come desiderato. Inoltre, è verificato che non siano \textit{mai} effettuate operazioni di inserimento e di aggiornamento della base di dati.
+
+\item \texttt{testAddNotOwnedGroup()} verifica il comportamento della classe nel momento in cui l'operazione richiesta corrisponde all'inserimento di un contatto in un gruppo che non è di proprietà dell'utente da cui proviene la richiesta. Il test verifica che in questo caso il testo stampato nella risposta sia, come desiderato, la stringa \texttt{null} e che non sia effettuata alcuna operazione di aggiornamento dei dati dell'utente che ha richiesto l'inserimento.
+
+\item \texttt{testAddWrongUserData()} verifica il comportamento della classe nel momento in cui il metodo \texttt{doAction} è invocato con una richiesta HTTP che non contiene tutti i parametri necessari per portare a termine con successo l'operazione, in particolare nel caso in cui non è presente il paramentro \texttt{contactId}. Il test controlla, in particolare, che il testo stampato nella risposta corrisponda, come atteso, alla stringa \texttt{null} e che non sia effettuata alcuna operazione sul gestore della persistenza dei dati.
+
+\item \texttt{testAddWrongGrup()} } verifica il comportamento della classe nel momento in cui il metodo \texttt{doAction} è invocato con una richiesta HTTP che non contiene tutti i parametri necessari per portare a termine con successo l'operazione, in particolare nel caso in cui non è presente il paramentro \texttt{groupId}. Il test controlla, in particolare, che il testo stampato nella risposta corrisponda, come atteso, alla stringa \texttt{null} e che non sia effettuata alcuna operazione sul gestore della persistenza dei dati.
+
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
+
 
 \item \textbf{TM4.06: AddressBookDoRemoveFromGroupServletTest}\\
 \textbf{Verifica l'oggetto:} \texttt{AddressBookDoRemoveFromGroupServlet}.\\
@@ -1455,25 +1460,6 @@ Tale test si compone di diciannove metodi:
 \textbf{Risultato del test:} superato con successo.
 
 %TODO: NON TROVAVO QUELLO DA SOSTITUIRE, SCRITTO NUOVO, EVENTUALMENTE CANCELLARE IL VECCHIO TEST
-\item \textbf{TM5.02: AddInGroupControllerTest}\\
-\textbf{Verifica la Classe:} \texttt{AddInGroupController}.\\
-\textbf{Descrizione}: %TODO: DA DESCRIVERE
-Tale test si compone di due metodi: 
-\begin{itemize}
-\item \texttt{testAddCorrectContact()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui è invocato con una richiesta proveniente da un utente autenticato e che contiene tutti i parametri necessari per portare a termine con successo l'operazione. In particolare, il test verifica che la stringa stampata sulla risposta HTTP sia, come desiderato, \texttt{true}, nonchè che nel database siano effettuate le operazioni corretta, ovvero che l'inserimento di una nuova AddressBookEntry (con i campi \texttt{Owner}, \texttt{Contact} e \texttt{Blocked} impostati in maniera corretta) e che sia effettuata un'operazione di update per l'utente possessore della rubrica che viene aggiornata.
-
-\item \texttt{testAddNotExistContact()} verifica il comportamento della classe nel momento in cui il metodo \texttt{doAction} è invocato con il parametro \texttt{contactId} che non corrisponde ad alcuno degli utenti che sono presenti nella base di dati. Il test verifica che la stringa stampata nel testo della risposta HTTP corrisponda alla stringa \texttt{null}, come desiderato. Inoltre, è verificato che non siano \textit{mai} effettuate operazioni di inserimento e di aggiornamento della base di dati.
-
-\item \texttt{testAddNotExistGroup()} verifica il comportamento della classe nel momento in cui il metodo \texttt{doAction} è invocato con il parametro \texttt{groupId} che non corrisponde ad alcuno degli utenti che sono presenti nella base di dati. Il test verifica che la stringa stampata nel testo della risposta HTTP corrisponda alla stringa \texttt{null}, come desiderato. Inoltre, è verificato che non siano \textit{mai} effettuate operazioni di inserimento e di aggiornamento della base di dati.
-
-\item \texttt{testAddNotOwnedGroup()} verifica il comportamento della classe nel momento in cui l'operazione richiesta corrisponde all'inserimento di un contatto in un gruppo che non è di proprietà dell'utente da cui proviene la richiesta. Il test verifica che in questo caso il testo stampato nella risposta sia, come desiderato, la stringa \texttt{null} e che non sia effettuata alcuna operazione di aggiornamento dei dati dell'utente che ha richiesto l'inserimento.
-
-\item \texttt{testAddWrongUserData()} verifica il comportamento della classe nel momento in cui il metodo \texttt{doAction} è invocato con una richiesta HTTP che non contiene tutti i parametri necessari per portare a termine con successo l'operazione, in particolare nel caso in cui non è presente il paramentro \texttt{contactId}. Il test controlla, in particolare, che il testo stampato nella risposta corrisponda, come atteso, alla stringa \texttt{null} e che non sia effettuata alcuna operazione sul gestore della persistenza dei dati.
-
-\item \texttt{testAddWrongGrup()} } verifica il comportamento della classe nel momento in cui il metodo \texttt{doAction} è invocato con una richiesta HTTP che non contiene tutti i parametri necessari per portare a termine con successo l'operazione, in particolare nel caso in cui non è presente il paramentro \texttt{groupId}. Il test controlla, in particolare, che il testo stampato nella risposta corrisponda, come atteso, alla stringa \texttt{null} e che non sia effettuata alcuna operazione sul gestore della persistenza dei dati.
-
-\end{itemize}
-\textbf{Risultato del test:} superato con successo.
 
 
 
