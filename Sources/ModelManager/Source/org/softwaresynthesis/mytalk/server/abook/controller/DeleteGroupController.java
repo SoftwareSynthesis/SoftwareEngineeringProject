@@ -36,8 +36,8 @@ public class DeleteGroupController extends AbstractController{
 		try
 		{
 			groupId = Long.parseLong(request.getParameter("groupId"));
-			dao = super.getDAOFactory();
-			email = super.getUserMail();
+			dao = getDAOFactory();
+			email = getUserMail();
 			myUser = dao.getUserData(email);
 			group = dao.getGroup(groupId);
 			if (group != null)

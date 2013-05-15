@@ -9,6 +9,8 @@ import org.softwaresynthesis.mytalk.server.abook.controller.AddInGroupController
 import org.softwaresynthesis.mytalk.server.abook.controller.BlockContactControllerTest;
 import org.softwaresynthesis.mytalk.server.abook.controller.DeleteContactControllerTest;
 import org.softwaresynthesis.mytalk.server.abook.controller.DeleteFromGroupControllerTest;
+import org.softwaresynthesis.mytalk.server.abook.controller.DeleteGroupControllerTest;
+import org.softwaresynthesis.mytalk.server.abook.controller.GetContactsControllerTest;
 import org.softwaresynthesis.mytalk.server.abook.controller.GetGroupsControllerTest;
 
 @RunWith(Suite.class)
@@ -16,7 +18,8 @@ import org.softwaresynthesis.mytalk.server.abook.controller.GetGroupsControllerT
 		UserDataTest.class, AddContactControllerTest.class,
 		AddGroupControllerTest.class, AddInGroupControllerTest.class,
 		BlockContactControllerTest.class, DeleteContactControllerTest.class,
-		DeleteFromGroupControllerTest.class, GetGroupsControllerTest.class })
+		DeleteFromGroupControllerTest.class, DeleteGroupControllerTest.class,
+		GetContactsControllerTest.class, GetGroupsControllerTest.class })
 public class AddressBookTestSuite {
 
 }
