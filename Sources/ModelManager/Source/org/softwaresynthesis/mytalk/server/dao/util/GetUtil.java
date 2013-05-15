@@ -74,6 +74,47 @@ public abstract class GetUtil
 	}
 	
 	/**
+	 * Esegue il comando sulla base di dati
+	 * 
+	 * @param 	query
+	 * @return	{@link Long} restituisce il result	
+	 */
+	public Long uniqueResult(String query)
+	{
+		Query hqlQuery = null;
+		Session session = null;
+		SessionFactory factory = null;
+		Transaction transaction = null;
+		Long result = null;
+		try
+		{
+			factory = this.manager.getSessionFactory();
+			session = factory.openSession();
+			hqlQuery = session.createQuery(query);
+			transaction = session.beginTransaction();
+			result = (Long)hqlQuery.uniqueResult();
+			transaction.commit();
+		}
+		catch (RuntimeException ex)
+		{
+			if (transaction != null)
+			{
+				transaction.rollback();
+			}
+			result = null;
+		}
+		finally
+		{
+			if (session != null)
+			{
+				session.flush();
+				session.close();
+			}
+		}
+		return result;
+	}
+	
+	/**
 	 * Ha il compito di inizializzare le collezioni di
 	 * dati contenute negli oggetti del sistema MyTalk
 	 * 
