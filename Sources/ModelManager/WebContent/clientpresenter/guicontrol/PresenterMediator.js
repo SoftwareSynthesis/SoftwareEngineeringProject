@@ -677,7 +677,7 @@ function PresenterMediator() {
     function onShowUIPanels() {
         document.dispatchEvent(removeAllPanel);
         document.dispatchEvent(showAddressBookPanel);
-        // TODO mainPannel
+        document.dispatchEvent(showMainPanel);
         document.dispatchEvent(showToolsPanel);
     };
 

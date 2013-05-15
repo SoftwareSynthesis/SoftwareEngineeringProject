@@ -8,12 +8,14 @@ window.onload = function() {
     showUIPanels = new CustomEvent("showUIPanels");
     showAddressBookPanel = new CustomEvent("showAddressBookPanel");
     showToolsPanel = new CustomEvent("showToolsPanel");
+    showMainPanel = new CustomEvent("showMainPanel");
     //eventi rimozione pannelli
     removeAllPanel = new CustomEvent("removeAllPanel");
     removeLoginPanel = new CustomEvent("removeLoginPanel");
     removeRegistrationPanel = new CustomEvent("removeRegistrationPanel");
     removeAddressBookPanel = new CustomEvent("removeAddressBookPanel");
     removeToolsPanel = new CustomEvent("removeToolsPanel");
+    removeMainPanel = new CustomEvent("removeMainPanel");
 
     //Inizializzazione delle funzioni
     window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext || window.msAudioContext;

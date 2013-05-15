@@ -82,10 +82,14 @@ function ToolsPanelPresenter() {
      * @author Diego Beraldin
      */
     this.initialize = function(view) {
-
         // posiziona il pannello sulla pagina
         var dummyDiv = document.createElement("div");
-        document.body.insertBefore(dummyDiv, document.getElementsByTagName("footer")[0]);
+        var mainPanel = document.getElementById("MainPanel");
+        if (mainPanel) {
+            document.body.insertBefore(dummyDiv, mainPanel.parentElement);
+        } else {
+            document.body.insertBefore(dummyDiv, document.getElementsByTagName("footer")[0]);
+        }
         dummyDiv.innerHTML = view.outerHTML;
 
         //salvo un riferimento all'elemento DOM appena creato
