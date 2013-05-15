@@ -45,8 +45,7 @@ public class GetContactsController extends AbstractController{
 			while(iterator.hasNext() == true)
 			{
 				entry = iterator.next();
-				//Se gruppo == null, allora il contatto non � in un gruppo
-				if (entry.getGroup() == null){
+				if (entry.getGroup().getName().equals("addrBookEntry")) {
 					if (first == false)
 					{
 						result += ",";
