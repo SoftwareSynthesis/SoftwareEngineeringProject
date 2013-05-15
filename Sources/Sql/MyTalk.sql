@@ -45,7 +45,7 @@ CREATE TABLE Groups
 	ID_Owner					BIGINT UNSIGNED,
 	
 	PRIMARY KEY(ID_group),
-	FOREIGN KEY(ID_user) REFERENCES UserData(ID_user)
+	FOREIGN KEY(ID_Owner) REFERENCES UserData(ID_user)
 );
 
 CREATE TABLE Messages
@@ -87,3 +87,22 @@ CREATE TABLE AddressBookEntries
 	FOREIGN KEY(ID_group) REFERENCES Groups(ID_group) ON DELETE CASCADE,
 	FOREIGN KEY(Owner) REFERENCES UserData(ID_user)
 );
+
+/*
+	Creazione di trigger necessari alla gestione del database
+*/
+DELIMITER $
+CREATE TRIGGER ControlloProprietario
+BEFORE INSERT ON AddressBookEntries
+FOR EACH ROW
+BEGIN
+	DECLARE owner BIGINT UNSIGNED;
+	SELECT G.ID_Owner INTO owner FROM Groups AS G WHERE G.ID_group = NEW.ID_group;
+	
+	IF owner <> NEW.Owner
+	THEN
+		INSERT INTO Groups (ID_group, Name)
+		VALUES	(NULL, NULL);
+	END IF;
+END; $
+DELIMITER ;

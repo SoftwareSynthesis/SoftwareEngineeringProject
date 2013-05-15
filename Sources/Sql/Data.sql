@@ -18,7 +18,7 @@ VALUES 	(1, 'indirizzo1@dominio.it', 'tQJu8lEBkXWy+YuqNKZsqA==', 'Come mi chiamo
 /*
 	Inseriti per tutti gli utenti il gruppo di default
 */		
-INSERT INTO Groups (ID_group, Name, ID_user)
+INSERT INTO Groups (ID_group, Name, ID_Owner)
 VALUES	(1, 'Gruppo 1', 5),
 		(2, 'Gruppo 2', 5),
 		(3, 'Gruppo 3', 5),
@@ -38,6 +38,6 @@ INSERT INTO AddressBookEntries (ID_addressBookEntry, ID_user, ID_group, Owner, B
 VALUES	(1, 2, 1, 5, 0),
 		(2, 4, 2, 5, 0),
 		(3, 3, 3, 5, 0),
-		(4, 4, 5, 2, 0),
+		(4, 4, 5, 3, 0),
 		(5, 1, 5, 3, 0),
 		(6, 2, 5, 3, 0);
