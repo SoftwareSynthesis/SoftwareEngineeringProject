@@ -37,8 +37,8 @@ public class GetGroupsController extends AbstractController{
 		
 		try
 		{
-			dao = super.getDAOFactory();
-			email = super.getUserMail();
+			dao = getDAOFactory();
+			email = getUserMail();
 			myUser = dao.getUserData(email);
 			groups = dao.getGroup(myUser);
 			if (groups != null)
@@ -57,7 +57,7 @@ public class GetGroupsController extends AbstractController{
 					while (entryIter.hasNext() == true)
 					{
 						entry = entryIter.next();
-						result += entry.getId().toString();
+						result += entry.getContact().getId().toString();
 						if (entryIter.hasNext() == true)
 						{
 							result += ",";

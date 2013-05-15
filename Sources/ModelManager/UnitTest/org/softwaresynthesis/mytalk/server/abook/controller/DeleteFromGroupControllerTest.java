@@ -38,7 +38,7 @@ public class DeleteFromGroupControllerTest {
 	private final String username = "indirizzo5@dominio.it";
 	private final Long contactId = 1L;
 	private final Long groupId = 1L;
-	private Set<IAddressBookEntry> entrySet = new HashSet<IAddressBookEntry>();
+	private Set<IAddressBookEntry> entrySet;
 	private Writer writer;
 	private DeleteFromGroupController tester;
 	@Mock
@@ -81,6 +81,7 @@ public class DeleteFromGroupControllerTest {
 		when(entry.getGroup()).thenReturn(group);
 		when(entry.getOwner()).thenReturn(user);
 		// configura il comportamento dell'utente e della sua rubrica
+		entrySet = new HashSet<IAddressBookEntry>();
 		entrySet.add(entry);
 		when(user.getAddressBook()).thenReturn(entrySet);
 		// inizializza l'oggetto da testare
