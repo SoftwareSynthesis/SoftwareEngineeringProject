@@ -2749,78 +2749,9 @@ Fornire un punto d'ingresso centralizzato per la gestione delle richieste, defin
 
 \subsubsection{Componenti che lo implementano}
 \begin{description}
-  \item{\scshape\bfseries CS07-- Gestione controller}\\
-Questa componente della sotto-architettura server fornisce una serie di punti di accesso centralizzati (\inglese{servlet}) per i componenti \textsf{Gestione rubrica}, \textsf{Gestione connessione}, \textsf{Gestione segreteria}, \textsf{Gestione chiamate} e \textsf{Gestione autenticazione} secondo la tabella riportata nella sezione \vref{sec:cs07}. In pratica è possibile pensare ad ogni \inglese{controller} come ad un façade atto a nascondere l'iter procedurale per la realizzazione di una determinata operazione.
+  \item{\scshape\bfseries CS08 -- Front controller}\\
+Questa componente della sotto-architettura server fornisce un unico punto d'accesso al sistema, andando a delegare le operazioni richieste al corrispondente controller presente in \texttt{CS07 -- Gestione controller}. La classe cosi definita è \texttt{ControllerManager}. Le componenti su cui possono interagire direttamente i controller sono: \textsf{Gestione rubrica}, \textsf{Gestione connessione}, \textsf{Gestione segreteria}, \textsf{Gestione chiamate} e \textsf{Gestione autenticazione}, come riportato nella tabella della sezione \vref{sec:cs07}.
 \end{description}
-
-\subsubsection*{Classi del package \texttt{org.softwaresynthesis.mytalk.server.abook.controller}}
-
-Ogni classe di tale package implementa Front Controller poiché nasconde l'iter per la gestione della rubrica svincolando l'utilizzatore dal doverlo conoscere. Nello specifico tali classi richiamano in più punti e in maniera sequenziale, classi presenti nel package \texttt{server.abook} e \texttt{server.dao}.
-
-\begin{figure}[H]
-  \centering
-   \includegraphics[width=.7\textwidth]{pattern_facade_rubrica}
-  \caption{Applicazione del \inglese{pattern} Front Controller a \textsf{Gestione rubrica}}\label{fig:facadeaddressbook1}
-\end{figure}
-
-
-%VA CANCELLATO QUESTO PEZZO: VENGONO IMPLEMENTATE LE CENTINAIA DI FRECCE NEL DIAGRAMMA
-Essendo già il diagramma sufficientemente complesso si ritiene che l'aggiunta di tutte le frecce che rappresentano le dipendenza lo rendano completamente illeggibile, per tale ragione le dipendenze si riportano in forma di elenco, in particolare:
-\begin{itemize}[noitemsep,nolistsep,leftmargin=.5em]
-  \item[-] il \inglese{controller} \texttt{AddContactController} ha una dipendenza da \texttt{AddressBookEntry}, \texttt{IGroup}, \texttt{IUserData}, \texttt{dao.DataPersistanceManager} e \texttt{UserData};
-  \item[-] \texttt{BlockServlet} dipende da \texttt{IAddressBookEntry}, \texttt{IUserData} e \texttt{UserDataDAO};
-  \item[-] \texttt{AddressBookDoCreateGroupServlet} dipende da \texttt{Group}, \texttt{IGroup}, \texttt{IUserData} e \texttt{GroupDAO};
-  \item[-] la \inglese{servlet}  \texttt{AddressBookDoDeleteGroupServlet} dipende invece da \texttt{IAddressBookEntry}, \texttt{IGroup}, \texttt{AddressBookEntryDAO} e \texttt{GroupDAO};
-  \item[-] \texttt{AddressBookDoInsertInGroupServlet} dipende da \texttt{AddressBookEntry}, \texttt{IAddressBookEntry}, \texttt{IGroup}, \texttt{IUserData}, \texttt{GroupDAO} \texttt{UserDataDAO};
-  \item[-] la \inglese{servlet} \texttt{AddressBookDoRemoveContactServlet} dipende da \texttt{IAddressBookEntry}, \texttt{IUserData}, \texttt{AddressBookEntryDAO} e \texttt{UserDataDAO};
-  \item[-] \texttt{AddressBookDoRemoveFromGroupServlet} dipende da \texttt{AddressBookEntry}, \texttt{IAddressBookEntry}, \texttt{IGroup}, \texttt{IUserData}, \texttt{GroupDAO} e \texttt{UserDataDAO};
-  \item[-] \texttt{AddressBookDoSearchServlet} dipende da \texttt{IUserDataDAO} e \texttt{UserDataDAO};
-  \item[-] \texttt{AddressBookDoUnblockServlet} dipende da \texttt{IAddressBookEntry}, \texttt{IUserData} e \texttt{UserDataDAO};
-  \item[-] \texttt{AddressBookGetContactsServlet} dipende da \texttt{IAddressBookEntry} e \texttt{IUserData};
-  \item[-] \texttt{AddressBookGetGroupsServlet} dipende da \texttt{IAddressBookEntry}, \texttt{IGroup}, \texttt{IUserData} e \texttt{GroupDAO};
-  \item[-] \texttt{AccountSettingsServlet} dipende da \texttt{IUserData} e \texttt{UserDataDAO}.
-\end{itemize}
-
-\subsubsection*{Classi del package \texttt{org.softwaresynthesis.mytalk.server.message.controller}}
-
-Ogni classe di tale package implementa Front Controller poiché nasconde l'iter per la gestione della segreteria telefonica svincolando l'utilizzatore dal doverlo conoscere, nello specifico tali classi richiamano in più punti e in maniera sequenziale classi presenti nel package \texttt{server.message} e \texttt{server.dao}.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=.7\textwidth]{pattern_facade_segreteria}
-  \caption{Applicazione del \inglese{pattern} Front Controller a \textsf{Gestione segreteria}}\label{fig:facadeaddressbook2}
-\end{figure}
-
-\subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.connection.ChannelServlet}}
-
-Tale classe nasconde la complessità di gestione di una comunicazione client-server, nello specifico svincola l'utilizzatore dal dover conoscere l'iter di utilizzo delle classi di \texttt{server.abook} e \texttt{server.connection}.
-
-\begin{figure}[H]
-  \centering
-     \includegraphics[width=.7\textwidth]{pattern_facade_connessione}
-  \caption{Applicazione del \inglese{pattern} Front Controller a \textsf{Gestione connessione}}\label{fig:facadeconnection}
-\end{figure}
-
-\subsubsection*{Classe \texttt{org.softwaresynthesis.mytalk.server.call.servlet.DownloadCallHistoryServlet}}
-
-Tale classe nasconde la complessità di gestione di una richiesta di \inglese{download} della lista delle chiamate. Nello specifico svincola l'utilizzatore dal dover conoscere l'iter di utilizzo delle classi di \texttt{server.abook}, \texttt{server.dao} e \texttt{server.call}.
-
-\begin{figure}[H]
-  \centering
-   \includegraphics[width=.7\textwidth]{pattern_facade_chiamate}
-  \caption{Applicazione del \inglese{pattern} Front Controller a \textsf{Gestione chiamate}}\label{fig:facadestate}
-\end{figure}
-
-\subsubsection*{Classi del package \texttt{org.softwaresynthesis.mytalk.server.authentication.servlet}}
-
-Ogni classe di tale package implementa Front Controller poiché nasconde l'iter per l'autenticazione (\inglese{login}, \inglese{logout}  e registrazione) di un utente svincolando l'utilizzatore dal doverlo conoscere. Nello specifico tali classi richiamano in più punti e in maniera sequenziale, classi presenti nel package \texttt{server.abook}, \texttt{server.dao} e \texttt{server.autenthication}.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=.7\textwidth]{pattern_facade_autenticazione}
-  \caption{Applicazione del \inglese{pattern} Front Controller a \textsf{Gestione autenticazione}}\label{fig:facademessage}
-\end{figure}
-
 
 \subsection{Factory Method}\label{sec:patternfactorymethod}
 
@@ -2830,8 +2761,11 @@ Definisce un'interfaccia per la creazione di un oggetto, lasciando alle sottocla
 \subsubsection{Componenti che lo implementano}
 \begin{description}
 
+	\item{\scshape\bfseries CS01 -- Gestione database}\\
+In tale componente è la classe \texttt{dao.DataPersistanceManager} a definire dei metodi per la creazione di istanze di classi figlie di \texttt{dao.GetUtil} e \texttt{dao.ModifyUtil}.
+
   \item{\scshape\bfseries CS02 -- Gestione connessione}\\
-Gli oggetti che intendono rappresentare connessioni sono sottotipi di della classe di libreria \texttt{org.apache.catalina.websocket.StreamInbound} e vengono instanziati mediante un Factory Method nelle sottoclassi di \texttt{org.apache.catalina.websocket.WebSocketServlet}.
+Gli oggetti che intendono rappresentare connessioni sono sottotipi della classe di libreria \texttt{org.apache.catalina.websocket.StreamInbound} e vengono instanziati mediante un Factory Method nelle sottoclassi di \texttt{org.apache.catalina.websocket.WebSocketServlet}.
 
 \begin{figure}[H]
   \centering
@@ -2839,7 +2773,8 @@ Gli oggetti che intendono rappresentare connessioni sono sottotipi di della clas
   \caption{Applicazione del \inglese{pattern} Factory Method}\label{fig:factory_method}
 \end{figure}
 
-In particolare, la classe \texttt{connection.ConnectionManager} restituisce un oggetto che rappresenta la connessione di tipo dinamico \texttt{connection.PushInbound} che implementa il comportamento come reazione ai messaggi in ingresso facendo a sua volta \inglese{overriding} del metodo \texttt{onTextMessage(CharBuffer)}.
+In particolare, la classe \texttt{ControllerManager} restituisce un oggetto che rappresenta la connessione di tipo dinamico \texttt{connection.PushInbound} che implementa il comportamento come reazione ai messaggi in ingresso facendo a sua volta \inglese{overriding} del metodo \texttt{onTextMessage(CharBuffer)}.
+
 \end{description}
 
 \subsection{Strategy}\label{sec:patternstrategy}
@@ -2851,9 +2786,7 @@ Definisce un'interfaccia per il comportamento di un algoritmo generico, lasciand
 \begin{description}
 
   \item{\scshape\bfseries CS04 -- Gestione autenticazione}\\
-All'interno di tale classe l'utilizzo del pattern si ha nel momento in cui è necessario definire una strategia di criptazione e decriptazione dei dati, passati dall'utente per eseguire l'autenticazione. L'interfaccia atta a definire l'algoritmo generico è \texttt{authentication.ISecurityStrategy} mentre una prima implementazione proposta dal team è \texttt{authentication.AESAlgorithm}, che definisce un algoritmo di criptazione basato su AES.
-
-
+All'interno di tale classe l'utilizzo del pattern si ha nel momento in cui è necessario definire una strategia di criptazione e decriptazione dei dati, passati dall'utente per eseguire l'autenticazione. L'interfaccia atta a definire l'algoritmo generico è \texttt{authentication.security.ISecurityStrategy} mentre una prima implementazione proposta dal team è \texttt{authentication.security.AESAlgorithm}, che definisce un algoritmo di criptazione basato su AES.
 
 \begin{figure}[H]
   \centering
@@ -2868,7 +2801,18 @@ All'interno di tale classe l'utilizzo del pattern si ha nel momento in cui è ne
 Permette di definire la struttura di un algoritmo lasciando alle sottoclassi il compito di implementarne alcuni passi specifici in modo da personalizzare il comportamento delle sottoclassi senza dover necessariamente riscrivere il codice comune a tali algoritmi.
 
 \subsubsection{Componenti che lo implementano}
-parappappaaaaaaaaa!!!
+
+\begin{description}
+
+  \item{\scshape\bfseries CS01 -- Gestione database}\\
+In tale componente la classe \texttt{dao.ModifyUtil} implementa il pattern \texttt{template method} definendo un metodo per l'esecuzione di un'operazione su \texttt{dao.DataPersistenceManager}, e lasciando l'implementazione dell'algoritmo alle classi figlie. Tali sono: \texttt{dao.InsertUtil}, \texttt{dao.UpdateUtil} e \texttt{dao.DeleteUtil}.
+
+Anche la classe \texttt{dao.GetUtil} implementa lo stesso comportamento, lasciando alle classi figlie (\texttt{dao.GetCallUtil}, \texttt{dao.GetGroupUtil}, \texttt{dao.GetUserUtil}, \texttt{dao.NotInitialize}) il compito di definire l'algoritmo d'implementazione.
+
+	\item{\scshape\bfseries CS04 -- Gestione autenticazione}\\
+In tale componente la classe \texttt{authentication.security.AESTemplate} implementa il pattern \texttt{template method} definendo un metodo per l'esecuzione di un operazione AES. Nello specifico le operazioni possibili sono: criptazione e decriptazione. Tali sono rappresentate dalle classi figlie \texttt{authentication.security.AESEncode} e \texttt{authentication.security.AESDecode}.
+
+\end{description}
 
 \subsection{Model-View-Presenter}\label{sec:MVP}
 
