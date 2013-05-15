@@ -41,6 +41,7 @@ public class AddInGroupController extends AbstractController{
 			myUser = dao.getUserData(email);
 			friend = dao.getUserData(contactId);
 			group = dao.getGroup(groupId);
+			result = "null";
 			if (group != null)
 			{
 				entry = new AddressBookEntry();
@@ -49,15 +50,12 @@ public class AddInGroupController extends AbstractController{
 				entry.setContact(friend);
 				entry.setGroup(group);
 				myUser.addAddressBookEntry(entry);
-				dao.insert(entry);
-				dao.update(myUser);
-				result = "true";
+				if (dao.insert(entry))
+				{
+					dao.update(myUser);
+					result = "true";
+				}
 			}
-			else
-			{
-				result = "null";
-			}
-			
 		}
 		catch (Exception ex)
 		{

@@ -40,6 +40,7 @@ public class DeleteContactController extends AbstractController{
 			idFriend = Long.parseLong(request.getParameter("contactId"));
 			friend = dao.getUserData(idFriend);
 			myUser = dao.getUserData(email);
+			result = "null";
 			if (friend != null)
 			{
 				entrys = myUser.getAddressBook();
@@ -51,6 +52,7 @@ public class DeleteContactController extends AbstractController{
 					{
 						myUser.removeAddressBookEntry(entry);
 						dao.delete(entry);
+						result = "true";
 					}
 				}
 				dao.update(myUser);
@@ -66,11 +68,6 @@ public class DeleteContactController extends AbstractController{
 					}
 				}
 				dao.update(friend);
-				result = "true";
-			}
-			else
-			{
-				result = "null";
 			}
 		}
 		catch (Exception ex)
