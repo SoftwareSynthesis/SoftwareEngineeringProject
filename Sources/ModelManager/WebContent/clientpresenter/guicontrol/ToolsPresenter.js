@@ -99,27 +99,27 @@ function ToolsPanelPresenter() {
 
         // funzione messaggi
         document.getElementById("liAnswering").onclick = function() {
-            mediator.displayMessagePanel();
+            document.dispatchEvent(showMessagePanel);
         };
 
         // funzione impostazioni account
         document.getElementById("liSetting").onclick = function() {
-            mediator.displayAccountSettingsPanel();
+            document.dispatchEvent(showAccountSettingPanel);
         };
 
         // funzione lista chiamate
         document.getElementById("liCallList").onclick = function() {
-            mediator.displayCallHistoryPanel();
+            document.dispatchEvent(showCallHistoryPanel);
         };
 
-        // funzione gestione contatti
+        // funzione gestione gruppi
         document.getElementById("liGroup").onclick = function() {
-            mediator.displayGroupPanel();
+            document.dispatchEvent(showGroupPanel);
         };
 
         // funzione di ricerca
         document.getElementById("liSearch").onclick = function() {
-            mediator.displaySearchResultPanel();
+            document.dispatchEvent(showSearchResultPanel);
         };
 
         // possibilità di effettuare il logout

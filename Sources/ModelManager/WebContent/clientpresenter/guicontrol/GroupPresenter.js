@@ -11,12 +11,22 @@ function GroupPanelPresenter(url) {
 	/***************************************************************************
 	 * VARIABILI PRIVATE
 	 **************************************************************************/
+	var thisPresenter = this;
+	var thisPanel;
 	var contacts = new Object();
 	var groups = new Object();
 
 	/***************************************************************************
 	 * FUNZIONI PRIVATE
 	 **************************************************************************/
+	/**
+     * Funzione per gestire l'evento in cui viene visualizzato il pannello della gestione dei gruppi
+     * @author Riccardo Tresoldi
+     */
+    function onShowGroupPanel() {
+        mediator.getView('group');
+    }
+	
 	/**
 	 * Crea la lista dei contatti che sono presenti nel gruppo
 	 * 
@@ -180,26 +190,12 @@ function GroupPanelPresenter(url) {
 	};
 
 	/**
-	 * Crea il pannello per la gestione dei gruppi che dev'essere richiamato nel
-	 * mainPanelPresenter
-	 * 
-	 * @returns {HTMLDivElement} il pannello dello storico delle chiamate
-	 *          inizializzato
-	 * 
-	 * @author Riccardo Tresoldi
-	 */
-	this.createPanel = function() {
-		var element = mediator.getView("GroupView");
-		return element;
-	};
-
-	/**
 	 * Metodo che recupera i dati necessari alla visualizzazione del contenuto
 	 * del pannello, quindi ne avvia la creazione
 	 * 
 	 * @author Diego Beraldin
 	 */
-	this.setup = function() {
+	this.display = function() {
 		contacts = mediator.getAddressBookContacts();
 		groups = mediator.getAddressBookGroups();
 		this.displayGroupList();
@@ -217,4 +213,9 @@ function GroupPanelPresenter(url) {
 			addListItem(g);
 		}
 	};
+	
+	/***************************************************************************
+     * LISTNER DEGLI EVENTI
+     **************************************************************************/
+	document.addEventListener("showGroupPanel", onShowGroupPanel);
 }

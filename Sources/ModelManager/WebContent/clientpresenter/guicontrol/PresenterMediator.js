@@ -15,7 +15,8 @@ function PresenterMediator() {
         addressBook : "AddressBookView.html",
         callHistory : "CallHistoryView.html",
         contact : "ContactView.html",
-        group : "CommunicationView.html",
+        communication : "CommunicationView.html",
+        group : "GroupView.html",
         login : "LoginView.html",
         main : "MainView.html",
         message : "MessageView.html",
@@ -222,7 +223,7 @@ function PresenterMediator() {
      * @author Diego Beraldin
      */
     this.getAddressBookContacts = function() {
-        return presenters["addressbook"].getContacts();
+        return presenters["addressBook"].getContacts();
     };
 
     /**
@@ -233,7 +234,7 @@ function PresenterMediator() {
      * @author Diego Beraldin
      */
     this.getAddressBookGroups = function() {
-        return presenters["addressbook"].getGroups();
+        return presenters["addressBook"].getGroups();
     };
 
     /**
@@ -652,14 +653,13 @@ function PresenterMediator() {
         if (presenters[presenter]) {
             presenters[presenter].initialize(view);
         } else if (secondaryPresenter[presenter]) {
+            // dico al mainPresenter di aggiungere il Panel ottenuto dalla view
             presenters["main"].displayChildPanel(view);
-            // caso in cui il presenter visualizzato sia il contactPresenter
-            // il contatto da visualizzare è salvato nel Presenter stesso
-            if (presenter == "contact") {
-                secondaryPresenter[presenter].display();
-            }
+            // avviso il presenter indicato per visualizzare i dati corretti nel
+            // pannello appena aggiunto
+            secondaryPresenter[presenter].display();
         } else {
-            alert("onLoadedView non gestita");
+            alert("onLoadedView non gestita.\nNon esiste il presenter: [" + presenter + "]");
         }
     }
 

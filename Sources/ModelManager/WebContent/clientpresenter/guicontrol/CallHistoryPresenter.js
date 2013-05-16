@@ -1,21 +1,30 @@
 /**
  * Presenter incaricato di gestire lo storico delle chiamate
  * 
- * @param {String}
- *            url URL della servlet con cui il presenter deve comunicare
  * @author Elena Zecchinato
  * @author Diego Beraldin
  */
-function CallHistoryPanelPresenter(url) {
+function CallHistoryPanelPresenter() {
 	/***************************************************************************
 	 * VARIABILI PRIVATE
 	 **************************************************************************/
+	var thisPresenter = this;
+	var thisPanel;
 	// array (enumerativo) delle chiamate scaricate dal server
 	var calls = new Array();
 
 	/***************************************************************************
 	 * METODI PRIVATI
 	 **************************************************************************/
+	/**
+     * Funzione per gestire l'evento in cui viene visualizzato il pannello dello
+     * storico chiamate
+     * @author Riccardo Tresoldi
+     */
+    function onShowCallHistoryPanel() {
+        mediator.getView('callHistory');
+    }
+	
 	/**
 	 * Scarica la lista delle chiamate che sono state effettuate dall'utente
 	 * associato a questo client
@@ -59,29 +68,21 @@ function CallHistoryPanelPresenter(url) {
 	/***************************************************************************
 	 * METODI PUBBLICI
 	 **************************************************************************/
-	/**
-	 * Crea il pannello dello storico delle chiamate che deve essere
-	 * visualizzato all'interno del MainPanel come elemento figlio
-	 * 
-	 * @returns {HTMLDivElement} il pannello dello storico delle chiamate
-	 *          inizializzato
-	 * @author Elena Zecchinato
-	 */
-	this.createPanel = function() {
-		var element = mediator.getView("CallHistoryView");
-		return element;
-	};
-
-	/**
+    /**
 	 * Scarica la lista delle chiamate dal server, quindi aggiunge alla lista
 	 * delle chiamate contenuta all'interno del CallHistoryPanel
 	 * 
 	 * @author Diego Beraldin
 	 */
-	this.setup = function() {
+	this.display = function() {
 		calls = getCalls();
 		for (var call in calls) {
 			addListItem(call);
 		}
 	};
+	
+	/***************************************************************************
+     * LISTNER DEGLI EVENTI
+     **************************************************************************/
+    document.addEventListener("showCallHistoryPanel", onShowCallHistoryPanel);
 }

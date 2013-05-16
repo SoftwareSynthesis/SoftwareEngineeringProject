@@ -1,21 +1,29 @@
 /**
  * Presenter incaricato di gestire i messaggi in segreteria
  * 
- * @param {String}
- *            url URL della servlet con cui il presenter deve comunicare
  * @author Elena Zecchinato
  * @author Diego Beraldin
  */
-function MessagePanelPresenter(url) {
+function MessagePanelPresenter() {
 	/***************************************************************************
 	 * VARIABILI PRIVATE
 	 **************************************************************************/
+	var thisPresenter = this;
+	var thisPanel;
 	// array di messaggi
 	var messages = new Array();
 
 	/***************************************************************************
 	 * METODI PRIVATI
 	 **************************************************************************/	
+	/**
+     * Funzione per gestire l'evento in cui viene visualizzato il pannello dei messaggi di segreteria
+     * @author Riccardo Tresoldi
+     */
+    function onShowMessagePanel() {
+        mediator.getView('message');
+    }
+	
 	/**
 	 * Aggiunge un messaggio a una lista per creare l'elenco della segreteria
 	 * telefonica creando il list item corrispondente (con la stringa
@@ -87,29 +95,12 @@ function MessagePanelPresenter(url) {
 	 * METODI PUBBLICI
 	 **************************************************************************/
 	/**
-	 * Costruisce il pannello della segreteria telefonica, che deve essere
-	 * visualizzato all'interno del MainPanel dell'applicazione quando è
-	 * selezionata la funzione corsispondente dal pannello degli strumenti. Il
-	 * MessagePanel è costituito da un elemento video seguito da un 'div' che a
-	 * sua volta contiene una lista di messaggi.
-	 * 
-	 * @param {HTMLDivElement}
-	 *            il pannello che deve diventare la segreteria telefonica
-	 * @returns {HTMLDivElement} pannello contenente la segreteria telefonica
-	 * @author Riccardo Tresoldi
-	 */
-	this.createPanel = function(element) {
-		var element = mediator.getView("MessageView");
-		return element;
-	};
-
-	/**
 	 * Riscarica i messaggi dal server e li aggiunge nella lista 'messageList'
 	 * che è presente nel pannello MessagePanel
 	 * 
 	 * @author Riccardo Tresoldi
 	 */
-	this.setup = function() {
+	this.display = function() {
 		getMessages();
 		for ( var message in messages) {
 			this.addListItem(message);
@@ -165,12 +156,9 @@ function MessagePanelPresenter(url) {
 					+ (valueToSet ? " letto " : " non letto") + "!";
 		}
 	};
+	
+	/***************************************************************************
+     * LISTNER DEGLI EVENTI
+     **************************************************************************/
+    document.addEventListener("showMessagePanel", onShowMessagePanel);
 }
-
-
-
-
-
-
-
-

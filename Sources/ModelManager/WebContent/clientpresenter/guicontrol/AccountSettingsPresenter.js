@@ -12,10 +12,20 @@ function AccountSettingsPanelPresenter(url) {
     /***************************************************************************
      * VARIABILI PRIVATE
      **************************************************************************/
+    var thisPresenter = this;
+    var thisPanel;
 
     /***************************************************************************
      * METODI PRIVATI
      **************************************************************************/
+    /**
+     * Funzione per gestire l'evento in cui viene visualizzato il pannello delle
+     * impostazioni dell'account
+     * @author Riccardo Tresoldi
+     */
+    function onShowAccountSettingPanel() {
+        mediator.getView('accountSettings');
+    }
 
     /***************************************************************************
      * METODI PUBBLICI
@@ -156,42 +166,39 @@ function AccountSettingsPanelPresenter(url) {
         element.appendChild(formData);
     };
 
-    /**
+    /** VIEW
      * Inizializza il pannello costruendone i widget grafici interni e lo
      * restituisce in modo che possa essere inserito all'interno del pannello
      * principale
      *
-     * @returns {HTMLDivElement} pannello delle impostazioni inizializzato
      * @author Elena Zecchinato
      * @author Diego Beraldin
      */
-	 this.createPanel = function() {
-		var self = this;
-		// ottiene un riferimento alla vista
-		var element = mediator.getview("AccountSettingsView");
+    this.createPanel = function() {
+        // salvo un riferimento alla vista
+        var thisPanel = document.getElementById("AccountSettingsPanel");
 
-		// configura la vista
-		var nameNode = document.evaluate("//node()[@id='name']", element, null,
-				XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-		nameNode.appendChild(document
-				.createTextNode(communicationcenter.my.name));
+        //XXX ????
+        // configura la vista
+        var nameNode = document.evaluate("//node()[@id='name']", element, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+        nameNode.appendChild(document.createTextNode(communicationcenter.my.name));
 
-		var surnameNode = document.evaluate("//node()[@id='surname']", element,
-				null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-		surnameNode.appendChild(document
-				.createTextNode(communicationcenter.my.surname));
+        var surnameNode = document.evaluate("//node()[@id='surname']", element, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+        surnameNode.appendChild(document.createTextNode(communicationcenter.my.surname));
 
-		var pictureNode = document.evaluate("//node()[@id='picture']", element,
-				null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-		pictureNode.src = communicationcenter.my.picturePath;
+        var pictureNode = document.evaluate("//node()[@id='picture']", element, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+        pictureNode.src = communicationcenter.my.picturePath;
 
-		var changeButton = document.evaluate("//node()[@id='changeButton']",
-				element, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-		changeButton.onclick = function() {
-			self.onChangeButtonPressed();
-		};
+        var changeButton = document.evaluate("//node()[@id='changeButton']", element, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+        changeButton.onclick = function() {
+            self.onChangeButtonPressed();
+        };
 
         // FIXME possono cambiare anche password, domanda segreta e risposta!?
-		return element;
     };
+
+    /***************************************************************************
+     * LISTNER DEGLI EVENTI
+     **************************************************************************/
+    document.addEventListener("showAccountSettingPanel", onShowAccountSettingPanel);
 }

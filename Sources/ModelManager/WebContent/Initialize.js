@@ -10,6 +10,11 @@ window.onload = function() {
     showToolsPanel = new CustomEvent("showToolsPanel");
     showMainPanel = new CustomEvent("showMainPanel");
     showContactPanel = new CustomEvent("showContactPanel");
+    showAccountSettingPanel = new CustomEvent("showAccountSettingPanel");
+    showCallHistoryPanel = new CustomEvent("showCallHistoryPanel");
+    showGroupPanel = new CustomEvent("showGroupPanel");
+    showMessagePanel = new CustomEvent("showMessagePanel");
+    showSearchResultPanel = new CustomEvent("showSearchResultPanel");
     //eventi rimozione pannelli
     removeAllPanel = new CustomEvent("removeAllPanel");
     removeLoginPanel = new CustomEvent("removeLoginPanel");

@@ -35,9 +35,7 @@ function ContactPanelPresenter() {
      * @author Riccardo Tresoldi
      */
     function onRemoveContactPanel() {
-        // TODO currentContact = null;
-        // TODO thisPresenter.destroy();
-        alert("removeContactPanel non ancora gestito");
+        currentContact = null;
     }
 
     /**
@@ -210,5 +208,5 @@ function ContactPanelPresenter() {
     document.addEventListener("showContactPanel", function(evt) {
         onShowContactPanel(evt.contact);
     });
-    document.addEventListener("removeContactPanel", onRemoveContactPanel());
+    document.addEventListener("removeContactPanel", onRemoveContactPanel);
 }
