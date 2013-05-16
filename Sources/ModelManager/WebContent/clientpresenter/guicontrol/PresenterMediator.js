@@ -14,6 +14,7 @@ function PresenterMediator() {
         accountSettings : "AccountSettingsView.html",
         addressBook : "AddressBookView.html",
         callHistory : "CallHistoryView.html",
+        contact : "ContactView.html",
         group : "CommunicationView.html",
         login : "LoginView.html",
         main : "MainView.html",
@@ -651,8 +652,12 @@ function PresenterMediator() {
         if (presenters[presenter]) {
             presenters[presenter].initialize(view);
         } else if (secondaryPresenter[presenter]) {
-            //secondaryPresenter[presenter].createPanel(view);
-            alert("secondaryPresenter[" + presenter + "] - Da gestire");
+            presenters["main"].displayChildPanel(view);
+            // caso in cui il presenter visualizzato sia il contactPresenter
+            // il contatto da visualizzare è salvato nel Presenter stesso
+            if (presenter == "contact") {
+                secondaryPresenter[presenter].display();
+            }
         } else {
             alert("onLoadedView non gestita");
         }

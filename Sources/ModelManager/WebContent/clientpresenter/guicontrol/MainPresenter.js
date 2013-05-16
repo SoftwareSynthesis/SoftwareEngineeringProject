@@ -18,7 +18,8 @@ function MainPanelPresenter() {
      * METODI PRIVATI
      **************************************************************************/
     /**
-     * Funzione per gestire l'evento in cui viene visualizzato il pannello principale
+     * Funzione per gestire l'evento in cui viene visualizzato il pannello
+     * principale
      * @author Riccardo Tresoldi
      */
     function onShowMainPanel() {
@@ -32,7 +33,7 @@ function MainPanelPresenter() {
     function onRemoveMainPanel() {
         thisPresenter.destroy();
     }
-    
+
     /***************************************************************************
      * METODI PUBBICI
      **************************************************************************/
@@ -44,7 +45,7 @@ function MainPanelPresenter() {
         var thisPanelParent = thisPanel.parentElement.parentElement;
         thisPanelParent.removeChild(thisPanel.parentElement);
     };
-    
+
     /**
      * Costruisce il pannello principale dell'applicazione che occupa il posto
      * centrale della finestra
@@ -71,8 +72,7 @@ function MainPanelPresenter() {
      * @author Diego Beraldin
      */
     this.displayChildPanel = function(node) {
-        element.innerHTML = "";
-        element.appendChild(node);
+        thisPanel.innerHTML = node.outerHTML;
     };
 
     /**
@@ -81,18 +81,18 @@ function MainPanelPresenter() {
      * @author Diego Beraldin
      */
     this.hide = function() {
-        if (element) {
-            document.body.removeChild(element);
+        if (thisPanel) {
+            thisPanel.style.display = "none";
         }
     };
-    
+
     /***************************************************************************
      * LISTNER DEGLI EVENTI
      **************************************************************************/
-    document.addEventListener("showMainPanel", function(evt){
+    document.addEventListener("showMainPanel", function(evt) {
         onShowMainPanel();
     });
-    document.addEventListener("removeMainPanel", function(evt){
+    document.addEventListener("removeMainPanel", function(evt) {
         onRemoveMainPanel();
     });
 }

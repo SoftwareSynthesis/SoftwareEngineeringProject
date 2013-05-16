@@ -15,26 +15,31 @@ function ContactPanelPresenter() {
      **************************************************************************/
     var currentContact = null;
     var thisPresenter = this;
-    
+
     /***************************************************************************
      * METODI PRIVATI
      **************************************************************************/
     /**
-     * Funzione per gestire l'evento in cui viene visualizzato il pannello del contatto
+     * Funzione per gestire l'evento in cui viene visualizzato il pannello del
+     * contatto
      * @author Riccardo Tresoldi
      */
-    function onShowContactPanel() {
+    function onShowContactPanel(contact) {
+        currentContact = contact;
         mediator.getView('contact');
     }
 
     /**
-     * Funzione per gestire l'evento in cui viene rimosso il pannello del contatto
+     * Funzione per gestire l'evento in cui viene rimosso il pannello del
+     * contatto
      * @author Riccardo Tresoldi
      */
     function onRemoveContactPanel() {
-        //FIXME thisPresenter.destroy();
+        // TODO currentContact = null;
+        // TODO thisPresenter.destroy();
+        alert("removeContactPanel non ancora gestito");
     }
-    
+
     /**
      * Funzione che controlla se il contatto passato come parametro è bloccato o
      * no sistemando la vista in modo da lasciare consistente la visualizzazione
@@ -133,12 +138,17 @@ function ContactPanelPresenter() {
      * @author Diego Beraldin
      * @author Riccardo Tresoldi
      */
-    this.display = function(contact) {
-        currentContact = contact;
-        document.getElementById("contactName").appendChild(document.createTextNode(contact.name));
-        document.getElementById("contactSurname").appendChild(document.createTextNode(contact.surname));
-        document.getElementById("contactEmail").appendChild(document.createTextNode(contact.email));
-        document.getElementById("contactAvatar").src = contact.picturePath;
+    this.display = function() {
+        if (currentContact == null) {
+            alert("Contatto da visualizzare non impostato!");
+            return;
+        }
+        console.debug(currentContact);
+
+        document.getElementById("contactName").appendChild(document.createTextNode(currentContact.name));
+        document.getElementById("contactSurname").appendChild(document.createTextNode(currentContact.surname));
+        document.getElementById("contactEmail").appendChild(document.createTextNode(currentContact.email));
+        document.getElementById("contactAvatar").src = currentContact.picturePath;
 
         // recupero i bottoni per associargli i metodi
         var addToAddressBookButton = document.getElementById("addToAddressBookButton");
@@ -149,43 +159,43 @@ function ContactPanelPresenter() {
         var callButton = document.getElementById("callButton");
         var removeFromAddressBookButton = document.getElementById("removeFromAddressBookButton");
 
-        adjustBlockButtonDisplay(contact);
-        adjustGUIOnContactState(contact);
+        adjustBlockButtonDisplay(currentContact);
+        adjustGUIOnContactState(currentContact);
 
         // popolo le label dei gruppi al div groupsDiv
-        buildGroupsDiv(contact);
+        buildGroupsDiv(currentContact);
 
         // associo gli eventi onClick ai bottoni
         addToAddressBookButton.onclick = function() {
-            mediator.onContactAdded(contact);
+            mediator.onContactAdded(currentContact);
         };
 
         removeFromAddressBookButton.onclick = function() {
-            mediator.onContactRemoved(contact);
+            mediator.onContactRemoved(currentContact);
         };
 
         blockButton.onclick = function() {
-            mediator.onBlockContact(contact);
+            mediator.onBlockContact(currentContact);
         };
 
         unlockButton.onclick = function() {
-            mediator.onUnlockContact(contact);
+            mediator.onUnlockContact(currentContact);
         };
 
         chatButton.onclick = function() {
-            mediator.onChatStarted(contact);
+            mediator.onChatStarted(currentContact);
         };
 
         videoCallButton.onclick = function() {
-            mediator.onCall(contact, false);
+            mediator.onCall(currentContact, false);
         };
 
         callButton.onclick = function() {
-            mediator.onCall(contact, true);
+            mediator.onCall(currentContact, true);
         };
 
         // tolgo la possibilità di aggiungere un utente se già presente
-        if (mediator.contactAlreadyPresent(contact)) {
+        if (mediator.contactAlreadyPresent(currentContact)) {
             document.getElementById("addToAddressBookButton").style.display = "none";
         }
     };
@@ -197,6 +207,8 @@ function ContactPanelPresenter() {
         if (currentContact.id == evt.idUserChange)
             adjustGUIOnContactState(currentContact);
     });
-    
-    //FIXME sistemare gestione evento utente bloccato
+    document.addEventListener("showContactPanel", function(evt) {
+        onShowContactPanel(evt.contact);
+    });
+    document.addEventListener("removeContactPanel", onRemoveContactPanel());
 }

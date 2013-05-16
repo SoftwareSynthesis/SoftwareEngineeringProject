@@ -9,6 +9,7 @@ window.onload = function() {
     showAddressBookPanel = new CustomEvent("showAddressBookPanel");
     showToolsPanel = new CustomEvent("showToolsPanel");
     showMainPanel = new CustomEvent("showMainPanel");
+    showContactPanel = new CustomEvent("showContactPanel");
     //eventi rimozione pannelli
     removeAllPanel = new CustomEvent("removeAllPanel");
     removeLoginPanel = new CustomEvent("removeLoginPanel");
@@ -16,6 +17,7 @@ window.onload = function() {
     removeAddressBookPanel = new CustomEvent("removeAddressBookPanel");
     removeToolsPanel = new CustomEvent("removeToolsPanel");
     removeMainPanel = new CustomEvent("removeMainPanel");
+    removeContactPanel = new CustomEvent("removeContactPanel");
 
     //Inizializzazione delle funzioni
     window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext || window.msAudioContext;

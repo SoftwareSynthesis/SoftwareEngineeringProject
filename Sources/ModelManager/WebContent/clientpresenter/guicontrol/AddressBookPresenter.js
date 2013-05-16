@@ -105,7 +105,8 @@ function AddressBookPanelPresenter() {
         item.id = contact.id;
         item.className = contact.state;
         item.onclick = function() {
-            mediator.onContactSelected(contact);
+            showContactPanel.contact = contact;
+            document.dispatchEvent(showContactPanel);
         };
 
         // genero i valori da attribuire all'<li>
