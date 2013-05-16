@@ -54,7 +54,7 @@ public class UpdateMessageControllerTest {
 		writer = new StringWriter();
 		when(response.getWriter()).thenReturn(new PrintWriter(writer));
 		// comportamento della richiesta
-		when(request.getParameter("id")).thenReturn(messageId.toString());
+		when(request.getParameter("idMessage")).thenReturn(messageId.toString());
 		// inizializza l'oggetto da testare
 		tester = new UpdateMessageController() {
 			@Override
@@ -91,7 +91,7 @@ public class UpdateMessageControllerTest {
 
 		// verifica il corretto utilizzo dei mock
 		verify(response).getWriter();
-		verify(request).getParameter("id");
+		verify(request).getParameter("idMessage");
 		verify(request).getParameter("valueToSet");
 		verify(dao).getMessage(messageId);
 		verify(message).setNewer(true);
@@ -125,7 +125,7 @@ public class UpdateMessageControllerTest {
 
 		// verifica il corretto utilizzo dei mock
 		verify(response).getWriter();
-		verify(request).getParameter("id");
+		verify(request).getParameter("idMessage");
 		verify(request).getParameter("valueToSet");
 		verify(dao).getMessage(messageId);
 		verify(message).setNewer(false);
@@ -162,7 +162,7 @@ public class UpdateMessageControllerTest {
 
 		// verifica il corretto utilizzo dei mock
 		verify(response).getWriter();
-		verify(request).getParameter("id");
+		verify(request).getParameter("idMessage");
 		verify(request).getParameter("valueToSet");
 		verify(dao).getMessage(messageId);
 		verify(dao, never()).update(any(IMessage.class));
@@ -195,7 +195,7 @@ public class UpdateMessageControllerTest {
 
 		// verifica il corretto utilizzo dei mock
 		verify(response).getWriter();
-		verify(request).getParameter("id");
+		verify(request).getParameter("idMessage");
 		verify(request).getParameter("valueToSet");
 		verify(dao, never()).getMessage(messageId);
 		verify(dao, never()).update(any(IMessage.class));

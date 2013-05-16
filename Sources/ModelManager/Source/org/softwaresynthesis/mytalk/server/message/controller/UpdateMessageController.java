@@ -28,7 +28,7 @@ public class UpdateMessageController extends AbstractController{
 		try
 		{
 			dao = getDAOFactory();
-			id = Long.parseLong(request.getParameter("id"));
+			id = Long.parseLong(request.getParameter("idMessage"));
 			stato = request.getParameter("valueToSet");
 			if (stato.equals("true"))
 				state = true;
