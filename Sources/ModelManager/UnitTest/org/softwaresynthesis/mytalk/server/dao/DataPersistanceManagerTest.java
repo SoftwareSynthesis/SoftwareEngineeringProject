@@ -5,9 +5,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -16,15 +16,15 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.softwaresynthesis.mytalk.server.IMyTalkObject;
+import org.softwaresynthesis.mytalk.server.abook.IGroup;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
 import org.softwaresynthesis.mytalk.server.dao.util.GetUtil;
 import org.softwaresynthesis.mytalk.server.dao.util.ModifyUtil;
 import org.softwaresynthesis.mytalk.server.dao.util.UtilFactory;
+import org.softwaresynthesis.mytalk.server.message.IMessage;
 
 /**
  * Test della classe {@link DataPersistanceManager} che verifica l'invocazione
@@ -48,9 +48,11 @@ public class DataPersistanceManagerTest {
 	@Mock
 	private IUserData user;
 	@Mock
+	private IGroup group;
+	@Mock
+	private IMessage message;
+	@Mock
 	private List<IMyTalkObject> list;
-	@Captor
-	private ArgumentCaptor<Integer> arg;
 	private DataPersistanceManager tester;
 
 	/**
@@ -70,7 +72,7 @@ public class DataPersistanceManagerTest {
 		when(factory.getDeleteUtil(manager)).thenReturn(modifier);
 		when(factory.getInsertUtil(manager)).thenReturn(modifier);
 		when(factory.getUpdateUtil(manager)).thenReturn(modifier);
-		// inizialzza l'oggetto da testare
+		// inizializza l'oggetto da testare
 		tester = new DataPersistanceManager(manager, factory);
 	}
 
@@ -221,44 +223,238 @@ public class DataPersistanceManagerTest {
 		verify(modifier).execute(object);
 	}
 
-	@Test
-	public void testGetAddressBookEntry() {
-		fail("Non ho voglia/tempo di farlo");
-	}
-
-	@Test
-	public void testGetCallHistory() {
-		fail("Non ho voglia/tempo di farlo");
-	}
-
+	/**
+	 * TODO da documentare
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
 	@Test
 	public void testGetGroupLong() {
-		fail("Non ho voglia/tempo di farlo");
+		// id del gruppo
+		Long groupId = 1L;
+		// query che deve essere eseguita
+		String query = "from Groups as g where g.id = " + "'" + groupId + "'";
+		// comportamento dei mock
+		when(list.get(0)).thenReturn(group);
+		when(getter.execute(query)).thenReturn(list);
+
+		// invoca il metodo da testare
+		IGroup result = tester.getGroup(groupId);
+
+		// verifica il risultato ottenuto
+		assertNotNull(result);
+		assertEquals(group, result);
+
+		// verifica il corretto utilizzo dei mock
+		verify(getter).execute(query);
+		verify(list).get(0);
+		verify(list).isEmpty();
 	}
 
+	/**
+	 * TODO da documentare
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testGetGroupLongEmpty() {
+		// id del gruppo
+		Long groupId = 1L;
+		// query che deve essere eseguita
+		String query = "from Groups as g where g.id = " + "'" + groupId + "'";
+		// comportamento dei mock
+		when(list.isEmpty()).thenReturn(true);
+		when(getter.execute(query)).thenReturn(list);
+
+		// invoca il metodo da testare
+		IGroup result = tester.getGroup(groupId);
+
+		// verifica il risultato ottenuto
+		assertNull(result);
+
+		// verifica il corretto utilizzo dei mock
+		verify(getter).execute(query);
+		verify(list, never()).get(anyInt());
+		verify(list).isEmpty();
+	}
+
+	/**
+	 * TODO da documentare
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
 	@Test
 	public void testGetGroupIUserData() {
-		fail("Non ho voglia/tempo di farlo");
+		// query che deve essere eseguita
+		String query = "from Groups as g where g.owner = " + "'" + user + "'";
+		// comportamento dei mock
+		when(list.get(0)).thenReturn(group);
+		when(getter.execute(query)).thenReturn(list);
+
+		// invoca il metodo da testare
+		List<IGroup> result = tester.getGroup(user);
+		assertNotNull(result);
+		assertFalse(result.isEmpty());
+		assertEquals(list, result);
+
+		// verifica il corretto utilizzo dei mock
+		verify(getter).execute(query);
+		verify(list, times(2)).isEmpty();
 	}
 
+	/**
+	 * TODO da documentare
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
 	@Test
-	public void testGetGroupIUserDataString() {
-		fail("Non ho voglia/tempo di farlo");
+	public void testGetGroupIUserDataEmpty() {
+		// query che deve essere eseguita
+		String query = "from Groups as g where g.owner = " + "'" + user + "'";
+		// comportamento dei mock
+		when(list.isEmpty()).thenReturn(true);
+		when(getter.execute(query)).thenReturn(list);
+
+		// invoca il metodo da testare
+		List<IGroup> result = tester.getGroup(user);
+		assertNull(result);
+
+		// verifica il corretto utilizzo dei mock
+		verify(getter).execute(query);
+		verify(list).isEmpty();
 	}
 
+	/**
+	 * TODO da documentare
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
 	@Test
 	public void testGetMessageNewKey() {
-		fail("Non ho voglia/tempo di farlo");
+		// id dell'ultimo inserimento in Messages
+		Long lastId = 1L;
+		// query da eseguire
+		String query = "max(id) from Messages";
+		// ignoriamo il metodo-portoghese
+		when(getter.uniqueResult(query)).thenReturn(lastId);
+
+		// invoca il metodo da testare
+		Long result = tester.getMessageNewKey();
+		assertNotNull(result);
+		assertTrue(result == lastId + 1);
+
+		// verifica il corretto utilizzo dei mock
+		verify(getter).uniqueResult(query);
 	}
 
+	/**
+	 * TODO da documentare
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
 	@Test
 	public void testGetMessage() {
-		fail("Non ho voglia/tempo di farlo");
+		// identificativo di prova
+		Long id = 1L;
+		// query che deve essere eseguita
+		String query = "from Messages as m where m.id = " + "'" + id + "'";
+		// comportamento dei mock
+		when(list.get(0)).thenReturn(message);
+		when(getter.execute(query)).thenReturn(list);
+
+		// invoca il metodo da testare
+		IMessage result = tester.getMessage(id);
+
+		// verifica l'output
+		assertNotNull(result);
+		assertEquals(message, result);
+
+		// verifica il corretto utilizzo dei mock
+		verify(getter).execute(query);
+		verify(list).isEmpty();
+		verify(list).get(0);
 	}
 
+	/**
+	 * TODO da documentare
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testGetMessageEmpty() {
+		// identificativo di prova
+		Long id = 1L;
+		// query che deve essere eseguita
+		String query = "from Messages as m where m.id = " + "'" + id + "'";
+		// comportamento dei mock
+		when(list.isEmpty()).thenReturn(true);
+		when(getter.execute(query)).thenReturn(list);
+
+		// invoca il metodo da testare
+		IMessage result = tester.getMessage(id);
+
+		// verifica l'output
+		assertNull(result);
+
+		// verifica il corretto utilizzo dei mock
+		verify(getter).execute(query);
+		verify(list).isEmpty();
+		verify(list, never()).get(anyInt());
+	}
+
+	/**
+	 * TODO da documentare
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
 	@Test
 	public void testGetMessages() {
-		fail("Non ho voglia/tempo di farlo");
+		// query da eseguire
+		String query = "from Messages as m where m.receiver = " + "'" + user
+				+ "'";
+		// comportamento dei mock
+		when(getter.execute(query)).thenReturn(list);
+
+		// invoca il metodo da testare
+		List<IMessage> result = tester.getMessages(user);
+		assertNotNull(result);
+		assertEquals(list, result);
+
+		// verifica il corretto utilizzo dei mock
+		verify(getter).execute(query);
+		verify(list).isEmpty();
+	}
+
+	/**
+	 * TODO da documentare
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testGetMessagesEmpty() {
+		// query da eseguire
+		String query = "from Messages as m where m.receiver = " + "'" + user
+				+ "'";
+		// comportamento dei mock
+		when(getter.execute(query)).thenReturn(list);
+		when(list.isEmpty()).thenReturn(true);
+
+		// invoca il metodo da testare
+		List<IMessage> result = tester.getMessages(user);
+		assertNull(result);
+
+		// verifica il corretto utilizzo dei mock
+		verify(getter).execute(query);
+		verify(list).isEmpty();
 	}
 
 	/**
@@ -297,8 +493,7 @@ public class DataPersistanceManagerTest {
 		verify(factory).getUserDataUtil(manager);
 		verify(getter).execute(query);
 		verify(list).isEmpty();
-		verify(list).get(arg.capture());
-		assertTrue(arg.getValue() == 0);
+		verify(list).get(0);
 	}
 
 	/**
@@ -375,8 +570,7 @@ public class DataPersistanceManagerTest {
 		verify(factory).getUserDataUtil(manager);
 		verify(getter).execute(query);
 		verify(list).isEmpty();
-		verify(list).get(arg.capture());
-		assertTrue(arg.getValue() == 0);
+		verify(list).get(0);
 	}
 
 	/**
