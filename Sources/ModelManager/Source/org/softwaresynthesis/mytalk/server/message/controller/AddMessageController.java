@@ -66,9 +66,6 @@ public class AddMessageController extends AbstractController{
 			dao.insert(message);
 			
 			result = "true";
-			writer = response.getWriter();
-			writer.write(result);
-			
 		}
 		catch (Exception ex)
 		{
