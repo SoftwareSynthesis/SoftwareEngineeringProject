@@ -27,14 +27,14 @@ public class GetMessagesController extends AbstractController{
 		List<IMessage> messages = null;
 		Iterator<IMessage> messageIter = null;
 		IMessage message = null;
-		String separator = null;
+		String separator = System.getProperty("file.separator");
 		String email = null;
 		IUserData user = null;
 		
 		try
 		{
-			dao = super.getDAOFactory();
-			email = super.getUserMail();
+			dao = getDAOFactory();
+			email = getUserMail();
 			user = dao.getUserData(email);
 			messages = dao.getMessages(user);
 			if (messages != null)
@@ -46,18 +46,18 @@ public class GetMessagesController extends AbstractController{
 					message = messageIter.next();
 					result += "{";
 					result += "\"id\":\"" + message.getId() + "\"";
-					result += ", \"sender\":\"" + message.getSender() + "\"";
+					result += ", \"sender\":\"" + message.getSender().getId() + "\"";
 					result += ", \"status\":\"" + message.getNewer() + "\"";
 					result += ", \"video\":\"" + message.getVideo() + "\"";
 					result += ", \"date\":\"" + message.getDate() + "\"";
 					result += ", \"src\":\"Secretariat" + separator + message.getId() + ".wav\"";
+					result += "}";
 					if (messageIter.hasNext() == true)
 					{
-						result += "},";
+						result += ", ";
 					}
 				}
-				result += "}]";
-			
+				result += "]";
 			}
 			else
 			{
