@@ -34,7 +34,7 @@ public class AddMessageController extends AbstractController{
 		Long receiver = null;
 		InputStream inputStream = null;
 		Part filePart = null;
-		FileOutputStream out = null;
+
 		String path = null;
 		String separator = null;
 		IUserData send = null;
@@ -43,8 +43,8 @@ public class AddMessageController extends AbstractController{
 		
 		try
 		{
-			dao = super.getDAOFactory();
-			sender = super.getUserMail();
+			dao = getDAOFactory();
+			sender = getUserMail();
 			receiver = Long.parseLong(getValue(request.getPart("receiver")));
 			filePart = request.getPart("msg");
 			if (filePart != null)
@@ -55,12 +55,10 @@ public class AddMessageController extends AbstractController{
 			separator = System.getProperty("file.separator");
 			path = "Secretariat" + separator;
 			path += dao.getMessageNewKey() + ".wav";
-			out = new FileOutputStream(path);
-			out.write(IOUtils.readFully(inputStream, -1, false));
-			out.close();
+			writeFile(path, inputStream);
 			send = dao.getUserData(sender);
 			rec = dao.getUserData(receiver);
-			message = new Message();
+			message = createMessage();
 			message.setId(dao.getMessageNewKey());
 			message.setSender(send);
 			message.setReceiver(rec);
@@ -83,7 +81,18 @@ public class AddMessageController extends AbstractController{
 		}
 	}
 	
-	private static String getValue(Part part) throws IOException {
+	IMessage createMessage() {
+		return new Message();
+	}
+	
+	void writeFile(String path, InputStream inputStream) throws IOException {
+		FileOutputStream out = null;
+		out = new FileOutputStream(path);
+		out.write(IOUtils.readFully(inputStream, -1, false));
+		out.close();
+	}
+	
+	String getValue(Part part) throws IOException {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(
 				part.getInputStream(), "UTF-8"));
 		StringBuilder value = new StringBuilder();
