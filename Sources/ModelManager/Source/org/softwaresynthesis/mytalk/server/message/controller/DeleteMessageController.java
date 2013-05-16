@@ -32,7 +32,6 @@ public class DeleteMessageController extends AbstractController{
 			id = Long.parseLong(request.getParameter("idMessage"));
 			message = dao.getMessage(id);
 			if (message != null){
-				dao.delete(message);
 				separator = System.getProperty("file.separator");
 				path = "Secretariat" + separator;
 				path += id.toString() + ".wav";
@@ -42,6 +41,7 @@ public class DeleteMessageController extends AbstractController{
 				}
 				else
 				{
+					dao.delete(message);
 					result = "true";
 				}
 			}
