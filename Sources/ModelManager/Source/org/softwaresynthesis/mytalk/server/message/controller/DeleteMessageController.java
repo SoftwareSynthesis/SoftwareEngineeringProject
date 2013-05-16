@@ -25,11 +25,10 @@ public class DeleteMessageController extends AbstractController{
 		Long id = null;
 		String separator = null;
 		String path = null;
-		File file = null;
 		
 		try
 		{
-			dao = super.getDAOFactory();
+			dao = getDAOFactory();
 			id = Long.parseLong(request.getParameter("idMessage"));
 			message = dao.getMessage(id);
 			if (message != null){
@@ -37,8 +36,7 @@ public class DeleteMessageController extends AbstractController{
 				separator = System.getProperty("file.separator");
 				path = "Secretariat" + separator;
 				path += id.toString() + ".wav";
-				file = new File(path);
-				if(!(file.delete()))
+				if (deleteFile(path) == false)
 				{
 					result = "null";
 				}
@@ -61,5 +59,19 @@ public class DeleteMessageController extends AbstractController{
 			writer = response.getWriter();
 			writer.write(result);
 		}
+	}
+	
+	/**
+	 * Elimina il file dal disco
+	 * 
+	 * @param path
+	 *            percorso del file che deve essere cancellato
+	 * @return <code>true</code> se l'operazione va a buon fine,
+	 *         <code>false</code> altrimenti
+	 */
+	boolean deleteFile(String path)
+	{
+		File file = new File(path);
+		return file.delete();
 	}
 }
