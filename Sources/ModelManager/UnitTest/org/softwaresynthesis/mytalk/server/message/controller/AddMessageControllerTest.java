@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,10 +23,21 @@ import org.softwaresynthesis.mytalk.server.message.IMessage;
 
 import static org.mockito.Mockito.*;
 
+/**
+ * Verifica della classe {@link AddMessageController}
+ * 
+ * @author Diego Beraldin
+ * @version 2.0
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class AddMessageControllerTest {
 	private final String username = "indirizzo5@dominio.it";
+	private final String sep = System.getProperty("file.separator");
 	private final Long messageId = 1L;
+	private final Long receiverId = 1L;
+	private final String messagePath = String.format("Secretariat%s%d.wav",
+			sep, messageId);
+	private final Date messageDate = new Date(1368775249L);
 	private Writer writer;
 	private AddMessageController tester;
 	@Mock
@@ -33,7 +45,9 @@ public class AddMessageControllerTest {
 	@Mock
 	private HttpServletResponse response;
 	@Mock
-	private Part part;
+	private Part messagePart;
+	@Mock
+	private Part receiverPart;
 	@Mock
 	private IUserData sender;
 	@Mock
@@ -45,21 +59,30 @@ public class AddMessageControllerTest {
 	@Mock
 	private InputStream istream;
 
+	/**
+	 * Inizializza l'oggetto da testare e configura il comportamento dei mock
+	 * prima di tutte le verifiche che sono contenuti in questo caso di test.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
 	@Before
 	public void setUp() throws Exception {
-		// comportamento della part
-		when(part.getInputStream()).thenReturn(istream);
+		// comportamento della part del messaggio
+		when(messagePart.getInputStream()).thenReturn(istream);
 		// comportamento della richiesta
-		when(request.getPart("receiver")).thenReturn(part);
-		when(request.getPart("msg")).thenReturn(part);
+		when(request.getPart("receiver")).thenReturn(receiverPart);
+		when(request.getPart("msg")).thenReturn(messagePart);
 		// comportamento della risposta
 		writer = new StringWriter();
 		when(response.getWriter()).thenReturn(new PrintWriter(writer));
 		// comportamento del gestore di persistenza
 		when(dao.getMessageNewKey()).thenReturn(messageId);
+		when(dao.getUserData(username)).thenReturn(sender);
+		when(dao.getUserData(receiverId)).thenReturn(receiver);
 
-		// inizializza l'oggetto da testare
-		tester = new AddMessageController() {
+		// inizializza l'oggetto da testare ;)
+		tester = spy(new AddMessageController() {
 			@Override
 			protected DataPersistanceManager getDAOFactory() {
 				return dao;
@@ -72,36 +95,99 @@ public class AddMessageControllerTest {
 
 			@Override
 			String getValue(Part part) {
-				return "1";
+				return receiverId.toString();
 			}
 
 			@Override
 			void writeFile(String path, InputStream istream) {
 			}
-			
+
 			@Override
 			IMessage createMessage() {
 				return message;
 			}
-		};
+
+			@Override
+			Date getCurrentDate() {
+				return messageDate;
+			}
+		});
 	}
 
 	/**
-	 * TODO da documentare!
+	 * Verifica il comportamento del metodo doAction per effettuare l'aggiunta
+	 * di un messaggio nella segreteria telefonica. In particolare il test
+	 * verifica che il testo stampato sulla risposta HTTP sia, come desiderato
+	 * in caso di successo, la stringa 'true'. Il test controlla inoltre che i
+	 * mock siano utilizzati in modo corretto e, in particolare, che sia salvato
+	 * un nuovo file con il percorso corretto e che sia effettuata nel database
+	 * un'operazione di inserimento per il nuovo messaggio (dopo aver impostato
+	 * i suoi campi dati ai valori corretti).
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
 	 */
 	@Test
 	public void testAddCorrectMessage() throws Exception {
-		System.err.println(System.getProperty("file.separator"));
 		// invoca il metodo da testare
 		tester.doAction(request, response);
-		
+
 		// verifica l'output
 		writer.flush();
 		String responseText = writer.toString();
 		assertEquals("true", responseText);
+
+		// verifica il corretto utilizzo dei mock e degli spy
+		verify(response).getWriter();
+		verify(request).getPart("msg");
+		verify(request).getPart("receiver");
+		verify(tester).getValue(receiverPart);
+		verify(messagePart).getInputStream();
+		verify(tester).writeFile(messagePath, istream);
+		verify(tester).createMessage();
+		verify(dao, times(2)).getMessageNewKey();
+		verify(message).setId(messageId);
+		verify(message).setSender(sender);
+		verify(message).setReceiver(receiver);
+		verify(message).setDate(messageDate);
+		verify(dao).insert(message);
 	}
 
+	/**
+	 * Verifica il comportamento del metodo doAction nel momento in cui non è
+	 * possibile portare a termine l'operazione con successo perché si verifica
+	 * un errore nel recupero del flusso di input associato al messaggio. Il
+	 * test verifica che in questo caso il testo stampato nella riposta HTTP sia
+	 * la stringa 'null' che denota per il client un fallimento dell'operazione.
+	 * Inoltre si controlla che non vengano effettuate operazioni di creazione
+	 * di un nuovo messaggio e di inserimento di nuovi messaggi nella base di
+	 * dati del sistema.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testErrorWithInput() throws Exception {
+		// solleva eccezione
+		when(messagePart.getInputStream()).thenThrow(new RuntimeException());
+		// invoca il metodo da testare
+		tester.doAction(request, response);
+
+		// verifica l'output
+		writer.flush();
+		String responseText = writer.toString();
+		assertEquals("null", responseText);
+
+		// verifica il corretto utilizzo dei mock e degli spy
+		verify(response).getWriter();
+		verify(request).getPart("msg");
+		verify(request).getPart("receiver");
+		verify(tester).getValue(receiverPart);
+		verify(messagePart).getInputStream();
+		verify(tester, never()).writeFile(anyString(), any(InputStream.class));
+		verify(tester, never()).createMessage();
+		verify(dao, never()).getMessageNewKey();
+		verifyZeroInteractions(message);
+		verify(dao, never()).insert(any(IMessage.class));
+	}
 }

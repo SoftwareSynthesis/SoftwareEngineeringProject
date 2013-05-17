@@ -62,7 +62,7 @@ public class AddMessageController extends AbstractController{
 			message.setId(dao.getMessageNewKey());
 			message.setSender(send);
 			message.setReceiver(rec);
-			message.setDate(new Date());
+			message.setDate(getCurrentDate());
 			dao.insert(message);
 			
 			result = "true";
@@ -76,6 +76,10 @@ public class AddMessageController extends AbstractController{
 			writer = response.getWriter();
 			writer.write(result);
 		}
+	}
+	
+	Date getCurrentDate() {
+		return new Date();
 	}
 	
 	IMessage createMessage() {
