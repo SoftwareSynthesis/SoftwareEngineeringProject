@@ -33,7 +33,7 @@ public class DeleteMessageController extends AbstractController{
 			dao = getDAOFactory();
 			id = Long.parseLong(request.getParameter("idMessage"));
 			message = dao.getMessage(id);
-			user = dao.getUserData(super.getUserMail());
+			user = dao.getUserData(getUserMail());
 			if (message != null && message.getReceiver().equals(user)){
 				separator = System.getProperty("file.separator");
 				path = "Secretariat" + separator;
