@@ -2354,6 +2354,12 @@ Interfaccia che rappresenta un messaggio di segreteria del sistema \caName.
 	\item \classname{abook.IUserData}: usata per rappresentare il mittente e il destinatario del messaggio di segreteria.
 \end{itemize}
 
+\subsubsection*{Classi estese ed interfacce implementate}
+
+\begin{itemize}
+	\item \texttt{org.softwaresynthesis.mytalk.server.IMyTalkObject}: interfaccia estesa. Utilizzata per dire che la classe è da considerarsi come un \texttt{transfer object} gestito da \texttt{Hibernate}.
+\end{itemize}
+
 \subsubsection*{Metodi}
 \begin{description}
 	\item{\method{+ getId(): Long}}\\
@@ -2366,11 +2372,11 @@ Interfaccia che rappresenta un messaggio di segreteria del sistema \caName.
 	Restituisce un istanza di tipo classname{abook.IUserData} che rappresenta il destinatario del messaggio.
 	\item{\method{+ setReceiver(receiver: IUserData): void}}\\
 	Imposta il destinatario del messaggio.
-	\item{\method{+ isNew(): boolean}}\\
+	\item{\method{+ getNewer(): boolean}}\\
 	Restituisce un valore booleano che identifica lo stato del messaggio (``già letto'' se il valore ritornato è \textit{true}, ``da leggere'' se il valore ritornato è \textit{false}).
-	\item{\method{+ setNew(status: boolean): void}}\\
+	\item{\method{+ setNewer(status: boolean): void}}\\
 	Imposta il messaggio come ``già ascoltato'' o come ``da ascoltare''.
-	\item{\method{+ isVideo(): boolean}}\\
+	\item{\method{+ getVideo(): boolean}}\\
 	Restituisce un booleano che determina se si tratta di un messaggio audio oppure audio-video.
 	\item{\method{+ setVideo(video: boolean): void }}\\	
 	Imposta il messaggio come messaggio audio-video o come messaggio contenente solamente una traccia audio.
@@ -2425,11 +2431,11 @@ Classe che implementa l'interfaccia \classname{IMessage}.
 	Restituisce un istanza di tipo classname{abook.IUserData} che rappresenta il destinatario del messaggio. Nello specifico il metodo ritorna l'attributo \memberdata{receiver}.
 	\item{\method{+ setReceiver(receiver: IUserData): void}}\\
 	Imposta il destinatario del messaggio, sovrascrivendo il contenuto dell'attributo \memberdata{receiver}.
-	\item{\method{+ isNew(): boolean}}\\
+	\item{\method{+ getNewer(): boolean}}\\
 	Metodo che ritorna il contenuto dell'attributo \memberdata{status}.
-	\item{\method{+ setNew(status: boolean): void}}\\
+	\item{\method{+ setNewer(status: boolean): void}}\\
 	Imposta il messaggio come ``già ascoltato'' o come ``da ascoltare'', sovrascrivendo il contenuto dell'attributo \memberdata{status}.
-	\item{\method{+ isVideo(): boolean}}\\
+	\item{\method{+ getVideo(): boolean}}\\
 	Restituisce il contenuto dell'attributo \memberdata{video}.
 	\item{\method{+ setVideo(video: boolean): void }}\\	
 	Metodo usato per impostare la ``natura'' del messaggio, impostando il contenuto dell'attributo \memberdata{video} mettendolo a \textit{true} se il messaggio contiene una traccia video, oppure a \textit{false} se non la contiene.
