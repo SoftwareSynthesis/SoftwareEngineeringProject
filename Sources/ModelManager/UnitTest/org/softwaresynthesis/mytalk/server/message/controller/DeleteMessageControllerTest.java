@@ -201,7 +201,7 @@ public class DeleteMessageControllerTest {
 	 * @version 2.0
 	 */
 	@Test
-	public void testDeleteNotOwnerMessage() throws Exception {
+	public void testDeleteNotOwnedMessage() throws Exception {
 		// il messaggio appartiene a un altro utente
 		IUserData other = mock(IUserData.class);
 		when(message.getReceiver()).thenReturn(other);
