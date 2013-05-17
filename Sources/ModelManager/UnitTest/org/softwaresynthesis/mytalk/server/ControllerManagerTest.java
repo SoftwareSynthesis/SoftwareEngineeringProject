@@ -11,12 +11,14 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Set;
 
@@ -33,6 +35,7 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
+import org.softwaresynthesis.mytalk.server.authentication.controller.LoginController;
 import org.softwaresynthesis.mytalk.server.connection.PushInbound;
 
 /**
@@ -45,6 +48,9 @@ import org.softwaresynthesis.mytalk.server.connection.PushInbound;
 public class ControllerManagerTest {
 	private final String operation = "login";
 	private final String className = "org.softwaresynthesis.mytalk.server.authentication.controller.LoginController";
+	private final Long clientId = 1L;
+	private Writer writer;
+	private ControllerManager tester;
 	@Mock
 	private IController controller;
 	@Mock
@@ -53,8 +59,8 @@ public class ControllerManagerTest {
 	private HttpServletResponse response;
 	@Mock
 	private ServletConfig configuration;
-	private Writer writer;
-	private ControllerManager tester;
+	@Mock
+	private PushInbound ws;
 
 	/**
 	 * Inizializza l'oggetto da sottoporre a verifica prima di tutti i test in
@@ -90,6 +96,8 @@ public class ControllerManagerTest {
 		tester = spy(new ControllerManager());
 		// inizializza la mappa dei controller
 		tester.init(configuration);
+		// azzera la lista dei client noti alla servlet
+		ControllerManager.clients = new HashMap<Long, PushInbound>();
 	}
 
 	/**
@@ -128,31 +136,119 @@ public class ControllerManagerTest {
 	 * @version 2.0
 	 */
 	@Test
-	public void testDoPost() {
-		try {
-			// bypassa il metodo createController ;)
-			when(tester.createController(className)).thenReturn(controller);
+	public void testDoPost() throws Exception {
+		// bypassa il metodo createController ;)
+		when(tester.createController(className)).thenReturn(controller);
 
-			// invoca il metodo da testare
-			tester.doPost(request, response);
+		// invoca il metodo da testare
+		tester.doPost(request, response);
 
-			// verifica l'output ottenuto
-			writer.flush();
-			String result = writer.toString();
-			assertNotNull(result);
-			assertEquals("ciao", result);
+		// verifica l'output ottenuto
+		writer.flush();
+		String result = writer.toString();
+		assertNotNull(result);
+		assertEquals("ciao", result);
 
-			// verifica il corretto utilizzo dei mock
-			verify(request).getParameter("operation");
-			verify(controller).execute(request, response);
-		} catch (Exception e) {
-			fail(e.getMessage());
-		}
+		// verifica il corretto utilizzo dei mock
+		verify(request).getParameter("operation");
+		verify(controller).execute(request, response);
+	}
+
+	/**
+	 * Verifica il comportamento del metodo doPost nel momento in cui la stringa
+	 * estratta dalla richiesta HTTP tramite il parametro 'operation' non
+	 * permette di identificare un controller valido da istanziare. Il test
+	 * controlla che in una simile circostanza la pagina di risposta sia
+	 * lasciata vuota.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testDoPostClassNotFound() throws Exception {
+		// simula il verificarsi di un errore
+		when(tester.createController(className)).thenThrow(
+				new ClassNotFoundException());
+
+		// invoca il metodo da testare
+		tester.doPost(request, response);
+
+		// verifica l'output ottenuto
+		writer.flush();
+		String result = writer.toString();
+		assertNotNull(result);
+		assertTrue(result.isEmpty());
+
+		// verifica il corretto utilizzo dei mock
+		verify(request).getParameter("operation");
+		verifyZeroInteractions(controller);
+	}
+
+	/**
+	 * Verifica il comportamento del metodo doPost nel momento in cui la stringa
+	 * estratta dalla richiesta HTTP tramite il parametro 'operation'
+	 * identifichi un controller che non è possibile istanziare in questo
+	 * contesto perché non ha il livello corretto di accessibilità. Il test
+	 * controlla che in una simile circostanza la pagina di risposta sia
+	 * lasciata vuota.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testDoPostIllegalAccess() throws Exception {
+		// simula il verificarsi di un errore
+		when(tester.createController(className)).thenThrow(
+				new IllegalAccessException());
+
+		// invoca il metodo da testare
+		tester.doPost(request, response);
+
+		// verifica l'output ottenuto
+		writer.flush();
+		String result = writer.toString();
+		assertNotNull(result);
+		assertTrue(result.isEmpty());
+
+		// verifica il corretto utilizzo dei mock
+		verify(request).getParameter("operation");
+		verifyZeroInteractions(controller);
+	}
+
+	/**
+	 * Verifica il comportamento del metodo doPost nel momento in cui la stringa
+	 * estratta dalla richiesta HTTP tramite il parametro 'operation'
+	 * identifichi un controller che non è possibile istanziare in questo
+	 * contesto perché non è presente un costruttore di default o si tratta di
+	 * una classe astratta. Il test controlla che in una simile circostanza la
+	 * pagina di risposta sia lasciata vuota.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testDoPostInstantiationException() throws Exception {
+		// simula il verificarsi di un errore
+		when(tester.createController(className)).thenThrow(
+				new InstantiationException());
+
+		// invoca il metodo da testare
+		tester.doPost(request, response);
+
+		// verifica l'output ottenuto
+		writer.flush();
+		String result = writer.toString();
+		assertNotNull(result);
+		assertTrue(result.isEmpty());
+
+		// verifica il corretto utilizzo dei mock
+		verify(request).getParameter("operation");
+		verifyZeroInteractions(controller);
 	}
 
 	/**
 	 * Verifica il comportamento del metodo factory che crea il canale di
-	 * comuncazione WebSocket tra client e server. In particolare il test
+	 * comunicazione WebSocket tra client e server. In particolare il test
 	 * verifica che il valore ritornato sia un riferimento del sottotipo
 	 * corretto di MessageInbound, per l'applicazione corretta del design
 	 * pattern Factory Method.
@@ -186,5 +282,110 @@ public class ControllerManagerTest {
 		// verifica che sia ottenuto il risultato desiderato
 		Hashtable<String, String> controllers = tester.getControllers();
 		assertNull(controllers);
+	}
+
+	/**
+	 * Verifica che l'istanziazione dei controller ottenuta tramite la
+	 * reflection avvenga in maniera corretta nel caso in cui il nome
+	 * qualificato passato come parametro corrisponda a una classe a cui il
+	 * caricatore ha accesso.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testCreateControllerSuccessfully() throws Exception {
+		Object result = tester.createController(className);
+		assertNotNull(result);
+		assertTrue(result instanceof LoginController);
+	}
+
+	/**
+	 * Verifica il comportamento del metodo createController se il parametro
+	 * passato non corrisponde ad alcuna classe nota al caricatore. In tal caso
+	 * il test ha successo solo se è sollevata un'eccezione di tipo
+	 * ClassNotFoundException, come desiderato in questa circostanza.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test(expected = ClassNotFoundException.class)
+	public void testCreateControllerUnsuccessfully() throws Exception {
+		tester.createController("this.is.not.a.valid.Class");
+		fail("Dovevo sollevare eccezione!");
+	}
+
+	/**
+	 * Verifica che sia possibile aggiungere un nuovo canale di comunicazione
+	 * aperto con un client all'interno delle strutture dati della serlvet.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testPutClient() {
+		ControllerManager.putClient(clientId, ws);
+		assertTrue(ControllerManager.clients.containsKey(clientId));
+		PushInbound channel = ControllerManager.clients.get(clientId);
+		assertEquals(ws, channel);
+	}
+
+	/**
+	 * Verifica la possibilità di recuperare un canale di comunicazione aperto
+	 * con un client a partire dall'identificativo del client stesso.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testFindClient() {
+		ControllerManager.clients.put(clientId, ws);
+		PushInbound result = ControllerManager.findClient(clientId);
+		assertNotNull(result);
+		assertEquals(ws, result);
+		result = ControllerManager.findClient(2L);
+		assertNull(result);
+	}
+
+	/**
+	 * Verifica che sia possibile rimuovere con successo un client dalle
+	 * strutture dati della servelet avendo a disposizione il numero
+	 * identificativo del client stesso.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testRemoveClient() {
+		ControllerManager.clients.put(clientId, ws);
+		ControllerManager.removeClient(ws);
+		assertFalse(ControllerManager.clients.containsKey(clientId));
+		assertFalse(ControllerManager.clients.containsValue(ws));
+	}
+
+	/**
+	 * Verifica che è possibile recuperare la rappresentazione in forma di
+	 * stringa dello stato di un determinato client noto il numero
+	 * identificativo che lo identifica in maniera univoca fra quelli
+	 * memorizzati nelle strutture dati internet alla servlet.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testGetState() {
+		// il client cercato è disponibile
+		when(ws.getState()).thenReturn(PushInbound.State.AVAILABLE);
+		ControllerManager.clients.put(clientId, ws);
+		String result = ControllerManager.getState(clientId);
+		assertEquals("available", result);
+		// il client cercato è occupato
+		when(ws.getState()).thenReturn(PushInbound.State.OCCUPIED);
+		result = ControllerManager.getState(clientId);
+		assertEquals("occupied", result);
+		// il client cercato è offline
+		ControllerManager.clients.clear();
+		result = ControllerManager.getState(clientId);
+		assertEquals("offline", result);
 	}
 }
