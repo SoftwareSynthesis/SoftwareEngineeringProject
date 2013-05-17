@@ -1438,23 +1438,26 @@ Tale test si compone di diciannove metodi:
 \item \texttt{testUpdateSuccessfully()} esegue un'operazione di aggiornamento correttamente (va a buon fine) e verifica che sia invocato il metodo \texttt{getUpdateUtil()} per ottenere un istanza di \texttt{UpdateUtil}. Nel corso del test si verifica inoltre che, se l'operazione ha successo, il metodo restituisca correttamente \texttt{true}.
 
 \item \texttt{testUpdateUnsuccessfully()} esegue un'operazione di aggiornamento che non va a buon fine, verificando che sia invocato il metodo \texttt{getUpdateUtil()} sulla \inglese{factory} per ottenere un istanza di \texttt{UpdateUtil}. Viene verificato che sia invocato il metodo \texttt{execute()} per per portare a termine l'aggiornamento e che il valore restituito da tale metodo sia \texttt{false}, come coerentemente atteso nel caso in cui l'operazione sul database non vada a buon fine.
-%TODO: DA FINIRE
 
-\item \texttt{testGetAddressBookEntry()} 
+\item \texttt{testGetGroupLong()} verifica la possibilità di recuperare dal sistema di persistenza un gruppo della rubrica di un utente a partire dall'identificativo univoco del gruppo stesso. Il test verifica che il risultato sia conforme alle aspettative (in base a come stato configurato il mock),e che dalla lista restituita dall'invocazione del suo metodo \texttt{execute} sia correttamente estratto l'elemento in testa. Inoltre si controlla che il metodo sopracitato sia invocato esattamente con la stringa che corrisponde alla query HQL necessaria al recupero dei dati. 
 
-\item \texttt{}testGetCallHistory()
+\item \texttt{testGetGroupLongEmpty()} verifica il comportamento della classe nel momento in cui è richiesto di recuperare dal sistema di persistenza un gruppo a partire da un campo numerico identificativo che non corrisponde ad alcuno dei gruppi presenti nel sistema. In particolare, il test verifica che il risultato dell'invocazione del metodo sia come desiderato, \texttt{null}, e che non siano effettuate operazioni di estrazione dalla lista restituita dal metodo \texttt{execute} del \texttt{GetUtil} dal momento che quest'ultima è vuota. Si controlla inoltre che quest'ultimo metodo sia richiamato passando come parametro esattamente la stringa HQL necessaria al recupero dei dati.
 
-\item \texttt{testGetGroupLong()} 
+\item \texttt{testGetGroupIUserData()} verifica il comportamento della classe nel momento in cui è richiesto di recuperare la lista di gruppi della rubrica che hanno come proprietario un determinato utente. In particolare, il test verifica che la collezione restituita corrisponda alle aspettative (in base a come è stato configurato il \textit{mock} del \texttt{getUtil}) e che sia effettivamente invocato il metodo \texttt{execute} passando la query HQL corretta per interrogare il database.
 
-\item \texttt{testGetGroupIUserData()}
+\item \texttt{testGetGroupIUserDataEmpty()} verifica il comportamento della classe nel momento in cui è richiesto di recuperare la lista di gruppi della rubrica che hanno come proprietario un determinato utente. In particolare, il test verifica che nel caso in cui la collezione di gruppi sia vuota il valore ritornato sia effettivamente \texttt{null} e che venga invocato il metodo \texttt{execute} passando la query HQL corretta per interrogare il database.
 
-\item \texttt{testGetGroupIUserDataString()}
+\item \texttt{testGetMessageNewKey()} verifica la possibilità di recuperare il più piccolo \texttt{id} libero per il prossimo inserimento nella tabella dei messaggi in segreteria del database. In particolare, il test controlla che il risultato sia conforme alle aspettative, ovvero che il valore sia superiore di un'unità rispetto a quanto restituito dal metodo \texttt{getUniqueResult} dal \texttt{GetUtil} e che questo metodo sia invocato correttamente.
 
-\item \texttt{testGetMessageNewKey()} 
+\item \texttt{}testGetMessage() verifica la possibilità di recuperare dal sistema di persistenza un messaggio della segreteria telefonica a partire dall'identificativo univoco del messaggio stesso. Il test verifica che il risultato sia conforme alle aspettative, in base a come è stato configurato il \textit{mock} di \texttt{GetUtil}, che dalla lista restituita dall'invocazione del suo metodo \texttt{execute} sia correttamente estratto l'elemento in testa. Inoltre si controlla che il metodo sopracitato sia invocato esattamente con la stringa che corrisponde alla query HQL necessaria al recupero dei dati.
 
-\item \texttt{}testGetMessage()
+\item \texttt{testGetMessageEmpty()} verifica il comportamento della classe nel momento in cui è richiesto di recuperare dal sistema di persistenza un messaggio della segreteria a partire da un campo numerico identificativo che non corrisponde ad alcuno dei messaggi presenti. In particolare, il test verifica che il risultato dell'invocazione del metodo sia come desiderato \texttt{null}, e che non siano siano effettuate operazioni di estrazione dalla lista restituita dal metodo \texttt{execute} del \texttt{GetUtil} dal momento che quest'ultima è vuota.
+Si controlla inoltre che quest'ultimo metodo sia richiamato passando come parametro esattamente la stringa HQL necessaria al recupero dei dati.
 
-\item \texttt{}testGetMessages()
+\item \texttt{testGetMessages()} verifica il comportamento della classe nel momento in cui è richiesto di recuperare dal sistema di persistenza una lista di messaggi della segreteria a partire da un utente che ha almeno un messaggio nella propria segreteria telefonica. In particolare, il test verifica che il risultato dell'invocazione del metodo sia, come da aspettative, a seconda di com'è stato configurato il \textit{mock} di \texttt{GetUtil}. Si controlla inoltre che il metodo \texttt{execute} di quest'ultima classe sia richiamato passando come parametro esattamente la stringa HQL necessaria al recupero dati.
+
+\item \texttt{testGetMessagesEmpty()} verifica il comportamento della classe nel momento in cui è richiesto di recuperare dal sistema di persistenza una lista di messaggi della segreteria a partire da un utente che non ha alcun messaggio nella propria segreteria telefonica. In particolare, il test verifica che il risultato dell'invocazione del metodo sia come desiderato \texttt{null}.
+Si controlla inoltre che il metodo \texttt{execute} di \texttt{GetUtil} sia richiamato passando come parametro esattamente la stringa HQL necessaria al recupero dei dati.
 
 \item \texttt{testGetUserDataByEmail()} verifica la possibilità di recuperare i dati di un utente dal database disponendo del relativo indirizzo email. In particolare, il test assicura che il risultato sia coerente con quanto atteso (in base a quanto configurato nel \underline{\inglese{mock}} di \texttt{GetUserDataUtil}, verificando inoltre quindi il corretto utilizzo del \inglese{mock} stesso). In particolare tale test verifica che sia eseguita esattamente la query impostata nella variabile 'query' e il fatto che dalla collezione di oggetti ritornata da \texttt{execute()} e \texttt{GetUtil} sia estratto il primo elemento e non sia \textit{mai} invocato \texttt{get} con argomenti superiori allo zero, che la lista sia scorsa solo se non è vuota e che la \texttt{UtilFactory} sia utilizzata per procurarsi la corretta istanza di \texttt{GetUtil}.
 
@@ -1468,9 +1471,6 @@ Tale test si compone di diciannove metodi:
 
 \end{itemize} 
 \textbf{Risultato del test:} superato con successo.
-
-%TODO: NON TROVAVO QUELLO DA SOSTITUIRE, SCRITTO NUOVO, EVENTUALMENTE CANCELLARE IL VECCHIO TEST
-
 
 
 \item \textbf{TM5.02: SessionManagerTest}\\
@@ -1793,9 +1793,10 @@ Di seguito viene riportata una tabella alla scopo di riassumere i test effettuat
 \midrule
 
 TM1.01 & AESAlgorithmTest &Superato\\
-TM1.02 & AuthenticationDataTest &Superato\\
 TM1.03 & AuthenticationModuleTest &Superato\\
 TM1.04 & CredentialLoaderTest &Superato\\
+TM1.04 & NameLoaderTest &Superato\\
+TM1.04 & PasswordLoaderTest &Superato\\
 TM1.05 & PrincipalImplTest &Superato\\
 TM2.01 & LoginServletTest &Superato\\
 TM2.02 & LogoutServletTest &Superato\\
