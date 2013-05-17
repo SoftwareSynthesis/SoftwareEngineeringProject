@@ -30,10 +30,10 @@ public class UpdateMessageController extends AbstractController{
 		
 		try
 		{
-			dao = super.getDAOFactory();
-			id = Long.parseLong(request.getParameter("id"));
+			dao = getDAOFactory();
+			id = Long.parseLong(request.getParameter("idMessage"));
 			stato = request.getParameter("valueToSet");
-			email = super.getUserMail();
+			email = getUserMail();
 			user = dao.getUserData(email);
 			if (stato.equals("true"))
 				state = true;
