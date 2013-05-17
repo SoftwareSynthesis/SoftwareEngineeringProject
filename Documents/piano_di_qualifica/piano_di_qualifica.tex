@@ -1581,7 +1581,7 @@ Tale test si compone di quattro metodi:
 
 \item \texttt{testWrongData()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui la richiesta HTTP non comprende tutti i parametri necessari per portare a termine con successo l'operazione. Il test verifica che la stringa stampata sulla risposta sia effettivamente \texttt{null}, come desiderato in caso d'errore, e che non siano mai effettuate operazioni di aggiornamento della tabella \textit{Messages} nel database.
 
-\item \texttt{testUpdateNotOwnedMessage()} %TODO: da descrivere
+\item \texttt{testUpdateNotOwnedMessage()} verifica il comportamento del metodo \texttt{doAction} quando il destinatario del messaggio il cui numero identificativo passano nella richiesta non corrisponde all'utente che ha inviato la richiesta al controller. In particolare il test verifica che il testo stampato nella risposta corrisponda alla stringa \texttt{null}, come desiderato in caso d'errore, e che nel sistema di gestione della persistenza dei dati non sia effettuato alcun aggiornamento.
 
 \end{itemize} 
 \textbf{Risultato del test:} superato con successo.
