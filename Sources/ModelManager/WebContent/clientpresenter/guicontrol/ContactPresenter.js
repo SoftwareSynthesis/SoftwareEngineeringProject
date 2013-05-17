@@ -68,7 +68,7 @@ function ContactPanelPresenter() {
      */
     function adjustGUIOnContactState(contact) {
         //controllo quale è lo stato del contatto
-        var state = constact.state;
+        var state = contact.state;
         var chatButton = document.getElementById("chatButton");
         var videoCallButton = document.getElementById("videoCallButton");
         var callButton = document.getElementById("callButton");

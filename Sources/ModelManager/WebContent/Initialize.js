@@ -2,6 +2,7 @@ window.onload = function() {
     //CREAZIONI EVENTI PERSONALIZZATI
     changeAddressBooksContactState = new CustomEvent("changeAddressBooksContactState");
     loadedView = new CustomEvent("loadedView");
+    login = new CustomEvent("login");
     //eventi creazione pannelli
     showLoginPanel = new CustomEvent("showLoginPanel");
     showRegistrationPanel = new CustomEvent("showRegistrationPanel");
@@ -15,6 +16,8 @@ window.onload = function() {
     showGroupPanel = new CustomEvent("showGroupPanel");
     showMessagePanel = new CustomEvent("showMessagePanel");
     showSearchResultPanel = new CustomEvent("showSearchResultPanel");
+    showCommunicationPanel = new CustomEvent("showCommunicationPanel");
+    showReturnToCommunicationPanelButton = new CustomEvent("showReturnToCommunicationPanelButton");
     //eventi rimozione pannelli
     removeAllPanel = new CustomEvent("removeAllPanel");
     removeLoginPanel = new CustomEvent("removeLoginPanel");
@@ -23,6 +26,7 @@ window.onload = function() {
     removeToolsPanel = new CustomEvent("removeToolsPanel");
     removeMainPanel = new CustomEvent("removeMainPanel");
     removeContactPanel = new CustomEvent("removeContactPanel");
+    removeCommunicationPanel = new CustomEvent("removeCommunicationPanel");
 
     //Inizializzazione delle funzioni
     window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext || window.msAudioContext;
@@ -36,13 +40,14 @@ window.onload = function() {
     communicationcenter = new CommunicationCenter();
 
     // Link connessione a servlet
+    var host = "localhost";
     var stub = true;
     if (stub) {
-        commandURL = "http://localhost/webalizer/ModelManager/WebContent/conf/controllerManagerStub.php";
-        urlChannelServlet = "ws://localhost:8080/MyTalk/ChannelServlet";
+        commandURL = "http://" + host + "/webalizer/ModelManager/WebContent/conf/controllerManagerStub.php";
+        urlChannelServlet = "ws://" + host + ":8080/MyTalk/CommandManager";
     } else {
-        commandURL = "http://localhost:8080/MyTalk/CommandManager";
-        urlChannelServlet = "ws://localhost:8080/MyTalk/ChannelServlet";
+        commandURL = "http://" + host + ":8080/MyTalk/CommandManager";
+        urlChannelServlet = "ws://" + host + ":8080/MyTalk/CommandManager";
     }
     // crea l'interfaccia di autenticazione
 

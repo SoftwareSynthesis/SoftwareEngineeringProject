@@ -34,6 +34,14 @@ function ToolsPanelPresenter() {
     function onRemoveToolsPanel() {
         thisPresenter.destroy();
     }
+    
+    /**
+     * Funzione che mostra il pulsante per "Tornare al Comunication Panel"
+     * @author Riccardo Tresoldi
+     */
+    function onShowReturnToCommunicationPanelButton(){
+        alert("Torna a CommPanel creato!");
+    }
 
     /**
      * funzione per l'inizializzazione della select che gestisce il cambio di
@@ -228,4 +236,5 @@ function ToolsPanelPresenter() {
     document.addEventListener("removeToolsPanel", function(evt) {
         onRemoveToolsPanel();
     });
+    document.addEventListener("showReturnToCommunicationPanelButton", onShowReturnToCommunicationPanelButton);
 }

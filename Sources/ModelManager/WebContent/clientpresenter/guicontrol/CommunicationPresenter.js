@@ -11,7 +11,7 @@ function CommunicationPanelPresenter() {
      **************************************************************************/
     // memorizza il pannello nella versione precedente
     var thisPresenter = this;
-    var element = null;
+    
     // array associativo di tutte le chat che ho aperte in un dato momento
     // gli elementi memorizzati in questo array sono {HTMLDivElements}
     var chatElements = new Object();
@@ -24,6 +24,20 @@ function CommunicationPanelPresenter() {
     /***************************************************************************
      * METODI PRIVATI
      **************************************************************************/
+    /**
+     * Funzione per gestire l'evento in cui viene visualizzato il pannello della
+     * comunicazione contenente i video e le chat
+     * @author Riccardo Tresoldi
+     */
+    function onShowCommunicationPanel() {
+        if (!thisPanel) {
+            mediator.getView('contact');
+        } else {
+            thisPresenter.display();
+        }
+        document.dispatchEvent(showReturnToCommunicationPanelButton);
+    }
+
     /**
      * Crea la stringa di testo che deve comparire come titolo della tab che
      * contiene la lista delle chat testuali attive in un determinato momento
@@ -69,13 +83,12 @@ function CommunicationPanelPresenter() {
         var closeChatButton = document.createElement("img");
         // FIXME add image src!
         closeChatButton.src = "";
-        var self = this;
         closeChatButton.onclick = function() {
             self.removeChat(user);
             mediator.addOrRemoveCommunicationToTools();
         };
         item.onclick = function() {
-            self.displayChat(user);
+            thisPresenter.displayChat(user);
         };
         return item;
     }
@@ -243,34 +256,27 @@ function CommunicationPanelPresenter() {
      */
     this.appendToChat = function(user, text) {
         var divContainerChat = chatElements[user.id];
-        
+
         var textArea = document.evaluate("//node()[@id='chatText']", divContainerChat, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
         textArea.value += ("io:" + text + "\n");
     };
 
-    /**
-     * Inizializza il pannello costruendone i widget grafici interni e lo
-     * restituisce in modo che possa essere inserito all'interno del pannello
-     * principale
-     *
-     * POST: l'elemento <div> restituito ha la struttura del CommunicationPanel
-     *
-     * @returns {HTMLDivElement} il 'CommunicationPanel'
-     * @author Elena Zecchinato
+    /** VIEW
+     * Se presente il pannello è già stato creato allora verrà richiamato,
+     * altrimenti verrà
      * @author Riccardo Tresoldi
      */
-    this.createPanel = function() {
-        if (element == null) {
-            element = mediator.getView("CommunicationView");
-
-            // configura la vista
-            var closeButton = document.evaluate("//node()[@id='closeButton']", element, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-            closeButton.onclick = function() {
-                communicationcenter.endCall();
-                mediator.addOrRemoveCommunicationToTools();
-            };
+    this.display = function() {
+        if (!thisPanel) {
+            thisPanel = document.getElementById("CommunicationPanel");
         }
-        return element;
+
+        // configura la vista
+        var closeButton = document.getElementById("closeButton");
+        closeButton.onclick = function() {
+            communicationcenter.endCall();
+            mediator.addOrRemoveCommunicationToTools();
+        };
     };
 
     /**
@@ -409,4 +415,9 @@ function CommunicationPanelPresenter() {
         }
 
     };
+
+    /***************************************************************************
+     * LISTNER DEGLI EVENTI
+     **************************************************************************/
+    document.addEventListener("showCommunicationPanel", onShowCommunicationPanel);
 }

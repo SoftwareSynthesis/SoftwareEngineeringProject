@@ -38,6 +38,17 @@ function LoginPanelPresenter() {
     }
 
     /**
+     * Funzione per effettuare il vero e proprio login visualizzando anche la GUI
+     * @author Riccardo Tresoldi
+     */
+    function onLogin(user) {
+        // 'communicationcenter' deve essere una variabile globale
+        communicationcenter.my = user;
+        communicationcenter.connect();
+        document.dispatchEvent(showUIPanels);
+    }
+
+    /**
      * Testa quanto ricevuto dal server e, in caso di login avvenuto
      * correttamente reindirizza il browser nella pagina finale dopo aver
      * salvato i dati dell'utente
@@ -49,10 +60,8 @@ function LoginPanelPresenter() {
     function testCredentials(data) {
         var user = JSON.parse(data);
         if (user) {
-            // 'communicationcenter' deve essere una variabile globale
-            communicationcenter.my = user;
-            communicationcenter.connect();
-            document.dispatchEvent(showUIPanels);
+            login.user = user;
+            document.dispatchEvent(login);
         } else {
             //funzione che setta la grafica per tornare l'errore nel login
             errorLogin();
@@ -334,10 +343,9 @@ function LoginPanelPresenter() {
     /***************************************************************************
      * LISTNER DEGLI EVENTI
      **************************************************************************/
-    document.addEventListener("showLoginPanel", function(evt) {
-        onShowLoginPanel();
-    });
-    document.addEventListener("removeLoginPanel", function(evt) {
-        onRemoveLoginPanel();
+    document.addEventListener("showLoginPanel", onShowLoginPanel);
+    document.addEventListener("removeLoginPanel", onRemoveLoginPanel);
+    document.addEventListener("login", function(evt) {
+        onLogin(evt);
     });
 }

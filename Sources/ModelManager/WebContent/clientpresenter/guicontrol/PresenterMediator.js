@@ -64,7 +64,7 @@ function PresenterMediator() {
      *            il contatto a partire dal quale deve essere generata
      *            l'etichetta del nome
      * @returns {String} l'etichetta di nome
-     * @author Marco Schivo
+     * @author Riccardo Tresoldi
      */
     this.createNameLabel = function(contact) {
         var name = "";
@@ -75,8 +75,8 @@ function PresenterMediator() {
                 name += " ";
             name += contact.surname;
         }
-        if (name != "") {
-            name += contact.mail;
+        if (name == "") {
+            name += contact.email;
         }
         return name;
     };
@@ -411,7 +411,7 @@ function PresenterMediator() {
     this.getContactById = function(idContact) {
         return presenters["addressbook"].getContact(idContact);
     };
-    
+
     /**
      * Funzione richiamata per gestire l'evento di chiamata in arrivo
      *
@@ -421,7 +421,7 @@ function PresenterMediator() {
     this.onIncomeCall = function(caller) {
         communicationpp.showAnswerBox(caller);
     };
-    
+
     /**
      * Attiva la suoneria
      *
@@ -431,7 +431,7 @@ function PresenterMediator() {
     this.startRinging = function(evt) {
         communicationpp.startRinging(evt);
     };
-    
+
     /**
      * Ferma la suoneria
      *
@@ -440,7 +440,7 @@ function PresenterMediator() {
     this.stopRinging = function() {
         communicationpp.stopRinging();
     };
-    
+
     /**
      * Funzione per mostrare un Popup personalizzato
      * Richede in input una porzione di codice HTMLDivElement da mostrare
@@ -490,7 +490,7 @@ function PresenterMediator() {
         document.removeChild(overlay);
         document.removeChild(answerBox);
     };
-    
+
     /***************************************************************************
      * HANDLER EVENTI MEDIATOR
      **************************************************************************/

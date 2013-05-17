@@ -22,7 +22,6 @@ function RegisterPanelPresenter() {
      * @author Riccardo Tresoldi
      */
     function onShowRegistrationPanel() {
-        // TODO elimina eventuale GUI già visualizzata
         document.dispatchEvent(removeAllPanel);
         mediator.getView('register');
     }
@@ -146,7 +145,7 @@ function RegisterPanelPresenter() {
      * @author Diego Beraldin
      */
     this.getPicturePath = function() {
-        var picturePath = document.getElementById("picture").value;
+        var picturePath = document.getElementById("picture").files[0];
         return picturePath;
     };
 
@@ -170,22 +169,25 @@ function RegisterPanelPresenter() {
         var request = new XMLHttpRequest();
         // invia una richiesta SINCRONA al server (terzo parametro 'false')
         request.open("POST", commandURL, false);
-        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        var querystring = "operation=register&username=" + encodeURIComponent(userData.username) + "&password=" + encodeURIComponent(userData.password) + "&question=" + encodeURIComponent(userData.question) + "&answer=" + encodeURIComponent(userData.answer);
+        var formData = new FormData();
+        formData.append("username", encodeURIComponent(userData.username));
+        formData.append("password", encodeURIComponent(userData.password));
+        formData.append("question", encodeURIComponent(userData.question));
+        formData.append("answer", encodeURIComponent(userData.answer));
         if (userData.name && userData.name.length > 0) {
-            querystring += ("&name=" + encodeURIComponent(userData.name));
+            formData.append("name", encodeURIComponent(userData.name));
         }
         if (userData.surname && userData.surname.length > 0) {
-            querystring += ("&surname=" + encodeURIComponent(userData.surname));
+            formData.append("surname", encodeURIComponent(userData.surname));
         }
-        if (userData.picturePath && userData.picturePath.length > 0) {
-            querystring += ("&picturePath=" + encodeURIComponent(userData.picturePath));
-        }
-        request.send(querystring);
+        /*if (userData.picturePath && userData.picturePath.length > 0) {
+            formData.append("picturePath", encodeURIComponent(userData.picturePath));
+        }*/
+        request.send(formData);
         var user = JSON.parse(request.responseText);
-        if (user != null) {
-            communicationcenter.my = user;
-            mediator.buildUI();
+        if (user) {
+            login.user = user;
+            document.dispatchEvent(login);
         }
         return querystring;
     };
@@ -223,7 +225,7 @@ function RegisterPanelPresenter() {
                 data.answer = thisPresenter.getAnswer();
                 data.name = thisPresenter.getName();
                 data.surname = thisPresenter.getSurname();
-                data.picturePath = thisPresenter.getPicturePath();
+                //data.picturePath = thisPresenter.getPicturePath();
                 thisPresenter.register(data);
             } catch (err) {
                 alert(err);
