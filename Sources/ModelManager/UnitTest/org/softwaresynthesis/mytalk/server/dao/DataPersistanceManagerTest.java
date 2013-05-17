@@ -224,7 +224,15 @@ public class DataPersistanceManagerTest {
 	}
 
 	/**
-	 * TODO da documentare
+	 * Verifica la possibilità di recuperare dal sistema di persistenza un
+	 * gruppo della rubrica di un utente a partire dall'identificativo univoco
+	 * del gruppo stesso. Il test verifica che il risultato sia conforme alle
+	 * aspettative, in base a come è stato configurato il mock di
+	 * {@link GetUtil}, che dalla lista restituita dall'invocazione del suo
+	 * metodo execute sia correttamente estratto l'elemento in testa. Inoltre si
+	 * controlla che il metodo execute dell'utilità sia invocato esattamente con
+	 * la stringa che corrisponde alla query HQL necessaria al recupero dei
+	 * dati.
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
@@ -253,7 +261,15 @@ public class DataPersistanceManagerTest {
 	}
 
 	/**
-	 * TODO da documentare
+	 * Verifica il comportamento della classe nel momento in cui è richiesto di
+	 * recuperare dal sistema di persistenza un gruppo a partire da un campo
+	 * numerico identificativo che non corrisponde ad alcuno dei gruppi presenti
+	 * nel sistema. In particolare, il test verifica che il risultato
+	 * dell'invocazione del metodo sia, come desiderato <code>null</code> e che
+	 * non siano effettuate operazioni di estrazione dalla lista restituita dal
+	 * metodo execute del {@link GetUtil} dal momento che quest'ultima è vuota.
+	 * si controlla inoltre che quest'ultimo metodo sia richiamato passando come
+	 * parametro esattamente la stringa HQL necessaria al recupero dei dati.
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
@@ -281,7 +297,13 @@ public class DataPersistanceManagerTest {
 	}
 
 	/**
-	 * TODO da documentare
+	 * Verifica il comportamento della classe nel momento in cui è richiesto di
+	 * recuperare la lista di gruppi della rubrica che hanno come proprietario
+	 * un determinato utente. In particolare, il test verifica che la collezione
+	 * restituita corrisponda alle aspettative (in base a come è stato
+	 * configurato il mock del {@link GetUtil}) e che sia effettivamente
+	 * invocato il metodo execute passando la query HQL corretta per interrogare
+	 * il database.
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
@@ -306,7 +328,13 @@ public class DataPersistanceManagerTest {
 	}
 
 	/**
-	 * TODO da documentare
+	 * Verifica il comportamento della classe nel momento in cui è richiesto di
+	 * recuperare la lista di gruppi della rubrica che hanno come proprietario
+	 * un determinato utente. In particolare, il test verifica che nel caso in
+	 * cui la collezione di gruppi sia vuota il valore ritornato sia
+	 * effettivamente <code>null</code> e che sia effettivamente invocato il
+	 * metodo execute passando la query HQL corretta per interrogare il
+	 * database.
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
@@ -329,7 +357,12 @@ public class DataPersistanceManagerTest {
 	}
 
 	/**
-	 * TODO da documentare
+	 * Verifica la possibilità di recuperare il più piccolo id libero per il
+	 * prossimo inserimento nella tabella dei messaggi in segreteria del
+	 * database. In particolare, il test controlla che il risultato sia conforme
+	 * alle aspettative e che cioè il valore sia superiore di un'unità rispetto
+	 * a quanto restituito dal metodo getUniqueResult dal {@link GetUtil} e che
+	 * questo metodo sia invocato correttamente.
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
@@ -353,7 +386,15 @@ public class DataPersistanceManagerTest {
 	}
 
 	/**
-	 * TODO da documentare
+	 * Verifica la possibilità di recuperare dal sistema di persistenza un
+	 * messaggio della segreteria telefonica a partire dall'identificativo
+	 * univoco del messaggio stesso. Il test verifica che il risultato sia
+	 * conforme alle aspettative, in base a come è stato configurato il mock di
+	 * {@link GetUtil}, che dalla lista restituita dall'invocazione del suo
+	 * metodo execute sia correttamente estratto l'elemento in testa. Inoltre si
+	 * controlla che il metodo execute dell'utilità sia invocato esattamente con
+	 * la stringa che corrisponde alla query HQL necessaria al recupero dei
+	 * dati.
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
@@ -382,7 +423,15 @@ public class DataPersistanceManagerTest {
 	}
 
 	/**
-	 * TODO da documentare
+	 * Verifica il comportamento della classe nel momento in cui è richiesto di
+	 * recuperare dal sistema di persistenza un messaggio della segreteria a
+	 * partire da un campo numerico identificativo che non corrisponde ad alcuno
+	 * dei messaggi presenti. In particolare, il test verifica che il risultato
+	 * dell'invocazione del metodo sia, come desiderato <code>null</code> e che
+	 * non siano effettuate operazioni di estrazione dalla lista restituita dal
+	 * metodo execute del {@link GetUtil} dal momento che quest'ultima è vuota.
+	 * si controlla inoltre che quest'ultimo metodo sia richiamato passando come
+	 * parametro esattamente la stringa HQL necessaria al recupero dei dati.
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
@@ -410,7 +459,15 @@ public class DataPersistanceManagerTest {
 	}
 
 	/**
-	 * TODO da documentare
+	 * Verifica il comportamento della classe nel momento in cui è richiesto di
+	 * recuperare dal sistema di persistenza una lista di messaggi della
+	 * segreteria a partire da un utente che ha almeno un messaggio nella
+	 * propria segreteria telefonica. In particolare, il test verifica che il
+	 * risultato dell'invocazione del metodo sia, conforme alle aspettative, a
+	 * seconda di come è stato configurato il mock di {@GetUtil}. Si
+	 * controlla inoltre che il metodo execute di quest'ultima classe sia
+	 * richiamato passando come parametro esattamente la stringa HQL necessaria
+	 * al recupero dei dati.
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
@@ -434,7 +491,14 @@ public class DataPersistanceManagerTest {
 	}
 
 	/**
-	 * TODO da documentare
+	 * Verifica il comportamento della classe nel momento in cui è richiesto di
+	 * recuperare dal sistema di persistenza una lista di messaggi della
+	 * segreteria a partire da un utente che non ha alcun messaggio nella
+	 * propria segreteria telefonica. In particolare, il test verifica che il
+	 * risultato dell'invocazione del metodo sia, come desiderato
+	 * <code>null</code>. Si controlla inoltre che il metodo execute di
+	 * {@link GetUtil} sia richiamato passando come parametro esattamente la
+	 * stringa HQL necessaria al recupero dei dati.
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
