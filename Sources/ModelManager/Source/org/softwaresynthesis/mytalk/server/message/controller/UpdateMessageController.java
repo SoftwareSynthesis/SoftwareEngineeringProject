@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import org.softwaresynthesis.mytalk.server.AbstractController;
+import org.softwaresynthesis.mytalk.server.abook.IUserData;
 import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
 import org.softwaresynthesis.mytalk.server.message.IMessage;
 
@@ -23,19 +24,23 @@ public class UpdateMessageController extends AbstractController{
 		IMessage message = null;
 		String stato = null;
 		Boolean state = null;
+		String email = null;
+		IUserData user = null;
 		Long id = null;
 		
 		try
 		{
-			dao = getDAOFactory();
-			id = Long.parseLong(request.getParameter("idMessage"));
+			dao = super.getDAOFactory();
+			id = Long.parseLong(request.getParameter("id"));
 			stato = request.getParameter("valueToSet");
+			email = super.getUserMail();
+			user = dao.getUserData(email);
 			if (stato.equals("true"))
 				state = true;
 			else
 				state = false;
 			message = dao.getMessage(id);
-			if (message != null){
+			if (message != null && message.getReceiver() == user){
 				message.setNewer(state);
 				dao.update(message);
 				result = "true";
