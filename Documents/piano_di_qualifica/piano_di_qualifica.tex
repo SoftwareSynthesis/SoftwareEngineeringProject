@@ -1272,17 +1272,20 @@ Tale test si compone di tre metodi:
 \textbf{Risultato del test:} superato con successo.
 
 
-\item \textbf{TM4.02: AddressBookDoRemoveContactServletTest}\\
-\textbf{Verifica l'oggetto:} \texttt{AddressBookDoRemoveContactServlet}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di rimuovere un utente presente nella rubrica del richiedente. Come per il test della \inglese{Servlet} precedentemente descritta, anche in questo caso si assume come precondizione l'autenticazione dell'utente richiedente e quindi l'effettiva esistenza della sua rubrica.
+\item \textbf{TM4.02: DeleteContactControllerTest}\\
+\textbf{Verifica l'oggetto:} \texttt{DeleteContactController}.\\
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di rimuovere un utente presente nella rubrica del richiedente. Come per il test della \inglese{Servlet} precedentemente descritta, anche in questo caso si assume come precondizione l'autenticazione dell'utente richiedente e quindi l'effettiva esistenza della sua rubrica. 
+I possibili \inglese{input} riguardano dati passati mediante \texttt{XMLHttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IUserData} realmente esistente e presente nella rubrica dell'utente) o non (campi dati vuoti, o che non corrispondono a nessun utente realmente registrato al sistema, o comunque corrispongono ad un utente registrato, ma il cui contatto non è presente nella rubrica del richiedente). TODO: DA VERIFICARE DESCRIZIONE
 
-I possibili \inglese{input} riguardano dati passati mediante \texttt{XMLHttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IUserData} realmente esistente e presente nella rubrica dell'utente) o non (campi dati vuoti, o che non corrispondono a nessun utente realmente registrato al sistema, o comunque corrispongono ad un utente registrato, ma il cui contatto non è presente nella rubrica del richiedente).
 Tale test si compone di quattro metodi:
 \begin{itemize}
-\item \texttt{testRemoveCorrectUser()} verifica l'effettiva eliminazione di un contatto presente nella rubrica del richiedente, a partire da dati corretti (realmente apparteneneti all'utente da eliminare).
-\item \texttt{testRemoveNotExistContact()} verifica la rilevazione dell'errore, causato dall'impossibilità di rimuovere un utente non registrato nel sistema, dalla rubrica del richiedente.
-\item \texttt{testRemoveNotFriendContact()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di rimuovere un contatto registrato al sistema, ma non presente nella rubrica del richiedente. 
-\item \texttt{testRemoveWrongData()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di rimuovere un utente \texttt{IUserData} definito da dati non completi (campi dati vuoti) parzialmente o nella loro totalità.
+\item \texttt{testDeleteCorrectUser()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui è invocato con una richiesta che contiene tutti i parametri necessari per portare a termine l'operazione di cancellazione. Il test verifica che il testo stampato sulla risposta sia, come atteso, la stringa \texttt{true}, che sia estratta dalla base di dati la rubrica di entrambi gli utenti coinvolti nell'operazione e che da ognuna delle voci della rubrica sia estratto il contatto per effettuare le operazioni di confronto. Infine il test verifica che sia invocato il metodo \texttt{removeAddressBookEntry} sugli utenti e che in seguito siano aggiornati gli oggetti tramite il gestore della persistenza dei dati, e che quest'ultimo sia utilizzato infine per la cancellazione delle voci di rubrica corrispondenti alla richiesta di eliminazione ricevuta dal controller.
+
+\item \texttt{testDeleteNotExistContact()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui è invocato con una richiesta contenente un parametro \texttt{contactId} che non corrisponde all'identificativo di alcuno degli utenti registrati nel sistema. Il test verifica che in questo il caso il testo stampato sulla risposta HTTP corrisponda, come desiderato dal client, alla stringa \texttt{null} e che non siano mai effettuate operazioni di aggiornamento degli utenti, ne cancellazioni di voci di rubrica.
+
+\item \texttt{testDeleteNotFriendContact()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui il \texttt{contactId} contenuto come parametro nella richiesta non corrisponde ad un contatto che appartiene alla rubrica dell'utente. In questo caso il test verifica che sulla risposta sia stampata la stringa \texttt{null}, come desiderato in caso d'errore, e che non sia effettuata alcuna operazione di aggiornamento e di cancellazione dalla base di dati.
+
+\item \texttt{testDeleteWrongData()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui la richiesta HTTP che gli viene passata come parametro non contiene tutti i dati necessari al completamento corretto dell'operazione di cancellazione dalla rubrica degli utenti. Il test verifica che sulla risposta sia effettivamente stampata la stringa \texttt{null}, che denota il verificarsi un errore nel server, e che non sia effettuata \textit{alcuna} operazione (estrazione, cancellazione o aggiornamento) sulla base di dati.
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
@@ -1296,17 +1299,20 @@ Tale test si compone di due metodi:
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{TM4.04: AddressBookDoDeleteGroupServletTest}\\
-\textbf{Verifica l'oggetto:} \texttt{AddressBookDoDeleteGroupServlet}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di eliminare un gruppo presente nella rubrica del richiedente. Come per il test della \inglese{Servlet} precedentemente descritta, si assume come precondizione l'autenticazione dell'utente richiedente e quindi l'effettiva esistenza della sua rubrica.
+\item \textbf{TM4.04: DeleteGroupControllerTest}\\
+\textbf{Verifica l'oggetto:} \texttt{DeleteGroupController}.\\
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di eliminare un gruppo presente nella rubrica del richiedente. Come per il test del \inglese{Controller} precedentemente descritta, si assume come precondizione l'autenticazione dell'utente richiedente e quindi l'effettiva esistenza della sua rubrica.
 
-I possibili \inglese{input} riguardano dati passati mediante \texttt{XMLHttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IGroup} realmente esistente e presente nella rubrica dell'utente) o non (campi dati vuoti, o che comunque non corrispondono a nessun gruppo realmente registrato al sistema, o comunque corrispongono ad un gruppo esistente, ma non presente nella rubrica del richiedente).
+I possibili \inglese{input} riguardano dati passati mediante \texttt{XMLHttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IGroup} realmente esistente e presente nella rubrica dell'utente) o non (campi dati vuoti, o che comunque non corrispondono a nessun gruppo realmente registrato al sistema, o comunque corrispondono ad un gruppo esistente, ma non presente nella rubrica del richiedente). %TODO: DA VERIFICARE 
 Tale test si compone di quattro metodi:
 \begin{itemize}
-\item \texttt{testRemoveCorrectGroup()} verifica l'effettiva eliminazione di un gruppo presente nella rubrica del richiedente a partire da dati corretti (realmente apparteneneti al gruppo da eliminare).
-\item \texttt{testRemoveNotExistGroup()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di rimuovere un gruppo non presente nel sistema, dalla rubrica del richiedente.
-\item \texttt{testRemoveNotOwnedGroup()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di rimuovere un gruppo presente nel sistema, ma non presente nella rubrica del richiedente. 
-\item \texttt{testRemoveWrongData()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di rimuovere un gruppo \texttt{IGroup} definito da dati non completi (campi dati vuoti) parzialmente o nella loro totalità.
+\item \texttt{testDeleteCorrectGroup()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui è invocato con una richiesta che contiene tutti i parametri corretti affinché l'operazione di cancellazione del gruppo possa essere portata a termine con successo. In particolare il testo controlla che la stringa del testo della risposta al termine dell'esecuzione del metodo sia, come desiderato in caso di successo, \texttt{true}. Inoltre è verificato che il sistema di gestione della persistenza de dati sia utilizzato per estrarre le informazione corrette relative all'utente da cui proviene la richiesta e al gruppo di cui è richiesta l'eliminazione. Il test controlla infine che tutte le voci della rubrica che appartenevano a quel gruppo siano cancellate dalla tabella \textit{AddressBookEntries}. 
+
+\item \texttt{testRemoveNotExistGroup()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui il valore numerico identificativo del gruppo di cui si richiede l'eliminazione contenuto nella richiesta HTTP non corrisponda ad alcun gruppo valido nella base di dati. Il test verifica che in questo caso il testo stampato nella risposta sia la stringa \texttt{false}, come desiderato in caso di fallimento dell'operazione, e che inoltre non sia \textit{mai} effettuata un'operazione di cancellazione di una voce di rubrica dal database.
+
+\item \texttt{testDeketeNotOwnedGroup()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui l'identificativo del gruppo contenuto nella richiesta non corrisponda a un gruppo il cui proprietario non è l'utente che ha inviato la richiesta al server. Il test verifica che in questo caso sulla risposta sia stampata la stringa \texttt{false}, che denota una condizione di errore per il client che la riceve, e che non sia \textit{mai} effettuata alcuna operazione di cancellazione dalla base di dati.
+
+\item \texttt{testRemoveWrongData()} verifica il comportamento del metodo doAction nel caso in cui la richiesta HTTP passata ad esso non contenga tutti i parametri necessari a portare a termine con successo l'operazione. Oltre a verificare che la stringa stampata sulla risposta sia, anche in questo caso, \texttt{false}, il test assicura che non sia mai effettuata \textit{alcuna} operazione sulla base di dati.
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
@@ -1331,17 +1337,20 @@ Tale test si compone di due metodi:
 \textbf{Risultato del test:} superato con successo.
 
 
-\item \textbf{TM4.06: AddressBookDoRemoveFromGroupServletTest}\\
-\textbf{Verifica l'oggetto:} \texttt{AddressBookDoRemoveFromGroupServlet}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di rimuovere un conttatto da un gruppo presente nella rubrica del richiedente. Come per il test della \inglese{Servlet} precedentemente descritta, si assume come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica.
+\item \textbf{TM4.06: DeleteFromGroupControllertTest}\\
+\textbf{Verifica l'oggetto:} \texttt{DeleteFromGroupController}.\\
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di rimuovere un conttatto da un gruppo presente nella rubrica del richiedente. Come per il test del \inglese{Controller} precedentemente descritto, si assume come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica. 
+I possibili \inglese{input} riguardano dati passati mediante \texttt{XMLHttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IGroup} realmente esistente e presente nella rubrica dell'utente, e ad un contatto registrato nel sistema) o non (campi dati vuoti, che non corrispondono a nessun gruppo realmente presente nel sistema, che corrispondono ad un gruppo esistente ma non presente nella rubrica del richiedente, che non corrispondono a nessun contatto registrato nel sistema). TODO: DA VERIFICARE DESCRIZIONE
 
-I possibili \inglese{input} riguardano dati passati mediante \texttt{XMLHttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IGroup} realmente esistente e presente nella rubrica dell'utente, e ad un contatto registrato nel sistema) o non (campi dati vuoti, che non corrispondono a nessun gruppo realmente presente nel sistema, che corrispongono ad un gruppo esistente ma non presente nella rubrica del richiedente, che non corrispondono a nessun contatto registrato nel sistema).
 Tale test si compone di quattro metodi:
 \begin{itemize}
-\item \texttt{testRemoveCorrectContact()} verifica l'effettiva eliminazione di un contatto presente (nel gruppo precisato) nella rubrica del richiedente, a partire da dati corretti (realmente apparteneneti alla coppia contatto-gruppo).
-\item \texttt{testRemoveNotExistUser()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di rimuovere un contatto non presente nel gruppo precisato.
-\item \texttt{testRemoveNotExistGroup()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di rimuovere un utente da un gruppo non presente nella rubrica dell'utente.
-\item \texttt{testRemoveWrongData()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di rimuovere un utente \texttt{IUserData} in un gruppo \texttt{IGroup} definito da dati non completi (campi dati vuoti) parzialmente o nella loro totalità.
+\item \texttt{testDeleteCorrectContact()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui viene invocato con una richiesta contenente tutti i parametri necessari per portare a termine con successo l'operazione. In particolare il test verifica che il testo stampato sulla risposta HTTP sia, come desiderato, la stringa \texttt{true}. Si verifica inoltre che il sistema di persistenza sia utilizzato per estrarre i dati corrispondenti all'utente, al contatto e al gruppo contenuti nella richiesta, che sia effettuata un'operazione di rimozione della \inglese{entry} e che venga effettuato l'aggiornamento dell'utente la cui rubrica è soggetta a modifica.
+
+\item \texttt{testDeleteNotExistUser()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui il contatto di cui si richiede la cancellazione non corrisponde ad alcuno degli utenti che sono registrati al sistema. Il test verifica che in questo caso il testo stampato sulla risposta HTTP sia, come desiderato, la stringa \texttt{null}, che non siano \textit{mai} effettuate operazioni di aggiornamento dei dati dell'utente che ha richiesto la cancellazione e che non sia cancellata alcuna voce dalla rubrica.
+
+\item \texttt{testDeleteNotExistGroup()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui il contatto di cui si richiede la cancellazione non corrisponde ad alcuno degli utenti che sono registrati al sistema. Il test verifica che in questo caso il testo stampato sulla risposta HTTP sia, come desiderato, la stringa \texttt{null}, che non siano \textit{mai} effettuate operazioni di aggiornamento dei dati dell'utente che ha richiesto la cancellazione e che non sia cancellata alcuna voce dalla rubrica.
+
+\item \texttt{testDeleteWrongData()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui esso è invocato con una richiesta HTTP e che non contiene tutti i parametri necessari per portare a termine con successo l'operazione. In tal caso il test verifica che il numero stampato sulla risposta sia effettivamente \texttt{null}, come desiderato in questo caso, e che non sia effettuata \textit{alcuna} operazione sul gestore di persistenza dei dati.
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
@@ -1358,53 +1367,62 @@ Tale test si compone di quattro metodi:
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{TM4.08: AddressBookDoUnblockServletTest}\\
-\textbf{Verifica l'oggetto:} \textit{AddressBookDoUnblockServlet}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di sbloccare un contatto \texttt{IUserData} (bloccato) all'interno di una rubrica utente. La possibilità di richiamare\\ \texttt{AddressBookDoUnblockServlet} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica.
+\item \textbf{TM4.08: UnblockControllerTest}\\
+\textbf{Verifica l'oggetto:} \textit{UnblockController}.\\
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di sbloccare un contatto \texttt{IUserData} (bloccato) all'interno di una rubrica utente. La possibilità di richiamare\\ \texttt{UnblockController} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica.
 
-I possibili \inglese{input} riguardano dati passati mediante \texttt{XMLHttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IUserData} realmente esistente, bloccato, e presente nella rubrica del richiedente) o non (campi dati vuoti, o che comunque non corrispondono a nessun utente realmente registrato al sistema).
+I possibili \inglese{input} riguardano dati passati mediante \texttt{XMLHttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IUserData} realmente esistente, bloccato, e presente nella rubrica del richiedente) o non (campi dati vuoti, o che comunque non corrispondono a nessun utente realmente registrato al sistema). %TODO: DA VERIFICARE.
 
 Tale test si compone di tre metodi:
 \begin{itemize}
-\item \texttt{testUnblockCorrectContact()} verifica l'avvenuto sblocco del contatto precisato, nella rubrica del richiedente, a partire da dati corretti (realmente apparteneneti all'utente da sbloccare).
-\item \texttt{testUnblockNotExistsContact()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di sbloccare un utente non registrato nel sistema, o comunque non appartenente alla rubrica del richiedente.
-\item \texttt{testWrongData()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di sbloccare un utente \texttt{IUserData} definito da dati non completi (campi dati vuoti) parzialmente o nella loro totalità.
+\item \texttt{testUnblockCorrectContact()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui è invocato a partire da una richiesta che contiene tutti i parametri di valore corretto per portare a termine con successo l'operazione di blocco del contatto. In particolare, il test verifica che il testo stampato sulla risposta sia, come desiderato in caso di successo, la stringa \texttt{true} e che il sistema di persistenza dei dati sia utilizzato correttamente per le operazioni di recupero (della rubrica dell'utente che richiede l'operazione e dei contatti coinvolti) e di aggiormento (di tutte le voci di rubrica che devono essere bloccate).
+
+\item \texttt{testUnblockNotExistsContact()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui il parametro identificativo del contatto da bloccare contenuto nella richiesta non corrisponde ad alcuno degli utenti registrati nel sistema.
+Il test verifica che in questo caso la stringa stampata sulla risorsa HTTP sia \texttt{null}, che denota l'avvenuto errore nel server. Infine è effettuato un controllo sul sistema di persistenza, garantendo che non sia effettuata alcuna operazione di aggiornamento di voci di rubrica.
+
+\item \texttt{testWrongData()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui la richiesta HTTP con cui viene invocato non contiene tutti i parametri necessari per portare a termine l'operazione di blocco di un contatto.
+Il test verifica che in questo caso la stringa stampata sulla risorsa HTTP sia \texttt{null}, che denota l'avvenuto errore nel server e che non sia effettuata alcuna operazione attraverso il gestore della persistenza dei dati.
+
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{TM4.09: AddressBookDoSearchServletTest}\\
-\textbf{Verifica l'oggetto:} \texttt{AddressBookDoSearchServlet}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di ritornare una lista di contatti corrispondenti a determinati criteri ricerca specificati nella richiesta. La possibilità di richiamare \texttt{AddressBookGetContactsServlet} ha come precondizione l'autenticazione dell'utente richiedente.
+\item \textbf{TM4.09: SearchControllerTest}\\
+\textbf{Verifica l'oggetto:} \texttt{SearchController}.\\
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di ritornare una lista di contatti corrispondenti a determinati criteri ricerca specificati nella richiesta. La possibilità di richiamare \texttt{GetContactsController} ha come precondizione l'autenticazione dell'utente richiedente. 
 
-I possibili input riguardano dati passati mediante \texttt{XMLHttpRequest}, che possono essere corretti (campi dati non vuoti) o non (campi dati vuoti).
+I possibili input riguardano dati passati mediante \texttt{XMLHttpRequest}, che possono essere corretti (campi dati non vuoti) o non (campi dati vuoti). %TODO: VERIFICARE
 Tale test si compone di due metodi:
 \begin{itemize}
-\item \texttt{testGetSearchContact()} verifica se gli utenti ottenuti in seguito all'operazione di ricerca sono tutti e soli gli utenti registrati nella rubrica del richiedente, e aventi o come nome, cognome o mail, la parola ricercata.
-\item \texttt{testWrongData()} verifica che, dati in input valori scorretti, il numero di utenti restituiti dalla ricerca sia 0.
+\item \texttt{testGetSearchContact()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui la richiesta contiene tutti i parametri per portare a termine con successo l'operazione di ricerca. Il particolare il test verifica che la stringa stampata sulla risposta corrisponda alla rappresentazione in formato JSON di un array associativo indirizzato come identificativo degli utenti che corrispondono al criterio di ricerca specificato nella richiesta. Il test verifica inoltre che sia utilizzato correttamente il sistema di gestione della persistenza per l'estrazione degli utenti e che da questi ultimi siano estratte solo le informazioni rilevanti per la codifica JSON dei risultati.
+
+\item \texttt{testWrongData()} verifica il comportamento del metodo \texttt{doAction} nel caso in cui la richiesta HTTP con cui viene invocato non contiene tutti i parametri necessari a portare a termine con successo l'operazione di ricerca. Il test verifica che in questo caso sia stampata sulla risposta la stringa \texttt{\{\}} che rappresenta un array associativo vuoto.
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{TM4.10: AddressBookGetContactsServletTest}\\
-\textbf{Verifica l'oggetto:} \texttt{AddressBookGetContactsServlet}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di ottenere la lista dei contatti presenti nella rubrica del richiedente memorizzata sul server. La possibilità di richiamare \texttt{AddressBookGetContactsServlet} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica.
+\item \textbf{TM4.10: GetContactsControllerTest}\\
+\textbf{Verifica l'oggetto:} \texttt{GetContactsController}.\\
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di ottenere la lista dei contatti presenti nella rubrica del richiedente memorizzata sul server. La possibilità di richiamare \texttt{GetContactsController} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica.
 
 I possibili input riguardano dati passati mediante \texttt{XMLHttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IUserData} realmente esistente) o meno, se vuoti ad esempio.
 
 Tale test si compone di due metodi:
 \begin{itemize}
-\item \texttt{testGetCorrectContacts()} verifica se la lista di utenti ottenuta come output del metodo \texttt{doPost} della \inglese{servlet} corrisponde effettivamente alla rubrica del richiedente.
-\item \texttt{testWrongData()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di ottenere la rubrica in caso di invio di dati non completi (campi dati vuoti) parzialmente o nella loro totalità.
+\item \texttt{testGetCorrectContacts()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui un utente richiede di scaricare la propria rubrica e questa contiene almeno un contatto. Il test verifica che il testo stampato nella risposta HTTP corrisponda alla rappresentazione in formato JSON della lista dei contatti (ognuno presente una sola volta) e che sia utilizzato correttamente il gestore della persistenza per estrarre i dati dal database.
+
+\item \texttt{testGetEmptyContacts()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui l'utente che chiede di scaricare la propria rubrica non ha alcuna voce associata a se nella tabella \textit{AddressBookEntries} della base di dati. In particolare il test verifica che sia restituita la rappresentazione in formato JSON di un array associativo che non contiene alcuna proprietà, cioè \texttt{\{\}}. Il test verifica inoltre che sia utilizzato correttamente il gestore della persistenza per estrarre i dati dal database.
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{TM4.11: AddressBookGetGroupsServletTest}\\
-\textbf{Verifica l'oggetto:} \texttt{AddressBookGetGroupsServlet}.\\
+\item \textbf{TM4.11: GetGroupsControllerTest}\\
+\textbf{Verifica l'oggetto:} \texttt{GetGroupsController}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di ritornare una lista di gruppi presenti nella rubrica del richiedente.
 
-La possibilità di richiamare \texttt{AddressBookGetGroupsServlet} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica.
+La possibilità di richiamare \texttt{GetGroupsController} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica.
 Tale test si compone di un solo metodo:
 \begin{itemize}
-\item \textit{testGetGroupContact()} verifica se gli utenti ottenuti in associazione ai gruppi di appertenneza, sono tutti e soli gli utenti-gruppi presenti nella rubrica del richiedente.
+\item \textit{testGetGroupContact()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui è invocato con una richiesta che contiene tutti i parametri necessari a portare a termine l'operazione con successo, e la lista degli utenti contenuti nel gruppo non è vuota. In particolare, il test verifica che il testo stampato sulla risposta HTTP corrisponda, come desiderato, alla rappresentazione in formato JSON della lista dei gruppi come si attende il client. Inoltre, viene controllato che siano estratta dal database le informazioni necessarie alla costruzione della stringa JSON.
+
+\item \textit{testGetEmptyGroup()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui è invocato con una richiesta che contiene tutti i parametri necessari a portare a termine l'operazione con successo, e la lista degli utenti contenuti nel gruppo è vuota. In particolare, il test verifica che il testo stampato sulla risposta HTTP corrisponda, come desiderato, alla rappresentazione in formato JSON della lista dei gruppi come si attende il client. Inoltre, viene controllato che siano estratta dal database le informazioni necessarie alla costruzione della stringa JSON.
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 \end{itemize}
@@ -1764,7 +1782,7 @@ TM3.03 & UserDataTest &Superato\\
 TM4.01 & AddressBookDoAddContactServletTest &Superato\\
 TM4.02 & AddressBookDoRemoveContactServletTest &Superato\\
 TM4.03 & AddressBookDoCreateGroupServletTest &Superato\\
-TM4.04 & AddressBookDoDeleteGroupServletTest &Superato\\
+TM4.04 & AddressBookDoServletTest &Superato\\
 TM4.05 & AddressBookDoInsertInGroupServletTest &Superato\\
 TM4.06 & AddressBookDoRemoveFromGroupServletTest &Superato\\
 TM4.07 & AddressBookDoBlockServletTest &Superato\\
