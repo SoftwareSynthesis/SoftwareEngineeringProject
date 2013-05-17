@@ -1,8 +1,10 @@
 package org.softwaresynthesis.mytalk.server.authentication.controller;
 
+import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -55,15 +57,15 @@ public class RegisterController extends AbstractController
 		try
 		{
 			strategy = getSecurityStrategyFactory();
-			mail = this.getParameter(request, "username");
-			password = this.getParameter(request, "password");
+			mail = getValue(request.getPart("username"));
+			password = getValue(request.getPart("password"));
 			password = strategy.encode(password);
-			question = this.getParameter(request, "question");
-			answer = this.getParameter(request, "answer");
+			question = getValue(request.getPart("question"));
+			answer = getValue(request.getPart("answer"));
 			answer = strategy.encode(answer);
-			name = this.getParameter(request, "name");
-			surname = this.getParameter(request, "surname");
-			path = this.getParameter(request, "picturePath");
+			name = getValue(request.getPart("name"));
+			surname = getValue(request.getPart("surname"));
+			path = getValue(request.getPart("picturePath"));
 			user = new UserData();
 			user.setMail(mail);
 			user.setPassword(password);
@@ -123,20 +125,23 @@ public class RegisterController extends AbstractController
 	}
 	
 	/**
-	 * Restituisce il parametro richiesto per completare
-	 * la registrazione
-	 * 
-	 * @param request
-	 * @param parameter
-	 * @return
+	 * Estrae una stringa da un oggetto
+	 * di tipo Part
 	 */
-	private String getParameter(HttpServletRequest request, String parameter)
-	{
-		String result = request.getParameter(parameter);
-		if (result == null)
-		{
-			result = "";
+	String getValue(Part part) throws IOException {
+		try{
+			BufferedReader reader = new BufferedReader(new InputStreamReader(part.getInputStream(), "UTF-8"));
+			StringBuilder value = new StringBuilder();
+			char[] buffer = new char[1024];
+			for (int length = 0; (length = reader.read(buffer)) > 0;) {
+				value.append(buffer, 0, length);
+			}
+			return value.toString();
 		}
-		return result;
+		catch (Exception ex)
+		{
+			String result = "";
+			return result;
+		}
 	}
 }

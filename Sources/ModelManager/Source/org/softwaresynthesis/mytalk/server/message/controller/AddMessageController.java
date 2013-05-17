@@ -62,7 +62,7 @@ public class AddMessageController extends AbstractController{
 			message.setId(dao.getMessageNewKey());
 			message.setSender(send);
 			message.setReceiver(rec);
-			message.setDate(getCurrentDate());
+			message.setDate(new Date());
 			dao.insert(message);
 			
 			result = "true";
@@ -78,10 +78,6 @@ public class AddMessageController extends AbstractController{
 		}
 	}
 	
-	Date getCurrentDate() {
-		return new Date();
-	}
-	
 	IMessage createMessage() {
 		return new Message();
 	}
@@ -93,6 +89,10 @@ public class AddMessageController extends AbstractController{
 		out.close();
 	}
 	
+	/**
+	 * Estrae una stringa da un oggetto
+	 * di tipo Part
+	 */
 	String getValue(Part part) throws IOException {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(
 				part.getInputStream(), "UTF-8"));
