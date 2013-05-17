@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import org.softwaresynthesis.mytalk.server.AbstractController;
+import org.softwaresynthesis.mytalk.server.abook.Group;
+import org.softwaresynthesis.mytalk.server.abook.IGroup;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
 import org.softwaresynthesis.mytalk.server.abook.UserData;
 import org.softwaresynthesis.mytalk.server.authentication.security.ISecurityStrategy;
@@ -48,7 +50,7 @@ public class RegisterController extends AbstractController
 		InputStream inputStream = null;
 		Part filePart = null;
 		FileOutputStream out = null;
-		
+		IGroup group = null;
 		
 		try
 		{
@@ -88,6 +90,10 @@ public class RegisterController extends AbstractController
 			user.setPath(path);
 			dao = getDAOFactory();
 			dao.insert(user);
+			group = new Group();
+			group.setName("addrBookEntry");
+			group.setOwner(user);
+			dao.insert(group);
 			result = "{\"name\":\"" + user.getName() + "\"";
 			result += ", \"surname\":\"" + user.getSurname() + "\"";
 			result += ", \"email\":\"" + user.getMail() + "\"";
