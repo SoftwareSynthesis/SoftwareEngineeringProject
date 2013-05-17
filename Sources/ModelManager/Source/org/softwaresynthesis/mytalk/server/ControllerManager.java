@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.catalina.websocket.StreamInbound;
@@ -23,6 +24,7 @@ import org.softwaresynthesis.mytalk.server.connection.PushInbound.State;
  * @author 	Andrea Meneghinello
  * @version	3.0
  */
+@WebServlet(description = "Signaling channel", urlPatterns = { "/CommandManager" })
 public class ControllerManager extends WebSocketServlet implements Servlet 
 {
 	private static final long serialVersionUID = 10001L;
@@ -169,25 +171,6 @@ public class ControllerManager extends WebSocketServlet implements Servlet
 			result = "offline";
 		}
 		return result;
-	}
-	
-	
-	/**
-	 * Risponde alla richiesta giunta dal client in
-	 * modalità GET
-	 * 
-	 * @param	resquest	{@link HttpServletRequest} contiene le informazioni inviate dal client
-	 * 						per completare l'operazione richiesta
-	 * @param	response	{@link HttpServletResponse} contine le informazione inviate dal server
-	 * 						per informare il client dell'esito della richiesta
-	 * @throws 	IOException se si verificano errori durante operazioni di IO
-	 * @throws	ServletException se si verificato errori interni alla servlet
-	 * 			durante l'esecuzione
-	 */
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
-	{
-		this.doPost(request, response);
 	}
 	
 	/**
