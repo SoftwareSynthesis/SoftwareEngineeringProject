@@ -1555,7 +1555,16 @@ Tale test si compone di quattro metodi:
 \textbf{Descrizione}: %TODO: AGGIUNGERE DESCRIZIONE
 Tale test si compone di quattro metodi:
 \begin{itemize}
-\item %TODO: metodi e descrizioni
+\item \texttt{testDeleteCorrectly()} verifica il comportamento del metodo \texttt{doAction} nel controller per la cancellazione di un messaggio nel momento in cui la richiesta che viene passata ad esso come parametro contiene tutti i i parametri per portare a termine con successo la richiesta. In particolare, il test verifica che il testo stampato nella risposta HTTP sia effettivamente \texttt{true}, come desiderato. Inoltre si verifica che sia cancellata la voce del messaggio corrispondente nel sistema di gestione della persistenza dei dati e che sia effettivamente rimosso il file dal disco rigido del server tramite il metodo \texttt{deleteFile}.
+
+\item \texttt{testDeleteWithErasureError()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui in fase di cancellazione del messaggio si verifica un errore di I/O. Il test verifica che in tal caso il testo stampato nella risposta corrisponda alla stringa \texttt{null}, che denota un errore nel server. Inoltre si controlla che non sia MAI effettuata alcuna operazione di cancellazione sul sistema di gestione della persistenza dei dati.
+
+\item \texttt{testDeleteNotExistMEssage()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui il valore numerico passato tramite la richiesta HTTP con cui è invocato non corrisponde adl alcuno dei messaggi che sono presenti nel sistema di persistenza dei dati. In particolare, il test verifica che il testo stampato nella risposta sia la stringa \texttt{null}, come desiderato in questo caso, che non sia mai effettuata un'operazione di cancellazione nel sistema di persistenza dei dati e che non sia mai cancellato alcun file.
+
+\item \texttt{testDeleteNotOwnedMessage()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui il messaggio di cui si richiede la cancellazione non appartiene all'utente da cui proviene la richiesta al controller. In particolare, il test verifica che il testo stampato sulla risposta corrisponda alla stringa \texttt{null}, come desiderato in questo caso. Inoltre si verifica che non venga mai effettuata alcuna operazione di cancellazione dal sistema di persistenza dei dati e che non sia rimosso dal disco alcun file.
+
+\item \texttt{testWrongData()} verifica il comportamento del metodo \texttt{doAction} per la cancellazione di un messaggio nella segreteria nel momento in cui la richiesta che gli viene passata come parametro non contiene tutti i parametri necessari per portare a termine con successo l'operazione. In particolare si verifica che il testo stampato nella risposta HTTP sia effettivamente la stringa \texttt{null}m che denota per il client il verificarsi di un errore. Inoltre si verifica che non avvenga alcuna interazione con il sistema di gestione della persistenza dei dati e che non sia \textit{mai} cancellato alcun file dal server tramite il metodo \texttt{deleteFile}.
+
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
@@ -1571,6 +1580,8 @@ Tale test si compone di quattro metodi:
 \item \texttt{testUpdateNotExistMessage()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui il valore identificativo passato come parametro nella richiesta non corrisponde ad alcuno dei messaggi presenti nel database del sistema. Il test verifica che la stringa stampata sulla risposta sia effettivamente \texttt{null}, come desiderato in caso d'errore, e che non siano mai effettuate operazioni di aggiornamento della tabella \textit{Messages} nel database.
 
 \item \texttt{testWrongData()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui la richiesta HTTP non comprende tutti i parametri necessari per portare a termine con successo l'operazione. Il test verifica che la stringa stampata sulla risposta sia effettivamente \texttt{null}, come desiderato in caso d'errore, e che non siano mai effettuate operazioni di aggiornamento della tabella \textit{Messages} nel database.
+
+\item \texttt{testUpdateNotOwnedMessage()} %TODO: da descrivere
 
 \end{itemize} 
 \textbf{Risultato del test:} superato con successo.
