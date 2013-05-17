@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import org.softwaresynthesis.mytalk.server.AbstractController;
+import org.softwaresynthesis.mytalk.server.abook.IUserData;
 import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
 import org.softwaresynthesis.mytalk.server.message.IMessage;
 
@@ -25,13 +26,15 @@ public class DeleteMessageController extends AbstractController{
 		Long id = null;
 		String separator = null;
 		String path = null;
+		IUserData user = null;
 		
 		try
 		{
 			dao = getDAOFactory();
 			id = Long.parseLong(request.getParameter("idMessage"));
 			message = dao.getMessage(id);
-			if (message != null){
+			user = dao.getUserData(super.getUserMail());
+			if (message != null && message.getReceiver().equals(user)){
 				separator = System.getProperty("file.separator");
 				path = "Secretariat" + separator;
 				path += id.toString() + ".wav";
