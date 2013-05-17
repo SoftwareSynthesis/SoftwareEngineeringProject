@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
@@ -23,6 +24,8 @@ import javax.servlet.ServletConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.catalina.websocket.MessageInbound;
+import org.apache.catalina.websocket.StreamInbound;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,6 +33,7 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
+import org.softwaresynthesis.mytalk.server.connection.PushInbound;
 
 /**
  * Verifica della classe {@link ControllerManager}
@@ -146,10 +150,22 @@ public class ControllerManagerTest {
 		}
 	}
 
-	// TODO questo deve essere fatto
+	/**
+	 * Verifica il comportamento del metodo factory che crea il canale di
+	 * comuncazione WebSocket tra client e server. In particolare il test
+	 * verifica che il valore ritornato sia un riferimento del sottotipo
+	 * corretto di MessageInbound, per l'applicazione corretta del design
+	 * pattern Factory Method.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
 	@Test
 	public void testCreateWebSocket() {
-		fail("Non posso farlo fino a quando non ci sarà il codice");
+		StreamInbound result = tester.createWebSocketInbound("pippo", request);
+		assertNotNull(result);
+		assertTrue(result instanceof MessageInbound);
+		assertTrue(result instanceof PushInbound);
 	}
 
 	/**
