@@ -36,7 +36,7 @@ window.onload = function() {
     communicationcenter = new CommunicationCenter();
 
     // Link connessione a servlet
-    var stub = false;
+    var stub = true;
     if (stub) {
         commandURL = "http://localhost/webalizer/ModelManager/WebContent/conf/controllerManagerStub.php";
         urlChannelServlet = "ws://localhost:8080/MyTalk/ChannelServlet";

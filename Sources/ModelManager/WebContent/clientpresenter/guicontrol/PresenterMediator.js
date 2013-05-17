@@ -82,21 +82,6 @@ function PresenterMediator() {
     };
 
     /**
-     * Funzione da scatenare nel momento in cui è selezionato un contatto, ne
-     * provoca la visualizzazione nel pannello dei contatti
-     *
-     * @see ContactPanelPresenter#display()
-     * @param {Object}
-     *            contact contatto che deve essere visualizzato
-     * @author Diego Beraldin
-     */
-    this.onContactSelected = function(contact) {
-        var element = contactpp.createPanel();
-        presenters["main"].displayChildPanel(element);
-        contactpp.display(contact);
-    };
-
-    /**
      * Funzione di callback richiamata dai pulsanti di SearchResultPanel che
      * comunica all'AddressBookPanelPresenter di aggiungere un contatto
      *
@@ -238,52 +223,6 @@ function PresenterMediator() {
     };
 
     /**
-     * Provoca la creazione del pannello dei gruppo e la sua
-     * visualizzazione all'interno del MainPanel come elemento figlio. La
-     * costruzione del pannello è affidata al metodo createPanel che viene reso
-     * disponibile da tutti i presenter di secondo livello
-     *
-     * @see MainPanel#displayChildPanel({HTMLDivElement})
-     * @see GroupPanelPresenter#createPanel()
-     * @author Diego Beraldin
-     */
-    this.displayGroupPanel = function() {
-        var element = grouppp.createPanel();
-        presenters["main"].displayChildPanel(element);
-        grouppp.setup();
-    };
-
-    /**
-     * Provoca la creazione del pannello della segreteria e la sua
-     * visualizzazione all'interno del MainPanel come elemento figlio. La
-     * costruzione del pannello è affidata al metodo createPanel che viene reso
-     * disponibile da tutti i presenter di secondo livello
-     *
-     * @see MainPanel#displayChildPanel({HTMLDivElement})
-     * @see MessagePanelPresenter#createPanel()
-     * @author Diego Beraldin
-     */
-    this.displayMessagePanel = function() {
-        var element = messagepp.createPanel();
-        presenters["main"].displayChildPanel(element);
-        messagepp.setup();
-    };
-
-    /**
-     * Provoca la creazione del pannello dello storico delle chiamate e la sua
-     * visualizzazione all'interno del MainPanel.
-     *
-     * @see MainPanel#displayChildPanel({HTMLDivElement})
-     * @see AccountSettingsPanelPresenter#createPanel({HTMLDivElement})
-     * @author Diego Beraldin
-     */
-    this.displayCallHistoryPanel = function() {
-        var element = callhistorypp.createPanel();
-        presenters["main"].displayChildPanel(element);
-        callhistorypp.setup();
-    };
-
-    /**
      * Funzione di callback richiamata dai pulsanti di SearchResultPanel che
      * comunica all'AddressBookPanelPresenter di filtrare la lista dei contatti
      * secondo un parametro
@@ -328,35 +267,6 @@ function PresenterMediator() {
     };
 
     /**
-     * Provoca la visualizzazione del pannello per i risultati di una ricerca
-     * fra gli utenti del sistema (a.k.a. SearchResultPanel) nel pannello
-     * principale delegando a quest'ultimo tramite {@link MainPanelPresenter} la
-     * visualizzazione
-     *
-     * @see SearchResultPanelPresenter#createPanel()
-     * @see MainPanelPresenter#displayChildPanel({HTMLDivElement}
-     * @author Diego Beraldin
-     */
-    this.displaySearchResultPanel = function() {
-        var element = searchresultpp.createPanel();
-        presenters["main"].displayChildPanel(element);
-    };
-
-    /**
-     * Provoca la visualizzazione del pannello delle impostazioni del proprio
-     * account (a.k.a. AccountSettingsPanel) nel pannello principale delegando a
-     * quest'ultimo tramite {@link MainPanelPresenter} la sua visualizzazione
-     *
-     * @see AccountSettingsPanelPresenter#createPanel()
-     * @see MainPanelPresenter#displayChildPanel({HTMLDivElement})
-     * @author Diego Beraldin
-     */
-    this.displayAccountSettingsPanel = function() {
-        var element = accountsettingspp.createPanel();
-        presenters["main"].displayChildPanel(element);
-    };
-
-    /**
      * Provoca la visualizzazione del pannello delle comunicazioni (a.k.a.
      * CommunicationPanel) nel pannello principale delegando a quest'ultimo
      * tramite {@link MainPanelPresenter} la sua visualizzazione
@@ -368,19 +278,6 @@ function PresenterMediator() {
     this.displayCommunicationPanel = function() {
         var element = communicationpp.createPanel();
         presenters["main"].displayChildPanel(element);
-    };
-
-    /**
-     * Provoca la visualizzazione della scheda di un contatto nel
-     * ComunicationPanelPresenter
-     *
-     * @author Riccardo Tresoldi
-     * @param {Object}
-     *            contact il contatto da visualizzare
-     */
-    this.displayContact = function(contact) {
-        this.displayCommunicationPanel();
-        contactpp.display(contact);
     };
 
     /**
@@ -474,32 +371,6 @@ function PresenterMediator() {
         communicationpp.updateTimer(text);
     };
 
-    /*
-    * EVENTUALMENTE DA TOGLIERE this.getCommunicationPP = function() { return
-    * communicationpp; }; this.getMainPanel = function() { return
-    * presenters["main"]; };
-    */
-
-    /**
-     * Funzione per settare l'immagine corretta dello stato di un contatto della
-     * rubrica
-     *
-     * @author Riccardo Tresoldi
-     * @param {Number}
-     *            contactId Id del contatto della rubrica a cui cambiare
-     *            l'immagine
-     * @param {String}
-     *            state È lo stato da impostare al contatto passato come
-     *            parametro
-     */
-    //TODO da eliminare
-    /*this.onChangeAddressBooksContactState = function(contactId, state) {
-    // ottengo il contatto
-    var contact = presenters["addressbook"].contacts[contactId];
-    // invoco la funzione del AddressBookPanelPresenter
-    presenters["addressbook"].setStateToContact(contact, state);
-    };*/
-
     /**
      * Permette di aggiungere o rimuovere a seconda delle necessità dal
      * ToolsPanel il pulsante che fa ritornare alle chiamate/chat attive
@@ -539,7 +410,8 @@ function PresenterMediator() {
      */
     this.getContactById = function(idContact) {
         return presenters["addressbook"].getContact(idContact);
-    }
+    };
+    
     /**
      * Funzione richiamata per gestire l'evento di chiamata in arrivo
      *
@@ -548,7 +420,8 @@ function PresenterMediator() {
      */
     this.onIncomeCall = function(caller) {
         communicationpp.showAnswerBox(caller);
-    }
+    };
+    
     /**
      * Attiva la suoneria
      *
@@ -557,7 +430,8 @@ function PresenterMediator() {
      */
     this.startRinging = function(evt) {
         communicationpp.startRinging(evt);
-    }
+    };
+    
     /**
      * Ferma la suoneria
      *
@@ -565,7 +439,8 @@ function PresenterMediator() {
      */
     this.stopRinging = function() {
         communicationpp.stopRinging();
-    }
+    };
+    
     /**
      * Funzione per mostrare un Popup personalizzato
      * Richede in input una porzione di codice HTMLDivElement da mostrare
@@ -615,7 +490,10 @@ function PresenterMediator() {
         document.removeChild(overlay);
         document.removeChild(answerBox);
     };
-
+    
+    /***************************************************************************
+     * HANDLER EVENTI MEDIATOR
+     **************************************************************************/
     /**
      * Restituisce la vista da visualizzare nell'interfaccia grafica
      * in base alla stringa passata come parametro, utilizzata come chiave
