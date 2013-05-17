@@ -11,11 +11,30 @@ function ToolsPanelPresenter() {
      VARIABILI PRIVATE
      ***********************************************************/
     //elemento controllato da questo presenter
-    var element;
+    var thisPresenter = this;
+    var thisPanel;
 
     /**********************************************************
      METODI PRIVATI
      ***********************************************************/
+    /**
+     * Funzione per gestire l'evento in cui viene visualizzato il pannello degli
+     * strumenti
+     * @author Riccardo Tresoldi
+     */
+    function onShowToolsPanel() {
+        mediator.getView('tools');
+    }
+
+    /**
+     * Funzione per gestire l'evento in cui viene rimosso il pannello degli
+     * strumenti
+     * @author Riccardo Tresoldi
+     */
+    function onRemoveToolsPanel() {
+        thisPresenter.destroy();
+    }
+
     /**
      * funzione per l'inizializzazione della select che gestisce il cambio di
      * stato
@@ -47,69 +66,77 @@ function ToolsPanelPresenter() {
     /**********************************************************
      METODI PUBBLICI
      ***********************************************************/
-    /**
+    /** VIEW
+     * Distruttore del pannello
+     * @author Riccardo Tresoldi
+     */
+    this.destroy = function() {
+        var thisPanelParent = thisPanel.parentElement.parentElement;
+        thisPanelParent.removeChild(thisPanel.parentElement);
+    };
+
+    /** VIEW
      * Inizializza il pannello degli strumenti dell'applicazione
      *
      * @author Elena Zecchinato
      * @author Diego Beraldin
      */
-    this.initialize = function() {
-        var self = this;
-
-        // ottiene la propria vista
-        element = mediator.getView("ToolsView");
-
+    this.initialize = function(view) {
         // posiziona il pannello sulla pagina
-        document.body.appendChild(element);
-        
-        
-        
-        
-        
-        element.style.display = "block";
+        var dummyDiv = document.createElement("div");
+        var mainPanel = document.getElementById("MainPanel");
+        if (mainPanel) {
+            document.body.insertBefore(dummyDiv, mainPanel.parentElement);
+        } else {
+            document.body.insertBefore(dummyDiv, document.getElementsByTagName("footer")[0]);
+        }
+        dummyDiv.innerHTML = view.outerHTML;
+
+        //salvo un riferimento all'elemento DOM appena creato
+        thisPanel = document.getElementById("ToolsPanel");
 
         var ulFunction = document.getElementById("ToolsList");
 
         // funzione messaggi
         document.getElementById("liAnswering").onclick = function() {
-            mediator.displayMessagePanel();
+            document.dispatchEvent(showMessagePanel);
         };
 
         // funzione impostazioni account
         document.getElementById("liSetting").onclick = function() {
-            mediator.displayAccountSettingsPanel();
+            document.dispatchEvent(showAccountSettingPanel);
         };
 
         // funzione lista chiamate
         document.getElementById("liCallList").onclick = function() {
-            mediator.displayCallHistoryPanel();
+            document.dispatchEvent(showCallHistoryPanel);
         };
 
-        // funzione gestione contatti
+        // funzione gestione gruppi
         document.getElementById("liGroup").onclick = function() {
-            mediator.displayGroupPanel();
+            document.dispatchEvent(showGroupPanel);
         };
 
         // funzione di ricerca
         document.getElementById("liSearch").onclick = function() {
-            mediator.displaySearchResultPanel();
+            document.dispatchEvent(showSearchResultPanel);
         };
-        
+
         // possibilità di effettuare il logout
         document.createElement("liLogout").onclick = function() {
-        	var answer = confirm("Sei sicuro di voler uscire?");
-    		if (answer) {
-    			// effettua la disconnessione dal server
-    			self.logout();
-    			// ricrea le variabili globali e azzera la UI
-    			mediator = new PresenterMediator();
-    			communicationcenter = new communicationCenter();
-    			// ricostruisce il form di login
-    			mediator.buildLoginUI();
-    		}
+            var answer = confirm("Sei sicuro di voler uscire?");
+            if (answer) {
+                // effettua la disconnessione dal server
+                self.logout();
+                // ricrea le variabili globali e azzera la UI
+                mediator = new PresenterMediator();
+                communicationcenter = new communicationCenter();
+                // ricostruisce il form di login
+                mediator.buildLoginUI();
+            }
         };
-       
-       //inizializzo la select del 
+
+        //inizializzo la select del
         this.initializeSelectState();
     };
 
@@ -119,40 +146,40 @@ function ToolsPanelPresenter() {
      * @author Diego Beraldin
      */
     this.hide = function() {
-        this.element.style.display = "none";
+        thisPanel.style.display = "none";
     };
-	
+
     /**
-	 * Effettua il logout comunicandolo alla servlet e chiudendo il canale di
-	 * comunicazione che era stato aperto con il server
-	 * 
-	 * @author Riccardo Tresoldi
-	 */
+     * Effettua il logout comunicandolo alla servlet e chiudendo il canale di
+     * comunicazione che era stato aperto con il server
+     *
+     * @author Riccardo Tresoldi
+     */
     this.logout = function() {
-		communicationcenter.disconnect();
-		var request = new XMLHttpRequest();
-		request.open("POST", commandURL, false);
-		request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		request.send("operation=logout");
-		var result = JSON.parse(request.responseText);
-		if (!result) {
-			alert("Ops... qualcosa &egrave; andato storto nel server!");
-		}
-	};
-    
+        communicationcenter.disconnect();
+        var request = new XMLHttpRequest();
+        request.open("POST", commandURL, false);
+        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        request.send("operation=logout");
+        var result = JSON.parse(request.responseText);
+        if (!result) {
+            alert("Ops... qualcosa &egrave; andato storto nel server!");
+        }
+    };
+
     /**
-	 * Aggiunge il pulsante che permette di ritornare al pannello delle
-	 * comunicazioni, se ve ne sono di attive
-	 * 
-	 * @author Diego Beraldin
-	 */
-	this.addCommunicationFunction = function() {
+     * Aggiunge il pulsante che permette di ritornare al pannello delle
+     * comunicazioni, se ve ne sono di attive
+     *
+     * @author Diego Beraldin
+     */
+    this.addCommunicationFunction = function() {
         // crea il nuovo elemento della lista
         var liCommunication = document.createElement("li");
         liCommunication.id = "CallFunction";
         liCommunication.appendChild(document.createTextNode("Chiamata"));
         liCommunication.onclick = function() {
-        	mediator.displayCommunicaionPanel();
+            mediator.displayCommunicaionPanel();
         };
         // lo aggiunge in coda alla lista
         var ulFunctions = document.getElementById("ToolsList");
@@ -166,11 +193,11 @@ function ToolsPanelPresenter() {
      * @author Diego Beraldin
      */
     this.removeCommunicationFunction = function() {
-    	var ulFunctions = document.getElementById("ToolsList");
-    	var liCommunication = document.getElementById("CallFunction");
-    	if (liCommunication) {
-    		ulFunctions.removeChild(liCommunication);
-    	}
+        var ulFunctions = document.getElementById("ToolsList");
+        var liCommunication = document.getElementById("CallFunction");
+        if (liCommunication) {
+            ulFunctions.removeChild(liCommunication);
+        }
     };
 
     /**
@@ -183,7 +210,7 @@ function ToolsPanelPresenter() {
      * stato dell'utente
      */
     this.updateStateValue = function() {
-       //ottengo la select
+        //ottengo la select
         var selectState = initializeSelectState();
         //ottengo il valore corrente della select
         var currentValue = selectState.options[selectedIndex].value;
@@ -191,4 +218,14 @@ function ToolsPanelPresenter() {
         communicationcenter.changeState(currentValue);
         return selectState;
     };
+
+    /***************************************************************************
+     * LISTNER DEGLI EVENTI
+     **************************************************************************/
+    document.addEventListener("showToolsPanel", function(evt) {
+        onShowToolsPanel();
+    });
+    document.addEventListener("removeToolsPanel", function(evt) {
+        onRemoveToolsPanel();
+    });
 }

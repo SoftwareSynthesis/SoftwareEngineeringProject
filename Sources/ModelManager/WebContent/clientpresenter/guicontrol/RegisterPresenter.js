@@ -3,24 +3,51 @@
  *
  * @constructor
  * @this {RegisterPanelPresenter}
- * @param {String}
- *            url URL della servlet con cui il presenter deve comunicare
  * @author Stefano Farronato
  */
-function RegisterPanelPresenter(url) {
+function RegisterPanelPresenter() {
     /***************************************************************************
      * VARIABILI PRIVATE
      **************************************************************************/
     // elemento controllato da questo presenter
-    var element;
+    var thisPresenter = this;
+    var thisPanel;
 
     /***************************************************************************
      * METODI PRIVATI
      **************************************************************************/
+    /**
+     * Funzione per gestire l'evento in cui viene visualizzato il pannello di
+     * registrazione
+     * @author Riccardo Tresoldi
+     */
+    function onShowRegistrationPanel() {
+        // TODO elimina eventuale GUI già visualizzata
+        document.dispatchEvent(removeAllPanel);
+        mediator.getView('register');
+    }
+
+    /**
+     * Funzione per gestire l'evento in cui viene rimosso il pannello di
+     * registrazione
+     * @author Riccardo Tresoldi
+     */
+    function onRemoveRegistrationPanel() {
+        thisPresenter.destroy();
+    }
 
     /***************************************************************************
      * METODI PUBBLICI
      **************************************************************************/
+    /** VIEW
+     * Distruttore del pannello
+     * @author Riccardo Tresoldi
+     */
+    this.destroy = function() {
+        var thisPanelParent = thisPanel.parentElement.parentElement;
+        thisPanelParent.removeChild(thisPanel.parentElement);
+    };
+
     /**
      * Estrae dal form il valore del cognome del nuovo utente
      *
@@ -170,19 +197,19 @@ function RegisterPanelPresenter(url) {
      * @author Stefano Farronato
      * @author Diego Beraldin
      */
-    this.initialize = function() {
-    	var self = this;
-    	// ottiene un riferimento alla propria vista
-    	element = mediator.getView("RegisterView");
-    	
-    	// aggiunge il pannello che gestisce alla pagina
-    	document.appendChild(element);
-    	
-    	// configura il comportamento della vista
-    	var inputLogin = document.getElementById("inputLogin");
+    this.initialize = function(view) {
+        // attacca il pannello alla pagina
+        var dummyDiv = document.createElement("div");
+        document.body.insertBefore(dummyDiv, document.getElementsByTagName("footer")[0]);
+        dummyDiv.innerHTML = view.outerHTML;
+
+        //salvo un riferimento all'elemento DOM appena creato
+        thisPanel = document.getElementById("RegisterPanel");
+
+        // configura il comportamento della vista
+        var inputLogin = document.getElementById("inputLogin");
         inputLogin.onclick = function() {
-            self.hide();
-            mediator.buildLoginUI();
+            document.dispatchEvent(showLoginPanel);
         };
 
         // pulsante di registrazione
@@ -190,14 +217,14 @@ function RegisterPanelPresenter(url) {
         inputRegister.onclick = function() {
             var data = new Object();
             try {
-                data.username = self.getUsername();
-                data.password = self.getPassword();
-                data.question = self.getQuestion();
-                data.answer = self.getAnswer();
-                data.name = self.getName();
-                data.surname = self.getSurname();
-                data.picturePath = self.getPicturePath();
-                self.register(data);
+                data.username = thisPresenter.getUsername();
+                data.password = thisPresenter.getPassword();
+                data.question = thisPresenter.getQuestion();
+                data.answer = thisPresenter.getAnswer();
+                data.name = thisPresenter.getName();
+                data.surname = thisPresenter.getSurname();
+                data.picturePath = thisPresenter.getPicturePath();
+                thisPresenter.register(data);
             } catch (err) {
                 alert(err);
             }
@@ -212,8 +239,18 @@ function RegisterPanelPresenter(url) {
      * @author Diego Beraldin
      */
     this.hide = function() {
-        if (element) {
-            document.body.removeChild(element);
+        if (thisPanel) {
+            thisPanel.style.display = "none";
         }
     };
+
+    /***************************************************************************
+     * LISTNER DEGLI EVENTI
+     **************************************************************************/
+    document.addEventListener("showRegistrationPanel", function(evt) {
+        onShowRegistrationPanel();
+    });
+    document.addEventListener("removeRegistrationPanel", function(evt) {
+        onRemoveRegistrationPanel();
+    });
 }

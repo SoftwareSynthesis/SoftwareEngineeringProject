@@ -11,12 +11,32 @@ function LoginPanelPresenter() {
     /***************************************************************************
      * VARIABILI PRIVATE
      **************************************************************************/
-    // elemento controllato da questo presenter
-    var element;
+    var thisPresenter = this;
+    var thisPanel;
 
     /***************************************************************************
      * METODI PRIVATI
      **************************************************************************/
+    /**
+     * Funzione per gestire l'evento in cui viene visualizzato il pannello di
+     * registrazione
+     * @author Riccardo Tresoldi
+     */
+    function onShowLoginPanel() {
+        //elimina eventuale GUI già visualizzata
+        document.dispatchEvent(removeAllPanel);
+        mediator.getView('login');
+    }
+
+    /**
+     * Funzione per gestire l'evento in cui viene rimosso il pannello di
+     * registrazione
+     * @author Riccardo Tresoldi
+     */
+    function onRemoveLoginPanel() {
+        thisPresenter.destroy();
+    }
+
     /**
      * Testa quanto ricevuto dal server e, in caso di login avvenuto
      * correttamente reindirizza il browser nella pagina finale dopo aver
@@ -28,11 +48,11 @@ function LoginPanelPresenter() {
      */
     function testCredentials(data) {
         var user = JSON.parse(data);
-        if (user != null) {
+        if (user) {
             // 'communicationcenter' deve essere una variabile globale
             communicationcenter.my = user;
             communicationcenter.connect();
-            mediator.buildUI();
+            document.dispatchEvent(showUIPanels);
         } else {
             //funzione che setta la grafica per tornare l'errore nel login
             errorLogin();
@@ -61,13 +81,13 @@ function LoginPanelPresenter() {
      */
     function correctAnswer() {
         var formRetrievePassword = document.getElementById("passwordretrieval");
-        element.removeChild(formRetrievePassword);
+        thisPanel.removeChild(formRetrievePassword);
         var message = document.createElement("p");
         var text = document.createTextNode("Recupero password avvenuto correttamente." + "Ti è stata inviata un'email contenente i dati richiesti.");
         message.appendChild(text);
-        element.appendChild(message);
+        thisPanel.appendChild(message);
         window.setTimeout(function() {
-            element.removeChild(message);
+            thisPanel.removeChild(message);
         }, 2000);
     }
 
@@ -83,9 +103,9 @@ function LoginPanelPresenter() {
         var message = document.createElement("p");
         var text = document.createTextNode("Dati non corretti. Inserire nuovamente la risposta.");
         message.appendChild(text);
-        element.appendChild(message);
+        thisPanel.appendChild(message);
         window.setTimeout(function() {
-            element.removeChild(message);
+            thisPanel.removeChild(message);
         }, 2000);
     }
 
@@ -110,6 +130,15 @@ function LoginPanelPresenter() {
     /***************************************************************************
      * METODI PUBBLICI
      **************************************************************************/
+    /** VIEW
+     * Distruttore del pannello
+     * @author Riccardo Tresoldi
+     */
+    this.destroy = function() {
+        var thisPanelParent = thisPanel.parentElement.parentElement;
+        thisPanelParent.removeChild(thisPanel.parentElement);
+    };
+
     /**
      * Testa se l'utente ha dato la risposta corretta alla domanda segreta
      *
@@ -140,7 +169,7 @@ function LoginPanelPresenter() {
         // elimina il form se è già presente
         var oldForm = document.getElementById("passwordretrieval");
         if (oldForm != null) {
-            element.removeChild(oldForm);
+            thisPanel.removeChild(oldForm);
         }
 
         // costruisce il form con il valore ottenuto
@@ -220,7 +249,7 @@ function LoginPanelPresenter() {
         return password;
     };
 
-    /**
+    /** PRESENTER
      * Procedura che esegue il login inviando al server i dati di autenticazione
      *
      * NOTE PER I VERIFICATORI Testare communicationcenter.my al termine della
@@ -242,7 +271,7 @@ function LoginPanelPresenter() {
         return querystring;
     };
 
-    /**
+    /** VIEW
      * Nasconde il form di autenticazione per lasciare spazio nella finestra a
      * altri elementi grafici come la schermata principale o il pannello di
      * registrazione
@@ -250,12 +279,12 @@ function LoginPanelPresenter() {
      * @author Diego Beraldin
      */
     this.hide = function() {
-        if (element) {
-            document.body.removeChild(element);
+        if (thisPanel) {
+            thisPanel.style.display = "none";
         }
     };
 
-    /**
+    /** VIEW
      * Inizializzazione del pannello di login con la creazione di tutti i widget
      * grafici che sono contenuti al suo interno
      *
@@ -264,21 +293,23 @@ function LoginPanelPresenter() {
      *
      * @author Diego Beraldin
      */
-    this.initialize = function() {
-        // ottiene la propria vista
-        element = mediator.getView("LoginView");
-
+    this.initialize = function(view) {
         // attacca il pannello alla pagina
-        document.body.insertBefore(element, document.getElementsByTagName("footer")[0]);
+        var dummyDiv = document.createElement("div");
+        document.body.insertBefore(dummyDiv, document.getElementsByTagName("footer")[0]);
+        dummyDiv.innerHTML = view.outerHTML;
+
+        //salvo un riferimento all'elemento DOM appena creato
+        thisPanel = document.getElementById("LoginPanel");
 
         // configura il comportamento della vista
         var inputLogin = document.getElementById("inputLogin");
         inputLogin.onclick = function() {
             try {
                 var data = new Object();
-                data.username = self.getUsername();
-                data.password = self.getPassword();
-                self.login(data);
+                data.username = thisPresenter.getUsername();
+                data.password = thisPresenter.getPassword();
+                thisPresenter.login(data);
             } catch (err) {
                 alert(err);
             }
@@ -286,18 +317,27 @@ function LoginPanelPresenter() {
 
         var inputRegister = document.getElementById("inputRegister");
         inputRegister.onclick = function() {
-            self.hide();
-            mediator.buildRegistrationUI();
+            document.dispatchEvent(showRegistrationPanel);
         };
 
         var inputRetrievePassword = document.getElementById("inputRetrievePassword");
         inputRetrievePassword.onclick = function() {
             try {
-                var form = self.buildRetrievePasswordForm();
-                element.appendChild(form);
+                var form = thisPresenter.buildRetrievePasswordForm();
+                thisPanel.appendChild(form);
             } catch (err) {
                 alert(err);
             }
         };
     };
+
+    /***************************************************************************
+     * LISTNER DEGLI EVENTI
+     **************************************************************************/
+    document.addEventListener("showLoginPanel", function(evt) {
+        onShowLoginPanel();
+    });
+    document.addEventListener("removeLoginPanel", function(evt) {
+        onRemoveLoginPanel();
+    });
 }

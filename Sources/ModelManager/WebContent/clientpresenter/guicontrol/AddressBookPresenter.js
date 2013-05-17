@@ -6,8 +6,6 @@
  *
  * @constructor
  * @this {AddressBookPanelPresenter}
- * @param {String}
- *            url URL della servlet con cui il presenter deve comunicare
  * @author Marco Schivo
  * @author Riccardo Tresoldi
  * @author Diego Beraldin
@@ -16,8 +14,8 @@ function AddressBookPanelPresenter() {
     /***************************************************************************
      * VARIABILI PRIVATE
      **************************************************************************/
-    // elemento controllato da questo presenter
-    var element;
+    var thisPresenter = this;
+    var thisPanel;
     // array dei contatti della rubrica dell'utente
     var contacts = new Array();
     // array dei gruppi della rubrica
@@ -26,6 +24,24 @@ function AddressBookPanelPresenter() {
     /***************************************************************************
      * METODI PRIVATI
      **************************************************************************/
+    /**
+     * Funzione per gestire l'evento in cui viene visualizzato il pannello della
+     * rubrica indirizzi
+     * @author Riccardo Tresoldi
+     */
+    function onShowAddressBookPanel() {
+        mediator.getView('addressBook');
+    }
+
+    /**
+     * Funzione per gestire l'evento in cui viene rimosso il pannello della
+     * rubrica indirizzi
+     * @author Riccardo Tresoldi
+     */
+    function onRemoveAddressBookPanel() {
+        thisPresenter.destroy();
+    }
+
     /**
      * Recupera i contatti e i gruppi della propria rubrica dal server tramite
      * AJAX
@@ -50,7 +66,7 @@ function AddressBookPanelPresenter() {
     /**
      * Recupera l'indirizzo dell'immagine dello stato in base allo stato del
      * contatto passato come parametro
-     * 
+     *
      * @author Diego Beraldin
      * @param {Object} contact oggetto rappresentante il contatto
      */
@@ -89,7 +105,8 @@ function AddressBookPanelPresenter() {
         item.id = contact.id;
         item.className = contact.state;
         item.onclick = function() {
-            mediator.onContactSelected(contact);
+            showContactPanel.contact = contact;
+            document.dispatchEvent(showContactPanel);
         };
 
         // genero i valori da attribuire all'<li>
@@ -180,35 +197,49 @@ function AddressBookPanelPresenter() {
     /***************************************************************************
      * METODI PUBBLICI
      **************************************************************************/
+    /** VIEW
+     * Distruttore del pannello
+     * @author Riccardo Tresoldi
+     */
+    this.destroy = function() {
+        var thisPanelParent = thisPanel.parentElement.parentElement;
+        thisPanelParent.removeChild(thisPanel.parentElement);
+    };
+
     /**
      * Inizializza 'AddressBookPanel' e lo popola con i contatti della rubrica
      *
      * @author Riccardo Tresoldi
      * @author Diego Beraldin
      */
-    this.initialize = function() {
-        var self = this;
-
-        // ottiene la propria vista
-        element = mediator.getView("AddressBookView");
-
+    this.initialize = function(view) {
         // posiziona il pannello sulla pagina
-        document.body.appendChild(element);
+        var dummyDiv = document.createElement("div");
+        var mainPanel = document.getElementById("MainPanel");
+        if (mainPanel) {
+            document.body.insertBefore(dummyDiv, mainPanel.parentElement);
+        } else {
+            document.body.insertBefore(dummyDiv, document.getElementsByTagName("footer")[0]);
+        }
+        dummyDiv.innerHTML = view.outerHTML;
+
+        //salvo un riferimento all'elemento DOM appena creato
+        thisPanel = document.getElementById("AddressBookPanel");
 
         // configura il comportamento della vista
         var inputButton = document.getElementById("inputButton");
         inputButton.onclick = function() {
             var serchField = inputText.value;
-            var filtredContacts = self.applyFilterByString(serchField);
-            self.showFilter(filtredContacts);
+            var filtredContacts = thisPresenter.applyFilterByString(serchField);
+            thisPresenter.showFilter(filtredContacts);
         };
 
         var selectGroup = document.getElementById("selectGroup");
         selectGroup.onchange = function() {
             var idGroupSelected = selectGroup.options[selectGroup.selectedIndex].value;
-            var filtredContacts = self.applyFilterByGroup(idGroupSelected);
+            var filtredContacts = thisPresenter.applyFilterByGroup(idGroupSelected);
             var isWhitelist = groups[idGroupSelected].name == "addrBookEntry";
-            self.showFilter(filtredContacts, isWhitelist);
+            thisPresenter.showFilter(filtredContacts, isWhitelist);
         };
 
         // visualizza i contatti nel pannello
@@ -262,8 +293,8 @@ function AddressBookPanelPresenter() {
      * @author Diego Beraldin
      */
     this.hide = function() {
-        if (element) {
-            document.body.removeChild(element);
+        if (thisPanel) {
+            thisPanel.style.display = "none";
         }
     };
 
@@ -515,7 +546,7 @@ function AddressBookPanelPresenter() {
         var ulList = document.getElementById("AddressBookList");
         ulList.innerHTML = "";
 
-        if (isDefaultGroup) {
+        if (!isDefaultGroup) {
             // etichetta per filtraggio
             var liFilter = document.createElement("li");
             liFilter.id = "filterLabel";
@@ -524,7 +555,6 @@ function AddressBookPanelPresenter() {
             var closeImg = document.createElement("img");
             //TODO da impostare questo valore
             closeImg.src = "";
-            var self = this;
             closeImg.onclick = function() {
                 // elimina il filtraggio
                 // FIXME sento puzza di ricorsione (indiretta)!
@@ -535,7 +565,7 @@ function AddressBookPanelPresenter() {
                         break;
                     }
                 }
-                self.applyFilterByGroup(idWhitelist);
+                thisPresenter.applyFilterByGroup(idWhitelist);
             };
             liFilter.appendChild(closeImg);
             ulList.appendChild(liFilter);
@@ -702,8 +732,16 @@ function AddressBookPanelPresenter() {
         groups = cont;
     };
 
-    /********GESTIONE EVENTI*******/
+    /***************************************************************************
+     * LISTNER DEGLI EVENTI
+     **************************************************************************/
     document.addEventListener("changeAddressBooksContactState", function(evt) {
         setStateToContact(evt.idUserChange, statusUserChange);
+    });
+    document.addEventListener("showAddressBookPanel", function(evt) {
+        onShowAddressBookPanel();
+    });
+    document.addEventListener("removeAddressBookPanel", function(evt) {
+        onRemoveAddressBookPanel();
     });
 }

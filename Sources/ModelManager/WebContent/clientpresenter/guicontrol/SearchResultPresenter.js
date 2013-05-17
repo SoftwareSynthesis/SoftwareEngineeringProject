@@ -13,10 +13,19 @@ function SearchResultPanelPresenter(url) {
 	/***************************************************************************
 	 * VARIABILI PRIVATE
 	 **************************************************************************/
+	var thisPresenter = this;
+	var thisPanel;
 
 	/***************************************************************************
 	 * METODI PRIVATI
 	 **************************************************************************/
+	/**
+     * Funzione per gestire l'evento in cui viene visualizzato il pannello per effettuare una ricerca e leggerne i risultati
+     * @author Riccardo Tresoldi
+     */
+    function onShowSearchResultPanel() {
+        mediator.getView('searchResult');
+    }
 
 	/**
 	 * Recupera il percoso dell'immagine di stato per un determinato contatto
@@ -90,16 +99,6 @@ function SearchResultPanelPresenter(url) {
 	 * METODI PUBBLICI
 	 **************************************************************************/
 	/**
-	 * Inizializza il pannello dei risultati ricerca
-	 * 
-	 * @author Diego Beraldin
-	 */
-	this.createPanel = function() {
-		var element = mediator.getView("SearchResultView");
-		return element;
-	};
-
-	/**
 	 * Visualizza all'interno del pannello una lista di contatti che è stata
 	 * ottenuta dal server a seguito di una ricerca
 	 * 
@@ -107,11 +106,16 @@ function SearchResultPanelPresenter(url) {
 	 *            contacts la lista di contatti che deve essere visualizzata
 	 * @author Diego Beraldin
 	 */
-	this.displayContactList = function(contacts) {
+	this.display = function(contacts) {
 		var userList = document.getElementById("userList");
 		userList.innerHTML = "";
 		for ( var con in contacts) {
 			addListItem(con);
 		}
 	};
+	
+	/***************************************************************************
+     * LISTNER DEGLI EVENTI
+     **************************************************************************/
+    document.addEventListener("showSearchResultPanel", onShowSearchResultPanel);
 }

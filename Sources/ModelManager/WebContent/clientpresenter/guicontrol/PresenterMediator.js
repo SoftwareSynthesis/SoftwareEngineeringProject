@@ -9,26 +9,28 @@ function PresenterMediator() {
     /***************************************************************************
      * VARIABILI PRIVATE
      **************************************************************************/
-	// array delle viste che devono essere visualizzate
-	var View = {
-			AccountSettingsView: "AccountSettingsView.xml",
-			AddressBookView: "AddressBookView.xml",
-			CallHistoryView: "CallHistoryView.xml",
-			GroupView: "CommunicationView.xml",
-			LoginView: "LoginView.xml",
-			MainView: "MainView.xml",
-			MessageView: "MessageView.xml",
-			PhoneCallsRegistry: "PhoneCallsRegistryView.xml",
-			RegisterView: "RegisterView.xml",
-			SearchResultView: "SearchResultView.xml",
-			ToolsView: "ToolsView.xml"
-	};
-	
+    // array delle viste che devono essere visualizzate
+    var View = {
+        accountSettings : "AccountSettingsView.html",
+        addressBook : "AddressBookView.html",
+        callHistory : "CallHistoryView.html",
+        contact : "ContactView.html",
+        communication : "CommunicationView.html",
+        group : "GroupView.html",
+        login : "LoginView.html",
+        main : "MainView.html",
+        message : "MessageView.html",
+        phoneCallsRegistry : "PhoneCallsRegistryView.html",
+        register : "RegisterView.html",
+        searchResult : "SearchResultView.html",
+        tools : "ToolsView.html"
+    };
+
     // array associativo contentente i riferimenti ai presenter di primo livello
     var presenters = new Array();
     presenters["login"] = new LoginPanelPresenter();
     presenters["register"] = new RegisterPanelPresenter();
-    presenters["addressbook"] = new AddressBookPanelPresenter();
+    presenters["addressBook"] = new AddressBookPanelPresenter();
     presenters["tools"] = new ToolsPanelPresenter();
     presenters["main"] = new MainPanelPresenter();
 
@@ -36,56 +38,23 @@ function PresenterMediator() {
     var accountsettingspp = new AccountSettingsPanelPresenter();
     var communicationpp = new CommunicationPanelPresenter();
     var contactpp = new ContactPanelPresenter();
-    // presenter che non sono ancora utilizzati
-    // var callhistorypp = new CallHistoryPanelPresenter();
-    // var messagepp = new MessagePanelPresenter();
+    var callhistorypp = new CallHistoryPanelPresenter();
+    var messagepp = new MessagePanelPresenter();
     var searchresultpp = new SearchResultPanelPresenter();
     var grouppp = new GroupPanelPresenter();
+    //creo array per rendere accessibili i presenter
+    var secondaryPresenter = new Array();
+    secondaryPresenter["accountSettings"] = accountsettingspp;
+    secondaryPresenter["communication"] = communicationpp
+    secondaryPresenter["contact"] = contactpp
+    secondaryPresenter["callHistory"] = callhistorypp
+    secondaryPresenter["message"] = messagepp
+    secondaryPresenter["searchResult"] = searchresultpp
+    secondaryPresenter["group"] = grouppp
 
     /***************************************************************************
      * METODI PUBBLICI
      **************************************************************************/
-
-    /**
-     * Inizializza l'interfaccia grafica delegando ai presenter il compito di
-     * disegnare gli elementi principali dell'interfaccia, incaricando i
-     * presenter di primo livello di creare e popolare i rispettivi pannelli
-     *
-     * @author Diego Beraldin
-     */
-    this.buildUI = function() {
-        presenters["register"].hide();
-        presenters["login"].hide();
-        presenters["addressbook"].initialize();
-        presenters["main"].initialize();
-        presenters["tools"].initialize();
-    };
-
-    /**
-     * Visualizza l'interfaccia di autenticazione al sistema, che comprende il
-     * form di login (a.k.a. LoginPanel), chiamando in causa il {@link
-     * LoginPanelPresenter} per la sua costruzione
-     *
-     * @see LoginPanelPresenter#initialize()
-     * @author Diego Beraldin
-     */
-    this.buildLoginUI = function() {
-        presenters["login"].initialize();
-    };
-
-    /**
-     * Visualizza il form di registrazione (a.k.a. RegisterPanel) al sistema per
-     * gli utenti che devono creare un nuovo account, demandando al {@link
-     * RegisterPanelPresenter} il compito di creare il pannello per
-     * l'inserimento dei dati di registrazione
-     *
-     * @see RegisterPanelPresenter#initialize()
-     * @author Diego Beraldin
-     */
-    this.buildRegistrationUI = function() {
-        presenters["register"].initialize();
-    };
-
     /**
      * Crea l'etichett che visualizza i dati dell'utente (se sono presenti) e in
      * ogni caso mostra l'email memorizzata nel sistema. La funzione è
@@ -254,7 +223,7 @@ function PresenterMediator() {
      * @author Diego Beraldin
      */
     this.getAddressBookContacts = function() {
-        return presenters["addressbook"].getContacts();
+        return presenters["addressBook"].getContacts();
     };
 
     /**
@@ -265,23 +234,23 @@ function PresenterMediator() {
      * @author Diego Beraldin
      */
     this.getAddressBookGroups = function() {
-        return presenters["addressbook"].getGroups();
+        return presenters["addressBook"].getGroups();
     };
-    
+
     /**
      * Provoca la creazione del pannello dei gruppo e la sua
      * visualizzazione all'interno del MainPanel come elemento figlio. La
      * costruzione del pannello è affidata al metodo createPanel che viene reso
      * disponibile da tutti i presenter di secondo livello
-     * 
+     *
      * @see MainPanel#displayChildPanel({HTMLDivElement})
      * @see GroupPanelPresenter#createPanel()
      * @author Diego Beraldin
      */
     this.displayGroupPanel = function() {
-    	var element = grouppp.createPanel();
-    	presenters["main"].displayChildPanel(element);
-    	grouppp.setup();
+        var element = grouppp.createPanel();
+        presenters["main"].displayChildPanel(element);
+        grouppp.setup();
     };
 
     /**
@@ -525,10 +494,10 @@ function PresenterMediator() {
      */
     //TODO da eliminare
     /*this.onChangeAddressBooksContactState = function(contactId, state) {
-        // ottengo il contatto
-        var contact = presenters["addressbook"].contacts[contactId];
-        // invoco la funzione del AddressBookPanelPresenter
-        presenters["addressbook"].setStateToContact(contact, state);
+    // ottengo il contatto
+    var contact = presenters["addressbook"].contacts[contactId];
+    // invoco la funzione del AddressBookPanelPresenter
+    presenters["addressbook"].setStateToContact(contact, state);
     };*/
 
     /**
@@ -647,21 +616,86 @@ function PresenterMediator() {
         document.removeChild(answerBox);
     };
 
-	/**
-	 * Restituisce la vista da visualizzare nell'interfaccia grafica
-	 * in base alla stringa passata come parametro, utilizzata come chiave
-	 * per l'array associativo delle viste contenuto qui.
-	 * 
-	 * @param {String} key
-	 * @returns {HTMLDivElement}
-	 * @author Riccardo Tresoldi
-	 */
-	this.getView = function(key) {
-		// ottengo il frammento di codice HTML dalla view
-		var viewRequest = new XMLHttpRequest();
-		viewRequest.open("GET", "clientview/" + View[key], false);
-		viewRequest.send();
-		// ritorno il frammendto di codice ottenuto
-		return viewRequest.responseXML.firstChild;
-	};
+    /**
+     * Restituisce la vista da visualizzare nell'interfaccia grafica
+     * in base alla stringa passata come parametro, utilizzata come chiave
+     * per l'array associativo delle viste contenuto qui.
+     *
+     * @param {String} key nome del presenter di cui richiamare la view
+     * @returns {HTMLDivElement} elemento HTML da agganciare al documento
+     * @author Riccardo Tresoldi
+     */
+    this.getView = function(key) {
+        // ottengo il frammento di codice HTML dalla view
+        var viewRequest = new XMLHttpRequest();
+        viewRequest.responseType = "document";
+        viewRequest.open("GET", "clientview/" + View[key], true);
+        viewRequest.send();
+        viewRequest.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                //FIXME inutile! posso direttamente richiamare il contenuto di
+                // onLoadView senza chiamare l'evento
+                loadedView.view = viewRequest.responseXML.body.firstChild;
+                loadedView.presenter = key;
+                document.dispatchEvent(loadedView);
+            }
+        }
+    };
+
+    /**
+     * Event Heandler per gestire il caricamento di una View
+     *
+     * @author Riccardo Tresoldi
+     * @param {String} presenter il presenter di cui si è richiesta la view
+     * @param {HTMLDivElement} view la view da passare all'initialize
+     */
+    function onLoadedView(presenter, view) {
+        if (presenters[presenter]) {
+            presenters[presenter].initialize(view);
+        } else if (secondaryPresenter[presenter]) {
+            // dico al mainPresenter di aggiungere il Panel ottenuto dalla view
+            presenters["main"].displayChildPanel(view);
+            // avviso il presenter indicato per visualizzare i dati corretti nel
+            // pannello appena aggiunto
+            secondaryPresenter[presenter].display();
+        } else {
+            alert("onLoadedView non gestita.\nNon esiste il presenter: [" + presenter + "]");
+        }
+    }
+
+    /**
+     * Gestiore dell'evento che rimuove ogni pannello
+     * @author Riccardo Tresoldi
+     */
+    function onRemoveAllPanel() {
+        document.dispatchEvent(removeLoginPanel);
+        document.dispatchEvent(removeRegistrationPanel);
+        document.dispatchEvent(removeAddressBookPanel);
+    }
+
+    /**
+     * Gestisce l'evento che richiama la costruzione dell'interfaccia grafica
+     * dell'applicativo, dopo l'avvenuto login
+     *
+     * @author Riccardo Tresoldi
+     */
+    function onShowUIPanels() {
+        document.dispatchEvent(removeAllPanel);
+        document.dispatchEvent(showAddressBookPanel);
+        document.dispatchEvent(showMainPanel);
+        document.dispatchEvent(showToolsPanel);
+    };
+
+    /***************************************************************************
+     * LISTNER DEGLI EVENTI
+     **************************************************************************/
+    document.addEventListener("loadedView", function(evt) {
+        onLoadedView(evt.presenter, evt.view);
+    });
+    document.addEventListener("removeAllPanel", function(evt) {
+        onRemoveAllPanel();
+    });
+    document.addEventListener("showUIPanels", function(evt) {
+        onShowUIPanels();
+    });
 }

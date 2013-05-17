@@ -1,4 +1,29 @@
 window.onload = function() {
+    //CREAZIONI EVENTI PERSONALIZZATI
+    changeAddressBooksContactState = new CustomEvent("changeAddressBooksContactState");
+    loadedView = new CustomEvent("loadedView");
+    //eventi creazione pannelli
+    showLoginPanel = new CustomEvent("showLoginPanel");
+    showRegistrationPanel = new CustomEvent("showRegistrationPanel");
+    showUIPanels = new CustomEvent("showUIPanels");
+    showAddressBookPanel = new CustomEvent("showAddressBookPanel");
+    showToolsPanel = new CustomEvent("showToolsPanel");
+    showMainPanel = new CustomEvent("showMainPanel");
+    showContactPanel = new CustomEvent("showContactPanel");
+    showAccountSettingPanel = new CustomEvent("showAccountSettingPanel");
+    showCallHistoryPanel = new CustomEvent("showCallHistoryPanel");
+    showGroupPanel = new CustomEvent("showGroupPanel");
+    showMessagePanel = new CustomEvent("showMessagePanel");
+    showSearchResultPanel = new CustomEvent("showSearchResultPanel");
+    //eventi rimozione pannelli
+    removeAllPanel = new CustomEvent("removeAllPanel");
+    removeLoginPanel = new CustomEvent("removeLoginPanel");
+    removeRegistrationPanel = new CustomEvent("removeRegistrationPanel");
+    removeAddressBookPanel = new CustomEvent("removeAddressBookPanel");
+    removeToolsPanel = new CustomEvent("removeToolsPanel");
+    removeMainPanel = new CustomEvent("removeMainPanel");
+    removeContactPanel = new CustomEvent("removeContactPanel");
+
     //Inizializzazione delle funzioni
     window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext || window.msAudioContext;
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
@@ -9,12 +34,20 @@ window.onload = function() {
     // VARIABILI GLOBALI per cui i programmatori meritano il taglio delle dita
     mediator = new PresenterMediator();
     communicationcenter = new CommunicationCenter();
-    commandURL = "http://localhost:8080/MyTalk/CommandManager";
-    // crea l'interfaccia di autenticazione
-    mediator.buildLoginUI();
 
-    //CREAZIONI EVENTI PERSONALIZZATI
-    var changeAddressBooksContactState = new CustomEvent("changeAddressBooksContactState");
+    // Link connessione a servlet
+    var stub = false;
+    if (stub) {
+        commandURL = "http://localhost/webalizer/ModelManager/WebContent/conf/controllerManagerStub.php";
+        urlChannelServlet = "ws://localhost:8080/MyTalk/ChannelServlet";
+    } else {
+        commandURL = "http://localhost:8080/MyTalk/CommandManager";
+        urlChannelServlet = "ws://localhost:8080/MyTalk/ChannelServlet";
+    }
+    // crea l'interfaccia di autenticazione
+
+    //Creo la UI per il Login
+    document.dispatchEvent(showLoginPanel);
 };
 
 Object.size = function(obj) {
