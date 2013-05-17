@@ -11,9 +11,9 @@
 % Nome
 \newcommand{\docName}{Definizione di prodotto}
 % Nome file
-\newcommand{\docFileName}{definizione\_di\_prodotto.1.0.pdf}
+\newcommand{\docFileName}{definizione\_di\_prodotto.2.0.pdf}
 % Versione
-\newcommand{\docVers}{1.0}
+\newcommand{\docVers}{2.0}
 % Data creazione
 \newcommand{\creationDate}{2013-03-04}
 % Data ultima modifica
@@ -152,10 +152,32 @@ Gli strumenti utilizzati per la stesura e lo sviluppo sono specificati nei docum
 
 \subsection{Package org.softwaresynthesis.mytalk.server.dao}\label{sec:dao}
 
-\classsection{HibernateUtil}
+\classsection{ISessionManager}
 
 \subsubsection*{Funzione}
-Inizializza un'unica \inglese{factory} per le sessioni, utilizzate da \textit{Hibernate}, per comunicare con il database.
+Interfaccia rappresentante il comportamento di un generico classe adibita alla creazione e alla gestione delle sessioni \texttt{Hibernate}.
+
+\subsubsection*{Relazioni d'uso}
+
+Nessuna relazione evidenziata
+
+\subsubsection*{Classi estese ed interfacce implementate}
+
+Nessuna relazione evidenziata.
+
+
+\subsubsection*{Metodi}
+\begin{description}
+	\item{\method{\underline{+ getInstance(): ISessionManager}}}\\
+	Metodo d'implementazione del pattern \texttt{Singleton}. Usato per restituire l'unica istanza creabile.
+	\item{\method{\underline{+ getSessionFactory(): SessionFactory}}}\\
+	Metodo usato per ottenere una sessione verso il database gestito mediante \texttt{Hibernate}.
+\end{description}
+
+\classsection{SessionManager}
+
+\subsubsection*{Funzione}
+Implementazione di \classname{ISessionManager}. Inizializza un'unica \inglese{factory} per le sessioni, utilizzate da \textit{Hibernate}, per comunicare con il database.
 
 \subsubsection*{Relazioni d'uso}
 
@@ -166,13 +188,14 @@ Inizializza un'unica \inglese{factory} per le sessioni, utilizzate da \textit{Hi
 
 \subsubsection*{Classi estese ed interfacce implementate}
 
-Nessuna relazione evidenziata.
-
+\begin{itemize}
+	\item \classname{dao.ISessionManager}: interfaccia d'implementazione del package \textit{dao} usata per definire il comportamento di un generico gestore Hibernate. Con gestore Hibernate intendiamo una classe in grado di creare delle sessioni con il database.
+\end{itemize}
 
 \subsubsection*{Attributi}
 
 \begin{itemize}
-	\item{\memberdata{\underline{-- instance: HibernateUtil}}}\\
+	\item{\memberdata{\underline{-- instance: ISessionManager}}}\\
 	Attributo usato per implementare il \inglese{pattern} singleton. Tale istanza verrà inizializzata tramite il metodo statico \method{getIstance()}, assicurando che l'attributo non sia già stato inizializzato in precedenza.
 	\item{\memberdata{-- sessionFactory: SessionFactory}}\\
 	Attributo contenente la \inglese{factory} delle sessioni verso il database.
@@ -181,10 +204,10 @@ Nessuna relazione evidenziata.
 \subsubsection*{Metodi}
 
 \begin{description}
-	\item{\method{-- HibernateUtil()}}\\
+	\item{\method{-- SessionManager()}}\\
 	Costruttore privato della classe, definito \inglese{private} in correlazione all'applicazione del \inglese{pattern} singleton.
-	\item{\method{\underline{+ getInstance(): HibernateUtil}}}\\
-	Metodo pubblico che ritorna l'istanza \memberdata{istance}. Il metodo controlla se \memberdata{istance} è già stata inizializzata, nel caso in cui non lo sia il metodo dovrà generare un istanza di HibernateUtil richiamando il costruttore privato \method{HibernateUtil()} e assegnare il valore ritornato all'attributo \memberdata{istance}. Il programma termina restituendo \memberdata{istance}.
+	\item{\method{\underline{+ getInstance(): SessionManager}}}\\
+	Metodo pubblico che ritorna l'istanza \memberdata{istance}. Il metodo controlla se \memberdata{istance} è già stata inizializzata, nel caso in cui non lo sia il metodo dovrà generare un istanza di SessionManager richiamando il costruttore privato \method{SessionManager()} e assegnare il valore ritornato all'attributo \memberdata{istance}. Il programma termina restituendo \memberdata{istance}.
 	\item{\method{\underline{+ getSessionFactory(): SessionFactory}}}\\
 	Metodo che ritorna l'attributo \memberdata{sessionFactory}.
 \end{description}
