@@ -2624,7 +2624,7 @@ Nessun attributo evidenziato
 
 \end{description}
 
-\subsection{Package org.softwaresynthesis.mytalk.server.authentication}\label{sec:authentication}
+\subsection{Package org.softwaresynthesis.mytalk.server.authentication.security}\label{sec:authentication}
 
 \classsection{ISecurityStrategy}
 
@@ -2702,6 +2702,8 @@ Implementazione della strategia di codifica/decodifica con l'uso dell'algoritmo 
 	\end{itemize}
 \end{description}
 
+\subsection{Package org.softwaresynthesis.mytalk.server.authentication}\label{sec:authentication}
+
 \classsection{PrincipalImpl}
 
 \subsubsection*{Funzione}
@@ -2736,69 +2738,6 @@ Nessuna relazione evidenziata.
 	\item{\method{+ hashCode(): int}}\\
 	Restituisce il codice hash dell'oggetto di invocazione.				\item{\method{+ toString(): String}}\\
 	Restituisce l'istanza dell'oggetto sotto forma di stringa. In particolare evidenziando l'indirizzo e-mail dell'utente.
-\end{description}
-
-\classsection{IAuthenticationData}
-
-\subsubsection*{Funzione}
-Interfaccia che identifica il comportamento di un oggetto adatto alla definizione dei dati di autenticazione di un utente.
-
-\subsubsection*{Relazioni d'uso}
-Nessuna relazione d'uso evidenziata.
-
-\subsubsection*{Classi estese ed interfacce implementate}
-Nessuna relazione evidenziata.
-
-\subsubsection*{Metodi}
-\begin{description}
-	\item{\method{+ getUsername(): String}}\\
-Restituisce lo username fornito in input dall'utente durante la procedura di login.
-	\item{\method{+ getPassword(): String}}\\
-Restituisce la password fornita in input dall'utente durante la procedura di login
-\end{description}
-
-\classsection{AuthenticationData}
-
-\subsubsection*{Funzione}
-Oggetto contenente i dati di accesso utilizzati da un utente che vuole accedere al sistema \caName.
-
-\subsubsection*{Relazioni d'uso}
-
-Nessuna relazione evidenziata.
-
-\subsubsection*{Classi estese ed interfacce implementate}
-\begin{itemize}
-	\item \classname{IAuthenticationData}: interfaccia da implementare.
-\end{itemize}
-
-\subsubsection*{Attributi}
-\begin{description}
-  \item{\memberdata{-- username: String}}\\
-	Attributo contenente l'username dell'utente che richiede l'autenticazione.
-  \item{\memberdata{-- password: String}}\\
-	Attributo contenente la password dell'utente che richiede l'autenticazione.
-\end{description}
-
-\subsubsection*{Metodi}
-\begin{description}
-	\item{\method{+ AuthenticationData(username: String, password: String)}}\\
-	Costruttore pubblico che per creare un istanza di \texttt{AuthenticationData}, si basa sulla password e lo username dell'utente da autenticare.
-
-	\item{\method{+ getUsername(): String}}\\
-	Metodo che restituisce lo username dell'oggetto di autenticazione.
-	
-	\item{\method{+ getPassword(): String}}\\
-	Metodo che Restituisce la password dell'utente che sta effettuando la procedura di login.
-
-	\item{\method{+ hashCode(): int}}\\
-	Restituisce il codice hash di questa istanza.
-	
-	\item{\method{+ equals(Object obj): boolean}}\\
-	Determina l'uguaglianza di due istanze, effettuando un confronto tra l'oggetto stesso da cui è chiamato il metodo, e un Object \textit{obj} ricevuto come parametro d'ingresso.
-	
-	\item{\method{+ toString: String}}\\
-	Metodo che Restituisce l'istanza sotto forma di stringa. Si osservi che il metodo non dovrà ritornare la password, ma solo lo username dell'utente da autenticare.
-
 \end{description}
 
 \classsection{AuthenticationModule}
