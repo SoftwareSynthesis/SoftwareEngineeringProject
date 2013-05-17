@@ -7,6 +7,7 @@ import org.softwaresynthesis.mytalk.server.dao.util.DeleteUtilTest;
 import org.softwaresynthesis.mytalk.server.dao.util.GetCallUtilTest;
 import org.softwaresynthesis.mytalk.server.dao.util.GetGroupUtilTest;
 import org.softwaresynthesis.mytalk.server.dao.util.GetUserDataUtilTest;
+import org.softwaresynthesis.mytalk.server.dao.util.GetUtilTest;
 import org.softwaresynthesis.mytalk.server.dao.util.InsertUtilTest;
 import org.softwaresynthesis.mytalk.server.dao.util.NotInitializeTest;
 import org.softwaresynthesis.mytalk.server.dao.util.UpdateUtilTest;
@@ -16,6 +17,7 @@ import org.softwaresynthesis.mytalk.server.dao.util.UtilFactoryTest;
 @SuiteClasses({ DataPersistanceManagerTest.class, SessionManagerTest.class,
 		DeleteUtilTest.class, GetCallUtilTest.class, GetGroupUtilTest.class,
 		GetUserDataUtilTest.class, InsertUtilTest.class,
-		NotInitializeTest.class, UpdateUtilTest.class, UtilFactoryTest.class })
+		NotInitializeTest.class, UpdateUtilTest.class, UtilFactoryTest.class,
+		GetUtilTest.class })
 public class DAOTestSuite {
 }
