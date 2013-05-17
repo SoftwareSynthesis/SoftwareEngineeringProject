@@ -2910,47 +2910,37 @@ Permette di caricare le credenziali di autenticazione, fornite dall'utente, per 
 
 \end{description}
 
-\subsection{Package org.softwaresynthesis.mytalk.server.authentication.servlet}\label{sec:autservlet}
+\subsection{Package org.softwaresynthesis.mytalk.server.authentication.controller}\label{sec:autservlet}
 
 %TODO da rivedere nella definizione dei metodi! 
-\classsection{LogoutServlet}
+\classsection{LogoutController}
 
 \subsubsection*{Funzione}
-\inglese{Servlet} da richiamare per effettuare il logout dal sistema.
+\inglese{Controller} da richiamare per effettuare il logout dal sistema.
 
 \subsubsection*{Relazioni d'uso}
 \begin{itemize}
-	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
-	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
-	\item \texttt{javax.servlet.ServletException}: eccezione sollevabile dai metodi \method{doPost()} e \method{doGet()}.
-	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
-	\item \texttt{javax.security.auth.login.LoginContext}: classe usata in \method{doPost()} per eseguite la logout dal sistema.
-	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in uscita dalla chiamata a \inglese{servlet}).
-	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
+	\item \texttt{java.io.IOException}: eccezione richiamabile dal metodo\method{doAction()}.
+	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doAction()}. Usata per scrivere l'output della \inglese{servlet}.
+	\item \texttt{javax.servlet.ServletException}: eccezione sollevabile dai metodi \method{doAction()}.
+	\item \texttt{javax.servlet.http.HttpServletRequest}: classe usata per interagire con le richieste \texttt{ajax} inoltrate dal client.
+	\item \texttt{javax.servlet.http.HttpServletResponse}: classe usata per interagire con le richieste \texttt{ajax} inoltrate dal client.
 	\item \classname{abook.IUserData}: usata per definire un utente.
-	\item \classname{dao.UserDataDAO}: usata per comunicare tramite Hibernate con la tabella UserData della base di dati.
+	\item \classname{dao.DataPersistanceManager}: usata per comunicare tramite Hibernate con la tabella UserData della base di dati.
 \end{itemize}
 
 \subsubsection*{Classi estese ed interfacce implementate}
 \begin{itemize}
-	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{LogoutServlet}.
+	\item \texttt{server.AbstractController}: classe estesa.
 \end{itemize}
 
 \subsubsection*{Attributi}
-\begin{description}
-  \item{\memberdata{\underline{-- {frozen} serialVersionUID: long}}}\\
-  Utilizzato come ID univoco per identificare un oggetto serializzabile.
-\end{description}
+
+Nessun attributo evidenziato
 
 \subsubsection*{Metodi}
 \begin{description}
-	\item{\method{+ LogoutServlet()}}\\
-	Costruttore della classe. Richiama il costruttore della classe padre \texttt{HttpServlet}.
-	
-	\item{\method{\# doGet(request: HttpServletRequest, response: HttpServletResponse): void}}\\
-	Metodo di delega che richiama \method{doPost()} passando gli stessi dati in input.
-	
-	\item{\method{\# doPost(request: HttpServletRequest, response: HttpServletResponse): void}}\\
+	\item{\method{\# doAction(request: HttpServletRequest, response: HttpServletResponse): void}}\\
 	Metodo che costituisce il kernel logico di risposta della \inglese{servlet}. Il metodo inizia caricando i parametri ricevuti mediante \texttt{HttpServletRequest}. Una chiamata a tale \inglese{servlet} corrisponde ad una richiesta di logout e si attua impostando a false la sessione contenuta nell'oggetto HttopServletRequest request. Il metodo procede con la creazione di un istanza  di \texttt{LoginContext} denominata context. Quindi viene effettuata la memorizzazione dell'oggetto ritornato da una chiamata:
 \\
 \verb|session.getAttribute("LoginContext");|
@@ -2960,46 +2950,36 @@ L'oggetto cosi ottenuto dovrà essere controllato, ovvero si dovrà accertare ch
 
 \end{description}
 
-\classsection{LoginServlet}
+\classsection{LoginController}
 
 \subsubsection*{Funzione}
-\inglese{Servlet} da richiamare per effettuare l'autenticazione dell'utente.
+\inglese{Controller} da richiamare per effettuare l'autenticazione dell'utente.
 
 \subsubsection*{Relazioni d'uso}
 \begin{itemize}
-	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
-	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
-	\item \texttt{javax.security.auth.login.LoginContext}: classe usata in \method{doPost()} per avviare la login dell'utente.
-	\item \texttt{javax.servlet.ServletException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
-	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
-	\item \texttt{javax.servlet.http.HttpServletResponse}: classe usata per la comunicazione con la \inglese{servlet} (inoltra i dati in uscita dalla chiamata a \inglese{servlet}).
-	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
+\item \texttt{java.io.IOException}: eccezione richiamabile dal metodo\method{doAction()}.
+	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doAction()}. Usata per scrivere l'output della \inglese{servlet}.
+	\item \texttt{javax.servlet.ServletException}: eccezione sollevabile dai metodi \method{doAction()}.
+	\item \texttt{javax.servlet.http.HttpServletRequest}: classe usata per interagire con le richieste \texttt{ajax} inoltrate dal client.
+	\item \texttt{javax.servlet.http.HttpServletResponse}: classe usata per interagire con le richieste \texttt{ajax} inoltrate dal client.
 	\item \classname{abook.IUserData}: usata per definire un utente.
-	\item \classname{dao.UserDataDAO}: usata per comunicare tramite Hibernate con la tabella \texttt{UserData} della base di dati.
+	\item \classname{dao.DataPersistanceManager}: usata per comunicare tramite Hibernate con la tabella \texttt{UserData} della base di dati.
 \end{itemize}
 
 \subsubsection*{Classi estese ed interfacce implementate}
 \begin{itemize}
-	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{LoginServlet}.
+	\item \texttt{server.AbstractController}: classe estesa.
 \end{itemize}
 
 \subsubsection*{Attributi}
-\begin{description}
-  \item{\memberdata{\underline{-- {frozen} serialVersionUID: long}}}\\
-  Utilizzato come ID univoco per identificare un oggetto serializzabile.
-\end{description}
+
+Nessun attributo evidenziato
 
 \subsubsection*{Metodi}
 \begin{description}
-	\item{\method{+ LoginServlet()}}\\
-	Costruttore della classe. Richiama il costruttore della classe padre \texttt{HttpServlet}.
-	
-	\item{\method{\# doGet(request: HttpServletRequest, response: HttpServletResponse): void}}\\
-	Metodo che richiama \method{doPost()} passando gli stessi dati in input.
-	
-	\item{\method{\# doPost(request: HttpServletRequest, response: HttpServletResponse): void}}\\
+	\item{\method{\# doAction(request: HttpServletRequest, response: HttpServletResponse): void}}\\
 
-Metodo che costituisce il kernel logico di risposta della \inglese{servlet}. Il metodo inizia caricando i parametri ricevuti mediante \texttt{HttpServletRequest}. Una chiamata a tale metodo corrisponde ad una richiesta di login e si attua impostando due campi String con i dati ottenuti da una chiamata a \texttt{getParameter(``username'')} e \texttt{getParameter(``password'')} . Quindi si crea un istanza di \texttt{HttpSession} tramite il metodo \texttt{getSession(true)} del parametro request. Il metodo prosegue controllando se l'username e la password precedentemente ottenute hanno valore diverso da null. Nel caso il flusso principale continua creando un'istanza di \classname{AutenthicationData} (denominata credential) a partire dai parametri username e password. Quindi si carica la path del file di configurazione in un apposita stringa \texttt{pathFileConfig}, tramite la chiamata a metodo:\\
+Il metodo inizia caricando i parametri ricevuti mediante \texttt{HttpServletRequest}. Una chiamata a tale metodo corrisponde ad una richiesta di login e si attua impostando due campi String con i dati ottenuti da una chiamata a \texttt{getParameter(``username'')} e \texttt{getParameter(``password'')} . Quindi si crea un istanza di \texttt{HttpSession} tramite il metodo \texttt{getSession(true)} del parametro request. Il metodo prosegue controllando se l'username e la password precedentemente ottenute hanno valore diverso da null. Nel caso il flusso principale continua creando un'istanza di \classname{AutenthicationData} (denominata credential) a partire dai parametri username e password. Quindi si carica la path del file di configurazione in un apposita stringa \texttt{pathFileConfig}, tramite la chiamata a metodo:\\
 	
 \verb|System.getenv("MyTalkConfiguration") + "\\LoginConfiguration.conf"|.\\
 
@@ -3017,48 +2997,39 @@ Infine si carica in user un istanza di \classname{dao.UserDataDAO} ottenuta dall
 
 \end{description}
 
-\classsection{RegisterServlet}
+\classsection{RegisterController}
 
 \subsubsection*{Funzione}
-\inglese{Servlet} da richiamare per effettuare la registrazione al sistema MyTalk.
+\inglese{Conroller} da richiamare per effettuare la registrazione al sistema MyTalk.
 
 \subsubsection*{Relazioni d'uso}
 \begin{itemize}
-	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
-	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
-	\item \texttt{javax.servlet.ServletException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
-	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
-	\item \texttt{javax.servlet.http.HttpServletResponse}: classe usata per la comunicazione con la \inglese{servlet} (inoltra i dati in uscita dalla chiamata a \inglese{servlet}).
-	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
+	\item \texttt{java.io.IOException}: eccezione richiamabile dal metodo\method{doAction()}.
+	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doAction()}. Usata per scrivere l'output della \inglese{servlet}.
+	\item \texttt{javax.servlet.ServletException}: eccezione sollevabile dai metodi \method{doAction()}.
+	\item \texttt{javax.servlet.http.HttpServletRequest}: classe usata per interagire con le richieste \texttt{ajax} inoltrate dal client.
+	\item \texttt{javax.servlet.http.HttpServletResponse}: classe usata per interagire con le richieste \texttt{ajax} inoltrate dal client.
 	\item \classname{abook.IUserData}: usata per definire un utente.
-	\item \classname{dao.UserDataDAO}: usata per comunicare tramite Hibernate con la tabella \texttt{UserData} della base di dati.
-	\item \classname{authentication.ISecurityStrategy}: usata per criptare/decriptare i dati da inviare/ricevere
-	\item \classname{authentication.AESAlgorithm}: implementazione di \classname{authentication.ISecurityStrategy} usata dalla classe descritta.
+	\item \classname{dao.DataPersistanceManager}: usata per comunicare tramite Hibernate con la tabella \texttt{UserData} della base di dati.
+	\item \classname{authentication.security.ISecurityStrategy}: usata per criptare/decriptare i dati da inviare/ricevere
+	\item \classname{authentication.security.AESAlgorithm}: implementazione di \classname{authentication.ISecurityStrategy} usata dalla classe descritta.
 	
 \end{itemize}
 
 \subsubsection*{Classi estese ed interfacce implementate}
 \begin{itemize}
-	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{RegisterServlet}.
+	\item \texttt{server.AbstractController}: classe estesa.
 \end{itemize}
 
 \subsubsection*{Attributi}
-\begin{description}
-  \item{\memberdata{\underline{-- {frozen} serialVersionUID: long}}}\\
-  Utilizzato come ID univoco per identificare un oggetto serializzabile. Tale ID deve essere impostato a ``10002L''.
-\end{description}
+
+Nessun attributo evidenziato
 
 \subsubsection*{Metodi}
 \begin{description}
-	\item{\method{+ RegisterServlet()}}\\
-	Costruttore della classe. Richiama il costruttore della classe padre \texttt{HttpServlet}.
-	
-	\item{\method{\# doGet(request: HttpServletRequest, response: HttpServletResponse): void}}\\
-	Metodo che richiama \method{doPost()} passando gli stessi dati in input.
-	
-	\item{\method{\# doPost(request: HttpServletRequest, response: HttpServletResponse): void}}\\
+	\item{\method{\# doAction(request: HttpServletRequest, response: HttpServletResponse): void}}\\
 
-Metodo che costituisce il kernel logico di risposta della \inglese{servlet}. Il metodo inizia caricando i parametri ricevuti mediante \texttt{HttpServletRequest}. Una chiamata a tale metodo corrisponde ad una richiesta di registrazione al sistema e si attua impostando i dati di registrazione:
+Il metodo inizia caricando i parametri ricevuti mediante \texttt{HttpServletRequest}. Una chiamata a tale metodo corrisponde ad una richiesta di registrazione al sistema e si attua impostando i dati di registrazione:
 	\begin{itemize}
 		\item name;
 		\item username;
@@ -3068,7 +3039,7 @@ Metodo che costituisce il kernel logico di risposta della \inglese{servlet}. Il 
 		\item domanda segreta;
 		\item risposta alla domanda segreta;
 	\end{itemize}
-	Per eseguire tali operazioni, il metodo predispone delle opportune variabili di tipo String e crea uno \classname{abook.IUserData} user. Quindi all'interno di un blocco try catch viene impostata una strategia di criptaggio dei dati (creando un istanza di \classname{authentication.AESAlgorithm}). Quindi vengono caricati i dati di registrazione nelle variabili precedentemente create. Per eseguire tali operazioni è necessario usare l'istruzione:\\
+	Per eseguire tali operazioni, il metodo predispone delle opportune variabili di tipo String e crea uno \classname{abook.IUserData} user. Quindi all'interno di un blocco try catch viene impostata una strategia di criptaggio dei dati (creando un istanza di \classname{authentication.security.AESAlgorithm}). Quindi vengono caricati i dati di registrazione nelle variabili precedentemente create. Per eseguire tali operazioni è necessario usare l'istruzione:\\
 	
 	\verb|request.getParameter("NOME_PARAMTERO")|\\
 	
