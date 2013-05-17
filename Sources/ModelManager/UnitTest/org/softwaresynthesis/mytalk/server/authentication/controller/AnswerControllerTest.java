@@ -2,9 +2,13 @@ package org.softwaresynthesis.mytalk.server.authentication.controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
@@ -13,12 +17,16 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMessage.RecipientType;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
@@ -28,15 +36,13 @@ import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
 /**
  * Verifica della classe {@link AnswerController}
  * 
- * TODO il test NON è ancora completo e può quindi essere preso come riferimento
- * per scrivere la documentazione solo in via provvisoria e informale!
- * 
  * @author Diego Beraldin
  * @version 2.0
  */
 @RunWith(MockitoJUnitRunner.class)
 public class AnswerControllerTest {
 	private final String username = "indirizzo5@dominio.it";
+	private final String systemEmail = "info@softwaresynthesis.org";
 	private final String answer = "Antonella";
 	private final String encryptedAnswer = "LZKEMNtyFhmiVzqBi2LLNA==";
 	private final String password = "panettone";
@@ -53,6 +59,8 @@ public class AnswerControllerTest {
 	private HttpServletRequest request;
 	@Mock
 	private HttpServletResponse response;
+	@Captor
+	private ArgumentCaptor<MimeMessage> argMsg;
 
 	/**
 	 * Reinizializza l'oggetto da testare e configura il comportamento dei mock
@@ -79,7 +87,7 @@ public class AnswerControllerTest {
 		// configura il comportamento della risposta
 		when(response.getWriter()).thenReturn(new PrintWriter(writer));
 		// inizializza l'oggetto da testare (come di consueto)
-		tester = new AnswerController() {
+		tester = spy(new AnswerController() {
 			@Override
 			protected DataPersistanceManager getDAOFactory() {
 				return dao;
@@ -89,7 +97,37 @@ public class AnswerControllerTest {
 			protected ISecurityStrategy getSecurityStrategyFactory() {
 				return strategy;
 			}
-		};
+		});
+	}
+
+	/**
+	 * Verifica il funzionamento corretto del metodo utilizzato per inviare il
+	 * messaggio contenente la password, in particolare controllando che sia
+	 * invocato il metodo di invio e che il messaggio passato come parametro
+	 * abbia i campi mittente, destinatario (TO), l'oggetto e il testo
+	 * desiderati dal chiamante del metodo sendMessage.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testSendMessage() throws Exception {
+		// one-line methods che non saranno testati
+		doNothing().when(tester).actuallySendMessage(any(MimeMessage.class));
+
+		// invoca il metodo da testare e verifica l'output
+		Boolean result = tester.sendMail(systemEmail, username,
+				"Recupero password", answer);
+		assertTrue(result);
+
+		// verifica il corretto utilizzo dei mock
+		verify(tester).actuallySendMessage(argMsg.capture());
+		MimeMessage msg = argMsg.getValue();
+		assertEquals(systemEmail, msg.getFrom()[0].toString());
+		assertEquals("Recupero password", msg.getSubject());
+		assertEquals(username,
+				msg.getRecipients(RecipientType.TO)[0].toString());
+		assertEquals(answer, msg.getContent().toString());
 	}
 
 	/**
@@ -118,14 +156,22 @@ public class AnswerControllerTest {
 	/**
 	 * Verifica la possibilità di recuperare la password da parte di un utente
 	 * che è registrato al sistema e che fornisce pertanto uno username valido.
-	 * 
-	 * TODO questo sarebbe da completare dopo refactoring della classe!
+	 * Il test verifica che la stringa restituita sia effettivamente 'true', che
+	 * il sistema di persistenza dei dati sia utilizzato per recuperare
+	 * l'utente, la risposta segreta codificata e la password e che la strategia
+	 * di crittografia sia utilizzata per codificare la risposta contenuta nella
+	 * richiesta e per decodificare la password presente nel database.
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
 	 */
 	@Test
 	public void testRecoverPasswordSuccesfully() throws Exception {
+		// by-passa metodo scomodo
+		when(
+				tester.sendMail(anyString(), anyString(),
+						eq("Recupero password"), eq(password)))
+				.thenReturn(true);
 		// invoca il metodo da testare
 		tester.doAction(request, response);
 
@@ -141,13 +187,48 @@ public class AnswerControllerTest {
 		verify(request).getParameter("answer");
 		verify(request).getParameter("username");
 		verify(user).getAnswer();
+		verify(user).getPassword();
+	}
+
+	/**
+	 * Verifica il comportamento del metodo doAction nel momento in cui la
+	 * risposta contenuta come parametro nella richiesta che giunge al
+	 * controller non corrisponde alla risposta che l'utente aveva impostato in
+	 * fase di registrazione. Il test verifica che sia stampata sulla risposta
+	 * la stringa 'null', dopo aver tentato di codificare la password in
+	 * ingresso. Si controlla inoltre che non sia MAI recuperata la password e
+	 * che non sia effettuata ALCUNA operazione di decodifica.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testRecoverPasswordWrongAnswer() throws Exception {
+		// la risposta fornita non è corretta
+		when(request.getParameter("answer")).thenReturn("Carmela");
+		// invoca il metodo da testare
+		tester.doAction(request, response);
+
+		// verifica l'output
+		writer.flush();
+		String responseText = writer.toString();
+		assertEquals("null", responseText);
+
+		// verifica il corretto utilizzo dei mock
+		verify(dao).getUserData(username);
+		verify(strategy).encode("Carmela");
+		verify(strategy, never()).decode(anyString());
+		verify(request).getParameter("answer");
+		verify(request).getParameter("username");
+		verify(user).getAnswer();
+		verify(user, never()).getPassword();
 	}
 
 	/**
 	 * Verifica l'impossibilità di recuperare la password da parte di un utente
-	 * che fornisce uno username non presente nella base di dati.
-	 * 
-	 * TODO questo sarebbe da completare dopo refactoring della classe!
+	 * che fornisce uno username non presente nella base di dati. Il test
+	 * verifica che la stringa stampata sulla risposta sia effettivamente
+	 * 'null', come desiderato in caso di fallimento.
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
@@ -168,7 +249,7 @@ public class AnswerControllerTest {
 
 		// verifica il corretto utilizzo dei mock
 		verify(dao).getUserData(fakeUsername);
-		verifyZeroInteractions(strategy);
+		verify(strategy).encode(answer);
 		verifyZeroInteractions(user);
 	}
 }

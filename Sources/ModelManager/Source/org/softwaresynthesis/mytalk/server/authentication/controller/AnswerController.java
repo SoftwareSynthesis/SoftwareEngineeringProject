@@ -75,7 +75,7 @@ public class AnswerController extends AbstractController
 		return true;
 	}
 	
-	private boolean sendMail(String sender, String receiver, String subject, String text)
+	boolean sendMail(String sender, String receiver, String subject, String text)
 	{
 		boolean result = false;
 		Properties properties = null;
@@ -99,12 +99,17 @@ public class AnswerController extends AbstractController
 			message.setRecipient(Message.RecipientType.TO, rec);
 			
 			//Invio del messaggio di posta
-			Transport.send(message);
+			actuallySendMessage(message);
+			result = true;
 		}
 		catch (MessagingException ex)
 		{
 			result = false;
 		}
 		return result;
+	}
+	
+	void actuallySendMessage(MimeMessage message) throws MessagingException {
+		Transport.send(message);
 	}
 }
