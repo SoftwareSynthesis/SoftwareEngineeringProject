@@ -1447,6 +1447,7 @@ Tale test si compone di diciannove metodi:
 \item \texttt{testUpdateSuccessfully()} esegue un'operazione di aggiornamento correttamente (va a buon fine) e verifica che sia invocato il metodo \texttt{getUpdateUtil()} per ottenere un istanza di \texttt{UpdateUtil}. Nel corso del test si verifica inoltre che, se l'operazione ha successo, il metodo restituisca correttamente \texttt{true}.
 
 \item \texttt{testUpdateUnsuccessfully()} esegue un'operazione di aggiornamento che non va a buon fine, verificando che sia invocato il metodo \texttt{getUpdateUtil()} sulla \inglese{factory} per ottenere un istanza di \texttt{UpdateUtil}. Viene verificato che sia invocato il metodo \texttt{execute()} per per portare a termine l'aggiornamento e che il valore restituito da tale metodo sia \texttt{false}, come coerentemente atteso nel caso in cui l'operazione sul database non vada a buon fine.
+%TODO: DA FINIRE
 
 \item \texttt{testGetAddressBookEntry()} 
 
@@ -1534,15 +1535,47 @@ controlla il comportamento del metodo \texttt{execute} nel caso in cui al moment
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
+\item textbf{TM5.12: GetMessagesControllerTest}
+\textbf{Verifica la Classe:} \texttt{GetMessagesController}
+\textbf{Descrizione}: %TODO: AGGIUNGERE DESCRIZIONE
+Tale test si compone di tre metodi:
+\begin{itemize}
+\item \texttt{testGetMessagesCorrectUser()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui è possibile completare con successo l'operazione di scaricamento dei dati relativi alla segreteria telefonica dell'utente. In particolare verifica che la stringa stampata sulla risposta HTTP corrisponda alla rappresentazione in formato JSON dei dati relativi ai messaggi che hanno come destinatario l'utente da cui proviene la richiesta presenti nel database, ognuno correlato di tutti i campi che il client si aspetta di ricevere. Inoltre si verifica il corretto utilizzo dei \textit{mock}, ovvero che i dati siano estratti dalla base di dati nel modo corretto.
+
+\item \texttt{testGetMessagesEmptyList()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui l'utente da cui proviene la richiesta non ha alcun messaggio a lui destinato nella segreteria tenefonica del sistema. Il test verifica che il testo stampato nella risposta corrisponda alla stringa \texttt{\[\]}, che in JSON rappresenta un array enumerativo privo di elementi. Si verifica inolter che il sistema di gestione della persistenza dei dati sia utilizzato in modo corretto per il recupero dei messaggi e che non sia estratto alcun messaggio.
+
+\item \texttt{testWrongData()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui non è possibile accedere con successo al database per il recupero dei messaggi in segreteria. In tal caso il test verifica che il testo stampato sulla risposta HTTP corrisponda alla stringa \texttt{null} che denota un errore nel server.
+\end{itemize}
+\textbf{Risultato del test:} superato con successo.
+
+
+\item \textbf{TM5.05: UpdateMessageControllerTest} 
+\textbf{Verifica la Classe:} \texttt{UpdateMessageController}.\\
+\textbf{Descrizione}: %TODO: AGGIUNGERE DESCRIZIONE
+Tale test si compone di quattro metodi:
+\begin{itemize}
+\item \texttt{testSetNewCorrectMessage()} verifica il comportamento del metodo \texttt{doAction} per aggiornare lo stato di un messaggio a \textit{non letto} nella segreteria quando la richiesta con cui viene invocato contiene tutti i parametri necessari a portare a termine con successo l'operazione. In particolare, il test verifica che il testo stampato nella risposta sia, come atteso, la stringa \texttt{true}. Inoltre si verifica che sia fatto un uso corretto del sistema di persistenza aggiornando il messaggio dopo averne imposto lo stato a \textit{non letto}.
+
+\item \texttt{testSetNotNewCorrectMessage()} verifica il comportamento del metodo \texttt{doAction} per aggiornare lo stato di un messaggio a letto nella segreteria quando la richiesta con cui viene invocato contiene tutti i parametri necessari a portare a termine con successo l'operazione. In particolare, il test verifica che il testo stampato nella risposta sia, come atteso, la stringa \texttt{true}. Inoltre si verifica che sia fatto un uso corretto del sistema di persistenza aggiornando il messaggio dopo averne impostato lo stato a letto.
+
+\item \texttt{testUpdateNotExistMessage()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui il valore identificativo passato come parametro nella richiesta non corrisponde ad alcuno dei messaggi presenti nel database del sistema. Il test verifica che la stringa stampata sulla risposta sia effettivamente \texttt{null}, come desiderato in caso d'errore, e che non siano mai effettuate operazioni di aggiornamento della tabella \textit{Messages} nel database.
+
+\item \texttt{testWrongData()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui la richiesta HTTP non comprende tutti i parametri necessari per portare a termine con successo l'operazione. Il test verifica che la stringa stampata sulla risposta sia effettivamente \texttt{null}, come desiderato in caso d'errore, e che non siano mai effettuate operazioni di aggiornamento della tabella \textit{Messages} nel database.
+
+\end{itemize} 
+\textbf{Risultato del test:} superato con successo.
+
+
 \item \textbf{TM5.05: GetCallsControllerTest} 
 \textbf{Verifica la Classe:} \texttt{GetCallsController}.\\
-\textbf{Descrizione}: TODO: AGGIUNGERE DESCRIZIONE
+\textbf{Descrizione}: %TODO: AGGIUNGERE DESCRIZIONE
 Tale test si compone di tre metodi:
 \begin{itemize}
 \item \texttt{testGetCallsCorrectUser()} verifica il comportamento del metodo \texttt{doAction} quando viene invocato da parte di un utente registrato al sistema e a cui è associata una lista di chiamate non vuota nel database del sistema. Il test verifica che l'output ottenuto corrisponda alla rappresentazione in formato JSON di un array enumerativo di oggetti che corrispondono alle chiamate, ognuna caratterizzata dal nome dell'altro utente coinvolto nella chiamata, dalla data di avvio e da un \inglese{flag} booleano che permette di distinguere le chiamate in ingresso dalle chiamate in uscita. Durante la verifica è inoltre controllato il corretto utilizzo dei \inglese{mock}, in particolare l'estrazione dei dati dal sistema di persistenza.\\
 \item \texttt{testGetCallsWrongUser()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui l'utente da cui proviene la richiesta non è presente nel database. Un simile avvenimento viene simulato facendo in modo che il riferimento ottenuto dal gestore di persistenza non sia valido. In questo caso il test verifica che la stringa restituita sia effettivamente \texttt{null} come desiderato e che non avvenga alcuna interazione con i \inglese{mock} che corrispondono all'utente, all'altro utente coinvolto nella chiamata, alla \textit{CallList} e alla chiamata stessa.
 \item \texttt{testGetCallsEmptyList()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui viene invocato con una richiesta proveniente da un utente il cui storico delle chiamate relativo è vuoto. Il test in questo caso verifica che la stringa stampata sulla risposta \texttt{HTTP} sia \texttt{[]}, che corrisponde alla rappresentazione in formato JSON di un array vuoto. È inoltre verificato il corretto utilizzo dei \texttt{mock}, verificando che sia estratto l'utente dal sistema di persistenza dei dati e che sia recuperata la lista (vuota) di chiamate ad esso associata.
 \end{itemize}
+
 
 
 \item \textbf{TM5.05: GetGroupUtilTest}\\
