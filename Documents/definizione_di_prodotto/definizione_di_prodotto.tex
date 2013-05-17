@@ -173,6 +173,59 @@ Nessuna relazione evidenziata.
 	Imposta l'identificativo dell'oggetto.
 \end{description}
 
+\classsection{IController}
+
+\subsubsection*{Funzione}
+Interfaccia rappresentante il comportamento di un generico \inglese{controller}.
+
+\subsubsection*{Relazioni d'uso}
+
+Nessuna relazione evidenziata
+
+\subsubsection*{Classi estese ed interfacce implementate}
+
+Nessuna relazione evidenziata.
+
+\subsubsection*{Metodi}
+\begin{description}
+	\item{\method{-- execute(request: HttpServletRequest, response: HttpServletResponse): void}}\\
+	Metodo usato per l'esecuzione del comando associato al \inglese{controller}.
+\end{description}
+
+\classsection{AbstractController}
+
+\subsubsection*{Funzione}
+Implementazione di \classname{IController}. Classe astratta che rappresenta un generico controller. Richiede la ridefinizione del metodo \method{doAction()} da parte delle classi figlie.
+
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+	\item \texttt{java.io.IOException}: eccezione richiamabile dal metodo\method{doAction()}.
+	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doAction()}. Usata per scrivere l'output della \inglese{servlet}.
+	\item \texttt{javax.servlet.ServletException}: eccezione sollevabile dai metodi \method{doAction()}.
+	\item \texttt{javax.servlet.http.HttpServletRequest}: classe usata per interagire con le richieste \texttt{ajax} inoltrate dal client.
+	\item \texttt{javax.servlet.http.HttpServletResponse}: classe usata per interagire con le richieste \texttt{ajax} inoltrate dal client.
+	\item \classname{authentication.security.ISecurityStrategy}: usata per la criptazione dei dati.
+\end{itemize}
+
+\subsubsection*{Classi estese ed interfacce implementate}
+
+\begin{itemize}
+	\item \classname{IController}: interfaccia d'implementazione.
+\end{itemize}
+
+\subsubsection*{Attributi}
+
+Nessun attributo evidenziato
+
+\subsubsection*{Metodi}
+
+\begin{description}
+	\item{\method{-- check(request: HttpServletRequest): boolean}}\\
+	Metodo usato per verificare se l'utente che richiede l'esecuzione di un operazione, è autenticato nel sistema. Il metodo definisce inizialmente una variabile booleana result, usata per ritornare una segnalazione della buona riuscita del metodo. result è impostata di \inglese{default} a \inglese{true}. Quindi si procede controllando se la mail dell'utente (\memberdata{userMail}) corrisponde a quella presente nel campo username della sessione corrente (session.getAttribute(''username'')). se il \inglese{match} è negativo, result viene impostata a \inglese{false}. Il metodo termina ritornando il contenuto di result.
+	\item{\method{-- execute(request: HttpServletRequest, response: HttpServletResponse): void}}\\
+	Il metodo inizia definendo un oggetto \texttt{PrintWriter} writer. Quindi viene effettuato un controllo sul richiedente mediante il richiamo del metodo \method{check()}. Se tale metodo ritorna \inglese{true} allora il flusso principale prosegue richiamando il metodo \method{doAction}. In caso contrario il metodo termina salvando nel \texttt{writer} il valore ''null''.
+\end{description}
+
 \subsection{Package org.softwaresynthesis.mytalk.server.dao}\label{sec:dao}
 
 \classsection{ISessionManager}
@@ -2490,7 +2543,7 @@ Nessun attributo evidenziato
 
 \end{description}
 
-\classsection{DeleteMessageServlet}
+\classsection{DeleteMessageController}
 
 \subsubsection*{Funzione}
 \inglese{Controller} da richiamare per eliminare un messaggio.
@@ -2741,8 +2794,6 @@ Nessuna relazione evidenziata.
 \end{description}
 
 \classsection{AuthenticationModule}
-
-%TODO definire questa parte tramite intervista a Mene.
 
 \subsubsection*{Funzione}
 Modulo di autenticazione utilizzato dal sistema \caName.
