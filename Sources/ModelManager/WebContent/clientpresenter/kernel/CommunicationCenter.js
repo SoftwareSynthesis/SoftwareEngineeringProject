@@ -20,11 +20,8 @@ function CommunicationCenter() {
      ***********************************************************/
     //self=this per utilizzo nei meotdi
     var self = this;
-
     //dichiaro globale la websocket per lo scambio di dati con la servlet
     var websocket, pc;
-    // URL della servlet con cui è necessario interagire
-    var urlServlet = "ws://localhost:8080/MyTalk/ChannelServlet";
 
     /**********************************************************
      METODI PRIVATI
@@ -144,7 +141,7 @@ function CommunicationCenter() {
      */
     this.connect = function() {
         var self = this;
-        websocket = new WebSocket(urlServlet);
+        websocket = new WebSocket(urlChannelServlet);
         //event handle per gestire l'apertura della socket
         websocket.onopen = function(evt) {
             //creo l'array da passare alla servlet per la connessione e l'invio

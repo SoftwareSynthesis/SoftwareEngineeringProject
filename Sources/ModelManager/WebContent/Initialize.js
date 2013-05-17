@@ -34,9 +34,16 @@ window.onload = function() {
     // VARIABILI GLOBALI per cui i programmatori meritano il taglio delle dita
     mediator = new PresenterMediator();
     communicationcenter = new CommunicationCenter();
-    //commandURL = "http://localhost:8080/MyTalk/CommandManager";
-    //FIXME DELETEME stub!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    commandURL = "http://localhost/webalizer/ModelManager/WebContent/conf/controllerManagerStub.php";
+
+    // Link connessione a servlet
+    var stub = false;
+    if (stub) {
+        commandURL = "http://localhost/webalizer/ModelManager/WebContent/conf/controllerManagerStub.php";
+        urlChannelServlet = "ws://localhost:8080/MyTalk/ChannelServlet";
+    } else {
+        commandURL = "http://localhost:8080/MyTalk/CommandManager";
+        urlChannelServlet = "ws://localhost:8080/MyTalk/ChannelServlet";
+    }
     // crea l'interfaccia di autenticazione
 
     //Creo la UI per il Login

@@ -10,6 +10,7 @@ function CommunicationPanelPresenter() {
      * VARIABILI PRIVATE
      **************************************************************************/
     // memorizza il pannello nella versione precedente
+    var thisPresenter = this;
     var element = null;
     // array associativo di tutte le chat che ho aperte in un dato momento
     // gli elementi memorizzati in questo array sono {HTMLDivElements}
