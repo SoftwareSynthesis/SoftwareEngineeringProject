@@ -150,6 +150,29 @@ Gli strumenti utilizzati per la stesura e lo sviluppo sono specificati nei docum
 
 \section{Specifica sotto-architettura sever}\label{sec:serverarchitecture}
 
+\subsection{Package org.softwaresynthesis.mytalk.server}\label{sec:server}
+
+\classsection{IMyTalkObject}
+
+\subsubsection*{Funzione}
+Interfaccia usata per rappresentare un \texttt{transfer object} mappato mediante \texttt{Hibernate}.
+
+\subsubsection*{Relazioni d'uso}
+
+Nessuna relazione evidenziata
+
+\subsubsection*{Classi estese ed interfacce implementate}
+
+Nessuna relazione evidenziata.
+
+\subsubsection*{Metodi}
+\begin{description}
+	\item{\method{\underline{+ getId(): Long}}}\\
+	Restituisce l'identificativo dell'oggetto.
+	\item{\method{\underline{+ setId(id: Long): void}}}\\
+	Imposta l'identificativo dell'oggetto.
+\end{description}
+
 \subsection{Package org.softwaresynthesis.mytalk.server.dao}\label{sec:dao}
 
 \classsection{ISessionManager}
@@ -2098,20 +2121,30 @@ Interfaccia che rappresenta una chiamata effettuata dal sistema \caName. Gli ogg
 
 \subsubsection*{Classi estese ed interfacce implementate}
 
-Nessuna relazione evidenziata.
+\begin{itemize}
+	\item \texttt{org.softwaresynthesis.mytalk.server.IMyTalkObject}: interfaccia estesa. Utilizzata per dire che la classe è da considerarsi come un \texttt{transfer object} gestito da \texttt{Hibernate}.
+\end{itemize}
 
 \subsubsection*{Metodi}
 \begin{description}
 	\item{\method{+ getId(): Long}}\\
 	Restituisce l'identificativo univoco della chiamata.
-	\item{\method{+ getStartDate(): Date}}\\
+	\item{\method{+ getStart(): Date}}\\
 	Restituisce un istanza di \texttt{java.util.Date} di avvio della chiamata.
-	\item{\method{+ setStartDate(startDate: Date): void}}\\
+	\item{\method{+ setStart(startDate: Date): void}}\\
 	Imposta la data di avvio della chiamata.
-	\item{\method{+ getEndDate(): Date}}\\
+	\item{\method{+ getEnd(): Date}}\\
 	Restituisce la data in cui termina la chiamata
-	\item{\method{+ setEndDate(endDate: Date): void}}\\
+	\item{\method{+ setEnd(endDate: Date): void}}\\
 	Imposta la data in cui termina la chiamata.
+	\item{\method{+ getCall(): Set<ICallList>}}\\
+	Metodo usato per ottenere la lista dei partecipanti alla chiamata.
+	\item{\method{+ setCall(callList: Set<ICallList>): void}}\\
+	Metodo usato per impostare la lista dei partecipanti alla chiamata.
+	\item{\method{+ addCall(call: ICallList): boolean}}\\
+	Metodo usato per aggiungere un partecipante alla chiamata.
+	\item{\method{+ removeCall(call: ICallList): boolean}}\\
+	Metodo usato per rimuovere un partecipate alla chiamata 
 \end{description}
 
 \classsection{Call}
@@ -2138,20 +2171,30 @@ Classe che implementa l'interfaccia \classname{ICall}.
 	Attributo di tipo \texttt{java.util.Date} contenente la data (compresa l'ora) d'inizio della chiamata.
 	\item{\memberdata{-- endDate: Date}}
 	Attributo di tipo \texttt{java.util.Date} contenente la data (compresa l'ora) in cui la chiamata è terminata.
+	\item{\memberdata{-- calls: Set<ICallList>}}
+	Attributo usato per definire la lista dei partecipanti alla chiamata.
 \end{itemize}
 
 \subsubsection*{Metodi}
 \begin{description}
 	\item{\method{+ getId(): Long}}\\
 	Restituisce l'identificativo univoco della chiamata ritornando il contenuto dell'attributo \memberdata{id}.
-	\item{\method{+ getStartDate(): Date}}\\
+	\item{\method{+ getStart(): Date}}\\
 	Restituisce il contenuto del campo \memberdata{startDate}.
-	\item{\method{+ setStartDate(startDate: Date): void}}\\
+	\item{\method{+ setStart(startDate: Date): void}}\\
 	Imposta la data di avvio della chiamata, sovrascrivendo il contenuto \memberdata{startData}.
-	\item{\method{+ getEndDate(): Date}}\\
+	\item{\method{+ getEnd(): Date}}\\
 	Restituisce il contenuto del campo \memberdata{endDate}.
-	\item{\method{+ setEndDate(endDate: Date): void}}\\
+	\item{\method{+ setEnd(endDate: Date): void}}\\
 	Imposta la data di avvio della chiamata, sovrascrivendo il contenuto \memberdata{endData}.
+	\item{\method{+ getCall(): Set<ICallList>}}\\
+	Restituisce il contenuto del campo \memberdata{calls}.
+	\item{\method{+ setCall(callList: Set<ICallList>): void}}\\
+	Metodo usato per impostare la lista dei partecipanti alla chiamata. Sovrascrive il contenuto di \memberdata{calls}.
+	\item{\method{+ addCall(call: ICallList): boolean}}\\
+	Metodo usato per aggiungere un partecipante alla chiamata. Aggiunge al \memberdata{calls} un nuovo partecipante (call). Il metodo termina ritornando \inglese{true} se l'operazione va a buon fine. \inglese{false} altrimenti.
+	\item{\method{+ removeCall(call: ICallList): boolean}}\\
+	Metodo usato per rimuovere un partecipate alla chiamata. La rimozione avviene invocando il metodo \texttt{remove(call)} dall'attributo \memberdata{calls}. Il metodo ritorna un valore booleano per indicare l'esisto dell'operazione: \inglese{false} in presenza di errori, \inglese{true} altrimenti.
 \end{description}
 
 \classsection{ICallList}
