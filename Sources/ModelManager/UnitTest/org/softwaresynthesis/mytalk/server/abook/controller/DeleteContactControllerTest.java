@@ -238,7 +238,7 @@ public class DeleteContactControllerTest {
 	 * @version 2.0
 	 */
 	@Test
-	public void testDeleteWrongData() throws Exception {
+	public void testWrongData() throws Exception {
 		// impedice recupero del parametro dalla richiesta
 		when(request.getParameter("contactId")).thenReturn(null);
 

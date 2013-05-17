@@ -197,7 +197,7 @@ public class DeleteGroupControllerTest {
 	 * @version 2.0
 	 */
 	@Test
-	public void testDeleteWrongData() throws Exception {
+	public void testWrongData() throws Exception {
 		// alla richiesta manca un parametro
 		when(request.getParameter("groupId")).thenReturn(null);
 

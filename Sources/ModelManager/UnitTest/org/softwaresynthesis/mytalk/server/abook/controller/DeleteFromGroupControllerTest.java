@@ -113,7 +113,7 @@ public class DeleteFromGroupControllerTest {
 	 * @version 2.0
 	 */
 	@Test
-	public void testRemoveCorrectContact() throws Exception {
+	public void testDeleteCorrectContact() throws Exception {
 		// invoca il metodo da testare
 		tester.doAction(request, response);
 
@@ -151,7 +151,7 @@ public class DeleteFromGroupControllerTest {
 	 * @version 2.0
 	 */
 	@Test
-	public void testRemoveNotExistUser() throws Exception {
+	public void testDeleteNotExistUser() throws Exception {
 		// impedisce di recuperare l'utente
 		when(dao.getUserData(contactId)).thenReturn(null);
 
@@ -189,7 +189,7 @@ public class DeleteFromGroupControllerTest {
 	 * @version 2.0
 	 */
 	@Test
-	public void testRemoveNotExistGroup() throws Exception {
+	public void testDeleteNotExistGroup() throws Exception {
 		// impedisce di recuperare l'utente
 		when(dao.getGroup(groupId)).thenReturn(null);
 
@@ -226,7 +226,7 @@ public class DeleteFromGroupControllerTest {
 	 * @version 2.0
 	 */
 	@Test
-	public void testRemoveWrongData() throws Exception {
+	public void testWrongData() throws Exception {
 		// impedisce di recuperare l'utente
 		when(request.getParameter("contactId")).thenReturn(null);
 
