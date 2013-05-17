@@ -42,7 +42,7 @@ window.onload = function() {
         urlChannelServlet = "ws://localhost:8080/MyTalk/ChannelServlet";
     } else {
         commandURL = "http://localhost:8080/MyTalk/CommandManager";
-        urlChannelServlet = "ws://localhost:8080/MyTalk/ChannelServlet";
+        urlChannelServlet = "ws://localhost:8080/MyTalk/CommandManager";
     }
     // crea l'interfaccia di autenticazione
 
