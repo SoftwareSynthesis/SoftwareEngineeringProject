@@ -38,7 +38,7 @@ function ContactPanelPresenter() {
         currentContact = null;
     }
 
-    /**
+    /** VIEW
      * Funzione che controlla se il contatto passato come parametro è bloccato o
      * no sistemando la vista in modo da lasciare consistente la visualizzazione
      * del contatto con lo stato dello stesso
@@ -59,7 +59,7 @@ function ContactPanelPresenter() {
         }
     }
 
-    /**
+    /** VIEW
      * Funzione che sistema la grafica della visualizzazione del contatto in base
      * allo stato del contatto stesso, visualizzando i giusti pulsanti
      *
@@ -91,7 +91,7 @@ function ContactPanelPresenter() {
         }
     }
 
-    /**
+    /** VIEW
      * Funzione che popola il div groupsDiv che contiene le label dei gruppi
      *
      * @author Riccardo Tresoldi

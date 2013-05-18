@@ -148,7 +148,7 @@ function LoginPanelPresenter() {
         thisPanelParent.removeChild(thisPanel.parentElement);
     };
 
-    /**
+    /** PRESENTER
      * Testa se l'utente ha dato la risposta corretta alla domanda segreta
      *
      * @param {String}
@@ -166,7 +166,7 @@ function LoginPanelPresenter() {
         return JSON.parse(request.responseText);
     };
 
-    /**
+    /** VIEW
      * Costruisce il form per il recupero della password dell'utente
      *
      * @param {String}
@@ -218,7 +218,7 @@ function LoginPanelPresenter() {
         return formRetrievePassword;
     };
 
-    /**
+    /** PRESENTER
      * Recupera lo username dall'interfaccia grafica utente
      *
      * NOTA PER I VERIFICATORI Richiede che il 'document' abbia al suo interno
@@ -240,7 +240,7 @@ function LoginPanelPresenter() {
         return username;
     };
 
-    /**
+    /** PRESENTER
      * Recupera lo username dall'interfaccia grafica utente
      *
      * NOTA PER I VERIFICATORI Richiede che il 'document' abbia al suo interno

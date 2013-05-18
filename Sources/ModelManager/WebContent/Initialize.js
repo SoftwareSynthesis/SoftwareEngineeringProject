@@ -1,9 +1,10 @@
 window.onload = function() {
-    //CREAZIONI EVENTI PERSONALIZZATI
-    changeAddressBooksContactState = new CustomEvent("changeAddressBooksContactState");
+    /*********************************************/
+    /*******CREAZIONI EVENTI PERSONALIZZATI*******/
+    /*********************************************/
+    // eventi per Medietor
     loadedView = new CustomEvent("loadedView");
-    login = new CustomEvent("login");
-    //eventi creazione pannelli
+    // eventi creazione pannelli
     showLoginPanel = new CustomEvent("showLoginPanel");
     showRegistrationPanel = new CustomEvent("showRegistrationPanel");
     showUIPanels = new CustomEvent("showUIPanels");
@@ -17,8 +18,7 @@ window.onload = function() {
     showMessagePanel = new CustomEvent("showMessagePanel");
     showSearchResultPanel = new CustomEvent("showSearchResultPanel");
     showCommunicationPanel = new CustomEvent("showCommunicationPanel");
-    showReturnToCommunicationPanelButton = new CustomEvent("showReturnToCommunicationPanelButton");
-    //eventi rimozione pannelli
+    // eventi rimozione pannelli
     removeAllPanel = new CustomEvent("removeAllPanel");
     removeLoginPanel = new CustomEvent("removeLoginPanel");
     removeRegistrationPanel = new CustomEvent("removeRegistrationPanel");
@@ -27,6 +27,18 @@ window.onload = function() {
     removeMainPanel = new CustomEvent("removeMainPanel");
     removeContactPanel = new CustomEvent("removeContactPanel");
     removeCommunicationPanel = new CustomEvent("removeCommunicationPanel");
+    // eventi per LoginPresenter
+    login = new CustomEvent("login");
+    /*TODO*/ errorLogin = new CustomEvent("errorLogin");
+    /*TODO*/ logout = new CustomEvent("logout");
+    // eventi per AddressBookPresenter
+    changeAddressBooksContactState = new CustomEvent("changeAddressBooksContactState");
+    /*TODO*/ addContactToAddressBook = new CustomEvent("addContactToAddressBook");
+    /*TODO*/ removeContactFromAddressBook = new CustomEvent("removeContactFromAddressBook");
+    /*TODO*/ blockContact = new CustomEvent("blockContact");
+    /*TODO*/ unlockContact = new CustomEvent("unlockContact");
+    // eventi per ToolsPresenter
+    showReturnToCommunicationPanelButton = new CustomEvent("showReturnToCommunicationPanelButton");
 
     //Inizializzazione delle funzioni
     window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext || window.msAudioContext;

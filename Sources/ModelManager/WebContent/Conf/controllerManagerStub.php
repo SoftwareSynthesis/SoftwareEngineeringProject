@@ -28,6 +28,24 @@ switch($operation) {
     case "getGroups" :
         $result = array(1 => array("name" => "amici", "id" => "1", "contacts" => array(2, 3, 4, 5)), 2 => array("name" => "mona", "id" => "2", "contacts" => array(1)), 3 => array("name" => "addrBookEntry", "id" => "3", "contacts" => array(1, 2, 3, 4, 5)));
         break;
+        
+    case "*" :
+        break;
+        
+    case "*" :
+        break;
+        
+    case "*" :
+        break;
+        
+    case "*" :
+        break;
+        
+    case "*" :
+        break;
+        
+    case "*" :
+        break;
 
     default :
         $result = null;
