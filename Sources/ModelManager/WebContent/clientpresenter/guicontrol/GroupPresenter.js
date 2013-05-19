@@ -100,19 +100,21 @@ function GroupPanelPresenter(url) {
 			} else {
 				// altrimenti la rende invisibile e cancella il form per
 				// l'aggiunta di nuovi contatti a un gruppo
-				/*var form = item.lastChild();
+				var form = item.lastChild;
 				if (form.nodeName == "FORM") {
 					item.removeChild(form);
-				}*/
+				}
 				contactList.className = "collapsedList";
 			}
 		};
 
 		addToGroupImg.onclick = function() {
 			// mostra la lista degli utenti dei gruppo
-			contactList.className = "uncollapsedList";
-			var form = this.createAddToGroupForm(group);
-			contactList.appendChild(form);
+			if(!document.getElementById("GroupPanel").getElementsByTagName("fieldset")[0]){
+			    contactList.className = "uncollapsedList";
+			    var form = thisPresenter.createAddToGroupForm(group);
+			    contactList.appendChild(form);
+			}
 		};
 
 		deleteGroupImg.onclick = function() {
@@ -151,11 +153,13 @@ function GroupPanelPresenter(url) {
 		var form = document.createElement("form");
 
 		// recupera i contatti che non appartengono al gruppo
-		var candidateContacts = new Array();
-		for ( var key in contacts) {
-			if (group.contacts.indexOf(contacts[key].id) < 0) {
+		// TODO copiare per valore l'oggetto.
+		var candidateContacts = Object.create(contacts);
+		for ( var key in group.contacts) {
+		    delete candidateContacts[group.contacts[key]];
+			/*if (group.contacts.indexOf(contacts[key].id) < 0) {
 				candidateContacts.push(contacts[key]);
-			}
+			}*/
 		}
 
 		// insieme che dovrà contenere i campi del form
@@ -163,29 +167,41 @@ function GroupPanelPresenter(url) {
 
 		// appende al form tutte le checkbox
 		for ( var contact in candidateContacts) {
-			var box = document.createElement("checkbox");
-			box.id = contact.id;
-			box.value = contact.id;
+			var box = document.createElement("input");
+			box.type="checkbox";
+			box.id = "candidateContacts-" + candidateContacts[contact].id;
+			box.value = candidateContacts[contact].id;
 			var label = document.createElement("label");
-			label.setAttribute("for", contact.id);
-			label
-					.appendChild(document
-							.createTextNode(mediator.createNameLabel(contact)));
+			label.setAttribute("for", "candidateContacts-" + candidateContacts[contact].id);
+			label.appendChild(document.createTextNode(mediator.createNameLabel(candidateContacts[contact])));
 			set.appendChild(box);
+			set.appendChild(label);
 		}
 		form.appendChild(set);
 
 		// appende al form il bottone
-		var button = document.createElement("button");
-		button.appendChild(document.createTextNode("Aggiungi"));
-		button.onclick = function() {
-			var checkedContacts = form.getElementsByTagName("checkbox");
+		var addButton = document.createElement("button");
+		addButton.appendChild(document.createTextNode("Aggiungi"));
+		addButton.onclick = function() {
+			var checkedContacts = form.getElementsByTagName("input");
 			for ( var contactbox in checkedContacts)
-				if (contactbox.checked == true) {
+				if (contactbox.type == "checkbox" && contactbox.checked == true) {
 					mediator.addContactInGroup(contacts[contactbox.value], group);
 				}
 		};
-		form.appendChild(button);
+		var closeButton = document.createElement("button");
+        closeButton.appendChild(document.createTextNode("Annulla"));
+        closeButton.onclick = function() {
+            try{
+            var formParent = form.parentElement; 
+            formParent.removeChild(form);   
+            }
+            catch(err){
+                alert(err);
+            }
+        };
+		form.appendChild(addButton);
+		form.appendChild(closeButton);
 
 		return form;
 	};
