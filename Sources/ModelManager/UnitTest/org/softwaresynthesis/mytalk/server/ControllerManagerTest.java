@@ -20,7 +20,6 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.ServletConfig;
@@ -388,13 +387,5 @@ public class ControllerManagerTest {
 		ControllerManager.clients.clear();
 		result = ControllerManager.getState(clientId);
 		assertEquals("offline", result);
-	}
-
-	/**
-	 * Sssssh! Di questo metodo non deve sapere niente nessuno, se arrivi a
-	 * leggere fino a questo punto - mi raccomando - acqua in bocca!
-	 */
-	public static Map<Long, PushInbound> getClients() {
-		return ControllerManager.clients;
 	}
 }
