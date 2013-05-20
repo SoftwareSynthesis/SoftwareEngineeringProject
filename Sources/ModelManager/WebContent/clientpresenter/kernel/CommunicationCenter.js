@@ -420,14 +420,14 @@ function CommunicationCenter() {
      * @param {String} state stringa contenente lo stato da impostare
      */
     function onChangeMyState(state) {
-        if (state != "available" && state != "occuped" && state != "offline") {
+        if ((state == "available") || (state == "occuped") || (state == "offline")) {
             var message = new Array("5", state);
             if (websocket)
                 websocket.send(JSON.stringify(message));
             else
                 alert("Errore di connessine al server: websoket non esistente!");
         } else {
-            alert("Errore: Impostazione stato non conosciuto.\nNon può essere impostato lo stato " + state);
+            alert("Errore: Impostazione stato non conosciuto.\nNon pu&ograve; essere impostato lo stato " + state);
         }
     }
 

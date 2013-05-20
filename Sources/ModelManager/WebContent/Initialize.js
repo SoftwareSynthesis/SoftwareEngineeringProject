@@ -30,7 +30,7 @@ window.onload = function() {
     // eventi per LoginPresenter
     login = new CustomEvent("login");
     /*TODO*/errorLogin = new CustomEvent("errorLogin");
-    /*TODO*/logout = new CustomEvent("logout");
+    logout = new CustomEvent("logout");
     // eventi per AddressBookPresenter
     changeAddressBooksContactState = new CustomEvent("changeAddressBooksContactState");
     /*TODO*/addContactToAddressBook = new CustomEvent("addContactToAddressBook");

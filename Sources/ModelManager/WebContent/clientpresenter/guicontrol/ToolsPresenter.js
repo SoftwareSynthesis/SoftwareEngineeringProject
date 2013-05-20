@@ -34,12 +34,12 @@ function ToolsPanelPresenter() {
     function onRemoveToolsPanel() {
         thisPresenter.destroy();
     }
-    
+
     /**
      * Funzione che mostra il pulsante per "Tornare al Comunication Panel"
      * @author Riccardo Tresoldi
      */
-    function onShowReturnToCommunicationPanelButton(){
+    function onShowReturnToCommunicationPanelButton() {
         alert("Torna a CommPanel creato!");
     }
 
@@ -85,9 +85,12 @@ function ToolsPanelPresenter() {
 
     /** VIEW
      * Inizializza il pannello degli strumenti dell'applicazione
-     *
+     * @version 2.0
      * @author Elena Zecchinato
      * @author Diego Beraldin
+     * @author Riccardo Tresoldi
+     * @param {HTMLDIVElement} view frammeto di codice HTML ottenuto dal file
+     * della view
      */
     this.initialize = function(view) {
         // posiziona il pannello sulla pagina
@@ -102,7 +105,6 @@ function ToolsPanelPresenter() {
 
         //salvo un riferimento all'elemento DOM appena creato
         thisPanel = document.getElementById("ToolsPanel");
-
         var ulFunction = document.getElementById("ToolsList");
 
         // funzione messaggi
@@ -135,17 +137,17 @@ function ToolsPanelPresenter() {
             var answer = confirm("Sei sicuro di voler uscire?");
             if (answer) {
                 // effettua la disconnessione dal server
-                self.logout();
+                document.dispatchEvent(logout);
                 // ricrea le variabili globali e azzera la UI
                 mediator = new PresenterMediator();
                 communicationcenter = new communicationCenter();
                 // ricostruisce il form di login
-                mediator.buildLoginUI();
+                document.dispatchEvent(showLoginPanel);
             }
         };
 
         //inizializzo la select del
-        this.initializeSelectState();
+        initializeSelectState();
     };
 
     /**
@@ -155,24 +157,6 @@ function ToolsPanelPresenter() {
      */
     this.hide = function() {
         thisPanel.style.display = "none";
-    };
-
-    /**
-     * Effettua il logout comunicandolo alla servlet e chiudendo il canale di
-     * comunicazione che era stato aperto con il server
-     *
-     * @author Riccardo Tresoldi
-     */
-    this.logout = function() {
-        communicationcenter.disconnect();
-        var request = new XMLHttpRequest();
-        request.open("POST", commandURL, false);
-        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        request.send("operation=logout");
-        var result = JSON.parse(request.responseText);
-        if (!result) {
-            alert("Ops... qualcosa &egrave; andato storto nel server!");
-        }
     };
 
     /**
@@ -187,7 +171,7 @@ function ToolsPanelPresenter() {
         liCommunication.id = "CallFunction";
         liCommunication.appendChild(document.createTextNode("Chiamata"));
         liCommunication.onclick = function() {
-            mediator.displayCommunicaionPanel();
+            document.dispatchEvent(showCommunicationPanel);
         };
         // lo aggiunge in coda alla lista
         var ulFunctions = document.getElementById("ToolsList");
@@ -228,6 +212,27 @@ function ToolsPanelPresenter() {
     };
 
     /***************************************************************************
+     * HANDLER EVENTI
+     **************************************************************************/
+    /**
+     * Effettua il logout comunicandolo alla servlet e chiudendo il canale di
+     * comunicazione che era stato aperto con il server
+     * @version 2.0
+     * @author Riccardo Tresoldi
+     */
+    function onLogout() {
+        communicationcenter.disconnect();
+        var request = new XMLHttpRequest();
+        request.open("POST", commandURL, false);
+        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        request.send("operation=logout");
+        var result = JSON.parse(request.responseText);
+        if (!result) {
+            alert("Ops... qualcosa &egrave; andato storto nel server!");
+        }
+    }
+
+    /***************************************************************************
      * LISTNER DEGLI EVENTI
      **************************************************************************/
     document.addEventListener("showToolsPanel", function(evt) {
@@ -237,4 +242,5 @@ function ToolsPanelPresenter() {
         onRemoveToolsPanel();
     });
     document.addEventListener("showReturnToCommunicationPanelButton", onShowReturnToCommunicationPanelButton);
+    document.addEventListener("logout", onLogout);
 }
