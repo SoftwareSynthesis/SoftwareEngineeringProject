@@ -7,6 +7,8 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.apache.catalina.websocket.MessageInbound;
+import org.apache.catalina.websocket.WsOutbound;
+
 import com.google.gson.*;
 
 import org.softwaresynthesis.mytalk.server.ControllerManager;
@@ -58,14 +60,14 @@ public class PushInbound extends MessageInbound {
 			Long client = gson.fromJson(array.get(1), Long.class);
 			PushInbound sendTo= ControllerManager.findClient(client);
 			String msg = "2|" + gson.fromJson(array.get(2), String.class);
-			sendTo.getWsOutbound().writeTextMessage(CharBuffer.wrap(msg));
+			getWsOutbound(sendTo).writeTextMessage(CharBuffer.wrap(msg));
 		}
 		//manda mio id al chiamato
 		else if (type.equals("3")){
 			Long client = gson.fromJson(array.get(1), Long.class);
 			PushInbound sendTo= ControllerManager.findClient(client);
 			String msg = "3|" + id;
-			sendTo.getWsOutbound().writeTextMessage(CharBuffer.wrap(msg));
+			getWsOutbound(sendTo).writeTextMessage(CharBuffer.wrap(msg));
 		}
 		//disconnessione ed eliminazione canale
 		else if (type.equals("4")){
@@ -76,7 +78,7 @@ public class PushInbound extends MessageInbound {
 		//notifica cambio stato ad utenti della rubrica
 		//array[1]={available|||offline||occupied} per stato
 		else if (type.equals("5")){
-			DataPersistanceManager database= new DataPersistanceManager();
+			DataPersistanceManager database = this.getDAOFactory();
 			String status= gson.fromJson(array.get(1), String.class);
 			IUserData utente= database.getUserData(this.id);
 			if(status.equals("available")){setState(State.AVAILABLE);}					
@@ -90,14 +92,24 @@ public class PushInbound extends MessageInbound {
 				IAddressBookEntry entry = (IAddressBookEntry)iter.next();
 				Long idFriend=entry.getContact().getId();
 				PushInbound sendTo= ControllerManager.findClient(idFriend);
-				String msg = "5|" + id + "|" + state;
-				sendTo.getWsOutbound().writeTextMessage(CharBuffer.wrap(msg));
+				String msg = "5|" + id + "|" + state.toString().toLowerCase();
+				getWsOutbound(sendTo).writeTextMessage(CharBuffer.wrap(msg));
 			}
 		}
 		else if (type.equals("6")){
 			String msg = "6|";
-			this.getWsOutbound().writeTextMessage(CharBuffer.wrap(msg));
+			getWsOutbound(this).writeTextMessage(CharBuffer.wrap(msg));
 		}
 	}
 
+	/*
+	 * Sssssssh! Se leggi queste righe non dire niente a nessuno! 
+	 */
+	WsOutbound getWsOutbound(PushInbound inbound) {
+		return inbound.getWsOutbound();
+	}
+	
+	DataPersistanceManager getDAOFactory() {
+		return new DataPersistanceManager();
+	}
 }
