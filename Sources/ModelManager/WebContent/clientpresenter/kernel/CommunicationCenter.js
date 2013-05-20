@@ -8,6 +8,7 @@ function CommunicationCenter() {
     /**********************************************************
      VARIABILI PUBBLICHE
      ***********************************************************/
+    var thisMonolith = this;
     //E' un array di HTMLTextAreaElement
     this.openChat = new Array();
     //oggetto che contiene i dati dell'utente
@@ -146,12 +147,15 @@ function CommunicationCenter() {
             var ar = new Array("1", self.my.id);
             websocket.send(JSON.stringify(ar));
             //informo gli utenti della mia rubrica che sono online
-            var informOtherAboutMyStatus = new Array("5", self.my.email, "available");
-            websocket.send(JSON.stringify(informOtherAboutMyStatus));
+            changeMyState.state("avaiable");
+            document.dispatchEvent(changeMyState);
         };
         //event handle per gestire la chiusura della socket
         websocket.onclose = function(evt) {
             //disconnessione dalla servlet
+            //informo gli altri utenti che mi sono disconnesso
+            changeMyState.state = "offline";
+            document.dispatchEvent(changeMyState);
         };
         //event handle per gestire l'arrivo di un messaggio da parte della socket
         websocket.onmessage = function(evt) {
@@ -170,7 +174,7 @@ function CommunicationCenter() {
                 var signal = JSON.parse(str[1]);
                 if (pc == null) {
                     //chiamo la funzione che gestisce la chiamata in arrivo
-                    self.handleCall(mediator.getContactById(idOther));
+                    thisMonolith.handleCall(mediator.getContactById(idOther));
                 }
                 if ((signal.sdp) == null) {
                     pc.addIceCandidate(new RTCIceCandidate(signal));
@@ -215,6 +219,10 @@ function CommunicationCenter() {
      * @param {Object} onlyAudio true se si vole fare una chiamata solo audio
      */
     this.call = function(isCaller, contact, onlyAudio) {
+        //invio l'avviso di cambio stato in occupato
+        changeMyState.state = "occupied";
+        document.dispatchEvent(changeMyState);
+
         //creo l'oggetto di configurazione della RTCPeerConnection con
         // l'indirizzo del server STUN
         var configuration = {
@@ -222,7 +230,7 @@ function CommunicationCenter() {
                 "url" : "stun:stun.l.google.com:19302"
             }]
         };
-        
+
         pc = new RTCPeerConnection(configuration);
 
         //invio tutti gli ICECandidate agli altri peer
@@ -269,6 +277,8 @@ function CommunicationCenter() {
 
         //quando il remoteStream viene tolto lo eliminio dal mio client
         pc.onremovestream = function() {
+            changeMyState.state = "avaiable";
+            document.dispatchEvent(changeMyState);
             localStream.stop();
             stopTimer();
             stopStat();
@@ -323,7 +333,8 @@ function CommunicationCenter() {
      * @author Marco Schivo
      */
     this.endCall = function() {
-        //TODO aggiungere probabile invio rischiesta fine chiamata per segnalarlo asd server
+        //TODO aggiungere probabile invio rischiesta fine chiamata per segnalarlo
+        // asd server
         pc.removeStream(localStream);
         localStream.stop();
         pc.createOffer(gotDescription);
@@ -351,16 +362,6 @@ function CommunicationCenter() {
         mediator.getCommunicationPPOtherVideo().src = "";
         pc.close();
         pc = null;
-    }
-    /**
-     * funzione per cambiare lo stato utente
-     *
-     * @author Riccardo Tresoldi
-     * @param {String} state è lo stato in cui voglio essere messo
-     */
-    this.changeState = function(state) {
-        var ar = new Array("5", state);
-        websocket.send(JSON.stringify(ar));
     }
     /**
      * Verifica la presenza di una eventuale connessione WebSocket aperta con il
@@ -407,4 +408,33 @@ function CommunicationCenter() {
         if (websocket)
             websocket.send(JSON.stringify(ar));
     };
+
+    /***************************************************************************
+     * HANDLER EVENTI
+     **************************************************************************/
+    /**
+     * Gestione dell'evento che deve notificare agli utenti nella rubrica del mio
+     * cambio di stato
+     * @version 2.0
+     * @author Riccardo Tresoldi
+     * @param {String} state stringa contenente lo stato da impostare
+     */
+    function onChangeMyState(state) {
+        if (state != "available" && state != "occuped" && state != "offline") {
+            var message = new Array("5", state);
+            if (websocket)
+                websocket.send(JSON.stringify(message));
+            else
+                alert("Errore di connessine al server: websoket non esistente!");
+        } else {
+            alert("Errore: Impostazione stato non conosciuto.\nNon può essere impostato lo stato " + state);
+        }
+    }
+
+    /***************************************************************************
+     * LISTNER DEGLI EVENTI
+     **************************************************************************/
+    document.addEventListener("changeMyState", function(evt) {
+        onChangeMyState(evt.state);
+    })
 }

@@ -46,7 +46,7 @@ function ToolsPanelPresenter() {
     /**
      * funzione per l'inizializzazione della select che gestisce il cambio di
      * stato
-     *
+     * @version 2.0
      * @author Riccardo Tresoldi
      * @return {HTMLSelectElement} l'elemento HTML select che rappresenta lo
      * stato dell'utente
@@ -56,7 +56,7 @@ function ToolsPanelPresenter() {
         var selectState = document.getElementById("selectState");
         //Controllo che non sia già stato inizzializzato
         if (selectState.length != 0)
-            //se è già stato inizializato lo ritorno senza aggiungere altre
+            // se è già stato inizializato lo ritorno senza aggiungere altre
             // <option>
             return selectState;
         //Se arivo qua vuol dire che non è ancora stata inizializzata e dunque lo
@@ -211,9 +211,8 @@ function ToolsPanelPresenter() {
     /**
      * Imposta il valore della select che contiene lo stato dell'utente al valore
      * corretto
-     *
+     * @version 2.0
      * @author Riccardo Tresoldi
-     *
      * @return {HTMLSelectElement} l'elemento HTML select che rappresenta lo
      * stato dell'utente
      */
@@ -223,7 +222,8 @@ function ToolsPanelPresenter() {
         //ottengo il valore corrente della select
         var currentValue = selectState.options[selectedIndex].value;
         //Inviare il messaggio con websoket;
-        communicationcenter.changeState(currentValue);
+        changeMyState.state = (currentValue);
+        document.dispatchEvent(changeMyState);
         return selectState;
     };
 

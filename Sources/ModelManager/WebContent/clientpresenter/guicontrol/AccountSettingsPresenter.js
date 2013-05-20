@@ -18,14 +18,6 @@ function AccountSettingsPanelPresenter(url) {
     /***************************************************************************
      * METODI PRIVATI
      **************************************************************************/
-    /**
-     * Funzione per gestire l'evento in cui viene visualizzato il pannello delle
-     * impostazioni dell'account
-     * @author Riccardo Tresoldi
-     */
-    function onShowAccountSettingPanel() {
-        mediator.getView('accountSettings');
-    }
 
     /***************************************************************************
      * METODI PUBBLICI
@@ -156,7 +148,7 @@ function AccountSettingsPanelPresenter(url) {
                 request.send("operation=accountSettings&" + self.buildQueryString(data));
                 // FIXME aggiornare il communicationcenter.my
             }
-            mediator.displayAccountSettingsPanel();
+            document.dispatchEvent(showAccountSettingPanel);
         };
 
         // aggiunge il tutto al sottoalbero del DOM
@@ -177,8 +169,6 @@ function AccountSettingsPanelPresenter(url) {
     this.display = function() {
         // salvo un riferimento alla vista
         var thisPanel = document.getElementById("AccountSettingsPanel");
-
-        //XXX ????
         // configura la vista
         document.getElementById("name").appendChild(document.createTextNode(communicationcenter.my.name));
         document.getElementById("surname").appendChild(document.createTextNode(communicationcenter.my.surname));
@@ -186,9 +176,21 @@ function AccountSettingsPanelPresenter(url) {
         document.getElementById("changeButton").onclick = function() {
             thisPresenter.onChangeButtonPressed();
         };
-
         // FIXME possono cambiare anche password, domanda segreta e risposta!?
     };
+
+    /***************************************************************************
+     * HANDLER EVENTI
+     **************************************************************************/
+    /**
+     * Funzione per gestire l'evento in cui viene visualizzato il pannello delle
+     * impostazioni dell'account
+     * @version 2.0
+     * @author Riccardo Tresoldi
+     */
+    function onShowAccountSettingPanel() {
+        mediator.getView('accountSettings');
+    }
 
     /***************************************************************************
      * LISTNER DEGLI EVENTI

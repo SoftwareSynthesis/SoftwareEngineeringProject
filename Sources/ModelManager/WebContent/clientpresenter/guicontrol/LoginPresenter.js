@@ -346,6 +346,6 @@ function LoginPanelPresenter() {
     document.addEventListener("showLoginPanel", onShowLoginPanel);
     document.addEventListener("removeLoginPanel", onRemoveLoginPanel);
     document.addEventListener("login", function(evt) {
-        onLogin(evt);
+        onLogin(evt.user);
     });
 }

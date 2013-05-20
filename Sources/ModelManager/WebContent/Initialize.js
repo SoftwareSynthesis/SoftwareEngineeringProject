@@ -1,7 +1,7 @@
 window.onload = function() {
-    /*********************************************/
-    /*******CREAZIONI EVENTI PERSONALIZZATI*******/
-    /*********************************************/
+    /**********************************************
+    ********CREAZIONI EVENTI PERSONALIZZATI********
+    **********************************************/
     // eventi per Medietor
     loadedView = new CustomEvent("loadedView");
     // eventi creazione pannelli
@@ -29,29 +29,37 @@ window.onload = function() {
     removeCommunicationPanel = new CustomEvent("removeCommunicationPanel");
     // eventi per LoginPresenter
     login = new CustomEvent("login");
-    /*TODO*/ errorLogin = new CustomEvent("errorLogin");
-    /*TODO*/ logout = new CustomEvent("logout");
+    /*TODO*/errorLogin = new CustomEvent("errorLogin");
+    /*TODO*/logout = new CustomEvent("logout");
     // eventi per AddressBookPresenter
     changeAddressBooksContactState = new CustomEvent("changeAddressBooksContactState");
-    /*TODO*/ addContactToAddressBook = new CustomEvent("addContactToAddressBook");
-    /*TODO*/ removeContactFromAddressBook = new CustomEvent("removeContactFromAddressBook");
-    /*TODO*/ blockContact = new CustomEvent("blockContact");
-    /*TODO*/ unlockContact = new CustomEvent("unlockContact");
+    /*TODO*/addContactToAddressBook = new CustomEvent("addContactToAddressBook");
+    /*TODO*/removeContactFromAddressBook = new CustomEvent("removeContactFromAddressBook");
+    /*TODO*/blockContact = new CustomEvent("blockContact");
+    /*TODO*/unlockContact = new CustomEvent("unlockContact");
     // eventi per ToolsPresenter
     showReturnToCommunicationPanelButton = new CustomEvent("showReturnToCommunicationPanelButton");
+    // eventi per chiamata
+    changeMyState = new CustomEvent("changeMyState");
 
-    //Inizializzazione delle funzioni
+    /**************************************
+    ****Inizializzazione delle funzioni****
+    **************************************/
     window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext || window.msAudioContext;
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
     window.URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
     navigator.RTCPeerConnection = navigator.RTCPeerConnection || navigator.webkitRTCPeerConnection || navigator.mozRTCPeerConnection || navigator.msRTCPeerConnection;
 
-    // VARIABILI GLOBALI per cui i programmatori meritano il taglio delle dita
+    /*****************************************
+    ****Inizializzazione variabili globali**** || per cui i programmatori meritano il taglio delle dita
+    *****************************************/
     mediator = new PresenterMediator();
     communicationcenter = new CommunicationCenter();
 
-    // Link connessione a servlet
+    /**********************************************************
+    ****Inizializzazione variabili per connessione all'host****
+    **********************************************************/
     var host = "localhost";
     var stub = true;
     if (stub) {
@@ -61,9 +69,10 @@ window.onload = function() {
         commandURL = "http://" + host + ":8080/MyTalk/CommandManager";
         urlChannelServlet = "ws://" + host + ":8080/MyTalk/CommandManager";
     }
-    // crea l'interfaccia di autenticazione
 
-    //Creo la UI per il Login
+    /******************************
+    ****Creo la UI per il Login****
+    ******************************/
     document.dispatchEvent(showLoginPanel);
 };
 
@@ -86,5 +95,5 @@ Object.isEmpty = function(obj) {
 window.onbeforeunload = function() {
     if (!Object.isEmpty(communicationcenter.my))
         //la variabile my non è impostata duqnue esco
-        return ("Prima di chiudere il browser effettua il LogOut.");
+        return ("Prima di chiudere il browser effettua il Logout.");
 }
