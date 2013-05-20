@@ -1,36 +1,25 @@
 package org.softwaresynthesis.mytalk.server.connection;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.verify;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 import static org.softwaresynthesis.mytalk.server.ControllerManagerTest.getClients;
-
 import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.catalina.websocket.WsOutbound;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
-import org.softwaresynthesis.mytalk.server.abook.IAddressBookEntry;
-import org.softwaresynthesis.mytalk.server.abook.IUserData;
 import org.softwaresynthesis.mytalk.server.connection.PushInbound.State;
-import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
 
 /**
  * Verifica della classe {@link PushInbound}. Dinanzi a me non fuor cose create
@@ -46,8 +35,6 @@ public class PushInboundTest {
 	private final Long otherId = 2L;
 	private PushInbound tester;
 	Map<Long, PushInbound> clients;
-	Set<IAddressBookEntry> entrySet;
-	private StringWriter writer;
 	@Mock
 	private ByteBuffer charBuffer;
 	@Mock
@@ -56,14 +43,7 @@ public class PushInboundTest {
 	private PushInbound other;
 	@Mock
 	private WsOutbound outbound;
-	@Mock
-	DataPersistanceManager dao;
-	@Mock
-	IUserData user;
-	@Mock
-	IUserData contact;
-	@Mock
-	IAddressBookEntry entry;
+	private StringWriter writer;
 
 	/**
 	 * Reinizializza tutti gli elementi comuni a tutti i test e l'oggetto da
@@ -74,10 +54,7 @@ public class PushInboundTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		// è necessario azzerare il contenuto il buffer in cui viene memorizzato
-		// il testo stampato sul WsOutbound
 		writer = new StringWriter();
-		// configura il comportamento del WsOutbound
 		doAnswer(new Answer<Void>() {
 			@Override
 			public Void answer(InvocationOnMock invocation) {
@@ -89,28 +66,11 @@ public class PushInboundTest {
 				return null;
 			}
 		}).when(outbound).writeTextMessage(any(CharBuffer.class));
-		// inizializza la mappa dei client noti al server
 		clients = getClients();
-		// configura il comportamento del contatto
-		when(contact.getId()).thenReturn(otherId);
-		// comportamento della voce di rubrica
-		when(entry.getContact()).thenReturn(contact);
-		// configura il comportamento dell'utente e la sua rubrica
-		entrySet = new HashSet<IAddressBookEntry>();
-		entrySet.add(entry);
-		when(user.getAddressBook()).thenReturn(entrySet);
-		// configura il comportamento del gestore di persistenza
-		when(dao.getUserData(id)).thenReturn(user);
-		// inizializza l'oggetto da sottoporre a verifica ;)
 		tester = new PushInbound() {
 			@Override
 			WsOutbound getWsOutbound(PushInbound inbound) {
 				return outbound;
-			}
-
-			@Override
-			DataPersistanceManager getDAOFactory() {
-				return dao;
 			}
 		};
 	}
@@ -127,8 +87,7 @@ public class PushInboundTest {
 	}
 
 	/**
-	 * Verifica che sia possibile impostare e recuperare correttamente il numero
-	 * identificativo associato al canale di connessione fra server e client.
+	 * TODO da documentare
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
@@ -142,8 +101,7 @@ public class PushInboundTest {
 	}
 
 	/**
-	 * Verifica che sia possibile impostare e recuperare correttamente lo stato
-	 * del client associato alla connessione client-server.
+	 * TODO da documentare
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
@@ -153,37 +111,21 @@ public class PushInboundTest {
 		State state = State.OCCUPIED;
 		tester.setState(state);
 		assertEquals(state, tester.getState());
-		state = State.AVAILABLE;
-		tester.setState(state);
-		assertEquals(state, tester.getState());
 	}
 
 	/**
-	 * Verifica il comportamento della classe nel momento in cui si tenta di
-	 * trasmettere un messaggio binario tramite il canale di comunicazione con
-	 * il server. In particolare il test ha successo solo se viene sollevata una
-	 * IOException e se il messaggio associato all'eccezione corrisponde a
-	 * quanto atteso.
+	 * TODO da documentare
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
 	 */
 	@Test(expected = IOException.class)
-	public void testOnBinaryMessageByteBuffer() throws Exception {
-		try {
-			tester.onBinaryMessage(charBuffer);
-		} catch (IOException e) {
-			assertEquals("Metodo non implementato", e.getMessage());
-			throw e;
-		}
+	public void testOnBinaryMessageByteBuffer() throws IOException {
+		tester.onBinaryMessage(charBuffer);
 	}
 
 	/**
-	 * Verifica il comportamento della classe nel momento in cui viene
-	 * utilizzata per inviare al server un messaggio testuale che segnala la
-	 * connessione di un nuovo client. In particolare il test verifica che sia
-	 * aggiunta una nuova voce alla lista delle connessioni note al server,
-	 * indicizzata con il campo identificativo del nuovo client.
+	 * TODO da documentare
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
@@ -202,63 +144,7 @@ public class PushInboundTest {
 	}
 
 	/**
-	 * Verifica il comportamento del client nel momento in cui il messaggio
-	 * ricevuto dal server tramite il canale serve ad inviare a un secondo
-	 * client una determinata stringa che contiene la descrizione del primo
-	 * client. Il test verifica che il testo effettivamente trasmetto sul
-	 * secondo canale di comunicazione sia conforme alle aspettative e contenga
-	 * cioè il carattere 2, seguito dal carattere pipe, seguito dalla stringa
-	 * ricevuta inizialmente tramite il primo canale.
-	 * 
-	 * @author Diego Beraldin
-	 * @version 2.0
-	 */
-	@Test
-	public void testExchangeData() throws Exception {
-		// prepara il messaggio e il finto 'peer' del client
-		clients.put(otherId, other);
-		when(buffer.toString()).thenReturn(
-				String.format("[\"2\", \"%d\", \"dummy\"]", id));
-		// invoca il metodo da testare
-		tester.onTextMessage(buffer);
-		// verifica l'output
-		writer.flush();
-		String message = writer.toString();
-		assertEquals("2|dummy", message);
-	}
-
-	/**
-	 * Verifica il comportamento della classe nel momento in cui il canale è
-	 * utilizzato da un primo client per chiedere al server di trasmettere a un
-	 * secondo client il suo numero identificativo. In particolare, il test
-	 * verifica che il messaggio di testo trasmesso al secondo client
-	 * corrisponda alle aspettative e sia cioè formato dal carattere 3, seguito
-	 * dal carattere pipe e quindi dal numero identificativo del primo client.
-	 * 
-	 * @author Diego Beraldin
-	 * @version 2.0
-	 */
-	@Test
-	public void testSendIdToCallee() throws Exception {
-		// prepara il messaggio e il finto 'peer' del client
-		clients.put(otherId, other);
-		when(buffer.toString())
-				.thenReturn(String.format("[\"3\", \"%d\"]", id));
-		// invoca il metodo da testare
-		tester.setId(id);
-		tester.onTextMessage(buffer);
-		// verifica l'output
-		writer.flush();
-		String message = writer.toString();
-		assertEquals("3|" + id, message);
-	}
-
-	/**
-	 * Verifica il comportamento della classe nel momento in cui il messaggio
-	 * trasmesso dal client al server segnala la disconnessione del client. In
-	 * particolare il test verifica che dalla lista delle connessioni note al
-	 * server sia rimosso il canale di comunicazione associato al client che
-	 * richiede la disconnessione.
+	 * TODO da documentare
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
@@ -276,55 +162,41 @@ public class PushInboundTest {
 	}
 
 	/**
-	 * verifica il comportamento della classe nel momento in cui il canale di
-	 * comunicazione è utilizzato da un client per notificare al server un
-	 * cambiamento di stato. In particolare il test verifica che a tutti i
-	 * contatti che sono presenti nella rubrica dell'utente che cambia stato e
-	 * che sono effettivamente connessi sia inviato un messaggio contenente il
-	 * carattere 5, il carattere pipe e la corretta rappresentazione in formato
-	 * stringa dello stato assunto dal mittente iniziale del messaggio.
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
 	 */
 	@Test
-	public void testNotifyStatusChange() throws Exception {
-		// preparazione dei dati per il test
-		tester.setId(id);
+	public void testExchangeData() throws Exception {
+		// prepara il messaggio e il finto 'peer' del client
 		clients.put(otherId, other);
-		when(buffer.toString()).thenReturn("[5, \"occupied\"]");
+		when(buffer.toString()).thenReturn(
+				String.format("[\"2\", \"%d\", \"dummy\"]", id));
 		// invoca il metodo da testare
 		tester.onTextMessage(buffer);
 		// verifica l'output
 		writer.flush();
 		String message = writer.toString();
-		assertEquals("5|" + id + "|occupied", message);
-		// verifica il corretto utilizzo dei mock
-		verify(dao).getUserData(id);
-		verify(user).getAddressBook();
-		verify(entry).getContact();
-		verify(contact).getId();
+		assertEquals("2|dummy", message);
 	}
-
+	
 	/**
-	 * Verifica il comportamento della classe nel momento in cui il messaggio
-	 * ricevuto dal server sia la notifica, da parte di un client, dell'avvenuto
-	 * rifiuto di una chiamata entrante. Il test verifica, in particolare, che
-	 * al client sia trasmesso un messaggio contenente il carattere 6, seguito
-	 * dal carattere pipe.
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
 	 */
 	@Test
-	public void testCallRefusal() throws Exception {
-		// prepara i dati per il test
-		when(buffer.toString()).thenReturn("[6]");
+	public void testSendIdToCallee() throws Exception {
+		// prepara il messaggio e il finto 'peer' del client
+		clients.put(otherId, other);
+		when(buffer.toString()).thenReturn(
+				String.format("[\"3\", \"%d\"]", id));
 		// invoca il metodo da testare
+		tester.setId(id);
 		tester.onTextMessage(buffer);
 		// verifica l'output
 		writer.flush();
 		String message = writer.toString();
-		assertEquals("6|", message);
+		assertEquals("3|" + id, message);
 	}
 }

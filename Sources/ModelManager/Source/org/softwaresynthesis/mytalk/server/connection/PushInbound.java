@@ -78,7 +78,7 @@ public class PushInbound extends MessageInbound {
 		//notifica cambio stato ad utenti della rubrica
 		//array[1]={available|||offline||occupied} per stato
 		else if (type.equals("5")){
-			DataPersistanceManager database = this.getDAOFactory();
+			DataPersistanceManager database= new DataPersistanceManager();
 			String status= gson.fromJson(array.get(1), String.class);
 			IUserData utente= database.getUserData(this.id);
 			if(status.equals("available")){setState(State.AVAILABLE);}					
@@ -92,7 +92,7 @@ public class PushInbound extends MessageInbound {
 				IAddressBookEntry entry = (IAddressBookEntry)iter.next();
 				Long idFriend=entry.getContact().getId();
 				PushInbound sendTo= ControllerManager.findClient(idFriend);
-				String msg = "5|" + id + "|" + state.toString().toLowerCase();
+				String msg = "5|" + id + "|" + state;
 				getWsOutbound(sendTo).writeTextMessage(CharBuffer.wrap(msg));
 			}
 		}
@@ -102,14 +102,7 @@ public class PushInbound extends MessageInbound {
 		}
 	}
 
-	/*
-	 * Sssssssh! Se leggi queste righe non dire niente a nessuno! 
-	 */
 	WsOutbound getWsOutbound(PushInbound inbound) {
 		return inbound.getWsOutbound();
-	}
-	
-	DataPersistanceManager getDAOFactory() {
-		return new DataPersistanceManager();
 	}
 }
