@@ -104,7 +104,6 @@ public class AddGroupControllerTest {
 
 		// verifica il corretto utilizzo dei mock
 		verify(response).getWriter();
-		verify(request).getSession(false);
 		verify(request).getParameter("groupName");
 		verify(dao).getUserData(username);
 		verify(dao).insert(argument.capture());
@@ -132,7 +131,6 @@ public class AddGroupControllerTest {
 		tester.doAction(request, response);
 
 		// verifica il corretto utilizzo dei mock
-		verify(request).getSession(false);
 		verify(request).getParameter("groupName");
 		verify(response).getWriter();
 		verify(dao).getUserData(username);
@@ -159,9 +157,8 @@ public class AddGroupControllerTest {
 		tester.doAction(request, response);
 
 		// verifica il corretto utilizzo dei mock
-		verify(request).getSession(false);
 		verify(request).getParameter("groupName");
 		verify(response).getWriter();
-		verifyZeroInteractions(dao);
+		verify(dao).getUserData(username);
 	}
 }
