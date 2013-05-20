@@ -951,6 +951,33 @@ Il test in questo caso verifica che sia eseguito il metodo \texttt{check} una vo
  \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
+\item \textbf{TM1.02: PushInboundTest}\\
+\textbf{Verifica la Classe:} \texttt{PushInbound}.\\
+\textbf{Descrizione}: %TODO DA DESCRIVERE
+ 
+Tale test si compone di nove metodi:
+\begin{itemize}
+
+\item \texttt{testId()} verifica che sia possibile impostare e recuperare correttamente il numero identificativo associato al canale di connessione fra server e client.
+
+\item \texttt{testState()} verifica che sia possibile impostare e recuperare correttamente lo stato del client associato alla connessione client-server.
+
+\item \texttt{testOnBinaryMessageBiteBuffer()} verifica il comportamento della classe nel momento in cui si tenta di trasmettere un messaggio binario tramite il canale di comunicazione con il server. In particolare il test ha successo solo se viene sollevata una \texttt{IOException} e se il messaggio associato all'eccezione corrisponde a quanto atteso.
+
+\item \texttt{testConnectClient} verifica il comportamento della classe nel momento in cui viene  utilizzata per inviare al server un messaggio testuale che segnala la connessione di un nuovo client. In particolare il test verifica che sia aggiunta una nuova voce alla lista delle connessioni note al server, indicizzata con il campo identificativo del nuovo client.
+
+\item \texttt{testExchangeData} verifica il comportamento del client nel momento in cui il messaggio ricevuto dal server tramite il canale serve ad inviare a un secondo client una determinata stringa che contiene la descrizione del primo client. Il test verifica che il testo effettivamente trasmetto sul secondo canale di comunicazione sia conforme alle aspettative e contenga * cioè il carattere \texttt{2}, seguito dal carattere \texttt{pipe}, seguito dalla stringa ricevuta inizialmente tramite il primo canale.
+
+\item \texttt{testSendIdToCaller} Verifica il comportamento della classe nel momento in cui il canale è utilizzato da un primo client per chiedere al server di trasmettere a un secondo client il suo numero identificativo. In particolare, il test verifica che il messaggio di testo trasmesso al secondo client corrisponda alle aspettative e sia cioè formato dal carattere \texttt{3}, seguito dal carattere \texttt{pipe} e quindi dal numero identificativo del primo client.
+
+\item \texttt{testDisconnectClient} verifica il comportamento della classe nel momento in cui il messaggio trasmesso dal client al server segnala la disconnessione del client. In particolare il test verifica che dalla lista delle connessioni note al server sia rimosso il canale di comunicazione associato al client che richiede la disconnessione.
+
+\item \texttt{testNotifyStatusChange} verifica il comportamento della classe nel momento in cui il canale di comunicazione è utilizzato da un client per notificare al server un cambiamento di stato. In particolare il test verifica che a tutti i contatti che sono presenti nella rubrica dell'utente che cambia stato e che sono effettivamente connessi sia inviato un messaggio contenente il carattere \texttt{5}, il carattere \texttt{pipe} e la corretta rappresentazione in formato stringa dello stato assunto dal mittente iniziale del messaggio.
+
+\item \texttt{testCallRefusal} verifica il comportamento della classe nel momento in cui il messaggio  ricevuto dal server sia la notifica, da parte di un client, dell'avvenuto rifiuto di una chiamata entrante. Il test verifica, in particolare, che al client sia trasmesso un messaggio contenente il carattere \texttt{6}, seguito dal carattere \texttt{pipe}.
+
+\end{itemize}
+\textbf{Risultato del test:} superato con successo.
 
 
 \item \textbf{TM1.02: ControllerManagerTest}\\
@@ -962,12 +989,30 @@ Tale test si compone di quattro metodi:
  
 \item \texttt{testInit()} verifica la corretta inizializzazione della \inglese{servlet} e il fatto che, a inizializzazione avvenuta, sia possibile ottenere la mappa contenente i nomi dei \texttt{controller}. Il controllo avviene verificando che l'oggetto restituito non sia \textsl{null}, che esso non sia vuoto e infine che il numero di \texttt{controller} sia quello esatto.
 
-\item \texttt{testDoPost()} verifica il comportamento della \inglese{servlet} nel momento in cui viene invocato il metodo \texttt{doPost}. In particoalare, si verifica che sia invocato il parametro \texttt{operation} dalla richiesta HTTP, e che sia invocato correttamente il metodo \texttt{execute} sul \texttt{controller} associato all'operazione passando a quest'ultimo la richiesta e la risposta con cui è invocato il metodo da testare. 
+\item \texttt{testDoPost()} verifica il comportamento della \inglese{servlet} nel momento in cui viene invocato il metodo \texttt{doPost}. In particoalare, si verifica che sia invocato il parametro \texttt{operation} dalla richiesta HTTP, e che sia invocato correttamente il metodo \texttt{execute} sul \textit{controller} associato all'operazione passando a quest'ultimo la richiesta e la risposta con cui è invocato il metodo da testare. Inoltre si verifica che sulla risposta HTTP sia effettivamente stampata la stringa che il \textit{mock} del \textit{controller} utilizzato dal test è stato configurata da stampare.
 
-\item \texttt{testDestroy()} verifica il comportamento della classe nel momento in cui viene invocato il metodo \texttt{destroy()}. In particolare il test si assicura la variabile di istanza che memorizza la mappa che associa le operazioni ai nomi dei \texttt{controller} sia impostata a \texttt{null}.
+\item \texttt{testDoPostClassNotFound()} verifica il comportamento del metodo \texttt{doPost} nel momento in cui la stringa estratta dalla richiesta HTTP tramite il parametro \texttt{operation} non permette di identificare un \textit{controller} valido da istanziare. Il test controlla che in una simile circostanza la pagina di risposta sia lasciata vuota.
+
+\item \texttt{testDoPostIllegalAccess()} verifica il comportamento del metodo \texttt{doPost} nel momento in cui la stringa estratta dalla richiesta HTTP tramite il parametro \texttt{operation} identifichi un \textit{controller} che non è possibile istanziare in questo contesto perchè non ha il livello corretto di accessibilità. Il test controlla che in una simile circostanza la pagina di risposta sia lasciata vuota.
+
+\item \texttt{testDoPostInstantiationException()} verifica il comportamento del metodo \texttt{doPost} nel momento in cui la stringa estratta dalla richiesta HTTP tramite il parametro \texttt{operation} identifichi un \textit{controller} che non è possibile istanziare in questo contesto perchè non è presente un costruttore di \inglese{default} o si tratta di una classe astratta. Il test controlla che in una simile circostanza la pagina di risposta sia lasciata vuota.
+
+\item \texttt{testCreateWebSoket()} verifica il comportamento del metodo \texttt{factory} che crea il canale di comunicazione \textit{WebSocket} tra client e server. In particolare il test verifica che il valore ritornato sia un riferimento del sottotipo corretto di \texttt{MessageInbound}, per l'applicazione corretta del \textit{design pattern} \textit{Factory Method}.
+
+\item \texttt{testDestroy()} verifica il comportamento della classe nel momento in cui viene invocato il metodo \texttt{destroy()} su un istanza della classe \textit{ControllerManager}. In particolare il test si assicura la variabile di istanza che memorizza la mappa che associa le operazioni ai nomi dei \texttt{controller} sia impostata a \texttt{null}.
 Il test avviene verificando che l'oggetto restituito sia \texttt{null}.
-%tTODO: TEST DA FINIRE
-\item \texttt{testCreateWebSocket()} 
+
+\item \texttt{testCreateControllerSuccessfully()} verifica che l'istanziazione dei \textit{controller} ottenuta tramite la \textit{reflection} avvenga in maniera corretta nel caso in cui il nome qualificato passato come parametro corrisponda a una classi a cui il caricatore ha accesso.
+
+\item \texttt{testCreateControllerUnuccessfully()} verifica il comportamento del metodo \texttt{createController} se il parametro passato non corrisponde ad alcuna classe nota al caricatore.In tal caso il test ha successo solo se è sollevata un'eccezione di tipo \texttt{ClassNotFoundException}, come atteso in questa circostanza.
+
+\item \texttt{testPutClient()} verifica che sia possibile aggiungere un nuovo canale di comunicazione aperto con un client all'unterno delle strutture dati della \inglese{servlet}.
+
+\item \texttt{testFindClient()} verifica la possibilità di recuperare un canale di comunicazione aperto con un client a partire dall'identificativo del client stesso.
+
+\item \texttt{testRemoveClient()} verifica che sia possibile rimuovere con successo un client dalle strutture dati della \inglese{servlet} aveno a disposizione il numero identificativo del client stesso.
+
+\item \texttt{testGetState()} verifica che sia possibile recuperare la rappresentazione in forma di stringa dello stato di un determinato client noto il numero identificativo (univoco) che lo identifica fra quelli memorizzati nelle strutture dati internet alla \inglese{servlet}.
 
  \end{itemize}
 \textbf{Risultato del test:} superato con successo.
@@ -994,10 +1039,29 @@ Tale test si compone di un metodo:
 \textbf{Verifica la Classe:} \texttt{AuthenticationModule}.\\
 \textbf{Descrizione}: l'obiettivo del test è verificare le funzionalità di autenticazione offerte dal sistema server dell'applicativo.
 
-Tale test si compone di due metodi:
+Tale test si compone di undici metodi:
 \begin{itemize}
-\item \texttt{testLogin()} verifica che l'accesso al sistema mediante le opportune credenziali avvenga con successo.
-\item \texttt{testLogout()} verifica che il modulo di autenticazione abbia il comportamento atteso nel momento in cui un utente autenticato richiede di uscire.
+\item \texttt{testAbortWihtoutLogin()} verifica il comportamento del metodo \texttt{abort()} quando viene invocato senza che sia stato precedentemente effettuato un login con successo. Il test verifica che in questo caso il metodo restituisca \texttt{false} e che non venga mai effettuato il logout.
+
+\item \texttt{testAbortCommitted()} vverifica il comportamento del metodo \texttt{abort()} se invocato dopo che è stato effettuato il login ma l'operazione è \textit{committed}. In tal caso il test verifica che il risultato della chiamata di metodo sia \texttt{true} e che non sia effettuato il logout.
+
+\item \texttt{testAbortUncommitted} verifica il comportamento del metodo \texttt{abort()} dopo che è stata effettuata un'operazione di login. Il test verifica che sia effettivamente richiamata l'operazione per il logout e che il metodo restituisca, come atteso, \texttt{true}.
+
+\item \texttt{testLogoutSucccessfully()} verifica il comportamento del metodo \texttt{logout()} se l'operazione può essere portata a termine con successo. In particolare, il test verifica che la chiamata di metodo restituisca, come atteso, il valore \texttt{true}.
+
+\item \texttt{testLogoutUnsucccessfully()} verifica il comportamento della classe nel momento in cui si tenta di effettuare il logout ma viene sollevata un'eccezione nel momento in cui si tenta di accedere ai dati di autenticazione. Il test ha successo se, e soltanto se, viene come desiderato sollevata un'eccezione.
+
+\item \texttt{testCommit()} verifica il comportamento del metodo \texttt{commit()} controllando che, nelle opportune condizioni, sia possibile portare a termine correttamente l'operazione.
+
+\item \texttt{testLoginSuccessfully()} verifica il comportamento del metodo \texttt{login()} nel momento in cui sussistono le condizioni per portare a termine con successo l'operazione. In particolare il test verifica che il valore restituito dell'invocazione del metodo sia, come desiderato, \texttt{true}. Inoltre si controlla che siano creati correttamente i \textit{callback} e che siano gestiti dal \textit{CallbackHandler}.
+
+\item \texttt{testLoginIOException()} verifica il comportamento del metodo \texttt{login()} nel momento in cui non è possibile gestire in maniera corretta i dati di autenticazione perché viene sollevata una \texttt{IOException}. In particolare, il test ha successo se e solo se viene sollevato un errore di tipo \texttt{LoginException} da parte dell'oggetto di verifica. Inoltre si verifica la corretta interazione con i \textit{mock}, assicurando che non siano recuperati dal databse i dati relativi all'utente.
+
+\item \texttt{testLoginUnsupportedCallback} verifica il comportamento del metodo \texttt{login()} nel momento in cui non è possibile gestire in maniera corretta i dati di autenticazione perché un \textit{callback} (in questo caso quello della \textit{password}) non è di tipo supportato e quindi non può essere trattata correttamente. In particolare, il test ha successo se e solo se viene sollevato un errore di tipo \texttt{LoginException} da parte dell'oggetto di verifica. Inoltre si verifica la corretta interazione con i \textit{mock}, assicurando che non siano recuperati dal database i dati relativi all'utente.
+
+\item \texttt{testLoginWrongUsername} verifica il comportamento della classe nel momento in cui si tenta di effettuare il login ma lo username fornito non corrisponde ad alcuno degli utenti registrati al sistema. Il test ha successo se e solo se viene sollevata un'eccezione di tipo \texttt{FailedLoginException}, come atteso in un simile caso. Inoltre si verifica il corretto utilizzo dei \textit{mock} controllando che vengano creati e gestiti i \textit{Callback} e che sia utilizzato il sistema di gestione della persistenza dei dati per cercare l'utente (senza successo) ma che non siano recuperati altri dati.
+
+\item \texttt{testLoginWrongPassword} verifica il comportamento della classe nel momento in cui si tenta di effettuare il login ma a fronte di uno \textit{username} esistente non viene fornita la \inglese{password} corretta. Il test ha successo se e solo se viene sollevata un'eccezione di tipo \texttt{FailedLoginException}, come atteso in un simile caso. Inoltre si verifica il corretto utilizzo dei \textit{mock} controllando che vengano creati e gestiti i \textit{Callback} e che sia utilizzato il sistema di gestione della persistenza dei dati per cercare i dati relativi all'utente, in particolare la versione criptata della \inglese{password} memorizzata in fase di registrazione.
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
@@ -1074,7 +1138,7 @@ Tale test si compone di quattro metodi:
 
 \item \texttt{testLoginCorrectUser()} verifica il corretto funzionamento dell'accesso al sistema da parte di un utente registrato. Il controllo avviene tramite l'inserimento di dati corretti.
 
-\item \texttt{testLoginWrongUser()} verifica l'effettivo fallimento del \textit{login} di un utente  non registrato al sistema. Il test avviene simulando il sollevamento di un'eccezione di tipo \texttt{LoginException} durante l'esecuzione di \texttt{login()}. Il test verifica che non sia effettuato alcun accesso al \inglese{database} da parte del \texttt{controller} e che non sia creta nessuna sessione di autenticazione.
+\item \texttt{testLoginWrongUser()} verifica l'effettivo fallimento del login di un utente  non registrato al sistema. Il test avviene simulando il sollevamento di un'eccezione di tipo \texttt{LoginException} durante l'esecuzione di \texttt{login()}. Il test verifica che non sia effettuato alcun accesso al \inglese{database} da parte del \texttt{controller} e che non sia creta nessuna sessione di autenticazione.
 
 \item \texttt{testLoginInvalidSession()} 
 verifica il comportamento della classe nel momento in cui avviene un errore nella manipolazione della sessione associata alla richiesta HTTP. Il test avviene verificando che il risultato stampato sulla risposta sia la stringa \texttt{null} e inoltre viene verificato che la sessione sia resa non valida tramite l'uso di mock.
@@ -1139,18 +1203,21 @@ Il test avviene controllando che il testo stampato sulla risposta HTTP passata c
 
 \item \textbf{TM2.03: AnswerControllerTest}\\
 \textbf{Verifica l'oggetto:} \texttt{AnswerController}.\\
-\textbf{Descrizione}: 
+\textbf{Descrizione}: %TODO DA DESCRIVERE
 
 Questo test si compone di tre metodi:
 \begin{itemize}
-%TODO
-\item \texttt{testRecoverPasswordSuccesfully()} 
-Controlla la possibilità di recuperare la \inglese{password} da parte di un utente regolarmente registrato al sistema e che fornisce pertanto uno \inglese{username} valido.
 
-\item \texttt{testRecoverPasswordUnsuccesfully()} 
-verifica la possibilità di recuperare la \inglese{password} da parte di un utente che fornisce uno \inglese{username} non presente nel \inglese{database}.
+\item \texttt{testSendMessage()} verifica il funzionamento corretto del metodo utilizzato per inviare il messaggio contenente la \inglese{password}, in particolare controllando che sia invocato il emtodo di invio e che il messaggio passato come parametro abbia i campi \textit{mittente}, \textit{destinatario} (TO), l'\textit{oggetto} e il \textit{testo} desiderati dal chiamante del metodo \texttt{sendMessage}.
 
-\item \texttt{testCheck()} verifica il corretto funzionamento del metodo \texttt{check}. Il controllo avviene verificando che l'oggetto restituito abbia valore \texttt{true}.
+\item \texttt{testCheck} verifica che il metodo di controllo della superclasse sia sovrascritto in modo corretto, tale cioè da restituire \texttt{true} in ogni caso, indipendentemente dalla richiesta che viene passata ad esso come parametro. Il test si assicura di questo verificando il risultato e sincerandosi del fatto che la richiesta HTTP non sia utilizzata per estrarre parametri o informazioni di sessione che potrebbero influenzare il risultato.
+
+\item \texttt{testRecoverPasswordSuccesfully()} verifica la possibilità di recuperare la \inglese{password} da parte di un utente che è registrato al sistema e che fornisce pertanto uno username valido. Il test verifica che la stringa restituita sia effettivamente \texttt{true}, che il sistema di persistenza dei dati sia utilizzato per recuperare l'utente, la risposta segreta codificata e la \inglese{password} e che la strategia di crittografia sia utilizzata per codificare la risposta contenuta nella richiesta e per decodificare la \inglese{password} presente nel database.
+
+\item \texttt{testRecoverPasswordUnsuccesfully()} verifica l'impossibilità di recuperare la \inglese{password} da parte di un utente che fornisce uno username non presente nella base di dati. Il test verifica che la stringa stampata sulla risposta sia effettivamente \texttt{null} come desiderato in caso di fallimento.
+
+\item \texttt{testRecoverPasswordWrongAnswer()} Verifica il comportamento del metodo \texttt{doAction} nel momento in cui la risposta contenuta come parametro nella richiesta che giunge al \textit{controller} non corrisponde alla risposta che l'utente aveva impostato in fase di registrazione. Il test verifica che sia stampata sulla risposta la stringa \texttt{null}, dopo aver tentato di codificare la \inglese{password} in ingresso. Si controlla inoltre che non sia \textit{mai} recuperata la \inglese{password} e che non sia effettuata \textit{alcuna} operazione di decodifica.
+
 
 \end{itemize}
 
@@ -1974,7 +2041,7 @@ Tale verifica è composta da sette test:
 \item \texttt{testLogin() } effettua una prova di login, mediante l'inserimento di uno \textit{username} e una \textit{password} corretti, verificando che tali dati siano accettati correttamente.
 \item \texttt{testGetUsername()} verifica che, dato uno \textit{username} in \inglese{input} corretto generato come \inglese{stub}, sia possibile recuperarlo correttamente. Se lo \textit{username} non è una mail valida, o non è inserito nella \inglese{form}, il test verifica che venga sollevata un'eccezione.
 \item \texttt{testGetPassword() } verifica che, data una \textit{password} in \inglese{input} corretta generata come \inglese{stub}, sia possibile recuperarla correttamente.Se la \textit{password} non è inserita nella \inglese{form}, il test verifica che venga sollevata un'eccezione.
-\item \texttt{testHide()} controlla che venga correttamente nascosto il \inglese{form} di \textit{login} dopo l'effettiva autenticazione o di richiesta di registrazione.
+\item \texttt{testHide()} controlla che venga correttamente nascosto il \inglese{form} di login dopo l'effettiva autenticazione o di richiesta di registrazione.
 \item \texttt{testBuildRetrivePasswordForm()} tale test verifica la corretta creazione della form richiamata per il recupero della password tramite risposta segreta, successivamente controlla che venga richiamata la domanda correttamente impostata a cui rispondere.
 \item \texttt{testHasAnsweredCorrectly()} tale test verifica la corretta ricezione della risposta segreta (e la correttezza della risposta stessa) associata per il recupero password. Viene inoltre effettuato un test di negazione della stessa.
 \end{itemize}
