@@ -154,7 +154,7 @@ function GroupPanelPresenter(url) {
 
 		// recupera i contatti che non appartengono al gruppo
 		// TODO copiare per valore l'oggetto.
-		var candidateContacts = Object.create(contacts);
+		var candidateContacts = JSON.parse(JSON.stringify(contacts));
 		for ( var key in group.contacts) {
 		    delete candidateContacts[group.contacts[key]];
 			/*if (group.contacts.indexOf(contacts[key].id) < 0) {
