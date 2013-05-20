@@ -3171,73 +3171,77 @@ Il metodo termina ritornando il \textit{PushInbound} associato al client, se si 
 
 \clearpage
 
-\section{Specifica sotto-architettura clientpresenter}\label{sec:clientpresenterarchitecture}
+\section{Specifica sotto-architettura \texttt{clientpresenter}}\label{sec:clientpresenterarchitecture}
 
-La sotto-architettura \texttt{clientpresenter}, a livello di definizione di prodotto, richiede una trattazione speciale a causa del particolare dominio tecnologico coinvolto. Essa è infatti definita con il linguaggio \textit{JavaScript} che pur essendo definito come linguaggio orientato agli oggetti non permette di definire classi, a ciò si aggiunge un ulteriore particolarità di \textit{JavaScript}: è debolmente tipizzato.
-In ragione di ciò, al fine di facilitare al programmatore la comprensione del progetto (pesando quindi alle varie entità come a classi) senza però confonderlo in fase di stesura del codice, si è pensato di adoperare la seguente terminologia:
+La sotto-architettura \texttt{clientpresenter}, a livello di definizione di prodotto, richiede una trattazione speciale a causa del particolare dominio tecnologico coinvolto. Essa è infatti definita con il linguaggio JavaScript che pur essendo definito come linguaggio orientato agli oggetti non permette di definire classi, a ciò si aggiunge un ulteriore particolarità di JavaScript: è debolmente tipizzato.
+
+In ragione di ciò, al fine di facilitare al programmatore la comprensione del progetto (pensando quindi alle varie entità come a classi) senza però confonderlo in fase di stesura del codice, si è stabilito di adoperare la seguente terminologia:
 
 \begin{description}
-	\item{\scshape\bfseries Attributi}: saranno definiti con una sintassi simile a quella già usata per la parte \inglese{server}, pertanto al nome dell'attributo sarà associato il tipo ``logico'' che idealmente rappresenta. In particolare emergono i seguenti casi:
-		\begin{itemize}
-			\item Nodi DOM: come si vedrà alcuni attributi rappresentano nodi DOM già esistenti nella pagina HTML che definisce l'interfaccia utente e modificati (a \textit{run-time}) sulla base di informazioni ottenute dal \inglese{server}. Tali attributi dovranno essere codificati come:
-			
-			\begin{verbatim}
-				this.mio_attributo = document.getElementById(``id_DOM'');
+	\item{\scshape\bfseries Attributi}: saranno definiti con una sintassi simile a quella già usata per la parte server, pertanto al nome dell'attributo sarà associato il tipo ``logico'' che idealmente rappresenta. Dal momento che in JavaScript non esiste il controllo dei tipi, si è stabilito di attenersi a una notazione simile a quella utilizzata per lo strumento di generazione automatica della documentazione JSDoc. In particolare i tipi legali consentiti sono:
+	\begin{itemize}
+	  \item \texttt{HTMLElement} che corrispondono a nodi DOM già esistenti nella pagina HTML che definisce l'interfaccia utente oppure modificati (a \textit{run-time}) sulla base di informazioni ottenute dal server e che saranno indicati come:
+	  	\begin{verbatim}
+				(+, -) attributo: HTMLElement
 			\end{verbatim}
-			
-			Tali attributi saranno indicati con il formalismo:
-			
-			\begin{verbatim}
-				(+, -, #) nome_attributo: Nodo_DOM
-			\end{verbatim}
-			
-			\item String: se l'attributo è destinato a contenere esclusivamente valori di tipo \textit{String} sarà segnato nel documento come:
-			
-			\begin{verbatim}
-				(+, -, #) nome_atributo: String
-			\end{verbatim}
-			
-			\item Array: se l'attributo è un \inglese{array}, che in \textit{JavaScript} non chiede di essere definito per tipo di valori contenibili, nel documento sarà precisato come:
-			
-			\begin{verbatim}
-				(+, -, #) nome_atributo: Tipo[]
-			\end{verbatim}
-			
-			\item Contatto: se l'attributo è un contatto, nel documento sarà precisato come:
-			
-			\begin{verbatim}
-				(+, -, #) nome_atributo: Object(contact)
-			\end{verbatim}
-			Tale oggetto conterrà i seguenti campi dati:
-			\begin{itemize}
-			\item name;
-			\item surname;
-			\item email;
-			\item id;
-			\item picturePath;
-			\item state;
-			\item blocked.
-			\end{itemize}
-
-\item Gruppo: se l'attributo è un gruppo, nel documento sarà precisato come:
-			
-			\begin{verbatim}
-				(+, -, #) nome_atributo: Object(group)
-			\end{verbatim}
-			Tale oggetto conterrà i seguenti campi dati:
-			\begin{itemize}
-			\item name;
-			\item id;
-			\item contacts (rappresentato come un \inglese{array} di Object(contact).
-			\end{itemize}
-		\end{itemize}
-	\item{\scshape\bfseries Metodi}: la sintassi usata dal programmatore per definire un metodo in \textit{JavaScript} dovrà essere la seguente:
-		\begin{verbatim}
-			var nome_metodo = function(){ contenuto }
-		\end{verbatim}
-		
-		mentre la sintassi usata nel documento per definirne la firma, resta la stessa usata in precedenza.
 	
+    \item \texttt{String} se l'attributo è destinato a contenere esclusivamente valori di tipo \textit{String} che sarà segnato nel documento come:
+			
+			\begin{verbatim}
+				(+, -) attributo: String
+			\end{verbatim}
+			
+			\item array, se l'attributo è un \inglese{array}, che in JavaScript non chiede di essere definito per tipo di valori contenibili, che nel documento sarà segnalato con una coppia di quadre, ad esempio nel caso di un array di stringhe:
+			
+			\begin{verbatim}
+				(+, -) attributo: String[]
+			\end{verbatim}
+			
+			\item \texttt{Number}, che è da considerarsi come il supertipo di tutti i tipi numerici e che sarà menzionato nel presente documento come:
+			\begin{verbatim}
+			  (+, -) attributo: Number
+			\end{verbatim}
+			
+			\item \texttt{Object}, che è da intendersi come un oggetto generico JavaScript, dotato una serie di proprietà per ciascuna delle quali è definito un valore e che sarà rappresentato come:
+			\begin{verbatim}
+			  (+, -) attributo: Object
+			\end{verbatim}
+	\end{itemize}
+		
+Per quanto riguarda l'accessibilità degli attributi, invece, saranno distinti i due casi di accessibilità pubblica e accessibilità privata, indicati nel presente documento con un formalismo analogo a quello utilizzato per la parte server.
+
+Nell'attività di codifica, i programmatori dovranno attenersi alle seguenti pratiche:
+\begin{itemize}
+  \item gli attributi pubblici saranno assimilati a proprietà dell'oggetto creato tramite la funzione costruttore accessibili all'esterno, e dovranno pertanto essere specificati come:
+  \begin{verbatim}
+    this.attributo = new Costruttore();
+  \end{verbatim}
+  
+  \item gli attributi privati invece, dal momento che saranno visibili solo all'interno del costruttore e di tutte le funzioni annidate all'interno di esso -- vale a dire i metodi della classe -- dovranno essere dichiarati come variabili locali secondo la consueta sintassi JavaScript:
+  \begin{verbatim}
+    var attributo = new Costruttore();
+  \end{verbatim}
+\end{itemize}
+		
+	\item{\scshape\bfseries Metodi}: la sintassi usata dal programmatore per definire un metodo in JavaScript dipende dalla natura pubblica o privata del metodo stesso, in particolare:
+	\begin{itemize}
+	
+\item Metodi pubblici: essendo i metodi pubblici delle proprietà che l'oggetto espone verso l'esterno, essi dovranno essere specificati mediante la forma
+\begin{verbatim}
+  this.nome_metodo = function(arg0, arg1, ...) {
+    corpo_del_metodo
+  }
+\end{verbatim}
+
+\item Metodi privati: essendo utilizzabili solo all'interno di altri metodi della classe essi possono essere definite come funzioni annidate all'interno del costruttore della classe stessa, secondo la consueta sintassi
+\begin{verbatim}
+  function nome_metodo(arg0, arg1, ...) {
+  corpo_del_metodo
+  }
+\end{verbatim}
+
+La sintassi utilizzata all'interno del presente documento, in ogni caso, rimane quella che è stata definita in precedenza e prevede i marcatori \verb|+| per i metodi pubblici e \verb|-| per i metodi privati.
+	\end{itemize}
 \end{description}
 
 \subsection{Package org.softwaresynthesis.mytalk.clientpresenter.guicontrol}\label{sec:guicontrol}
