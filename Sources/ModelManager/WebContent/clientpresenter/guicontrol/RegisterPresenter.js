@@ -1,5 +1,5 @@
 /**
- * Presenter incaricato di gestire la form di registrazione
+ * Presenter incaricato di gestire il form di registrazione
  *
  * @constructor
  * @this {RegisterPanelPresenter}
@@ -14,28 +14,6 @@ function RegisterPanelPresenter() {
     var thisPanel;
 
     /***************************************************************************
-     * METODI PRIVATI
-     **************************************************************************/
-    /**
-     * Funzione per gestire l'evento in cui viene visualizzato il pannello di
-     * registrazione
-     * @author Riccardo Tresoldi
-     */
-    function onShowRegistrationPanel() {
-        document.dispatchEvent(removeAllPanel);
-        mediator.getView('register');
-    }
-
-    /**
-     * Funzione per gestire l'evento in cui viene rimosso il pannello di
-     * registrazione
-     * @author Riccardo Tresoldi
-     */
-    function onRemoveRegistrationPanel() {
-        thisPresenter.destroy();
-    }
-
-    /***************************************************************************
      * METODI PUBBLICI
      **************************************************************************/
     /** VIEW
@@ -47,7 +25,7 @@ function RegisterPanelPresenter() {
         thisPanelParent.removeChild(thisPanel.parentElement);
     };
 
-    /**
+    /** PRESENTER
      * Estrae dal form il valore del cognome del nuovo utente
      *
      * @returns {String} il cognome dell'utente
@@ -69,7 +47,7 @@ function RegisterPanelPresenter() {
         return name;
     };
 
-    /**
+    /** PRESENTER
      * Estrae dal form la risposta alla domanda segreta associata al nuovo
      * utente
      *
@@ -102,7 +80,7 @@ function RegisterPanelPresenter() {
         return question;
     };
 
-    /**
+    /** PRESENTER
      * Estrae dal form la password associata al nuovo utente
      *
      * @throws {String}
@@ -118,7 +96,7 @@ function RegisterPanelPresenter() {
         return password;
     };
 
-    /**
+    /** PRESENTER
      * Estrae dal form lo username del nuovo utente
      *
      * @throws {String}
@@ -149,7 +127,7 @@ function RegisterPanelPresenter() {
         return picturePath;
     };
 
-    /**
+    /** PRESENTER
      * Invia i dati ricevuti alla servlet per la creazione di un nuovo account
      * utente
      *
@@ -192,7 +170,7 @@ function RegisterPanelPresenter() {
         return querystring;
     };
 
-    /**
+    /** VIEW
      * Inizializzazione dellla form di registrazione con la creazione di tutti i
      * widget grafici che sono contenuti al suo interno
      *
@@ -233,7 +211,7 @@ function RegisterPanelPresenter() {
         };
     };
 
-    /**
+    /** VIEW
      * Nasconde il form di registrazione per lasciare spazio alla schermata
      * principale dell'applicativo (che deve essere costruita dal
      * PresenterMediator)
@@ -245,9 +223,31 @@ function RegisterPanelPresenter() {
             thisPanel.style.display = "none";
         }
     };
+    
+    /***************************************************************************
+     * HANDLER DEGLI EVENTI
+     **************************************************************************/
+    /** PRESENTER
+     * Funzione per gestire l'evento in cui viene visualizzato il pannello di
+     * registrazione
+     * @author Riccardo Tresoldi
+     */
+    function onShowRegistrationPanel() {
+        document.dispatchEvent(removeAllPanel);
+        mediator.getView('register');
+    }
+
+    /** PRESENTER
+     * Funzione per gestire l'evento in cui viene rimosso il pannello di
+     * registrazione
+     * @author Riccardo Tresoldi
+     */
+    function onRemoveRegistrationPanel() {
+        thisPresenter.destroy();
+    }
 
     /***************************************************************************
-     * LISTNER DEGLI EVENTI
+     * LISTENER DEGLI EVENTI
      **************************************************************************/
     document.addEventListener("showRegistrationPanel", function(evt) {
         onShowRegistrationPanel();
