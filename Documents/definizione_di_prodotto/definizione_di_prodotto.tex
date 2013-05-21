@@ -3244,7 +3244,211 @@ La sintassi utilizzata all'interno del presente documento, in ogni caso, rimane 
 	\end{itemize}
 \end{description}
 
-\subsection{Package org.softwaresynthesis.mytalk.clientpresenter.guicontrol}\label{sec:guicontrol}
+\subsection{Package \texttt{org.softwaresynthesis.mytalk.clientpresenter.guicontrol}}\label{sec:guicontrol}
+
+\classsection{LoginPanelPresenter}
+
+\subsubsection*{Funzione}
+\inglese{Presenter} incaricato di gestire il pannello di \textit{login}, ha il compito di recuperare i dati inseriti dall'utente (username e password) dall'interfaccia grafica, controllare se assumono dei valori legali e in seguito passarli al server per eseguire l'autenticazione.
+
+Il \inglese{presenter} si occupa inoltre di gestire il caso in cui l'autenticazione non può essere portata a termine per errori nei dati di input e fornisce infine le funzionalità per il recupero della password.
+
+\subsubsection*{Relazioni d'uso}
+
+Nessuna relazione evidenziata.
+
+\subsubsection*{Classi estese ed interfacce implementate}
+
+Nessuna relazione evidenziata.
+
+\subsubsection*{Attributi}
+\begin{description}
+
+\item{\memberdata{-- thisPanel: HTMLElement}}\\
+Attributo che definisce il contenuto del nodo DOM inerente alla schermata di \inglese{login}, nello specifico tale nodo corrisponde ad un \verb+<div>+ il cui valore identificativo è uguale a \texttt{LoginPanel}.
+
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+
+\item{\method{-- testCredentials(data: String): void}}\\
+Il metodo prende come parametro una stringa JSON ricevuta dal server che, in caso di dati di autenticazione andata a buon fine, corrisponde a una forma serializzata dell'oggetto che rappresenta l'utente autenticato ed è invece uguale alla stringa \verb+null+ in caso contrario.
+
+Il metodo ha il compito di deserializzare i dati dell'utente tramite la funzione di libreria \verb+JSON.parse(data)+ e, nel caso in cui questa sia valutata positivamente -- vale a dire non è né \verb+null+ né \verb+undefined+ -- sollevare un evento avente come nome la stringa \verb+onlogin+ e come proprietà \verb+user+ un riferimento al nuovo utente creato.
+
+In caso di autenticazione non andata a buon fine, invece, dovrà essere aggiornata in modo opportuno la vista per segnalare la condizione di errore.
+
+\item{\method{+ getSecretQuestion(username: String): String}}\\
+Il metodo a il compito di richiedere al server tramite una chiamata AJAX sincrona la domanda segreta associata all'utente che ha come nome identificativo la stringa passata come parametro, e restituirla al chiamante.
+
+Al suo interno dovrà essere creata pertanto una nuova istanza di \verb+XMLHTTPRequest+ destinata all'indirizzo del \inglese{front controller} presente sul server, e dovrà essere inviata  passando al metodo \verb+send+ la stringa:
+\begin{verbatim}
+  "operation=question&username=" + encodeURIComponent(username)
+\end{verbatim}
+
+Dal momento che il testo della risposta ricevuta dal server contiene la domanda segreta, sarà infine sufficiente restituire il valore ottenuto con \verb+request.responseText+.
+	
+\item{\method{-- hasAnsweredCorrectly(username: String, answer: String): void}}\\
+Il metodo ha il compito di inviare la risposta ottenuta tramite l'interfaccia grafica al server per verificare se corrisponde al valore memorizzato nel database del sistema in fase di registrazione iniziale. In particolare, il metodo ha il compito di inviare una richiesta AJAX sincrona all'indirizzo del \inglese{front controller} la cui intestazione è la stringa
+\begin{verbatim}
+  "operation=answer&username=" + encodeURIComponent(username) +
+                     "&answer=" + encodeURIComponent(answer))
+\end{verbatim}
+
+Una volta ricevuta la risposta, poiché questa già corrisponde alla stringa \verb+true+ o \verb+false+ che rappresentano le costanti booleane in formato JSON, sarà sufficiente restituirne la valutazione ottenuta con la consueta funzione \verb+parse+.
+
+\item{\method{+ getUsername(): String}}\\
+Metodo che ha il compito di recuperare tramite l'interfaccia della vista il nome utente inserito dall'utente, quindi effettuare un controllo preliminare per assicurare che il valore rientri all'interno del dominio dei valori legali.
+
+Il controllo dovrà essere effettuato mediante un'opportuna espressione regolare del tipo
+\begin{verbatim}
+    ^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$
+\end{verbatim}
+e, nel caso in cui il valore non corrispondesse, il metodo dovrà sollevare un'eccezione contenente il testo ``indirizzo email non valido''. Dal momento che il metodo restituisce una stringa, in caso di valore accettabile quest'ultimo dovrà essere restituito al chiamante.
+
+\item{\method{+ getPassword(): String}}\\
+Metodo che ha il compito di recuperare tramite l'interfaccia della vista la password inserita dall'utente. Prima di restituire il valore ottenuto al chiamante, il metodo ha il compito di verificare che il valore sia valido e che, in particolare, non sia \verb+undefined+ oppure uguale alla stringa vuota. In simili circostanze, il metodo solleva un'eccezione contenente esattamente il testo ``password non specificata''.
+
+\item{\method{+ login(data: Object): String}}\\
+Il metodo prende come parametro un oggetto dotato delle due proprietà \verb+usename+ e \verb+password+ sulla base delle quali avrà il compito di costruire la \inglese{query string} da inviare al server per la verifica delle credenziali.
+
+Il metodo dovrà pertanto costruire una \verb+XMLHTTPRequest+ da inviare all'indirizzo del \inglese{front controller} presente sul server con la stringa
+\begin{verbatim}
+    operation=login&username=" + encodeURIComponent(data.username) +
+                  "&password=" + encodeURIComponent(data.password)
+\end{verbatim}
+quindi invocare il già visto metodo \verb+testCredentials+ con il testo della risposta. Il valore da restituire al chiamante è proprio la stringa di \inglese{query} che è stata trasmessa al server.
+
+\item{\method{+ onShowLoginPanel(): void}}\\
+Questo gestore di evento\ldots{}
+
+\item{\method{+ onRemoveLoginPanel() : void}}\\
+Questo gestore di evento ha il compito di provocare la distruzione del pannello di autenticazione, richiamando il metodo opportuno della vista corrispondente, vale a dire \verb+destroy()+.
+
+\item{\method{+ onLogin(user: Object): void}}\\
+Questo gestore di evento incapsula il comportamento del \inglese{presenter} nel momento in cui è sollevato un evento avente come identificativo la stringa \verb'onLogin'.
+
+Il metodo ha il compito di memorizzare all'interno del client i dati di autenticazione (in particolare, il valore numerico ID necessario all'identificazione del client da parte del server e degli altri client), avviare la connessione al server e provocare la visualizzazione della \inglese{home screen} dell'applicativo.
+
+% FIXME questa è roba obsoleta e/o trasferita alla vista
+%
+% 	\item{\method{+ correctAnswer(): void}}\\
+% 	Metodo usato per modificare il nodo DOM salvato in \memberdata{element} per comunicare all'utente che la risposta da lui inserita (per il recupero password) è corretta. 
+% Il metodo deve rimuovere il figlio \textit{passwordretrieval} da \memberdata{element} quindi salva in una variabile avente nome \textit{message} il contenuto di una chiamata \verb|document.createElement("p")|. 
+% Successivamente procede caricando su \textit{message} (usando il metodo \texttt{appendChild(var\_figlio)}) il messaggio da visualizzare per notificare all'utente il successo dell'operazione. Il messaggio visualizzato sarà: \\
+	
+% 	\verb|Recupero password avvenuto correttamente.|\\
+% 	\verb|Ti è stata inviata un'email contenente i dati richiesti.|\\
+	
+% il messaggio sopracitato è temporaneo e dovrà essere rimosso allo scadere di un \inglese{timeout} di durata 2000 millisecondi (usare la funzione \texttt{window.setTimeout(nome\_funzione))}.
+	
+% 	\item{\method{+ incorrectAnswer(): void}}\\
+% 	Metodo che In caso di inserimento della risposta non corretta alla domanda segreta visualizza un messaggio di avvertimento all'utente per 2 secondi quindi lascia il controllo al \inglese{form} di inserimento della risposta alla domanda segreta.
+	
+% 	Il metodo deve cercare un elemento (\texttt{document.createElement("p")}) per la visualizzazione del messaggio:\\
+	
+% 	\verb|Dati non corretti. Inserire nuovamente la risposta.|\\
+	
+% 	Quindi si visualizza il messaggio con una procedura identica a quella usata in \method{correctAnswer()}.
+
+% 	\item{\method{+ buildRetrievePasswordForm(): nodo\_DOM}}\\
+% 	Metodo usato per costruire la \inglese{form} per il recupero della password utente, inizia costruendo la citata \inglese{form} con il valore ottenuto mediante una chiamata \verb|document.createElement("fieldset")|, quindi a partire dalla variabile in cui ha memorizzato il dato ritornato con il metodo precedente, imposta l'attributo \textit{id} con \textit{passwordretrieval}. Definisce quindi una \inglese{label} con la domanda (utilizzare \verb|document.createElement("label")| e imposta l'attributo \texttt{for} con \textit{inputanswer}). Il metodo procede impostando il campo d'immissione della domanda e successivamente si impostano i seguenti attributi:
+% 	\begin{itemize}
+% 		\item attributo id con ``inputanswer'';
+% 		\item attributo name con ``inputanswer'';
+% 		\item attributo placeholder con ``risposta'';
+% 		\item attributo required con ``required'';
+% 	\end{itemize}
+	
+% 	Successivamente si crea il bottone di \texttt{submit} impostando gli attributi:
+% 	\begin{itemize}
+% 		\item attributo type con ``submit'';
+% 		\item attributo value con ``OK'';
+% 	\end{itemize}
+	
+% 	Associare all'evento \texttt{click} del bottone una funzione che richiami \method{sendAnswer()} passando come attributi \memberdata{username} e il valore contenuto nell'elemento \texttt{inputAnswer}.
+	
+% 	In ultima si usa \texttt{appendChild} per agganciare al nodo DOM la \inglese{label} e \texttt{inputAnswer}. Il metodo termina ritornando il nodo DOM.
+	
+% 	\item{\method{+ getUsername(): String}}\\
+% 	Metodo  per il recupero dello \inglese{username} dall'interfaccia grafica. Per tale operazione il metodo deve usare l'istruzione:\\
+	
+% 	\verb|var username = document.getElementById("username").value;|
+% 	\\
+	
+% 	quindi verifica se il contenuto di \inglese{username} è vuoto o no: nel caso lo sia, termina, altrimenti procede nel verificare se l'email inserita rispetta l'espressione regolare:\\
+	
+% 	\verb|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$|
+% 	\\
+	
+% 	il metodo termina ritornando \inglese{username}.	
+	
+% 	\item{\method{+ getPassword(data: array()): String}}\\
+% 	Metodo che esegue il \inglese{login} inviando al server i dati di autenticazione, esso riceve come parametro d'ingresso un \textit{array} associativo contenente \textit{username} e \textit{password}.
+	
+% 	Il flusso principale inizia verificando il che il contenuto di \texttt{data.username} e di \texttt{data.password} non sia vuoto, quindi invia una richiesta \textit{AJAX} al \textit{server} (come sempre in questo caso è d'obbligo usare \verb|var request = new XMLHttpRequest();|).
+% 	Il programmatore dovrà associare all'evento \texttt{onreadystatechange} una funzione che si occupa di richiamare il metodo \method{testCredentials()}. Il passo successivo consiste ``nell'aprire'' la richiesta \textit{request} con un istruzione \texttt{open()} che riceve come parametro l'url della \inglese{servlet} associata (valore presente in \memberdata{servletURL}), successivamente viene usata un istruzione \texttt{setRequestHeader()} passando i seguenti parametri:
+% 	\begin{itemize}
+% 		\item[•] ``content-type'';
+% 		\item[•] ``application/x-www-form-urlencoded'';
+% 	\end{itemize}
+% 	infine va creata la \textit{querystring} da inviare (tramite istruzione request.send()), deve essere obbligatoriamente impostata a:\\
+	
+% 	\verb|"username=" + encodeURIComponent(data.username) +|\\ \verb|"&password=" + encodeURIComponent(data.password) + "&operation=1"|\\
+	
+% 	Il metodo termina ritornando la \textit{querystring}.
+
+% 	\item{\method{+ hide(): void}}\\
+% 	Metodo usato per nascondere il \inglese{form} di autenticazione, per lasciare spazio nella finestra ad altri elementi grafici come la schermata principale o il pannello di registrazione.
+	
+% 	\item{\method{+ initialize(): void}}\\
+% 	Metodo usato per inizializzazione del pannello di login con la creazione di tutti i \inglese{widget} grafici che sono contenuti al suo interno. Nello specifico il metodo esegue la creazione (nell'ordine proposto) dei seguenti elementi:
+% 	\begin{itemize}
+% 		\item form, con attributi:
+% 		\begin{itemize}
+% 			\item ``name'' impostato a ``login'';
+% 			\item ``action'' impostato a ``'';
+% 			\item ``method'' impostato a ``'';
+% 			\item ``accept-charset'' impostato a ``utf-8'';				
+% 		\end{itemize}
+% 		\item ul contennete il form;
+% 		\item li che conterrà lo username, con attributi;
+% 		\item label che riporterà la frase ``Nome utente: ''. Label con attributi:
+% 		\begin{itemize}
+% 			\item ``for'' impostato a ``username'';		
+% 		\end{itemize}
+% 		\item input per l'inserimento della e-mail, con attributi:
+% 		\begin{itemize}
+% 			\item ``type'' impostato a ``email'';
+% 			\item ``id'' impostato a ``username'';
+% 			\item ``name'' impostato a ``username'';
+% 			\item ``placeholder'' impostato a ``yourname@email.com'';				\item ``required'' impostato a ``required'';
+% 		\end{itemize}		
+% 		\item input per l'inserimento della password, con attributi:
+% 		\begin{itemize}
+% 			\item ``type'' impostato a ``password'';
+% 			\item ``id'' impostato a ``password'';
+% 			\item ``name'' impostato a ``password'';
+% 			\item ``placeholder'' impostato a ``password'';				\item ``required'' impostato a ``required'';
+% 		\end{itemize}		
+% 		\item input submit pulsante di login, con attributi:
+% 		\begin{itemize}
+% 			\item ``type'' impostato a ``submit'';
+% 			\item ``value'' impostato a ``Login'';
+% 		\end{itemize}
+% 		\item input submit pulsante di registrazione, con attributi:
+% 		\begin{itemize}
+% 			\item ``type'' impostato a ``submit'';
+% 			\item ``value'' impostato a ``Registrazione'';
+% 		\end{itemize}
+% 		\item input submit pulsante di recupero password, con attributi:
+% 		\begin{itemize}
+% 			\item ``type'' impostato a ``submit'';
+% 			\item ``value'' impostato a ``Recupera password'';
+% 		\end{itemize}
+% 	\end{itemize}
+\end{description}
 
 \classsection{AddressBookPanelPresenter}
 
@@ -3396,166 +3600,6 @@ Tale server ha il compito di sbloccare il contatto \textit{contact}. Quindi il m
 
 \item{\method{+ getGroupsWhereContactsIs(contact: Object(contact)): Object(group)}}\\
 Tale metodo ha il compito, dato un utente, di ritornare una lista di gruppi in cui esso è presente. Riceve come unico parametro il contatto da ricercare e successivamente vengono ciclati tutti i gruppi e per ogni gruppo si controlla se è inserito il contatto, in caso di match viene aggiunto il gruppo alla lista di gruppi da ritornare.
-
-
-\end{description}
-
-\classsection{LoginPanelPresenter}
-
-\subsubsection*{Funzione}
-Presenter incaricato di gestire il pannello di \textit{login}, prende in carica i dati inseriti dall'utente (username e password) passandoli al server per eseguire l'autenticazione. La \inglese{servlet} usata a tale scopo è \texttt{LoginManager}.
-
-Il presenter si occupa anche di fornire delle funzionalità per il recupero della password.
-
-\subsubsection*{Relazioni d'uso}
-
-Nessuna relazione evidenziata.
-
-\subsubsection*{Classi estese ed interfacce implementate}
-
-Nessuna relazione evidenziata.
-
-\subsubsection*{Attributi}
-\begin{description}
-
-  \item{\memberdata{-- element: DOM\_node}}\\
-  Attributo che definisce il contenuto del nodo DOM inerente alla schermata di \inglese{login}, nello specifico tale nodo corrisponde ad un \texttt{<div>} con id \texttt{LoginPanel}.
-  \item{\memberdata{-- urServlet: String}}\\
-  Attributo contenente l'url della \inglese{servlet} incaricata di gestire il \inglese{login}.
-
-\end{description}
-
-\subsubsection*{Metodi}
-\begin{description}
-
-	\item{\method{-- testCredentials(data: String): void}}\\
-Metodo che testa quanto ricevuto dal server e, in caso di login avvenuto correttamente, reindirizza il browser nel presenter finale dopo aver salvato i dati dell'utente. Il metodo inizia salvando in una variabile avente nome \inglese{user} il contenuto di data trattato attraverso una chiamata \texttt{JSON.parse(data)}, quindi se il contenuto di user non è nullo si procede richiamando il \texttt{communicationcenter} e impostando il valore di \texttt{communicationcenter.my} a \inglese{user}. Il metodo termina richiamando il metodo \method{hide()} e avviando la costruzione della UI mediante una chiamata \method{medietor.buildUI()}.
-	
-	\item{\method{+ sendAnswer(username: String, answer: String): void}}\\
-	Metodo per inviare la risposta alla domanda segreta al server, riceve due parametri d'ingresso: lo \inglese{username} dell'utente e la risposta (\inglese{answer}) da inviare al \inglese{server}. Come primo passo viene creata un istanza di \texttt{XMLHttpRequest} salvata in una variabile avente nome \textit{request}, successivamente si associa all'evento \texttt{onclick} di \textit{request} una funzione avente il compito di inviare la richiesta \textit{AJAX} al server, e di richiamare in risposta uno dei seguenti metodi:
-	\begin{itemize}
-		\item \method{correctAnswer()} nel caso la risposta inviata sia corretta;
-		\item \method{incorrectAnswer()} se invece la risposta inviata dall'utente è errata.
-	\end{itemize}
-	
-	\item{\method{+ correctAnswer(): void}}\\
-	Metodo usato per modificare il nodo DOM salvato in \memberdata{element} per comunicare all'utente che la risposta da lui inserita (per il recupero password) è corretta. 
-Il metodo deve rimuovere il figlio \textit{passwordretrieval} da \memberdata{element} quindi salva in una variabile avente nome \textit{message} il contenuto di una chiamata \verb|document.createElement("p")|. 
-Successivamente procede caricando su \textit{message} (usando il metodo \texttt{appendChild(var\_figlio)}) il messaggio da visualizzare per notificare all'utente il successo dell'operazione. Il messaggio visualizzato sarà: \\
-	
-	\verb|Recupero password avvenuto correttamente.|\\
-	\verb|Ti è stata inviata un'email contenente i dati richiesti.|\\
-	
-il messaggio sopracitato è temporaneo e dovrà essere rimosso allo scadere di un \inglese{timeout} di durata 2000 millisecondi (usare la funzione \texttt{window.setTimeout(nome\_funzione))}.
-	
-	\item{\method{+ incorrectAnswer(): void}}\\
-	Metodo che In caso di inserimento della risposta non corretta alla domanda segreta visualizza un messaggio di avvertimento all'utente per 2 secondi quindi lascia il controllo al \inglese{form} di inserimento della risposta alla domanda segreta.
-	
-	Il metodo deve cercare un elemento (\texttt{document.createElement("p")}) per la visualizzazione del messaggio:\\
-	
-	\verb|Dati non corretti. Inserire nuovamente la risposta.|\\
-	
-	Quindi si visualizza il messaggio con una procedura identica a quella usata in \method{correctAnswer()}.
-		
-	\item{\method{+ getSecretQuestion(): void}}\\
-	Metodo che recupera la domanda segreta con una richiesta asincrona al server, esso imposta una variabile \texttt{userID} con il valore ritornato da una chiamata \method{getUsername()}, quindi avvia una richiesta \textit{AJAX} inizializzando un oggetto \texttt{XMLHttpRequest}. La variabile \texttt{request} contenente tale istanza dovrà associare all'evento \texttt{onreadystatechange} una funzione che si occupa di catturare la stringa ritornata dal server (uso obbligatorio di \texttt{question = this.responseText}). Il metodo termina infine restituendo il valore contenuto in question.
-	
-	\item{\method{+ buildRetrievePasswordForm(): nodo\_DOM}}\\
-	Metodo usato per costruire la \inglese{form} per il recupero della password utente, inizia costruendo la citata \inglese{form} con il valore ottenuto mediante una chiamata \verb|document.createElement("fieldset")|, quindi a partire dalla variabile in cui ha memorizzato il dato ritornato con il metodo precedente, imposta l'attributo \textit{id} con \textit{passwordretrieval}. Definisce quindi una \inglese{label} con la domanda (utilizzare \verb|document.createElement("label")| e imposta l'attributo \texttt{for} con \textit{inputanswer}). Il metodo procede impostando il campo d'immissione della domanda e successivamente si impostano i seguenti attributi:
-	\begin{itemize}
-		\item attributo id con ``inputanswer'';
-		\item attributo name con ``inputanswer'';
-		\item attributo placeholder con ``risposta'';
-		\item attributo required con ``required'';
-	\end{itemize}
-	
-	Successivamente si crea il bottone di \texttt{submit} impostando gli attributi:
-	\begin{itemize}
-		\item attributo type con ``submit'';
-		\item attributo value con ``OK'';
-	\end{itemize}
-	
-	Associare all'evento \texttt{click} del bottone una funzione che richiami \method{sendAnswer()} passando come attributi \memberdata{username} e il valore contenuto nell'elemento \texttt{inputAnswer}.
-	
-	In ultima si usa \texttt{appendChild} per agganciare al nodo DOM la \inglese{label} e \texttt{inputAnswer}. Il metodo termina ritornando il nodo DOM.
-	
-	\item{\method{+ getUsername(): String}}\\
-	Metodo  per il recupero dello \inglese{username} dall'interfaccia grafica. Per tale operazione il metodo deve usare l'istruzione:\\
-	
-	\verb|var username = document.getElementById("username").value;|
-	\\
-	
-	quindi verifica se il contenuto di \inglese{username} è vuoto o no: nel caso lo sia, termina, altrimenti procede nel verificare se l'email inserita rispetta l'espressione regolare:\\
-	
-	\verb|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$|
-	\\
-	
-	il metodo termina ritornando \inglese{username}.	
-	
-	\item{\method{+ getPassword(data: array()): String}}\\
-	Metodo che esegue il \inglese{login} inviando al server i dati di autenticazione, esso riceve come parametro d'ingresso un \textit{array} associativo contenente \textit{username} e \textit{password}.
-	
-	Il flusso principale inizia verificando il che il contenuto di \texttt{data.username} e di \texttt{data.password} non sia vuoto, quindi invia una richiesta \textit{AJAX} al \textit{server} (come sempre in questo caso è d'obbligo usare \verb|var request = new XMLHttpRequest();|).
-	Il programmatore dovrà associare all'evento \texttt{onreadystatechange} una funzione che si occupa di richiamare il metodo \method{testCredentials()}. Il passo successivo consiste ``nell'aprire'' la richiesta \textit{request} con un istruzione \texttt{open()} che riceve come parametro l'url della \inglese{servlet} associata (valore presente in \memberdata{servletURL}), successivamente viene usata un istruzione \texttt{setRequestHeader()} passando i seguenti parametri:
-	\begin{itemize}
-		\item[•] ``content-type'';
-		\item[•] ``application/x-www-form-urlencoded'';
-	\end{itemize}
-	infine va creata la \textit{querystring} da inviare (tramite istruzione request.send()), deve essere obbligatoriamente impostata a:\\
-	
-	\verb|"username=" + encodeURIComponent(data.username) +|\\ \verb|"&password=" + encodeURIComponent(data.password) + "&operation=1"|\\
-	
-	Il metodo termina ritornando la \textit{querystring}.
-
-	\item{\method{+ hide(): void}}\\
-	Metodo usato per nascondere il \inglese{form} di autenticazione, per lasciare spazio nella finestra ad altri elementi grafici come la schermata principale o il pannello di registrazione.
-	
-	\item{\method{+ initialize(): void}}\\
-	Metodo usato per inizializzazione del pannello di login con la creazione di tutti i \inglese{widget} grafici che sono contenuti al suo interno. Nello specifico il metodo esegue la creazione (nell'ordine proposto) dei seguenti elementi:
-	\begin{itemize}
-		\item form, con attributi:
-		\begin{itemize}
-			\item ``name'' impostato a ``login'';
-			\item ``action'' impostato a ``'';
-			\item ``method'' impostato a ``'';
-			\item ``accept-charset'' impostato a ``utf-8'';				
-		\end{itemize}
-		\item ul contennete il form;
-		\item li che conterrà lo username, con attributi;
-		\item label che riporterà la frase ``Nome utente: ''. Label con attributi:
-		\begin{itemize}
-			\item ``for'' impostato a ``username'';		
-		\end{itemize}
-		\item input per l'inserimento della e-mail, con attributi:
-		\begin{itemize}
-			\item ``type'' impostato a ``email'';
-			\item ``id'' impostato a ``username'';
-			\item ``name'' impostato a ``username'';
-			\item ``placeholder'' impostato a ``yourname@email.com'';				\item ``required'' impostato a ``required'';
-		\end{itemize}		
-		\item input per l'inserimento della password, con attributi:
-		\begin{itemize}
-			\item ``type'' impostato a ``password'';
-			\item ``id'' impostato a ``password'';
-			\item ``name'' impostato a ``password'';
-			\item ``placeholder'' impostato a ``password'';				\item ``required'' impostato a ``required'';
-		\end{itemize}		
-		\item input submit pulsante di login, con attributi:
-		\begin{itemize}
-			\item ``type'' impostato a ``submit'';
-			\item ``value'' impostato a ``Login'';
-		\end{itemize}
-		\item input submit pulsante di registrazione, con attributi:
-		\begin{itemize}
-			\item ``type'' impostato a ``submit'';
-			\item ``value'' impostato a ``Registrazione'';
-		\end{itemize}
-		\item input submit pulsante di recupero password, con attributi:
-		\begin{itemize}
-			\item ``type'' impostato a ``submit'';
-			\item ``value'' impostato a ``Recupera password'';
-		\end{itemize}
-	\end{itemize}
 
 \end{description}
 
