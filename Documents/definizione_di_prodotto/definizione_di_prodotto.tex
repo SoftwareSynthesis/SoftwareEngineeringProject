@@ -2860,6 +2860,113 @@ Permette di caricare le credenziali di autenticazione, fornite dall'utente, per 
 
 \end{description}
 
+\classsection{Loader}
+
+\subsubsection*{Funzione}
+Oggetto usato per il caricamento delle credenziali di autenticazione.
+
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+	\item \texttt{java.io.IOException};
+	\item \texttt{javax.servlet.http.HttpServletRequest};
+	\item \texttt{org.softwaresynthesis.mytalk.server.authentication.security.ISecurityStrategy}: usata per definire l'algoritmo di criptazione.
+\end{itemize}
+
+\subsubsection*{Classi estese ed interfacce implementate}
+
+\begin{itemize}
+	\item \texttt{javax.security.auth.callback.Callback}: interfaccia d'implementazione.
+\end{itemize}
+
+\subsubsection*{Attributi}
+\begin{description}
+  \item{\memberdata{-- callback: Callback}}\\
+  \item{\memberdata{-- strategy: ISecurityStrategy}}\\
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+	\item{\method{+ Loader(callback: Callback)}}\\
+	Costruttore pubblico. Crea il ''caricatore'' con la giusta istanza di callback.
+	
+	\item{\method{\# getCallback(): callback}}\\
+	Metodo usato per ritornare l'attributo \memberdata{callback}.
+	
+	\item{\method{\# getISecurityStrategy(): ISecurityStrategy}}\\
+	Metodo usato per ritornare l'attributo \memberdata{strategy}.
+	
+\end{description}
+
+\classsection{NameLoader}
+
+\subsubsection*{Funzione}
+Caricatore per lo username. Ha il compito di caricare e preparare lo username fornito dall'utente per la successiva fase di autenticazione.
+
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+	\item \texttt{java.io.IOException};
+	\item \texttt{javax.servlet.http.HttpServletRequest};
+	\item \texttt{javax.security.auth.callback.NameCallback)};
+\end{itemize}
+
+\subsubsection*{Classi estese ed interfacce implementate}
+
+\begin{itemize}
+	\item \texttt{Loader}: classe estesa.
+\end{itemize}
+
+\subsubsection*{Attributi}
+
+Nessun attributo evidenziato.
+
+\subsubsection*{Metodi}
+\begin{description}
+	\item{\method{+ NameLoader()}}\\
+	Costruttore pubblico che richiama il costruttore della super classe passando come parametro: \verb|new NameCallback("username")|.
+	
+	\item{\method{+ load(request: HttpServletRequest): void}}\\
+	Il metodo crea un istanza di \texttt{NameCallback} a partire dalla callback ottenuta dalla chiamata \verb|super.getCallback()|. Quindi carica in una variabile locale di tipo String il nome dell'utente. Tale parametro si ottiene mediante una chiamata a metodo getParameter(''username'') invocata dall'istanza request. Quindi si imposta tale nome sull'istanza callback (usare \verb|callback.setName(username)|).
+	
+	\item{\method{+ getData(): String}}\\
+	Metodo usato per ottenere il nome dell'utente. Il metodo ritorna il contenuto di una chiamata \verb|super.getCallback().getName()|.
+	
+\end{description}
+
+\classsection{PasswordLoader}
+
+\subsubsection*{Funzione}
+Caricatore per la password. Ha il compito di caricare e preparare la password fornita dall'utente per la successiva fase di autenticazione.
+
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+	\item \texttt{java.io.IOException};
+	\item \texttt{javax.servlet.http.HttpServletRequest};
+	\item \texttt{javax.security.auth.callback.PasswordCallback)};
+\end{itemize}
+
+\subsubsection*{Classi estese ed interfacce implementate}
+
+\begin{itemize}
+	\item \texttt{Loader}: classe estesa.
+\end{itemize}
+
+\subsubsection*{Attributi}
+
+Nessun attributo evidenziato.
+
+\subsubsection*{Metodi}
+\begin{description}
+	\item{\method{+ PasswordLoader()}}\\
+	Costruttore pubblico che richiama il costruttore della super classe passando come parametro: \verb|new PasswordCallback("password")|.
+	
+	\item{\method{+ load(request: HttpServletRequest): void}}\\
+	Il metodo crea un istanza di \texttt{PasswordCallback} a partire dalla callback ottenuta dalla chiamata \verb|super.getCallback()|. Quindi carica in una variabile locale di tipo String la password dell'utente, ed usando l'algoritmo di sicurezza definito dall'istanza di tipo ISecurityStrategy, cripta la password. Tale parametro si ottiene mediante una chiamata a metodo getParameter(''password'') invocata dall'istanza request. Quindi si imposta tale nome sull'istanza callback (usare \verb|callback.setName(PASSWORD_CRIPTATA)|).
+	
+	\item{\method{+ getData(): String}}\\
+	Metodo usato per ottenere la password dell'utente. Il metodo salva il contenuto di una chiamata \verb|super.getCallback().getPassword()|. Poi, prima di ritornare il valore, esegue la decriptazione mediante l'algoritmo ISecurityStrategy utilizzato.
+	
+\end{description}
+
 \subsection{Package org.softwaresynthesis.mytalk.server.authentication.controller}\label{sec:autservlet}
 
 %TODO da rivedere nella definizione dei metodi! 
