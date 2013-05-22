@@ -70,12 +70,25 @@ function CallHistoryPanelPresenter() {
 	 * 
 	 * @author Diego Beraldin
 	 */
-	this.display = function() {
-		calls = getCalls();
-		for (var call in calls) {
-			addListItem(calls[call]);
+	this.displayList = function() {
+		if (thisPanel) {
+			calls = getCalls();
+			for (var call in calls) {
+				addListItem(calls[call]);
+			}
 		}
 	};
+	
+	/** VIEW
+	 * Richiama il metodo che costruisce il pannello
+	 * 
+	 * @author Diego Beraldin
+	 */
+	this.display = function() {
+		thisPanel = document.getElementById("CallHistoryPanel");
+		thisPresenter.displayList();
+	};
+	
 	/***************************************************************************
      * HANDLER DEGLI EVENTI
      **************************************************************************/

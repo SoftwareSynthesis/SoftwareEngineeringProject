@@ -3504,10 +3504,12 @@ Se la mail è valida il metodo termina ritornandone il valore, mentre nel caso i
 	Dopo averle opportunamente codificate per per la trasmissione con la funzione di libreria \verb'encodeURIComponent' queste ultime dovranno essere inserite in un oggetto \verb'FormData' da utilizzare per inviare la richiesta al server. Una volta ricevuta la riposta dal server, il metodo dovrà effettuare la deserializzazione del testo ad essa associato e, se questo contiene un oggetto utente legale, sollevare un evento con nome identificativo \verb'onLogin'.
 	
 	\item{\method{+ onShowRegistrationPanel(): void}}\\
-	Questo gestore di evento ha il compito di provocare la visualizzazione del pannello di registrazione. Ciò dovrà essere ottenuto sollevando un nuovo evento tramite il quale tutti i pannelli presenti sono rimossi (\verb'onRemoveAllPanel') quindi demandando alla vita il compito di costruirsi e caricare il relativo \inglese{template}.
+	Questo gestore di evento ha il compito di provocare la visualizzazione del pannello di registrazione. Ciò dovrà essere ottenuto sollevando un nuovo evento tramite il quale tutti i pannelli presenti sono rimossi (\verb'onRemoveAllPanel') quindi demandando alla vista il compito di costruirsi e caricare il relativo \inglese{template}.
 	
 	\item{\method{+ onRemoveRegistrationPanel(): void}}\\
 	Questo gestore di evento ha il compito di provocare la distruzione del pannello di registrazione, richiamando il metodo opportuno della vista corrispondente, vale a dire \verb+destroy()+.
+
+\end{description}
 
 % Tutto questo è stato trasferito alla vita o è diventato obsoleto
 % 
@@ -3537,7 +3539,51 @@ Se la mail è valida il metodo termina ritornandone il valore, mentre nel caso i
 % 	\item{\method{+ hide(): void}}\\
 % 	Nasconde il \inglese{form} di registrazione per lasciare spazio alla schermata principale dell'applicativo (che deve essere costruita dal PresenterMediator).
 
+\classsection{CallHistoryPanelPresenter}
+
+\subsubsection*{Funzione}
+\inglese{Presenter} incaricato alla visualizzazione e alla gestione dello storico chiamate dell'utente.
+
+\subsubsection*{Relazioni d'uso}
+Nessuna relazione d'uso evidenziata.
+
+\subsubsection*{Classi estese ed interfacce implementate}
+Nessuna relazione evidenziata.
+
+\subsubsection*{Attributi}
+\begin{description}
+  \item{\memberdata{-- calls: Array}}\\
+  Array enumerativo che conterrà tutte le chiamate effettuate dall'utente recuperate dal server.
+  \item{\memberdata{-- thisPanel: HTMLElement}}\\
+  Elemento HTML, da intendersi come nodo DOM, che rappresenta la vista controllata da questo \inglese{presenter} e che corrisponde a un elemento \verb'<div>' avente come nome identificativo la stringa \verb'CallHistroryPanel'.
 \end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+
+  \item{\method{-- getCalls(): Array}}\\
+  Metodo che ha il compito di recuperare tutta la lista delle chiamate effettuate e tracciate nel server, inviando una richiesta AJAX sincrona al \inglese{front controller} che nell'intestazione contiene il parametro \verb'operation' impostato a \verb'getCalls'.
+  
+  In particolare, il metodo ha il compito di creare una nuova istanza di \verb'XMLHttpRequest' con la \inglese{query string} specificata in precedenza e di inviarla al server quindi ritornare il testo della risposta ottenuta dopo averlo deserializzato e costruito l'array di chiamate corrispondente.
+  
+  \item{\method{+ displayList(): void}}
+  Metodo che ha il compito di popolare la lista delle chiamate in cui è coinvolto un determinato utente. Il metodo ha il compito di procurarsi la lista delle chiamate attraverso il server al fine di inizializzare il campo dati privato \verb'calls'.
+  
+  Quindi, per ognuna delle chiamate che sono state scaricate, ha il compito di aggiornare la vista corrispondente provocando la visualizzazione dei dati della chiamata.
+  
+  \item{\method{+ onShowCallHistoryPanel(): void}}\\
+  Questo gestore di eventi ha il compito di provocare la visualizzazione del pannello contenente lo storico delle chiamate demandando alla vista il compito di costruirsi e caricare il relativo \inglese{template}.
+  
+% TODO quanto segue è obsoleto e/o è stato trasferito alla vista
+%
+% \item{\method{- addListItem(call: String): void}}\\
+% Aggiunge alla lista delle chiamate visualizzata nel CallHistoryPanel una nuova voce che corrisponde alla chiamata ricevuta da parametro. Ogni voce della lista contiene i dati relativi alla chiamata e non consente di effettuare alcuna azione su di essa.
+
+\end{description}
+
+%********************************************************************
+%               QUESTO È IL CONFINE FRA BENE E MALE
+%********************************************************************
 
 \classsection{AddressBookPanelPresenter}
 
@@ -4056,47 +4102,6 @@ Costruisce il pannello della segreteria telefonica, che deve essere visualizzato
 
 \item{\method{+ setup(): void}}\\
 Metodo che ogni sua invocazione provoca il recupero dei messaggi in segreteria. Al suo interno sarà presente la chiamata al metodo \method{getMessages()}.
-
-\end{description}
-
-
-%TODO da verificare
-\classsection{CallHistoryPanelPresenter}
-
-\subsubsection*{Funzione}
-Presenter incaricato alla gestione dello storico chiamate.
-
-\subsubsection*{Relazioni d'uso}
-Nessuna relazione d'uso evidenziata.
-
-\subsubsection*{Classi estese ed interfacce implementate}
-Nessuna relazione evidenziata.
-
-\subsubsection*{Attributi}
-\begin{description}
-\item{\memberdata{-- calls: String[]}}\\
-Array che conterrà tutte le chiamate effettuate
-\item{\memberdata{-- servlets: String[]}}\\
-Array che contiene le tre URL delle \inglese{servlet} da contattare per i messaggi
-\end{description}
-
-\subsubsection*{Metodi}
-\begin{description}
-\item{\method{- getServletURLs(): void}}\\
-Configura gli URL delle \inglese{servlet} da interrogare leggendoli dal file di configurazione in base alle operazioni che questo presenter deve essere in grado di compiere.\\
-Più precisamente, si dovrà creare una ``XMLHttpRequest'' rivolta al file XML di configurazione dove sono riportate tutte le \inglese{servlet}, ricevuta la risposta si popolerà l'\textit{array} dichiarato nella classe (\inglese{servlet}).
-
-\item{\method{- getCalls(): String}}\\
-Ottiene tutta la lista delle chiamate effettuate e tracciate nel \textit{server}, una volta ricevuta risposta con relativi dati associati li utilizza come dati di ritorno. Per contattare la \inglese{servlet}, va usato come in precedenza ``XMLHttpRequest''.
-
-\item{\method{- addListItem(call: String): void}}\\
-Aggiunge alla lista delle chiamate visualizzata nel CallHistoryPanel una nuova voce che corrisponde alla chiamata ricevuta da parametro. Ogni voce della lista contiene i dati relativi alla chiamata e non consente di effettuare alcuna azione su di essa.
-
-\item{\method{+ createPanel(): DOM\_element}}\\
-Costruisce il pannello dello storico delle chiamate, che deve essere visualizzato all'interno del MainPanel dell'applicazione quando è selezionata la funzione corrispondente dal pannello degli strumenti. Il CallHistoryPanel è costituito da una semplice lista con tanti \textit{list Item} quante sono le chiamate tracciate nel server. Tutti questi elementi vanno aggiunti all'elemento \textit{element} ritornato poi dal metodo.
-
-\item{\method{+ setup(): void}}\\
-Metodo che ogni sua invocazione provoca il recupero dello storico chiamate, verrà quindi per prima cosa richiamato il metodo \method{getCalls()} e successivamente una chiamata al metodo \method{addListItem(call)} per ogni chiamata ritornata.
 
 \end{description}
 
