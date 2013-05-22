@@ -4339,6 +4339,29 @@ Il pannello è costituito da n elemento di tipo \verb'<div>' con identificativo 
   \end{itemize}
 \end{itemize}
 
+\subsection{CallHistoryView}
+\subsubsection*{Funzione}
+Vista associata al \inglese{presenter} \classname{CallHistoryPresenter} utilizzata per la visualizzazione dello storico chiamate.
+
+\subsubsection*{Metodi}
+\begin{description}
+  \item{\method{+ display(): void}}\\
+  Tale metodo ha il compito di inizializzare il pannello della vista con i dati corretti popolando la lista delle chiamate in base ai dati ricevuti dal \inglese{presenter}.
+  
+  \item{\method{+ addListItem(call: Object): void}}\\
+  Metodo che aggiunge alla lista delle chiamate visualizzata nel pannello una nuova voce che corrisponde alla chiamata passata come parametro.
+  
+  Ogni voce della lista contiene i dati relativi alla chiamata vale a dire l'altro utente coinvolto e la data della chiamata. Poiché a partire da questo pannello non è possibile effettuare alcuna azione, non è presente alcuna funzione di \inglese{callback} associata alle voci della lista.
+  
+\end{description}
+
+\subsubsection*{Elementi}
+Il pannello è costituito da un elemento \verb'<div>' avente come identificativo il valore \verb'CallHistoryPanel' il quale, a sua volta, contiene:
+\begin{itemize}
+  \item[--] un elemento \verb'<div>' avente attributo \verb'class' uguale al valore \verb'panelHeader' e con all'interno un elemento \verb'<h1>' contenente il titolo \textsc{<<storico chiamate>>};
+  \item[--] un elemento \verb'<ul>' avente come identificativo la stringa \verb'ulHistory'.
+\end{itemize}
+
 %********************************************************************
 %     QUESTO È IL CONFINE FRA BENE E MALE - SIETE AVVERTITI!
 %********************************************************************
@@ -4367,14 +4390,6 @@ Vista associata al presenter \classname{AddressBookPresenter}. Utilizzata per la
 \item \textit{div} contenente un \textit{ul} dove verranno visualizzati tutti i contatti della rubrica;
 \item \textit{div} contenente una \textit{select} utilizzata per ordinare la rubrica in base ai parametri dati;
 \item \textit{div} contenente una \textit{select} dove sono elencati i gruppi della propria rubrica.
-\end{itemize}
-
-\subsection{CallHistoryView}
-\subsubsection*{Funzione}
-Vista associata al presenter \classname{CallHistoryPresenter}. Utilizzata per la visualizzazione dello storico chiamate.
-\subsubsection*{Elementi}
-\begin{itemize}
-\item \textit{div} contenente un \textit{ul} dove verrà visualizzato lo storico chiamate.
 \end{itemize}
 
 \subsection{CommunicationView}
