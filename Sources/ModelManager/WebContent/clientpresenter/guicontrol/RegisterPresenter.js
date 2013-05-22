@@ -39,7 +39,7 @@ function RegisterPanelPresenter() {
         return surname;
     };
 
-    /**
+    /** PRESENTER
      * Estrae dal form il valore del nome del nuovo utente
      *
      * @returns {String} il nome dell'utente
@@ -67,7 +67,7 @@ function RegisterPanelPresenter() {
         return answer;
     };
 
-    /**
+    /** PRESENTER
      * Estrae dal form la domanda segreta associata al nuovo utente
      *
      * @throws {String}
@@ -119,7 +119,7 @@ function RegisterPanelPresenter() {
         return username;
     };
 
-    /**
+    /** PRESENTER
      * Estrae dal form il percorso dell'immagine del nuovo profilo utente
      *
      * @returns {String} il percorso locale del file da caricare
@@ -224,11 +224,13 @@ function RegisterPanelPresenter() {
      *
      * @author Diego Beraldin
      */
+     /*
     this.hide = function() {
         if (thisPanel) {
             thisPanel.style.display = "none";
         }
-    };
+
+    };*/
 
     /***************************************************************************
      * HANDLER DEGLI EVENTI

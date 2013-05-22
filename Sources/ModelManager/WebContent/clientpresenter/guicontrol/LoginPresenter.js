@@ -58,7 +58,9 @@ function LoginPanelPresenter() {
      */
     function correctAnswer() {
         var formRetrievePassword = document.getElementById("passwordretrieval");
-        thisPanel.removeChild(formRetrievePassword);
+        if (formRetrievePassword) {
+	        thisPanel.removeChild(formRetrievePassword);
+		}
         var message = document.createElement("p");
         var text = document.createTextNode("Recupero password avvenuto correttamente." + "Ti è stata inviata un'email contenente i dati richiesti.");
         message.appendChild(text);
@@ -151,7 +153,6 @@ function LoginPanelPresenter() {
         if (oldForm != null) {
             thisPanel.removeChild(oldForm);
         }
-
         // costruisce il form con il valore ottenuto
         var formRetrievePassword = document.createElement("fieldset");
         formRetrievePassword.id = "passwordretrieval";
@@ -249,19 +250,6 @@ function LoginPanelPresenter() {
         request.send(querystring);
         testCredentials(request.responseText);
         return querystring;
-    };
-
-    /** VIEW
-     * Nasconde il form di autenticazione per lasciare spazio nella finestra a
-     * altri elementi grafici come la schermata principale o il pannello di
-     * registrazione
-     *
-     * @author Diego Beraldin
-     */
-    this.hide = function() {
-        if (thisPanel) {
-            thisPanel.style.display = "none";
-        }
     };
 
     /** VIEW
