@@ -66,13 +66,8 @@ window.onload = function() {
         commandURL = "http://" + host + "/webalizer/ModelManager/WebContent/conf/controllerManagerStub.php";
         urlChannelServlet = "ws://" + host + ":8080/MyTalk/CommandManager";
     } else {
-<<<<<<< HEAD
-        commandURL = "http://localhost:8080/MyTalk/CommandManager";
-        urlChannelServlet = "ws://localhost:8080/MyTalk/CommandManager";
-=======
         commandURL = "http://" + host + ":8080/MyTalk/CommandManager";
         urlChannelServlet = "ws://" + host + ":8080/MyTalk/CommandManager";
->>>>>>> origin/clientDeveloping
     }
 
     /******************************
