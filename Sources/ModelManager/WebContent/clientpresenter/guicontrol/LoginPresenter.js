@@ -103,7 +103,7 @@ function LoginPanelPresenter() {
         question = request.responseText;
         return question;
     }
-    
+
     /** PRESENTER
      * Testa se l'utente ha dato la risposta corretta alla domanda segreta
      *
@@ -130,8 +130,11 @@ function LoginPanelPresenter() {
      * @author Riccardo Tresoldi
      */
     this.destroy = function() {
-        var thisPanelParent = thisPanel.parentElement.parentElement;
-        thisPanelParent.removeChild(thisPanel.parentElement);
+        if (thisPanel) {
+            var thisPanelParent = thisPanel.parentElement.parentElement;
+            thisPanelParent.removeChild(thisPanel.parentElement);
+            thisPanel = null;
+        }
     };
 
     /** VIEW
@@ -307,7 +310,7 @@ function LoginPanelPresenter() {
             }
         };
     };
-    
+
     /***************************************************************************
      * HANDLER DEGLI EVENTI
      **************************************************************************/
@@ -317,9 +320,12 @@ function LoginPanelPresenter() {
      * @author Riccardo Tresoldi
      */
     function onShowLoginPanel() {
-        //elimina eventuale GUI già visualizzata
-        document.dispatchEvent(removeAllPanel);
-        mediator.getView('login');
+        // controllo che non sia già visualizzato
+        if (!thisPanel) {
+            // elimina eventuale GUI già visualizzata
+            document.dispatchEvent(removeAllPanel);
+            mediator.getView('login');
+        }
     }
 
     /** PRESENTER

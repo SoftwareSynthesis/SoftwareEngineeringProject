@@ -549,6 +549,8 @@ function PresenterMediator() {
         document.dispatchEvent(removeLoginPanel);
         document.dispatchEvent(removeRegistrationPanel);
         document.dispatchEvent(removeAddressBookPanel);
+        document.dispatchEvent(removeToolsPanel);
+        document.dispatchEvent(removeMainPanel);
     }
 
     /**

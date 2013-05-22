@@ -202,6 +202,8 @@ function CommunicationCenter() {
      * @author Marco Schivo
      */
     this.disconnect = function() {
+        //azzero la variabile my
+        thisMonolith.my = null;
         //creo array per inviare la rischiesta di disconnessione e lo invio
         var ar = new Array("4", self.my.id);
         websocket.send(JSON.stringify(ar));

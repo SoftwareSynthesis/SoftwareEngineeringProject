@@ -18,32 +18,6 @@ function ToolsPanelPresenter() {
      METODI PRIVATI
      ***********************************************************/
     /**
-     * Funzione per gestire l'evento in cui viene visualizzato il pannello degli
-     * strumenti
-     * @author Riccardo Tresoldi
-     */
-    function onShowToolsPanel() {
-        mediator.getView('tools');
-    }
-
-    /**
-     * Funzione per gestire l'evento in cui viene rimosso il pannello degli
-     * strumenti
-     * @author Riccardo Tresoldi
-     */
-    function onRemoveToolsPanel() {
-        thisPresenter.destroy();
-    }
-
-    /**
-     * Funzione che mostra il pulsante per "Tornare al Comunication Panel"
-     * @author Riccardo Tresoldi
-     */
-    function onShowReturnToCommunicationPanelButton() {
-        alert("Torna a CommPanel creato!");
-    }
-
-    /**
      * funzione per l'inizializzazione della select che gestisce il cambio di
      * stato
      * @version 2.0
@@ -79,8 +53,11 @@ function ToolsPanelPresenter() {
      * @author Riccardo Tresoldi
      */
     this.destroy = function() {
-        var thisPanelParent = thisPanel.parentElement.parentElement;
-        thisPanelParent.removeChild(thisPanel.parentElement);
+        if (thisPanel) {
+            var thisPanelParent = thisPanel.parentElement.parentElement;
+            thisPanelParent.removeChild(thisPanel.parentElement);
+            thisPanel = null;
+        }
     };
 
     /** VIEW
@@ -133,20 +110,20 @@ function ToolsPanelPresenter() {
         };
 
         // possibilità di effettuare il logout
-        document.createElement("liLogout").onclick = function() {
+        document.getElementById("liLogout").onclick = function() {
             var answer = confirm("Sei sicuro di voler uscire?");
             if (answer) {
                 // effettua la disconnessione dal server
                 document.dispatchEvent(logout);
                 // ricrea le variabili globali e azzera la UI
-                mediator = new PresenterMediator();
-                communicationcenter = new communicationCenter();
+                //mediator = new PresenterMediator();
+                //communicationcenter = new CommunicationCenter();
                 // ricostruisce il form di login
                 document.dispatchEvent(showLoginPanel);
             }
         };
 
-        //inizializzo la select del
+        //inizializzo la select dello stato utente
         initializeSelectState();
     };
 
@@ -155,9 +132,9 @@ function ToolsPanelPresenter() {
      *
      * @author Diego Beraldin
      */
-    this.hide = function() {
-        thisPanel.style.display = "none";
-    };
+    /*this.hide = function() {
+    thisPanel.style.display = "none";
+    };*/
 
     /**
      * Aggiunge il pulsante che permette di ritornare al pannello delle
@@ -214,6 +191,35 @@ function ToolsPanelPresenter() {
     /***************************************************************************
      * HANDLER EVENTI
      **************************************************************************/
+    /**
+     * Funzione per gestire l'evento in cui viene visualizzato il pannello degli
+     * strumenti
+     * @author Riccardo Tresoldi
+     */
+    function onShowToolsPanel() {
+        if (!thisPanel) {
+            mediator.getView('tools');
+        }
+    }
+
+    /**
+     * Funzione per gestire l'evento in cui viene rimosso il pannello degli
+     * strumenti
+     * @author Riccardo Tresoldi
+     */
+    function onRemoveToolsPanel() {
+        thisPresenter.destroy();
+    }
+
+    /**
+     * Funzione che mostra il pulsante per "Tornare al Comunication Panel"
+     * @author Riccardo Tresoldi
+     */
+    function onShowReturnToCommunicationPanelButton() {
+        // TODO
+        alert("Torna a CommPanel creato!");
+    }
+
     /**
      * Effettua il logout comunicandolo alla servlet e chiudendo il canale di
      * comunicazione che era stato aperto con il server

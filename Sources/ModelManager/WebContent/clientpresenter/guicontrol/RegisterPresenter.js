@@ -16,13 +16,16 @@ function RegisterPanelPresenter() {
     /***************************************************************************
      * METODI PUBBLICI
      **************************************************************************/
-	 /** VIEW
+    /** VIEW
      * Distruttore del pannello
      * @author Riccardo Tresoldi
      */
     this.destroy = function() {
-        var thisPanelParent = thisPanel.parentElement.parentElement;
-        thisPanelParent.removeChild(thisPanel.parentElement);
+        if (thisPanel) {
+            var thisPanelParent = thisPanel.parentElement.parentElement;
+            thisPanelParent.removeChild(thisPanel.parentElement);
+            thisPanel = null;
+        }
     };
 
     /** PRESENTER
@@ -124,10 +127,10 @@ function RegisterPanelPresenter() {
      */
     this.getPicturePath = function() {
         var picturePath = document.getElementById("picture").files[0];
-		if (picturePath != undefined)
-			return picturePath;
-		else
-			return "";
+        if (picturePath != undefined)
+            return picturePath;
+        else
+            return "";
     };
 
     /** PRESENTER
@@ -151,7 +154,7 @@ function RegisterPanelPresenter() {
         // invia una richiesta SINCRONA al server (terzo parametro 'false')
         request.open("POST", commandURL, false);
         var formData = new FormData();
-		formData.append("operation", "register");
+        formData.append("operation", "register");
         formData.append("username", encodeURIComponent(userData.username));
         formData.append("password", encodeURIComponent(userData.password));
         formData.append("question", encodeURIComponent(userData.question));
@@ -226,7 +229,7 @@ function RegisterPanelPresenter() {
             thisPanel.style.display = "none";
         }
     };
-    
+
     /***************************************************************************
      * HANDLER DEGLI EVENTI
      **************************************************************************/
@@ -236,8 +239,10 @@ function RegisterPanelPresenter() {
      * @author Riccardo Tresoldi
      */
     function onShowRegistrationPanel() {
-        document.dispatchEvent(removeAllPanel);
-        mediator.getView('register');
+        if (!thisPanel) {
+            document.dispatchEvent(removeAllPanel);
+            mediator.getView('register');
+        }
     }
 
     /** PRESENTER

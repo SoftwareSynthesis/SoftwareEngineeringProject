@@ -17,22 +17,6 @@ function MainPanelPresenter() {
     /***************************************************************************
      * METODI PRIVATI
      **************************************************************************/
-    /**
-     * Funzione per gestire l'evento in cui viene visualizzato il pannello
-     * principale
-     * @author Riccardo Tresoldi
-     */
-    function onShowMainPanel() {
-        mediator.getView('main');
-    }
-
-    /**
-     * Funzione per gestire l'evento in cui viene rimosso il pannello principale
-     * @author Riccardo Tresoldi
-     */
-    function onRemoveMainPanel() {
-        thisPresenter.destroy();
-    }
 
     /***************************************************************************
      * METODI PUBBICI
@@ -42,8 +26,11 @@ function MainPanelPresenter() {
      * @author Riccardo Tresoldi
      */
     this.destroy = function() {
-        var thisPanelParent = thisPanel.parentElement.parentElement;
-        thisPanelParent.removeChild(thisPanel.parentElement);
+        if (thisPanel) {
+            var thisPanelParent = thisPanel.parentElement.parentElement;
+            thisPanelParent.removeChild(thisPanel.parentElement);
+            thisPanel = null;
+        }
     };
 
     /**
@@ -80,11 +67,33 @@ function MainPanelPresenter() {
      *
      * @author Diego Beraldin
      */
-    this.hide = function() {
-        if (thisPanel) {
-            thisPanel.style.display = "none";
+    /*this.hide = function() {
+    if (thisPanel) {
+    thisPanel.style.display = "none";
+    }
+    };*/
+
+    /***************************************************************************
+     * HANDLER DEGLI EVENTI
+     **************************************************************************/
+    /**
+     * Funzione per gestire l'evento in cui viene visualizzato il pannello
+     * principale
+     * @author Riccardo Tresoldi
+     */
+    function onShowMainPanel() {
+        if (!thisPanel) {
+            mediator.getView('main');
         }
-    };
+    }
+
+    /**
+     * Funzione per gestire l'evento in cui viene rimosso il pannello principale
+     * @author Riccardo Tresoldi
+     */
+    function onRemoveMainPanel() {
+        thisPresenter.destroy();
+    }
 
     /***************************************************************************
      * LISTNER DEGLI EVENTI
