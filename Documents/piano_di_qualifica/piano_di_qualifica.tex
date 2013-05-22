@@ -933,7 +933,7 @@ Ogni test è inoltre stato eseguito più volte in modo da avere uno spettro più
 Tale test si compone di sei metodi:
  \begin{itemize}
  
-\item \texttt{testGetSecurityStrategyFactory()} verifica che sia possibile recuperare un riferimento a una strategia di autenticazione valida e, in particolare, che si tratti di un'istanza dell'algoritmo di crittografia AES a 128 bit che è stato prescelto. Il controllo viene effettuato verificando, dopo l'invocazione del metodo \texttt{getSecurityStrategyFactory} sull'oggetto su cui viene effettuato il test, che l'oggetto restituito non sia \texttt{null} e che esso sia un'istanza della classe AESAlgirithm.
+\item \texttt{testGetSecurityStrategyFactory()} verifica che sia possibile recuperare un riferimento a una strategia di autenticazione valida e, in particolare, che si tratti di un'istanza dell'algoritmo di crittografia AES a 128 bit che è stato prescelto. Il controllo viene effettuato verificando, dopo l'invocazione del metodo \\ \texttt{getSecurityStrategyFactory} sull'oggetto su cui viene effettuato il test, che l'oggetto restituito non sia \texttt{null} e che esso sia un'istanza della classe AESAlgirithm.
 
 \item \texttt{testGetDAOFactory()} verifica che sia possibile recuperare un riferimento ad un'istanza di \texttt{DataPersistenceManager} per la gestione dell'interazione con il database. Il controllo avviene verificando che l'oggetto restituito non sia \texttt{null}.
 
@@ -974,7 +974,7 @@ Il test avviene verificando che l'oggetto restituito sia \texttt{null}.
 
 \item \texttt{testCreateControllerSuccessfully()} verifica che l'istanziazione dei \textit{controller} ottenuta tramite la \textit{reflection} avvenga in maniera corretta nel caso in cui il nome qualificato passato come parametro corrisponda a una classi a cui il caricatore ha accesso.
 
-\item \texttt{testCreateControllerUnuccessfully()} verifica il comportamento del metodo \texttt{createController} se il parametro passato non corrisponde ad alcuna classe nota al caricatore.In tal caso il test ha successo solo se è sollevata un'eccezione di tipo \texttt{ClassNotFoundException}, come atteso in questa circostanza.
+\item \texttt{testCreateControllerUnuccessfully()} verifica il comportamento del metodo \\ \texttt{createController} se il parametro passato non corrisponde ad alcuna classe nota al caricatore.In tal caso il test ha successo solo se è sollevata un'eccezione di tipo \texttt{ClassNotFoundException}, come atteso in questa circostanza.
 
 \item \texttt{testPutClient()} verifica che sia possibile aggiungere un nuovo canale di comunicazione aperto con un client all'unterno delle strutture dati della \inglese{servlet}.
 
@@ -1098,9 +1098,10 @@ Il controllo avviene verificando l'oggetto eliminato non sia presenti nella list
 \begin{itemize}
 
 \item \textbf{TM3.01: AddContactControllerTest}
+
 \textbf{Verifica l'oggetto:} \texttt{AddContactController}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di aggiungere un contatto \texttt{IUserData} all'interno di una rubrica utente.
-La possibilità di richiamare \texttt{AddressBookDoAddContactServlet} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica, i possibili \inglese{input} riguardano dati passati mediante \texttt{XMLHttpRequest} che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IUserData} realmente esistente) o non (campi dati vuoti, o che non corrispondono a nessun utente realmente registrato al sistema). %TODO: DA VERIFICARE
+La possibilità di richiamare \\ \texttt{AddressBookDoAddContactServlet} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica, i possibili \inglese{input} riguardano dati passati mediante \texttt{XMLHttpRequest} che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IUserData} realmente esistente) o non (campi dati vuoti, o che non corrispondono a nessun utente realmente registrato al sistema). %TODO: DA VERIFICARE
 Tale test si compone di tre metodi:
 \begin{itemize}
 \item \texttt{testAddCorrectContact()} Verifica che l'operazione di aggiunta di un nuovo contatto vada a buon fine a partire da una richiesta contenente i parametri corretti. Il test verifica che la stringa stampata sulla risposta HTTP corrisponda alla stringa \texttt{true} (che denota il successo dell'operazione), e verifica che nel database siano effettuale operazioni di inserimento corretto, vale a dire che siano inserite due nuove voci nella tabella \textit{AddressBookEntries} con i dati corretti per le colonne \textit{Contact}, \textit{Owner} e \textit{Blocked}.
@@ -1113,8 +1114,9 @@ Tale test si compone di tre metodi:
 
 
 \item \textbf{TM3.02: AddGroupControllerTest}
+
 \textbf{Verifica l'oggetto:} \texttt{AddressBookDoCreateGroupServlet}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di creare un gruppo \texttt{IGroup} all'interno di una rubrica utente. La possibilità di richiamare \texttt{AddressBookDoCreateGroupServlet} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica. I possibili \inglese{input} riguardano dati passati mediante \texttt{XMLHttpRequest}, che possono essere corretti (campi dati non vuoti) o non (campi dati vuoti). %TODO: DA VERIFICARE.
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di creare un gruppo \texttt{IGroup} all'interno di una rubrica utente. La possibilità di richiamare \\ \texttt{AddressBookDoCreateGroupServlet} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica. I possibili \inglese{input} riguardano dati passati mediante \texttt{XMLHttpRequest}, che possono essere corretti (campi dati non vuoti) o non (campi dati vuoti). %TODO: DA VERIFICARE.
 Tale test si compone di due metodi:
 \begin{itemize}
 \item \texttt{testAddCorrectGroup()} verifica il comportamento della classe se il metodo \texttt{doAction} è invocato per aggiungere un gruppo e l'operazione può essere portata a termine con successo. In particolare, il test verifica che l'output stampato sulla riposta corrisponda alla stringa \texttt{true} e che sul database venga richiamato il metodo per effettuare l'inserimento di un gruppo che corrisponde per nome e proprietario rispettivamente all'utente la cui sessione di autenticazione è associata alla richiesta pervenuta al controller e al parametro \texttt{groupName} passato attraverso la richiesta.
@@ -1234,7 +1236,7 @@ Tale test si compone di due metodi:
 \item \textbf{TM3.09: GetGroupsControllerTest}\\
 \textbf{Verifica l'oggetto:} \texttt{GetGroupsController}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di ritornare una lista di gruppi presenti nella rubrica del richiedente.
-La possibilità di richiamare \texttt{GetGroupsController} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica.
+La possibilità di richiamare\\ \texttt{GetGroupsController} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica.
 Tale test si compone di un solo metodo:
 \begin{itemize}
 
@@ -1366,10 +1368,10 @@ Il controllo avviene verificando che l'oggetto restituito coincida con la passwo
 \textbf{Descrizione}: l'obiettivo del test è verificare la corretta gestione dell'attributo \texttt{element} all'interno della classe \texttt{PrincipalImpl}. A tal fine si controlla la possibilità di recuperare l'elemento interno e la definizione del metodo che testa l'uguaglianza fra due istanze di questa classe.
 Tale test si compone di tre metodi:
 \begin{itemize}
-\item \texttt{testGetName()} verifica che sia recuperato in maniera corretta l'elemento memorizzato all'interno del \texttt{PrincipalImpl}.
+\item \texttt{testGetName()} verifica che sia recuperato in maniera corretta l'elemento memorizzato all'interno del\\ \texttt{PrincipalImpl}.
 
-\item \texttt{testEqual()} verifica l'implementazione del metodo di uguaglianza fra due \texttt{PrincipalImpl}, essa è basata sul confronto fra gli elementi identificativi che li caratterizzano e che si suppongono essere univoci per ogni elemento del domiino dei \texttt{Principal}.
-
+\item \texttt{testEqual()} verifica l'implementazione del metodo di uguaglianza fra due \\ \texttt{PrincipalImpl}, essa è basata sul confronto fra gli elementi identificativi che li caratterizzano e che si suppongono essere univoci per ogni elemento del domiino dei \texttt{Principal}.
+\end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
 \end{itemize}
@@ -1391,7 +1393,7 @@ Questo test si compone di cinque metodi:
 
 \item \texttt{testRecoverPasswordUnsuccesfully()} verifica l'impossibilità di recuperare la \inglese{password} da parte di un utente che fornisce uno username non presente nella base di dati. Il test verifica che la stringa stampata sulla risposta sia effettivamente \texttt{null} come desiderato in caso di fallimento.
 
-\item \texttt{testRecoverPasswordWrongAnswer()} Verifica il comportamento del metodo \texttt{doAction} nel momento in cui la risposta contenuta come parametro nella richiesta che giunge al \textit{controller} non corrisponde alla risposta che l'utente aveva impostato in fase di registrazione. Il test verifica che sia stampata sulla risposta la stringa \texttt{null}, dopo aver tentato di codificare la \inglese{password} in ingresso. Si controlla inoltre che non sia \textit{mai} recuperata la \inglese{password} e che non sia effettuata \textit{alcuna} operazione di decodifica.
+\item \texttt{testRecoverPasswordWrongAnswer()} Verifica il comportamento del metodo \\ \texttt{doAction} nel momento in cui la risposta contenuta come parametro nella richiesta che giunge al \textit{controller} non corrisponde alla risposta che l'utente aveva impostato in fase di registrazione. Il test verifica che sia stampata sulla risposta la stringa \texttt{null}, dopo aver tentato di codificare la \inglese{password} in ingresso. Si controlla inoltre che non sia \textit{mai} recuperata la \inglese{password} e che non sia effettuata \textit{alcuna} operazione di decodifica.
 
 \end{itemize}
 
@@ -1702,7 +1704,7 @@ Tale test si compone di tre metodi:
 \begin{itemize}
 \item \texttt{testExecuteCorrectly()} verifica che l'esecuzione di una cancellazione nel database sia portata a termine correttamente. Il test avviene verificando che il metodo \texttt{execute} sia invocato con successo controllando che l'oggetto restituito abbia valore \texttt{true}. Viene inoltre controllato il corretto funzionamento della sequenza di operazioni necessarie a svolgere l'eliminazione nel database, in particolare viene verificato che non venga eseguita l'operazione di \texttt{rollback} sulla transazione, la quale significherebbe che la transazione non è andata a buon fine.
 
-\item \texttt{testExecuteWithoutTransaction()} verifica il comportamento del metodo \texttt{execute} nel momento in cui si verifica un'errore e non è possibile iniziare una transazione verso il database ed il metodo deve restituite il valore \texttt{false}. Il controllo avviene verificando che nel momento in cui deve iniziare la transazione venga sollevata un'eccezione di tipo \texttt{RunTimeException}. Oltre a questo viene verificato il corretto funzionamento della sequenza di istruzioni necessarie a svolgere una transazione nel database, ovvero viene controllato che nessuna di queste venga eseguita. Inoltre il test si assicura che la sessione costruita venga aperta e chiusa correttamente.
+\item \texttt{testExecuteWithoutTransaction()} verifica il comportamento del metodo\\ \texttt{execute} nel momento in cui si verifica un'errore e non è possibile iniziare una transazione verso il database ed il metodo deve restituite il valore \texttt{false}. Il controllo avviene verificando che nel momento in cui deve iniziare la transazione venga sollevata un'eccezione di tipo \texttt{RunTimeException}. Oltre a questo viene verificato il corretto funzionamento della sequenza di istruzioni necessarie a svolgere una transazione nel database, ovvero viene controllato che nessuna di queste venga eseguita. Inoltre il test si assicura che la sessione costruita venga aperta e chiusa correttamente.
 
 \item \texttt{testExecuteUnableToPerformAction()} verifica il comportamento della classe nel momento in cui, dopo l'apertura di una sessione e l'avvio di una transazione, non è possibile portare a termine una scrittura sul database. In particolare il test verifica che venga invocato correttamente il \texttt{rollback} della transazione e che la sessione sia creata, aperta e utilizzata per avviare una transazione e chiusa nel modo corretto. Anche in questo caso il metodo \texttt{execute} deve restituire \texttt{false} mentre per tutte le istruzioni necessarie a svolgere l'operazione eccetto il \texttt{commit} deve essere verificato che esse siano eseguite correttamente.
 
@@ -1724,7 +1726,7 @@ verifica il comportamento della classe nel momento in cui non è possibile avvia
 La verifica si basa sul controllo della mancata esecuzione dei metodi \texttt{rollback} e \texttt{commit}, che non devono infatti essere invocati su una transazione inesistente.
 
 \item \texttt{testExecuteUnableToPerformQuery()}
-controlla il comportamento del metodo \texttt{execute} nel caso in cui al momento di effettuare la query dovesse verificarsi di un evento eccezionale. In particolare, il test assicura che non sia mai invocato il metodo \texttt{commit()} sulla transazione e che sia invece invocato il \texttt{rollback()}.Inoltre è garantito che durante l'esecuzione del metodo sia aperta una sessione di interazione con il database e che quest'ultima sia finalizzata in modo corretto. Infine, si controlla che non siano mai invocati i metodi sulla lista di chiamate che corrisponde alla query di ricerca con cui è invocato il metodo \texttt{execute}, dal momento che in fase di interrogazione del database avviene un errore.
+controlla il comportamento del metodo \texttt{execute} nel caso in cui al momento di effettuare la query dovesse verificarsi di un evento eccezionale. In particolare, il test assicura che non sia mai invocato il metodo \texttt{commit()} sulla transazione e che sia invece invocato il \texttt{rollback()}.Inoltre è garantito che durante l'esecuzione del metodo sia aperta una sessione di interazione con il database e che quest'ultima sia finalizzata in modo corretto. Infine, si controlla che non siano mai invocati i metodi sulla lista di chiamate che corrisponde alla query di ricerca con cui è invocato il metodo \\ \texttt{execute}, dal momento che in fase di interrogazione del database avviene un errore.
 
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
@@ -1743,7 +1745,7 @@ La sessione di interazione con il database deve inoltre essere finalizzata in mo
 Il test assicura inoltre che la sessione sia aperta e finalizzata correttamente, e che sia utilizzata per creare la query sul database che per tentare di avviare una transazione.
 Infine, viene controllato che non siano mai invocati i metodi di inizializzazione sulla lista di gruppi associata alla query, dal momento che non è possibile avviare una transazione.
 
-\item \texttt{testExecuteUnableToPerformQuery()} verifica il comportamento del metodo \texttt{execute} nel caso in cui al momento di effettuare la query dovesse verificarsi un evento eccezionale. In particolare, il test assicura che non sia mai invocato il metodo \texttt{commit()} sulla transazione e che sia invece invocato il \texttt{rollback()}.
+\item \texttt{testExecuteUnableToPerformQuery()} verifica il comportamento del metodo \\ \texttt{execute} nel caso in cui al momento di effettuare la query dovesse verificarsi un evento eccezionale. In particolare, il test assicura che non sia mai invocato il metodo \texttt{commit()} sulla transazione e che sia invece invocato il \texttt{rollback()}.
 E' garantito inoltre che durante l'esecuzione del metodo sia aperta una sessione d'interazione con il databasa e che quest'ultima sia finalizzata in modo corretto. Infine, viene controllato che non siano mai invocati metodi sulla lista di gruppi che corrisponde alla query di ricerca con cui è invocato \texttt{execute}, visto che in fase di interrogazione al database avviene un errore.
 
 \end{itemize}
@@ -1776,7 +1778,7 @@ Tale test si compone di tre metodi:
 \item \texttt{testExecuteCorrectly()} 
 verifica che l'esecuzione di un inserimento nel database sia portata a termine correttamente. Il test avviene verificando che il metodo \texttt{execute} sia invocato con successo controllando che l'oggetto restituito abbia valore \texttt{true}. Viene inoltre controllato il corretto funzionamento della sequenza di operazioni necessarie a svolgere l'eliminazione nel database, in particolare viene verificato che non venga eseguita l'operazione di \texttt{rollback} sulla transazione, la quale significherebbe che la transazione non è andata a buon fine.
 
-\item \texttt{testExecuteWithoutTransaction()}  verifica il comportamento del metodo \texttt{execute}nel momento in cui si verifica un'errore e non è possibile iniziare una transazione verso il database ed il metodo deve restituite il valore \texttt{false}. Il controllo avviene verificando che nel momento in cui deve iniziare la transazione venga sollevata un'eccezione di tipo \texttt{RunTimeException}. Oltre a questo viene verificato il corretto funzionamento della sequenza di istruzioni necessarie a svolgere una transazione nel database, ovvero viene controllato che nessuna di queste venga eseguita. Inoltre il test si assicura che la sessione costruita venga aperta e chiusa correttamente.
+\item \texttt{testExecuteWithoutTransaction()}  verifica il comportamento del metodo \\ \texttt{execute} nel momento in cui si verifica un'errore e non è possibile iniziare una transazione verso il database ed il metodo deve restituite il valore \texttt{false}. Il controllo avviene verificando che nel momento in cui deve iniziare la transazione venga sollevata un'eccezione di tipo \texttt{RunTimeException}. Oltre a questo viene verificato il corretto funzionamento della sequenza di istruzioni necessarie a svolgere una transazione nel database, ovvero viene controllato che nessuna di queste venga eseguita. Inoltre il test si assicura che la sessione costruita venga aperta e chiusa correttamente.
 
 \item \texttt{testExecuteUnableToPerformAction()} verifica il comportamento della classe nel momento in cui, dopo l'apertura di una sessione e l'avvio di una transazione, non è possibile portare a termine una scrittura sul database. In particolare il test verifica che venga invocato correttamente il \texttt{rollback} della transazione e che la sessione sia creata, aperta e utilizzata per avviare una transazione e chiusa nel modo corretto. Anche in questo caso il metodo \texttt{execute} deve restituire \texttt{false} mentre per tutte le istruzioni necessarie a svolgere l'operazione eccetto il \texttt{commit} deve essere verificato che esse siano eseguite correttamente.
 
@@ -1792,9 +1794,9 @@ Tale test si compone di tre metodi:
 Il controllo avviene verificando che la lista restituita sia ottenuta mediante il metodo \texttt{list()}. 
 Viene inoltre controllato il corretto funzionamento della sequenza di operazioni necessarie a svolgere la ricerca nel database, in particolare viene verificato che non venga eseguita l'operazione di \texttt{rollback} sulla transazione, la quale significherebbe che la transazione non è andata a buon fine.
 
-\item \texttt{testExecuteWithoutTransaction()} verifica il comportamento del metodo \texttt{execute}nel momento in cui si verifica un'errore e non è possibile iniziare una transazione verso il database ed il metodo deve restituite il valore \texttt{false}. Il controllo avviene verificando che nel momento in cui deve iniziare la transazione venga sollevata un'eccezione di tipo \texttt{RunTimeException}. Oltre a questo viene verificato il corretto funzionamento della sequenza di istruzioni necessarie a svolgere una transazione nel database, ovvero viene controllato che nessuna di queste venga eseguita. Inoltre il test si assicura che la sessione costruita venga aperta e chiusa correttamente.
+\item \texttt{testExecuteWithoutTransaction()} verifica il comportamento del metodo \\ \texttt{execute} nel momento in cui si verifica un'errore e non è possibile iniziare una transazione verso il database ed il metodo deve restituite il valore \texttt{false}. Il controllo avviene verificando che nel momento in cui deve iniziare la transazione venga sollevata un'eccezione di tipo \texttt{RunTimeException}. Oltre a questo viene verificato il corretto funzionamento della sequenza di istruzioni necessarie a svolgere una transazione nel database, ovvero viene controllato che nessuna di queste venga eseguita. Inoltre il test si assicura che la sessione costruita venga aperta e chiusa correttamente.
 
-\item \texttt{testExecuteUnableToPerformQuery()} controlla il comportamento del metodo \texttt{execute} nel caso in cui al momento di effettuare la query dovesse verificarsi di un evento eccezionale. In particolare, il test assicura che non sia mai invocato il metodo \texttt{commit()} sulla transazione e che sia invece invocato il \texttt{rollback()}.Inoltre è garantito che durante l'esecuzione del metodo sia aperta una sessione di interazione con il database e che quest'ultima sia finalizzata in modo corretto. Infine, si controlla che non siano mai invocati i metodi sulla lista di chiamate che corrisponde alla query di ricerca con cui è invocato il metodo \texttt{execute}, dal momento che in fase di interrogazione del database avviene un errore.
+\item \texttt{testExecuteUnableToPerformQuery()} controlla il comportamento del metodo \\ \texttt{execute} nel caso in cui al momento di effettuare la query dovesse verificarsi di un evento eccezionale. In particolare, il test assicura che non sia mai invocato il metodo \texttt{commit()} sulla transazione e che sia invece invocato il \texttt{rollback()}.Inoltre è garantito che durante l'esecuzione del metodo sia aperta una sessione di interazione con il database e che quest'ultima sia finalizzata in modo corretto. Infine, si controlla che non siano mai invocati i metodi sulla lista di chiamate che corrisponde alla query di ricerca con cui è invocato il metodo \texttt{execute}, dal momento che in fase di interrogazione del database avviene un errore.
 
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
@@ -1807,7 +1809,7 @@ Tale test si compone di tre metodi:
 \begin{itemize}
 \item \texttt{testExecuteCorrectly()} verifica che l'esecuzione di un aggiornamento nel database sia portata a termine correttamente. Il test avviene verificando che il metodo \texttt{execute} sia invocato con successo controllando che l'oggetto restituito abbia valore \texttt{true}. Viene inoltre controllato il corretto funzionamento della sequenza di operazioni necessarie a svolgere l'eliminazione nel database, in particolare viene verificato che non venga eseguita l'operazione di \texttt{rollback} sulla transazione, la quale significherebbe che la transazione non è andata a buon fine.
 
-\item \texttt{testExecuteWithoutTransaction()}  verifica il comportamento del metodo \texttt{execute}nel momento in cui si verifica un'errore e non è possibile iniziare una transazione verso il database ed il metodo deve restituite il valore \texttt{false}. Il controllo avviene verificando che nel momento in cui deve iniziare la transazione venga sollevata un'eccezione di tipo \texttt{RunTimeException}. Oltre a questo viene verificato il corretto funzionamento della sequenza di istruzioni necessarie a svolgere una transazione nel database, ovvero viene controllato che nessuna di queste venga eseguita. Inoltre il test si assicura che la sessione costruita venga aperta e chiusa correttamente.
+\item \texttt{testExecuteWithoutTransaction()}  verifica il comportamento del metodo \\ \texttt{execute} nel momento in cui si verifica un'errore e non è possibile iniziare una transazione verso il database ed il metodo deve restituite il valore \texttt{false}. Il controllo avviene verificando che nel momento in cui deve iniziare la transazione venga sollevata un'eccezione di tipo \texttt{RunTimeException}. Oltre a questo viene verificato il corretto funzionamento della sequenza di istruzioni necessarie a svolgere una transazione nel database, ovvero viene controllato che nessuna di queste venga eseguita. Inoltre il test si assicura che la sessione costruita venga aperta e chiusa correttamente.
 
 \item \texttt{testExecuteUnableToPerformAction()} verifica il comportamento della classe nel momento in cui, dopo l'apertura di una sessione e l'avvio di una transazione, non è possibile portare a termine una scrittura sul database. In particolare il test verifica che venga invocato correttamente il \texttt{rollback} della transazione e che la sessione sia creata, aperta e utilizzata per avviare una transazione e chiusa nel modo corretto. Anche in questo caso il metodo \texttt{execute} deve restituire \texttt{false} mentre per tutte le istruzioni necessarie a svolgere l'operazione eccetto il \texttt{commit} deve essere verificato che esse siano eseguite correttamente.
 
@@ -1819,26 +1821,25 @@ Tale test si compone di tre metodi:
 \textbf{Descrizione}: %TODO: DA DESCRIVERE
 Tale test si compone di sette metodi:
 \begin{itemize}
-\item \texttt{testGetDeleteUtil()} verifica la possibilità di ottenere un'istanza valida di \texttt{DeleteUtil} a partire dalla classe \textit{factory}, e che il \textit{SessionManager} sia utilizzato nel modo corretto per la costruzione dell'oggetto da restituire.
+\item \texttt{testGetDeleteUtil()} verifica la possibilità di ottenere un'istanza valida di \\ \texttt{DeleteUtil} a partire dalla classe \textit{factory}, e che il \textit{SessionManager} sia utilizzato nel modo corretto per la costruzione dell'oggetto da restituire.
 
-\item \texttt{testGetInsertUtil()} verifica che sia possibile ottenere un'istanza valida di \texttt{InsertUtil} a partire dalla classe \inglese{factory}, e che il \texttt{SessionManager} sia utilizzato nel modo corretto per la costruzione dell'oggetto da restituire.
+\item \texttt{testGetInsertUtil()} verifica che sia possibile ottenere un'istanza valida di \\ \texttt{InsertUtil} a partire dalla classe \inglese{factory}, e che il \texttt{SessionManager} sia utilizzato nel modo corretto per la costruzione dell'oggetto da restituire.
 
-\item \texttt{testGetUpdateUtil()} verifica che sia possibile ottenere un'istanza valida di \texttt{UpdateUtil} a partire dalla classe \inglese{factory}, e che il \texttt{SessionManager} sia utilizzato nel modo corretto per la costruzione dell'oggetto da restituire.
+\item \texttt{testGetUpdateUtil()} verifica che sia possibile ottenere un'istanza valida di \\ \texttt{UpdateUtil} a partire dalla classe \inglese{factory}, e che il \texttt{SessionManager} sia utilizzato nel modo corretto per la costruzione dell'oggetto da restituire.
 
-\item \texttt{testGetCallUtil()} verifica che sia possibile ottenere un'istanza valida di \texttt{GetCallUtil} a partire dalla classe \inglese{factory}, e che il \texttt{SessionManager} sia utilizzato nel modo corretto per la costruzione dell'oggetto da restituire.
+\item \texttt{testGetCallUtil()} verifica che sia possibile ottenere un'istanza valida di \\ \texttt{GetCallUtil} a partire dalla classe \inglese{factory}, e che il \texttt{SessionManager} sia utilizzato nel modo corretto per la costruzione dell'oggetto da restituire.
 
-\item \texttt{testGetGroupUtil()} verifica che sia possibile ottenere un'istanza valida di \texttt{GetGroupUtil} a partire dalla classe \inglese{factory}, e che il \texttt{SessionManager} sia utilizzato nel modo corretto per la costruzione dell'oggetto da restituire.
+\item \texttt{testGetGroupUtil()} verifica che sia possibile ottenere un'istanza valida di \\ \texttt{GetGroupUtil} a partire dalla classe \inglese{factory}, e che il \texttt{SessionManager} sia utilizzato nel modo corretto per la costruzione dell'oggetto da restituire.
 
-\item \texttt{testGetUserDataUtil()} verifica che sia possibile ottenere un'istanza valida di \texttt{GetUserDataUtil} a partire dalla classe \inglese{factory}, e che il \texttt{SessionManager} sia utilizzato nel modo corretto per la costruzione dell'oggetto da restituire.
+\item \texttt{testGetUserDataUtil()} verifica che sia possibile ottenere un'istanza valida di \\ \texttt{GetUserDataUtil} a partire dalla classe \inglese{factory}, e che il \texttt{SessionManager} sia utilizzato nel modo corretto per la costruzione dell'oggetto da restituire.
 
-\item \texttt{testGetGenericUtil()} verifica che sia possibile ottenere un'istanza valida di \texttt{NotInitialize} a partire dalla classe \inglese{factory}, e che il \texttt{SessionManager} sia utilizzato nel modo corretto per la costruzione dell'oggetto da restituire.
+\item \texttt{testGetGenericUtil()} verifica che sia possibile ottenere un'istanza valida di \\ \texttt{NotInitialize} a partire dalla classe \inglese{factory}, e che il \texttt{SessionManager} sia utilizzato nel modo corretto per la costruzione dell'oggetto da restituire.
 
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\end{itemize}
-
 \item \textbf{TM11.09: GetUtilTest} 
+
 \textbf{Verifica la Classe:} \texttt{GetUtil}.\\
 \textbf{Descrizione}: %TODO: AGGIUNGERE DESCRIZIONE
 Tale test si compone di cinque metodi:
@@ -1897,6 +1898,7 @@ verifica il corretto funzionamento del metodo \texttt{equals()}. Viene creato un
 \begin{itemize}
 
 \item \textbf{TM13.01: AddMessageControllerTest} 
+
 \textbf{Verifica la Classe:} \texttt{AddMessageController}.\\
 \textbf{Descrizione}: %TODO: AGGIUNGERE DESCRIZIONE
 Tale test si compone di quattro metodi: %TODO: CONTROLLARE SE SONO SOLO DUE
@@ -1909,6 +1911,7 @@ Tale test si compone di quattro metodi: %TODO: CONTROLLARE SE SONO SOLO DUE
 
 
 \item \textbf{TM13.02: DeleteMessageControllerTest} 
+
 \textbf{Verifica la Classe:} \texttt{DeleteMessageController}.\\
 \textbf{Descrizione}: %TODO: AGGIUNGERE DESCRIZIONE
 Tale test si compone di cinque metodi:
@@ -1926,14 +1929,16 @@ Tale test si compone di cinque metodi:
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item textbf{TM13.03: GetMessagesControllerTest}
+\item \textbf{TM13.03: GetMessagesControllerTest}
+
 \textbf{Verifica la Classe:} \texttt{GetMessagesController}
+
 \textbf{Descrizione}: %TODO: AGGIUNGERE DESCRIZIONE
 Tale test si compone di tre metodi:
 \begin{itemize}
 \item \texttt{testGetMessagesCorrectUser()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui è possibile completare con successo l'operazione di scaricamento dei dati relativi alla segreteria telefonica dell'utente. In particolare verifica che la stringa stampata sulla risposta HTTP corrisponda alla rappresentazione in formato JSON dei dati relativi ai messaggi che hanno come destinatario l'utente da cui proviene la richiesta presenti nel database, ognuno correlato di tutti i campi che il client si aspetta di ricevere. Inoltre si verifica il corretto utilizzo dei \textit{mock}, ovvero che i dati siano estratti dalla base di dati nel modo corretto.
 
-\item \texttt{testGetMessagesEmptyList()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui l'utente da cui proviene la richiesta non ha alcun messaggio a lui destinato nella segreteria tenefonica del sistema. Il test verifica che il testo stampato nella risposta corrisponda alla stringa \texttt{\[\]}, che in JSON rappresenta un array enumerativo privo di elementi. Si verifica inolter che il sistema di gestione della persistenza dei dati sia utilizzato in modo corretto per il recupero dei messaggi e che non sia estratto alcun messaggio.
+\item \texttt{testGetMessagesEmptyList()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui l'utente da cui proviene la richiesta non ha alcun messaggio a lui destinato nella segreteria tenefonica del sistema. Il test verifica che il testo stampato nella risposta corrisponda alla stringa \texttt{[]}, che in JSON rappresenta un array enumerativo privo di elementi. Si verifica inolter che il sistema di gestione della persistenza dei dati sia utilizzato in modo corretto per il recupero dei messaggi e che non sia estratto alcun messaggio.
 
 \item \texttt{testWrongData()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui non è possibile accedere con successo al database per il recupero dei messaggi in segreteria. In tal caso il test verifica che il testo stampato sulla risposta HTTP corrisponda alla stringa \texttt{null} che denota un errore nel server.
 \end{itemize}
@@ -1941,6 +1946,7 @@ Tale test si compone di tre metodi:
 
 
 \item \textbf{TM13.04: UpdateMessageControllerTest} 
+
 \textbf{Verifica la Classe:} \texttt{UpdateMessageController}.\\
 \textbf{Descrizione}: %TODO: AGGIUNGERE DESCRIZIONE
 Tale test si compone di cinque metodi:
@@ -1959,12 +1965,12 @@ Tale test si compone di cinque metodi:
 \textbf{Risultato del test:} superato con successo.
 
 \end{itemize}
-
+\clearpage
 \subsubsection{Riassunto esiti test Model}
 Di seguito viene riportata una tabella alla scopo di riassumere i test effettuati e il loro esito finale, così da renderne più pratica la consultazione e la tracciabilità degli stessi.
 
 \begin{center}
-\rowcolors{2}{lightblue}{llightblue}\begin{longtable}{p{.20\textwidth}ll}
+\rowcolors{1}{lightblue}{llightblue}\begin{longtable}{p{.20\textwidth}ll}
 \toprule Codice del Test & Nome del test  & Esito del test\\
 \midrule
 
