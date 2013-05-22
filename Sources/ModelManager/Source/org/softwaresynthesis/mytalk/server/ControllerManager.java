@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,6 +26,7 @@ import org.softwaresynthesis.mytalk.server.connection.PushInbound.State;
  * @version	3.0
  */
 @WebServlet(description = "Signaling channel", urlPatterns = { "/CommandManager" })
+@MultipartConfig(maxFileSize = 16177215)
 public class ControllerManager extends WebSocketServlet implements Servlet 
 {
 	private static final long serialVersionUID = 10001L;

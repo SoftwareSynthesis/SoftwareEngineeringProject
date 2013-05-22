@@ -57,15 +57,15 @@ public class RegisterController extends AbstractController
 		try
 		{
 			strategy = getSecurityStrategyFactory();
-			mail = getValue(request.getPart("username"));
-			password = getValue(request.getPart("password"));
+			mail = request.getParameter("username");
+			password = request.getParameter("password");
 			password = strategy.encode(password);
-			question = getValue(request.getPart("question"));
-			answer = getValue(request.getPart("answer"));
+			question = request.getParameter("question");
+			answer = request.getParameter("answer");
 			answer = strategy.encode(answer);
-			name = getValue(request.getPart("name"));
-			surname = getValue(request.getPart("surname"));
-			path = getValue(request.getPart("picturePath"));
+			name = request.getParameter("name");
+			surname = request.getParameter("surname");
+			path = request.getParameter("picturePath");
 			user = new UserData();
 			user.setMail(mail);
 			user.setPassword(password);
@@ -73,7 +73,7 @@ public class RegisterController extends AbstractController
 			user.setAnswer(answer);
 			user.setName(name);
 			user.setSurname(surname);
-			if (path.equals("") == true)
+			if (path == null)
 			{
 				path = "img/contactImg/Default.png";
 			}
