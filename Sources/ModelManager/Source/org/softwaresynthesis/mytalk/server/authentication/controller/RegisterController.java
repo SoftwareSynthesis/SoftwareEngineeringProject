@@ -1,9 +1,13 @@
 package org.softwaresynthesis.mytalk.server.authentication.controller;
 
+import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.net.URLDecoder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,6 +36,7 @@ public class RegisterController extends AbstractController
 	 * Esegue la registrazione di un nuovo utente
 	 * nel sistema MyTalk
 	 */
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void doAction(HttpServletRequest request, HttpServletResponse response) throws IOException 
 	{
@@ -81,7 +86,8 @@ public class RegisterController extends AbstractController
 				if (filePart != null)
 				{
 					inputStream = filePart.getInputStream();
-					path = "img/contactImg/" + mail + ".png";
+					this.Scrivi(request.getContextPath());
+					path = request.getContextPath() + "/img/contactImg/" + mail + ".png";
 					out = new FileOutputStream(path);
 					out.write(IOUtils.readFully(inputStream, -1, false));
 					out.close();
@@ -103,6 +109,7 @@ public class RegisterController extends AbstractController
 		catch (Exception ex)
 		{
 			result = "null";
+			Scrivi(ex.getMessage());
 		}
 		finally
 		{
@@ -120,5 +127,22 @@ public class RegisterController extends AbstractController
 	protected boolean check(HttpServletRequest request)
 	{
 		return true;
+	}
+	
+	private void Scrivi(String txt)
+	{
+		try
+		{
+			FileOutputStream s = new FileOutputStream("DEBUG.txt", true);
+			PrintStream p = new PrintStream(s);
+			p.println(txt);
+			p.close();
+//			File f = new File("DEBUG.txt");
+//			FileWriter w = new FileWriter(f);
+//			w.write(txt);
+//			w.flush();
+//			w.close();
+		}
+		catch (IOException e) {}
 	}
 }

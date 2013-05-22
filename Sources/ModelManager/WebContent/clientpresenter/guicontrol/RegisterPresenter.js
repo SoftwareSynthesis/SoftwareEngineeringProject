@@ -152,7 +152,7 @@ function RegisterPanelPresenter() {
         request.open("POST", commandURL, false);
         var formData = new FormData();
 		formData.append("operation", "register");
-        formData.append("username", encodeURIComponent(userData.username));
+        formData.append("username", userData.username);
         formData.append("password", encodeURIComponent(userData.password));
         formData.append("question", encodeURIComponent(userData.question));
         formData.append("answer", encodeURIComponent(userData.answer));

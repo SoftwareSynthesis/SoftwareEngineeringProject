@@ -61,7 +61,7 @@ window.onload = function() {
     ****Inizializzazione variabili per connessione all'host****
     **********************************************************/
     var host = "localhost";
-    var stub = true;
+    var stub = false;
     if (stub) {
         commandURL = "http://" + host + "/webalizer/ModelManager/WebContent/conf/controllerManagerStub.php";
         urlChannelServlet = "ws://" + host + ":8080/MyTalk/CommandManager";
