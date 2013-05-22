@@ -18,14 +18,6 @@ function AccountSettingsPanelPresenter(url) {
     /***************************************************************************
      * METODI PRIVATI
      **************************************************************************/
-    /**
-     * Funzione per gestire l'evento in cui viene visualizzato il pannello delle
-     * impostazioni dell'account
-     * @author Riccardo Tresoldi
-     */
-    function onShowAccountSettingPanel() {
-        mediator.getView('accountSettings');
-    }
 
     /***************************************************************************
      * METODI PUBBLICI
@@ -156,7 +148,7 @@ function AccountSettingsPanelPresenter(url) {
                 request.send("operation=accountSettings&" + self.buildQueryString(data));
                 // FIXME aggiornare il communicationcenter.my
             }
-            mediator.displayAccountSettingsPanel();
+            document.dispatchEvent(showAccountSettingPanel);
         };
 
         // aggiunge il tutto al sottoalbero del DOM
@@ -174,28 +166,31 @@ function AccountSettingsPanelPresenter(url) {
      * @author Elena Zecchinato
      * @author Diego Beraldin
      */
-    this.createPanel = function() {
+    this.display = function() {
         // salvo un riferimento alla vista
         var thisPanel = document.getElementById("AccountSettingsPanel");
-
-        //XXX ????
         // configura la vista
-        var nameNode = document.evaluate("//node()[@id='name']", element, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-        nameNode.appendChild(document.createTextNode(communicationcenter.my.name));
-
-        var surnameNode = document.evaluate("//node()[@id='surname']", element, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-        surnameNode.appendChild(document.createTextNode(communicationcenter.my.surname));
-
-        var pictureNode = document.evaluate("//node()[@id='picture']", element, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-        pictureNode.src = communicationcenter.my.picturePath;
-
-        var changeButton = document.evaluate("//node()[@id='changeButton']", element, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-        changeButton.onclick = function() {
-            self.onChangeButtonPressed();
+        document.getElementById("name").appendChild(document.createTextNode(communicationcenter.my.name));
+        document.getElementById("surname").appendChild(document.createTextNode(communicationcenter.my.surname));
+        document.getElementById("picture").src = communicationcenter.my.picturePath;
+        document.getElementById("changeButton").onclick = function() {
+            thisPresenter.onChangeButtonPressed();
         };
-
         // FIXME possono cambiare anche password, domanda segreta e risposta!?
     };
+
+    /***************************************************************************
+     * HANDLER EVENTI
+     **************************************************************************/
+    /**
+     * Funzione per gestire l'evento in cui viene visualizzato il pannello delle
+     * impostazioni dell'account
+     * @version 2.0
+     * @author Riccardo Tresoldi
+     */
+    function onShowAccountSettingPanel() {
+        mediator.getView('accountSettings');
+    }
 
     /***************************************************************************
      * LISTNER DEGLI EVENTI

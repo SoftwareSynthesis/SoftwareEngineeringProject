@@ -5,6 +5,7 @@ $result = array();
 
 /* Suddivido i vari casi */
 switch($operation) {
+    // operazioni login utente
     case "login" :
         if ($_REQUEST["username"] == "pr@va.com" & $_REQUEST["password"] == "p") {
             $result["name"] = "Mario";
@@ -21,12 +22,73 @@ switch($operation) {
         $result = "Quale e' la risposta?";
         break;
 
+    case "register" :
+        break;
+
+    case "logout" :
+        break;
+
+    case "answer" :
+        break;
+
+    // operazioni rubrica utente
     case "getContacts" :
         $result = array(1 => array("name" => "Andrea", "surname" => "Rizzi", "email" => "a.rizzi@gmail.com", "id" => "1", "picturePath" => "img/contactImg/Default.png", "state" => "available", "blocked" => false), 2 => array("name" => "Stefano", "surname" => "", "email" => "s.farro@gmail.com", "id" => "2", "picturePath" => "img/contactImg/Default.png", "state" => "offline", "blocked" => true), 3 => array("name" => "", "surname" => "Beraldin", "email" => "d.beraldin@gmail.com", "id" => "3", "picturePath" => "img/contactImg/Default.png", "state" => "available", "blocked" => true), 4 => array("name" => "", "surname" => "", "email" => "skivo.marco@gmail.com", "id" => "4", "picturePath" => "img/contactImg/Default.png", "state" => "available", "blocked" => false), 5 => array("name" => "Andrea", "surname" => "Mene", "email" => "ma@gmail.com", "id" => "5", "picturePath" => "img/contactImg/Default.png", "state" => "occupied", "blocked" => false), );
         break;
 
     case "getGroups" :
         $result = array(1 => array("name" => "amici", "id" => "1", "contacts" => array(2, 3, 4, 5)), 2 => array("name" => "mona", "id" => "2", "contacts" => array(1)), 3 => array("name" => "addrBookEntry", "id" => "3", "contacts" => array(1, 2, 3, 4, 5)));
+        break;
+
+    case "addContact" :
+        break;
+
+    case "blockContact" :
+        break;
+
+    case "addGroup" :
+        break;
+
+    case "deleteGroup" :
+        break;
+
+    case "addInGroup" :
+        break;
+
+    case "deleteFromGroup" :
+        break;
+
+    case "unblockContact" :
+        break;
+
+    case "deleteContact" :
+        break;
+
+    case "accountSettings" :
+        break;
+
+    // operazioni lista chiamate
+    case "addCall" :
+        break;
+
+    case "getCalls" :
+        break;
+
+    // operazioni segreteria telefonica
+    case "getMessages" :
+        break;
+
+    case "addMessage" :
+        break;
+
+    case "deleteMessage" :
+        break;
+
+    case "updateMessage" :
+        break;
+
+    // operazioni ricerca utenti del sistema
+    case "search" :
         break;
 
     default :

@@ -3,9 +3,8 @@
  *
  * @constructor
  * @this {LoginPanelPresenter}
- * @param {String}
- *            url URL della servlet con cui il presenter deve comunicare
  * @author Diego Beraldin
+ * @author Riccardo Tresoldi
  */
 function LoginPanelPresenter() {
     /***************************************************************************
@@ -17,27 +16,7 @@ function LoginPanelPresenter() {
     /***************************************************************************
      * METODI PRIVATI
      **************************************************************************/
-    /**
-     * Funzione per gestire l'evento in cui viene visualizzato il pannello di
-     * registrazione
-     * @author Riccardo Tresoldi
-     */
-    function onShowLoginPanel() {
-        //elimina eventuale GUI già visualizzata
-        document.dispatchEvent(removeAllPanel);
-        mediator.getView('login');
-    }
-
-    /**
-     * Funzione per gestire l'evento in cui viene rimosso il pannello di
-     * registrazione
-     * @author Riccardo Tresoldi
-     */
-    function onRemoveLoginPanel() {
-        thisPresenter.destroy();
-    }
-
-    /**
+    /** PRESENTER
      * Testa quanto ricevuto dal server e, in caso di login avvenuto
      * correttamente reindirizza il browser nella pagina finale dopo aver
      * salvato i dati dell'utente
@@ -49,17 +28,15 @@ function LoginPanelPresenter() {
     function testCredentials(data) {
         var user = JSON.parse(data);
         if (user) {
-            // 'communicationcenter' deve essere una variabile globale
-            communicationcenter.my = user;
-            communicationcenter.connect();
-            document.dispatchEvent(showUIPanels);
+            login.user = user;
+            document.dispatchEvent(login);
         } else {
             //funzione che setta la grafica per tornare l'errore nel login
             errorLogin();
         }
     }
 
-    /**
+    /** VIEW
      * Funzione che setta le textBox del loginPanelPresenter con la classe per
      * segnalare l'errore nel login e dunque il login non riuscito
      *
@@ -72,7 +49,7 @@ function LoginPanelPresenter() {
         pass.className += " error";
     }
 
-    /**
+    /** VIEW
      * Rimuove il form di recupero della password, visualizza un messaggio di
      * conferma per 2 secondi quindi rimuove anche questo e lascia il controllo
      * al form di login.
@@ -91,7 +68,7 @@ function LoginPanelPresenter() {
         }, 2000);
     }
 
-    /**
+    /** VIEW
      * In caso di inserimento della risposta non corretta alla domanda segreta
      * visualizza un messaggio di avvertimento all'utente per 2 secondi quindi
      * lascia il controllo al form di inserimento della risposta alla domanda
@@ -109,7 +86,7 @@ function LoginPanelPresenter() {
         }, 2000);
     }
 
-    /**
+    /** PRESENTER
      * Recupera la domanda segreta con una richiesta asincrona al server
      *
      * @param {String}
@@ -126,6 +103,24 @@ function LoginPanelPresenter() {
         question = request.responseText;
         return question;
     }
+    
+    /** PRESENTER
+     * Testa se l'utente ha dato la risposta corretta alla domanda segreta
+     *
+     * @param {String}
+     *            username nome utente associato alla domanda segreta
+     * @param {String}
+     *            answer risposta alla domanda segreta
+     * @returns {Boolean} true se la risposta è corretta, false altrimenti
+     * @author Diego Beraldin
+     */
+    function hasAnsweredCorrectly(username, answer) {
+        var request = new XMLHttpRequest();
+        request.open("POST", commandURL, false);
+        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        request.send("operation=answer&username=" + encodeURIComponent(username) + "&answer=" + encodeURIComponent(answer));
+        return JSON.parse(request.responseText);
+    }
 
     /***************************************************************************
      * METODI PUBBLICI
@@ -139,25 +134,7 @@ function LoginPanelPresenter() {
         thisPanelParent.removeChild(thisPanel.parentElement);
     };
 
-    /**
-     * Testa se l'utente ha dato la risposta corretta alla domanda segreta
-     *
-     * @param {String}
-     *            username nome utente associato alla domanda segreta
-     * @param {String}
-     *            answer risposta alla domanda segreta
-     * @returns {Boolean} true se la risposta è corretta, false altrimenti
-     * @author Diego Beraldin
-     */
-    this.hasAnsweredCorrectly = function(username, answer) {
-        var request = new XMLHttpRequest();
-        request.open("POST", commandURL, false);
-        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        request.send("operation=answer&username=" + encodeURIComponent(username) + "&answer=" + encodeURIComponent(answer));
-        return JSON.parse(request.responseText);
-    };
-
-    /**
+    /** VIEW
      * Costruisce il form per il recupero della password dell'utente
      *
      * @param {String}
@@ -196,7 +173,7 @@ function LoginPanelPresenter() {
         submitButton.setAttribute("value", "OK");
         submitButton.onClick = function() {
             // Answer(username, inputAnswer.getAttribute("value"));
-            if (this.hasAnsweredCorrectly(username, inputAnswer.getAttribute("value"))) {
+            if (hasAnsweredCorrectly(username, inputAnswer.getAttribute("value"))) {
                 correctAnswer();
             } else {
                 incorrectAnswer();
@@ -209,7 +186,7 @@ function LoginPanelPresenter() {
         return formRetrievePassword;
     };
 
-    /**
+    /** PRESENTER
      * Recupera lo username dall'interfaccia grafica utente
      *
      * NOTA PER I VERIFICATORI Richiede che il 'document' abbia al suo interno
@@ -231,7 +208,7 @@ function LoginPanelPresenter() {
         return username;
     };
 
-    /**
+    /** PRESENTER
      * Recupera lo username dall'interfaccia grafica utente
      *
      * NOTA PER I VERIFICATORI Richiede che il 'document' abbia al suo interno
@@ -330,14 +307,47 @@ function LoginPanelPresenter() {
             }
         };
     };
+    
+    /***************************************************************************
+     * HANDLER DEGLI EVENTI
+     **************************************************************************/
+    /** PRESENTER
+     * Funzione per gestire l'evento in cui viene visualizzato il pannello di
+     * registrazione
+     * @author Riccardo Tresoldi
+     */
+    function onShowLoginPanel() {
+        //elimina eventuale GUI già visualizzata
+        document.dispatchEvent(removeAllPanel);
+        mediator.getView('login');
+    }
+
+    /** PRESENTER
+     * Funzione per gestire l'evento in cui viene rimosso il pannello di
+     * registrazione
+     * @author Riccardo Tresoldi
+     */
+    function onRemoveLoginPanel() {
+        thisPresenter.destroy();
+    }
+
+    /** PRESENTER
+     * Funzione per effettuare il vero e proprio login visualizzando anche la GUI
+     * @author Riccardo Tresoldi
+     */
+    function onLogin(user) {
+        // 'communicationcenter' deve essere una variabile globale
+        communicationcenter.my = user;
+        communicationcenter.connect();
+        document.dispatchEvent(showUIPanels);
+    }
 
     /***************************************************************************
-     * LISTNER DEGLI EVENTI
+     * LISTENER DEGLI EVENTI
      **************************************************************************/
-    document.addEventListener("showLoginPanel", function(evt) {
-        onShowLoginPanel();
-    });
-    document.addEventListener("removeLoginPanel", function(evt) {
-        onRemoveLoginPanel();
+    document.addEventListener("showLoginPanel", onShowLoginPanel);
+    document.addEventListener("removeLoginPanel", onRemoveLoginPanel);
+    document.addEventListener("login", function(evt) {
+        onLogin(evt.user);
     });
 }
