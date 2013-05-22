@@ -89,8 +89,10 @@ switch($operation) {
 
     // operazioni ricerca utenti del sistema
     case "search" :
+        $result = array(10 => array("name" => "Marco", "surname" => "Pegoraro", "email" => "p.m@gmail.com", "id" => "10", "picturePath" => "img/contactImg/Default.png", "blocked" => false), 11 => array("name" => "Elia", "surname" => "", "Cavallaro" => "e.a@gmail.com", "id" => "11", "picturePath" => "img/contactImg/Default.png", "blocked" => false), 12 => array("name" => "", "surname" => "Garavello", "email" => "cobra@gmail.com", "id" => "12", "picturePath" => "img/contactImg/Default.png", "blocked" => false), 13 => array("name" => "", "surname" => "", "email" => "skivo.marco@gmail.com", "id" => "13", "picturePath" => "img/contactImg/Default.png", "blocked" => false), 14 => array("name" => "Giulia", "surname" => "", "email" => "giulia@gmail.com", "id" => "14", "picturePath" => "img/contactImg/Default.png", "blocked" => false), );
         break;
 
+    // ritorno null nel caso non sia gestita la operation
     default :
         $result = null;
         break;
