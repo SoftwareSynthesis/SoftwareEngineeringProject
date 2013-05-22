@@ -3468,6 +3468,33 @@ Riferimento al pannello controllato da questo \inglese{presenter}, vale a dire u
   
 \end{description}
 
+\classsection{MainPanelPresenter}
+
+\subsubsection*{Funzione}
+\inglese{Presenter} incaricato di gestire il pannello principale, ossia quello centrale.
+
+\subsubsection*{Relazioni d'uso}
+Nessuna relazione d'uso evidenziata.
+
+\subsubsection*{Classi estese ed interfacce implementate}
+Nessuna relazione evidenziata.
+
+\subsubsection*{Attributi}
+\begin{description}
+\item{\memberdata{-- thisPanel: HTMLElement}}\\
+  Riferimento all'elemento controllato dal \inglese{presenter} vale a dire un \verb'<div>' avente come identificativo la stringa \verb'MainPanel'.
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+  \item{\method{+ onShowMainPanel(): void}}\\
+  Questo gestore di eventi è richiamato nel momento in cui è sollevato un evento avente come nome identificativo la stringa \texttt{showMainPanel} e ha il compito di provocare il caricamento del \inglese{template} del pannello e, in seguito, di demandare al metodo \method{display()} della vista la sua inizializzazione.
+  
+  \item{\method{+ onRemoveMainPanel(): void}}\\
+  Questo gestore di eventi è richiamato nel momento in cui è sollevato un evento con nome identificativo \texttt{removeMainPanel} e ha il compito di richiamare il metodo \method{destroy()} della vista corrispondente.
+
+\end{description}
+
 %********************************************************************
 %     QUESTO È IL CONFINE FRA BENE E MALE - SIETE AVVERTITI!
 %********************************************************************
@@ -3777,37 +3804,6 @@ Successivamente si andranno a popolare tali elementi utilizzando le informazioni
 \item chiamata video --> onCall(contact, true);
 \item avvia chat --> onChatStarted(contact);
 \end{itemize}
-
-\end{description}
-
-%TODO da verificare
-\classsection{MainPanelPresenter}
-
-\subsubsection*{Funzione}
-Presenter incaricato di gestire il pannello principale, ossia quello centrale.
-
-\subsubsection*{Relazioni d'uso}
-Nessuna relazione d'uso evidenziata.
-
-\subsubsection*{Classi estese ed interfacce implementate}
-Nessuna relazione evidenziata.
-
-\subsubsection*{Attributi}
-\begin{description}
-\item{\memberdata{-- element: DOM\_element}}\\
-  elemento controllato dal presenter in questione.
-\end{description}
-
-\subsubsection*{Metodi}
-\begin{description}
-\item{\method{+ initialize(): void}}\\
-Metodo utilizzato per costruire il pannello principale che occupa la parte centrale della finestra, esso imposta inoltre l'immagine del logo ``MyTalk'' come sfondo quando il pannello è vuoto.
-
-\item{\method{+ displayChildPanel(node DOM\_node): void}}\\
-Metodo che visualizza il DOM\_node (\textit{node}) ricevuto come parametro nel pannello in questione.
-	
-\item{\method{+ hide(): void}}\\
-Metodo che rende invisibile il pannello impostando la proprietà \textit{display} a ``none''.
 
 \end{description}
 
