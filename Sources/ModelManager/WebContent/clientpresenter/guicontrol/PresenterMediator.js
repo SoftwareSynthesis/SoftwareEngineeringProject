@@ -409,7 +409,7 @@ function PresenterMediator() {
      * parametro
      */
     this.getContactById = function(idContact) {
-        return presenters["addressbook"].getContact(idContact);
+        return presenters["addressBook"].getContact(idContact);
     };
 
     /**
