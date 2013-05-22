@@ -162,7 +162,7 @@ function RegisterPanelPresenter() {
         if (userData.surname && userData.surname.length > 0) {
             formData.append("surname", encodeURIComponent(userData.surname));
         }
-        if (userData.picturePath && userData.picturePath.length > 0) {
+        if (userData.picturePath && userData.picturePath != "") {
             formData.append("picturePath", userData.picturePath);
         }
         request.send(formData);

@@ -36,7 +36,6 @@ public class RegisterController extends AbstractController
 	 * Esegue la registrazione di un nuovo utente
 	 * nel sistema MyTalk
 	 */
-	@SuppressWarnings("deprecation")
 	@Override
 	protected void doAction(HttpServletRequest request, HttpServletResponse response) throws IOException 
 	{
@@ -68,7 +67,7 @@ public class RegisterController extends AbstractController
 			answer = strategy.encode(answer);
 			name = request.getParameter("name");
 			surname = request.getParameter("surname");
-			path = request.getParameter("picturePath");
+			filePart = request.getPart("picturePath");
 			user = new UserData();
 			user.setMail(mail);
 			user.setPassword(password);
@@ -76,7 +75,7 @@ public class RegisterController extends AbstractController
 			user.setAnswer(answer);
 			user.setName(name);
 			user.setSurname(surname);
-			if (path == null)
+			if (filePart == null)
 			{
 				path = "img/contactImg/Default.png";
 			}
@@ -86,8 +85,7 @@ public class RegisterController extends AbstractController
 				if (filePart != null)
 				{
 					inputStream = filePart.getInputStream();
-					this.Scrivi(request.getContextPath());
-					path = request.getContextPath() + "/img/contactImg/" + mail + ".png";
+					path = "C:\\Program Files\\Apache Software Foundation\\Tomcat 7.0\\webapps\\MyTalk\\img\\contactImg\\" + mail + ".png";
 					out = new FileOutputStream(path);
 					out.write(IOUtils.readFully(inputStream, -1, false));
 					out.close();
