@@ -947,38 +947,8 @@ Tale test si compone di sei metodi:
 controlla il corretto funzionamento della classe nel caso in cui viene invocato il metodo con una richiesta non associata a una sessione di autenticazione valida.
 Il test in questo caso verifica che sia eseguito il metodo \texttt{check} una volta, che non sia mai eseguito il metodo \texttt{doAction()} e che sulla risposta sia stampata, come richiesto, la stringa \texttt{null}.
 
-
  \end{itemize}
 \textbf{Risultato del test:} superato con successo.
-
-\item \textbf{TM1.02: PushInboundTest}\\
-\textbf{Verifica la Classe:} \texttt{PushInbound}.\\
-\textbf{Descrizione}: %TODO DA DESCRIVERE
- 
-Tale test si compone di nove metodi:
-\begin{itemize}
-
-\item \texttt{testId()} verifica che sia possibile impostare e recuperare correttamente il numero identificativo associato al canale di connessione fra server e client.
-
-\item \texttt{testState()} verifica che sia possibile impostare e recuperare correttamente lo stato del client associato alla connessione client-server.
-
-\item \texttt{testOnBinaryMessageBiteBuffer()} verifica il comportamento della classe nel momento in cui si tenta di trasmettere un messaggio binario tramite il canale di comunicazione con il server. In particolare il test ha successo solo se viene sollevata una \texttt{IOException} e se il messaggio associato all'eccezione corrisponde a quanto atteso.
-
-\item \texttt{testConnectClient} verifica il comportamento della classe nel momento in cui viene  utilizzata per inviare al server un messaggio testuale che segnala la connessione di un nuovo client. In particolare il test verifica che sia aggiunta una nuova voce alla lista delle connessioni note al server, indicizzata con il campo identificativo del nuovo client.
-
-\item \texttt{testExchangeData} verifica il comportamento del client nel momento in cui il messaggio ricevuto dal server tramite il canale serve ad inviare a un secondo client una determinata stringa che contiene la descrizione del primo client. Il test verifica che il testo effettivamente trasmetto sul secondo canale di comunicazione sia conforme alle aspettative e contenga * cioè il carattere \texttt{2}, seguito dal carattere \texttt{pipe}, seguito dalla stringa ricevuta inizialmente tramite il primo canale.
-
-\item \texttt{testSendIdToCaller} Verifica il comportamento della classe nel momento in cui il canale è utilizzato da un primo client per chiedere al server di trasmettere a un secondo client il suo numero identificativo. In particolare, il test verifica che il messaggio di testo trasmesso al secondo client corrisponda alle aspettative e sia cioè formato dal carattere \texttt{3}, seguito dal carattere \texttt{pipe} e quindi dal numero identificativo del primo client.
-
-\item \texttt{testDisconnectClient} verifica il comportamento della classe nel momento in cui il messaggio trasmesso dal client al server segnala la disconnessione del client. In particolare il test verifica che dalla lista delle connessioni note al server sia rimosso il canale di comunicazione associato al client che richiede la disconnessione.
-
-\item \texttt{testNotifyStatusChange} verifica il comportamento della classe nel momento in cui il canale di comunicazione è utilizzato da un client per notificare al server un cambiamento di stato. In particolare il test verifica che a tutti i contatti che sono presenti nella rubrica dell'utente che cambia stato e che sono effettivamente connessi sia inviato un messaggio contenente il carattere \texttt{5}, il carattere \texttt{pipe} e la corretta rappresentazione in formato stringa dello stato assunto dal mittente iniziale del messaggio.
-
-\item \texttt{testCallRefusal} verifica il comportamento della classe nel momento in cui il messaggio  ricevuto dal server sia la notifica, da parte di un client, dell'avvenuto rifiuto di una chiamata entrante. Il test verifica, in particolare, che al client sia trasmesso un messaggio contenente il carattere \texttt{6}, seguito dal carattere \texttt{pipe}.
-
-\end{itemize}
-\textbf{Risultato del test:} superato con successo.
-
 
 \item \textbf{TM1.02: ControllerManagerTest}\\
 \textbf{Verifica la Classe:} \texttt{ControllerManager}.\\
@@ -1020,22 +990,301 @@ Il test avviene verificando che l'oggetto restituito sia \texttt{null}.
 \end{itemize}
 
 
-\subsubsection{\texttt{org.softwaresinthesis.mytalk.server.autentication}}
+\subsubsection{\texttt{org.softwaresinthesis.mytalk.server.abook}}
 \begin{itemize}
-\item \textbf{TM2.01: AESAlgorithmTest}\\
-\textbf{Verifica la Classe:} \texttt{AESAlgorithm}.\\
-\textbf{Descrizione}:l'obiettivo di questo test è assicurare che l'algoritmo di cittografia AES a 128 bit utilizzato dal sistema \caName{} risulti affidabile e riesca a codificare e decodificare una stringa passata.
+\item \textbf{TM2.01: AddressBookEntryTest}\\
+\textbf{Verifica la Classe:} \texttt{AddressBookEntry}.\\
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la corretta gestione di un'istanza di \texttt{AddressBookEntry}.\\
+Tale test si compone di sei metodi:
+\begin{itemize}
 
-Tale test si compone di un metodo:
-\begin{itemize}
-\item \texttt{testEncodeAndDecode() } effettua la codifica di una stringa passata, effettua successivamente la decodifica della stessa e la controlla con l'originale per verificarne l'uguaglianza.
+\item \texttt{testId()} verifica la corretta restituzione dell'id verificando che l'oggetto restituito non sia \textit{null} e che sia uguale al valore con cui era stato inizializzato l'oggetto sottoposto al test.
+
+\item \texttt{testContact()} verifica la corretta impostazione e restituzione del contatto nella voce della rubrica. Tale verifica avviene tramite il controllo che il contatto restituito non sia \textit{null} e che esso sia uguale al nuovo contatto impostato. In questo modo vengono controllate entrambe le funzioni.
+
+\item \texttt{testGroup()} verifica la corretta impostazione ed il recupero del gruppo a cui appartiene la voce della rubrica. Il controllo avviene verificando che l'oggetto restituito non sia \textit{null} e che esso sia uguale al gruppo impostato. 
+
+\item \texttt{testOwner()} controlla il corretto recupero del proprietario ed l'impostazione di questo dalla voce della rubrica. La verifica avviene controllando che l'oggetto restituito non sia \textit{null} e che questo sia uguale al nuovo proprietario impostato. In questo modo si verificano entrambe le funzionalità.
+
+\item \texttt{testBlocked()} verifica che avvenga correttamente il blocco del contatto in rubrica invocando il blocco nell'oggetto sottoposto al test e verificandone l'esito.
+
+\item\texttt{testEquals()} controlla  il corretto funzionamento del metodo \texttt{equals()}. Viene creato un oggetto \texttt{AddressBookEntry} e viene confrontato con l'oggetto sottoposto a verifica tramite il metodo \texttt{equals()} che restituisce \textit{true} se e solo se sono uguali.
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\begin{table}
-\end{table}
+\item \textbf{TM2.02: GroupTest}\\
+\textbf{Verifica la Classe:} \texttt{Group}.\\
+\textbf{Descrizione}:l'obiettivo di questo test è verificare la corretta gestione di un istanza di \texttt{Group}.\\
+Tale test si compone di sette metodi:
+\begin{itemize}
 
-\item \textbf{TM2.02: AuthenticationModuleTest}\\
+\item \texttt{testId()} verifica l'effettiva restituzione del campo \textit{id} controllando che l'oggetto restituito non sia \textit{null} e che sia uguale al valore con cui era stato inizializzato l'oggetto sottoposto al test.
+
+\item \texttt{testName()}
+verifica la corretta impostazione ed il recupero del del campo \textit{name}. Il controllo avviene verificando che l'oggetto restituito non sia \textit{null} e che esso sia uguale al nuovo nome impostato. 
+
+\item \texttt{testEquals()} 
+verifica il corretto funzionamento del metodo \texttt{equals()} controllando la corrispondenza di nomi. 
+
+\item \texttt{testOwner()} verifica la corretta impostazione ed il recupero del del campo \textit{owner}. Il controllo avviene verificando che l'oggetto restituito non sia \textit{null} e che esso sia uguale al nuovo nome proprietario impostato. 
+
+\item \texttt{testAddressBook()} verifica la corretta impostazione e recupero dei contatti appartenenti ad un gruppo.
+Il controllo avviene verificando che l'oggetto restituito non sia \textit{null} e che esso corrisponda alla nuova collezione inserita.
+In questo modo si verificano entrambe le funzioni.
+
+\item \texttt{testAddAddressBookEntry()} verifica il corretto inserimento di un nuovo contatto all'interno di un gruppo controllando l'effettiva la presenza del nuovo elemento aggiunto.
+
+\item \texttt{testRemoveAddressBookEntry()}  
+verifica la corretta eliminazione di un nuovo contatto all'interno di un gruppo controllando che il contatto non sia più presente nella rubrica.
+
+\end{itemize}
+\textbf{Risultato del test:} superato con successo.
+
+\item \textbf{TM2.03: UserDataTest}\\
+\textbf{Verifica la Classe:} \texttt{UserData}.\\
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la corretta gestione di un'istanza della classe \texttt{UserData}. Vengono controllati tutti i metodi disponibili a questa classe, in particolare quelli relativi alla gestione dei sui diversi campi dati.
+
+Tale test si compone di diciassette metodi:
+\begin{itemize}
+
+\item \texttt{testId()} verifica l'effettiva restituzione del campo \textit{id} controllando che l'oggetto restituito non sia \textit{null} e che sia uguale al valore con cui era stato inizializzato l'oggetto sottoposto al test.
+
+\item \texttt{testEmail()} verifica che la mail venga impostata restituita correttamente. Il controllo avviene verificando che l'oggetto restituito non sia \textit{null} e che esso sia uguale alla mail impostata. In questo modo viene controllata sia l'impostazione che la restituzione. 
+
+\item \texttt{testPassword()} controlla che la password venga impostata e restituita correttamente. La verifica avviene controllando che l'oggetto restituito non sia \textit{null} e che esso sia uguale alla alla password impostata. In questo modo vengono controllate ambedue le funzionalità.
+
+\item \texttt{testQuestion()} verifica che la domanda per il recupero password venga impostata e restituita correttamente controllando che l'oggetto restituito non sia \textit{null} e che esso sia uguale alla domanda di recupero password impostata.
+
+\item \texttt{testAnswer()} verifica che la risposta alla domanda per il recupero della password venga impostata e restituita correttamente. Il controlla avviene verificando che l'oggetto restituito non sia \textit{null} e che esso sia uguale alla risposta alla domanda di recupero password impostata. 
+
+\item \texttt{testName()} verifica che il nome venga impostato e restituito correttamente. Il controllo avviene verificando che l'oggetto restituito non sia \textit{null} e che esso sia uguale al nome impostato.
+
+\item \texttt{testSurname()} controlla che il cognome venga impostato e restituito correttamente. La verifica avviene controllando che l'oggetto restituito non sia \textit{null} e che esso sia uguale al cognome impostato. In questo modo viene controllato il funzionamento sia dell'impostazione che della restituzione.
+
+\item \texttt{testAddressBook()} verifica il corretto funzionamento dell'impostazione e recupero dei contatti della rubrica.
+Il controllo avviene verificando che l'oggetto restituito non sia \textit{null} e che esso corrisponda alla nuova collezione inserita.
+In questo modo si verificano entrambe le funzioni.
+
+\item \texttt{testCallList()} controlla la corretta impostazione e recupero dello storico delle chiamate.
+Il test avviene verificando che l'oggetto restituito non sia \textit{null} e che esso corrisponda alla nuova collezione inserita.
+
+\item \texttt{testMessage()} verifica la corretta impostazione e recupero della lista dei messaggi presenti in segreteria.
+Il controllo avviene verificando che l'oggetto restituito non sia \textit{null} e che esso corrisponda alla nuova collezione inserita.
+
+\item \texttt{testAddAddressBookEntry()} verifica il corretto funzionamento dell'aggiunta di un contatto alla rubrica.
+Il controllo avviene verificando che il nuovo oggetto inserito sia presente nella rubrica.
+
+\item \texttt{testAddCall()} verifica il corretto inserimento di una chiamata nello storico delle chiamate.
+Il controllo avviene verificando che il nuovo oggetto inserito sia presente nella lista delle chiamate. 
+
+\item \texttt{testAddMessage()}  verifica il corretto inserimento di un messaggio nella lista dei messaggi presenti in segreteria.
+Il controllo avviene verificando che il nuovo oggetto inserito sia presente nella lista dei messaggi in segreteria. 
+
+\item \texttt{testRemoveAddressBookEntry()} verifica la corretta eliminazione di un contatto dalla rubrica.
+Il controllo avviene verificando l'oggetto eliminato non sia presenti nella rubrica.  
+
+\item \texttt{testRemoveCall()} controlla il corretto funzionamento della rimozione di una chiamata dallo storico delle chiamate. La veririca avviene controllando che l'oggetto eliminato non sia presente nella lista delle chiamate.
+
+\item \texttt{testRemoveMessage()} verifica la corretta eliminazione di un messaggio dalla lista dei messaggi presenti in segreteria.
+Il controllo avviene verificando l'oggetto eliminato non sia presenti nella lista dei messaggi presenti in segreteria. 
+
+\item \texttt{testEquals()} controlla  il corretto funzionamento del metodo \texttt{equals()}. Il metodo si basa sul test di uguaglianza tra \texttt{email}, viene infatti controllata l'uguaglianza tra due voci della rubrica verificando che le loro \texttt{email} coincidano. 
+
+\end{itemize}
+\textbf{Risultato del test:} superato con successo.
+\end{itemize}
+
+\subsubsection{\texttt{org.softwaresinthesis.mytalk.server.abook.controller}}
+\begin{itemize}
+
+\item \textbf{TM3.01: AddContactControllerTest}
+\textbf{Verifica l'oggetto:} \texttt{AddContactController}.\\
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di aggiungere un contatto \texttt{IUserData} all'interno di una rubrica utente.
+La possibilità di richiamare \texttt{AddressBookDoAddContactServlet} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica, i possibili \inglese{input} riguardano dati passati mediante \texttt{XMLHttpRequest} che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IUserData} realmente esistente) o non (campi dati vuoti, o che non corrispondono a nessun utente realmente registrato al sistema). %TODO: DA VERIFICARE
+Tale test si compone di tre metodi:
+\begin{itemize}
+\item \texttt{testAddCorrectContact()} Verifica che l'operazione di aggiunta di un nuovo contatto vada a buon fine a partire da una richiesta contenente i parametri corretti. Il test verifica che la stringa stampata sulla risposta HTTP corrisponda alla stringa \texttt{true} (che denota il successo dell'operazione), e verifica che nel database siano effettuale operazioni di inserimento corretto, vale a dire che siano inserite due nuove voci nella tabella \textit{AddressBookEntries} con i dati corretti per le colonne \textit{Contact}, \textit{Owner} e \textit{Blocked}.
+
+\item \texttt{testAddWrongData()} verifica la rilevazione dell'errore dovuto al fatto che non è possibile recuperare dal database un contatto corrispondente al parametro identificativo contenuto nella richiesta HTTP. Il test verifica che il risultato stampato dal \textit{controller} sulla risposta sia, come desiderato in questo caso, la stringa \texttt{null} e che non sia effettuata \textit{alcuna} operazione di inserimento nella base di dati.
+
+\item \texttt{testAddMissingData()} verifica il comportamento della classe nel momento in cui il metodo \texttt{doAction} è invocato passando come parametro una richiesta che non contiene tutte le informazioni necessarie per portare a termine l'operazione. Il test verifica che sia stampata sulla risposta la stringa \texttt{null} e che non sia effettuata alcuna operazione sul database.
+\end{itemize}
+\textbf{Risultato del test:} superato con successo.
+
+
+\item \textbf{TM3.02: AddGroupControllerTest}
+\textbf{Verifica l'oggetto:} \texttt{AddressBookDoCreateGroupServlet}.\\
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di creare un gruppo \texttt{IGroup} all'interno di una rubrica utente. La possibilità di richiamare \texttt{AddressBookDoCreateGroupServlet} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica. I possibili \inglese{input} riguardano dati passati mediante \texttt{XMLHttpRequest}, che possono essere corretti (campi dati non vuoti) o non (campi dati vuoti). %TODO: DA VERIFICARE.
+Tale test si compone di due metodi:
+\begin{itemize}
+\item \texttt{testAddCorrectGroup()} verifica il comportamento della classe se il metodo \texttt{doAction} è invocato per aggiungere un gruppo e l'operazione può essere portata a termine con successo. In particolare, il test verifica che l'output stampato sulla riposta corrisponda alla stringa \texttt{true} e che sul database venga richiamato il metodo per effettuare l'inserimento di un gruppo che corrisponde per nome e proprietario rispettivamente all'utente la cui sessione di autenticazione è associata alla richiesta pervenuta al controller e al parametro \texttt{groupName} passato attraverso la richiesta.
+
+\item \texttt{testAddWrongData()} verifica l'impossibilità di portare a termine l'operazione nel momento in cui i dati passati alla richiesta non sono corretti e pregiudicano l'operazione di inserimento nel database. Il test verifica che in un caso del genere l'output stampato sulla risposta HTTP sia la stringa di errore \texttt{null}, come il client si aspetta.
+
+\item \texttt{testAddMissingData()} Verifica il comportamento della classe se il metodo \texttt{doAction} è invocato con una richiesta che non racchiude tutti i parametri necessari per portare a compimento l'operazione. In particolare il test verifica che sia stampata sulla riposta la stringa \texttt{null} che segnala al client il verificarsi di un errore, e si assicura che non venga effettuata alcuna operazione sul sistema di gestione della persistenza dei dati.
+\end{itemize}
+\textbf{Risultato del test:} superato con successo.
+
+\item \textbf{TM3.03: AddInGroupControllerTest}\\
+\textbf{Verifica la Classe:} \texttt{AddInGroupController}.\\
+\textbf{Descrizione}: %TODO: DA DESCRIVERE
+Tale test si compone di sei metodi: 
+\begin{itemize}
+
+\item \texttt{testAddCorrectContact()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui è invocato con una richiesta proveniente da un utente autenticato e che contiene tutti i parametri necessari per portare a termine con successo l'operazione. In particolare, il test verifica che la stringa stampata sulla risposta HTTP sia, come desiderato, \texttt{true}, nonchè che nel database siano effettuate le operazioni corretta, ovvero che l'inserimento di una nuova AddressBookEntry (con i campi \texttt{Owner}, \texttt{Contact} e \texttt{Blocked} impostati in maniera corretta) e che sia effettuata un'operazione di update per l'utente possessore della rubrica che viene aggiornata.
+
+\item \texttt{testAddNotExistContact()} verifica il comportamento della classe nel momento in cui il metodo \texttt{doAction} è invocato con il parametro \texttt{contactId} che non corrisponde ad alcuno degli utenti che sono presenti nella base di dati. Il test verifica che la stringa stampata nel testo della risposta HTTP corrisponda alla stringa \texttt{null}, come desiderato. Inoltre, è verificato che non siano \textit{mai} effettuate operazioni di inserimento e di aggiornamento della base di dati.
+
+\item \texttt{testAddNotExistGroup()} verifica il comportamento della classe nel momento in cui il metodo \texttt{doAction} è invocato con il parametro \texttt{groupId} che non corrisponde ad alcuno degli utenti che sono presenti nella base di dati. Il test verifica che la stringa stampata nel testo della risposta HTTP corrisponda alla stringa \texttt{null}, come desiderato. Inoltre, è verificato che non siano \textit{mai} effettuate operazioni di inserimento e di aggiornamento della base di dati.
+
+\item \texttt{testAddNotOwnedGroup()} verifica il comportamento della classe nel momento in cui l'operazione richiesta corrisponde all'inserimento di un contatto in un gruppo che non è di proprietà dell'utente da cui proviene la richiesta. Il test verifica che in questo caso il testo stampato nella risposta sia, come desiderato, la stringa \texttt{null} e che non sia effettuata alcuna operazione di aggiornamento dei dati dell'utente che ha richiesto l'inserimento.
+
+\item \texttt{testAddWrongUserData()} verifica il comportamento della classe nel momento in cui il metodo \texttt{doAction} è invocato con una richiesta HTTP che non contiene tutti i parametri necessari per portare a termine con successo l'operazione, in particolare nel caso in cui non è presente il paramentro \texttt{contactId}. Il test controlla, in particolare, che il testo stampato nella risposta corrisponda, come atteso, alla stringa \texttt{null} e che non sia effettuata alcuna operazione sul gestore della persistenza dei dati.
+
+\item \texttt{testAddWrongGrup()} verifica il comportamento della classe nel momento in cui il metodo \texttt{doAction} è invocato con una richiesta HTTP che non contiene tutti i parametri necessari per portare a termine con successo l'operazione, in particolare nel caso in cui non è presente il paramentro \texttt{groupId}. Il test controlla, in particolare, che il testo stampato nella risposta corrisponda, come atteso, alla stringa \texttt{null} e che non sia effettuata alcuna operazione sul gestore della persistenza dei dati.
+
+\end{itemize}
+\textbf{Risultato del test:} superato con successo.
+
+
+\item \textbf{TM3.04: BlockContactControllerTest}\\
+\textbf{Verifica l'oggetto:} \texttt{BlockContactController}.\\
+\textbf{Descrizione}: %TODO: DA DESCRIVERE
+Tale test si compone di tre metodi: 
+
+\begin{itemize}
+\item \texttt{testBlockCorrectContact()} verifica il comportamento del metodo \texttt{doAction} del controller esso va a buon fine perchè invocato con una richiesta che contiene al suo interno tutti i dati necessari a portare a termine l'operazione. In particolare il test verifica che il testo stampato sulla risposta HTTP corrisponda alla stringa \texttt{true} e che sia utilizzato in maniera corretta il sistema di persistenza per recuperare i dati e per aggiornare la voce della rubrica impostando il campo \texttt{Blocked} a \texttt{true} dell'utente che ha inviato la richiesta al \textit{controller}.
+
+\item \texttt{testBlockNotExistsContact()} verifica il comportamento della classe nel momento in cui viene invocato il metodo \texttt{doAction} con una richiesta contenente un parametro \texttt{contactId} che non corrisponde ad alcuno degli utenti del sistema memorizzati nella base dati. In particolare il test verifica che il testo stampato sulla risposta sia la stringa \texttt{null}, come desiderato, e che non sia effettuata alcuna operazione di aggiornamento delle voci di rubrica presenti nel database.
+
+\item \texttt{testWrongData()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui la richiesta HTTP con cui viene invocato non contiene tutti i dati necessari per portare a termine con successo l'operazione, in particolare perché non è possibile individuare univocamente il contatto da bloccare. Il test verifica che in una simile situazione il testo di risposta sia, come desiderato, la stringa \texttt{null} e che non sia effettuata alcuna operazione ne sul sistema di persistenza ne sui \textit{mock} degli utenti messi a disposizione in questo test.
+\end{itemize}
+\textbf{Risultato del test:} superato con successo.
+
+\item \textbf{TM3.05: DeleteContactControllerTest}\\
+\textbf{Verifica l'oggetto:} \texttt{DeleteContactController}.\\
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di rimuovere un utente presente nella rubrica del richiedente. Come per il test della \inglese{Servlet} precedentemente descritta, anche in questo caso si assume come precondizione l'autenticazione dell'utente richiedente e quindi l'effettiva esistenza della sua rubrica. 
+I possibili \inglese{input} riguardano dati passati mediante \texttt{XMLHttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IUserData} realmente esistente e presente nella rubrica dell'utente) o non (campi dati vuoti, o che non corrispondono a nessun utente realmente registrato al sistema, o comunque corrispongono ad un utente registrato, ma il cui contatto non è presente nella rubrica del richiedente). %TODO: DA VERIFICARE DESCRIZIONE
+
+Tale test si compone di quattro metodi:
+\begin{itemize}
+\item \texttt{testDeleteCorrectUser()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui è invocato con una richiesta che contiene tutti i parametri necessari per portare a termine l'operazione di cancellazione. Il test verifica che il testo stampato sulla risposta sia, come atteso, la stringa \texttt{true}, che sia estratta dalla base di dati la rubrica di entrambi gli utenti coinvolti nell'operazione e che da ognuna delle voci della rubrica sia estratto il contatto per effettuare le operazioni di confronto. Infine il test verifica che sia invocato il metodo \texttt{removeAddressBookEntry} sugli utenti e che in seguito siano aggiornati gli oggetti tramite il gestore della persistenza dei dati, e che quest'ultimo sia utilizzato infine per la cancellazione delle voci di rubrica corrispondenti alla richiesta di eliminazione ricevuta dal controller.
+
+\item \texttt{testDeleteNotExistContact()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui è invocato con una richiesta contenente un parametro \texttt{contactId} che non corrisponde all'identificativo di alcuno degli utenti registrati nel sistema. Il test verifica che in questo il caso il testo stampato sulla risposta HTTP corrisponda, come desiderato dal client, alla stringa \texttt{null} e che non siano mai effettuate operazioni di aggiornamento degli utenti, ne cancellazioni di voci di rubrica.
+
+\item \texttt{testDeleteNotFriendContact()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui il \texttt{contactId} contenuto come parametro nella richiesta non corrisponde ad un contatto che appartiene alla rubrica dell'utente. In questo caso il test verifica che sulla risposta sia stampata la stringa \texttt{null}, come desiderato in caso d'errore, e che non sia effettuata alcuna operazione di aggiornamento e di cancellazione dalla base di dati.
+
+\item \texttt{testDeleteWrongData()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui la richiesta HTTP che gli viene passata come parametro non contiene tutti i dati necessari al completamento corretto dell'operazione di cancellazione dalla rubrica degli utenti. Il test verifica che sulla risposta sia effettivamente stampata la stringa \texttt{null}, che denota il verificarsi un errore nel server, e che non sia effettuata \textit{alcuna} operazione (estrazione, cancellazione o aggiornamento) sulla base di dati.
+\end{itemize}
+\textbf{Risultato del test:} superato con successo.
+
+
+\item \textbf{TM3.06: DeleteFromGroupControllertTest}\\
+\textbf{Verifica l'oggetto:} \texttt{DeleteFromGroupController}.\\
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di rimuovere un conttatto da un gruppo presente nella rubrica del richiedente. Come per il test del \inglese{Controller} precedentemente descritto, si assume come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica. 
+I possibili \inglese{input} riguardano dati passati mediante \texttt{XMLHttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IGroup} realmente esistente e presente nella rubrica dell'utente, e ad un contatto registrato nel sistema) o non (campi dati vuoti, che non corrispondono a nessun gruppo realmente presente nel sistema, che corrispondono ad un gruppo esistente ma non presente nella rubrica del richiedente, che non corrispondono a nessun contatto registrato nel sistema). %TODO: DA VERIFICARE DESCRIZIONE
+
+Tale test si compone di quattro metodi:
+\begin{itemize}
+\item \texttt{testDeleteCorrectContact()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui viene invocato con una richiesta contenente tutti i parametri necessari per portare a termine con successo l'operazione. In particolare il test verifica che il testo stampato sulla risposta HTTP sia, come desiderato, la stringa \texttt{true}. Si verifica inoltre che il sistema di persistenza sia utilizzato per estrarre i dati corrispondenti all'utente, al contatto e al gruppo contenuti nella richiesta, che sia effettuata un'operazione di rimozione della \inglese{entry} e che venga effettuato l'aggiornamento dell'utente la cui rubrica è soggetta a modifica.
+
+\item \texttt{testDeleteNotExistUser()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui il contatto di cui si richiede la cancellazione non corrisponde ad alcuno degli utenti che sono registrati al sistema. Il test verifica che in questo caso il testo stampato sulla risposta HTTP sia, come desiderato, la stringa \texttt{null}, che non siano \textit{mai} effettuate operazioni di aggiornamento dei dati dell'utente che ha richiesto la cancellazione e che non sia cancellata alcuna voce dalla rubrica.
+
+\item \texttt{testDeleteNotExistGroup()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui il contatto di cui si richiede la cancellazione non corrisponde ad alcuno degli utenti che sono registrati al sistema. Il test verifica che in questo caso il testo stampato sulla risposta HTTP sia, come desiderato, la stringa \texttt{null}, che non siano \textit{mai} effettuate operazioni di aggiornamento dei dati dell'utente che ha richiesto la cancellazione e che non sia cancellata alcuna voce dalla rubrica.
+
+\item \texttt{testDeleteWrongData()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui esso è invocato con una richiesta HTTP e che non contiene tutti i parametri necessari per portare a termine con successo l'operazione. In tal caso il test verifica che il numero stampato sulla risposta sia effettivamente \texttt{null}, come desiderato in questo caso, e che non sia effettuata \textit{alcuna} operazione sul gestore di persistenza dei dati.
+\end{itemize}
+\textbf{Risultato del test:} superato con successo.
+
+
+\item \textbf{TM3.07: DeleteGroupControllerTest}\\
+\textbf{Verifica l'oggetto:} \texttt{DeleteGroupController}.\\
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di eliminare un gruppo presente nella rubrica del richiedente. Come per il test del \inglese{Controller} precedentemente descritta, si assume come precondizione l'autenticazione dell'utente richiedente e quindi l'effettiva esistenza della sua rubrica.
+
+I possibili \inglese{input} riguardano dati passati mediante \texttt{XMLHttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IGroup} realmente esistente e presente nella rubrica dell'utente) o non (campi dati vuoti, o che comunque non corrispondono a nessun gruppo realmente registrato al sistema, o comunque corrispondono ad un gruppo esistente, ma non presente nella rubrica del richiedente). %TODO: DA VERIFICARE 
+Tale test si compone di quattro metodi:
+
+\begin{itemize}
+
+\item \texttt{testDeleteCorrectGroup()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui è invocato con una richiesta che contiene tutti i parametri corretti affinché l'operazione di cancellazione del gruppo possa essere portata a termine con successo. In particolare il testo controlla che la stringa del testo della risposta al termine dell'esecuzione del metodo sia, come desiderato in caso di successo, \texttt{true}. Inoltre è verificato che il sistema di gestione della persistenza de dati sia utilizzato per estrarre le informazione corrette relative all'utente da cui proviene la richiesta e al gruppo di cui è richiesta l'eliminazione. Il test controlla infine che tutte le voci della rubrica che appartenevano a quel gruppo siano cancellate dalla tabella \textit{AddressBookEntries}. 
+
+\item \texttt{testRemoveNotExistGroup()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui il valore numerico identificativo del gruppo di cui si richiede l'eliminazione contenuto nella richiesta HTTP non corrisponda ad alcun gruppo valido nella base di dati. Il test verifica che in questo caso il testo stampato nella risposta sia la stringa \texttt{false}, come desiderato in caso di fallimento dell'operazione, e che inoltre non sia \textit{mai} effettuata un'operazione di cancellazione di una voce di rubrica dal database.
+
+\item \texttt{testDeketeNotOwnedGroup()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui l'identificativo del gruppo contenuto nella richiesta non corrisponda a un gruppo il cui proprietario non è l'utente che ha inviato la richiesta al server. Il test verifica che in questo caso sulla risposta sia stampata la stringa \texttt{false}, che denota una condizione di errore per il client che la riceve, e che non sia \textit{mai} effettuata alcuna operazione di cancellazione dalla base di dati.
+
+\item \texttt{testRemoveWrongData()} verifica il comportamento del metodo doAction nel caso in cui la richiesta HTTP passata ad esso non contenga tutti i parametri necessari a portare a termine con successo l'operazione. Oltre a verificare che la stringa stampata sulla risposta sia, anche in questo caso, \texttt{false}, il test assicura che non sia mai effettuata \textit{alcuna} operazione sulla base di dati.
+\end{itemize}
+\textbf{Risultato del test:} superato con successo.
+
+
+\item \textbf{TM3.08: GetContactsControllerTest}\\
+\textbf{Verifica l'oggetto:} \texttt{GetContactsController}.\\
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di ottenere la lista dei contatti presenti nella rubrica del richiedente memorizzata sul server. La possibilità di richiamare \texttt{GetContactsController} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica.
+I possibili input riguardano dati passati mediante \texttt{XMLHttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IUserData} realmente esistente) o meno, se vuoti ad esempio.
+
+Tale test si compone di due metodi:
+\begin{itemize}
+\item \texttt{testGetCorrectContacts()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui un utente richiede di scaricare la propria rubrica e questa contiene almeno un contatto. Il test verifica che il testo stampato nella risposta HTTP corrisponda alla rappresentazione in formato JSON della lista dei contatti (ognuno presente una sola volta) e che sia utilizzato correttamente il gestore della persistenza per estrarre i dati dal database.
+
+\item \texttt{testGetEmptyContacts()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui l'utente che chiede di scaricare la propria rubrica non ha alcuna voce associata a se nella tabella \textit{AddressBookEntries} della base di dati. In particolare il test verifica che sia restituita la rappresentazione in formato JSON di un array associativo che non contiene alcuna proprietà, cioè \texttt{\{\}}. Il test verifica inoltre che sia utilizzato correttamente il gestore della persistenza per estrarre i dati dal database.
+\end{itemize}
+\textbf{Risultato del test:} superato con successo.
+
+
+\item \textbf{TM3.09: GetGroupsControllerTest}\\
+\textbf{Verifica l'oggetto:} \texttt{GetGroupsController}.\\
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di ritornare una lista di gruppi presenti nella rubrica del richiedente.
+La possibilità di richiamare \texttt{GetGroupsController} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica.
+Tale test si compone di un solo metodo:
+\begin{itemize}
+
+\item \texttt{testGetGroupContact()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui è invocato con una richiesta che contiene tutti i parametri necessari a portare a termine l'operazione con successo, e la lista degli utenti contenuti nel gruppo non è vuota. In particolare, il test verifica che il testo stampato sulla risposta HTTP corrisponda, come desiderato, alla rappresentazione in formato JSON della lista dei gruppi come si attende il client. Inoltre, viene controllato che siano estratta dal database le informazioni necessarie alla costruzione della stringa JSON.
+
+\item \texttt{testGetEmptyGroup()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui è invocato con una richiesta che contiene tutti i parametri necessari a portare a termine l'operazione con successo, e la lista degli utenti contenuti nel gruppo è vuota. In particolare, il test verifica che il testo stampato sulla risposta HTTP corrisponda, come desiderato, alla rappresentazione in formato JSON della lista dei gruppi come si attende il client. Inoltre, viene controllato che siano estratta dal database le informazioni necessarie alla costruzione della stringa JSON.
+\end{itemize}
+\textbf{Risultato del test:} superato con successo.
+
+
+\item \textbf{TM3.10: SearchControllerTest}\\
+\textbf{Verifica l'oggetto:} \texttt{SearchController}.\\
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di ritornare una lista di contatti corrispondenti a determinati criteri ricerca specificati nella richiesta. La possibilità di richiamare \texttt{GetContactsController} ha come precondizione l'autenticazione dell'utente richiedente. 
+
+I possibili input riguardano dati passati mediante \texttt{XMLHttpRequest}, che possono essere corretti (campi dati non vuoti) o non (campi dati vuoti). %TODO: DA VERIFICARE
+Tale test si compone di due metodi:
+\begin{itemize}
+
+\item \texttt{testGetSearchContact()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui la richiesta contiene tutti i parametri per portare a termine con successo l'operazione di ricerca. Il particolare il test verifica che la stringa stampata sulla risposta corrisponda alla rappresentazione in formato JSON di un array associativo indirizzato come identificativo degli utenti che corrispondono al criterio di ricerca specificato nella richiesta. Il test verifica inoltre che sia utilizzato correttamente il sistema di gestione della persistenza per l'estrazione degli utenti e che da questi ultimi siano estratte solo le informazioni rilevanti per la codifica JSON dei risultati.
+
+\item \texttt{testWrongData()} verifica il comportamento del metodo \texttt{doAction} nel caso in cui la richiesta HTTP con cui viene invocato non contiene tutti i parametri necessari a portare a termine con successo l'operazione di ricerca. Il test verifica che in questo caso sia stampata sulla risposta la stringa \texttt{\{\}} che rappresenta un array associativo vuoto.
+\end{itemize}
+\textbf{Risultato del test:} superato con successo.
+
+
+\item \textbf{TM3.11: UnblockContactControllerTest}\\
+\textbf{Verifica l'oggetto:} \textit{UnblockContactController}.\\
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di sbloccare un contatto \texttt{IUserData} (bloccato) all'interno di una rubrica utente. La possibilità di richiamare\\ \texttt{UnblockController} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica.
+I possibili \inglese{input} riguardano dati passati mediante \texttt{XMLHttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IUserData} realmente esistente, bloccato, e presente nella rubrica del richiedente) o non (campi dati vuoti, o che comunque non corrispondono a nessun utente realmente registrato al sistema). %TODO: DA VERIFICARE.
+
+Tale test si compone di tre metodi:
+\begin{itemize}
+\item \texttt{testUnblockCorrectContact()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui è invocato a partire da una richiesta che contiene tutti i parametri di valore corretto per portare a termine con successo l'operazione di blocco del contatto. In particolare, il test verifica che il testo stampato sulla risposta sia, come desiderato in caso di successo, la stringa \texttt{true} e che il sistema di persistenza dei dati sia utilizzato correttamente per le operazioni di recupero (della rubrica dell'utente che richiede l'operazione e dei contatti coinvolti) e di aggiormento (di tutte le voci di rubrica che devono essere bloccate).
+
+\item \texttt{testUnblockNotExistsContact()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui il parametro identificativo del contatto da bloccare contenuto nella richiesta non corrisponde ad alcuno degli utenti registrati nel sistema.
+Il test verifica che in questo caso la stringa stampata sulla risorsa HTTP sia \texttt{null}, che denota l'avvenuto errore nel server. Infine è effettuato un controllo sul sistema di persistenza, garantendo che non sia effettuata alcuna operazione di aggiornamento di voci di rubrica.
+
+\item \texttt{testWrongData()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui la richiesta HTTP con cui viene invocato non contiene tutti i parametri necessari per portare a termine l'operazione di blocco di un contatto.
+Il test verifica che in questo caso la stringa stampata sulla risorsa HTTP sia \texttt{null}, che denota l'avvenuto errore nel server e che non sia effettuata alcuna operazione attraverso il gestore della persistenza dei dati.
+
+\end{itemize}
+\textbf{Risultato del test:} superato con successo.
+
+\end{itemize}
+
+
+\subsubsection{\texttt{org.softwaresinthesis.mytalk.server.authentication}}
+\begin{itemize}
+
+\item \textbf{TM4.01: AuthenticationModuleTest}\\
 \textbf{Verifica la Classe:} \texttt{AuthenticationModule}.\\
 \textbf{Descrizione}: l'obiettivo del test è verificare le funzionalità di autenticazione offerte dal sistema server dell'applicativo.
 
@@ -1063,12 +1312,11 @@ Tale test si compone di undici metodi:
 
 \item \texttt{testLoginWrongPassword} verifica il comportamento della classe nel momento in cui si tenta di effettuare il login ma a fronte di uno \textit{username} esistente non viene fornita la \inglese{password} corretta. Il test ha successo se e solo se viene sollevata un'eccezione di tipo \texttt{FailedLoginException}, come atteso in un simile caso. Inoltre si verifica il corretto utilizzo dei \textit{mock} controllando che vengano creati e gestiti i \textit{Callback} e che sia utilizzato il sistema di gestione della persistenza dei dati per cercare i dati relativi all'utente, in particolare la versione criptata della \inglese{password} memorizzata in fase di registrazione.
 \end{itemize}
+
 \textbf{Risultato del test:} superato con successo.
 
-\begin{table}
-\end{table}
 
-\item \textbf{TM2.03: CredentialLoaderTest}\\
+\item \textbf{TM4.02: CredentialLoaderTest}\\
 \textbf{Verifica la Classe:} \texttt{CredentialLoarder}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è assicurare che il vettore in cui celle contiente tutte le credenziali d'accesso dell'utente (coppia \textit{username-password}) venga popolato correttamente.\\
 Tale test si compone di due metodi:
@@ -1076,14 +1324,12 @@ Tale test si compone di due metodi:
 
 \item \texttt{testHandle()} verifica il corretto funzionamento del metodo \texttt{handle()}. Il controllo avviene verificando che le credenziali (\texttt{username}e \texttt{password}) siano contenute nella richiesta al server. In particolare viene controllato che gli oggetti \texttt{username} e \texttt{password} non siano \texttt{null} e che siano uguali allo username e password dell'oggetto sul quale viene effettuato il test.
 
-
 \item \texttt{testSecurityStrategy()} controlla che sia possibile ottenere la strategia di crittografia in uso verificando che l'oggetto restituito non sia \texttt{null} e che questo corrisponda con la strategia in uso.
 
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-
-\item \textbf{TM1.04: NameLoaderTest}\\
+\item \textbf{TM4.03: NameLoaderTest}\\
 \textbf{Verifica la Classe:} \texttt{NameLoarder}.\\
 \textbf{Descrizione}: %TODO: MANCA LA DESCRIZIONE
 Tale test si compone di tre metodi:
@@ -1098,7 +1344,7 @@ Tale test si compone di tre metodi:
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{TM1.04: PasswordLoaderTest}\\
+\item \textbf{TM4.04: PasswordLoaderTest}\\
 \textbf{Verifica la Classe:} \texttt{PasswordLoarder}.\\
 \textbf{Descrizione}: %TODO: MANCA LA DESCRIZIONE
 Tale test si compone di tre metodi:
@@ -1115,7 +1361,7 @@ Il controllo avviene verificando che l'oggetto restituito coincida con la passwo
 \textbf{Risultato del test:} superato con successo.
 
 
-\item \textbf{TM1.05: PrincipalImplTest}\\
+\item \textbf{TM4.05: PrincipalImplTest}\\
 \textbf{Verifica la Classe:} \texttt{PrincipalImpl}.\\
 \textbf{Descrizione}: l'obiettivo del test è verificare la corretta gestione dell'attributo \texttt{element} all'interno della classe \texttt{PrincipalImpl}. A tal fine si controlla la possibilità di recuperare l'elemento interno e la definizione del metodo che testa l'uguaglianza fra due istanze di questa classe.
 Tale test si compone di tre metodi:
@@ -1125,12 +1371,34 @@ Tale test si compone di tre metodi:
 \item \texttt{testEqual()} verifica l'implementazione del metodo di uguaglianza fra due \texttt{PrincipalImpl}, essa è basata sul confronto fra gli elementi identificativi che li caratterizzano e che si suppongono essere univoci per ogni elemento del domiino dei \texttt{Principal}.
 
 \textbf{Risultato del test:} superato con successo.
-\end{itemize}
 
 \end{itemize}
+
 \subsubsection{\texttt{org.softwaresinthesis.mytalk.server.authentication.controller}}
 \begin{itemize}
-\item \textbf{TM2.01: LoginControllerTest}\\
+
+\item \textbf{TM5.01: AnswerControllerTest}\\
+\textbf{Verifica l'oggetto:} \texttt{AnswerController}.\\
+\textbf{Descrizione}: %TODO DA DESCRIVERE
+Questo test si compone di cinque metodi:
+\begin{itemize}
+
+\item \texttt{testSendMessage()} verifica il funzionamento corretto del metodo utilizzato per inviare il messaggio contenente la \inglese{password}, in particolare controllando che sia invocato il emtodo di invio e che il messaggio passato come parametro abbia i campi \textit{mittente}, \textit{destinatario} (TO), l'\textit{oggetto} e il \textit{testo} desiderati dal chiamante del metodo \texttt{sendMessage}.
+
+\item \texttt{testCheck} verifica che il metodo di controllo della superclasse sia sovrascritto in modo corretto, tale cioè da restituire \texttt{true} in ogni caso, indipendentemente dalla richiesta che viene passata ad esso come parametro. Il test si assicura di questo verificando il risultato e sincerandosi del fatto che la richiesta HTTP non sia utilizzata per estrarre parametri o informazioni di sessione che potrebbero influenzare il risultato.
+
+\item \texttt{testRecoverPasswordSuccesfully()} verifica la possibilità di recuperare la \inglese{password} da parte di un utente che è registrato al sistema e che fornisce pertanto uno username valido. Il test verifica che la stringa restituita sia effettivamente \texttt{true}, che il sistema di persistenza dei dati sia utilizzato per recuperare l'utente, la risposta segreta codificata e la \inglese{password} e che la strategia di crittografia sia utilizzata per codificare la risposta contenuta nella richiesta e per decodificare la \inglese{password} presente nel database.
+
+\item \texttt{testRecoverPasswordUnsuccesfully()} verifica l'impossibilità di recuperare la \inglese{password} da parte di un utente che fornisce uno username non presente nella base di dati. Il test verifica che la stringa stampata sulla risposta sia effettivamente \texttt{null} come desiderato in caso di fallimento.
+
+\item \texttt{testRecoverPasswordWrongAnswer()} Verifica il comportamento del metodo \texttt{doAction} nel momento in cui la risposta contenuta come parametro nella richiesta che giunge al \textit{controller} non corrisponde alla risposta che l'utente aveva impostato in fase di registrazione. Il test verifica che sia stampata sulla risposta la stringa \texttt{null}, dopo aver tentato di codificare la \inglese{password} in ingresso. Si controlla inoltre che non sia \textit{mai} recuperata la \inglese{password} e che non sia effettuata \textit{alcuna} operazione di decodifica.
+
+\end{itemize}
+
+\textbf{Risultato del test:} superato con successo.
+
+
+\item \textbf{TM5.02: LoginControllerTest}\\
 \textbf{Verifica l'oggetto:} \texttt{LoginController}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di effettuare il login da parte di un utente ricevuta tramite richiesta HTTP POST I possibili \inglese{input} riguardano dati passati (\textit{username} e \textit{password}) che possono essere corretti o non (campi dati vuoti, o che non corrispondono a nessun utente realmente registrato al sistema).
 Tale test si compone di quattro metodi:
@@ -1148,7 +1416,8 @@ verifica il comportamento della classe nel momento in cui avviene un errore nell
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{TM2.02: LogoutControllerTest}\\
+
+\item \textbf{TM5.03: LogoutControllerTest}\\
 \textbf{Verifica l'oggetto:} \texttt{LogoutController}.\\
 \textbf{Descrizione}:l'obiettivo di questo test è verificare l'effettivo \inglese{logout} da parte di un utente autenticato tramite richiesta HTTP POST.
 Tale test si compone di due metodi:
@@ -1161,32 +1430,9 @@ Tale test si compone di due metodi:
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{TM2.03: RegisterControllerTest}\\
-\textbf{Verifica l'oggetto:} \texttt{RegisterController}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è la verifica che l'operazione di registrazione da parte di un utente ricevuta tramite richiesta HTTP POST, i possibili \inglese{input} riguardano dati passati per la registrazione stessa, che possono essere corretti o non (campi dati obbligatori vuoti, o errati).
-Tale test si compone di quattro metodi:
-\begin{itemize}
-\item \texttt{testRegisterCorrectUser()} verifica il corretto funzionamento della registrazione al sistema di un utente a partire da una richiesta contenente tutti i parametri necessari obbligatoriamente per portare a termine l'operazione e tutti i parametri facoltativi, eccetto l'immagine personale. 
-Il test avviene verificando che la stringa stampata sulla pagina di risposta corrisponda, come attesa, alla rappresentazione in formato JSON dei dati dell'utente. Inoltre il test controlla che avvenga l'effettivo inserimento dei dati del nuovo utente nel database del sistema.
-
-\item \texttt{testRegisterCorrectUserWithPicture()}
-verifica il corretto funzionamento della registrazione al sistema di un utente a partire da una richiesta contenente tutti i parametri necessari obbligatoriamente per portare a termine l'operazione e tutti i parametri facoltativi, compresa l'immagine personale. 
-Il controllo avviene verificando che la stringa stampata sulla pagina di risposta corrisponda, come attesa, alla rappresentazione in formato JSON dei dati dell'utente. Inoltre il test controlla che avvenga l'effettivo inserimento dei dati del nuovo utente nel database del sistema.
-
-\item \texttt{testRegisterWrongUser()} 
-verifica l'impossibilità di portare a termine la procedura di registrazione per un utente la cui richiesta non contiene tutti i dati necessari alla registrazione, come ad esempio il nome utente. Il controllo avviene verificando che il testo stampato sulla pagina di risposta sia la stringa \texttt{null}. Inoltre viene verificato che non sia mai utilizzato l'algoritmo di crittografia e che non avvenga nessun inserimento di dati sul database.
-\item \texttt{testCheck()} verifica il corretto funzionamento del metodo \texttt{check}. Il controllo avviene verificando che l'oggetto restituito abbia valore \texttt{true}.
- 
-\end{itemize}
-
-\textbf{Risultato del test:} superato con successo.
-
-
-
-
-\item \textbf{TM2.03: QuestionControllerTest}\\
+\item \textbf{TM5.04: QuestionControllerTest}\\
 \textbf{Verifica l'oggetto:} \texttt{QuestionController}.\\
-\textbf{Descrizione}: 
+\textbf{Descrizione}: %TODO: DA DESCRIVERE
 
 Questo test si compone di due metodi:
 \begin{itemize}
@@ -1200,300 +1446,191 @@ Il test avviene controllando che il testo stampato sulla risposta HTTP passata c
 
 \textbf{Risultato del test:} superato con successo.
 
-
-\item \textbf{TM2.03: AnswerControllerTest}\\
-\textbf{Verifica l'oggetto:} \texttt{AnswerController}.\\
-\textbf{Descrizione}: %TODO DA DESCRIVERE
-
-Questo test si compone di tre metodi:
+\item \textbf{TM5.05: RegisterControllerTest}\\
+\textbf{Verifica l'oggetto:} \texttt{RegisterController}.\\
+\textbf{Descrizione}: l'obiettivo di questo test è la verifica che l'operazione di registrazione da parte di un utente ricevuta tramite richiesta HTTP POST, i possibili \inglese{input} riguardano dati passati per la registrazione stessa, che possono essere corretti o non (campi dati obbligatori vuoti, o errati).
+Tale test si compone di quattro metodi:
 \begin{itemize}
+\item \texttt{testRegisterCorrectUser()} verifica il corretto funzionamento della registrazione al sistema di un utente a partire da una richiesta contenente tutti i parametri necessari obbligatoriamente per portare a termine l'operazione e tutti i parametri facoltativi, eccetto l'immagine personale. 
+Il test avviene verificando che la stringa stampata sulla pagina di risposta corrisponda, come attesa, alla rappresentazione in formato JSON dei dati dell'utente. Inoltre il test controlla che avvenga l'effettivo inserimento dei dati del nuovo utente nel database del sistema.
 
-\item \texttt{testSendMessage()} verifica il funzionamento corretto del metodo utilizzato per inviare il messaggio contenente la \inglese{password}, in particolare controllando che sia invocato il emtodo di invio e che il messaggio passato come parametro abbia i campi \textit{mittente}, \textit{destinatario} (TO), l'\textit{oggetto} e il \textit{testo} desiderati dal chiamante del metodo \texttt{sendMessage}.
+\item \texttt{testRegisterCorrectUserWithPicture()}
+verifica il corretto funzionamento della registrazione al sistema di un utente a partire da una richiesta contenente tutti i parametri necessari obbligatoriamente per portare a termine l'operazione e tutti i parametri facoltativi, compresa l'immagine personale. 
+Il controllo avviene verificando che la stringa stampata sulla pagina di risposta corrisponda, come attesa, alla rappresentazione in formato JSON dei dati dell'utente. Inoltre il test controlla che avvenga l'effettivo inserimento dei dati del nuovo utente nel database del sistema.
 
-\item \texttt{testCheck} verifica che il metodo di controllo della superclasse sia sovrascritto in modo corretto, tale cioè da restituire \texttt{true} in ogni caso, indipendentemente dalla richiesta che viene passata ad esso come parametro. Il test si assicura di questo verificando il risultato e sincerandosi del fatto che la richiesta HTTP non sia utilizzata per estrarre parametri o informazioni di sessione che potrebbero influenzare il risultato.
+\item \texttt{testRegisterWrongUser()} 
+verifica l'impossibilità di portare a termine la procedura di registrazione per un utente la cui richiesta non contiene tutti i dati necessari alla registrazione, come ad esempio il nome utente. Il controllo avviene verificando che il testo stampato sulla pagina di risposta sia la stringa \texttt{null}. Inoltre viene verificato che non sia mai utilizzato l'algoritmo di crittografia e che non avvenga nessun inserimento di dati sul database.
 
-\item \texttt{testRecoverPasswordSuccesfully()} verifica la possibilità di recuperare la \inglese{password} da parte di un utente che è registrato al sistema e che fornisce pertanto uno username valido. Il test verifica che la stringa restituita sia effettivamente \texttt{true}, che il sistema di persistenza dei dati sia utilizzato per recuperare l'utente, la risposta segreta codificata e la \inglese{password} e che la strategia di crittografia sia utilizzata per codificare la risposta contenuta nella richiesta e per decodificare la \inglese{password} presente nel database.
-
-\item \texttt{testRecoverPasswordUnsuccesfully()} verifica l'impossibilità di recuperare la \inglese{password} da parte di un utente che fornisce uno username non presente nella base di dati. Il test verifica che la stringa stampata sulla risposta sia effettivamente \texttt{null} come desiderato in caso di fallimento.
-
-\item \texttt{testRecoverPasswordWrongAnswer()} Verifica il comportamento del metodo \texttt{doAction} nel momento in cui la risposta contenuta come parametro nella richiesta che giunge al \textit{controller} non corrisponde alla risposta che l'utente aveva impostato in fase di registrazione. Il test verifica che sia stampata sulla risposta la stringa \texttt{null}, dopo aver tentato di codificare la \inglese{password} in ingresso. Si controlla inoltre che non sia \textit{mai} recuperata la \inglese{password} e che non sia effettuata \textit{alcuna} operazione di decodifica.
-
-
+\item \texttt{testCheck()} verifica il corretto funzionamento del metodo \texttt{check}. Il controllo avviene verificando che l'oggetto restituito abbia valore \texttt{true}.
+ 
 \end{itemize}
 
 \textbf{Risultato del test:} superato con successo.
 
-
-
 \end{itemize}
 
-
-
-
-
-
-
-\subsubsection{\texttt{org.softwaresinthesis.mytalk.server.abook}}
+\subsubsection{\texttt{org.softwaresinthesis.mytalk.server.authentication.security}}
 \begin{itemize}
-\item \textbf{TM3.01: AddressBookEntryTest}\\
-\textbf{Verifica la Classe:} \texttt{AddressBookEntry}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la corretta gestione di un'istanza di \texttt{AddressBookEntry}.\\
-Tale test si compone di sei metodi:
+
+\item \textbf{TM6.01: AESAlgorithmTest}\\
+\textbf{Verifica la Classe:} \texttt{AESAlgorithm}.\\
+\textbf{Descrizione}:l'obiettivo di questo test è assicurare che l'algoritmo di cittografia AES a 128 bit utilizzato dal sistema \caName{} risulti affidabile e riesca a codificare e decodificare una stringa passata.
+
+Tale test si compone di due metodi:
 \begin{itemize}
-\item \texttt{testId()} verifica la corretta restituzione dell'id verificando che l'oggetto restituito non sia \textit{null} e che sia uguale al valore con cui era stato inizializzato l'oggetto sottoposto al test.
-\item \texttt{testContact()} verifica la corretta impostazione e restituzione del contatto nella voce della rubrica. Tale verifica avviene tramite il controllo che il contatto restituito non sia \textit{null} e che esso sia uguale al nuovo contatto impostato. In questo modo vengono controllate entrambe le funzioni.
-\item \texttt{testGroup()} verifica la corretta impostazione ed il recupero del gruppo a cui appartiene la voce della rubrica. Il controllo avviene verificando che l'oggetto restituito non sia \textit{null} e che esso sia uguale al gruppo impostato. 
-\item \texttt{testOwner()} controlla il corretto recupero del proprietario ed l'impostazione di questo dalla voce della rubrica. La verifica avviene controllando che l'oggetto restituito non sia \textit{null} e che questo sia uguale al nuovo proprietario impostato. In questo modo si verificano entrambe le funzionalità.
-\item \texttt{testBlocked()} verifica che avvenga correttamente il blocco del contatto in rubrica invocando il blocco nell'oggetto sottoposto al test e verificandone l'esito.
-\item\texttt{testEquals()} controlla  il corretto funzionamento del metodo \texttt{equals()}. Viene creato un oggetto \texttt{AddressBookEntry} e viene confrontato con l'oggetto sottoposto a verifica tramite il metodo \texttt{equals()} che restituisce \textit{true} se e solo se sono uguali.
+\item \texttt{testEncode() } verifica che una stringa di esempio sia correttamente codificata mediante il confronto con la sua versione cifrata (nota a priori).
+
+\item \texttt{testDecode()} verifica la corretta decodifica di un testo cifrato la cui controparte in chiaro è nota.
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{TM3.02: GroupTest}\\
-\textbf{Verifica la Classe:} \texttt{Group}.\\
-\textbf{Descrizione}:l'obiettivo di questo test è verificare la corretta gestione di un istanza di \texttt{Group}.\\
+
+\item \textbf{TM6.02: AESDecodeTest}\\
+\textbf{Verifica la Classe:} \texttt{AESDecode}.\\
+\textbf{Descrizione}:l %TODO: DA DESCRIVERE
+
+Tale test si compone di un metodo:
+\begin{itemize}
+\item \texttt{testExecute() } verifica la corretta applicazione dell'algoritmo di decodifica confrontando il testo in chiaro ottenuto dall'esecuzione del metodo \texttt{execute()} della classe \textit{Decode} a partire da una stringa di test la cui versione in chiaro è nota a priori.
+\end{itemize}
+\textbf{Risultato del test:} superato con successo.
+
+
+\item \textbf{TM6.03: AESEncodeTest}\\
+\textbf{Verifica la Classe:} \texttt{AESEncode}.\\
+\textbf{Descrizione}: %TODO: DA DESCRIVERE
+
+Tale test si compone di un metodo:
+\begin{itemize}
+\item \texttt{testExecute() } verifica la correttezza dell'algoritmo di crittografia codificando una stringa la cui versione cifrata è nota per la chiave prescelta e confrontando la corrispondenza delle due stringhe.
+\end{itemize}
+\textbf{Risultato del test:} superato con successo.
+
+
+\end{itemize}
+
+
+\subsubsection{\texttt{org.softwaresinthesis.mytalk.server.call}}
+\begin{itemize}
+\item \textbf{TM7.01: CallListTest}\\
+\textbf{Verifica la Classe:} \texttt{CallList}.\\
+\textbf{Descrizione}: L'obiettivo di questo test è controllare che un'istanza della classe \texttt{CallList} venga gestita in modo corretto. Vengono verificati tutti i metodi disponibili alla classe, in particoalri quelli relativi alla gestione dei sui campi dati.
+
+Tale test si compone di quattro metodi:
+\begin{itemize}
+\item \texttt{testId() } controlla che il recupero dell'identificatore di un oggetto \texttt{CallList}avvenga in modo corretto. 
+Il test avviene verificando che l'oggetto restituito non sia \textit{null} e che esso sia uguale al valore con cui era stato inizializzato l'oggetto sottoposto al test.
+
+\item \texttt{testUser() } verifica che l'impostazione e il recupero dell'utente al quale è associata la voce della tabella \texttt{CallLists} avvenga correttamente. 
+
+Il controllo avviene verificando che l'oggetto restituito non sia \textit{null} e che esso sia uguale all'utente impostato. In questo modo vengono controllate ambedue le funzionalità.
+
+\item \texttt{testCall()} verifica che l'impostazione e il recupero della chiamata alla quale è associata la voce della tabelle \texttt{CallLists} avvenga in modo corretto. Il controllo avviene verificando che l'oggetto restituito non sia \textit{null} e che esso sia uguale alla chiamata impostata. In questo modo vengono controllate ambedue le funzioni.
+
+\item \texttt{testCaller()} verifica la corretta esecuzione  dell'impostazione e del recupero del dato booleano associato alla voce della tabella \texttt{CallLists}. Tale dato booleano indica se l'utente risulta essere il chiamante.
+Il controllo avviene verificando il funzionamento sia nel caso in cui il booleano abbia valore \texttt{true} sia nel caso in cui esso abbia valore \texttt{false}.
+In entrambe i casi viene controllato che l'oggetto restituito non sia \textit{null} e che esso sia uguale all'ultima impostazione. (\texttt{true} nel primo caso, \texttt{false} nel secondo.
+
+ 
+\end{itemize}
+\textbf{Risultato del test:} superato con successo.
+
+\item \textbf{TM7.02: CallTest}\\
+\textbf{Verifica la Classe:} \texttt{Call}.\\
+\textbf{Descrizione}: L'obiettivo di questo test è controllare che un'istanza della classe \texttt{Call} venga gestita in modo corretto. Vengono verificati tutti i metodi disponibili alla classe, in particolare quelli relativi alla gestione dei sui campi dati.
+
 Tale test si compone di sette metodi:
 \begin{itemize}
-\item \texttt{testId()} verifica l'effettiva restituzione del campo \textit{id} controllando che l'oggetto restituito non sia \textit{null} e che sia uguale al valore con cui era stato inizializzato l'oggetto sottoposto al test.
-\item \texttt{testName()}
-verifica la corretta impostazione ed il recupero del del campo \textit{name}. Il controllo avviene verificando che l'oggetto restituito non sia \textit{null} e che esso sia uguale al nuovo nome impostato. 
-\item \texttt{testEquals()} 
-verifica il corretto funzionamento del metodo \texttt{equals()} controllando la corrispondenza di nomi. 
-\item \texttt{testOwner()} verifica la corretta impostazione ed il recupero del del campo \textit{owner}. Il controllo avviene verificando che l'oggetto restituito non sia \textit{null} e che esso sia uguale al nuovo nome proprietario impostato. 
-\item \texttt{testAddressBook()} verifica la corretta impostazione e recupero dei contatti appartenenti ad un gruppo.
-Il controllo avviene verificando che l'oggetto restituito non sia \textit{null} e che esso corrisponda alla nuova collezione inserita.
-In questo modo si verificano entrambe le funzioni.
-\item \texttt{testAddAddressBookEntry()} verifica il corretto inserimento di un nuovo contatto all'interno di un gruppo controllando l'effettiva la presenza del nuovo elemento aggiunto.
-\item \texttt{testRemoveAddressBookEntry()}  
-verifica la corretta eliminazione di un nuovo contatto all'interno di un gruppo controllando che il contatto non sia più presente nella rubrica.
 
+\item \texttt{testId()} controlla che il recupero dell'identificatore di una chiamata avvenga in modo corretto. 
+Il test avviene verificando che l'oggetto restituito non sia \textit{null} e che esso sia uguale al valore con cui era stato inizializzato l'oggetto sottoposto al test.
+
+\item \texttt{testStartDate()} verifica che l'impostazione e il recupero della data di inizio della chiamata avvenga correttamente.
+Il controllo avviene verificando che l'oggetto restituito non sia \texttt{null} e che esso sia uguale alla data impostata. In questo modo viene controllata sia l'impostazione che il recupero della data di inizio della chiamata.
+
+\item \texttt{testEndDate()} controlla che l'impostazione e il recupero della data di fine della chiamata avvenga correttamente.
+Il test avviene verificando che l'oggetto restituito non sia \texttt{null} e che esso sia uguale alla data impostata. In questo modo viene controllata sia l'impostazione che il recupero della data di fine della chiamata.
+
+\item \texttt{testCallList()} verifica la corretta impostazione  della collezione di oggetti \texttt{CallList} che coinvolgono una determinata chiamta. 
+Il controllo avviene verificando che l'oggetto restituito non sia \texttt{null} e che esso sia uguale alla collezione impostata.
+
+\item \texttt{testAddCall()} controlla il corretto funzionamento dell'inserimento di un oggetto \texttt{CallList} alla collezione di voci che sono associate ad una determinata chiamata. La verifica avviene controllando che la collezione contenga il nuovo oggetto inserito.
+
+\item \texttt{testRemoveCall()} controlla il corretto funzionamento dell'eliminazione di un oggetto \texttt{CallList} dalla collezione di voci che sono associate ad una determinata chiamata. La verifica avviene controllando che la collezione non contenga il nuovo oggetto inserito.
+
+\item \texttt{testEquals()}
+verifica il corretto funzionamento del metodo \texttt{equals()}. Viene creato un oggetto \texttt{Call} e viene confrontato con l'oggetto sottoposto a verifica tramite il metodo \texttt{equals()} che restituisce \textit{true} se e solo se sono uguali.
+ 
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{TM3.03: UserDataTest}\\
-\textbf{Verifica la Classe:} \texttt{UserData}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la corretta gestione di un'istanza della classe \texttt{UserData}. Vengono controllati tutti i metodi disponibili a questa classe, in particolare quelli relativi alla gestione dei sui diversi campi dati.
-
-Tale test si compone di quattordici metodi:
-\begin{itemize}
-\item \texttt{testId()} 
-verifica l'effettiva restituzione del campo \textit{id} controllando che l'oggetto restituito non sia \textit{null} e che sia uguale al valore con cui era stato inizializzato l'oggetto sottoposto al test.
-\item \texttt{testEmail()} verifica che la mail venga impostata restituita correttamente. Il controllo avviene verificando che l'oggetto restituito non sia \textit{null} e che esso sia uguale alla mail impostata. In questo modo viene controllata sia l'impostazione che la restituzione. 
-\item \texttt{testPassword()} controlla che la password venga impostata e restituita correttamente. La verifica avviene controllando che l'oggetto restituito non sia \textit{null} e che esso sia uguale alla alla password impostata. In questo modo vengono controllate ambedue le funzionalità.
-\item \texttt{testQuestion()} verifica che la domanda per il recupero password venga impostata e restituita correttamente controllando che l'oggetto restituito non sia \textit{null} e che esso sia uguale alla domanda di recupero password impostata.
-\item \texttt{testAnswer()} verifica che la risposta alla domanda per il recupero della password venga impostata e restituita correttamente. Il controlla avviene verificando che l'oggetto restituito non sia \textit{null} e che esso sia uguale alla risposta alla domanda di recupero password impostata. 
-\item \texttt{testName()} verifica che il nome venga impostato e restituito correttamente. Il controllo avviene verificando che l'oggetto restituito non sia \textit{null} e che esso sia uguale al nome impostato.
-\item \texttt{testSurname()} controlla che il cognome venga impostato e restituito correttamente. La verifica avviene controllando che l'oggetto restituito non sia \textit{null} e che esso sia uguale al cognome impostato. In questo modo viene controllato il funzionamento sia dell'impostazione che della restituzione.
-\item \texttt{testAddressBook()} verifica il corretto funzionamento dell'impostazione e recupero dei contatti della rubrica.
-Il controllo avviene verificando che l'oggetto restituito non sia \textit{null} e che esso corrisponda alla nuova collezione inserita.
-In questo modo si verificano entrambe le funzioni.
-
-\item \texttt{testCallList()} controlla la corretta impostazione e recupero dello storico delle chiamate.
-Il test avviene verificando che l'oggetto restituito non sia \textit{null} e che esso corrisponda alla nuova collezione inserita.
-\item \texttt{testMessage()} verifica la corretta impostazione e recupero della lista dei messaggi presenti in segreteria.
-Il controllo avviene verificando che l'oggetto restituito non sia \textit{null} e che esso corrisponda alla nuova collezione inserita.
-\item \texttt{testAddAddressBookEntry()} verifica il corretto funzionamento dell'aggiunta di un contatto alla rubrica.
-Il controllo avviene verificando che il nuovo oggetto inserito sia presente nella rubrica.
-\item \texttt{testAddCall()} verifica il corretto inserimento di una chiamata nello storico delle chiamate.
-Il controllo avviene verificando che il nuovo oggetto inserito sia presente nella lista delle chiamate. 
-\item \texttt{testAddMessage()}  verifica il corretto inserimento di un messaggio nella lista dei messaggi presenti in segreteria.
-Il controllo avviene verificando che il nuovo oggetto inserito sia presente nella lista dei messaggi in segreteria. 
-
-\item \texttt{testRemoveAddressBookEntry()} verifica la corretta eliminazione di un contatto dalla rubrica.
-Il controllo avviene verificando l'oggetto eliminato non sia presenti nella rubrica.  
-
-\item \texttt{testRemoveCall()} controlla il corretto funzionamento della rimozione di una chiamata dallo storico delle chiamate. La veririca avviene controllando che l'oggetto eliminato non sia presente nella lista delle chiamate.
-
-\item \texttt{testRemoveMessage()} verifica la corretta eliminazione di un messaggio dalla lista dei messaggi presenti in segreteria.
-Il controllo avviene verificando l'oggetto eliminato non sia presenti nella lista dei messaggi presenti in segreteria. 
-\item \texttt{testEquals()} controlla  il corretto funzionamento del metodo \texttt{equals()}. Il metodo si basa sul test di uguaglianza tra \texttt{email}, viene infatti controllata l'uguaglianza tra due voci della rubrica verificando che le loro \texttt{email} coincidano. 
 
 \end{itemize}
-\textbf{Risultato del test:} superato con successo.
-\end{itemize}
 
-\subsubsection{\texttt{org.softwaresinthesis.mytalk.server.abook.controller}}
+\subsubsection{\texttt{org.softwaresinthesis.mytalk.server.call.controller}}
 \begin{itemize}
 
-\item \textbf{TM4.01: AddressBookDoAddContactServletTest}\\
-
-\textbf{Verifica l'oggetto:} \texttt{AddressBookDoAddContactServlet}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di aggiungere un contatto \texttt{IUserData} all'interno di una rubrica utente.
-
-La possibilità di richiamare \texttt{AddressBookDoAddContactServlet} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica, i possibili \inglese{input} riguardano dati passati mediante \texttt{XMLHttpRequest} che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IUserData} realmente esistente) o non (campi dati vuoti, o che non corrispondono a nessun utente realmente registrato al sistema).
+\item \textbf{TM8.01: GetCallsControllerTest} 
+\textbf{Verifica la Classe:} \texttt{GetCallsController}.\\
+\textbf{Descrizione}: %TODO: AGGIUNGERE DESCRIZIONE
 Tale test si compone di tre metodi:
 \begin{itemize}
-\item \texttt{testAddCorrectContact()} verifica l'effettiva aggiunta di un contatto nella rubrica del richiedente, a partire da dati corretti (realmente apparteneneti all'utente aggiunto).
-\item \texttt{testAddNotExistsContact()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di aggiungere un utente non registrato nel sistema alla rubrica del richiedente.
-\item \texttt{testAddWrongData()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di aggiungere un utente \texttt{IUserData} definito da dati non completi (campi dati vuoti) parzialmente o nella loro totalità.
+\item \texttt{testGetCallsCorrectUser()} verifica il comportamento del metodo \texttt{doAction} quando viene invocato da parte di un utente registrato al sistema e a cui è associata una lista di chiamate non vuota nel database del sistema. Il test verifica che l'output ottenuto corrisponda alla rappresentazione in formato JSON di un array enumerativo di oggetti che corrispondono alle chiamate, ognuna caratterizzata dal nome dell'altro utente coinvolto nella chiamata, dalla data di avvio e da un \inglese{flag} booleano che permette di distinguere le chiamate in ingresso dalle chiamate in uscita. Durante la verifica è inoltre controllato il corretto utilizzo dei \inglese{mock}, in particolare l'estrazione dei dati dal sistema di persistenza.
+
+\item \texttt{testGetCallsWrongUser()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui l'utente da cui proviene la richiesta non è presente nel database. Un simile avvenimento viene simulato facendo in modo che il riferimento ottenuto dal gestore di persistenza non sia valido. In questo caso il test verifica che la stringa restituita sia effettivamente \texttt{null} come desiderato e che non avvenga alcuna interazione con i \inglese{mock} che corrispondono all'utente, all'altro utente coinvolto nella chiamata, alla \textit{CallList} e alla chiamata stessa.
+
+\item \texttt{testGetCallsEmptyList()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui viene invocato con una richiesta proveniente da un utente il cui storico delle chiamate relativo è vuoto. Il test in questo caso verifica che la stringa stampata sulla risposta \texttt{HTTP} sia \texttt{[]}, che corrisponde alla rappresentazione in formato JSON di un array vuoto. È inoltre verificato il corretto utilizzo dei \texttt{mock}, verificando che sia estratto l'utente dal sistema di persistenza dei dati e che sia recuperata la lista (vuota) di chiamate ad esso associata.
+
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
 
-\item \textbf{TM4.02: DeleteContactControllerTest}\\
-\textbf{Verifica l'oggetto:} \texttt{DeleteContactController}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di rimuovere un utente presente nella rubrica del richiedente. Come per il test della \inglese{Servlet} precedentemente descritta, anche in questo caso si assume come precondizione l'autenticazione dell'utente richiedente e quindi l'effettiva esistenza della sua rubrica. 
-I possibili \inglese{input} riguardano dati passati mediante \texttt{XMLHttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IUserData} realmente esistente e presente nella rubrica dell'utente) o non (campi dati vuoti, o che non corrispondono a nessun utente realmente registrato al sistema, o comunque corrispongono ad un utente registrato, ma il cui contatto non è presente nella rubrica del richiedente). TODO: DA VERIFICARE DESCRIZIONE
+\end{itemize}
 
-Tale test si compone di quattro metodi:
+
+\subsubsection{\texttt{org.softwaresinthesis.mytalk.server.connection}}
 \begin{itemize}
-\item \texttt{testDeleteCorrectUser()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui è invocato con una richiesta che contiene tutti i parametri necessari per portare a termine l'operazione di cancellazione. Il test verifica che il testo stampato sulla risposta sia, come atteso, la stringa \texttt{true}, che sia estratta dalla base di dati la rubrica di entrambi gli utenti coinvolti nell'operazione e che da ognuna delle voci della rubrica sia estratto il contatto per effettuare le operazioni di confronto. Infine il test verifica che sia invocato il metodo \texttt{removeAddressBookEntry} sugli utenti e che in seguito siano aggiornati gli oggetti tramite il gestore della persistenza dei dati, e che quest'ultimo sia utilizzato infine per la cancellazione delle voci di rubrica corrispondenti alla richiesta di eliminazione ricevuta dal controller.
 
-\item \texttt{testDeleteNotExistContact()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui è invocato con una richiesta contenente un parametro \texttt{contactId} che non corrisponde all'identificativo di alcuno degli utenti registrati nel sistema. Il test verifica che in questo il caso il testo stampato sulla risposta HTTP corrisponda, come desiderato dal client, alla stringa \texttt{null} e che non siano mai effettuate operazioni di aggiornamento degli utenti, ne cancellazioni di voci di rubrica.
-
-\item \texttt{testDeleteNotFriendContact()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui il \texttt{contactId} contenuto come parametro nella richiesta non corrisponde ad un contatto che appartiene alla rubrica dell'utente. In questo caso il test verifica che sulla risposta sia stampata la stringa \texttt{null}, come desiderato in caso d'errore, e che non sia effettuata alcuna operazione di aggiornamento e di cancellazione dalla base di dati.
-
-\item \texttt{testDeleteWrongData()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui la richiesta HTTP che gli viene passata come parametro non contiene tutti i dati necessari al completamento corretto dell'operazione di cancellazione dalla rubrica degli utenti. Il test verifica che sulla risposta sia effettivamente stampata la stringa \texttt{null}, che denota il verificarsi un errore nel server, e che non sia effettuata \textit{alcuna} operazione (estrazione, cancellazione o aggiornamento) sulla base di dati.
-\end{itemize}
-\textbf{Risultato del test:} superato con successo.
-
-\item \textbf{TM4.03: CreateGroupControllerTest}\\
-\textbf{Verifica l'oggetto:} \texttt{AddressBookDoCreateGroupServlet}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di creare un gruppo \texttt{IGroup} all'interno di una rubrica utente. La possibilità di richiamare \texttt{AddressBookDoCreateGroupServlet} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica. I possibili \inglese{input} riguardano dati passati mediante \texttt{XMLHttpRequest}, che possono essere corretti (campi dati non vuoti) o non (campi dati vuoti).
-Tale test si compone di due metodi:
-\begin{itemize}
-\item \texttt{testAddCorrectGroup()} verifica l'effettiva creazione di un gruppo nella rubrica del richiedente a partire da dati corretti (campi dati non vuoti).
-\item \texttt{testAddWrongData()} verifica la rilevazione dell'errore, scaturito dall'impossibilità di aggiungere un gruppo \texttt{IGroup} definito da dati non completi (campi dati vuoti) parzialmente o nella loro totalità.
-\end{itemize}
-\textbf{Risultato del test:} superato con successo.
-
-\item \textbf{TM4.04: DeleteGroupControllerTest}\\
-\textbf{Verifica l'oggetto:} \texttt{DeleteGroupController}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di eliminare un gruppo presente nella rubrica del richiedente. Come per il test del \inglese{Controller} precedentemente descritta, si assume come precondizione l'autenticazione dell'utente richiedente e quindi l'effettiva esistenza della sua rubrica.
-
-I possibili \inglese{input} riguardano dati passati mediante \texttt{XMLHttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IGroup} realmente esistente e presente nella rubrica dell'utente) o non (campi dati vuoti, o che comunque non corrispondono a nessun gruppo realmente registrato al sistema, o comunque corrispondono ad un gruppo esistente, ma non presente nella rubrica del richiedente). %TODO: DA VERIFICARE 
-Tale test si compone di quattro metodi:
-\begin{itemize}
-\item \texttt{testDeleteCorrectGroup()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui è invocato con una richiesta che contiene tutti i parametri corretti affinché l'operazione di cancellazione del gruppo possa essere portata a termine con successo. In particolare il testo controlla che la stringa del testo della risposta al termine dell'esecuzione del metodo sia, come desiderato in caso di successo, \texttt{true}. Inoltre è verificato che il sistema di gestione della persistenza de dati sia utilizzato per estrarre le informazione corrette relative all'utente da cui proviene la richiesta e al gruppo di cui è richiesta l'eliminazione. Il test controlla infine che tutte le voci della rubrica che appartenevano a quel gruppo siano cancellate dalla tabella \textit{AddressBookEntries}. 
-
-\item \texttt{testRemoveNotExistGroup()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui il valore numerico identificativo del gruppo di cui si richiede l'eliminazione contenuto nella richiesta HTTP non corrisponda ad alcun gruppo valido nella base di dati. Il test verifica che in questo caso il testo stampato nella risposta sia la stringa \texttt{false}, come desiderato in caso di fallimento dell'operazione, e che inoltre non sia \textit{mai} effettuata un'operazione di cancellazione di una voce di rubrica dal database.
-
-\item \texttt{testDeketeNotOwnedGroup()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui l'identificativo del gruppo contenuto nella richiesta non corrisponda a un gruppo il cui proprietario non è l'utente che ha inviato la richiesta al server. Il test verifica che in questo caso sulla risposta sia stampata la stringa \texttt{false}, che denota una condizione di errore per il client che la riceve, e che non sia \textit{mai} effettuata alcuna operazione di cancellazione dalla base di dati.
-
-\item \texttt{testRemoveWrongData()} verifica il comportamento del metodo doAction nel caso in cui la richiesta HTTP passata ad esso non contenga tutti i parametri necessari a portare a termine con successo l'operazione. Oltre a verificare che la stringa stampata sulla risposta sia, anche in questo caso, \texttt{false}, il test assicura che non sia mai effettuata \textit{alcuna} operazione sulla base di dati.
-\end{itemize}
-\textbf{Risultato del test:} superato con successo.
-
-\item \textbf{TM5.02: AddInGroupControllerTest}\\
-\textbf{Verifica la Classe:} \texttt{AddInGroupController}.\\
+\item \textbf{TM9.01: PushInboundTest}\\
+\textbf{Verifica la Classe:} \texttt{PushInbound}.\\
 \textbf{Descrizione}: %TODO: DA DESCRIVERE
-Tale test si compone di due metodi: 
+ 
+Tale test si compone di nove metodi:
 \begin{itemize}
-\item \texttt{testAddCorrectContact()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui è invocato con una richiesta proveniente da un utente autenticato e che contiene tutti i parametri necessari per portare a termine con successo l'operazione. In particolare, il test verifica che la stringa stampata sulla risposta HTTP sia, come desiderato, \texttt{true}, nonchè che nel database siano effettuate le operazioni corretta, ovvero che l'inserimento di una nuova AddressBookEntry (con i campi \texttt{Owner}, \texttt{Contact} e \texttt{Blocked} impostati in maniera corretta) e che sia effettuata un'operazione di update per l'utente possessore della rubrica che viene aggiornata.
 
-\item \texttt{testAddNotExistContact()} verifica il comportamento della classe nel momento in cui il metodo \texttt{doAction} è invocato con il parametro \texttt{contactId} che non corrisponde ad alcuno degli utenti che sono presenti nella base di dati. Il test verifica che la stringa stampata nel testo della risposta HTTP corrisponda alla stringa \texttt{null}, come desiderato. Inoltre, è verificato che non siano \textit{mai} effettuate operazioni di inserimento e di aggiornamento della base di dati.
+\item \texttt{testId()} verifica che sia possibile impostare e recuperare correttamente il numero identificativo associato al canale di connessione fra server e client.
 
-\item \texttt{testAddNotExistGroup()} verifica il comportamento della classe nel momento in cui il metodo \texttt{doAction} è invocato con il parametro \texttt{groupId} che non corrisponde ad alcuno degli utenti che sono presenti nella base di dati. Il test verifica che la stringa stampata nel testo della risposta HTTP corrisponda alla stringa \texttt{null}, come desiderato. Inoltre, è verificato che non siano \textit{mai} effettuate operazioni di inserimento e di aggiornamento della base di dati.
+\item \texttt{testState()} verifica che sia possibile impostare e recuperare correttamente lo stato del client associato alla connessione client-server.
 
-\item \texttt{testAddNotOwnedGroup()} verifica il comportamento della classe nel momento in cui l'operazione richiesta corrisponde all'inserimento di un contatto in un gruppo che non è di proprietà dell'utente da cui proviene la richiesta. Il test verifica che in questo caso il testo stampato nella risposta sia, come desiderato, la stringa \texttt{null} e che non sia effettuata alcuna operazione di aggiornamento dei dati dell'utente che ha richiesto l'inserimento.
+\item \texttt{testOnBinaryMessageBiteBuffer()} verifica il comportamento della classe nel momento in cui si tenta di trasmettere un messaggio binario tramite il canale di comunicazione con il server. In particolare il test ha successo solo se viene sollevata una \texttt{IOException} e se il messaggio associato all'eccezione corrisponde a quanto atteso.
 
-\item \texttt{testAddWrongUserData()} verifica il comportamento della classe nel momento in cui il metodo \texttt{doAction} è invocato con una richiesta HTTP che non contiene tutti i parametri necessari per portare a termine con successo l'operazione, in particolare nel caso in cui non è presente il paramentro \texttt{contactId}. Il test controlla, in particolare, che il testo stampato nella risposta corrisponda, come atteso, alla stringa \texttt{null} e che non sia effettuata alcuna operazione sul gestore della persistenza dei dati.
+\item \texttt{testConnectClient} verifica il comportamento della classe nel momento in cui viene  utilizzata per inviare al server un messaggio testuale che segnala la connessione di un nuovo client. In particolare il test verifica che sia aggiunta una nuova voce alla lista delle connessioni note al server, indicizzata con il campo identificativo del nuovo client.
 
-\item \texttt{testAddWrongGrup()} verifica il comportamento della classe nel momento in cui il metodo \texttt{doAction} è invocato con una richiesta HTTP che non contiene tutti i parametri necessari per portare a termine con successo l'operazione, in particolare nel caso in cui non è presente il paramentro \texttt{groupId}. Il test controlla, in particolare, che il testo stampato nella risposta corrisponda, come atteso, alla stringa \texttt{null} e che non sia effettuata alcuna operazione sul gestore della persistenza dei dati.
+\item \texttt{testExchangeData} verifica il comportamento del client nel momento in cui il messaggio ricevuto dal server tramite il canale serve ad inviare a un secondo client una determinata stringa che contiene la descrizione del primo client. Il test verifica che il testo effettivamente trasmetto sul secondo canale di comunicazione sia conforme alle aspettative e contenga * cioè il carattere \texttt{2}, seguito dal carattere \texttt{pipe}, seguito dalla stringa ricevuta inizialmente tramite il primo canale.
+
+\item \texttt{testSendIdToCaller} Verifica il comportamento della classe nel momento in cui il canale è utilizzato da un primo client per chiedere al server di trasmettere a un secondo client il suo numero identificativo. In particolare, il test verifica che il messaggio di testo trasmesso al secondo client corrisponda alle aspettative e sia cioè formato dal carattere \texttt{3}, seguito dal carattere \texttt{pipe} e quindi dal numero identificativo del primo client.
+
+\item \texttt{testDisconnectClient} verifica il comportamento della classe nel momento in cui il messaggio trasmesso dal client al server segnala la disconnessione del client. In particolare il test verifica che dalla lista delle connessioni note al server sia rimosso il canale di comunicazione associato al client che richiede la disconnessione.
+
+\item \texttt{testNotifyStatusChange} verifica il comportamento della classe nel momento in cui il canale di comunicazione è utilizzato da un client per notificare al server un cambiamento di stato. In particolare il test verifica che a tutti i contatti che sono presenti nella rubrica dell'utente che cambia stato e che sono effettivamente connessi sia inviato un messaggio contenente il carattere \texttt{5}, il carattere \texttt{pipe} e la corretta rappresentazione in formato stringa dello stato assunto dal mittente iniziale del messaggio.
+
+\item \texttt{testCallRefusal} verifica il comportamento della classe nel momento in cui il messaggio  ricevuto dal server sia la notifica, da parte di un client, dell'avvenuto rifiuto di una chiamata entrante. Il test verifica, in particolare, che al client sia trasmesso un messaggio contenente il carattere \texttt{6}, seguito dal carattere \texttt{pipe}.
 
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
-
-
-\item \textbf{TM4.06: DeleteFromGroupControllertTest}\\
-\textbf{Verifica l'oggetto:} \texttt{DeleteFromGroupController}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di rimuovere un conttatto da un gruppo presente nella rubrica del richiedente. Come per il test del \inglese{Controller} precedentemente descritto, si assume come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica. 
-I possibili \inglese{input} riguardano dati passati mediante \texttt{XMLHttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IGroup} realmente esistente e presente nella rubrica dell'utente, e ad un contatto registrato nel sistema) o non (campi dati vuoti, che non corrispondono a nessun gruppo realmente presente nel sistema, che corrispondono ad un gruppo esistente ma non presente nella rubrica del richiedente, che non corrispondono a nessun contatto registrato nel sistema). TODO: DA VERIFICARE DESCRIZIONE
-
-Tale test si compone di quattro metodi:
-\begin{itemize}
-\item \texttt{testDeleteCorrectContact()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui viene invocato con una richiesta contenente tutti i parametri necessari per portare a termine con successo l'operazione. In particolare il test verifica che il testo stampato sulla risposta HTTP sia, come desiderato, la stringa \texttt{true}. Si verifica inoltre che il sistema di persistenza sia utilizzato per estrarre i dati corrispondenti all'utente, al contatto e al gruppo contenuti nella richiesta, che sia effettuata un'operazione di rimozione della \inglese{entry} e che venga effettuato l'aggiornamento dell'utente la cui rubrica è soggetta a modifica.
-
-\item \texttt{testDeleteNotExistUser()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui il contatto di cui si richiede la cancellazione non corrisponde ad alcuno degli utenti che sono registrati al sistema. Il test verifica che in questo caso il testo stampato sulla risposta HTTP sia, come desiderato, la stringa \texttt{null}, che non siano \textit{mai} effettuate operazioni di aggiornamento dei dati dell'utente che ha richiesto la cancellazione e che non sia cancellata alcuna voce dalla rubrica.
-
-\item \texttt{testDeleteNotExistGroup()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui il contatto di cui si richiede la cancellazione non corrisponde ad alcuno degli utenti che sono registrati al sistema. Il test verifica che in questo caso il testo stampato sulla risposta HTTP sia, come desiderato, la stringa \texttt{null}, che non siano \textit{mai} effettuate operazioni di aggiornamento dei dati dell'utente che ha richiesto la cancellazione e che non sia cancellata alcuna voce dalla rubrica.
-
-\item \texttt{testDeleteWrongData()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui esso è invocato con una richiesta HTTP e che non contiene tutti i parametri necessari per portare a termine con successo l'operazione. In tal caso il test verifica che il numero stampato sulla risposta sia effettivamente \texttt{null}, come desiderato in questo caso, e che non sia effettuata \textit{alcuna} operazione sul gestore di persistenza dei dati.
 \end{itemize}
-\textbf{Risultato del test:} superato con successo.
 
-\item \textbf{TM4.07: BlockContactControllerTest}\\
-\textbf{Verifica l'oggetto:} \texttt{BlockContactController}.\\
-\textbf{Descrizione}:TODO: DA DESCRIVERE
-
-\begin{itemize}
-\item \texttt{testBlockCorrectContact()} verifica il comportamento del metodo \texttt{doAction} del controller esso va a buon fine perchè invocato con una richiesta che contiene al suo interno tutti i dati necessari a portare a termine l'operazione. In particolare il test verifica che il testo stampato sulla risposta HTTP corrisponda alla stringa \texttt{true} e che sia utilizzato in maniera corretta il sistema di persistenza per recuperare i dati e per aggiornare la voce della rubrica impostando il campo \texttt{Blocked} a \texttt{true} dell'utente che ha inviato la richiesta al \textit{controller}.
-
-\item \texttt{testBlockNotExistsContact()} verifica il comportamento della classe nel momento in cui viene invocato il metodo \texttt{doAction} con una richiesta contenente un parametro \texttt{contactId} che non corrisponde ad alcuno degli utenti del sistema memorizzati nella base dati. In particolare il test verifica che il testo stampato sulla risposta sia la stringa \texttt{null}, come desiderato, e che non sia effettuata alcuna operazione di aggiornamento delle voci di rubrica presenti nel database.
-
-\item \texttt{testWrongData()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui la richiesta HTTP con cui viene invocato non contiene tutti i dati necessari per portare a termine con successo l'operazione, in particolare perché non è possibile individuare univocamente il contatto da bloccare. Il test verifica che in una simile situazione il testo di risposta sia, come desiderato, la stringa \texttt{null} e che non sia effettuata alcuna operazione ne sul sistema di persistenza ne sui \textit{mock} degli utenti messi a disposizione in questo test.
-\end{itemize}
-\textbf{Risultato del test:} superato con successo.
-
-\item \textbf{TM4.08: UnblockControllerTest}\\
-\textbf{Verifica l'oggetto:} \textit{UnblockController}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di sbloccare un contatto \texttt{IUserData} (bloccato) all'interno di una rubrica utente. La possibilità di richiamare\\ \texttt{UnblockController} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica.
-
-I possibili \inglese{input} riguardano dati passati mediante \texttt{XMLHttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IUserData} realmente esistente, bloccato, e presente nella rubrica del richiedente) o non (campi dati vuoti, o che comunque non corrispondono a nessun utente realmente registrato al sistema). %TODO: DA VERIFICARE.
-
-Tale test si compone di tre metodi:
-\begin{itemize}
-\item \texttt{testUnblockCorrectContact()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui è invocato a partire da una richiesta che contiene tutti i parametri di valore corretto per portare a termine con successo l'operazione di blocco del contatto. In particolare, il test verifica che il testo stampato sulla risposta sia, come desiderato in caso di successo, la stringa \texttt{true} e che il sistema di persistenza dei dati sia utilizzato correttamente per le operazioni di recupero (della rubrica dell'utente che richiede l'operazione e dei contatti coinvolti) e di aggiormento (di tutte le voci di rubrica che devono essere bloccate).
-
-\item \texttt{testUnblockNotExistsContact()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui il parametro identificativo del contatto da bloccare contenuto nella richiesta non corrisponde ad alcuno degli utenti registrati nel sistema.
-Il test verifica che in questo caso la stringa stampata sulla risorsa HTTP sia \texttt{null}, che denota l'avvenuto errore nel server. Infine è effettuato un controllo sul sistema di persistenza, garantendo che non sia effettuata alcuna operazione di aggiornamento di voci di rubrica.
-
-\item \texttt{testWrongData()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui la richiesta HTTP con cui viene invocato non contiene tutti i parametri necessari per portare a termine l'operazione di blocco di un contatto.
-Il test verifica che in questo caso la stringa stampata sulla risorsa HTTP sia \texttt{null}, che denota l'avvenuto errore nel server e che non sia effettuata alcuna operazione attraverso il gestore della persistenza dei dati.
-
-\end{itemize}
-\textbf{Risultato del test:} superato con successo.
-
-\item \textbf{TM4.09: SearchControllerTest}\\
-\textbf{Verifica l'oggetto:} \texttt{SearchController}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di ritornare una lista di contatti corrispondenti a determinati criteri ricerca specificati nella richiesta. La possibilità di richiamare \texttt{GetContactsController} ha come precondizione l'autenticazione dell'utente richiedente. 
-
-I possibili input riguardano dati passati mediante \texttt{XMLHttpRequest}, che possono essere corretti (campi dati non vuoti) o non (campi dati vuoti). %TODO: VERIFICARE
-Tale test si compone di due metodi:
-\begin{itemize}
-\item \texttt{testGetSearchContact()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui la richiesta contiene tutti i parametri per portare a termine con successo l'operazione di ricerca. Il particolare il test verifica che la stringa stampata sulla risposta corrisponda alla rappresentazione in formato JSON di un array associativo indirizzato come identificativo degli utenti che corrispondono al criterio di ricerca specificato nella richiesta. Il test verifica inoltre che sia utilizzato correttamente il sistema di gestione della persistenza per l'estrazione degli utenti e che da questi ultimi siano estratte solo le informazioni rilevanti per la codifica JSON dei risultati.
-
-\item \texttt{testWrongData()} verifica il comportamento del metodo \texttt{doAction} nel caso in cui la richiesta HTTP con cui viene invocato non contiene tutti i parametri necessari a portare a termine con successo l'operazione di ricerca. Il test verifica che in questo caso sia stampata sulla risposta la stringa \texttt{\{\}} che rappresenta un array associativo vuoto.
-\end{itemize}
-\textbf{Risultato del test:} superato con successo.
-
-\item \textbf{TM4.10: GetContactsControllerTest}\\
-\textbf{Verifica l'oggetto:} \texttt{GetContactsController}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di ottenere la lista dei contatti presenti nella rubrica del richiedente memorizzata sul server. La possibilità di richiamare \texttt{GetContactsController} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica.
-
-I possibili input riguardano dati passati mediante \texttt{XMLHttpRequest}, che possono essere corretti (campi dati non vuoti e che si verifica appartengano ad un \texttt{IUserData} realmente esistente) o meno, se vuoti ad esempio.
-
-Tale test si compone di due metodi:
-\begin{itemize}
-\item \texttt{testGetCorrectContacts()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui un utente richiede di scaricare la propria rubrica e questa contiene almeno un contatto. Il test verifica che il testo stampato nella risposta HTTP corrisponda alla rappresentazione in formato JSON della lista dei contatti (ognuno presente una sola volta) e che sia utilizzato correttamente il gestore della persistenza per estrarre i dati dal database.
-
-\item \texttt{testGetEmptyContacts()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui l'utente che chiede di scaricare la propria rubrica non ha alcuna voce associata a se nella tabella \textit{AddressBookEntries} della base di dati. In particolare il test verifica che sia restituita la rappresentazione in formato JSON di un array associativo che non contiene alcuna proprietà, cioè \texttt{\{\}}. Il test verifica inoltre che sia utilizzato correttamente il gestore della persistenza per estrarre i dati dal database.
-\end{itemize}
-\textbf{Risultato del test:} superato con successo.
-
-\item \textbf{TM4.11: GetGroupsControllerTest}\\
-\textbf{Verifica l'oggetto:} \texttt{GetGroupsController}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la possibilità di ritornare una lista di gruppi presenti nella rubrica del richiedente.
-
-La possibilità di richiamare \texttt{GetGroupsController} prende come precondizione l'autenticazione dell'utente richiedente, e quindi l'effettiva esistenza della sua rubrica.
-Tale test si compone di un solo metodo:
-\begin{itemize}
-\item \textit{testGetGroupContact()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui è invocato con una richiesta che contiene tutti i parametri necessari a portare a termine l'operazione con successo, e la lista degli utenti contenuti nel gruppo non è vuota. In particolare, il test verifica che il testo stampato sulla risposta HTTP corrisponda, come desiderato, alla rappresentazione in formato JSON della lista dei gruppi come si attende il client. Inoltre, viene controllato che siano estratta dal database le informazioni necessarie alla costruzione della stringa JSON.
-
-\item \textit{testGetEmptyGroup()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui è invocato con una richiesta che contiene tutti i parametri necessari a portare a termine l'operazione con successo, e la lista degli utenti contenuti nel gruppo è vuota. In particolare, il test verifica che il testo stampato sulla risposta HTTP corrisponda, come desiderato, alla rappresentazione in formato JSON della lista dei gruppi come si attende il client. Inoltre, viene controllato che siano estratta dal database le informazioni necessarie alla costruzione della stringa JSON.
-\end{itemize}
-\textbf{Risultato del test:} superato con successo.
-\end{itemize}
 
 \subsubsection{org.softwaresinthesis.mytalk.server.dao}
 \begin{itemize}
 
 
-\item \textbf{TM5.01: DataPersistanceManagerTest}\\
+\item \textbf{TM10.01: DataPersistanceManagerTest}\\
 \textbf{Verifica la Classe:} \texttt{DataPersistanceManager}.\\
-\textbf{Descrizione}:l'obiettivo di questo test è .....
-Tale test si compone di diciannove metodi:
+\textbf{Descrizione}: %TODO: DA DESCRIVERE
+Tale test si compone di venti metodi:
 \begin{itemize}
+
 \item \texttt{testDeleteSuccessfully()} esegue una cancellazione che volontariamente non va a buon fine, verificando che sia invocato il metodo \texttt{getDeleteUtil()} per procurarsi  un istanza di \texttt{DeleteUtil}. Si verifica che se l'operazione ha successo, il metodo restituisca correttamente \texttt{true}.
 
 \item \texttt{testDeleteUnsuccessfully()} esegue una cancellazione che volontariamente non va a buon fine, verificando che sia invocato il metodo \texttt{getDeleteUtil()} sulla \inglese{factory} per procurarsi  un istanza di \texttt{DeleteUtil}. Verifica che sia invocato il metodo \texttt{execute()} per la cancellazione, e che il valore restituito da tale metodo sia \texttt{false}, come coerentemente atteso nel caso in cui l'operazione sul database non sia andata a buon fine.
@@ -1540,7 +1677,7 @@ Si controlla inoltre che il metodo \texttt{execute} di \texttt{GetUtil} sia rich
 \textbf{Risultato del test:} superato con successo.
 
 
-\item \textbf{TM5.02: SessionManagerTest}\\
+\item \textbf{TM10.02: SessionManagerTest}\\
 \textbf{Verifica la Classe:} \texttt{SessionManager}.\\
 \textbf{Descrizione}: %TODO: DA DESCRIVERE
 Tale test si compone di due metodi: 
@@ -1552,17 +1689,20 @@ Tale test si compone di due metodi:
 
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
+\end{itemize}
 
 
-\item \textbf{TM5.03: DeleteUtilTest}\\
+\subsubsection{\texttt{org.softwaresinthesis.mytalk.server.dao.util}}
+\begin{itemize}
+
+\item \textbf{TM11.01: DeleteUtilTest}\\
 \textbf{Verifica la Classe:} \texttt{DeleteUtil}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare il corretto funzionamento di un'istanza della classe \texttt{DeleteUtilTest}.
 Tale test si compone di tre metodi:
 \begin{itemize}
-\item \texttt{testExecuteCorrectly()} 
-verifica che l'esecuzione di una cancellazione nel database sia portata a termine correttamente. Il test avviene verificando che il metodo \texttt{execute} sia invocato con successo controllando che l'oggetto restituito abbia valore \texttt{true}. Viene inoltre controllato il corretto funzionamento della sequenza di operazioni necessarie a svolgere l'eliminazione nel database, in particolare viene verificato che non venga eseguita l'operazione di \texttt{rollback} sulla transazione, la quale significherebbe che la transazione non è andata a buon fine.
+\item \texttt{testExecuteCorrectly()} verifica che l'esecuzione di una cancellazione nel database sia portata a termine correttamente. Il test avviene verificando che il metodo \texttt{execute} sia invocato con successo controllando che l'oggetto restituito abbia valore \texttt{true}. Viene inoltre controllato il corretto funzionamento della sequenza di operazioni necessarie a svolgere l'eliminazione nel database, in particolare viene verificato che non venga eseguita l'operazione di \texttt{rollback} sulla transazione, la quale significherebbe che la transazione non è andata a buon fine.
 
-\item \texttt{testExecuteWithoutTransaction()}  verifica il comportamento del metodo \texttt{execute}nel momento in cui si verifica un'errore e non è possibile iniziare una transazione verso il database ed il metodo deve restituite il valore \texttt{false}. Il controllo avviene verificando che nel momento in cui deve iniziare la transazione venga sollevata un'eccezione di tipo \texttt{RunTimeException}. Oltre a questo viene verificato il corretto funzionamento della sequenza di istruzioni necessarie a svolgere una transazione nel database, ovvero viene controllato che nessuna di queste venga eseguita. Inoltre il test si assicura che la sessione costruita venga aperta e chiusa correttamente.
+\item \texttt{testExecuteWithoutTransaction()} verifica il comportamento del metodo \texttt{execute} nel momento in cui si verifica un'errore e non è possibile iniziare una transazione verso il database ed il metodo deve restituite il valore \texttt{false}. Il controllo avviene verificando che nel momento in cui deve iniziare la transazione venga sollevata un'eccezione di tipo \texttt{RunTimeException}. Oltre a questo viene verificato il corretto funzionamento della sequenza di istruzioni necessarie a svolgere una transazione nel database, ovvero viene controllato che nessuna di queste venga eseguita. Inoltre il test si assicura che la sessione costruita venga aperta e chiusa correttamente.
 
 \item \texttt{testExecuteUnableToPerformAction()} verifica il comportamento della classe nel momento in cui, dopo l'apertura di una sessione e l'avvio di una transazione, non è possibile portare a termine una scrittura sul database. In particolare il test verifica che venga invocato correttamente il \texttt{rollback} della transazione e che la sessione sia creata, aperta e utilizzata per avviare una transazione e chiusa nel modo corretto. Anche in questo caso il metodo \texttt{execute} deve restituire \texttt{false} mentre per tutte le istruzioni necessarie a svolgere l'operazione eccetto il \texttt{commit} deve essere verificato che esse siano eseguite correttamente.
 
@@ -1570,22 +1710,18 @@ verifica che l'esecuzione di una cancellazione nel database sia portata a termin
 \textbf{Risultato del test:} superato con successo.
 
 
-\item \textbf{TM5.04: GetCallUtilTest}\\
+\item \textbf{TM11.02: GetCallUtilTest}\\
 \textbf{Verifica la Classe:} \texttt{GetCallUtil}.\\
 \textbf{Descrizione}:l'obiettivo di questo test è verificare il corretto funzionamento di un'istanza della classe \texttt{GetCallUtil}.
 Tale test si compone di tre metodi:
 \begin{itemize}
-\item \texttt{testExecuteCorrectly()} 
-verifica che l'esecuzione di una di una ricerca nel database che va a buon fine  sia portata a termine correttamente. 
+\item \texttt{testExecuteCorrectly()} verifica che l'esecuzione di una di una ricerca nel database che va a buon fine  sia portata a termine correttamente. 
 Il controllo avviene verificando che la lista restituita sia ottenuta mediante il metodo \texttt{list()}. 
 Viene inoltre controllato il corretto funzionamento della sequenza di operazioni necessarie a svolgere la ricerca nel database, in particolare viene verificato che non venga eseguita l'operazione di \texttt{rollback} sulla transazione, la quale significherebbe che la transazione non è andata a buon fine.
-
-
 
 \item \texttt{testExecuteWithoutTransaction()}
 verifica il comportamento della classe nel momento in cui non è possibile avviare una transazione per l'interazione con il database.
 La verifica si basa sul controllo della mancata esecuzione dei metodi \texttt{rollback} e \texttt{commit}, che non devono infatti essere invocati su una transazione inesistente.
-
 
 \item \texttt{testExecuteUnableToPerformQuery()}
 controlla il comportamento del metodo \texttt{execute} nel caso in cui al momento di effettuare la query dovesse verificarsi di un evento eccezionale. In particolare, il test assicura che non sia mai invocato il metodo \texttt{commit()} sulla transazione e che sia invece invocato il \texttt{rollback()}.Inoltre è garantito che durante l'esecuzione del metodo sia aperta una sessione di interazione con il database e che quest'ultima sia finalizzata in modo corretto. Infine, si controlla che non siano mai invocati i metodi sulla lista di chiamate che corrisponde alla query di ricerca con cui è invocato il metodo \texttt{execute}, dal momento che in fase di interrogazione del database avviene un errore.
@@ -1593,101 +1729,9 @@ controlla il comportamento del metodo \texttt{execute} nel caso in cui al moment
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item textbf{TM5.12: GetMessagesControllerTest}
-\textbf{Verifica la Classe:} \texttt{GetMessagesController}
-\textbf{Descrizione}: %TODO: AGGIUNGERE DESCRIZIONE
-Tale test si compone di tre metodi:
-\begin{itemize}
-\item \texttt{testGetMessagesCorrectUser()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui è possibile completare con successo l'operazione di scaricamento dei dati relativi alla segreteria telefonica dell'utente. In particolare verifica che la stringa stampata sulla risposta HTTP corrisponda alla rappresentazione in formato JSON dei dati relativi ai messaggi che hanno come destinatario l'utente da cui proviene la richiesta presenti nel database, ognuno correlato di tutti i campi che il client si aspetta di ricevere. Inoltre si verifica il corretto utilizzo dei \textit{mock}, ovvero che i dati siano estratti dalla base di dati nel modo corretto.
-
-\item \texttt{testGetMessagesEmptyList()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui l'utente da cui proviene la richiesta non ha alcun messaggio a lui destinato nella segreteria tenefonica del sistema. Il test verifica che il testo stampato nella risposta corrisponda alla stringa \texttt{\[\]}, che in JSON rappresenta un array enumerativo privo di elementi. Si verifica inolter che il sistema di gestione della persistenza dei dati sia utilizzato in modo corretto per il recupero dei messaggi e che non sia estratto alcun messaggio.
-
-\item \texttt{testWrongData()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui non è possibile accedere con successo al database per il recupero dei messaggi in segreteria. In tal caso il test verifica che il testo stampato sulla risposta HTTP corrisponda alla stringa \texttt{null} che denota un errore nel server.
-\end{itemize}
-\textbf{Risultato del test:} superato con successo.
-
-\item \textbf{TM5.05: AddMessageControllerTest} 
-\textbf{Verifica la Classe:} \texttt{AddMessageController}.\\
-\textbf{Descrizione}: %TODO: AGGIUNGERE DESCRIZIONE
-Tale test si compone di quattro metodi:
-\begin{itemize}
-\item \texttt{testAddCorrectMessage()} verifica il comportamento del metodo \texttt{doAction} per effettuare l'aggiunta di un messaggio nella segreteria telefonica. In particolare il test verifica che il testo stampato sulla risposta HTTP sia, come desiderato in caso di successo, la stringa \texttt{true}. Il test controlla inoltre che i \textit{mock} siano utilizzati in modo corretto e, in particolare, che sia salvato un nuovo file con il percorso corretto e che sia effettuata nel database un'operazione di inserimento per il nuovo messaggio (dopo aver impostato i suoi campi dati ai valori corretti).
-
-\item \texttt{testErrorWithInput()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui non è possibile portare a termine l'operazione con successo perchè si verifica un errore nel recupero del flusso di input associato al messaggio. Il test verifica che in questo caso il testo stampato nella risposta HttP sia la stringa \texttt{null} che denota per il client un fallimento dell'operazione. Inoltre si controlla che non vengano effettuate operazioni di creazione di un nuovo messaggio e di inserimento di nuovi messaggi nella base di dati del sistema.
-
-\end{itemize}
-
-\item \textbf{TM5.05: DeleteMessageControllerTest} 
-\textbf{Verifica la Classe:} \texttt{DeleteMessageController}.\\
-\textbf{Descrizione}: %TODO: AGGIUNGERE DESCRIZIONE
-Tale test si compone di quattro metodi:
-\begin{itemize}
-\item \texttt{testDeleteCorrectly()} verifica il comportamento del metodo \texttt{doAction} nel controller per la cancellazione di un messaggio nel momento in cui la richiesta che viene passata ad esso come parametro contiene tutti i i parametri per portare a termine con successo la richiesta. In particolare, il test verifica che il testo stampato nella risposta HTTP sia effettivamente \texttt{true}, come desiderato. Inoltre si verifica che sia cancellata la voce del messaggio corrispondente nel sistema di gestione della persistenza dei dati e che sia effettivamente rimosso il file dal disco rigido del server tramite il metodo \texttt{deleteFile}.
-
-\item \texttt{testDeleteWithErasureError()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui in fase di cancellazione del messaggio si verifica un errore di I/O. Il test verifica che in tal caso il testo stampato nella risposta corrisponda alla stringa \texttt{null}, che denota un errore nel server. Inoltre si controlla che non sia MAI effettuata alcuna operazione di cancellazione sul sistema di gestione della persistenza dei dati.
-
-\item \texttt{testDeleteNotExistMEssage()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui il valore numerico passato tramite la richiesta HTTP con cui è invocato non corrisponde adl alcuno dei messaggi che sono presenti nel sistema di persistenza dei dati. In particolare, il test verifica che il testo stampato nella risposta sia la stringa \texttt{null}, come desiderato in questo caso, che non sia mai effettuata un'operazione di cancellazione nel sistema di persistenza dei dati e che non sia mai cancellato alcun file.
-
-\item \texttt{testDeleteNotOwnedMessage()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui il messaggio di cui si richiede la cancellazione non appartiene all'utente da cui proviene la richiesta al controller. In particolare, il test verifica che il testo stampato sulla risposta corrisponda alla stringa \texttt{null}, come desiderato in questo caso. Inoltre si verifica che non venga mai effettuata alcuna operazione di cancellazione dal sistema di persistenza dei dati e che non sia rimosso dal disco alcun file.
-
-\item \texttt{testWrongData()} verifica il comportamento del metodo \texttt{doAction} per la cancellazione di un messaggio nella segreteria nel momento in cui la richiesta che gli viene passata come parametro non contiene tutti i parametri necessari per portare a termine con successo l'operazione. In particolare si verifica che il testo stampato nella risposta HTTP sia effettivamente la stringa \texttt{null}m che denota per il client il verificarsi di un errore. Inoltre si verifica che non avvenga alcuna interazione con il sistema di gestione della persistenza dei dati e che non sia \textit{mai} cancellato alcun file dal server tramite il metodo \texttt{deleteFile}.
-
-\end{itemize}
-\textbf{Risultato del test:} superato con successo.
-
-\item \textbf{TM5.05: UpdateMessageControllerTest} 
-\textbf{Verifica la Classe:} \texttt{UpdateMessageController}.\\
-\textbf{Descrizione}: %TODO: AGGIUNGERE DESCRIZIONE
-Tale test si compone di quattro metodi:
-\begin{itemize}
-\item \texttt{testSetNewCorrectMessage()} verifica il comportamento del metodo \texttt{doAction} per aggiornare lo stato di un messaggio a \textit{non letto} nella segreteria quando la richiesta con cui viene invocato contiene tutti i parametri necessari a portare a termine con successo l'operazione. In particolare, il test verifica che il testo stampato nella risposta sia, come atteso, la stringa \texttt{true}. Inoltre si verifica che sia fatto un uso corretto del sistema di persistenza aggiornando il messaggio dopo averne imposto lo stato a \textit{non letto}.
-
-\item \texttt{testSetNotNewCorrectMessage()} verifica il comportamento del metodo \texttt{doAction} per aggiornare lo stato di un messaggio a letto nella segreteria quando la richiesta con cui viene invocato contiene tutti i parametri necessari a portare a termine con successo l'operazione. In particolare, il test verifica che il testo stampato nella risposta sia, come atteso, la stringa \texttt{true}. Inoltre si verifica che sia fatto un uso corretto del sistema di persistenza aggiornando il messaggio dopo averne impostato lo stato a letto.
-
-\item \texttt{testUpdateNotExistMessage()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui il valore identificativo passato come parametro nella richiesta non corrisponde ad alcuno dei messaggi presenti nel database del sistema. Il test verifica che la stringa stampata sulla risposta sia effettivamente \texttt{null}, come desiderato in caso d'errore, e che non siano mai effettuate operazioni di aggiornamento della tabella \textit{Messages} nel database.
-
-\item \texttt{testWrongData()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui la richiesta HTTP non comprende tutti i parametri necessari per portare a termine con successo l'operazione. Il test verifica che la stringa stampata sulla risposta sia effettivamente \texttt{null}, come desiderato in caso d'errore, e che non siano mai effettuate operazioni di aggiornamento della tabella \textit{Messages} nel database.
-
-\item \texttt{testUpdateNotOwnedMessage()} verifica il comportamento del metodo \texttt{doAction} quando il destinatario del messaggio il cui numero identificativo passano nella richiesta non corrisponde all'utente che ha inviato la richiesta al controller. In particolare il test verifica che il testo stampato nella risposta corrisponda alla stringa \texttt{null}, come desiderato in caso d'errore, e che nel sistema di gestione della persistenza dei dati non sia effettuato alcun aggiornamento.
-
-\end{itemize} 
-\textbf{Risultato del test:} superato con successo.
-
-\item \textbf{TM5.05: GetUtilTest} 
-\textbf{Verifica la Classe:} \texttt{GetUtil}.\\
-\textbf{Descrizione}: %TODO: AGGIUNGERE DESCRIZIONE
-Tale test si compone di cinque metodi:
-\begin{itemize}
-\item \texttt{testUniqueResultCorrectly()} verifica il comportamento del metodo \texttt{uniqueResult} quando l'operazione va a buon fine. In particolare, il test verifica che il risultato dell'invocazione del metodo corrisponda alle aspettative, in base a come è stato configurato il \textit{mock} della collezione che è utilizzato nel test.
-Inoltre si controlla che i \textit{mock} siano utilizzati nel modo corretto per l'apertura di una sessione creata a partire dal \texttt{SessionManager}, che a partire dalla sessione sia avviata una transazione e una query, che la transazione sia chiusa con il metodo \texttt{commit()} e che la sessione di interazione con la base di dati sia chiusa correttamente con l'invocazione dei metodi \texttt{flush()} e \texttt{close()}. 
-
-\item \texttt{testUniqueResultWithError()} verifica il comportamento del metodo \texttt{uniqueResult} quando l'operazione non può essere realizzata correttamente perchè si verifica un errore a transazione iniziata. In particolare, il test verifica che il risultato dell'invocazione sia \texttt{null}, come desiderato. Inoltre si controlla che i \textit{mock} siano utilizzati nel modo corretto per l'apertura di una sessione creata a partire dal \texttt{SessionManager}, che a partire dalla sessione sia avviata una transazione e una query, che la transazione sia annullata con il metodo \texttt{rollback()} e non sia mai chiusa con \texttt{commit()} e che la sessione di interazione con la base di dati sia chiusa correttamente con l'invocazione dei metodi \texttt{flush()} e \texttt{close()}.
-
-\item \texttt{testUniqueResultWithoutTransaction()} verifica il comportamento della classe nel momento in cui il metodo \texttt{uniqueResult} non termina con successo per l'impossibilità di aprire una transazione. In particolare, il test verifica che non avvengano interazione con la transazione e che non sia mai invocato il metodo \texttt{uniqueResult()} sulla query HQL generata a partire dalla stringa passata come parametro al metodo sopracitato del \texttt{GetUtil}.
-
-\item \texttt{testExecuteCorrectly()} verifica il comportamento del metodo \texttt{execute} (\textit{template method}) assicurandosi che siano compiute le operazioni necessarie a tutte le operazioni di \textit{select} sulla base di dati, ovvero che sia aperta una sessione di iterazione con il database a partire dalla \textit{Session factory} ottenuta dal \textit{SessionManager}, che sia aperta una transazione e creata una HQL query con il testo passato come parametro al metodo \texttt{execute}, che sia invocato il metodo \texttt{list()} sulla query, che la transazione sia chiusa con successo (e che non sia \textit{mai} invocato il \texttt{rollback()}) e che la sessione sia chiusa in modo corretto. Infine, il test verifica la corretta applicazione del pattern \textit{template method} verificando che \texttt{execute} richiami il \texttt{doInitialize} astratto sovrascritto dalle sottoclassi.
-
-\item \texttt{testExecuteWithError()} verifica il comportamento del metodo \texttt{execute} assicurandosi che siano compiute le operazioni necessarie a tutte le operazioni di \texttt{select} sulla base di dati, quando si verifica un errore in fase di esecuzione dell'interrogazione (dopo l'apertura di una transazione). Il test verifica che in questo caso sia aperta una sessione d'iterazione con il database a partire dalla \texttt{SessionFactory} ottenuta dal \texttt{SessionManager}, che sia aperta una transazione e creata una HQL query con il testo passato come parametro al metodo\texttt{execute}m che sia invocato il metodo \texttt{list()} sulla query, che della transazione sia effettuato il \texttt{rollback()} e \textit{mai} il \texttt{commit()} e che infine la sessione sia chiusa correttamente.
-
-\end{itemize}
-\textbf{Risultato del test:} superato con successo.
-
-\item \textbf{TM5.05: GetCallsControllerTest} 
-\textbf{Verifica la Classe:} \texttt{GetCallsController}.\\
-\textbf{Descrizione}: %TODO: AGGIUNGERE DESCRIZIONE
-Tale test si compone di tre metodi:
-\begin{itemize}
-\item \texttt{testGetCallsCorrectUser()} verifica il comportamento del metodo \texttt{doAction} quando viene invocato da parte di un utente registrato al sistema e a cui è associata una lista di chiamate non vuota nel database del sistema. Il test verifica che l'output ottenuto corrisponda alla rappresentazione in formato JSON di un array enumerativo di oggetti che corrispondono alle chiamate, ognuna caratterizzata dal nome dell'altro utente coinvolto nella chiamata, dalla data di avvio e da un \inglese{flag} booleano che permette di distinguere le chiamate in ingresso dalle chiamate in uscita. Durante la verifica è inoltre controllato il corretto utilizzo dei \inglese{mock}, in particolare l'estrazione dei dati dal sistema di persistenza.\\
-\item \texttt{testGetCallsWrongUser()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui l'utente da cui proviene la richiesta non è presente nel database. Un simile avvenimento viene simulato facendo in modo che il riferimento ottenuto dal gestore di persistenza non sia valido. In questo caso il test verifica che la stringa restituita sia effettivamente \texttt{null} come desiderato e che non avvenga alcuna interazione con i \inglese{mock} che corrispondono all'utente, all'altro utente coinvolto nella chiamata, alla \textit{CallList} e alla chiamata stessa.
-\item \texttt{testGetCallsEmptyList()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui viene invocato con una richiesta proveniente da un utente il cui storico delle chiamate relativo è vuoto. Il test in questo caso verifica che la stringa stampata sulla risposta \texttt{HTTP} sia \texttt{[]}, che corrisponde alla rappresentazione in formato JSON di un array vuoto. È inoltre verificato il corretto utilizzo dei \texttt{mock}, verificando che sia estratto l'utente dal sistema di persistenza dei dati e che sia recuperata la lista (vuota) di chiamate ad esso associata.
-
-\end{itemize}
-\textbf{Risultato del test:} superato con successo.
-
-
-\item \textbf{TM5.05: GetGroupUtilTest}\\
+\item \textbf{TM11.03: GetGroupUtilTest}\\
 \textbf{Verifica la Classe:} \texttt{GetGrouplUtil}.\\
-\textbf{Descrizione}: TODO: AGGIUNGERE DESCRIZIONE
+\textbf{Descrizione}: %TODO: AGGIUNGERE DESCRIZIONE
 Tale test si compone di tre metodi:
 \begin{itemize}
 \item \texttt{testExecuteCorrectly()} verifica la corretta esecuzione del metodo nel caso in cui la ricerca vada correttamente a buon fine. In particolare verifica che la lista ritornata sia ottenuta mediante il metodo \texttt{list()} invocato sulla query HQL ottenuta sulla sessione a partire dalla stringa passata come parametro al metodo.
@@ -1706,7 +1750,7 @@ E' garantito inoltre che durante l'esecuzione del metodo sia aperta una sessione
 \textbf{Risultato del test:} superato con successo.
 
 
-\item \textbf{TM5.06: GetUserDataUtilTest}\\
+\item \textbf{TM11.04: GetUserDataUtilTest}\\
 \textbf{Verifica la Classe:} \texttt{GetUserDataUtil}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare il corretto funzionamento di un'istanza della classe \texttt{GetUserDataUtil}.
 Tale test si compone di tre metodi:
@@ -1724,7 +1768,7 @@ La verifica si basa sul controllo della mancata esecuzione dei metodi \texttt{ro
 \textbf{Risultato del test:} superato con successo.
 
 
-\item \textbf{TM5.07: InsertUtilTest}\\
+\item \textbf{TM11.05: InsertUtilTest}\\
 \textbf{Verifica la Classe:} \texttt{InsertUtil}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare il corretto funzionamento di un'istanza della classe \texttt{InsertUtil}.
 Tale test si compone di tre metodi:
@@ -1739,36 +1783,29 @@ verifica che l'esecuzione di un inserimento nel database sia portata a termine c
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-
-
-
-\item \textbf{TM5.08: NotInitializeTest}\\
+\item \textbf{TM11.06: NotInitializeTest}\\
 \textbf{Verifica la Classe:} \texttt{NotInitialize}.\\
-\textbf{Descrizione}:l'obiettivo di questo test è .....
+\textbf{Descrizione}: %TODO: DA DESCRIVERE
 Tale test si compone di tre metodi:
 \begin{itemize}
-\item \texttt{testExecuteCorrectly()} 
-verifica il corretto comportamento della ricerca nel database con successo delle istanze di classi che non contengono campi dati di tipo collezione ovvero \texttt{Message}, texttt{addressbookentry}, texttt{callList}.  
+\item \texttt{testExecuteCorrectly()} verifica il corretto comportamento della ricerca nel database con successo delle istanze di classi che non contengono campi dati di tipo collezione ovvero \texttt{Message}, texttt{addressbookentry}, texttt{callList}.  
 Il controllo avviene verificando che la lista restituita sia ottenuta mediante il metodo \texttt{list()}. 
 Viene inoltre controllato il corretto funzionamento della sequenza di operazioni necessarie a svolgere la ricerca nel database, in particolare viene verificato che non venga eseguita l'operazione di \texttt{rollback} sulla transazione, la quale significherebbe che la transazione non è andata a buon fine.
-
 
 \item \texttt{testExecuteWithoutTransaction()} verifica il comportamento del metodo \texttt{execute}nel momento in cui si verifica un'errore e non è possibile iniziare una transazione verso il database ed il metodo deve restituite il valore \texttt{false}. Il controllo avviene verificando che nel momento in cui deve iniziare la transazione venga sollevata un'eccezione di tipo \texttt{RunTimeException}. Oltre a questo viene verificato il corretto funzionamento della sequenza di istruzioni necessarie a svolgere una transazione nel database, ovvero viene controllato che nessuna di queste venga eseguita. Inoltre il test si assicura che la sessione costruita venga aperta e chiusa correttamente.
 
 \item \texttt{testExecuteUnableToPerformQuery()} controlla il comportamento del metodo \texttt{execute} nel caso in cui al momento di effettuare la query dovesse verificarsi di un evento eccezionale. In particolare, il test assicura che non sia mai invocato il metodo \texttt{commit()} sulla transazione e che sia invece invocato il \texttt{rollback()}.Inoltre è garantito che durante l'esecuzione del metodo sia aperta una sessione di interazione con il database e che quest'ultima sia finalizzata in modo corretto. Infine, si controlla che non siano mai invocati i metodi sulla lista di chiamate che corrisponde alla query di ricerca con cui è invocato il metodo \texttt{execute}, dal momento che in fase di interrogazione del database avviene un errore.
 
-
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
 
-\item \textbf{TM5.09: UpdateUtilTest}\\
+\item \textbf{TM11.07: UpdateUtilTest}\\
 \textbf{Verifica la Classe:} \texttt{UpdateUtil}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare il corretto funzionamento di un'istanza della classe \texttt{UpdateUtilTest}.
 Tale test si compone di tre metodi:
 \begin{itemize}
-\item \texttt{testExecuteCorrectly()} 
-verifica che l'esecuzione di un aggiornamento nel database sia portata a termine correttamente. Il test avviene verificando che il metodo \texttt{execute} sia invocato con successo controllando che l'oggetto restituito abbia valore \texttt{true}. Viene inoltre controllato il corretto funzionamento della sequenza di operazioni necessarie a svolgere l'eliminazione nel database, in particolare viene verificato che non venga eseguita l'operazione di \texttt{rollback} sulla transazione, la quale significherebbe che la transazione non è andata a buon fine.
+\item \texttt{testExecuteCorrectly()} verifica che l'esecuzione di un aggiornamento nel database sia portata a termine correttamente. Il test avviene verificando che il metodo \texttt{execute} sia invocato con successo controllando che l'oggetto restituito abbia valore \texttt{true}. Viene inoltre controllato il corretto funzionamento della sequenza di operazioni necessarie a svolgere l'eliminazione nel database, in particolare viene verificato che non venga eseguita l'operazione di \texttt{rollback} sulla transazione, la quale significherebbe che la transazione non è andata a buon fine.
 
 \item \texttt{testExecuteWithoutTransaction()}  verifica il comportamento del metodo \texttt{execute}nel momento in cui si verifica un'errore e non è possibile iniziare una transazione verso il database ed il metodo deve restituite il valore \texttt{false}. Il controllo avviene verificando che nel momento in cui deve iniziare la transazione venga sollevata un'eccezione di tipo \texttt{RunTimeException}. Oltre a questo viene verificato il corretto funzionamento della sequenza di istruzioni necessarie a svolgere una transazione nel database, ovvero viene controllato che nessuna di queste venga eseguita. Inoltre il test si assicura che la sessione costruita venga aperta e chiusa correttamente.
 
@@ -1777,13 +1814,9 @@ verifica che l'esecuzione di un aggiornamento nel database sia portata a termine
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-
-
-
-
-\item \textbf{TM5.10: UtilFactoryTest}\\
+\item \textbf{TM11.08: UtilFactoryTest}\\
 \textbf{Verifica la Classe:} \texttt{UtilFactory}.\\
-\textbf{Descrizione}: TODO: DA DESCRIVERE
+\textbf{Descrizione}: %TODO: DA DESCRIVERE
 Tale test si compone di sette metodi:
 \begin{itemize}
 \item \texttt{testGetDeleteUtil()} verifica la possibilità di ottenere un'istanza valida di \texttt{DeleteUtil} a partire dalla classe \textit{factory}, e che il \textit{SessionManager} sia utilizzato nel modo corretto per la costruzione dell'oggetto da restituire.
@@ -1805,58 +1838,24 @@ Tale test si compone di sette metodi:
 
 \end{itemize}
 
-
-
-\subsubsection{\texttt{org.softwaresinthesis.mytalk.server.call}}
+\item \textbf{TM11.09: GetUtilTest} 
+\textbf{Verifica la Classe:} \texttt{GetUtil}.\\
+\textbf{Descrizione}: %TODO: AGGIUNGERE DESCRIZIONE
+Tale test si compone di cinque metodi:
 \begin{itemize}
-\item \textbf{TM5.01: CallListTest}\\
-\textbf{Verifica la Classe:} \texttt{CallList}.\\
-\textbf{Descrizione}: L'obiettivo di questo test è controllare che un'istanza della classe \texttt{CallList} venga gestita in modo corretto. Vengono verificati tutti i metodi disponibili alla classe, in particoalri quelli relativi alla gestione dei sui campi dati.
+\item \texttt{testUniqueResultCorrectly()} verifica il comportamento del metodo \texttt{uniqueResult} quando l'operazione va a buon fine. In particolare, il test verifica che il risultato dell'invocazione del metodo corrisponda alle aspettative, in base a come è stato configurato il \textit{mock} della collezione che è utilizzato nel test.
+Inoltre si controlla che i \textit{mock} siano utilizzati nel modo corretto per l'apertura di una sessione creata a partire dal \texttt{SessionManager}, che a partire dalla sessione sia avviata una transazione e una query, che la transazione sia chiusa con il metodo \texttt{commit()} e che la sessione di interazione con la base di dati sia chiusa correttamente con l'invocazione dei metodi \texttt{flush()} e \texttt{close()}. 
 
-Tale test si compone di quattro metodi:
-\begin{itemize}
-\item \texttt{testId() } controlla che il recupero dell'identificatore di un oggetto \texttt{CallList}avvenga in modo corretto. 
-Il test avviene verificando che l'oggetto restituito non sia \textit{null} e che esso sia uguale al valore con cui era stato inizializzato l'oggetto sottoposto al test.
-\item \texttt{testUser() } verifica che l'impostazione e il recupero dell'utente al quale è associata la voce della tabella \texttt{CallLists} avvenga correttamente. 
-Il controllo avviene verificando che l'oggetto restituito non sia \textit{null} e che esso sia uguale all'utente impostato. In questo modo vengono controllate ambedue le funzionalità.
-\item \texttt{testCall()} verifica che l'impostazione e il recupero della chiamata alla quale è associata la voce della tabelle \texttt{CallLists} avvenga in modo corretto. Il controllo avviene verificando che l'oggetto restituito non sia \textit{null} e che esso sia uguale alla chiamata impostata. In questo modo vengono controllate ambedue le funzioni.
+\item \texttt{testUniqueResultWithError()} verifica il comportamento del metodo \texttt{uniqueResult} quando l'operazione non può essere realizzata correttamente perchè si verifica un errore a transazione iniziata. In particolare, il test verifica che il risultato dell'invocazione sia \texttt{null}, come desiderato. Inoltre si controlla che i \textit{mock} siano utilizzati nel modo corretto per l'apertura di una sessione creata a partire dal \texttt{SessionManager}, che a partire dalla sessione sia avviata una transazione e una query, che la transazione sia annullata con il metodo \texttt{rollback()} e non sia mai chiusa con \texttt{commit()} e che la sessione di interazione con la base di dati sia chiusa correttamente con l'invocazione dei metodi \texttt{flush()} e \texttt{close()}.
 
-\item \texttt{testCaller()} verifica la corretta esecuzione  dell'impostazione e del recupero del dato booleano associato alla voce della tabella \texttt{CallLists}. Tale dato booleano indica se l'utente risulta essere il chiamante.
-Il controllo avviene verificando il funzionamento sia nel caso in cui il booleano abbia valore \texttt{true} sia nel caso in cui esso abbia valore \texttt{false}.
-In entrambe i casi viene controllato che l'oggetto restituito non sia \textit{null} e che esso sia uguale all'ultima impostazione. (\texttt{true} nel primo caso, \texttt{false} nel secondo.
+\item \texttt{testUniqueResultWithoutTransaction()} verifica il comportamento della classe nel momento in cui il metodo \texttt{uniqueResult} non termina con successo per l'impossibilità di aprire una transazione. In particolare, il test verifica che non avvengano interazione con la transazione e che non sia mai invocato il metodo \texttt{uniqueResult()} sulla query HQL generata a partire dalla stringa passata come parametro al metodo sopracitato del \texttt{GetUtil}.
 
- 
+\item \texttt{testExecuteCorrectly()} verifica il comportamento del metodo \texttt{execute} (\textit{template method}) assicurandosi che siano compiute le operazioni necessarie a tutte le operazioni di \textit{select} sulla base di dati, ovvero che sia aperta una sessione di iterazione con il database a partire dalla \textit{Session factory} ottenuta dal \textit{SessionManager}, che sia aperta una transazione e creata una HQL query con il testo passato come parametro al metodo \texttt{execute}, che sia invocato il metodo \texttt{list()} sulla query, che la transazione sia chiusa con successo (e che non sia \textit{mai} invocato il \texttt{rollback()}) e che la sessione sia chiusa in modo corretto. Infine, il test verifica la corretta applicazione del pattern \textit{template method} verificando che \texttt{execute} richiami il \texttt{doInitialize} astratto sovrascritto dalle sottoclassi.
+
+\item \texttt{testExecuteWithError()} verifica il comportamento del metodo \texttt{execute} assicurandosi che siano compiute le operazioni necessarie a tutte le operazioni di \texttt{select} sulla base di dati, quando si verifica un errore in fase di esecuzione dell'interrogazione (dopo l'apertura di una transazione). Il test verifica che in questo caso sia aperta una sessione d'iterazione con il database a partire dalla \texttt{SessionFactory} ottenuta dal \texttt{SessionManager}, che sia aperta una transazione e creata una HQL query con il testo passato come parametro al metodo\texttt{execute}m che sia invocato il metodo \texttt{list()} sulla query, che della transazione sia effettuato il \texttt{rollback()} e \textit{mai} il \texttt{commit()} e che infine la sessione sia chiusa correttamente.
+
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
-
-\item \textbf{TM5.02: CallTest}\\
-\textbf{Verifica la Classe:} \texttt{Call}.\\
-\textbf{Descrizione}: L'obiettivo di questo test è controllare che un'istanza della classe \texttt{Call} venga gestita in modo corretto. Vengono verificati tutti i metodi disponibili alla classe, in particolare quelli relativi alla gestione dei sui campi dati.
-
-
-Tale test si compone di sette metodi:
-\begin{itemize}
-\item \texttt{testId()} controlla che il recupero dell'identificatore di una chiamata avvenga in modo corretto. 
-Il test avviene verificando che l'oggetto restituito non sia \textit{null} e che esso sia uguale al valore con cui era stato inizializzato l'oggetto sottoposto al test.
-\item \texttt{testStartDate()} verifica che l'impostazione e il recupero della data di inizio della chiamata avvenga correttamente.
-Il controllo avviene verificando che l'oggetto restituito non sia \texttt{null} e che esso sia uguale alla data impostata. In questo modo viene controllata sia l'impostazione che il recupero della data di inizio della chiamata.
-
-\item \texttt{testEndDate()} controlla che l'impostazione e il recupero della data di fine della chiamata avvenga correttamente.
-Il test avviene verificando che l'oggetto restituito non sia \texttt{null} e che esso sia uguale alla data impostata. In questo modo viene controllata sia l'impostazione che il recupero della data di fine della chiamata.
-
-\item \texttt{testCallList()} verifica la corretta impostazione  della collezione di oggetti \texttt{CallList} che coinvolgono una determinata chiamta. 
-Il controllo avviene verificando che l'oggetto restituito non sia \texttt{null} e che esso sia uguale alla collezione impostata.
-
-\item \texttt{testAddCall()} controlla il corretto funzionamento dell'inserimento di un oggetto \texttt{CallList} alla collezione di voci che sono associate ad una determinata chiamata. La verifica avviene controllando che la collezione contenga il nuovo oggetto inserito.
-
-\item \texttt{testRemoveCall()} controlla il corretto funzionamento dell'eliminazione di un oggetto \texttt{CallList} dalla collezione di voci che sono associate ad una determinata chiamata. La verifica avviene controllando che la collezione non contenga il nuovo oggetto inserito.
-
-\item \texttt{testEquals()}
-verifica il corretto funzionamento del metodo \texttt{equals()}. Viene creato un oggetto \texttt{Call} e viene confrontato con l'oggetto sottoposto a verifica tramite il metodo \texttt{equals()} che restituisce \textit{true} se e solo se sono uguali.
- 
-\end{itemize}
-\textbf{Risultato del test:} superato con successo.
-
 
 \end{itemize}
 
@@ -1864,7 +1863,7 @@ verifica il corretto funzionamento del metodo \texttt{equals()}. Viene creato un
 \subsubsection{\texttt{org.softwaresinthesis.mytalk.server.message}}
 \begin{itemize}
 
-\item \textbf{TM6.01: MessageTest}\\
+\item \textbf{TM12.01: MessageTest}\\
 \textbf{Verifica la Classe:} \texttt{Message}.\\
 \textbf{Descrizione}: L'obiettivo di questo test è controllare che un'istanza della classe \texttt{Message} venga gestita in modo corretto.
 
@@ -1894,11 +1893,72 @@ verifica il corretto funzionamento del metodo \texttt{equals()}. Viene creato un
 \textbf{Risultato del test:} superato con successo.
 \end{itemize}
 
+\subsubsection{\texttt{org.softwaresinthesis.mytalk.server.message.controller}}
+\begin{itemize}
+
+\item \textbf{TM13.01: AddMessageControllerTest} 
+\textbf{Verifica la Classe:} \texttt{AddMessageController}.\\
+\textbf{Descrizione}: %TODO: AGGIUNGERE DESCRIZIONE
+Tale test si compone di quattro metodi: %TODO: CONTROLLARE SE SONO SOLO DUE
+\begin{itemize}
+\item \texttt{testAddCorrectMessage()} verifica il comportamento del metodo \texttt{doAction} per effettuare l'aggiunta di un messaggio nella segreteria telefonica. In particolare il test verifica che il testo stampato sulla risposta HTTP sia, come desiderato in caso di successo, la stringa \texttt{true}. Il test controlla inoltre che i \textit{mock} siano utilizzati in modo corretto e, in particolare, che sia salvato un nuovo file con il percorso corretto e che sia effettuata nel database un'operazione di inserimento per il nuovo messaggio (dopo aver impostato i suoi campi dati ai valori corretti).
+
+\item \texttt{testErrorWithInput()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui non è possibile portare a termine l'operazione con successo perchè si verifica un errore nel recupero del flusso di input associato al messaggio. Il test verifica che in questo caso il testo stampato nella risposta HttP sia la stringa \texttt{null} che denota per il client un fallimento dell'operazione. Inoltre si controlla che non vengano effettuate operazioni di creazione di un nuovo messaggio e di inserimento di nuovi messaggi nella base di dati del sistema.
+
+\end{itemize}
 
 
+\item \textbf{TM13.02: DeleteMessageControllerTest} 
+\textbf{Verifica la Classe:} \texttt{DeleteMessageController}.\\
+\textbf{Descrizione}: %TODO: AGGIUNGERE DESCRIZIONE
+Tale test si compone di cinque metodi:
+\begin{itemize}
+\item \texttt{testDeleteCorrectly()} verifica il comportamento del metodo \texttt{doAction} nel controller per la cancellazione di un messaggio nel momento in cui la richiesta che viene passata ad esso come parametro contiene tutti i i parametri per portare a termine con successo la richiesta. In particolare, il test verifica che il testo stampato nella risposta HTTP sia effettivamente \texttt{true}, come desiderato. Inoltre si verifica che sia cancellata la voce del messaggio corrispondente nel sistema di gestione della persistenza dei dati e che sia effettivamente rimosso il file dal disco rigido del server tramite il metodo \texttt{deleteFile}.
+
+\item \texttt{testDeleteWithErasureError()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui in fase di cancellazione del messaggio si verifica un errore di I/O. Il test verifica che in tal caso il testo stampato nella risposta corrisponda alla stringa \texttt{null}, che denota un errore nel server. Inoltre si controlla che non sia MAI effettuata alcuna operazione di cancellazione sul sistema di gestione della persistenza dei dati.
+
+\item \texttt{testDeleteNotExistMEssage()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui il valore numerico passato tramite la richiesta HTTP con cui è invocato non corrisponde adl alcuno dei messaggi che sono presenti nel sistema di persistenza dei dati. In particolare, il test verifica che il testo stampato nella risposta sia la stringa \texttt{null}, come desiderato in questo caso, che non sia mai effettuata un'operazione di cancellazione nel sistema di persistenza dei dati e che non sia mai cancellato alcun file.
+
+\item \texttt{testDeleteNotOwnedMessage()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui il messaggio di cui si richiede la cancellazione non appartiene all'utente da cui proviene la richiesta al controller. In particolare, il test verifica che il testo stampato sulla risposta corrisponda alla stringa \texttt{null}, come desiderato in questo caso. Inoltre si verifica che non venga mai effettuata alcuna operazione di cancellazione dal sistema di persistenza dei dati e che non sia rimosso dal disco alcun file.
+
+\item \texttt{testWrongData()} verifica il comportamento del metodo \texttt{doAction} per la cancellazione di un messaggio nella segreteria nel momento in cui la richiesta che gli viene passata come parametro non contiene tutti i parametri necessari per portare a termine con successo l'operazione. In particolare si verifica che il testo stampato nella risposta HTTP sia effettivamente la stringa \texttt{null}m che denota per il client il verificarsi di un errore. Inoltre si verifica che non avvenga alcuna interazione con il sistema di gestione della persistenza dei dati e che non sia \textit{mai} cancellato alcun file dal server tramite il metodo \texttt{deleteFile}.
+
+\end{itemize}
+\textbf{Risultato del test:} superato con successo.
+
+\item textbf{TM13.03: GetMessagesControllerTest}
+\textbf{Verifica la Classe:} \texttt{GetMessagesController}
+\textbf{Descrizione}: %TODO: AGGIUNGERE DESCRIZIONE
+Tale test si compone di tre metodi:
+\begin{itemize}
+\item \texttt{testGetMessagesCorrectUser()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui è possibile completare con successo l'operazione di scaricamento dei dati relativi alla segreteria telefonica dell'utente. In particolare verifica che la stringa stampata sulla risposta HTTP corrisponda alla rappresentazione in formato JSON dei dati relativi ai messaggi che hanno come destinatario l'utente da cui proviene la richiesta presenti nel database, ognuno correlato di tutti i campi che il client si aspetta di ricevere. Inoltre si verifica il corretto utilizzo dei \textit{mock}, ovvero che i dati siano estratti dalla base di dati nel modo corretto.
+
+\item \texttt{testGetMessagesEmptyList()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui l'utente da cui proviene la richiesta non ha alcun messaggio a lui destinato nella segreteria tenefonica del sistema. Il test verifica che il testo stampato nella risposta corrisponda alla stringa \texttt{\[\]}, che in JSON rappresenta un array enumerativo privo di elementi. Si verifica inolter che il sistema di gestione della persistenza dei dati sia utilizzato in modo corretto per il recupero dei messaggi e che non sia estratto alcun messaggio.
+
+\item \texttt{testWrongData()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui non è possibile accedere con successo al database per il recupero dei messaggi in segreteria. In tal caso il test verifica che il testo stampato sulla risposta HTTP corrisponda alla stringa \texttt{null} che denota un errore nel server.
+\end{itemize}
+\textbf{Risultato del test:} superato con successo.
 
 
+\item \textbf{TM13.04: UpdateMessageControllerTest} 
+\textbf{Verifica la Classe:} \texttt{UpdateMessageController}.\\
+\textbf{Descrizione}: %TODO: AGGIUNGERE DESCRIZIONE
+Tale test si compone di cinque metodi:
+\begin{itemize}
+\item \texttt{testSetNewCorrectMessage()} verifica il comportamento del metodo \texttt{doAction} per aggiornare lo stato di un messaggio a \textit{non letto} nella segreteria quando la richiesta con cui viene invocato contiene tutti i parametri necessari a portare a termine con successo l'operazione. In particolare, il test verifica che il testo stampato nella risposta sia, come atteso, la stringa \texttt{true}. Inoltre si verifica che sia fatto un uso corretto del sistema di persistenza aggiornando il messaggio dopo averne imposto lo stato a \textit{non letto}.
 
+\item \texttt{testSetNotNewCorrectMessage()} verifica il comportamento del metodo \texttt{doAction} per aggiornare lo stato di un messaggio a letto nella segreteria quando la richiesta con cui viene invocato contiene tutti i parametri necessari a portare a termine con successo l'operazione. In particolare, il test verifica che il testo stampato nella risposta sia, come atteso, la stringa \texttt{true}. Inoltre si verifica che sia fatto un uso corretto del sistema di persistenza aggiornando il messaggio dopo averne impostato lo stato a letto.
+
+\item \texttt{testUpdateNotExistMessage()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui il valore identificativo passato come parametro nella richiesta non corrisponde ad alcuno dei messaggi presenti nel database del sistema. Il test verifica che la stringa stampata sulla risposta sia effettivamente \texttt{null}, come desiderato in caso d'errore, e che non siano mai effettuate operazioni di aggiornamento della tabella \textit{Messages} nel database.
+
+\item \texttt{testWrongData()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui la richiesta HTTP non comprende tutti i parametri necessari per portare a termine con successo l'operazione. Il test verifica che la stringa stampata sulla risposta sia effettivamente \texttt{null}, come desiderato in caso d'errore, e che non siano mai effettuate operazioni di aggiornamento della tabella \textit{Messages} nel database.
+
+\item \texttt{testUpdateNotOwnedMessage()} verifica il comportamento del metodo \texttt{doAction} quando il destinatario del messaggio il cui numero identificativo passano nella richiesta non corrisponde all'utente che ha inviato la richiesta al controller. In particolare il test verifica che il testo stampato nella risposta corrisponda alla stringa \texttt{null}, come desiderato in caso d'errore, e che nel sistema di gestione della persistenza dei dati non sia effettuato alcun aggiornamento.
+
+\end{itemize} 
+\textbf{Risultato del test:} superato con successo.
+
+\end{itemize}
 
 \subsubsection{Riassunto esiti test Model}
 Di seguito viene riportata una tabella alla scopo di riassumere i test effettuati e il loro esito finale, così da renderne più pratica la consultazione e la tracciabilità degli stessi.
@@ -1908,34 +1968,55 @@ Di seguito viene riportata una tabella alla scopo di riassumere i test effettuat
 \toprule Codice del Test & Nome del test  & Esito del test\\
 \midrule
 
-TM1.01 & AESAlgorithmTest &Superato\\
-TM1.03 & AuthenticationModuleTest &Superato\\
-TM1.04 & CredentialLoaderTest &Superato\\
-TM1.04 & NameLoaderTest &Superato\\
-TM1.04 & PasswordLoaderTest &Superato\\
-TM1.05 & PrincipalImplTest &Superato\\
-TM2.01 & LoginServletTest &Superato\\
-TM2.02 & LogoutServletTest &Superato\\
-TM2.03 & RegisterServletTest &Superato\\
-TM3.01 & AddressBookEntryTest &Superato\\
-TM3.02 & GroupTest &Superato\\
-TM3.03 & UserDataTest &Superato\\
-TM4.01 & AddContactControllerTest &Superato\\
-TM4.02 & RemoveContactControllerTest &Superato\\
-TM4.03 & CreateGroupControllerTest &Superato\\
-TM4.04 & DeleteGroupControllerTest &Superato\\
-TM4.05 & InsertInGroupControllerTest &Superato\\
-TM4.06 & RemoveFromGroupControllerTest &Superato\\
-TM4.07 & BlockControllerTest &Superato\\
-TM4.08 & UnblockControllerTest &Superato\\
-TM4.09 & SearchControllerTest &Superato\\
-TM4.10 & GetContactsControllerTest &Superato\\
-TM4.11 & GetGroupsControllerTest &Superato\\
-TM5.01 & HibernateUtilTest &Superato\\
-TM5.02 & UserDataDAOTest &Superato\\
-TM5.03 & AddressBookEntryDAOTest &Superato\\
-TM5.04 & GroupDAOTest &Superato\\
-
+TM1.01 & AbstractControllerTest &Superato\\
+TM1.02 & ControllerManagerTest &Superato\\
+TM2.01 & AddressBookEntryTest &Superato\\
+TM2.02 & GroupTest &Superato\\
+TM2.03 & UserDataTest &Superato\\
+TM3.01 & AddContactControllerTest &Superato\\
+TM3.02 & AddGroupControllerTest &Superato\\
+TM3.03 & AddInGroupControllerTest &Superato\\
+TM3.04 & BlockContactControllerTest &Superato\\
+TM3.05 & DeleteContactControllerTest &Superato\\
+TM3.06 & DeleteFromGroupControllerTest &Superato\\
+TM3.07 & DeleteGroupControllerTest &Superato\\
+TM3.08 & GetContactsControllerTest &Superato\\
+TM3.09 & GetGroupsControllerTest &Superato\\
+TM3.10 & SearchControllerTest &Superato\\
+TM3.11 & UnblockContactControllerTest &Superato\\
+TM4.01 & AuthenticationModuleTest &Superato\\
+TM4.02 & CredentialLoaderTest &Superato\\
+TM4.03 & NameLoaderTest &Superato\\
+TM4.04 & PasswordLoaderTest &Superato\\
+TM4.05 & PrincipalImpl &Superato\\
+TM5.01 & AnswerControllerTest &Superato\\
+TM5.02 & LoginControllerTest &Superato\\
+TM5.03 & LogoutControllerTest &Superato\\
+TM5.04 & QuestionControllerTest &Superato\\
+TM5.05 & RegisterControllerTest &Superato\\
+TM6.01 & AESAlgoritmTest &Superato\\
+TM6.02 & AESDecodeTest &Superato\\
+TM6.03 & AESEncodeTest &Superato\\
+TM7.01 & CallListTest &Superato\\
+TM7.02 & CallTest &Superato\\
+TM8.01 & GetCallsControllerTest &Superato\\
+TM9.01 & PushInboundTest &Superato\\
+TM10.01 & DataPersistanceManagerTest &Superato\\
+TM10.02 & SessionManagerTest &Superato\\
+TM11.01 & DeleteUtilTest &Superato\\
+TM11.02 & GetCallUtilTest &Superato\\
+TM11.03 & GetGroupUtilTest &Superato\\
+TM11.04 & GetUserDataUtilTest &Superato\\
+TM11.05 & InsertUtilTest &Superato\\
+TM11.06 & NotInitializeTest &Superato\\
+TM11.07 & UpdateUtilTest &Superato\\
+TM11.08 & UtilFactoryTest &Superato\\
+TM11.09 & GetUtilTest &Superato\\
+TM12.01 & MessageTest &Superato\\
+TM13.01 & AddMessageControllerTest &Superato\\
+TM13.02 & DeleteMessageControllerTest &Superato\\
+TM13.03 & GetMessagesControllerTest &Superato\\
+TM13.04 & UpdateMessageControllerTest &Superato\\
 \bottomrule
 \end{longtable}
 \end{center}
