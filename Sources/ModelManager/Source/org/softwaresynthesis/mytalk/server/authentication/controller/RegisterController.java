@@ -1,10 +1,8 @@
 package org.softwaresynthesis.mytalk.server.authentication.controller;
 
-import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -122,26 +120,5 @@ public class RegisterController extends AbstractController
 	protected boolean check(HttpServletRequest request)
 	{
 		return true;
-	}
-	
-	/**
-	 * Estrae una stringa da un oggetto
-	 * di tipo Part
-	 */
-	String getValue(Part part) throws IOException {
-		try{
-			BufferedReader reader = new BufferedReader(new InputStreamReader(part.getInputStream(), "UTF-8"));
-			StringBuilder value = new StringBuilder();
-			char[] buffer = new char[1024];
-			for (int length = 0; (length = reader.read(buffer)) > 0;) {
-				value.append(buffer, 0, length);
-			}
-			return value.toString();
-		}
-		catch (Exception ex)
-		{
-			String result = "";
-			return result;
-		}
 	}
 }
