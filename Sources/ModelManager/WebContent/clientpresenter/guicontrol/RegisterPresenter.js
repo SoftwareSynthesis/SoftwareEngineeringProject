@@ -155,17 +155,17 @@ function RegisterPanelPresenter() {
         request.open("POST", commandURL, false);
         var formData = new FormData();
         formData.append("operation", "register");
-        formData.append("username", encodeURIComponent(userData.username));
-        formData.append("password", encodeURIComponent(userData.password));
-        formData.append("question", encodeURIComponent(userData.question));
-        formData.append("answer", encodeURIComponent(userData.answer));
+        formData.append("username", (userData.username));
+        formData.append("password", (userData.password));
+        formData.append("question", (userData.question));
+        formData.append("answer", (userData.answer));
         if (userData.name && userData.name.length > 0) {
-            formData.append("name", encodeURIComponent(userData.name));
+            formData.append("name", (userData.name));
         }
         if (userData.surname && userData.surname.length > 0) {
-            formData.append("surname", encodeURIComponent(userData.surname));
+            formData.append("surname", (userData.surname));
         }
-        if (userData.picturePath && userData.picturePath.length > 0) {
+        if (userData.picturePath && (userData.picturePath != "")) {
             formData.append("picturePath", userData.picturePath);
         }
         request.send(formData);
