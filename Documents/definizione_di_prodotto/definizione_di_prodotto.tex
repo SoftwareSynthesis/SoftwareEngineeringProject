@@ -3321,7 +3321,7 @@ Il metodo dovrà pertanto costruire una \verb+XMLHttpRequest+ da inviare all'ind
 quindi invocare il già visto metodo \verb+testCredentials+ con il testo della risposta. Il valore da restituire al chiamante è proprio la stringa di \inglese{query} che è stata trasmessa al server.
 
 \item{\method{+ onShowLoginPanel(): void}}\\
-Questo gestore di evento ha il compito di provocare la visualizzazione del pannello di login. Questo dovrà essere ottenuto sollevando un nuovo evento tramite il quale tutti i pannelli presenti sono rimossi (\verb'onRemoveAllPanel') quindi demandando alla vita il compito di costruirsi e caricare il relativo template.
+Questo gestore di evento ha il compito di provocare la visualizzazione del pannello di login. Questo dovrà essere ottenuto sollevando un nuovo evento tramite il quale tutti i pannelli presenti sono rimossi (\verb'onRemoveAllPanel') quindi demandando alla vita il compito di costruirsi e caricare il relativo \inglese{template}.
 
 \item{\method{+ onRemoveLoginPanel() : void}}\\
 Questo gestore di evento ha il compito di provocare la distruzione del pannello di autenticazione, richiamando il metodo opportuno della vista corrispondente, vale a dire \verb+destroy()+.
@@ -3498,49 +3498,44 @@ Se la mail è valida il metodo termina ritornandone il valore, mentre nel caso i
 	\item{\method{+ getPicturePath(): String}}\\
 	Metodo che estrae dal \inglese{form} il percorso dell'immagine del nuovo profilo utente e lo restituisce.
 	
-	\item{\method{+ register(userData: Object): String}}\\
-	Metodo che Invia i dati ricevuti al \inglese{front controller} del server per la creazione di un nuovo account utente. Tale metodo inizia creando un istanza di \texttt{XMLHttpRequest} usata per comunicare con il server.
+	\item{\method{+ register(userData: Object): void}}\\
+	Metodo che invia i dati ricevuti al \inglese{front controller} del server per la creazione di un nuovo account utente. Tale metodo inizia creando un istanza di \texttt{XMLHttpRequest} sincrona da inviare all'indirizzo del server. Il metodo dovrà estrarre le proprietà obbligatorie \verb'username', \verb'password', \verb'question', \verb'answer' e quelle facoltative \verb'name', \verb'surname' e \verb'picturePath'.
+	
+	Dopo averle opportunamente codificate per per la trasmissione con la funzione di libreria \verb'encodeURIComponent' queste ultime dovranno essere inserite in un oggetto \verb'FormData' da utilizzare per inviare la richiesta al server. Una volta ricevuta la riposta dal server, il metodo dovrà effettuare la deserializzazione del testo ad essa associato e, se questo contiene un oggetto utente legale, sollevare un evento con nome identificativo \verb'onLogin'.
+	
+	\item{\method{+ onShowRegistrationPanel(): void}}\\
+	Questo gestore di evento ha il compito di provocare la visualizzazione del pannello di registrazione. Ciò dovrà essere ottenuto sollevando un nuovo evento tramite il quale tutti i pannelli presenti sono rimossi (\verb'onRemoveAllPanel') quindi demandando alla vita il compito di costruirsi e caricare il relativo \inglese{template}.
+	
+	\item{\method{+ onRemoveRegistrationPanel(): void}}\\
+	Questo gestore di evento ha il compito di provocare la distruzione del pannello di registrazione, richiamando il metodo opportuno della vista corrispondente, vale a dire \verb+destroy()+.
 
-% TODO sono arrivato fino a qui a rivedere ;)
-
-Quindi il metodo abilita \textit{request} ad inviare un richiesta sincrona al \textit{server}, usando l'istruzione:\\
+% Tutto questo è stato trasferito alla vita o è diventato obsoleto
+% 
+% 	\item{\method{+ initialize(): void}}\\
+% 	Metodo che si occupa di inizializzare la \inglese{form} di registrazione con la creazione di tutti i \inglese{widget} grafici che sono contenuti al suo interno. Nello specifico il metodo esegue i seguenti passi:
+% 	\begin{itemize}
+% 		\item creazione dell'elemento \inglese{form};
+% 		\item creazione dell'elemento <ul> contenuto nel \inglese{form};		
+% 		\item creazione dell'item per lo username, definito mediante una \inglese{label} riportante la frase ``Indirizzo email: '', e di un campo \textit{input} di tipo email per l'inserimento della email dell'utente;
+% 		\item costruisce il \inglese{list item} con la \inglese{label} e l'\textit{input} definiti al punto precedente, usando il metodo \texttt{appendChild()};
+% 		\item crea l'item per la password, definendo una \inglese{label} riportante la frase ``Password: '' e un oggetto \textit{input} di tipi \textit{password};			
+% 		\item costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
+% 		\item creazione dell'item per la domanda segreta definito mediante una \inglese{label} avente valore ``Domanda segreta: '' e un oggetto \textit{input} di tipo \texttt{text};
+% 		\item costruisce il \inglese{list item} con la \inglese{label} e l'\textit{input} definiti al punto precedente, usando il metodo \texttt{appendChild()};
+% 		\item creazione dell'item per la risposta alla domanda segreta, definito mediante una \inglese{label} avente valore ``Risposta: '' e un oggetto input di tipo \texttt{text};
+% 		\item costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
+% 		\item creazione dell'item per il nome, definito mediante una \inglese{label} avente valore ``Nome: '' e un oggetto input di tipo \texttt{text};
+% 		\item costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
+% 		\item creazione dell'item per il cognome, definito mediante una \inglese{label} avente valore ``Cognome: '' e un oggetto input di tipo \texttt{text};
+% 		\item costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
+% 		\item creazione dell'item per inserire l'immagine utente, definito mediante una \inglese{label} avente valore ``Immagine del profilo: '' e un oggetto input di tipo \texttt{text};
+% 		\item costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
+% 		\item creazione di un pulsante di registrazione (oggetto input di tipo submit e value ``Registrati'').
+% 		\item operazione finale per ``appendere'' tutti  gli oggetti creati al \texttt{registerForm}.
+% 	\end{itemize}
 	
-	\verb|request.open("POST", servletURL, false)|\\
-	
-	Il metodo procede definendo la stringa da usare come \textit{query} per da inviare alla \inglese{servlet}. Tale \textit{querystring} contiene:\\
-	
-	\verb|"username=" + encodeURIComponent(userData.username) +|\\
-	\verb|"&password=" + encodeURIComponent(userData.password) +|\\
-	\verb|"&question=" + encodeURIComponent(userData.question) +|\\
-	\verb|"&answer=" + encodeURIComponent(userData.answer)|\\
-	
-	Il metodo termina restituendo il contenuto di \textit{querystring}.
-	
-	\item{\method{+ initialize(): void}}\\
-	Metodo che si occupa di inizializzare la \inglese{form} di registrazione con la creazione di tutti i \inglese{widget} grafici che sono contenuti al suo interno. Nello specifico il metodo esegue i seguenti passi:
-	\begin{itemize}
-		\item creazione dell'elemento \inglese{form};
-		\item creazione dell'elemento <ul> contenuto nel \inglese{form};		
-		\item creazione dell'item per lo username, definito mediante una \inglese{label} riportante la frase ``Indirizzo email: '', e di un campo \textit{input} di tipo email per l'inserimento della email dell'utente;
-		\item costruisce il \inglese{list item} con la \inglese{label} e l'\textit{input} definiti al punto precedente, usando il metodo \texttt{appendChild()};
-		\item crea l'item per la password, definendo una \inglese{label} riportante la frase ``Password: '' e un oggetto \textit{input} di tipi \textit{password};			
-		\item costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
-		\item creazione dell'item per la domanda segreta definito mediante una \inglese{label} avente valore ``Domanda segreta: '' e un oggetto \textit{input} di tipo \texttt{text};
-		\item costruisce il \inglese{list item} con la \inglese{label} e l'\textit{input} definiti al punto precedente, usando il metodo \texttt{appendChild()};
-		\item creazione dell'item per la risposta alla domanda segreta, definito mediante una \inglese{label} avente valore ``Risposta: '' e un oggetto input di tipo \texttt{text};
-		\item costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
-		\item creazione dell'item per il nome, definito mediante una \inglese{label} avente valore ``Nome: '' e un oggetto input di tipo \texttt{text};
-		\item costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
-		\item creazione dell'item per il cognome, definito mediante una \inglese{label} avente valore ``Cognome: '' e un oggetto input di tipo \texttt{text};
-		\item costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
-		\item creazione dell'item per inserire l'immagine utente, definito mediante una \inglese{label} avente valore ``Immagine del profilo: '' e un oggetto input di tipo \texttt{text};
-		\item costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
-		\item creazione di un pulsante di registrazione (oggetto input di tipo submit e value ``Registrati'').
-		\item operazione finale per ``appendere'' tutti  gli oggetti creati al \texttt{registerForm}.
-	\end{itemize}
-	
-	\item{\method{+ hide(): void}}\\
-	Nasconde il \inglese{form} di registrazione per lasciare spazio alla schermata principale dell'applicativo (che deve essere costruita dal PresenterMediator).
+% 	\item{\method{+ hide(): void}}\\
+% 	Nasconde il \inglese{form} di registrazione per lasciare spazio alla schermata principale dell'applicativo (che deve essere costruita dal PresenterMediator).
 
 \end{description}
 

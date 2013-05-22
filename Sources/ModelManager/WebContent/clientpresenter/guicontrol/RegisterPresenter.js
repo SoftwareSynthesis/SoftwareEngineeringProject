@@ -167,7 +167,6 @@ function RegisterPanelPresenter() {
             login.user = user;
             document.dispatchEvent(login);
         }
-        return querystring;
     };
 
     /** VIEW
