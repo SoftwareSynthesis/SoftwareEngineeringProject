@@ -4390,6 +4390,35 @@ Il pannello è costituito da un elemento \verb'<div>' avente come identificativo
   \item[--] un elemento \verb'<ul>' per presentare i risultati della ricerca, avente come identificativo il valore \verb'userlList'.
 \end{itemize}
 
+\classsection{MainView}
+\subsubsection*{Funzione}
+Vista associata al \classname{MainPanelPresenter} che contiene il pannello principale ed è responsabile del suo aggiornamento e della sua visualizzazione.
+
+\subsubsection*{Metodi}
+\begin{description}
+  \item{\method{+ destroy(): void}}\\
+  Metodo che ha il compito di rimuovere il pannello dall'interfaccia grafica visualizzata rimuovendo il nodo DOM corrispondente al pannello principale dalla sua posizione all'interno dell'albero DOM\@.
+  
+  \item{\method{+ initialize(view: HTMLElement): void}}\\
+  Tale metodo ha il compito di visualizzare del pannello principale, che viene passato tramite il parametro in ingresso \verb'view', aggiungendolo nella posizione corretta dell'albero DOM dell'interfaccia grafica in modo che venga ad occupare la posizione centrale.
+  
+  \item{\method{+ displayChildPanel(node: HTMLElement): void}}\\
+  Provoca la visualizzazione di un pannello secondario all'interno della \classname{MainView} aggiungendo la sua radice, vale a dire il nodo DOM ricevuto come parametro in ingresso, come elemento figlio del \verb'div' che rappresenta il pannello principale.
+  
+\end{description}
+
+\subsubsection*{Elementi}
+Il pannello è costituito da un solo elemento \verb'<div>' avente come attributo identificativo la stringa \verb'MainPanel' all'interno del quale sarà visualizzata, di volta in volta, una delle sette viste di secondo livello, vale a dire:
+\begin{itemize}\renewcommand{\labelitemi}{$-$}
+  \item \classname{AccountSettingsView};
+  \item \classname{CallHistoryView};
+  \item \classname{CommunicationView};
+  \item \classname{ContactView};
+  \item \classname{GroupView};
+  \item \classname{MessageView};
+  \item \classname{SearchResultView}.
+\end{itemize}
+
 %********************************************************************
 %     QUESTO È IL CONFINE FRA BENE E MALE - SIETE AVVERTITI!
 %********************************************************************
@@ -4496,8 +4525,6 @@ Vista associata al presenter \classname{ToolsPresenter}. Utilizzata per visualiz
 \item effettuare il logout.
 \end{itemize}
 \end{itemize}
-
-
 
 \clearpage
 

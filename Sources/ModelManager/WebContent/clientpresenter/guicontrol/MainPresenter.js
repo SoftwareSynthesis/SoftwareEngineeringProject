@@ -15,10 +15,6 @@ function MainPanelPresenter() {
     var thisPanel;
 
     /***************************************************************************
-     * METODI PRIVATI
-     **************************************************************************/
-
-    /***************************************************************************
      * METODI PUBBICI
      **************************************************************************/
     /** VIEW
@@ -33,7 +29,7 @@ function MainPanelPresenter() {
         }
     };
 
-    /**
+    /** VIEW
      * Costruisce il pannello principale dell'applicazione che occupa il posto
      * centrale della finestra
      *
@@ -50,7 +46,7 @@ function MainPanelPresenter() {
         thisPanel = document.getElementById("MainPanel");
     };
 
-    /**
+    /** VIEW
      * Visualizza un elemento interno al pannello principale
      *
      * @param {HTMLDivElement}
@@ -76,7 +72,7 @@ function MainPanelPresenter() {
     /***************************************************************************
      * HANDLER DEGLI EVENTI
      **************************************************************************/
-    /**
+    /** PRESENTER
      * Funzione per gestire l'evento in cui viene visualizzato il pannello
      * principale
      * @author Riccardo Tresoldi
@@ -87,7 +83,7 @@ function MainPanelPresenter() {
         }
     }
 
-    /**
+    /** PRESENTER
      * Funzione per gestire l'evento in cui viene rimosso il pannello principale
      * @author Riccardo Tresoldi
      */
@@ -96,7 +92,7 @@ function MainPanelPresenter() {
     }
 
     /***************************************************************************
-     * LISTNER DEGLI EVENTI
+     * LISTENER DEGLI EVENTI
      **************************************************************************/
     document.addEventListener("showMainPanel", function(evt) {
         onShowMainPanel();
