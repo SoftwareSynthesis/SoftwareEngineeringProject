@@ -36,7 +36,7 @@ import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
 @RunWith(MockitoJUnitRunner.class)
 public class GetCallsControllerTest {
 	private final String username = "indirizzo5@dominio.it";
-	private final String calleeName = "paolino";
+	private final Long calleeName = 5L;
 	private final String calleeSurname = "paperino";
 	private final boolean isCaller = true;
 	private Writer writer;
@@ -79,7 +79,7 @@ public class GetCallsControllerTest {
 		// configura il comportamento dell'utente che richiede la lista
 		when(user.getCalls()).thenReturn(callListSet);
 		// configura il comportamento del chiamato
-		when(callee.getName()).thenReturn(calleeName);
+		when(callee.getId()).thenReturn(calleeName);
 		when(callee.getSurname()).thenReturn(calleeSurname);
 		// configura il comportamento della chiamata
 		when(call.getStart()).thenReturn(startDate);
@@ -126,7 +126,7 @@ public class GetCallsControllerTest {
 		writer.flush();
 		String responseText = writer.toString();
 		String toCompare = String.format(
-				"[{\"name\":\"%s %s\", \"start\":\"%s\", \"caller\":\"%s\"}]",
+				"[{\"id\":\"%s %s\", \"start\":\"%s\", \"caller\":\"%s\"}]",
 				calleeName, calleeSurname, startDate, isCaller);
 		assertEquals(toCompare, responseText);
 
