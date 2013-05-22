@@ -16,7 +16,7 @@ function RegisterPanelPresenter() {
     /***************************************************************************
      * METODI PUBBLICI
      **************************************************************************/
-    /** VIEW
+	 /** VIEW
      * Distruttore del pannello
      * @author Riccardo Tresoldi
      */
@@ -124,7 +124,10 @@ function RegisterPanelPresenter() {
      */
     this.getPicturePath = function() {
         var picturePath = document.getElementById("picture").files[0];
-        return picturePath;
+		if (picturePath != undefined)
+			return picturePath;
+		else
+			return "";
     };
 
     /** PRESENTER
@@ -148,6 +151,7 @@ function RegisterPanelPresenter() {
         // invia una richiesta SINCRONA al server (terzo parametro 'false')
         request.open("POST", commandURL, false);
         var formData = new FormData();
+		formData.append("operation", "register");
         formData.append("username", encodeURIComponent(userData.username));
         formData.append("password", encodeURIComponent(userData.password));
         formData.append("question", encodeURIComponent(userData.question));
@@ -158,9 +162,9 @@ function RegisterPanelPresenter() {
         if (userData.surname && userData.surname.length > 0) {
             formData.append("surname", encodeURIComponent(userData.surname));
         }
-        /*if (userData.picturePath && userData.picturePath.length > 0) {
-            formData.append("picturePath", encodeURIComponent(userData.picturePath));
-        }*/
+        if (userData.picturePath && userData.picturePath.length > 0) {
+            formData.append("picturePath", userData.picturePath);
+        }
         request.send(formData);
         var user = JSON.parse(request.responseText);
         if (user) {
@@ -202,7 +206,7 @@ function RegisterPanelPresenter() {
                 data.answer = thisPresenter.getAnswer();
                 data.name = thisPresenter.getName();
                 data.surname = thisPresenter.getSurname();
-                //data.picturePath = thisPresenter.getPicturePath();
+                data.picturePath = thisPresenter.getPicturePath();
                 thisPresenter.register(data);
             } catch (err) {
                 alert(err);
