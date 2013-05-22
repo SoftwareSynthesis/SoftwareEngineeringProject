@@ -1,8 +1,11 @@
 package org.softwaresynthesis.mytalk.server.authentication.controller;
 
+import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -63,7 +66,7 @@ public class RegisterController extends AbstractController
 			answer = strategy.encode(answer);
 			name = request.getParameter("name");
 			surname = request.getParameter("surname");
-			path = request.getParameter("picturePath");
+			filePart = request.getPart("picturePath");
 			user = new UserData();
 			user.setMail(mail);
 			user.setPassword(password);
@@ -71,23 +74,23 @@ public class RegisterController extends AbstractController
 			user.setAnswer(answer);
 			user.setName(name);
 			user.setSurname(surname);
-			if (path == null)
+			if (filePart == null)
 			{
 				path = "img/contactImg/Default.png";
+				user.setPath(path);
 			}
 			else
 			{
-				filePart = request.getPart("picturePath");
-				if (filePart != null)
-				{
-					inputStream = filePart.getInputStream();
-					path = "img/contactImg/" + mail + ".png";
-					out = new FileOutputStream(path);
-					out.write(IOUtils.readFully(inputStream, -1, false));
-					out.close();
-				}				
+				inputStream = filePart.getInputStream();
+				Scrivi("SIZE "+ filePart.getSize());
+				path = System.getenv("MyTalkConfiguration");
+				String separator = System.getProperty("file.separator");
+				path += separator + "MyTalk" + separator + "img" + separator + "contactImg" + separator + mail + ".png";
+				out = new FileOutputStream(path);
+				out.write(IOUtils.readFully(inputStream, -1, false));
+				out.close();
+				user.setPath("img/contactImg/" + mail + ".png");
 			}
-			user.setPath(path);
 			dao = getDAOFactory();
 			dao.insert(user);
 			group = new Group();
@@ -103,6 +106,11 @@ public class RegisterController extends AbstractController
 		catch (Exception ex)
 		{
 			result = "null";
+			Scrivi(ex.getMessage());
+		}
+		catch (Throwable ex)
+		{
+			Scrivi(ex.getMessage());
 		}
 		finally
 		{
@@ -120,5 +128,22 @@ public class RegisterController extends AbstractController
 	protected boolean check(HttpServletRequest request)
 	{
 		return true;
+	}
+	
+	private void Scrivi(String txt)
+	{
+		try
+		{
+			FileOutputStream s = new FileOutputStream("DEBUG.txt", true);
+			PrintStream p = new PrintStream(s);
+			p.println(txt);
+			p.close();
+			File f = new File("DEBUG.txt");
+			FileWriter w = new FileWriter(f);
+			w.write(txt);
+			w.flush();
+			w.close();
+		}
+		catch (IOException e) {}
 	}
 }
