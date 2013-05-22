@@ -3428,12 +3428,44 @@ Nessuna relazione evidenziata.
   
   \item{\method{+ onShowCallHistoryPanel(): void}}\\
   Questo gestore di eventi ha il compito di provocare la visualizzazione del pannello contenente lo storico delle chiamate demandando alla vista il compito di costruirsi e caricare il relativo \inglese{template}.
-  
-% TODO quanto segue è obsoleto e/o è stato trasferito alla vista
-%
-% \item{\method{- addListItem(call: String): void}}\\
-% Aggiunge alla lista delle chiamate visualizzata nel CallHistoryPanel una nuova voce che corrisponde alla chiamata ricevuta da parametro. Ogni voce della lista contiene i dati relativi alla chiamata e non consente di effettuare alcuna azione su di essa.
 
+\end{description}
+
+\classsection{SearchResultPanelPresenter}
+
+\subsubsection*{Funzione}
+\inglese{Presenter} incaricato di gestire il pannello che visualizza i risultati di ricerca.
+
+\subsubsection*{Relazioni d'uso}
+Nessuna relazione d'uso evidenziata.
+
+\subsubsection*{Classi estese ed interfacce implementate}
+Nessuna relazione evidenziata.
+
+\subsubsection*{Attributi}
+\begin{description}
+\item{\memberdata{-- thisPanel: HTMLElement}}\\
+Riferimento al pannello controllato da questo \inglese{presenter}, vale a dire un elemento \verb'<div>' avente come identificativo la stringa \verb'SearchResultPanel'.
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+  \item{\method{+ sendSearchRequest(pattern: String): Object}}\\
+  Il metodo ha il compito di avviare una ricerca fra gli utenti registrati al sistema a partire dalla stringa \verb'param' come criterio di ricerca (che può corrispondere a parte del nome, del cognome o del nome utente).
+  
+  A tale scopo il \inglese{presenter} dovrà contattare il server inviando all'indirizzo del\inglese{front controller} una richiesta AJAX sincrona con il metodo POST e avente come \inglese{query string} esattamente la stringa
+  \begin{verbatim}
+    "operation=search&param=" + pattern
+  \end{verbatim}
+  
+  Dal momento che il server risponde inviando in forma serializzata l'array di contatti desiderato, sarà sufficiente che il metodo restituisca la forma deserializzata del contenuto della risposta, con un'istruzione del tipo:
+  \begin{verbatim}
+    return JSON.parse(request.responseText);
+  \end{verbatim}
+  
+  \item{\method{+ onShowSearchResultPanel(): void}}\\
+  Questo gestore di eventi ha il compito di provocare la visualizzazione del pannello di ricerca caricando il \inglese{template} corrispondente e demandando alla \classname{SearchResultView} di inizializzarsi tramite il metodo \method{display()} preposto a tale scopo.
+  
 \end{description}
 
 %********************************************************************
@@ -3960,49 +3992,6 @@ Metodo che ogni sua invocazione provoca il recupero dei messaggi in segreteria. 
 
 \end{description}
 
-%TODO da verificare
-\classsection{SearchresultPanelPresenter}
-
-\subsubsection*{Funzione}
-Presenter incaricato di gestire il pannello che visualizza i risultati di ricerca.
-
-\subsubsection*{Relazioni d'uso}
-Nessuna relazione d'uso evidenziata.
-
-\subsubsection*{Classi estese ed interfacce implementate}
-Nessuna relazione evidenziata.
-
-\subsubsection*{Attributi}
-\begin{description}
-\item{\memberdata{-- servlets: String[]}}\\
-Array che contiene le URL delle \inglese{servlet} da contattare per eseguire ricerche
-\end{description}
-
-\subsubsection*{Metodi}
-\begin{description}
-\item{\method{- getServletURLs(): void}}\\
-Configura gli URL delle \inglese{servlet} da interrogare leggendoli dal file di configurazione in base alle operazioni che questo presenter deve essere in grado di compiere.\\
-Più precisamente, si dovrà creare una ``XMLHttpRequest'' rivolta al file XML di configurazione dove sono riportate tutte le \inglese{servlet}. Ricevuta la risposta, si popolerà l'\textit{array} dichiarato nella classe (\inglese{servlet}).
-
-\item{\method{- addListItem(list: DOM\_element, contact: Object(contact)): void}}\\
-Aggiunge alla lista ricevuta da parametro (\textit{list}) il contatto anch'esso ricevuto da parametro (\textit{contact}). L'aggiunta del contatto alla lista avviene prima di tutto effettuando un controllo sui dati da visualizzare nel \textit{list item} che se presenti nel database saranno:
-\begin{itemize}
-\item nome;
-\item cognome;
-\item email;
-\item immagine profilo.
-\end{itemize}
-Infine, si assegna il comportamento corretto all'evento ``onClick'' che andrà a richiamare il metodo \method{onContactSelected(contact)} del MediatorPresenter.
-
-\item{\method{+ createPanel(): DOM\_element}}\\
-Costruisce il pannello dei risultati di ricerca, che deve essere visualizzato all'interno del MainPanel dell'applicazione quando viene effettuata una ricerca. Il SearchResultPanel è costituito da una semplice lista che verrà popolata con i risultati della ricerca.
-
-\item{\method{+ displayContactList(contacts: Object(contact)): void}}\\
-Metodo che visualizza all'interno del pannello una lista di contatti che ottenuta dal server a seguito di una ricerca. Tale metodo demanda la visualizzazione per ogni contatto richiamando il metodo \method{addListItem(userList, contact}.
-
-\end{description}
-
-
 \classsection{GroupPanelPresenter}
 
 \subsubsection*{Funzione}
@@ -4218,13 +4207,14 @@ Metodo richiamato per terminare una chiamata, a cascata viene richiamato il meto
 
 \clearpage
 
-\section{Specifica sotto-architettura clientview}\label{sec:clientviewarchitecture}
+\section{Specifica sotto-architettura \texttt{clientview}}\label{sec:clientviewarchitecture}
 Il sistema dispone di dodici viste, ognuna associata al relativo \inglese{presenter}. Tali viste vengono create e modificate all'occorrenza in base alle chiamate di metodo effettuate da parte dei relativi \inglese{presenter}.
 
 La descrizione delle viste, oltre alla funzione e ai metodi che essa mette a disposizione del relativo \inglese{presenter}, è corredata dalla struttura degli elementi che la compongono.
 
-\subsection{LoginView}
+\subsection{Package \texttt{org.softwaresynthesis.mytalk.clientview}}
 
+\classsection{LoginView}
 \subsubsection*{Funzione}
 Vista associata al \inglese{presenter} \classname{LoginPanelPresenter} utilizzata per effettuare il login nel sistema.
 
@@ -4298,9 +4288,9 @@ Il pannello contiene un elemento \verb'<div>' con identificativo uguale a \verb'
     \end{itemize}
   \end{itemize}
 
-\subsection{RegisterView}
+\classsection{RegisterView}
 \subsubsection*{Funzione}
-Vista associata al \inglese{presenter} \classname{RegisterPresenter} utilizzata per effettuare la registrazione al sistema.
+Vista associata al \inglese{presenter} \classname{RegisterPanelPresenter} utilizzata per effettuare la registrazione al sistema.
 
 \subsubsection*{Metodi}
 \begin{description}
@@ -4339,9 +4329,9 @@ Il pannello è costituito da n elemento di tipo \verb'<div>' con identificativo 
   \end{itemize}
 \end{itemize}
 
-\subsection{CallHistoryView}
+\classsection{CallHistoryView}
 \subsubsection*{Funzione}
-Vista associata al \inglese{presenter} \classname{CallHistoryPresenter} utilizzata per la visualizzazione dello storico chiamate.
+Vista associata al \inglese{presenter} \classname{CallHistoryPanelPresenter} utilizzata per la visualizzazione dello storico chiamate.
 
 \subsubsection*{Metodi}
 \begin{description}
@@ -4362,9 +4352,9 @@ Il pannello è costituito da un elemento \verb'<div>' avente come identificativo
   \item[--] un elemento \verb'<ul>' avente come identificativo la stringa \verb'ulHistory'.
 \end{itemize}
 
-\subsection{SearchResultView}
+\classsection{SearchResultView}
 \subsubsection*{Funzione}
-Vista associata al \inglese{presenter} \classname{SearchResultPresenter} utilizzata per visualizzare i risultati di una ricerca fra gli utenti registrati al sistema.
+Vista associata al \inglese{presenter} \classname{SearchResultPanelPresenter} utilizzata per visualizzare i risultati di una ricerca fra gli utenti registrati al sistema.
 
 \subsubsection*{Metodi}
 \begin{description}

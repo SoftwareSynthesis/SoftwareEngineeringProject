@@ -30,7 +30,7 @@ function SearchResultPanelPresenter(url) {
 	    var searchRequest = new XMLHttpRequest();
         searchRequest.open("POST", commandURL, false);
         searchRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        searchRequest.send("operation=search");
+        searchRequest.send("operation=search&param=" + pattern);
         var contacts = JSON.parse(searchRequest.responseText);
         return contacts;
 	}
