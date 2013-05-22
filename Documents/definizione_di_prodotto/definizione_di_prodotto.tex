@@ -1456,7 +1456,7 @@ Implementazione dell'interfaccia IAddressBookEntry.
 
 %TODO da verificare
 
-\classsection{AddContactServlet}
+\classsection{AddContactController}
 
 \subsubsection*{Funzione}
 \textit{Controller} che ha il compito di aggiungere alla rubrica un nuovo contatto.
@@ -1465,7 +1465,7 @@ Implementazione dell'interfaccia IAddressBookEntry.
 
 \begin{itemize}
 	\item \texttt{java.io.IOException}: eccezione richiamabile dal metodo\method{doAction()}.
-	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doAction()}. Usata per scrivere l'output della \inglese{servlet}.
+	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doAction()}. Usata per scrivere l'output del \inglese{controller}.
 	\item \texttt{javax.servlet.ServletException}: eccezione sollevabile dai metodi \method{doAction()}.
 	\item \texttt{javax.servlet.http.HttpServletRequest}: classe usata per interagire con le richieste \texttt{ajax} inoltrate dal client.
 	\item \texttt{javax.servlet.http.HttpServletResponse}: classe usata per interagire con le richieste \texttt{ajax} inoltrate dal client.
@@ -1484,7 +1484,7 @@ Nessun attributo evidenziato
 \subsubsection*{Metodi}
 \begin{description}
 	\item{\method{\# doAction(request HttpServletRequest, response HttpServletResponse): void}}\\	
-	Metodo usato per eseguire la richiesta di aggiungere un nuovo contatto all'interno della rubrica (eseguito in risposta ad una richiesta HTTP con metodo \texttt{POST}). Il flusso principale inizia  con la creazione di un oggetto \classname{dao.DataPersistanceManager} avente nome UserDAO. Quindi viene aperto un blocco try catch in cui si salva in un istanza di tipo \texttt{HttpSession}, l'oggetto ritornato da una chiamata \verb|request.getSession(false)|. I passi successivi sono (nell'ordine):
+	Metodo usato per eseguire la richiesta di aggiungere un nuovo contatto all'interno della rubrica. Il flusso principale inizia  con la creazione di un oggetto \classname{dao.DataPersistanceManager} avente nome UserDAO. Quindi viene aperto un blocco try catch in cui si salva in un istanza di tipo \texttt{HttpSession}, l'oggetto ritornato da una chiamata \verb|request.getSession(false)|. I passi successivi sono (nell'ordine):
 	\begin{itemize}
 		\item salvare in attributo di tipo long, contactID, l'id dell'utente. Tale id dovrà essere ottenuto con una chiamata:\\
 		\verb|request.getParameter("contactId")|;\\
@@ -1502,47 +1502,35 @@ Nessun attributo evidenziato
 
 %TODO da verificare
 
-\classsection{AddressBookDoRemoveContactServlet}
+\classsection{DeleteContactsController}
 
 \subsubsection*{Funzione}
-\textit{Servlet} richiamata dal \textit{client} per eseguire l'eliminazione di un contatto presente nella propria rubrica.
+\textit{Controller} richiamata dal \textit{client} per eseguire l'eliminazione di un contatto presente nella propria rubrica.
 
 \subsubsection*{Relazioni d'uso}
 
 \begin{itemize}
-	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
-	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
-	\item \texttt{javax.servlet.ServletException}: eccezione sollevabile dai metodi \method{doPost()} e \method{doGet()}.
-	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{LoginManager}.
-	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
-	\item \texttt{javax.security.auth.login.LoginContext}: classe usata in \method{doPost()} per eseguite la logout dal sistema.
-	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in uscita dalla chiamata a \inglese{servlet}).
-	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
+		\item \texttt{java.io.IOException}: eccezione richiamabile dal metodo\method{doAction()}.
+	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doAction()}. Usata per scrivere l'output del \inglese{controller}.
+	\item \texttt{javax.servlet.ServletException}: eccezione sollevabile dai metodi \method{doAction()}.
+	\item \texttt{javax.servlet.http.HttpServletRequest}: classe usata per interagire con le richieste \texttt{ajax} inoltrate dal client.
+	\item \texttt{javax.servlet.http.HttpServletResponse}: classe usata per interagire con le richieste \texttt{ajax} inoltrate dal client. 
 	\item \classname{org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager}: classe usata per comunicare tramite Hibernate con la tabella UserData della base di dati.
 \end{itemize}
 
 \subsubsection*{Classi estese ed interfacce implementate}
-
-Nessuna relazione evidenziata
+\begin{itemize}
+	\item \texttt{server.AbstractController}: classe estesa.
+\end{itemize}
 
 \subsubsection*{Attributi}
 
-\begin{itemize}
-	\item{\memberdata{\underline{-- \{frozen\} serialVersionUID: long}}}
-	Attributo contenente l'id per la serializzazione dei dati, il valore di creazione deve essere \texttt{10013L}.
-\end{itemize}
+Nessun attributo evidenziato
 
 \subsubsection*{Metodi}
-
 \begin{description}
-	\item{\method{+ AddressBookDoRemoveContactServlet()}}\\
-	Costruttore pubblico della \inglese{servlet}, richiama il costruttore della classe padre (chiamata a \texttt{super}).
-	
-	\item{\method{\# doGet(request HttpServletRequest, response HttpServletResponse): void}}\\
-	Metodo usato per eseguire la richiesta di eliminazione di un contatto presente all'interno della rubrica (eseguito in risposta ad una richiesta HTTP con metodo \texttt{GET}). Poiché si intende gestire in modo univoco una richiesta a tale \inglese{servlet} (indifferentemente dalla tipologia d'invio dati) il metodo reindirizza il flusso principale al metodo \method{doPost()}.
-	
-	\item{\method{\# doPost(request HttpServletRequest, response HttpServletResponse): void}}\\	
-	Metodo usato per eseguire la richiesta di eliminazione di un contatto presente all'interno della rubrica (eseguito in risposta ad una richiesta HTTP con metodo \texttt{POST}). Tale metodo deve creare un istanza di \texttt{AddressBookEntry} con i dati relativi alla \textit{entry} da eliminare, quindi richiamerà il metodo \method{removeAddressBookEntry()} a partire dalle due istanze di \texttt{IUserData} (quella che rappresenta l'utente richiedete e quella che rappresenta l'utente da eliminare) passando come parametro l'\textit{entry} definita in precedenza. Più nello specifico Il flusso principale inizia  con la creazione di un oggetto \classname{dao.DataPersistanceManager} avente nome UserDAO, quindi viene aperto un blocco \textit{try-catch} in cui si salva in un istanza di tipo \texttt{HttpSession}, l'oggetto ritornato da una chiamata \verb|request.getSession(false)|. I passi successivi sono (nell'ordine):
+	\item{\method{\# doAction(request HttpServletRequest, response HttpServletResponse): void}}\\	
+	Metodo usato per eseguire la richiesta di eliminazione di un contatto presente all'interno della rubrica. Tale metodo deve creare un istanza di \texttt{AddressBookEntry} con i dati relativi alla \textit{entry} da eliminare, quindi richiamerà il metodo \method{removeAddressBookEntry()} a partire dalle due istanze di \texttt{IUserData} (quella che rappresenta l'utente richiedete e quella che rappresenta l'utente da eliminare) passando come parametro l'\textit{entry} definita in precedenza. Più nello specifico Il flusso principale inizia  con la creazione di un oggetto \classname{dao.DataPersistanceManager} avente nome UserDAO, quindi viene aperto un blocco \textit{try-catch} in cui si salva in un istanza di tipo \texttt{HttpSession}, l'oggetto ritornato da una chiamata \verb|request.getSession(false)|. I passi successivi sono (nell'ordine):
 	\begin{itemize}
 		\item salvare in attributo di tipo long, contactID, l'id dell'utente. Tale id dovrà essere ottenuto con una chiamata:\\
 		\verb|request.getParameter("contactId")|;\\
@@ -1560,47 +1548,35 @@ Nessuna relazione evidenziata
 
 %TODO da verificare
 
-\classsection{AddressBookDoCreateGroupServlet}
+\classsection{AddGroupController}
 
 \subsubsection*{Funzione}
-\inglese{Servlet} richiamata dal \textit{client} per creare un nuovo gruppo nella propria rubrica.
+\inglese{Controller} richiamata dal \textit{client} per creare un nuovo gruppo nella propria rubrica.
 
 \subsubsection*{Relazioni d'uso}
 
 \begin{itemize}
-	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
-	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
-	\item \texttt{javax.servlet.ServletException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
-	\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{LoginManager}.
-	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
-	\item \texttt{javax.security.auth.login.LoginContext}: classe usata in \method{doPost()} per eseguite la logout dal sistema.
-	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in uscita dalla chiamata a \inglese{servlet}).
-	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
+	\item \texttt{java.io.IOException}: eccezione richiamabile dal metodo\method{doAction()}.
+	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doAction()}. Usata per scrivere l'output della \inglese{servlet}.
+	\item \texttt{javax.servlet.ServletException}: eccezione sollevabile dai metodi \method{doAction()}.
+	\item \texttt{javax.servlet.http.HttpServletRequest}: classe usata per interagire con le richieste \texttt{ajax} inoltrate dal client.
+	\item \texttt{javax.servlet.http.HttpServletResponse}: classe usata per interagire con le richieste \texttt{ajax} inoltrate dal client.
 	\item \classname{org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager}: classe usata per comunicare tramite Hibernate con la tabella UserData della base di dati.
 \end{itemize}
 
 \subsubsection*{Classi estese ed interfacce implementate}
-
-Nessuna relazione evidenziata.
+\begin{itemize}
+	\item \texttt{server.AbstractController}: classe estesa.
+\end{itemize}
 
 \subsubsection*{Attributi}
 
-\begin{itemize}
-	\item{\memberdata{\underline{-- \{frozen\} serialVersionUID: long}}}
-	Attributo contenente l'id per la serializzazione dei dati. Il valore di creazione deve essere \texttt{10015L}.
-\end{itemize}
+Nessun attributo evidenziato
 
 \subsubsection*{Metodi}
-
 \begin{description}
-	\item{\method{+ AddressBookDoCreateGroupServlet()}}\\
-	Costruttore pubblico della \inglese{servlet}. Richiama il costruttore della classe padre (chiamata a \texttt{super}).
-	
-	\item{\method{\# doGet(request HttpServletRequest, response HttpServletResponse): void}}\\
-	Metodo usato per eseguire la richiesta di creazione di un gruppo (eseguito in risposta ad una richiesta HTTP con metodo \texttt{GET}). Poiché si intende gestire in modo univoco una richiesta a tale \inglese{servlet} (indifferentemente dalla tipologia d'invio dati) il metodo reindirizza il flusso principale al metodo \method{doPost()}.
-	
-	\item{\method{\# doPost(request HttpServletRequest, response HttpServletResponse): void}}\\	
-	Metodo usato per eseguire la richiesta di creazione di un gruppo (eseguito in risposta ad una richiesta HTTP con metodo \texttt{POST}). Nell'ordine proposto, devono essere eseguite le seguenti operazioni:
+	\item{\method{\# doAction(request HttpServletRequest, response HttpServletResponse): void}}\\	
+	Metodo usato per eseguire la richiesta di creazione di un gruppo. Nell'ordine proposto, devono essere eseguite le seguenti operazioni:
 	\begin{itemize}
 		\item creazione di un oggetto \classname{dao.DataPersistanceManager} avente nome groupDAO;
 		\item creazione di un oggetto \texttt{HttpSession} avente nome session;
@@ -2417,54 +2393,46 @@ Nessuna relazione evidenziata.
 
 \subsection{Package org.softwaresynthesis.mytalk.server.call.controller}\label{sec:callServlet}
 
-\classsection{DownloadCallHistoryServlet}
+\classsection{GetCallsController}
 
 \subsubsection*{Funzione}
-\inglese{Servlet} da richiamare per effettuare il download della lista che rappresenta lo storico delle chiamate effettuate e ricevute dell'utente. I dati vengono ritornati sotto forma di stringa in formato JSON.
+\texttt{Controller} da richiamare per effettuare il download della lista che rappresenta lo storico delle chiamate effettuate e ricevute dell'utente. I dati vengono ritornati sotto forma di stringa in formato JSON.
 
 \subsubsection*{Relazioni d'uso}
 \begin{itemize}
-	\item \texttt{java.io.IOException}: eccezione richiamabile dai metodi \method{doPost()} e \method{doGet()}.
-	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doPost()}. Usata per scrivere l'output della \inglese{servlet}.
-	\item \texttt{javax.servlet.ServletException}: eccezione sollevabile dai metodi \method{doPost()} e \method{doGet()}.
-	\item \texttt{javax.servlet.http.HttpServletRequest}:  classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in ingresso alla \inglese{servlet}).
-	\item \texttt{javax.servlet.http.HttpServletResponse}: classe per usata per la comunicazione con la \inglese{servlet} (inoltra i dati in uscita dalla chiamata a \inglese{servlet}).
-	\item \texttt{javax.servlet.http.HttpSession}: classe usata per definire una sessione HTTP.
+	\item \texttt{java.io.IOException}: eccezione richiamabile dal metodo\method{doAction()}.
+	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doAction()}. Usata per scrivere l'output del \inglese{controller}.
+	\item \texttt{javax.servlet.ServletException}: eccezione sollevabile dai metodi \method{doAction()}.
+	\item \texttt{javax.servlet.http.HttpServletRequest}: classe usata per interagire con le richieste \texttt{ajax} inoltrate dal client.
+	\item \texttt{javax.servlet.http.HttpServletResponse}: classe usata per interagire con le richieste \texttt{ajax} inoltrate dal client.
 	\item \classname{call.ICall}: usata per definire un oggetto rappresentante una chiamata.
 	\item \classname{abook.IUserData}: usata per definire un utente generico, che ha partecipato alla chiamata.
 \end{itemize}
 
 \subsubsection*{Classi estese ed interfacce implementate}
 \begin{itemize}
-		\item \texttt{javax.servlet.http.HttpServlet}: classe estesa da \classname{DownloadCallHistoryServlet}.
+	\item \texttt{server.AbstractController}: classe estesa.
 \end{itemize}
 
 \subsubsection*{Attributi}
-\begin{description}
-  \item{\memberdata{\underline{-- {frozen} serialVersionUID: long}}}\\
-  Utilizzato come ID univoco per identificare un oggetto serializzabile. Tale ID deve essere impostato al valore 10021L.
-\end{description}
+
+Nessun attributo evidenziato
 
 \subsubsection*{Metodi}
 \begin{description}
-	\item{\method{+ DownloadCallHistoryServlet()}}\\
-	Costruttore della classe. Richiama il costruttore della classe padre \texttt{HttpServlet}.
 	
-	\item{\method{\# doGet(request: HttpServletRequest, response: HttpServletResponse): void}}\\
-	Metodo di delega che richiama \method{doPost()} passando gli stessi dati in input.
-	
-	\item{\method{\# doPost(request: HttpServletRequest, response: HttpServletResponse): void}}\\
-	Metodo usato per accedere alla funzionalità della \inglese{servlet}. Il procedimento da definire passa attraverso 3 step essenziali:
+	\item{\method{\# doAction(request: HttpServletRequest, response: HttpServletResponse): void}}\\
+	Metodo usato per accedere alla funzionalità della \texttt{controller}. Il procedimento da definire passa attraverso 3 step essenziali:
 	\begin{itemize}
 		\item \texttt{Inizializzazione}: il metodo definisce ed apre una nuova sessione a partire dalla richiesta request passata come parametro;
-		\item \texttt{Elaborazione dati}: il metodo interroga il database attraverso le classi DAO e per ogni oggetto \classname{ICall} in cui si evidenzia che uno dei due partecipanti è il client (\classname{IUserData}) che ha inoltrato la richiesta a tale \inglese{servlet}, viene aggiunta alla stringa result da ritornare, i dati di tale chiamata. Nello specifico la formattazione della stringa di ritorno, dovrà descrivere la seguente logica:\\
+		\item \texttt{Elaborazione dati}: il metodo interroga il database attraverso la classe \classname{DataPersistanceManager}. Per ogni oggetto \classname{ICall} in cui si evidenzia che uno dei due partecipanti è il client (\classname{IUserData}) che ha inoltrato la richiesta al \texttt{front controller}, si aggiunge alla stringa result da ritornare i dati di tale chiamata. Nello specifico la formattazione della stringa di ritorno, dovrà descrivere la seguente logica:\\
 		
 		\verb|{name:"NOME_UTENTE",start="DATA_INIZIO",end="DATA_FINE"}|\\
 		
 		Si consideri che la dove vi è un nome in maiuscolo, vi dovrà essere il dato inerente estrapolato dall'istanza \classname{ICall} presa in considerazione.
-		\item \texttt{Restituzione risultato}: dopo aver elaborato i dati, la \inglese{servlet} dovrà scrivere nel \texttt{PrintWriter} associato alla request:
+		\item \texttt{Restituzione risultato}: dopo aver elaborato i dati, il \texttt{controller} dovrà scrivere nel \texttt{PrintWriter} associato alla request:
 			\begin{itemize}
-				\item una stringa formattata come sopra, se l'utente ha effettuato o ricevuto almeno una chimata;
+				\item una stringa formattata come sopra, se l'utente ha effettuato o ricevuto almeno una chiamata;
 				\item null, altrimenti.
 			\end{itemize}
 	\end{itemize}
@@ -2586,7 +2554,7 @@ Classe che implementa l'interfaccia \classname{IMessage}.
 \subsubsection*{Relazioni d'uso}
 \begin{itemize}
 	\item \texttt{java.io.IOException}: eccezione richiamabile dal metodo\method{doAction()}.
-	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doAction()}. Usata per scrivere l'output della \inglese{servlet}.
+	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doAction()}. Usata per scrivere l'output della del \inglese{controller}.
 	\item \texttt{javax.servlet.ServletException}: eccezione sollevabile dai metodi \method{doAction()}.
 	\item \texttt{javax.servlet.http.HttpServletRequest}: classe usata per interagire con le richieste \texttt{ajax} inoltrate dal client.
 	\item \texttt{javax.servlet.http.HttpServletResponse}: classe usata per interagire con le richieste \texttt{ajax} inoltrate dal client.
@@ -2628,7 +2596,7 @@ Nessun attributo evidenziato
 \subsubsection*{Relazioni d'uso}
 \begin{itemize}
 	\item \texttt{java.io.IOException}: eccezione richiamabile dal metodo\method{doAction()}.
-	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doAction()}. Usata per scrivere l'output della \inglese{servlet}.
+	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doAction()}. Usata per scrivere l'output della del \inglese{controller}.
 	\item \texttt{javax.servlet.ServletException}: eccezione sollevabile dai metodi \method{doAction()}.
 	\item \texttt{javax.servlet.http.HttpServletRequest}: classe usata per interagire con le richieste \texttt{ajax} inoltrate dal client.
 	\item \texttt{javax.servlet.http.HttpServletResponse}: classe usata per interagire con le richieste \texttt{ajax} inoltrate dal client.
@@ -2653,7 +2621,7 @@ Nessun attributo evidenziato
 	\begin{itemize}
 		\item \texttt{Inizializzazione}: il metodo definisce ed apre una nuova sessione a partire dalla richiesta request passata come parametro;
 		\item \texttt{Elaborazione dati}: il metodo procede creando un \classname{IMessage} con i dati forniti dalla request e dopo aver aperto una \texttt{transaction} verso il database, esegue un operazione di ricerca dell'instanza appena creata all'interno della lista di \classname{IMessage} ottenuta dal db. Quindi se si verifica che tale istanza è effettivamente presente nel database, il metodo esegue l'operazione \method{delete()} sul relativo oggetto DAO. Al termine sarà necessario procedere con un operazione di \texttt{commit}. Nel realizzare il metodo, il programmatore incaricato dovrà tenere in considerazione la possibilità di fallimento durante l'esecuzione delle operazioni mediante la \texttt{transaction}. Ciò andrà gestito mediante un operazione di \texttt{rollback} atta ad eliminare una possibile inconsistenza dei dati.
-		\item \texttt{Restituzione risultato}: dopo aver elaborato i dati, la \inglese{servlet} dovrà scrivere nel \texttt{PrintWriter} associato alla request:
+		\item \texttt{Restituzione risultato}: dopo aver elaborato i dati, il \texttt{controller} dovrà scrivere nel \texttt{PrintWriter} associato alla request:
 			\begin{itemize}
 				\item ``\inglese{true}'' se l'operazione è andata a buon fine;
 				\item ``\inglese{false}'' altrimenti (compreso non solo il caso di errore dovuto ad un problema di connessione verso il db, ma anche quello relativo al mancato match del elemento ricercato con quelli presenti nel database).
@@ -2675,7 +2643,7 @@ Il \inglese{controller} permette di effettuare una transizione di stato da ``non
 \subsubsection*{Relazioni d'uso}
 \begin{itemize}
 	\item \texttt{java.io.IOException}: eccezione richiamabile dal metodo\method{doAction()}.
-	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doAction()}. Usata per scrivere l'output della \inglese{servlet}.
+	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doAction()}. Usata per scrivere l'output della del \inglese{controller}.
 	\item \texttt{javax.servlet.ServletException}: eccezione sollevabile dai metodi \method{doAction()}.
 	\item \texttt{javax.servlet.http.HttpServletRequest}: classe usata per interagire con le richieste \texttt{ajax} inoltrate dal client.
 	\item \texttt{javax.servlet.http.HttpServletResponse}: classe usata per interagire con le richieste \texttt{ajax} inoltrate dal client.
@@ -2717,7 +2685,7 @@ Nessun attributo evidenziato
 \subsubsection*{Relazioni d'uso}
 \begin{itemize}
 	\item \texttt{java.io.IOException}: eccezione richiamabile dal metodo\method{doAction()}.
-	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doAction()}. Usata per scrivere l'output della \inglese{servlet}.
+	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doAction()}. Usata per scrivere l'output della del \inglese{controller}.
 	\item \texttt{javax.servlet.ServletException}: eccezione sollevabile dai metodi \method{doAction()}.
 	\item \texttt{javax.servlet.http.HttpServletRequest}: classe usata per interagire con le richieste \texttt{ajax} inoltrate dal client.
 	\item \texttt{javax.servlet.http.HttpServletResponse}: classe usata per interagire con le richieste \texttt{ajax} inoltrate dal client.
