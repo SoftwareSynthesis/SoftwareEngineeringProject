@@ -3394,34 +3394,6 @@ Se la mail è valida il metodo termina ritornandone il valore, mentre nel caso i
 
 \end{description}
 
-% Tutto questo è stato trasferito alla vita o è diventato obsoleto
-% 
-% 	\item{\method{+ initialize(): void}}\\
-% 	Metodo che si occupa di inizializzare la \inglese{form} di registrazione con la creazione di tutti i \inglese{widget} grafici che sono contenuti al suo interno. Nello specifico il metodo esegue i seguenti passi:
-% 	\begin{itemize}
-% 		\item creazione dell'elemento \inglese{form};
-% 		\item creazione dell'elemento <ul> contenuto nel \inglese{form};		
-% 		\item creazione dell'item per lo username, definito mediante una \inglese{label} riportante la frase ``Indirizzo email: '', e di un campo \textit{input} di tipo email per l'inserimento della email dell'utente;
-% 		\item costruisce il \inglese{list item} con la \inglese{label} e l'\textit{input} definiti al punto precedente, usando il metodo \texttt{appendChild()};
-% 		\item crea l'item per la password, definendo una \inglese{label} riportante la frase ``Password: '' e un oggetto \textit{input} di tipi \textit{password};			
-% 		\item costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
-% 		\item creazione dell'item per la domanda segreta definito mediante una \inglese{label} avente valore ``Domanda segreta: '' e un oggetto \textit{input} di tipo \texttt{text};
-% 		\item costruisce il \inglese{list item} con la \inglese{label} e l'\textit{input} definiti al punto precedente, usando il metodo \texttt{appendChild()};
-% 		\item creazione dell'item per la risposta alla domanda segreta, definito mediante una \inglese{label} avente valore ``Risposta: '' e un oggetto input di tipo \texttt{text};
-% 		\item costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
-% 		\item creazione dell'item per il nome, definito mediante una \inglese{label} avente valore ``Nome: '' e un oggetto input di tipo \texttt{text};
-% 		\item costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
-% 		\item creazione dell'item per il cognome, definito mediante una \inglese{label} avente valore ``Cognome: '' e un oggetto input di tipo \texttt{text};
-% 		\item costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
-% 		\item creazione dell'item per inserire l'immagine utente, definito mediante una \inglese{label} avente valore ``Immagine del profilo: '' e un oggetto input di tipo \texttt{text};
-% 		\item costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
-% 		\item creazione di un pulsante di registrazione (oggetto input di tipo submit e value ``Registrati'').
-% 		\item operazione finale per ``appendere'' tutti  gli oggetti creati al \texttt{registerForm}.
-% 	\end{itemize}
-	
-% 	\item{\method{+ hide(): void}}\\
-% 	Nasconde il \inglese{form} di registrazione per lasciare spazio alla schermata principale dell'applicativo (che deve essere costruita dal PresenterMediator).
-
 \classsection{CallHistoryPanelPresenter}
 
 \subsubsection*{Funzione}
@@ -4259,7 +4231,7 @@ Vista associata al \inglese{presenter} \classname{LoginPanelPresenter} utilizzat
 \subsubsection*{Metodi}
 \begin{description}
   \item{\method{+ destroy(): void}}\\
-  Tale metodo ha il compito di eliminare il pannello dall'interfaccia grafica visualizzata. A tal fine, deve essere rimosso il nodo che corrisponde al pannello nell'albero DOM che corrisponde alla UI\@.
+  Tale metodo ha il compito di eliminare il pannello dall'interfaccia grafica visualizzata. A tal fine, deve essere rimosso il nodo che corrisponde al pannello nell'albero DOM della UI\@.
   
   \item{\method{+ errorLogin(): void}}\\
   Il metodo ha lo scopo di segnalare visivamente all'utente il fatto che si è verificato un errore nell'elaborazione delle credenziali di autenticazione inserite nel \inglese{form}. Tale effetto dovrà essere ottenuto aggiungendo al valore dell'attributo \verb+class+ il valore \verb+error+.
@@ -4297,8 +4269,8 @@ Alla pressione di quest'ultimo, la vista provvede ad invocare il metodo \method{
 
 Infine, il metodo restituisce il nodo DOM radice della nuova porzione di interfaccia grafica creata, vale a dire il \verb'<fieldset>'.
 
-	\item{\method{+ initialize(HTMLElement): void}}\\
-	Il metodo ha il compito di inizializzare il pannello di login dopo che è stato caricato il relativo \inglese{template} per la creazione di tutti i \inglese{widget} grafici che sono contenuti al suo interno.
+	\item{\method{+ initialize(view: HTMLElement): void}}\\
+	Il metodo ha il compito di inizializzare il pannello di login dopo che è stato caricato il relativo \inglese{template} che crea di tutti i \inglese{widget} grafici contenuti al suo interno.
 	
 	Il metodo ha il compito di aggiungere all'interfaccia grafica il sotto-albero DOM che riceve come parametro in ingresso, quindi configurare il pannello assegnando ai pulsanti le funzioni di \inglese{callback} corrispondenti.
 	
@@ -4310,21 +4282,60 @@ Infine, il metodo restituisce il nodo DOM radice della nuova porzione di interfa
 \end{description}
 
 \subsubsection*{Elementi}
-\begin{itemize}
-  \item[] Un elemento \verb'<fieldSet>' con id uguale a \verb'loginForm' che contiene:
+Il pannello contiene un elemento \verb'<div>' con identificativo uguale a \verb'LoginPanel' il quale a sua volta ha come figlio un \verb'<fieldSet>' con identificativo uguale a \verb'loginForm' che contiene:
   \begin{itemize}
-    \item un elemento \verb'<div>' per il logo;
-    \item un elemento \verb'<ul>' contenente i seguenti elementi:
+    \item[--] un elemento \verb'<div>' per il logo;
+    \item[--] un elemento \verb'<ul>' contenente i seguenti elementi:
     \begin{itemize}
-      \item[--] un elemento \verb'<li>' per il nome utente, con all'interno un elemento \verb'<label>' e il relativo campo di inserimento \verb'<input>';
-      \item[--] un elemento \verb'<li>' per la password, con all'interno un elemento \verb'<label>' e il relativo campo di inserimento \verb'<input>';
-      \item[--] \verb'<li>' per i pulsanti contenente al suo interno:
+      \item[-] un elemento \verb'<li>' per il nome utente, con all'interno un elemento \verb'<label>' e il relativo campo di inserimento \verb'<input>';
+      \item[-] un elemento \verb'<li>' per la password, con all'interno un elemento \verb'<label>' e il relativo campo di inserimento \verb'<input>';
+      \item[-] \verb'<li>' per i pulsanti contenente al suo interno:
       \begin{itemize}
-        \item[-] un elemento \verb'<button>' per effettuare il login;
-        \item[-] un elemento \verb'<button>' per effettuare la registrazione al sistema;
-        \item[-] un elemento \verb'<button>' per recuperare i dati dimenticati.
+        \item[$\cdot$] un elemento \verb'<button>' per effettuare il login;
+        \item[$\cdot$] un elemento \verb'<button>' per effettuare la registrazione al sistema;
+        \item[$\cdot$] un elemento \verb'<button>' per recuperare i dati dimenticati.
       \end{itemize}
     \end{itemize}
+  \end{itemize}
+
+\subsection{RegisterView}
+\subsubsection*{Funzione}
+Vista associata al \inglese{presenter} \classname{RegisterPresenter} utilizzata per effettuare la registrazione al sistema.
+
+\subsubsection*{Metodi}
+\begin{description}
+  \item{\method{+ destroy(): void}}\\
+  Tale metodo ha il compito di eliminare il pannello dall’interfaccia grafica visualizzata. A tal fine, deve essere rimosso il nodo che corrisponde al pannello nell’albero DOM della UI\@.
+  
+  \item{\method{+ initialize(view: HTMLElement): void}}\\
+  	Il metodo ha il compito di inizializzare il pannello di registrazione al sistema una volta caricato il relativo \inglese{template} che crea di tutti i \inglese{widget} grafici contenuti al suo interno.
+	
+	Il metodo ha il compito di aggiungere all'interfaccia grafica il sotto-albero DOM che riceve come parametro in ingresso, quindi configurare il pannello assegnando ai pulsanti le funzioni di \inglese{callback} corrispondenti.
+	
+	In particolare, alla pressione del pulsante ``indietro'' deve essere sollevato un evento avente come nome identificativo la stringa \verb'showLoginPanel'.
+	
+  Alla pressione del pulsante per la registrazione, invece, devono essere recuperati i valori di tutti i campi dati del form mediante i metodi \method{getUsername()}, \method{getPassword()}, \method{getQuestion()}, \method{getAnswer()}, \method{getName()}, \method{getSurname()}, \method{getPicturePath()} e, in un secondo momento, deve essere richiamato il metodo \method{register} del \inglese{presenter}.
+
+\end{description}
+
+\subsubsection*{Elementi}
+Il pannello è costituito da n elemento di tipo \verb'<div>' con identificativo uguale a \verb'LoginPanel' che contiene un elemento \verb'<form>' con al proprio interno:
+\begin{itemize}
+  \item[--] un elemento \verb'<ul>' il quale contiene:
+  \begin{itemize}
+    \item[-] un \verb'<li>' per il nome utente, costituito a sua volta da una \verb'<label>' e dal relativo campo \verb'<intput>' avente attributo \verb'type' uguale a \verb'email';
+    \item[-] un \verb'<li>' per la password, costituito a sua volta da una \verb'<label>' e dal relativo campo \verb'<intput>' avente attributo \verb'type' uguale a \verb'password';
+    \item[-] un \verb'<li>' per la domanda segreta, costituito a sua volta da una \verb'<label>' e dal relativo campo \verb'<intput>';
+    \item[-] un \verb'<li>' per la risposta, costituito a sua volta da una \verb'<label>' e dal relativo campo \verb'<intput>';
+    \item[-] un \verb'<li>' per il nome, costituito a sua volta da una \verb'<label>' e dal relativo campo \verb'<intput>';
+    \item[-] un \verb'<li>' per il cognome, costituito a sua volta da una \verb'<label>' e dal relativo campo \verb'<intput>';
+    \item[-] un \verb'<li>' per l'immagine del profilo, costituito a sua volta da una \verb'<label>' e dal relativo campo \verb'<intput>' avente attibuto \verb'type' uguale a \verb'file';
+    \item[-] un \verb'<li>' che contiene un avviso relativo all'obbligatorietà dei campi dati nome utente, password, domanda e risposta;
+  \end{itemize}
+  \item[--] un \verb'<div>' per i pulsanti che ha al proprio interno:
+  \begin{itemize}
+    \item[-] un elemento \verb'<button>' per tornare al pannello di login;
+    \item[-] un elemento \verb'<button>' per portare a termine la registrazione al sistema.
   \end{itemize}
 \end{itemize}
 
@@ -4424,25 +4435,6 @@ Vista associata al presenter \classname{PhoneCallsRegistryPresenter}. Utilizzata
 \item \textit{button} per iniziare la registrazione del messaggio;
 \item \textit{button} per terminare la registrazione;
 \item \textit{button} per inviare la registrazione appena effettuata.
-\end{itemize}
-
-\subsection{RegisterView}
-\subsubsection*{Funzione}
-Vista associata al presenter \classname{RegisterPresenter}. Utilizzata per effettuare la registrazione al sistema.
-\subsubsection*{Elementi}
-\begin{itemize}
-\item elemento di tipo \textit{ul} con 7 \textit{li} per:
-\begin{itemize}
-\item nome;
-\item cognome;
-\item email;
-\item password;
-\item domanda segreta;
-\item risposta alla domanda segreta;
-\item immagine del profilo.
-\end{itemize}
-\item \textit{button} per tornare indietro;
-\item \textit{button} per registrarsi con i dati inseriti.
 \end{itemize}
 
 \subsection{SearchResultView}
