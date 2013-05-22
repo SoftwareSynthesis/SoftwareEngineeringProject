@@ -19,7 +19,7 @@ function SearchResultPanelPresenter(url) {
 	/***************************************************************************
 	 * METODI PRIVATI
 	 **************************************************************************/
-	/**
+	/** PRESENTER
 	 * Funzione per effettuare la richiesta di una ricerca al server
 	 * @version 2.0
 	 * @author Riccardo Tresoldi
@@ -35,7 +35,7 @@ function SearchResultPanelPresenter(url) {
         return contacts;
 	}
 	
-	/**
+	/** VIEW
 	 * Recupera il percoso dell'immagine di stato per un determinato contatto
 	 * 
 	 * FIXME questo dovrebbe essere portato a fattor comune per tutti i contatti
@@ -60,9 +60,9 @@ function SearchResultPanelPresenter(url) {
 		return path;
 	}
 
-	/**
+	/** VIEW
 	 * Aggiunge un contatto ad una lista (pensato per essere visualizzato nel
-	 * pannello dei risultati di una ricerca, in cui è quindi possibile anche
+	 * pannello dei risultati di una ricerca), in cui è quindi possibile anche
 	 * aggiungere un nuovo contatto alla propria rubrica
 	 * 
 	 * @param {Object}
@@ -77,7 +77,7 @@ function SearchResultPanelPresenter(url) {
 
 		// immagine del contatto
 		var avatarNode = document.createElement('img');
-		avatarNode.src = contact.picturePathatar;
+		avatarNode.src = contact.picturePath;
 
 		// nome del contatto
 		var name = mediator.createNameLabel(contact);
@@ -101,7 +101,7 @@ function SearchResultPanelPresenter(url) {
 	/***************************************************************************
 	 * METODI PUBBLICI
 	 **************************************************************************/
-	/**
+	/** VIEW
 	 * Funzione per inizializzare il pannello associando gli eventi corretti ai vari elementi HTML
 	 * @version 2.0
 	 * @author Riccardo Tresoldi
@@ -116,7 +116,7 @@ function SearchResultPanelPresenter(url) {
 	    }
 	};
 	
-	/**
+	/** VIEW
 	 * Visualizza all'interno del pannello una lista di contatti che è stata
 	 * ottenuta dal server a seguito di una ricerca
 	 * @version 2.0
@@ -134,7 +134,7 @@ function SearchResultPanelPresenter(url) {
     /***************************************************************************
      * HANDLER DEGLI EVENTI
      **************************************************************************/
-    /**
+    /** PRESENTER
      * Funzione per gestire l'evento in cui viene visualizzato il pannello per effettuare una ricerca e leggerne i risultati
      * @version 2.0
      * @author Riccardo Tresoldi
@@ -144,7 +144,7 @@ function SearchResultPanelPresenter(url) {
     }
 	
 	/***************************************************************************
-     * LISTNER DEGLI EVENTI
+     * LISTENER DEGLI EVENTI
      **************************************************************************/
     document.addEventListener("showSearchResultPanel", onShowSearchResultPanel);
 }

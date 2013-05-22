@@ -4362,6 +4362,44 @@ Il pannello è costituito da un elemento \verb'<div>' avente come identificativo
   \item[--] un elemento \verb'<ul>' avente come identificativo la stringa \verb'ulHistory'.
 \end{itemize}
 
+\subsection{SearchResultView}
+\subsubsection*{Funzione}
+Vista associata al \inglese{presenter} \classname{SearchResultPresenter} utilizzata per visualizzare i risultati di una ricerca fra gli utenti registrati al sistema.
+
+\subsubsection*{Metodi}
+\begin{description}
+  \item{\method{-- getImageSrc(contact: Object): String}}\\
+  Il metodo ha il compito di fornire l'indirizzo sul server dell'immagine corrispondente a uno stato utente. In base al valore della proprietà \verb'state' del contatto passato come parametro, il metodo dovrà restituire una fra le stringhe:
+  \begin{itemize}
+    \item[-] \verb'img/stateavailable.png';
+    \item[-] \verb'img/stateoccupied.png';
+    \item[-] \verb'img/stateoffline.png'.
+  \end{itemize}
+  
+  \item{\method{-- addListItem(contact: Object): void}}\\
+  Provoca la visualizzazione nel pannello di una nuova voce della lista contenente i dati del contatto passato come parametro. L'elemento \verb'<li>' che dovrà essere aggiunto in coda alla lista deve avere al proprio interno un nodo di testo corrispondente al nome del contatto e un elemento \verb'<img>' corrispondente all'immagine dello stesso.
+  
+  Inoltre, all'evento \verb'click' sollevato sul \verb'<li>' dovrà essere associato un gestore che a sua volta avrà il compito di procurarsi un riferimento a un evento con identificativo uguale a \verb'showContactPanel', assegnare alla proprietà \verb'contact' di quest'ultimo il contatto passato come parametro del metodo e sollevare l'evento corrispondente.
+  
+  \item{\method{+ display(): void}}\\
+  Il metodo configura il comportamento della vista per la visualizzazione dei risultati di una ricerca. In particolare, deve creare un gestore per l'evento identificato dalla stringa \verb'click' associato al pulsante di ricerca che avvii una ricerca in base al contenuto inserito nell'\verb'<input>' del pannello e visualizzi i risultati mediante il metodo \method{displayResult}.
+  
+  \item{\method{+ displayResult(contacts: Object): void}}\\
+  Il metodo riceve in input in array associativo indicizzato in base agli identificativi dei contatti che in ogni posizione contiene l'oggetto contatto corrispondente alla chiave.
+  
+  Il compito del metodo è azzerare il contenuto della lista di utenti visualizzati (se era non vuota), quindi richiamare per ognuno dei contatti contenuti nell'array richiamare il metodo \method{addListItem} passando il contatto come parametro.
+  
+\end{description}
+
+\subsubsection*{Elementi}
+Il pannello è costituito da un elemento \verb'<div>' avente come identificativo \verb'SearchResultPanel' il quale contiene:
+\begin{itemize}
+  \item[--] un elemento \verb'<div>' avente l'attributo \verb'class' uguale a \verb'panelHeader', che contiene a sua volta al proprio interno un elemento \verb'<h1>' con il titolo \textsc{<<ricerca utenti>>};
+  \item[--] un elemento \verb'<input>' con identificativo uguale a \verb'searchInputField';
+  \item[--] un elemento \verb'<button>' avente l'attributo \verb'class' uguale a \verb'searchInputButton' e identificativo \verb'searchInputButton';
+  \item[--] un elemento \verb'<ul>' per presentare i risultati della ricerca, avente come identificativo il valore \verb'userlList'.
+\end{itemize}
+
 %********************************************************************
 %     QUESTO È IL CONFINE FRA BENE E MALE - SIETE AVVERTITI!
 %********************************************************************
@@ -4450,14 +4488,6 @@ Vista associata al presenter \classname{PhoneCallsRegistryPresenter}. Utilizzata
 \item \textit{button} per iniziare la registrazione del messaggio;
 \item \textit{button} per terminare la registrazione;
 \item \textit{button} per inviare la registrazione appena effettuata.
-\end{itemize}
-
-\subsection{SearchResultView}
-\subsubsection*{Funzione}
-Vista associata al presenter \classname{SearchResultPresenter}. Utilizzata per visualizzare i risultati di una ricerca.
-\subsubsection*{Elementi}
-\begin{itemize}
-\item \textit{div} contenente un elemento di tipo \textit{ul} con tanti \textit{li} quanti i risultati ritornati dalla ricerca.
 \end{itemize}
 
 \subsection{ToolsView}
