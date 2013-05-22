@@ -3321,7 +3321,7 @@ Il metodo dovrà pertanto costruire una \verb+XMLHttpRequest+ da inviare all'ind
 quindi invocare il già visto metodo \verb+testCredentials+ con il testo della risposta. Il valore da restituire al chiamante è proprio la stringa di \inglese{query} che è stata trasmessa al server.
 
 \item{\method{+ onShowLoginPanel(): void}}\\
-Questo gestore di evento ha il compito di provocare la visualizzazione del pannello di login. Questo dovrà essere ottenuto sollevando un nuovo evento tramite il quale tutti i pannelli presenti sono rimossi (\verb'onRemoveAllPanel') quindi demandando alla vita il compito di costruirsi e caricare il relativo template.
+Questo gestore di evento ha il compito di provocare la visualizzazione del pannello di login. Questo dovrà essere ottenuto sollevando un nuovo evento tramite il quale tutti i pannelli presenti sono rimossi (\verb'onRemoveAllPanel') quindi demandando alla vita il compito di costruirsi e caricare il relativo \inglese{template}.
 
 \item{\method{+ onRemoveLoginPanel() : void}}\\
 Questo gestore di evento ha il compito di provocare la distruzione del pannello di autenticazione, richiamando il metodo opportuno della vista corrispondente, vale a dire \verb+destroy()+.
@@ -3498,51 +3498,92 @@ Se la mail è valida il metodo termina ritornandone il valore, mentre nel caso i
 	\item{\method{+ getPicturePath(): String}}\\
 	Metodo che estrae dal \inglese{form} il percorso dell'immagine del nuovo profilo utente e lo restituisce.
 	
-	\item{\method{+ register(userData: Object): String}}\\
-	Metodo che Invia i dati ricevuti al \inglese{front controller} del server per la creazione di un nuovo account utente. Tale metodo inizia creando un istanza di \texttt{XMLHttpRequest} usata per comunicare con il server.
-
-% TODO sono arrivato fino a qui a rivedere ;)
-
-Quindi il metodo abilita \textit{request} ad inviare un richiesta sincrona al \textit{server}, usando l'istruzione:\\
+	\item{\method{+ register(userData: Object): void}}\\
+	Metodo che invia i dati ricevuti al \inglese{front controller} del server per la creazione di un nuovo account utente. Tale metodo inizia creando un istanza di \texttt{XMLHttpRequest} sincrona da inviare all'indirizzo del server. Il metodo dovrà estrarre le proprietà obbligatorie \verb'username', \verb'password', \verb'question', \verb'answer' e quelle facoltative \verb'name', \verb'surname' e \verb'picturePath'.
 	
-	\verb|request.open("POST", servletURL, false)|\\
+	Dopo averle opportunamente codificate per per la trasmissione con la funzione di libreria \verb'encodeURIComponent' queste ultime dovranno essere inserite in un oggetto \verb'FormData' da utilizzare per inviare la richiesta al server. Una volta ricevuta la riposta dal server, il metodo dovrà effettuare la deserializzazione del testo ad essa associato e, se questo contiene un oggetto utente legale, sollevare un evento con nome identificativo \verb'onLogin'.
 	
-	Il metodo procede definendo la stringa da usare come \textit{query} per da inviare alla \inglese{servlet}. Tale \textit{querystring} contiene:\\
+	\item{\method{+ onShowRegistrationPanel(): void}}\\
+	Questo gestore di evento ha il compito di provocare la visualizzazione del pannello di registrazione. Ciò dovrà essere ottenuto sollevando un nuovo evento tramite il quale tutti i pannelli presenti sono rimossi (\verb'onRemoveAllPanel') quindi demandando alla vista il compito di costruirsi e caricare il relativo \inglese{template}.
 	
-	\verb|"username=" + encodeURIComponent(userData.username) +|\\
-	\verb|"&password=" + encodeURIComponent(userData.password) +|\\
-	\verb|"&question=" + encodeURIComponent(userData.question) +|\\
-	\verb|"&answer=" + encodeURIComponent(userData.answer)|\\
-	
-	Il metodo termina restituendo il contenuto di \textit{querystring}.
-	
-	\item{\method{+ initialize(): void}}\\
-	Metodo che si occupa di inizializzare la \inglese{form} di registrazione con la creazione di tutti i \inglese{widget} grafici che sono contenuti al suo interno. Nello specifico il metodo esegue i seguenti passi:
-	\begin{itemize}
-		\item creazione dell'elemento \inglese{form};
-		\item creazione dell'elemento <ul> contenuto nel \inglese{form};		
-		\item creazione dell'item per lo username, definito mediante una \inglese{label} riportante la frase ``Indirizzo email: '', e di un campo \textit{input} di tipo email per l'inserimento della email dell'utente;
-		\item costruisce il \inglese{list item} con la \inglese{label} e l'\textit{input} definiti al punto precedente, usando il metodo \texttt{appendChild()};
-		\item crea l'item per la password, definendo una \inglese{label} riportante la frase ``Password: '' e un oggetto \textit{input} di tipi \textit{password};			
-		\item costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
-		\item creazione dell'item per la domanda segreta definito mediante una \inglese{label} avente valore ``Domanda segreta: '' e un oggetto \textit{input} di tipo \texttt{text};
-		\item costruisce il \inglese{list item} con la \inglese{label} e l'\textit{input} definiti al punto precedente, usando il metodo \texttt{appendChild()};
-		\item creazione dell'item per la risposta alla domanda segreta, definito mediante una \inglese{label} avente valore ``Risposta: '' e un oggetto input di tipo \texttt{text};
-		\item costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
-		\item creazione dell'item per il nome, definito mediante una \inglese{label} avente valore ``Nome: '' e un oggetto input di tipo \texttt{text};
-		\item costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
-		\item creazione dell'item per il cognome, definito mediante una \inglese{label} avente valore ``Cognome: '' e un oggetto input di tipo \texttt{text};
-		\item costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
-		\item creazione dell'item per inserire l'immagine utente, definito mediante una \inglese{label} avente valore ``Immagine del profilo: '' e un oggetto input di tipo \texttt{text};
-		\item costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
-		\item creazione di un pulsante di registrazione (oggetto input di tipo submit e value ``Registrati'').
-		\item operazione finale per ``appendere'' tutti  gli oggetti creati al \texttt{registerForm}.
-	\end{itemize}
-	
-	\item{\method{+ hide(): void}}\\
-	Nasconde il \inglese{form} di registrazione per lasciare spazio alla schermata principale dell'applicativo (che deve essere costruita dal PresenterMediator).
+	\item{\method{+ onRemoveRegistrationPanel(): void}}\\
+	Questo gestore di evento ha il compito di provocare la distruzione del pannello di registrazione, richiamando il metodo opportuno della vista corrispondente, vale a dire \verb+destroy()+.
 
 \end{description}
+
+% Tutto questo è stato trasferito alla vita o è diventato obsoleto
+% 
+% 	\item{\method{+ initialize(): void}}\\
+% 	Metodo che si occupa di inizializzare la \inglese{form} di registrazione con la creazione di tutti i \inglese{widget} grafici che sono contenuti al suo interno. Nello specifico il metodo esegue i seguenti passi:
+% 	\begin{itemize}
+% 		\item creazione dell'elemento \inglese{form};
+% 		\item creazione dell'elemento <ul> contenuto nel \inglese{form};		
+% 		\item creazione dell'item per lo username, definito mediante una \inglese{label} riportante la frase ``Indirizzo email: '', e di un campo \textit{input} di tipo email per l'inserimento della email dell'utente;
+% 		\item costruisce il \inglese{list item} con la \inglese{label} e l'\textit{input} definiti al punto precedente, usando il metodo \texttt{appendChild()};
+% 		\item crea l'item per la password, definendo una \inglese{label} riportante la frase ``Password: '' e un oggetto \textit{input} di tipi \textit{password};			
+% 		\item costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
+% 		\item creazione dell'item per la domanda segreta definito mediante una \inglese{label} avente valore ``Domanda segreta: '' e un oggetto \textit{input} di tipo \texttt{text};
+% 		\item costruisce il \inglese{list item} con la \inglese{label} e l'\textit{input} definiti al punto precedente, usando il metodo \texttt{appendChild()};
+% 		\item creazione dell'item per la risposta alla domanda segreta, definito mediante una \inglese{label} avente valore ``Risposta: '' e un oggetto input di tipo \texttt{text};
+% 		\item costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
+% 		\item creazione dell'item per il nome, definito mediante una \inglese{label} avente valore ``Nome: '' e un oggetto input di tipo \texttt{text};
+% 		\item costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
+% 		\item creazione dell'item per il cognome, definito mediante una \inglese{label} avente valore ``Cognome: '' e un oggetto input di tipo \texttt{text};
+% 		\item costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
+% 		\item creazione dell'item per inserire l'immagine utente, definito mediante una \inglese{label} avente valore ``Immagine del profilo: '' e un oggetto input di tipo \texttt{text};
+% 		\item costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
+% 		\item creazione di un pulsante di registrazione (oggetto input di tipo submit e value ``Registrati'').
+% 		\item operazione finale per ``appendere'' tutti  gli oggetti creati al \texttt{registerForm}.
+% 	\end{itemize}
+	
+% 	\item{\method{+ hide(): void}}\\
+% 	Nasconde il \inglese{form} di registrazione per lasciare spazio alla schermata principale dell'applicativo (che deve essere costruita dal PresenterMediator).
+
+\classsection{CallHistoryPanelPresenter}
+
+\subsubsection*{Funzione}
+\inglese{Presenter} incaricato alla visualizzazione e alla gestione dello storico chiamate dell'utente.
+
+\subsubsection*{Relazioni d'uso}
+Nessuna relazione d'uso evidenziata.
+
+\subsubsection*{Classi estese ed interfacce implementate}
+Nessuna relazione evidenziata.
+
+\subsubsection*{Attributi}
+\begin{description}
+  \item{\memberdata{-- calls: Array}}\\
+  Array enumerativo che conterrà tutte le chiamate effettuate dall'utente recuperate dal server.
+  \item{\memberdata{-- thisPanel: HTMLElement}}\\
+  Elemento HTML, da intendersi come nodo DOM, che rappresenta la vista controllata da questo \inglese{presenter} e che corrisponde a un elemento \verb'<div>' avente come nome identificativo la stringa \verb'CallHistroryPanel'.
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+
+  \item{\method{-- getCalls(): Array}}\\
+  Metodo che ha il compito di recuperare tutta la lista delle chiamate effettuate e tracciate nel server, inviando una richiesta AJAX sincrona al \inglese{front controller} che nell'intestazione contiene il parametro \verb'operation' impostato a \verb'getCalls'.
+  
+  In particolare, il metodo ha il compito di creare una nuova istanza di \verb'XMLHttpRequest' con la \inglese{query string} specificata in precedenza e di inviarla al server quindi ritornare il testo della risposta ottenuta dopo averlo deserializzato e costruito l'array di chiamate corrispondente.
+  
+  \item{\method{+ displayList(): void}}
+  Metodo che ha il compito di popolare la lista delle chiamate in cui è coinvolto un determinato utente. Il metodo ha il compito di procurarsi la lista delle chiamate attraverso il server al fine di inizializzare il campo dati privato \verb'calls'.
+  
+  Quindi, per ognuna delle chiamate che sono state scaricate, ha il compito di aggiornare la vista corrispondente provocando la visualizzazione dei dati della chiamata.
+  
+  \item{\method{+ onShowCallHistoryPanel(): void}}\\
+  Questo gestore di eventi ha il compito di provocare la visualizzazione del pannello contenente lo storico delle chiamate demandando alla vista il compito di costruirsi e caricare il relativo \inglese{template}.
+  
+% TODO quanto segue è obsoleto e/o è stato trasferito alla vista
+%
+% \item{\method{- addListItem(call: String): void}}\\
+% Aggiunge alla lista delle chiamate visualizzata nel CallHistoryPanel una nuova voce che corrisponde alla chiamata ricevuta da parametro. Ogni voce della lista contiene i dati relativi alla chiamata e non consente di effettuare alcuna azione su di essa.
+
+\end{description}
+
+%********************************************************************
+%               QUESTO È IL CONFINE FRA BENE E MALE
+%********************************************************************
 
 \classsection{AddressBookPanelPresenter}
 
@@ -4061,47 +4102,6 @@ Costruisce il pannello della segreteria telefonica, che deve essere visualizzato
 
 \item{\method{+ setup(): void}}\\
 Metodo che ogni sua invocazione provoca il recupero dei messaggi in segreteria. Al suo interno sarà presente la chiamata al metodo \method{getMessages()}.
-
-\end{description}
-
-
-%TODO da verificare
-\classsection{CallHistoryPanelPresenter}
-
-\subsubsection*{Funzione}
-Presenter incaricato alla gestione dello storico chiamate.
-
-\subsubsection*{Relazioni d'uso}
-Nessuna relazione d'uso evidenziata.
-
-\subsubsection*{Classi estese ed interfacce implementate}
-Nessuna relazione evidenziata.
-
-\subsubsection*{Attributi}
-\begin{description}
-\item{\memberdata{-- calls: String[]}}\\
-Array che conterrà tutte le chiamate effettuate
-\item{\memberdata{-- servlets: String[]}}\\
-Array che contiene le tre URL delle \inglese{servlet} da contattare per i messaggi
-\end{description}
-
-\subsubsection*{Metodi}
-\begin{description}
-\item{\method{- getServletURLs(): void}}\\
-Configura gli URL delle \inglese{servlet} da interrogare leggendoli dal file di configurazione in base alle operazioni che questo presenter deve essere in grado di compiere.\\
-Più precisamente, si dovrà creare una ``XMLHttpRequest'' rivolta al file XML di configurazione dove sono riportate tutte le \inglese{servlet}, ricevuta la risposta si popolerà l'\textit{array} dichiarato nella classe (\inglese{servlet}).
-
-\item{\method{- getCalls(): String}}\\
-Ottiene tutta la lista delle chiamate effettuate e tracciate nel \textit{server}, una volta ricevuta risposta con relativi dati associati li utilizza come dati di ritorno. Per contattare la \inglese{servlet}, va usato come in precedenza ``XMLHttpRequest''.
-
-\item{\method{- addListItem(call: String): void}}\\
-Aggiunge alla lista delle chiamate visualizzata nel CallHistoryPanel una nuova voce che corrisponde alla chiamata ricevuta da parametro. Ogni voce della lista contiene i dati relativi alla chiamata e non consente di effettuare alcuna azione su di essa.
-
-\item{\method{+ createPanel(): DOM\_element}}\\
-Costruisce il pannello dello storico delle chiamate, che deve essere visualizzato all'interno del MainPanel dell'applicazione quando è selezionata la funzione corrispondente dal pannello degli strumenti. Il CallHistoryPanel è costituito da una semplice lista con tanti \textit{list Item} quante sono le chiamate tracciate nel server. Tutti questi elementi vanno aggiunti all'elemento \textit{element} ritornato poi dal metodo.
-
-\item{\method{+ setup(): void}}\\
-Metodo che ogni sua invocazione provoca il recupero dello storico chiamate, verrà quindi per prima cosa richiamato il metodo \method{getCalls()} e successivamente una chiamata al metodo \method{addListItem(call)} per ogni chiamata ritornata.
 
 \end{description}
 

@@ -16,16 +16,7 @@ function CallHistoryPanelPresenter() {
 	/***************************************************************************
 	 * METODI PRIVATI
 	 **************************************************************************/
-	/**
-     * Funzione per gestire l'evento in cui viene visualizzato il pannello dello
-     * storico chiamate
-     * @author Riccardo Tresoldi
-     */
-    function onShowCallHistoryPanel() {
-        mediator.getView('callHistory');
-    }
-	
-	/**
+	/** PRESENTER
 	 * Scarica la lista delle chiamate che sono state effettuate dall'utente
 	 * associato a questo client
 	 * 
@@ -40,7 +31,7 @@ function CallHistoryPanelPresenter() {
 		return JSON.parse(request.responseText);
 	}
 
-	/**
+	/** VIEW
 	 * Aggiunge alla lista delle chiamate visualizzata nel CallHistoryPanel una
 	 * nuova voce che corrirsponde alla chiamata impostata come parametro. Ogni
 	 * voce della lista contiente i dati relativi alla chiamata e non consente
@@ -50,17 +41,22 @@ function CallHistoryPanelPresenter() {
 	 * @param {Object}
 	 *            call oggetto che corrisponde a 'JSCall' e rappresenta una
 	 *            chiamata nello storico delle chiamate di un utente. Le
-	 *            chiamate sono caratterizzate dall'altro utente coinvolto
-	 *            (user) l'orario di inizio (startdate) e l'orario di fine
-	 *            (enddate)
+	 *            chiamate sono caratterizzate dall'ID dell'altro utente coinvolto
+	 *            (id), dall'orario di inizio (start) e da un flag booleano (caller)
+	 *            che determina se la chiamata è in uscita oppure in ingresso
 	 * @author Diego Beraldin
 	 */
 	function addListItem(call) {
 		var list = document.getElementById("ulHistory");
 		var item = document.createElement("li");
-		// TODO probabilmente da modificare in futuro
-		var text = document.createTextNode(call.name + " " + call.start
-				+ " " + call.end);
+		var contact = mediator.getContactById(call.id);
+		var contactName = mediator.createNameLabel(contact)
+		var text = document.createTextNode(contactName + " " + call.start);
+		if (call.caller) {
+			item.className = "outcome";
+		} else {
+			item.className = "income";
+		}		
 		item.appendChild(text);
 		list.appendChild(item);
 	}
@@ -68,21 +64,45 @@ function CallHistoryPanelPresenter() {
 	/***************************************************************************
 	 * METODI PUBBLICI
 	 **************************************************************************/
-    /**
+    /** PRESENTER
 	 * Scarica la lista delle chiamate dal server, quindi aggiunge alla lista
 	 * delle chiamate contenuta all'interno del CallHistoryPanel
 	 * 
 	 * @author Diego Beraldin
 	 */
-	this.display = function() {
-		calls = getCalls();
-		for (var call in calls) {
-			addListItem(call);
+	this.displayList = function() {
+		if (thisPanel) {
+			calls = getCalls();
+			for (var call in calls) {
+				addListItem(calls[call]);
+			}
 		}
 	};
 	
+	/** VIEW
+	 * Richiama il metodo che costruisce il pannello
+	 * 
+	 * @author Diego Beraldin
+	 */
+	this.display = function() {
+		thisPanel = document.getElementById("CallHistoryPanel");
+		thisPresenter.displayList();
+	};
+	
 	/***************************************************************************
-     * LISTNER DEGLI EVENTI
+     * HANDLER DEGLI EVENTI
+     **************************************************************************/
+	/** PRESENTER
+     * Funzione per gestire l'evento in cui viene visualizzato il pannello dello
+     * storico chiamate
+     * @author Riccardo Tresoldi
+     */
+    function onShowCallHistoryPanel() {
+        mediator.getView('callHistory');
+    }
+    
+	/***************************************************************************
+     * LISTENER DEGLI EVENTI
      **************************************************************************/
     document.addEventListener("showCallHistoryPanel", onShowCallHistoryPanel);
 }
