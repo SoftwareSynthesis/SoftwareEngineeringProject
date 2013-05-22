@@ -226,6 +226,96 @@ Nessun attributo evidenziato
 	Il metodo inizia definendo un oggetto \texttt{PrintWriter} writer. Quindi viene effettuato un controllo sul richiedente mediante il richiamo del metodo \method{check()}. Se tale metodo ritorna \inglese{true} allora il flusso principale prosegue richiamando il metodo \method{doAction}. In caso contrario il metodo termina salvando nel \texttt{writer} il valore ''null''.
 \end{description}
 
+\classsection{ControllerManager}
+
+\subsubsection*{Funzione}
+Estensione di \texttt{org.apache.catalina.websocket.WebSocketServlet} ed implementazione di \inglese{servlet}. ControllerManager rappresenta l'implementazione del pattern \texttt{front controller}. Esso fornisce un unico punto d'accesso al sistema. Tale implementazione avviene definendo la classe come una \inglese{servlet} il cui compito sarà quello di delegare al controller corretto la richiesta inoltrata dal client.
+
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+	\item \texttt{java.io.IOException}: eccezione sollevabile in seguito ad un errato input utente;
+	\item \texttt{java.util.Enumeration}: usata per definire gli attributi usati dalla classe;
+	\item \texttt{java.util.HashMap}: usata per definire gli attributi usati dalla classe;
+	\item \texttt{java.util.Hashtable}: usata per definire gli attributi usati dalla classe;
+	\item \texttt{java.util.Map}: usata per definire gli attributi usati dalla classe;
+	\item \texttt{java.util.ResourceBundle}: usata per definire gli attributi usati dalla classe;
+	\item \texttt{javax.servlet.ServletConfig}: usata per eseguire delle operazioni di configurazione della \inglese{servlet};
+	\item \texttt{javax.servlet.ServletException}: eccezione che può essere sollevata in seguito all'esecuzione del metodo \method{doPost()} della classe;
+	\item \texttt{javax.servlet.annotation.WebServlet}: classe necessaria per il corretto funzionamento della \inglese{servlet};
+	\item \texttt{javax.servlet.http.HttpServletRequest}: usata per le richieste ajax inoltrate dal client alla \inglese{servlet};
+	\item \texttt{javax.servlet.http.HttpServletResponse}: usata per le richieste ajax inoltrate dal client alla \inglese{servlet};
+	\item \texttt{org.apache.catalina.websocket.StreamInbound}: classe generica che definisce un canale di comunicazione client-client;
+	\item \texttt{org.softwaresynthesis.mytalk.server.connection.PushInbound}: specializzazione della classe \texttt{org.apache.catalina.websocket.StreamInbound};
+	\item \texttt{org.softwaresynthesis.mytalk.server.connection.PushInbound.State}: classe atta a definire lo stato di un canale di comunicazione, usata per gestire lo stato dell'utente connesso.
+\end{itemize}
+
+\subsubsection*{Classi estese ed interfacce implementate}
+
+\begin{itemize}
+	\item \classname{javax.servlet.Servlet}: interfaccia d'implementazione.
+	\item \classname{org.apache.catalina.websocket.WebSocketServlet}: classe estesa.
+\end{itemize}
+
+\subsubsection*{Attributi}
+
+\begin{itemize}
+	\item{\memberdata{\underline{-- serialVersionUID: long}}}\\
+	Attributo usato per definire un id univoco alla \inglese{servlet}.
+	\item{\memberdata{-- clients: Map<Long, PushInbound>}}\\
+	Map usata per definire un associazione tra gli utenti connessi (riconosciuti mediante ID) e i \classname{PushInbound} a loro associati.
+	\item{\memberdata{-- controllers: Hashtable<String, String>}}\\
+	Hashtablet usata per mappare le associazioni funzionalità-controller associato.
+\end{itemize}
+
+\subsubsection*{Metodi}
+
+\begin{description}
+	\item{\method{+ ControllerManager(): void}}\\
+	Costruttore pubblico della \inglese{servlet}. Inizializza \memberdata{controllers}.
+	
+	\item{\method{+ getControllers(): Hashtable<String, String>}}\\
+	Metodo usato per ottenere il contenuto del campo \memberdata{controllers}. Il metodo restituisce \memberdata{controllers}.
+	
+	\item{\method{+ createController(classPath: string): IController}}\\
+	Metodo usato per creare una nuova istanza di uno specifico controller a partire dal nome \texttt{classPath}. A tale scopo lo sviluppatore dovrà usare il metodo forName di \texttt{Class}, passando per l'appunto il nome della classe. Successivamente a partire da tale classe, sarà creata un istanza di \classname{IController}. Il metodo termina restituendo l'istanza di \classname{IController}. Si osservi che la firma del metodo dovrà specificare la possibilità che vengano invocate le seguenti eccezioni:
+	\begin{itemize}
+		\item \texttt{ClassNotFoundException}: se la classe non viene trovata dal class loader;
+		\item \texttt{IllegalAccessException}: se non si hanno i privilegi di accesso a tale classe;
+		\item \texttt{InstantiationException}: se non si riesce ad instanziare un oggetto di tale classe;
+	\end{itemize}
+	
+	Tali eccezioni possono essere invocate a causa di un errato utilizzo di \texttt{Class}.
+	
+	\item{\method{+ init(configuration: ServletConfiguration): void}}\\
+	Metodo usato per inizializzare la \inglese{servlet} caricando in memoria la lista dei controller. Il metodo inizia richiamando l'init di super. Quindi crea un istanza di \texttt{ResourceBundler} a partire da una chiamata a metodo \texttt{ResorceBundler.getBundler()} (passando come parametro la stringa: ''org.softwaresynthesis.mytalk.server.controllerList''). Il passo successivo consiste nel creare un oggetto di tipo \texttt{Enumeration<String>} (nominato keys), in cui salvare ciò che viene restituito da una chiamata a getKeys() (chiamato a partire dall'istanza di \texttt{ResorceBundler}). A questo punto si attuerà, all'interno di un ciclo \verb|while(keys.hasMoreElements())|, una procedura atta a salvare in controllers le coppie chiave-valore contenute in keys.
+	
+	\item{\method{+ destroy(): void}}\\
+	Metodo usato per eliminare il contenuto di \memberdata{controllers}. Si dovrà usare il metodo \texttt{clear()} di \memberdata{controllers}.
+	
+	\item{\method{\# createWebSocketInbound(): StreamInbound}}\\
+	Metodo usato per creare un canale di comunicazione di tipo \classname{PushInbound}. Il metodo dovrà impostare mediante setState, lo stato del canale al valore \verb|State.AVAILABLE|. Il metodo ritorna il canale di comunicazione cosi creato.
+	
+	\item{\method{+ putClient(n: Long, c: PushInBound): void}}\\
+	Metodo usato per aggiungere in \memberdata{clients} la coppia idUtente (n) - canale PushInBound di comunicazione (c). Il metodo è composto dall'unica istruzione \verb|clients.put(n,c)|.
+	
+	\item{\method{+ removeClient(c: PushInbound): void}}\\
+	Metodo usato per rimuovere un client dall'attributo \memberdata{clients}. Il metodo scorre il contenuto dell'attributo verificando con un costrutto if, la presenza del canale \texttt{PushInbound} c. Se lo trova, rimuove il client associato a c da \memberdata{clients}.
+	
+	\item{\method{\underline{+ getState(identifier: Long): String}}}\\
+	Il metodo definisce una \texttt{String} result da restituire alla fine del metodo stesso. Dopo la creazione, il metodo cerca di ottenere da \memberdata{clients}, il cliente avente id uguale ad identifier. Quindi se tale client esiste realmente, il metodo procede ottenendo lo stato in cui si trova il client (client.getState()) e richiamando il suo metodo \texttt{toString()}, salva il suo valore in result. Se l'utente con id identifier non esiste in \memberdata{clients}, result = ''offline''. Il metodo termina restituendo result;
+	
+	\item{\method{\# doPost(request: HttpServletRequest, response: HttpServletResponse): void}}\\
+	Metodo doPost() della servlet. Tale metodo è l'unico invocato direttamente dall'esterno da parte di un client, mediante un richiasta \texttt{HttpServletRequest}. Il metodo definisce localmente un \classname{IController} in cui memorizzare il controller a cui delegare l'operazione richiesta dal client (che per l'appunto ha invocato il ControllerManager). All'interno di un costrutto try-catch (nel blocco try), si memorizza l'operazione contenuta in request mediante un getParameter(''operation''). Tale sintassi è obbligatoria. Quindi se l'operazione impostata è diversa da \inglese{null}, si procede ricercando in \memberdata{controllers} il controller avente come chiave il valore di tipo String specificato come operazione richiesta dall'utente. A questo punto si crea il controller giusto (usando il metodo \method{createController(controllerName)}) e si richiama il suo metodo \texttt{execute()} passando come parametri request e response. I catch del blocco try-catch, atti a definire del blocchi per catturare le eccezioni: 
+	\begin{itemize}
+		\item \texttt{ClassNotFoundException};
+		\item \texttt{IllegalAccessException};
+		\item \texttt{InstantiationException};
+	\end{itemize}
+	
+	hanno al loro interno delle procedure per scrivere l'ora e il nome dell'errore (inteso come nome dell'eccezione sollevata) in un file di log. Non sono fatte ulteriori segnalazioni di errore al client, poiché al fine sarà la chiamata controller.execute() (fatta in precedenza e eventuale causa del sollevamento delle eccezioni), a restituire al client una segnalazione dell'errore riscontrato. Il metodo termina distruggendo l'oggetto \classname{IController} creato per la gestione della richiesta.
+	
+\end{description}
+
 \subsection{Package org.softwaresynthesis.mytalk.server.dao}\label{sec:dao}
 
 \classsection{ISessionManager}
@@ -2325,7 +2415,7 @@ Nessuna relazione evidenziata.
 	Restituisce il valore dell'attributo \memberdata{caller}.
 \end{description}
 
-\subsection{Package org.softwaresynthesis.mytalk.server.call.servlet}\label{sec:callServlet}
+\subsection{Package org.softwaresynthesis.mytalk.server.call.controller}\label{sec:callServlet}
 
 \classsection{DownloadCallHistoryServlet}
 
