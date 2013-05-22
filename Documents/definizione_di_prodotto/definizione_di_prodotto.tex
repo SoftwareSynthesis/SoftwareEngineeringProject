@@ -2715,6 +2715,53 @@ Implementazione della strategia di codifica/decodifica con l'uso dell'algoritmo 
 	\end{itemize}
 \end{description}
 
+\classsection{AESTemplate}
+
+\subsubsection*{Funzione}
+Rappresenta la struttura dell'algoritmo di crittografia AES a 128 bit. Implementa \texttt{template method}.
+
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+	\item \texttt{java.security.Key};
+	\item \texttt{javax.crypto.Cipher};
+	\item \texttt{javax.crypto.spec.SecretKeySpec};
+\end{itemize}
+
+\subsubsection*{Classi estese ed interfacce implementate}
+
+Nessuna relazione evidenziata.
+
+\subsubsection*{Attributi}
+\begin{description}
+  \item{\memberdata{-- key: byte[]}}\\
+  Array di byte usato per definire il valore della chiave su cui si basa l'algoritmo AES di criptazione. La chiave effettiva sarà creata a partire da tale attributo, per mezzo della classe \texttt{javax.crypto.spec.SecretKeySpec}.
+  \item{\memberdata{-- cipher: Cipher}}\\
+  Oggetto rappresentante l'algoritmo di criptazione.
+  \item{\memberdata{-- generated: Key}}\\
+  Oggetto rappresentante la chiave generata dall'algoritmo di criptazione.
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+
+	\item{\method{+ AESTemplate()}}\\
+	Costruttore pubblico. imposta key con il seguente contenuto:\\
+	\verb|new byte[]{'C', 'p', '2', 'Q', 'j', 'w', 'M', 'F', '7', 'e', 'j', 'N', 't', 'd', 'b', '1'};|.
+
+	\item{\method{+ \{frozen\} execute(text: String): String}}\\
+	Metodo che definisce l'iter di esecuzione di una generica procedura riguardante il sistema di sicurezza. Il metodo si occupa di inizializzare il cifratore \memberdata{cipher} mediante il metodo \texttt{getIstance(''AES'')}. Quindi si imposta il contenuto di \memberdata{generated} con ciò che viene restituito da \texttt{SecretKeySpec(this.key, ''AES'')}. Il metodo invoca \method{compleateAlgorithm}, e salva il suo valore di ritorno in una Stringa denominata result. Il metodo termina restituendo result
+
+	\item{\method{\# \{abstract\} compleateAlgotihm(text: String): String}}\\
+	Metodo astratto. Costituisce l'implementazione del pattern \texttt{template method}.
+
+	\item{\method{\# getCipher(): Cipher}}\\
+	Metodo che restituisce il cifratore \memberdata{cipher} alle sottoclassi in modo che possano criptare/decriptare il testo.
+
+	\item{\method{\# getGenerateKey(): Key}}\\
+	Metodo che restituisce una chiave di tipo \texttt{java.security.Key}, a partire dall'attributo \memberdata{generated}.
+	
+\end{description}
+
 \subsection{Package org.softwaresynthesis.mytalk.server.authentication}\label{sec:authentication}
 
 \classsection{PrincipalImpl}
