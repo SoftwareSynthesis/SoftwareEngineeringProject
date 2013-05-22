@@ -58,9 +58,6 @@ switch($operation) {
     case "deleteFromGroup" :
         break;
 
-    case "search" :
-        break;
-
     case "unblockContact" :
         break;
 
@@ -88,6 +85,10 @@ switch($operation) {
         break;
 
     case "updateMessage" :
+        break;
+
+    // operazioni ricerca utenti del sistema
+    case "search" :
         break;
 
     default :
