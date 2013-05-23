@@ -3495,6 +3495,40 @@ Nessuna relazione evidenziata.
 
 \end{description}
 
+\classsection{ToolsPanelPresenter}
+
+\subsubsection*{Funzione}
+\inglese{Presenter} che ha il compito di gestire il pannello degli strumenti.
+
+\subsubsection*{Relazioni d'uso}
+Nessuna relazione d'uso evidenziata.
+
+\subsubsection*{Classi estese ed interfacce implementate}
+Nessuna relazione evidenziata.
+
+\subsubsection*{Attributi}
+\begin{description}
+\item{\memberdata{-- thisPanel: HTMLElement}}\\
+Riferimento all'elemento HTML, da intendersi come nodo DOM, che corrisponde al pannello degli strumenti e che nello specifico è rappresentato da un elemento \verb'<div>' avente come identificativo la stringa \verb'ToolsPanel'.
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+  \item{\method{+ onShowToolsPanel(): void}}\\
+  Questo gestore di eventi è associato all'evento con identificativo \texttt{showToolsPanel} e ha il compito di provocare la visualizzazione del pannello degli strumenti sulla parte sinistra dell'interfaccia grafica. Il metodo dovrà avere il compito di caricare il \inglese{template} della vista dal server. L'inizializzazione del pannello sarà quindi demandata in un secondo momento alla vista, tramite il metodo \method{initialize} fornito da quest'ultima.
+  
+  \item{\method{+ onRemoveToolsPanel(): void}}\\
+  Questo gestore di eventi viene associato come risposta del \inglese{presenter} nel momento in cui viene sollevato un event con nome identificativo uguale a \verb'removeToolsPanel'. Il metodo dovrà provocare l'eliminazione dall'interfaccia grafica del pannello degli strumenti, demandando alla vista la propria rimozione dall'albero DOM tramite il metodo \method{destroy()} messo a disposizione da quest'ultima.
+  
+  \item{\method{+ onShowReturnToCommunicationPanelButton(): void}}\\
+  Questo gestore di eventi è invocato nel momento in cui si attiva una comunicazione di qualsiasi natura (audio, audio/video o testuale) e provoca l'aggiunta di un nuovo pulsante nel pannello grafico tramite il metodo \method{addCommunicationFunction()} fornito dalla vista. Lo scopo di tale pulsante è permettere di tornare al pannello della comunicazione in un secondo momento, dopo che si è passati alla visualizzazione di un altro pannello.
+  
+  \item{\method{+ onLogout(): void}}\\
+  Questo gestore di eventi viene richiamato al verificarsi dell'evento \verb'logout' e ha il compito di effettuare l'uscita dal sistema. In particolare, nel corpo del metodo dovrà essere creata una nuova \verb'XMLHttpRequest' da inviare all'indirizzo del \inglese{front controller} presente sul server, nella cui \inglese{query string} sarà presente il parametro \verb'operation=logout' per permettere il corretto smistamento della richiesta.
+  
+  Infine, dal momento che il server risponde con una stringa \verb'true' o \verb'false', il metodo ha il compito di effettuare la deserializzazione con \verb'JSON.parse(request.responseText)' e nel caso in cui il risultato fosse valutato negativamente, provocare la visualizzazione di un generico messaggio d'errore.
+\end{description}
+
 %********************************************************************
 %     QUESTO È IL CONFINE FRA BENE E MALE - SIETE AVVERTITI!
 %********************************************************************
@@ -4014,50 +4048,6 @@ Costruisce il pannello per la gestione dei gruppi, che deve essere visualizzato 
 
 \item{\method{+ displayGroupList(groups: Object(group)): void}}\\
 Metodo che visualizza all'interno del pannello una lista di gruppi, tale metodo demanda la visualizzazione di ogni singolo gruppo richiamando il metodo \method{addListItem(groupList, group}.
-
-\end{description}
-
-
-\classsection{ToolsPanelPresenter}
-
-\subsubsection*{Funzione}
-Presenter incaricato di gestire il pannello degli strumenti.
-
-\subsubsection*{Relazioni d'uso}
-Nessuna relazione d'uso evidenziata.
-
-\subsubsection*{Classi estese ed interfacce implementate}
-Nessuna relazione evidenziata.
-
-\subsubsection*{Attributi}
-\begin{description}
-\item{\memberdata{-- servlets: String[]}}\\
-Array che contiene le URL delle \inglese{servlet} relative a tale presenter
-\item{\memberdata{-- element: DOM\_element}}\\
-elemento di tipo DOM che rappresenta l'intero pannello
-\end{description}
-
-\subsubsection*{Metodi}
-\begin{description}
-\item{\method{- getServletURLs(): void}}\\
-Configura gli URL delle \inglese{servlet} da interrogare leggendoli dal file di configurazione in base alle operazioni che questo presenter deve essere in grado di compiere.\\
-Più precisamente, si dovrà creare una ``XMLHttpRequest'' rivolta al file XML di configurazione dove sono riportate tutte le \inglese{servlet}. Ricevuta la risposta, si popolerà l'\textit{array} dichiarato nella classe (\inglese{servlet}).
-
-\item{\method{+ initialize()(): void}}\\
-Inizializza il pannello degli strumenti dell'applicazione rendendolo visibile. Tale pannello conterrà link che rimandano a tutte le funzioni disponibili per l'operazione scelta. In particolare:
-\begin{itemize}
-\item sezione che rimanda alle funzionalità della segretaria;
-\item sezione che rimanda alle impostazioni dell'account;
-\item sezione che rimanda alle funzionalità dello storico chiamate;
-\item sezione che rimanda alle funzionalità della gestione dei contatti.
-\end{itemize}
-Tutte queste sezioni saranno espresse come list item di una lista. All'evento ``onclick'' su ogni sezione corrisponderà l'invocazione del metodo che rimanda al presenter relativo alla sezione.
-
-\item{\method{+ hide(): void}}\\
-Rende invisibile il pannello degli strumenti. Va impostata la proprietà \textit{display} di tale elemento a false.
-
-\item{\method{+ logout(): void}}\\
-Effettua il \textit{logout} dell'utente dal sistema, per far ciò viene invocata la \inglese{servlet} relativa.
 
 \end{description}
 

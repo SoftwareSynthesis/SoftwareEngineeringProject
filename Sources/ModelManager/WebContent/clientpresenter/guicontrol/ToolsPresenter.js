@@ -17,7 +17,7 @@ function ToolsPanelPresenter() {
     /**********************************************************
      METODI PRIVATI
      ***********************************************************/
-    /**
+    /** VIEW
      * funzione per l'inizializzazione della select che gestisce il cambio di
      * stato
      * @version 2.0
@@ -127,7 +127,7 @@ function ToolsPanelPresenter() {
         initializeSelectState();
     };
 
-    /**
+    /** VIEW
      * Rende invisibile il pannello degli strumenti
      *
      * @author Diego Beraldin
@@ -136,7 +136,7 @@ function ToolsPanelPresenter() {
     thisPanel.style.display = "none";
     };*/
 
-    /**
+    /** VIEW
      * Aggiunge il pulsante che permette di ritornare al pannello delle
      * comunicazioni, se ve ne sono di attive
      *
@@ -155,7 +155,7 @@ function ToolsPanelPresenter() {
         ulFunctions.appendChild(liCommunication);
     };
 
-    /**
+    /** VIEW
      * Nasconde il pulsante che permette di ritornare al pannello
      * delle comunicazioni dal ToolsPanel
      *
@@ -169,7 +169,7 @@ function ToolsPanelPresenter() {
         }
     };
 
-    /**
+    /** VIEW
      * Imposta il valore della select che contiene lo stato dell'utente al valore
      * corretto
      * @version 2.0
@@ -189,9 +189,9 @@ function ToolsPanelPresenter() {
     };
 
     /***************************************************************************
-     * HANDLER EVENTI
+     * HANDLER DEGLI EVENTI
      **************************************************************************/
-    /**
+    /** PRESENTER
      * Funzione per gestire l'evento in cui viene visualizzato il pannello degli
      * strumenti
      * @author Riccardo Tresoldi
@@ -202,7 +202,7 @@ function ToolsPanelPresenter() {
         }
     }
 
-    /**
+    /** PRESENTER
      * Funzione per gestire l'evento in cui viene rimosso il pannello degli
      * strumenti
      * @author Riccardo Tresoldi
@@ -211,7 +211,7 @@ function ToolsPanelPresenter() {
         thisPresenter.destroy();
     }
 
-    /**
+    /** PRESENTER
      * Funzione che mostra il pulsante per "Tornare al Comunication Panel"
      * @author Riccardo Tresoldi
      */
@@ -220,7 +220,7 @@ function ToolsPanelPresenter() {
         alert("Torna a CommPanel creato!");
     }
 
-    /**
+    /** PRESENTER
      * Effettua il logout comunicandolo alla servlet e chiudendo il canale di
      * comunicazione che era stato aperto con il server
      * @version 2.0
@@ -239,7 +239,7 @@ function ToolsPanelPresenter() {
     }
 
     /***************************************************************************
-     * LISTNER DEGLI EVENTI
+     * LISTENER DEGLI EVENTI
      **************************************************************************/
     document.addEventListener("showToolsPanel", function(evt) {
         onShowToolsPanel();
