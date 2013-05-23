@@ -39,7 +39,7 @@ function ToolsPanelPresenter() {
         selectState.add(new Option("Occupato", "occupied"), null);
         //aggancio l'evento onChange
         selectState.onChange = function() {
-            ToolsPanelPresenter.updateStateValue();
+        	thisPresenter.updateStateValue();
         }
         //ritorno l'elemento <select> inizializzato
         return selectState;

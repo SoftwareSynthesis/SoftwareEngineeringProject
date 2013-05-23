@@ -4395,14 +4395,84 @@ Vista associata al \classname{MainPanelPresenter} che contiene il pannello princ
 
 \subsubsection*{Elementi}
 Il pannello è costituito da un solo elemento \verb'<div>' avente come attributo identificativo la stringa \verb'MainPanel' all'interno del quale sarà visualizzata, di volta in volta, una delle sette viste di secondo livello, vale a dire:
-\begin{itemize}\renewcommand{\labelitemi}{$-$}
-  \item \classname{AccountSettingsView};
-  \item \classname{CallHistoryView};
-  \item \classname{CommunicationView};
-  \item \classname{ContactView};
-  \item \classname{GroupView};
-  \item \classname{MessageView};
-  \item \classname{SearchResultView}.
+\begin{itemize}
+  \item[--] \classname{AccountSettingsView};
+  \item[--] \classname{CallHistoryView};
+  \item[--] \classname{CommunicationView};
+  \item[--] \classname{ContactView};
+  \item[--] \classname{GroupView};
+  \item[--] \classname{MessageView};
+  \item[--] \classname{SearchResultView}.
+\end{itemize}
+
+\classsection{ToolsView}
+\subsubsection*{Funzione}
+Vista associata al \inglese{presenter} \classname{ToolsPanelPresenter} utilizzata per visualizzare gli strumenti disponibili all'utente.
+
+\subsubsection*{Metodi}
+\begin{description}
+  \item{\method{-- initializeSelectState(): HTMLElement}}\\
+  Il metodo ha il compito di inizializzare l'elemento \verb'<select>' per il cambio di stato presente sul pannello degli strumenti aggiungendo ad esso, se non sono già presenti, le opzioni che corrispondono allo stato ``disponibile'' e ``occupato'' utilizzando una sintassi del tipo:
+  \begin{verbatim}
+    var availableOption = new Option("Disponibile", "available");
+    selectState.add(availableOption, null);
+  \end{verbatim}
+  
+  È importante, inoltre, associare all'evento \verb'change' associato all'elemento \verb'<select>' una funzione anonima che provoca l'invocazione del metodo \method{updateStateValue()} della vista stessa.
+  
+  Infine, l'elemento \verb'<select>' che è stato manipolato da questo metodo dovrà essere restituito al chiamante.
+  
+  \item{\method{+ destroy(): void}}\\
+  Tale metodo ha il compito di provocare la rimozione del pannello degli strumenti governato da questa vista, rimuovendo in maniera definitiva dall'albero DOM il nodo che corrisponde alla radice del pannello.
+  
+  \item{\method{+ initialize(view: HTMLElement): void}}\\
+  Il metodo ha la funzione di aggiungere nel punto corretto dell'albero DOM che rappresenta l'interfaccia utente il nodo passato come parametro, vale a dire il pannello degli strumenti, quindi di configurare il comportamento quest'ultimo assegnando a tutti i \inglese{list item} delle funzionalità i gestori di eventi corrispondenti.
+  
+  In particolare:
+  \begin{itemize}
+    \item[--] alla pressione della voce con identificativo \verb'liAnswering' deve essere sollevato un evento con nome \verb'showMessagePanel';
+    \item[--] alla pressione della voce con identificativo \verb'liSetting' deve essere sollevato un evento con nome \verb'showAccountSettingPanel';
+    \item[--] alla pressione della voce con identificativo \verb'liCallList' deve essere sollevato un evento con nome \verb'showCallHistoryPanel';
+    \item[--] alla pressione della voce con identificativo \verb'liGroup' deve essere sollevato un evento con nome \verb'showGroupPanel';
+    \item[--] alla pressione della voce con identificativo \verb'liSearch' deve essere sollevato un evento con nome \verb'showSearchResultPanel';
+    \item[--] alla pressione della voce con identificativo \verb'liLogout' deve essere visualizzata una finestra di dialogo che richiede conferma all'utente sulla reale intenzione di uscire e, in caso di risposta affermativa, solleva sia l'evento \verb'logout' che \verb'showLoginPanel'.
+  \end{itemize}
+  
+  Infine, prima di ritornare deve essere inizializzato l'elemento \verb'<select>' per la gestione dello stato utente, mediante l'opportuno metodo privato \method{initializeSelectState()}.
+  
+  \item{\method{+ addCommunicationFunction(): void}}\\
+  Questo metodo dovrà provocare l'aggiunta di un nuovo elemento alla lista degli strumenti per permettere di ritornare al pannello delle comunicazioni. Dovrà pertanto creare un nuovo elemento \verb'<li>', assegnare alla sua proprietà identificativa il valore \verb'CallFunction', configurarne il comportamento alla pressione del mouse facendo in modo che sia sollevato un evento con nome \verb'showCommunicationPanel' quindi procurarsi un riferimento al nodo DOM che corrisponde alla lista delle funzionalità e aggiungere in coda il nuovo \inglese{list item} creato con il metodo \verb'appendChild'.
+  
+  \item{\method{+ removeCommunicationFunction(): void}}\\
+  Il metodo ha il compito di rimuovere il pulsante per ritornare al pannello della comunicazione dalle opzioni disponibili nel momento in cui non sussiste più alcuna comunicazione (audio, audio/video o testuale) attiva per il client. Il metodo dovrà pertanto ottenere un riferimento al nodo DOM che rappresenta la lista delle funzioni, uno a quello del \inglese{list item} corretto e quindi utilizzare il metodo \verb'removeChild' per operare la rimozione.
+  
+  \item{\method{+ updateStateValue(): HTMLElement}}\\
+  Questo metodo ha il compito di ottenere un riferimento all'elemento \verb'<select>' utilizzato per il cambio di stato, estrarre il valore associato all'opzione selezionata mediante un'istruzione del tipo
+  \begin{verbatim}
+    var state = select.options[selectedIndex].value;
+  \end{verbatim}
+  quindi sollevare un opportuno evento avente come identificativo la stringa \verb'changeMyState' e come proprietà \verb'state' il valore dello stato recuperato in precedenza.
+  
+  Il metodo, infine, dovrà restituire al chiamante un riferimento all'elemento \verb'<select>' che è stato manipolato.
+\end{description}
+
+\subsubsection*{Elementi}
+Il pannello è costituito da un elemento \verb'<div>' avente come identificativo la stringa \verb'ToolsPanel', il quale contiene al proprio interno:
+\begin{itemize}
+  \item[--] un elemento \verb'<div>' avente attributo \verb'class' uguale a \verb'panelHeader';
+  \item[--] un \verb'<div>' che contiene un elemento \verb'<select>' con identificativo uguale a \verb'selectState';
+  \item[--] un terzo \verb'<div>' con all'interno:
+  \begin{itemize}
+    \item[-] un elemento \verb'<ul>' con identificativo uguale a \verb'ToolsList' per la lista degli strumenti, contenente:
+      \begin{itemize}
+        \item[$\cdot$] un \verb'<li>' con identificativo uguale a \verb'liAnswering' contenente il nodo di testo <<Segreteria>>;
+        \item[$\cdot$] un \verb'<li>' con identificativo uguale a \verb'liSetting' contenente il nodo di testo <<Impostazioni>>;
+        \item[$\cdot$] un \verb'<li>' con identificativo uguale a \verb'liCallList' contenente il nodo di testo  <<Lista chiamate>>;
+        \item[$\cdot$] un \verb'<li>' con identificativo uguale a \verb'liGroup' contenente il nodo di testo <<Gruppi>>;
+        \item[$\cdot$] un \verb'<li>' con identificativo uguale a \verb'liSearch' contenente il nodo di testo <<Ricerca>>;
+      \end{itemize}
+    \item[-] un elemento \verb'<ul>' con all'interno un solo \verb'<li>' avente come identificativo \verb'liLogout' e contenente come unico figlio il nodo di testo \verb'Logout'.
+  \end{itemize}
 \end{itemize}
 
 %********************************************************************
@@ -4493,23 +4563,6 @@ Vista associata al presenter \classname{PhoneCallsRegistryPresenter}. Utilizzata
 \item \textit{button} per iniziare la registrazione del messaggio;
 \item \textit{button} per terminare la registrazione;
 \item \textit{button} per inviare la registrazione appena effettuata.
-\end{itemize}
-
-\subsection{ToolsView}
-\subsubsection*{Funzione}
-Vista associata al presenter \classname{ToolsPresenter}. Utilizzata per visualizzare gli strumenti disponibili all'utente.
-\subsubsection*{Elementi}
-\begin{itemize}
-\item \textit{select} dove poter scegliere il proprio stato (disponibile, occupato);
-\item elemento di tipo \textit{ul} con 6 \textit{li} per:
-\begin{itemize}
-\item accedere alla segreteria;
-\item accedere alle impostazioni;
-\item accedere allo storico chiamate;
-\item accedere alla sezione dei gruppi;
-\item accedere alla sezione dove effettuare una ricerca;
-\item effettuare il logout.
-\end{itemize}
 \end{itemize}
 
 \clearpage
