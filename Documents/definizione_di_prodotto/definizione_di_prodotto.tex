@@ -4465,51 +4465,47 @@ Il pannello è costituito da un elemento \verb'<div>' avente come identificativo
   \end{itemize}
 \end{itemize}
 
+\classsection{AccountSettingsView}
+\subsubsection*{Funzione}
+Vista associata al \inglese{presenter} \classname{AccountSettingsPanelPresenter} che ha il compito di permettere la visualizzazione e la modifica dei dati dell'utente.
+
+\subsubsection*{Metodi}
+\begin{description}
+\item{\method{+ display(): void}}\\
+Tale metodo ha il compito di inizializzare la vista, ovvero l'insieme dei \inglese{widget} grafici che costituiscono il pannello per la visualizzazione delle impostazioni e dei dati dell'utente.
+
+In particolare, la vista ha il compito di ottenere i dati relativi a nome, cognome e immagine del profilo dell'utente e popolare le apposite regioni del pannello con le informazioni corrispondenti, quindi configurare il comportamento del pulsante per la modifica dei dati alla cui pressione deve corrispondere un'invocazione del metodo \method{onChangeButtonPressed()}.
+
+\item{\method{+ onChangeButtonPressed(): void}}\\
+Gestisce la pressione del pulsante ``Modifica dati'' trasformando l'elemento \verb'<div>' che contiene l'immagine del profilo e la lista di elementi testuali in un \textit{form} da compilare per apportare i cambiamenti i propri dati di registrazione. È importante che quest'ultimo abbia per l'attributo \verb'enctype' il valore \verb'multipart/form-data'.
+
+Il \inglese{form} è costituito da una lista i cui tre elementi \verb'<li>' contengono rispettivamente:
+\begin{itemize}
+  \item[--] una \verb'<label>' e il relativo campo \verb'<input>' per il nome, che inizialmente visualizza il nome precedentemente impostato nel client;
+  \item[--] una \verb'<label>' e il relativo campo \verb'<input>' per il cognome dell'utente, che inizialmente visualizza il valore precedentemente impostato nel client;
+  \item[--] una \verb'<label>' e il relativo campo \verb'<input>' per l'immagine del profilo (quest'ultimo dovrà avere l'attributo \verb'type' uguale a \verb'file').
+\end{itemize}
+
+Inoltre, il \inglese{form} presenta un pulsante per l'invio dei dati inseriti al server alla cui pressione deve essere attivato un gestore di evento che raccoglie i dati inseriti e li trasmette invocando il metodo \method{sendUserData} del \inglese{presenter} e quindi solleva un evento con identificativo \verb'showAccountSettingPanel' per ricaricare il pannello.
+
+\end{description}
+
+\subsubsection*{Elementi}
+Il pannello è costituito da un elemento \verb'<div>' con identificativo uguale a \verb'AccountSettingsPanel' che contiene al proprio interno:
+\begin{itemize}
+  \item[--] un \verb'<div>' con attributo \verb'class' uguale a \verb'panelHeader' con all'interno un elemento \verb'<h1>' avente come figlio il solo nodo testo \textsc{<<dati personali>>};
+  \item[--] un elemento \verb'<img>' con identificativo uguale alla stringa \verb'picture';
+  \item[--] un elemento \verb'<ul>' contenente:
+  \begin{itemize}
+    \item[-] un \verb'<li>' con identificativo uguale a \verb'name';
+    \item[-] un \verb'<li>' con identificativo uguale a \verb'surname';
+  \end{itemize}
+  \item[--] un elemento \verb'<button>' contenente il testo ``Modifica dati''.
+\end{itemize}
+
 %********************************************************************
 %     QUESTO È IL CONFINE FRA BENE E MALE - SIETE AVVERTITI!
 %********************************************************************
-
-\subsection{AccountSettingsView}
-\subsubsection*{Funzione}
-Vista associata al presenter \classname{AccountSettingsPresenter}.
-
-% \item{\method{+ createPanel(): DOM\_element}}\\
-% Inizializza il pannello costruendone i \textit{widget} grafici interni e lo restituisce in modo che possa essere inserito all'interno del pannello principale. Più dettagliatamente, verrà costruita una lista con \textit{list item} contenenti le informazioni dell'utente, ossia:
-% \begin{itemize}
-% \item nome;
-% \item cognome;
-% \item e-mail;
-% \item immagine profilo;
-% \item password;
-% \item domanda segreta;
-% \item risposta alla domanda segreta.
-% \end{itemize}
-% Infine, sarà presente un pulsante con \textit{id} uguale ``changeButton'' il quale all'evento ``onclick'' richiama il metodo \method{onChangeButtonPressed()}, descritto successivamente, che da la possibilità di modificare i dati.
-
-% \item{\method{- onChangeButtonPressed(): void}}\\
-% Gestisce la pressione del pulsante ``changeButton'' che trasforma la lista di elementi testuali in un \textit{form} da compilare per modificare i propri dati. Il \textit{form} è completo di un pulsante \textit{submit} che attiva ``onSubmitChange'', metodo descritto successivamente.\\
-% I campi modificabili, recuperati dall'oggetto presente in CommunicationCenter (\memberdata{my}) che rappresenta il profilo utente, sono:
-% \begin{itemize}
-% \item nome;
-% \item cognome;
-% \item e-mail;
-% \item immagine profilo;
-% \item password;
-% \item domanda segreta;
-% \item risposta alla domanda segreta.
-% \end{itemize}
-
-\subsubsection*{Elementi}
-\begin{itemize}
-\item \textit{div} contenente i dati personali;
-\item \textit{ul} contenente 3 \textit{li} per:
-\begin{itemize}
-\item nome;
-\item cognome;
-\item immagine profilo.
-\end{itemize}
-\item \textit{button} che rimanda alla modifica dei dati personali.
-\end{itemize}
 
 \subsection{AddressBookView}
 \subsubsection*{Funzione}
