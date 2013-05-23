@@ -82,7 +82,7 @@ function ToolsPanelPresenter() {
 
         //salvo un riferimento all'elemento DOM appena creato
         thisPanel = document.getElementById("ToolsPanel");
-        var ulFunction = document.getElementById("ToolsList");
+// FIXME: delete me! var ulFunction = document.getElementById("ToolsList");
 
         // funzione messaggi
         document.getElementById("liAnswering").onclick = function() {
@@ -183,7 +183,7 @@ function ToolsPanelPresenter() {
         //ottengo il valore corrente della select
         var currentValue = selectState.options[selectedIndex].value;
         //Inviare il messaggio con websoket;
-        changeMyState.state = (currentValue);
+        changeMyState.state = currentValue;
         document.dispatchEvent(changeMyState);
         return selectState;
     };

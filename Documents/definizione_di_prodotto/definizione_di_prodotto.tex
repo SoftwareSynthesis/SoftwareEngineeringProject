@@ -3191,15 +3191,20 @@ In ragione di ciò, al fine di facilitare al programmatore la comprensione del p
 				(+, -) attributo: String
 			\end{verbatim}
 			
-			\item array, se l'attributo è un \inglese{array}, che in JavaScript non chiede di essere definito per tipo di valori contenibili, che nel documento sarà segnalato con una coppia di quadre, ad esempio nel caso di un array di stringhe:
+			\item \texttt{Array}, se l'attributo è un \inglese{array}, che in JavaScript non chiede di essere definito per tipo di valori contenibili che nel presente documento sarà segnalato come:
 			
 			\begin{verbatim}
-				(+, -) attributo: String[]
+				(+, -) attributo: Array
 			\end{verbatim}
 			
 			\item \texttt{Number}, che è da considerarsi come il supertipo di tutti i tipi numerici e che sarà menzionato nel presente documento come:
 			\begin{verbatim}
 			  (+, -) attributo: Number
+			\end{verbatim}
+			
+			\item \texttt{Boolean}, che rappresenta un valore booleano e che sarà indicato nel presente documento come:
+			\begin{verbatim}
+			  (+, -) attributo: Boolean
 			\end{verbatim}
 			
 			\item \texttt{Object}, che è da intendersi come un oggetto generico JavaScript, dotato una serie di proprietà per ciascuna delle quali è definito un valore e che sarà rappresentato come:
@@ -3214,12 +3219,12 @@ Nell'attività di codifica, i programmatori dovranno attenersi alle seguenti pra
 \begin{itemize}
   \item gli attributi pubblici saranno assimilati a proprietà dell'oggetto creato tramite la funzione costruttore accessibili all'esterno, e dovranno pertanto essere specificati come:
   \begin{verbatim}
-    this.attributo = new Costruttore();
+    this.attributo = new ClassName();
   \end{verbatim}
   
   \item gli attributi privati invece, dal momento che saranno visibili solo all'interno del costruttore e di tutte le funzioni annidate all'interno di esso -- vale a dire i metodi della classe -- dovranno essere dichiarati come variabili locali secondo la consueta sintassi JavaScript:
   \begin{verbatim}
-    var attributo = new Costruttore();
+    var attributo = new ClassName();
   \end{verbatim}
 \end{itemize}
 		
@@ -3228,15 +3233,15 @@ Nell'attività di codifica, i programmatori dovranno attenersi alle seguenti pra
 	
 \item Metodi pubblici: essendo i metodi pubblici delle proprietà che l'oggetto espone verso l'esterno, essi dovranno essere specificati mediante la forma
 \begin{verbatim}
-  this.nome_metodo = function(arg0, arg1, ...) {
-    corpo_del_metodo
+  this.doSomething = function(arg0, arg1, ...) {
+          ...corpo del metodo...
   }
 \end{verbatim}
 
 \item Metodi privati: essendo utilizzabili solo all'interno di altri metodi della classe essi possono essere definite come funzioni annidate all'interno del costruttore della classe stessa, secondo la consueta sintassi
 \begin{verbatim}
-  function nome_metodo(arg0, arg1, ...) {
-  corpo_del_metodo
+  function doSomething(arg0, arg1, ...) {
+        ...corpo del metodo...
   }
 \end{verbatim}
 
@@ -3421,7 +3426,7 @@ Nessuna relazione evidenziata.
   
   In particolare, il metodo ha il compito di creare una nuova istanza di \verb'XMLHttpRequest' con la \inglese{query string} specificata in precedenza e di inviarla al server quindi ritornare il testo della risposta ottenuta dopo averlo deserializzato e costruito l'array di chiamate corrispondente.
   
-  \item{\method{+ displayList(): void}}
+  \item{\method{+ displayList(): void}}\\
   Metodo che ha il compito di popolare la lista delle chiamate in cui è coinvolto un determinato utente. Il metodo ha il compito di procurarsi la lista delle chiamate attraverso il server al fine di inizializzare il campo dati privato \verb'calls'.
   
   Quindi, per ognuna delle chiamate che sono state scaricate, ha il compito di aggiornare la vista corrispondente provocando la visualizzazione dei dati della chiamata.
@@ -3527,6 +3532,48 @@ Riferimento all'elemento HTML, da intendersi come nodo DOM, che corrisponde al p
   Questo gestore di eventi viene richiamato al verificarsi dell'evento \verb'logout' e ha il compito di effettuare l'uscita dal sistema. In particolare, nel corpo del metodo dovrà essere creata una nuova \verb'XMLHttpRequest' da inviare all'indirizzo del \inglese{front controller} presente sul server, nella cui \inglese{query string} sarà presente il parametro \verb'operation=logout' per permettere il corretto smistamento della richiesta.
   
   Infine, dal momento che il server risponde con una stringa \verb'true' o \verb'false', il metodo ha il compito di effettuare la deserializzazione con \verb'JSON.parse(request.responseText)' e nel caso in cui il risultato fosse valutato negativamente, provocare la visualizzazione di un generico messaggio d'errore.
+\end{description}
+
+\classsection{AccountSettingsPanelPresenter}
+\subsubsection*{Funzione}
+\inglese{Presenter} incaricato di gestire il pannello delle impostazioni e dei dati personali dell'utente visualizzando i dati inseriti in fase di registrazione e permettendo di modificarli in un secondo momento.
+
+\subsubsection*{Relazioni d'uso}
+Nessuna relazione d'uso evidenziata.
+
+\subsubsection*{Classi estese ed interfacce implementate}
+Nessuna relazione evidenziata.
+
+\subsubsection*{Attributi}
+\begin{description}
+\item{\memberdata{-- thisPanel: HTMLElement}}\\
+Attibuto che rappresenta un riferimento all'elemento HTML, da intendersi come nodo DOM, che rappresenta la radice del pannello associato a questo \inglese{presenter} ed è costituito da un \verb'<div>' avente come identificativo la stringa \verb'AccountSettingsPanel'.
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+
+\item{\method{-- hasSomethingChanged(data: Object): Boolean}}\\
+L'oggetto passato come parametro in ingresso a questo metodo è costituito dalle proprietà \verb'name', \verb'surname' e \verb'picturePath' che rappresentano gli unici dati utente che sono suscettibili di possibili modifiche. Il metodo dovrà restituire \verb'true' se almeno una di queste proprietà ha un valore diverso rispetto alle informazioni che sono memorizzate nel client  e \verb'false' altrimenti.
+
+\item{\method{+ sendUserData(data: Object): Boolean}}\\
+Il metodo ha il compito di gestire la modifica dell'utente ai propri dati verificando innanzitutto se essi hanno subito qualche variazione rispetto a quanto noto in precedenza, mediante una chiamata al metodo \method{hasSomethingChanged}. In caso affermativo, dovrà essere inviata una richiesta all'indirizzo del \inglese{front controller} per trasferire la modifica sui dati salvati sul database del server.
+
+A tale scopo dovrà essere creata una nuova istanza di \verb'XMLHttpRequest' per effettuare una richiesta AJAX sincrona, con particolare attenzione a utilizzare un'istanza di \inglese{form data} dal momento che dovranno essere spediti anche dati di natura non testuale, con una sintassi del tipo:
+\begin{verbatim}
+  var form = new FormData();
+  formData.append("operation", "accountSettings");
+        ...altri valori da inviare...
+  var request = new XMLHttpRequest();
+  request.open("POST", controllerURL, false);
+  request.send(form);
+\end{verbatim}
+
+Da ultimo, il metodo dovrà restituire il valore ottenuto deserializzando il testo della risposta ottenuta dal server, che è \verb'true' se l'operazione è andata a buon fine e \verb'false' altrimenti.
+
+\item{\method{+ onShowAccountSettingPanel(): void}}\\
+Questo gestore di eventi viene attivato al verificarsi dell'evento \verb'showAccountSettingPanel' e determina il caricamento del \inglese{template} che corriponde al pannello delle impostazioni utente, demandando in un secondo momento alla vista il compito di inizializzare il comportamento del pannello mediante il metodo \verb'display()' che essa mette a disposizione.
+
 \end{description}
 
 %********************************************************************
@@ -4051,63 +4098,6 @@ Metodo che visualizza all'interno del pannello una lista di gruppi, tale metodo 
 
 \end{description}
 
-\classsection{AccountSettingsPanelPresenter}
-
-\subsubsection*{Funzione}
-Presenter incaricato di gestire il pannello delle impostazioni dell'utente.
-
-\subsubsection*{Relazioni d'uso}
-Nessuna relazione d'uso evidenziata.
-
-\subsubsection*{Classi estese ed interfacce implementate}
-Nessuna relazione evidenziata.
-
-\subsubsection*{Attributi}
-\begin{description}
-\item{\memberdata{-- servlets: String[]}}\\
-Array che contiene le URL delle \inglese{servlet} relative a tale presenter
-\end{description}
-
-\subsubsection*{Metodi}
-\begin{description}
-\item{\method{+ createPanel(): DOM\_element}}\\
-Inizializza il pannello costruendone i \textit{widget} grafici interni e lo restituisce in modo che possa essere inserito all'interno del pannello principale. Più dettagliatamente, verrà costruita una lista con \textit{list item} contenenti le informazioni dell'utente, ossia:
-\begin{itemize}
-\item nome;
-\item cognome;
-\item e-mail;
-\item immagine profilo;
-\item password;
-\item domanda segreta;
-\item risposta alla domanda segreta.
-\end{itemize}
-Infine, sarà presente un pulsante con \textit{id} uguale ``changeButton'' il quale all'evento ``onclick'' richiama il metodo \method{onChangeButtonPressed()}, descritto successivamente, che da la possibilità di modificare i dati.
-
-
-\item{\method{- onChangeButtonPressed(): void}}\\
-Gestisce la pressione del pulsante ``changeButton'' che trasforma la lista di elementi testuali in un \textit{form} da compilare per modificare i propri dati. Il \textit{form} è completo di un pulsante \textit{submit} che attiva ``onSubmitChange'', metodo descritto successivamente.\\
-I campi modificabili, recuperati dall'oggetto presente in CommunicationCenter (\memberdata{my}) che rappresenta il profilo utente, sono:
-\begin{itemize}
-\item nome;
-\item cognome;
-\item e-mail;
-\item immagine profilo;
-\item password;
-\item domanda segreta;
-\item risposta alla domanda segreta.
-\end{itemize}
-
-\item{\method{- onSubmitChange(): void}}\\
-Gestisce il cambiamento dei dati da parte dell'utente contattando, se necessario (controllo effettuato tramite chiamata al metodo \method{hasSometingChanged}), la \inglese{servlet} incaricata di aggiornare il contenuto del database sul server. Il metodo va a recuperare i valori tramite chiamate di metodo \method{document.getElementById(id)} e successivamente contatta la \inglese{servlet} tramite un XMLHttpRequest passando i dati prelevati dalla pagina. Se la \inglese{servlet} ritorna un errore viene gestito tramite la visualizzazione dell'errore all'utente, altrimenti viene richiamato il metodo \method{initialize()} per aggiornare la visualizzazione dei dati più recenti.
-
-\item{\method{- hasSomethingChanged(data: String[]): boolean}}\\
-Metodo che verifica l'effettivo cambiamento di dati rispetto a quanto contenuto in\\ \memberdata{communicationcenter.my} confrontandoli con l'oggetto \memberdata{data} ricevuto come parametro. Il metodo controlla che almeno il valore di un campo dati sia effettivamente cambiato e ritorna \textit{true} in tale caso. Nel caso opposto, ossia tutti i dati sono uguali ai precedenti, ritorna \textit{false}.
-
-\item{\method{- buildQueryString(data: String[]): String}}\\
-Costruisce la stringa corrispondente alla \textit{query} che deve essere spedita alla \inglese{servlet} per portare a termine la richiesta di cambiamento dei dati personali. Viene costruita partendo dai valori recuperati dall'oggetto \memberdata{data} passato come parametro e utilizzando la giusta sintassi MySQL.
-
-\end{description}
-
 \subsection{Package org.softwaresynthesis.mytalk.clientpresenter.kernel}\label{sec:kernel}
 \classsection{CommunicationCenter}
 
@@ -4482,6 +4472,33 @@ Il pannello è costituito da un elemento \verb'<div>' avente come identificativo
 \subsection{AccountSettingsView}
 \subsubsection*{Funzione}
 Vista associata al presenter \classname{AccountSettingsPresenter}.
+
+% \item{\method{+ createPanel(): DOM\_element}}\\
+% Inizializza il pannello costruendone i \textit{widget} grafici interni e lo restituisce in modo che possa essere inserito all'interno del pannello principale. Più dettagliatamente, verrà costruita una lista con \textit{list item} contenenti le informazioni dell'utente, ossia:
+% \begin{itemize}
+% \item nome;
+% \item cognome;
+% \item e-mail;
+% \item immagine profilo;
+% \item password;
+% \item domanda segreta;
+% \item risposta alla domanda segreta.
+% \end{itemize}
+% Infine, sarà presente un pulsante con \textit{id} uguale ``changeButton'' il quale all'evento ``onclick'' richiama il metodo \method{onChangeButtonPressed()}, descritto successivamente, che da la possibilità di modificare i dati.
+
+% \item{\method{- onChangeButtonPressed(): void}}\\
+% Gestisce la pressione del pulsante ``changeButton'' che trasforma la lista di elementi testuali in un \textit{form} da compilare per modificare i propri dati. Il \textit{form} è completo di un pulsante \textit{submit} che attiva ``onSubmitChange'', metodo descritto successivamente.\\
+% I campi modificabili, recuperati dall'oggetto presente in CommunicationCenter (\memberdata{my}) che rappresenta il profilo utente, sono:
+% \begin{itemize}
+% \item nome;
+% \item cognome;
+% \item e-mail;
+% \item immagine profilo;
+% \item password;
+% \item domanda segreta;
+% \item risposta alla domanda segreta.
+% \end{itemize}
+
 \subsubsection*{Elementi}
 \begin{itemize}
 \item \textit{div} contenente i dati personali;
