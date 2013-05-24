@@ -3576,6 +3576,62 @@ Questo gestore di eventi viene attivato al verificarsi dell'evento \verb'showAcc
 
 \end{description}
 
+\classsection{MessagePanelPresenter}
+
+\subsubsection*{Funzione}
+\inglese{Presenter} incaricato di gestire i messaggi in segreteria che permette di scaricarli dal server, eliminarli e impostarne lo stato.
+
+\subsubsection*{Relazioni d'uso}
+Nessuna relazione d'uso evidenziata.
+
+\subsubsection*{Classi estese ed interfacce implementate}
+Nessuna relazione evidenziata.
+
+\subsubsection*{Attributi}
+\begin{description}
+ \item{\memberdata{-- messages: Array}}\\
+ Array destinato a contenere la lista dei messaggi della segreteria il cui destinatario è l'utente del client.
+
+ \item{\memberdata{-- thisPanel: HTMLElement}}\\
+  Riferimento all'elemento HTML, da intendersi come nodo DOM, che rappresenta il pannello della segreteria ed è concretamente un \verb'<div>' con identificativo uguale a \verb'MessagePanel'.
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+
+  \item{\method{-- getMessages(): Array}}\\
+  Ottiene i messaggi di segreteria salvati nel server creando una nuova \verb'XMLHttpRequest' da inviare all'indirizzo del \inglese{front controller} del server per realizzare una richiesta AJAX sincrona nella cui \inglese{query string} dovrà obbligatoriamente essere presente il parametro \verb'operation', con una sintassi del tipo:
+  \begin{verbatim}
+    request.send("operation=getMessages");
+  \end{verbatim}
+  
+  Dal momento che il server risponde con la versione serializzata in JSON della lista di messaggi desiderata, il metodo dovrà limitarsi a restituire il risultato dell'invocazione di \verb'JSON.parse(request.responseText)'.
+  
+    \item{\method{+ setStatus(message: Object, valueToSet: Boolean}}\\
+  Imposta lo stato di un messaggio come ``nuovo'' oppure ``già letto'' a seconda del parametro ricevuto in input. Tale metodo ha il duplice compito di modificare lo stato del messaggio ricevuto come parametro in base al valore di \verb'valuteToSet' e quindi inviare una richiesta AJAX sincrona al server che contiene la \inglese{query string}
+  \begin{verbatim}
+    "operation=updateMessage&idMessage=" + message.id +
+               "&read=" + valueToSet
+  \end{verbatim}
+  
+  Poiché il server restituisce le stringhe \verb'"true"' o \verb'"false"' che corrispondono alla rappresentazione in formato JSON delle omonime costanti letterali del linguaggio, sarà sufficiente che il metodo restituisca il risultato dell'espressione \verb'JSON.parse(request.responseText)'.
+  
+  \item{\method{+ displayList(): void}}\\
+  Tale metodo ha il compito di popolare la vista con i messaggi della segreteria telefonica provvedendo in primo luogo a scaricarli dal server mediante il metodo \method{getMessages()} al fine di inizializzare l'attributo \memberdata{messages}, quindi aggiornare la vista in maniera corrispondente invocando per ognuno dei messaggi scaricati in precedenza il metodo \method{addListItem} messo a disposizione dalla vista.
+  
+  \item{\method{+ deleteMessage(message: Object) Boolean}}\\
+  Elimina un messaggio dalla segreteria inviando all'indirizzo del \inglese{front controller} del server una richiesta AJAX sincrona tramite un'istanza di \verb'XMLHttpRequest' che contiene la \inglese{query string}
+  \begin{verbatim}
+    "operation=deleteMessage&idMessage=" + message.id
+  \end{verbatim}
+  
+  Poiché il server restituisce le stringhe \verb'"true"' o \verb'"false"' che corrispondono alla rappresentazione in formato JSON delle omonime costanti letterali del linguaggio, sarà sufficiente che il metodo restituisca il risultato dell'espressione \verb'JSON.parse(request.responseText)'. In caso di errore, inoltre, dovrà comparire un messaggio d'errore indicante il motivo.
+  
+  \item{\method{+ onShowMessagePanel(): void}}\\
+  Questo gestore di eventi viene attivato al verificarsi dell'evento \verb'showMessagePanel' e determina il caricamento del \inglese{template} che corrisponde al pannello della segreteria telefonica, demandando in un secondo momento alla vista il compito di inizializzare il comportamento del pannello chiamando il metodo \method{display()} messo a disposizione dalla vista.
+  
+\end{description}
+
 %********************************************************************
 %     QUESTO È IL CONFINE FRA BENE E MALE - SIETE AVVERTITI!
 %********************************************************************
@@ -4024,51 +4080,6 @@ Metodo per gestire la chiamata, riceve come parametri l'utente che si vuole chia
 
 \end{description}
 
-\classsection{MessagePanelPresenter}
-
-\subsubsection*{Funzione}
-Presenter incaricato di gestire i messaggi in segreteria.
-
-\subsubsection*{Relazioni d'uso}
-Nessuna relazione d'uso evidenziata.
-
-\subsubsection*{Classi estese ed interfacce implementate}
-Nessuna relazione evidenziata.
-
-\subsubsection*{Attributi}
-\begin{description}
-\item{\memberdata{-- messages: Message[]}}\\
-Array che conterrà tutti i messaggi della segreteria
-\item{\memberdata{-- servlets: String[]}}\\
-Array che contiene le tre URL delle \inglese{servlets} da contattare per i messaggi
-\end{description}
-
-\subsubsection*{Metodi}
-\begin{description}
-\item{\method{- getServletURLs(): void}}\\
-Configura gli URL delle \inglese{servlet} da interrogare leggendoli dal file di configurazione in base alle operazioni che questo presenter deve essere in grado di compiere.\\
-Più precisamente, si dovrà creare una ``XMLHttpRequest'' rivolta al file XML di configurazione dove sono riportate tutte le \inglese{servlet}, ricevuta la risposta si popolerà l'\textit{array} dichiarato nella classe (\inglese{servlet}).
-
-\item{\method{- deleteMessage(idMessage: String): void}}\\
-Elimina un messaggio dalla segreteria contattando la \inglese{servlet} responsabile dell'operazione e scaricando nuovamente i messaggi. Il metodo procede quindi nell'invocazione della \inglese{servlet} corretta passando come parametro l'``id'' ricevuto come parametro del metodo (idMessage). Se la \inglese{servlet} ritorna il valore \textit{true}, significa che l'eliminazione è andata a buon fine e quindi si riscaricano i messaggi. In caso di errore, apparirà all'utente un messaggio d'errore indicante il motivo.
-
-\item{\method{- addListItem(message: Object()): void}}\\
-Aggiunge un messaggio ad una lista per creare l'elenco della segreteria telefonica generale. Viene quindi creati un \textit{list item} e successivamente aggiunto alla lista MessageList di tale Presenter.
-
-\item{\method{- setAsRead(idMessage: String, valueToSet: String): void}}\\
-Imposta lo stato di un messaggio come ``letto'' oppure ``non letto'' a seconda del parametro ricevuto in input. Tale metodo demanda il compito alla \inglese{servlet} opportuna passandogli entrambi i parametri (idMessage e valueToSet). In caso di messaggio d'errore da parte del server, viene notificato anche all'utente.
-
-\item{\method{- getMessages(): void}}\\
-Ottiene i messaggi di segreteria salvati nel server contattando la \inglese{servlet} corrispondente. Una volta ricevuta risposta con relativi dati associati, li salva all'interno dell'\textit{array messages} dichiarato all'interno di questo presenter. Per contattare la \inglese{servlet}, va usato come in precedenza ``XMLHttpRequest''.
-
-\item{\method{+ createPanel(): DOM\_element}}\\
-Costruisce il pannello della segreteria telefonica, che deve essere visualizzato all'interno del MainPanel dell'applicazione quando è selezionata la funzione corrispondente dal pannello degli strumenti. Il MessagePanel è costituito da un elemento video seguito da un \textit{div} che a sua volta contiene una lista di messaggi creata con l'ausilio dei metodo \method{getMessages()} e \method{addListItem()}. Tutti questi elementi vanno aggiunti all'elemento \textit{element} ritornato poi dal metodo.
-
-\item{\method{+ setup(): void}}\\
-Metodo che ogni sua invocazione provoca il recupero dei messaggi in segreteria. Al suo interno sarà presente la chiamata al metodo \method{getMessages()}.
-
-\end{description}
-
 \classsection{GroupPanelPresenter}
 
 \subsubsection*{Funzione}
@@ -4503,7 +4514,7 @@ Il pannello è costituito da un elemento \verb'<div>' con identificativo uguale 
   \item[--] un elemento \verb'<button>' contenente il testo ``Modifica dati''.
 \end{itemize}
 
-\subsection{MessageView}
+\classsection{MessageView}
 \subsubsection*{Funzione}
 Vista associata al \inglese{presenter} \classname{MessagePanelPresenter} utilizzata per visualizzare i messaggi presenti nella propria segreteria.
 

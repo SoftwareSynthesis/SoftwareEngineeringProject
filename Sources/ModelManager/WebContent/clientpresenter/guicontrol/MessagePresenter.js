@@ -17,8 +17,14 @@ function MessagePanelPresenter() {
 	/***************************************************************************
 	 * METODI PRIVATI
 	 **************************************************************************/
-	/**
+	/** VIEW
+	 * Restituisce il percorso dell'immagine che rappresenta lo stato del messaggio
+	 * in base al valore della proprietà status del messaggio passato coem parametro
 	 * 
+	 * @param {Object} message
+	 * 		  messaggio della segreteria da visualizzata
+	 * @returns {String} il percorso dell'immagine sul server
+	 * @author Diego Beraldin
 	 */
 	function getStatusSrc(message) {
 		// message.status rappresenta se il messaggio è nuovo/non nuovo
@@ -42,7 +48,6 @@ function MessagePanelPresenter() {
 	 *            'JSMessage' ed è caratterizzato da sender, id,
 	 *            status, video, src e date
 	 * @author Riccardo Tresoldi
-	 * @author Elena Zecchinato
 	 */
 	function addListItem(message) {
 		// elemento da aggiungere alla lista
@@ -89,10 +94,9 @@ function MessagePanelPresenter() {
 	}
 
 	/** PRESENTER
-	 * Ottiene i messaggi di segreteria dal server contattando la servlet
-	 * corrispondente e li salva all'interno dell'array messages contenuto
-	 * all'interno di questo presenter
+	 * Ottiene i messaggi di segreteria dal server
 	 * 
+	 * @returns {Array} i messagi scaricati dal server
 	 * @author Riccardo Tresoldi
 	 */
 	function getMessages() {
@@ -100,7 +104,7 @@ function MessagePanelPresenter() {
 		request.open("POST", commandURL, false);
 		request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		request.send("operation=getMessages");
-		messages = JSON.parse(request.responseText);
+		return JSON.parse(request.responseText);
 	};
 
 	/***************************************************************************
@@ -113,7 +117,7 @@ function MessagePanelPresenter() {
 	 * @author Riccardo Tresoldi
 	 */
 	this.displayList = function() {
-		getMessages();
+		messages = getMessages();
 		for ( var message in messages) {
 			this.addListItem(message);
 		}
@@ -138,11 +142,11 @@ function MessagePanelPresenter() {
 	 *            idMessage id del messaggio che deve essere cancellato
 	 *  @author Elena Zecchinato
 	 */
-	 this.deleteMessage = function(idMessage) {
+	 this.deleteMessage = function(message) {
 		var request = new XMLHttpRequest();
 			request.open("POST", commandURL, false);
 			request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-			request.send("operation=deleteMessage&idMessage=" + idMessage);
+			request.send("operation=deleteMessage&idMessage=" + message.id);
 			result=JSON.parse(request.responseText);
 			
 			if (result == true) {
@@ -154,13 +158,13 @@ function MessagePanelPresenter() {
 	};
 	
 	/** PRESENTER
-	 * Rende lo stato di un messaggio "letto" oppure "non letto"
+	 * Rende lo stato di un messaggio nuovo oppure non nuovo
 	 * 
 	 * @author Riccardo Tresoldi
 	 * @param {Object} message
 	 *            il messaggio che deve essere modificato
 	 * @param {Boolean} valueToSet
-	 *            [true: "letto"] oppure [false: "non letto"]
+	 *            [true: "nuovo"] oppure [false: "letto"]
 	 * @throws {String}
 	 *             un errore se il non è stato possibile cambiare lo stato del
 	 *             messaggio
