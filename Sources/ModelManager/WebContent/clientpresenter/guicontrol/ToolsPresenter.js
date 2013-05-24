@@ -17,33 +17,7 @@ function ToolsPanelPresenter() {
     /**********************************************************
      METODI PRIVATI
      ***********************************************************/
-    /**
-     * Funzione per gestire l'evento in cui viene visualizzato il pannello degli
-     * strumenti
-     * @author Riccardo Tresoldi
-     */
-    function onShowToolsPanel() {
-        mediator.getView('tools');
-    }
-
-    /**
-     * Funzione per gestire l'evento in cui viene rimosso il pannello degli
-     * strumenti
-     * @author Riccardo Tresoldi
-     */
-    function onRemoveToolsPanel() {
-        thisPresenter.destroy();
-    }
-
-    /**
-     * Funzione che mostra il pulsante per "Tornare al Comunication Panel"
-     * @author Riccardo Tresoldi
-     */
-    function onShowReturnToCommunicationPanelButton() {
-        alert("Torna a CommPanel creato!");
-    }
-
-    /**
+    /** VIEW
      * funzione per l'inizializzazione della select che gestisce il cambio di
      * stato
      * @version 2.0
@@ -65,7 +39,7 @@ function ToolsPanelPresenter() {
         selectState.add(new Option("Occupato", "occupied"), null);
         //aggancio l'evento onChange
         selectState.onChange = function() {
-            ToolsPanelPresenter.updateStateValue();
+        	thisPresenter.updateStateValue();
         }
         //ritorno l'elemento <select> inizializzato
         return selectState;
@@ -79,8 +53,11 @@ function ToolsPanelPresenter() {
      * @author Riccardo Tresoldi
      */
     this.destroy = function() {
-        var thisPanelParent = thisPanel.parentElement.parentElement;
-        thisPanelParent.removeChild(thisPanel.parentElement);
+        if (thisPanel) {
+            var thisPanelParent = thisPanel.parentElement.parentElement;
+            thisPanelParent.removeChild(thisPanel.parentElement);
+            thisPanel = null;
+        }
     };
 
     /** VIEW
@@ -105,7 +82,7 @@ function ToolsPanelPresenter() {
 
         //salvo un riferimento all'elemento DOM appena creato
         thisPanel = document.getElementById("ToolsPanel");
-        var ulFunction = document.getElementById("ToolsList");
+// FIXME: delete me! var ulFunction = document.getElementById("ToolsList");
 
         // funzione messaggi
         document.getElementById("liAnswering").onclick = function() {
@@ -133,33 +110,33 @@ function ToolsPanelPresenter() {
         };
 
         // possibilità di effettuare il logout
-        document.createElement("liLogout").onclick = function() {
+        document.getElementById("liLogout").onclick = function() {
             var answer = confirm("Sei sicuro di voler uscire?");
             if (answer) {
                 // effettua la disconnessione dal server
                 document.dispatchEvent(logout);
                 // ricrea le variabili globali e azzera la UI
-                mediator = new PresenterMediator();
-                communicationcenter = new communicationCenter();
+                //mediator = new PresenterMediator();
+                //communicationcenter = new CommunicationCenter();
                 // ricostruisce il form di login
                 document.dispatchEvent(showLoginPanel);
             }
         };
 
-        //inizializzo la select del
+        //inizializzo la select dello stato utente
         initializeSelectState();
     };
 
-    /**
+    /** VIEW
      * Rende invisibile il pannello degli strumenti
      *
      * @author Diego Beraldin
      */
-    this.hide = function() {
-        thisPanel.style.display = "none";
-    };
+    /*this.hide = function() {
+    thisPanel.style.display = "none";
+    };*/
 
-    /**
+    /** VIEW
      * Aggiunge il pulsante che permette di ritornare al pannello delle
      * comunicazioni, se ve ne sono di attive
      *
@@ -178,7 +155,7 @@ function ToolsPanelPresenter() {
         ulFunctions.appendChild(liCommunication);
     };
 
-    /**
+    /** VIEW
      * Nasconde il pulsante che permette di ritornare al pannello
      * delle comunicazioni dal ToolsPanel
      *
@@ -192,7 +169,7 @@ function ToolsPanelPresenter() {
         }
     };
 
-    /**
+    /** VIEW
      * Imposta il valore della select che contiene lo stato dell'utente al valore
      * corretto
      * @version 2.0
@@ -206,15 +183,44 @@ function ToolsPanelPresenter() {
         //ottengo il valore corrente della select
         var currentValue = selectState.options[selectedIndex].value;
         //Inviare il messaggio con websoket;
-        changeMyState.state = (currentValue);
+        changeMyState.state = currentValue;
         document.dispatchEvent(changeMyState);
         return selectState;
     };
 
     /***************************************************************************
-     * HANDLER EVENTI
+     * HANDLER DEGLI EVENTI
      **************************************************************************/
-    /**
+    /** PRESENTER
+     * Funzione per gestire l'evento in cui viene visualizzato il pannello degli
+     * strumenti
+     * @author Riccardo Tresoldi
+     */
+    function onShowToolsPanel() {
+        if (!thisPanel) {
+            mediator.getView('tools');
+        }
+    }
+
+    /** PRESENTER
+     * Funzione per gestire l'evento in cui viene rimosso il pannello degli
+     * strumenti
+     * @author Riccardo Tresoldi
+     */
+    function onRemoveToolsPanel() {
+        thisPresenter.destroy();
+    }
+
+    /** PRESENTER
+     * Funzione che mostra il pulsante per "Tornare al Comunication Panel"
+     * @author Riccardo Tresoldi
+     */
+    function onShowReturnToCommunicationPanelButton() {
+        // TODO
+        alert("Torna a CommPanel creato!");
+    }
+
+    /** PRESENTER
      * Effettua il logout comunicandolo alla servlet e chiudendo il canale di
      * comunicazione che era stato aperto con il server
      * @version 2.0
@@ -233,7 +239,7 @@ function ToolsPanelPresenter() {
     }
 
     /***************************************************************************
-     * LISTNER DEGLI EVENTI
+     * LISTENER DEGLI EVENTI
      **************************************************************************/
     document.addEventListener("showToolsPanel", function(evt) {
         onShowToolsPanel();

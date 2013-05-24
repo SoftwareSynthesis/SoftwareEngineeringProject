@@ -16,13 +16,16 @@ function RegisterPanelPresenter() {
     /***************************************************************************
      * METODI PUBBLICI
      **************************************************************************/
-	 /** VIEW
+    /** VIEW
      * Distruttore del pannello
      * @author Riccardo Tresoldi
      */
     this.destroy = function() {
-        var thisPanelParent = thisPanel.parentElement.parentElement;
-        thisPanelParent.removeChild(thisPanel.parentElement);
+        if (thisPanel) {
+            var thisPanelParent = thisPanel.parentElement.parentElement;
+            thisPanelParent.removeChild(thisPanel.parentElement);
+            thisPanel = null;
+        }
     };
 
     /** PRESENTER
@@ -36,7 +39,7 @@ function RegisterPanelPresenter() {
         return surname;
     };
 
-    /**
+    /** PRESENTER
      * Estrae dal form il valore del nome del nuovo utente
      *
      * @returns {String} il nome dell'utente
@@ -64,7 +67,7 @@ function RegisterPanelPresenter() {
         return answer;
     };
 
-    /**
+    /** PRESENTER
      * Estrae dal form la domanda segreta associata al nuovo utente
      *
      * @throws {String}
@@ -116,7 +119,7 @@ function RegisterPanelPresenter() {
         return username;
     };
 
-    /**
+    /** PRESENTER
      * Estrae dal form il percorso dell'immagine del nuovo profilo utente
      *
      * @returns {String} il percorso locale del file da caricare
@@ -124,10 +127,10 @@ function RegisterPanelPresenter() {
      */
     this.getPicturePath = function() {
         var picturePath = document.getElementById("picture").files[0];
-		if (picturePath != undefined)
-			return picturePath;
-		else
-			return "";
+        if (picturePath != undefined)
+            return picturePath;
+        else
+            return "";
     };
 
     /** PRESENTER
@@ -151,18 +154,30 @@ function RegisterPanelPresenter() {
         // invia una richiesta SINCRONA al server (terzo parametro 'false')
         request.open("POST", commandURL, false);
         var formData = new FormData();
+<<<<<<< HEAD
 		formData.append("operation", "register");
         formData.append("username", userData.username);
         formData.append("password", encodeURIComponent(userData.password));
         formData.append("question", encodeURIComponent(userData.question));
         formData.append("answer", encodeURIComponent(userData.answer));
+=======
+        formData.append("operation", "register");
+        formData.append("username", (userData.username));
+        formData.append("password", (userData.password));
+        formData.append("question", (userData.question));
+        formData.append("answer", (userData.answer));
+>>>>>>> origin/clientDeveloping
         if (userData.name && userData.name.length > 0) {
-            formData.append("name", encodeURIComponent(userData.name));
+            formData.append("name", (userData.name));
         }
         if (userData.surname && userData.surname.length > 0) {
-            formData.append("surname", encodeURIComponent(userData.surname));
+            formData.append("surname", (userData.surname));
         }
+<<<<<<< HEAD
         if (userData.picturePath && userData.picturePath != "") {
+=======
+        if (userData.picturePath && (userData.picturePath != "")) {
+>>>>>>> origin/clientDeveloping
             formData.append("picturePath", userData.picturePath);
         }
         request.send(formData);
@@ -221,12 +236,14 @@ function RegisterPanelPresenter() {
      *
      * @author Diego Beraldin
      */
+     /*
     this.hide = function() {
         if (thisPanel) {
             thisPanel.style.display = "none";
         }
-    };
-    
+
+    };*/
+
     /***************************************************************************
      * HANDLER DEGLI EVENTI
      **************************************************************************/
@@ -236,8 +253,10 @@ function RegisterPanelPresenter() {
      * @author Riccardo Tresoldi
      */
     function onShowRegistrationPanel() {
-        document.dispatchEvent(removeAllPanel);
-        mediator.getView('register');
+        if (!thisPanel) {
+            document.dispatchEvent(removeAllPanel);
+            mediator.getView('register');
+        }
     }
 
     /** PRESENTER

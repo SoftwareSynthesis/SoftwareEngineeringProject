@@ -58,7 +58,9 @@ function LoginPanelPresenter() {
      */
     function correctAnswer() {
         var formRetrievePassword = document.getElementById("passwordretrieval");
-        thisPanel.removeChild(formRetrievePassword);
+        if (formRetrievePassword) {
+	        thisPanel.removeChild(formRetrievePassword);
+		}
         var message = document.createElement("p");
         var text = document.createTextNode("Recupero password avvenuto correttamente." + "Ti è stata inviata un'email contenente i dati richiesti.");
         message.appendChild(text);
@@ -103,7 +105,7 @@ function LoginPanelPresenter() {
         question = request.responseText;
         return question;
     }
-    
+
     /** PRESENTER
      * Testa se l'utente ha dato la risposta corretta alla domanda segreta
      *
@@ -130,8 +132,11 @@ function LoginPanelPresenter() {
      * @author Riccardo Tresoldi
      */
     this.destroy = function() {
-        var thisPanelParent = thisPanel.parentElement.parentElement;
-        thisPanelParent.removeChild(thisPanel.parentElement);
+        if (thisPanel) {
+            var thisPanelParent = thisPanel.parentElement.parentElement;
+            thisPanelParent.removeChild(thisPanel.parentElement);
+            thisPanel = null;
+        }
     };
 
     /** VIEW
@@ -148,7 +153,6 @@ function LoginPanelPresenter() {
         if (oldForm != null) {
             thisPanel.removeChild(oldForm);
         }
-
         // costruisce il form con il valore ottenuto
         var formRetrievePassword = document.createElement("fieldset");
         formRetrievePassword.id = "passwordretrieval";
@@ -249,19 +253,6 @@ function LoginPanelPresenter() {
     };
 
     /** VIEW
-     * Nasconde il form di autenticazione per lasciare spazio nella finestra a
-     * altri elementi grafici come la schermata principale o il pannello di
-     * registrazione
-     *
-     * @author Diego Beraldin
-     */
-    this.hide = function() {
-        if (thisPanel) {
-            thisPanel.style.display = "none";
-        }
-    };
-
-    /** VIEW
      * Inizializzazione del pannello di login con la creazione di tutti i widget
      * grafici che sono contenuti al suo interno
      *
@@ -307,7 +298,7 @@ function LoginPanelPresenter() {
             }
         };
     };
-    
+
     /***************************************************************************
      * HANDLER DEGLI EVENTI
      **************************************************************************/
@@ -317,9 +308,12 @@ function LoginPanelPresenter() {
      * @author Riccardo Tresoldi
      */
     function onShowLoginPanel() {
-        //elimina eventuale GUI già visualizzata
-        document.dispatchEvent(removeAllPanel);
-        mediator.getView('login');
+        // controllo che non sia già visualizzato
+        if (!thisPanel) {
+            // elimina eventuale GUI già visualizzata
+            document.dispatchEvent(removeAllPanel);
+            mediator.getView('login');
+        }
     }
 
     /** PRESENTER

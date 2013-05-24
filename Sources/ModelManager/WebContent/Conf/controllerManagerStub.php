@@ -72,7 +72,12 @@ switch($operation) {
         break;
 
     case "getCalls" :
-        break;
+		$result = array(
+			array("id" => 1, "start" => "Wed May 22 10:42:02 CEST 2013", "caller" => true), 
+			array("id" => 3, "start" => "Tue May 21 17:42:02 CEST 2013", "caller" => false), 
+			array("id" => 2, "start" => "Mon May 20 22:42:02 CEST 2013", "caller" => false)
+		); 
+		      break;
 
     // operazioni segreteria telefonica
     case "getMessages" :
@@ -89,8 +94,10 @@ switch($operation) {
 
     // operazioni ricerca utenti del sistema
     case "search" :
+        $result = array(10 => array("name" => "Marco", "surname" => "Pegoraro", "email" => "p.m@gmail.com", "id" => "10", "picturePath" => "img/contactImg/Default.png", "blocked" => false), 11 => array("name" => "Elia", "surname" => "", "Cavallaro" => "e.a@gmail.com", "id" => "11", "picturePath" => "img/contactImg/Default.png", "blocked" => false), 12 => array("name" => "", "surname" => "Garavello", "email" => "cobra@gmail.com", "id" => "12", "picturePath" => "img/contactImg/Default.png", "blocked" => false), 13 => array("name" => "", "surname" => "", "email" => "skivo.marco@gmail.com", "id" => "13", "picturePath" => "img/contactImg/Default.png", "blocked" => false), 14 => array("name" => "Giulia", "surname" => "", "email" => "giulia@gmail.com", "id" => "14", "picturePath" => "img/contactImg/Default.png", "blocked" => false), );
         break;
 
+    // ritorno null nel caso non sia gestita la operation
     default :
         $result = null;
         break;

@@ -24,24 +24,6 @@ function AddressBookPanelPresenter() {
     /***************************************************************************
      * METODI PRIVATI
      **************************************************************************/
-    /**
-     * Funzione per gestire l'evento in cui viene visualizzato il pannello della
-     * rubrica indirizzi
-     * @author Riccardo Tresoldi
-     */
-    function onShowAddressBookPanel() {
-        mediator.getView('addressBook');
-    }
-
-    /**
-     * Funzione per gestire l'evento in cui viene rimosso il pannello della
-     * rubrica indirizzi
-     * @author Riccardo Tresoldi
-     */
-    function onRemoveAddressBookPanel() {
-        thisPresenter.destroy();
-    }
-
     /** PRESENTER
      * Recupera i contatti e i gruppi della propria rubrica dal server tramite
      * AJAX
@@ -202,8 +184,11 @@ function AddressBookPanelPresenter() {
      * @author Riccardo Tresoldi
      */
     this.destroy = function() {
-        var thisPanelParent = thisPanel.parentElement.parentElement;
-        thisPanelParent.removeChild(thisPanel.parentElement);
+        if (thisPanel) {
+            var thisPanelParent = thisPanel.parentElement.parentElement;
+            thisPanelParent.removeChild(thisPanel.parentElement);
+            thisPanel = null;
+        }
     };
 
     /** VIEW
@@ -707,6 +692,28 @@ function AddressBookPanelPresenter() {
     this.getContact = function(idContact) {
         return contacts[idContact];
     }
+    /***************************************************************************
+     * HANDLER EVENTI
+     **************************************************************************/
+    /**
+     * Funzione per gestire l'evento in cui viene visualizzato il pannello della
+     * rubrica indirizzi
+     * @author Riccardo Tresoldi
+     */
+    function onShowAddressBookPanel() {
+        if (!thisPanel) {
+            mediator.getView('addressBook');
+        }
+    }
+
+    /**
+     * Funzione per gestire l'evento in cui viene rimosso il pannello della
+     * rubrica indirizzi
+     * @author Riccardo Tresoldi
+     */
+    function onRemoveAddressBookPanel() {
+        thisPresenter.destroy();
+    }
 
     /***************************************************************************
      * LISTNER DEGLI EVENTI
@@ -720,11 +727,11 @@ function AddressBookPanelPresenter() {
     document.addEventListener("removeAddressBookPanel", function(evt) {
         onRemoveAddressBookPanel();
     });
-    
+
     /***************************************************************************
      * MISCELLANEOUS
      **************************************************************************/
-     /*
+    /*
      * FILE JSON CHE RAFFIGURA LA RUBRICA { "idUser1":{ "name": "", "surname":
      * "", "email": "", "id": "", "picturePath": "", "state": "", "blocked":
      * "true|false" },

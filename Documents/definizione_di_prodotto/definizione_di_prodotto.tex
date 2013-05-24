@@ -3304,15 +3304,20 @@ In ragione di ciò, al fine di facilitare al programmatore la comprensione del p
 				(+, -) attributo: String
 			\end{verbatim}
 			
-			\item array, se l'attributo è un \inglese{array}, che in JavaScript non chiede di essere definito per tipo di valori contenibili, che nel documento sarà segnalato con una coppia di quadre, ad esempio nel caso di un array di stringhe:
+			\item \texttt{Array}, se l'attributo è un \inglese{array}, che in JavaScript non chiede di essere definito per tipo di valori contenibili che nel presente documento sarà segnalato come:
 			
 			\begin{verbatim}
-				(+, -) attributo: String[]
+				(+, -) attributo: Array
 			\end{verbatim}
 			
 			\item \texttt{Number}, che è da considerarsi come il supertipo di tutti i tipi numerici e che sarà menzionato nel presente documento come:
 			\begin{verbatim}
 			  (+, -) attributo: Number
+			\end{verbatim}
+			
+			\item \texttt{Boolean}, che rappresenta un valore booleano e che sarà indicato nel presente documento come:
+			\begin{verbatim}
+			  (+, -) attributo: Boolean
 			\end{verbatim}
 			
 			\item \texttt{Object}, che è da intendersi come un oggetto generico JavaScript, dotato una serie di proprietà per ciascuna delle quali è definito un valore e che sarà rappresentato come:
@@ -3327,12 +3332,12 @@ Nell'attività di codifica, i programmatori dovranno attenersi alle seguenti pra
 \begin{itemize}
   \item gli attributi pubblici saranno assimilati a proprietà dell'oggetto creato tramite la funzione costruttore accessibili all'esterno, e dovranno pertanto essere specificati come:
   \begin{verbatim}
-    this.attributo = new Costruttore();
+    this.attributo = new ClassName();
   \end{verbatim}
   
   \item gli attributi privati invece, dal momento che saranno visibili solo all'interno del costruttore e di tutte le funzioni annidate all'interno di esso -- vale a dire i metodi della classe -- dovranno essere dichiarati come variabili locali secondo la consueta sintassi JavaScript:
   \begin{verbatim}
-    var attributo = new Costruttore();
+    var attributo = new ClassName();
   \end{verbatim}
 \end{itemize}
 		
@@ -3341,15 +3346,15 @@ Nell'attività di codifica, i programmatori dovranno attenersi alle seguenti pra
 	
 \item Metodi pubblici: essendo i metodi pubblici delle proprietà che l'oggetto espone verso l'esterno, essi dovranno essere specificati mediante la forma
 \begin{verbatim}
-  this.nome_metodo = function(arg0, arg1, ...) {
-    corpo_del_metodo
+  this.doSomething = function(arg0, arg1, ...) {
+          ...corpo del metodo...
   }
 \end{verbatim}
 
 \item Metodi privati: essendo utilizzabili solo all'interno di altri metodi della classe essi possono essere definite come funzioni annidate all'interno del costruttore della classe stessa, secondo la consueta sintassi
 \begin{verbatim}
-  function nome_metodo(arg0, arg1, ...) {
-  corpo_del_metodo
+  function doSomething(arg0, arg1, ...) {
+        ...corpo del metodo...
   }
 \end{verbatim}
 
@@ -3388,7 +3393,7 @@ Attributo che definisce il contenuto del nodo DOM inerente alla schermata di \in
 \item{\method{-- testCredentials(data: String): void}}\\
 Il metodo prende come parametro una stringa JSON ricevuta dal server che, in caso di dati di autenticazione andata a buon fine, corrisponde a una forma serializzata dell'oggetto che rappresenta l'utente autenticato ed è invece uguale alla stringa \verb+null+ in caso contrario.
 
-Il metodo ha il compito di deserializzare i dati dell'utente tramite la funzione di libreria \verb+JSON.parse(data)+ e, nel caso in cui questa sia valutata positivamente -- vale a dire non è né \verb+null+ né \verb+undefined+ -- sollevare un evento avente come nome la stringa \verb+onlogin+ e come proprietà \verb+user+ un riferimento al nuovo utente creato.
+Il metodo ha il compito di deserializzare i dati dell'utente tramite la funzione di libreria \verb+JSON.parse(data)+ e, nel caso in cui questa sia valutata positivamente -- vale a dire non è né \verb+null+ né \verb+undefined+ -- sollevare un evento avente come nome la stringa \verb'login' e come proprietà \verb+user+ un riferimento al nuovo utente creato.
 
 In caso di autenticazione non andata a buon fine, invece, dovrà essere aggiornata in modo opportuno la vista per segnalare la condizione di errore.
 
@@ -3434,133 +3439,16 @@ Il metodo dovrà pertanto costruire una \verb+XMLHttpRequest+ da inviare all'ind
 quindi invocare il già visto metodo \verb+testCredentials+ con il testo della risposta. Il valore da restituire al chiamante è proprio la stringa di \inglese{query} che è stata trasmessa al server.
 
 \item{\method{+ onShowLoginPanel(): void}}\\
-Questo gestore di evento ha il compito di provocare la visualizzazione del pannello di login. Questo dovrà essere ottenuto sollevando un nuovo evento tramite il quale tutti i pannelli presenti sono rimossi (\verb'onRemoveAllPanel') quindi demandando alla vita il compito di costruirsi e caricare il relativo \inglese{template}.
+Questo gestore di evento ha il compito di provocare la visualizzazione del pannello di login. Questo dovrà essere ottenuto sollevando un nuovo evento tramite il quale tutti i pannelli presenti sono rimossi (\verb'removeAllPanel') quindi demandando alla vita il compito di costruirsi e caricare il relativo \inglese{template}.
 
 \item{\method{+ onRemoveLoginPanel() : void}}\\
 Questo gestore di evento ha il compito di provocare la distruzione del pannello di autenticazione, richiamando il metodo opportuno della vista corrispondente, vale a dire \verb+destroy()+.
 
 \item{\method{+ onLogin(user: Object): void}}\\
-Questo gestore di evento incapsula il comportamento del \inglese{presenter} nel momento in cui è sollevato un evento avente come identificativo la stringa \verb'onLogin'.
+Questo gestore di evento incapsula il comportamento del \inglese{presenter} nel momento in cui è sollevato un evento avente come identificativo la stringa \verb'login'.
 
 Il metodo ha il compito di memorizzare all'interno del client i dati di autenticazione (in particolare, il valore numerico ID necessario all'identificazione del client da parte del server e degli altri client), avviare la connessione al server e provocare la visualizzazione della \inglese{home screen} dell'applicativo.
 
-% FIXME questa è roba obsoleta e/o trasferita alla vista
-%
-% 	\item{\method{+ correctAnswer(): void}}\\
-% 	Metodo usato per modificare il nodo DOM salvato in \memberdata{element} per comunicare all'utente che la risposta da lui inserita (per il recupero password) è corretta. 
-% Il metodo deve rimuovere il figlio \textit{passwordretrieval} da \memberdata{element} quindi salva in una variabile avente nome \textit{message} il contenuto di una chiamata \verb|document.createElement("p")|. 
-% Successivamente procede caricando su \textit{message} (usando il metodo \texttt{appendChild(var\_figlio)}) il messaggio da visualizzare per notificare all'utente il successo dell'operazione. Il messaggio visualizzato sarà: \\
-	
-% 	\verb|Recupero password avvenuto correttamente.|\\
-% 	\verb|Ti è stata inviata un'email contenente i dati richiesti.|\\
-	
-% il messaggio sopracitato è temporaneo e dovrà essere rimosso allo scadere di un \inglese{timeout} di durata 2000 millisecondi (usare la funzione \texttt{window.setTimeout(nome\_funzione))}.
-	
-% 	\item{\method{+ incorrectAnswer(): void}}\\
-% 	Metodo che In caso di inserimento della risposta non corretta alla domanda segreta visualizza un messaggio di avvertimento all'utente per 2 secondi quindi lascia il controllo al \inglese{form} di inserimento della risposta alla domanda segreta.
-	
-% 	Il metodo deve cercare un elemento (\texttt{document.createElement("p")}) per la visualizzazione del messaggio:\\
-	
-% 	\verb|Dati non corretti. Inserire nuovamente la risposta.|\\
-	
-% 	Quindi si visualizza il messaggio con una procedura identica a quella usata in \method{correctAnswer()}.
-
-% 	\item{\method{+ buildRetrievePasswordForm(): nodo\_DOM}}\\
-% 	Metodo usato per costruire la \inglese{form} per il recupero della password utente, inizia costruendo la citata \inglese{form} con il valore ottenuto mediante una chiamata \verb|document.createElement("fieldset")|, quindi a partire dalla variabile in cui ha memorizzato il dato ritornato con il metodo precedente, imposta l'attributo \textit{id} con \textit{passwordretrieval}. Definisce quindi una \inglese{label} con la domanda (utilizzare \verb|document.createElement("label")| e imposta l'attributo \texttt{for} con \textit{inputanswer}). Il metodo procede impostando il campo d'immissione della domanda e successivamente si impostano i seguenti attributi:
-% 	\begin{itemize}
-% 		\item attributo id con ``inputanswer'';
-% 		\item attributo name con ``inputanswer'';
-% 		\item attributo placeholder con ``risposta'';
-% 		\item attributo required con ``required'';
-% 	\end{itemize}
-	
-% 	Successivamente si crea il bottone di \texttt{submit} impostando gli attributi:
-% 	\begin{itemize}
-% 		\item attributo type con ``submit'';
-% 		\item attributo value con ``OK'';
-% 	\end{itemize}
-	
-% 	Associare all'evento \texttt{click} del bottone una funzione che richiami \method{sendAnswer()} passando come attributi \memberdata{username} e il valore contenuto nell'elemento \texttt{inputAnswer}.
-	
-% 	In ultima si usa \texttt{appendChild} per agganciare al nodo DOM la \inglese{label} e \texttt{inputAnswer}. Il metodo termina ritornando il nodo DOM.
-	
-% 	\item{\method{+ getUsername(): String}}\\
-% 	Metodo  per il recupero dello \inglese{username} dall'interfaccia grafica. Per tale operazione il metodo deve usare l'istruzione:\\
-	
-% 	\verb|var username = document.getElementById("username").value;|
-% 	\\
-	
-% 	quindi verifica se il contenuto di \inglese{username} è vuoto o no: nel caso lo sia, termina, altrimenti procede nel verificare se l'email inserita rispetta l'espressione regolare:\\
-	
-% 	\verb|^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$|
-% 	\\
-	
-% 	il metodo termina ritornando \inglese{username}.	
-	
-% 	\item{\method{+ getPassword(data: array()): String}}\\
-% 	Metodo che esegue il \inglese{login} inviando al server i dati di autenticazione, esso riceve come parametro d'ingresso un \textit{array} associativo contenente \textit{username} e \textit{password}.
-	
-% 	Il flusso principale inizia verificando il che il contenuto di \texttt{data.username} e di \texttt{data.password} non sia vuoto, quindi invia una richiesta \textit{AJAX} al \textit{server} (come sempre in questo caso è d'obbligo usare \verb|var request = new XMLHttpRequest();|).
-% 	Il programmatore dovrà associare all'evento \texttt{onreadystatechange} una funzione che si occupa di richiamare il metodo \method{testCredentials()}. Il passo successivo consiste ``nell'aprire'' la richiesta \textit{request} con un istruzione \texttt{open()} che riceve come parametro l'url della \inglese{servlet} associata (valore presente in \memberdata{servletURL}), successivamente viene usata un istruzione \texttt{setRequestHeader()} passando i seguenti parametri:
-% 	\begin{itemize}
-% 		\item[•] ``content-type'';
-% 		\item[•] ``application/x-www-form-urlencoded'';
-% 	\end{itemize}
-% 	infine va creata la \textit{querystring} da inviare (tramite istruzione request.send()), deve essere obbligatoriamente impostata a:\\
-	
-% 	\verb|"username=" + encodeURIComponent(data.username) +|\\ \verb|"&password=" + encodeURIComponent(data.password) + "&operation=1"|\\
-	
-% 	Il metodo termina ritornando la \textit{querystring}.
-
-% 	\item{\method{+ hide(): void}}\\
-% 	Metodo usato per nascondere il \inglese{form} di autenticazione, per lasciare spazio nella finestra ad altri elementi grafici come la schermata principale o il pannello di registrazione.
-	
-% 	\item{\method{+ initialize(): void}}\\
-% 	Metodo usato per inizializzazione del pannello di login con la creazione di tutti i \inglese{widget} grafici che sono contenuti al suo interno. Nello specifico il metodo esegue la creazione (nell'ordine proposto) dei seguenti elementi:
-% 	\begin{itemize}
-% 		\item form, con attributi:
-% 		\begin{itemize}
-% 			\item ``name'' impostato a ``login'';
-% 			\item ``action'' impostato a ``'';
-% 			\item ``method'' impostato a ``'';
-% 			\item ``accept-charset'' impostato a ``utf-8'';				
-% 		\end{itemize}
-% 		\item ul contennete il form;
-% 		\item li che conterrà lo username, con attributi;
-% 		\item label che riporterà la frase ``Nome utente: ''. Label con attributi:
-% 		\begin{itemize}
-% 			\item ``for'' impostato a ``username'';		
-% 		\end{itemize}
-% 		\item input per l'inserimento della e-mail, con attributi:
-% 		\begin{itemize}
-% 			\item ``type'' impostato a ``email'';
-% 			\item ``id'' impostato a ``username'';
-% 			\item ``name'' impostato a ``username'';
-% 			\item ``placeholder'' impostato a ``yourname@email.com'';				\item ``required'' impostato a ``required'';
-% 		\end{itemize}		
-% 		\item input per l'inserimento della password, con attributi:
-% 		\begin{itemize}
-% 			\item ``type'' impostato a ``password'';
-% 			\item ``id'' impostato a ``password'';
-% 			\item ``name'' impostato a ``password'';
-% 			\item ``placeholder'' impostato a ``password'';				\item ``required'' impostato a ``required'';
-% 		\end{itemize}		
-% 		\item input submit pulsante di login, con attributi:
-% 		\begin{itemize}
-% 			\item ``type'' impostato a ``submit'';
-% 			\item ``value'' impostato a ``Login'';
-% 		\end{itemize}
-% 		\item input submit pulsante di registrazione, con attributi:
-% 		\begin{itemize}
-% 			\item ``type'' impostato a ``submit'';
-% 			\item ``value'' impostato a ``Registrazione'';
-% 		\end{itemize}
-% 		\item input submit pulsante di recupero password, con attributi:
-% 		\begin{itemize}
-% 			\item ``type'' impostato a ``submit'';
-% 			\item ``value'' impostato a ``Recupera password'';
-% 		\end{itemize}
-% 	\end{itemize}
 \end{description}
 
 \classsection{RegisterPanelPresenter}
@@ -3614,43 +3502,196 @@ Se la mail è valida il metodo termina ritornandone il valore, mentre nel caso i
 	\item{\method{+ register(userData: Object): void}}\\
 	Metodo che invia i dati ricevuti al \inglese{front controller} del server per la creazione di un nuovo account utente. Tale metodo inizia creando un istanza di \texttt{XMLHttpRequest} sincrona da inviare all'indirizzo del server. Il metodo dovrà estrarre le proprietà obbligatorie \verb'username', \verb'password', \verb'question', \verb'answer' e quelle facoltative \verb'name', \verb'surname' e \verb'picturePath'.
 	
-	Dopo averle opportunamente codificate per per la trasmissione con la funzione di libreria \verb'encodeURIComponent' queste ultime dovranno essere inserite in un oggetto \verb'FormData' da utilizzare per inviare la richiesta al server. Una volta ricevuta la riposta dal server, il metodo dovrà effettuare la deserializzazione del testo ad essa associato e, se questo contiene un oggetto utente legale, sollevare un evento con nome identificativo \verb'onLogin'.
+	Dopo averle opportunamente codificate per per la trasmissione con la funzione di libreria \verb'encodeURIComponent' queste ultime dovranno essere inserite in un oggetto \verb'FormData' da utilizzare per inviare la richiesta al server. Una volta ricevuta la riposta dal server, il metodo dovrà effettuare la deserializzazione del testo ad essa associato e, se questo contiene un oggetto utente legale, sollevare un evento con nome identificativo \verb'login'.
 	
 	\item{\method{+ onShowRegistrationPanel(): void}}\\
-	Questo gestore di evento ha il compito di provocare la visualizzazione del pannello di registrazione. Ciò dovrà essere ottenuto sollevando un nuovo evento tramite il quale tutti i pannelli presenti sono rimossi (\verb'onRemoveAllPanel') quindi demandando alla vita il compito di costruirsi e caricare il relativo \inglese{template}.
+	Questo gestore di evento ha il compito di provocare la visualizzazione del pannello di registrazione. Ciò dovrà essere ottenuto sollevando un nuovo evento tramite il quale tutti i pannelli presenti sono rimossi (\verb'removeAllPanel') quindi demandando alla vista il compito di costruirsi e caricare il relativo \inglese{template}.
 	
 	\item{\method{+ onRemoveRegistrationPanel(): void}}\\
 	Questo gestore di evento ha il compito di provocare la distruzione del pannello di registrazione, richiamando il metodo opportuno della vista corrispondente, vale a dire \verb+destroy()+.
 
-% Tutto questo è stato trasferito alla vita o è diventato obsoleto
-% 
-% 	\item{\method{+ initialize(): void}}\\
-% 	Metodo che si occupa di inizializzare la \inglese{form} di registrazione con la creazione di tutti i \inglese{widget} grafici che sono contenuti al suo interno. Nello specifico il metodo esegue i seguenti passi:
-% 	\begin{itemize}
-% 		\item creazione dell'elemento \inglese{form};
-% 		\item creazione dell'elemento <ul> contenuto nel \inglese{form};		
-% 		\item creazione dell'item per lo username, definito mediante una \inglese{label} riportante la frase ``Indirizzo email: '', e di un campo \textit{input} di tipo email per l'inserimento della email dell'utente;
-% 		\item costruisce il \inglese{list item} con la \inglese{label} e l'\textit{input} definiti al punto precedente, usando il metodo \texttt{appendChild()};
-% 		\item crea l'item per la password, definendo una \inglese{label} riportante la frase ``Password: '' e un oggetto \textit{input} di tipi \textit{password};			
-% 		\item costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
-% 		\item creazione dell'item per la domanda segreta definito mediante una \inglese{label} avente valore ``Domanda segreta: '' e un oggetto \textit{input} di tipo \texttt{text};
-% 		\item costruisce il \inglese{list item} con la \inglese{label} e l'\textit{input} definiti al punto precedente, usando il metodo \texttt{appendChild()};
-% 		\item creazione dell'item per la risposta alla domanda segreta, definito mediante una \inglese{label} avente valore ``Risposta: '' e un oggetto input di tipo \texttt{text};
-% 		\item costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
-% 		\item creazione dell'item per il nome, definito mediante una \inglese{label} avente valore ``Nome: '' e un oggetto input di tipo \texttt{text};
-% 		\item costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
-% 		\item creazione dell'item per il cognome, definito mediante una \inglese{label} avente valore ``Cognome: '' e un oggetto input di tipo \texttt{text};
-% 		\item costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
-% 		\item creazione dell'item per inserire l'immagine utente, definito mediante una \inglese{label} avente valore ``Immagine del profilo: '' e un oggetto input di tipo \texttt{text};
-% 		\item costruisce il \inglese{list item} con la \inglese{label} e l'input definiti al punto precedente, usando il metodo \texttt{appendChild()};
-% 		\item creazione di un pulsante di registrazione (oggetto input di tipo submit e value ``Registrati'').
-% 		\item operazione finale per ``appendere'' tutti  gli oggetti creati al \texttt{registerForm}.
-% 	\end{itemize}
-	
-% 	\item{\method{+ hide(): void}}\\
-% 	Nasconde il \inglese{form} di registrazione per lasciare spazio alla schermata principale dell'applicativo (che deve essere costruita dal PresenterMediator).
+\end{description}
+
+\classsection{CallHistoryPanelPresenter}
+
+\subsubsection*{Funzione}
+\inglese{Presenter} incaricato alla visualizzazione e alla gestione dello storico chiamate dell'utente.
+
+\subsubsection*{Relazioni d'uso}
+Nessuna relazione d'uso evidenziata.
+
+\subsubsection*{Classi estese ed interfacce implementate}
+Nessuna relazione evidenziata.
+
+\subsubsection*{Attributi}
+\begin{description}
+  \item{\memberdata{-- calls: Array}}\\
+  Array enumerativo che conterrà tutte le chiamate effettuate dall'utente recuperate dal server.
+  \item{\memberdata{-- thisPanel: HTMLElement}}\\
+  Elemento HTML, da intendersi come nodo DOM, che rappresenta la vista controllata da questo \inglese{presenter} e che corrisponde a un elemento \verb'<div>' avente come nome identificativo la stringa \verb'CallHistroryPanel'.
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+
+  \item{\method{-- getCalls(): Array}}\\
+  Metodo che ha il compito di recuperare tutta la lista delle chiamate effettuate e tracciate nel server, inviando una richiesta AJAX sincrona al \inglese{front controller} che nell'intestazione contiene il parametro \verb'operation' impostato a \verb'getCalls'.
+  
+  In particolare, il metodo ha il compito di creare una nuova istanza di \verb'XMLHttpRequest' con la \inglese{query string} specificata in precedenza e di inviarla al server quindi ritornare il testo della risposta ottenuta dopo averlo deserializzato e costruito l'array di chiamate corrispondente.
+  
+  \item{\method{+ displayList(): void}}\\
+  Metodo che ha il compito di popolare la lista delle chiamate in cui è coinvolto un determinato utente. Il metodo ha il compito di procurarsi la lista delle chiamate attraverso il server al fine di inizializzare il campo dati privato \verb'calls'.
+  
+  Quindi, per ognuna delle chiamate che sono state scaricate, ha il compito di aggiornare la vista corrispondente provocando la visualizzazione dei dati della chiamata.
+  
+  \item{\method{+ onShowCallHistoryPanel(): void}}\\
+  Questo gestore di eventi ha il compito di provocare la visualizzazione del pannello contenente lo storico delle chiamate demandando alla vista il compito di costruirsi e caricare il relativo \inglese{template}.
 
 \end{description}
+
+\classsection{SearchResultPanelPresenter}
+
+\subsubsection*{Funzione}
+\inglese{Presenter} incaricato di gestire il pannello che visualizza i risultati di ricerca.
+
+\subsubsection*{Relazioni d'uso}
+Nessuna relazione d'uso evidenziata.
+
+\subsubsection*{Classi estese ed interfacce implementate}
+Nessuna relazione evidenziata.
+
+\subsubsection*{Attributi}
+\begin{description}
+\item{\memberdata{-- thisPanel: HTMLElement}}\\
+Riferimento al pannello controllato da questo \inglese{presenter}, vale a dire un elemento \verb'<div>' avente come identificativo la stringa \verb'SearchResultPanel'.
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+  \item{\method{+ sendSearchRequest(pattern: String): Object}}\\
+  Il metodo ha il compito di avviare una ricerca fra gli utenti registrati al sistema a partire dalla stringa \verb'param' come criterio di ricerca (che può corrispondere a parte del nome, del cognome o del nome utente).
+  
+  A tale scopo il \inglese{presenter} dovrà contattare il server inviando all'indirizzo del\inglese{front controller} una richiesta AJAX sincrona con il metodo POST e avente come \inglese{query string} esattamente la stringa
+  \begin{verbatim}
+    "operation=search&param=" + pattern
+  \end{verbatim}
+  
+  Dal momento che il server risponde inviando in forma serializzata l'array di contatti desiderato, sarà sufficiente che il metodo restituisca la forma deserializzata del contenuto della risposta, con un'istruzione del tipo:
+  \begin{verbatim}
+    return JSON.parse(request.responseText);
+  \end{verbatim}
+  
+  \item{\method{+ onShowSearchResultPanel(): void}}\\
+  Questo gestore di eventi ha il compito di provocare la visualizzazione del pannello di ricerca caricando il \inglese{template} corrispondente e demandando alla \classname{SearchResultView} di inizializzarsi tramite il metodo \method{display()} preposto a tale scopo.
+  
+\end{description}
+
+\classsection{MainPanelPresenter}
+
+\subsubsection*{Funzione}
+\inglese{Presenter} incaricato di gestire il pannello principale, ossia quello centrale.
+
+\subsubsection*{Relazioni d'uso}
+Nessuna relazione d'uso evidenziata.
+
+\subsubsection*{Classi estese ed interfacce implementate}
+Nessuna relazione evidenziata.
+
+\subsubsection*{Attributi}
+\begin{description}
+\item{\memberdata{-- thisPanel: HTMLElement}}\\
+  Riferimento all'elemento controllato dal \inglese{presenter} vale a dire un \verb'<div>' avente come identificativo la stringa \verb'MainPanel'.
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+  \item{\method{+ onShowMainPanel(): void}}\\
+  Questo gestore di eventi è richiamato nel momento in cui è sollevato un evento avente come nome identificativo la stringa \texttt{showMainPanel} e ha il compito di provocare il caricamento del \inglese{template} del pannello e, in seguito, di demandare al metodo \method{display()} della vista la sua inizializzazione.
+  
+  \item{\method{+ onRemoveMainPanel(): void}}\\
+  Questo gestore di eventi è richiamato nel momento in cui è sollevato un evento con nome identificativo \texttt{removeMainPanel} e ha il compito di richiamare il metodo \method{destroy()} della vista corrispondente.
+
+\end{description}
+
+\classsection{ToolsPanelPresenter}
+
+\subsubsection*{Funzione}
+\inglese{Presenter} che ha il compito di gestire il pannello degli strumenti.
+
+\subsubsection*{Relazioni d'uso}
+Nessuna relazione d'uso evidenziata.
+
+\subsubsection*{Classi estese ed interfacce implementate}
+Nessuna relazione evidenziata.
+
+\subsubsection*{Attributi}
+\begin{description}
+\item{\memberdata{-- thisPanel: HTMLElement}}\\
+Riferimento all'elemento HTML, da intendersi come nodo DOM, che corrisponde al pannello degli strumenti e che nello specifico è rappresentato da un elemento \verb'<div>' avente come identificativo la stringa \verb'ToolsPanel'.
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+  \item{\method{+ onShowToolsPanel(): void}}\\
+  Questo gestore di eventi è associato all'evento con identificativo \texttt{showToolsPanel} e ha il compito di provocare la visualizzazione del pannello degli strumenti sulla parte sinistra dell'interfaccia grafica. Il metodo dovrà avere il compito di caricare il \inglese{template} della vista dal server. L'inizializzazione del pannello sarà quindi demandata in un secondo momento alla vista, tramite il metodo \method{initialize} fornito da quest'ultima.
+  
+  \item{\method{+ onRemoveToolsPanel(): void}}\\
+  Questo gestore di eventi viene associato come risposta del \inglese{presenter} nel momento in cui viene sollevato un event con nome identificativo uguale a \verb'removeToolsPanel'. Il metodo dovrà provocare l'eliminazione dall'interfaccia grafica del pannello degli strumenti, demandando alla vista la propria rimozione dall'albero DOM tramite il metodo \method{destroy()} messo a disposizione da quest'ultima.
+  
+  \item{\method{+ onShowReturnToCommunicationPanelButton(): void}}\\
+  Questo gestore di eventi è invocato nel momento in cui si attiva una comunicazione di qualsiasi natura (audio, audio/video o testuale) e provoca l'aggiunta di un nuovo pulsante nel pannello grafico tramite il metodo \method{addCommunicationFunction()} fornito dalla vista. Lo scopo di tale pulsante è permettere di tornare al pannello della comunicazione in un secondo momento, dopo che si è passati alla visualizzazione di un altro pannello.
+  
+  \item{\method{+ onLogout(): void}}\\
+  Questo gestore di eventi viene richiamato al verificarsi dell'evento \verb'logout' e ha il compito di effettuare l'uscita dal sistema. In particolare, nel corpo del metodo dovrà essere creata una nuova \verb'XMLHttpRequest' da inviare all'indirizzo del \inglese{front controller} presente sul server, nella cui \inglese{query string} sarà presente il parametro \verb'operation=logout' per permettere il corretto smistamento della richiesta.
+  
+  Infine, dal momento che il server risponde con una stringa \verb'true' o \verb'false', il metodo ha il compito di effettuare la deserializzazione con \verb'JSON.parse(request.responseText)' e nel caso in cui il risultato fosse valutato negativamente, provocare la visualizzazione di un generico messaggio d'errore.
+\end{description}
+
+\classsection{AccountSettingsPanelPresenter}
+\subsubsection*{Funzione}
+\inglese{Presenter} incaricato di gestire il pannello delle impostazioni e dei dati personali dell'utente visualizzando i dati inseriti in fase di registrazione e permettendo di modificarli in un secondo momento.
+
+\subsubsection*{Relazioni d'uso}
+Nessuna relazione d'uso evidenziata.
+
+\subsubsection*{Classi estese ed interfacce implementate}
+Nessuna relazione evidenziata.
+
+\subsubsection*{Attributi}
+\begin{description}
+\item{\memberdata{-- thisPanel: HTMLElement}}\\
+Attibuto che rappresenta un riferimento all'elemento HTML, da intendersi come nodo DOM, che rappresenta la radice del pannello associato a questo \inglese{presenter} ed è costituito da un \verb'<div>' avente come identificativo la stringa \verb'AccountSettingsPanel'.
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+
+\item{\method{-- hasSomethingChanged(data: Object): Boolean}}\\
+L'oggetto passato come parametro in ingresso a questo metodo è costituito dalle proprietà \verb'name', \verb'surname' e \verb'picturePath' che rappresentano gli unici dati utente che sono suscettibili di possibili modifiche. Il metodo dovrà restituire \verb'true' se almeno una di queste proprietà ha un valore diverso rispetto alle informazioni che sono memorizzate nel client  e \verb'false' altrimenti.
+
+\item{\method{+ sendUserData(data: Object): Boolean}}\\
+Il metodo ha il compito di gestire la modifica dell'utente ai propri dati verificando innanzitutto se essi hanno subito qualche variazione rispetto a quanto noto in precedenza, mediante una chiamata al metodo \method{hasSomethingChanged}. In caso affermativo, dovrà essere inviata una richiesta all'indirizzo del \inglese{front controller} per trasferire la modifica sui dati salvati sul database del server.
+
+A tale scopo dovrà essere creata una nuova istanza di \verb'XMLHttpRequest' per effettuare una richiesta AJAX sincrona, con particolare attenzione a utilizzare un'istanza di \inglese{form data} dal momento che dovranno essere spediti anche dati di natura non testuale, con una sintassi del tipo:
+\begin{verbatim}
+  var form = new FormData();
+  formData.append("operation", "accountSettings");
+        ...altri valori da inviare...
+  var request = new XMLHttpRequest();
+  request.open("POST", controllerURL, false);
+  request.send(form);
+\end{verbatim}
+
+Da ultimo, il metodo dovrà restituire il valore ottenuto deserializzando il testo della risposta ottenuta dal server, che è \verb'true' se l'operazione è andata a buon fine e \verb'false' altrimenti.
+
+\item{\method{+ onShowAccountSettingPanel(): void}}\\
+Questo gestore di eventi viene attivato al verificarsi dell'evento \verb'showAccountSettingPanel' e determina il caricamento del \inglese{template} che corriponde al pannello delle impostazioni utente, demandando in un secondo momento alla vista il compito di inizializzare il comportamento del pannello mediante il metodo \verb'display()' che essa mette a disposizione.
+
+\end{description}
+
+%********************************************************************
+%     QUESTO È IL CONFINE FRA BENE E MALE - SIETE AVVERTITI!
+%********************************************************************
 
 \classsection{AddressBookPanelPresenter}
 
@@ -3960,37 +4001,6 @@ Successivamente si andranno a popolare tali elementi utilizzando le informazioni
 
 \end{description}
 
-%TODO da verificare
-\classsection{MainPanelPresenter}
-
-\subsubsection*{Funzione}
-Presenter incaricato di gestire il pannello principale, ossia quello centrale.
-
-\subsubsection*{Relazioni d'uso}
-Nessuna relazione d'uso evidenziata.
-
-\subsubsection*{Classi estese ed interfacce implementate}
-Nessuna relazione evidenziata.
-
-\subsubsection*{Attributi}
-\begin{description}
-\item{\memberdata{-- element: DOM\_element}}\\
-  elemento controllato dal presenter in questione.
-\end{description}
-
-\subsubsection*{Metodi}
-\begin{description}
-\item{\method{+ initialize(): void}}\\
-Metodo utilizzato per costruire il pannello principale che occupa la parte centrale della finestra, esso imposta inoltre l'immagine del logo ``MyTalk'' come sfondo quando il pannello è vuoto.
-
-\item{\method{+ displayChildPanel(node DOM\_node): void}}\\
-Metodo che visualizza il DOM\_node (\textit{node}) ricevuto come parametro nel pannello in questione.
-	
-\item{\method{+ hide(): void}}\\
-Metodo che rende invisibile il pannello impostando la proprietà \textit{display} a ``none''.
-
-\end{description}
-
 \classsection{PresenterMediator}
 
 \subsubsection*{Funzione}
@@ -4172,90 +4182,6 @@ Metodo che ogni sua invocazione provoca il recupero dei messaggi in segreteria. 
 
 \end{description}
 
-
-%TODO da verificare
-\classsection{CallHistoryPanelPresenter}
-
-\subsubsection*{Funzione}
-Presenter incaricato alla gestione dello storico chiamate.
-
-\subsubsection*{Relazioni d'uso}
-Nessuna relazione d'uso evidenziata.
-
-\subsubsection*{Classi estese ed interfacce implementate}
-Nessuna relazione evidenziata.
-
-\subsubsection*{Attributi}
-\begin{description}
-\item{\memberdata{-- calls: String[]}}\\
-Array che conterrà tutte le chiamate effettuate
-\item{\memberdata{-- servlets: String[]}}\\
-Array che contiene le tre URL delle \inglese{servlet} da contattare per i messaggi
-\end{description}
-
-\subsubsection*{Metodi}
-\begin{description}
-\item{\method{- getServletURLs(): void}}\\
-Configura gli URL delle \inglese{servlet} da interrogare leggendoli dal file di configurazione in base alle operazioni che questo presenter deve essere in grado di compiere.\\
-Più precisamente, si dovrà creare una ``XMLHttpRequest'' rivolta al file XML di configurazione dove sono riportate tutte le \inglese{servlet}, ricevuta la risposta si popolerà l'\textit{array} dichiarato nella classe (\inglese{servlet}).
-
-\item{\method{- getCalls(): String}}\\
-Ottiene tutta la lista delle chiamate effettuate e tracciate nel \textit{server}, una volta ricevuta risposta con relativi dati associati li utilizza come dati di ritorno. Per contattare la \inglese{servlet}, va usato come in precedenza ``XMLHttpRequest''.
-
-\item{\method{- addListItem(call: String): void}}\\
-Aggiunge alla lista delle chiamate visualizzata nel CallHistoryPanel una nuova voce che corrisponde alla chiamata ricevuta da parametro. Ogni voce della lista contiene i dati relativi alla chiamata e non consente di effettuare alcuna azione su di essa.
-
-\item{\method{+ createPanel(): DOM\_element}}\\
-Costruisce il pannello dello storico delle chiamate, che deve essere visualizzato all'interno del MainPanel dell'applicazione quando è selezionata la funzione corrispondente dal pannello degli strumenti. Il CallHistoryPanel è costituito da una semplice lista con tanti \textit{list Item} quante sono le chiamate tracciate nel server. Tutti questi elementi vanno aggiunti all'elemento \textit{element} ritornato poi dal metodo.
-
-\item{\method{+ setup(): void}}\\
-Metodo che ogni sua invocazione provoca il recupero dello storico chiamate, verrà quindi per prima cosa richiamato il metodo \method{getCalls()} e successivamente una chiamata al metodo \method{addListItem(call)} per ogni chiamata ritornata.
-
-\end{description}
-
-%TODO da verificare
-\classsection{SearchresultPanelPresenter}
-
-\subsubsection*{Funzione}
-Presenter incaricato di gestire il pannello che visualizza i risultati di ricerca.
-
-\subsubsection*{Relazioni d'uso}
-Nessuna relazione d'uso evidenziata.
-
-\subsubsection*{Classi estese ed interfacce implementate}
-Nessuna relazione evidenziata.
-
-\subsubsection*{Attributi}
-\begin{description}
-\item{\memberdata{-- servlets: String[]}}\\
-Array che contiene le URL delle \inglese{servlet} da contattare per eseguire ricerche
-\end{description}
-
-\subsubsection*{Metodi}
-\begin{description}
-\item{\method{- getServletURLs(): void}}\\
-Configura gli URL delle \inglese{servlet} da interrogare leggendoli dal file di configurazione in base alle operazioni che questo presenter deve essere in grado di compiere.\\
-Più precisamente, si dovrà creare una ``XMLHttpRequest'' rivolta al file XML di configurazione dove sono riportate tutte le \inglese{servlet}. Ricevuta la risposta, si popolerà l'\textit{array} dichiarato nella classe (\inglese{servlet}).
-
-\item{\method{- addListItem(list: DOM\_element, contact: Object(contact)): void}}\\
-Aggiunge alla lista ricevuta da parametro (\textit{list}) il contatto anch'esso ricevuto da parametro (\textit{contact}). L'aggiunta del contatto alla lista avviene prima di tutto effettuando un controllo sui dati da visualizzare nel \textit{list item} che se presenti nel database saranno:
-\begin{itemize}
-\item nome;
-\item cognome;
-\item email;
-\item immagine profilo.
-\end{itemize}
-Infine, si assegna il comportamento corretto all'evento ``onClick'' che andrà a richiamare il metodo \method{onContactSelected(contact)} del MediatorPresenter.
-
-\item{\method{+ createPanel(): DOM\_element}}\\
-Costruisce il pannello dei risultati di ricerca, che deve essere visualizzato all'interno del MainPanel dell'applicazione quando viene effettuata una ricerca. Il SearchResultPanel è costituito da una semplice lista che verrà popolata con i risultati della ricerca.
-
-\item{\method{+ displayContactList(contacts: Object(contact)): void}}\\
-Metodo che visualizza all'interno del pannello una lista di contatti che ottenuta dal server a seguito di una ricerca. Tale metodo demanda la visualizzazione per ogni contatto richiamando il metodo \method{addListItem(userList, contact}.
-
-\end{description}
-
-
 \classsection{GroupPanelPresenter}
 
 \subsubsection*{Funzione}
@@ -4282,107 +4208,6 @@ Costruisce il pannello per la gestione dei gruppi, che deve essere visualizzato 
 
 \item{\method{+ displayGroupList(groups: Object(group)): void}}\\
 Metodo che visualizza all'interno del pannello una lista di gruppi, tale metodo demanda la visualizzazione di ogni singolo gruppo richiamando il metodo \method{addListItem(groupList, group}.
-
-\end{description}
-
-
-\classsection{ToolsPanelPresenter}
-
-\subsubsection*{Funzione}
-Presenter incaricato di gestire il pannello degli strumenti.
-
-\subsubsection*{Relazioni d'uso}
-Nessuna relazione d'uso evidenziata.
-
-\subsubsection*{Classi estese ed interfacce implementate}
-Nessuna relazione evidenziata.
-
-\subsubsection*{Attributi}
-\begin{description}
-\item{\memberdata{-- servlets: String[]}}\\
-Array che contiene le URL delle \inglese{servlet} relative a tale presenter
-\item{\memberdata{-- element: DOM\_element}}\\
-elemento di tipo DOM che rappresenta l'intero pannello
-\end{description}
-
-\subsubsection*{Metodi}
-\begin{description}
-\item{\method{- getServletURLs(): void}}\\
-Configura gli URL delle \inglese{servlet} da interrogare leggendoli dal file di configurazione in base alle operazioni che questo presenter deve essere in grado di compiere.\\
-Più precisamente, si dovrà creare una ``XMLHttpRequest'' rivolta al file XML di configurazione dove sono riportate tutte le \inglese{servlet}. Ricevuta la risposta, si popolerà l'\textit{array} dichiarato nella classe (\inglese{servlet}).
-
-\item{\method{+ initialize()(): void}}\\
-Inizializza il pannello degli strumenti dell'applicazione rendendolo visibile. Tale pannello conterrà link che rimandano a tutte le funzioni disponibili per l'operazione scelta. In particolare:
-\begin{itemize}
-\item sezione che rimanda alle funzionalità della segretaria;
-\item sezione che rimanda alle impostazioni dell'account;
-\item sezione che rimanda alle funzionalità dello storico chiamate;
-\item sezione che rimanda alle funzionalità della gestione dei contatti.
-\end{itemize}
-Tutte queste sezioni saranno espresse come list item di una lista. All'evento ``onclick'' su ogni sezione corrisponderà l'invocazione del metodo che rimanda al presenter relativo alla sezione.
-
-\item{\method{+ hide(): void}}\\
-Rende invisibile il pannello degli strumenti. Va impostata la proprietà \textit{display} di tale elemento a false.
-
-\item{\method{+ logout(): void}}\\
-Effettua il \textit{logout} dell'utente dal sistema, per far ciò viene invocata la \inglese{servlet} relativa.
-
-\end{description}
-
-\classsection{AccountSettingsPanelPresenter}
-
-\subsubsection*{Funzione}
-Presenter incaricato di gestire il pannello delle impostazioni dell'utente.
-
-\subsubsection*{Relazioni d'uso}
-Nessuna relazione d'uso evidenziata.
-
-\subsubsection*{Classi estese ed interfacce implementate}
-Nessuna relazione evidenziata.
-
-\subsubsection*{Attributi}
-\begin{description}
-\item{\memberdata{-- servlets: String[]}}\\
-Array che contiene le URL delle \inglese{servlet} relative a tale presenter
-\end{description}
-
-\subsubsection*{Metodi}
-\begin{description}
-\item{\method{+ createPanel(): DOM\_element}}\\
-Inizializza il pannello costruendone i \textit{widget} grafici interni e lo restituisce in modo che possa essere inserito all'interno del pannello principale. Più dettagliatamente, verrà costruita una lista con \textit{list item} contenenti le informazioni dell'utente, ossia:
-\begin{itemize}
-\item nome;
-\item cognome;
-\item e-mail;
-\item immagine profilo;
-\item password;
-\item domanda segreta;
-\item risposta alla domanda segreta.
-\end{itemize}
-Infine, sarà presente un pulsante con \textit{id} uguale ``changeButton'' il quale all'evento ``onclick'' richiama il metodo \method{onChangeButtonPressed()}, descritto successivamente, che da la possibilità di modificare i dati.
-
-
-\item{\method{- onChangeButtonPressed(): void}}\\
-Gestisce la pressione del pulsante ``changeButton'' che trasforma la lista di elementi testuali in un \textit{form} da compilare per modificare i propri dati. Il \textit{form} è completo di un pulsante \textit{submit} che attiva ``onSubmitChange'', metodo descritto successivamente.\\
-I campi modificabili, recuperati dall'oggetto presente in CommunicationCenter (\memberdata{my}) che rappresenta il profilo utente, sono:
-\begin{itemize}
-\item nome;
-\item cognome;
-\item e-mail;
-\item immagine profilo;
-\item password;
-\item domanda segreta;
-\item risposta alla domanda segreta.
-\end{itemize}
-
-\item{\method{- onSubmitChange(): void}}\\
-Gestisce il cambiamento dei dati da parte dell'utente contattando, se necessario (controllo effettuato tramite chiamata al metodo \method{hasSometingChanged}), la \inglese{servlet} incaricata di aggiornare il contenuto del database sul server. Il metodo va a recuperare i valori tramite chiamate di metodo \method{document.getElementById(id)} e successivamente contatta la \inglese{servlet} tramite un XMLHttpRequest passando i dati prelevati dalla pagina. Se la \inglese{servlet} ritorna un errore viene gestito tramite la visualizzazione dell'errore all'utente, altrimenti viene richiamato il metodo \method{initialize()} per aggiornare la visualizzazione dei dati più recenti.
-
-\item{\method{- hasSomethingChanged(data: String[]): boolean}}\\
-Metodo che verifica l'effettivo cambiamento di dati rispetto a quanto contenuto in\\ \memberdata{communicationcenter.my} confrontandoli con l'oggetto \memberdata{data} ricevuto come parametro. Il metodo controlla che almeno il valore di un campo dati sia effettivamente cambiato e ritorna \textit{true} in tale caso. Nel caso opposto, ossia tutti i dati sono uguali ai precedenti, ritorna \textit{false}.
-
-\item{\method{- buildQueryString(data: String[]): String}}\\
-Costruisce la stringa corrispondente alla \textit{query} che deve essere spedita alla \inglese{servlet} per portare a termine la richiesta di cambiamento dei dati personali. Viene costruita partendo dai valori recuperati dall'oggetto \memberdata{data} passato come parametro e utilizzando la giusta sintassi MySQL.
 
 \end{description}
 
@@ -4471,23 +4296,329 @@ Metodo richiamato per terminare una chiamata, a cascata viene richiamato il meto
 
 \clearpage
 
-\section{Specifica sotto-architettura clientview}\label{sec:clientviewarchitecture}
-Il sistema dispone di dodici viste, ognuna associata ad ogni presenter. Tali viste si modificano all'occorrenza dopo una chiamata del presenter relativo.
+\section{Specifica sotto-architettura \texttt{clientview}}\label{sec:clientviewarchitecture}
+Il sistema dispone di dodici viste, ognuna associata al relativo \inglese{presenter}. Tali viste vengono create e modificate all'occorrenza in base alle chiamate di metodo effettuate da parte dei relativi \inglese{presenter}.
 
-\subsection{AccountSettingsView}
+La descrizione delle viste, oltre alla funzione e ai metodi che essa mette a disposizione del relativo \inglese{presenter}, è corredata dalla struttura degli elementi che la compongono.
+
+\subsection{Package \texttt{org.softwaresynthesis.mytalk.clientview}}
+
+\classsection{LoginView}
 \subsubsection*{Funzione}
-Vista associata al presenter \classname{AccountSettingsPresenter}.
+Vista associata al \inglese{presenter} \classname{LoginPanelPresenter} utilizzata per effettuare il login nel sistema.
+
+\subsubsection*{Metodi}
+\begin{description}
+  \item{\method{+ destroy(): void}}\\
+  Tale metodo ha il compito di eliminare il pannello dall'interfaccia grafica visualizzata. A tal fine, deve essere rimosso il nodo che corrisponde al pannello nell'albero DOM della UI\@.
+  
+  \item{\method{+ errorLogin(): void}}\\
+  Il metodo ha lo scopo di segnalare visivamente all'utente il fatto che si è verificato un errore nell'elaborazione delle credenziali di autenticazione inserite nel \inglese{form}. Tale effetto dovrà essere ottenuto aggiungendo al valore dell'attributo \verb+class+ il valore \verb+error+.
+  
+  \item{\method{+ correctAnswer(): void}}\\
+	Metodo usato per modificare il nodo DOM salvato in \memberdata{thisPanel} per comunicare all'utente che la risposta da lui inserita per il recupero password è corretta. 
+	
+Il metodo deve rimuovere il figlio con identificativo uguale a \textit{passwordretrieval} dalla vista, quindi aggiunge un nuovo elemento \verb'<p>' contenente il messaggio:
+\begin{verbatim}
+	Recupero password avvenuto correttamente.
+	Ti è stata inviata un'email contenente i dati richiesti.
+\end{verbatim}
+il messaggio sopracitato è temporaneo e dovrà essere rimosso allo scadere di un \inglese{timeout} della durata di due secondi utilizzando la funzione \verb'window.setTimeout(funtion() {...}, 2000)'.
+
+Il corpo della funzione anonima passata a \verb'setTimeout' avrà il compito di rimuovere dall'elemento \verb'thisPanel' il paragrafo creato in precedenza.
+
+	\item{\method{+ incorrectAnswer(): void}}\\
+	Metodo che In caso di inserimento della risposta non corretta alla domanda segreta visualizza un messaggio di avvertimento all'utente per due secondi quindi lascia il controllo al \inglese{form} di inserimento della risposta alla domanda segreta.
+	
+	Il metodo deve cercare un elemento \verb'<p>' per la visualizzazione del messaggio, contenente il testo
+\begin{verbatim}
+	Dati non corretti. Inserire nuovamente la risposta.
+\end{verbatim}
+	
+	Quindi si visualizza il messaggio con una procedura identica a quella di \method{correctAnswer()}.
+	
+	\item{\method{+ buildRetrievePasswordForm(): HTMLElement}}\\
+	Metodo usato per costruire il \inglese{form} per il recupero della password, che ha il compito di costruire un elemento \verb'fieldset', che contiene al suo interno:
+	\begin{itemize}
+	  \item[] un \verb'<label>' contenente la domanda segreta;
+	  \item[] un elemento \verb'<input>' per inserire il testo della risposta;
+	  \item[] un \verb'<input>' di tipo \verb'submit'.
+	\end{itemize}
+Alla pressione di quest'ultimo, la vista provvede ad invocare il metodo \method{hasAnsweredCorrectly} del \inglese{presenter} associato a questa vista e, in base al risultato positivo o negativo ottenuto, visualizza il messaggio corrispondente tramite i metodi \verb'correctAnswer()' e \verb'incorrectAnswer()' rispettivamente.
+
+Infine, il metodo restituisce il nodo DOM radice della nuova porzione di interfaccia grafica creata, vale a dire il \verb'<fieldset>'.
+
+	\item{\method{+ initialize(view: HTMLElement): void}}\\
+	Il metodo ha il compito di inizializzare il pannello di login dopo che è stato caricato il relativo \inglese{template} che crea di tutti i \inglese{widget} grafici contenuti al suo interno.
+	
+	Il metodo ha il compito di aggiungere all'interfaccia grafica il sotto-albero DOM che riceve come parametro in ingresso, quindi configurare il pannello assegnando ai pulsanti le funzioni di \inglese{callback} corrispondenti.
+	
+	In particolare, alla pressione del pulsante di login deve essere eseguita una funzione che recupera il nome utente e la password inseriti dall'utente (con i metodi \method{getUsername()} e \method{getPassword()} rispettivamente), quindi invocare il metodo \method{login} del \inglese{presenter} per la valutazione dei dati.
+	
+	Alla pressione del pulsante di registrazione deve essere sollevato un evento che provoca la visualizzazione del pannello di registrazione, vale a dire un evento con stringa identificativa uguale a \verb'showRegistrationPanel'.
+	
+	Infine, alla pressione del pulsante per il recupero della password deve essere costruito il \inglese{form} corrispondente, mediante una chiamata al metodo \method{buildRetrievePasswordForm()}, aggiungendo l'elemento restituito all'interfaccia grafica finale.
+\end{description}
+
 \subsubsection*{Elementi}
+Il pannello contiene un elemento \verb'<div>' con identificativo uguale a \verb'LoginPanel' il quale a sua volta ha come figlio un \verb'<fieldSet>' con identificativo uguale a \verb'loginForm' che contiene:
+  \begin{itemize}
+    \item[--] un elemento \verb'<div>' per il logo;
+    \item[--] un elemento \verb'<ul>' contenente i seguenti elementi:
+    \begin{itemize}
+      \item[-] un elemento \verb'<li>' per il nome utente, con all'interno un elemento \verb'<label>' e il relativo campo di inserimento \verb'<input>';
+      \item[-] un elemento \verb'<li>' per la password, con all'interno un elemento \verb'<label>' e il relativo campo di inserimento \verb'<input>';
+      \item[-] \verb'<li>' per i pulsanti contenente al suo interno:
+      \begin{itemize}
+        \item[$\cdot$] un elemento \verb'<button>' per effettuare il login;
+        \item[$\cdot$] un elemento \verb'<button>' per effettuare la registrazione al sistema;
+        \item[$\cdot$] un elemento \verb'<button>' per recuperare i dati dimenticati.
+      \end{itemize}
+    \end{itemize}
+  \end{itemize}
+
+\classsection{RegisterView}
+\subsubsection*{Funzione}
+Vista associata al \inglese{presenter} \classname{RegisterPanelPresenter} utilizzata per effettuare la registrazione al sistema.
+
+\subsubsection*{Metodi}
+\begin{description}
+  \item{\method{+ destroy(): void}}\\
+  Tale metodo ha il compito di eliminare il pannello dall’interfaccia grafica visualizzata. A tal fine, deve essere rimosso il nodo che corrisponde al pannello nell’albero DOM della UI\@.
+  
+  \item{\method{+ initialize(view: HTMLElement): void}}\\
+  	Il metodo ha il compito di inizializzare il pannello di registrazione al sistema una volta caricato il relativo \inglese{template} che crea di tutti i \inglese{widget} grafici contenuti al suo interno.
+	
+	Il metodo ha il compito di aggiungere all'interfaccia grafica il sotto-albero DOM che riceve come parametro in ingresso, quindi configurare il pannello assegnando ai pulsanti le funzioni di \inglese{callback} corrispondenti.
+	
+	In particolare, alla pressione del pulsante ``indietro'' deve essere sollevato un evento avente come nome identificativo la stringa \verb'showLoginPanel'.
+	
+  Alla pressione del pulsante per la registrazione, invece, devono essere recuperati i valori di tutti i campi dati del form mediante i metodi \method{getUsername()}, \method{getPassword()}, \method{getQuestion()}, \method{getAnswer()}, \method{getName()}, \method{getSurname()}, \method{getPicturePath()} e, in un secondo momento, deve essere richiamato il metodo \method{register} del \inglese{presenter}.
+
+\end{description}
+
+\subsubsection*{Elementi}
+Il pannello è costituito da n elemento di tipo \verb'<div>' con identificativo uguale a \verb'LoginPanel' che contiene un elemento \verb'<form>' con al proprio interno:
 \begin{itemize}
-\item \textit{div} contenente i dati personali;
-\item \textit{ul} contenente 3 \textit{li} per:
+  \item[--] un elemento \verb'<ul>' il quale contiene:
+  \begin{itemize}
+    \item[-] un \verb'<li>' per il nome utente, costituito a sua volta da una \verb'<label>' e dal relativo campo \verb'<intput>' avente attributo \verb'type' uguale a \verb'email';
+    \item[-] un \verb'<li>' per la password, costituito a sua volta da una \verb'<label>' e dal relativo campo \verb'<intput>' avente attributo \verb'type' uguale a \verb'password';
+    \item[-] un \verb'<li>' per la domanda segreta, costituito a sua volta da una \verb'<label>' e dal relativo campo \verb'<intput>';
+    \item[-] un \verb'<li>' per la risposta, costituito a sua volta da una \verb'<label>' e dal relativo campo \verb'<intput>';
+    \item[-] un \verb'<li>' per il nome, costituito a sua volta da una \verb'<label>' e dal relativo campo \verb'<intput>';
+    \item[-] un \verb'<li>' per il cognome, costituito a sua volta da una \verb'<label>' e dal relativo campo \verb'<intput>';
+    \item[-] un \verb'<li>' per l'immagine del profilo, costituito a sua volta da una \verb'<label>' e dal relativo campo \verb'<intput>' avente attibuto \verb'type' uguale a \verb'file';
+    \item[-] un \verb'<li>' che contiene un avviso relativo all'obbligatorietà dei campi dati nome utente, password, domanda e risposta;
+  \end{itemize}
+  \item[--] un \verb'<div>' per i pulsanti che ha al proprio interno:
+  \begin{itemize}
+    \item[-] un elemento \verb'<button>' per tornare al pannello di login;
+    \item[-] un elemento \verb'<button>' per portare a termine la registrazione al sistema.
+  \end{itemize}
+\end{itemize}
+
+\classsection{CallHistoryView}
+\subsubsection*{Funzione}
+Vista associata al \inglese{presenter} \classname{CallHistoryPanelPresenter} utilizzata per la visualizzazione dello storico chiamate.
+
+\subsubsection*{Metodi}
+\begin{description}
+  \item{\method{+ display(): void}}\\
+  Tale metodo ha il compito di inizializzare il pannello della vista con i dati corretti popolando la lista delle chiamate in base ai dati ricevuti dal \inglese{presenter}.
+  
+  \item{\method{+ addListItem(call: Object): void}}\\
+  Metodo che aggiunge alla lista delle chiamate visualizzata nel pannello una nuova voce che corrisponde alla chiamata passata come parametro.
+  
+  Ogni voce della lista contiene i dati relativi alla chiamata vale a dire l'altro utente coinvolto e la data della chiamata. Poiché a partire da questo pannello non è possibile effettuare alcuna azione, non è presente alcuna funzione di \inglese{callback} associata alle voci della lista.
+  
+\end{description}
+
+\subsubsection*{Elementi}
+Il pannello è costituito da un elemento \verb'<div>' avente come identificativo il valore \verb'CallHistoryPanel' il quale, a sua volta, contiene:
 \begin{itemize}
-\item nome;
-\item cognome;
-\item immagine profilo.
+  \item[--] un elemento \verb'<div>' avente attributo \verb'class' uguale al valore \verb'panelHeader' e con all'interno un elemento \verb'<h1>' contenente il titolo \textsc{<<storico chiamate>>};
+  \item[--] un elemento \verb'<ul>' avente come identificativo la stringa \verb'ulHistory'.
 \end{itemize}
-\item \textit{button} che rimanda alla modifica dei dati personali.
+
+\classsection{SearchResultView}
+\subsubsection*{Funzione}
+Vista associata al \inglese{presenter} \classname{SearchResultPanelPresenter} utilizzata per visualizzare i risultati di una ricerca fra gli utenti registrati al sistema.
+
+\subsubsection*{Metodi}
+\begin{description}
+  \item{\method{-- getImageSrc(contact: Object): String}}\\
+  Il metodo ha il compito di fornire l'indirizzo sul server dell'immagine corrispondente a uno stato utente. In base al valore della proprietà \verb'state' del contatto passato come parametro, il metodo dovrà restituire una fra le stringhe:
+  \begin{itemize}
+    \item[-] \verb'img/stateavailable.png';
+    \item[-] \verb'img/stateoccupied.png';
+    \item[-] \verb'img/stateoffline.png'.
+  \end{itemize}
+  
+  \item{\method{-- addListItem(contact: Object): void}}\\
+  Provoca la visualizzazione nel pannello di una nuova voce della lista contenente i dati del contatto passato come parametro. L'elemento \verb'<li>' che dovrà essere aggiunto in coda alla lista deve avere al proprio interno un nodo di testo corrispondente al nome del contatto e un elemento \verb'<img>' corrispondente all'immagine dello stesso.
+  
+  Inoltre, all'evento \verb'click' sollevato sul \verb'<li>' dovrà essere associato un gestore che a sua volta avrà il compito di procurarsi un riferimento a un evento con identificativo uguale a \verb'showContactPanel', assegnare alla proprietà \verb'contact' di quest'ultimo il contatto passato come parametro del metodo e sollevare l'evento corrispondente.
+  
+  \item{\method{+ display(): void}}\\
+  Il metodo configura il comportamento della vista per la visualizzazione dei risultati di una ricerca. In particolare, deve creare un gestore per l'evento identificato dalla stringa \verb'click' associato al pulsante di ricerca che avvii una ricerca in base al contenuto inserito nell'\verb'<input>' del pannello e visualizzi i risultati mediante il metodo \method{displayResult}.
+  
+  \item{\method{+ displayResult(contacts: Object): void}}\\
+  Il metodo riceve in input in array associativo indicizzato in base agli identificativi dei contatti che in ogni posizione contiene l'oggetto contatto corrispondente alla chiave.
+  
+  Il compito del metodo è azzerare il contenuto della lista di utenti visualizzati (se era non vuota), quindi richiamare per ognuno dei contatti contenuti nell'array richiamare il metodo \method{addListItem} passando il contatto come parametro.
+  
+\end{description}
+
+\subsubsection*{Elementi}
+Il pannello è costituito da un elemento \verb'<div>' avente come identificativo \verb'SearchResultPanel' il quale contiene:
+\begin{itemize}
+  \item[--] un elemento \verb'<div>' avente l'attributo \verb'class' uguale a \verb'panelHeader', che contiene a sua volta al proprio interno un elemento \verb'<h1>' con il titolo \textsc{<<ricerca utenti>>};
+  \item[--] un elemento \verb'<input>' con identificativo uguale a \verb'searchInputField';
+  \item[--] un elemento \verb'<button>' avente l'attributo \verb'class' uguale a \verb'searchInputButton' e identificativo \verb'searchInputButton';
+  \item[--] un elemento \verb'<ul>' per presentare i risultati della ricerca, avente come identificativo il valore \verb'userlList'.
 \end{itemize}
+
+\classsection{MainView}
+\subsubsection*{Funzione}
+Vista associata al \classname{MainPanelPresenter} che contiene il pannello principale ed è responsabile del suo aggiornamento e della sua visualizzazione.
+
+\subsubsection*{Metodi}
+\begin{description}
+  \item{\method{+ destroy(): void}}\\
+  Metodo che ha il compito di rimuovere il pannello dall'interfaccia grafica visualizzata rimuovendo il nodo DOM corrispondente al pannello principale dalla sua posizione all'interno dell'albero DOM\@.
+  
+  \item{\method{+ initialize(view: HTMLElement): void}}\\
+  Tale metodo ha il compito di visualizzare del pannello principale, che viene passato tramite il parametro in ingresso \verb'view', aggiungendolo nella posizione corretta dell'albero DOM dell'interfaccia grafica in modo che venga ad occupare la posizione centrale.
+  
+  \item{\method{+ displayChildPanel(node: HTMLElement): void}}\\
+  Provoca la visualizzazione di un pannello secondario all'interno della \classname{MainView} aggiungendo la sua radice, vale a dire il nodo DOM ricevuto come parametro in ingresso, come elemento figlio del \verb'div' che rappresenta il pannello principale.
+  
+\end{description}
+
+\subsubsection*{Elementi}
+Il pannello è costituito da un solo elemento \verb'<div>' avente come attributo identificativo la stringa \verb'MainPanel' all'interno del quale sarà visualizzata, di volta in volta, una delle sette viste di secondo livello, vale a dire:
+\begin{itemize}
+  \item[--] \classname{AccountSettingsView};
+  \item[--] \classname{CallHistoryView};
+  \item[--] \classname{CommunicationView};
+  \item[--] \classname{ContactView};
+  \item[--] \classname{GroupView};
+  \item[--] \classname{MessageView};
+  \item[--] \classname{SearchResultView}.
+\end{itemize}
+
+\classsection{ToolsView}
+\subsubsection*{Funzione}
+Vista associata al \inglese{presenter} \classname{ToolsPanelPresenter} utilizzata per visualizzare gli strumenti disponibili all'utente.
+
+\subsubsection*{Metodi}
+\begin{description}
+  \item{\method{-- initializeSelectState(): HTMLElement}}\\
+  Il metodo ha il compito di inizializzare l'elemento \verb'<select>' per il cambio di stato presente sul pannello degli strumenti aggiungendo ad esso, se non sono già presenti, le opzioni che corrispondono allo stato ``disponibile'' e ``occupato'' utilizzando una sintassi del tipo:
+  \begin{verbatim}
+    var availableOption = new Option("Disponibile", "available");
+    selectState.add(availableOption, null);
+  \end{verbatim}
+  
+  È importante, inoltre, associare all'evento \verb'change' associato all'elemento \verb'<select>' una funzione anonima che provoca l'invocazione del metodo \method{updateStateValue()} della vista stessa.
+  
+  Infine, l'elemento \verb'<select>' che è stato manipolato da questo metodo dovrà essere restituito al chiamante.
+  
+  \item{\method{+ destroy(): void}}\\
+  Tale metodo ha il compito di provocare la rimozione del pannello degli strumenti governato da questa vista, rimuovendo in maniera definitiva dall'albero DOM il nodo che corrisponde alla radice del pannello.
+  
+  \item{\method{+ initialize(view: HTMLElement): void}}\\
+  Il metodo ha la funzione di aggiungere nel punto corretto dell'albero DOM che rappresenta l'interfaccia utente il nodo passato come parametro, vale a dire il pannello degli strumenti, quindi di configurare il comportamento quest'ultimo assegnando a tutti i \inglese{list item} delle funzionalità i gestori di eventi corrispondenti.
+  
+  In particolare:
+  \begin{itemize}
+    \item[--] alla pressione della voce con identificativo \verb'liAnswering' deve essere sollevato un evento con nome \verb'showMessagePanel';
+    \item[--] alla pressione della voce con identificativo \verb'liSetting' deve essere sollevato un evento con nome \verb'showAccountSettingPanel';
+    \item[--] alla pressione della voce con identificativo \verb'liCallList' deve essere sollevato un evento con nome \verb'showCallHistoryPanel';
+    \item[--] alla pressione della voce con identificativo \verb'liGroup' deve essere sollevato un evento con nome \verb'showGroupPanel';
+    \item[--] alla pressione della voce con identificativo \verb'liSearch' deve essere sollevato un evento con nome \verb'showSearchResultPanel';
+    \item[--] alla pressione della voce con identificativo \verb'liLogout' deve essere visualizzata una finestra di dialogo che richiede conferma all'utente sulla reale intenzione di uscire e, in caso di risposta affermativa, solleva sia l'evento \verb'logout' che \verb'showLoginPanel'.
+  \end{itemize}
+  
+  Infine, prima di ritornare deve essere inizializzato l'elemento \verb'<select>' per la gestione dello stato utente, mediante l'opportuno metodo privato \method{initializeSelectState()}.
+  
+  \item{\method{+ addCommunicationFunction(): void}}\\
+  Questo metodo dovrà provocare l'aggiunta di un nuovo elemento alla lista degli strumenti per permettere di ritornare al pannello delle comunicazioni. Dovrà pertanto creare un nuovo elemento \verb'<li>', assegnare alla sua proprietà identificativa il valore \verb'CallFunction', configurarne il comportamento alla pressione del mouse facendo in modo che sia sollevato un evento con nome \verb'showCommunicationPanel' quindi procurarsi un riferimento al nodo DOM che corrisponde alla lista delle funzionalità e aggiungere in coda il nuovo \inglese{list item} creato con il metodo \verb'appendChild'.
+  
+  \item{\method{+ removeCommunicationFunction(): void}}\\
+  Il metodo ha il compito di rimuovere il pulsante per ritornare al pannello della comunicazione dalle opzioni disponibili nel momento in cui non sussiste più alcuna comunicazione (audio, audio/video o testuale) attiva per il client. Il metodo dovrà pertanto ottenere un riferimento al nodo DOM che rappresenta la lista delle funzioni, uno a quello del \inglese{list item} corretto e quindi utilizzare il metodo \verb'removeChild' per operare la rimozione.
+  
+  \item{\method{+ updateStateValue(): HTMLElement}}\\
+  Questo metodo ha il compito di ottenere un riferimento all'elemento \verb'<select>' utilizzato per il cambio di stato, estrarre il valore associato all'opzione selezionata mediante un'istruzione del tipo
+  \begin{verbatim}
+    var state = select.options[selectedIndex].value;
+  \end{verbatim}
+  quindi sollevare un opportuno evento avente come identificativo la stringa \verb'changeMyState' e come proprietà \verb'state' il valore dello stato recuperato in precedenza.
+  
+  Il metodo, infine, dovrà restituire al chiamante un riferimento all'elemento \verb'<select>' che è stato manipolato.
+\end{description}
+
+\subsubsection*{Elementi}
+Il pannello è costituito da un elemento \verb'<div>' avente come identificativo la stringa \verb'ToolsPanel', il quale contiene al proprio interno:
+\begin{itemize}
+  \item[--] un elemento \verb'<div>' avente attributo \verb'class' uguale a \verb'panelHeader';
+  \item[--] un \verb'<div>' che contiene un elemento \verb'<select>' con identificativo uguale a \verb'selectState';
+  \item[--] un terzo \verb'<div>' con all'interno:
+  \begin{itemize}
+    \item[-] un elemento \verb'<ul>' con identificativo uguale a \verb'ToolsList' per la lista degli strumenti, contenente:
+      \begin{itemize}
+        \item[$\cdot$] un \verb'<li>' con identificativo uguale a \verb'liAnswering' contenente il nodo di testo <<Segreteria>>;
+        \item[$\cdot$] un \verb'<li>' con identificativo uguale a \verb'liSetting' contenente il nodo di testo <<Impostazioni>>;
+        \item[$\cdot$] un \verb'<li>' con identificativo uguale a \verb'liCallList' contenente il nodo di testo  <<Lista chiamate>>;
+        \item[$\cdot$] un \verb'<li>' con identificativo uguale a \verb'liGroup' contenente il nodo di testo <<Gruppi>>;
+        \item[$\cdot$] un \verb'<li>' con identificativo uguale a \verb'liSearch' contenente il nodo di testo <<Ricerca>>;
+      \end{itemize}
+    \item[-] un elemento \verb'<ul>' con all'interno un solo \verb'<li>' avente come identificativo \verb'liLogout' e contenente come unico figlio il nodo di testo \verb'Logout'.
+  \end{itemize}
+\end{itemize}
+
+\classsection{AccountSettingsView}
+\subsubsection*{Funzione}
+Vista associata al \inglese{presenter} \classname{AccountSettingsPanelPresenter} che ha il compito di permettere la visualizzazione e la modifica dei dati dell'utente.
+
+\subsubsection*{Metodi}
+\begin{description}
+\item{\method{+ display(): void}}\\
+Tale metodo ha il compito di inizializzare la vista, ovvero l'insieme dei \inglese{widget} grafici che costituiscono il pannello per la visualizzazione delle impostazioni e dei dati dell'utente.
+
+In particolare, la vista ha il compito di ottenere i dati relativi a nome, cognome e immagine del profilo dell'utente e popolare le apposite regioni del pannello con le informazioni corrispondenti, quindi configurare il comportamento del pulsante per la modifica dei dati alla cui pressione deve corrispondere un'invocazione del metodo \method{onChangeButtonPressed()}.
+
+\item{\method{+ onChangeButtonPressed(): void}}\\
+Gestisce la pressione del pulsante ``Modifica dati'' trasformando l'elemento \verb'<div>' che contiene l'immagine del profilo e la lista di elementi testuali in un \textit{form} da compilare per apportare i cambiamenti i propri dati di registrazione. È importante che quest'ultimo abbia per l'attributo \verb'enctype' il valore \verb'multipart/form-data'.
+
+Il \inglese{form} è costituito da una lista i cui tre elementi \verb'<li>' contengono rispettivamente:
+\begin{itemize}
+  \item[--] una \verb'<label>' e il relativo campo \verb'<input>' per il nome, che inizialmente visualizza il nome precedentemente impostato nel client;
+  \item[--] una \verb'<label>' e il relativo campo \verb'<input>' per il cognome dell'utente, che inizialmente visualizza il valore precedentemente impostato nel client;
+  \item[--] una \verb'<label>' e il relativo campo \verb'<input>' per l'immagine del profilo (quest'ultimo dovrà avere l'attributo \verb'type' uguale a \verb'file').
+\end{itemize}
+
+Inoltre, il \inglese{form} presenta un pulsante per l'invio dei dati inseriti al server alla cui pressione deve essere attivato un gestore di evento che raccoglie i dati inseriti e li trasmette invocando il metodo \method{sendUserData} del \inglese{presenter} e quindi solleva un evento con identificativo \verb'showAccountSettingPanel' per ricaricare il pannello.
+
+\end{description}
+
+\subsubsection*{Elementi}
+Il pannello è costituito da un elemento \verb'<div>' con identificativo uguale a \verb'AccountSettingsPanel' che contiene al proprio interno:
+\begin{itemize}
+  \item[--] un \verb'<div>' con attributo \verb'class' uguale a \verb'panelHeader' con all'interno un elemento \verb'<h1>' avente come figlio il solo nodo testo \textsc{<<dati personali>>};
+  \item[--] un elemento \verb'<img>' con identificativo uguale alla stringa \verb'picture';
+  \item[--] un elemento \verb'<ul>' contenente:
+  \begin{itemize}
+    \item[-] un \verb'<li>' con identificativo uguale a \verb'name';
+    \item[-] un \verb'<li>' con identificativo uguale a \verb'surname';
+  \end{itemize}
+  \item[--] un elemento \verb'<button>' contenente il testo ``Modifica dati''.
+\end{itemize}
+
+%********************************************************************
+%     QUESTO È IL CONFINE FRA BENE E MALE - SIETE AVVERTITI!
+%********************************************************************
 
 \subsection{AddressBookView}
 \subsubsection*{Funzione}
@@ -4498,14 +4629,6 @@ Vista associata al presenter \classname{AddressBookPresenter}. Utilizzata per la
 \item \textit{div} contenente un \textit{ul} dove verranno visualizzati tutti i contatti della rubrica;
 \item \textit{div} contenente una \textit{select} utilizzata per ordinare la rubrica in base ai parametri dati;
 \item \textit{div} contenente una \textit{select} dove sono elencati i gruppi della propria rubrica.
-\end{itemize}
-
-\subsection{CallHistoryView}
-\subsubsection*{Funzione}
-Vista associata al presenter \classname{CallHistoryPresenter}. Utilizzata per la visualizzazione dello storico chiamate.
-\subsubsection*{Elementi}
-\begin{itemize}
-\item \textit{div} contenente un \textit{ul} dove verrà visualizzato lo storico chiamate.
 \end{itemize}
 
 \subsection{CommunicationView}
@@ -4549,21 +4672,6 @@ Vista associata al presenter \classname{GroupPresenter}. Utilizzata per la visua
 \item \textit{div} contenente un \textit{ul} dove verranno inseriti tanti \textit{li} quanti i gruppi presenti nella proria rubrica.
 \end{itemize}
 
-\subsection{LoginView}
-\subsubsection*{Funzione}
-Vista associata al presenter \classname{LoginPresenter}. Utilizzata per effettuare il login nel sistema.
-\subsubsection*{Elementi}
-\begin{itemize}
-\item \textit{div} contenente un elemento di tipo \textit{ul} con 2 \textit{li} utilizzati per inserire:
-\begin{itemize}
-\item username;
-\item password.
-\end{itemize}
-\item \textit{button} per effettuare il login;
-\item \textit{button} per effettuare la registrazione al sistema;
-\item \textit{button} per recuperare i dati dimenticati.
-\end{itemize}
-
 \subsection{MessageView}
 \subsubsection*{Funzione}
 Vista associata al presenter \classname{MessagePresenter}. Utilizzata per visualizzare i messaggi presenti nella propria segreteria.
@@ -4572,62 +4680,6 @@ Vista associata al presenter \classname{MessagePresenter}. Utilizzata per visual
 \item \textit{div} contenente un elemento di tipo \textit{video} per la visualizzazione del messaggio;
 \item \textit{div} contenente un elemento \textit{ul} che avrà tanti \textit{li} quanti sono i messaggi presenti in segreteria.
 \end{itemize}
-
-\subsection{PhoneCallsRegistryView}
-\subsubsection*{Funzione}
-Vista associata al presenter \classname{PhoneCallsRegistryPresenter}. Utilizzata per lasciare un messaggio in segreteria ad un utente non in linea.
-\subsubsection*{Elementi}
-\begin{itemize}
-\item \textit{button} per iniziare la registrazione del messaggio;
-\item \textit{button} per terminare la registrazione;
-\item \textit{button} per inviare la registrazione appena effettuata.
-\end{itemize}
-
-\subsection{RegisterView}
-\subsubsection*{Funzione}
-Vista associata al presenter \classname{RegisterPresenter}. Utilizzata per effettuare la registrazione al sistema.
-\subsubsection*{Elementi}
-\begin{itemize}
-\item elemento di tipo \textit{ul} con 7 \textit{li} per:
-\begin{itemize}
-\item nome;
-\item cognome;
-\item email;
-\item password;
-\item domanda segreta;
-\item risposta alla domanda segreta;
-\item immagine del profilo.
-\end{itemize}
-\item \textit{button} per tornare indietro;
-\item \textit{button} per registrarsi con i dati inseriti.
-\end{itemize}
-
-\subsection{SearchResultView}
-\subsubsection*{Funzione}
-Vista associata al presenter \classname{SearchResultPresenter}. Utilizzata per visualizzare i risultati di una ricerca.
-\subsubsection*{Elementi}
-\begin{itemize}
-\item \textit{div} contenente un elemento di tipo \textit{ul} con tanti \textit{li} quanti i risultati ritornati dalla ricerca.
-\end{itemize}
-
-\subsection{ToolsView}
-\subsubsection*{Funzione}
-Vista associata al presenter \classname{ToolsPresenter}. Utilizzata per visualizzare gli strumenti disponibili all'utente.
-\subsubsection*{Elementi}
-\begin{itemize}
-\item \textit{select} dove poter scegliere il proprio stato (disponibile, occupato);
-\item elemento di tipo \textit{ul} con 6 \textit{li} per:
-\begin{itemize}
-\item accedere alla segreteria;
-\item accedere alle impostazioni;
-\item accedere allo storico chiamate;
-\item accedere alla sezione dei gruppi;
-\item accedere alla sezione dove effettuare una ricerca;
-\item effettuare il logout.
-\end{itemize}
-\end{itemize}
-
-
 
 \clearpage
 

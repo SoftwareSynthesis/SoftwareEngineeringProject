@@ -60,14 +60,19 @@ window.onload = function() {
     /**********************************************************
     ****Inizializzazione variabili per connessione all'host****
     **********************************************************/
+<<<<<<< HEAD
     var host = "localhost";
     var stub = false;
+=======
+    var host = "localhost/webalizer/ModelManager/WebContent";
+    var stub = true;
+>>>>>>> origin/clientDeveloping
     if (stub) {
-        commandURL = "http://" + host + "/webalizer/ModelManager/WebContent/conf/controllerManagerStub.php";
-        urlChannelServlet = "ws://" + host + ":8080/MyTalk/CommandManager";
+        commandURL = "http://" + host + "/Conf/controllerManagerStub.php";
+        urlChannelServlet = "ws://" + host + "/CommandManager";
     } else {
-        commandURL = "http://" + host + ":8080/MyTalk/CommandManager";
-        urlChannelServlet = "ws://" + host + ":8080/MyTalk/CommandManager";
+        commandURL = "http://" + host + "/CommandManager";
+        urlChannelServlet = "ws://" + host + "/CommandManager";
     }
 
     /******************************

@@ -19,15 +19,23 @@ function SearchResultPanelPresenter(url) {
 	/***************************************************************************
 	 * METODI PRIVATI
 	 **************************************************************************/
-	/**
-     * Funzione per gestire l'evento in cui viene visualizzato il pannello per effettuare una ricerca e leggerne i risultati
-     * @author Riccardo Tresoldi
-     */
-    function onShowSearchResultPanel() {
-        mediator.getView('searchResult');
-    }
-
-	/**
+	/** PRESENTER
+	 * Funzione per effettuare la richiesta di una ricerca al server
+	 * @version 2.0
+	 * @author Riccardo Tresoldi
+	 * @param {String} pattern stringa da far cercare nal server
+	 * @return {Object} Oggetto rappresentante un insieme di contatti
+	 */
+	function sendSearchRequest(pattern){
+	    var searchRequest = new XMLHttpRequest();
+        searchRequest.open("POST", commandURL, false);
+        searchRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        searchRequest.send("operation=search&param=" + pattern);
+        var contacts = JSON.parse(searchRequest.responseText);
+        return contacts;
+	}
+	
+	/** VIEW
 	 * Recupera il percoso dell'immagine di stato per un determinato contatto
 	 * 
 	 * FIXME questo dovrebbe essere portato a fattor comune per tutti i contatti
@@ -52,9 +60,9 @@ function SearchResultPanelPresenter(url) {
 		return path;
 	}
 
-	/**
+	/** VIEW
 	 * Aggiunge un contatto ad una lista (pensato per essere visualizzato nel
-	 * pannello dei risultati di una ricerca, in cui è quindi possibile anche
+	 * pannello dei risultati di una ricerca), in cui è quindi possibile anche
 	 * aggiungere un nuovo contatto alla propria rubrica
 	 * 
 	 * @param {Object}
@@ -65,30 +73,25 @@ function SearchResultPanelPresenter(url) {
 	 */
 	function addListItem(contact) {
 		var item = document.createElement("li");
-		item.setAttribute("id", contact.id);
+		item.id = "resultList-" + contact.id;
 
 		// immagine del contatto
 		var avatarNode = document.createElement('img');
-		avatarNode.setAttribute("src", contact.picturePathatar);
+		avatarNode.src = contact.picturePath;
 
 		// nome del contatto
 		var name = mediator.createNameLabel(contact);
 		var textNode = document.createTextNode(name);
 
-		// stato del contatto
-		var stateNode = document.createElement('img');
-		stateNode.src = getImageSrc(contact);
-
 		// aggiunge i sottonodi al 'li' appena creato
 		item.appendChild(avatarNode);
 		item.appendChild(textNode);
-		item.appendChild(stateNode);
 
 		// comportamento del list item al click del mouse
 		item.onclick = function() {
-			mediator.onContactSelected(contact);
+		    showContactPanel.contact = contact;
+		    document.dispatchEvent(showContactPanel);
 		};
-		item.appendChild(button);
 
 		// aggiunge il 'li' alla lista ricevuta come parametro
 		var list = document.getElementById("userList");
@@ -98,24 +101,50 @@ function SearchResultPanelPresenter(url) {
 	/***************************************************************************
 	 * METODI PUBBLICI
 	 **************************************************************************/
-	/**
+	/** VIEW
+	 * Funzione per inizializzare il pannello associando gli eventi corretti ai vari elementi HTML
+	 * @version 2.0
+	 * @author Riccardo Tresoldi
+	 */
+	this.display = function(){
+	    var searchInputField = document.getElementById("searchInputField");
+	    var searchInputButton = document.getElementById("searchInputButton");
+	    searchInputButton.onclick = function(){
+	        var textToSearch = searchInputField.value;
+	        var foundContacts = sendSearchRequest(textToSearch);
+	        thisPresenter.displayResult(foundContacts);
+	    }
+	};
+	
+	/** VIEW
 	 * Visualizza all'interno del pannello una lista di contatti che è stata
 	 * ottenuta dal server a seguito di una ricerca
-	 * 
-	 * @param {Array}
-	 *            contacts la lista di contatti che deve essere visualizzata
+	 * @version 2.0
+	 * @param {Object} contacts la lista di contatti che deve essere visualizzata
 	 * @author Diego Beraldin
 	 */
-	this.display = function(contacts) {
+	this.displayResult = function(contacts) {
 		var userList = document.getElementById("userList");
 		userList.innerHTML = "";
 		for ( var con in contacts) {
-			addListItem(con);
+			addListItem(contacts[con]);
 		}
 	};
+
+    /***************************************************************************
+     * HANDLER DEGLI EVENTI
+     **************************************************************************/
+    /** PRESENTER
+     * Funzione per gestire l'evento in cui viene visualizzato il pannello per effettuare una ricerca e leggerne i risultati
+     * @version 2.0
+     * @author Riccardo Tresoldi
+     */
+    function onShowSearchResultPanel() {
+        mediator.getView('searchResult');
+    }
 	
 	/***************************************************************************
-     * LISTNER DEGLI EVENTI
+     * LISTENER DEGLI EVENTI
      **************************************************************************/
     document.addEventListener("showSearchResultPanel", onShowSearchResultPanel);
 }
