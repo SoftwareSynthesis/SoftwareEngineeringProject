@@ -15,16 +15,8 @@ function MessagePanelPresenter() {
 
 	/***************************************************************************
 	 * METODI PRIVATI
-	 **************************************************************************/	
-	/**
-     * Funzione per gestire l'evento in cui viene visualizzato il pannello dei messaggi di segreteria
-     * @author Riccardo Tresoldi
-     */
-    function onShowMessagePanel() {
-        mediator.getView('message');
-    }
-	
-	/**
+	 **************************************************************************/		
+	/** VIEW
 	 * Aggiunge un messaggio a una lista per creare l'elenco della segreteria
 	 * telefonica creando il list item corrispondente (con la stringa
 	 * caratteristica e la funzione che ne definisce il comportamento al clic) e
@@ -36,8 +28,6 @@ function MessagePanelPresenter() {
 	 *            status, video, src e date
 	 * @author Riccardo Tresoldi, Elena Zecchinato
 	 */
-	
-	
 	function addListItem(message) {
 		var messageList = document.getElementById("messageList");
 		var item = document.createElement("li");
@@ -50,33 +40,29 @@ function MessagePanelPresenter() {
 		item.appendChild(document.createTextNode(message.date));
 		item.appendChild(elimina);
 		
-		var self=this;
-		
 		item.onclick = function() {
 		// imposto il messaggio come letto
 		var stato=true;
-		self.setAsRead(message,stato);
+		thisPresenter.setAsRead(message,stato);
 		
 		var video=documento.getElementById("messageVideo");
         video.src = ""; // TODO CI VUOLE IL PATH
 		};
-		
-		
+
 		status.onclick = function() {
-			self.deleteMessage(message);
+			thisPresenter.deleteMessage(message);
 		};
-		
 		
 		elimina.onclick = function() {
 			stato=message.status;
-			self.setAsRead(message,!stato);
+			thisPresenter.setAsRead(message,!stato);
 		};
 		
 		// quando ho finito appendo il nuovo elemento appena creato.
 		messageList.appendChild(item);	
 	}
 
-	/**
+	/** PRESENTER
 	 * Ottiene i messaggi di segreteria dal server contattando la servlet
 	 * corrispondente e li salva all'interno dell'array messages contenuto
 	 * all'interno di questo presenter
@@ -94,21 +80,31 @@ function MessagePanelPresenter() {
 	/***************************************************************************
 	 * METODI PUBBLICI
 	 **************************************************************************/
-	/**
+	/** PRESENTER
 	 * Riscarica i messaggi dal server e li aggiunge nella lista 'messageList'
 	 * che è presente nel pannello MessagePanel
 	 * 
 	 * @author Riccardo Tresoldi
 	 */
-	this.display = function() {
+	this.displayList = function() {
 		getMessages();
 		for ( var message in messages) {
 			this.addListItem(message);
 		}
 	};
 	
+	/** VIEW
+	 * Inizializza e popola con i dati il pannello della segreteria telefonica
+	 * 
+	 * @author Diego Beraldin
+	 */
+	this.display = function() {
+		thisPanel = document.getElementById("MessagePanel");
+		thisPresenter.displayList();
+	};
 	
-	/**
+	
+	/** PRESENTER
 	 * Elimina un messaggio dalla segreteria contattando la servlet responsabile
 	 * dell'operazione e scaricando nuovamente i messaggi
 	 * 
@@ -117,7 +113,6 @@ function MessagePanelPresenter() {
 	 *  @author Elena Zecchinato
 	 */
 	 this.deleteMessage = function(idMessage) {
-		
 		var request = new XMLHttpRequest();
 			request.open("POST", commandURL, false);
 			request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -126,13 +121,13 @@ function MessagePanelPresenter() {
 			
 			if (result == true) {
 	            this.setup();
-	            return true;}
+	            return true;
+	        }
 		
 			throw "Ops... qualcosa è andato storto nel server.";
-		
 	};
 	
-	/**
+	/** PRESENTER
 	 * Rende lo stato di un messaggio "letto" oppure "non letto"
 	 * 
 	 * @author Riccardo Tresoldi
@@ -158,7 +153,20 @@ function MessagePanelPresenter() {
 	};
 	
 	/***************************************************************************
-     * LISTNER DEGLI EVENTI
+     * HANDLER DEGLI EVENTI
+     **************************************************************************/
+	/** PRESENTER
+	 * Funzione per gestire l'evento in cui viene visualizzato il pannello dei
+	 * messaggi di segreteria
+	 * 
+	 * @author Riccardo Tresoldi
+	 */
+    function onShowMessagePanel() {
+        mediator.getView('message');
+    }
+	
+	/***************************************************************************
+     * LISTENER DEGLI EVENTI
      **************************************************************************/
     document.addEventListener("showMessagePanel", onShowMessagePanel);
 }
