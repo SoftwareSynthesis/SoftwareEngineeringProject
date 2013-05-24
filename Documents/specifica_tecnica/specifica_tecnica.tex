@@ -1943,20 +1943,20 @@ I dati rappresentati in forma di oggetti sono necessari, in particolare, per la 
 	\item{\scshape\bfseries Descrizione:}\\
 Il componente ha il duplice ruolo di intercettare gli eventi che scaturiscono dall'interazione dell'utente con la GUI e di controllare l'aggiornamento della stessa a seguito dei cambiamenti che intervengono sul modello dei dati.
 
-Per quanto riguarda l'autenticazione, è prevista la presenza di un \inglese{presenter} per l'interfaccia di \inglese{login}, corrispondente all'oggetto \texttt{guicontrol.LoginPanelPresenter}. Anche per la registrazione vale la stessa considerazione e tale funzionalità è destinata alla classe \texttt{guicontrol.RegisterPanelPresenter}
+Per quanto riguarda l'autenticazione, è prevista la presenza di un \inglese{presenter} per l'interfaccia di \inglese{login}, corrispondente all'oggetto \texttt{guicontrol.LoginPresenter}. Anche per la registrazione vale la stessa considerazione e tale funzionalità è destinata alla classe \texttt{guicontrol.RegisterPresenter}
 
 Per quanto riguarda invece la pagina principale dell'applicativo, alla quale si accede dopo aver effettuato l'autenticazione, è prevista la presenza di tre tipi principali di \inglese{presenter}:
 \begin{itemize}[noitemsep,nolistsep]
-  \item[-] \texttt{guicontrol.AddressBookPanelPresenter}, che gestisce il pannello della rubrica presente nell'interfaccia grafica;
-  \item[-] \texttt{guicontrol.MainPanelPresenter}, alla radice di una gerarchia di \inglese{presenter} destinati a gestire gli elementi che compaiono nella parte centrale dell'interfaccia grafica, comprende alcune operazioni comuni a questi elementi grafici (ad es. per l'inizializzazione o per la comparsa/scomparsa dell'elemento grafico associato);
-  \item[-] \texttt{guicontrol.ToolsPanelPresenter}, che ha il compito di gestire il pannello degli strumenti nell'interfaccia grafica.
+  \item[-] \texttt{guicontrol.AddressBookPresenter}, che gestisce il pannello della rubrica presente nell'interfaccia grafica;
+  \item[-] \texttt{guicontrol.MainPresenter}, alla radice di una gerarchia di \inglese{presenter} destinati a gestire gli elementi che compaiono nella parte centrale dell'interfaccia grafica, comprende alcune operazioni comuni a questi elementi grafici (ad es. per l'inizializzazione o per la comparsa/scomparsa dell'elemento grafico associato);
+  \item[-] \texttt{guicontrol.ToolsPresenter}, che ha il compito di gestire il pannello degli strumenti nell'interfaccia grafica.
 \end{itemize}
 
 La struttura delle classi che lo compongono mostra una corrispondenza biunivoca con gli elementi grafici presentati nella sezione~\ref{sec:clientview} con un \inglese{presenter} per ognuno dei pannelli cui si aggiunge un oggetto istanza di \texttt{guicontrol.PresenterMediator}.
 
 Ogni \inglese{presenter} facente parte di questo componente contiene al suo interno le funzioni di \inglese{callback} che vengono richiamate dall'elemento dell'interfaccia grafica corrispondente.
 
-Dal momento che il componente \textsf{Gestione GUI} è anche responsabile anche delle modifiche alle viste, le sottoclassi di \texttt{guicontrol.MainPanelPresenter} contengono anche le operazioni richiamate dall'esterno per l'aggiornamento dinamico della GUI\@.
+Dal momento che il componente \textsf{Gestione GUI} è anche responsabile anche delle modifiche alle viste, le sottoclassi di \texttt{guicontrol.MainPresenter} contengono anche le operazioni richiamate dall'esterno per l'aggiornamento dinamico della GUI\@.
 
 L'oggetto \texttt{PresenterMediator} invece incapsula la collaborazione fra i vari \inglese{presenter} associati alla grafica e permette di gestire gli eventi generati da un elemento della GUI inviando a uno (o più) \inglese{presenter} i messaggi corrispondenti alle azioni da compiere.
 
@@ -1969,21 +1969,21 @@ L'oggetto \texttt{PresenterMediator} invece incapsula la collaborazione fra i va
 
 	\item{\scshape\bfseries Classi utilizzate:}\\
 	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \texttt{guicontrol.AccountSettingsPanelPresenter}
-	  \item[-] \texttt{guicontrol.AddressBookPanelPresenter}
-	  \item[-] \texttt{guicontrol.CallHistoryPanelPresenter}
-	  \item[-] \texttt{guicontrol.CommunicationPanelPresenter}
-	  \item[-] \texttt{guicontrol.GroupPanelPresenter}	 
-	  \item[-] \texttt{guicontrol.SearchResultPanelPresenter}	   
-	  \item[-] \texttt{guicontrol.ContactPanelPresenter}
-	  \item[-] \texttt{guicontrol.LoginPanelPresenter}
-	  \item[-] \texttt{guicontrol.RegisterPanelPresenter}	 
+	  \item[-] \texttt{guicontrol.AccountSettingsPresenter}
+	  \item[-] \texttt{guicontrol.AddressBookPresenter}
+	  \item[-] \texttt{guicontrol.CallHistoryPresenter}
+	  \item[-] \texttt{guicontrol.CommunicationPresenter}
+	  \item[-] \texttt{guicontrol.GroupPresenter}	 
+	  \item[-] \texttt{guicontrol.SearchResultPresenter}	   
+	  \item[-] \texttt{guicontrol.ContactPresenter}
+	  \item[-] \texttt{guicontrol.LoginPresenter}
+	  \item[-] \texttt{guicontrol.RegisterPresenter}	 
 	  \item[-] \texttt{guicontrol.TopLevelPresenter}	  
 	  \item[-] \texttt{guicontrol.ChildPrenter}	  
-	  \item[-] \texttt{guicontrol.MainPanelPresenter}
-		\item[-] \texttt{guicontrol.MessagePanelPresenter}
+	  \item[-] \texttt{guicontrol.MainPresenter}
+		\item[-] \texttt{guicontrol.MessagePresenter}
 		\item[-] \texttt{guicontrol.PresenterMediator}
-	  \item[-] \texttt{guicontrol.ToolsPanelPresenter}
+	  \item[-] \texttt{guicontrol.ToolsPresenter}
 	\end{itemize}
 \end{description}
 
@@ -2018,7 +2018,7 @@ Tale classe è inoltre stata implementata come Singleton, al fine di porre un li
   \item{\scshape\bfseries Descrizione:}\\
 Tale classe modella una chiamata appartenente allo storico dell'utente corrente (dove risiede il \inglese{presenter}), e permette di accedere alle informazioni caratteristiche quali il mittente, l'insieme dei destinatari, la durata e la data di inizio della chiamata, sia essa di natura audio oppure audio/video.
 
-Qualora lo storico delle chiamate non fosse disponibile sul client in cui è ospitato il \inglese{presenter}, gli oggetti di tipo \texttt{JSCall} sono creati a seguito di una richiesta da parte di \texttt{guicontrol.CallHistoryPanelPresenter} al fine di ottenere i dati che devono essere visualizzati nell'interfaccia grafica.
+Qualora lo storico delle chiamate non fosse disponibile sul client in cui è ospitato il \inglese{presenter}, gli oggetti di tipo \texttt{JSCall} sono creati a seguito di una richiesta da parte di \texttt{guicontrol.CallHistoryPresenter} al fine di ottenere i dati che devono essere visualizzati nell'interfaccia grafica.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -2034,7 +2034,7 @@ Classe che rappresenta un messaggio presente nella segreteria dell'utente corren
 
 I diversi \inglese{presenter} del componente \textsf{Gestione GUI} possono accedere al mittente del messaggio, allo stato del messaggio (ascoltato o non ascoltato), alla natura del messaggio (audio o audio/video), alla durata e, in ultima istanza, al contenuto del messaggio.
 
-I messaggi della segreteria telefonica di un determinato utente vengono scaricati dal \inglese{presenter} \texttt{guicontrol.MessagePanelPresenter} qualora non fossero presenti sul client che ospita il \inglese{presenter} e sono in seguito utilizzati per popolare l'interfaccia grafica.
+I messaggi della segreteria telefonica di un determinato utente vengono scaricati dal \inglese{presenter} \texttt{guicontrol.MessagePresenter} qualora non fossero presenti sul client che ospita il \inglese{presenter} e sono in seguito utilizzati per popolare l'interfaccia grafica.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -2050,7 +2050,7 @@ Tale classe ha il compito di rappresentare i contatti della rubrica lato \ingles
 
 In particolare, di un utente-contatto è possibile ottenere lo \inglese{username}, i dati anagrafici (nome e cognome) nonché l'immagine associata al profilo personale, laddove queste ultime tre informazioni sono da considerarsi facoltative e potrebbero non essere disponibili per un determinato utente.
 
-Gli oggetti \texttt{JSUserData} vengono creati a seguito di una richiesta proveniente dal \inglese{presenter} \texttt{guicontrol.AddressBookPanelPresenter} e sono successivamente impiegati  al fine di popolare l'interfaccia grafica con i dati corrispondenti alla rubrica utente.
+Gli oggetti \texttt{JSUserData} vengono creati a seguito di una richiesta proveniente dal \inglese{presenter} \texttt{guicontrol.AddressBookPresenter} e sono successivamente impiegati  al fine di popolare l'interfaccia grafica con i dati corrispondenti alla rubrica utente.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -2066,7 +2066,7 @@ Classe avente il compito di rappresentare i gruppi della rubrica lato \inglese{p
 
 In particolare di un gruppo è possibile ottenere il nome e l'elenco dei contatti appartenenti al gruppo.
 
-Gli oggetti \texttt{JSGroup} vengono creati a seguito di una richiesta proveniente dal \inglese{presenter} \texttt{guicontrol.GroupPanelPresenter} e sono successivamente impiegati  al fine di popolare l'interfaccia grafica con la lista dei gruppi utente.
+Gli oggetti \texttt{JSGroup} vengono creati a seguito di una richiesta proveniente dal \inglese{presenter} \texttt{guicontrol.GroupPresenter} e sono successivamente impiegati  al fine di popolare l'interfaccia grafica con la lista dei gruppi utente.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -2080,12 +2080,12 @@ Gli oggetti \texttt{JSGroup} vengono creati a seguito di una richiesta provenien
 \subsubsection{Package \texttt{org.softwaresynthesis.mytalk.clientpresenter.guicontrol}}
 \begin{itemize}[noitemsep,nolistsep]
 
-\item \texttt{guicontrol.AccountSettingsPanelPresenter}
+\item \texttt{guicontrol.AccountSettingsPresenter}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Si tratta del \inglese{presenter} richiamato dall'elemento grafico corrispondente al pannello \texttt{org.softwaresynthesis.mytalk.clientview.AccountSettingsPanel} per la gestione dei dati relativi all'utente associato al client.
+Si tratta del \inglese{presenter} richiamato dall'elemento grafico corrispondente al pannello \texttt{org.softwaresynthesis.mytalk.clientview.AccountSettingsPresenter} per la gestione dei dati relativi all'utente associato al client.
 
-Per questo motivo, l'oggetto \texttt{AccountSettingsPanelPresenter} ha il compito di mettere a disposizione per la vista le funzioni di \inglese{callback} che comportano la modifica di questi stessi dati. 
+Per questo motivo, l'oggetto \texttt{AccountSettingsPresenter} ha il compito di mettere a disposizione per la vista le funzioni di \inglese{callback} che comportano la modifica di questi stessi dati. 
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -2094,10 +2094,10 @@ Per questo motivo, l'oggetto \texttt{AccountSettingsPanelPresenter} ha il compit
 	\end{itemize}
 \end{description}
 
-\item \texttt{guicontrol.AddressBookPanelPresenter}
+\item \texttt{guicontrol.AddressBookPresenter}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Tale \inglese{presenter} viene richiamato dall'elemento grafico corrispondente al pannello della rubrica (\texttt{org.softwaresynthesis.mytalk.clientview.AddressBookPanel}) e contiene la risposta a eventi quali la selezione di un contatto dalla rubrica da parte dell'utente. Contiene inoltre un'operazione di \inglese{refresh} che visualizza una lista di contatti ricevuta in input in forma grafica sulla UI\@.
+Tale \inglese{presenter} viene richiamato dall'elemento grafico corrispondente al pannello della rubrica (\texttt{org.softwaresynthesis.mytalk.clientview.AddressBookPresenter}) e contiene la risposta a eventi quali la selezione di un contatto dalla rubrica da parte dell'utente. Contiene inoltre un'operazione di \inglese{refresh} che visualizza una lista di contatti ricevuta in input in forma grafica sulla UI\@.
 
 Il \inglese{presenter} in questione rende inoltre possibile avviare una ricerca fra gli utenti registrati nel sistema nonché rilevare che l'operazione di ricerca è conclusa (e conseguentemente visualizzare nuovamente la rubrica). 
 
@@ -2113,7 +2113,7 @@ Infine in modo simile sono comunicati al server gli esiti delle operazioni di am
 	\end{itemize}
 \end{description}
 
-\item \texttt{guicontrol.CallHistoryPanelPresenter}
+\item \texttt{guicontrol.CallHistoryPresenter}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Questo \inglese{presenter} gestisce l'elemento corrispondente al pannello dello storico delle chiamate presente nell'interfaccia grafica, permettendo la visualizzazione di un \textit{array} di chiamate corrispondenti alle comunicazioni di un determinato utente.
@@ -2129,7 +2129,7 @@ Qualora i dati corrispondenti allo storico delle chiamate non fossero disponibil
 	\end{itemize}
 \end{description}
 
-\item \texttt{guicontrol.CommunicationPanelPresenter}
+\item \texttt{guicontrol.CommunicationPresenter}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Tale \inglese{presenter} si occupa della gestione del componente grafico corrispondente al pannello di comunicazione fra utenti. In particolare, comprende le operazioni necessarie all'aggiornamento della grafica corrispondente alle chat testuali e alle condivisioni, nonché alla visualizzazione dello \inglese{stream} video nel corso di una comunicazione audio/video o dell'immagine associata al profilo utente nel caso di una sola comunicazione audio.
@@ -2143,14 +2143,14 @@ Le principali funzioni di \inglese{callback} utilizzate dall'interfaccia grafica
 	\end{itemize}
 \end{description}
 
-\item \texttt{guicontrol.ContactPanelPresenter}
+\item \texttt{guicontrol.ContactPresenter}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Tale \inglese{presenter} ha la responsabilità di controllare l'aggiornamento della sezione dell'interfaccia grafica incaricata di visualizzare il profilo di un utente in risposta alla selezione dalla rubrica o dall'esito di una ricerca.
 
 Poiché inoltre, a partire da tale componente grafico è possibile avviare una comunicazione, tale classe comprende al proprio interno anche le funzioni che devono essere richiamate in risposta all'azione da parte dell'utente di dare avvio a una comunicazione.
 
-Poiché da \texttt{org.softwaresynthesis.mytalk.clientview.ContactPanel} è possibile anche svolgere alcune attività di amministrazione della rubrica utente, in questo \inglese{presenter} sono presenti anche le funzioni di \inglese{callback} necessarie per l'aggiunta e la rimozione di un contatto particolare ad un gruppo, bloccare o sbloccare tale contatto, nonché per l'aggiunta dello stesso alla rubrica se il suo profilo è stato aperto a seguito di una ricerca fra gli utenti registrati nel sistema.
+Poiché da \texttt{org.softwaresynthesis.mytalk.clientview.ContactPresenter} è possibile anche svolgere alcune attività di amministrazione della rubrica utente, in questo \inglese{presenter} sono presenti anche le funzioni di \inglese{callback} necessarie per l'aggiunta e la rimozione di un contatto particolare ad un gruppo, bloccare o sbloccare tale contatto, nonché per l'aggiunta dello stesso alla rubrica se il suo profilo è stato aperto a seguito di una ricerca fra gli utenti registrati nel sistema.
 
 Dal momento che, infine, tali operazioni di amministrazione hanno un effetto sulle entità del modello dei dati che risiedono sul server, tale classe ha la responsabilità di notificare gli aggiornamenti sul server al fine di mantenere la consistenza delle informazioni.
 
@@ -2161,7 +2161,7 @@ Dal momento che, infine, tali operazioni di amministrazione hanno un effetto sul
 	\end{itemize}
 \end{description}
 
-\item \texttt{guicontrol.GroupPanelPresenter}
+\item \texttt{guicontrol.GroupPresenter}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Tale \inglese{presenter} ha la responsabilità di controllare l'aggiornamento della sezione dell'interfaccia grafica incaricata all'amministrazione dei gruppi creati dall'utente in risposta alla modifica (intesa come aggiunta o rimozione) di tali gruppi tramite le funzioni di \inglese{callback} associate.
@@ -2176,7 +2176,7 @@ Tale \inglese{presenter} ha la responsabilità di controllare l'aggiornamento de
 
 
 %CLASSE MORTA (SELETTORE LINGUA DELLA GUI)
-%\item \texttt{guicontrol.LanguagePanelPresenter}
+%\item \texttt{guicontrol.LanguagePresenter}
 %\begin{description}
 %	\item{\scshape\bfseries Descrizione:}\\
 %Il \inglese{presenter} in questione ha il compito di popolare il contenuto dell'elemento grafico corrispondente al pannello di configurazione della UI e, in particolare, della lingua in cui questa viene visualizzata.
@@ -2190,12 +2190,12 @@ Tale \inglese{presenter} ha la responsabilità di controllare l'aggiornamento de
 %	\end{itemize}
 %\end{description}
 
-\item \texttt{guicontrol.LoginPanelPresenter}
+\item \texttt{guicontrol.LoginPresenter}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
 Tale \inglese{presenter} ha il compito di ricevere dall'interfaccia grafica i dati di autenticazione, associando un suo metodo all'evento \texttt{onSubmit} del \inglese{form} di \inglese{login}, e in seguito inoltrarli alla sotto-architettura server tramite una \inglese{servlet} del componente \textsf{Gestione controller}.
 
-L'oggetto \texttt{LoginPanelPresenter} permette semplicemente di comunicare al server i dati di \inglese{login} inseriti dall'utente.
+L'oggetto \texttt{LoginPresenter} permette semplicemente di comunicare al server i dati di \inglese{login} inseriti dall'utente.
   
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -2204,7 +2204,7 @@ L'oggetto \texttt{LoginPanelPresenter} permette semplicemente di comunicare al s
   \end{itemize}
 \end{description}
 
-\item \texttt{guicontrol.MainPanelPresenter}
+\item \texttt{guicontrol.MainPresenter}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Classe base per i \inglese{presenter} associati ai diversi componenti dell'interfaccia grafica che contiene i metodi necessari all'inizializzazione di questi ultimi nonché i controlli che ne attivano la comparsa o scomparsa in risposta alle preferenze di visualizzazione dell'utente.
@@ -2216,7 +2216,7 @@ Classe base per i \inglese{presenter} associati ai diversi componenti dell'inter
 	\end{itemize}
 \end{description}
 
-\item \texttt{guicontrol.MessagePanelPresenter}
+\item \texttt{guicontrol.MessagePresenter}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Tale \inglese{presenter} contiene le operazioni necessarie a visualizzare l'elenco dei messaggi presenti nella segreteria telefonica di un determinato utente.
@@ -2251,7 +2251,7 @@ A tale scopo, è necessario che tutti i \inglese{presenter} si registrino su di 
 \end{description}
 
 
-\item \texttt{guicontrol.RegisterPanelPresenter}
+\item \texttt{guicontrol.RegisterPresenter}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Tale \inglese{presenter} ha il compito di ricevere dall'interfaccia grafica i dati con cui desidera registrarsi un utente, associando un suo metodo all'evento \texttt{onSubmit} del \inglese{form} di registrazione, e in seguito inoltrarli alla sotto-architettura server tramite una \inglese{servlet} del componente \textsf{Gestione controller}.
@@ -2263,12 +2263,12 @@ Tale \inglese{presenter} ha il compito di ricevere dall'interfaccia grafica i da
 	\end{itemize}
 \end{description}
 
-\item \texttt{guicontrol.SearchResultPanelPresenter}
+\item \texttt{guicontrol.SearchResultPresenter}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
 Tale \inglese{presenter} ha la responsabilità di controllare l'aggiornamento della sezione dell'interfaccia grafica incaricata della ricerca di un contatto tra quelli iscritti al sistema dopo la richiesta specifica dell'utente.
 
-Per questo motivo, l'oggetto \texttt{SearchResultPanelPresenter} ha il compito di mettere a disposizione per la vista le funzioni di \inglese{callback} che comportano la modifica della stringa di ricerca di uno specifico contatto nella lista.
+Per questo motivo, l'oggetto \texttt{SearchResultPresenter} ha il compito di mettere a disposizione per la vista le funzioni di \inglese{callback} che comportano la modifica della stringa di ricerca di uno specifico contatto nella lista.
 
 %TODO CONTROLLARE E INTEGRARE
 
@@ -2280,16 +2280,16 @@ Per questo motivo, l'oggetto \texttt{SearchResultPanelPresenter} ha il compito d
 \end{description}
 
 
-\item \texttt{guicontrol.ToolsPanelPresenter}
+\item \texttt{guicontrol.ToolsPresenter}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Tramite tale \inglese{presenter} è possibile inizializzare la barra laterale degli strumenti rappresentata da \texttt{org.softwaresynthesis.mytalk.clientview.ToolsPanel}. Gli aggiornamenti cui tale porzione della vista è soggetta consistono nella visualizzazione/scomparsa di uno o più strumenti su richiesta dell'utente e per ognuno di questi è prevista la presenza di un'operazione.
+Tramite tale \inglese{presenter} è possibile inizializzare la barra laterale degli strumenti rappresentata da \texttt{org.softwaresynthesis.mytalk.clientview.ToolsPresenter}. Gli aggiornamenti cui tale porzione della vista è soggetta consistono nella visualizzazione/scomparsa di uno o più strumenti su richiesta dell'utente e per ognuno di questi è prevista la presenza di un'operazione.
 
 D'altra parte, gli eventi scatenati dall'interazione dell'utente con il pannello degli strumenti che comportano la modifica dell'elemento mostrato nella regione centrale al posto del pannello principale, sono raccolti da questo \inglese{presenter} e inoltrati al \texttt{PresenterMediator} per la gestione.
 
 In tal modo è possibile far comparire o scomparire il pannello di gestione dei dati personali corrispondenti al proprio account, della segreteria, la gestione dei gruppi e lo storico delle chiamate.
 
-Poiché inoltre da \texttt{org.softwaresynthesis.mytalk.clienview.ToolsPanel} è possibile impostare il proprio stato, il \inglese{presenter} ad esso associato contiene le funzioni che notificano l'avvenuto cambiamento di stato al componente \textsf{Gestione controller}.
+Poiché inoltre da \texttt{org.softwaresynthesis.mytalk.clienview.ToolsPresenter} è possibile impostare il proprio stato, il \inglese{presenter} ad esso associato contiene le funzioni che notificano l'avvenuto cambiamento di stato al componente \textsf{Gestione controller}.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -2339,9 +2339,9 @@ I nomi di tutte le classi riportate nella presente sezione sono inoltre implicit
 
 Analogamente a quanto osservato per la sotto-architettura \texttt{clientpresenter}, la rappresentazione tramite classi e oggetti è utilizzata a livello prettamente logico indipendentemente dal dominio applicativo concreto di implementazione.
 
-In riferimento alla bozza di interfaccia utente presentata in figura \vref{fig: gui_alto}, la parte denominata \texttt{AddressBookPanel} conterrà la lista degli utenti nella rubrica, mentre \texttt{ToolsPanel} conterrà i componenti grafici che rappresentano tutte le funzionalità offerte dal sistema. 
+In riferimento alla bozza di interfaccia utente presentata in figura \vref{fig: gui_alto}, la parte denominata \texttt{AddressBookView} conterrà la lista degli utenti nella rubrica, mentre \texttt{ToolsPresenteriew} conterrà i componenti grafici che rappresentano tutte le funzionalità offerte dal sistema. 
 
-Il contenuto del \texttt{MainPanel}, invece, è destinato in relazione alla funzionalità scelta dall'utente in quel momento. Ad esempio, qualora l'utente selezioni un contatto presente nella rubrica, verrà visualizzato il profilo corrispondente al contatto scelto in \texttt{ContactPanel}, mentre nel caso in cui si attiva una forma di comunicazione, sarà visibile la parte grafica di un'istanza di \texttt{CommunicationPanel}.
+Il contenuto del \texttt{MainView}, invece, è destinato in relazione alla funzionalità scelta dall'utente in quel momento. Ad esempio, qualora l'utente selezioni un contatto presente nella rubrica, verrà visualizzato il profilo corrispondente al contatto scelto in \texttt{ContactView}, mentre nel caso in cui si attiva una forma di comunicazione, sarà visibile la parte grafica di un'istanza di \texttt{CommunicationView}.
 
 \subsection{Componenti evidenziati}
 
@@ -2362,33 +2362,33 @@ Si noti che tale componente demanda tutta la logica di applicazione al \inglese{
 
 	\item{\scshape\bfseries Classi utilizzate:} 
 	\begin{itemize}[noitemsep,nolistsep]
-		\item[-] \texttt{IMainPanel}
-		\item[-] \texttt{IToolsPanel}
-		\item[-] \texttt{IAddressBookPanel}
-		\item[-] \texttt{IContactPanel}
-		\item[-] \texttt{IMessagePanel}
-		\item[-] \texttt{IGroupPanel}
-		\item[-] \texttt{ISearchPanel}
-		\item[-] \texttt{IAccountSettingsPanel}
-		\item[-] \texttt{ICallHistoryPanel}
-		\item[-] \texttt{ICommunicationPanel}
-		\item[-] \texttt{MainPanel}
-		\item[-] \texttt{ToolsPanel}
-		\item[-] \texttt{AddressBookPanel}
-		\item[-] \texttt{ContactPanel}
-		\item[-] \texttt{MessagePanel}
-		\item[-] \texttt{GroupPanel}
-		\item[-] \texttt{SearchPanel}
-		\item[-] \texttt{AccountSettingsPanel}
-		\item[-] \texttt{CallHistoryPanel}
-		\item[-] \texttt{CommunicationPanel}
+		\item[-] \texttt{IMainView}
+		\item[-] \texttt{IToolsView}
+		\item[-] \texttt{IAddressBookView}
+		\item[-] \texttt{IContactView}
+		\item[-] \texttt{IMessageView}
+		\item[-] \texttt{IGroupView}
+		\item[-] \texttt{ISearchResultView}
+		\item[-] \texttt{IAccountSettingsView}
+		\item[-] \texttt{ICallHistoryView}
+		\item[-] \texttt{ICommunicationView}
+		\item[-] \texttt{MainView}
+		\item[-] \texttt{ToolsView}
+		\item[-] \texttt{AddressBookView}
+		\item[-] \texttt{ContactView}
+		\item[-] \texttt{MessageView}
+		\item[-] \texttt{GroupView}
+		\item[-] \texttt{SearchResultView}
+		\item[-] \texttt{AccountSettingsView}
+		\item[-] \texttt{CallHistoryView}
+		\item[-] \texttt{CommunicationView}
 	\end{itemize}  
 \end{description}
 
 \subsubsection{CV02 -- Login}\label{sec:cv02}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
-Il componente \textsf{Login} ha la responsabilità di ricevere in ingresso le credenziali di autenticazione immesse dall'utente del sistema e di trasmetterle al \inglese{presenter} ad esso associato \texttt{org.softwaresynthesis.mytalk.clientpresenter.guicontrol.LoginPanelPresenter}.
+Il componente \textsf{Login} ha la responsabilità di ricevere in ingresso le credenziali di autenticazione immesse dall'utente del sistema e di trasmetterle al \inglese{presenter} ad esso associato \texttt{org.softwaresynthesis.mytalk.clientpresenter.guicontrol.LoginPresenter}.
 
 	\item{\scshape\bfseries Diagramma delle classi:}
   \begin{figure}[H]
@@ -2399,10 +2399,10 @@ Il componente \textsf{Login} ha la responsabilità di ricevere in ingresso le cr
 
   \item{\scshape\bfseries Classi utilizzate}
   \begin{itemize}[noitemsep,nolistsep]
-  	\item \texttt{ILoginPanel}
-    \item \texttt{IRegisterPanel}
-    \item \texttt{LoginPanel}
-    \item \texttt{RegisterPanel}
+  	\item \texttt{ILoginView}
+    \item \texttt{IRegisterView}
+    \item \texttt{LoginView}
+    \item \texttt{RegisterView}
   \end{itemize}
 
 \end{description}
@@ -2413,7 +2413,7 @@ Il componente \textsf{Login} ha la responsabilità di ricevere in ingresso le cr
 
 \begin{itemize}[leftmargin=0em]
 
-\item \texttt{IAddressBookPanel}
+\item \texttt{IAddressBookView}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
 Pannello che permette la visualizzazione della rubrica dell'utente connesso al sistema e di accedere ad alcune delle funzionalità di amministrazione della rubrica stessa (ad esempio l'aggiunta o la rimozione di gruppi).
@@ -2427,10 +2427,10 @@ In questo pannello sono anche presenti le funzionalità di ricerca fra gli utent
   \end{itemize}
 \end{description}
 
-\item \texttt{AddressBookPanel}
+\item \texttt{AddressBookView}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Implementazione di \texttt{IAddressBookPanel}.
+Implementazione di \texttt{IAddressBookView}.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -2439,7 +2439,7 @@ Implementazione di \texttt{IAddressBookPanel}.
   \end{itemize}
 \end{description}
 
-\item \texttt{IMainPanel}
+\item \texttt{IMainView}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
 Classe padre della gerarchia di oggetti grafici che possono comparire nella sezione principale dell'interfaccia utente. Ogni sua specializzazione definisce un nuovo tipo di pannello che costituisce l'elemento in primo piano dell'applicazione.
@@ -2451,10 +2451,10 @@ Classe padre della gerarchia di oggetti grafici che possono comparire nella sezi
   \end{itemize}
 \end{description}
 
-\item \texttt{MainPanel}
+\item \texttt{MainView}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Implementazione di \texttt{IMainPanel}
+Implementazione di \texttt{IMainView}
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -2463,7 +2463,7 @@ Implementazione di \texttt{IMainPanel}
   \end{itemize}
 \end{description}
 
-\item \texttt{IToolsPanel}
+\item \texttt{IToolsView}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
 Pannello che rappresenta il pannello degli strumenti della \inglese{home screen} dell'applicativo  mediante il quale è possibile accedere alle funzionalità di ricerca, di segreteria telefonica, selezione della lingua, modifica dei dati dell'utente e storico delle chiamate.
@@ -2477,10 +2477,10 @@ All'occorrenza il pannello può essere messo in secondo piano e non essere più 
   \end{itemize}
 \end{description}
 
-\item \texttt{ToolsPanel}
+\item \texttt{ToolsView}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Implementazione di \texttt{IToolsPanel}.
+Implementazione di \texttt{IToolsView}.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -2489,10 +2489,10 @@ Implementazione di \texttt{IToolsPanel}.
   \end{itemize}
 \end{description}
 
-\item \texttt{IContactPanel}
+\item \texttt{IContactView}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Pannello che estende \texttt{IMainPanel} utilizzato per rappresentare il profilo di un utente. Solo accedendo quest'ultimo sarà possibile avviare una comunicazione con l'utente. Il contatto viene visualizzato selezionando l'utente dalla rubrica oppure tra i risultati di una ricerca.
+Pannello che estende \texttt{IMainView} utilizzato per rappresentare il profilo di un utente. Solo accedendo quest'ultimo sarà possibile avviare una comunicazione con l'utente. Il contatto viene visualizzato selezionando l'utente dalla rubrica oppure tra i risultati di una ricerca.
 
 Attraverso questo pannello è inoltre possibile effettuare alcune operazioni di amministrazione sulla rubrica: aggiungere o rimuovere un utente ad uno dei gruppi della propria rubrica, bloccare un contatto o, se il profilo visualizzato corrisponde a un utente che non appartiene alla rubrica personale, aggiungerlo ad essa.
 
@@ -2503,10 +2503,10 @@ Attraverso questo pannello è inoltre possibile effettuare alcune operazioni di 
   \end{itemize}
 \end{description}
 
-\item \texttt{ContactPanel}
+\item \texttt{ContactView}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Implementazione di \texttt{IContactPanel}.
+Implementazione di \texttt{IContactView}.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -2515,10 +2515,10 @@ Implementazione di \texttt{IContactPanel}.
   \end{itemize}
 \end{description}
 
-\item \texttt{IMessagePanel}
+\item \texttt{IMessageView}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Questa Interfaccia, che estende \texttt{IMainPanel}, permette di accedere all'elenco dei messaggi in segreteria di un determinato utente e ne permette la gestione. La visualizzazione si attiva quando viene premuto il relativo pulsante mostrato dall'istanza di \texttt{ToolsPanel}.
+Questa Interfaccia, che estende \texttt{IMainView}, permette di accedere all'elenco dei messaggi in segreteria di un determinato utente e ne permette la gestione. La visualizzazione si attiva quando viene premuto il relativo pulsante mostrato dall'istanza di \texttt{ToolsView}.
 
 Tramite questo elemento grafico è possibile anche riprodurre il contenuto di un messaggio, dopo che quest'ultimo è stato scaricato dal server (se non era già presente in memoria), arrestarne la riproduzione oppure cancellarlo se non si desidera che venga conservato.
 
@@ -2529,10 +2529,10 @@ Tramite questo elemento grafico è possibile anche riprodurre il contenuto di un
   \end{itemize}
 \end{description}
 
-\item \texttt{MessagePanel}
+\item \texttt{MessageView}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Implementazione di \texttt{IMessagePanel}.
+Implementazione di \texttt{IMessageView}.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -2541,7 +2541,7 @@ Implementazione di \texttt{IMessagePanel}.
   \end{itemize}
 \end{description}
 
-\item \texttt{IGroupPanel}
+\item \texttt{IGroupView}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
 Tramite questo pannello è possibile visionare i gruppi che compongono la rubrica dell'utente. I gruppi vengono rappresentanti mediante il loro nome all'interno di una lista e affianco ad ogni nome comparirà un icona atta ad indicare la possibilità di eliminare il gruppo selezionato.
@@ -2553,10 +2553,10 @@ Tramite questo pannello è possibile visionare i gruppi che compongono la rubric
   \end{itemize}
 \end{description}
 
-\item \texttt{GroupPanel}
+\item \texttt{GroupView}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Implementazione di \texttt{IGroupPanel}.
+Implementazione di \texttt{IGroupView}.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -2565,10 +2565,10 @@ Implementazione di \texttt{IGroupPanel}.
   \end{itemize}
 \end{description}
 
-\item \texttt{ISearchPanel}
+\item \texttt{ISearchResultView}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Tramite questo pannello grafico, dotato di un <input> per l'inserimento di una parola chiave, è possibile ricercare nella propria rubrica tutti i contatti contenenti nel nome, cognome o indirizzo mail, la parola da ricercare. Una ricerca tramite questo pannello aggiorna il MainPanel con la lista dei contatti corretti secondo la ricerca.
+Tramite questo pannello grafico, dotato di un <input> per l'inserimento di una parola chiave, è possibile ricercare nella propria rubrica tutti i contatti contenenti nel nome, cognome o indirizzo mail, la parola da ricercare. Una ricerca tramite questo pannello aggiorna il MainView con la lista dei contatti corretti secondo la ricerca.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -2577,10 +2577,10 @@ Tramite questo pannello grafico, dotato di un <input> per l'inserimento di una p
   \end{itemize}
 \end{description}
 
-\item \texttt{SearchPanel}
+\item \texttt{SearchResultView}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Implementazione di \texttt{ISearchPanel}.
+Implementazione di \texttt{ISearchResultView}.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -2589,10 +2589,10 @@ Implementazione di \texttt{ISearchPanel}.
   \end{itemize}
 \end{description}
 
-\item \texttt{IAccountSettingsPanel}
+\item \texttt{IAccountSettingsView}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Questa classe è utilizzata per rappresentare il \underline{\inglese{form}} che si presenta all'utente per la modifica dei propri dati, costituisce inoltre una sottoclasse di \texttt{MainPanel} e viene visualizzata quando l'utente preme il relativo pulsante nel pannello degli strumenti.
+Questa classe è utilizzata per rappresentare il \underline{\inglese{form}} che si presenta all'utente per la modifica dei propri dati, costituisce inoltre una sottoclasse di \texttt{MainView} e viene visualizzata quando l'utente preme il relativo pulsante nel pannello degli strumenti.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -2601,10 +2601,10 @@ Questa classe è utilizzata per rappresentare il \underline{\inglese{form}} che 
   \end{itemize}
 \end{description}
 
-\item \texttt{AccountSettingsPanel}
+\item \texttt{AccountSettingsView}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Implementazione di \texttt{IAccountSettingPanel}.
+Implementazione di \texttt{IAccountSettingView}.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -2613,10 +2613,10 @@ Implementazione di \texttt{IAccountSettingPanel}.
   \end{itemize}
 \end{description}
 
-\item \texttt{ICallHistoryPanel}
+\item \texttt{ICallHistoryView}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Questa classe estende \texttt{MainPanel} e viene impiegata per rappresentare lo storico delle chiamate visualizzato quando l'utente attiva il pulsante corrispondente presente nel \texttt{ToolsPanel}. Oltre alla visualizzazione dello storico delle chiamate non è prevista alcuna forma di interazione attiva con l'utente.
+Questa classe estende \texttt{MainView} e viene impiegata per rappresentare lo storico delle chiamate visualizzato quando l'utente attiva il pulsante corrispondente presente nel \texttt{ToolsView}. Oltre alla visualizzazione dello storico delle chiamate non è prevista alcuna forma di interazione attiva con l'utente.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -2625,10 +2625,10 @@ Questa classe estende \texttt{MainPanel} e viene impiegata per rappresentare lo 
   \end{itemize}
 \end{description}
 
-\item \texttt{CallHistoryPanel}
+\item \texttt{CallHistoryView}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Implementazione di \texttt{ICallHistoryPanel}.
+Implementazione di \texttt{ICallHistoryView}.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -2637,7 +2637,7 @@ Implementazione di \texttt{ICallHistoryPanel}.
   \end{itemize}
 \end{description}
 
-\item \texttt{ICommunicationPanel}
+\item \texttt{ICommunicationView}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
 Tale componente grafico si attiva nel momento in cui è stata avviata una forma di comunicazione, sia essa audio, audio/video oppure testuale. Per le comunicazioni audio e audio/video consente la visualizzazione dell'immagine associata al profilo dei destinatari oppure dei relativi \inglese{stream} video e permette di visualizzare le risorse condivise.
@@ -2651,10 +2651,10 @@ Inoltre tale entità grafica prevede anche la presenza di una o più aree di cha
   \end{itemize}
 \end{description}
 
-\item \texttt{CommunicationPanel}
+\item \texttt{CommunicationView}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Implementazione di \texttt{CommunicationPanel}.
+Implementazione di \texttt{CommunicationView}.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -2663,7 +2663,7 @@ Implementazione di \texttt{CommunicationPanel}.
   \end{itemize}
 \end{description}
 
-\item \texttt{ILoginPanel}
+\item \texttt{ILoginView}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
 Per la descrizione di questo elemento grafico si rimanda alla sezione \vref{sec:cv02}.
@@ -2674,10 +2674,10 @@ Per la descrizione di questo elemento grafico si rimanda alla sezione \vref{sec:
   \end{itemize}
 \end{description}
 
-\item \texttt{LoginPanel}
+\item \texttt{LoginView}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Implementazione di \texttt{ILoginPanel}.
+Implementazione di \texttt{ILoginView}.
 
   \item{\scshape\bfseries Componenti che ne fanno uso}
   \begin{itemize}[noitemsep,nolistsep]
@@ -2685,7 +2685,7 @@ Implementazione di \texttt{ILoginPanel}.
   \end{itemize}
 \end{description}
 
-\item \texttt{IRegisterPanel}
+\item \texttt{IRegisterView}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
 Pannello contenente la form per la registrazione utente.
@@ -2696,10 +2696,10 @@ Pannello contenente la form per la registrazione utente.
   \end{itemize}
 \end{description}
 
-\item \texttt{RegisterPanel}
+\item \texttt{RegisterView}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Implementazione di \texttt{IPanelPresenter}.
+Implementazione di \texttt{IRegisterView}.
 
   \item{\scshape\bfseries Componenti che ne fanno uso}
   \begin{itemize}[noitemsep,nolistsep]
