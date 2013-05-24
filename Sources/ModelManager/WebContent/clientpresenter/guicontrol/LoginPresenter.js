@@ -120,7 +120,7 @@ function LoginPanelPresenter() {
         var request = new XMLHttpRequest();
         request.open("POST", commandURL, false);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        request.send("operation=answer&username=" + encodeURIComponent(username) + "&answer=" + encodeURIComponent(answer));
+        request.send("operation=answer&username=" + username + "&answer=" + answer);
         return JSON.parse(request.responseText);
     }
 
@@ -142,8 +142,6 @@ function LoginPanelPresenter() {
     /** VIEW
      * Costruisce il form per il recupero della password dell'utente
      *
-     * @param {String}
-     *            username l'email dell'utente
      * @returns {HTMLFormElement} il form per il recupero della password
      * @author Diego Beraldin
      */
@@ -160,7 +158,7 @@ function LoginPanelPresenter() {
         var labelQuestion = document.createElement("label");
         labelQuestion.setAttribute("for", "inputanswer");
         // procura il testo della domanda segreta
-        var name = this.getUsername();
+        var name = thisPresenter.getUsername();
         var text = getSecretQuestion(name);
         var question = document.createTextNode(text);
         labelQuestion.appendChild(question);
@@ -172,9 +170,9 @@ function LoginPanelPresenter() {
         inputAnswer.setAttribute("placeholder", "risposta");
         inputAnswer.setAttribute("required", "required");
         // pulsante di conferma
-        var submitButton = document.createElement("input");
-        submitButton.setAttribute("type", "submit");
-        submitButton.setAttribute("value", "OK");
+        var submitButton = document.createElement("button");
+        submitButton.type = "submit";
+        submitButton.value = "Richiedi Password";
         submitButton.onclick = function() {
             // Answer(username, inputAnswer.getAttribute("value"));
             if (hasAnsweredCorrectly(thisPresenter.getUsername(), inputAnswer.value)) {

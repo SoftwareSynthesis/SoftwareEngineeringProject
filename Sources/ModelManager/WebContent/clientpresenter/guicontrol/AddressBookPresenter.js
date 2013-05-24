@@ -714,6 +714,22 @@ function AddressBookPanelPresenter() {
     function onRemoveAddressBookPanel() {
         thisPresenter.destroy();
     }
+    
+    /**
+     * Funzione per gestire l'evento in cui viene aggiunto un contatto in un gruppo della rubrica
+     * @author Riccardo Tresoldi
+     */
+    function onAddContactToGroup(contact, group){
+        thisPresenter.addContactInGroup(contact, group);
+    }
+    
+    /**
+     * Funzione per gestire l'evento in cui viene creato un gruppo della rubrica
+     * @author Riccardo Tresoldi
+     */
+    function onCreateGroup(groupName){
+        thisPresenter.addGroup(groupName);
+    }
 
     /***************************************************************************
      * LISTNER DEGLI EVENTI
@@ -721,11 +737,13 @@ function AddressBookPanelPresenter() {
     document.addEventListener("changeAddressBooksContactState", function(evt) {
         setStateToContact(evt.idUserChange, statusUserChange);
     });
-    document.addEventListener("showAddressBookPanel", function(evt) {
-        onShowAddressBookPanel();
+    document.addEventListener("showAddressBookPanel", onShowAddressBookPanel);
+    document.addEventListener("removeAddressBookPanel", onRemoveAddressBookPanel);
+    document.addEventListener("addContactToGroup", function(evt){
+        onAddContactToGroup(evt.contact, evt.group)
     });
-    document.addEventListener("removeAddressBookPanel", function(evt) {
-        onRemoveAddressBookPanel();
+    document.addEventListener("createGroup", function(evt){
+        onCreateGroup(evt.groupName);
     });
 
     /***************************************************************************
