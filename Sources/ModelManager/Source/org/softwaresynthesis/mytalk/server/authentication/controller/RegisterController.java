@@ -99,11 +99,6 @@ public class RegisterController extends AbstractController
 				dao.insert(group);
 				login = new LoginController();
 				login.execute(request, response);
-				result = "{\"name\":\"" + user.getName() + "\"";
-				result += ", \"surname\":\"" + user.getSurname() + "\"";
-				result += ", \"email\":\"" + user.getMail() + "\"";
-				result += ", \"id\":\"" + user.getId() + "\"";
-				result += ", \"picturePath\":\"" + user.getPath() + "\"}";
 			}
 			else
 			{
@@ -116,8 +111,11 @@ public class RegisterController extends AbstractController
 		}
 		finally
 		{
-			writer = response.getWriter();
-			writer.write(result);
+			if (result.equals("null") == true)
+			{
+				writer = response.getWriter();
+				writer.write(result);
+			}
 		}
 	}
 	
