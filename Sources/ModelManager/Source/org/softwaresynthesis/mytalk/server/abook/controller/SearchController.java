@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.softwaresynthesis.mytalk.server.AbstractController;
+import org.softwaresynthesis.mytalk.server.ControllerManager;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
 import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
 
@@ -50,6 +51,7 @@ public class SearchController extends AbstractController
 				result += ", \"email\":\"" + entry.getMail() + "\"";
 				result += ", \"id\":\"" + entry.getId() + "\"";
 				result += ", \"picturePath\":\"" + entry.getPath() + "\"";
+				result += ", \"state\":\"" + getContactState(entry) + "\"";
 				result += ", \"blocked\":false}";
 				if (iterator.hasNext() == true)
 				{
@@ -67,5 +69,18 @@ public class SearchController extends AbstractController
 			writer = response.getWriter();
 			writer.write(result);
 		}
+	}
+	
+	/**
+	 * Restituisce la rappresentazione a stringa dello stato del contatto
+	 * 
+	 * @param contact
+	 *            il contatto di cui deve essere recuperato lo stato
+	 * @return una stringa che identifica lo stato
+	 */
+	String getContactState(IUserData contact)
+	{
+		String state = ControllerManager.getState(contact.getId());
+		return state;
 	}
 }

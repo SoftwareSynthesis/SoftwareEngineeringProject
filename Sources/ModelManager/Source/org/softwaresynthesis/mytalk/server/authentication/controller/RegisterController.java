@@ -1,11 +1,8 @@
 package org.softwaresynthesis.mytalk.server.authentication.controller;
 
-import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.net.URLDecoder;
 
@@ -14,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import org.softwaresynthesis.mytalk.server.AbstractController;
+import org.softwaresynthesis.mytalk.server.IController;
 import org.softwaresynthesis.mytalk.server.abook.Group;
 import org.softwaresynthesis.mytalk.server.abook.IGroup;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
@@ -55,6 +53,7 @@ public class RegisterController extends AbstractController
 		Part filePart = null;
 		FileOutputStream out = null;
 		IGroup group = null;
+		IController login = null;
 		
 		try
 		{
@@ -68,20 +67,48 @@ public class RegisterController extends AbstractController
 			name = request.getParameter("name");
 			surname = request.getParameter("surname");
 			filePart = request.getPart("picturePath");
-			user = new UserData();
-			user.setMail(mail);
-			user.setPassword(password);
-			user.setQuestion(question);
-			user.setAnswer(answer);
-			user.setName(name);
-			user.setSurname(surname);
-			if (filePart == null)
+			if (mail.equals("") == false && password.equals("") == false && question.equals("") == false && answer.equals("") == false)
 			{
-				path = "img/contactImg/Default.png";
-				user.setPath(path);
+				user = new UserData();
+				user.setMail(mail);
+				user.setPassword(password);
+				user.setQuestion(question);
+				user.setAnswer(answer);
+				user.setName(name);
+				user.setSurname(surname);
+				if (filePart == null)
+				{
+					path = "img/contactImg/Default.png";
+					user.setPath(path);
+				}
+				else
+				{
+					inputStream = filePart.getInputStream();
+					path = System.getenv("MyTalkConfiguration");
+					String separator = System.getProperty("file.separator");
+					path += separator + "MyTalk" + separator + "img" + separator + "contactImg" + separator + mail + ".png";
+					out = new FileOutputStream(path);
+					out.write(IOUtils.readFully(inputStream, -1, false));
+					out.close();
+					user.setPath("img/contactImg/" + mail + ".png");
+				}
+				dao = getDAOFactory();
+				dao.insert(user);
+				group = new Group();
+				group.setName("addrBookEntry");
+				group.setOwner(user);
+				dao.insert(group);
+				login = new LoginController();
+				login.execute(request, response);
+				result = "{\"name\":\"" + user.getName() + "\"";
+				result += ", \"surname\":\"" + user.getSurname() + "\"";
+				result += ", \"email\":\"" + user.getMail() + "\"";
+				result += ", \"id\":\"" + user.getId() + "\"";
+				result += ", \"picturePath\":\"" + user.getPath() + "\"}";
 			}
 			else
 			{
+<<<<<<< HEAD
 				inputStream = filePart.getInputStream();
 				path = System.getenv("MyTalkConfiguration");
 				String separator = System.getProperty("file.separator");
@@ -90,18 +117,10 @@ public class RegisterController extends AbstractController
 				out.write(IOUtils.readFully(inputStream, -1, false));
 				out.close();
 				user.setPath("img/contactImg/" + mail + ".png");
+=======
+				result = "null";
+>>>>>>> origin/master
 			}
-			dao = getDAOFactory();
-			dao.insert(user);
-			group = new Group();
-			group.setName("addrBookEntry");
-			group.setOwner(user);
-			dao.insert(group);
-			result = "{\"name\":\"" + user.getName() + "\"";
-			result += ", \"surname\":\"" + user.getSurname() + "\"";
-			result += ", \"email\":\"" + user.getMail() + "\"";
-			result += ", \"id\":\"" + user.getId() + "\"";
-			result += ", \"picturePath\":\"" + user.getPath() + "\"}";
 		}
 		catch (Exception ex)
 		{
@@ -125,6 +144,9 @@ public class RegisterController extends AbstractController
 	{
 		return true;
 	}
+<<<<<<< HEAD
 	
 	
+=======
+>>>>>>> origin/master
 }
