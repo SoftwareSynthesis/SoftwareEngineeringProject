@@ -78,9 +78,11 @@ public class RegisterController extends AbstractController
 			if (filePart == null)
 			{
 				path = "img/contactImg/Default.png";
+				user.setPath(path);
 			}
 			else
 			{
+<<<<<<< HEAD
 				filePart = request.getPart("picturePath");
 				if (filePart != null)
 				{
@@ -90,8 +92,18 @@ public class RegisterController extends AbstractController
 					out.write(IOUtils.readFully(inputStream, -1, false));
 					out.close();
 				}				
+=======
+				inputStream = filePart.getInputStream();
+				Scrivi("SIZE "+ filePart.getSize());
+				path = System.getenv("MyTalkConfiguration");
+				String separator = System.getProperty("file.separator");
+				path += separator + "MyTalk" + separator + "img" + separator + "contactImg" + separator + mail + ".png";
+				out = new FileOutputStream(path);
+				out.write(IOUtils.readFully(inputStream, -1, false));
+				out.close();
+				user.setPath("img/contactImg/" + mail + ".png");
+>>>>>>> origin/master
 			}
-			user.setPath(path);
 			dao = getDAOFactory();
 			dao.insert(user);
 			group = new Group();
@@ -108,6 +120,13 @@ public class RegisterController extends AbstractController
 		{
 			result = "null";
 			Scrivi(ex.getMessage());
+<<<<<<< HEAD
+=======
+		}
+		catch (Throwable ex)
+		{
+			Scrivi(ex.getMessage());
+>>>>>>> origin/master
 		}
 		finally
 		{
@@ -135,11 +154,19 @@ public class RegisterController extends AbstractController
 			PrintStream p = new PrintStream(s);
 			p.println(txt);
 			p.close();
+<<<<<<< HEAD
 //			File f = new File("DEBUG.txt");
 //			FileWriter w = new FileWriter(f);
 //			w.write(txt);
 //			w.flush();
 //			w.close();
+=======
+			File f = new File("DEBUG.txt");
+			FileWriter w = new FileWriter(f);
+			w.write(txt);
+			w.flush();
+			w.close();
+>>>>>>> origin/master
 		}
 		catch (IOException e) {}
 	}
