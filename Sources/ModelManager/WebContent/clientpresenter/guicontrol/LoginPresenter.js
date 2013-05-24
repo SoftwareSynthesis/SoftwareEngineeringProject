@@ -175,9 +175,9 @@ function LoginPanelPresenter() {
         var submitButton = document.createElement("input");
         submitButton.setAttribute("type", "submit");
         submitButton.setAttribute("value", "OK");
-        submitButton.onClick = function() {
+        submitButton.onclick = function() {
             // Answer(username, inputAnswer.getAttribute("value"));
-            if (hasAnsweredCorrectly(username, inputAnswer.getAttribute("value"))) {
+            if (hasAnsweredCorrectly(thisPresenter.getUsername(), inputAnswer.value)) {
                 correctAnswer();
             } else {
                 incorrectAnswer();

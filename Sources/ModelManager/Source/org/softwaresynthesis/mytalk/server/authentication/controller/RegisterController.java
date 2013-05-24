@@ -108,11 +108,7 @@ public class RegisterController extends AbstractController
 		catch (Exception ex)
 		{
 			result = "null";
-		}
-
-		finally
-		{
-			if (result.equals("null") == true)
+			if (result.equals("null"))
 			{
 				writer = response.getWriter();
 				writer.write(result);
