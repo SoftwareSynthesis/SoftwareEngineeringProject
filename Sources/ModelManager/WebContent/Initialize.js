@@ -60,7 +60,7 @@ window.onload = function() {
     /**********************************************************
     ****Inizializzazione variabili per connessione all'host****
     **********************************************************/
-    var host = "localhost";
+    var host = "localhost/MyTalk";
     var stub = false;
 
     if (stub) {
