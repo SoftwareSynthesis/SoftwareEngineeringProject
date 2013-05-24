@@ -1,4 +1,5 @@
 package org.softwaresynthesis.mytalk.server.authentication;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
@@ -58,21 +59,18 @@ public class CredentialLoaderTest {
 	 * @version 2.0
 	 */
 	@Test
-	public void testHandle() {
+	public void testHandle() throws Exception {
 		Callback[] callbacks = new Callback[2];
 		callbacks[0] = new NameLoader();
 		callbacks[1] = new PasswordLoader();
-		try {
-			tester.handle(callbacks);
-			String retrievedUsername = ((Loader) callbacks[0]).getData();
-			String retrievedPassword = new String(((Loader) callbacks[1]).getData());
-			assertNotNull(retrievedUsername);
-			assertNotNull(retrievedPassword);
-			assertEquals(username, retrievedUsername);
-			assertEquals(password, retrievedPassword);
-		} catch (Exception ex) {
-			fail(ex.getMessage());
-		}
+		// invoca il metodo da testare
+		tester.handle(callbacks);
+		String retrievedUsername = ((Loader) callbacks[0]).getData();
+		String retrievedPassword = new String(((Loader) callbacks[1]).getData());
+		assertNotNull(retrievedUsername);
+		assertNotNull(retrievedPassword);
+		assertEquals(username, retrievedUsername);
+		assertEquals(password, retrievedPassword);
 	}
 
 	/**

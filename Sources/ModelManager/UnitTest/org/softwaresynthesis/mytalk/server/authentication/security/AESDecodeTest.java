@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Verifica della classe {@link Decode} che attua la decodifica di stringhe
+ * Verifica della classe {@link AESDecode} che attua la decodifica di stringhe
  * cifrate secondo l'algoritmo AES a 128 bit (con la chiave prestabilita). Il
  * test avviene mediante una stringa la cui versione in chiaro è nota,
  * confrontando quest'ultima con il risultato dell'applicazione dell'algoritmo.
@@ -42,14 +42,10 @@ public class AESDecodeTest {
 	 * @version 2.0
 	 */
 	@Test
-	public void testExecute() {
+	public void testExecute() throws Exception {
 		String result;
-		try {
-			result = tester.execute(cipherText);
-			assertNotNull(result);
-			assertEquals(plainText, result);
-		} catch (Exception e) {
-			fail(e.getMessage());
-		}
+		result = tester.execute(cipherText);
+		assertNotNull(result);
+		assertEquals(plainText, result);
 	}
 }

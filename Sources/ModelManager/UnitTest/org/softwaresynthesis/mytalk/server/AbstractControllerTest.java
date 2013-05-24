@@ -191,20 +191,15 @@ public class AbstractControllerTest {
 	@Test
 	public void testExecuteSuccessfully() throws Exception {
 		// riconfigura il doAction in modo che scriva qualcosa sulla risposta
-		try {
-			doAnswer(new Answer<Void>() {
-				@Override
-				public Void answer(InvocationOnMock invocation)
-						throws Exception {
-					Object[] args = invocation.getArguments();
-					HttpServletResponse mockResponse = (HttpServletResponse) args[1];
-					mockResponse.getWriter().write("true");
-					return null;
-				}
-			}).when(tester).doAction(request, response);
-		} catch (Exception e) {
-			fail(e.getMessage());
-		}
+		doAnswer(new Answer<Void>() {
+			@Override
+			public Void answer(InvocationOnMock invocation) throws Exception {
+				Object[] args = invocation.getArguments();
+				HttpServletResponse mockResponse = (HttpServletResponse) args[1];
+				mockResponse.getWriter().write("true");
+				return null;
+			}
+		}).when(tester).doAction(request, response);
 
 		// invoca il metodo da testare
 		tester.execute(request, response);

@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Test della classe {@link Encode} avente il fine di verificare che la codifica
+ * Test della classe {@link AESEncode} avente il fine di verificare che la codifica
  * dei dati avvenga come stabilito dall'algoritmo di crittografia AES a 128 bit
  * con la chiave prescelta.
  * 
@@ -40,13 +40,9 @@ public class AESEncodeTest {
 	 * @version 2.0
 	 */
 	@Test
-	public void testExecute() {
-		try {
-			String result = tester.execute(plainText);
-			assertNotNull(result);
-			assertEquals(cipherText, result);
-		} catch (Exception e) {
-			fail(e.getMessage());
-		}
+	public void testExecute() throws Exception {
+		String result = tester.execute(plainText);
+		assertNotNull(result);
+		assertEquals(cipherText, result);
 	}
 }
