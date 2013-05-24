@@ -4227,7 +4227,7 @@ Vista associata al \inglese{presenter} \classname{SearchResultPanelPresenter} ut
   \end{itemize}
   
   \item{\method{-- addListItem(contact: Object): void}}\\
-  Provoca la visualizzazione nel pannello di una nuova voce della lista contenente i dati del contatto passato come parametro. L'elemento \verb'<li>' che dovrà essere aggiunto in coda alla lista deve avere al proprio interno un nodo di testo corrispondente al nome del contatto e un elemento \verb'<img>' corrispondente all'immagine dello stesso.
+  Provoca la visualizzazione nel pannello di una nuova voce della lista contenente i dati del contatto passato come parametro. L'elemento \verb'<li>' che dovrà essere aggiunto in coda alla lista deve avere al proprio interno un nodo di testo corrispondente al nome del contatto, un elemento \verb'<img>' corrispondente allo stato del contatto e un elemento \verb'<img>' corrispondente all'immagine dello stesso.
   
   Inoltre, all'evento \verb'click' sollevato sul \verb'<li>' dovrà essere associato un gestore che a sua volta avrà il compito di procurarsi un riferimento a un evento con identificativo uguale a \verb'showContactPanel', assegnare alla proprietà \verb'contact' di quest'ultimo il contatto passato come parametro del metodo e sollevare l'evento corrispondente.
   
@@ -4387,6 +4387,43 @@ Il pannello è costituito da un elemento \verb'<div>' con identificativo uguale 
   \item[--] un elemento \verb'<button>' contenente il testo ``Modifica dati''.
 \end{itemize}
 
+\subsection{MessageView}
+\subsubsection*{Funzione}
+Vista associata al \inglese{presenter} \classname{MessagePanelPresenter} utilizzata per visualizzare i messaggi presenti nella propria segreteria.
+
+\subsubsection*{Metodi}
+\begin{description}
+  \item{\method{+ display(): void}}\\
+  Il metodo ha il compito di inizializzare la vista, ovvero l'insieme dei \inglese{widget} grafici che costituiscono il pannello per la visualizzazione della segreteria telefonica dell'utente. Il metodo ha quindi il compito di popolare la lista dei messaggi della segreteria con i dati corretti che sono stati scaricati dal server.
+  
+  \item{\method{-- addListItem(message: Object): void}}\\
+  Tale metodo riceve in input un oggetto che corrisponde a un messaggio della segreteria, caratterizzato dalle proprietà \verb'sender', \verb'date', \verb'status', \verb'video' e \verb'src'.
+  
+  Sulla base delle proprietà del messaggio, il metodo ha il compito di creare un nuovo \verb'<li>' e aggiungere ad esso:
+  \begin{itemize}
+    \item[--] un elemento \verb'<img>' che corrisponde allo stato letto/non letto del messaggio impostato tramite una chiamata al metodo privato \method{getStatusSrc} della vista;
+    \item[--] un nodo di testo con il nome dell'utente che ha inviato il messaggio;
+    \item[--] un nodo di testo contenente la data del messaggio;
+    \item[--] un elemento \verb'<img>' per l'eliminazione del messaggio, che deve avere attributo \verb'src'
+  \end{itemize}
+  
+  Prima di aggiungere il nuovo \inglese{list item} in coda alla lista dei messaggi, il metodo dovrà configurare il comportamento delle parti dell'interfaccia. In particolare, un click sulla voce della lista marchi il messaggio come letto tramite il metodo \method{setStatus} del \inglese{presenter} e inizializzi l'elemento \verb'<video>' per la visualizzazione dello stesso.
+  
+  Un click sull'immagine per l'eliminazione del messaggio deve invece chiamare l'apposito metodo \method{deleteMessage} messo a disposizione dal \inglese{presenter} e, infine, un click sull'immagine per cambiare lo stato deve invertire lo stato del messaggio tramite il metodo \method{setStatus} del \inglese{presenter} e cambiare l'immagine nel pannello che rappresenta lo stato letto/non letto del messaggio.
+  
+  \item{\method{-- getStatusSrc(message: Object): String}}\\
+  Il metodo ha il compito di restituire la stringa corretta che rappresenta il percorso relativo dell'immagine associata allo stato del messaggio. Se il messaggio è nuovo (non letto) il risultato dovrà essere \verb'img/unreadmessage.png', in caso contrario  \verb'img/readmessage.png'.
+  
+\end{description}
+
+\subsubsection*{Elementi}
+Il pannello è costituito da un elemento \verb'<div>' con identificativo uguale a \verb'MessagePanel' che contiene al proprio interno:
+\begin{itemize}
+  \item[--] un \verb'<div>' con attributo \verb'class' uguale a \verb'panelHeader' con al proprio interno un \verb'<h1>' con il solo nodo di testo \textsc{<<segreteria>>};
+  \item[--] un elemento \verb'<video>' con identificativo uguale a \verb'messageVideo' e attributo \verb'controls' uguale a \verb'controls', contenente un elemento \verb'<source>';
+  \item[--] un \verb'<div>' con identificativo uguale a \verb'divMessage' contenente un elemento \verb'<ul>' con identificativo uguale a \verb'messageList'.
+\end{itemize}
+
 %********************************************************************
 %     QUESTO È IL CONFINE FRA BENE E MALE - SIETE AVVERTITI!
 %********************************************************************
@@ -4441,15 +4478,6 @@ Vista associata al presenter \classname{GroupPresenter}. Utilizzata per la visua
 \subsubsection*{Elementi}
 \begin{itemize}
 \item \textit{div} contenente un \textit{ul} dove verranno inseriti tanti \textit{li} quanti i gruppi presenti nella proria rubrica.
-\end{itemize}
-
-\subsection{MessageView}
-\subsubsection*{Funzione}
-Vista associata al presenter \classname{MessagePresenter}. Utilizzata per visualizzare i messaggi presenti nella propria segreteria.
-\subsubsection*{Elementi}
-\begin{itemize}
-\item \textit{div} contenente un elemento di tipo \textit{video} per la visualizzazione del messaggio;
-\item \textit{div} contenente un elemento \textit{ul} che avrà tanti \textit{li} quanti sono i messaggi presenti in segreteria.
 \end{itemize}
 
 \clearpage
