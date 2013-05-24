@@ -108,14 +108,10 @@ public class RegisterController extends AbstractController
 		catch (Exception ex)
 		{
 			result = "null";
-<<<<<<< HEAD
 		}
 		finally
 		{
 			if (result.equals("null") == true)
-=======
-			if (result.equals("null"))
->>>>>>> origin/RamoDebug
 			{
 				writer = response.getWriter();
 				writer.write(result);
