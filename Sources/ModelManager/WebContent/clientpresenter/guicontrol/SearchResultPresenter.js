@@ -82,6 +82,10 @@ function SearchResultPanelPresenter(url) {
 		// nome del contatto
 		var name = mediator.createNameLabel(contact);
 		var textNode = document.createTextNode(name);
+		
+		// stato del contatto
+		var avatarState = document.createElement("img");
+		avatarState.src = getImageSrc(contact);
 
 		// aggiunge i sottonodi al 'li' appena creato
 		item.appendChild(avatarNode);
