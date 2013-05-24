@@ -1,11 +1,8 @@
 package org.softwaresynthesis.mytalk.server.authentication.controller;
 
-import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintStream;
 import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import org.softwaresynthesis.mytalk.server.AbstractController;
+import org.softwaresynthesis.mytalk.server.IController;
 import org.softwaresynthesis.mytalk.server.abook.Group;
 import org.softwaresynthesis.mytalk.server.abook.IGroup;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
@@ -54,6 +52,7 @@ public class RegisterController extends AbstractController
 		Part filePart = null;
 		FileOutputStream out = null;
 		IGroup group = null;
+		IController login = null;
 		
 		try
 		{
@@ -82,7 +81,6 @@ public class RegisterController extends AbstractController
 			else
 			{
 				inputStream = filePart.getInputStream();
-				Scrivi("SIZE "+ filePart.getSize());
 				path = System.getenv("MyTalkConfiguration");
 				String separator = System.getProperty("file.separator");
 				path += separator + "MyTalk" + separator + "img" + separator + "contactImg" + separator + mail + ".png";
@@ -97,6 +95,8 @@ public class RegisterController extends AbstractController
 			group.setName("addrBookEntry");
 			group.setOwner(user);
 			dao.insert(group);
+			login = new LoginController();
+			login.execute(request, response);
 			result = "{\"name\":\"" + user.getName() + "\"";
 			result += ", \"surname\":\"" + user.getSurname() + "\"";
 			result += ", \"email\":\"" + user.getMail() + "\"";
@@ -106,11 +106,6 @@ public class RegisterController extends AbstractController
 		catch (Exception ex)
 		{
 			result = "null";
-			Scrivi(ex.getMessage());
-		}
-		catch (Throwable ex)
-		{
-			Scrivi(ex.getMessage());
 		}
 		finally
 		{
@@ -128,22 +123,5 @@ public class RegisterController extends AbstractController
 	protected boolean check(HttpServletRequest request)
 	{
 		return true;
-	}
-	
-	private void Scrivi(String txt)
-	{
-		try
-		{
-			FileOutputStream s = new FileOutputStream("DEBUG.txt", true);
-			PrintStream p = new PrintStream(s);
-			p.println(txt);
-			p.close();
-			File f = new File("DEBUG.txt");
-			FileWriter w = new FileWriter(f);
-			w.write(txt);
-			w.flush();
-			w.close();
-		}
-		catch (IOException e) {}
 	}
 }
