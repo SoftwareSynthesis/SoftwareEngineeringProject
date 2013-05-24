@@ -2262,14 +2262,14 @@ Tale tabella descrive per ogniuno dei requisiti, le modalità di verifica degli 
 Allo scopo di facilitare la consultazione di tali test sono stati evidenziati i requisiti superati con la relativa modalità di verifica.
 
 \begin{itemize}
-\item \textbf{TUFO 1.0.0}\\ %COMPRENDE ANCHE RSFO1.2.0, RSFO1.2.1, RSFO1.2.2
+\item \textbf{TUFO 1.0.0}\\
 \textbf{Verifica il requisito:} \texttt{RUFO1.0.0}, l'utente deve potersi autentificare nel server, così da permettere a quest'ultimo di rilevare la sua presenza nel sistema.\\
-\textbf{Descrizione}: tramite l'utente \inglese{test} si effettua una prova di login al sistema, sia con dati corretti che volutamente non corretti al fine di verificare la coerente risposta del sistema.\\
+\textbf{Descrizione}: tramite l'utente \inglese{test} si effettua una prova di login al sistema, sia con dati corretti che volutamente non corretti al fine di verificare la coerente risposta del sistema, verifica anche i sottorequisiti RSFO1.2.0, RSFO1.2.1 e RSFO1.2.2.\\
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{TUFO 2.0.0}\\ %COMPRENDE ANCHE RSFO2.1.0, RSFO2.1.3, RSFO2.1.4, RSFO2.1.5, RSFO2.1.6
+\item \textbf{TUFO 2.0.0}\\
 \textbf{Verifica il requisito:} \texttt{RUFO2.0.0}, l'utente deve potersi registrare al sistema.\\
-\textbf{Descrizione}: viene effettuata la procedura di registrazione sia con dati corretti che errati (o mancanti) al fine di verificare la risposta del sistema. Si verificherà inoltre l'effettivo inserimento dell'utente nel \underline{database}.\\
+\textbf{Descrizione}: viene effettuata la procedura di registrazione sia con dati corretti che errati (o mancanti) al fine di verificare la risposta del sistema, comprende anche la verifica dei sottorequisiti RSFO2.1.0, RSFO2.1.3, RSFO2.1.4, RSFO2.1.5 e RSFO2.1.6. Si verificherà inoltre l'effettivo inserimento dell'utente nel database.\\
 \textbf{Risultato del test:} superato con successo.
 
 \item \textbf{TUFO 6.1.0}\\ 
@@ -2362,7 +2362,7 @@ Allo scopo di facilitare la consultazione di tali test sono stati evidenziati i 
 \textbf{Descrizione}: viene inviata da un utente \inglese{test} correttamente registrato la richiesta di invio tramite mail della propria password precedentemente memorizzata nel database. Conseguentemente si verificherà la relativa ricezione del messaggio di posta nell'indirizzo indicato dall'utente stesso.Verrà inoltre confermata la presenza e la correttezza del relativo codice all'interno dei corrispondenti file di codifica.\\
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{TSFD 2.1.2}\\ %TODO: DA INSERIRE NELL'ANALISI REQ (TEST)
+\item \textbf{TSFD 2.1.2}\\ 
 \textbf{Verifica il requisito:} \texttt{RSFD2.1.2}, convalidare \inglese{username} (e-mail) dell'utente.\\
 \textbf{Descrizione}: il soddisfacimento è intrinseco nel test relativo alla registrazione dell'utente TUFO2.0.0.\\
 \textbf{Risultato del test:} superato con successo.
@@ -2377,14 +2377,14 @@ Allo scopo di facilitare la consultazione di tali test sono stati evidenziati i 
 \textbf{Descrizione}: vengono modificati singolarmente tutti i campi di un utente \inglese{test} correttamente registrato tramite la relativa form di modifica. Verrà successivamente verificato l'effettiva modifica di tale campo all'interno del database mantenendolo in uno stato consistente.\\
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{TUFF 3.1.0}\\ %TODO: AGGIORNARE TEST AR
+\item \textbf{TUFF 3.1.0}\\
 \textbf{Verifica il requisito:} \texttt{RUFF3.1.0}, modifica dati per l'autenticazione.\\
 \textbf{Descrizione}: vengono modificati singolarmente i campi password-domanda segreta-risposta alla domanda segreta di un utente \inglese{test} correttamente registrato tramite la relativa form di modifica. Verrà successivamente verificata l'effettiva modifica di tali campi all'interno del database e il suo mantenimento in uno stato consistente, comprende quindi i test relativi ai requisiti RUFF3.1.1, RUFF3.1.2, RUFF3.1.3.\\
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{TUFF 3.2.0}\\ %TODO: AGGIORNARE TEST AR
+\item \textbf{TUFF 3.2.0}\\
 \textbf{Verifica il requisito:} \texttt{RUFF3.2.0}, modifica dei dati anagrafici facoltativi.\\
-\textbf{Descrizione}: vengono modificati singolarmente tutti i campi classificati come ``facoltativi'' durante la registrazione di un utente \inglese{test} correttamente registrato tramite la relativa form di modifica. Verrà successivamente verificato l'effettiva modifica di tale campo all'interno del database mantenendolo in uno stato consistente, comprende quindi i test relativi ai requisiti RUFF3.2.1, RUFF3.2.2, RUFF3.2.3.\\.\\
+\textbf{Descrizione}: vengono modificati singolarmente tutti i campi classificati come ``facoltativi'' durante la registrazione di un utente \inglese{test} correttamente registrato tramite la relativa form di modifica. Verrà successivamente verificato l'effettiva modifica di tale campo all'interno del database mantenendolo in uno stato consistente, comprende quindi i test relativi ai requisiti RUFF3.2.1, RUFF3.2.2, RUFF3.2.3.\\
 \textbf{Risultato del test:} superato con successo.
 
 \item \textbf{TUFF 4.0.0}\\
@@ -2402,7 +2402,7 @@ Allo scopo di facilitare la consultazione di tali test sono stati evidenziati i 
 \textbf{Descrizione}: tramite un utente \inglese{test} correttamente registrato nel database e autenticato al sistema con un secondo utente \inglese{test} correttamente registrato nel database nella sua rubrica. Verrà eseguito il comando di rimozione sull'utente nella rubrica, verificata la corretta rimozione e che l'utente rimanga in uno stato consistente dopo tale comando.\\
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{TUFF 4.3.0}\\ %TODO: AGGIORNARE TEST AR
+\item \textbf{TUFF 4.3.0}
 \textbf{Verifica il requisito:} \texttt{RUFF4.3.0}, possibilità di ordinare la rubrica su alcuni parametri lilevanti.\\
 \textbf{Descrizione}: tramite un utente \inglese{test} correttamente registrato nel database e autenticato al sistema con un tre utenti \inglese{test} correttamente registrati nel database nella sua rubrica. Verrà eseguito il comando di ordinamento ``ordina per email'', successivamente per nome utente e per nome gruppi e riscontrato il corretto funzionamento dei suddetti. Verrà verificata la correttezza del codice di gestione del requisito all'interno del file di codifica. Verifica anche i sottorequisiti RUFF4.3.1 e RUFF4.3.2. \\
 \textbf{Risultato del test:} superato con successo.
@@ -2437,7 +2437,7 @@ Allo scopo di facilitare la consultazione di tali test sono stati evidenziati i 
 \textbf{Descrizione}: tramite un utente \inglese{test} correttamente registrato nel database e autenticato al sistema con un tre utenti \inglese{test} correttamente registrati nel database nella sua rubrica, verrà eseguito il comando relativo alla ricerca nella rubrica di un utente (sicuramente presente nella rubrica) e riscontrato il corretto funzionamento del suddetto (verifica implicitamente anche RUFF4.7.1 e RUFF4.7.2 e RUFF4.7.3). Verrà verificata infine la correttezza del codice di gestione del requisito all'interno del file di codifica.\\
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{TUFF 5.1.0}\\ %TODO: AGGIORNARE TEST AR
+\item \textbf{TUFF 5.1.0}\\
 \textbf{Verifica il requisito:} \texttt{RUFF5.1.0}, possibilità di cercare un utente dalla lista utenti.\\
 \textbf{Descrizione}: tramite un utente \inglese{test} correttamente registrato nel database e autenticato al sistema verrà eseguito il comando relativo alla ricerca nella di un utente nella lista degli utenti nel database (dove sono inseriti tre utenti prova) e riscontrato il corretto funzionamento del suddetto, verrà cercato tale utente inserendo il nome (RUFF5.1.1) e il cognome (RUFF5.1.2). Verrà verificata infine la correttezza del codice di gestione del requisito all'interno del file di codifica.\\
 \textbf{Risultato del test:} superato con successo.
@@ -2452,7 +2452,7 @@ Allo scopo di facilitare la consultazione di tali test sono stati evidenziati i 
 \textbf{Descrizione}: si effettua una chiamata audio/video con un utente \inglese{test} correttamente autenticato ad un utente \inglese{test} presente in rubrica di cui sono note le caratteristiche (\inglese{hardware}/\inglese{software}) mantenendo una comunicazione attiva per una durata superiore a 3 minuti.\\
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{TUFF 13.0.0}\\ %TODO da inserire nei test AR
+\item \textbf{TUFF 13.0.0}\\
 \textbf{Verifica il requisito:} \texttt{RUFF13.0.0}, servizio chat testuale.\\
 \textbf{Descrizione}: il test è analogo a TUFD13.1.0.\\
 \textbf{Risultato del test:} superato con successo.
@@ -2487,7 +2487,7 @@ Allo scopo di facilitare la consultazione di tali test sono stati evidenziati i 
 \textbf{Descrizione}: il test di questo requisito è successivo ai test TUFF15.1.0 o TUFF15.2.0, dopo aver ascoltato/visto il messaggio verrà impostato come ``ascoltati'' tramite l'apposito comando nella form di gestione.\\
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{TUFF 16.0.0}\\ %TODO: COMPRESI ANCHE 16.1.0 E 16.2.0
+\item \textbf{TUFF 16.0.0}\\
 \textbf{Verifica il requisito:} \texttt{RUFF16.0.0}, fornire la possibilità di cambiare lo stato utente\\
 \textbf{Descrizione}: comprende il test dei sotto-requisiti RUFF16.1.0 e RUFF16.2.0. Tramite un utente test correttamente registrato nel database e autenticato al sistema tramite l'apposito comando viene impostato a ``non disponibile'' il proprio stato. Tramite un ulteriore utente \inglese{test} correttamente registrato nel database e autenticato al sistema e munito dell'utente \inglese{test} principale nella propria rubrica, viene confermato il cambio di stato visualizzato, successivamente verrà ripristinato lo stato ``disponibile'' e verificato il cambio di stato visualizzato.\\
 \textbf{Risultato del test:} superato con successo.
@@ -2527,8 +2527,8 @@ Allo scopo di facilitare la consultazione di tali test sono stati evidenziati i 
 \textbf{Descrizione}: durante l'inserimento della password desiderata nel form di registrazione (o nella form di modifica dei campi) di un utente \inglese{test} compare la stima di complessità (livello di qualità) della stringa inserita. Verrà inoltre confermata la presenza e la correttezza  del relativo codice all'interno dei corrispondenti file di codifica.\\
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{TSDD 2.1.1}\\ %TODO: RIVEDERE CODICE REQUISITO/TEST
-\textbf{Verifica il requisito:} \texttt{RSDD2.1.1}.\\
+\item \textbf{TSFD 2.1.2}\\
+\textbf{Verifica il requisito:} \texttt{RSFD2.1.2}.\\
 \textbf{Descrizione}: durante la registrazione di un utente \inglese{test} verrà inserito uno username (e-mail) già inserita nel sistema, in tal caso il suddetto dovrà riportare un messaggio d'errore. Al contrario se lo username è disponibile verrà inserito correttamente, mantenendo integra la consistenza delle informazioni già presenti nel database. Verrà inoltre confermata la presenza e la correttezza  del relativo codice all'interno dei corrispondenti file di codifica.\\
 \textbf{Risultato del test:} superato con successo.
 
@@ -2548,9 +2548,9 @@ Allo scopo di facilitare la consultazione di tali test sono stati evidenziati i 
 \textbf{Descrizione}: la verifica di tale requisito è implicitamente dimostrata al termine dei test sulle funzioni del prodotto.\\
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{TSDO 10.1.0}\\ %TODO da inserire nella tab test AR
+\item \textbf{TSDO 10.1.0}\\
 \textbf{Verifica il requisito:} \texttt{RSDO10.1.0}, l'interfaccia grafica non deve subire refresh per ogni operazione dell'utente.\\
-\textbf{Descrizione}: la verifica del requisito è implicitamente dimostrata nella codifica dell'interfaccia e nella fruizione del prodotto stesso.
+\textbf{Descrizione}: la verifica del requisito è implicitamente dimostrata nella codifica dell'interfaccia e nella fruizione del prodotto stesso.\\
 \textbf{Risultato del test:} superato con successo.
 
 \item \textbf{TSDO 11.3.0}\\
@@ -2568,19 +2568,59 @@ Allo scopo di facilitare la consultazione di tali test sono stati evidenziati i 
 \textbf{Descrizione}: la verifica di tale requisito è implicitamente dimostrata dalla filosofia implementativa e progettuale del prodotto stesso.\\
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{TSDD 22.1.0}\\
-\textbf{Verifica il requisito:} \texttt{RSDD22.1.0}, l'applicativo web deve funzionare nel \textit{web browser}.\\
-\textbf{Descrizione}: la verifica di tale requisito è dimostrata dai test precedentente effettuati (e superati) sotto \textit{browser} Google Chrome.
+\item \textbf{TSDO 22.1.0}\\
+\textbf{Verifica il requisito:} \texttt{RSDO22.1.0}, l'applicativo web deve funzionare nel \textit{web browser} Google Chrome.\\
+\textbf{Descrizione}: la verifica di tale requisito è dimostrata dai test precedentemente effettuati (e superati) sotto \textit{browser} Google Chrome.
+\textbf{Risultato del test:} superato con successo.
+
+\item \textbf{TSQO 27.0.0}\\
+\textbf{Verifica il requisito:} \texttt{TSQO27.0.0}, il modello SPY e CMMI sono utilizzati per valutare la qualità dei processi\\
+\textbf{Descrizione}: le modalità di verifica di tale requisito sono descritte nella sezione 3.1 del presente documento.\\
+\textbf{Risultato del test:} superato con successo.
+
+\item \textbf{TSQO 28.0.0}\\
+\textbf{Verifica il requisito:} \texttt{TSQO28.0.0}, gli standard di qualità hanno come riferimento lo standard ISO/9126:2001.\\
+\textbf{Descrizione}: le modalità di verifica di tale requisito sono descritte nella sezione 3.2 del presente documento, verificando se si è in grado di soddisfare i requisiti in merito a funzionalità, portabilità, usabilità, affidabilità, efficienza e manutenibilità.\\
+\textbf{Risultato del test:} superato con successo.
+
+\item \textbf{TSQO 28.1.0}\\
+\textbf{Verifica il requisito:} \texttt{TSQO28.1.0}, adozione del ciclo di Deming (PDCA) per valutare Interno e migliorare i processi.\\
+\textbf{Descrizione}: verificare che la pianificazione delle attività svolte, l'esecuzione e l'adozione delle misure correttive sulle stesse, rispettino quanto descritto nel ciclo di Deming.\\
+\textbf{Risultato del test:} superato con successo.
+
+\item \textbf{TSQO 29.0.0}\\
+\textbf{Verifica il requisito:} \texttt{TSQO29.0.0}, distinte modalità di verifica per ogni attività durante Interno il ciclo di vita progettuale.\\
+\textbf{Descrizione}: il superamento di tale test è derivabile dalle descrizioni delle modalità di verifica elencate nel capitolo 4 (e dai sotto-capitoli) del presente documento. Tale test comprende inoltre la soddisfacibilità dei sotto requisiti TSQO29.1.0, TSQO29.2.0, TSQO29.3.0, TSQO29.4.0, TSQO29.4.1 e TSQO29.5.0, che specializzano le modalità di verifica alle attività intermedie nel ciclo di vita del progetto.\\
+\textbf{Risultato del test:} superato con successo.
+
+\item \textbf{TSQO 30.0.0}\\
+\textbf{Verifica il requisito:} \texttt{TSQO30.0.0}, uso di un sistema di \textit{ticketing} (tracciato) per Interno evidenziare e risolvere errori o problematiche.\\
+\textbf{Descrizione}: il sistema di \textit{ticketing} adottato dal team di sviluppo è presentato e descritto nel documento \textit{norme\_di\_progetto.3.0.pdf}, la verifica è implicita in quanto le norme redatte sono state seguite scrupolosamente.\\
+\textbf{Risultato del test:} superato con successo.
+
+\item \textbf{TSQO 31.0.0}\\
+\textbf{Verifica il requisito:} \texttt{TSQO31.0.0}, l'attività di progettazione condotta nel rispetto dei principi della programmazione ad oggetti.
+\textbf{Descrizione}: il superamento di tale requisito è implicito nella filosofia di sviluppo dell'applicazione, con una progettazione orientata appunto agli oggetti e descritta nei documenti \textit{specifica\_tecnica.3.0.pdf} e \textit{definizione\_di\_prodotto.2.0.pdf}.\\
+\textbf{Risultato del test:} superato con successo.
+
+\item \textbf{TSQO 31.1.0}\\
+\textbf{Verifica il requisito:} \texttt{TSQO31.1.0}, durante la progettazione è imposto l'utilizzo di interfacce.
+\textbf{Descrizione}: il superamento di tale requisito è implicito nella filosofia di sviluppo dell'applicazione, l'utilizzo delle interfacce è descritto nei documenti \textit{specifica\_tecnica.3.0.pdf} e \textit{definizione\_di\_prodotto.2.0.pdf}.\\
+\textbf{Risultato del test:} superato con successo.
+
+\item \textbf{TSQO 31.2.0}\\
+\textbf{Verifica il requisito:} \texttt{TSQO31.2.0}, il processo di individuazione delle classi e il loro corrispettivo inserimento in una componente è giustificato dal significato e dall'utilizzo della classe stessa(principio di coesione).
+\textbf{Descrizione}: il superamento di tale requisito viene verificato garantendo che le classi utilizzate siano coerenti con il loro effettivo inserimento nel contesto, e la loro utilità sia effettivamente coerente con lo stesso. Per fare ciò si fa riferimento a quanto descritto nei documenti \textit{specifica\_tecnica.3.0.pdf} e \textit{definizione\_di\_prodotto.2.0.pdf}.\\
 \textbf{Risultato del test:} superato con successo.
 
 \end{itemize}
+
 
 \subsection{Test di Utilizzo}
 Al fine di verificare che l'interfaccia del prodotto sia più intuitiva e \inglese{user-friendly} possibile, sono stati predisposte delle simulazioni da proporre ad un campione di utenza selezionata (cinque persone con conoscenze informatiche medio-basse).
 Essendo test non oggettivi non verranno catalogati come vere e proprie verifiche, ma saranno semplici \inglese{feedback} su come migliorare o confermare la parte visiva di \caName in base ai comportamenti assunti dai \inglese{tester} durante la prova.
 I suggerimenti che non non verranno implementati sono comunque tracciati per consentire un futuro sviluppo dell'interfaccia dell'applicativo.
 
-%TODO: MANCANO I REQUISITI DI QUALITA' DIFFICILISSSSSSSIMI DA VERIFICARE -_-'
 
 \clearpage
 
