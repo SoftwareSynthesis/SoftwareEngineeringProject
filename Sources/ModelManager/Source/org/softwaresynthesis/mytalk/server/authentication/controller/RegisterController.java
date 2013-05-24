@@ -4,7 +4,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.net.URLDecoder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -108,18 +107,7 @@ public class RegisterController extends AbstractController
 			}
 			else
 			{
-<<<<<<< HEAD
-				inputStream = filePart.getInputStream();
-				path = System.getenv("MyTalkConfiguration");
-				String separator = System.getProperty("file.separator");
-				path += separator + "MyTalk" + separator + "img" + separator + "contactImg" + separator + mail + ".png";
-				out = new FileOutputStream(path);
-				out.write(IOUtils.readFully(inputStream, -1, false));
-				out.close();
-				user.setPath("img/contactImg/" + mail + ".png");
-=======
 				result = "null";
->>>>>>> origin/master
 			}
 		}
 		catch (Exception ex)
@@ -144,9 +132,4 @@ public class RegisterController extends AbstractController
 	{
 		return true;
 	}
-<<<<<<< HEAD
-	
-	
-=======
->>>>>>> origin/master
 }
