@@ -598,7 +598,9 @@ Classe figlia di \classname{ModifyUtil}. Ridefinisce il metodo \method{doAction}
 
 \subsubsection*{Classi estese ed interfacce implementate}
 
-Nessuna relazione evidenziata.
+\begin{itemize}
+	\item \classname{dao.util.ModifyUtil}: classe astratta estesa.
+\end{itemize}
 
 \subsubsection*{Attributi}
 
@@ -630,7 +632,9 @@ Classe figlia di \classname{ModifyUtil}. Ridefinisce il metodo \method{doAction}
 
 \subsubsection*{Classi estese ed interfacce implementate}
 
-Nessuna relazione evidenziata.
+\begin{itemize}
+	\item \classname{dao.util.ModifyUtil}: classe astratta estesa.
+\end{itemize}
 
 \subsubsection*{Attributi}
 
@@ -662,7 +666,9 @@ Classe figlia di \classname{ModifyUtil}. Ridefinisce il metodo \method{doAction}
 
 \subsubsection*{Classi estese ed interfacce implementate}
 
-Nessuna relazione evidenziata.
+\begin{itemize}
+	\item \classname{dao.util.ModifyUtil}: classe astratta estesa.
+\end{itemize}
 
 \subsubsection*{Attributi}
 
@@ -679,10 +685,77 @@ Nessun attributo evidenziato.
 
 \end{description}
 
+\classsection{GetUtil}
+
+\subsubsection*{Funzione}
+Classe astratta per definire il comportamento generico di una classe per l'esecuzione di ''interrogazioni'' (query di tipo \texttt{select}) al database. La classe costituisce un implementazione del \textit{template method}, poiché definisce un iter per l'esecuzione di un algoritmo, lasciando alle classi figlie il compito di ridefinire il metodo \method{doInitialize()}.
+
+\subsubsection*{Relazioni d'uso}
+
+\begin{itemize}
+		\item \texttt{java.util.List};
+		\item \texttt{org.hibernate.Query};
+		\item \texttt{org.hibernate.Session};
+		\item \texttt{org.hibernate.SessionFactory};
+		\item \texttt{org.hibernate.Transaction};
+		\item \texttt{org.softwaresynthesis.mytalk.server.IMyTalkObject};
+		\item \texttt{org.softwaresynthesis.mytalk.server.dao.ISessionManager};
+\end{itemize}
+
+\subsubsection*{Classi estese ed interfacce implementate}
+
+Nessuna relazione evidenziata.
+
+\subsubsection*{Attributi}
+
+\begin{itemize}
+	\item{\memberdata{\underline{-- manager: ISessionManager}}}\\
+	Attributo usato per comunicare con la classe rappresentate il ''cuore'' del sistema di gestione del database.
+\end{itemize}
+
+\subsubsection*{Metodi}
+
+\begin{description}
+	\item{\method{+ GetUtil(manager: ISessionManager)}}\\
+	Costruttore pubblico della classe, usato per inizializzare \memberdata{manager} con il parametro d'ingresso del metodo.
+	
+	\item{\method{+ execute(query: String): List<IMyTalkObject>}}\\
+	Metodo che definisce l'iter per l'esecuzione dell'operazione d'interrogazione del database. Il metodo definisce quelle procedure comuni a tutte le operazioni di lettura dei dati. Inizialmente il metodo definisce i seguenti oggetti:
+	\begin{itemize}
+		\item Query hqlQuery = null;
+		\item List<IMyTalkObject> collection = null;
+		\item Session session = null;
+		\item SessionFactory factory = null;
+		\item Transaction transaction = null;
+	\end{itemize}
+	
+Quindi viene definito un blocco try-catch. Nel blocco try, si salva in factory un riferimento a \classname{SessionManager}. Quindi in session si riporta la sessione ottenuta da una chiamata \verb|factory.openSession()|. Si definisce la query d'interrogazione mediante una chiamata \verb|session.createQuery(query)|. Si definisce l'apertura di una transizione transaction mediante una chiamata \verb|session.beginTransaction()|. Il metodo procede prima impostando collection a \verb|(List<IMyTalkObject>)hqlQuery.list();|, e poi eseguendo il metodo \method{doInitialize()} passando come parametro d'ingresso collection. Si esegue il commit sulla transizione e si imposta result a \inglese{true}. Nel blocco catch si esegue un'operazione di rollback e si imposta collection a \inglese{null}.
+
+Il metodo termina chiudendo la sessione e ritornando il contenuto di collection.
+
+	\item{\method{+ uniqueResult(query: String): Long}}\\
+	Metodo che definisce l'iter per l'esecuzione dell'operazione d'interrogazione del database (quelle che prevedono un unico risultato). Il metodo definisce quelle procedure comuni a tutte le operazioni di lettura dei dati. Inizialmente il metodo definisce i seguenti oggetti:
+	\begin{itemize}
+		\item Query hqlQuery = null;
+		\item Long result = null;
+		\item Session session = null;
+		\item SessionFactory factory = null;
+		\item Transaction transaction = null;
+	\end{itemize}
+	
+Quindi viene definito un blocco try-catch. Nel blocco try, si salva in factory un riferimento a \classname{SessionManager}. Quindi in session si riporta la sessione ottenuta da una chiamata \verb|factory.openSession()|. Si definisce la query d'interrogazione mediante una chiamata \verb|session.createQuery(query)|. Si definisce l'apertura di una transizione transaction mediante una chiamata \verb|session.beginTransaction()|. Il metodo procede prima impostando result a \verb|(Long)hqlQuery.uniqueResult()|, e poi eseguendo l'operazione di commit a partire dall'oggetto transaction. Nel blocco catch si esegue un'operazione di rollback e si imposta result a \inglese{null}.
+
+Il metodo termina chiudendo la sessione e ritornando il contenuto di result.
+
+	\item{\method{+ \{abstract\} doInitialize(collection: List<IMyTalkObject>): void}}\\
+	Metodo astratto non definito in questa classe. Le classi figlie di \classname{GetUtil} ridefiniranno questo metodo.
+
+\end{description}
+
 \classsection{NotInitialize}
 
 \subsubsection*{Funzione}
-Classe figlia di \classname{ModifyUtil}.
+Classe figlia di \classname{GetUtil}.
 
 \subsubsection*{Relazioni d'uso}
 
@@ -694,7 +767,9 @@ Classe figlia di \classname{ModifyUtil}.
 
 \subsubsection*{Classi estese ed interfacce implementate}
 
-Nessuna relazione evidenziata.
+\begin{itemize}
+	\item \classname{dao.util.GetUtil}: classe astratta estesa.
+\end{itemize}
 
 \subsubsection*{Attributi}
 
