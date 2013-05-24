@@ -83,7 +83,6 @@ public class AnswerController extends AbstractController
 	
 	boolean sendMail(String sender, String receiver, String subject, String text)
 	{
-		boolean result = false;
 		String host = "smtp.gmail.com";
 		int port = 465; //porta 25 per non usare SSL
 		 
@@ -107,7 +106,8 @@ public class AnswerController extends AbstractController
 	    // Creazione delle BodyParts del messaggio
 	    MimeBodyPart messageBodyPart1 = new MimeBodyPart();
 	 
-	    try{
+	    try
+	    {
 	      // COSTRUZIONE DEL MESSAGGIO
 	      Multipart multipart = new MimeMultipart();
 	      MimeMessage msg = new MimeMessage(session);
@@ -150,5 +150,4 @@ public class AnswerController extends AbstractController
 	void actuallySendMessage(MimeMessage message) throws MessagingException {
 		Transport.send(message);
 	}
-
 }
