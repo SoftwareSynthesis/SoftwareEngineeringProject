@@ -2403,13 +2403,8 @@ Allo scopo di facilitare la consultazione di tali test sono stati evidenziati i 
 \textbf{Descrizione}: tramite un utente \inglese{test} correttamente registrato nel database e autenticato al sistema con un secondo utente \inglese{test} correttamente registrato nel database nella sua rubrica. Verrà eseguito il comando di rimozione sull'utente nella rubrica, verificata la corretta rimozione e che l'utente rimanga in uno stato consistente dopo tale comando.\\
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{TUFF4.3.0}
-\textbf{Verifica il requisito:} \texttt{RUFF4.3.0}, possibilità di ordinare la rubrica su alcuni parametri lilevanti.\\
-\textbf{Descrizione}: tramite un utente \inglese{test} correttamente registrato nel database e autenticato al sistema con un tre utenti \inglese{test} correttamente registrati nel database nella sua rubrica. Verrà eseguito il comando di ordinamento ``ordina per email'', successivamente per nome utente e per nome gruppi e riscontrato il corretto funzionamento dei suddetti. Verrà verificata la correttezza del codice di gestione del requisito all'interno del file di codifica. Verifica anche i sottorequisiti RUFF4.3.1 e RUFF4.3.2. \\
-\textbf{Risultato del test:} superato con successo.
-
 \item \textbf{TUFF4.4.0}\\
-\textbf{Verifica il requisito:} \texttt{RUFF4.4.0}, possiblità di suddividere la rubrica in gruppi.\\
+\textbf{Verifica il requisito:} \texttt{RUFF4.4.0}, possibilità di suddividere la rubrica in gruppi.\\
 \textbf{Descrizione}: viene verificata la presenza e il funzionamento mediante \inglese{test} specializzati nelle verifiche associate ai sotto-requisiti della funzionalità ``gruppi'' (specificati nei codici RUFF4.4.X). Verrà inoltre confermata la presenza e la correttezza del relativo codice associato a tale funzionalità all'interno dei corrispondenti file di codifica.\\
 \textbf{Risultato del test:} superato con successo.
 
@@ -2468,13 +2463,8 @@ Allo scopo di facilitare la consultazione di tali test sono stati evidenziati i 
 \textbf{Descrizione}: viene lasciato un messaggio audio di 20 secondi con un utente \inglese{test} correttamente autenticato ad un utente \inglese{test} non autenticato. Successivamente verrà autenticato l'utente \inglese{test} destinatario del messaggio e verificata l'effettiva ricezione del messaggio.\\
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{TUFF15.2.0}\\
-\textbf{Verifica il requisito:} \texttt{RUFF15.2.0}, possibilità di lasciare un video messaggio in segreteria.\\
-\textbf{Descrizione}: viene lasciato un messaggio audio/video di 20 secondi con un utente \inglese{test} correttamente autenticato ad un utente \inglese{test} non autenticato. Successivamente verrà autenticato l'utente \inglese{test} destinatario del messaggio e verificata l'effettiva ricezione del messaggio.\\
-\textbf{Risultato del test:} superato con successo.
-
 \item \textbf{TUFF15.3.0}\\
-\textbf{Verifica il requisito:} \texttt{RUFF15.3.0}, possiblità di ascoltare la propria segreteria.\\
+\textbf{Verifica il requisito:} \texttt{RUFF15.3.0}, possibilità di ascoltare la propria segreteria.\\
 \textbf{Descrizione}: il test di questo requisito è intrinseco nella correttezza dei test TUFF15.1.0 o TUFF15.2.0.\\
 \textbf{Risultato del test:} superato con successo.
 
@@ -2484,7 +2474,7 @@ Allo scopo di facilitare la consultazione di tali test sono stati evidenziati i 
 \textbf{Risultato del test:} superato con successo.
 
 \item \textbf{TUFF15.5.0}\\
-\textbf{Verifica il requisito:} \texttt{RUFF15.5.0}, possibilità di cambare lo stato del messagio da \textit{non ascoltato} ad \textit{ascoltato}.\\
+\textbf{Verifica il requisito:} \texttt{RUFF15.5.0}, possibilità di cambiare lo stato del messaggio da \textit{non ascoltato} ad \textit{ascoltato}.\\
 \textbf{Descrizione}: il test di questo requisito è successivo ai test TUFF15.1.0 o TUFF15.2.0, dopo aver ascoltato/visto il messaggio verrà impostato come ``ascoltati'' tramite l'apposito comando nella form di gestione.\\
 \textbf{Risultato del test:} superato con successo.
 
@@ -2633,13 +2623,80 @@ Totale &122 &\\
 
 I risultati ottenuti dimostrano una copertura superiore al X\% dei requisiti obbligatori, i non soddisfatti risultano essere o impossibili da implementare attualmente (latenza della connessione o qualità della chiamata) o di implementazione effettuata durante i test di collaudo intermedi ma non presenti nella versione finale dell'applicativo (chiamata tra due IP).
 La copertura dei requisiti facoltativi è invece di poco superiore al X\%, mentre dei requisiti desiderabili sono stati coperti il 55\% degli stessi.
+Tali risultati confermano gli obbiettivi che il team si è imposto in sede di revisione dei requisiti, soddisfacendo quindi la maggior parte dei requisiti inerenti alla realizzazione e alle funzionalità del progetto pattuite con il committente.
 
-
+\clearpage
 \subsection{Test di Utilizzo}
 Al fine di verificare che l'interfaccia del prodotto sia più intuitiva e \inglese{user-friendly} possibile, sono stati predisposte delle simulazioni da proporre ad un campione di utenza selezionata (cinque persone con conoscenze informatiche medio-basse).
 Essendo test non oggettivi non verranno catalogati come vere e proprie verifiche, ma saranno semplici \inglese{feedback} su come migliorare o confermare la parte visiva di \caName in base ai comportamenti assunti dai \inglese{tester} durante la prova.
 I suggerimenti che non non verranno implementati sono comunque tracciati per consentire un futuro sviluppo dell'interfaccia dell'applicativo.
 
+\begin{center}
+\rowcolors{2}{lightblue}{llightblue}\begin{longtable}{p{.11\textwidth}p{.7\textwidth}}
+\toprule Contesto & Suggerimento \\
+\midrule
+
+
+Registrazione & 
+\begin{itemize} 
+\item chiedere conferma dell'inserimento della \textit{password} nel \inglese{form} di registrazione.
+\end{itemize}
+\\
+
+Rubrica & 
+\begin{itemize} 
+\item rendere più chiara l'interfaccia della rubrica stessa, magari rendendola più simile ad una rubrica cartacea con delle ``etichette'' laterali con un ordine alfabetico per una più rapida consultazione della stessa;
+\item possibilità di ordinare la rubrica secondo parametri prescelti;
+\item possibilità di nascondere utenti \inglese{offline};
+\item possibilità di esportare la propria rubrica.
+\end{itemize}
+\\
+
+Contatti & 
+\begin{itemize}
+\item rendere la finestra della descrizione del contatto come un ``pop-up'' della rubrica, senza ``occupare'' la sezione centrale della pagina;
+\item possibilità di notare subito se un contatto è bloccato tramite un'apposita immagine (ad esempio un ``segnale di divieto'') senza accedere alla sua scheda.
+\end{itemize}
+\\
+
+Gruppi & 
+\begin{itemize}
+\item gestione maggiormente integrata alla rubrica, senza un menù specifico sulla sezione destra dell'applicativo;
+\item confusione nell'avere la funzione di inserimento e rimozione di un contatto da un gruppo in più punti dell'interfaccia.
+\end{itemize}
+\\
+
+Chat & 
+\begin{itemize}
+\item inserire un pulsante che gestisca l'inserimento di \inglese{emoticons};
+\item possibilità di creare chat di gruppo;
+\item possibilità di effettuare il backup delle chat.
+\end{itemize}
+\\
+
+Aiuti & 
+\begin{itemize}
+\item integrare nella parte inferiore basso o nel menù di destra, un pulsante per accedere ad un aiuto su come usare l'applicativo.
+\end{itemize}
+\\
+Storico chiamate & 
+\begin{itemize}
+\item possibilità di cancellare una o più chiamate dallo storico;
+\item possibilità di visionare quanto dura una chiamata.
+\end{itemize}
+\\
+
+Segreteria & 
+\begin{itemize}
+\item più dati descrittivi per ogni singolo messaggio;
+\item possibilità di lasciare messaggi audio/video.
+\end{itemize}
+\\
+
+
+\bottomrule
+\end{longtable}
+\end{center}
 
 \clearpage
 
