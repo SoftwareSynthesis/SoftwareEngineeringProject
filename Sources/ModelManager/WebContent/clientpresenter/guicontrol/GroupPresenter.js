@@ -19,14 +19,6 @@ function GroupPanelPresenter(url) {
 	/***************************************************************************
 	 * FUNZIONI PRIVATE
 	 **************************************************************************/
-	/** VIEW
-     * Funzione per gestire l'evento in cui viene visualizzato il pannello della gestione dei gruppi
-     * @author Riccardo Tresoldi
-     */
-    function onShowGroupPanel() {
-        mediator.getView('group');
-    }
-	
 	/**
 	 * Crea la lista dei contatti che sono presenti nel gruppo
 	 * 
@@ -45,7 +37,7 @@ function GroupPanelPresenter(url) {
 			// pulsante per la cancellazione del contatto dal gruppo
 			var deleteContactImg = document.createElement("img");
 			// TODO da impostare questo campo srcF
-			deleteContactImg.src = "";
+			deleteContactImg.src = "img/deleteContactImg.png";
 			deleteContactImg.className = "deleteContact";
 			deleteContactImg.onclick = function() {
 				mediator.onContactRemovedFromGroup(contacts[id], group);
@@ -232,6 +224,17 @@ function GroupPanelPresenter(url) {
 		    }
 		}
 	};
+
+    /***************************************************************************
+     * HANDLER DEGLI EVENTI
+     **************************************************************************/	
+	/** VIEW
+     * Funzione per gestire l'evento in cui viene visualizzato il pannello della gestione dei gruppi
+     * @author Riccardo Tresoldi
+     */
+    function onShowGroupPanel() {
+        mediator.getView('group');
+    }
 	
 	/***************************************************************************
      * LISTNER DEGLI EVENTI

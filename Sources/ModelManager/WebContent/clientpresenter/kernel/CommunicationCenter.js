@@ -147,7 +147,7 @@ function CommunicationCenter() {
             var ar = new Array("1", self.my.id);
             websocket.send(JSON.stringify(ar));
             //informo gli utenti della mia rubrica che sono online
-            changeMyState.state("avaiable");
+            changeMyState.state("available");
             document.dispatchEvent(changeMyState);
         };
         //event handle per gestire la chiusura della socket
@@ -167,6 +167,7 @@ function CommunicationCenter() {
              *  2 : quando inizia la chiamata,
              *  5 : cambio stato altri utenti
              *  6 : notifica rifiuto chiamata
+             *  7 : ricezione messaggio chat
              *} */
             if (type == "3") {
                 idOther = str[1];
@@ -186,7 +187,14 @@ function CommunicationCenter() {
                 changeAddressBooksContactState.statusUserChange = JSON.parse(str[2]);
                 document.dispatchEvent(changeAddressBooksContactState);
             } else if (type == "6") {
-                self.refusedCall();
+                // notifica rifiuto chiamata
+                thisMonolith.refusedCall();
+            } else if (type == "7") {
+                // ricezione messaggio in chat
+                appendMessageToChat.user = str[1];
+                appendMessageToChat.text = str[2];
+                appendMessageToChat.IAmSender = false;
+                document.dispatchEvent(appendMessageToChat);
             }
         };
         //event handle per gestire gli errori avvenuti della socket
@@ -204,7 +212,7 @@ function CommunicationCenter() {
     this.disconnect = function() {
         //azzero la variabile my
         //creo array per inviare la rischiesta di disconnessione e lo invio
-        var ar = new Array("4", self.my.id);
+        var ar = new Array("4");
         websocket.send(JSON.stringify(ar));
         websocket.close();
     };
@@ -402,10 +410,11 @@ function CommunicationCenter() {
      * Funzione per gestire il rifiuto alla chiamata
      *
      * @author Riccardo Tresoldi
+     * @param {Object} caller Oggetto che rappresenta il chiamante
      */
-    this.refuseCall = function() {
+    this.refuseCall = function(caller) {
         mediator.stopRinging();
-        var ar = new Array("6");
+        var ar = new Array("6", caller.id);
         if (websocket)
             websocket.send(JSON.stringify(ar));
     };
@@ -432,10 +441,31 @@ function CommunicationCenter() {
         }
     }
 
+    /**
+     * Gesione dell'evento per l'invio di un messaggio di chat
+     * @version 2.0
+     * @author Riccardo Tresoldi
+     * @param {Object} contact il contatto a cui inviare il messaggio
+     * @param {String} messageText il testo del messaggio da inviare
+     */
+    function onSendMessage(contact, messageText) {
+        var messageRequest = new Array("7", contact.id, messageText);
+        if (websocket)
+            websocket.send(JSON.stringify(messageRequest));
+        // scateno l'evento per visualizzare il messaggio nel pannello della chat
+        appendMessageToChat.user = contact;
+        appendMessageToChat.text = messageText;
+        appendMessageToChat.IAmSender = true;
+        document.dispatchEvent(appendMessageToChat);
+    }
+
     /***************************************************************************
      * LISTNER DEGLI EVENTI
      **************************************************************************/
     document.addEventListener("changeMyState", function(evt) {
         onChangeMyState(evt.state);
-    })
+    });
+    document.addEventListener("sendMessage", function(evt) {
+        onSendMessage(evt.contact, evt.messageText);
+    });
 }
