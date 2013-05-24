@@ -148,7 +148,8 @@ function PresenterMediator() {
      *            group rappresenta il gruppo in cui aggiungere il contatto
      */
     this.onContactAddedInGroup = function(contact, group) {
-        presenters["addressbook"].addContactInGroup(contact, group);
+        alert("Metodo deprecato (dal cesso)! Usare eventi\n\n");
+        //presenters["addressbook"].addContactInGroup(contact, group);
     };
 
     /**
