@@ -66,42 +66,49 @@ public class RegisterController extends AbstractController
 			name = request.getParameter("name");
 			surname = request.getParameter("surname");
 			filePart = request.getPart("picturePath");
-			user = new UserData();
-			user.setMail(mail);
-			user.setPassword(password);
-			user.setQuestion(question);
-			user.setAnswer(answer);
-			user.setName(name);
-			user.setSurname(surname);
-			if (filePart == null)
+			if (mail.equals("") == false && password.equals("") == false && question.equals("") == false && answer.equals("") == false)
 			{
-				path = "img/contactImg/Default.png";
-				user.setPath(path);
+				user = new UserData();
+				user.setMail(mail);
+				user.setPassword(password);
+				user.setQuestion(question);
+				user.setAnswer(answer);
+				user.setName(name);
+				user.setSurname(surname);
+				if (filePart == null)
+				{
+					path = "img/contactImg/Default.png";
+					user.setPath(path);
+				}
+				else
+				{
+					inputStream = filePart.getInputStream();
+					path = System.getenv("MyTalkConfiguration");
+					String separator = System.getProperty("file.separator");
+					path += separator + "MyTalk" + separator + "img" + separator + "contactImg" + separator + mail + ".png";
+					out = new FileOutputStream(path);
+					out.write(IOUtils.readFully(inputStream, -1, false));
+					out.close();
+					user.setPath("img/contactImg/" + mail + ".png");
+				}
+				dao = getDAOFactory();
+				dao.insert(user);
+				group = new Group();
+				group.setName("addrBookEntry");
+				group.setOwner(user);
+				dao.insert(group);
+				login = new LoginController();
+				login.execute(request, response);
+				result = "{\"name\":\"" + user.getName() + "\"";
+				result += ", \"surname\":\"" + user.getSurname() + "\"";
+				result += ", \"email\":\"" + user.getMail() + "\"";
+				result += ", \"id\":\"" + user.getId() + "\"";
+				result += ", \"picturePath\":\"" + user.getPath() + "\"}";
 			}
 			else
 			{
-				inputStream = filePart.getInputStream();
-				path = System.getenv("MyTalkConfiguration");
-				String separator = System.getProperty("file.separator");
-				path += separator + "MyTalk" + separator + "img" + separator + "contactImg" + separator + mail + ".png";
-				out = new FileOutputStream(path);
-				out.write(IOUtils.readFully(inputStream, -1, false));
-				out.close();
-				user.setPath("img/contactImg/" + mail + ".png");
+				result = "null";
 			}
-			dao = getDAOFactory();
-			dao.insert(user);
-			group = new Group();
-			group.setName("addrBookEntry");
-			group.setOwner(user);
-			dao.insert(group);
-			login = new LoginController();
-			login.execute(request, response);
-			result = "{\"name\":\"" + user.getName() + "\"";
-			result += ", \"surname\":\"" + user.getSurname() + "\"";
-			result += ", \"email\":\"" + user.getMail() + "\"";
-			result += ", \"id\":\"" + user.getId() + "\"";
-			result += ", \"picturePath\":\"" + user.getPath() + "\"}";
 		}
 		catch (Exception ex)
 		{
