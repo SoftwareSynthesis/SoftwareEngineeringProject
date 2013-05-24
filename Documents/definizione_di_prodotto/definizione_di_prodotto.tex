@@ -752,6 +752,125 @@ Il metodo termina chiudendo la sessione e ritornando il contenuto di result.
 
 \end{description}
 
+\classsection{GetCallUtil}
+
+\subsubsection*{Funzione}
+Classe figlia di \classname{GetUtil}. Rappresenta l'operazione necessaria per ottenere le chiamate registrate nel database.
+
+\subsubsection*{Relazioni d'uso}
+
+\begin{itemize}
+		\item \texttt{java.util.Iterator};
+		\item \texttt{import java.util.List};
+		\item \texttt{import org.hibernate.Hibernate};
+		\item \texttt{org.hibernate.Session};
+		\item \texttt{org.softwaresynthesis.mytalk.server.IMyTalkObject};
+		\item \texttt{org.softwaresynthesis.mytalk.server.dao.ISessionManager};
+\end{itemize}
+
+\subsubsection*{Classi estese ed interfacce implementate}
+
+\begin{itemize}
+	\item \classname{dao.util.GetUtil}: classe astratta estesa.
+\end{itemize}
+
+\subsubsection*{Attributi}
+
+Nessun attributo evidenziato.
+
+\subsubsection*{Metodi}
+
+\begin{description}
+	\item{\method{+ GetCallUtil(manager: ISessionManager)}}\\
+	Costruttore pubblico della classe, usato per inizializzare \memberdata{manager} con il parametro d'ingresso del metodo. Per farlo richiama il costruttore della classe padre.
+
+	\item{\method{+ \{final\} doInitialize(collection: List<IMyTalkObject>): void}}\\
+	Il metodo definisce un istanza di \classname{ICall} call inizializzandola a null. Quindi procede definendo un iteratore Iterator<IMyTalkObject> a partire da collection. All'interno di un ciclo while che itera per ogni elemento dell'iteratore, si sovrascrive il contenuto di call con quanto estratto dall'iteratore (uso del metodo \texttt{next()}), e poi deve essere eseguita l'istruzione:\\
+	
+	\verb|Hibernate.initialize(call.getCalls());|
+
+\end{description}
+
+\classsection{GetGroupUtil}
+
+\subsubsection*{Funzione}
+Classe figlia di \classname{GetUtil}. Rappresenta l'operazione necessaria per ottenere i gruppi presenti nel database.
+
+\subsubsection*{Relazioni d'uso}
+
+\begin{itemize}
+		\item \texttt{java.util.Iterator};
+		\item \texttt{import java.util.List};
+		\item \texttt{import org.hibernate.Hibernate};
+		\item \texttt{org.hibernate.Session};
+		\item \texttt{org.softwaresynthesis.mytalk.server.IMyTalkObject};
+		\item \texttt{org.softwaresynthesis.mytalk.server.dao.ISessionManager};
+\end{itemize}
+
+\subsubsection*{Classi estese ed interfacce implementate}
+
+\begin{itemize}
+	\item \classname{dao.util.GetUtil}: classe astratta estesa.
+\end{itemize}
+
+\subsubsection*{Attributi}
+
+Nessun attributo evidenziato.
+
+\subsubsection*{Metodi}
+
+\begin{description}
+	\item{\method{+ GetGroupUtil(manager: ISessionManager)}}\\
+	Costruttore pubblico della classe, usato per inizializzare \memberdata{manager} con il parametro d'ingresso del metodo. Per farlo richiama il costruttore della classe padre.
+
+	\item{\method{+ \{final\} doInitialize(collection: List<IMyTalkObject>): void}}\\
+	Il metodo definisce un istanza di \classname{IGroup} group inizializzandola a null. Quindi procede definendo un iteratore Iterator<IMyTalkObject> a partire da collection. All'interno di un ciclo while che itera per ogni elemento dell'iteratore, si sovrascrive il contenuto di group con quanto estratto dall'iteratore (uso del metodo \texttt{next()}), e poi deve essere eseguita l'istruzione:\\
+	
+	\verb|Hibernate.initialize(group.getAddressBook());|
+
+\end{description}
+
+\classsection{GetUserDataUtil}
+
+\subsubsection*{Funzione}
+Classe figlia di \classname{GetUtil}. Rappresenta l'operazione necessaria per ottenere gli utenti presenti nel database.
+
+\subsubsection*{Relazioni d'uso}
+
+\begin{itemize}
+		\item \texttt{java.util.Iterator};
+		\item \texttt{import java.util.List};
+		\item \texttt{import org.hibernate.Hibernate};
+		\item \texttt{org.hibernate.Session};
+		\item \texttt{org.softwaresynthesis.mytalk.server.IMyTalkObject};
+		\item \texttt{org.softwaresynthesis.mytalk.server.dao.ISessionManager};
+\end{itemize}
+
+\subsubsection*{Classi estese ed interfacce implementate}
+
+\begin{itemize}
+	\item \classname{dao.util.GetUtil}: classe astratta estesa.
+\end{itemize}
+
+\subsubsection*{Attributi}
+
+Nessun attributo evidenziato.
+
+\subsubsection*{Metodi}
+
+\begin{description}
+	\item{\method{+ GetUserDataUtil(manager: ISessionManager)}}\\
+	Costruttore pubblico della classe, usato per inizializzare \memberdata{manager} con il parametro d'ingresso del metodo. Per farlo richiama il costruttore della classe padre.
+
+	\item{\method{+ \{final\} doInitialize(collection: List<IMyTalkObject>): void}}\\
+	Il metodo definisce un istanza di \classname{IUserData} user inizializzandola a null. Quindi procede definendo un iteratore Iterator<IMyTalkObject> a partire da collection. All'interno di un ciclo while che itera per ogni elemento dell'iteratore, si sovrascrive il contenuto di user con quanto estratto dall'iteratore (uso del metodo \texttt{next()}), e poi devono essere eseguite le istruzioni:\\
+	
+	\verb|Hibernate.initialize(user.getAddressBook());|\\
+	\verb|Hibernate.initialize(user.getMessages());|\\
+	\verb|Hibernate.initialize(user.getCalls());|
+
+\end{description}
+
 \classsection{NotInitialize}
 
 \subsubsection*{Funzione}
