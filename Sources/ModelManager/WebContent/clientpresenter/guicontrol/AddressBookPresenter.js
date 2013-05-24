@@ -24,25 +24,7 @@ function AddressBookPanelPresenter() {
     /***************************************************************************
      * METODI PRIVATI
      **************************************************************************/
-    /**
-     * Funzione per gestire l'evento in cui viene visualizzato il pannello della
-     * rubrica indirizzi
-     * @author Riccardo Tresoldi
-     */
-    function onShowAddressBookPanel() {
-        mediator.getView('addressBook');
-    }
-
-    /**
-     * Funzione per gestire l'evento in cui viene rimosso il pannello della
-     * rubrica indirizzi
-     * @author Riccardo Tresoldi
-     */
-    function onRemoveAddressBookPanel() {
-        thisPresenter.destroy();
-    }
-
-    /**
+    /** PRESENTER
      * Recupera i contatti e i gruppi della propria rubrica dal server tramite
      * AJAX
      *
@@ -63,7 +45,7 @@ function AddressBookPanelPresenter() {
         groups = JSON.parse(groupRequest.responseText);
     }
 
-    /**
+    /** PRESENTER
      * Recupera l'indirizzo dell'immagine dello stato in base allo stato del
      * contatto passato come parametro
      *
@@ -86,7 +68,7 @@ function AddressBookPanelPresenter() {
         return path;
     }
 
-    /**
+    /** VIEW
      * Aggiunge una voce di rubrica a una lista
      *
      * @author Riccardo Tresoldi
@@ -129,7 +111,7 @@ function AddressBookPanelPresenter() {
         list.appendChild(item);
     }
 
-    /**
+    /** VIEW
      * Aggiungere una <option> ad una Select
      *
      * @author Riccardo Tresoldi
@@ -155,7 +137,7 @@ function AddressBookPanelPresenter() {
         select.appendChild(option);
     }
 
-    /**
+    /** PRESENTER
      * Controlla se un contatto è presente nel gruppo passato come parametro
      *
      * @author Riccardo Tresoldi
@@ -174,7 +156,7 @@ function AddressBookPanelPresenter() {
         return false;
     }
 
-    /**
+    /** PRESENTER/VIEW
      * Funzione per cambiare l'immagine dell'indicatore di stato di un contatto
      * nella rubrica
      *
@@ -189,7 +171,7 @@ function AddressBookPanelPresenter() {
             contacts[contact.id].state = state;
             // imposto l'src dell'immagine giusta
             var liUser = document.getElementById(contact.id);
-            var imgState = liUser.getElementsByTagName("img")[1];
+            var imgState = liUser.children[1];
             imgState.src = getImageSrc(contact);
         }
     }
@@ -202,11 +184,14 @@ function AddressBookPanelPresenter() {
      * @author Riccardo Tresoldi
      */
     this.destroy = function() {
-        var thisPanelParent = thisPanel.parentElement.parentElement;
-        thisPanelParent.removeChild(thisPanel.parentElement);
+        if (thisPanel) {
+            var thisPanelParent = thisPanel.parentElement.parentElement;
+            thisPanelParent.removeChild(thisPanel.parentElement);
+            thisPanel = null;
+        }
     };
 
-    /**
+    /** VIEW
      * Inizializza 'AddressBookPanel' e lo popola con i contatti della rubrica
      *
      * @author Riccardo Tresoldi
@@ -246,7 +231,7 @@ function AddressBookPanelPresenter() {
         this.setup();
     };
 
-    /**
+    /** PRESENTER/VIEW
      * Scarica la rubrica dal server popolando la lista dei contatti, quindi
      * inserisce i contatti estratti dal server all'interno della lista
      * all'interno di 'AddressBookPanel'
@@ -287,7 +272,7 @@ function AddressBookPanelPresenter() {
         }
     };
 
-    /**
+    /** VIEW
      * Rende invisibile il pannello della rubrica all'occorrenza
      *
      * @author Diego Beraldin
@@ -298,7 +283,7 @@ function AddressBookPanelPresenter() {
         }
     };
 
-    /**
+    /** PRESENTER
      * Aggiunge un contatto alla rubrica se non già presente
      *
      * @author Riccardo Tresoldi
@@ -328,7 +313,7 @@ function AddressBookPanelPresenter() {
         throw "Ops... qualcosa è andato storto nel server.";
     };
 
-    /**
+    /** PRESENTER
      * Rimovere un contatto alla rubrica se presente
      *
      * @author Riccardo Tresoldi
@@ -357,7 +342,7 @@ function AddressBookPanelPresenter() {
         throw "Ops... qualcosa è andato storto nel server.";
     };
 
-    /**
+    /** PRESENTER
      * Aggiungere un contatto della propria rubrica ad un proprio gruppo
      *
      * @author Riccardo Tresoldi
@@ -388,7 +373,7 @@ function AddressBookPanelPresenter() {
         throw "Ops... qualcosa è andato storto nel server.";
     };
 
-    /**
+    /** PRESENTER
      * Elimina un contatto della propria rubrica da un proprio gruppo
      *
      * @author Riccardo Tresoldi
@@ -419,7 +404,7 @@ function AddressBookPanelPresenter() {
         throw "Ops... qualcosa è andato storto nel server.";
     };
 
-    /**
+    /** PRESENTER
      * Aggiunge un gruppo alla rubrica
      *
      * @author Riccardo Tresoldi
@@ -452,7 +437,7 @@ function AddressBookPanelPresenter() {
         throw "Ops... qualcosa è andato storto nel server.";
     };
 
-    /**
+    /** PRESENTER
      * Rimuovere un gruppo alla rubrica, gli utenti appartenenti a quel gruppo
      * non verranno eliminati
      *
@@ -488,7 +473,7 @@ function AddressBookPanelPresenter() {
         throw "Ops... qualcosa è andato storto nel server.";
     };
 
-    /**
+    /** VIEW
      * Dato una stringa in ingresso questa funzione filtra i contatti presenti
      * in locale
      *
@@ -513,7 +498,7 @@ function AddressBookPanelPresenter() {
         return filtred;
     };
 
-    /**
+    /** VIEW
      * Dato l'id di un gruppo in ingresso questa funzione filtra i contatti
      * presenti in locale
      *
@@ -529,7 +514,7 @@ function AddressBookPanelPresenter() {
         return filtredContactsID;
     };
 
-    /**
+    /** VIEW
      * Mostra la lista di contatti passata come parametro all'interno della
      * AddressBookList
      *
@@ -582,7 +567,7 @@ function AddressBookPanelPresenter() {
         }
     };
 
-    /**
+    /** PRESENTER
      * Dato un contatto verifica se appartiene alla rubrica
      *
      * @author Riccardo Tresoldi
@@ -601,7 +586,7 @@ function AddressBookPanelPresenter() {
         return false;
     };
 
-    /**
+    /** PRESENTER
      * Funzione che blocca l'utente passato per parametro
      *
      * @author Riccardo Tresoldi
@@ -634,7 +619,7 @@ function AddressBookPanelPresenter() {
         throw "Ops... qualcosa è andato storto nel server.";
     };
 
-    /**
+    /** PRESENTER
      * Funzione che sblocca l'utente passato per parametro
      *
      * @author Riccardo Tresoldi
@@ -667,7 +652,7 @@ function AddressBookPanelPresenter() {
         throw "Ops... qualcosa è andato storto nel server.";
     };
 
-    /**
+    /** PRESENTER
      * Funzione che dato un utente restituisce i gruppi in cui è stato inserito
      * nell'addressBook
      *
@@ -697,7 +682,7 @@ function AddressBookPanelPresenter() {
         return groupSelected;
     };
 
-    /**
+    /** PRESENTER
      * Funzione che dato in input l'ID di un contatto ritorna il contatto
      *
      * @author Riccardo Tresoldi
@@ -707,6 +692,45 @@ function AddressBookPanelPresenter() {
     this.getContact = function(idContact) {
         return contacts[idContact];
     }
+    /***************************************************************************
+     * HANDLER EVENTI
+     **************************************************************************/
+    /**
+     * Funzione per gestire l'evento in cui viene visualizzato il pannello della
+     * rubrica indirizzi
+     * @author Riccardo Tresoldi
+     */
+    function onShowAddressBookPanel() {
+        if (!thisPanel) {
+            mediator.getView('addressBook');
+        }
+    }
+
+    /**
+     * Funzione per gestire l'evento in cui viene rimosso il pannello della
+     * rubrica indirizzi
+     * @author Riccardo Tresoldi
+     */
+    function onRemoveAddressBookPanel() {
+        thisPresenter.destroy();
+    }
+
+    /***************************************************************************
+     * LISTNER DEGLI EVENTI
+     **************************************************************************/
+    document.addEventListener("changeAddressBooksContactState", function(evt) {
+        setStateToContact(evt.idUserChange, statusUserChange);
+    });
+    document.addEventListener("showAddressBookPanel", function(evt) {
+        onShowAddressBookPanel();
+    });
+    document.addEventListener("removeAddressBookPanel", function(evt) {
+        onRemoveAddressBookPanel();
+    });
+
+    /***************************************************************************
+     * MISCELLANEOUS
+     **************************************************************************/
     /*
      * FILE JSON CHE RAFFIGURA LA RUBRICA { "idUser1":{ "name": "", "surname":
      * "", "email": "", "id": "", "picturePath": "", "state": "", "blocked":
@@ -731,17 +755,4 @@ function AddressBookPanelPresenter() {
     this.setGroups = function(cont) {
         groups = cont;
     };
-
-    /***************************************************************************
-     * LISTNER DEGLI EVENTI
-     **************************************************************************/
-    document.addEventListener("changeAddressBooksContactState", function(evt) {
-        setStateToContact(evt.idUserChange, statusUserChange);
-    });
-    document.addEventListener("showAddressBookPanel", function(evt) {
-        onShowAddressBookPanel();
-    });
-    document.addEventListener("removeAddressBookPanel", function(evt) {
-        onRemoveAddressBookPanel();
-    });
 }

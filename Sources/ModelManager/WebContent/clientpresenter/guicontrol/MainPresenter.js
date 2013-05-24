@@ -15,26 +15,6 @@ function MainPanelPresenter() {
     var thisPanel;
 
     /***************************************************************************
-     * METODI PRIVATI
-     **************************************************************************/
-    /**
-     * Funzione per gestire l'evento in cui viene visualizzato il pannello
-     * principale
-     * @author Riccardo Tresoldi
-     */
-    function onShowMainPanel() {
-        mediator.getView('main');
-    }
-
-    /**
-     * Funzione per gestire l'evento in cui viene rimosso il pannello principale
-     * @author Riccardo Tresoldi
-     */
-    function onRemoveMainPanel() {
-        thisPresenter.destroy();
-    }
-
-    /***************************************************************************
      * METODI PUBBICI
      **************************************************************************/
     /** VIEW
@@ -42,11 +22,14 @@ function MainPanelPresenter() {
      * @author Riccardo Tresoldi
      */
     this.destroy = function() {
-        var thisPanelParent = thisPanel.parentElement.parentElement;
-        thisPanelParent.removeChild(thisPanel.parentElement);
+        if (thisPanel) {
+            var thisPanelParent = thisPanel.parentElement.parentElement;
+            thisPanelParent.removeChild(thisPanel.parentElement);
+            thisPanel = null;
+        }
     };
 
-    /**
+    /** VIEW
      * Costruisce il pannello principale dell'applicazione che occupa il posto
      * centrale della finestra
      *
@@ -63,7 +46,7 @@ function MainPanelPresenter() {
         thisPanel = document.getElementById("MainPanel");
     };
 
-    /**
+    /** VIEW
      * Visualizza un elemento interno al pannello principale
      *
      * @param {HTMLDivElement}
@@ -80,14 +63,36 @@ function MainPanelPresenter() {
      *
      * @author Diego Beraldin
      */
-    this.hide = function() {
-        if (thisPanel) {
-            thisPanel.style.display = "none";
-        }
-    };
+    /*this.hide = function() {
+    if (thisPanel) {
+    thisPanel.style.display = "none";
+    }
+    };*/
 
     /***************************************************************************
-     * LISTNER DEGLI EVENTI
+     * HANDLER DEGLI EVENTI
+     **************************************************************************/
+    /** PRESENTER
+     * Funzione per gestire l'evento in cui viene visualizzato il pannello
+     * principale
+     * @author Riccardo Tresoldi
+     */
+    function onShowMainPanel() {
+        if (!thisPanel) {
+            mediator.getView('main');
+        }
+    }
+
+    /** PRESENTER
+     * Funzione per gestire l'evento in cui viene rimosso il pannello principale
+     * @author Riccardo Tresoldi
+     */
+    function onRemoveMainPanel() {
+        thisPresenter.destroy();
+    }
+
+    /***************************************************************************
+     * LISTENER DEGLI EVENTI
      **************************************************************************/
     document.addEventListener("showMainPanel", function(evt) {
         onShowMainPanel();

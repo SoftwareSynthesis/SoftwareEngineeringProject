@@ -17,28 +17,10 @@ function ToolsPanelPresenter() {
     /**********************************************************
      METODI PRIVATI
      ***********************************************************/
-    /**
-     * Funzione per gestire l'evento in cui viene visualizzato il pannello degli
-     * strumenti
-     * @author Riccardo Tresoldi
-     */
-    function onShowToolsPanel() {
-        mediator.getView('tools');
-    }
-
-    /**
-     * Funzione per gestire l'evento in cui viene rimosso il pannello degli
-     * strumenti
-     * @author Riccardo Tresoldi
-     */
-    function onRemoveToolsPanel() {
-        thisPresenter.destroy();
-    }
-
-    /**
+    /** VIEW
      * funzione per l'inizializzazione della select che gestisce il cambio di
      * stato
-     *
+     * @version 2.0
      * @author Riccardo Tresoldi
      * @return {HTMLSelectElement} l'elemento HTML select che rappresenta lo
      * stato dell'utente
@@ -48,7 +30,7 @@ function ToolsPanelPresenter() {
         var selectState = document.getElementById("selectState");
         //Controllo che non sia già stato inizzializzato
         if (selectState.length != 0)
-            //se è già stato inizializato lo ritorno senza aggiungere altre
+            // se è già stato inizializato lo ritorno senza aggiungere altre
             // <option>
             return selectState;
         //Se arivo qua vuol dire che non è ancora stata inizializzata e dunque lo
@@ -57,7 +39,7 @@ function ToolsPanelPresenter() {
         selectState.add(new Option("Occupato", "occupied"), null);
         //aggancio l'evento onChange
         selectState.onChange = function() {
-            ToolsPanelPresenter.updateStateValue();
+        	thisPresenter.updateStateValue();
         }
         //ritorno l'elemento <select> inizializzato
         return selectState;
@@ -71,15 +53,21 @@ function ToolsPanelPresenter() {
      * @author Riccardo Tresoldi
      */
     this.destroy = function() {
-        var thisPanelParent = thisPanel.parentElement.parentElement;
-        thisPanelParent.removeChild(thisPanel.parentElement);
+        if (thisPanel) {
+            var thisPanelParent = thisPanel.parentElement.parentElement;
+            thisPanelParent.removeChild(thisPanel.parentElement);
+            thisPanel = null;
+        }
     };
 
     /** VIEW
      * Inizializza il pannello degli strumenti dell'applicazione
-     *
+     * @version 2.0
      * @author Elena Zecchinato
      * @author Diego Beraldin
+     * @author Riccardo Tresoldi
+     * @param {HTMLDIVElement} view frammeto di codice HTML ottenuto dal file
+     * della view
      */
     this.initialize = function(view) {
         // posiziona il pannello sulla pagina
@@ -94,8 +82,7 @@ function ToolsPanelPresenter() {
 
         //salvo un riferimento all'elemento DOM appena creato
         thisPanel = document.getElementById("ToolsPanel");
-
-        var ulFunction = document.getElementById("ToolsList");
+// FIXME: delete me! var ulFunction = document.getElementById("ToolsList");
 
         // funzione messaggi
         document.getElementById("liAnswering").onclick = function() {
@@ -123,51 +110,33 @@ function ToolsPanelPresenter() {
         };
 
         // possibilità di effettuare il logout
-        document.createElement("liLogout").onclick = function() {
+        document.getElementById("liLogout").onclick = function() {
             var answer = confirm("Sei sicuro di voler uscire?");
             if (answer) {
                 // effettua la disconnessione dal server
-                self.logout();
+                document.dispatchEvent(logout);
                 // ricrea le variabili globali e azzera la UI
-                mediator = new PresenterMediator();
-                communicationcenter = new communicationCenter();
+                //mediator = new PresenterMediator();
+                //communicationcenter = new CommunicationCenter();
                 // ricostruisce il form di login
-                mediator.buildLoginUI();
+                document.dispatchEvent(showLoginPanel);
             }
         };
 
-        //inizializzo la select del
-        this.initializeSelectState();
+        //inizializzo la select dello stato utente
+        initializeSelectState();
     };
 
-    /**
+    /** VIEW
      * Rende invisibile il pannello degli strumenti
      *
      * @author Diego Beraldin
      */
-    this.hide = function() {
-        thisPanel.style.display = "none";
-    };
+    /*this.hide = function() {
+    thisPanel.style.display = "none";
+    };*/
 
-    /**
-     * Effettua il logout comunicandolo alla servlet e chiudendo il canale di
-     * comunicazione che era stato aperto con il server
-     *
-     * @author Riccardo Tresoldi
-     */
-    this.logout = function() {
-        communicationcenter.disconnect();
-        var request = new XMLHttpRequest();
-        request.open("POST", commandURL, false);
-        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        request.send("operation=logout");
-        var result = JSON.parse(request.responseText);
-        if (!result) {
-            alert("Ops... qualcosa &egrave; andato storto nel server!");
-        }
-    };
-
-    /**
+    /** VIEW
      * Aggiunge il pulsante che permette di ritornare al pannello delle
      * comunicazioni, se ve ne sono di attive
      *
@@ -179,14 +148,14 @@ function ToolsPanelPresenter() {
         liCommunication.id = "CallFunction";
         liCommunication.appendChild(document.createTextNode("Chiamata"));
         liCommunication.onclick = function() {
-            mediator.displayCommunicaionPanel();
+            document.dispatchEvent(showCommunicationPanel);
         };
         // lo aggiunge in coda alla lista
         var ulFunctions = document.getElementById("ToolsList");
         ulFunctions.appendChild(liCommunication);
     };
 
-    /**
+    /** VIEW
      * Nasconde il pulsante che permette di ritornare al pannello
      * delle comunicazioni dal ToolsPanel
      *
@@ -200,12 +169,11 @@ function ToolsPanelPresenter() {
         }
     };
 
-    /**
+    /** VIEW
      * Imposta il valore della select che contiene lo stato dell'utente al valore
      * corretto
-     *
+     * @version 2.0
      * @author Riccardo Tresoldi
-     *
      * @return {HTMLSelectElement} l'elemento HTML select che rappresenta lo
      * stato dell'utente
      */
@@ -215,12 +183,63 @@ function ToolsPanelPresenter() {
         //ottengo il valore corrente della select
         var currentValue = selectState.options[selectedIndex].value;
         //Inviare il messaggio con websoket;
-        communicationcenter.changeState(currentValue);
+        changeMyState.state = currentValue;
+        document.dispatchEvent(changeMyState);
         return selectState;
     };
 
     /***************************************************************************
-     * LISTNER DEGLI EVENTI
+     * HANDLER DEGLI EVENTI
+     **************************************************************************/
+    /** PRESENTER
+     * Funzione per gestire l'evento in cui viene visualizzato il pannello degli
+     * strumenti
+     * @author Riccardo Tresoldi
+     */
+    function onShowToolsPanel() {
+        if (!thisPanel) {
+            mediator.getView('tools');
+        }
+    }
+
+    /** PRESENTER
+     * Funzione per gestire l'evento in cui viene rimosso il pannello degli
+     * strumenti
+     * @author Riccardo Tresoldi
+     */
+    function onRemoveToolsPanel() {
+        thisPresenter.destroy();
+    }
+
+    /** PRESENTER
+     * Funzione che mostra il pulsante per "Tornare al Comunication Panel"
+     * @author Riccardo Tresoldi
+     */
+    function onShowReturnToCommunicationPanelButton() {
+        // TODO
+        alert("Torna a CommPanel creato!");
+    }
+
+    /** PRESENTER
+     * Effettua il logout comunicandolo alla servlet e chiudendo il canale di
+     * comunicazione che era stato aperto con il server
+     * @version 2.0
+     * @author Riccardo Tresoldi
+     */
+    function onLogout() {
+        communicationcenter.disconnect();
+        var request = new XMLHttpRequest();
+        request.open("POST", commandURL, false);
+        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        request.send("operation=logout");
+        var result = JSON.parse(request.responseText);
+        if (!result) {
+            alert("Ops... qualcosa &egrave; andato storto nel server!");
+        }
+    }
+
+    /***************************************************************************
+     * LISTENER DEGLI EVENTI
      **************************************************************************/
     document.addEventListener("showToolsPanel", function(evt) {
         onShowToolsPanel();
@@ -228,4 +247,6 @@ function ToolsPanelPresenter() {
     document.addEventListener("removeToolsPanel", function(evt) {
         onRemoveToolsPanel();
     });
+    document.addEventListener("showReturnToCommunicationPanelButton", onShowReturnToCommunicationPanelButton);
+    document.addEventListener("logout", onLogout);
 }

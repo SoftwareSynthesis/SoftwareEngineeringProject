@@ -28,9 +28,16 @@ public class QuestionController extends AbstractController
 		DataPersistanceManager dao = getDAOFactory();
 		String mail = request.getParameter("username");
 		IUserData user = dao.getUserData(mail);
-		String question = user.getQuestion();
-		PrintWriter writer = response.getWriter();
-		writer.write(question);
+		if (user != null){
+			String question = user.getQuestion();
+			PrintWriter writer = response.getWriter();
+			writer.write(question);
+		}
+		else
+		{
+			PrintWriter writer = response.getWriter();
+			writer.write("null");
+		}
 	}
 	
 	@Override

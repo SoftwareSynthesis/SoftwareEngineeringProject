@@ -1,5 +1,5 @@
 /**
- * Presenter incaricato di gestire la form di registrazione
+ * Presenter incaricato di gestire il form di registrazione
  *
  * @constructor
  * @this {RegisterPanelPresenter}
@@ -14,29 +14,6 @@ function RegisterPanelPresenter() {
     var thisPanel;
 
     /***************************************************************************
-     * METODI PRIVATI
-     **************************************************************************/
-    /**
-     * Funzione per gestire l'evento in cui viene visualizzato il pannello di
-     * registrazione
-     * @author Riccardo Tresoldi
-     */
-    function onShowRegistrationPanel() {
-        // TODO elimina eventuale GUI già visualizzata
-        document.dispatchEvent(removeAllPanel);
-        mediator.getView('register');
-    }
-
-    /**
-     * Funzione per gestire l'evento in cui viene rimosso il pannello di
-     * registrazione
-     * @author Riccardo Tresoldi
-     */
-    function onRemoveRegistrationPanel() {
-        thisPresenter.destroy();
-    }
-
-    /***************************************************************************
      * METODI PUBBLICI
      **************************************************************************/
     /** VIEW
@@ -44,11 +21,14 @@ function RegisterPanelPresenter() {
      * @author Riccardo Tresoldi
      */
     this.destroy = function() {
-        var thisPanelParent = thisPanel.parentElement.parentElement;
-        thisPanelParent.removeChild(thisPanel.parentElement);
+        if (thisPanel) {
+            var thisPanelParent = thisPanel.parentElement.parentElement;
+            thisPanelParent.removeChild(thisPanel.parentElement);
+            thisPanel = null;
+        }
     };
 
-    /**
+    /** PRESENTER
      * Estrae dal form il valore del cognome del nuovo utente
      *
      * @returns {String} il cognome dell'utente
@@ -59,7 +39,7 @@ function RegisterPanelPresenter() {
         return surname;
     };
 
-    /**
+    /** PRESENTER
      * Estrae dal form il valore del nome del nuovo utente
      *
      * @returns {String} il nome dell'utente
@@ -70,7 +50,7 @@ function RegisterPanelPresenter() {
         return name;
     };
 
-    /**
+    /** PRESENTER
      * Estrae dal form la risposta alla domanda segreta associata al nuovo
      * utente
      *
@@ -87,7 +67,7 @@ function RegisterPanelPresenter() {
         return answer;
     };
 
-    /**
+    /** PRESENTER
      * Estrae dal form la domanda segreta associata al nuovo utente
      *
      * @throws {String}
@@ -103,7 +83,7 @@ function RegisterPanelPresenter() {
         return question;
     };
 
-    /**
+    /** PRESENTER
      * Estrae dal form la password associata al nuovo utente
      *
      * @throws {String}
@@ -119,7 +99,7 @@ function RegisterPanelPresenter() {
         return password;
     };
 
-    /**
+    /** PRESENTER
      * Estrae dal form lo username del nuovo utente
      *
      * @throws {String}
@@ -139,18 +119,21 @@ function RegisterPanelPresenter() {
         return username;
     };
 
-    /**
+    /** PRESENTER
      * Estrae dal form il percorso dell'immagine del nuovo profilo utente
      *
      * @returns {String} il percorso locale del file da caricare
      * @author Diego Beraldin
      */
     this.getPicturePath = function() {
-        var picturePath = document.getElementById("picture").value;
-        return picturePath;
+        var picturePath = document.getElementById("picture").files[0];
+        if (picturePath != undefined)
+            return picturePath;
+        else
+            return "";
     };
 
-    /**
+    /** PRESENTER
      * Invia i dati ricevuti alla servlet per la creazione di un nuovo account
      * utente
      *
@@ -170,27 +153,30 @@ function RegisterPanelPresenter() {
         var request = new XMLHttpRequest();
         // invia una richiesta SINCRONA al server (terzo parametro 'false')
         request.open("POST", commandURL, false);
-        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        var querystring = "operation=register&username=" + encodeURIComponent(userData.username) + "&password=" + encodeURIComponent(userData.password) + "&question=" + encodeURIComponent(userData.question) + "&answer=" + encodeURIComponent(userData.answer);
+        var formData = new FormData();
+        formData.append("operation", "register");
+        formData.append("username", (userData.username));
+        formData.append("password", (userData.password));
+        formData.append("question", (userData.question));
+        formData.append("answer", (userData.answer));
         if (userData.name && userData.name.length > 0) {
-            querystring += ("&name=" + encodeURIComponent(userData.name));
+            formData.append("name", (userData.name));
         }
         if (userData.surname && userData.surname.length > 0) {
-            querystring += ("&surname=" + encodeURIComponent(userData.surname));
+            formData.append("surname", (userData.surname));
         }
-        if (userData.picturePath && userData.picturePath.length > 0) {
-            querystring += ("&picturePath=" + encodeURIComponent(userData.picturePath));
+        if (userData.picturePath && userData.picturePath != "") {
+            formData.append("picturePath", userData.picturePath);
         }
-        request.send(querystring);
+        request.send(formData);
         var user = JSON.parse(request.responseText);
-        if (user != null) {
-            communicationcenter.my = user;
-            mediator.buildUI();
+        if (user) {
+            login.user = user;
+            document.dispatchEvent(login);
         }
-        return querystring;
     };
 
-    /**
+    /** VIEW
      * Inizializzazione dellla form di registrazione con la creazione di tutti i
      * widget grafici che sono contenuti al suo interno
      *
@@ -231,21 +217,47 @@ function RegisterPanelPresenter() {
         };
     };
 
-    /**
+    /** VIEW
      * Nasconde il form di registrazione per lasciare spazio alla schermata
      * principale dell'applicativo (che deve essere costruita dal
      * PresenterMediator)
      *
      * @author Diego Beraldin
      */
+     /*
     this.hide = function() {
         if (thisPanel) {
             thisPanel.style.display = "none";
         }
-    };
+
+    };*/
 
     /***************************************************************************
-     * LISTNER DEGLI EVENTI
+     * HANDLER DEGLI EVENTI
+     **************************************************************************/
+    /** PRESENTER
+     * Funzione per gestire l'evento in cui viene visualizzato il pannello di
+     * registrazione
+     * @author Riccardo Tresoldi
+     */
+    function onShowRegistrationPanel() {
+        if (!thisPanel) {
+            document.dispatchEvent(removeAllPanel);
+            mediator.getView('register');
+        }
+    }
+
+    /** PRESENTER
+     * Funzione per gestire l'evento in cui viene rimosso il pannello di
+     * registrazione
+     * @author Riccardo Tresoldi
+     */
+    function onRemoveRegistrationPanel() {
+        thisPresenter.destroy();
+    }
+
+    /***************************************************************************
+     * LISTENER DEGLI EVENTI
      **************************************************************************/
     document.addEventListener("showRegistrationPanel", function(evt) {
         onShowRegistrationPanel();

@@ -254,7 +254,7 @@ public class DataPersistanceManager
 	{
 		GetUtil select = this.factory.getUserDataUtil(this.manager);
 		List<IUserData> result = null;
-		String query = "from UserData as u where u.mail like '" + mail + "' or u.name like '" + name + "' or u.surname like '" + surname + "'";
+		String query = "from UserData as u where u.mail like '%" + mail + "%' or u.name like '" + name + "' or u.surname like '" + surname + "'";
 		result = (List)select.execute(query);
 		return result;
 	}
