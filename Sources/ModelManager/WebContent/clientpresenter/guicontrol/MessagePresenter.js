@@ -3,6 +3,7 @@
  * 
  * @author Elena Zecchinato
  * @author Diego Beraldin
+ * @author Riccardo Tresoldi
  */
 function MessagePanelPresenter() {
 	/***************************************************************************
@@ -15,7 +16,27 @@ function MessagePanelPresenter() {
 
 	/***************************************************************************
 	 * METODI PRIVATI
-	 **************************************************************************/		
+	 **************************************************************************/
+	/** VIEW
+	 * Restituisce il percorso dell'immagine che rappresenta lo stato del messaggio
+	 * in base al valore della proprietà status del messaggio passato coem parametro
+	 * 
+	 * @param {Object} message
+	 * 		  messaggio della segreteria da visualizzata
+	 * @returns {String} il percorso dell'immagine sul server
+	 * @author Diego Beraldin
+	 */
+	function getStatusSrc(message) {
+		// message.status rappresenta se il messaggio è nuovo/non nuovo
+		var result = "";
+		if (!message.status) {
+			result = "img/readmessage.png";
+		} else {
+			result = "img/unreadmessage.png";
+		}
+		return result;
+	}
+	
 	/** VIEW
 	 * Aggiunge un messaggio a una lista per creare l'elenco della segreteria
 	 * telefonica creando il list item corrispondente (con la stringa
@@ -26,47 +47,56 @@ function MessagePanelPresenter() {
 	 *            message messaggio della segreteria che corrisponde a
 	 *            'JSMessage' ed è caratterizzato da sender, id,
 	 *            status, video, src e date
-	 * @author Riccardo Tresoldi, Elena Zecchinato
+	 * @author Riccardo Tresoldi
 	 */
 	function addListItem(message) {
-		var messageList = document.getElementById("messageList");
+		// elemento da aggiungere alla lista
 		var item = document.createElement("li");
-	
 		var status = document.createElement("img");
 		var elimina  = document.createElement("img");
 		
+		// estrae il nome del mittente del messaggio
+		var contact = mediator.getContactById(message.sender);
+		var contactName = mediator.createNameLabel(contact);
+		
 		item.appendChild(status);
-		item.appendChild(document.createTextNode(message.sender));
+		item.appendChild(document.createTextNode(contactName));
 		item.appendChild(document.createTextNode(message.date));
 		item.appendChild(elimina);
 		
-		item.onclick = function() {
-		// imposto il messaggio come letto
-		var stato=true;
-		thisPresenter.setAsRead(message,stato);
+		// imposta il source delle immagini
+		status.src = getStatusSrc(message);
+		elimina.src = "img/deleteGroupImg.png";
 		
-		var video=documento.getElementById("messageVideo");
-        video.src = ""; // TODO CI VUOLE IL PATH
+		// comportamento del list item
+		item.onclick = function() {
+			thisPresenter.setStatus(message, false);
+			status.src = getStatusSrc(message);
+			var video = document.getElementById("messageVideo");
+			video.src = message.src;
 		};
-
-		status.onclick = function() {
+		
+		// comportamento del pulsante elimina
+		elimina.onclick = function() {
 			thisPresenter.deleteMessage(message);
 		};
 		
-		elimina.onclick = function() {
-			stato=message.status;
-			thisPresenter.setAsRead(message,!stato);
+		// comportamento del pulsante toggleState
+		status.onclick = function() {
+			var oldStatus = message.status;
+			thisPresenter.setStatus(message, !oldStatus);
+			status.src = getStatusSrc(message);
 		};
 		
-		// quando ho finito appendo il nuovo elemento appena creato.
+		// appendo il nuovo elemento appena creato
+		var messageList = document.getElementById("messageList");
 		messageList.appendChild(item);	
 	}
 
 	/** PRESENTER
-	 * Ottiene i messaggi di segreteria dal server contattando la servlet
-	 * corrispondente e li salva all'interno dell'array messages contenuto
-	 * all'interno di questo presenter
+	 * Ottiene i messaggi di segreteria dal server
 	 * 
+	 * @returns {Array} i messagi scaricati dal server
 	 * @author Riccardo Tresoldi
 	 */
 	function getMessages() {
@@ -74,7 +104,7 @@ function MessagePanelPresenter() {
 		request.open("POST", commandURL, false);
 		request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		request.send("operation=getMessages");
-		messages = JSON.parse(request.responseText);
+		return JSON.parse(request.responseText);
 	};
 
 	/***************************************************************************
@@ -87,7 +117,7 @@ function MessagePanelPresenter() {
 	 * @author Riccardo Tresoldi
 	 */
 	this.displayList = function() {
-		getMessages();
+		messages = getMessages();
 		for ( var message in messages) {
 			this.addListItem(message);
 		}
@@ -112,11 +142,11 @@ function MessagePanelPresenter() {
 	 *            idMessage id del messaggio che deve essere cancellato
 	 *  @author Elena Zecchinato
 	 */
-	 this.deleteMessage = function(idMessage) {
+	 this.deleteMessage = function(message) {
 		var request = new XMLHttpRequest();
 			request.open("POST", commandURL, false);
 			request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-			request.send("operation=deleteMessage&idMessage=" + idMessage);
+			request.send("operation=deleteMessage&idMessage=" + message.id);
 			result=JSON.parse(request.responseText);
 			
 			if (result == true) {
@@ -128,18 +158,19 @@ function MessagePanelPresenter() {
 	};
 	
 	/** PRESENTER
-	 * Rende lo stato di un messaggio "letto" oppure "non letto"
+	 * Rende lo stato di un messaggio nuovo oppure non nuovo
 	 * 
 	 * @author Riccardo Tresoldi
 	 * @param {Object} message
 	 *            il messaggio che deve essere modificato
 	 * @param {Boolean} valueToSet
-	 *            [true: "letto"] oppure [false: "non letto"]
+	 *            [true: "nuovo"] oppure [false: "letto"]
 	 * @throws {String}
 	 *             un errore se il non è stato possibile cambiare lo stato del
 	 *             messaggio
 	 */
-	this.setAsRead = function(message, valueToSet) {
+	this.setStatus = function(message, valueToSet) {
+		message.status = valueToSet;
 		var request = new XMLHttpRequest();
 		request.open("POST", commandURL, false);
 		request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
