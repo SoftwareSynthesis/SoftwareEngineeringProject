@@ -92,13 +92,26 @@ public class PushInbound extends MessageInbound {
 				IAddressBookEntry entry = (IAddressBookEntry)iter.next();
 				Long idFriend=entry.getContact().getId();
 				PushInbound sendTo= ControllerManager.findClient(idFriend);
-				String msg = "5|" + id + "|" + state.toString().toLowerCase();
-				getWsOutbound(sendTo).writeTextMessage(CharBuffer.wrap(msg));
+				if (sendTo != null){
+					String msg = "5|" + id + "|" + state.toString().toLowerCase();
+					getWsOutbound(sendTo).writeTextMessage(CharBuffer.wrap(msg));
+				}
 			}
 		}
+		//rifiuto chiamata
 		else if (type.equals("6")){
+			Long client = gson.fromJson(array.get(1), Long.class);
+			PushInbound sendTo= ControllerManager.findClient(client);
 			String msg = "6|";
-			getWsOutbound(this).writeTextMessage(CharBuffer.wrap(msg));
+			getWsOutbound(sendTo).writeTextMessage(CharBuffer.wrap(msg));
+		}
+		//chat
+		else if (type.equals("7")){
+			Long client = gson.fromJson(array.get(1), Long.class);
+			PushInbound sendTo= ControllerManager.findClient(client);
+			String msgChat = gson.fromJson(array.get(2), String.class);
+			String msg = "7|" + id + "|" + msgChat;
+			getWsOutbound(sendTo).writeTextMessage(CharBuffer.wrap(msg));
 		}
 	}
 
