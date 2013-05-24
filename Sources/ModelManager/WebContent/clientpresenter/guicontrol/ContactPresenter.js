@@ -141,7 +141,6 @@ function ContactPanelPresenter() {
             alert("Contatto da visualizzare non impostato!");
             return;
         }
-        console.debug(currentContact);
 
         document.getElementById("contactName").appendChild(document.createTextNode(currentContact.name));
         document.getElementById("contactSurname").appendChild(document.createTextNode(currentContact.surname));
