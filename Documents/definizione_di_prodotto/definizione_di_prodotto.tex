@@ -2992,7 +2992,7 @@ Il metodo inizia caricando i parametri ricevuti mediante \texttt{HttpServletRequ
 \classsection{PushInbound}
 
 \subsubsection*{Funzione}
-Classe per la definizione di un apposito canale di comunicazione client-server. La classe è un'estensione di \texttt{org.apache.catalina.websocket.MessageInbound} che verrà usata poi in \classname{ChannelServlet}. Si osservi che l'associazione tra un istanza di \classname{PushInbound} e un utente del sistema è univoca: fintanto che connesso un utente ha un proprio \classname{PushInbound} presente sul server.
+Classe per la definizione di un apposito canale di comunicazione client-server. La classe è un'estensione di \texttt{org.apache.catalina.websocket.MessageInbound}. Si osservi che l'associazione tra un istanza di \classname{PushInbound} e un utente del sistema è univoca: fintanto che connesso un utente ha un proprio \classname{PushInbound} presente sul server.
 
 \subsubsection*{Relazioni d'uso}
 \begin{itemize}
@@ -3004,7 +3004,7 @@ Classe per la definizione di un apposito canale di comunicazione client-server. 
 	\item \classname{State}: classe interna utilizzata per rappresentare lo stato dell'utente a cui è associata l'istanza di \classname{PushInbound}. Un utente ha uno stato fintanto che è connesso (quindi fintanto che esiste sul server un'istanza di \classname{PushInbound}  ad esso associata). Gli stati possibili sono: \texttt{available} (utente connesso e libero, quindi disposto a ricevere chiamate) e \texttt{occupied} (utente connesso ma attualmente occupato in un'altra conversazione).
 	\item \classname{abook.AddressBookEntry}: usata per definire la rubrica dell'utente, richiamata dal metodo \method{onTextMessage} nel momento in cui si presenta la necessità di aggiornare lo stato dell'utente e renderlo visibile ai suoi contatti.
 	\item \classname{abook.IUserData}: usata per riferire un istanza della classe ad un particolare utente.
-	\item \classname{dao.UserDataDAO}: usata per riferire un istanza della classe ad un particolare utente.
+	\item \classname{dao.DataPersistanceManger}: usata per riferire un istanza della classe ad un particolare utente.
 
 \end{itemize}
 
@@ -3048,60 +3048,9 @@ Inizialmente il metodo crea un istanza per ognuno dei seguenti oggetti:
 		\item[•]Se la richiesta inoltrata è del tipo 1: il metodo prende in lettura il messaggio e imposta il contenuto di \memberdata{id} con il valore letto mediante procedura di \inglese{parsing} analoga a quella definita al passo precedente. Per farlo utilizza il metodo \texttt{fromJson} richiamato dall'istanza \texttt{gsonObj} di tipo \texttt{Gson} creata al passo precedente. A tale metodo passa il contenuto dell'array e in particolare ciò che è salvato nella posizione 1 (utilizzo di metodo \texttt{get(int i)}).
 		\item[•]Se la richiesta inoltrata è del tipo 2: il metodo procede con le istruzioni necessarie a scambiare i dati per la chiamata. Nello specifico viene salvato in un attributo di tipo \texttt{Long}, l'\texttt{id} del client che desidero chiamare, quindi ricerco l'oggetto \texttt{PushInbound} associato al client che desidero contattare, e gli inoltro il messaggio ricevuto come parametro d'ingresso.
 		\item[•]Se la richiesta inoltrata è del tipo 3: il metodo comunica al client ``destinatario'' della chiamata, l'\texttt{id} del client chiamante. La procedura è analoga a quella identificata nel punto precedente, con la specifica che il messaggio inoltrato è l'identificativo del cliente che desidera avviare la chiamata.
-		\item[•]Se la richiesta inoltrata è del tipo 4: il metodo si occupa dell'eliminazione della \textit{webSocket}, contattando l'istanza \classname{ChannelServlet} associata a questo \texttt{PushInbound}.
+		\item[•]Se la richiesta inoltrata è del tipo 4: il metodo si occupa dell'eliminazione della \textit{webSocket}.
 		\item[•]Se la richiesta inoltrata è del tipo 5: il metodo viene usato per modificare lo stato dell'utente, con il valore passato tramite messaggio. Dopo la ricezione del messaggio, il metodo cambia il valore del campo \texttt{state} con il valore ricevuto come parametro d'ingresso. Quindi procede ricavando la lista degli utenti nella rubrica dell'utente che ha cambiato stato e comunica loro che è avvenuto un cambiamento di stato.
 	\end{itemize}
-\end{description}
-
-\classsection{ChanelServlet}
-
-\subsubsection*{Funzione}
-\inglese{Servlet} per la gestione delle connessioni. Richiamata dai client per ottenere le informazioni necessarie a stabilire una comunicazione client-client.
-
-\subsubsection*{Relazioni d'uso}
-\begin{itemize}
-	\item \texttt{java.util.Vector}: vettore usato per memorizzare i \texttt{PushInBound} creati all'interno della classe.
-	\item \texttt{javax.servlet.ServletConfig}: classe per la configura della \inglese{servlet}. 
-	\item \texttt{javax.servlet.ServletException}: eccezione richiesta per la firma del metodo \method{init} (metodo richiesto per implementazione dell'interfaccia \texttt{javax.servlet.Servlet}.
-	\item \texttt{javax.servlet.annotation.WebServlet}: necessaria per definire la \inglese{servlet} come \texttt{WebServlet}.
-	\item \texttt{javax.servlet.http.HttpServletRequest}: necessaria per definire le richieste inoltrate alla classe (richieste a \inglese{servlet}).
-	\item \classname{org.apache.catalina.websocket.StreamInbound}: classe utilizzata per definire un canale di comunicazione server-client.
-	\item \classname{org.apache.catalina.websocket.WebSocketServlet}: classe da estendere per utilizzare i metodi di comunicazione tramite \inglese{webSocket}.
-\end{itemize}
-
-\subsubsection*{Classi estese ed interfacce implementate}
-\begin{itemize}
-	\item \texttt{javax.servlet.Servlet}: interfaccia d'implementazione. Necessaria per definire la classe come \inglese{servlet}.
-\end{itemize}
-
-\subsubsection*{Attributi}
-\begin{description}
-  \item{\memberdata{\underline{-- \{frozen\} serialVersionUID: long}}}\\
-  Utilizzato come ID univoco per identificare un oggetto serializzabile.
-  \item{\memberdata{-- \{frozen\} clients: Vector<PushInbound>}}\\
-  Vettore contenente i canali di comunicazione server-client. Un canale di comunicazione \texttt{PushInbound} viene creato dal Server al momento dell'autenticazione di un utente (al quale poi viene associato).
-\end{description}
-
-\subsubsection*{Metodi}
-\begin{description}
-	\item{\method{+ ChannelServlet()}}\\
-	Costruttore della \textit{servlet}. Richiama \method{super()}.
-	
-	\item{\method{\# createWebSocketInbound(subProtocol: String, request: HttpServletRequest): StreamInbound}}\\
-	Metodo per la creazione di una \textit{websocket}. Il metodo ha anche il compito di salvare nel vettore di connessioni attive e la ritorna al client. Nello specifico il server segue l'iter:
-	
-	\begin{itemize}
-		\item[1)] creazione di un \textit{PushInbound};
-		\item[2)] aggiungo l'oggetto creato al punto precedente, al vettore di \textit{PushInbound} \memberdata{clients};
-		\item[3)] il metodo termina ritornando l'istanza di \textit{PushInbound} creata al punto 1.
-	\end{itemize}
-	
-	\item{\method{\underline{ + findClient(n: Long): PushInbound}}}\\
-	Metodo per la ricerca di una connessione client dato l'identificativo dell'utente, esegue una ricerca (mediante ciclo \inglese{for}) all'interno del vettore \memberdata{clients} e ad ogni iterazione verifica se l'istanza i-esima presa in esame ha un campo id che corrisponde a quello dato in input come parametro di ricerca.
-Il metodo termina ritornando il \textit{PushInbound} associato al client, se si verifica l'effettiva esitenza di un client con \texttt{id} uguale a quello passato in input, \texttt{null} altrimenti.
-	
-	\item{\method{\underline{ + removeClient(c: PushInbound): void}}}\\
-	Metodo per la rimozione di un oggetto \texttt{PushInbound} dal vettore \memberdata{clients}. Il metodo esegue una ricerca tramite ciclo \inglese{for} (analoga a quella eseguita nel metodo \method{findClient}. Se la ricerca ha esito positivo il metodo termina eseguendo la rimozione dell'istanza dall'oggetto \memberdata{clients} tramite la chiamata a metodo \texttt{remove}.
 \end{description}
 
 \clearpage
