@@ -94,7 +94,7 @@ function PresenterMediator() {
      */
     this.onContactAdded = function(contact) {
         try {
-            return presenters["addressbook"].addContact(contact);
+            return presenters["addressBook"].addContact(contact);
         } catch (err) {
             alert(err);
         }
@@ -109,7 +109,7 @@ function PresenterMediator() {
      *            contact contatto da rimuovere
      */
     this.onContactRemoved = function(contact) {
-        presenters["addressbook"].removeContact(contact);
+        presenters["addressBook"].removeContact(contact);
     };
 
     /**
@@ -121,7 +121,7 @@ function PresenterMediator() {
      *            name rappresenta il nome del gruppo da aggiungere
      */
     this.onGroupAdded = function(name) {
-        presenters["addressbook"].addGroup(name);
+        presenters["addressBook"].addGroup(name);
     };
 
     /**
@@ -133,7 +133,7 @@ function PresenterMediator() {
      *            group rappresenta il gruppo da rimuovere
      */
     this.onGroupRemoved = function(group) {
-        presenters["addressbook"].removeGroup(group);
+        presenters["addressBook"].removeGroup(group);
     };
 
     /**
@@ -149,7 +149,7 @@ function PresenterMediator() {
      */
     this.onContactAddedInGroup = function(contact, group) {
         alert("Metodo deprecato (dal cesso)! Usare eventi\n\n");
-        //presenters["addressbook"].addContactInGroup(contact, group);
+        //presenters["addressBook"].addContactInGroup(contact, group);
     };
 
     /**
@@ -164,7 +164,7 @@ function PresenterMediator() {
      *            group rappresenta il gruppo da cui rimuovere il contatto
      */
     this.onContactRemovedFromGroup = function(contact, group) {
-        presenters["addressbook"].deleteContactFromGroup(contact, group);
+        presenters["addressBook"].deleteContactFromGroup(contact, group);
     };
 
     /**
@@ -178,7 +178,7 @@ function PresenterMediator() {
      */
     this.onBlockContact = function(contact) {
         try {
-            return presenters["addressbook"].blockUser(contact);
+            return presenters["addressBook"].blockUser(contact);
         } catch (err) {
             alert(err);
         }
@@ -195,7 +195,7 @@ function PresenterMediator() {
      */
     this.onUnlockContact = function(contact) {
         try {
-            return presenters["addressbook"].unlockUser(contact);
+            return presenters["addressBook"].unlockUser(contact);
         } catch (err) {
             alert(err);
         }
@@ -235,7 +235,7 @@ function PresenterMediator() {
     // FIXME non so se serve questa funzione dato che l'applicazione dei filtri
     // avviene tra AddressBookPP e se stesso
     this.onFiltredApplyedByParam = function(param) {
-        presenters["addressbook"].applyFilterByString(param);
+        presenters["addressBook"].applyFilterByString(param);
     };
 
     /**
@@ -250,7 +250,7 @@ function PresenterMediator() {
     // FIXME non so se serve questa funzione dato che l'applicazione dei filtri
     // avviene tra AddressBookPP e se stesso
     this.onFiltredApplyedByGroup = function(group) {
-        presenters["addressbook"].applyFilterByGroup(group);
+        presenters["addressBook"].applyFilterByGroup(group);
     };
 
     /**
@@ -264,7 +264,7 @@ function PresenterMediator() {
      *         cui è presente il contatto
      */
     this.getGroupsWhereContactsIs = function(contact) {
-        return presenters["addressbook"].getGroupsWhereContactsIs(contact);
+        return presenters["addressBook"].getGroupsWhereContactsIs(contact);
     };
 
     /**
@@ -289,7 +289,7 @@ function PresenterMediator() {
      *            contact il contatto da controllare
      */
     this.contactAlreadyPresent = function(contact) {
-        return presenters["addressbook"].contactAlreadyPresent(contact);
+        return presenters["addressBook"].contactAlreadyPresent(contact);
     };
 
     /**
