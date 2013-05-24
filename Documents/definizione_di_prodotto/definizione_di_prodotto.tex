@@ -2514,6 +2514,76 @@ Nessuna relazione evidenziata.
 	
 \end{description}
 
+\classsection{AESEncode}
+
+\subsubsection*{Funzione}
+Rappresenta la struttura dell'algoritmo di criptazione usato nel sistema. Ridefinisce il metodo astratto \method{compleateAlgorithm} della classe padre \classname{AESTemplate}.
+
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+	\item \texttt{javax.crypto.Cipher}: usato come cifratore durante la procedura di criptazione;
+	\item \texttt{sun.misc.BASE64Encoder}: encoder di criptazione.
+\end{itemize}
+
+\subsubsection*{Classi estese ed interfacce implementate}
+
+\begin{itemize}
+	\item \classname{AESTemplate}: classe estesa.
+\end{itemize}
+
+\subsubsection*{Attributi}
+
+Nessun attributo evidenziato.
+
+\subsubsection*{Metodi}
+\begin{description}
+
+	\item{\method{\# \{final\} compleateAlgotihm(text: String): String}}\\
+	Metodo usato per definire l'algoritmo di criptazione. Il metodo definisce un oggetto di tipo \texttt{BASE64Encoder} denominato encoder e lo inizializza con il suo costruttore di default. Quindi si definisce un \texttt{array} di byte (buffer) in cui si dovrà caricare il contenuto del testo da criptare. Si osservi che per tale operazione è richiesto l'utilizzo del metodo \texttt{getBytes()} eseguito a partire da text. Quindi il metodo prosegue definendo  un cifratore di tipo \texttt{Cipher}. Una stringa result sarà usata per restituire il risultato dell'operazione di criptazione. Il prossimo passaggio definisce il cuore della procedura di criptazione, ed è importante che lo sviluppatore si attenga scrupolosamente a quanto qui riportato. Il metodo definisce le istruzioni:\\
+	
+	\verb|cipher.init(Cipher.ENCRYPT_MODE, super.getGeneratedKey());|\\
+	\verb|buffer = cipher.doFinal(buffer);|\\
+	\verb|result = encoder.encode(buffer);|\\
+	
+	Il metodo termina ritornando il contenuto di result.
+	
+\end{description}
+
+\classsection{AESDecode}
+
+\subsubsection*{Funzione}
+Rappresenta la struttura dell'algoritmo di criptazione usato nel sistema. Ridefinisce il metodo astratto \method{compleateAlgorithm} della classe padre \classname{AESTemplate}.
+
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+	\item \texttt{javax.crypto.Cipher}: usato come cifratore durante la procedura di decriptazione;
+	\item \texttt{sun.misc.BASE64Decoder}: decoder di decriptazione.
+\end{itemize}
+
+\subsubsection*{Classi estese ed interfacce implementate}
+
+\begin{itemize}
+	\item \classname{AESTemplate}: classe estesa.
+\end{itemize}
+
+\subsubsection*{Attributi}
+
+Nessun attributo evidenziato.
+
+\subsubsection*{Metodi}
+\begin{description}
+
+	\item{\method{\# \{final\} compleateAlgotihm(text: String): String}}\\
+	Metodo usato per definire l'algoritmo di decriptazione. Il metodo definisce un oggetto di tipo \texttt{BASE64Decoder} denominato decoder e lo inizializza con il suo costruttore di default. Quindi si definisce un \texttt{array} di byte (buffer) in cui si dovrà caricare il contenuto del testo da decriptare. Si osservi che per tale operazione è richiesto l'utilizzo del metodo \texttt{decodeBuffer(text)} eseguito a partire da decoder. Quindi il metodo prosegue definendo  un cifratore di tipo \texttt{Cipher}. Una stringa result sarà usata per restituire il risultato dell'operazione . Il prossimo passaggio definisce il cuore della procedura di decriptazione, ed è importante che lo sviluppatore si attenga scrupolosamente a quanto qui riportato. Il metodo definisce le istruzioni:\\
+	
+	\verb|cipher.init(Cipher.DECRYPT_MODE, super.getGeneratedKey());|\\
+	\verb|buffer = cipher.doFinal(buffer);|\\
+	\verb|result = new String(buffer);|\\
+	
+	Il metodo termina ritornando il contenuto di result.
+	
+\end{description}
+
 \subsection{Package org.softwaresynthesis.mytalk.server.authentication}\label{sec:authentication}
 
 \classsection{PrincipalImpl}
