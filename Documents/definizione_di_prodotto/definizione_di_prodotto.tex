@@ -402,7 +402,7 @@ Nessuna relazione evidenziata.
 \subsubsection*{Attributi}
 
 \begin{itemize}
-	\item{\memberdata{-- util: ISessionManager}}\\
+	\item{\memberdata{-- manager: ISessionManager}}\\
 	Attributo usato per mantenere un riferimento alla singola istanza di SessionManagaer (estensione di \classname{ISessionManagaer}.
 	\item{\memberdata{-- factory: UtilFactory}}\\
 	Attributo usato per mantenere un riferimento ad un'istanza di UtilFactory, usata per l'esecuzione delle operazioni relative alla manipolazione dei dati.
@@ -484,6 +484,103 @@ Nessuna relazione evidenziata.
 	
 	Tale operazione si ottiene con l'istruzione \verb|select.execute(query)|. Quindi si controlla se la lista cosi popolata contiene almeno un elemento. Nel caso si imposta result uguale alla lista usata. Il metodo termina restituendo result.
 	
+\end{description}
+
+\subsection{Package org.softwaresynthesis.mytalk.server.dao.util}\label{sec:daoUtil}
+
+\classsection{UtilFactory}
+
+\subsubsection*{Funzione}
+Classe usata per la creazione delle classi di manipolazione del database.
+
+\subsubsection*{Relazioni d'uso}
+
+\begin{itemize}
+		\item{org.softwaresynthesis.mytalk.server.dao.ISessionManager}: usata per definire un riferimento con il sistema centrale per la gestione del database.
+\end{itemize}
+
+\subsubsection*{Classi estese ed interfacce implementate}
+
+Nessuna relazione evidenziata.
+
+\subsubsection*{Attributi}
+
+Nessun attributo evidenziare.
+
+\subsubsection*{Metodi}
+
+\begin{description}
+	\item{\method{+ getDeleteUtil(manager: ISessionManager): ModifyUtil}}\\
+	Metodo usato per ritornare un \inglese{utility} per la cancellazione di un record. Il metodo ritorna \verb|new DeleteUtil(manager)|.
+	
+	\item{\method{+ getInsertUtil(manager: ISessionManager): ModifyUtil}}\\
+	Metodo usato per ritornare una \inglese{utility} per l'inserimento di un record. Il metodo ritorna \verb|new InsertUtil(manager)|.
+	
+	\item{\method{+ getUpdateUtil(manager: ISessionManager): ModifyUtil}}\\
+	Metodo usato per ritornare una \inglese{utility} per l'aggiornamento di un record. Il metodo ritorna \verb|new UpdateUtil(manager)|.
+	
+	\item{\method{+ getCallUtil(manager: ISessionManager): GetUtil}}\\
+	Metodo usato per ritornare una \inglese{utility} per inizializzare correttamente oggetti rappresentanti una chiamata. Il metodo ritorna \verb|new GetCallUtil(manager)|.	
+	
+	\item{\method{+ getGroupUtil(manager: ISessionManager): GetUtil}}
+		Metodo usato per ritornare una \inglese{utility} per inizializzare correttamente oggetti rappresentanti gruppi di utenti. Il metodo ritorna \verb|new GetGroupUtil(manager)|.	
+	
+	\item{\method{+ getUserDataUtil(manager: ISessionManager): GetUtil}}\\
+		Metodo usato per ritornare una \inglese{utility} per inizializzare correttamente oggetti rappresentanti utenti del sistema. Il metodo ritorna \verb|new GetUserDataUtil(manager)|.	
+
+	\item{\method{+ getGenericUtil(manager: ISessionManager): GetUtil}}\\
+		Metodo usato per ritornare una \inglese{utility} per estrarre dal database oggetti che non contengono campi dati di tipo ''collezione'' che devono essere inizializzate. Il metodo ritorna \verb|new NotInitialize(manager)|.	
+		
+\end{description}		
+
+\classsection{ModifyUtil}
+
+\subsubsection*{Funzione}
+Classe astratta per definire il comportamento generico di una classe per la manipolazione del database. La classe costituisce un implementazione del \textit{template method}, poiché definisce un iter per l'esecuzione di un algoritmo di modifica, lasciando alle classi figlie il compito di ridefinire il metodo \method{doAction()}.
+
+\subsubsection*{Relazioni d'uso}
+
+\begin{itemize}
+		\item \texttt{org.hibernate.Session};
+		\item \texttt{org.hibernate.SessionFactory};
+		\item \texttt{org.hibernate.Transaction};
+		\item \texttt{org.softwaresynthesis.mytalk.server.IMyTalkObject};
+		\item \texttt{org.softwaresynthesis.mytalk.server.dao.ISessionManager};
+\end{itemize}
+
+\subsubsection*{Classi estese ed interfacce implementate}
+
+Nessuna relazione evidenziata.
+
+\subsubsection*{Attributi}
+
+\begin{itemize}
+	\item{\memberdata{\underline{-- manager: ISessionManager}}}\\
+	Attributo usato per comunicare con la classe rappresentate il ''cuore'' del sistema di gestione del database.
+\end{itemize}
+
+\subsubsection*{Metodi}
+
+\begin{description}
+	\item{\method{+ ModifyUtil(manager: ISessionManager)}}\\
+	Costruttore pubblico della classe, usato per inizializzare \memberdata{manager} con il parametro d'ingresso del metodo.
+	
+	\item{\method{+ execute(object: IMyTalkObject): boolean}}\\
+	Metodo che definisce l'iter per l'esecuzione dell'operazione di manipolazione del database. Il metodo definisce quelle procedure comuni a tutte le operazioni di modifica. Inizialmente il metodo definisce i seguenti oggetti:
+	\begin{itemize}
+		\item boolean result = false;
+		\item Session session = null;
+		\item SessionFactory factory = null;
+		\item Transaction transaction = null;
+	\end{itemize}
+	
+Quindi viene definito un blocco try-catch. Nel blocco try, si salva in factory un riferimento a \classname{SessionManager}. Quindi in session si riporta la sessione ottenuta da una chiamata \verb|factory.openSession()|. Si definisce l'apertura di una transizione transaction mediante una chiamata \verb|session.beginTransaction()|. Il metodo procede eseguendo il metodo \method{doAction()} passando come parametro d'ingresso session e object. Si esegue il commit sulla transizione e si imposta result a \inglese{true}. Nel blocco catch si esegue un'operazione di rollback e si imposta result a \inglese{false}.
+
+Il metodo termina chiudendo la sessione e ritornando il contenuto di result.
+
+	\item{\method{+ \{abstract\} doAction(session: ISessionManager, object: IMyTalkObject)}}\\
+	Metodo astratto non definito in questa classe. Le classi figlie di \classname{ModifyUtil} ridefiniranno questo metodo.
+
 \end{description}
 
 \subsection{Package org.softwaresynthesis.mytalk.server.abook}\label{sec:abook}
