@@ -27,7 +27,7 @@
 % Redattori da specificare come nome1\\ &nome2\\ ecc.
 \newcommand{\docAuthors}{Andrea Rizzi\\&Elena Zecchinato\\&Marco Schivo \\&Stefano Farronato}
 % Approvato da
-\newcommand{\approvedBy}{Diego Beraldin}
+\newcommand{\approvedBy}{Marco Schivo}
 % Verificatori
 \newcommand{\verifiedBy}{Andrea Meneghinello}
 % Perscorso (relativo o assoluto) che punta alla directory contenente shared/
@@ -378,778 +378,111 @@ Implementazione di \classname{ISessionManager}. Inizializza un'unica \inglese{fa
 	Metodo che ritorna l'attributo \memberdata{sessionFactory}.
 \end{description}
 
-\classsection{UserDataDAO}
+\classsection{DataPersistanceManager}
 
 \subsubsection*{Funzione}
-Classe che implementa il pattern DAO. Definisce le procedure d'inserimento, eliminazione ed aggiornamento di \inglese{entry} inerenti alla tabella UserData. La classe inoltre fornisce metodi per interrogare il database ed ottenere i dati utente con i quali costruire istanze di oggetti di tipo \classname{abook.IUserData}.
+Classe che rappresenta un punto d'accesso al database del sistema. Implementata mediante le funzionalità di \texttt{Hibernate}, la classe permette di attuare operazioni \texttt{CRUD} sulle tabelle della base di dati.
 
 \subsubsection*{Relazioni d'uso}
 
 \begin{itemize}
-	\item \texttt{java.util.List}: usata per memorizzare e ritornare i dati restituiti dalle interrogazioni a database.
-	\item \classname{org.hibernate.Query}: classe rappresentante le \textit{query} d'interrogazione verso il database
-	\item \texttt{org.hibernate.Session}: classe che rappresenta la sessione di ``lavoro'' verso il database.
-	\item \texttt{org.hibernate.SessionFactory}: classe avente compito di instanziare nuove sessioni.
-	\item \texttt{org.hibernate.Transaction}: classe che rappresenta una transazione del database.
-	
+	\item \texttt{org.softwaresynthesis.mytalk.server.IMyTalkObject};
+	\item \texttt{org.softwaresynthesis.mytalk.server.abook.IGroup};
+	\item \texttt{org.softwaresynthesis.mytalk.server.abook.IUserData};
+	\item \texttt{org.softwaresynthesis.mytalk.server.dao.util.GetUtil};
+	\item \texttt{org.softwaresynthesis.mytalk.server.dao.util.ModifyUtil};
+	\item \texttt{org.softwaresynthesis.mytalk.server.dao.util.UtilFactory};
+	\item \texttt{org.softwaresynthesis.mytalk.server.message.IMessage};
 \end{itemize}
 
 \subsubsection*{Classi estese ed interfacce implementate}
-\begin{itemize}
-	\item \classname{abook.IUserData}: interfaccia d'implementazione del package \textit{abook} usata per definire un generico utente. La classe può ritornare istanze di tipo \classname{abook.IUserData} come risposta a delle \textit{query} d'interrogazione al database.
-\end{itemize}
+
+Nessuna relazione evidenziata.
 
 \subsubsection*{Attributi}
 
 \begin{itemize}
-	\item{\memberdata{-- util: HibernateUtil}}\\
-	Attributo usato per mantenere un riferimento alla singola istanza di HibernateUtil.
-	\item{\memberdata{-- factory: SessionFactory}}\\
-	Attributo usato per mantenere un riferimento ad un'istanza di SessionFactory.
+	\item{\memberdata{-- util: ISessionManager}}\\
+	Attributo usato per mantenere un riferimento alla singola istanza di SessionManagaer (estensione di \classname{ISessionManagaer}.
+	\item{\memberdata{-- factory: UtilFactory}}\\
+	Attributo usato per mantenere un riferimento ad un'istanza di UtilFactory, usata per l'esecuzione delle operazioni relative alla manipolazione dei dati.
 \end{itemize}
 
 \subsubsection*{Metodi}
 
 \begin{description}
-
-	\item{\method{+ insert(user: IUserData): boolean}}\\
-	Metodo usato per inserire un utente registrato nel sistema, riceve come parametro un istanza di un oggetto \classname{abook.IUserData}. Il metodo dovrà eseguire nell'ordine le seguenti operazioni:
-		\begin{itemize}
-			\item[1)] ottenere dalla classe \classname{HibernateUtil} l'istanza tramite il metodo statico \method{getIstance()};
-			\item[2)] ottenere dall'istanza di tipo \classname{HibernateUtil} (ottenuta al punto precedente), un oggetto di tipo \texttt{org.hibernate.SessionFactory}, tramite il metodo \method{getSessionFactory()};
-			\item[3)] aprire la sessione ottenuta al punto precedente;
-			\item[4)] avviare una transizione a partire dall'istanza \texttt{org.hibernate.SessionFactory} del punto 2. Tale istanza va memorizzata in un opportuno attributo (interno al metodo stesso) di tipo \texttt{org.hibernate.Transaction};
-			\item[5)] eseguire il comando \inglese{save} a partire dalla sessione aperta e passando come parametro l'attributo \memberdata{user}.
-			\item[6)] eseguire il comando \inglese{commit} per confermare l'operazione del punto precedente;
-			\item[7)] impostare un determinato flag booleano (denominato \texttt{flag}) a \inglese{true}.
-		\end{itemize}
-		
-Poiché l'iter presentato potrà sollevare un'eccezione, il codice dovrà essere gestito in un blocco \inglese{try-catch}. Nel caso incorra tale evento, il flusso di processo dovrà ristabilire la situazione iniziale richiamando il metodo \texttt{rollback()} dell'istanza di tipo \texttt{org.hibernate.Transaction} creata al punto 4 dell'iter. Inoltre dovrà impostare \texttt{flag} a \inglese{false}. In ogni caso il metodo deve terminare chiudendo la sessione aperta al punto 2 e ritornando il valore di \texttt{flag}.
-
-	\item{\method{+ delete(user: IUserData): boolean}}\\
-	Metodo usato per eliminare un utente registrato nel sistema, riceve come parametro un istanza di un oggetto \classname{abook.IUserData}. Il metodo dovrà eseguire nell'ordine le seguenti operazioni:
-		\begin{itemize}
-			\item[1)] ottenere dalla classe \classname{HibernateUtil} l'istanza tramite il metodo statico \method{getIstance()};
-			\item[2)] ottenere dall'istanza di tipo \classname{HibernateUtil}(ottenuta al punto precedente), un oggetto di tipo \texttt{org.hibernate.SessionFactory}, tramite il metodo \method{getSessionFactory()};
-			\item[3)] aprire la sessione ottenuta al punto precedente;
-			\item[4)] avviare una transizione a partire dall'istanza \texttt{org.hibernate.SessionFactory} del punto 2. Tale istanza va memorizzato in un opportuno attributo (interno al metodo stesso) di tipo \texttt{org.hibernate.Transaction};
-			\item[5)] eseguire il comando \inglese{delete} a partire dalla sessione aperta e passando come parametro l'attributo \memberdata{user}.
-			\item[6)] eseguire il comando \inglese{commit} per confermare l'operazione del punto precedente;
-			\item[7)] impostare un determinato flag booleano (denominato \texttt{flag}) a \inglese{true}.
-		\end{itemize}
-		
-Poiché l'iter presentato potrà sollevare un'eccezione, il codice dovrà essere gestito in un blocco \inglese{try-catch}. Nel caso incorra tale evento, il flusso di processo dovrà ristabilire la situazione iniziale richiamando il metodo \texttt{rollback()} dell'istanza di tipo \texttt{org.hibernate.Transaction} creata al punto 4 dell'iter. Inoltre dovrà impostare \texttt{flag} a \inglese{false}. In ogni caso il metodo deve terminare chiudendo la sessione aperta al punto 2 e ritornando il valore di \texttt{flag}.
-
-\item{\method{+ update(user: IUserData): boolean}}\\
-	Metodo usato per modificare i dati di un utente registrato nel sistema, riceve come parametro un istanza di un oggetto \classname{abook.IUserData}. Il metodo dovrà eseguire nell'ordine le seguenti operazioni:
-		\begin{itemize}
-			\item[1)] ottenere dalla classe \classname{HibernateUtil} l'istanza tramite il metodo statico \method{getIstance()};
-			\item[2)] ottenere dall'istanza di tipo \classname{HibernateUtil}(ottenuta al punto precedente), un oggetto di tipo \texttt{org.hibernate.SessionFactory}, tramite il metodo \method{getSessionFactory()};
-			\item[3)] aprire la sessione ottenuta al punto precedente;
-			\item[4)] avviare una transizione a partire dall'istanza \texttt{org.hibernate.SessionFactory} del punto 2. Tale istanza va memorizzato in un opportuno attributo (interno al metodo stesso) di tipo \texttt{org.hibernate.Transaction};
-			\item[5)] eseguire il comando \inglese{update} a partire dalla sessione aperta e passando come parametro l'attributo \memberdata{user}.
-			\item[6)] eseguire il comando \inglese{commit} per confermare l'operazione del punto precedente;
-			\item[7)] impostare un determinato flag booleano (denominato \texttt{flag}) a \inglese{true}.
-		\end{itemize}
-		
-Poiché l'iter presentato potrà sollevare un'eccezione, il codice dovrà essere gestito in un blocco \inglese{try-catch}. Nel caso incorra tale evento, il flusso di processo dovrà ristabilire la situazione iniziale richiamando il metodo \texttt{rollback()} dell'istanza di tipo \texttt{org.hibernate.Transaction} creata al punto 4 dell'iter. Inoltre dovrà impostare \texttt{flag} a \inglese{false}. In ogni caso il metodo deve terminare chiudendo la sessione aperta al punto 2 e ritornando il valore di \texttt{flag}.
-
-	\item{\method{+ getByNameAndSurname(name: String, surname: String): List<IUserData>}}\\
-	Metodo usato per effettuare un interrogazione al database atta ad ottenere la lista degli utenti aventi un determinato nome e cognome, riceve come parametri il nome e il cognome da ricercare. Il metodo dovrà eseguire nell'ordine le seguenti operazioni:
-		\begin{itemize}
-			\item[1)] ottenere dalla classe \classname{HibernateUtil} l'istanza tramite il metodo statico \method{getIstance()};
-			\item[2)] ottenere dall'istanza di tipo \classname{HibernateUtil}(ottenuta al punto precedente), un oggetto di tipo \texttt{org.hibernate.SessionFactory}, tramite il metodo \method{getSessionFactory()};
-			\item[3)] aprire la sessione ottenuta al punto precedente;
-			\item[4)] eseguire il comando \inglese{createQuery()} a partire dall'istanza che definisce la sessione, passando come parametro una stringa rappresentante la \inglese{query} d'interrogazione al database (la \inglese{query} deve restituire dati validi ad essere passati a tale metodo). Una prima analisi evidenzia che la \inglese{query} corretta è: 
-\begin{verbatim}
-from UserData as u where u.name = :name or u.surname = :surname
-\end{verbatim}
-			\item[5)] eseguire una serie di comandi di tipo \texttt{setString} per ogni elemento della \inglese{query} d'interrogazione (dove per elemento si intende ogni valore di filtraggio presente nelle clausole \inglese{where} delle \inglese{query} HQL, segnato come \texttt{:nome\_variabile}).
-			\item[6)] eseguire il comando \inglese{commit} per l'interrogare il database ed ottenere la lista di valori da ritornare.
-		\end{itemize}
-		
-Il metodo deve terminare chiudendo la sessione aperta al punto 2.
+	\item{\method{+ DataPersistanceManager()}}\\
+	Costruttore pubblico della classe. Richiama il costruttore \method{DataPersistanceManager(ISessionManager manager, UtilFactory factory} passando come parametri \texttt{SessionMAnager.getIstance()} e una nuova istanza di \classname{UtilFactory}.
 	
-	\item{\method{+ getByEmail(mail: String): IUserData}}\\
-	Metodo usato per eseguire un interrogazione al database atta ad ottenere l'utente avente un determinato indirizzo e-mail, esso riceve come parametro l'indirizzo e-mail da ricercare. Il metodo dovrà eseguire nell'ordine le seguenti operazioni:
-		\begin{itemize}
-			\item[1)] ottenere dalla classe \classname{HibernateUtil} l'istanza tramite il metodo statico \method{getIstance()};
-			\item[2)] ottenere dall'istanza di tipo \classname{HibernateUtil}(ottenuta al punto precedente), un oggetto di tipo \texttt{org.hibernate.SessionFactory}, tramite il metodo \method{getSessionFactory()};
-			\item[3)] aprire la sessione ottenuta al punto precedente;
-			\item[4)] eseguire il comando \inglese{createQuery()} a partire dall'istanza che definisce la sessione, passando come parametro una stringa rappresentante la \inglese{query} d'interrogazione al database (la \inglese{query} deve restituire dati validi ad essere passati a tale metodo). Una prima analisi evidenzia che la \inglese{query} corretta è: 
-\begin{verbatim}
-from UserData as u where u.mail = :mail
-\end{verbatim}
-			\item[5)] eseguire una serie di comandi di tipo \texttt{setString} per ogni elemento della \inglese{query} d'interrogazione (per elemento si intende ogni valore di filtraggio presente nelle clausole \inglese{where} delle \inglese{query} HQL, segnato come \texttt{:nome\_variabile}).
-			\item[6)] eseguire il comando \inglese{commit} per eseguire l'interrogazione a database ed ottenere la lista di valori da ritornare.
-		\end{itemize}
-		
-Il metodo deve terminare chiudendo la sessione aperta al punto 2.	
+	\item{\method{\# DataPersistanceManager(manager: ISessionManager, factory: UtilFactory)}}\\
+	Costruttore protetto della classe. Inizializza gli attributi della classe con i parametri d'ingresso.
+	
+	\item{\method{+ delete(object: IMyTalkObject): boolean}}\\
+	Metodo per la manipolazione dei dati. Nello specifico permette di eseguire un operazione di eliminazione in una delle tabelle del database (tabella corrispondente all'oggetto object: IMyTalkObject). Il metodo definisce una variabile result di tipo \texttt{boolean} usata per evidenziare la buona riuscita o meno dell'operazione. Di default result è impostata a \inglese{false}. Il metodo crea un istanza di \classname{ModifyUtil} a partire da una chiamata \verb|this.factory.getDeleteUtil(this.manager)|. Quindi si salva in result il valore ritornato dall'operazione \verb|execute(object)| (dove object, parametro d'ingresso del metodo, rappresenta la tabella su cui eseguire l'operazione). \verb|execute(object)| è richiamata a partire dall'istanza \classname{ModifyUtil} creata in precedenza). Il metodo deve terminare ritornando il valore di result.
 	
 	
-	\item{\method{+ searchGeneric(value: String): List<IUserData>}}\\
-		Metodo usato per eseguire un interrogazione generica al database atta ad ottenere una lista di utenti aventi: o un determinato indirizzo e-mail, o un determinato nome o un determinato cognome; riceve come parametro la stringa da ricercare e dovrà eseguire nell'ordine le seguenti operazioni:
-		\begin{itemize}
-			\item[1)] ottenere dalla classe \classname{HibernateUtil} l'istanza tramite il metodo statico \method{getIstance()};
-			\item[2)] ottenere dall'istanza di tipo \classname{HibernateUtil}(ottenuta al punto precedente), un oggetto di tipo \texttt{org.hibernate.SessionFactory}, tramite il metodo \method{getSessionFactory()};
-			\item[3)] aprire la sessione ottenuta al punto precedente;
-			\item[4)] eseguire il comando \inglese{createQuery()} a partire dall'istanza che definisce la sessione, passando come parametro una stringa rappresentante la \inglese{query} d'interrogazione al database (la \inglese{query} deve restituire dati validi ad essere passati a tale metodo). Una prima analisi evidenzia che la \inglese{query} corretta è: 
-\begin{verbatim}
-from UserData as u where u.mail like :mail or u.name like :name or
-\end{verbatim}
-\begin{verbatim}
-u.surname like :surname
-\end{verbatim}
-			\item[5)] eseguire una serie di comandi di tipo \texttt{setString} per ogni elemento della \inglese{query} d'interrogazione (per elemento si intende ogni valore di filtraggio presente nelle clausole \inglese{where} delle \inglese{query} HQL, segnato come \texttt{:nome\_variabile}).
-			\item[6)] eseguire il comando \inglese{commit} per eseguire l'interrogazione a database ed ottenere la lista di valori da ritornare.
-		\end{itemize}
-		
-Il metodo deve terminare chiudendo la sessione aperta al punto 2.
-
-\end{description}
-
-%TODO da verificare
-
-\classsection{GroupDAO}
-
-\subsubsection*{Funzione}
-Classe che implementa il pattern DAO. Definisce le procedure d’inserimento, eliminazione ed aggiornamento di entry inerenti alla tabella Group. La classe inoltre fornisce metodi per interrogare il database ed ottenere i dati utente con i quali costruire istanze di oggetti di tipo abook.IGroup.
-
-\subsubsection*{Relazioni d'uso}
-
-\begin{itemize}
-	\item \texttt{java.util.List}:
-	\item \texttt{org.hibernate.Query}:
-	\item \texttt{org.hibernate.Session}:
-	\item \texttt{org.hibernate.SessionFactory}:
-	\item \texttt{org.hibernate.Transaction}:
-	\item \classname{abook.IGroup}:
-\end{itemize}
-
-\subsubsection*{Classi estese ed interfacce implementate}
-\begin{itemize}
-	\item \classname{abook.IGroup}:
-\end{itemize}
-
-\subsubsection*{Attributi}
-
-\begin{itemize}
-	\item{\memberdata{-- util: HibernateUtil}}\\
-	Attributo usato per mantenere un riferimento alla singola istanza di HibernateUtil.
-	\item{\memberdata{-- factory: SessionFactory}}\\
-	Attributo usato per mantenere un riferimento ad un'istanza di SessionFactory.
-\end{itemize}
-
-\subsubsection*{Metodi}
-
-\begin{description}
-	\item{\method{+ delete(group: IGroup): boolean}}\\
-	Metodo usato per cancellare un gruppo dal database. Per gruppo si intende un qualsiasi oggetto implementante l'interfaccia \classname{abook.IGroup}. Il metodo riceve come parametro d'ingresso un oggetto \classname{abook.IGroup} e restituisce un valore booleano  pari a \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
-	\begin{itemize}
-		\item viene inizializzata una variabile ti tipo boolean nominata flag, a \inglese{false};
-		\item si crea un istanza di \texttt{Session} session;
-		\item si crea un istanza di \texttt{Transaction} transaction;
-	\end{itemize}
-	Quindi nel metodo deve essere definito un blocco try catch finally:
-	\begin{itemize}
-		\item nel blocco try:
-		\begin{itemize}
-			\item util deve essere inizializzato mediante la chiamata \method{getIstance()} di \classname{HibernateUtil};
-			\item quindi a partire da util si inizializza factory mediante una chiamata \method{getFactory()};
-			\item analogamente a quanto fatto in precedenza, si inizializza session tramite una chiamata \method{openSession()} eseguita a partire da factory;
-			\item transaction viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da session;
-			\item quindi si è pronti per eseguire l'istruzione di delete a partire da session e passando come parametro group;
-			\item si esegue il commit;
-			\item si pone flag a \inglese{true};
-		\end{itemize}
-		\item nel blocco catch: si effettua un rollback a partire da transaction;
-		\item nel blocco finally: se session è diverso da null, si chiude mediante una chimata di tipo close();
-	\end{itemize}
-	Infine il metodo termina ritornando il valore di flag;
+	\item{\method{+ insert(object: IMyTalkObject): boolean}}\\
+	Metodo per la manipolazione dei dati. Nello specifico permette di eseguire un operazione di inserimento in una delle tabelle del database (tabella corrispondente all'oggetto object: IMyTalkObject). Il metodo definisce una variabile result di tipo \texttt{boolean} usata per evidenziare la buona riuscita o meno dell'operazione. Di default result è impostata a \inglese{false}. Il metodo crea un istanza di \classname{ModifyUtil} a partire da una chiamata \verb|this.factory.getInsertUtil(this.manager)|. Quindi si salva in result il valore ritornato dall'operazione \verb|execute(object)| (dove object, parametro d'ingresso del metodo, rappresenta la tabella su cui eseguire l'operazione). \verb|execute(object)| è richiamata a partire dall'istanza \classname{ModifyUtil} creata in precedenza). Il metodo deve terminare ritornando il valore di result.
 	
-	\item{\method{+ update(group: IGroup): boolean}}\\
-	Metodo usato per modificare un gruppo dal database. Il metodo riceve come parametro d'ingresso un oggetto \classname{abook.IGroup} e restituisce un valore booleano  pari a \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
-	\begin{itemize}
-		\item viene inizializzata una variabile ti tipo boolean nominata flag, a \inglese{false};
-		\item si crea un istanza di \texttt{Session} session;
-		\item si crea un istanza di \texttt{Transaction} transaction;
-	\end{itemize}
-	Quindi nel metodo deve essere definito un blocco try catch finally:
-	\begin{itemize}
-		\item nel blocco try:
-		\begin{itemize}
-			\item util deve essere inizializzato mediante la chiamata \method{getIstance()} di \classname{HibernateUtil};
-			\item quindi a partire da \textit{util} si inizializza \textit{factory} mediante una chiamata \method{getFactory()};
-			\item analogamente a quanto fatto in precedenza, si inizializza \textit{session} tramite una chiamata \method{openSession()} eseguita a partire da \textit{factory};
-			\item transaction viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da session;
-			\item quindi si è pronti per eseguire l'istruzione di \textit{update} a partire da \textit{session} e passando come parametro \textit{group};
-			\item si esegue il \textit{commit};
-			\item si pone \inglese{flag} a \inglese{true};
-		\end{itemize}
-		\item nel blocco catch: si effettua un \textit{rollback} a partire da \textit{transaction};
-		\item nel blocco finally: se session è diverso da null, si chiude mediante una chiamata di tipo \texttt{close()};
-	\end{itemize}
-	Infine il metodo termina ritornando il valore di \inglese{flag};	
+	\item{\method{+ update(object: IMyTalkObject): boolean}}\\
+	Metodo per la manipolazione dei dati. Nello specifico permette di eseguire un operazione di modifica dei campi dati di una delle tabelle del database (tabella corrispondente all'oggetto object: IMyTalkObject). Il metodo definisce una variabile result di tipo \texttt{boolean} usata per evidenziare la buona riuscita o meno dell'operazione. Di default result è impostata a \inglese{false}. Il metodo crea un istanza di \classname{ModifyUtil} a partire da una chiamata \verb|this.factory.getUpdateUtil(this.manager)|. Quindi si salva in result il valore ritornato dall'operazione \verb|execute(object)| (dove object, parametro d'ingresso del metodo, rappresenta la tabella su cui eseguire l'operazione). \verb|execute(object)| è richiamata a partire dall'istanza \classname{ModifyUtil} creata in precedenza). Il metodo deve terminare ritornando il valore di result.
 	
-	\item{\method{+ insert(group: IGroup): boolean}}\\
-	Metodo usato per inserire un gruppo nel database, riceve come parametro d'ingresso un oggetto \classname{abook.IGroup} e restituisce un valore booleano  pari a \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
-	\begin{itemize}
-		\item viene inizializzata una variabile ti tipo \inglese{boolean} nominata \inglese{flag}, a \inglese{false};
-		\item si crea un istanza di \texttt{Session} session;
-		\item si crea un istanza di \texttt{Transaction} transaction;
-	\end{itemize}
-	Quindi nel metodo deve essere definito un blocco \textit{try-catch} finally:
-	\begin{itemize}
-		\item nel blocco try:
-		\begin{itemize}
-			\item util deve essere inizializzato mediante la chiamata \method{getIstance()} di \classname{HibernateUtil};
-			\item quindi a partire da util si inizializza factory mediante una chiamata \method{getFactory()};
-			\item analogamente a quanto fatto in precedenza, si inizializza \textit{session} tramite una chiamata \method{openSession()} eseguita a partire da \textit{factory};
-			\item transaction viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da session;
-			\item quindi si è pronti per eseguire l'istruzione di \textit{save} a partire da \textit{session} e passando come parametro group;
-			\item si esegue il commit;
-			\item si pone \textit{flag} a \inglese{true};
-		\end{itemize}
-		\item nel blocco catch: si effettua un \textit{rollback} a partire da \textit{transaction};
-		\item nel blocco finally: se \textit{session} è diverso da \textit{null}, si chiude mediante una chiamata di tipo \texttt{close()};
-	\end{itemize}
-	Infine il metodo termina ritornando il valore di \textit{flag};
+	\item{\method{+ getGroup(id: Long): IGroup}}\\
+	Metodo usato per l'esecuzione di una query SQL atta ad garantire la restituzione dei dati inerenti il gruppo avente come primary key il valore contenuto in id. Il metodo definisce un istanza di \classname{GetUtil} mediante una chiamata \verb|this.factory.getGroupUtil(this.manager)|. Quindi definisce un oggetto \classname{IGroup} denominato result. Successivamente si definisce una lista \texttt{List<IMyTalkObject>}, da usare per memorizzare temporaneamente i dati ottenuti dall'esecuzione della query:\\
 	
-	\item{\method{+ getByID(identifier: long): IGroup}}\\
-	Metodo usato per interrogare il database ed ottenere un istanza di \classname{IGroup} avente come identificativo, l'id del gruppo ricevuto come parametro d'ingresso. Il flusso principale inizia definendo le seguenti variabili:
-	\begin{itemize}
-		\item si crea un istanza di \texttt{List<IGroup>} groups;
-		\item si crea un istanza di \texttt{Query} query;
-		\item si crea una stringa hqlQuery impostata per default a:\\
-			\verb|"from Group as g where g.id = :id"|
-		\item si crea un istanza di \texttt{Session} session;
-		\item si crea un istanza di \texttt{Transaction} transaction;
-	\end{itemize}
-	Quindi nel metodo deve essere definito un blocco try catch finally:
-	\begin{itemize}
-		\item nel blocco try:
-		\begin{itemize}
-			\item util deve essere inizializzato mediante la chiamata \method{getIstance()} di \classname{HibernateUtil};
-			\item quindi a partire da \textit{util} si inizializza \textit{factory} mediante una chiamata \method{getFactory()};
-			\item analogamente a quanto fatto in precedenza, si inizializza \textit{session} tramite una chiamata \method{openSession()} eseguita a partire da \textit{factory};
-			\item transaction viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da session;
-			\item query viene inizializzata mediante una chiamata \textit{createQuery}, chiamata da \textit{session} e a cui deve essere passata come parametro, la stringa hqlQuery;
-			\item quindi si è pronti per eseguire query ed ottenere la lista di \classname{IGroup} desiderata. Tale operazione si effettua richiamando query.list();
-			\item si esegue il \textit{commit};
-		\end{itemize}
-		\item nel blocco catch: si effettua un \textit{rollback} a partire da \textit{transaction};
-		\item nel blocco finally: se \textit{session} è diverso da \textit{null}, si chiude mediante una chiamata di tipo \texttt{close()};
-	\end{itemize}
-	Il programma termina controllando se groups è diversa da \textit{null} e contiene almeno un elemento. Nel caso il programma termina ritornando il primo contatto presente nella lista. Altrimenti termina ritornando \textit{null}.
+	\verb|from Groups as g where g.id = VALORE_id|\\
 	
-	\item{\method{+ getByOwner(owner: long): List<IGroup>}}\\
-	Metodo usato per interrogare il database ed ottenere una lista di istanze di \classname{IGroup} aventi come possessore dei gruppi l'utente con id uguale al valore \textit{owner} passato come parametro. Il flusso principale inizia definendo le seguenti variabili:
-	\begin{itemize}
-		\item si crea un istanza di \texttt{List<IGroup>} groups;
-		\item si crea un istanza di \texttt{Query} query;
-		\item si crea una stringa hqlQuery impostata per default a:\\
-			\verb|"from Group as g where g.owner = :owner"|
-		\item si crea un istanza di \texttt{Session} session;
-		\item si crea un istanza di \texttt{Transaction} transaction;
-	\end{itemize}
-	Quindi nel metodo deve essere definito un blocco \textit{try-catch} finally:
-	\begin{itemize}
-		\item nel blocco try:
-		\begin{itemize}
-			\item util deve essere inizializzato mediante la chiamata \method{getIstance()} di \classname{HibernateUtil};
-			\item quindi a partire da \textit{util} si inizializza \textit{factory} mediante una chiamata \method{getFactory()};
-			\item analogamente a quanto fatto in precedenza, si inizializza \textit{session} tramite una chiamata \method{openSession()} eseguita a partire da \textit{factory};
-			\item transaction viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da session;
-			\item query viene inizializzata mediante una chiamata createQuery, chiamata da \textit{session} e a cui deve essere passata come parametro, la stringa hqlQuery;
-			\item quindi si è pronti per eseguire \textit{query} ed ottenere la lista di \classname{IGroup} desiderata. Tale operazione si effettua richiamando query.list();
-			\item si esegue il commit;
-		\end{itemize}
-		\item nel blocco catch: si effettua un \textit{rollback} a partire da \textit{transaction};
-		\item nel blocco finally: se \textit{session} è diverso da \textit{null}, si chiude mediante una chiamata di tipo \texttt{close()};
-	\end{itemize}
-	Il programma termina restituendo groups.
+	Tale operazione si ottiene con l'istruzione \verb|select.execute(query)|. Quindi si controlla se la lista cosi popolata contiene almeno un elemento (che per come è stata progettata la query, ossia un interrogazione su chiave primaria, deve essere al più uno). Nel caso si imposta result con una chiamata a metodo get() richiamato dalla lista usata. Il metodo termina restituendo result.
 	
-\end{description}
-
-%TODO da verificare
-
-\classsection{AddressBookEntryDAO}
-
-\subsubsection*{Funzione}
-Classe che implementa il pattern DAO. Definisce le procedure d'inserimento, eliminazione ed aggiornamento di entry inerenti alla tabella AddressBookEntry.
-
-\subsubsection*{Relazioni d'uso}
-
-\begin{itemize}
-	\item \texttt{org.hibernate.Session}:
-	\item \texttt{org.hibernate.SessionFactory}:
-	\item \texttt{org.hibernate.Transaction}:
-\end{itemize}
-
-\subsubsection*{Classi estese ed interfacce implementate}
-\begin{itemize}
-	\item \classname{abook.IAddressBookEntry}: interfaccia d'implementazione del package \textit{abook} usata per definire una generica \inglese{entry} della rubrica.
-\end{itemize}
-
-\subsubsection*{Attributi}
-
-\begin{itemize}
-	\item{\memberdata{-- util: HibernateUtil}}\\
-	Attributo usato per mantenere un riferimento alla singola istanza di HibernateUtil.
-	\item{\memberdata{-- factory: SessionFactory}}\\
-	Attributo usato per mantenere un riferimento ad un'istanza di SessionFactory.
-\end{itemize}
-
-\subsubsection*{Metodi}
-
-\begin{description}
-	\item{\method{+ delete(entry: IAddressBookEntry): boolean}}\\
-	Metodo usato per cancellare una \textit{entry} dal database. Per \textit{entry} si intende un qualsiasi oggetto implementante l'interfaccia \classname{IAddressBookEntry}. Il metodo riceve come parametro d'ingresso un oggetto \classname{abook.IAddressBookEntry} e restituisce un valore booleano \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
-	\begin{itemize}
-		\item viene inizializzata una variabile di tipo \inglese{boolean} nominata \textit{flag}, a \inglese{false};
-		\item si crea un istanza di \texttt{Session} session;
-		\item si crea un istanza di \texttt{Transaction} transaction;
-	\end{itemize}
-	Quindi nel metodo deve essere definito un blocco \textit{try-catch} finally:
-	\begin{itemize}
-		\item nel blocco \textit{try}:
-		\begin{itemize}
-			\item util deve essere inizializzato mediante la chiamata \method{getIstance()} di \classname{HibernateUtil};
-			\item quindi a partire da \textit{util} si inizializza \textit{factory} mediante una chiamata \method{getFactory()};
-			\item analogamente a quanto fatto in precedenza, si inizializza \textit{session} tramite una chiamata \method{openSession()} eseguita a partire da \textit{factory};
-			\item transaction viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da \textit{session};
-			\item quindi si è pronti per eseguire l'istruzione di inglese{delete} a partire da \textit{session} e passando come parametro \textit{entry};
-			\item si esegue il \textit{commit};
-			\item si pone flag a \inglese{true};
-		\end{itemize}
-		\item nel blocco catch: si effettua un rollback a partire da transaction;
-		\item nel blocco finally: se \textit{session} è diverso da \textit{null}, si chiude mediante una chiamata di tipo \texttt{close()};
-	\end{itemize}
-	Infine il metodo termina ritornando il valore di \textit{flag};
+		\item{\method{+ getGroup(owner: IUserData): List<IGroup>}}\\
+	Metodo usato per l'esecuzione di una query SQL atta ad garantire la restituzione dei gruppi aventi come possessore l'utente owner. Il metodo definisce un istanza di \classname{GetUtil} mediante una chiamata \verb|this.factory.getGroupUtil(this.manager)|. Quindi definisce un oggetto \classname{IGroup} denominato result. Successivamente si definisce una lista \texttt{List<IMyTalkObject>}, da usare per memorizzare temporaneamente i dati ottenuti dall'esecuzione della query:\\
 	
-	\item{\method{+ update(entry: IAddressBookEntry): boolean}}\\
-	Metodo usato per modificare una \textit{entry} presente nel database. Il metodo riceve come parametro d'ingresso un oggetto \classname{abook.IAddressBookEntry} e restituisce un valore booleano \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
-	\begin{itemize}
-		\item viene inizializzata una variabile ti tipo \textit{boolean} nominata \textit{flag}, a \inglese{false};
-		\item si crea un istanza di \texttt{Session} session;
-		\item si crea un istanza di \texttt{Transaction} transaction;
-	\end{itemize}
-	Quindi nel metodo deve essere definito un blocco \textit{try-catch} finally:
-	\begin{itemize}
-		\item nel blocco try:
-		\begin{itemize}
-			\item util deve essere inizializzato mediante la chiamata \method{getIstance()} di \classname{HibernateUtil};
-			\item quindi a partire da \textit{util} si inizializza \textit{factory} mediante una chiamata \method{getFactory()};
-			\item analogamente a quanto fatto in precedenza, si inizializza \textit{session} tramite una chiamata \method{openSession()} eseguita a partire da \textit{factory};
-			\item transaction viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da \textit{session};
-			\item quindi si è pronti per eseguire l'istruzione di \textit{update} a partire da \textit{session} e passando come parametro \textit{entry};
-			\item si esegue il commit;
-			\item si pone flag a \inglese{true};
-		\end{itemize}
-		\item nel blocco \textit{catch}: si effettua un \textit{rollback} a partire da \textit{transaction};
-		\item nel blocco \textit{finally}: se \textit{session} è diverso da \textit{null}, si chiude mediante una chiamata di tipo \texttt{close()};
-	\end{itemize}
-	Infine il metodo termina ritornando il valore di \textit{flag};	
+	\verb|from Groups as g where g.owner = VALORE_owner|\\
 	
-	\item{\method{+ insert(entry: IAddressBookEntry): boolean}}\\
-	Metodo usato per inserire una \textit{entry} nel database. Il metodo riceve come parametro d'ingresso un oggetto \classname{abook.IAddressBookEntry} e restituisce un valore booleano \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
-	\begin{itemize}
-		\item viene inizializzata una variabile ti tipo \textit{boolean} nominata \textit{flag}, a \inglese{false};
-		\item si crea un istanza di \texttt{Session} session;
-		\item si crea un istanza di \texttt{Transaction} transaction;
-	\end{itemize}
-	Quindi nel metodo deve essere definito un blocco \textit{try-catch} finally:
-	\begin{itemize}
-		\item nel blocco \textit{try}:
-		\begin{itemize}
-			\item \textit{util} deve essere inizializzato mediante la chiamata \method{getIstance()} di \classname{HibernateUtil};
-			\item quindi a partire da \textit{util} si inizializza \textit{factory} mediante una chiamata \method{getFactory()};
-			\item analogamente a quanto fatto in precedenza, si inizializza \textit{session} tramite una chiamata \method{openSession()} eseguita a partire da \textit{factory};
-			\item \textit{transaction} viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da \textit{session};
-			\item quindi si è pronti per eseguire l'istruzione di \textit{save} a partire da \textit{session} e passando come parametro \textit{entry};
-			\item si esegue il \textit{commit};
-			\item si pone \textit{flag} a \inglese{true};
-		\end{itemize}
-		\item nel blocco \textit{catch}: si effettua un \textit{rollback} a partire da \textit{transaction};
-		\item nel blocco \textit{finally}: se \textit{session} è diverso da \textit{null}, si chiude mediante una chimata di tipo \texttt{close()};
-	\end{itemize}
-	Infine il metodo termina ritornando il valore di flag;
+	Tale operazione si ottiene con l'istruzione \verb|select.execute(query)|. Quindi si controlla se la lista cosi popolata contiene almeno un elemento. Nel caso si imposta result uguale alla lista usata. Il metodo termina restituendo result.
 	
-\end{description}
-
-\classsection{CallDAO}
-
-\subsubsection*{Funzione}
-Classe che implementa il pattern DAO. Definisce le procedure d’inserimento, eliminazione ed aggiornamento di entry inerenti alla tabella Call. La classe inoltre fornisce metodi per interrogare il database ed ottenere la lista delle chiamate.
-
-\subsubsection*{Relazioni d'uso}
-
-\begin{itemize}
-	\item \texttt{java.util.List}:
-	\item \texttt{org.hibernate.Query}:
-	\item \texttt{org.hibernate.Session}:
-	\item \texttt{org.hibernate.SessionFactory}:
-	\item \texttt{org.hibernate.Transaction}:
-\end{itemize}
-
-\subsubsection*{Classi estese ed interfacce implementate}
-\begin{itemize}
-	\item \classname{abook.ICall}: interfaccia del package \textit{abook} usata per definire una generica \inglese{chiamata}.
-\end{itemize}
-
-\subsubsection*{Attributi}
-
-\begin{itemize}
-	\item{\memberdata{-- util: HibernateUtil}}\\
-	Attributo usato per mantenere un riferimento alla singola istanza di HibernateUtil.
-	\item{\memberdata{-- factory: SessionFactory}}\\
-	Attributo usato per mantenere un riferimento ad un'istanza di SessionFactory.
-\end{itemize}
-
-\subsubsection*{Metodi}
-
-\begin{description}
-	\item{\method{+ delete(call: ICall): boolean}}\\
-	Metodo usato per cancellare una chiamata dal database. Il flusso principale inizia definendo le seguenti variabili:
-	\begin{itemize}
-		\item viene inizializzata una variabile ti tipo boolean nominata flag, a \inglese{false};
-		\item si crea un istanza di \texttt{Session} session;
-		\item si crea un istanza di \texttt{Transaction} transaction;
-	\end{itemize}
-	Quindi nel metodo deve essere definito un blocco try catch finally:
-	\begin{itemize}
-		\item nel blocco try:
-		\begin{itemize}
-			\item util deve essere inizializzato mediante la chiamata \method{getIstance()} di \classname{HibernateUtil};
-			\item quindi a partire da util si inizializza factory mediante una chiamata \method{getFactory()};
-			\item analogamente a quanto fatto in precedenza, si inizializza session tramite una chiamata \method{openSession()} eseguita a partire da factory;
-			\item transaction viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da session;
-			\item quindi si è pronti per eseguire l'istruzione di \inglese{delete} a partire da session e passando come parametro call;
-			\item si esegue il commit;
-			\item si pone flag a \inglese{true};
-		\end{itemize}
-		\item nel blocco catch: si effettua un rollback a partire da transaction;
-		\item nel blocco finally: se session è diverso da null, si chiude mediante una chimata di tipo close();
-	\end{itemize}
-	Infine il metodo termina ritornando il valore di flag;
+	\item{\method{+ getMessageNewKey(): Long}}\\
+	Metodo usato per l'esecuzione di una query SQL atta ad garantire la restituzione della più alta chiave primaria usata nella tabella \texttt{message}. Il metodo restituirà tale valore maggiorato di 1. Il metodo definisce un istanza di \classname{GetUtil} mediante una chiamata \verb|this.factory.getGroupUtil(this.manager)|. Quindi definisce un oggetto \classname{Long} denominato result. Successivamente si definisce un long nominato id, da usare per memorizzare temporaneamente il dato ottenuto dall'esecuzione della query:\\
 	
-	\item{\method{+ update(call: ICall): boolean}}\\
-	Metodo usato per modificare una chiamata presente nel database. Il metodo riceve come parametro d'ingresso un oggetto \classname{call.Call} e restituisce un valore booleano  pari a \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
-	\begin{itemize}
-		\item viene inizializzata una variabile ti tipo boolean nominata flag, a \inglese{false};
-		\item si crea un istanza di \classname{HibernateUtil} util;
-		\item si crea un istanza di \texttt{Session} session;
-		\item si crea un istanza di \texttt{SessionFactory} factory;
-		\item si crea un istanza di \texttt{Transaction} transaction;
-	\end{itemize}
-	Quindi nel metodo deve essere definito un blocco try catch finally:
-	\begin{itemize}
-		\item nel blocco try:
-		\begin{itemize}
-			\item util deve essere inizializzato mediante la chiamata \method{getIstance()} di \classname{HibernateUtil};
-			\item quindi a partire da \textit{util} si inizializza \textit{factory} mediante una chiamata \method{getFactory()};
-			\item analogamente a quanto fatto in precedenza, si inizializza \textit{session} tramite una chiamata \method{openSession()} eseguita a partire da \textit{factory};
-			\item transaction viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da session;
-			\item quindi si è pronti per eseguire l'istruzione di \textit{update} a partire da \textit{session} e passando come parametro \textit{call};
-			\item si esegue il \textit{commit};
-			\item si pone \inglese{flag} a \inglese{true};
-		\end{itemize}
-		\item nel blocco catch: si effettua un \textit{rollback} a partire da \textit{transaction};
-		\item nel blocco finally: se session è diverso da null, si chiude mediante una chiamata di tipo \texttt{close()};
-	\end{itemize}
-	Infine il metodo termina ritornando il valore di \inglese{flag};	
+	\verb|max(id) from Messages|\\
 	
-	\item{\method{+ insert(call: ICall): boolean}}\\
-	Metodo usato per inserire una chiamata nel database, riceve come parametro d'ingresso un oggetto \classname{call.ICall} e restituisce un valore booleano  pari a \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
-	\begin{itemize}
-		\item viene inizializzata una variabile ti tipo \inglese{boolean} nominata \inglese{flag}, a \inglese{false};
-		\item si crea un istanza di \texttt{Session} session;
-		\item si crea un istanza di \texttt{Transaction} transaction;
-	\end{itemize}
-	Quindi nel metodo deve essere definito un blocco \textit{try-catch} finally:
-	\begin{itemize}
-		\item nel blocco try:
-		\begin{itemize}
-			\item util deve essere inizializzato mediante la chiamata \method{getIstance()} di \classname{HibernateUtil};
-			\item quindi a partire da util si inizializza factory mediante una chiamata \method{getFactory()};
-			\item analogamente a quanto fatto in precedenza, si inizializza \textit{session} tramite una chiamata \method{openSession()} eseguita a partire da \textit{factory};
-			\item transaction viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da session;
-			\item quindi si è pronti per eseguire l'istruzione di \textit{save} a partire da \textit{session} e passando come parametro group;
-			\item si esegue il commit;
-			\item si pone \textit{flag} a \inglese{true};
-		\end{itemize}
-		\item nel blocco catch: si effettua un \textit{rollback} a partire da \textit{transaction};
-		\item nel blocco finally: se \textit{session} è diverso da \textit{null}, si chiude mediante una chiamata di tipo \texttt{close()};
-	\end{itemize}
-	Infine il metodo termina ritornando il valore di \textit{flag};
+	Tale operazione si ottiene con l'istruzione \verb|select.execute(query)|. Quindi si controlla se la variabile id contiene alemno un elemento. Nel caso si imposta result uguale alla uguale al contenuto di id + 1. Il metodo termina restituendo result.
 	
-	\item{\method{+ getByID(identifier: long): ICall}}\\
-	Metodo usato per interrogare il database ed ottenere un istanza di \classname{ICall} avente come identificativo, l'id della chiamata ricevuta come parametro d'ingresso. Il flusso principale inizia definendo le seguenti variabili:
-	\begin{itemize}
-		\item si crea un istanza di \texttt{List<ICall>} calls;
-		\item si crea un istanza di \texttt{Query} query;
-		\item si crea una stringa hqlQuery impostata per default a:\\
-			\verb|"from call as c where c.mittente = :id or c.destinarario =:id"|
-		\item si crea un istanza di \texttt{Session} session;
-		\item si crea un istanza di \texttt{Transaction} transaction;
-	\end{itemize}
-	Quindi nel metodo deve essere definito un blocco try catch finally:
-	\begin{itemize}
-		\item nel blocco try:
-		\begin{itemize}
-			\item util deve essere inizializzato mediante la chiamata \method{getIstance()} di \classname{HibernateUtil};
-			\item quindi a partire da \textit{util} si inizializza \textit{factory} mediante una chiamata \method{getFactory()};
-			\item analogamente a quanto fatto in precedenza, si inizializza \textit{session} tramite una chiamata \method{openSession()} eseguita a partire da \textit{factory};
-			\item transaction viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da session;
-			\item query viene inizializzata mediante una chiamata \textit{createQuery}, chiamata da \textit{session} e a cui deve essere passata come parametro, la stringa hqlQuery;
-			\item quindi si è pronti per eseguire query ed ottenere la lista di \classname{ICall} desiderata. Tale operazione si effettua richiamando query.list();
-			\item si esegue il \textit{commit};
-		\end{itemize}
-		\item nel blocco catch: si effettua un \textit{rollback} a partire da \textit{transaction};
-		\item nel blocco finally: se \textit{session} è diverso da \textit{null}, si chiude mediante una chiamata di tipo \texttt{close()};
-	\end{itemize}
-	Il programma termina controllando se calls è diversa da \textit{null} e contiene almeno un elemento. Nel caso il programma termina ritornando la lista cosi ottenuta. Altrimenti termina ritornando \textit{null}.
+	\item{\method{+ getMessage(id: Long): IMessage}}\\
+	Metodo usato per l'esecuzione di una query SQL atta a garantire la restituzione dei dati inerenti il messaggio avente come primary key il valore contenuto in id. Il metodo definisce un istanza di \classname{GetUtil} mediante una chiamata \verb|this.factory.getGenericUtil(this.manager)|. Quindi definisce un oggetto \classname{IGroup} denominato result. Successivamente si definisce una lista \texttt{List<IMyTalkObject>}, da usare per memorizzare temporaneamente i dati ottenuti dall'esecuzione della query:\\
 	
-\end{description}
-
-%TODO da verificare
-
-\classsection{CallListDAO}
-
-\subsubsection*{Funzione}
-Classe che implementa il pattern DAO. Definisce le procedure d’inserimento, eliminazione ed aggiornamento di entry inerenti alla tabella CallLists. La classe inoltre fornisce metodi per interrogare il database ed ottenere dati utente.
-
-\subsubsection*{Relazioni d'uso}
-
-\begin{itemize}
-	\item \texttt{java.util.List}:
-	\item \texttt{org.hibernate.Query}:
-	\item \texttt{org.hibernate.Session}:
-	\item \texttt{org.hibernate.SessionFactory}:
-	\item \texttt{org.hibernate.Transaction}:
-\end{itemize}
-
-\subsubsection*{Classi estese ed interfacce implementate}
-\begin{itemize}
-	\item \classname{call.ICallList}: interfaccia del package \textit{call} usata per definire una generica lista di chiamata.
-\end{itemize}
-
-\subsubsection*{Attributi}
-
-\begin{itemize}
-	\item{\memberdata{-- util: HibernateUtil}}\\
-	Attributo usato per mantenere un riferimento alla singola istanza di HibernateUtil.
-	\item{\memberdata{-- factory: SessionFactory}}\\
-	Attributo usato per mantenere un riferimento ad un'istanza di SessionFactory.
-\end{itemize}
-
-\subsubsection*{Metodi}
-
-\begin{description}
-	\item{\method{+ delete(entry: ICallList): boolean}}\\
-	Metodo usato per cancellare una \textit{entry} dal database. Per \textit{entry} si intende un qualsiasi oggetto implementante l'interfaccia \classname{ICallList}. Il metodo riceve come parametro d'ingresso un oggetto \classname{call.ICallList} e restituisce un valore booleano \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
-	\begin{itemize}
-		\item viene inizializzata una variabile di tipo \inglese{boolean} nominata \textit{flag}, a \inglese{false};
-		\item si crea un istanza di \texttt{Session} session;
-		\item si crea un istanza di \texttt{Transaction} transaction;
-	\end{itemize}
-	Quindi nel metodo deve essere definito un blocco \textit{try-catch} finally:
-	\begin{itemize}
-		\item nel blocco \textit{try}:
-		\begin{itemize}
-			\item util deve essere inizializzato mediante la chiamata \method{getIstance()} di \classname{HibernateUtil};
-			\item quindi a partire da \textit{util} si inizializza \textit{factory} mediante una chiamata \method{getFactory()};
-			\item analogamente a quanto fatto in precedenza, si inizializza \textit{session} tramite una chiamata \method{openSession()} eseguita a partire da \textit{factory};
-			\item transaction viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da \textit{session};
-			\item quindi si è pronti per eseguire l'istruzione di inglese{delete} a partire da \textit{session} e passando come parametro \textit{entry};
-			\item si esegue il \textit{commit};
-			\item si pone flag a \inglese{true};
-		\end{itemize}
-		\item nel blocco catch: si effettua un rollback a partire da transaction;
-		\item nel blocco finally: se \textit{session} è diverso da \textit{null}, si chiude mediante una chiamata di tipo \texttt{close()};
-	\end{itemize}
-	Infine il metodo termina ritornando il valore di \textit{flag};
+	\verb|from Messages as m where m.id = VALORE_id|\\
 	
-	\item{\method{+ update(entry: ICallLIst): boolean}}\\
-	Metodo usato per modificare una \textit{entry} presente nel database. Il metodo riceve come parametro d'ingresso un oggetto \classname{call.ICallList} e restituisce un valore booleano \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
-	\begin{itemize}
-		\item viene inizializzata una variabile ti tipo \textit{boolean} nominata \textit{flag}, a \inglese{false};
-		\item si crea un istanza di \texttt{Session} session;
-		\item si crea un istanza di \texttt{Transaction} transaction;
-	\end{itemize}
-	Quindi nel metodo deve essere definito un blocco \textit{try-catch} finally:
-	\begin{itemize}
-		\item nel blocco try:
-		\begin{itemize}
-			\item util deve essere inizializzato mediante la chiamata \method{getIstance()} di \classname{HibernateUtil};
-			\item quindi a partire da \textit{util} si inizializza \textit{factory} mediante una chiamata \method{getFactory()};
-			\item analogamente a quanto fatto in precedenza, si inizializza \textit{session} tramite una chiamata \method{openSession()} eseguita a partire da \textit{factory};
-			\item transaction viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da \textit{session};
-			\item quindi si è pronti per eseguire l'istruzione di \textit{update} a partire da \textit{session} e passando come parametro \textit{entry};
-			\item si esegue il commit;
-			\item si pone flag a \inglese{true};
-		\end{itemize}
-		\item nel blocco \textit{catch}: si effettua un \textit{rollback} a partire da \textit{transaction};
-		\item nel blocco \textit{finally}: se \textit{session} è diverso da \textit{null}, si chiude mediante una chiamata di tipo \texttt{close()};
-	\end{itemize}
-	Infine il metodo termina ritornando il valore di \textit{flag};	
+	Tale operazione si ottiene con l'istruzione \verb|select.execute(query)|. Quindi si controlla se la lista cosi popolata contiene almeno un elemento (che per come è stata progettata la query, ossia un interrogazione su chiave primaria, deve essere al più uno). Nel caso si imposta result con una chiamata a metodo get() richiamato dalla lista usata. Il metodo termina restituendo result.
 	
-	\item{\method{+ insert(entry: ICallLIst): boolean}}\\
-	Metodo usato per inserire una \textit{entry} nel database. Il metodo riceve come parametro d'ingresso un oggetto \classname{call.ICallLIst} e restituisce un valore booleano \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
-	\begin{itemize}
-		\item viene inizializzata una variabile ti tipo \textit{boolean} nominata \textit{flag}, a \inglese{false};
-		\item si crea un istanza di \texttt{Session} session;
-		\item si crea un istanza di \texttt{Transaction} transaction;
-	\end{itemize}
-	Quindi nel metodo deve essere definito un blocco \textit{try-catch} finally:
-	\begin{itemize}
-		\item nel blocco \textit{try}:
-		\begin{itemize}
-			\item \textit{util} deve essere inizializzato mediante la chiamata \method{getIstance()} di \classname{HibernateUtil};
-			\item quindi a partire da \textit{util} si inizializza \textit{factory} mediante una chiamata \method{getFactory()};
-			\item analogamente a quanto fatto in precedenza, si inizializza \textit{session} tramite una chiamata \method{openSession()} eseguita a partire da \textit{factory};
-			\item \textit{transaction} viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da \textit{session};
-			\item quindi si è pronti per eseguire l'istruzione di \textit{save} a partire da \textit{session} e passando come parametro \textit{entry};
-			\item si esegue il \textit{commit};
-			\item si pone \textit{flag} a \inglese{true};
-		\end{itemize}
-		\item nel blocco \textit{catch}: si effettua un \textit{rollback} a partire da \textit{transaction};
-		\item nel blocco \textit{finally}: se \textit{session} è diverso da \textit{null}, si chiude mediante una chimata di tipo \texttt{close()};
-	\end{itemize}
-	Infine il metodo termina ritornando il valore di flag;
+		\item{\method{+ getMessages(receiver: IUserData): List<IMessages>}}\\
+	Metodo usato per l'esecuzione di una query SQL atta ad garantire la restituzione dei messaggi aventi come ricevente l'utente receiver. Il metodo definisce un istanza di \classname{GetUtil} mediante una chiamata \verb|this.factory.getGenericUtil(this.manager)|. Quindi definisce un oggetto \classname{IMessages} denominato result. Successivamente si definisce una lista \texttt{List<IMyTalkObject>}, da usare per memorizzare temporaneamente i dati ottenuti dall'esecuzione della query:\\
 	
-\end{description}
-
-\classsection{MessageDAO}
-
-\subsubsection*{Funzione}
-Classe che implementa il pattern DAO. Definisce le procedure d’inserimento, eliminazione ed aggiornamento di entry inerenti alla tabella Message. La classe inoltre fornisce metodi per interrogare il database ed ottenere la lista delle chiamate.
-
-\subsubsection*{Relazioni d'uso}
-
-\begin{itemize}
-	\item \texttt{java.util.List}:
-	\item \texttt{org.hibernate.Query}:
-	\item \texttt{org.hibernate.Session}:
-	\item \texttt{org.hibernate.SessionFactory}:
-	\item \texttt{org.hibernate.Transaction}:
-\end{itemize}
-
-\subsubsection*{Classi estese ed interfacce implementate}
-\begin{itemize}
-	\item \classname{abook.IMessage}: interfaccia del package \textit{abook} usata per definire un generico messaggio.
-\end{itemize}
-
-\subsubsection*{Attributi}
-
-\begin{itemize}
-	\item{\memberdata{-- util: HibernateUtil}}\\
-	Attributo usato per mantenere un riferimento alla singola istanza di HibernateUtil.
-	\item{\memberdata{-- factory: SessionFactory}}\\
-	Attributo usato per mantenere un riferimento ad un'istanza di SessionFactory.
-\end{itemize}
-
-\subsubsection*{Metodi}
-
-\begin{description}
-	\item{\method{+ delete(message: IMessage): boolean}}\\
-	Metodo usato per cancellare una chiamata dal database. Il flusso principale inizia definendo le seguenti variabili:
-	\begin{itemize}
-		\item viene inizializzata una variabile ti tipo boolean nominata flag, a \inglese{false};
-		\item si crea un istanza di \texttt{Session} session;
-		\item si crea un istanza di \texttt{Transaction} transaction;
-	\end{itemize}
-	Quindi nel metodo deve essere definito un blocco try catch finally:
-	\begin{itemize}
-		\item nel blocco try:
-		\begin{itemize}
-			\item util deve essere inizializzato mediante la chiamata \method{getIstance()} di \classname{HibernateUtil};
-			\item quindi a partire da util si inizializza factory mediante una chiamata \method{getFactory()};
-			\item analogamente a quanto fatto in precedenza, si inizializza session tramite una chiamata \method{openSession()} eseguita a partire da factory;
-			\item transaction viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da session;
-			\item quindi si è pronti per eseguire l'istruzione di \inglese{delete} a partire da session e passando come parametro call;
-			\item si esegue il commit;
-			\item si pone flag a \inglese{true};
-		\end{itemize}
-		\item nel blocco catch: si effettua un rollback a partire da transaction;
-		\item nel blocco finally: se session è diverso da null, si chiude mediante una chimata di tipo close();
-	\end{itemize}
-	Infine il metodo termina ritornando il valore di flag;
+	\verb|from Messages as m where m.receiver = VALORE_receiver|\\
 	
-	\item{\method{+ update(message: IMessage): boolean}}\\
-	Metodo usato per modificare una chiamata presente nel database. Il metodo riceve come parametro d'ingresso un oggetto \classname{message.Message} e restituisce un valore booleano  pari a \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
-	\begin{itemize}
-		\item viene inizializzata una variabile ti tipo boolean nominata flag, a \inglese{false};
-		\item si crea un istanza di \texttt{Session} session;
-		\item si crea un istanza di \texttt{Transaction} transaction;
-	\end{itemize}
-	Quindi nel metodo deve essere definito un blocco try catch finally:
-	\begin{itemize}
-		\item nel blocco try:
-		\begin{itemize}
-			\item util deve essere inizializzato mediante la chiamata \method{getIstance()} di \classname{HibernateUtil};
-			\item quindi a partire da \textit{util} si inizializza \textit{factory} mediante una chiamata \method{getFactory()};
-			\item analogamente a quanto fatto in precedenza, si inizializza \textit{session} tramite una chiamata \method{openSession()} eseguita a partire da \textit{factory};
-			\item transaction viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da session;
-			\item quindi si è pronti per eseguire l'istruzione di \textit{update} a partire da \textit{session} e passando come parametro \textit{message};
-			\item si esegue il \textit{commit};
-			\item si pone \inglese{flag} a \inglese{true};
-		\end{itemize}
-		\item nel blocco catch: si effettua un \textit{rollback} a partire da \textit{transaction};
-		\item nel blocco finally: se session è diverso da null, si chiude mediante una chiamata di tipo \texttt{close()};
-	\end{itemize}
-	Infine il metodo termina ritornando il valore di \inglese{flag};	
+	Tale operazione si ottiene con l'istruzione \verb|select.execute(query)|. Quindi si controlla se la lista cosi popolata contiene almeno un elemento. Nel caso si imposta result uguale alla lista usata. Il metodo termina restituendo result.	
 	
-	\item{\method{+ insert(message: IMessage): boolean}}\\
-	Metodo usato per inserire una chiamata nel database, riceve come parametro d'ingresso un oggetto \classname{message.IMessage} e restituisce un valore booleano  pari a \inglese{true} se l'operazione è andata a buon fine, \inglese{false} altrimenti. Il flusso principale inizia definendo le seguenti variabili:
-	\begin{itemize}
-		\item viene inizializzata una variabile ti tipo \inglese{boolean} nominata \inglese{flag}, a \inglese{false};
-		\item si crea un istanza di \texttt{Session} session;
-		\item si crea un istanza di \texttt{Transaction} transaction;
-	\end{itemize}
-	Quindi nel metodo deve essere definito un blocco \textit{try-catch} finally:
-	\begin{itemize}
-		\item nel blocco try:
-		\begin{itemize}
-			\item util deve essere inizializzato mediante la chiamata \method{getIstance()} di \classname{HibernateUtil};
-			\item quindi a partire da util si inizializza factory mediante una chiamata \method{getFactory()};
-			\item analogamente a quanto fatto in precedenza, si inizializza \textit{session} tramite una chiamata \method{openSession()} eseguita a partire da \textit{factory};
-			\item transaction viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da session;
-			\item quindi si è pronti per eseguire l'istruzione di \textit{save} a partire da \textit{session} e passando come parametro message;
-			\item si esegue il commit;
-			\item si pone \textit{flag} a \inglese{true};
-		\end{itemize}
-		\item nel blocco catch: si effettua un \textit{rollback} a partire da \textit{transaction};
-		\item nel blocco finally: se \textit{session} è diverso da \textit{null}, si chiude mediante una chiamata di tipo \texttt{close()};
-	\end{itemize}
-	Infine il metodo termina ritornando il valore di \textit{flag};
+	\item{\method{+ getUserData(mail: String): IUserData}}\\
+	Metodo usato per l'esecuzione di una query SQL atta a garantire la restituzione dei dati inerenti l'utente avente come indirizzo mail il valore contenuto in mail. Il metodo definisce un istanza di \classname{GetUtil} mediante una chiamata \verb|this.factory.getUserDataUtil(this.manager)|. Quindi definisce un oggetto \classname{IUserData} denominato result. Successivamente si definisce una lista \texttt{List<IMyTalkObject>}, da usare per memorizzare temporaneamente i dati ottenuti dall'esecuzione della query:\\
 	
-	\item{\method{+ getByID(identifier: long): List<IMessage>}}\\
-	Metodo usato per interrogare il database ed ottenere una lista d'istanze di \classname{IMessage} aventi come identificativo dell'utente proprietario del messaggio, l'identificativo ricevuto come parametro d'ingresso. Il flusso principale inizia definendo le seguenti variabili:
-	\begin{itemize}
-		\item si crea un istanza di \texttt{List<IMessage>} messages;
-		\item si crea un istanza di \texttt{Query} query;
-		\item si crea una stringa hqlQuery impostata per default a:\\
-			\verb|"from message as m where m.owner = :id"|
-		\item si crea un istanza di \texttt{Session} session;
-		\item si crea un istanza di \texttt{Transaction} transaction;
-	\end{itemize}
-	Quindi nel metodo deve essere definito un blocco try catch finally:
-	\begin{itemize}
-		\item nel blocco try:
-		\begin{itemize}
-			\item util deve essere inizializzato mediante la chiamata \method{getIstance()} di \classname{HibernateUtil};
-			\item quindi a partire da \textit{util} si inizializza \textit{factory} mediante una chiamata \method{getFactory()};
-			\item analogamente a quanto fatto in precedenza, si inizializza \textit{session} tramite una chiamata \method{openSession()} eseguita a partire da \textit{factory};
-			\item transaction viene inizializzata con una chiamata a metodo \method{beginTransaction()} eseguita da session;
-			\item query viene inizializzata mediante una chiamata \textit{createQuery}, chiamata da \textit{session} e a cui deve essere passata come parametro, la stringa hqlQuery;
-			\item quindi si è pronti per eseguire query ed ottenere la lista di \classname{IMessage} desiderata. Tale operazione si effettua richiamando query.list();
-			\item si esegue il \textit{commit};
-		\end{itemize}
-		\item nel blocco catch: si effettua un \textit{rollback} a partire da \textit{transaction};
-		\item nel blocco finally: se \textit{session} è diverso da \textit{null}, si chiude mediante una chiamata di tipo \texttt{close()};
-	\end{itemize}
-	Il programma termina controllando se messages è diversa da \textit{null} e contiene almeno un elemento. Nel caso il programma termina ritornando la lista cosi ottenuta. Altrimenti termina ritornando \textit{null}.
+	\verb|from UserData as u where u.mail = VALORE_mail|\\
+	
+	Tale operazione si ottiene con l'istruzione \verb|select.execute(query)|. Quindi si controlla se la lista cosi popolata contiene almeno un elemento (che per come è stata progettata la query, ossia un interrogazione su chiave primaria, deve essere al più uno). Nel caso si imposta result con una chiamata a metodo get() richiamato dalla lista usata. Il metodo termina restituendo result.	
+	
+	\item{\method{+ getUserData(id: Long): IUserData}}\\
+	Metodo usato per l'esecuzione di una query SQL atta a garantire la restituzione dei dati inerenti l'utente avente come chiave primaria il valore contenuto in id. Il metodo definisce un istanza di \classname{GetUtil} mediante una chiamata \verb|this.factory.getUserDataUtil(this.manager)|. Quindi definisce un oggetto \classname{IUserData} denominato result. Successivamente si definisce una lista \texttt{List<IMyTalkObject>}, da usare per memorizzare temporaneamente i dati ottenuti dall'esecuzione della query:\\
+	
+	\verb|from UserData as u where u.id = VALORE_id|\\
+	
+	Tale operazione si ottiene con l'istruzione \verb|select.execute(query)|. Quindi si controlla se la lista cosi popolata contiene almeno un elemento (che per come è stata progettata la query, ossia un interrogazione su chiave primaria, deve essere al più uno). Nel caso si imposta result con una chiamata a metodo get() richiamato dalla lista usata. Il metodo termina restituendo result.
+	
+	\item{\method{+ getUserDatas(mail: String, name: String, surname: String): List<IUserData>}}\\
+	Metodo usato per l'esecuzione di una query SQL atta ad garantire la restituzione degli utenti aventi come valore dei campi omonimi ai parametri del metodo, il valore di quest'ultimi. Il metodo definisce un istanza di \classname{GetUtil} mediante una chiamata \\ \verb|this.factory.getUserDataUtil(this.manager)|. Quindi definisce un oggetto \classname{IUserData} denominato result. Successivamente si definisce una lista \texttt{List<IMyTalkObject>}, da usare per memorizzare temporaneamente i dati ottenuti dall'esecuzione della query:\\
+	
+	\verb|from UserData as u where u.mail like VALORE_receiver|\\
+	\verb|or u.name like VALORE_name or u.surname like VALORE_surname|\\
+	
+	Tale operazione si ottiene con l'istruzione \verb|select.execute(query)|. Quindi si controlla se la lista cosi popolata contiene almeno un elemento. Nel caso si imposta result uguale alla lista usata. Il metodo termina restituendo result.
 	
 \end{description}
 
