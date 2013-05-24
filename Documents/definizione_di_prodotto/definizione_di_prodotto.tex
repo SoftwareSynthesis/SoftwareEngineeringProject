@@ -578,8 +578,136 @@ Quindi viene definito un blocco try-catch. Nel blocco try, si salva in factory u
 
 Il metodo termina chiudendo la sessione e ritornando il contenuto di result.
 
-	\item{\method{+ \{abstract\} doAction(session: ISessionManager, object: IMyTalkObject)}}\\
+	\item{\method{+ \{abstract\} doAction(session: ISessionManager, object: IMyTalkObject): void}}\\
 	Metodo astratto non definito in questa classe. Le classi figlie di \classname{ModifyUtil} ridefiniranno questo metodo.
+
+\end{description}
+
+\classsection{InsertUtil}
+
+\subsubsection*{Funzione}
+Classe figlia di \classname{ModifyUtil}. Ridefinisce il metodo \method{doAction} per eseguire un operazione di insert in una tabella del database.
+
+\subsubsection*{Relazioni d'uso}
+
+\begin{itemize}
+		\item \texttt{org.hibernate.Session};
+		\item \texttt{org.softwaresynthesis.mytalk.server.IMyTalkObject};
+		\item \texttt{org.softwaresynthesis.mytalk.server.dao.ISessionManager};
+\end{itemize}
+
+\subsubsection*{Classi estese ed interfacce implementate}
+
+Nessuna relazione evidenziata.
+
+\subsubsection*{Attributi}
+
+Nessun attributo evidenziato.
+
+\subsubsection*{Metodi}
+
+\begin{description}
+	\item{\method{+ InsertUtil(manager: ISessionManager)}}\\
+	Costruttore pubblico della classe, usato per inizializzare \memberdata{manager} con il parametro d'ingresso del metodo. Per farlo richiama il costruttore della classe padre.
+
+	\item{\method{+ \{final\} doAction(session: ISessionManager, object: IMyTalkObject): void}}\\
+	Metodo usato per eseguire un operazione di insert nel database. Il metodo esegue l'unica operazione \verb|session.save(object)|.
+
+\end{description}
+
+\classsection{DeleteUtil}
+
+\subsubsection*{Funzione}
+Classe figlia di \classname{ModifyUtil}. Ridefinisce il metodo \method{doAction} per eseguire un operazione di delete in una tabella del database.
+
+\subsubsection*{Relazioni d'uso}
+
+\begin{itemize}
+		\item \texttt{org.hibernate.Session};
+		\item \texttt{org.softwaresynthesis.mytalk.server.IMyTalkObject};
+		\item \texttt{org.softwaresynthesis.mytalk.server.dao.ISessionManager};
+\end{itemize}
+
+\subsubsection*{Classi estese ed interfacce implementate}
+
+Nessuna relazione evidenziata.
+
+\subsubsection*{Attributi}
+
+Nessun attributo evidenziato.
+
+\subsubsection*{Metodi}
+
+\begin{description}
+	\item{\method{+ DeleteUtil(manager: ISessionManager)}}\\
+	Costruttore pubblico della classe, usato per inizializzare \memberdata{manager} con il parametro d'ingresso del metodo. Per farlo richiama il costruttore della classe padre.
+
+	\item{\method{+ \{final\} doAction(session: ISessionManager, object: IMyTalkObject): void}}\\
+	Metodo usato per eseguire un operazione di delete nel database. Il metodo esegue l'unica operazione \verb|session.delete(object)|.
+
+\end{description}
+
+\classsection{UpdateUtil}
+
+\subsubsection*{Funzione}
+Classe figlia di \classname{ModifyUtil}. Ridefinisce il metodo \method{doAction} per eseguire un operazione di aggiornamento (intesa come modifica del valore di alcuni campi dati) in una tabella del database.
+
+\subsubsection*{Relazioni d'uso}
+
+\begin{itemize}
+		\item \texttt{org.hibernate.Session};
+		\item \texttt{org.softwaresynthesis.mytalk.server.IMyTalkObject};
+		\item \texttt{org.softwaresynthesis.mytalk.server.dao.ISessionManager};
+\end{itemize}
+
+\subsubsection*{Classi estese ed interfacce implementate}
+
+Nessuna relazione evidenziata.
+
+\subsubsection*{Attributi}
+
+Nessun attributo evidenziato.
+
+\subsubsection*{Metodi}
+
+\begin{description}
+	\item{\method{+ UpdateUtil(manager: ISessionManager)}}\\
+	Costruttore pubblico della classe, usato per inizializzare \memberdata{manager} con il parametro d'ingresso del metodo. Per farlo richiama il costruttore della classe padre.
+
+	\item{\method{+ \{final\} doAction(session: ISessionManager, object: IMyTalkObject): void}}\\
+	Metodo usato per eseguire un operazione di update nel database. Il metodo esegue l'unica operazione \verb|session.update(object)|.
+
+\end{description}
+
+\classsection{NotInitialize}
+
+\subsubsection*{Funzione}
+Classe figlia di \classname{ModifyUtil}.
+
+\subsubsection*{Relazioni d'uso}
+
+\begin{itemize}
+		\item \texttt{org.hibernate.Session};
+		\item \texttt{org.softwaresynthesis.mytalk.server.IMyTalkObject};
+		\item \texttt{org.softwaresynthesis.mytalk.server.dao.ISessionManager};
+\end{itemize}
+
+\subsubsection*{Classi estese ed interfacce implementate}
+
+Nessuna relazione evidenziata.
+
+\subsubsection*{Attributi}
+
+Nessun attributo evidenziato.
+
+\subsubsection*{Metodi}
+
+\begin{description}
+	\item{\method{+ DeleteUtil(manager: ISessionManager)}}\\
+	Costruttore pubblico della classe, usato per inizializzare \memberdata{manager} con il parametro d'ingresso del metodo. Per farlo richiama il costruttore della classe padre.
+
+	\item{\method{+ \{final\} doInitialize(collection: List<IMyTalkObject>): void}}\\
+	Metodo dal corpo vuoto.
 
 \end{description}
 
