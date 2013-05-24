@@ -3,6 +3,7 @@
  * 
  * @author Elena Zecchinato
  * @author Diego Beraldin
+ * @author Riccardo Tresoldi
  */
 function MessagePanelPresenter() {
 	/***************************************************************************
@@ -15,7 +16,21 @@ function MessagePanelPresenter() {
 
 	/***************************************************************************
 	 * METODI PRIVATI
-	 **************************************************************************/		
+	 **************************************************************************/
+	/**
+	 * 
+	 */
+	function getStatusSrc(message) {
+		// message.status rappresenta se il messaggio è nuovo/non nuovo
+		var result = "";
+		if (!message.status) {
+			result = "img/readmessage.png";
+		} else {
+			result = "img/unreadmessage.png";
+		}
+		return result;
+	}
+	
 	/** VIEW
 	 * Aggiunge un messaggio a una lista per creare l'elenco della segreteria
 	 * telefonica creando il list item corrispondente (con la stringa
@@ -26,39 +41,50 @@ function MessagePanelPresenter() {
 	 *            message messaggio della segreteria che corrisponde a
 	 *            'JSMessage' ed è caratterizzato da sender, id,
 	 *            status, video, src e date
-	 * @author Riccardo Tresoldi, Elena Zecchinato
+	 * @author Riccardo Tresoldi
+	 * @author Elena Zecchinato
 	 */
 	function addListItem(message) {
-		var messageList = document.getElementById("messageList");
+		// elemento da aggiungere alla lista
 		var item = document.createElement("li");
-	
 		var status = document.createElement("img");
 		var elimina  = document.createElement("img");
 		
+		// estrae il nome del mittente del messaggio
+		var contact = mediator.getContactById(message.sender);
+		var contactName = mediator.createNameLabel(contact);
+		
 		item.appendChild(status);
-		item.appendChild(document.createTextNode(message.sender));
+		item.appendChild(document.createTextNode(contactName));
 		item.appendChild(document.createTextNode(message.date));
 		item.appendChild(elimina);
 		
-		item.onclick = function() {
-		// imposto il messaggio come letto
-		var stato=true;
-		thisPresenter.setAsRead(message,stato);
+		// imposta il source delle immagini
+		status.src = getStatusSrc(message);
+		elimina.src = "img/deleteGroupImg.png";
 		
-		var video=documento.getElementById("messageVideo");
-        video.src = ""; // TODO CI VUOLE IL PATH
+		// comportamento del list item
+		item.onclick = function() {
+			thisPresenter.setStatus(message, false);
+			status.src = getStatusSrc(message);
+			var video = document.getElementById("messageVideo");
+			video.src = message.src;
 		};
-
-		status.onclick = function() {
+		
+		// comportamento del pulsante elimina
+		elimina.onclick = function() {
 			thisPresenter.deleteMessage(message);
 		};
 		
-		elimina.onclick = function() {
-			stato=message.status;
-			thisPresenter.setAsRead(message,!stato);
+		// comportamento del pulsante toggleState
+		status.onclick = function() {
+			var oldStatus = message.status;
+			thisPresenter.setStatus(message, !oldStatus);
+			status.src = getStatusSrc(message);
 		};
 		
-		// quando ho finito appendo il nuovo elemento appena creato.
+		// appendo il nuovo elemento appena creato
+		var messageList = document.getElementById("messageList");
 		messageList.appendChild(item);	
 	}
 
@@ -139,7 +165,8 @@ function MessagePanelPresenter() {
 	 *             un errore se il non è stato possibile cambiare lo stato del
 	 *             messaggio
 	 */
-	this.setAsRead = function(message, valueToSet) {
+	this.setStatus = function(message, valueToSet) {
+		message.status = valueToSet;
 		var request = new XMLHttpRequest();
 		request.open("POST", commandURL, false);
 		request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
