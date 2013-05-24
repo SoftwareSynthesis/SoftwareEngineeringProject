@@ -226,7 +226,7 @@ function CommunicationCenter() {
      * @param {Boolean} isCaller rappresenta il flag che determina se chi invoca
      * la funzione è il chiamante o il chiamato
      * @param {Object} contact rappresenta il contatto da contattare
-     * @param {Object} onlyAudio true se si vole fare una chiamata solo audio
+     * @param {Boolean} onlyAudio true se si vole fare una chiamata solo audio
      */
     this.call = function(isCaller, contact, onlyAudio) {
         //invio l'avviso di cambio stato in occupato
