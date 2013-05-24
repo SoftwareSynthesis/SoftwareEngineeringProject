@@ -60,13 +60,9 @@ window.onload = function() {
     /**********************************************************
     ****Inizializzazione variabili per connessione all'host****
     **********************************************************/
-<<<<<<< HEAD
     var host = "localhost";
     var stub = false;
-=======
-    var host = "localhost/webalizer/ModelManager/WebContent";
-    var stub = true;
->>>>>>> origin/clientDeveloping
+
     if (stub) {
         commandURL = "http://" + host + "/Conf/controllerManagerStub.php";
         urlChannelServlet = "ws://" + host + "/CommandManager";

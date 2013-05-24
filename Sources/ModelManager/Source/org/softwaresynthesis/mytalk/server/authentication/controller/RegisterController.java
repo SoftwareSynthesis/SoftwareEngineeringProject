@@ -82,19 +82,7 @@ public class RegisterController extends AbstractController
 			}
 			else
 			{
-<<<<<<< HEAD
-				filePart = request.getPart("picturePath");
-				if (filePart != null)
-				{
-					inputStream = filePart.getInputStream();
-					path = "C:\\Program Files\\Apache Software Foundation\\Tomcat 7.0\\webapps\\MyTalk\\img\\contactImg\\" + mail + ".png";
-					out = new FileOutputStream(path);
-					out.write(IOUtils.readFully(inputStream, -1, false));
-					out.close();
-				}				
-=======
 				inputStream = filePart.getInputStream();
-				Scrivi("SIZE "+ filePart.getSize());
 				path = System.getenv("MyTalkConfiguration");
 				String separator = System.getProperty("file.separator");
 				path += separator + "MyTalk" + separator + "img" + separator + "contactImg" + separator + mail + ".png";
@@ -102,7 +90,6 @@ public class RegisterController extends AbstractController
 				out.write(IOUtils.readFully(inputStream, -1, false));
 				out.close();
 				user.setPath("img/contactImg/" + mail + ".png");
->>>>>>> origin/master
 			}
 			dao = getDAOFactory();
 			dao.insert(user);
@@ -119,15 +106,8 @@ public class RegisterController extends AbstractController
 		catch (Exception ex)
 		{
 			result = "null";
-			Scrivi(ex.getMessage());
-<<<<<<< HEAD
-=======
 		}
-		catch (Throwable ex)
-		{
-			Scrivi(ex.getMessage());
->>>>>>> origin/master
-		}
+
 		finally
 		{
 			writer = response.getWriter();
@@ -146,28 +126,5 @@ public class RegisterController extends AbstractController
 		return true;
 	}
 	
-	private void Scrivi(String txt)
-	{
-		try
-		{
-			FileOutputStream s = new FileOutputStream("DEBUG.txt", true);
-			PrintStream p = new PrintStream(s);
-			p.println(txt);
-			p.close();
-<<<<<<< HEAD
-//			File f = new File("DEBUG.txt");
-//			FileWriter w = new FileWriter(f);
-//			w.write(txt);
-//			w.flush();
-//			w.close();
-=======
-			File f = new File("DEBUG.txt");
-			FileWriter w = new FileWriter(f);
-			w.write(txt);
-			w.flush();
-			w.close();
->>>>>>> origin/master
-		}
-		catch (IOException e) {}
-	}
+	
 }

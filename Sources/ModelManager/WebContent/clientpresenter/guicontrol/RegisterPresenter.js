@@ -154,30 +154,18 @@ function RegisterPanelPresenter() {
         // invia una richiesta SINCRONA al server (terzo parametro 'false')
         request.open("POST", commandURL, false);
         var formData = new FormData();
-<<<<<<< HEAD
-		formData.append("operation", "register");
-        formData.append("username", userData.username);
-        formData.append("password", encodeURIComponent(userData.password));
-        formData.append("question", encodeURIComponent(userData.question));
-        formData.append("answer", encodeURIComponent(userData.answer));
-=======
         formData.append("operation", "register");
         formData.append("username", (userData.username));
         formData.append("password", (userData.password));
         formData.append("question", (userData.question));
         formData.append("answer", (userData.answer));
->>>>>>> origin/clientDeveloping
         if (userData.name && userData.name.length > 0) {
             formData.append("name", (userData.name));
         }
         if (userData.surname && userData.surname.length > 0) {
             formData.append("surname", (userData.surname));
         }
-<<<<<<< HEAD
         if (userData.picturePath && userData.picturePath != "") {
-=======
-        if (userData.picturePath && (userData.picturePath != "")) {
->>>>>>> origin/clientDeveloping
             formData.append("picturePath", userData.picturePath);
         }
         request.send(formData);
