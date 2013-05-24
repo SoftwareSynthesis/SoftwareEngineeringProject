@@ -142,13 +142,11 @@ function MessagePanelPresenter() {
 	this.setAsRead = function(message, valueToSet) {
 		var request = new XMLHttpRequest();
 		request.open("POST", commandURL, false);
-		request.setRequestHeader("Content-type",
-				"application/x-www-form-urlencoded");
+		request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		request.send("operation=updateMessage&idMessage=" + message.id + "&read=" + valueToSet);
 		outcome = JSON.parse(request.responseText);
 		if (!outcome) {
-			throw "Impossibile impostare lo stato del messaggio a "
-					+ (valueToSet ? " letto " : " non letto") + "!";
+			throw "Impossibile impostare lo stato del messaggio a " + (valueToSet ? " letto " : " non letto") + "!";
 		}
 	};
 	

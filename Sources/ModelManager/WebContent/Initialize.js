@@ -29,7 +29,6 @@ window.onload = function() {
     removeCommunicationPanel = new CustomEvent("removeCommunicationPanel");
     // eventi per LoginPresenter
     login = new CustomEvent("login");
-    /*TODO*/errorLogin = new CustomEvent("errorLogin");
     logout = new CustomEvent("logout");
     // eventi per AddressBookPresenter
     changeAddressBooksContactState = new CustomEvent("changeAddressBooksContactState");
@@ -39,8 +38,10 @@ window.onload = function() {
     /*TODO*/unlockContact = new CustomEvent("unlockContact");
     // eventi per ToolsPresenter
     showReturnToCommunicationPanelButton = new CustomEvent("showReturnToCommunicationPanelButton");
-    // eventi per chiamata
+    // eventi per chiamata e chat
     changeMyState = new CustomEvent("changeMyState");
+    sendMessage = new CustomEvent("sendMessage");
+    appendMessageToChat = new CustomEvent("appendMessageToChat");
 
     /**************************************
     ****Inizializzazione delle funzioni****

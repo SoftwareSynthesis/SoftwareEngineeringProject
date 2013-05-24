@@ -11,7 +11,7 @@ function CommunicationPanelPresenter() {
      **************************************************************************/
     // memorizza il pannello nella versione precedente
     var thisPresenter = this;
-    
+
     // array associativo di tutte le chat che ho aperte in un dato momento
     // gli elementi memorizzati in questo array sono {HTMLDivElements}
     var chatElements = new Object();
@@ -127,7 +127,9 @@ function CommunicationPanelPresenter() {
         sendButton.onclick = function() {
             var text = input.value;
             textArea.value += (text + "\n");
-            communicationcenter.send(user, text);
+            sendMessage.contact = user;
+            sendMessage.messageText = text;
+            document.dispatchEvent(sendMessage);
         };
         form.appendChild(sendButton);
 
@@ -238,29 +240,6 @@ function CommunicationPanelPresenter() {
         }
     };
 
-    /**
-     * Aggiunge una stringa all'interno dell'area di testo che è associata alla
-     * chat con l'utente passato come parametro
-     *
-     * PRE: si assume che già esista in chatElements un oggetto HTMLDivElement
-     * indicizzato con l'id dell'utente passato come parametro
-     *
-     * POST: al ritorno della funzione, la textArea contenuta in questo <div>
-     * contiene il nuovo testo passato come parametro
-     *
-     * @param {Object}
-     *            utente con cui è avviata la chat
-     * @param {String}
-     *            text testo da appendere al termine della textarea
-     * @author Diego Beraldin
-     */
-    this.appendToChat = function(user, text) {
-        var divContainerChat = chatElements[user.id];
-
-        var textArea = document.evaluate("//node()[@id='chatText']", divContainerChat, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-        textArea.value += ("io:" + text + "\n");
-    };
-
     /** VIEW
      * Se presente il pannello è già stato creato allora verrà richiamato,
      * altrimenti verrà
@@ -363,7 +342,7 @@ function CommunicationPanelPresenter() {
         refuseCallButton.id = "refuseCallButton";
         refuseCallButton.onclick = function() {
             removeAnswerBox();
-            communicationcenter.refuseCall();
+            communicationcenter.refuseCall(caller);
         };
         //pulsante per accettare la chiamata
         var acceptCallButton = document.createElement("button");
@@ -372,7 +351,7 @@ function CommunicationPanelPresenter() {
         acceptCallButton.id = "acceptCallButton";
         acceptCallButton.onclick = function() {
             removeAnswerBox();
-            communicationcenter.acceptCall();
+            communicationcenter.acceptCall(caller);
         };
         //appendo tutti gli elementi al div
         answerBox.appendChild(labelAnswerBox);
@@ -417,7 +396,35 @@ function CommunicationPanelPresenter() {
     };
 
     /***************************************************************************
+     * HANDLER DEGLI EVENTI
+     **************************************************************************/
+    /**
+     * Gestore dell'evento per l'aggiunta una stringa all'interno dell'area di
+     * testo che è associata alla chat con l'utente passato come parametro
+     *
+     * @author Diego Beraldin
+     * @author Riccardo Tresoldi
+     * @param {Object} user utente con cui è avviata la chat
+     * @param {String} message testo da appendere al termine della textarea
+     * @param {Boolean} IAmSender rappresenta un flag che determina chi è che ha
+     * inviato il messaggio
+     */
+    function onAppendMessageToChat(user, message, IAmSender) {
+        var divContainerChat = chatElements[user.id];
+        var textArea = document.evaluate("//node()[@id='chatText']", divContainerChat, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+        var sender = null;
+        if (IAmSender)
+            sender = "io";
+        else
+            sender = user.name;
+        textArea.value += (sender + ":\t" + text + "\n");
+    }
+
+    /***************************************************************************
      * LISTNER DEGLI EVENTI
      **************************************************************************/
     document.addEventListener("showCommunicationPanel", onShowCommunicationPanel);
+    document.addEventListener("appendMessageToChat", function(evt) {
+        onAppendMessageToChat(evt.user, evt.message, evt.IAmSender);
+    })
 }
