@@ -70,6 +70,11 @@ public class SearchControllerTest {
 			protected DataPersistanceManager getDAOFactory() {
 				return dao;
 			}
+			
+			@Override
+			String getContactState(IUserData contact) {
+				return "available";
+			}
 		};
 	}
 
@@ -89,7 +94,7 @@ public class SearchControllerTest {
 	 * @version 2.0
 	 */
 	@Test
-	public void testGetSearchContact() throws Exception {
+	public void testSearchContact() throws Exception {
 		// invoca il metodo da testare
 		tester.doAction(request, response);
 
@@ -97,9 +102,9 @@ public class SearchControllerTest {
 		writer.flush();
 		String responseText = writer.toString();
 		String toCompare = String
-				.format("{\"%d\":{\"name\":\"%s\", \"surname\":\"%s\", \"email\":\"%s\", \"id\":\"%d\", \"picturePath\":\"%s\", \"blocked\":false}}",
+				.format("{\"%d\":{\"name\":\"%s\", \"surname\":\"%s\", \"email\":\"%s\", \"id\":\"%d\", \"picturePath\":\"%s\", \"state\":\"%s\", \"blocked\":false}}",
 						someUserId, someUserName, searchCriterion,
-						someUserEmail, someUserId, someUserPath);
+						someUserEmail, someUserId, "available", someUserPath);
 		assertEquals(toCompare, responseText);
 
 		// verifica il corretto utilizzo dei mock
