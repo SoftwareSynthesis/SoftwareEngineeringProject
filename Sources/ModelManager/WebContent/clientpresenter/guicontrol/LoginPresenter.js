@@ -145,7 +145,7 @@ function LoginPanelPresenter() {
      * @returns {HTMLFormElement} il form per il recupero della password
      * @author Diego Beraldin
      */
-    this.buildRetrievePasswordForm = function() {
+    function buildRetrievePasswordForm() {
         // elimina il form se è già presente
         var oldForm = document.getElementById("passwordretrieval");
         if (oldForm != null) {
@@ -289,7 +289,7 @@ function LoginPanelPresenter() {
         var inputRetrievePassword = document.getElementById("inputRetrievePassword");
         inputRetrievePassword.onclick = function() {
             try {
-                var form = thisPresenter.buildRetrievePasswordForm();
+                var form = buildRetrievePasswordForm();
                 thisPanel.appendChild(form);
             } catch (err) {
                 alert(err);
