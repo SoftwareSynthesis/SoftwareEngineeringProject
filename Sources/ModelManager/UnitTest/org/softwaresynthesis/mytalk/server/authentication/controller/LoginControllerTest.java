@@ -46,6 +46,8 @@ public class LoginControllerTest {
 	private final String surname = "de paperoni";
 	private final String path = "img/contactImg/Default.png";
 	private final Long id = 1L;
+	private Writer writer;
+	private LoginController tester;
 	@Mock
 	private IUserData user;
 	@Mock
@@ -62,8 +64,6 @@ public class LoginControllerTest {
 	private HttpServletRequest request;
 	@Mock
 	private HttpServletResponse response;
-	private Writer writer;
-	private LoginController tester;
 
 	/**
 	 * Reinizializza il comportamento dei mock prima di ogni test (può
@@ -102,11 +102,11 @@ public class LoginControllerTest {
 		// configura il comportamento della richiesta
 		when(request.getSession(anyBoolean())).thenReturn(session);
 		when(request.getParameter("username")).thenReturn(username);
-		
+
 		/*
 		 * Oggetto da testare dove si fa overriding al volo dei metodi 'factory'
-		 * facendo in modo che restituiscano i mock (che sono dei campi dati privati
-		 * della classe contenitore) invece dei reali oggetti.
+		 * facendo in modo che restituiscano i mock (che sono dei campi dati
+		 * privati della classe contenitore) invece dei reali oggetti.
 		 */
 		tester = new LoginController() {
 			@Override
@@ -232,6 +232,37 @@ public class LoginControllerTest {
 		verify(session).invalidate();
 		verify(request).getSession(anyBoolean());
 		verify(session).setAttribute(anyString(), any());
+	}
+
+	/**
+	 * Verifica il comportamento del metodo doPost nel momento in cui lo
+	 * username passato come parametro nella richiesta non corrisponde a nessuno
+	 * degli utenti che sono registrati e dunque memorizzati nel database. Il
+	 * test si assicura che in questo caso il testo stampato sulla risposta sia
+	 * la stringa 'null' e che non sia aperta alcuna sessione di autenticazione
+	 * associata allo username di test.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testLoginNotExistUser() throws Exception {
+		// impedisce il recupero dei dati utente
+		when(dao.getUserData(username)).thenReturn(null);
+
+		// invoca il metodo da testare
+		tester.doAction(request, response);
+
+		// verifica l'output
+		writer.flush();
+		String responseText = writer.toString();
+		assertEquals("null", responseText);
+
+		// verifica il corretto utilizzo dei mock
+		verify(context).login();
+		verify(request).getParameter("username");
+		verify(dao).getUserData(username);
+		verify(request, never()).getSession(anyBoolean());
 	}
 
 	/**

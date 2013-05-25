@@ -1435,15 +1435,16 @@ Questo test si compone di cinque metodi:
 \textbf{Verifica l'oggetto:} \texttt{LoginController}.\\
 \textbf{Descrizione}: L'obiettivo di questo test è verificare la possibilità di effettuare il login da parte di un utente ricevuta tramite richiesta HTTP. I possibili \inglese{input} riguardano dati passati -- username e password -- che possono essere corretti o meno (campi dati vuoti o che non corrispondono a nessun utente realmente registrato al sistema).
 
-Tale test si compone di quattro metodi:
+Tale test si compone di cinque metodi:
 \begin{itemize}
 
 \item \texttt{testLoginCorrectUser()} verifica il corretto funzionamento dell'accesso al sistema da parte di un utente registrato. Il controllo avviene tramite l'inserimento di dati corretti.
 
-\item \texttt{testLoginWrongUser()} verifica l'effettivo fallimento del login di un utente  non registrato al sistema. Il test avviene simulando il sollevamento di un'eccezione di tipo \texttt{LoginException} durante l'esecuzione di \texttt{login()}. Il test verifica che non sia effettuato alcun accesso al \inglese{database} da parte del \texttt{controller} e che non sia creta nessuna sessione di autenticazione.
+\item \texttt{testLoginWrongUser()} verifica l'effettivo fallimento del login di un utente  non autorizzato ad accedere al sistema. Il test avviene simulando il sollevamento di un'eccezione di tipo \texttt{LoginException} durante l'esecuzione di \texttt{login()}. Il test verifica che non sia effettuato alcun accesso al \inglese{database} da parte del \texttt{controller} e che non sia creta nessuna sessione di autenticazione.
 
-\item \texttt{testLoginInvalidSession()} 
-verifica il comportamento della classe nel momento in cui avviene un errore nella manipolazione della sessione associata alla richiesta HTTP. Il test avviene verificando che il risultato stampato sulla risposta sia la stringa \texttt{null} e inoltre viene verificato che la sessione sia resa non valida tramite l'uso di mock.
+\item \texttt{testLoginInvalidSession()} verifica il comportamento della classe nel momento in cui avviene un errore nella manipolazione della sessione associata alla richiesta HTTP. Il test avviene verificando che il risultato stampato sulla risposta sia la stringa \texttt{null} e inoltre viene verificato che la sessione sia resa non valida tramite l'uso di mock.
+
+\item \texttt{testLoginNotExistUser()} verifica il comportamento del metodo doPost nel momento in cui lo username passato come parametro nella richiesta non corrisponde a nessuno degli utenti che sono registrati e dunque memorizzati nel database. Il test si assicura che in questo caso il testo stampato sulla risposta sia la stringa \texttt{null} e che non sia aperta alcuna sessione di autenticazione associata allo username di test.
 
 \item \texttt{testCheck()} verifica il corretto funzionamento del metodo \texttt{check}. Il controllo avviene verificando che l'oggetto restituito abbia valore \texttt{true}.
 

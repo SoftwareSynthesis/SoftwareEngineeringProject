@@ -104,7 +104,7 @@ public class SearchControllerTest {
 		String toCompare = String
 				.format("{\"%d\":{\"name\":\"%s\", \"surname\":\"%s\", \"email\":\"%s\", \"id\":\"%d\", \"picturePath\":\"%s\", \"state\":\"%s\", \"blocked\":false}}",
 						someUserId, someUserName, searchCriterion,
-						someUserEmail, someUserId, "available", someUserPath);
+						someUserEmail, someUserId, someUserPath, "available");
 		assertEquals(toCompare, responseText);
 
 		// verifica il corretto utilizzo dei mock

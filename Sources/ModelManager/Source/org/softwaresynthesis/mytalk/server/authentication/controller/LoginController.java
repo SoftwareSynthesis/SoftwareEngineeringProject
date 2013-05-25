@@ -77,7 +77,7 @@ public class LoginController extends AbstractController
 			}
 			else
 			{
-				result = "nullLoginElse";
+				result = "null";
 			}
 		}
 		catch (Exception ex)
@@ -86,7 +86,7 @@ public class LoginController extends AbstractController
 			{
 				session.invalidate();
 			}
-			result = "nullLogin";
+			result = "null";
 		}
 		finally
 		{
