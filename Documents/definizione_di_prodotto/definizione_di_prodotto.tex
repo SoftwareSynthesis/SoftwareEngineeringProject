@@ -3173,9 +3173,12 @@ Il metodo termina ritornando il \textit{PushInbound} associato al client, se si 
 
 \section{Specifica sotto-architettura \texttt{clientpresenter}}\label{sec:clientpresenterarchitecture}
 
-La sotto-architettura \texttt{clientpresenter}, a livello di definizione di prodotto, richiede una trattazione speciale a causa del particolare dominio tecnologico coinvolto. Essa è infatti definita con il linguaggio JavaScript che pur essendo definito come linguaggio orientato agli oggetti non permette di definire classi, a ciò si aggiunge un ulteriore particolarità di JavaScript: è debolmente tipizzato.
+La sotto-architettura \texttt{clientpresenter}\footnote{%
+  Considerazioni in tutto e per tutto analoghe si applicano anche alla sotto-architettura \texttt{clientview} descritta nella sezione \vref{sec:clientviewarchitecture} del presente documento.
+}
+richiede una trattazione speciale a causa del particolare dominio tecnologico coinvolto. Essa è infatti definita con il linguaggio JavaScript che pur essendo definito come linguaggio orientato agli oggetti non permette di definire classi ed è, inoltre, debolmente tipizzato.
 
-In ragione di ciò, al fine di facilitare al programmatore la comprensione del progetto (pensando quindi alle varie entità come a classi) senza però confonderlo in fase di stesura del codice, si è stabilito di adoperare la seguente terminologia:
+Al fine di facilitare al programmatore la comprensione del progetto (pensando quindi alle varie entità come a classi) senza però confonderlo in fase di stesura del codice, si è stabilito di adoperare la seguente terminologia:
 
 \begin{description}
 	\item{\scshape\bfseries Attributi}: saranno definiti con una sintassi simile a quella già usata per la parte server, pertanto al nome dell'attributo sarà associato il tipo ``logico'' che idealmente rappresenta. Dal momento che in JavaScript non esiste il controllo dei tipi, si è stabilito di attenersi a una notazione simile a quella utilizzata per lo strumento di generazione automatica della documentazione JSDoc. In particolare i tipi legali consentiti sono:
@@ -3482,7 +3485,7 @@ Riferimento al pannello controllato da questo \inglese{presenter}, vale a dire u
 \classsection{MainPresenter}
 
 \subsubsection*{Funzione}
-\inglese{Presenter} incaricato di gestire il pannello principale, ossia quello centrale.
+\inglese{Presenter} incaricato di gestire il pannello principale, ossia quello che occupa la regione centrale.
 
 \subsubsection*{Relazioni d'uso}
 Nessuna relazione d'uso evidenziata.
@@ -3613,8 +3616,8 @@ Nessuna relazione evidenziata.
   
   Dal momento che il server risponde con la versione serializzata in JSON della lista di messaggi desiderata, il metodo dovrà limitarsi a restituire il risultato dell'invocazione di \verb'JSON.parse(request.responseText)'.
   
-    \item{\method{+ setStatus(message: Object, valueToSet: Boolean}}\\
-  Imposta lo stato di un messaggio come ``nuovo'' oppure ``già letto'' a seconda del parametro ricevuto in input. Tale metodo ha il duplice compito di modificare lo stato del messaggio ricevuto come parametro in base al valore di \verb'valuteToSet' e quindi inviare una richiesta AJAX sincrona al server che contiene la \inglese{query string}
+    \item{\method{+ setStatus(message: Object, valueToSet: Boolean): Boolean}}\\
+  Imposta lo stato di un messaggio come ``nuovo'' oppure ``già letto'' a seconda del parametro ricevuto in input. Tale metodo ha il duplice compito di modificare lo stato del messaggio ricevuto come parametro in base al valore di \verb'valueToSet' e quindi inviare una richiesta AJAX sincrona al server che contiene la \inglese{query string}
   \begin{verbatim}
     "operation=updateMessage&idMessage=" + message.id +
                "&read=" + valueToSet
@@ -3638,10 +3641,52 @@ Nessuna relazione evidenziata.
   
 \end{description}
 
-%********************************************************************
-%     QUESTO È IL CONFINE FRA BENE E MALE - SIETE AVVERTITI!
-%********************************************************************
+\classsection{GroupPresenter}
 
+\subsubsection*{Funzione}
+\inglese{Presenter} incaricato di gestire il pannello per la visualizzazione e l'amministrazione dei gruppi presenti nella rubrica.
+
+\subsubsection*{Relazioni d'uso}
+Nessuna relazione d'uso evidenziata.
+
+\subsubsection*{Classi estese ed interfacce implementate}
+Nessuna relazione evidenziata.
+
+\subsubsection*{Attributi}
+\begin{description}
+
+  \item{\memberdata{-- contacts: Object}}\\
+  Array associativo in cui sono memorizzati i contatti della rubrica, indicizzato in base al numero identificativo di ciascun contatto.
+  
+  \item{\memberdata{-- groups: Object}}\\
+  Array associativo in cui sono memorizzati i gruppi presenti nella rubrica, indicizzato in base al numero identificativo di ciascun gruppo.
+  
+  \item{\memberdata{-- thisPanel: Object}}\\
+  Riferimento all'elemento HTML, da intendersi come nodo DOM, che rappresenta il pannello controllato dal \inglese{presenter} ed è costituito da un \verb'<div>' con l'identificativo \verb'GroupPanel'.
+  
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+  \item{\method{+ selectCandidates(group: Object): Object}}\\
+  Il metodo ha il compito di estrarre dall'insieme di tutti i contatti memorizzati nella rubrica quelli che non appartengono al gruppo passato come parametro e che, pertanto, sono dei candidati per l'aggiunta allo stesso.
+  
+  L'algoritmo mediante il quale dovrà essere raggiunto questo scopo consiste nell'effettuare una copia \textit{profonda} dell'array associativo dei contatti presenti in rubrica, che costituirà l'insieme dei candidati da restituire al chiamante.
+  
+  In seguito, si dovrà scorrere la proprietà \verb'contacts' del gruppo (che è un array enumerativo dei numeri identificativi dei contatti che vi appartengono) e rimuovere gli oggetti corrispondenti dall'array dei candidati con l'istruzione \verb'delete'.
+  
+  Al termine del \inglese{loop}, l'array associativo così ottenuto conterrà solo i contatti che non appartengono al gruppo come richiesto e potrà quindi essere restituito al chiamante.
+
+  \item{\method{+ displayList(): void}}\\
+  Metodo che visualizza all'interno del pannello la lista dei gruppi presenti in rubrica. A tale scopo è necessario innanzitutto inizializzare i campi dati \memberdata{contacts} e \memberdata{groups}, quindi è possibile popolare la vista mediante una chiamata al metodo \method{addListItem} messo a disposizione dalla vista per ognuno dei gruppi che sono stati precedentemente recuperati.
+  
+  \item{\method{+ onShowGroupPanel(): void}}\\
+  Questo gestore di eventi è associato all'evento con l'identificativo \verb'showGroupPanel' e determina la visualizzazione del pannello per l'amministrazione dei gruppi della rubrica caricando il relativo \inglese{template} e demandando in un secondo momento alla vista il compito di inizializzare le proprie componenti grafiche.
+
+\end{description}
+
+
+% TODO IBI ERIT FLETUS ET STRIDOR DENTIUM
 \classsection{AddressBookPanelPresenter}
 
 \subsubsection*{Funzione}
@@ -3795,7 +3840,7 @@ Tale metodo ha il compito, dato un utente, di ritornare una lista di gruppi in c
 
 \end{description}
 
-%TODO da verificare
+% TODO IBI ERIT FLETUS ET STRIDOR DENTIUM
 \classsection{CommunicationPanelPresenter}
 
 \subsubsection*{Funzione}
@@ -3870,6 +3915,7 @@ Il metodo ritorna l'elemento DOM con \textit{id} uguale ad ``otherVideo''.
 
 \end{description}
 
+% TODO IBI ERIT FLETUS ET STRIDOR DENTIUM
 \classsection{ContactPanelPresenter}
 
 \subsubsection*{Funzione}
@@ -4086,34 +4132,6 @@ Metodo per gestire la chiamata, riceve come parametri l'utente che si vuole chia
 
 \end{description}
 
-\classsection{GroupPanelPresenter}
-
-\subsubsection*{Funzione}
-Presenter incaricato di gestire i gruppi.
-
-\subsubsection*{Relazioni d'uso}
-Nessuna relazione d'uso evidenziata.
-
-\subsubsection*{Classi estese ed interfacce implementate}
-Nessuna relazione evidenziata.
-
-\subsubsection*{Attributi}
-\begin{description}
-\item Nessun attributo presente.
-\end{description}
-
-\subsubsection*{Metodi}
-\begin{description}
-\item{\method{- addListItem(list: DOM\_element, group: Object(group)): void}}\\
-Aggiunge alla lista ricevuta come parametro (\textit{list}) un gruppo, anch'esso ricevuto come parametro (\textit{group}) creando un listItem (<li>). Il \textit{list item} sarà composto da uno \textit{span} con il nome del gruppo e vicino dovrà apparire un'immagine per l'eliminazione del gruppo stesso. Va quindi gestito il comportamento all'evento ``onclick'' su tale immagine che comporterà l'eliminazione del gruppo. Prima di procedere alla vera e propria eliminazione, dovrà apparire all'utente un messaggio di conferma che chiede se effettivamente vuole cancellare il gruppo: se l'utente accetta, viene richiamato il metodo del MediatorPresenter \method{onGroupRemoved(group)} che procedere ad eliminare il gruppo.
-
-\item{\method{+ createPanel(): DOM\_element}}\\
-Costruisce il pannello per la gestione dei gruppi, che deve essere visualizzato all'interno del MainPanel dell'applicazione quando viene richiesta tale operazione. Il GroupPanel è costituito da una semplice lista contenente tanti \textit{list item} quanti sono i gruppi dell'utente.
-
-\item{\method{+ displayGroupList(groups: Object(group)): void}}\\
-Metodo che visualizza all'interno del pannello una lista di gruppi, tale metodo demanda la visualizzazione di ogni singolo gruppo richiamando il metodo \method{addListItem(groupList, group}.
-
-\end{description}
 
 \subsection{Package org.softwaresynthesis.mytalk.clientpresenter.kernel}\label{sec:kernel}
 \classsection{CommunicationCenter}
@@ -4666,13 +4684,11 @@ Il pannello è rappresentato da un elemento \verb'<div>' con identificativo ugua
   \item[--] una \verb'<ul>' con identificativo uguale a \verb'groupList'.
 \end{itemize}
 
-%********************************************************************
-%     QUESTO È IL CONFINE FRA BENE E MALE - SIETE AVVERTITI!
-%********************************************************************
-
+% TODO IBI ERIT FLETUS ET STRIDOR DENTIUM
 \subsection{AddressBookView}
 \subsubsection*{Funzione}
 Vista associata al presenter \classname{AddressBookPresenter}. Utilizzata per la visualizzazione della rubrica personale.
+
 \subsubsection*{Elementi}
 \begin{itemize}
 \item \textit{div} contenente un elemento di tipo \textit{text} e un \textit{button} per una ricerca veloce nella propria rubrica;
@@ -4681,9 +4697,11 @@ Vista associata al presenter \classname{AddressBookPresenter}. Utilizzata per la
 \item \textit{div} contenente una \textit{select} dove sono elencati i gruppi della propria rubrica.
 \end{itemize}
 
+% TODO IBI ERIT FLETUS ET STRIDOR DENTIUM
 \subsection{CommunicationView}
 \subsubsection*{Funzione}
 Vista associata al presenter \classname{CommunicationPresenter}. Utilizzata inizialmente durante una chiamata.
+
 \subsubsection*{Elementi}
 \begin{itemize}
 \item \textit{div} contenente un elemento di tipo \textit{text} e un \textit{button} per una ricerca veloce nella propria rubrica;
@@ -4692,9 +4710,11 @@ Vista associata al presenter \classname{CommunicationPresenter}. Utilizzata iniz
 \item \textit{button} per terminare la chiamata.
 \end{itemize}
 
+% TODO IBI ERIT FLETUS ET STRIDOR DENTIUM
 \subsection{ContactView}
 \subsubsection*{Funzione}
 Vista associata al presenter \classname{ContactPresenter}. Utilizzate per visualizzare il profilo di un utente.
+
 \subsubsection*{Elementi}
 \begin{itemize}
 \item \textit{div} contenente un elemento di tipo \textit{ul} con 4 \textit{li}:
