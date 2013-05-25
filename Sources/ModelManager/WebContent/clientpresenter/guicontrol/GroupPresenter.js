@@ -104,7 +104,7 @@ function GroupPanelPresenter(url) {
 			// mostra la lista degli utenti dei gruppo
 			if(!document.getElementById("GroupPanel").getElementsByTagName("fieldset")[0]){
 			    contactList.className = "uncollapsedList";
-			    var form = thisPresenter.createAddToGroupForm(group);
+			    var form = createAddToGroupForm(group);
 			    contactList.appendChild(form);
 			}
 		};
@@ -131,6 +131,30 @@ function GroupPanelPresenter(url) {
 		var list = document.getElementById("groupList");
 		list.appendChild(item);
 	}
+	
+	/** PRESENTER
+	 * Seleziona l'insieme di contatti che possono essere aggiunti a un
+	 * determinato gruppo, in particolare si tratta di tutti i contatti
+	 * presenti in rubrica ma che non appartengono già a quel gruppo.
+	 * 
+	 * @param {Object} group
+	 *        il gruppo di riferimento per cui selezionare i candidati
+	 * @returns {Object} un array associativo dei contatti selezionati
+	 * @author Riccardo Tresoldi
+	 */
+	this.selectCandidates = function(group) {
+		// effettua una copia PROFONDA dell'oggetto.
+		var candidates = JSON.parse(JSON.stringify(contacts));
+		for ( var key in group.contacts) {
+		    delete candidateContacts[group.contacts[key]];
+			/*
+			 if (group.contacts.indexOf(contacts[key].id) < 0) {
+				candidateContacts.push(contacts[key]);
+			  }
+			 */
+		}
+		return candidates;
+	};
 
 	/***************************************************************************
 	 * METODI PUBBLICI
@@ -140,19 +164,12 @@ function GroupPanelPresenter(url) {
 	 * 
 	 * @author Diego Beraldin
 	 */
-	this.createAddToGroupForm = function(group) {
+	createAddToGroupForm = function(group) {
 		// crea il form
 		var form = document.createElement("form");
 
 		// recupera i contatti che non appartengono al gruppo
-		// TODO copiare per valore l'oggetto.
-		var candidateContacts = JSON.parse(JSON.stringify(contacts));
-		for ( var key in group.contacts) {
-		    delete candidateContacts[group.contacts[key]];
-			/*if (group.contacts.indexOf(contacts[key].id) < 0) {
-				candidateContacts.push(contacts[key]);
-			}*/
-		}
+		candidateContacts = thisPresenter.selectCandidates(group);
 
 		// insieme che dovrà contenere i campi del form
 		var set = document.createElement("fieldset");
@@ -165,19 +182,21 @@ function GroupPanelPresenter(url) {
 			box.value = candidateContacts[contact].id;
 			var label = document.createElement("label");
 			label.setAttribute("for", "candidateContacts-" + candidateContacts[contact].id);
-			label.appendChild(document.createTextNode(mediator.createNameLabel(candidateContacts[contact])));
+			var name = mediator.createNameLabel(candidateContacts[contact]);
+			label.appendChild(document.createTextNode(name));
 			set.appendChild(box);
 			set.appendChild(label);
 		}
 		form.appendChild(set);
 
-		// appende al form il bottone
+		// appende al form i pulsanti per l'aggiunta e la chiusura
 		var addButton = document.createElement("button");
 		addButton.appendChild(document.createTextNode("Aggiungi"));
 		addButton.onclick = function() {
 			var checkedContacts = form.getElementsByTagName("input");
 			for ( var contactbox in checkedContacts)
 				if (contactbox.type == "checkbox" && contactbox.checked == true) {
+					// FIXME questo non dovrebbe essere un evento?
 					mediator.addContactInGroup(contacts[contactbox.value], group);
 				}
 		};
