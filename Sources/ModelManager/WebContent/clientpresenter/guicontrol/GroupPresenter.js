@@ -40,7 +40,9 @@ function GroupPanelPresenter(url) {
 			deleteContactImg.src = "img/deleteContactImg.png";
 			deleteContactImg.className = "deleteContact";
 			deleteContactImg.onclick = function() {
-				mediator.onContactRemovedFromGroup(contacts[id], group);
+				// FIXME non è l'evento sbagliato?
+				// FIXME non devo impostare contacts[id] e group sull'evento?
+				document.dispatchEvent(removeContactFromAddressBook);
 			};
 
 			// crea l'elemento della lista
@@ -114,9 +116,7 @@ function GroupPanelPresenter(url) {
 			var userConfirm = confirm("Sei sicuro di voler eliminare il gruppo" + group.name + "?\n Gli utenti appartenenti a questo gruppo NON verranno eliminati.");
 			// se viene data conferma invoco la funzione per eliminare il gruppo
 			if (userConfirm) {
-			    //FIXME usare l'evento
-				mediator.onGroupRemoved(group);
-				this.setup();
+				document.dispatchEvent(deleteGroup);
 			}
 		};
 
@@ -191,8 +191,9 @@ function GroupPanelPresenter(url) {
 			var checkedContacts = form.getElementsByTagName("input");
 			for ( var contactbox in checkedContacts)
 				if (contactbox.type == "checkbox" && contactbox.checked == true) {
-					// FIXME questo non dovrebbe essere un evento?
-					mediator.addContactInGroup(contacts[contactbox.value], group);
+					addContactToGroup.contact = contacts[contactbox.value];
+					addContactToGroup.group = group;
+					document.dispatchEvent(addContactToGroup);
 				}
 		};
 		var closeButton = document.createElement("button");
