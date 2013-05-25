@@ -147,11 +147,6 @@ function GroupPanelPresenter(url) {
 		var candidates = JSON.parse(JSON.stringify(contacts));
 		for ( var key in group.contacts) {
 		    delete candidateContacts[group.contacts[key]];
-			/*
-			 if (group.contacts.indexOf(contacts[key].id) < 0) {
-				candidateContacts.push(contacts[key]);
-			  }
-			 */
 		}
 		return candidates;
 	};
@@ -227,7 +222,7 @@ function GroupPanelPresenter(url) {
 		thisPanel = document.getElementById("GroupPanel");
 		var groupList = document.getElementById("groupList");
 		groupList.innerHTML = "";
-		thisPresenter.displayGroupList();
+		thisPresenter.displayList();
 	};
 
 	/** PRESENTER
@@ -235,7 +230,7 @@ function GroupPanelPresenter(url) {
 	 * 
 	 * @author Riccardo Tresoldi
 	 */
-	this.displayGroupList = function() {
+	this.displayList = function() {
 		contacts = mediator.getAddressBookContacts();
 		groups = mediator.getAddressBookGroups();
 		for ( var g in groups) {
