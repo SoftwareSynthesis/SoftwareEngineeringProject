@@ -980,7 +980,7 @@ Il test in questo caso verifica che sia eseguito il metodo \texttt{check} una vo
 \textbf{Verifica la Classe:} \texttt{ControllerManager}.\\
 \textbf{Descrizione}: L'obiettivo del test è controllare il corretto funzionamento della classe \texttt{ControllerManager} verificando, in particolare, che siano create correttamente le istanze dei \inglese{controller} necessari a portare a termine le operazioni specificate nei parametri delle richieste HTTP\@.
  
-Tale test si compone di tredici metodi:
+Tale test si compone di quattordici metodi:
  \begin{itemize}
  
 \item \texttt{testInit()} verifica la corretta inizializzazione della \inglese{servlet} e il fatto che, a inizializzazione avvenuta, sia possibile ottenere la mappa contenente i nomi dei \texttt{controller}. Il controllo avviene verificando che l'oggetto restituito non sia \textsl{null}, che esso non sia vuoto e infine che il numero di \texttt{controller} sia quello esatto.
@@ -989,9 +989,11 @@ Tale test si compone di tredici metodi:
 
 \item \texttt{testDoPostClassNotFound()} verifica il comportamento del metodo \texttt{doPost} nel momento in cui la stringa estratta dalla richiesta HTTP tramite il parametro \texttt{operation} non permette di identificare un \textit{controller} valido da istanziare. Il test controlla che in una simile circostanza la pagina di risposta sia lasciata vuota.
 
-\item \texttt{testDoPostIllegalAccess()} verifica il comportamento del metodo \texttt{doPost} nel momento in cui la stringa estratta dalla richiesta HTTP tramite il parametro \texttt{operation} identifichi un \textit{controller} che non è possibile istanziare in questo contesto perchè non ha il livello corretto di accessibilità. Il test controlla che in una simile circostanza la pagina di risposta sia lasciata vuota.
+\item \texttt{testDoPostIllegalAccess()} verifica il comportamento del metodo \texttt{doPost} nel momento in cui la stringa estratta dalla richiesta HTTP tramite il parametro \texttt{operation} identifichi un \textit{controller} che non è possibile istanziare in questo contesto perché non ha il livello corretto di accessibilità. Il test controlla che in una simile circostanza la pagina di risposta sia lasciata vuota.
 
-\item \texttt{testDoPostInstantiationException()} verifica il comportamento del metodo \texttt{doPost} nel momento in cui la stringa estratta dalla richiesta HTTP tramite il parametro \texttt{operation} identifichi un \textit{controller} che non è possibile istanziare in questo contesto perchè non è presente un costruttore di \inglese{default} o si tratta di una classe astratta. Il test controlla che in una simile circostanza la pagina di risposta sia lasciata vuota.
+\item \texttt{testDoPostInstantiationException()} verifica il comportamento del metodo \texttt{doPost} nel momento in cui la stringa estratta dalla richiesta HTTP tramite il parametro \texttt{operation} identifichi un \textit{controller} che non è possibile istanziare in questo contesto perché non è presente un costruttore di \inglese{default} o si tratta di una classe astratta. Il test controlla che in una simile circostanza la pagina di risposta sia lasciata vuota.
+
+\item \texttt{testDoPostWithoutParameter()} verifica il comportamento del metodo \texttt{doPost} nel momento in cui la richiesta HTTP con cui viene invocato non contiene tutti i parametri che la \inglese{servlet} si aspetta e, in particolare, manchi il parametro obbligatorio \texttt{operation}. Il test verifica che la pagina di risposta in una simile circostanza sia lasciata vuota e che non venga istanziato alcun \inglese{controller} a causa dell'invocazione del metodo.
 
 \item \texttt{testCreateWebSoket()} verifica il comportamento del metodo \texttt{factory} che crea il canale di comunicazione \textit{WebSocket} tra client e server. In particolare il test verifica che il valore ritornato sia un riferimento del sottotipo corretto di \texttt{MessageInbound}, per l'applicazione corretta del \textit{design pattern} \textit{Factory Method}.
 

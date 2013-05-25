@@ -5,7 +5,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doNothing;
@@ -46,14 +45,14 @@ import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
 @RunWith(MockitoJUnitRunner.class)
 public class AbstractControllerTest {
 	private final String emailAddress = "indirizzo5@dominio.it";
+	private StringWriter writer;
+	private AbstractController tester;
 	@Mock
 	private HttpServletRequest request;
 	@Mock
 	private HttpServletResponse response;
 	@Mock
 	private HttpSession session;
-	private StringWriter writer;
-	private AbstractController tester;
 
 	/**
 	 * Configura tutti gli oggetti che sono necessari all'esecuzione di tutti i
@@ -160,7 +159,7 @@ public class AbstractControllerTest {
 	@Test
 	public void testCheckUnsuccessfully() {
 		// invalida la sessione di autenticazione
-		when(session.getAttribute("username")).thenReturn("");
+		when(session.getAttribute("username")).thenReturn(null);
 
 		// invoca il metodo da testare
 		Boolean result = tester.check(request);
