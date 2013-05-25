@@ -40,9 +40,9 @@ function GroupPanelPresenter(url) {
 			deleteContactImg.src = "img/deleteContactImg.png";
 			deleteContactImg.className = "deleteContact";
 			deleteContactImg.onclick = function() {
-				// FIXME non è l'evento sbagliato?
-				// FIXME non devo impostare contacts[id] e group sull'evento?
-				document.dispatchEvent(removeContactFromAddressBook);
+				removeContactFromGroup.contact = group.contacts[id];
+				removeContactFromGroup.group = group;
+				document.dispatchEvent(removeContactFromGroup);
 			};
 
 			// crea l'elemento della lista

@@ -383,7 +383,7 @@ function AddressBookPanelPresenter() {
      *            group rappresenta il gruppo in cui eliminare il contatto
      * @returns {Boolean} true solo se l'eliminazione ha avuto successo
      */
-    this.deleteContactFromGroup = function(contact, group) {
+    this.removeContactFromGroup = function(contact, group) {
         // controllo che il contatto sia presente nel gruppo
         if (!contactExistInGroup(contact, group))
             throw "Il contatto non è presente nel gruppo.";
@@ -724,6 +724,14 @@ function AddressBookPanelPresenter() {
     }
     
     /**
+     * Funzione per gestire l'evento in cui viene rimosso un contatto da un gruppo della rubrica
+     * @author Riccardo Tresoldi
+     */
+    function onRemoveContactFromGroup(contact, group){
+        thisPresenter.removeContactFromGroup(contact, group);
+    }
+    
+    /**
      * Funzione per gestire l'evento in cui viene creato un gruppo della rubrica
      * @author Riccardo Tresoldi
      */
@@ -744,6 +752,9 @@ function AddressBookPanelPresenter() {
     });
     document.addEventListener("createGroup", function(evt){
         onCreateGroup(evt.groupName);
+    });
+    document.addEventListener("removeContactFromGroup", function(evt){
+        onRemoveContactFromGroup(evt.contact, evt.group);
     });
 
     /***************************************************************************
