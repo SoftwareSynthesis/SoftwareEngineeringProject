@@ -78,6 +78,7 @@ public class AddInGroupControllerTest {
 		when(dao.getUserData(username)).thenReturn(user);
 		when(dao.getUserData(contactId)).thenReturn(contact);
 		when(dao.getGroup(groupId)).thenReturn(group);
+		when(dao.insert(any(IAddressBookEntry.class))).thenReturn(true);
 		// inizializza l'oggetto da testare
 		tester = new AddInGroupController() {
 			@Override

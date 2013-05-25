@@ -257,8 +257,6 @@ public class ControllerManagerTest {
 	 * circostanza sia lasciata vuota e che non venga instanziato alcun
 	 * controller a causa dell'invocazione del metodo.
 	 * 
-	 * TODO da documentare!
-	 * 
 	 * @version 2.0
 	 * @author Diego Beraldin
 	 */
