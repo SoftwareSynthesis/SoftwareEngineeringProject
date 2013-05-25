@@ -116,18 +116,18 @@ function SearchResultPanelPresenter(url) {
 	    searchInputButton.onclick = function(){
 	        var textToSearch = searchInputField.value;
 	        var foundContacts = sendSearchRequest(textToSearch);
-	        thisPresenter.displayResult(foundContacts);
+	        thisPresenter.handleResult(foundContacts);
 	    }
 	};
 	
-	/** VIEW
+	/** PRESENTER
 	 * Visualizza all'interno del pannello una lista di contatti che è stata
 	 * ottenuta dal server a seguito di una ricerca
 	 * @version 2.0
 	 * @param {Object} contacts la lista di contatti che deve essere visualizzata
 	 * @author Diego Beraldin
 	 */
-	this.displayResult = function(contacts) {
+	this.handleResult = function(contacts) {
 		var userList = document.getElementById("userList");
 		userList.innerHTML = "";
 		for ( var con in contacts) {
