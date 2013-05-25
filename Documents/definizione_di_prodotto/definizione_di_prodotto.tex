@@ -3115,14 +3115,14 @@ Nell'attività di codifica, i programmatori dovranno attenersi alle seguenti pra
 	\item{\scshape\bfseries Metodi}: la sintassi usata dal programmatore per definire un metodo in JavaScript dipende dalla natura pubblica o privata del metodo stesso, in particolare:
 	\begin{itemize}
 	
-\item Metodi pubblici: essendo i metodi pubblici delle proprietà che l'oggetto espone verso l'esterno, essi dovranno essere specificati mediante la forma
+\item i metodi pubblici possono essere assimilati in tutto e per tutto a delle proprietà che l'oggetto espone verso l'esterno, pertanto dovranno essere specificati come:
 \begin{verbatim}
   this.doSomething = function(arg0, arg1, ...) {
           ...corpo del metodo...
   }
 \end{verbatim}
 
-\item Metodi privati: essendo utilizzabili solo all'interno di altri metodi della classe essi possono essere definite come funzioni annidate all'interno del costruttore della classe stessa, secondo la consueta sintassi
+\item i metodi privati, invece, essendo utilizzabili solo all'interno di altri metodi della classe, possono essere definiti come funzioni annidate all'interno del costruttore della classe stessa, secondo la consueta sintassi
 \begin{verbatim}
   function doSomething(arg0, arg1, ...) {
         ...corpo del metodo...
@@ -3130,6 +3130,8 @@ Nell'attività di codifica, i programmatori dovranno attenersi alle seguenti pra
 \end{verbatim}
 
 La sintassi utilizzata all'interno del presente documento, in ogni caso, rimane quella che è stata definita in precedenza e prevede i marcatori \verb|+| per i metodi pubblici e \verb|-| per i metodi privati.
+
+Per quanto concerne il tipo di ritorno, qualora non fosse previsto alcun valore da restituire, esso sarà indicato nel presente documento con la parola chiave \texttt{void}, analogamente a come sono stati trattati i metodi nella sotto-architettura \texttt{server}.
 	\end{itemize}
 \end{description}
 
@@ -3350,6 +3352,11 @@ Riferimento al pannello controllato da questo \inglese{presenter}, vale a dire u
   \begin{verbatim}
     return JSON.parse(request.responseText);
   \end{verbatim}
+  
+    \item{\method{+ handleResult(contacts: Object): void}}\\
+  Il metodo riceve in input in array associativo indicizzato in base agli identificativi dei contatti che in ogni posizione contiene l'oggetto contatto corrispondente alla chiave.
+  
+  Il compito del metodo è azzerare il contenuto della lista di utenti visualizzati (se era non vuota), quindi richiamare per ognuno dei contatti contenuti nell'array richiamare il metodo \method{addListItem} fornito dalla vista e passando il contatto come parametro.
   
   \item{\method{+ onShowSearchResultPanel(): void}}\\
   Questo gestore di eventi ha il compito di provocare la visualizzazione del pannello di ricerca caricando il \inglese{template} corrispondente e demandando alla \classname{SearchResultView} di inizializzarsi tramite il metodo \method{display()} preposto a tale scopo.
@@ -4080,13 +4087,19 @@ Metodo richiamato per terminare una chiamata, a cascata viene richiamato il meto
 \section{Specifica sotto-architettura \texttt{clientview}}\label{sec:clientviewarchitecture}
 Il sistema dispone di dodici viste, ognuna associata ad uno specifico \inglese{presenter}. Tali viste vengono create e modificate da parte dei relativi \inglese{presenter} invocando i metodi che le viste rendono disponibili tramite la loro API pubblica.
 
-La descrizione di ciascuna vista riportata nel presente documento comprende, oltre alla funzione e ai metodi che essa mette a disposizione del relativo \inglese{presenter}, anche la struttura degli elementi che la compongono.
+La descrizione di ciascuna vista riportata nel presente documento comprende, oltre alla funzione, agli attributi e ai metodi che essa mette a disposizione del relativo \inglese{presenter}, anche la struttura degli elementi che la compongono.
 
 \subsection{Package \texttt{org.softwaresynthesis.mytalk.clientview}}
 
 \classsection{LoginView}
 \subsubsection*{Funzione}
 Vista associata al \inglese{presenter} \classname{LoginPresenter} utilizzata per effettuare il login nel sistema.
+
+\subsubsection*{Attributi}
+\begin{description}
+  \item{\memberdata{-- thisPresenter: Object}}\\
+  Riferimento al \inglese{presenter} associato alla vista al quale vengono inoltrati i comandi relativi alla logica applicativa tramite i gestori di eventi associati agli elementi grafici del pannello.
+\end{description}
 
 \subsubsection*{Metodi}
 \begin{description}
@@ -4162,6 +4175,12 @@ Il pannello contiene un elemento \verb'<div>' con identificativo uguale a \verb'
 \subsubsection*{Funzione}
 Vista associata al \inglese{presenter} \classname{RegisterPresenter} utilizzata per effettuare la registrazione.
 
+\subsubsection*{Attributi}
+\begin{description}
+  \item{\memberdata{-- thisPresenter: Object}}\\
+  Riferimento al \inglese{presenter} associato alla vista al quale vengono inoltrati i comandi relativi alla logica applicativa tramite i gestori di eventi associati agli elementi grafici del pannello.
+\end{description}
+
 \subsubsection*{Metodi}
 \begin{description}
   \item{\method{+ destroy(): void}}\\
@@ -4203,6 +4222,12 @@ Il pannello è costituito da n elemento di tipo \verb'<div>' con identificativo 
 \subsubsection*{Funzione}
 Vista associata al \inglese{presenter} \classname{CallHistoryPresenter} utilizzata per la visualizzazione dello storico chiamate di un utente del sistema.
 
+\subsubsection*{Attributi}
+\begin{description}
+  \item{\memberdata{-- thisPresenter: Object}}\\
+  Riferimento al \inglese{presenter} associato alla vista al quale vengono inoltrati i comandi relativi alla logica applicativa tramite i gestori di eventi associati agli elementi grafici del pannello.
+\end{description}
+
 \subsubsection*{Metodi}
 \begin{description}
   \item{\method{+ display(): void}}\\
@@ -4226,6 +4251,12 @@ Il pannello è costituito da un elemento \verb'<div>' avente come identificativo
 \subsubsection*{Funzione}
 Vista associata al \inglese{presenter} \classname{SearchResultPresenter} utilizzata per visualizzare i risultati di una ricerca fra gli utenti registrati al sistema.
 
+\subsubsection*{Attributi}
+\begin{description}
+  \item{\memberdata{-- thisPresenter: Object}}\\
+  Riferimento al \inglese{presenter} associato alla vista al quale vengono inoltrati i comandi relativi alla logica applicativa tramite i gestori di eventi associati agli elementi grafici del pannello.
+\end{description}
+
 \subsubsection*{Metodi}
 \begin{description}
   \item{\method{-- getImageSrc(contact: Object): String}}\\
@@ -4236,18 +4267,13 @@ Vista associata al \inglese{presenter} \classname{SearchResultPresenter} utilizz
     \item[-] \verb'img/stateoffline.png'.
   \end{itemize}
   
-  \item{\method{-- addListItem(contact: Object): void}}\\
+  \item{\method{+ addListItem(contact: Object): void}}\\
   Provoca la visualizzazione nel pannello di una nuova voce della lista contenente i dati del contatto passato come parametro. L'elemento \verb'<li>' che dovrà essere aggiunto in coda alla lista deve avere al proprio interno un nodo di testo corrispondente al nome del contatto, un elemento \verb'<img>' corrispondente allo stato del contatto e un elemento \verb'<img>' corrispondente all'immagine dello stesso.
   
   Inoltre, all'evento \verb'click' sollevato sul \verb'<li>' dovrà essere associato un gestore che a sua volta avrà il compito di procurarsi un riferimento a un evento con identificativo uguale a \verb'showContactPanel', assegnare alla proprietà \verb'contact' di quest'ultimo il contatto passato come parametro del metodo e sollevare l'evento corrispondente.
   
   \item{\method{+ display(): void}}\\
   Il metodo configura il comportamento della vista per la visualizzazione dei risultati di una ricerca. In particolare, deve creare un gestore per l'evento identificato dalla stringa \verb'click' associato al pulsante di ricerca che avvii una ricerca in base al contenuto inserito nell'\verb'<input>' del pannello e visualizzi i risultati mediante il metodo \method{displayResult}.
-  
-  \item{\method{+ displayResult(contacts: Object): void}}\\
-  Il metodo riceve in input in array associativo indicizzato in base agli identificativi dei contatti che in ogni posizione contiene l'oggetto contatto corrispondente alla chiave.
-  
-  Il compito del metodo è azzerare il contenuto della lista di utenti visualizzati (se era non vuota), quindi richiamare per ognuno dei contatti contenuti nell'array richiamare il metodo \method{addListItem} passando il contatto come parametro.
   
 \end{description}
 
@@ -4263,6 +4289,12 @@ Il pannello è costituito da un elemento \verb'<div>' avente come identificativo
 \classsection{MainView}
 \subsubsection*{Funzione}
 Vista associata al \classname{MainPresenter} che contiene il pannello principale ed è responsabile del suo aggiornamento e della sua visualizzazione.
+
+\subsubsection*{Attributi}
+\begin{description}
+  \item{\memberdata{-- thisPresenter: Object}}\\
+  Riferimento al \inglese{presenter} associato alla vista al quale vengono inoltrati i comandi relativi alla logica applicativa tramite i gestori di eventi associati agli elementi grafici del pannello.
+\end{description}
 
 \subsubsection*{Metodi}
 \begin{description}
@@ -4292,6 +4324,12 @@ Il pannello è costituito da un solo elemento \verb'<div>' avente come attributo
 \classsection{ToolsView}
 \subsubsection*{Funzione}
 Vista associata al \inglese{presenter} \classname{ToolsPresenter} utilizzata per visualizzare gli strumenti e le funzionalità rese disponibili all'utente.
+
+\subsubsection*{Attributi}
+\begin{description}
+  \item{\memberdata{-- thisPresenter: Object}}\\
+  Riferimento al \inglese{presenter} associato alla vista al quale vengono inoltrati i comandi relativi alla logica applicativa tramite i gestori di eventi associati agli elementi grafici del pannello.
+\end{description}
 
 \subsubsection*{Metodi}
 \begin{description}
@@ -4367,6 +4405,12 @@ Il pannello è costituito da un elemento \verb'<div>' avente come identificativo
 \subsubsection*{Funzione}
 Vista associata al \inglese{presenter} \classname{AccountSettingsPresenter} che ha il compito di permettere la visualizzazione e la modifica dei dati dell'utente.
 
+\subsubsection*{Attributi}
+\begin{description}
+  \item{\memberdata{-- thisPresenter: Object}}\\
+  Riferimento al \inglese{presenter} associato alla vista al quale vengono inoltrati i comandi relativi alla logica applicativa tramite i gestori di eventi associati agli elementi grafici del pannello.
+\end{description}
+
 \subsubsection*{Metodi}
 \begin{description}
 \item{\method{+ display(): void}}\\
@@ -4405,6 +4449,12 @@ Il pannello è costituito da un elemento \verb'<div>' con identificativo uguale 
 \subsubsection*{Funzione}
 Vista associata al \inglese{presenter} \classname{MessagePresenter} utilizzata per visualizzare i messaggi presenti nella segreteria telefonica dell'utente.
 
+\subsubsection*{Attributi}
+\begin{description}
+  \item{\memberdata{-- thisPresenter: Object}}\\
+  Riferimento al \inglese{presenter} associato alla vista al quale vengono inoltrati i comandi relativi alla logica applicativa tramite i gestori di eventi associati agli elementi grafici del pannello.
+\end{description}
+
 \subsubsection*{Metodi}
 \begin{description}
   \item{\method{+ display(): void}}\\
@@ -4412,7 +4462,7 @@ Vista associata al \inglese{presenter} \classname{MessagePresenter} utilizzata p
   
   Il metodo ha quindi il compito di popolare la lista dei messaggi della segreteria con i dati corretti che sono stati scaricati dal server.
   
-  \item{\method{-- addListItem(message: Object): void}}\\
+  \item{\method{+ addListItem(message: Object): void}}\\
   Tale metodo riceve in input un oggetto che corrisponde a un messaggio della segreteria, caratterizzato dalle proprietà \verb'sender', \verb'date', \verb'status', \verb'video' e \verb'src'.
   
   Sulla base delle proprietà del messaggio, il metodo ha il compito di creare un nuovo \verb'<li>' e aggiungere ad esso:
@@ -4442,15 +4492,50 @@ Il pannello è costituito da un elemento \verb'<div>' con identificativo uguale 
 
 \classsection{GroupView}
 \subsubsection*{Funzione}
-Vista associata al presenter \classname{GroupPresenter}. Utilizzata per la visualizzazione dei gruppi della propria rubrica.
+Vista associata al \classname{GroupPresenter} utilizzata per la visualizzazione dei gruppi della rubrica.
+
+\subsubsection*{Attributi}
+\begin{description}
+  \item{\memberdata{-- thisPresenter: Object}}\\
+  Riferimento al \inglese{presenter} associato alla vista al quale vengono inoltrati i comandi relativi alla logica applicativa tramite i gestori di eventi associati agli elementi grafici del pannello.
+\end{description}
 
 \subsubsection*{Metodi}
 \begin{description}
-  \item{\method{-- createContactList(group: Object): void}}\\
+  \item{\method{-- createContactList(group: Object): HTMLElement}}\\
+  Questo metodo ha il compito di creare la lista dei contatti che appartengono al gruppo passato come parametro in ingresso, che dovrà avere di default il valore dell'attributo \verb'class' impostato a \verb'collapsedList'.
   
-  \item{\method{-- addListItem(group: Object): void}}\\
+  Dovrà inoltre essere creato un nuovo elemento \verb'<ul>' all'interno del quale aggiungere un nodo \verb'<li>' per ogni contatto del gruppo. Le voci di questa lista saranno formate da un nodo di testo contenente il nome del contatto, più un pulsante sotto forma di immagine avente la classe \verb'deleteContact' e percorso uguale a \verb'img/deleteContactImg.png'.
   
-  \item{\method{+ createAddToGroupForm(): void}}\\
+  La lista così costituita dovrà, infine, essere restituita al chiamante del metodo.
+  
+  \item{\method{+ addListItem(group: Object): void}}\\
+  Il metodo ha lo scopo di aggiungere una nuova voce alla lista con identificativo \verb'groupList' presente nel pannello. Ogni nuova \verb'<li>' dovrà essere a sua volta composta da:
+  \begin{itemize}
+    \item[--] un pulsante sotto forma di immagine per mostrare il contenuto del gruppo con l'attributo \texttt{class} uguale a \texttt{showGroupContacts} e percorso \texttt{img/expandGroupImg.png};
+    \item[--] un elemento \verb'<span>' con un nodo di testo  che rappresenta il nome gruppo stesso;
+    \item[--] un pulsante sotto forma di immagine con attributo \texttt{class} uguale a \texttt{deleteGroup} e percorso \texttt{img/deleteGroupImg.png} per la rimozione del gruppo;
+    \item[--] un pulsante sotto forma di immagine con attributo \texttt{class} uguale a \texttt{addContactInGroup} e percorso \texttt{img/addToGroupImg.png} per l'aggiunta di un nuovo contatto all'interno del gruppo stesso;
+    \item[--] un elemento \verb'<ul>' che rappresenta la lista (in forma estesa oppure compatta) dei contatti della rubrica che appartengono al gruppo in oggetto.
+  \end{itemize}
+  
+  Il metodo dovrà inoltre associare ai tre pulsanti le funzioni di \inglese{callback} per la gestione dell'evento \verb'click', in particolare:
+  \begin{itemize}
+    \item[--] alla pressione del pulsante per invertire la modalità di visualizzazione del gruppo, dovrà essere cambiato l'attributo \verb'class' della lista dei contatti del gruppo da \verb'collapsedList' a \verb'uncollapsedList' (o viceversa) e, nel caso in cui il pulsante sia utilizzato per visualizzare un gruppo in forma compatta, dovrà essere rimosso il \inglese{form} mediante il quale sarà possibile aggiungere nuovi contatti al gruppo;
+    \item[--] alla pressione del pulsante per aggiungere un nuovo contatto al gruppo dovrà essere impostata la visualizzazione compatta dei membri del gruppo, quindi dovrà essere creato il \inglese{form} per l'aggiunta di un nuovo contatto al gruppo utilizzando il metodo privato \method{createAddToGroupForm} della vista stessa;
+    \item[--] alla pressione del pulsante per l'eliminazione di un gruppo, dovrà essere chiesta conferma all'utente con un'istruzione del tipo
+    \begin{verbatim}
+confirm("Sei sicuro di voler eliminare il gruppo" + group.name + "?");
+    \end{verbatim}
+    e, in caso di risposta affermativa, dovrà essere sollevato un evento con nome identificativo uguale a \verb'groupRemoved' cui risponderà il \inglese{presenter} incaricato di inviare al server la richiesta corrispondente.
+  \end{itemize}
+  
+  \item{\method{-- createAddToGroupForm(group: Object): HTMLElement}}\\
+  Un'invocazione di tale metodo dovrà fare in modo che sia creato il \inglese{form} per l'aggiunta di un nuovo contatto al gruppo passato come parametro in ingresso. La vista dovrà innanzitutto ottenere un insieme dei contatti per cui è possibile l'aggiunta nel suddetto gruppo, mediante il metodo \method{selectCandidates} fornito dal \inglese{presenter} associato.
+  
+  In secondo luogo, dovrà essere creato un elemento \verb'<fieldset>' contenente una serie di \verb'<input>' (di tipo \verb'checkbox') e \verb'<label>' per ognuno dei contatti candidati all'aggiunta.
+  
+  Infine, dovranno essere aggiunti al \verb'<form>' due pulsanti, uno per determinare l'aggiunta di tutti i contatti selezionati all'interno del gruppo visualizzato e uno per terminare l'operazione di inserimento nascondendo il relativo \inglese{form}. Il metodo dovrà inoltre terminare restituendo al chiamante un riferimento all'elemento HTML \verb'<form>' appena creato.
   
   \item{\method{+ display(): void}}\\
   Il metodo ha il compito di inizializzare la vista, ovvero l'insieme dei \inglese{widget} grafici che costituiscono il pannello per la gestione dei gruppi della rubrica.
