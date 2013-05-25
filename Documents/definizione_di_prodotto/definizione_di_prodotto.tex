@@ -4183,7 +4183,25 @@ Il pannello è costituito da un elemento \verb'<div>' con identificativo uguale 
 \end{itemize}
 
 
-% Qui ci andrà ADDRESSBOOKVIEW
+\classsection{AddressBookView}
+\subsubsection*{Funzione}
+Vista associata ad \classname{AddressBookPresenter} usata per la visualizzazione della rubrica personale.
+
+\subsubsection*{Metodi}
+% TODO da terminare!
+
+\subsubsection*{Elementi}
+Il pannello è costituito da un elemento \verb'<div>' con l'identificativo \verb'LoginPanel', il quale contiene al proprio interno:
+\begin{itemize}
+  \item[--] un \verb'<div>' con attributo \verb'class' uguale a \verb'panelHeader' contenente un \verb'<h1>' con il solo nodo testo \textsc{<<rubrica>>} per il titolo del pannello;
+  \item[--] un \verb'<div>' con l'identificativo \verb'divFilter' contenente:
+  \begin{itemize}
+    \item[-] un \verb'<input>' con l'identificativo \verb'inputText';
+    \item[-] un \verb'<input>' di tipo \verb'image' con l'identificativo \verb'inputButton' e percorso sorgente uguale a \verb'img/search.png';
+  \end{itemize}
+  \item[--] un \verb'<div>' con identificativo uguale a \verb'divList' contenente a sua volta un \verb'<ul>' con l'identificativo \verb'AddressBookList';
+  \item[--] un \verb'<div>' con l'identificativo \verb'divGroup' con all'interno un elemento \verb'<select>' con identificativo uguale a \verb'selectGroup';
+\end{itemize}
 
 
 \classsection{CallHistoryView}
@@ -4217,10 +4235,64 @@ Il pannello è costituito da un elemento \verb'<div>' avente come identificativo
 \end{itemize}
 
 
-% Qui ci andrà COMMUNICATIONVIEW
+\classsection{CommunicationView}
+\subsubsection*{Funzione}
+Vista associata al \inglese{presenter} \classname{CommunicationPresenter} utilizzata durante una chiamata audio e per la gestione delle chat testuali con gli altri utenti.
+
+\subsubsection*{Metodi}
+%TODO da terminare!!
+
+\subsubsection*{Elementi}
+Il pannello è costituito da un \verb'<div>' con l'identificativo \verb'CommunicationPanel', il quale contiene al proprio interno:
+\begin{itemize}
+  \item[--] un \verb'<div>' di classe \verb'panelHeader' contenente un elemento \verb'<h1>' con il solo nodo testo \textsc{<<comunicazione>>};
+  \item[--] un \verb'<div>' con l'identificativo \verb'divCall' contenente:
+  \begin{itemize}
+    \item[-] un elemento \verb'<video>' con l'identificativo \verb'myVideo' e gli attributi booleani \verb'autoplay' e \verb'muted' attivati;
+    \item[-] un elemento \verb'<video>' con l'identificativo \verb'otherVideo' e l'attributo \verb'autoplay' attivato;
+    \item[-] un \verb'<div>' con l'identificativo \verb'statDiv' contenente:
+    \begin{itemize}
+      \item[$\cdot$] uno \verb'<span>' con l'identificativo \verb'statSpan' con all'interno uno \verb'<span>' con l'identificativo \verb'statRecevd' e un altro \verb'<span>' con l'identificativo \verb'statSend';
+      \item[$\cdot$] uno \verb'<span>' con l'identificativo \verb'timerSpan';
+    \end{itemize}
+    \item[-] un \verb'<button>' con identificativo \verb'closeButton' e l'etichetta ``Termina'';
+  \end{itemize}
+  \item[--] un \verb'<div>' con l'identificativo \verb'divChat' con al proprio interno un elemento \verb'<ul>' con identificativo uguale a \verb'ulOpenChat'. 
+\end{itemize}
 
 
-% Qui ci andrà CONTACTVIEW
+\classsection{ContactView}
+\subsubsection*{Funzione}
+Vista associata al \inglese{presenter} \classname{ContactPresenter} utilizzata per visualizzare il profilo di un utente, gestire la sua collocazione nella rubrica e/o avviare una comunicazione con quest'ultimo.
+
+\subsubsection*{Metodi}
+%TODO da terminare!!
+
+\subsubsection*{Elementi}
+Il pannello è costituito da un elemento \verb'<div>' con l'identificativo \verb'ContactPanel', che contiene:
+\begin{itemize}
+  \item[--] un \verb'<div>' con classe uguale a \verb'panelHeader' contenente un \verb'<h1>' con all'interno il solo nodo di testo \textsc{<<scheda contatto>>};
+  \item[--] un \verb'<div>' con l'identificativo \verb'displayBlockedDiv' contenente il testo ``Contatto bloccato'';
+  \item[--] un elemento \verb'<img>' per visualizzare l'immagine del profilo;
+  \item[--] una \verb'<ul>' per la  visualizzazione dei dati personali del contatto, contenente al suo interno:
+  \begin{itemize}
+    \item[-] un \verb'<li>' con l'identificativo \verb'contactName';
+    \item[-] un \verb'<li>' con l'identificativo \verb'contactSurname';
+    \item[-] un \verb'<li>' con l'identificativo \verb'contactEmail';
+  \end{itemize}
+  \item[--] un elemento \verb'<div>' con l'identificativo \verb'groupsDiv';
+  \item[--] un \verb'<div>' con l'identificativo \verb'buttonsDiv' contenente al suo interno:
+  \begin{itemize}
+    \item[-] un elemento \verb'<button>' con l'identificativo \verb'callButton' e l'etichetta ``Chiama'';
+    \item[-] un \verb'<button>' con l'identificativo \verb'videoCallButton' e l'etichetta ``Video-chiama'';
+    \item[-] un \verb'<button>' con l'identificativo \verb'chatButton' e l'etichetta ``Avvia chat testuale'';
+    \item[-] un elemento \verb'<button>' con l'identificativo \verb'messageButton' e l'etichetta ``Lascia messaggio in segreteria'';
+    \item[-] un elemento \verb'<button>' con l'identificativo \verb'addToAddressBookButton' e l'etichetta ``Aggiungi in rubrica'';
+    \item[-] un elemento \verb'<button>' con l'identificativo \verb'removeFromAddressBookButton' e l'etichetta ``Rimuovi dalla rubrica'';
+    \item[-] un elemento \verb'<button>' con l'identificativo \verb'blockButton' e l'etichetta ``Blocca'';
+    \item[-] un elemento \verb'<button>' con l'identificativo \verb'unlockButton' e l'etichetta ``Sblocca''.
+  \end{itemize}
+\end{itemize}
 
 
 \classsection{GroupView}
@@ -4623,59 +4695,6 @@ Il pannello è costituito da un elemento \verb'<div>' avente come identificativo
   \end{itemize}
 \end{itemize}
 
-
-%***********************************************************************
-%*                QUESTO È IL CONFINE FRA IL BENE E IL MALE            *
-%***********************************************************************
-% TODO IBI ERIT FLETUS ET STRIDOR DENTIUM
-\subsection{AddressBookView}
-\subsubsection*{Funzione}
-Vista associata al presenter \classname{AddressBookPresenter}. Utilizzata per la visualizzazione della rubrica personale.
-
-\subsubsection*{Elementi}
-\begin{itemize}
-\item \textit{div} contenente un elemento di tipo \textit{text} e un \textit{button} per una ricerca veloce nella propria rubrica;
-\item \textit{div} contenente un \textit{ul} dove verranno visualizzati tutti i contatti della rubrica;
-\item \textit{div} contenente una \textit{select} utilizzata per ordinare la rubrica in base ai parametri dati;
-\item \textit{div} contenente una \textit{select} dove sono elencati i gruppi della propria rubrica.
-\end{itemize}
-
-% TODO IBI ERIT FLETUS ET STRIDOR DENTIUM
-\subsection{CommunicationView}
-\subsubsection*{Funzione}
-Vista associata al presenter \classname{CommunicationPresenter}. Utilizzata inizialmente durante una chiamata.
-
-\subsubsection*{Elementi}
-\begin{itemize}
-\item \textit{div} contenente un elemento di tipo \textit{text} e un \textit{button} per una ricerca veloce nella propria rubrica;
-\item \textit{div} contenente due elementi \textit{video} rispettivamente utilizzati per visualizzare lo stream della propria fotocamera e dell'altro client;
-\item \textit{div} contenente 3 \textit{span} utilizzati per visualizzare le statistiche, ossia i dati inviati, i dati ricevuto e il tempo di comunicazione;
-\item \textit{button} per terminare la chiamata.
-\end{itemize}
-
-% TODO IBI ERIT FLETUS ET STRIDOR DENTIUM
-\subsection{ContactView}
-\subsubsection*{Funzione}
-Vista associata al presenter \classname{ContactPresenter}. Utilizzate per visualizzare il profilo di un utente.
-
-\subsubsection*{Elementi}
-\begin{itemize}
-\item \textit{div} contenente un elemento di tipo \textit{ul} con 4 \textit{li}:
-\begin{itemize}
-\item nome;
-\item cognome;
-\item email;
-\item gruppi a cui appartiene se il contatto è presente nella mia rubrica.
-\end{itemize}
-\item \textit{button} per avviare una chiamata audio;
-\item \textit{button} per avviare una video chiamata;
-\item \textit{button} per avviare una chat;
-\item \textit{button} per lasciare un messaggio in segreteria;
-\item \textit{button} per aggiungere il contatto nella propria rubrica se non presente;
-\item \textit{button} per rimuovere il contatto dalla propria rubrica se presente;
-\item \textit{button} per bloccare il contatto se presente nella propria rubrica e non bloccato;
-\item \textit{button} per sbloccare il contatto se presente nella propria rubrica e bloccato.
-\end{itemize}
 
 \clearpage
 
