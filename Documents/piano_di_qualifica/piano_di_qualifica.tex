@@ -1474,13 +1474,15 @@ Tale test si compone di due metodi:
 \textbf{Verifica l'oggetto:} \texttt{QuestionController}.\\
 \textbf{Descrizione}: L'obiettivo di questo test è verificare il corretto comportamento di un'istanza di \texttt{QuestionController} controllando, in particolare, che sia possibile da parte di un determinato utente recuperare la propria domanda segreta impostata in fase di registrazione tramite un'opportuna richiesta HTTP\@.
 
-Questo test si compone di due metodi:
+Questo test si compone di tre metodi:
 \begin{itemize}
 
 \item \texttt{testGetQuestion()} verifica il corretto funzionamento del recupero della domanda segreta associata ad un determinato utente in fase di registrazione, per recuperare la \inglese{password}.
 Il test avviene controllando che il testo stampato sulla risposta HTTP passata come parametro al metodo \texttt{doAction} corrisponda alla domanda dell'utente che ha inoltrato la richiesta. Inoltre, viene assicurato, grazie all'utilizzo dei mock, che sia interrogato il database per ottenere l'oggetto di dipo \texttt{IUserData} contenente i dati di registrazione, tra i quali è presente la domanda segreta. 
 
 \item \texttt{testCheck()} verifica il corretto funzionamento del metodo \texttt{check}. Il controllo avviene verificando che l'oggetto restituito abbia valore \texttt{true}.
+
+\item \texttt{testGetQuestionNotExistUser()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui non è possibile portare a termine l'operazione di recupero della domanda segreta perché al nome utente passato tramite la richiesta HTTP non corrisponde alcun utente registrato al sistema. Il test verifica che, in questo caso, sulla risposta sia stampata la stringa \texttt{null}, che denota un errore nel server.
  
 \end{itemize}
 
