@@ -3028,6 +3028,80 @@ Il metodo inizia creando un istanza di \classname{DataPersistanceManager} dao. Q
 Nel caso la condizione dell'if risulti falsa, il metodo definisce un ramo else con le istruzioni necessaria per scrivere nel writer la stringa ''null''.
 \end{description}
 
+\classsection{AnswerController}
+
+\subsubsection*{Funzione}
+\inglese{Conroller} che ha lo scopo di verificare la risposta alla domanda segreta per il recupero della password.
+
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+	\item \texttt{java.io.IOException}: eccezione richiamabile dal metodo\method{doAction()}.
+	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doAction()}. Usata per scrivere l'output della \inglese{servlet}.
+	\item \texttt{javax.servlet.ServletException}: eccezione sollevabile dai metodi \method{doAction()}.
+	\item \texttt{javax.servlet.http.HttpServletRequest}: classe usata per interagire con le richieste \texttt{ajax} inoltrate dal client.
+	\item \texttt{javax.servlet.http.HttpServletResponse}: classe usata per interagire con le richieste \texttt{ajax} inoltrate dal client.
+	\item \classname{abook.IUserData}: usata per definire un utente.
+	\item \classname{dao.DataPersistanceManager}: usata per comunicare tramite Hibernate con la tabella \texttt{UserData} della base di dati.
+	\item \classname{authentication.security.ISecurityStrategy}: usata per criptare/decriptare i dati da inviare/ricevere
+	\item \classname{authentication.security.AESAlgorithm}: implementazione di \classname{authentication.ISecurityStrategy} usata dalla classe descritta.
+	
+\end{itemize}
+
+\subsubsection*{Classi estese ed interfacce implementate}
+\begin{itemize}
+	\item \texttt{server.AbstractController}: classe estesa.
+\end{itemize}
+
+\subsubsection*{Attributi}
+
+Nessun attributo evidenziato
+
+\subsubsection*{Metodi}
+\begin{description}
+	\item{\method{\# doAction(request: HttpServletRequest, response: HttpServletResponse): void}}\\
+
+Il metodo inizia definendo i seguenti oggetti:
+
+\begin{itemize}
+	\item DataPersistanceManager dao: oggetto usato per l'inizializzazione di \classname{IUserData};
+	\item ISecurityStrategy strategy = getSecurityStrategyFactory();
+	\item String mail: da inizializzare con \verb|request.getParameter("username")|;
+	\item String answer: da inizializzare con \verb|request.getParameter("answer")|;
+	\item String result;
+	\item String password;
+	\item IUserData user: da inizializzare con \verb|dao.getUserData(mail)|;
+	\item PrintWriter writer;
+\end{itemize}
+
+A questo punto il metodo definisce un costrutto condizionale if-else. L'if viene definito con la condizione answer != null. Nel caso il metodo procede definendo un blocco try catch. Nel blocco try, si procede sovrascrivendo answer con la criptazione di answer stesso. Tale operazione necessita dell'uso di strategy.encode(answer). Ora se answer è uguale alla risposta presente nell'oggetto user, allora si procede decriptando la password (usare strategy.decode(user.getPassword());) e definendo la seguente istruzione:\\
+
+\verb|boolean success = this.sendMail("mytalk@softwaresynthesis.org",|\\
+\verb|user.getMail(), "Recupero password", password);|\\
+
+Se success contiene il valore \inglese{true} allora il metodo imposta result a \inglese{true}, altrimenti lo imposta a null. Se in seguito al controllo precedente si osserva che answer è uguale a null, allora il metodo imposta result a null. Analogamente si fa nel ramo catch del blocco try-catch creato in precedenza. Il metodo termina scrivendo in write il risultato result.
+
+\item{\method{+ sendMail(sender: String, receiver: String, subject: String, text: String): boolean}}\\
+
+Il metodo viene usato per inviare una mail all'utente che sta cercando di autenticarsi presso il sistema. Tale procedura richiede obbligatoriamente l'impostazione di un host e di una porta. Lo sviluppatore dovrà usare le seguenti istruzioni:\\
+
+\verb|String host = "smtp.gmail.com";|\\
+\verb|int port = 465;|\\
+
+Il metodo prosegue definendo un oggetto \classname{Properties} props.  Quindi si impostano le proprietà mediante le seguenti  istruzioni:\\
+
+\verb|props.put("mail.smtp.auth", "true");|\\
+\verb|props.put("mail.smtp.user", "MyTalk@softwaresynthesis.org");|\\
+\verb|props.put("mail.smtp.host", host);|\\
+\verb|props.put("mail.smtp.port", port);|\\
+\verb|props.put("mail.smtp.starttls.enable","true");|\\
+\verb|props.put("mail.smtp.socketFactory.port", port);|\\
+\verb|props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");|\\
+\verb|props.put("mail.smtp.socketFactory.fallback", "false");|\\
+
+
+
+\end{description}
+
 
 \subsection{Package org.softwaresynthesis.mytalk.server.connection}\label{sec:connection}
 
