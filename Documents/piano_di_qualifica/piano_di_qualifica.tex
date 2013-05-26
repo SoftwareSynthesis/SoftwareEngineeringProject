@@ -2007,13 +2007,15 @@ Tale test si compone di cinque metodi:
 
 \textbf{Descrizione}: L'obiettivo del test è verificare il corretto comportamento di un'istanza di \texttt{GetMessagesController} controllando, in particolare, che sia possibile da parte di un determinato utente scaricare la lista dei messaggi presenti nella propria segreteria telefonica mediante un'opportuna richiesta HTTP\@.
 
-Tale test si compone di tre metodi:
+Tale test si compone di quattro metodi:
 \begin{itemize}
 \item \texttt{testGetMessagesCorrectUser()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui è possibile completare con successo l'operazione di scaricamento dei dati relativi alla segreteria telefonica dell'utente. In particolare verifica che la stringa stampata sulla risposta HTTP corrisponda alla rappresentazione in formato JSON dei dati relativi ai messaggi che hanno come destinatario l'utente da cui proviene la richiesta presenti nel database, ognuno correlato di tutti i campi che il client si aspetta di ricevere. Inoltre si verifica il corretto utilizzo dei \textit{mock}, ovvero che i dati siano estratti dalla base di dati nel modo corretto.
 
 \item \texttt{testGetMessagesEmptyList()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui l'utente da cui proviene la richiesta non ha alcun messaggio a lui destinato nella segreteria tenefonica del sistema. Il test verifica che il testo stampato nella risposta corrisponda alla stringa \texttt{[]}, che in JSON rappresenta un array enumerativo privo di elementi. Si verifica inolter che il sistema di gestione della persistenza dei dati sia utilizzato in modo corretto per il recupero dei messaggi e che non sia estratto alcun messaggio.
 
 \item \texttt{testWrongData()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui non è possibile accedere con successo al database per il recupero dei messaggi in segreteria. In tal caso il test verifica che il testo stampato sulla risposta HTTP corrisponda alla stringa \texttt{null} che denota un errore nel server.
+
+\item \texttt{testNoMessages()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui avviene un errore nel recupero dei messaggi presenti nella segreteria dell'utente da cui proviene la richiesta e il riferimento restituito dal sistema di gestione della persistenza non è valido. Il test verifica che in questo caso sulla pagina di risposta sia stampata la stringa \texttt{[]}, che corrisponde alla rappresentazione in formato JSON di un array enumerativo vuoto, che è quanto il client si aspetta in questo caso.
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
