@@ -58,8 +58,15 @@ public class AnswerController extends AbstractController
 				if (answer.equals(user.getAnswer()))
 				{
 					password = strategy.decode(user.getPassword());
-					this.sendMail("mytalk@softwaresynthesis.org", user.getMail(), "Recupero password", password);
-					result = "true";
+					boolean success = this.sendMail("mytalk@softwaresynthesis.org", user.getMail(), "Recupero password", password);
+					if (success)
+					{
+						result = "true";
+					}
+					else
+					{
+						result = "null";
+					}
 				}
 				else
 				{
@@ -70,6 +77,10 @@ public class AnswerController extends AbstractController
 			{
 				result = "null";
 			}
+		}
+		else 
+		{
+			result = "null";
 		}
 		writer = response.getWriter();
 		writer.write(result);
@@ -100,7 +111,7 @@ public class AnswerController extends AbstractController
 	    props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 	    props.put("mail.smtp.socketFactory.fallback", "false");
 	 
-	    Session session = Session.getInstance(props, null);
+	    Session session = getSession(props);
 	    session.setDebug(true);
 	 
 	    // Creazione delle BodyParts del messaggio
@@ -128,7 +139,7 @@ public class AnswerController extends AbstractController
 	      // inserimento delle parti nel messaggio
 	      msg.setContent(multipart);
 	 
-	      Transport transport = session.getTransport("smtps"); //("smtp") per non usare SSL
+	      Transport transport = getTransport(session, "smtps"); //("smtp") per non usare SSL
 	      transport.connect(host, "software.synthesis@gmail.com", "ingegneria");
 	      transport.sendMessage(msg, msg.getAllRecipients());
 	      transport.close();
@@ -147,7 +158,11 @@ public class AnswerController extends AbstractController
 	    }
 	}
 	
-	void actuallySendMessage(MimeMessage message) throws MessagingException {
-		Transport.send(message);
+	Session getSession(Properties props) {
+		return Session.getInstance(props, null);
+	}
+	
+	Transport getTransport(Session session, String protocol) throws NoSuchProviderException {
+		return session.getTransport(protocol);
 	}
 }
