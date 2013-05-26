@@ -50,22 +50,26 @@ public class AddMessageController extends AbstractController{
 			if (filePart != null)
 			{
 				inputStream = filePart.getInputStream();
+				
+				separator = System.getProperty("file.separator");
+				path = "Secretariat" + separator;
+				path += dao.getMessageNewKey() + ".wav";
+				writeFile(path, inputStream);
+				send = dao.getUserData(sender);
+				rec = dao.getUserData(receiver);
+				message = createMessage();
+				message.setId(dao.getMessageNewKey());
+				message.setSender(send);
+				message.setReceiver(rec);
+				message.setDate(getCurrentDate());
+				dao.insert(message);
+				
+				result = "true";
 			}
-			
-			separator = System.getProperty("file.separator");
-			path = "Secretariat" + separator;
-			path += dao.getMessageNewKey() + ".wav";
-			writeFile(path, inputStream);
-			send = dao.getUserData(sender);
-			rec = dao.getUserData(receiver);
-			message = createMessage();
-			message.setId(dao.getMessageNewKey());
-			message.setSender(send);
-			message.setReceiver(rec);
-			message.setDate(getCurrentDate());
-			dao.insert(message);
-			
-			result = "true";
+			else
+			{
+				result = "null";
+			}
 		}
 		catch (Exception ex)
 		{
