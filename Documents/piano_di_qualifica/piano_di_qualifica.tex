@@ -1616,13 +1616,15 @@ verifica il corretto funzionamento del metodo \texttt{equals()}. Viene creato un
 \textbf{Verifica la Classe:} \texttt{GetCallsController}.\\
 \textbf{Descrizione}: L'obiettivo di questo test è verificare il corretto comportamento di un'istanza di \texttt{GetCallsController} controllando, in particolare, che sia possibile da parte di un determinato utente scaricare nel formato serializzato corretto la lista delle chiamate in cui è coinvolto che sono salvate nella base di dati del sistema.
 
-Tale test si compone di tre metodi:
+Tale test si compone di quattro metodi:
 \begin{itemize}
 \item \texttt{testGetCallsCorrectUser()} verifica il comportamento del metodo \texttt{doAction} quando viene invocato da parte di un utente registrato al sistema e a cui è associata una lista di chiamate non vuota nel database del sistema. Il test verifica che l'output ottenuto corrisponda alla rappresentazione in formato JSON di un array enumerativo di oggetti che corrispondono alle chiamate, ognuna caratterizzata dal nome dell'altro utente coinvolto nella chiamata, dalla data di avvio e da un \inglese{flag} booleano che permette di distinguere le chiamate in ingresso dalle chiamate in uscita. Durante la verifica è inoltre controllato il corretto utilizzo dei \inglese{mock}, in particolare l'estrazione dei dati dal sistema di persistenza.
 
 \item \texttt{testGetCallsWrongUser()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui l'utente da cui proviene la richiesta non è presente nel database. Un simile avvenimento viene simulato facendo in modo che il riferimento ottenuto dal gestore di persistenza non sia valido. In questo caso il test verifica che la stringa restituita sia effettivamente \texttt{null} come desiderato e che non avvenga alcuna interazione con i \inglese{mock} che corrispondono all'utente, all'altro utente coinvolto nella chiamata, alla \textit{CallList} e alla chiamata stessa.
 
 \item \texttt{testGetCallsEmptyList()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui viene invocato con una richiesta proveniente da un utente il cui storico delle chiamate relativo è vuoto. Il test in questo caso verifica che la stringa stampata sulla risposta \texttt{HTTP} sia \texttt{[]}, che corrisponde alla rappresentazione in formato JSON di un array vuoto. È inoltre verificato il corretto utilizzo dei \texttt{mock}, verificando che sia estratto l'utente dal sistema di persistenza dei dati e che sia recuperata la lista (vuota) di chiamate ad esso associata.
+
+\item \texttt{testNoCalls()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui avviene un errore nel recupero dello storico delle chiamate dell'utente da cui proviene la richiesta dal momento che il riferimento restituito dal sistema di gestione della persistenza non è valido. Il test verifica che in questo caso sulla pagina di risposta sia stampata la stringa \texttt{[]}, che corrisponde alla rappresentazione in formato JSON di un array enumerativo vuoto, che è quanto il client si aspetta in questo caso.
 
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.

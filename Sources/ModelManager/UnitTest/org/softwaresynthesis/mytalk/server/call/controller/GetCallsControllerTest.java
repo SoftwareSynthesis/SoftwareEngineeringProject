@@ -218,4 +218,38 @@ public class GetCallsControllerTest {
 		verifyZeroInteractions(callList);
 		verifyZeroInteractions(call);
 	}
+
+	/**
+	 * Verifica il comportamento del metodo doAction nel momento in cui si
+	 * verifica un errore nel recupero dello storico delle chiamate dell'utente
+	 * da cui proviene la richiesta e il riferimento restituito dal sistema di
+	 * gestione della persistenza non è valido. Il test verifica che in questo
+	 * caso sulla pagina di risposta sia stampata la stringa '[]', che
+	 * corrisponde alla rappresentazione in formato JSON di un array enumerativo
+	 * vuoto, che è quanto il client si aspetta in questo caso.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testNoCalls() throws Exception {
+		// situazione poco probabile in realtà
+		when(user.getCalls()).thenReturn(null);
+
+		// invoca il metodo da testare
+		tester.doAction(request, response);
+
+		// verifica l'output
+		writer.flush();
+		String responseText = writer.toString();
+		assertEquals("[]", responseText);
+
+		// verifica il corretto utilizzo dei mock
+		verify(response).getWriter();
+		verify(dao).getUserData(username);
+		verify(user).getCalls();
+		verifyZeroInteractions(callee);
+		verifyZeroInteractions(callList);
+		verifyZeroInteractions(call);
+	}
 }
