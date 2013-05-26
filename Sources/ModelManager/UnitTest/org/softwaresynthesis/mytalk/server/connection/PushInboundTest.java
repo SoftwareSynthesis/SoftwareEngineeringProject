@@ -6,8 +6,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.softwaresynthesis.mytalk.server.ControllerManagerTest.getClients;
 
 import java.io.IOException;
@@ -105,7 +105,11 @@ public class PushInboundTest {
 		tester = new PushInbound() {
 			@Override
 			WsOutbound getWsOutbound(PushInbound inbound) {
-				return outbound;
+				if (inbound != this) {
+					return outbound;
+				} else {
+					throw new RuntimeException("Notifichi a te stesso?!");
+				}
 			}
 
 			@Override
@@ -238,7 +242,7 @@ public class PushInboundTest {
 	 * @author Diego Beraldin
 	 * @version 2.0
 	 */
-	@Test //TODO: MAGARI E' UNA CAZZATA, VERIFICARE CHE SIA EFFETTIVAMENTE "testSendIdToCallee" E NON "testSendIdToCalleR", NELLA DOCUMENTAZIONE HO MESSO LA "R" :-)
+	@Test
 	public void testSendIdToCallee() throws Exception {
 		// prepara il messaggio e il finto 'peer' del client
 		clients.put(otherId, other);
@@ -276,7 +280,7 @@ public class PushInboundTest {
 	}
 
 	/**
-	 * verifica il comportamento della classe nel momento in cui il canale di
+	 * Verifica il comportamento della classe nel momento in cui il canale di
 	 * comunicazione è utilizzato da un client per notificare al server un
 	 * cambiamento di stato. In particolare il test verifica che a tutti i
 	 * contatti che sono presenti nella rubrica dell'utente che cambia stato e
@@ -319,12 +323,41 @@ public class PushInboundTest {
 	@Test
 	public void testCallRefusal() throws Exception {
 		// prepara i dati per il test
-		when(buffer.toString()).thenReturn("[6]");
+		clients.put(otherId, other);
+		when(buffer.toString()).thenReturn("[6, " + otherId + "]");
 		// invoca il metodo da testare
 		tester.onTextMessage(buffer);
 		// verifica l'output
 		writer.flush();
 		String message = writer.toString();
 		assertEquals("6|", message);
+	}
+
+	/**
+	 * Verifica il comportamento della classe nel momento in cui il messaggio
+	 * ricevuto dal server indica la volontà da parte di un client di
+	 * trasmettere un messaggio testuale ad un altro client. Il test verifica
+	 * che sul canale di comunicazione che corrisponde al client destinatario
+	 * sia effettivamente mandato un messaggio contenente il carattere 6,
+	 * seguito dal carattere pipe, seguito dall'identificativo del client
+	 * mittente, quindi nuovamente da un pipe e, infine, dal testo della chat.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testSendTextMessage() throws Exception {
+		// prepara i dati per il test
+		tester.setId(id);
+		String chatText = "ciao mona!";
+		clients.put(otherId, other);
+		when(buffer.toString()).thenReturn(
+				String.format("[7, %d, \"%s\"]", otherId, chatText));
+		// invoca il metodo da testare
+		tester.onTextMessage(buffer);
+		// verifica l'output
+		writer.flush();
+		String message = writer.toString();
+		assertEquals(String.format("7|%d|%s", id, chatText), message);
 	}
 }

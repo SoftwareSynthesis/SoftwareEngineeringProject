@@ -1639,7 +1639,7 @@ Tale test si compone di tre metodi:
 
 Laddove la ricezione di un messaggio da parte di un determinato client comporti l'invio di un messaggio tramite un altro \texttt{PushInbound} a un altro client oppure allo stesso canale di ingresso, si verifica che il testo del messaggio trasmesso sia conforme alle aspettative catturando l'output all'interno di uno \texttt{StringWriter}.
  
-Tale test si compone di nove metodi:
+Tale test si compone di dieci metodi:
 \begin{itemize}
 
 \item \texttt{testId()} verifica che sia possibile impostare e recuperare correttamente il numero identificativo associato al canale di connessione fra server e client.
@@ -1659,6 +1659,8 @@ Tale test si compone di nove metodi:
 \item \texttt{testNotifyStatusChange()} verifica il comportamento della classe nel momento in cui il canale di comunicazione è utilizzato da un client per notificare al server un cambiamento di stato. In particolare il test verifica che a tutti i contatti che sono presenti nella rubrica dell'utente che cambia stato e che sono effettivamente connessi sia inviato un messaggio contenente il carattere \texttt{5}, il carattere \texttt{pipe} e la corretta rappresentazione in formato stringa dello stato assunto dal mittente iniziale del messaggio.
 
 \item \texttt{testCallRefusal()} verifica il comportamento della classe nel momento in cui il messaggio  ricevuto dal server sia la notifica, da parte di un client, dell'avvenuto rifiuto di una chiamata entrante. Il test verifica, in particolare, che al client sia trasmesso un messaggio contenente il carattere \texttt{6}, seguito dal carattere \texttt{pipe}.
+
+\item \texttt{testSendTextMessage()} verifica il comportamento della classe nel momento in cui il messaggio ricevuto dal server indica la volontà da parte di un client di trasmettere un messaggio testuale ad un altro client. Il test controlla che sul canale di comunicazione che corrisponde al client destinatario sia effettivamente mandato un messaggio contenente il carattere 6, seguito dal carattere \texttt{pipe}, seguito dall'identificativo del client mittente, quindi nuovamente da un \texttt{pipe} e, infine, dal testo della chat.
 
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
