@@ -13,7 +13,7 @@ import static org.mockito.Mockito.when;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.classic.Session;
+import org.hibernate.Session;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,7 +38,7 @@ public class ModifyUtilTest {
 	@Mock
 	private SessionFactory factory;
 	@Mock
-	private Session session;
+	private org.hibernate.classic.Session session;
 	@Mock
 	private Transaction transaction;
 	@Mock
