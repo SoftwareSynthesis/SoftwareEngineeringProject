@@ -3098,10 +3098,34 @@ Il metodo prosegue definendo un oggetto \classname{Properties} props.  Quindi si
 \verb|props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");|\\
 \verb|props.put("mail.smtp.socketFactory.fallback", "false");|\\
 
+Quindi si definisce una sessione (\classname{Session}), e si procede con la creazione delle \texttt{''BodyParts''} del messaggio. Tale procedura avviene dentro ad un blocco try catch. Il metodo definisce tre blocchi di eccezioni catch:
+\begin{itemize}
+	\item catch(AddressException ae);
+	\item catch(NoSuchProviderException nspe);
+	\item catch(MessagingException me);
+\end{itemize}
 
+All'interno di questi blocchi viene eseguita un operazione di return \inglese{true}.
+
+Il blocco try invece procede come segue:
+
+\begin{itemize}
+	\item si costruisce un MimeMessage msg a partire dalla sessione precedentemente creata;
+	\item si costruisce l'header del messaggio nel seguente modo:\\
+	
+		\verb|msg.setSubject("Recupero password");|\\
+	    \verb|msg.setSentDate(new Date());|\\
+	    \verb|msg.setFrom(new InternetAddress("MyTalk@softwaresynthesis.org"));|\\
+	\item a partire dai parametri d'ingresso del metodo si definisce il ricevente receiver del messaggio e il corpo text;
+	\item infine si impostano le procedure per l'invio della mail. Data la sensisbilità di tale fase, è importante che il programmatore riporti l'utilizzo dell'oggetto \classname{Trasport} cosi come qui descritto:\\
+	
+		\verb|Transport transport = getTransport(session, "smtps");|\\
+		\verb|transport.connect(host, "software.synthesis@gmail.com", "ingegneria");|\\
+		\verb|transport.sendMessage(msg, msg.getAllRecipients());|\\
+		\verb|transport.close();|
+\end{itemize}
 
 \end{description}
-
 
 \subsection{Package org.softwaresynthesis.mytalk.server.connection}\label{sec:connection}
 
