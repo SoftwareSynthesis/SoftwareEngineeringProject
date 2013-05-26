@@ -36,8 +36,7 @@ import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
 @RunWith(MockitoJUnitRunner.class)
 public class GetCallsControllerTest {
 	private final String username = "indirizzo5@dominio.it";
-	private final Long calleeName = 5L;
-	private final String calleeSurname = "paperino";
+	private final Long calleeId = 5L;
 	private Writer writer;
 	private GetCallsController tester;
 	private Date startDate = new Date(1368437034437L);
@@ -60,6 +59,8 @@ public class GetCallsControllerTest {
 	ICallList otherCallList;
 	@Mock
 	ICall call;
+	@Mock
+	ICall otherCall;
 
 	/**
 	 * Reinizializza l'oggetto da testare e configura il comportamento dei mock
@@ -76,7 +77,7 @@ public class GetCallsControllerTest {
 		when(callList.getCaller()).thenReturn(true);
 		when(otherCallList.getUser()).thenReturn(callee);
 		when(otherCallList.getCall()).thenReturn(call);
-		when(otherCallList.getCaller()).thenReturn(false);
+		when(otherCallList.getCaller()).thenReturn(true);
 		// aggiunge la callList all'insieme di CallList
 		callListSet = new HashSet<ICallList>();
 		callListSet.add(callList);
@@ -84,10 +85,10 @@ public class GetCallsControllerTest {
 		// configura il comportamento dell'utente che richiede la lista
 		when(user.getCalls()).thenReturn(callListSet);
 		// configura il comportamento del chiamato
-		when(callee.getId()).thenReturn(calleeName);
-		when(callee.getSurname()).thenReturn(calleeSurname);
-		// configura il comportamento della chiamata
+		when(callee.getId()).thenReturn(calleeId);
+		// configura il comportamento delle chiamate
 		when(call.getStart()).thenReturn(startDate);
+		when(otherCall.getStart()).thenReturn(startDate);
 		// configura il comportamento del gestore di persistenza
 		when(dao.getUserData(username)).thenReturn(user);
 		// configura il comportamento della risposta
@@ -130,9 +131,9 @@ public class GetCallsControllerTest {
 		// verifica l'output
 		writer.flush();
 		String responseText = writer.toString();
-		String toCompare = String.format(
-				"[{\"id\":\"%s %s\", \"start\":\"%s\", \"caller\":\"%s\"}, {\"id\":\"%s %s\", \"start\":\"%s\", \"caller\":\"%s\"}]",
-				calleeName, calleeSurname, startDate, true, calleeName, calleeSurname, startDate, false);
+		String toCompare = String
+				.format("[{\"id\":\"%d\", \"start\":\"%s\", \"caller\":\"%s\"}, {\"id\":\"%d\", \"start\":\"%s\", \"caller\":\"%s\"}]",
+						calleeId, startDate, true, calleeId, startDate, true);
 		assertEquals(toCompare, responseText);
 
 		// verifica il corretto utilizzo dei mock
@@ -140,10 +141,9 @@ public class GetCallsControllerTest {
 		verify(dao).getUserData(username);
 		verify(user).getCalls();
 		verify(callee, times(2)).getId();
-		verify(callee, times(2)).getSurname();
-		verify(callList, times(2)).getUser();
+		verify(callList).getUser();
 		verify(callList).getCall();
-		verify(otherCallList, times(2)).getUser();
+		verify(otherCallList).getUser();
 		verify(otherCallList).getCall();
 		verify(call, times(2)).getStart();
 	}
