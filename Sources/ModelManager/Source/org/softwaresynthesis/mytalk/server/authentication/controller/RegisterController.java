@@ -86,8 +86,8 @@ public class RegisterController extends AbstractController
 					path = System.getenv("MyTalkConfiguration");
 					String separator = System.getProperty("file.separator");
 					path += separator + "MyTalk" + separator + "img" + separator + "contactImg" + separator + mail + ".png";
-					out = new FileOutputStream(path);
-					out.write(IOUtils.readFully(inputStream, -1, false));
+					out = createFileOutputStream(path);
+					out.write(readFully(inputStream));
 					out.close();
 					user.setPath("img/contactImg/" + mail + ".png");
 				}
@@ -97,7 +97,7 @@ public class RegisterController extends AbstractController
 				group.setName("addrBookEntry");
 				group.setOwner(user);
 				dao.insert(group);
-				login = new LoginController();
+				login = createLoginController();
 				login.execute(request, response);
 			}
 			else
@@ -111,12 +111,24 @@ public class RegisterController extends AbstractController
 		}
 		finally
 		{
-			if (result.equals("null") == true)
+			if (result != null && result.equals("null") == true)
 			{
 				writer = response.getWriter();
 				writer.write(result);
 			}
 		}
+	}
+	
+	IController createLoginController() {
+		return new LoginController();
+	}
+	
+	FileOutputStream createFileOutputStream(String path) throws Exception {
+		return new FileOutputStream(path);
+	}
+	
+	byte[] readFully(InputStream istream) throws Exception {
+		return IOUtils.readFully(istream, -1, false);
 	}
 	
 	/**
