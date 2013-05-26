@@ -1837,34 +1837,7 @@ La verifica si basa sul controllo della mancata esecuzione dei metodi \texttt{ro
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{TM11.09: GetUtilTest} 
 
-\textbf{Verifica la Classe:} \texttt{GetUtil}.\\
-\textbf{Descrizione}: L'obiettivo di questo test è verificare il corretto funzionamento della classe astratta \texttt{GetUtil} che permette di recuperare le informazioni dalla base di dati.
-
-In particolare il test controlla che la \texttt{GetUtil} interagisca nel modo corretto con gli oggetti \texttt{SessionFactory}, \texttt{Session} e \texttt{Transaction} nel corso del metodo non astratto \texttt{execute}, verificando inoltre la corretta applicazione del \inglese{design pattern} Template Method (vale a dire che nel corpo di \texttt{execute} sia richiamato il metodo \texttt{doInitialize}).
-
-Il test verifica anche il comportamento esibito dall'istanza della classe quando viene richiamato il metodo non astratto \texttt{uniqueResult}.
-
-Tale test si compone di sette metodi:
-\begin{itemize}
-\item \texttt{testUniqueResultCorrectly()} verifica il comportamento del metodo \texttt{uniqueResult} quando l'operazione va a buon fine. In particolare, il test verifica che il risultato dell'invocazione del metodo corrisponda alle aspettative, in base a come è stato configurato il \textit{mock} della collezione che è utilizzato nel test.
-Inoltre si controlla che i \textit{mock} siano utilizzati nel modo corretto per l'apertura di una sessione creata a partire dal \texttt{SessionManager}, che a partire dalla sessione sia avviata una transazione e una query, che la transazione sia chiusa con il metodo \texttt{commit()} e che la sessione di interazione con la base di dati sia chiusa correttamente con l'invocazione dei metodi \texttt{flush()} e \texttt{close()}. 
-
-\item \texttt{testUniqueResultWithError()} verifica il comportamento del metodo \texttt{uniqueResult} quando l'operazione non può essere realizzata correttamente perchè si verifica un errore a transazione iniziata. In particolare, il test verifica che il risultato dell'invocazione sia \texttt{null}, come desiderato. Inoltre si controlla che i \textit{mock} siano utilizzati nel modo corretto per l'apertura di una sessione creata a partire dal \texttt{SessionManager}, che a partire dalla sessione sia avviata una transazione e una query, che la transazione sia annullata con il metodo \texttt{rollback()} e non sia mai chiusa con \texttt{commit()} e che la sessione di interazione con la base di dati sia chiusa correttamente con l'invocazione dei metodi \texttt{flush()} e \texttt{close()}.
-
-\item \texttt{testUniqueResultWithoutTransaction()} verifica il comportamento della classe nel momento in cui il metodo \texttt{uniqueResult} non termina con successo per l'impossibilità di aprire una transazione. In particolare, il test verifica che non avvengano interazione con la transazione e che non sia mai invocato il metodo \texttt{uniqueResult()} sulla query HQL generata a partire dalla stringa passata come parametro al metodo sopracitato del \texttt{GetUtil}.
-
-\item \texttt{testExecuteCorrectly()} verifica il comportamento del metodo \texttt{execute} (\textit{template method}) assicurandosi che siano compiute le operazioni necessarie a tutte le operazioni di \textit{select} sulla base di dati, ovvero che sia aperta una sessione di iterazione con il database a partire dalla \textit{Session factory} ottenuta dal \textit{SessionManager}, che sia aperta una transazione e creata una HQL query con il testo passato come parametro al metodo \texttt{execute}, che sia invocato il metodo \texttt{list()} sulla query, che la transazione sia chiusa con successo (e che non sia \textit{mai} invocato il \texttt{rollback()}) e che la sessione sia chiusa in modo corretto. Infine, il test verifica la corretta applicazione del pattern \textit{template method} verificando che \texttt{execute} richiami il \texttt{doInitialize} astratto sovrascritto dalle sottoclassi.
-
-\item \texttt{testExecuteWithError()} verifica il comportamento del metodo \texttt{execute} assicurandosi che siano compiute le operazioni necessarie a tutte le operazioni di \texttt{select} sulla base di dati, quando si verifica un errore in fase di esecuzione dell'interrogazione (dopo l'apertura di una transazione). Il test verifica che in questo caso sia aperta una sessione d'iterazione con il database a partire dalla \texttt{SessionFactory} ottenuta dal \texttt{SessionManager}, che sia aperta una transazione e creata una HQL query con il testo passato come parametro al metodo\texttt{execute}m che sia invocato il metodo \texttt{list()} sulla query, che della transazione sia effettuato il \texttt{rollback()} e \textit{mai} il \texttt{commit()} e che infine la sessione sia chiusa correttamente.
-
-\item \texttt{testExecuteWithoutSession()} ha lo scopo di verificare il corretto comportamento del metodo \texttt{execute} nel momento in cui esso non può essere portato a termine con successo a causa dell'impossibilità di aprire una sessione di interazione con la base di dati. Il test verifica che in tal caso il metodo restituisca \texttt{null} e che non avvenga alcuna \inglese{query} né che venga avviata alcuna transazione.
-
-\item \texttt{testUniqueResultWithoutSession()} verifica il corretto comportamento del metodo \texttt{uniqueResult} nel momento in cui non può essere portato a termine per l'impossibilità di aprire una sessione di interazione con la base di dati. Il test verifica che in tal caso il metodo restituisca \texttt{null} e che non sia eseguita alcuna \inglese{query} né avviata alcuna transazione.
-
-\end{itemize}
-\textbf{Risultato del test:} superato con successo.
 
 \item \textbf{TM11.05: InsertUtilTest}\\
 \textbf{Verifica la Classe:} \texttt{InsertUtil}.\\
@@ -1943,6 +1916,54 @@ Tale test si compone di sette metodi:
 
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
+
+\item \textbf{TM11.09: GetUtilTest} 
+
+\textbf{Verifica la Classe:} \texttt{GetUtil}.\\
+\textbf{Descrizione}: L'obiettivo di questo test è verificare il corretto funzionamento della classe astratta \texttt{GetUtil} che permette di recuperare le informazioni dalla base di dati.
+
+In particolare il test controlla che la \texttt{GetUtil} interagisca nel modo corretto con gli oggetti \texttt{SessionFactory}, \texttt{Session} e \texttt{Transaction} nel corso del metodo non astratto \texttt{execute}, verificando inoltre la corretta applicazione del \inglese{design pattern} Template Method (vale a dire che nel corpo di \texttt{execute} sia richiamato il metodo \texttt{doInitialize}).
+
+Il test verifica anche il comportamento esibito dall'istanza della classe quando viene richiamato il metodo non astratto \texttt{uniqueResult}.
+
+Tale test si compone di sette metodi:
+\begin{itemize}
+\item \texttt{testUniqueResultCorrectly()} verifica il comportamento del metodo \texttt{uniqueResult} quando l'operazione va a buon fine. In particolare, il test verifica che il risultato dell'invocazione del metodo corrisponda alle aspettative, in base a come è stato configurato il \textit{mock} della collezione che è utilizzato nel test.
+Inoltre si controlla che i \textit{mock} siano utilizzati nel modo corretto per l'apertura di una sessione creata a partire dal \texttt{SessionManager}, che a partire dalla sessione sia avviata una transazione e una query, che la transazione sia chiusa con il metodo \texttt{commit()} e che la sessione di interazione con la base di dati sia chiusa correttamente con l'invocazione dei metodi \texttt{flush()} e \texttt{close()}. 
+
+\item \texttt{testUniqueResultWithError()} verifica il comportamento del metodo \texttt{uniqueResult} quando l'operazione non può essere realizzata correttamente perchè si verifica un errore a transazione iniziata. In particolare, il test verifica che il risultato dell'invocazione sia \texttt{null}, come desiderato. Inoltre si controlla che i \textit{mock} siano utilizzati nel modo corretto per l'apertura di una sessione creata a partire dal \texttt{SessionManager}, che a partire dalla sessione sia avviata una transazione e una query, che la transazione sia annullata con il metodo \texttt{rollback()} e non sia mai chiusa con \texttt{commit()} e che la sessione di interazione con la base di dati sia chiusa correttamente con l'invocazione dei metodi \texttt{flush()} e \texttt{close()}.
+
+\item \texttt{testUniqueResultWithoutTransaction()} verifica il comportamento della classe nel momento in cui il metodo \texttt{uniqueResult} non termina con successo per l'impossibilità di aprire una transazione. In particolare, il test verifica che non avvengano interazione con la transazione e che non sia mai invocato il metodo \texttt{uniqueResult()} sulla query HQL generata a partire dalla stringa passata come parametro al metodo sopracitato del \texttt{GetUtil}.
+
+\item \texttt{testExecuteCorrectly()} verifica il comportamento del metodo \texttt{execute} (\textit{template method}) assicurandosi che siano compiute le operazioni necessarie a tutte le operazioni di \textit{select} sulla base di dati, ovvero che sia aperta una sessione di iterazione con il database a partire dalla \textit{Session factory} ottenuta dal \textit{SessionManager}, che sia aperta una transazione e creata una HQL query con il testo passato come parametro al metodo \texttt{execute}, che sia invocato il metodo \texttt{list()} sulla query, che la transazione sia chiusa con successo (e che non sia \textit{mai} invocato il \texttt{rollback()}) e che la sessione sia chiusa in modo corretto. Infine, il test verifica la corretta applicazione del pattern \textit{template method} verificando che \texttt{execute} richiami il \texttt{doInitialize} astratto sovrascritto dalle sottoclassi.
+
+\item \texttt{testExecuteWithError()} verifica il comportamento del metodo \texttt{execute} assicurandosi che siano compiute le operazioni necessarie a tutte le operazioni di \texttt{select} sulla base di dati, quando si verifica un errore in fase di esecuzione dell'interrogazione (dopo l'apertura di una transazione). Il test verifica che in questo caso sia aperta una sessione d'iterazione con il database a partire dalla \texttt{SessionFactory} ottenuta dal \texttt{SessionManager}, che sia aperta una transazione e creata una HQL query con il testo passato come parametro al metodo\texttt{execute}m che sia invocato il metodo \texttt{list()} sulla query, che della transazione sia effettuato il \texttt{rollback()} e \textit{mai} il \texttt{commit()} e che infine la sessione sia chiusa correttamente.
+
+\item \texttt{testExecuteWithoutSession()} ha lo scopo di verificare il corretto comportamento del metodo \texttt{execute} nel momento in cui esso non può essere portato a termine con successo a causa dell'impossibilità di aprire una sessione di interazione con la base di dati. Il test verifica che in tal caso il metodo restituisca \texttt{null} e che non avvenga alcuna \inglese{query} né che venga avviata alcuna transazione.
+
+\item \texttt{testUniqueResultWithoutSession()} verifica il corretto comportamento del metodo \texttt{uniqueResult} nel momento in cui non può essere portato a termine per l'impossibilità di aprire una sessione di interazione con la base di dati. Il test verifica che in tal caso il metodo restituisca \texttt{null} e che non sia eseguita alcuna \inglese{query} né avviata alcuna transazione.
+
+\end{itemize}
+\textbf{Risultato del test:} superato con successo.
+
+\item \textbf{TM11.10: ModifyUtilTest}
+
+\textbf{Verifica la Classe:} \texttt{ModifyUtil}.
+
+\textbf{Descrizione:} L'obiettivo di questo test è verificare il corretto comportamento della classe astratta \texttt{ModifyUtil} al fine di controllare principalmente la corretta implementazione del Template Method \texttt{execute} per l'esecuzione delle operazioni di inserimento/aggiornamento/cancellazione sulla base di dati.
+
+Tale test si compone di quattro metodi:
+\begin{itemize}
+  \item \texttt{testExecuteSuccessfully()} verifica il comportamento del metodo \texttt{execute} quando l'operazione di inserimento, aggiunta oppure di cancellazione può essere portata a termine con successo perché non si verificano errori nel modello di interazione con il database ivi contenuto. Il test verifica in particolare che il l'invocazione del metodo restituisca \texttt{true}, che sia aperta e chiusa nel modo corretto una sessione, che sia avviata una transazione e che sia invocato su di essa il metodo \texttt{commit()} e mai il \texttt{rollback()}. Inoltre, si controlla anche la corretta implementazione del \inglese{design pattern} Template Method, verificando che il metodo termina senza che si verifichino errori viene effettivamente invocato il metodo astratto \texttt{doAction} che le sottoclassi di \texttt{ModifyUtil} dovranno rendere concreto.
+  
+  \item \texttt{testExecuteSuccessfully()} verifica il comportamento del metodo \texttt{execute} nel momento in cui il modello di interazione con il database non può terminare con successo perché si verifica un errore nell'esecuzione dell'operazione concreta di inserimento, cancellazione o aggiornamento di una voce del database. Il test verifica che in tal caso l'invocazione del metodo restituisca \texttt{false}, che sia aperta e chiusa nel modo corretto una sessione di interazione con la base di dati, che sia avviata una transazione e che su quest'ultima sia invocato il \texttt{rollback()} e mai il \texttt{commit()}.
+  
+  \item \texttt{testExecuteWithoutTransaction()} verifica il comportamento del metodo \texttt{execute} nel momento in cui il \inglese{framework} Hibernate solleva un errore in fase di avvio della transazione per l'interazione con la base di dati. Il test verifica che in questo caso l'invocazione del metodo restituisca \texttt{false}, che sia aperta e chiusa nel modo corretto una sessione per l'interazione con il database e che non sia mai invocato il metodo \texttt{doAction}.
+  
+  \item \texttt{testExecuteWithoutSession} verifica il comportamento del metodo \texttt{execute} nel momento in cui il \inglese{framework} Hibernate solleva un errore in fase di apertura di una sessione per l'interazione con la base di dati. Il test verifica che in questo caso l'invocazione del metodo restituisca \texttt{false} e che non sia mai invocato il metodo \texttt{doAction}.
+\end{itemize}
+
+\textbf{Risultato del test:} Superato con successo.
 
 \end{itemize}
 
@@ -2111,6 +2132,7 @@ TM11.06 & NotInitializeTest &Superato\\
 TM11.07 & UpdateUtilTest &Superato\\
 TM11.08 & UtilFactoryTest &Superato\\
 TM11.09 & GetUtilTest &Superato\\
+TM11.10 & ModifyUtilTest & Superato\\
 TM12.01 & MessageTest &Superato\\
 TM13.01 & AddMessageControllerTest &Superato\\
 TM13.02 & DeleteMessageControllerTest &Superato\\

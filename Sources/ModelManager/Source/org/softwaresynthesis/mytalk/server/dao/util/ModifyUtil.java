@@ -1,6 +1,6 @@
 package org.softwaresynthesis.mytalk.server.dao.util;
 
-import org.hibernate.Session;
+import org.hibernate.classic.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.softwaresynthesis.mytalk.server.IMyTalkObject;
