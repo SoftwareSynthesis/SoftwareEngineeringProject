@@ -2979,11 +2979,53 @@ Il metodo inizia caricando i parametri ricevuti mediante \texttt{HttpServletRequ
 		\item question;
 		\item picturePath;
 	\end{itemize}
-	Il passo successivo (sempre dentro il blocco try) consiste nel creare un istanza di \classname{dao.UserDataDAO} userDAO, e nell'eseguire un operazione di userDAO.\method{insert()} passando come parametro user (l'utente precedentemente creato). Il blocco try termina impostando result a ``\inglese{true}''.
+	Il passo successivo (sempre dentro il blocco try) consiste nel creare un istanza di \classname{dao.DataPersistanceManager} userDAO, e nell'eseguire un operazione di userDAO.\method{insert()} passando come parametro user (l'utente precedentemente creato). Il blocco try termina impostando result a ``\inglese{true}''.
 	
 	Per quanto riguarda il blocco catch, in esso viene impostato result a ``\inglese{false}''.
 	
 	Il metodo termina scrivendo in un \texttt{PrintWriter} il valore di result.
+\end{description}
+
+\classsection{QuestionController}
+
+\subsubsection*{Funzione}
+\inglese{Conroller} da richiamare per gestire la visualizzazione della domanda segreta per il recupero della password.
+
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+	\item \texttt{java.io.IOException}: eccezione richiamabile dal metodo\method{doAction()}.
+	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doAction()}. Usata per scrivere l'output della \inglese{servlet}.
+	\item \texttt{javax.servlet.ServletException}: eccezione sollevabile dai metodi \method{doAction()}.
+	\item \texttt{javax.servlet.http.HttpServletRequest}: classe usata per interagire con le richieste \texttt{ajax} inoltrate dal client.
+	\item \texttt{javax.servlet.http.HttpServletResponse}: classe usata per interagire con le richieste \texttt{ajax} inoltrate dal client.
+	\item \classname{abook.IUserData}: usata per definire un utente.
+	\item \classname{dao.DataPersistanceManager}: usata per comunicare tramite Hibernate con la tabella \texttt{UserData} della base di dati.
+	\item \classname{authentication.security.ISecurityStrategy}: usata per criptare/decriptare i dati da inviare/ricevere
+	\item \classname{authentication.security.AESAlgorithm}: implementazione di \classname{authentication.ISecurityStrategy} usata dalla classe descritta.
+	
+\end{itemize}
+
+\subsubsection*{Classi estese ed interfacce implementate}
+\begin{itemize}
+	\item \texttt{server.AbstractController}: classe estesa.
+\end{itemize}
+
+\subsubsection*{Attributi}
+
+Nessun attributo evidenziato
+
+\subsubsection*{Metodi}
+\begin{description}
+	\item{\method{\# doAction(request: HttpServletRequest, response: HttpServletResponse): void}}\\
+
+Il metodo inizia creando un istanza di \classname{DataPersistanceManager} dao. Quindi si caricano i parametri ricevuti mediante \texttt{HttpServletRequest} e si usano per la creazione di un \classname{IUserData}. Ciò significa che il metodo dovrà creare una stringa per memorizzare la mail e inizializzarla con una chiamata getParameter(''username'') da eseguire a partire dal parametro d'ingresso request. Successivamente si inizializza una variabile \classname{IUserData} denominata user (ciò avviene con un istruzione \verb|dao.getUserData(mail)|). Quindi si definisce una clausola condizionale if else. Il ramo if è caratterizzato dalla condizione user != null. Nel caso il metodo definisce al suo interno le istruzioni per restituire la domanda segreta. Le operazioni qui sono:
+\begin{itemize}
+	\item si definisce uno String question e lo si inizializza con \verb|user.getQuestion()|;
+	\item si definisce un PrintWriter writer;
+	\item si scrive nel writer la domanda question.
+\end{itemize}
+
+Nel caso la condizione dell'if risulti falsa, il metodo definisce un ramo else con le istruzioni necessaria per scrivere nel writer la stringa ''null''.
 \end{description}
 
 
