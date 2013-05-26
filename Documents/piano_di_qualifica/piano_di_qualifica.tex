@@ -1413,7 +1413,7 @@ Tale test si compone di due metodi:
 \textbf{Verifica l'oggetto:} \texttt{AnswerController}.\\
 \textbf{Descrizione}: L'obiettivo del test è verificare il corretto comportamento di un'istanza di \texttt{AnswerController} controllando, in particolare, che sia possibile da parte di un determinato utente recuperare la password di autenticazione al sistema se viene fornita attraverso la richiesta HTTP la risposta corretta alla domanda segreta impostata in fase di registrazione.
 
-Questo test si compone di cinque metodi:
+Questo test si compone di sette metodi:
 \begin{itemize}
 
 \item \texttt{testSendMessage()} verifica il funzionamento corretto del metodo utilizzato per inviare il messaggio contenente la \inglese{password}, in particolare controllando che sia invocato il emtodo di invio e che il messaggio passato come parametro abbia i campi \textit{mittente}, \textit{destinatario} (TO), l'\textit{oggetto} e il \textit{testo} desiderati dal chiamante del metodo \texttt{sendMessage}.
@@ -1424,7 +1424,11 @@ Questo test si compone di cinque metodi:
 
 \item \texttt{testRecoverPasswordUnsuccesfully()} verifica l'impossibilità di recuperare la \inglese{password} da parte di un utente che fornisce uno username non presente nella base di dati. Il test verifica che la stringa stampata sulla risposta sia effettivamente \texttt{null} come desiderato in caso di fallimento.
 
-\item \texttt{testRecoverPasswordWrongAnswer()} Verifica il comportamento del metodo \\ \texttt{doAction} nel momento in cui la risposta contenuta come parametro nella richiesta che giunge al \textit{controller} non corrisponde alla risposta che l'utente aveva impostato in fase di registrazione. Il test verifica che sia stampata sulla risposta la stringa \texttt{null}, dopo aver tentato di codificare la \inglese{password} in ingresso. Si controlla inoltre che non sia \textit{mai} recuperata la \inglese{password} e che non sia effettuata \textit{alcuna} operazione di decodifica.
+\item \texttt{testRecoverPasswordWrongAnswer()} verifica il comportamento del metodo \\ \texttt{doAction} nel momento in cui la risposta contenuta come parametro nella richiesta che giunge al \textit{controller} non corrisponde alla risposta che l'utente aveva impostato in fase di registrazione. Il test verifica che sia stampata sulla risposta la stringa \texttt{null}, dopo aver tentato di codificare la \inglese{password} in ingresso. Si controlla inoltre che non sia \textit{mai} recuperata la \inglese{password} e che non sia effettuata \textit{alcuna} operazione di decodifica.
+
+\item \texttt{testRecoverPasswordUnableToSendMail()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui avviene un errore nell'invio dell'email contenente la password dimenticata dall'utente che la richiede. In particolare il test verifica che sia stampata sulla pagina di risposta la stringa \texttt{null} che denota un errore lato server.
+
+\item \texttt{testRecoverPasswordWrongData()} verifica il comportamento del metodo \texttt{doAction} se la richiesta HTTP con cui viene invocato non contiene tutti i parametri obbligatori per portare a termine con successo l'operazione di recupero della password, in particolare, nel caso in cui manchi la risposta alla domanda segreta. Il test verifica che sulla risposta sia stampata, come desiderato in questo caso, la stringa \texttt{null} e che non siano utilizzati i dati recuperati dal database né che siano effettuate operazioni di codifica e decodifica.
 
 \end{itemize}
 
