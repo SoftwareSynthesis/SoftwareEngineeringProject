@@ -290,7 +290,65 @@ public class RegisterControllerTest {
 	/**
 	 * Verifica l'impossibilità di portare a termine la procedura di
 	 * registrazione per un utente la cui richiesta non contiene tutti i dati
-	 * necessari alla registrazione, ad esempio ha il nome utente uguale alla
+	 * necessari alla registrazione, perché il nome utente è uguale alla stringa
+	 * vuota. Il test verifica che il testo stampato sulla pagina di risposta
+	 * sia la stringa 'null' come atteso, che non sia MAI utilizzato l'algoritmo
+	 * di crittografia e che non siano MAI effettuate in casi simili operazioni
+	 * di inserimento nella base di dati del server.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testRegisterWrongUsername() throws Exception {
+		// rimuove un parametro obbligatorio per la registrazione
+		when(request.getParameter("username")).thenReturn("");
+
+		// invoca il metodo da testare
+		tester.doAction(request, response);
+
+		// verifica l'output ottenuto
+		writer.flush();
+		String responseText = writer.toString();
+		assertEquals("null", responseText);
+
+		// verifica il corretto utilizzo dei mock
+		verify(dao, never()).insert(any(IMyTalkObject.class));
+	}
+
+	/**
+	 * Verifica l'impossibilità di portare a termine la procedura di
+	 * registrazione per un utente la cui richiesta non contiene tutti i dati
+	 * necessari alla registrazione, perché la password è uguale alla stringa
+	 * vuota. Il test verifica che il testo stampato sulla pagina di risposta
+	 * sia la stringa 'null' come atteso, che non sia MAI utilizzato l'algoritmo
+	 * di crittografia e che non siano MAI effettuate in casi simili operazioni
+	 * di inserimento nella base di dati del server.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testRegisterWrongPassword() throws Exception {
+		// rimuove un parametro obbligatorio per la registrazione
+		when(request.getParameter("password")).thenReturn("");
+
+		// invoca il metodo da testare
+		tester.doAction(request, response);
+
+		// verifica l'output ottenuto
+		writer.flush();
+		String responseText = writer.toString();
+		assertEquals("null", responseText);
+
+		// verifica il corretto utilizzo dei mock
+		verify(dao, never()).insert(any(IMyTalkObject.class));
+	}
+
+	/**
+	 * Verifica l'impossibilità di portare a termine la procedura di
+	 * registrazione per un utente la cui richiesta non contiene tutti i dati
+	 * necessari alla registrazione, perché la domanda segreta è uguale alla
 	 * stringa vuota. Il test verifica che il testo stampato sulla pagina di
 	 * risposta sia la stringa 'null' come atteso, che non sia MAI utilizzato
 	 * l'algoritmo di crittografia e che non siano MAI effettuate in casi simili
@@ -300,9 +358,38 @@ public class RegisterControllerTest {
 	 * @version 2.0
 	 */
 	@Test
-	public void testRegisterWrongUser() throws Exception {
+	public void testRegisterWrongQuestion() throws Exception {
 		// rimuove un parametro obbligatorio per la registrazione
-		when(request.getParameter("username")).thenReturn("");
+		when(request.getParameter("question")).thenReturn("");
+
+		// invoca il metodo da testare
+		tester.doAction(request, response);
+
+		// verifica l'output ottenuto
+		writer.flush();
+		String responseText = writer.toString();
+		assertEquals("null", responseText);
+
+		// verifica il corretto utilizzo dei mock
+		verify(dao, never()).insert(any(IMyTalkObject.class));
+	}
+
+	/**
+	 * Verifica l'impossibilità di portare a termine la procedura di
+	 * registrazione per un utente la cui richiesta non contiene tutti i dati
+	 * necessari alla registrazione, perché la risposta alla domanda segreta è
+	 * uguale alla stringa vuota. Il test verifica che il testo stampato sulla
+	 * pagina di risposta sia la stringa 'null' come atteso, che non sia MAI
+	 * utilizzato l'algoritmo di crittografia e che non siano MAI effettuate in
+	 * casi simili operazioni di inserimento nella base di dati del server.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testRegisterWrongAnswer() throws Exception {
+		// rimuove un parametro obbligatorio per la registrazione
+		when(request.getParameter("answer")).thenReturn("");
 
 		// invoca il metodo da testare
 		tester.doAction(request, response);
@@ -321,9 +408,10 @@ public class RegisterControllerTest {
 	 * nella richiesta HTTP è già presente nella tabella degli utenti del
 	 * sistema compromettendo la riuscita dell'operazione di inserimento. Il
 	 * test verifica che in questo caso il testo stampato sulla risposta sia,
-	 * come desiderato, la stringa 'null'. Inoltre si verifica che siano estratti
-	 * tutti i parametri necessari dalla richiesta e che sia creata una nuova
-	 * istanza di IUserData con tutti i campi dati impostati nel modo corretto.
+	 * come desiderato, la stringa 'null'. Inoltre si verifica che siano
+	 * estratti tutti i parametri necessari dalla richiesta e che sia creata una
+	 * nuova istanza di IUserData con tutti i campi dati impostati nel modo
+	 * corretto.
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0

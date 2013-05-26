@@ -1492,7 +1492,7 @@ Il test avviene controllando che il testo stampato sulla risposta HTTP passata c
 \textbf{Verifica l'oggetto:} \texttt{RegisterController}.\\
 \textbf{Descrizione}: L'obiettivo di questo test è verificare che vada a buon fine l'operazione di registrazione da parte di un utente ricevuta tramite richiesta HTTP POST\@. I possibili \inglese{input} passati attraverso la richiesta riguardano dati passati per la registrazione stessa, che possono essere corretti o meno (campi dati obbligatori vuoti, o errati).
 
-Tale test si compone di quattro metodi:
+Tale test si compone di otto metodi:
 \begin{itemize}
 \item \texttt{testRegisterCorrectUser()} verifica il corretto funzionamento della registrazione al sistema di un utente a partire da una richiesta contenente tutti i parametri necessari obbligatoriamente per portare a termine l'operazione e tutti i parametri facoltativi, eccetto l'immagine personale. Il test avviene verificando che la stringa stampata sulla pagina di risposta corrisponda, come attesa, alla rappresentazione in formato JSON dei dati dell'utente. Inoltre il test controlla che avvenga l'effettivo inserimento dei dati del nuovo utente nel database del sistema.
 
@@ -1500,8 +1500,17 @@ Tale test si compone di quattro metodi:
 verifica il corretto funzionamento della registrazione al sistema di un utente a partire da una richiesta contenente tutti i parametri necessari obbligatoriamente per portare a termine l'operazione e tutti i parametri facoltativi, compresa l'immagine personale. 
 Il controllo avviene verificando che la stringa stampata sulla pagina di risposta corrisponda, come attesa, alla rappresentazione in formato JSON dei dati dell'utente. Inoltre il test controlla che avvenga l'effettivo inserimento dei dati del nuovo utente nel database del sistema.
 
-\item \texttt{testRegisterWrongUser()} 
-verifica l'impossibilità di portare a termine la procedura di registrazione per un utente la cui richiesta non contiene tutti i dati necessari alla registrazione, come ad esempio quando il nome utente è uguale alla stringa vuota. Il controllo avviene verificando che il testo stampato sulla pagina di risposta sia la stringa \texttt{null}. Inoltre viene verificato che non sia mai utilizzato l'algoritmo di crittografia e che non avvenga nessun inserimento di dati sul database.
+\item \texttt{testRegisterWrongUsername()} 
+verifica l'impossibilità di portare a termine la procedura di registrazione per un utente la cui richiesta non contiene tutti i dati necessari alla registrazione, perché il nome utente è uguale alla stringa vuota. Il controllo avviene verificando che il testo stampato sulla pagina di risposta sia la stringa \texttt{null}. Inoltre viene verificato che non sia mai utilizzato l'algoritmo di crittografia e che non avvenga nessun inserimento di dati sul database.
+
+\item \texttt{testRegisterWrongPassword()} 
+verifica l'impossibilità di portare a termine la procedura di registrazione per un utente la cui richiesta non contiene tutti i dati necessari alla registrazione, perché la password è uguale alla stringa vuota. Il controllo avviene verificando che il testo stampato sulla pagina di risposta sia la stringa \texttt{null}. Inoltre viene verificato che non sia mai utilizzato l'algoritmo di crittografia e che non avvenga nessun inserimento di dati sul database.
+
+\item \texttt{testRegisterWrongQuestion()} 
+verifica l'impossibilità di portare a termine la procedura di registrazione per un utente la cui richiesta non contiene tutti i dati necessari alla registrazione, perché la domanda segreta è uguale alla stringa vuota. Il controllo avviene verificando che il testo stampato sulla pagina di risposta sia la stringa \texttt{null}. Inoltre viene verificato che non sia mai utilizzato l'algoritmo di crittografia e che non avvenga nessun inserimento di dati sul database.
+
+\item \texttt{testRegisterWrongAnswer()} 
+verifica l'impossibilità di portare a termine la procedura di registrazione per un utente la cui richiesta non contiene tutti i dati necessari alla registrazione, perché la risposta alla domanda segreta è uguale alla stringa vuota. Il controllo avviene verificando che il testo stampato sulla pagina di risposta sia la stringa \texttt{null}. Inoltre viene verificato che non sia mai utilizzato l'algoritmo di crittografia e che non avvenga nessun inserimento di dati sul database.
 
 \item \texttt{testRegisterDuplicatePrimaryKey()}
 Verifica il comportamento del metodo \texttt{doAction} se lo username fornito nella richiesta HTTP è già presente nella tabella degli utenti del sistema compromettendo la riuscita dell'operazione di inserimento. Il test verifica che in questo caso il testo stampato sulla risposta sia, come desiderato, la stringa \texttt{null}. Inoltre si controlla che siano estratti tutti i parametri necessari dalla richiesta e che sia creata una nuova istanza di \texttt{IUserData} con tutti i campi dati impostati nel modo conforme ai parametri della richiesta.
