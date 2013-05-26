@@ -1495,7 +1495,10 @@ verifica il corretto funzionamento della registrazione al sistema di un utente a
 Il controllo avviene verificando che la stringa stampata sulla pagina di risposta corrisponda, come attesa, alla rappresentazione in formato JSON dei dati dell'utente. Inoltre il test controlla che avvenga l'effettivo inserimento dei dati del nuovo utente nel database del sistema.
 
 \item \texttt{testRegisterWrongUser()} 
-verifica l'impossibilità di portare a termine la procedura di registrazione per un utente la cui richiesta non contiene tutti i dati necessari alla registrazione, come ad esempio il nome utente. Il controllo avviene verificando che il testo stampato sulla pagina di risposta sia la stringa \texttt{null}. Inoltre viene verificato che non sia mai utilizzato l'algoritmo di crittografia e che non avvenga nessun inserimento di dati sul database.
+verifica l'impossibilità di portare a termine la procedura di registrazione per un utente la cui richiesta non contiene tutti i dati necessari alla registrazione, come ad esempio quando il nome utente è uguale alla stringa vuota. Il controllo avviene verificando che il testo stampato sulla pagina di risposta sia la stringa \texttt{null}. Inoltre viene verificato che non sia mai utilizzato l'algoritmo di crittografia e che non avvenga nessun inserimento di dati sul database.
+
+\item \texttt{testRegisterDuplicatePrimaryKey()}
+Verifica il comportamento del metodo \texttt{doAction} se lo username fornito nella richiesta HTTP è già presente nella tabella degli utenti del sistema compromettendo la riuscita dell'operazione di inserimento. Il test verifica che in questo caso il testo stampato sulla risposta sia, come desiderato, la stringa \texttt{null}. Inoltre si controlla che siano estratti tutti i parametri necessari dalla richiesta e che sia creata una nuova istanza di \texttt{IUserData} con tutti i campi dati impostati nel modo conforme ai parametri della richiesta.
 
 \item \texttt{testCheck()} verifica il corretto funzionamento del metodo \texttt{check}. Il controllo avviene verificando che l'oggetto restituito abbia valore \texttt{true}.
  

@@ -3,7 +3,6 @@ package org.softwaresynthesis.mytalk.server.abook.controller;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 import java.io.PrintWriter;
