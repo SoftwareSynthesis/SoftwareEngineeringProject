@@ -190,4 +190,41 @@ public class AddMessageControllerTest {
 		verifyZeroInteractions(message);
 		verify(dao, never()).insert(any(IMessage.class));
 	}
+
+	/**
+	 * Verifica il comportamento del metodo doAction nel momento in cui la
+	 * richiesta HTTP con cui viene invocato non contiene tutti i dati necessari
+	 * a portare a termine con successo l'operazione di salvataggio di un nuovo
+	 * messaggio nella segreteria telefonica di un determinato utente, in
+	 * particolare perché non è presente il contenuto binario del messaggio
+	 * stesso. Il test verifica che il testo stampato sulla risposta sia, come
+	 * desiderato, la stringa 'null', che non sia creato alcun nuovo transfer
+	 * object sottotipo di IMessage e che non sia effettuata alcuna operazione
+	 * sul sistema di gestione della persistenza (né per calcolare il nome del
+	 * messaggio né per l'inserimento vero e proprio).
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testMissingPart() throws Exception {
+		// la richiesta non contiene alcun dato binario
+		when(request.getPart(anyString())).thenReturn(null);
+
+		// invoca il metodo da testare
+		tester.doAction(request, response);
+
+		// verifica l'output
+		writer.flush();
+		String responseText = writer.toString();
+		assertEquals("null", responseText);
+
+		// verifica il corretto utilizzo dei mock
+		verify(response).getWriter();
+		verify(request).getPart("msg");
+		verify(request).getPart("receiver");
+		verifyZeroInteractions(dao);
+		verify(tester, never()).createMessage();
+		verifyZeroInteractions(istream);
+	}
 }

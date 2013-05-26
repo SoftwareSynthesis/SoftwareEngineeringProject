@@ -1970,11 +1970,13 @@ verifica il corretto funzionamento del metodo \texttt{equals()}. Viene creato un
 \textbf{Verifica la Classe:} \texttt{AddMessageController}.\\
 \textbf{Descrizione}: L'obiettivo del test è verificare il corretto comportamento di un'istanza di \texttt{AddMessageController} controllando in particolare che sia possibile da parte di un determinato utente interagire con server al fine di aggiungere un messaggio nella segreteria telefonica di un altro utente mediante un'opportuna richiesta HTTP\@.
 
-Tale test si compone di due metodi:
+Tale test si compone di tre metodi:
 \begin{itemize}
 \item \texttt{testAddCorrectMessage()} verifica il comportamento del metodo \texttt{doAction} per effettuare l'aggiunta di un messaggio nella segreteria telefonica. In particolare il test verifica che il testo stampato sulla risposta HTTP sia, come desiderato in caso di successo, la stringa \texttt{true}. Il test controlla inoltre che i \textit{mock} siano utilizzati in modo corretto e, in particolare, che sia salvato un nuovo file con il percorso corretto e che sia effettuata nel database un'operazione di inserimento per il nuovo messaggio (dopo aver impostato i suoi campi dati ai valori corretti).
 
 \item \texttt{testErrorWithInput()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui non è possibile portare a termine l'operazione con successo perchè si verifica un errore nel recupero del flusso di input associato al messaggio. Il test verifica che in questo caso il testo stampato nella risposta HttP sia la stringa \texttt{null} che denota per il client un fallimento dell'operazione. Inoltre si controlla che non vengano effettuate operazioni di creazione di un nuovo messaggio e di inserimento di nuovi messaggi nella base di dati del sistema.
+
+\item \texttt{testMissingPart()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui la richiesta HTTP con cui viene invocato non contiene tutti i dati necessari a portare a termine con successo l'operazione di salvataggio di un nuovo messaggio nella segreteria telefonica di un determinato utente, in particolare perché non è presente il contenuto binario del messaggio stesso. Il test verifica che il testo stampato sulla risposta sia, come desiderato, la stringa \texttt{null}, che non sia creato alcun nuovo \inglese{transfer object} sottotipo di \texttt{IMessage} e che non sia effettuata alcuna operazione sul sistema di gestione della persistenza (né per calcolare il nome del messaggio sulla base della chiave primaria della tabella \textsl{Messages} né per l'inserimento vero e proprio).
 
 \end{itemize}
 
