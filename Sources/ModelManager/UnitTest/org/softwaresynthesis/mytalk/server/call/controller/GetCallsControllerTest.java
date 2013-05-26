@@ -38,7 +38,6 @@ public class GetCallsControllerTest {
 	private final String username = "indirizzo5@dominio.it";
 	private final Long calleeName = 5L;
 	private final String calleeSurname = "paperino";
-	private final boolean isCaller = true;
 	private Writer writer;
 	private GetCallsController tester;
 	private Date startDate = new Date(1368437034437L);
@@ -58,6 +57,8 @@ public class GetCallsControllerTest {
 	@Mock
 	ICallList callList;
 	@Mock
+	ICallList otherCallList;
+	@Mock
 	ICall call;
 
 	/**
@@ -69,13 +70,17 @@ public class GetCallsControllerTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		// configura il comportamento della CallList
+		// configura il comportamento delle CallList
 		when(callList.getUser()).thenReturn(callee);
 		when(callList.getCall()).thenReturn(call);
-		when(callList.getCaller()).thenReturn(isCaller);
+		when(callList.getCaller()).thenReturn(true);
+		when(otherCallList.getUser()).thenReturn(callee);
+		when(otherCallList.getCall()).thenReturn(call);
+		when(otherCallList.getCaller()).thenReturn(false);
 		// aggiunge la callList all'insieme di CallList
 		callListSet = new HashSet<ICallList>();
 		callListSet.add(callList);
+		callListSet.add(otherCallList);
 		// configura il comportamento dell'utente che richiede la lista
 		when(user.getCalls()).thenReturn(callListSet);
 		// configura il comportamento del chiamato
@@ -126,19 +131,21 @@ public class GetCallsControllerTest {
 		writer.flush();
 		String responseText = writer.toString();
 		String toCompare = String.format(
-				"[{\"id\":\"%s %s\", \"start\":\"%s\", \"caller\":\"%s\"}]",
-				calleeName, calleeSurname, startDate, isCaller);
+				"[{\"id\":\"%s %s\", \"start\":\"%s\", \"caller\":\"%s\"}, {\"id\":\"%s %s\", \"start\":\"%s\", \"caller\":\"%s\"}]",
+				calleeName, calleeSurname, startDate, true, calleeName, calleeSurname, startDate, false);
 		assertEquals(toCompare, responseText);
 
 		// verifica il corretto utilizzo dei mock
 		verify(response).getWriter();
 		verify(dao).getUserData(username);
 		verify(user).getCalls();
-		verify(callee).getName();
-		verify(callee).getSurname();
+		verify(callee, times(2)).getId();
+		verify(callee, times(2)).getSurname();
 		verify(callList, times(2)).getUser();
 		verify(callList).getCall();
-		verify(call).getStart();
+		verify(otherCallList, times(2)).getUser();
+		verify(otherCallList).getCall();
+		verify(call, times(2)).getStart();
 	}
 
 	/**

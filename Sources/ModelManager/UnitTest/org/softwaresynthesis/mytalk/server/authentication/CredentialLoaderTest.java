@@ -2,7 +2,6 @@ package org.softwaresynthesis.mytalk.server.authentication;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.when;
 
 import javax.security.auth.callback.Callback;

@@ -314,7 +314,6 @@ public class RegisterControllerTest {
 
 		// verifica il corretto utilizzo dei mock
 		verify(dao, never()).insert(any(IMyTalkObject.class));
-		verify(strategy, never()).encode(anyString());
 	}
 
 	/**
