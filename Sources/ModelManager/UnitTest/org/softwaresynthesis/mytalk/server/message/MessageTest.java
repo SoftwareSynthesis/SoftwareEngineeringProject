@@ -23,6 +23,7 @@ import org.softwaresynthesis.mytalk.server.abook.IUserData;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class MessageTest {
+	private Message tester;
 	@Mock
 	private Date dummyDate;
 	@Mock
@@ -31,7 +32,7 @@ public class MessageTest {
 	private IUserData receiver;
 	@Mock
 	private Message other;
-	private Message tester;
+
 
 	/**
 	 * Reimposta il comportamento dei mock e inizializza l'oggetto da testare
@@ -157,5 +158,13 @@ public class MessageTest {
 		tester.setReceiver(receiver);
 		tester.setDate(dummyDate);
 		assertTrue(tester.equals(other));
+		when(other.getSender()).thenReturn(receiver);
+		assertFalse(tester.equals(other));
+		when(other.getSender()).thenReturn(sender);
+		when(other.getReceiver()).thenReturn(sender);
+		assertFalse(tester.equals(other));
+		when(other.getReceiver()).thenReturn(receiver);
+		when(other.getDate()).thenReturn(new Date());
+		assertFalse(tester.equals(other));
 	}
 }
