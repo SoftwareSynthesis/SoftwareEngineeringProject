@@ -716,6 +716,22 @@ function AddressBookPanelPresenter() {
     }
     
     /**
+     * Funzione per gestire l'evento in cui viene aggiunto un contatto nella rubrica
+     * @author Riccardo Tresoldi
+     */
+    function onAddContactToAddressBook(contact){
+        thisPresenter.addContact(contact);
+    }
+    
+    /**
+     * Funzione per gestire l'evento in cui viene rimosso un contatto dalla rubrica
+     * @author Riccardo Tresoldi
+     */
+    function onRemoveContactFromAddressBook(contact){
+        thisPresenter.removeContact(contact);
+    }
+    
+    /**
      * Funzione per gestire l'evento in cui viene aggiunto un contatto in un gruppo della rubrica
      * @author Riccardo Tresoldi
      */
@@ -747,14 +763,20 @@ function AddressBookPanelPresenter() {
     });
     document.addEventListener("showAddressBookPanel", onShowAddressBookPanel);
     document.addEventListener("removeAddressBookPanel", onRemoveAddressBookPanel);
+    document.addEventListener("addContactToAddressBook", function(evt){
+        onAddContactToAddressBook(evt.contact);
+    });
+    document.addEventListener("removeContactFromAddressBook", function(evt){
+        onRemoveContactFromAddressBook(evt.contact);
+    });
     document.addEventListener("addContactToGroup", function(evt){
         onAddContactToGroup(evt.contact, evt.group)
     });
-    document.addEventListener("createGroup", function(evt){
-        onCreateGroup(evt.groupName);
-    });
     document.addEventListener("removeContactFromGroup", function(evt){
         onRemoveContactFromGroup(evt.contact, evt.group);
+    });
+    document.addEventListener("createGroup", function(evt){
+        onCreateGroup(evt.groupName);
     });
 
     /***************************************************************************
