@@ -91,7 +91,10 @@ function ContactPanelPresenter() {
             img.className = "deleteGroupButton";
             img.src = "img/close.png";
             img.onclick = function() {
-                mediator.onContactRemovedFromGroup(contact, groups[group]);
+                removeContactFromGroup.contact = contact;
+                removeContactFromGroup.group = groups[group];
+                document.dispatchEvent(removeContactFromGroup);
+                thisPresenter.display();
             }
             label.appendChild(document.createTextNode(groups[group].name));
             label.appendChild(img);
@@ -150,15 +153,18 @@ function ContactPanelPresenter() {
         };
 
         removeFromAddressBookButton.onclick = function() {
-            mediator.onContactRemoved(currentContact);
+            removeContactFromAddressBook.contact = currentContact;
+            document.dispatchEvent(removeContactFromAddressBook);
         };
 
         blockButton.onclick = function() {
-            mediator.onBlockContact(currentContact);
+            blockContact.contact = currentContact;
+            document.dispatchEvent(blockContact);
         };
 
         unlockButton.onclick = function() {
-            mediator.onUnlockContact(currentContact);
+            unlockContact.contact = currentContact;
+            document.dispatchEvent(unlockContact);
         };
 
         chatButton.onclick = function() {
