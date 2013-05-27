@@ -1,8 +1,4 @@
 package org.softwaresynthesis.mytalk.server.dao.util;
-
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -59,7 +55,6 @@ public abstract class GetUtil
 		}
 		catch (RuntimeException ex)
 		{
-			Scrivi(ex.getMessage());
 			if (transaction != null)
 			{
 				transaction.rollback();
@@ -75,21 +70,6 @@ public abstract class GetUtil
 			}
 		}
 		return collection;
-	}
-	
-	public static void Scrivi(String text)
-	{
-		try
-		{
-
-			FileOutputStream fw = new FileOutputStream ("DEBUG.txt", true);
-			PrintStream outFile = new PrintStream (fw);
-
-			outFile.println(text); 
-
-			outFile.close();
-		}
-		catch (FileNotFoundException exception){}
 	}
 	
 	/**
