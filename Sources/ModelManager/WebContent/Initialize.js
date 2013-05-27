@@ -32,10 +32,10 @@ window.onload = function() {
     logout = new CustomEvent("logout");
     // eventi per AddressBookPresenter
     changeAddressBooksContactState = new CustomEvent("changeAddressBooksContactState");
-    /*TODO*/addContactToAddressBook = new CustomEvent("addContactToAddressBook");
-    /*TODO*/removeContactFromAddressBook = new CustomEvent("removeContactFromAddressBook");
+    addContactToAddressBook = new CustomEvent("addContactToAddressBook");
+    removeContactFromAddressBook = new CustomEvent("removeContactFromAddressBook");
     addContactToGroup = new CustomEvent("addContactToGroup");
-    /*TODO*/removeContactFromGroup = new CustomEvent("removeContactFromGroup");
+    removeContactFromGroup = new CustomEvent("removeContactFromGroup");
     /*TODO*/blockContact = new CustomEvent("blockContact");
     /*TODO*/unlockContact = new CustomEvent("unlockContact");
     /*TODO*/deleteGroup = new CustomEvent("deleteGroup");
