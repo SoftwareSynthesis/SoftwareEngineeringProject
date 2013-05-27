@@ -104,36 +104,6 @@ function PresenterMediator() {
     };
 
     /**
-     * Funzione di callback richiamata dai pulsanti di SearchResultPanel che
-     * comunica all'AddressBookPanelPresenter di filtrare la lista dei contatti
-     * secondo un parametro
-     *
-     * @author Riccardo Tresoldi
-     * @param {String}
-     *            contact rappresenta l'id del contato da rimuovere
-     */
-    // FIXME non so se serve questa funzione dato che l'applicazione dei filtri
-    // avviene tra AddressBookPP e se stesso
-    this.onFiltredApplyedByParam = function(param) {
-        presenters["addressBook"].applyFilterByString(param);
-    };
-
-    /**
-     * Funzione di callback richiamata dai pulsanti di SearchResultPanel che
-     * comunica all'AddressBookPanelPresenter di filtrare la lista dei contatti
-     * appartenenti al gruppo passato
-     *
-     * @author Riccardo Tresoldi
-     * @param {String}
-     *            contact rappresenta l'id del contato da rimuovere
-     */
-    // FIXME non so se serve questa funzione dato che l'applicazione dei filtri
-    // avviene tra AddressBookPP e se stesso
-    this.onFiltredApplyedByGroup = function(group) {
-        presenters["addressBook"].applyFilterByGroup(group);
-    };
-
-    /**
      * Funzione richiamata che comunica all'AddressBookPanelPresenter di cercare
      * i gruppi a cui appartiene un utente nella propria rubrica
      *
