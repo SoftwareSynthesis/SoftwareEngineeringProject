@@ -754,6 +754,14 @@ function AddressBookPanelPresenter() {
     function onCreateGroup(groupName){
         thisPresenter.addGroup(groupName);
     }
+    
+    /**
+     * Funzione per gestire l'evento in cui viene eliminato un gruppo della rubrica
+     * @author Riccardo Tresoldi
+     */
+    function onDeleteGroup(group){
+        thisPresenter.deleteGroup(group);
+    }
 
     /***************************************************************************
      * LISTNER DEGLI EVENTI
@@ -777,6 +785,9 @@ function AddressBookPanelPresenter() {
     });
     document.addEventListener("createGroup", function(evt){
         onCreateGroup(evt.groupName);
+    });
+    document.addEventListener("deleteGroup", function(evt){
+        onDeleteGroup(evt.group);
     });
 
     /***************************************************************************
