@@ -81,8 +81,7 @@ function CommunicationPanelPresenter() {
         item.id = user.id;
         item.appendChild(document.createTextNode(createLabel(user)));
         var closeChatButton = document.createElement("img");
-        // FIXME add image src!
-        closeChatButton.src = "";
+        closeChatButton.src = "img/deleteContactImg.png";
         closeChatButton.onclick = function() {
             self.removeChat(user);
             mediator.addOrRemoveCommunicationToTools();
@@ -318,7 +317,7 @@ function CommunicationPanelPresenter() {
      * @author Riccardo Tresoldi
      * @param {Object} caller contatto che rappresenta il chiamante
      */
-    this.showAnswerBox = function(caller) {
+    this.showAnswerBox = function(caller, onlyAudio) {
         var body = document.getElementsByTagName("body").item(0);
         //creo il div di sfondo
         var overlay = document.createElement("div");
@@ -351,7 +350,7 @@ function CommunicationPanelPresenter() {
         acceptCallButton.id = "acceptCallButton";
         acceptCallButton.onclick = function() {
             removeAnswerBox();
-            communicationcenter.acceptCall(caller);
+            communicationcenter.acceptCall(caller, onlyAudio);
         };
         //appendo tutti gli elementi al div
         answerBox.appendChild(labelAnswerBox);

@@ -299,8 +299,8 @@ function PresenterMediator() {
      * @author Riccardo Tresoldi
      * @param {Object} caller rappresenta il contatto che sta chiamando
      */
-    this.onIncomeCall = function(caller) {
-        communicationpp.showAnswerBox(caller);
+    this.onIncomeCall = function(caller, onlyAudio) {
+        communicationpp.showAnswerBox(caller, onlyAudio);
     };
 
     /**
@@ -365,11 +365,11 @@ function PresenterMediator() {
         overlay = document.getElementById('overlayAnswerBox');
         answerBox = document.getElementById('answerBox');
         //setto la visibilità a 'none'
-        overlay.style.display = "none";
-        answerBox.style.display = "none";
-        //elimino dal DOM gli elementi FIXME
-        document.removeChild(overlay);
-        document.removeChild(answerBox);
+        /*overlay.style.display = "none";
+        answerBox.style.display = "none";TODO DeleteMe*/
+        //elimino dal DOM gli elementi
+        document.body.removeChild(overlay);
+        document.body.removeChild(answerBox);
     };
 
     /***************************************************************************
@@ -392,7 +392,6 @@ function PresenterMediator() {
         viewRequest.send();
         viewRequest.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                //FIXME inutile! posso direttamente richiamare il contenuto di
                 // onLoadView senza chiamare l'evento
                 loadedView.view = viewRequest.responseXML.body.firstChild;
                 loadedView.presenter = key;

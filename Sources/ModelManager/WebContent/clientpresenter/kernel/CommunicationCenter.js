@@ -161,6 +161,7 @@ function CommunicationCenter() {
         websocket.onmessage = function(evt) {
             //split del messaggio ricevuto e estrazione del tipo di messaggio
             var str = evt.data.split("|");
+            var onlyAudio = false;
             var type = str[0];
             //controllo che tipo di messaggio ho ricevuto
             /*{ 3 : ottengo id della persona che mi sta chiamando,
@@ -171,11 +172,12 @@ function CommunicationCenter() {
              *} */
             if (type == "3") {
                 idOther = str[1];
+                onlyAudio = str[2];
             } else if (type == "2") {
                 var signal = JSON.parse(str[1]);
                 if (pc == null) {
                     //chiamo la funzione che gestisce la chiamata in arrivo
-                    thisMonolith.handleCall(mediator.getContactById(idOther));
+                    thisMonolith.handleCall(mediator.getContactById(idOther), onlyAudio);
                 }
                 if ((signal.sdp) == null) {
                     pc.addIceCandidate(new RTCIceCandidate(signal));
@@ -310,7 +312,7 @@ function CommunicationCenter() {
 
                 if (isCaller == true) {
                     idOther = contact.id;
-                    var ar = new Array("3", idOther);
+                    var ar = new Array("3", idOther, onlyAudio);
                     websocket.send(JSON.stringify(ar));
                     pc.createOffer(gotDescription);
                 } else
@@ -327,7 +329,7 @@ function CommunicationCenter() {
 
                 if (isCaller == true) {
                     idOther = contact.id;
-                    var ar = new Array("3", idOther);
+                    var ar = new Array("3", idOther, onlyAudio);
                     websocket.send(JSON.stringify(ar));
                     pc.createOffer(gotDescription);
                 } else
@@ -342,8 +344,6 @@ function CommunicationCenter() {
      * @author Marco Schivo
      */
     this.endCall = function() {
-        //TODO aggiungere probabile invio rischiesta fine chiamata per segnalarlo
-        // asd server
         pc.removeStream(localStream);
         localStream.stop();
         pc.createOffer(gotDescription);
@@ -389,9 +389,9 @@ function CommunicationCenter() {
      * @param {Object} caller id del contatto che sta chiamando
      * @return {Boolean} true solo se desidero rispondere
      */
-    this.handleCall = function(caller) {
+    this.handleCall = function(caller, onlyAudio) {
         mediator.startRinging("income");
-        mediator.onIncomeCall();
+        mediator.onIncomeCall(caller, onlyAudio);
     }
     /**
      * Funzione per gestire la risposta alla chiamata
@@ -399,11 +399,10 @@ function CommunicationCenter() {
      * @author Riccardo Tresoldi
      * @param {Object} caller Oggetto che rappresenta il chiamante
      */
-    this.acceptCall = function(caller) {
+    this.acceptCall = function(caller, onlyAudio) {
         mediator.stopRinging();
         mediator.displayCommunicationPanel();
-        //FIXME sistemare terzo parametro (onlyAudio)
-        this.call(false, caller.id, false);
+        this.call(false, caller.id, onlyAudio);
     };
 
     /**
