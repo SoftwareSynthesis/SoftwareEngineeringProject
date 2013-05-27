@@ -434,7 +434,7 @@ function AddressBookPanelPresenter() {
      */
     this.addGroup = function(name) {
         for (var key in groups) {
-            if (groups[key].name = name) {
+            if (groups[key].name == name) {
                 throw "Il gruppo che stai cercando di inserire esiste già.";
             }
         }
