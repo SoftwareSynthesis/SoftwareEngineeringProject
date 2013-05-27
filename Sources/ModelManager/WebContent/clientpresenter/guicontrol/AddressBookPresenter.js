@@ -27,6 +27,8 @@ function AddressBookPanelPresenter() {
     /** PRESENTER
      * Recupera i contatti e i gruppi della propria rubrica dal server tramite
      * AJAX
+     * 
+     * NB: Nella documentazione questo metodo si chiama getAddressBookData
      *
      * @author Marco Schivo
      * @author Riccardo Tresoldi
@@ -45,7 +47,7 @@ function AddressBookPanelPresenter() {
         groups = JSON.parse(groupRequest.responseText);
     }
 
-    /** PRESENTER
+    /** VIEW
      * Recupera l'indirizzo dell'immagine dello stato in base allo stato del
      * contatto passato come parametro
      *
@@ -155,8 +157,18 @@ function AddressBookPanelPresenter() {
         }
         return false;
     }
+    
+    /* VIEW (FIXME questo è un metodo fantasma)
+       Modifica la visualizzazione dello stato del contatto
+     
+      this.setState = function(contact, state) {
+      		var liUser = document.getElementById(contact.id);
+            var imgState = liUser.children[1];
+            imgState.src = getImageSrc(contact);
+      }
+     */
 
-    /** PRESENTER/VIEW
+    /** PRESENTER
      * Funzione per cambiare l'immagine dell'indicatore di stato di un contatto
      * nella rubrica
      *
@@ -164,11 +176,12 @@ function AddressBookPanelPresenter() {
      * @param {String} state rappresenta lo stato da settare
      * @author Riccardo Tresoldi
      */
-    function setStateToContact(contact, state) {
+    function onChangeAddressBooksContactState(contact, state) {
         // controllo che il contatto sia presente nella rubrica
         if (contacts[contact.id]) {
             // imposto il valore in contacts
             contacts[contact.id].state = state;
+            // invoca il setState(contact, state) della vista
             // imposto l'src dell'immagine giusta
             var liUser = document.getElementById(contact.id);
             var imgState = liUser.children[1];
@@ -248,8 +261,26 @@ function AddressBookPanelPresenter() {
         // visualizza i contatti nel pannello
         this.setup();
     };
+    
+    /* VIEW (FIXME questo è un metodo fantasma)
+       Azzera il contenuto del select contenente i gruppi della rubrica
+     
+     this.initializeGroupSelect = function() {
+     	var selectGroup = document.getElementById("selectGroup");
+        selectGroup.innerHTML = "";
+     }
+     */
+    
+    /* VIEW (FIXME questo è un metodo fantasma)
+       Azzera il contenuto della lista dei contatti della rubrica
+     
+     this.initializeContactList = function() {
+     	var ulList = document.getElementById("AddressBookList");
+        ulList.innerHTML = "";
+     }
+     */
 
-    /** PRESENTER/VIEW
+    /** PRESENTER
      * Scarica la rubrica dal server popolando la lista dei contatti, quindi
      * inserisce i contatti estratti dal server all'interno della lista
      * all'interno di 'AddressBookPanel'
@@ -267,7 +298,7 @@ function AddressBookPanelPresenter() {
         getAddressBookContacts();
 
         // popolo la parte dei contatti
-        // estraggo l'<ul> del Addressbook e lo inizializzo
+        // FIXME richiama initializeContactList della vista
         var ulList = document.getElementById("AddressBookList");
         ulList.innerHTML = "";
 
@@ -278,13 +309,15 @@ function AddressBookPanelPresenter() {
         }
         // ciclo i contatti e agiungo un <li> per ogni contatto
         for (var contact in contacts) {
+        	// FIXME non servirebbe il primo parametro
             addListItem(ulList, contacts[contact]);
         }
 
         // popolo la parte dei gruppi
-        // estraggo la <select> dal DOM e la inizializzo
+        // chiama initializeGroupSelect della vista
         var selectGroup = document.getElementById("selectGroup");
         selectGroup.innerHTML = "";
+        
         // ciclo i gruppi e li aggiungo alla <select>
         for (var group in groups) {
             addOptionToSelect(selectGroup, group, groups[group].name);
@@ -707,7 +740,7 @@ function AddressBookPanelPresenter() {
      */
     this.getContact = function(idContact) {
         return contacts[idContact];
-    }
+    };
     
     /** PRESENTER
      * Ritorna l'oggeto che contiene tutti i contatti
@@ -844,10 +877,10 @@ function AddressBookPanelPresenter() {
     }
 
     /***************************************************************************
-     * LISTNER DEGLI EVENTI
+     * LISTENER DEGLI EVENTI
      **************************************************************************/
     document.addEventListener("changeAddressBooksContactState", function(evt) {
-        setStateToContact(evt.idUserChange, statusUserChange);
+    	onChangeAddressBooksContactState(evt.idUserChange, statusUserChange);
     });
     document.addEventListener("showAddressBookPanel", onShowAddressBookPanel);
     document.addEventListener("removeAddressBookPanel", onRemoveAddressBookPanel);
