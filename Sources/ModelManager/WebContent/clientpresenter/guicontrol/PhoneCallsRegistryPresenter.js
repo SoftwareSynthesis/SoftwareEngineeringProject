@@ -52,10 +52,10 @@ function PhoneCallsRegistryPresenter() {
 
     function sendRecording(recever) {
         var xhr = new XMLHttpRequest();
-        // invio chiamata servlet da modificare FIXME
-        xhr.open("POST", "http://localhost:8080/Channel/Segreteria", false);
+        xhr.open("POST", commandURL, false);
         //creo elemento che invio alla servlet contenente la registrazione
         var formData = new FormData();
+        formData.append("operation", "addMessage");
         formData.append("msg", objAudio);
         formData.append("contactId", recever.id);
         xhr.send(formData);
@@ -97,33 +97,4 @@ function PhoneCallsRegistryPresenter() {
             mediator.removePopup();
         };
     };
-
-    //TODO da valutare la necessità
-    /* Se serve da rivedere, ora non corretto
-     function createDownloadLink() {
-     recorder && recorder.exportWAV(function(blob) {
-     objAudio = blob;
-     var url = URL.createObjectURL(blob);
-     var li = document.createElement('li');
-     var au = document.createElement('audio');
-     var hf = document.createElement('a');
-     var btn = document.createElement('button');
-
-     au.controls = true;
-     au.src = url;
-     hf.href = url;
-     hf.download = new Date().toISOString() + '.wav';
-     hf.innerHTML = hf.download;
-     btn.onclick = function() {
-     sendRecording(objAudio)
-     };
-     btn.innerHTML = 'INVIA';
-     li.appendChild(au);
-     li.appendChild(hf);
-     li.appendChild(btn);
-     recordingslist.appendChild(li);
-     });
-     }
-     */
-
 }

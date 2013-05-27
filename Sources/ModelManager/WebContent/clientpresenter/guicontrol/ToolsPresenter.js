@@ -216,8 +216,7 @@ function ToolsPanelPresenter() {
      * @author Riccardo Tresoldi
      */
     function onShowReturnToCommunicationPanelButton() {
-        // TODO
-        alert("Torna a CommPanel creato!");
+        thisPresenter.addCommunicationFunction();
     }
 
     /** PRESENTER

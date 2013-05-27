@@ -272,8 +272,9 @@ function AddressBookPanelPresenter() {
         ulList.innerHTML = "";
 
         if (Object.size(contacts) == 0) {
-            //TODO Aggiungere <li> per indicare che non ci sono contatti in
-            // rubrica
+            var noContactAlertListItel = document.createElement("li");
+            noContactAlertListItel.appendChild(document.createTextElement("Nessun contatto in rubrica"));
+            ulList.appendChild(noContactAlertListItel);
         }
         // ciclo i contatti e agiungo un <li> per ogni contatto
         for (var contact in contacts) {
@@ -295,11 +296,11 @@ function AddressBookPanelPresenter() {
      *
      * @author Diego Beraldin
      */
-    this.hide = function() {
+    /*this.hide = function() {
         if (thisPanel) {
             thisPanel.style.display = "none";
         }
-    };
+    };*/
 
     /** PRESENTER
      * Aggiunge un contatto alla rubrica se non già presente
@@ -573,7 +574,7 @@ function AddressBookPanelPresenter() {
 
         if (filtredContacts.length == 0) {
             var noContactLI = document.createElement("li");
-            noContactLI.appendChild(document.createTextNode("Nessun risultato"));
+            noContactLI.appendChild(document.createTextNode("Nessun contatto con questo criterio"));
             ulList.appendChild(noContactLI);
         }
         for (var id in filtredContacts) {
@@ -707,6 +708,19 @@ function AddressBookPanelPresenter() {
     this.getContact = function(idContact) {
         return contacts[idContact];
     }
+    
+    /** PRESENTER
+     * Ritorna l'oggeto che contiene tutti i contatti
+     */
+    this.getContacts = function() {
+        return contacts;
+    };
+    /** PRESENTER
+     * Ritorna l'oggeto che contiene tutti i gruppi
+     */
+    this.getGroups = function() {
+        return groups;
+    };
     
     /***************************************************************************
      * HANDLER EVENTI
@@ -861,32 +875,4 @@ function AddressBookPanelPresenter() {
     document.addEventListener("unlockContact", function(evt){
         onUnlockContact(evt.contact);
     });
-
-    /***************************************************************************
-     * MISCELLANEOUS
-     **************************************************************************/
-    /*
-     * FILE JSON CHE RAFFIGURA LA RUBRICA { "idUser1":{ "name": "", "surname":
-     * "", "email": "", "id": "", "picturePath": "", "state": "", "blocked":
-     * "true|false" },
-     *
-     * "idUser2": {.......}, }
-     *
-     * FILE JSON CHE RAFFIGURA I GRUPPI { "idGruppo1":{ "name": "", "id": "",
-     * "contacts": [ 1, 2, 3 ] },
-     *
-     * "idGruppo2": {........}. }
-     */
-    this.getContacts = function() {
-        return contacts;
-    };
-    this.setContacts = function(cont) {
-        contacts = cont;
-    };
-    this.getGroups = function() {
-        return groups;
-    };
-    this.setGroups = function(cont) {
-        groups = cont;
-    };
 }

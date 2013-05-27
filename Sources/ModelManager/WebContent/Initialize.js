@@ -36,8 +36,8 @@ window.onload = function() {
     removeContactFromAddressBook = new CustomEvent("removeContactFromAddressBook");
     addContactToGroup = new CustomEvent("addContactToGroup");
     removeContactFromGroup = new CustomEvent("removeContactFromGroup");
-    /*TODO*/blockContact = new CustomEvent("blockContact");
-    /*TODO*/unlockContact = new CustomEvent("unlockContact");
+    blockContact = new CustomEvent("blockContact");
+    unlockContact = new CustomEvent("unlockContact");
     deleteGroup = new CustomEvent("deleteGroup");
     createGroup = new CustomEvent("createGroup");
     // eventi per ToolsPresenter

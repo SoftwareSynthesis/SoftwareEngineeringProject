@@ -36,7 +36,6 @@ function GroupPanelPresenter(url) {
 
 			// pulsante per la cancellazione del contatto dal gruppo
 			var deleteContactImg = document.createElement("img");
-			// TODO da impostare questo campo srcF
 			deleteContactImg.src = "img/deleteContactImg.png";
 			deleteContactImg.className = "deleteContact";
 			deleteContactImg.onclick = function() {
