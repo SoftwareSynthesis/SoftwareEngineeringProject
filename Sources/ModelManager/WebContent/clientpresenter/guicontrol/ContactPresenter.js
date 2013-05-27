@@ -127,9 +127,9 @@ function ContactPanelPresenter() {
         }
 
         
-        document.getElementById("contactName").appendChild("Nome: " + document.createTextNode(currentContact.name));
-        document.getElementById("contactSurname").appendChild(document.createTextNode(currentContact.surname));
-        document.getElementById("contactEmail").appendChild(document.createTextNode(currentContact.email));
+        document.getElementById("contactName").appendChild(document.createTextNode("Nome: " + currentContact.name));
+        document.getElementById("contactSurname").appendChild(document.createTextNode("Cognome: " + currentContact.surname));
+        document.getElementById("contactEmail").appendChild(document.createTextNode("Email: " + currentContact.email));
         document.getElementById("contactAvatar").src = currentContact.picturePath;
 
         // recupero i bottoni per associargli i metodi
