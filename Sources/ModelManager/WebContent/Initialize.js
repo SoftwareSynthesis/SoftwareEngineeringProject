@@ -65,16 +65,13 @@ window.onload = function() {
     /**********************************************************
     ****Inizializzazione variabili per connessione all'host****
     **********************************************************/
-    var host = "localhost:8080/MyTalk";
-    var stub = false;
-
-    if (stub) {
-        commandURL = "http://" + host + "/Conf/controllerManagerStub.php";
-        urlChannelServlet = "ws://" + host + "/CommandManager";
+    var host = window.location.href;
+    if (window.location.host == "localhost") {
+        commandURL = host + "/Conf/controllerManagerStub.php";
     } else {
-        commandURL = "http://" + host + "/CommandManager";
-        urlChannelServlet = "ws://" + host + "/CommandManager";
+        commandURL =  host + "/CommandManager";
     }
+    urlChannelServlet = "ws://" + window.location.host + "/MyTalk/CommandManager";
 
     /******************************
     ****Creo la UI per il Login****
