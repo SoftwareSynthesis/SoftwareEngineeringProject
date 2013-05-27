@@ -38,7 +38,7 @@ window.onload = function() {
     removeContactFromGroup = new CustomEvent("removeContactFromGroup");
     /*TODO*/blockContact = new CustomEvent("blockContact");
     /*TODO*/unlockContact = new CustomEvent("unlockContact");
-    /*TODO*/deleteGroup = new CustomEvent("deleteGroup");
+    deleteGroup = new CustomEvent("deleteGroup");
     createGroup = new CustomEvent("createGroup");
     // eventi per ToolsPresenter
     showReturnToCommunicationPanelButton = new CustomEvent("showReturnToCommunicationPanelButton");
