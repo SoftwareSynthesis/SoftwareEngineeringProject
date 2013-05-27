@@ -68,9 +68,9 @@ function PresenterMediator() {
      */
     this.createNameLabel = function(contact) {
         var name = "";
-        if (contact.name != null)
+        if (contact.name != "null")
             name += contact.name;
-        if (contact.surname != null) {
+        if (contact.surname != "null") {
             if (name != "")
                 name += " ";
             name += contact.surname;

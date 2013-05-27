@@ -145,7 +145,7 @@ function GroupPanelPresenter(url) {
 		// effettua una copia PROFONDA dell'oggetto.
 		var candidates = JSON.parse(JSON.stringify(contacts));
 		for ( var key in group.contacts) {
-		    delete candidateContacts[group.contacts[key]];
+		    delete candidates[group.contacts[key]];
 		}
 		return candidates;
 	};
@@ -163,7 +163,7 @@ function GroupPanelPresenter(url) {
 		var form = document.createElement("form");
 
 		// recupera i contatti che non appartengono al gruppo
-		candidateContacts = thisPresenter.selectCandidates(group);
+		var candidateContacts = thisPresenter.selectCandidates(group);
 
 		// insieme che dovrà contenere i campi del form
 		var set = document.createElement("fieldset");

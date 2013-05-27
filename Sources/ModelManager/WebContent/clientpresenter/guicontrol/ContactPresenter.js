@@ -126,7 +126,8 @@ function ContactPanelPresenter() {
             return;
         }
 
-        document.getElementById("contactName").appendChild(document.createTextNode(currentContact.name));
+        
+        document.getElementById("contactName").appendChild("Nome: " + document.createTextNode(currentContact.name));
         document.getElementById("contactSurname").appendChild(document.createTextNode(currentContact.surname));
         document.getElementById("contactEmail").appendChild(document.createTextNode(currentContact.email));
         document.getElementById("contactAvatar").src = currentContact.picturePath;
@@ -182,6 +183,9 @@ function ContactPanelPresenter() {
         // tolgo la possibilità di aggiungere un utente se già presente
         if (mediator.contactAlreadyPresent(currentContact)) {
             document.getElementById("addToAddressBookButton").style.display = "none";
+            document.getElementById("displayBlockedDiv").style.display = "none";
+            document.getElementById("blockButton").style.display = "none";
+            document.getElementById("unlockButton").style.display = "none";
         }
     };
     
