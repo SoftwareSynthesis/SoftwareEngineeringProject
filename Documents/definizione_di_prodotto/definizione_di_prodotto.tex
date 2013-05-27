@@ -3134,7 +3134,14 @@ Nell'attività di codifica, i programmatori dovranno attenersi alle seguenti pra
 
 La sintassi utilizzata all'interno del presente documento, in ogni caso, rimane quella che è stata definita in precedenza e prevede i marcatori \verb|+| per i metodi pubblici e \verb|-| per i metodi privati.
 
-Per quanto concerne il tipo di ritorno, qualora non fosse previsto alcun valore da restituire, esso sarà indicato nel presente documento con la parola chiave \texttt{void}, analogamente a come sono stati trattati i metodi nella sotto-architettura \texttt{server}.
+Per quanto concerne il tipo di ritorno, nel caso in cui non fosse previsto alcun valore da restituire, esso sarà indicato nel presente documento con la parola chiave \texttt{void}, analogamente a come sono stati trattati i metodi nella sotto-architettura \texttt{server}.
+
+Qualora, infine, il metodo dovesse sollevare eccezioni mediante il costrutto JavaScript
+\begin{verbatim}
+  throw "error";
+\end{verbatim}
+nel presente documento sarà utilizzato il tipo generico \exception{Exception} specificando di volta in volta il messaggio di diagnostica contenuto nell'eccezione.
+
 	\end{itemize}
 \end{description}
 
@@ -3249,114 +3256,136 @@ Nessuna relazione evidenziata.
 \subsubsection*{Metodi}
 \begin{description}
 
+\item{\method{+ getContact(idContact: Number): Object}}\\
+Il metodo dovrà restituire il contatto della rubrica che ha come valore identificativo l'intero passato come parametro. Tale risultato può essere ottenuto accedendo all'oggetto corrispondente nell'array associativo \memberdata{contacts} dal momento che gli identificativi sono le chiavi su cui è indicizzato.
+
+\item{\method{+ getGroupsWhereContactId(contact:Object): Object}}\\
+Tale metodo dovrà restituire un array associativo con la stessa struttura interna del campo dati \memberdata{groups} contenente l'insieme di tutti i gruppi cui appartiene il contatto passato come parametro.
+
+All'interno del corpo del metodo dovrà pertanto essere definito un nuovo array associativo, quindi dovrà essere realizzato un ciclo su tutti i gruppi della rubrica e, all'interno di ciascun gruppo, dovrà essere scorsa la proprietà \verb'contacts' per determinare se fra gli identificativi ivi contenuti si trova l'id del contatto da cercare.
+
+In tal caso il gruppo dovrà essere aggiunto all'array definito nel metodo che, al termine del ciclo principale, conterrà tutti e soli i gruppi desiderati e potrà essere restituito al chiamante.
+
+\item{\method{+ onAddContactToAddressBook(contact: Object): Boolean}}\\
+Questo gestore di eventi ha il compito di verificare se nella rubrica dell'utente esiste già il contatto ricevuto come parametro in ingresso con un'invocazione del metodo privato \method{contactAlreadyPresent}. 
+
+In caso negativo, il metodo dovrà procedere inviando una richiesta AJAX sincrona al server per provocare l'aggiunta del contatto alla rubrica dell'utente creando una nuova istanza di \verb'XMLHttpRequest' con la \inglese{query string}
+\begin{verbatim}
+    operation=addContact&contactId=" + contact.id
+\end{verbatim}
+
+Poiché il server ritorna la stringa \verb'"true"' se l'operazione va a buon fine, è sufficiente che il metodo restituisca \verb'true' se il risultato di \verb'JSON.parse(request.responseText)' è valutato positivamente e \verb'false' in caso contrario. Inoltre, nel caso in cui il contatto sia stato aggiunto con successo, dovrà essere richiamato il metodo \method{setup()} del \inglese{presenter}.
+
+In caso di terminazione con errore della procedura nel server oppure nell'eventualità in cui il contatto che si richiede di aggiungere alla rubrica sia già presente, il metodo dovrà sollevare due \exception{Exception} contenenti, rispettivamente, il messaggio ``Errore nel server'' e ``Contatto già presente in rubrica''.
+
+\item{\method{+ onAddContactToGroup(contact: Object, group: Object): Boolean}}\\
+Questo gestore di eventi ha il compito di verificare che il contatto passato come primo parametro non sia già presente nel gruppo passato come secondo parametro tramite il metodo privato \method{contactExistInGroup} e, in caso negativo, inviare una richiesta AJAX sincrona al server per provocare l'aggiunta del contatto all'interno del gruppo della rubrica, creando una nuova istanza di \verb'XMLHttpRequest' con la \inglese{query string}
+\begin{verbatim}
+operation=insertInGroup&contactId=" + contact.id + "&groupId=" + group.id
+\end{verbatim}
+
+Poiché il server ritorna la stringa \verb'"true"' se l'operazione va a buon fine, è sufficiente che il metodo restituisca \verb'true' se il risultato di \verb'JSON.parse(request.responseText)' è valutato positivamente e \verb'false' in caso contrario. Inoltre, nel caso in cui il contatto sia stato aggiunto con successo al gruppo, dovrà essere richiamato il metodo \method{setup()} fornito dal \inglese{presenter} stesso.
+
+In caso di errore oppure nell'eventualità in cui il contatto che si richiede di aggiungere alla rubrica sia già presente, il metodo dovrà sollevare due \exception{Exception} contenenti, rispettivamente, il messaggio ``Errore nel server'' e ``Contatto già presente nel gruppo''.
+
+\item{\method{+ onBlockContact(contact: Object): Boolean}}\\
+Questo gestore di eventi ha il compito di verificare se il contatto passato come parametro non è presente in rubrica oppure se è già bloccato (verificando la proprietà \verb'contact.blocked') e, in caso negativo, inviare una richiesta AJAX sincrona al server per provocare il blocco del contatto. A tal fine dovrà essere predisposta una nuova istanza di \verb'XMLHttpRequest' da inviare all'indirizzo del \inglese{front controller} con la \inglese{query string}
+\begin{verbatim}
+    operation=blockContact&contactId=" + contact.id
+\end{verbatim}
+
+Poiché il server ritorna la stringa \verb'"true"' se l'operazione va a buon fine, è sufficiente che il metodo restituisca \verb'true' se il risultato di \verb'JSON.parse(request.responseText)' è valutato positivamente e \verb'false' in caso contrario. Inoltre, nel caso in cui il contatto sia stato bloccato, dovrà essere richiamato il metodo \method{setup()} del \inglese{presenter}.
+
+In caso di errore da parte del server, o di richiesta di bloccare un contatto inesistente, oppure nell'eventualità in cui il contatto di cui si richiede il blocco sia già bloccato, il metodo dovrà sollevare tre \exception{Exception} contenenti, rispettivamente, il messaggio ``Errore nel server'', ``Contatto non presente in rubrica'' e ``Contatto già bloccato''.
+
+\item{\method{+ onChangeAddressBooksContactState(contact: Object, state: String): void}}\\
+Questo gestore di eventi è richiamato nel momento in cui si riceve una notifica di cambiamento di stato relativa a un contatto. Il metodo dovrà innanzitutto controllare che il contatto passato come primo parametro sia presente nella rubrica, quindi aggiornare la proprietà \verb'state' di quest'ultimo in maniera corrispondente.
+
+In seguito sarà responsabilità del \inglese{presenter} aggiornare la vista in modo che lo stato visualizzato nell'interfaccia utente corrisponda a quello reale, mediante una chiamata al metodo \method{setState} reso disponibile dalla vista.
+
+\item{\method{+ onCreateGroup(name: String): Boolean}}\\
+Questo gestore di eventi ha il compito di verificare se nella rubrica dell'utente esiste già un gruppo con nome uguale a quello passato come parametro iterando sui valori contenuti nell'array associativo \memberdata{groups} e confrontando la loro proprietà \verb'name' con il valore del parametro.
+
+In caso negativo, dovrà provvedere all'invio di una richiesta AJAX sincrona al server per provocare l'aggiunga del nuovo gruppo, creando a tale scopo una nuova istanza di \verb'XMLHttpRequest' con la seguente \inglese{query string}
+\begin{verbatim}
+    operation=addGroup&groupName=" + group.name
+\end{verbatim}
+
+Poiché il server ritorna la stringa \verb'"true"' se l'operazione va a buon fine, è sufficiente che il metodo restituisca \verb'true' se il risultato di \verb'JSON.parse(request.responseText)' è valutato positivamente e \verb'false' in caso contrario. Inoltre, nel caso in cui il gruppo sia stato effettivamente creato, dovrà essere richiamato il metodo \method{setup()} del \inglese{presenter}.
+
+In caso di errore nel server oppure nell'eventualità in cui il gruppo che si richiede di creare esista già, il metodo dovrà sollevare due \exception{Exception} contenenti, rispettivamente, il messaggio ``Errore nel server'' e ``Gruppo già presente''.
+
+\item{\method{+ onDeleteGroup(group: Object): Boolean}}\\
+Questo gestore di eventi avrà il compito di verificare che il gruppo passato come parametro esista realmente nella rubrica dell'utente iterando sulle chiavi dell'array associativo \memberdata{groups} confrontandole con la proprietà \verb'id' del gruppo passato come parametro.
+
+In caso affermativo, e solo in tale caso, il metodo dovrà inviare una richiesta AJAX sincrona al server per provocarne la cancellazione creando a tale fine una nuova istanza di \verb'XMLHttpRequest' con la seguente \inglese{query string}
+\begin{verbatim}
+    operation=deleteGroup&groupId=" + group.id
+\end{verbatim}
+
+Poiché il server ritorna la stringa \verb'"true"' se l'operazione va a buon fine, è sufficiente che il metodo restituisca \verb'true' se il risultato di \verb'JSON.parse(request.responseText)' è valutato positivamente e \verb'false' in caso contrario. Inoltre, nel caso in cui il gruppo sia stato effettivamente rimosso, dovrà essere richiamato il metodo \method{setup()} del \inglese{presenter}.
+
+In caso di errore nel server oppure nell'eventualità in cui il gruppo che si richiede di eliminare non esista, il metodo dovrà sollevare due \exception{Exception} contenenti, rispettivamente, il messaggio ``Errore nel server'' e ``Impossibile eliminare gruppo inesistente''.
+
+\item{\method{+ onRemoveAddressBookPanel(): void}}\\
+Questo gestore di eventi ha il compito di provocare la distruzione del pannello per la visualizzazione della rubrica dell'utente, richiamando il metodo \method{destroy()} messo a disposizione dalla vista corrispondente.
+
+\item{\method{+ onRemoveContactFromAddressBook(contact: Object): Boolean}}\\
+Questo gestore di eventi ha il compito verificare che il contatto passato come parametro sia effettivamente presente nella rubrica dell'utente mediante un'invocazione del metodo \method{contactAlreadyPresent} e, solo in caso affermativo, di inviare una richiesta AJAX sincrona al server per provocare la rimozione del contatto dalla rubrica. A tal fine dovrà essere predisposta una nuova istanza di \verb'XMLHttpRequest' con la \inglese{query string}
+\begin{verbatim}
+  operation=deleteContact&contactId=" + contact.id
+\end{verbatim}
+
+Poiché il server ritorna la stringa \verb'"true"' se l'operazione va a buon fine, è sufficiente che il metodo restituisca \verb'true' se il risultato di \verb'JSON.parse(request.responseText)' è valutato positivamente e \verb'false' in caso contrario. Inoltre, nel caso in cui il contatto sia stato effettivamente rimosso dalla rubrica, dovrà essere richiamato il \method{setup()} del \inglese{presenter}.
+
+In caso di errore nel server oppure nell'eventualità in cui il contatto che si richiede di rimuovere dalla rubrica non è già presente, il metodo dovrà sollevare due \exception{Exception} contenenti, rispettivamente, il messaggio ``Errore nel server'' e ``Impossibile eliminare contatto non presente in rubrica''.
+
+\item{\method{+ onRemoveContactFromGroup(contact: Object, group: Object): Boolean}}\\
+Questo gestore di eventi avrà il compito innanzitutto di verificare che il contatto passato come primo parametro sia effettivamente presente nel gruppo passato come secondo parametro, mediante una chiamata al metodo privato \method{contactExistInGroup}.
+
+Esclusivamente in caso affermativo, dovrà essere inviata una richiesta AJAX sincrona all'indirizzo del server per provocare l'effettiva rimozione del contatto, creando una nuova istanza di \verb'XMLHttpRequest' con la seguente \inglese{query string}
+\begin{verbatim}
+operation=deleteContact&contactId=" + contact.id + "&groupId=" + group.id
+\end{verbatim}
+
+Dato che il server ritorna la stringa \verb'"true"' se l'operazione va a buon fine, è sufficiente che il metodo restituisca \verb'true' se il risultato di \verb'JSON.parse(request.responseText)' è valutato positivamente e \verb'false' in caso contrario. Inoltre, nel caso in cui il contatto sia stato rimosso con successo dal gruppo, dovrà essere richiamato il metodo \method{setup()}.
+
+In caso di errore nel server oppure nell'eventualità in cui il contatto che si richiede di rimuovere dal gruppo non vi appartenga, il metodo dovrà sollevare due \exception{Exception} contenenti, rispettivamente, il messaggio ``Errore nel server'' e ``Impossibile eliminare contatto non presente nel gruppo''.
+
+\item{\method{+ onShowAddressBookPanel(): void}}\\
+Questo gestore di evento ha il compito di provocare la visualizzazione dei \inglese{widget} grafici che costituiscono il pannello della rubrica, determinando il caricamento del \inglese{template} corrispondente e demandando in un secondo momento alla vista il compito di inizializzarsi.
+
+\item{\method{+ onUnlockContact(contact: Object): Boolean}}\\
+Questo gestore di eventi dovrà innanzitutto verificare che il contatto passato come parametro sia effettivamente presente nella rubrica (mediante il metodo \method{contactAlreadyPresent}) e che non sia già stato in precedenza sbloccato controllando la proprietà \verb'blocked' del contatto.
+
+In caso affermativo, e solo allora, il metodo avrà il compito di inviare una richiesta AJAX sincrona al server per rimuovere il blocco dal contatto passato come parametro, creando una nuova istanza di \verb'XMLHttpRequest' con la \inglese{query string}
+\begin{verbatim}
+    operation=unblockContact&contactId=" + contact.id
+\end{verbatim}
+
+Poiché il server ritorna la stringa \verb'"true"' se l'operazione va a buon fine, è sufficiente che il metodo restituisca \verb'true' se il risultato di \verb'JSON.parse(request.responseText)' è valutato positivamente e \verb'false' in caso contrario. Inoltre, nel caso in cui il contatto sia stato effettivamente sbloccato, dovrà essere richiamato il metodo \method{setup()} del \inglese{presenter}.
+
+In caso di errore, o di richiesta di sbloccare un contatto non presente in rubrica oppure nell'eventualità in cui il contatto di cui si richiede lo sblocco è già stato sbloccato, il metodo dovrà sollevare tre \exception{Exception} contenenti, rispettivamente, il messaggio ``Errore nel server'', ``Contatto non presente in rubrica''e ``Contatto già sbloccato''.
+
+\item{\method{+ setup(): void}}\\
+Il metodo ha il compito di scaricare dal server i dati necessari al funzionamento del \inglese{presenter} e in secondo momento passare alla vista le informazioni necessarie per popolare il pannello nel formato di cui quest'ultima necessita.
+
+Dovrà essere pertanto richiamato il metodo privato \method{getAddressBookData()}, per poi richiamare le due operazioni \method{initializeContactList()} e \method{initializeGroupSelect()} messe a disposizione della vista. Per ogni contatto presente in rubrica dovrà quindi essere chiamato il metodo \method{addListItem} e per ogni gruppo dovrà essere richiamato il metodo \method{addOptionToSelect}, entrambi messi a disposizione dalla vista.
+
+\item{\method{-- contactAlreadyPresent(contact): Boolean}}
+Il metodo dovrà restituire \verb'true' se il contatto passato come parametro appartiene alla rubrica dell'utente e \verb'false' altrimenti. Tale controllo dovrà essere effettuato con un ciclo sui valori contenuti nell'array \memberdata{contacts} e confrontando le proprietà \verb'id' dei contatti.
+
 \item{\method{-- contactExistInGroup(contact: Object, group: Object): Boolean}}\\
 Restituisce il valore \verb'true' se il contatto passato come primo parametro in ingresso appartiene al gruppo passato come secondo parametro, \verb'false' altrimenti.
 
-Il metodo dovrà pertanto ciclare fra tutti gli identificativi presenti nella proprietà \verb'contacts' del gruppo e, nel momento in cui dovesse trovare un valore uguale a \verb'contact.id' restituire \verb'true', mentre restituire \verb'false' nel caso in cui il ciclo termini normalmente.
+Il metodo dovrà pertanto ciclare fra tutti gli identificativi presenti nella proprietà \verb'contacts' del gruppo e, nel momento in cui dovesse trovare un valore uguale a \verb'contact.id' restituire \verb'true', mentre restituire \verb'false' nel caso in cui il ciclo termini per esaurimento degli elementi contenuti in \verb'group.contacts'.
 
-\item{\method{-- getAddressBookContacts(): void}}\\
+\item{\method{-- getAddressBookData(): void}}\\
 Tale metodo ha il compito di recuperare l'insieme dei contatti e dei gruppi presenti nella rubrica dell'utente per inizializzare in maniera corretta i campi dati \memberdata{contacts} e \memberdata{groups} rispettivamente.
   
-  A tal fine dovranno essere inviate due richieste AJAX sincrone all'indirizzo del \inglese{front controller} presente sul server creando due nuove istanze di \verb'XMLHttpRequest' che dovranno contenere nella \inglese{query string} il parametro \verb'operation' uguale, rispettivamente, a \verb'getContacts' e \verb'getGroups'.
+  A tal fine dovranno essere inviate due richieste AJAX sincrone all'indirizzo del \inglese{front controller} presente sul server creando due opportune nuove istanze di \verb'XMLHttpRequest' che dovranno contenere nella \inglese{query string} il parametro \verb'operation' uguale, rispettivamente, a \verb'getContacts' e \verb'getGroups'.
+
 \end{description}
-	
-%	\item{\method{+ inizialize(): void}}\\
-%	Metodo per inizializzare  \texttt{AddressBookPanel} e popolarlo con i contatti della rubrica, modifica il DOM creando tre div: divSearch, divSort e divList. Quindi sequenzialmente ne crea il contenuto:
-%		\begin{itemize}
-%			\item divSearch: definisce un campo per l'\inglese{input} testuale e un bottone per ricercare nella lista un utente avente avete tra le parole chiave, una con valore uguale a quello inserito nel campo d'\inglese{input}.
-%			\item divSort: crea delle \inglese{select} per specificare le tipologie di ordinamento attuabili sulla lista degli utenti.
-%			\item divList: \textit{div} che viene popolato con i nomi degli utenti presenti nella rubrica dell'utente che l'ha richiamata.
-%		\end{itemize}
-
-%Quindi dopo aver creato questi elementi il metodo procede inserendo nel DOM il ``sotto-albero'' cosi creato.
-	
-%	\item{\method{+ setup(): void}}\\
-%	Inserisce i contatti estratti dal \textit{server} all'interno della lista \texttt{AddressBookList} all'interno di \texttt{AddressBookPanel}.
-	
-%	\item{\method{+ displayContactList(contact: String[]): void}}\\
-%	Metodo usato per visualizzare la lista dei contatti utente, esso prende il nodo DOM (già esistente) e destinato a contenere la lista dei contatti, popolandolo richiamando il metodo \method{addListItem()}.
-	
-%	\item{\method{-- addListItem(list: DOM\_node, contact: Object(contact): void}}\\
-
-%Metodo richiamato da \method{displayContactList()} per visualizzare i contatti presenti della rubrica, crea le variabili contenenti i dati del contatto da attribuire al \textit{tag} di \textit{markup} \texttt{li}. Tali variabili sono quelle tipiche di un oggetto Object(contact) (nome, cognome, email, status e immagine).
-
-%\item{\method{-- addOptionToSelect(select: DOM\_element, value: String, text: String): void}}\\
-%Metodo utilizzato per aggiungere un'opzione all'elemento \memberdata{select} ricevuto come parametro dal metodo. Ha il compito di creare un \texttt{TextNode} ed appenderlo alla \memberdata{select}.
-
-%	\item{\method{+ addContact(contact: Object(contact)): boolean}}\\
-%	Metodo per l'aggiunta di un contatto alla rubrica, riceve come parametro un oggetto di tipo contatto da inserire, appunto, nella propria rubrica. 
-%Per assicurarsi di non introdurre ridondanza ed aggiungere un contatto già presente il metodo esegue due controlli: uno lato \inglese{client} e uno lato \textit{server}. 
-%Il controllo lato \inglese{client}, si scorre la lista \memberdata{contact} alla ricerca di un \texttt{contact} che cerca un \inglese{match} con il nuovo contatto. Nel caso sia già presente il metodo termina ritornando \inglese{false}. Per eseguire il controllo lato \inglese{server} il metodo contatta il \inglese{server} mediante la \inglese{servlet} \texttt{AddressBookDoAddContatctServlet}, questa verificherà se l'utente avente \texttt{id} \textit{contact} è già presente nella rubrica, nel caso non lo sia si occuperà di creare la nuova istanza di \texttt{AddressBookEntry} e la registrerà nel database, in caso contrario non esegue operazioni. 
-%La chiamata a \inglese{servlet} ritorna un valore booleano che sarà \textit{true} se l'inserimento ha avuto successo, \textit{false} altrimenti. 
-%Se l'inserimento ha avuto successo il flusso principale prosegue eseguendo l'aggiornamento della rubrica in locale tramite la chiamata a metodo \method{setup()}. Il metodo termina infine ritornando \textit{true} se è stato aggiunto l'utente, altrimenti solleva un'eccezione.
-
-%\item{\method{+ removeContact(contact: Obj): boolean}}\\
-%Metodo il cui funzionamento è analogo a quello precedentemente definito, si occupa di eliminare un contatto conoscendone l'\texttt{id} passato per parametro d'ingresso. Il flusso principale esegue due controlli per verificare la presenza dell'utente nella rubrica (analogamente a quanto visto nel caso precedente). 
-%Dopo tale verifica, se il contatto è realmente presente nella rubrica, la \inglese{servlet} \texttt{AddressBookDoRemoveContactServlet} avrà eseguito la cancellazione come conseguenza al match effettuato in fase di verifica, nel caso il metodo richiama \method{setup()} per rieseguire l'aggiornamento della rubrica. Il metodo ritorna infine \textit{true} se effettivamente il contatto era presente ed è stato eliminato, altrimenti solleva un'eccezione.
-
-%\item{\method{+ addGroup(name: String): boolean}}\\
-%Metodo per l'aggiunta di un nuovo gruppo nella rubrica, permette l'aggiunta di gruppi con nomi duplicati (ossia nomi di gruppi già presenti nella rubrica). Il flusso principale richiama la \inglese{servlet} \texttt{AddressBookDoCreateGroupServlet} con il nome del gruppo da creare. Successivamente, se la \inglese{servlet} ha dato \method{setup()} esito positivo, viene richiamata il metodo \inglese{setup} che aggiorna la rubrica locale, altrimenti solleva un'eccezione.
-	
-%\item{\method{+ deleteGroup(idGroup: int): boolean}}\\
-%Metodo per l'eliminazione di un nuovo gruppo presente nella rubrica, riceve come parametro d'ingresso l'\texttt{id} del gruppo da eliminare. Il flusso principale richiama la \inglese{servlet} \texttt{AddressBookDoRemoveGroupServlet} passandogli l'\texttt{id} del gruppo candidato all'eliminazione. Quindi, se la \inglese{servlet} notifica l'effettiva esistenza di un gruppo con tale \texttt{id}, essa si occupa dell'eliminazione e il flusso principale prosegue richiamando il metodo \inglese{setup} se la eliminazione ha avuto buon fine, altrimenti solleva un'eccezione.
-	
-%\item{\method{+ addContactInGroup(contact: Object(contact), group: Object(contact)): boolean}}\\
-%Metodo per l'aggiunta di un contatto in un gruppo ben definito, riceve come parametro d'ingresso il contatto e il gruppo.
-%Il metodo richiama da prima \method{contactExistInGroup}, successivamente il flusso principale richiama la \inglese{servlet} \texttt{AddressBookDoInsertInGroupServlet} passandogli i parametri d'ingresso, quindi se la \inglese{servlet} notifica l'effettiva esistenza di un gruppo con il nome ricevuto, essa si occupa di aggiungervi il contatto e il flusso principale ritorna al metodo \method{setup()} per aggiornare la rubrica in locale, ritorna infine un \inglese{feedback} booleano a \textit{true} per dare notifica se l'operazione ha avuto buon fine, altrimenti solleva un'eccezione.
-	
-%\item{\method{+ deleteContactFromGroup(contact: Object(contact), group: Object(group)): boolean}}\\
-%Metodo per l'eliminazione di un contatto presente in un gruppo, riceve come parametro d'ingresso il gruppo su cui effettuare la ricerca del contatto da eliminare e il contatto. 
-%Il metodo richiama da prima \method{contactExistInGroup}, poi Il flusso principale richiama la \inglese{servlet} \texttt{AddressBookDoRemoveFromGroupServlet} passandogli i parametri d'ingresso, la \inglese{servlet} notifica l'effettiva esistenza di un gruppo con il nome ricevuto che contiene il contatto candidato all'eliminazione, essa si occupa dell'eliminazione e il flusso principale ritorna al metodo \method{setup()} per aggiornare la rubrica in locale, ritorna infine un \inglese{feedback} booleano per dare notifica sull'esito dell'operazione: \textit{true}\textit{true} se è stato creato il nuovo gruppo, altrimenti solleva un'eccezione.
-
-%\item{\method{+ applyFilterByString(param: String): array()}}\\
-%Metodo che data una stringa come parametro d'ingresso filtra la lista di contatti presente in locale. Non richiede interazione con il server, ovvero non vengono richiamate \inglese{servlet}.
-
-%In un primo step il programmatore dovrà creare un \inglese{array} atto a contenere l'elenco dei contatti da restituire, quindi il metodo procede con la definizione di un espressione regolare basata sul parametro ricevuto. Per tale operazione la sintassi obbligatoria è:\\
-
-%\verb|var pattern = new RegExp(param)|\\
-
-%Quindi viene avviato un ciclo \textit{for} che analizza ogni contatto presente in \memberdata{contacts}. Successivamente si effettua un filtraggio sui campi \textit{name, surname, email} del contatto attualmente in esame. Per fare tali operazioni si dovrà usare:\\
-
-%\verb|pattern.test(\*elemento su cui ricercare param*\)|\\
-
-%Se tale filtraggio da esito positivo, il contatto viene aggiunto all'\textit{array} dei contatti da restituire. Il metodo termina quando, dopo aver eseguito il ciclo \textit{for}, il metodo ritorna l'\textit{array} sopracitato.
-
-%\item{\method{+ applyFilterByGroup(idGroup: int): array()}}\\
-%Metodo che dato un intero come parametro d'ingresso filtra la lista di contatti presente in locale, restituendo un elenco dei contatti appartenenti al gruppo avente id uguale a idGroup, inoltre non deve interagire con il \inglese{server}, ovvero non vengono richiamate \inglese{servlet}. 
-
-%Come per \method{applyFilterByString()} anche in questo caso il metodo deve creare un \textit{array} da popolare con i contatti appartenente al gruppo idGroup. Quindi viene eseguito un ciclo \inglese{for} che ispezione tutti i contatti presenti in \memberdata{contacts} e per ogni ciclo il metodo controlla i gruppi in cui compare il contatto i-esimo (tale azione si attua per mezzo di un secondo ciclo innestato), se si verifica una corrispondenza tra l'id del gruppo in esame con l'identificativo idGroup, si aggiunge il contatto all'\textit{array} creato in precedenza. Il metodo termina restituendo l'\textit{array} sopra-citato.
-
-%\item{\method{+ showFilter(filteredContacts: Array()): void}}\\
-%Metodo usato per l'eliminare il contenuto preesistente nella rubrica e visualizza il nuovo contenuto filtrato. Il metodo riceve come parametro un \textit{array} che rappresenta la lista filtrata dei contatti da visualizzare. Per eseguire tali operazioni viene avviato un ciclo \inglese{for} per ogni contatto presente in \memberdata{contacts}. All'interno di tale ciclo deve essere eseguita la seguente istruzione:\\
-
-%\verb|addListItem(/*nome della variabile contenente il nodo dom AddressBookList*/,|\\
-%\verb|filtredContacts[contact])|\\
-
-%\item{\method{+ contactAlredyPresent(contact: Object(contact)): boolean}}\\
-%Metodo che dato un contatto verifica se appartiene alla rubrica. Per compiere tale azione viene da prima riscaricata la rubrica, mediante una chiamata a metodo \method{getAddressBookContacts()}. Quindi si usa un ciclo \inglese{for} per scorrere l'intera lista precedentemente ottenuta e ad ogni ciclo si controlla se il contatto i-esimo ha id uguale a quello del contatto ricevuto come parametro d'ingresso (\texttt{contact.id}). Se tale confronto ha esito positivo, il metodo termina ritornando \inglese{true}, altrimenti il metodo termina al termine del ciclo \inglese{for} ritornando \inglese{false}.
-
-%\item{\method{+ blockUser(contact: Object(contact)): boolean}}\\
-%Metodo utilizzato per bloccare (all'interno della rubrica utente) il contatto contact passato come parametro d'ingresso. Il primo step consiste nell'eseguire il controllo sul parametro ricevuto. Per farlo si osserva il valore ritornato da una chiamata a metodo \method{constactAlradyPresent()} passando come parametro d'ingresso contact. Se il valore di ritorno è \inglese{false} il metodo termina con l'eccezione ``Contatto non presente nella rubrica''. Altrimenti il controllo passa allo step successivo, in cui si verifica se l'attributo blocked di contact è impostato a \inglese{true}. Nel caso il metodo termina con l'eccezione ``Contatto già bloccato''. Se il flusso principale ha superato i test precedenti, allora viene creata un istanza di request \texttt{XMLHttpRequest()} usata per contattare la \inglese{servlet} avente nome:\\
-
-%\verb|urlServlet + operations[8] + suffix|\\
-
-%Per tale richiesta deve essere associata, all'evento \texttt{onreadystatechange}, una funzione che salva in un array il contenuto di una chiamata:\\
-
-%\verb|JSON.parse(request.responseText)|\\
-
-%Il flusso principale prosegue aprendo la request cosi definita (uso del metodo \texttt{open("POST", urlServlet + operations[8] + suffix, "true")}) e inviando il contatto mediante una chiamata \texttt{request.send("contactId=" + contact.id)}.
-
-%Il metodo termina eseguendo un controllo. Se il risultato result della chiamata a \inglese{servlet} ha valore \inglese{true} allora il metodo termina aggiornando la rubrica mediante una chiamata \method{setup()} e ritornando \inglese{true}. In caso contrario il metodo termina con un eccezione.
-
-%\item{\method{+ unlockUser(contact: Object(contact)): boolean}}\\
-%Metodo usato per sbloccare un utente all'interno di una rubrica. Il metodo ha un funzionamento analogo al precedente, nello specifico vengono attuati gli stessi controlli prima tramite \method{contactAlradyPresent()} e poi tramite la verifica del contenuto del di contact.block. Successivamente si crea una XMLHttpRequest che si appoggia alla \inglese{servlet} definita dalla stringa:\\
-
-%\verb|urlServlet + operations[9] + suffix|\\
-
-%Tale server ha il compito di sbloccare il contatto \textit{contact}. Quindi il metodo termina eseguendo un controllo sul tipo di risultato. Se l'operazione precedente è avvenuta con successo allora si procede aggiornando la rubrica (chiamata a metodo \method{setup()}), altrimenti il metodo termina con un eccezione.
-
-%\item{\method{+ getGroupsWhereContactsIs(contact: Object(contact)): Object(group)}}\\
-%Tale metodo ha il compito, dato un utente, di ritornare una lista di gruppi in cui esso è presente. Riceve come unico parametro il contatto da ricercare e successivamente vengono ciclati tutti i gruppi e per ogni gruppo si controlla se è inserito il contatto, in caso di match viene aggiunto il gruppo alla lista di gruppi da ritornare.
 
 
 \classsection{CallHistoryPresenter}
@@ -3513,7 +3542,7 @@ Questo gestore di evento incapsula il comportamento del \inglese{presenter} nel 
 Il metodo ha il compito di memorizzare all'interno del client i dati di autenticazione (in particolare, il valore numerico ID necessario all'identificazione del client da parte del server e degli altri client), avviare la connessione al server e provocare la visualizzazione della \inglese{home screen} dell'applicativo.
 
 \item{\method{+ onRemoveLoginPanel() : void}}\\
-Questo gestore di evento ha il compito di provocare la distruzione del pannello di autenticazione, richiamando il metodo opportuno della vista corrispondente, vale a dire \verb+destroy()+.
+Questo gestore di evento ha il compito di provocare la distruzione del pannello di autenticazione, richiamando il metodo \method{destroy()} della vista corrispondente.
 
 \item{\method{+ onShowLoginPanel(): void}}\\
 Questo gestore di evento ha il compito di provocare la visualizzazione del pannello di login. Questo dovrà essere ottenuto sollevando un nuovo evento tramite il quale tutti i pannelli presenti sono rimossi (\verb'removeAllPanel') quindi demandando alla vita il compito di costruirsi e caricare il relativo \inglese{template}.
@@ -3675,7 +3704,7 @@ Nessuna relazione evidenziata.
 Se la mail è valida il metodo termina ritornandone il valore, mentre nel caso in cui non sia un indirizzo ben formato o non sia stato specificato il metodo solleva delle eccezioni aventi come messaggio, rispettivamente, ``indirizzo email non valido'' e ``indirizzo email non specificato''.
 
 	\item{\method{+ onRemoveRegistrationPanel(): void}}\\
-	Questo gestore di evento ha il compito di provocare la distruzione del pannello di registrazione, richiamando il metodo opportuno della vista corrispondente, vale a dire \verb+destroy()+.
+	Questo gestore di evento ha il compito di provocare la distruzione del pannello di registrazione, richiamando il metodo opportuno della vista corrispondente, vale a dire \method{destroy()}.
 	
 	\item{\method{+ onShowRegistrationPanel(): void}}\\
 	Questo gestore di evento ha il compito di provocare la visualizzazione del pannello di registrazione. Ciò dovrà essere ottenuto sollevando un nuovo evento tramite il quale tutti i pannelli presenti sono rimossi (\verb'removeAllPanel') quindi demandando alla vista il compito di costruirsi e caricare il relativo \inglese{template}.
@@ -4207,6 +4236,40 @@ Vista associata ad \classname{AddressBookPresenter} usata per la visualizzazione
 
 \subsubsection*{Metodi}
 % TODO da terminare!
+
+%	\item{\method{+ inizialize(): void}}\\
+%	Metodo per inizializzare  \texttt{AddressBookPanel} e popolarlo con i contatti della rubrica, modifica il DOM creando tre div: divSearch, divSort e divList. Quindi sequenzialmente ne crea il contenuto:
+%		\begin{itemize}
+%			\item divSearch: definisce un campo per l'\inglese{input} testuale e un bottone per ricercare nella lista un utente avente avete tra le parole chiave, una con valore uguale a quello inserito nel campo d'\inglese{input}.
+%			\item divSort: crea delle \inglese{select} per specificare le tipologie di ordinamento attuabili sulla lista degli utenti.
+%			\item divList: \textit{div} che viene popolato con i nomi degli utenti presenti nella rubrica dell'utente che l'ha richiamata.
+%		\end{itemize}
+%Quindi dopo aver creato questi elementi il metodo procede inserendo nel DOM il ``sotto-albero'' cosi creato.
+
+%	\item{\method{+ displayContactList(contact: String[]): void}}\\
+%	Metodo usato per visualizzare la lista dei contatti utente, esso prende il nodo DOM (già esistente) e destinato a contenere la lista dei contatti, popolandolo richiamando il metodo \method{addListItem()}.
+%	\item{\method{-- addListItem(list: DOM\_node, contact: Object(contact): void}}\\
+%Metodo richiamato da \method{displayContactList()} per visualizzare i contatti presenti della rubrica, crea le variabili contenenti i dati del contatto da attribuire al \textit{tag} di \textit{markup} \texttt{li}. Tali variabili sono quelle tipiche di un oggetto Object(contact) (nome, cognome, email, status e immagine).
+
+%\item{\method{-- addOptionToSelect(select: DOM\_element, value: String, text: String): void}}\\
+%Metodo utilizzato per aggiungere un'opzione all'elemento \memberdata{select} ricevuto come parametro dal metodo. Ha il compito di creare un \texttt{TextNode} ed appenderlo alla \memberdata{select}.
+
+%\item{\method{+ applyFilterByString(param: String): array()}}\\
+%Metodo che data una stringa come parametro d'ingresso filtra la lista di contatti presente in locale. Non richiede interazione con il server, ovvero non vengono richiamate \inglese{servlet}.
+%In un primo step il programmatore dovrà creare un \inglese{array} atto a contenere l'elenco dei contatti da restituire, quindi il metodo procede con la definizione di un espressione regolare basata sul parametro ricevuto. Per tale operazione la sintassi obbligatoria è:\\
+%\verb|var pattern = new RegExp(param)|\\
+%Quindi viene avviato un ciclo \textit{for} che analizza ogni contatto presente in \memberdata{contacts}. Successivamente si effettua un filtraggio sui campi \textit{name, surname, email} del contatto attualmente in esame. Per fare tali operazioni si dovrà usare:\\
+%\verb|pattern.test(\*elemento su cui ricercare param*\)|\\
+%Se tale filtraggio da esito positivo, il contatto viene aggiunto all'\textit{array} dei contatti da restituire. Il metodo termina quando, dopo aver eseguito il ciclo \textit{for}, il metodo ritorna l'\textit{array} sopracitato.
+
+%\item{\method{+ applyFilterByGroup(idGroup: int): array()}}\\
+%Metodo che dato un intero come parametro d'ingresso filtra la lista di contatti presente in locale, restituendo un elenco dei contatti appartenenti al gruppo avente id uguale a idGroup, inoltre non deve interagire con il \inglese{server}, ovvero non vengono richiamate \inglese{servlet}. 
+%Come per \method{applyFilterByString()} anche in questo caso il metodo deve creare un \textit{array} da popolare con i contatti appartenente al gruppo idGroup. Quindi viene eseguito un ciclo \inglese{for} che ispezione tutti i contatti presenti in \memberdata{contacts} e per ogni ciclo il metodo controlla i gruppi in cui compare il contatto i-esimo (tale azione si attua per mezzo di un secondo ciclo innestato), se si verifica una corrispondenza tra l'id del gruppo in esame con l'identificativo idGroup, si aggiunge il contatto all'\textit{array} creato in precedenza. Il metodo termina restituendo l'\textit{array} sopra-citato.
+
+%\item{\method{+ showFilter(filteredContacts: Array()): void}}\\
+%Metodo usato per l'eliminare il contenuto preesistente nella rubrica e visualizza il nuovo contenuto filtrato. Il metodo riceve come parametro un \textit{array} che rappresenta la lista filtrata dei contatti da visualizzare. Per eseguire tali operazioni viene avviato un ciclo \inglese{for} per ogni contatto presente in \memberdata{contacts}. All'interno di tale ciclo deve essere eseguita la seguente istruzione:\\
+%\verb|addListItem(/*nome della variabile contenente il nodo dom AddressBookList*/,|\\
+%\verb|filtredContacts[contact])|\\
 
 \subsubsection*{Elementi}
 Il pannello è costituito da un elemento \verb'<div>' con l'identificativo \verb'LoginPanel', il quale contiene al proprio interno:
