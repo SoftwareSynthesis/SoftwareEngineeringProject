@@ -222,6 +222,22 @@ function GroupPanelPresenter(url) {
 	this.display = function() {
 		thisPanel = document.getElementById("GroupPanel");
 		var groupList = document.getElementById("groupList");
+		var addGroupButton = document.getElementById("addGroupButton");
+        addGroupButton.onclick = function() {
+            // chiedo all'utente il nome del gruppo che desidera aggiungere
+            var groupName = prompt("Indica il nome del gruppo");
+            // controllo ciò che mi ha detto l'utente
+            if (groupName == "") {
+                alert("Nessun gruppo creato");
+            } else {
+                // scateno l'evento per la creazione dell gruppo
+                createGroup.groupName = groupName;
+                document.dispatchEvent(createGroup);
+                // ricarico la vista del groupPresenter per mostrare anche il
+                // nuovo gruppo aggiunto
+                document.dispatchEvent(showGroupPanel);
+            }
+        }
 		groupList.innerHTML = "";
 		thisPresenter.displayList();
 	};

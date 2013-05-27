@@ -175,6 +175,24 @@ function AddressBookPanelPresenter() {
             imgState.src = getImageSrc(contact);
         }
     }
+    
+    /**VIEW
+     * Data una select e l'id del gruppo rappresentato dalla value della select,
+     * ritorna il valore dell'index
+     * @author Riccardo Tresoldi
+     * @param {HTMLSelectelement} select la select in cui cercare
+     * @param {Number} idGroup id del gruppo all'interno dell'object Groups e dunque anche della select con value
+     */
+    function getIndexOnSelect(select, idGroup){
+        var index;
+        for(var i=0; i<select.length; i++){
+            if(select.options[i].value == idGroup){
+                index = i;
+                break;
+            }
+        }
+        return index;
+    }
 
     /***************************************************************************
      * METODI PUBBLICI
@@ -536,23 +554,20 @@ function AddressBookPanelPresenter() {
             var liFilter = document.createElement("li");
             liFilter.id = "filterLabel";
             liFilter.appendChild(document.createTextNode("Filtraggio"));
-            // pulsante per la chiusura
-            var closeImg = document.createElement("img");
-            //TODO da impostare questo valore
-            closeImg.src = "";
-            closeImg.onclick = function() {
+            // attribuisco al listoItem la capacità di eliminare il filtraggio
+            liFilter.onclick = function() {
                 // elimina il filtraggio
-                // FIXME sento puzza di ricorsione (indiretta)!
                 var idWhitelist = -1;
                 for (var key in groups) {
                     if (groups[key].name == "addrBookEntry") {
                         idWhitelist = key;
+                        var select = document.getElementById("selectGroup");
+                        select.selectedIndex = getIndexOnSelect(select, idWhitelist);
                         break;
                     }
                 }
-                thisPresenter.applyFilterByGroup(idWhitelist);
+                thisPresenter.showFilter(thisPresenter.applyFilterByGroup(idWhitelist), true);
             };
-            liFilter.appendChild(closeImg);
             ulList.appendChild(liFilter);
         }
 
@@ -594,7 +609,7 @@ function AddressBookPanelPresenter() {
      *            contact contatto da bloccare
      * @return {Boolean} true solo se l'utente è stato bloccato correttemente
      */
-    this.blockUser = function(contact) {
+    this.blockContact = function(contact) {
         // controllo che sia presente nella rubrica
         if (!this.contactAlreadyPresent(contact)) {
             throw "Contatto non presente nella rubrica.";
@@ -627,7 +642,7 @@ function AddressBookPanelPresenter() {
      *            contact contatto da sbloccare
      * @return {Boolean} true solo se l'utente è stato sbloccato correttemente
      */
-    this.unlockUser = function(contact) {
+    this.unlockContact = function(contact) {
         // controllo che sia presente nella rubrica
         if (!this.contactAlreadyPresent(contact)) {
             throw "Contatto non presente nella rubrica.";
@@ -692,6 +707,7 @@ function AddressBookPanelPresenter() {
     this.getContact = function(idContact) {
         return contacts[idContact];
     }
+    
     /***************************************************************************
      * HANDLER EVENTI
      **************************************************************************/
@@ -720,7 +736,11 @@ function AddressBookPanelPresenter() {
      * @author Riccardo Tresoldi
      */
     function onAddContactToAddressBook(contact){
-        thisPresenter.addContact(contact);
+        try {
+            thisPresenter.addContact(contact);
+        } catch (err) {
+            alert(err);
+        }
     }
     
     /**
@@ -728,7 +748,11 @@ function AddressBookPanelPresenter() {
      * @author Riccardo Tresoldi
      */
     function onRemoveContactFromAddressBook(contact){
-        thisPresenter.removeContact(contact);
+        try {
+            thisPresenter.removeContact(contact);
+        } catch (err) {
+            alert(err);
+        }
     }
     
     /**
@@ -736,7 +760,11 @@ function AddressBookPanelPresenter() {
      * @author Riccardo Tresoldi
      */
     function onAddContactToGroup(contact, group){
-        thisPresenter.addContactInGroup(contact, group);
+        try{
+            thisPresenter.addContactInGroup(contact, group);
+        } catch (err) {
+            alert(err);
+        }
     }
     
     /**
@@ -744,7 +772,11 @@ function AddressBookPanelPresenter() {
      * @author Riccardo Tresoldi
      */
     function onRemoveContactFromGroup(contact, group){
-        thisPresenter.removeContactFromGroup(contact, group);
+        try{
+            thisPresenter.removeContactFromGroup(contact, group);
+        } catch (err) {
+            alert(err);
+        }
     }
     
     /**
@@ -752,7 +784,11 @@ function AddressBookPanelPresenter() {
      * @author Riccardo Tresoldi
      */
     function onCreateGroup(groupName){
-        thisPresenter.addGroup(groupName);
+        try{
+            thisPresenter.addGroup(groupName);
+        } catch (err) {
+            alert(err);
+        }
     }
     
     /**
@@ -760,7 +796,35 @@ function AddressBookPanelPresenter() {
      * @author Riccardo Tresoldi
      */
     function onDeleteGroup(group){
-        thisPresenter.deleteGroup(group);
+        try{
+            thisPresenter.deleteGroup(group);
+        } catch (err) {
+            alert(err);
+        }
+    }
+    
+    /**
+     * Funzione per gestire l'evento in cui viene bloccato un contatto
+     * @author Riccardo Tresoldi
+     */
+    function onBlockContact(contact){
+        try{
+            thisPresenter.blockContact(contact);
+        } catch (err) {
+            alert(err);
+        }
+    }
+    
+    /**
+     * Funzione per gestire l'evento in cui viene sbloccato un contatto
+     * @author Riccardo Tresoldi
+     */
+    function onUnlockContact(contact){
+        try{
+            thisPresenter.unlockContact(contact);
+        } catch (err) {
+            alert(err);
+        }
     }
 
     /***************************************************************************
@@ -788,6 +852,12 @@ function AddressBookPanelPresenter() {
     });
     document.addEventListener("deleteGroup", function(evt){
         onDeleteGroup(evt.group);
+    });
+    document.addEventListener("blockContact", function(evt){
+        onBlockContact(evt.contact);
+    });
+    document.addEventListener("unlockContact", function(evt){
+        onUnlockContact(evt.contact);
     });
 
     /***************************************************************************
