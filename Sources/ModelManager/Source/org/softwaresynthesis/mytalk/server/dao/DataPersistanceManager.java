@@ -1,5 +1,4 @@
 package org.softwaresynthesis.mytalk.server.dao;
-
 import java.util.List;
 import org.softwaresynthesis.mytalk.server.IMyTalkObject;
 import org.softwaresynthesis.mytalk.server.abook.IGroup;
@@ -103,7 +102,30 @@ public class DataPersistanceManager
 		GetUtil select = this.factory.getGroupUtil(this.manager);
 		IGroup result = null;
 		List<IMyTalkObject> collection = null;
-		String query = "from Groups as g where g.id = " + "'" + id + "'";
+		String query = "from Group as g where g.id = " + "'" + id + "'";
+		collection = select.execute(query);
+		if (collection != null && collection.isEmpty() == false)
+		{
+			result = (IGroup)collection.get(0);
+		}
+		return result;
+	}
+	
+	/**
+	 * Restituisce un gruppo della rubrica
+	 * dato un utente e il nome del gruppo
+	 * 
+	 * @param 	owner	{@link IUserData} utente del gruppo da ricercare
+	 * @param 	name	{@link String} nome del gruppo da ricercare
+	 * @return	{@link IGroup} restituisce il gruppo ricercato
+	 */
+
+	public IGroup getGroup(IUserData owner, String name)
+	{
+		GetUtil select = this.factory.getGroupUtil(this.manager);
+		IGroup result = null;
+		List<IMyTalkObject> collection = null;
+		String query = "from Group as g where g.owner.id = " + owner.getId() + "and g.name = '" + name + "'";
 		collection = select.execute(query);
 		if (collection != null && collection.isEmpty() == false)
 		{
@@ -125,7 +147,7 @@ public class DataPersistanceManager
 		GetUtil select = this.factory.getGroupUtil(this.manager);
 		List<IGroup> result = null;
 		List<IMyTalkObject> collection = null;
-		String query = "from Groups as g where g.owner = " + "'" + owner + "'";
+		String query = "from Group as g where g.owner.id = "  + owner.getId();
 		collection = select.execute(query);
 		if (collection != null && collection.isEmpty() == false)
 		{

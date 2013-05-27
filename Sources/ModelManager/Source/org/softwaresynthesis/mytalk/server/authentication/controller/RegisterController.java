@@ -111,7 +111,7 @@ public class RegisterController extends AbstractController
 		}
 		finally
 		{
-			if (result.equals("null") == true)
+			if (result != null && result.equals("null") == true)
 			{
 				writer = response.getWriter();
 				writer.write(result);

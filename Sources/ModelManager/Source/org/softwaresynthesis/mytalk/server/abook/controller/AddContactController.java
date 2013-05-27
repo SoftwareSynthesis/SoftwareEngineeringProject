@@ -1,5 +1,4 @@
 package org.softwaresynthesis.mytalk.server.abook.controller;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.http.HttpServletRequest;
@@ -36,18 +35,17 @@ public class AddContactController extends AbstractController {
 			frEntry = new AddressBookEntry();
 			myEmail = getUserMail();
 			myUser = dao.getUserData(myEmail);
-			
 			myEntry.setContact(friend);
 			myEntry.setBlocked(false);
 			myEntry.setOwner(myUser);
-			
+			myEntry.setGroup(dao.getGroup(myUser, "addrBookEntry"));
 			frEntry.setContact(myUser);
 			frEntry.setBlocked(false);
 			frEntry.setOwner(friend);
+			frEntry.setGroup(dao.getGroup(friend, "addrBookEntry"));
 			
 			dao.insert(myEntry);
-			dao.insert(frEntry);
-			
+			dao.insert(frEntry);		
 			result = "true";
 			
 		}

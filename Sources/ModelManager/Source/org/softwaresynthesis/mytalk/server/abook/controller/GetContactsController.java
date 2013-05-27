@@ -1,5 +1,4 @@
 package org.softwaresynthesis.mytalk.server.abook.controller;
-
 import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletRequest;

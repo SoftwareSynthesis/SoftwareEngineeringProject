@@ -1,14 +1,11 @@
 package org.softwaresynthesis.mytalk.server.abook.controller;
-
 import java.io.PrintWriter;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
 import org.softwaresynthesis.mytalk.server.AbstractController;
 import org.softwaresynthesis.mytalk.server.abook.IAddressBookEntry;
 import org.softwaresynthesis.mytalk.server.abook.IGroup;
@@ -78,6 +75,10 @@ public class GetGroupsController extends AbstractController{
 			
 		}
 		catch (Exception ex)
+		{
+			result = "null";
+		}
+		catch (Throwable ex)
 		{
 			result = "null";
 		}
