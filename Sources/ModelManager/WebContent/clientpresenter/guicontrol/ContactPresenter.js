@@ -19,25 +19,6 @@ function ContactPanelPresenter() {
     /***************************************************************************
      * METODI PRIVATI
      **************************************************************************/
-    /**
-     * Funzione per gestire l'evento in cui viene visualizzato il pannello del
-     * contatto
-     * @author Riccardo Tresoldi
-     */
-    function onShowContactPanel(contact) {
-        currentContact = contact;
-        mediator.getView('contact');
-    }
-
-    /**
-     * Funzione per gestire l'evento in cui viene rimosso il pannello del
-     * contatto
-     * @author Riccardo Tresoldi
-     */
-    function onRemoveContactPanel() {
-        currentContact = null;
-    }
-
     /** VIEW
      * Funzione che controlla se il contatto passato come parametro è bloccato o
      * no sistemando la vista in modo da lasciare consistente la visualizzazione
@@ -164,7 +145,8 @@ function ContactPanelPresenter() {
 
         // associo gli eventi onClick ai bottoni
         addToAddressBookButton.onclick = function() {
-            mediator.onContactAdded(currentContact);
+            addContactToAddressBook.contact = currentContact;
+            document.dispatchEvent(addContactToAddressBook)
         };
 
         removeFromAddressBookButton.onclick = function() {
@@ -196,6 +178,28 @@ function ContactPanelPresenter() {
             document.getElementById("addToAddressBookButton").style.display = "none";
         }
     };
+    
+    /**************************************************************************
+     * HANDLER DEGLI EVENTI
+     **************************************************************************/
+    /**
+     * Funzione per gestire l'evento in cui viene visualizzato il pannello del
+     * contatto
+     * @author Riccardo Tresoldi
+     */
+    function onShowContactPanel(contact) {
+        currentContact = contact;
+        mediator.getView('contact');
+    }
+
+    /**
+     * Funzione per gestire l'evento in cui viene rimosso il pannello del
+     * contatto
+     * @author Riccardo Tresoldi
+     */
+    function onRemoveContactPanel() {
+        currentContact = null;
+    }
 
     /***************************************************************************
      * LISTNER DEGLI EVENTI

@@ -738,6 +738,8 @@ function AddressBookPanelPresenter() {
     function onAddContactToAddressBook(contact){
         try {
             thisPresenter.addContact(contact);
+            thisPresenter.setup();
+            alert(mediator.createNameLabel(contact) + " aggiunto");
         } catch (err) {
             alert(err);
         }
