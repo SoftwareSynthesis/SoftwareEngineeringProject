@@ -117,6 +117,7 @@ function GroupPanelPresenter(url) {
 			if (userConfirm) {
 			    deleteGroup.group = group;
 				document.dispatchEvent(deleteGroup);
+				document.dispatchEvent(showGroupPanel);
 			}
 		};
 
