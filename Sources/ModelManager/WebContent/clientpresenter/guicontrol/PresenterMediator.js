@@ -129,6 +129,8 @@ function PresenterMediator() {
      * @see MainPanelPresenter#displayChildPanel({HTMLDivElement})
      * @author Diego Beraldin
      */
+    // TODO da documentare
+    // FIXME TRES di questa non ce ne facciamo nulla, vero?
     this.displayCommunicationPanel = function() {
         var element = communicationpp.createPanel();
         presenters["main"].displayChildPanel(element);
@@ -155,6 +157,8 @@ function PresenterMediator() {
      *            user utente con cui si vuole avviare la chat
      * @author Diego Beraldin
      */
+    // TODO da documentare
+    // TODO TRES mi confermi che esiste ancora? (createPanel, WTF?!)
     this.onChatStarted = function(user) {
         var element = communicationpp.createPanel();
         presenters["main"].displayChildPanel(element);
@@ -173,6 +177,8 @@ function PresenterMediator() {
      * @param {Boolean}
      *            onlyAudio true se si vuole effettuare una chiamata solo audio
      */
+    // TODO da documentare
+    // TODO TRES mi confermi che esiste ancora? (createPanel, WTF?!)
     this.onCall = function(contact, onlyAudio) {
         document.dispatchEvent(showCommunicationPanel);
         communicationcenter.call(true, contact, onlyAudio);
@@ -208,6 +214,7 @@ function PresenterMediator() {
      *            isRecevedData rappresenta un flag booleano che determina se i
      *            dati sono ricenuti o inviati
      */
+    // TODO da documentare (evento?)
     this.communicationPPUpdateStats = function(text, isRecevedData) {
         communicationpp.updateStats();
     };
@@ -219,6 +226,7 @@ function PresenterMediator() {
      * @param {String}
      *            text minuti da visualizzare
      */
+    // TODO da documentare (evento?)
     this.communicationPPUpdateTimer = function(text) {
         communicationpp.updateTimer(text);
     };
@@ -229,6 +237,7 @@ function PresenterMediator() {
      *
      * @author Diego Beraldin
      */
+    // TODO non c'è l'evento showReturnToCommunicationPanelButton?
     this.addOrRemoveCommunicationToTools = function() {
         if (communicationcenter.openChat.length > 0 || communicationcenter.videoCommunication) {
             presenters["tools"].addCommunicationFunction();
@@ -242,6 +251,8 @@ function PresenterMediator() {
      *
      * @author Diego Beraldin
      */
+    // TODO da documentare
+    // TODO TRES sono abbastanza sicuro che questa è morta, me lo confermi?
     this.logout = function() {
         if (communicationcenter.isPCDefined()) {
             setTimeout(function() {
@@ -270,6 +281,9 @@ function PresenterMediator() {
      * @author Riccardo Tresoldi
      * @param {Object} caller rappresenta il contatto che sta chiamando
      */
+    // TODO da documentare
+    // FIXME TRES manca l'event handler, che comunque dovrebbe stare in CommunicationPresenter, giusto?
+    // inoltre dovrebbe essere una funzione privata (anche se per la documentazione 'sta roba è pubblica)
     this.onIncomeCall = function(caller, onlyAudio) {
         communicationpp.showAnswerBox(caller, onlyAudio);
     };
@@ -280,6 +294,8 @@ function PresenterMediator() {
      * @author Riccardo Tresoldi
      * @param {String} evt tipo di evento che richiede la suoneria
      */
+    // TODO da documentare
+    // TODO TRES evento?
     this.startRinging = function(evt) {
         communicationpp.startRinging(evt);
     };
@@ -289,6 +305,8 @@ function PresenterMediator() {
      *
      * @author Riccardo Tresoldi
      */
+    // TODO da documentare
+    // TODO TRES evento?
     this.stopRinging = function() {
         communicationpp.stopRinging();
     };
@@ -296,6 +314,8 @@ function PresenterMediator() {
     /**
      * Funzione per mostrare un Popup personalizzato
      * Richede in input una porzione di codice HTMLDivElement da mostrare
+     * 
+     * NB: nella documentazione si chiama showAnswerBox ed è un gestore di eventi
      *
      * @author Riccardo Tresoldi
      * @param {HTMLDivElement} content elemento da visualizzare
@@ -328,6 +348,8 @@ function PresenterMediator() {
 
     /**
      * Funzione che nasconde il popup
+     * 
+     * NB Nella documentazione si chiama onRemoveAnswerBox ed è un gestore di eventi
      *
      * @author Riccardo Tresoldi
      */
@@ -342,10 +364,7 @@ function PresenterMediator() {
         document.body.removeChild(overlay);
         document.body.removeChild(answerBox);
     };
-
-    /***************************************************************************
-     * HANDLER EVENTI MEDIATOR
-     **************************************************************************/
+    
     /**
      * Restituisce la vista da visualizzare nell'interfaccia grafica
      * in base alla stringa passata come parametro, utilizzata come chiave
@@ -364,13 +383,18 @@ function PresenterMediator() {
         viewRequest.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 // onLoadView senza chiamare l'evento
+            	// TODO TRES sottoscrivo! non serve chiamare un evento qui!
+            	// Si può chiamare una sottoprocedura, un metodo privato o qualsiasi cosa!
                 loadedView.view = viewRequest.responseXML.body.firstChild;
                 loadedView.presenter = key;
                 document.dispatchEvent(loadedView);
             }
-        }
+        };
     };
 
+    /***************************************************************************
+     * HANDLER EVENTI MEDIATOR
+     **************************************************************************/
     /**
      * Event Heandler per gestire il caricamento di una View
      *
