@@ -145,6 +145,7 @@ function ContactPanelPresenter() {
         var videoCallButton = document.getElementById("videoCallButton");
         var callButton = document.getElementById("callButton");
         var removeFromAddressBookButton = document.getElementById("removeFromAddressBookButton");
+        var messageButton = document.getElementById("messageButton");
 
         adjustBlockButtonDisplay(currentContact);
         adjustGUIOnContactState(currentContact);
@@ -183,6 +184,11 @@ function ContactPanelPresenter() {
 
         callButton.onclick = function() {
             mediator.onCall(currentContact, true);
+        };
+        
+        messageButton.onclick = function() {
+            showPhoneCallMessagePanel.reciver = currentContact;
+            document.dispatchEvent(showPhoneCallMessagePanel);
         };
 
         // tolgo la possibilità di aggiungere un utente se già presente

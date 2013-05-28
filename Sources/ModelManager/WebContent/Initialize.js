@@ -18,6 +18,7 @@ window.onload = function() {
     showMessagePanel = new CustomEvent("showMessagePanel");
     showSearchResultPanel = new CustomEvent("showSearchResultPanel");
     showCommunicationPanel = new CustomEvent("showCommunicationPanel");
+    showPhoneCallMessagePanel = new CustomEvent("showPhoneCallMessagePanel");
     // eventi rimozione pannelli
     removeAllPanel = new CustomEvent("removeAllPanel");
     removeLoginPanel = new CustomEvent("removeLoginPanel");

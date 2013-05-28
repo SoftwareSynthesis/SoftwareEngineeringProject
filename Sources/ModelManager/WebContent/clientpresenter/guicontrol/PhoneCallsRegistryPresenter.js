@@ -11,6 +11,8 @@ function PhoneCallsRegistryPresenter() {
     var recorder;
     var objAudio;
     var localStream;
+    
+    var thisPresenter = this;
 
     /*FUNZIONI PRIVATE*/
     function initializeStream() {
@@ -97,4 +99,21 @@ function PhoneCallsRegistryPresenter() {
             mediator.removePopup();
         };
     };
+    
+    /*******************************************************************
+     * HANDLER PER EVENTI
+     *******************************************************************/
+    /**
+     * 
+     */
+    function onShowPhoneCallMessagePanel(reciver){
+        thisPresenter.showView(reciver);
+    }
+    
+    /*******************************************************************
+     * LISTNER PER EVENTI
+     *******************************************************************/
+    document.addEventListener("showPhoneCallMessagePanel", function(evt){
+        onShowPhoneCallMessagePanel(evt.reciver);
+    });
 }

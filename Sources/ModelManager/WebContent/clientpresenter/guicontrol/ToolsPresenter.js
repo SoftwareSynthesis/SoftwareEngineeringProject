@@ -38,7 +38,7 @@ function ToolsPanelPresenter() {
         selectState.add(new Option("Disponibile", "available"), null);
         selectState.add(new Option("Occupato", "occupied"), null);
         //aggancio l'evento onChange
-        selectState.onChange = function() {
+        selectState.onhange = function() {
         	thisPresenter.updateStateValue();
         }
         //ritorno l'elemento <select> inizializzato
@@ -181,7 +181,7 @@ function ToolsPanelPresenter() {
         //ottengo la select
         var selectState = initializeSelectState();
         //ottengo il valore corrente della select
-        var currentValue = selectState.options[selectedIndex].value;
+        var currentValue = selectState.options[selectState.selectedIndex].value;
         //Inviare il messaggio con websoket;
         changeMyState.state = currentValue;
         document.dispatchEvent(changeMyState);

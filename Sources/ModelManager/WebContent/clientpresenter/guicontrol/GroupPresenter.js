@@ -115,6 +115,7 @@ function GroupPanelPresenter(url) {
 			var userConfirm = confirm("Sei sicuro di voler eliminare il gruppo" + group.name + "?\n Gli utenti appartenenti a questo gruppo NON verranno eliminati.");
 			// se viene data conferma invoco la funzione per eliminare il gruppo
 			if (userConfirm) {
+			    deleteGroup.group = group;
 				document.dispatchEvent(deleteGroup);
 			}
 		};
