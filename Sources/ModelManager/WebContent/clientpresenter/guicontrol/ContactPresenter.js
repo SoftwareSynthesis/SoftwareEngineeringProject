@@ -220,7 +220,7 @@ function ContactPanelPresenter() {
      * LISTNER DEGLI EVENTI
      **************************************************************************/
     document.addEventListener("changeAddressBooksContactState", function(evt) {
-        if (currentContact.id == evt.idUserChange)
+        if (currentContact && currentContact.id == evt.idUserChange)
             adjustGUIOnContactState(currentContact);
     });
     document.addEventListener("showContactPanel", function(evt) {

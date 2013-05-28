@@ -147,7 +147,7 @@ function CommunicationCenter() {
             var ar = new Array("1", self.my.id);
             websocket.send(JSON.stringify(ar));
             //informo gli utenti della mia rubrica che sono online
-            changeMyState.state("available");
+            changeMyState.state = "available";
             document.dispatchEvent(changeMyState);
         };
         //event handle per gestire la chiusura della socket
@@ -174,7 +174,7 @@ function CommunicationCenter() {
                 idOther = str[1];
                 onlyAudio = str[2];
             } else if (type == "2") {
-                var signal = JSON.parse(str[1]);
+                var signal = str[1];
                 if (pc == null) {
                     //chiamo la funzione che gestisce la chiamata in arrivo
                     thisMonolith.handleCall(mediator.getContactById(idOther), onlyAudio);
@@ -185,8 +185,8 @@ function CommunicationCenter() {
                     pc.setRemoteDescription(new RTCSessionDescription(signal));
                 }
             } else if (type == "5") {
-                changeAddressBooksContactState.idUserChange = JSON.parse(str[1]);
-                changeAddressBooksContactState.statusUserChange = JSON.parse(str[2]);
+                changeAddressBooksContactState.idUserChange = str[1];
+                changeAddressBooksContactState.statusUserChange = str[2];
                 document.dispatchEvent(changeAddressBooksContactState);
             } else if (type == "6") {
                 // notifica rifiuto chiamata

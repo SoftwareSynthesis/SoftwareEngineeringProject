@@ -880,7 +880,8 @@ function AddressBookPanelPresenter() {
      * LISTENER DEGLI EVENTI
      **************************************************************************/
     document.addEventListener("changeAddressBooksContactState", function(evt) {
-    	onChangeAddressBooksContactState(evt.idUserChange, statusUserChange);
+        var contact = thisPresenter.getContact(evt.idUserChange);
+    	onChangeAddressBooksContactState(contact, evt.statusUserChange);
     });
     document.addEventListener("showAddressBookPanel", onShowAddressBookPanel);
     document.addEventListener("removeAddressBookPanel", onRemoveAddressBookPanel);
