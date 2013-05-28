@@ -429,7 +429,7 @@ function CommunicationCenter() {
      * @param {String} state stringa contenente lo stato da impostare
      */
     function onChangeMyState(state) {
-        if ((state == "available") || (state == "occuped") || (state == "offline")) {
+        if ((state == "available") || (state == "occupied") || (state == "offline")) {
             var message = new Array("5", state);
             if (websocket)
                 websocket.send(JSON.stringify(message));

@@ -171,9 +171,7 @@ function PresenterMediator() {
      *            onlyAudio true se si vuole effettuare una chiamata solo audio
      */
     this.onCall = function(contact, onlyAudio) {
-        var element = communicationpp.createPanel();
-        presenters["main"].displayChildPanel(element);
-        this.addOrRemoveCommunicationToTools();
+        document.dispatchEvent(showCommunicationPanel);
         communicationcenter.call(true, contact, onlyAudio);
     };
 

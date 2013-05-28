@@ -15,6 +15,7 @@ function ContactPanelPresenter() {
      **************************************************************************/
     var currentContact = null;
     var thisPresenter = this;
+    var thisPanel;
 
     /***************************************************************************
      * METODI PRIVATI
@@ -55,7 +56,7 @@ function ContactPanelPresenter() {
         var callButton = document.getElementById("callButton");
         var messageButton = document.getElementById("messageButton");
         switch(contact.state) {
-            case "avaiable":
+            case "available":
                 //visualizzo solo pulsanti per chiamata
                 messageButton.style.display = "none";
                 chatButton.style.display = "inline";
@@ -86,21 +87,24 @@ function ContactPanelPresenter() {
         var groups = mediator.getGroupsWhereContactsIs(contact);
         // ciclo la lista e creo le "label"
         for (var group in groups) {
-            var label = document.createElement("span");
-            var img = document.createElement("img");
-            img.className = "deleteGroupButton";
-            img.src = "img/close.png";
-            img.onclick = function() {
-                removeContactFromGroup.contact = contact;
-                removeContactFromGroup.group = groups[group];
-                document.dispatchEvent(removeContactFromGroup);
-                thisPresenter.display();
+            if (groups[group].name != "addrBookEntry") {
+                var label = document.createElement("span");
+                var img = document.createElement("img");
+                img.className = "deleteGroupButton";
+                img.src = "img/close.png";
+                img.onclick = function() {
+                    removeContactFromGroup.contact = contact;
+                    removeContactFromGroup.group = groups[group];
+                    document.dispatchEvent(removeContactFromGroup);
+                    showContactPanel.contact = currentContact;
+                    document.dispatchEvent(showContactPanel);
+                }
+                label.appendChild(document.createTextNode(groups[group].name));
+                label.appendChild(img);
+                label.className = "groupLabel";
+                div.appendChild(label);
+                // TODO gestire hover con CSS
             }
-            label.appendChild(document.createTextNode(groups[group].name));
-            label.appendChild(img);
-            label.className = "groupLabel";
-            div.appendChild(label);
-            // TODO gestire hover con CSS
         }
     }
 
@@ -126,6 +130,7 @@ function ContactPanelPresenter() {
             return;
         }
 
+        thisPanel = document.getElementById("ContactPanel");
         
         document.getElementById("contactName").appendChild(document.createTextNode("Nome: " + currentContact.name));
         document.getElementById("contactSurname").appendChild(document.createTextNode("Cognome: " + currentContact.surname));
