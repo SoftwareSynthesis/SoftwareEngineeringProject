@@ -3450,9 +3450,10 @@ Nessuna relazione evidenziata.
 
 
 % Qui dovrà andarci COMMUNICATIONPRESENTER
-
+\classsection{CommunicationPresenter}
 
 % Qui dovrà andarci CONTACTPRESENTER
+\classsection{ContactPresenter}
 
 
 \classsection{GroupPresenter}
@@ -3674,7 +3675,145 @@ Nessuna relazione evidenziata.
 \end{description}
 
 
-% Qui dovrà andarci PRESENTERMEDIATOR
+\classsection{PresenterMediator}
+
+\subsubsection*{Funzione}
+L'unica istanza di tale classe presente nel client ha il compito di coordinare la collaborazione, potenzialmente complessa, fra tutti i \inglese{presenter} che gestiscono l'interfaccia grafica permettendo lo scambio di informazioni fra gli stessi ed evitando che ognuno di essi debba riferire direttamente gli altri.
+
+\subsubsection*{Relazioni d'uso}
+Nessuna relazione d'uso evidenziata.
+
+\subsubsection*{Classi estese ed interfacce implementate}
+Nessuna relazione evidenziata.
+
+\subsubsection*{Attributi}
+\begin{description}
+
+  \item{\memberdata{-- views}}\\
+  Mappa associativa i cui chiavi e le cui valori sono rappresentati da tipi \verb'String', che permette di associare gli identificativi delle viste ai relativi \inglese{template} HTML che devono essere caricati mediante il metodo \method{getView}.
+  
+  Essendo il contenuto di questo oggetto interamente determinato in maniera statica, è possibile fornirne una rappresentazione in formato JSON che corrisponde a:
+  \begin{verbatim}
+  {
+      "accountSettings" : "AccountSettingsView.html",
+      "addressBook" : "AddressBookView.html",
+      "callHistory" : "CallHistoryView.html",
+      "contact" : "ContactView.html",
+      "communication" : "CommunicationView.html",
+      "group" : "GroupView.html",
+      "login" : "LoginView.html",
+      "main" : "MainView.html",
+      "message" : "MessageView.html",
+      "phoneCallsRegistry" : "PhoneCallsRegistryView.html",
+      "register" : "RegisterView.html",
+      "searchResult" : "SearchResultView.html",
+      "tools" : "ToolsView.html"
+  }
+  \end{verbatim}
+  
+  \item{\memberdata{-- presenters}}\\
+  Array associativo che contiene i riferimenti a tutti i \inglese{presenter} di primo livello come valori, utilizzando il medesimo insieme di chiavi descritto in dettaglio per l'attributo \memberdata{views}.
+  
+  Alla chiave \verb'login' dovrà pertanto corrispondere una nuova istanza di \classname{LoginPresenter} inizializzata all'interno del costruttore della classe \classname{PresenterMediator} con l'istruzione
+\begin{verbatim}
+  new LoginPresenter();
+\end{verbatim}
+e così via per ciascuno dei cinque presenter di primo livello, vale a dire:
+\begin{itemize}
+  \item[--] \classname{LoginPresenter};
+  \item[--] \classname{RegisterPresenter};
+  \item[--] \classname{MainPresenter};
+  \item[--] \classname{AddressBookPresenter};
+  \item[--] \classname{ToolsPresenter};
+\end{itemize}
+in modo che in seguito sia possibile ottenere un'istanza del \inglese{presenter} semplicemente utilizzando la notazione \verb'presenters["login"]', \verb'presenters["addressBook"]' e così via.
+  
+  \item{\memberdata{-- secondaryPresenters}}\\
+Tale campo dati ha il compito di memorizzare in un array associativo i riferimenti ai sette \inglese{presenter} di secondo livello, indicizzati secondo le stesse stringhe che sono state utilizzate per le viste all'interno del campo dai \memberdata{views}.
+
+L'inizializzazione di questo campo dati dovrà avvenire all'interno del metodo costruttore di \classname{PresenterMediator} in maniera del tutto analoga a quanto descritto per la variabile di istanza \memberdata{presenters} e dovrà riguardare, in particolare:
+\begin{itemize}
+  \item[--] \classname{AccountSettingsPresenter}; 
+  \item[--] \classname{CallHistoryPresenter}; 
+  \item[--] \classname{CommunicationPresenter}; 
+  \item[--] \classname{ContactPresenter};
+  \item[--] \classname{GroupPresenter};
+  \item[--] \classname{MessagePresenter};
+  \item[--] \classname{SearchResultPresenter}.
+\end{itemize}
+
+Anche in questo caso, all'interno dei metodi della classe sarà possibile riferire i vari \inglese{presenter} utilizzando una notazione del tipo \verb'secondarypresenters["contact"]' oppure \verb'secondarypresenters["communication"]'.
+  
+\end{description}
+
+\subsubsection*{Metodi}
+
+\begin{description}
+
+\item{\method{+ contactAlreadyPresent(contact: Object): Boolean}}\\
+Tale metodo dovrà restituire \verb'true' se il contatto passato come parametro appartiene già alla rubrica dell'utente e \verb'false' altrimenti. Il valore desiderato può essere ottenuto mediante una semplice invocazione del metodo omonimo messo a disposizione da \classname{AddressBookPresenter}.
+
+\item{\method{+ createNameLabel(contact: Object): String}}\\
+Il metodo ha il compito di restituire la rappresentazione in formato stringa del nome del contatto passato come parametro, da utilizzarsi ogni volta che un contatto dovrà essere visualizzato nell'interfaccia grafica (ad esempio nella rubrica, fra i risultati di una ricerca, come mittente di un messaggio in segreteria oppure contatto coinvolto in una chiamata nello storico).
+
+La rappresentazione testuale di un contatto deve contenere almeno una voce tra i valori di \verb'contact.name' e \verb'contact.surname', se almeno uno dei due è specificatto oppure, se non sono disponibili i dati anagrafici del contatto da visualizzare, l'indirizzo email di quest'ultimo.
+
+\item{\method{+ getAddressBookContacts(): Object}}\\
+Tale metodo ha il compito di restituire tutti i contatti presenti nella rubrica dell'utente rappresentati come un array associativo con una struttura analoga a quella della variabile privata \memberdata{contacts} contenuta in \classname{AddressBookPresenter}. Un simile oggetto può essere ottenuto mediante il metodo pubblico \method{getContacts()} fornito da \classname{AddressBookPresenter}.
+
+\item{\method{+ getAddressBookGroups(): Object}}\\
+Tale metodo ha il compito di restituire l'insieme dei gruppi presenti nella rubrica dell'utente rappresentati come un array associativo con una struttura analoga a quella della variabile privata \memberdata{groups} contenuta in \classname{AddressBookPresenter}. Un simile oggetto può essere ottenuto mediante un'invocazione del metodo pubblico \method{getGroups()} messo a disposizione da \classname{AddressBookPresenter}.
+
+\item{\method{+ getContactById(idContact: Number): Object}}\\
+Il metodo dovrà restituire il contatto della rubrica che è caratterizzato dal numero intero identificativo passato come parametro. A tal fine è possibile invocare il metodo \method{getContact} che è reso disponibile da \classname{AddressBookPresenter}.
+
+\item{\method{+ getGroupsWhereContactIs(contact: Object): Object}}\\
+Tale metodo avrà il compito di restituire l'insieme di tutti e soli i gruppi della rubrica dell'utente tali che il contatto passato come parametro vi appartiene, in formato di mappa associativa dalla struttura analoga a quella del campo dati \memberdata{groups} di \classname{AddressBookPresenter}. Un oggetto di questo tipo può essere ottenuto mediante l'invocazione del metodo omonimo messo a disposizione dal \inglese{presenter} per la gestione del pannello della rubrica.
+
+\item{\method{+ getMyVideo(): HTMLElement}}\\
+Questo metodo dovrà restituire un riferimento all'elemento \verb'<video>' che nel pannello della comunicazione corrisponde alla visualizzazione del flusso multimediale proveniente dal client dell'utente finale dell'applicativo. Un simile riferimento può essere ottenuto mediante l'invocazione del metodo pubblico omonimo messo a disposizione dal \classname{CommunicationPresenter}.
+
+\item{\method{+ getOtherVideo(): HTMLElement}}\\
+Questo metodo dovrà restituire un riferimento all'elemento \verb'<video>' che nel pannello della comunicazione corrisponde alla visualizzazione del flusso multimediale proveniente dal client dell'utente remoto con cui si è instaurata una comunicazione. Un simile riferimento può essere ottenuto mediante l'invocazione del metodo pubblico omonimo messo a disposizione dal \classname{CommunicationPresenter}.
+
+\item{\method{+ getView(key: String): void}}\\
+Questo metodo ha il compito di ottenere dal server un frammento XHTML che rappresenta la porzione di codice corrispondente al pannello della vista, che in seguito dovrà essere gestita in una fase preliminare dal metodo \method{onLoadedView} di questa stessa classe, e in una fase successiva dagli \method{initialize} delle viste di primo livello e dai \method{display()} delle viste di secondo livello.
+
+Al fine di scaricare dal server il \inglese{template} del pannello, questo metodo dovrà inviare una nuova richiesta AJAX \emph{asincrona} all'indirizzo del server tramite un'opportuna istanza di \verb'XMLHttpRequest', richiedendo tramite il metodo HTTP GET la risorsa il cui URI relativo è dato dalla concatenazione della stringa \verb'"clientview/"' con il valore presente nell'attributo \memberdata{views} in corrispondenza dell'indice dato dal parametro \verb'key' del metodo stesso.
+
+Trattandosi di una richiesta asincrona, a differenza di tutte le altre richieste trattate sinora, il suo comportamento quando dovesse diventare pronta dovrà essere configurato nel modo seguente:
+\begin{verbatim}
+  request.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                ...comportamento...
+            }
+        };
+\end{verbatim}
+
+Il comportamento da eseguire quando la richiesta sarà soddisfatta dal server dovrà prevedere in primo luogo l'estrazione della risorsa in formato XML con una sintassi del tipo \verb'request.responseXML.body.firstChild', quindi l'assegnamento di questo \verb'HTMLElement' alla proprietà \verb'view' di un evento con nome identificativo uguale a \verb'loadedView'. Il metodo si concluderà sollevando l'evento appena descritto. 
+
+\item{\method{+ onLoadedView(presenter: String, view: HTMLElement): void}}\\
+Questo gestore di eventi viene richiamato quando si verifica un evento con stringa identificativa uguale a \verb'loadedView'. La gestione dell'evento dovrà differenziarsi a seconda del fatto che si tratti di una vista di primo o di secondo livello, in base al valore del primo parametro che identifica il \inglese{presenter} destinatario.
+
+Nel caso di una vista di primo livello, dovrà essere richiamato il metodo \method{initialize} messo a disposizione dalla vista stessa, passando l'elemento HTML ricevuto come secondo parametro per la visualizzazione e l'inizializzazione della vista.
+
+Nel caso invece di una vista di secondo livello, sarà responsabilità del metodo far visualizzare la vista nel pannello centrale tramite il metodo \method{displayChildPanel} della \classname{MainView}, demandando poi alla specifica vista l'inizializzazione delle componenti tramite il metodo \method{display} corrispondente.
+
+\item{\method{+ onRemoveAllPanels(): void}}\\
+Questo gestore di eventi dovrà determinare la scomparsa dall'interfaccia grafica di tutte le viste di primo livello visualizzate. A tale scopo dovranno essere quindi sollevati i cinque eventi corrispondenti (su cui le viste sono in ascolto), vale a dire \verb'removeLoginPanel', \verb'removeRegistrationPanel', \verb'removeAddressBookPanel', \verb'removeToolsPanel' e, da ultimo, \verb'removeMainPanel'.
+
+\item{\method{+ onRemoveAnswerBox(): void}}\\
+Questo gestore di eventi ha lo scopo di rimuovere il pannello temporaneo che permette all'utente di rispondere a una chiamata in ingresso (in caso di accettazione o di rifiuto della stessa). A tal fine dovranno essere recuperati i riferimenti ai due elementi \verb'<div>' presenti nel documento con identificativi, rispettivamente, uguali a \verb'overlayAnswerBox' e \verb'answerBox', quindi rimuoverli dai figli dell'elemento \verb'<body>'.
+
+\item{\method{+ onShowAnswerBox(content: HTMLElement): void}}\\
+Questo gestore di eventi ha il compito di far visualizzare un pannello temporaneo il cui sotto-albero ha come radice l'elemento HTML ricevuto come parametro, per permettere all'utente di rispondere a una chiamata in ingresso.
+
+A tale scopo dovrà essere creato un \verb'<div>' con l'identificativo \verb'overlayAnswerBox' che dovrà essere aggiunto come primo figlio dell'elemento \verb'<body>' e un secondo \verb'<div>' con identificativo \verb'answerBox' che dovrà essere aggiunto immediatamente dopo l'\inglese{overlay}. Tutti gli altri eventuali figli del \verb'<body>' dovranno essere posizionati in successivamente nell'albero DOM con un'istruzione del tipo \verb'body.insertBefore(overlay, bodyFirstChild)'.
+
+\item{\method{+ onShowUIPanels(): void}}\\
+Questo gestore di eventi avrà il compito di far visualizzare l'interfaccia grafica principale a seguito di un'autenticazione avvenuta con successo. A tale fine dovrà essere sollevato innanzitutto un evento con stringa identificativa uguale a \verb'removeAllPanels', quindi dovranno essere sollevati in sequenza i tre eventi \verb'showAddressBookPanel', \verb'showMainPanel' e \verb'showToolsPanel' che avviano i relativi \inglese{presenter} e fanno visualizzare i pannelli.
+
+\end{description}
 
 
 \classsection{RegisterPresenter}
@@ -3976,142 +4115,6 @@ Successivamente si andranno a popolare tali elementi utilizzando le informazioni
 \item chiamata video --> onCall(contact, true);
 \item avvia chat --> onChatStarted(contact);
 \end{itemize}
-
-\end{description}
-
-\classsection{PresenterMediator}
-
-\subsubsection*{Funzione}
-Presenter incaricato di gestire la collaborazione tra i vari sotto-presenter.
-
-\subsubsection*{Relazioni d'uso}
-Nessuna relazione d'uso evidenziata.
-
-\subsubsection*{Classi estese ed interfacce implementate}
-Nessuna relazione evidenziata.
-
-\subsubsection*{Attributi}
-\begin{description}
-\item{\memberdata{-- presenters: Array associativo}}\\
-  \textit{array} contenente tutti i sotto-presenter.\\
-  Presenter di primo livello:
-  \begin{itemize}
-  \item login --> LoginPanelPresenter;
-  \item register --> RegisterPanelPresenter;
-  \item addressbook --> AddressBookPanelPresenter;
-  \item tools --> ToolsPanelPresenter;
-  \item main --> MainPanelPresenter.
-  \end{itemize}
-  Presenter di secondo livello:
-  \begin{itemize}
-  \item accountsettingspp --> AccountSettingsPanelPresenter;
-  \item communicationpp --> CommunicationPanelPresenter;
-  \item contactpp --> ContactPanelPresenter;
-  \item callhistorypp --> CallHistoryPanelPresenter;
-  \item messagepp --> MessagePanelPresenter;;
-  \item searchresultpp --> SearchResultPanelPresenter;
-  \item grouppp --> GroupPanelPresenter.
-  \end{itemize}
-\end{description}
-
-\subsubsection*{Metodi}
-\begin{description}
-\item{\method{- getCommunicationPP(): CommunicationPanelPresenter}}
-Il metodo restituisce l'istanza dell'attributo di tipo  CommunicationPanelPresenter.
-
-\item{\method{+ buildUI(): void}}\\
-Tale metodo ha il compito di inizializzare l'interfaccia grafica delegando ai presenter il compito di disegnare gli elementi principali dell'interfaccia, incaricando i presenter di primo livello di creare e popolare i rispettivi pannelli. In particolare, si nasconderanno i seguenti pannelli:
-\begin{itemize}
-\item register;
-\item login;
-\item addressbook;
-\item main;
-\item tools.
-\end{itemize}
-
-
-\item{\method{+ buildLoginUI(): void}}\\
-Visualizza l'interfaccia di autenticazione al sistema, che comprende il \textit{form} di \textit{login}. Viene chiamato quindi il metodo \method{initialize()} del LoginPanelPresenter per la sua costruzione.
-	
-\item{\method{+ buildRegistrationUI(): void}}\\
-Visualizza il form di registrazione al sistema, utilizzato dagli utenti che vogliono creare un nuovo account, viene chiamato quindi il metodo \method{initialize()} del RegisterPanelPresenter per la sua costruzione.
-
-\item{\method{+ onContactSelected(contact: Object(contact)): void}}\\
-Metodo invocato nel momento in cui viene selezionato un contatto, tale evento invoca il metodo \method{display} del ContactPanelPresenter prendendo come parametro l'oggetto \textit{contact} ricevuto inizialmente. 
-
-
-\item{\method{+ onContactAdded(contact: Object(contact)): void}}\\
-Funzione di \textit{callback} richiamata dai pulsanti di SearchResultPanel che comunica all'AddressBookPanelPresenter di aggiungere un contatto. Riceve come parametro l'utente che si vuole aggiungere (\textit{contact}), questo parametro viene a suo volta passato alla funzione \texttt{addContact()} di addressBookPanelPresenter. In caso di errore, viene segnalato con un \textit{alert}.
-
-\item{\method{+ onContactRemoved(userID: String): void}}\\
-Funzione di \textit{callback} richiamata dai pulsanti di SearchResultPanel che comunica all'AddressBookPanelPresenter di rimuovere un contatto. Il metodo riceve come parametro l'utente che si vuole rimuovere (contact). Questo parametro viene a suo volta passato alla funzione \texttt{removeContact()} di addressBookPanelPresenter. In caso di errore, viene segnalato con un \textit{alert}.
-
-\item{\method{+ onGroupAdded(name: String): void}}\\
-Funzione di \textit{callback} richiamata dai pulsanti di SearchResultPanel che comunica all'AddressBookPanelPresenter di aggiungere un gruppo. Il metodo riceve come parametro il nome del nuovo gruppo che si vuole aggiungere (name). Questo parametro viene a suo volta passato alla funzione addGroup() di addressBookPanelPresenter.
-
-
-\item{\method{+ onGroupRemoved(group: object(group)): void}}\\
-Funzione di \textit{callback} richiamata dai pulsanti di SearchResultPanel che comunica all'AddressBookPanelPresenter di rimuovere un gruppo. Il metodo riceve come parametro il gruppo che si vuole rimuovere (\textit{group}). Questo parametro viene a suo volta passato alla funzione \texttt{removeGroup()} di addressBookPanelPresenter.
-
-
-\item{\method{+ onContactAddeddInGroup(contact: Object(contact), group: Object(group)): void}}\\
-Funzione di \textit{callback} richiamata dai pulsanti di SearchResultPanel che comunica all'AddressBookPanelPresenter di aggiungere un contatto ad un gruppo. Il metodo riceve come parametro il contatto che si vuole aggiungere (\textit{contact}) e il gruppo a cui aggiungere il contatto (\textit{group}). Questi parametri vengono a suo volta passati alla funzione \texttt{addContactInGroup()} di addressBookPanelPresenter.
-
-
-\item{\method{+ onContactRemovedInGroup(contact: Object(contact), group: Object(group)): void}}\\
-Funzione di \textit{callback} richiamata dai pulsanti di SearchResultPanel che comunica all'AddressBookPanelPresenter di rimuovere un contatto da un gruppo. Il metodo riceve come parametro il contatto che si vuole rimuovere (\textit{contact}) e il gruppo a cui rimuovere il contatto (\textit{group}). Questi parametri vengono a suo volta passati alla funzione \texttt{removeContactFromGroup()} di addressBookPanelPresenter.
-
-
-\item{\method{+ onBlockedContact(contact: Object(contact)): void}}\\
-Funzione di \textit{callback} che comunica all'AddressBookPanelPresenter di bloccare un contatto. Il metodo riceve come parametro il contatto che si vuole bloccare (\textit{contact}), questo parametro viene a suo volta passato alla funzione \texttt{blockUser()} di addressBookPanelPresenter. In caso di errore, viene notificato con un \textit{alert} riportando l'errore relativo.
-
-
-\item{\method{+ onUnlockContact(contact: Object(contact)): void}}\\
-Funzione di \textit{callback} che comunica all'AddressBookPanelPresenter di sbloccare un contatto. Il metodo riceve come parametro il contatto che si vuole sbloccare (\textit{contact}), questo parametro viene a suo volta passato alla funzione \texttt{unlockUser()} di addressBookPanelPresenter. In caso di errore, viene notificato con un \textit{alert} riportando l'errore relativo.
-
-
-\item{\method{+ displayMessagePanel(): void}}\\
-Provoca la creazione del pannello della segreteria e la sua visualizzazione all'interno del MainPanel come elemento figlio. La costruzione del pannello è affidata al metodo \textit{createPanel} che viene reso disponibile da tutti i presenter di secondo livello, viene quindi creato dal metodo \method{createPanel()} del presenter messagePanelPresenter un elemento di tipo DOM\_node che viene poi passato al presenter \textit{main} come parametro del metodo \method{displayChildPanel}.
-
-
-\item{\method{+ displayAccountSettingsPanel(): void}}\\
-Provoca la creazione del pannello delle impostazioni dell'utente e la sua visualizzazione all'interno del MainPanel. Come il metodo sopra citato, viene creato dal metodo \method{createPanel()} del presenter CallHistoryPanelPresenter un elemento di tipo DOM\_node che viene poi passato al presenter \textit{main} come parametro del metodo \method{displayChildPanel}.
-
-
-\item{\method{+ displayCallHistoryPanel(): void}}\\
-Provoca la creazione del pannello dello storico delle chiamate e la sua visualizzazione all'interno del MainPanel. Come il metodo sopra citato, viene creato dal metodo \method{createPanel()} del presenter CallHistoryPanelPresenter un elemento di tipo DOM\_node che viene poi passato al presenter \textit{main} come parametro del metodo \method{displayChildPanel}.
-
-
-\item{\method{+ onFiltredApplyedByParam(param: String): void}}\\
-Funzione di \textit{callback} richiamata dai pulsanti di SearchResultPanel che comunica all'AddressBookPanelPresenter di filtrare la lista dei contatti secondo il parametro ricevuto (param). Viene scatenata l'invocazione del metodo \method{applyFilterByString} del presenter AddressBookPresenter passandogli come parametro \textit{param}.
-
-\item{\method{+ getGroupsWhereContactsIs(contact: Object(contact)): void}}\\
-Funzione di \textit{callback} che comunica all'AddressBookPanelPresenter di cercare i gruppi a cui appartiene un utente nella propria rubrica ricevuto come parametro (contact). Viene quindi invocato il metodo \method{getGroupsWhereContactIs()} del presenter AddressBookPanelPresenter.
-
-\item{\method{+ displaySearchResultPanel(): void}}\\
-Provoca la creazione del pannello delle impostazioni del proprio account e la sua visualizzazione all'interno del MainPanel. Viene creato dal metodo \method{createPanel()} del presenter AccountSettingsPanelPresenter un elemento di tipo DOM\_node che viene poi passato al presenter \textit{main} come parametro del metodo \method{displayChildPanel}.
-
-
-\item{\method{+ displayCommunicationPanel(): void}}\\
-Provoca la creazione del pannello delle comunicazioni e la sua visualizzazione all'interno del MainPanel. Viene creato dal metodo \method{createPanel()} del presenter CommunicationPanelPanelPresenter un elemento di tipo DOM\_node che viene poi passato al presenter \textit{main} come parametro del metodo \method{displayChildPanel}.
-
-\item{\method{+ displayContact(contact: Object(contact)): void}}\\
-L'invocazione di tale metodo provoca la visualizzazione della scheda di un contatto (contact) nel CommunicationpanelPresenter. Viene richiamato il metodo \method{displayCommunicationPanel()} e successivamente il metodo \method{display} passando come contatto il parametro ricevuto precedentemente.
-
-\item{\method{+ contactAlreadyPresent(contact: Object(contact)): boolean}}\\
-Metodo che controlla se l'utente ricevuto come parametro del metodo (contact) è gia presente nella rubrica. Viene invocato il metodo \method{contactAlreadyPresent()} di AddressBookPanelPresenter passando come parametro il contatto in questione.
-
-\item{\method{+ onChatStarted(user: Object(contact)): void}}\\
-Coordina i presenter nel momento in cui ha inizio una nuova comunicazione testuale e incapsula la collaborazione fra ContactPanelPresenter e CommunicationPanelPresenter. Viene quindi
-\begin{itemize}
-\item invocato il metodo \method{createPanel()} di CommunicationPanelPresenter;
-\item invocato il metodo \method{displayChildPanel()} di MainPanelPresenter passandogli come parametro l'oggetto creato precedentemente;
-\item invocato il metodo \method{addChat()} di CommunicationPanelPresenter passando come parametro l'utente interessato;
-\item invocato il metodo \method{displayChat()} di CommunicationPanelPresenter passando come parametro l'utente interessato.
-\end{itemize} 
-
-\item{\method{+ onCall(contact: Object(contact), onlyAudio: boolean): boolean}}\\
-Metodo per gestire la chiamata, riceve come parametri l'utente che si vuole chiamare (\textit{contact}) e un \textit{flag} per segnalare se la chiamata è solo audio (\textit{onlyAudio}).
 
 \end{description}
 
