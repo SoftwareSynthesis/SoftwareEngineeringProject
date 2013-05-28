@@ -1,5 +1,4 @@
 package org.softwaresynthesis.mytalk.server.abook.controller;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Iterator;
@@ -42,7 +41,7 @@ public class DeleteGroupController extends AbstractController{
 			group = dao.getGroup(groupId);
 			if (group != null)
 			{
-				if (group.getOwner().equals(myUser))
+				if (group.getOwner().getId().equals(myUser.getId()))
 				{
 					entrys = group.getAddressBook();
 					iterator = entrys.iterator();
