@@ -304,7 +304,7 @@ function AddressBookPanelPresenter() {
 
         if (Object.size(contacts) == 0) {
             var noContactAlertListItel = document.createElement("li");
-            noContactAlertListItel.appendChild(document.createTextElement("Nessun contatto in rubrica"));
+            noContactAlertListItel.appendChild(document.createTextNode("Nessun contatto in rubrica"));
             ulList.appendChild(noContactAlertListItel);
         }
         // ciclo i contatti e agiungo un <li> per ogni contatto

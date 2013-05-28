@@ -226,7 +226,7 @@ function GroupPanelPresenter(url) {
             // chiedo all'utente il nome del gruppo che desidera aggiungere
             var groupName = prompt("Indica il nome del gruppo");
             // controllo ciò che mi ha detto l'utente
-            if (groupName == "") {
+            if (groupName == "" || groupName == null) {
                 alert("Nessun gruppo creato, non hai inserito nessun nome!");
             } else {
                 // scateno l'evento per la creazione dell gruppo
