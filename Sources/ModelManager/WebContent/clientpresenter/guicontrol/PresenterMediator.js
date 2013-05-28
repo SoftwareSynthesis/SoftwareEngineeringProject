@@ -51,6 +51,9 @@ function PresenterMediator() {
     secondaryPresenter["message"] = messagepp
     secondaryPresenter["searchResult"] = searchresultpp
     secondaryPresenter["group"] = grouppp
+    
+    // presenter "pop-up" per messaggio segreteria
+    var phonecallsregistrypp = new PhoneCallsRegistryPresenter();
 
     /***************************************************************************
      * METODI PUBBLICI

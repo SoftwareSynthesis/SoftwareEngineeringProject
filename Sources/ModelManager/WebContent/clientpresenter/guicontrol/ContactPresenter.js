@@ -185,7 +185,7 @@ function ContactPanelPresenter() {
         callButton.onclick = function() {
             mediator.onCall(currentContact, true);
         };
-        
+
         messageButton.onclick = function() {
             showPhoneCallMessagePanel.reciver = currentContact;
             document.dispatchEvent(showPhoneCallMessagePanel);
