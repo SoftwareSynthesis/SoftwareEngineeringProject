@@ -210,13 +210,15 @@ Nessun svantaggio evidenziato.
 
 \subsection{Servlet container TomCat}
 
-L'applicativo dovrà disporre di un lato server ed un lato client. Se da una parte il lato client è rappresentato dall'ambiente di esecuzione del browser che ha il compito di visualizzare una pagina web fornita tramite un server Apache ed eseguire gli \inglese{script} ad essa associati, dall'altra l'applicativo server sarà strutturato tramite delle \inglese{servlet} Java che, per conformità con i software usati, saranno caricate nel \inglese{servlet container} di TomCat che si appoggia sul già citato Apache.
+
+%TODOR: CORREGGERE
+L'applicativo dovrà disporre di un lato server ed un lato client. Il lato client è rappresentato dall'ambiente di esecuzione del \inglese{browser} che ha il compito di visualizzare una pagina web fornita tramite un server \inglese{Apache} ed eseguire gli \inglese{script} ad essa associati; l'applicativo server invece sarà strutturato tramite delle \inglese{servlet} Java che, per conformità con i software usati, saranno caricate nel \inglese{servlet container} di TomCat che si appoggia sul già citato \inglese{Apache}.
 
 \subsubsection*{Vantaggi}
 
 \begin{itemize}[noitemsep,nolistsep]
-  \item[-] Alcuni membri del gruppo hanno già lavorato in passato con Tomcat; la loro esperienza potrà tornare utile velocizzando la fase d'apprendimento, da parte dei membri che ancora non lo conoscono;
-  \item[-] contiene le librerie WebSocket.
+  \item[-] Alcuni membri del gruppo hanno già lavorato in passato con TomCat; la loro esperienza potrà tornare utile velocizzando la fase d'apprendimento, da parte dei membri che ancora non ne conoscono il funzionamento;
+  \item[-] contiene le librerie \textit{WebSocket}.
 \end{itemize}
 
 \subsubsection*{Svantaggi}
@@ -230,7 +232,7 @@ Hibernate è un \inglese{framework} Java utilizzato per facilitare l'utilizzo di
 
 \subsubsection*{Vantaggi}
 \begin{itemize}[noitemsep,nolistsep]
-\item[-] Hibernate permette di utilizzare le tabelle di un database relazionale come se fossero degli oggetti mappando il database su di opportune classi strutturate ad-hoc svincolando la gestione della persistenza dei dati dalla logica di business;
+\item[-] Hibernate permette di utilizzare le tabelle di un database relazionale come se fossero degli oggetti mappando il database su di opportune classi strutturate ad-hoc svincolando la gestione della persistenza dei dati dalla logica di \inglese{business};
 \item[-] con questo \inglese{framework} Java riesce a lavorare su un database rendendo trasparenti al programmatore le vere e proprie \inglese{query} e mostrando esclusivamente classi e metodi; Lo sviluppatore è inoltre esonerato dalla gestione dei risultati di chiamate SQL e la loro eventuale conversione in oggetti.
 \item[-] essendo rilasciato sotto licenza LGPL può essere utilizzato senza restrizioni (\inglese{copyleft}) e vincoli di licenza delle opere derivate.
 \item[-] l'applicazione rimane portabile in tutti i sistemi di gestione supportati, con un basso \inglese{overhead}.
@@ -249,7 +251,7 @@ JAAS (\inglese{Java Authentication and Authorization Service}) è un \inglese{fr
 \subsubsection*{Vantaggi}
 \begin{itemize}[noitemsep,nolistsep]
 	\item[-] Permette di gestire la gestire la logica di \inglese{login} indipendentemente dalla struttura dell'applicativo sottostante;
-	\item[-] la manutenzione incorpora lo stesso vantaggio presentato al punto precedente: indipendenza dall'applicativo che ne fa uso;
+	\item[-] la manutenzione incorpora lo stesso vantaggio presentato al punto precedente: l'indipendenza dall'applicativo che ne fa uso;
 	\item[-] facilità nel gestire autenticazione e autorizzazione.
 \end{itemize}
 
@@ -264,8 +266,8 @@ WebRTC è il \inglese{framework} JavaScript richiesto da capitolato per gestire 
 
 \subsubsection*{Vantaggi}
 \begin{itemize}[noitemsep,nolistsep]
-	\item[-] Facilita l'iter di connessione e gestione della comunicazione, evitando l'utilizzo diretto delle WebSocket;
-	\item[-] riduce il \inglese{total cost of ownership} nella creazione di applicativi VOIP (poiché non richiede l'installazione di componenti aggiuntivi e si basa esclusivamente sul browser da cui è lanciato l'applicativo).
+	\item[-] Facilita l'iter di connessione e gestione della comunicazione, evitando l'utilizzo diretto delle \textit{WebSocket};
+	\item[-] riduce il \inglese{total cost of ownership} nella creazione di applicativi VOIP (poiché non richiede l'installazione di componenti aggiuntivi e si basa esclusivamente sul \inglese{browser} da cui è lanciato l'applicativo).
 \end{itemize}
 
 \subsubsection*{Svantaggi}
@@ -281,12 +283,12 @@ WebRTC è il \inglese{framework} JavaScript richiesto da capitolato per gestire 
 Per introdurre l'architettura proposta è essenziale mettere in evidenza le seguenti considerazioni:
 \begin{itemize}
 	\item il sistema poggia su un database nel quale sono contenuti i dati d'interesse per gli utenti (dati anagrafici, lista dei messaggi audio, lista dei messaggi audio e video, la rubrica dei contatti e lo storico delle chiamate);
-	\item il sistema proposto dal team è dotato di una parte server e una parte client;
-	\item dopo un'analisi preliminare il team ha stabilito che la progettazione del server non deve essere vincolata da quella del client in modo tale da evitare che il progetto dell'applicativo lato server abbia la cognizione di come funziona il client. Ciò permetterà un futuro riutilizzo del codice (e.g. se si desiderasse creare un nuovo applicativo di tipo \underline{VoIP} si potrà riutilizzare il server già creato);
-	\item per quanto riguarda il lato client, al fine di garantire un alto livello di riutilizzo del codice e la possibilità di eseguire manutenzioni nel minor tempo possibile, si vuole che la logica d'implementazione del client sia svincolata dalla rappresentazione grafica del medesimo.
+	\item il sistema proposto dal team è composto da una parte server e una parte client;
+	\item dopo un'analisi preliminare il team ha stabilito che la progettazione del server non deve essere vincolata da quella del client in modo tale da evitare che il progetto dell'applicativo lato server abbia la cognizione del funzionamento del client. Ciò permetterà un futuro riutilizzo del codice (e.g. se si desiderasse creare un nuovo applicativo di tipo \underline{VoIP} si potrà riutilizzare il server già creato);
+	\item per quanto riguarda il lato client, al fine di garantire un alto livello di riutilizzo del codice e la possibilità di eseguire manutenzioni nel minor tempo possibile, si farà in modo che la logica d'implementazione sia svincolata dalla rappresentazione grafica del medesimo.
 \end{itemize}
 
-Tali considerazioni di base, hanno portato il team a suddividere l'architettura in tre sotto-architetture, intese anche come package, più una quarta architettura inerente la struttura del database:
+Tali considerazioni di base, hanno portato il team a suddividere l'architettura in tre sotto-architetture, intese anche come \inglese{package}, più una quarta architettura inerente la struttura del database:
 \begin{itemize}
 	\item il database;
 	\item il server (\texttt{org.softwaresynthesis.mytalk.server});
@@ -297,29 +299,28 @@ Tali considerazioni di base, hanno portato il team a suddividere l'architettura 
 Le specifiche di ogni sotto-architettura saranno definite, rispettivamente nelle sezioni \vref{sec:database}, \vref{sec:server}, \vref{sec:clientpresenter} e \vref{sec:clientview}.
 
 Inoltre si fa presente che l'architettura generale, intesa come agglomerato delle tre sotto-architetture precedentemente elencate, fa uso del pattern MVP\@.
-Con tale ottica la sotto-architettura \texttt{server} ricopre il ruolo di \inglese{model}, \texttt{clientpresenter} costituisce invece il \inglese{presenter}, mentre \texttt{clientview} è la vista definita per questo progetto. Tra le considerazioni più interessanti che hanno portato alla scelta di questo \inglese{pattern}, va messa in evidenza la seguente:
+Con tale ottica la sotto-architettura \texttt{server} ricopre il ruolo di \inglese{model}, \texttt{clientpresenter} costituisce invece il \inglese{presenter}, mentre \texttt{clientview} è la vista definita per questo progetto. \\Tra le considerazioni più interessanti che hanno portato alla scelta di questo \inglese{pattern}, va messa in evidenza la seguente:
 
 assegnando a ogni sotto-architettura un ruolo specifico, si garantisce un alto livello di riutilizzo del codice (e.g. la vista comunica con il \inglese{presenter} poiché non conosce la logica di \inglese{business} del sistema).
+Di conseguenza, in un futuro si potrebbe riprendere la vista definita e riutilizzarla in un diverso progetto, andando solo a ridefinire, se necessario, un \inglese{presenter} che riproponga una nuovo adattamento della parte logica.
 
-Di conseguenza, in un futuro si potrebbe riprendere la vista oggi definita e riutilizzarla in un altro progetto, andando solo a ridefinire, se necessario, un \inglese{presenter} che riproponga una nuovo adattamento della parte logica.
-
-Nelle sezioni successive, per ogni sotto-architettura sarà fornito un elenco dettagliato dei componenti che lo interessano. Si sottolinea che per componenti non sono da intendersi i sotto-package, bensì gli agglomerati di classi (potenzialmente appartenenti a package diversi) che concorrono ad un fine comune: la definizione delle funzionalità del componente trattato.
+Nelle sezioni successive per ogni sotto-architettura sarà fornito un elenco dettagliato dei componenti che lo interessano. Si sottolinea che per componenti non sono da intendersi i sotto-\inglese{package}, bensì gli agglomerati di classi (potenzialmente appartenenti a \inglese{package} diversi) che concorrono ad un fine comune: la definizione delle funzionalità del componente trattato.
 \clearpage
 
 \subsection{Logica di rete}
 
 \subsubsection{Descrizione della logica di connessione}
-La rete che viene a crearsi sotto l'architettura di \caName{} è basata su WebRTC e WebSocket. Ogni client connesso al sistema ha una canale WebSocket con il server e per ogni chiamata che viene a crearsi tra due client si instaura un canale WebRTC che mette in comunicazioni i seuddetti client. Questo canale è generato dall'oggetto RTCPeerConnection che è alla base dell'API di WebRTC.
+La rete che viene a crearsi sotto l'architettura di \caName{} è basata su WebRTC e WebSocket. Ogni client connesso al sistema ha una canale WebSocket con il server e per ogni chiamata che viene a crearsi tra due client si instaura un canale WebRTC che mette in comunicazioni i seuddetti client. Questo canale è generato dall'oggetto \texttt{RTCPeerConnection} che è alla base dell'API di WebRTC.
 
-Una comunicazione nasce tra due utenti, colui che effettua la chiamata e colui che la riceve.
+Una comunicazione nasce tra due utenti: colui che effettua la chiamata e colui che la riceve.
 \begin{enumerate}
 \item I client che possono effettuare o ricevere un chiamata sono tutti quelli che sono connessi al server con una WebSocket e sono indicizzati all'interno di un array attraverso un ID univoco;
 \item Al momento di effettuare una chiamata, il chiamante invia una richiesta al server attraverso il canale WebSocket già aperto, comunicando l'ID del chiamato e la propria \inglese{description} (ovvero un elenco di caratteristiche e parametri necessari alla comunicazione WebRTC, tra cui il socket pubblico);
 \item Il server usa il canale WebSocket già aperto con il chiamato per comunicargli l'intenzione del chiamante di instaurare una comunicazione e recapitare la \inglese{description} di quest'ultimo;
-\item Il chiamato, dopo aver accettato la chiamata dando il consenso all'utilizzo della webcam, riceve la \inglese{description} del chiamante, la imposta nel proprio oggetto webRTCPeerConnection, sucessivamente invia al server la propria \inglese{description};
+\item Il chiamato, dopo aver accettato la chiamata dando il consenso all'utilizzo della \inglese{webcam}, riceve la \inglese{description} del chiamante, la imposta nel proprio oggetto \texttt{webRTCPeerConnection}, sucessivamente invia al server la propria \inglese{description};
 \item Il server comunica la \inglese{description} del chiamato al chiamante e termina il proprio ruolo all'interno della comunicazione;
 \item Il chiamante riceve la \inglese{description} del chiamato e la setta nel proprio oggetto webRTCPeerConnection;
-\item Giunti a questo punto gli oggetti webRTCPeerConnection di entrambi i client hanno tutte le \inglese{description} che servono per avviare la comunicazione \inglese{peer-to-peer};
+\item Giunti a questo punto gli oggetti \texttt{webRTCPeerConnection} di entrambi i client hanno tutte le \inglese{description} che servono per avviare la comunicazione \inglese{peer-to-peer};
 \item La comunicazione rimarrà attiva fino a che uno dei due client non deciderà volutamente di interromperla.
 \end{enumerate}
 \clearpage
@@ -330,14 +331,14 @@ La progettazione di ogni singola sotto-architettura è caratterizzata da tre ``c
 
 \begin{description}
 	\item{\scshape\bfseries Componenti}: sono costrutti logici che racchiudono classi tra loro coese e identificano delle sezioni architetturali con scopi ben precisi, in modo che la ricerca di una determinata classe possa avvenire con facilità individuandone la presenza in una componente a seconda del nome ad essa attribuitogli (e.g. la ricerca di una classe avente lo scopo di gestire una comunicazione client-client risulterà intuitivamente più semplice a fronte dell'esistenza di una componente denominata ``Gestione Comunicazione'').
-	\item{\scshape\bfseries Classi}: sono le unità fisiche atte a risolvere un determinato problema (Requisito). Esse sono fisicamente racchiuse un package e logicamente possono appartenere ad un unica componente.
-	\item{\scshape\bfseries Package}: rappresentano l'aggregazione fisica di classi. Un package racchiude classi secondo due principi:
+	\item{\scshape\bfseries Classi}: sono le unità fisiche atte a risolvere un determinato problema (Requisito). Esse sono fisicamente racchiuse un \textit{package} e logicamente possono appartenere ad un unica componente.
+	\item{\scshape\bfseries Package}: rappresentano l'aggregazione fisica di classi. Un \textit{package} racchiude classi secondo due principi:
 		\begin{itemize}
 			\item Modifiche: la modifica di una classe può comportare la modifica delle classi presenti nello stesso package;
-			\item Coesione: le classi facenti parte del package sono tra loro coese.
+			\item Coesione: le classi facenti parte del \textit{package} sono tra loro coese.
 		\end{itemize}
 		
-		Con ciò non ci si confonda: una componente non coincide necessariamente con un package. Il team ha fatto emergere la possibilità che una classe non possa (in virtù del primo principio di modifica) appartenere ad un package che meglio ne rappresenta il significato (quindi il principio di modifica surclassa il principio di coesione). Di conseguenza per dare una visione più concettuale, e quindi legata alla logica del sistema, è stato deciso di raffigurare ad alto livello le classi come appartenenti ad una determinata componente, mentre a basso livello vengono racchiuse in un package.
+		Con ciò non ci si confonda: una componente non coincide necessariamente con un \textit{package}. Il team ha fatto emergere la possibilità che una classe non possa (in virtù del primo principio di modifica) appartenere ad un \textit{package} che meglio ne rappresenta il significato (quindi il principio di modifica surclassa il principio di coesione). Di conseguenza per dare una visione più concettuale, e quindi legata alla logica del sistema, è stato deciso di raffigurare ad alto livello le classi come appartenenti ad una determinata componente, mentre a basso livello vengono racchiuse in un \textit{package}.
 \end{description}
 
 \clearpage
@@ -354,7 +355,7 @@ Tale struttura non rappresenta quella finale pronta per la creazione sul DBMS, m
 \subsubsection{Lista delle classi}
 
 \begin{description}
-	\item{\scshape\bfseries UserData}: è l'entità le cui istanze rappresentano gli utenti registrati nel sistema. UserData è caratterizzata dai seguenti attributi:
+	\item{\scshape\bfseries UserData}: è l'entità le cui istanze rappresentano gli utenti registrati nel sistema. \texttt{UserData} è caratterizzata dai seguenti attributi:
 
 \begin{center}
 \rowcolors{2}{lightblue}{llightblue}
@@ -373,7 +374,7 @@ Picture & Varchar(150) & NO &\\
 \end{tabular}
 \end{center}
 
-	\item{\scshape\bfseries AddressBookEntries}: è l'entità le cui istanze rappresentano i contatti appartenenti alla rubrica di un utente. AddressBookEntries è caratterizzata dai seguenti attributi:
+	\item{\scshape\bfseries AddressBookEntries}: è l'entità le cui istanze rappresentano i contatti appartenenti alla rubrica di un utente. \texttt{AddressBookEntries} è caratterizzata dai seguenti attributi:
 	
 \begin{center}
 \rowcolors{2}{lightblue}{llightblue}
@@ -386,7 +387,7 @@ Blocked & Boolean & NO & default(false)\\
 \end{tabular}
 \end{center}
 
-	\item{\scshape\bfseries Calls}: è l'entità le cui istanze rappresentano le chiamate effettuate attraverso il sistema software \caName. Calls è caratterizzata dai seguenti attributi:
+	\item{\scshape\bfseries Calls}: è l'entità le cui istanze rappresentano le chiamate effettuate attraverso il sistema software \caName. \texttt{Calls} è caratterizzata dai seguenti attributi:
 
 \begin{center}
 \rowcolors{2}{lightblue}{llightblue}
@@ -427,9 +428,9 @@ Start\_date & Timestamp & NO & default(current\_timestamp) \\
 \end{tabular}
 \end{center}	
 	
-	\item{\scshape\bfseries AudioMessages}: è un'entità che specializza Messages e rappresenta i messaggi audio lasciati nella segreteria di un utente. L'entità non è caratterizzata da alcun attributo proprio.
+	\item{\scshape\bfseries AudioMessages}: è un'entità che specializza \texttt{Messages} e rappresenta i messaggi audio lasciati nella segreteria di un utente. L'entità non è caratterizzata da alcun attributo proprio.
 	
-	\item{\scshape\bfseries AudioVideoMessages}: è un'entità che specializza Messages e rappresenta i messaggi audio/video lasciati nella segreteria di un utente.  L'entità non è caratterizzata da alcun attributo proprio.	
+	\item{\scshape\bfseries AudioVideoMessages}: è un'entità che specializza \texttt{Messages} e rappresenta i messaggi audio/video lasciati nella segreteria di un utente.  L'entità non è caratterizzata da alcun attributo proprio.	
 	
 \end{description}
 
@@ -444,15 +445,15 @@ Infatti la necessità di mostrare la separazione deriva dalla volontà del team 
 \subsubsection{Associazione tra classi}
 
 \begin{description}
-	\item{\scshape\bfseries UserData - Calls (molti a molti)}: tale associazione rappresenta il legame che intercorre tra gli utenti e le chiamate. Tale associazione è del tipo molti a molti, con totalità parziale verso Calls e totalità totale verso UserData. L'associazione prevede l'attributo 'Caller' che identifica chi è stato il primo utente ad avviare la chiamata.
+	\item{\scshape\bfseries UserData - Calls (molti a molti)}: tale associazione rappresenta il legame che intercorre tra gli utenti e le chiamate. Tale associazione è del tipo molti a molti, con totalità parziale verso \texttt{Calls} e totalità totale verso \texttt{UserData}. L'associazione prevede l'attributo \texttt{Caller} che identifica chi è stato il primo utente ad avviare la chiamata.
 	
-	\item{\scshape\bfseries UserData - AddressBookEntries (uno a molti)}: tale associazione rappresenta il legame che intercorre tra un utente, il possessore della rubrica, e l'insieme dei contatti presenti in essa. Tale associazione è di tipo uno a molti, con totalità totale verso Userdata e parziale verso AddressBookEntries.
+	\item{\scshape\bfseries UserData - AddressBookEntries (uno a molti)}: tale associazione rappresenta il legame che intercorre tra un utente, il possessore della rubrica, e l'insieme dei contatti presenti in essa. Tale associazione è di tipo uno a molti, con totalità totale verso \texttt{Userdata} e parziale verso \texttt{AddressBookEntries}.
 	
-	\item{\scshape\bfseries AddressBookEntries - UserData (uno a uno)}: Tale associazione rappresenta il proprietario, univoco, di ogni contatto della rubrica. Tale associazione è del tipo uno a uno con totalità parziale da UserData verso AddressBookEntries mentre ha totalità totale da AddressBookEntries verso UserData.
+	\item{\scshape\bfseries AddressBookEntries - UserData (uno a uno)}: Tale associazione rappresenta il proprietario, univoco, di ogni contatto della rubrica. Tale associazione è del tipo uno a uno con totalità parziale da \texttt{UserData} verso \texttt{AddressBookEntries} mentre ha totalità totale da \texttt{AddressBookEntries} verso \texttt{UserData}.
 	
-	\item{\scshape\bfseries AddressBookEntries - Groups (molti a uno)}: tale associazione rappresenta la possibilità di suddividere la propria rubrica in gruppi di contatti. Tale associazione è del tipo molti a uno, con totalità totale da Groups ad AddressBookEntries mentre ha una totalità parziale da AddressBookEntries a Groups.
+	\item{\scshape\bfseries AddressBookEntries - Groups (molti a uno)}: tale associazione rappresenta la possibilità di suddividere la propria rubrica in gruppi di contatti. Tale associazione è del tipo molti a uno, con totalità totale da \texttt{Groups} ad \texttt{AddressBookEntries} mentre ha una totalità parziale da \texttt{AddressBookEntries} a \texttt{Groups}.
 	
-	\item{\scshape\bfseries UserData - Messages (uno a molti)}: tali associazioni rappresentano il legame che intercorre tra gli utenti ed i messaggi registrati nella propria segreteria. Le associazioni sono del tipo uno a molti verso Messages, con totalità parziale verso Messages e totalità totale verso UserData. L'idea alla base è che un utente può avere nella propria segreteria uno o più messaggi, così come può non averne nessuno, mentre ogni messaggio della segreteria è associato a un mittente e a un destinatario.
+	\item{\scshape\bfseries UserData - Messages (uno a molti)}: tali associazioni rappresentano il legame che intercorre tra gli utenti ed i messaggi registrati nella propria segreteria. Le associazioni sono del tipo uno a molti verso \texttt{Messages}, con totalità parziale verso \texttt{Messages} e totalità totale verso \texttt{UserData}. L'idea alla base è che un utente può avere nella propria segreteria uno o più messaggi, così come può non averne nessuno, mentre ogni messaggio della segreteria è associato a un mittente e a un destinatario.
 \end{description}
 
 \subsection{Progettazione logica}
@@ -463,32 +464,32 @@ Pertanto, si deciderà come trasformare le gerarchie e in seguito le associazion
 \subsubsection{Rappresentazione delle gerarchie}
 
 \begin{description}
-	\item{\scshape\bfseries Messages(AudioMessages e AudioVideoMessages)}: al fine di evidenziare la suddivisione logica tra le due tipologie di messaggi, è stato deciso di trasformare la specializzazione di Messages con una tabella unica contenente un discriminante. È rimasta esclusivamente l'entità Messages a cui è stato aggiunto l'attributo ``Video'' con la funzione di discriminare le due tipologie di messaggi.
+	\item{\scshape\bfseries Messages(AudioMessages e AudioVideoMessages)}: al fine di evidenziare la suddivisione logica tra le due tipologie di messaggi, è stato deciso di trasformare la specializzazione di \texttt{Messages} con una tabella unica contenente un discriminante. È rimasta esclusivamente l'entità \texttt{Messages} a cui è stato aggiunto l'attributo \texttt{Video} con la funzione di discriminare le due tipologie di messaggi.
 \end{description}
 
 \subsubsection{Rappresentazione delle associazioni}
 
 \begin{description}
-	\item{\scshape\bfseries UserData - Calls}: tale associazione si è risolta attraverso l'introduzione dell'entità CallLists. Tale entità contiene l'attributo ID\_user come chiave esterna verso l'entità UserData e l'attributo ID\_call come chiave esterna verso l'entità Calls. È dotata inoltre dell'attributo ``Caller'' che identifica colui che ha per primo avviato la chiamata; per ogni gruppo di ennuple aventi lo stesso ID\_call si avrà soltanto una ennupla contrassegnata con il campo Caller a vero.
+	\item{\scshape\bfseries UserData - Calls}: tale associazione si è risolta attraverso l'introduzione dell'entità \texttt{CallLists}. Tale entità contiene l'attributo \texttt{ID\_user} come chiave esterna verso l'entità \texttt{UserData} e l'attributo \texttt{ID\_call} come chiave esterna verso l'entità \texttt{Calls}. È dotata inoltre dell'attributo \texttt{Caller} che identifica colui che ha per primo avviato la chiamata; per ogni gruppo di ennuple aventi lo stesso \texttt{ID\_call} si avrà soltanto una ennupla contrassegnata con il campo \texttt{Caller} a \texttt{true}.
 	
-	\item{\scshape\bfseries UserData - AddressBookEntries}: tali associazioni si sono risolte inserendo nell'entità AddressBookEntries due chiavi esterne verso UserData.
+	\item{\scshape\bfseries UserData - AddressBookEntries}: tali associazioni si sono risolte inserendo nell'entità \texttt{AddressBookEntries} due chiavi esterne verso \texttt{UserData}.
 	
-	\item{\scshape\bfseries AddressBookEntries - Groups}: tale associazione si è risolta inserendo una chiave esterna verso Groups all'interno dell'entità AddressBookEntries.
+	\item{\scshape\bfseries AddressBookEntries - Groups}: tale associazione si è risolta inserendo una chiave esterna verso \texttt{Groups} all'interno dell'entità \texttt{AddressBookEntries}.
 	
-	\item{\scshape\bfseries UserData - Messages}: tale associazione si è risolta inserendo due chiavi esterne verso UserData all'interno dell'entità Messages. 
+	\item{\scshape\bfseries UserData - Messages}: tale associazione si è risolta inserendo due chiavi esterne verso \texttt{UserData} all'interno dell'entità \texttt{Messages}. 
 \end{description}
 
 \subsubsection{Chiavi primarie sintetiche}
 I progettisti hanno optato per la definizione di chiavi primarie sintetiche, ovvero chiavi generate automaticamente all'inserimento di un nuovo \inglese{record} nelle tabelle corrispondenti alle entità.
 
-Tale scelta è dettata dall'utilizzo del framework Hibernate che non permette la modifica del valore della chiavi primarie associate ad una istanza di un oggetto di \inglese{business}. Le chiavi saranno quindi composte da un campo a valore intero, da intendersi come un contatore che identifica univocamente i record.
+Tale scelta è dettata dall'utilizzo del \inglese{framework} Hibernate che non permette la modifica del valore della chiavi primarie associate ad una istanza di un oggetto di \inglese{business}. Le chiavi saranno quindi composte da un campo a valore intero, da intendersi come un contatore che identifica univocamente i record.
 
 La chiave sintetiche adottate sono del tipo \texttt{BIGINT} senza segno, il team è consapevole che questo impone un limite di $1,8 \times10^{19}$ al numero di voci che possono essere memorizzate contemporaneamente in ogni entità.
 
 Una soluzione da adottarsi in futuro per evitare la perdita di dati potrebbe consistere nello spostare da database a disco parte di queste informazioni.
 L'introduzione di questo tipo di chiave è dovuta anche ad una semplice gestione, tramite Hibernate, di tale oggetto.
 
-Nel caso particolare dei messaggi, inoltre, il campo ID\_message, oltre a rappresentare un identificatore univoco, coincide anche con il nome del file sul server in cui è memorizzato il messaggio stesso, all'interno di una \inglese{directory} predefinita e nota ai componenti del sistema.
+Nel caso particolare dei messaggi, inoltre, il campo \texttt{ID\_message}, oltre a rappresentare un identificatore univoco, coincide anche con il nome del file sul server in cui è memorizzato il messaggio stesso, all'interno di una \inglese{directory} predefinita e nota ai componenti del sistema.
 \clearpage
 
 \subsubsection{Lista delle classi}
@@ -621,7 +622,7 @@ Tale sotto-architettura definisce le specifiche e le funzionalità dell'applicat
 
 I componenti sopracitati verranno definiti rispettivamente nelle sottosezioni \ref{sec:cs01}, \ref{sec:cs02}, \ref{sec:cs03}, \ref{sec:cs04}, \ref{sec:cs05}, \ref{sec:cs06} e \ref{sec:cs07}. Si sottolinea sin da ora che il server è l'unico in grado di comunicare con il database su cui si poggia l'applicativo.
 
-Infine si fa notare che i nomi di tutte le classi riportate nella presente sezione sono implicitamente parte del package \texttt{org.softwaresynthesis.mytalk.server}, pertanto tale prefisso sarà omesso nella loro denominazione.
+Infine si fa notare che i nomi di tutte le classi riportate nella presente sezione sono implicitamente parte del \textit{package} \texttt{org.softwaresynthesis.mytalk.server}, pertanto tale prefisso sarà omesso nella loro denominazione.
 
 %TODO Dio sia lodato, questa classe è stata salvata! SIA LODE E GLORIA AL SIGNORE!
 
@@ -706,7 +707,7 @@ Un ruolo essenziale è inoltre svolto dalla \inglese{servlet} \texttt{connection
 
 La caratteristica fondamentale della \inglese{servlet}, che rappresenta inoltre un punto di accesso centralizzato alle funzionalità del componente \textsf{Gestione connessione}, è quella di fare \inglese{overriding} del metodo \texttt{createWebSocketInbound(String, HttpServletRequest)} al fine di restituire un opportuno sottotipo di \texttt{org.apache.catalina.websocket.StreamInbound}. Il tipo dinamico dell'oggetto ritornato da \texttt{connection.ConnectionManager} corrisponde infatti proprio a \texttt{connection.PushInbound} in modo che lato client l'invocazione del costruttore di \texttt{WebSocket} (passando come parametro l'URL della \inglese{servlet}) crei una connessione del tipo voluto.
 
-Ne consegue che, come sarà esposto con maggiori dettagli nella sezione \vref{sec:patternfactorymethod}, \texttt{createWebSocketInbound} è un'applicazione del \inglese{design pattern} Factory Method, in quanto la sottoclasse di \texttt{WebSocketServlet} restituisce un oggetto di tipo statico \texttt{StreamInbound} ma avente il tipo dinamico adatto agli scopi dell'applicazione.
+Ne consegue che, come sarà esposto con maggiori dettagli nella sezione \vref{sec:patternfactorymethod}, \texttt{createWebSocketInbound} è un'applicazione del \inglese{design pattern} \textit{Factory Method}, in quanto la sottoclasse di \texttt{WebSocketServlet} restituisce un oggetto di tipo statico \texttt{StreamInbound} ma avente il tipo dinamico adatto agli scopi dell'applicazione.
 
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -782,9 +783,9 @@ Le loro funzionalità riguardano principalmente le possibilità di modificare, c
   \item{\scshape\bfseries Descrizione:}\\
 L'autenticazione passa attraverso due fasi: la richiesta di \inglese{login} e l'approvazione (\inglese{commit}). La richiesta di \inglese{login} verifica le credenziali di accesso con i dati memorizzati all'interno del database, mentre la richiesta di \inglese{commit} assegna al \inglese{subject} che ha attivato la procedura di autenticazione, dei valori identificativi che permettano di identificarlo finché esso utilizza il sistema software.
 
-Quando un utente avvia la procedura di autenticazione il controller che espone le funzionalità di questo componente, \texttt{authentication.controller.LoginController} crea il contesto di autenticazione generando un istanza di \texttt{authentication.CredentialLoader} che ha il compito di caricare le credenziali di accesso (caricando i dati di autenticazione mediante \texttt{authentication.NameLoader} e \texttt{authentication.PasswordLoader}) e accede al file di configurazione per istanziare il giusto modulo per l'autenticazione, costituito dalla classe \texttt{authentication.AuthenticationModule}.
+Quando un utente avvia la procedura di autenticazione il \textit{controller} che espone le funzionalità di questo componente, \texttt{authentication.controller.LoginController} crea il contesto di autenticazione generando un istanza di \texttt{authentication.CredentialLoader} che ha il compito di caricare le credenziali di accesso (caricando i dati di autenticazione mediante \texttt{authentication.NameLoader} e \texttt{authentication.PasswordLoader}) e accede al file di configurazione per istanziare il giusto modulo per l'autenticazione, costituito dalla classe \texttt{authentication.AuthenticationModule}.
 
-La componente predispone anche le funzionalità da usare per eseguire il \inglese{logout} di un utente registrato nel sistema, e la registrazione al sistema stesso. Tale funzionalità saranno richiamabili mediante 2 controller:
+La componente predispone anche le funzionalità da usare per eseguire il \inglese{logout} di un utente registrato nel sistema, e la registrazione al sistema stesso. Tale funzionalità saranno richiamabili mediante due controller:
 \begin{itemize}
 	\item \texttt{authentication.controller.LogoutController}
 	\item \texttt{authentication.controller.RegisterController}
@@ -797,7 +798,7 @@ Altri due controller sono predisposti per il recupero della password. Nello spec
 	\item \texttt{authentication.controller.AnswerController} per richiedere al server la validazione della risposta inserita dall'utente.
 \end{itemize}
 
-Per garantire un buon livello di sicurezza nell'invio dei dati l'applicativo si appoggia ad un sistema di criptazione basato su algoritmo AES. La classe che fornisce tali funzionalità è \texttt{authentication.security.AESAlgorithm}, implementazione di \texttt{authentication.security.ISecurityStrategy}. Tale classe fornisce due procedure, quella per criptare i dati e quella per decriptarli. Esse sono rappresentate dalle classi \texttt{authentication.security.AESEncode} e \texttt{authentication.security.AESDecode}. Entrambe estendono la classe astratta \texttt{authentication.security.AESTemplate} e basano la propria implementazione sul \inglese{pattern} \texttt{Template Method}.
+Per garantire un buon livello di sicurezza nell'invio dei dati l'applicativo si appoggia ad un sistema di criptazione basato su algoritmo AES. La classe che fornisce tali funzionalità è \texttt{authentication.security.AESAlgorithm}, implementazione di \texttt{authentication.security.ISecurityStrategy}. Tale classe fornisce due procedure, quella per criptare i dati e quella per decriptarli. Esse sono rappresentate dalle classi \texttt{authentication.security.AESEncode} e \texttt{authentication.security.AESDecode}. Entrambe estendono la classe astratta \texttt{authentication.security.AESTemplate} e basano la propria implementazione sul \inglese{pattern} \textit{Template Method}.
   
   \item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -891,9 +892,9 @@ Infine, allo scopo di consentire ai client l'accesso alle funzionalità di quest
 \subsubsection{CS07 -- Gestione Controller}\label{sec:cs07}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Il componente ha il ruolo di descrivere tutte le funzionalità che il sistema server è in grado di svolgere, ad esempio il blocco di un contatto, l'aggiunta dello stesso alla rubrica, ad un gruppo, o la ricerca di uno specifico nel database generale. A tali funzionalità si accede mediante un front controller (CS08, descritto nel paragrafo successivo) che implementa un sistema che permette di monitorare le richieste sulle stesse.
+Il componente ha il ruolo di descrivere tutte le funzionalità che il sistema server è in grado di svolgere, ad esempio il blocco di un contatto, l'aggiunta dello stesso alla rubrica, ad un gruppo, o la ricerca di uno specifico nel database generale. A tali funzionalità si accede mediante un \textit{Front Controller}) (CS08, descritto nel paragrafo successivo) che implementa un sistema che permette di monitorare le richieste sulle stesse.
 
-Per ogni operazione viene definito un controller (classe che estende \texttt{AbstracController}, un implementazione di \texttt{IController}). La mappatura fra componenti del server e i rispettivi \inglese{controller} è illustrata dalla seguente tabella:
+Per ogni operazione viene definito un \textit{controller} (classe che estende \texttt{AbstracController}, un implementazione di \texttt{IController}). La mappatura fra componenti del server e i rispettivi \inglese{controller} è illustrata dalla seguente tabella:
 
 \begin{center}
 \rowcolors{2}{lightblue}{llightblue}
@@ -950,25 +951,25 @@ CS06 -- Gestione chiamate
 Il compito di interfacciarsi con \textsf{Gestione rubrica} per recuperare la rubrica associata ad un utente e per riflettere sul server le operazioni di amministrazione della rubrica spetta invece al pacchetto di \inglese{controller} \texttt{abook.controller}. Tali \inglese{controller} rispondono anche alle richieste dei client per le azioni di aggiornamento e modifica dell'account personale dell'utente associato al client. Nello specifico si ha:
 
 \begin{itemize}
-	  \item[-] \texttt{abook.controller.AddContactController}: richiamata dal front controller per aggiungere un contatto alla propria rubrica utente;
-	  \item[-] \texttt{abook.controller.DeleteContactController}: richiamata dal front controller per rimuovere un contatto dalla propria rubrica;
-	  \item[-] \texttt{abook.controller.AddGroupController}: richiamata dal front controller per creare un nuovo gruppo contatti;
-	  \item[-] \texttt{abook.controller.DeleteGroupController}: richiamata dal front controller per eliminare un gruppo;
-	  \item[-] \texttt{abook.controller.AddInGroupController}: richiamata dal front controller, su richiesta di un client, per inserire un contatto in un gruppo;
-	  \item[-] \texttt{abook.controller.DeleteInGroupController}: richiamata dal front controller, su richiesta di un client, per rimuovere un contatto da un gruppo della propria rubrica;
-	  \item[-] \texttt{abook.controller.BlockContactController}: richiamata dal front controller, su richiesta di un client, per bloccare un contatto presente nella propria rubrica, indifferentemente dai gruppi (della rubrica del client) in cui esso si trova;
-	  \item[-] \texttt{abook.controller.UnblockContactController}: richiamata dal front controller, su richiesta di un client, per sbloccare un contatto presente nella propria rubrica;
-	  \item[-] \texttt{abook.controller.GetContactsController}: richiamata dal front controller, su richiesta di un client, per scaricare la lista dei contatti presenti nella propria rubrica;
-	  \item[-] \texttt{abook.controller.GetGroupsController}: richiamata dal front controller (su richiesta di un client) per scaricare lista dei contatti e dei gruppi in cui in cui il richiedente è inserito;
+	  \item[-] \texttt{abook.controller.AddContactController}: richiamata dal \textit{front controller} per aggiungere un contatto alla propria rubrica utente;
+	  \item[-] \texttt{abook.controller.DeleteContactController}: richiamata dal \textit{front controller} per rimuovere un contatto dalla propria rubrica;
+	  \item[-] \texttt{abook.controller.AddGroupController}: richiamata dal \textit{front controller} per creare un nuovo gruppo contatti;
+	  \item[-] \texttt{abook.controller.DeleteGroupController}: richiamata dal \textit{front controller} per eliminare un gruppo;
+	  \item[-] \texttt{abook.controller.AddInGroupController}: richiamata dal \textit{front controller}, su richiesta di un client, per inserire un contatto in un gruppo;
+	  \item[-] \texttt{abook.controller.DeleteInGroupController}: richiamata dal \textit{front controller}, su richiesta di un client, per rimuovere un contatto da un gruppo della propria rubrica;
+	  \item[-] \texttt{abook.controller.BlockContactController}: richiamata dal \textit{front controller}, su richiesta di un client, per bloccare un contatto presente nella propria rubrica, indifferentemente dai gruppi (della rubrica del client) in cui esso si trova;
+	  \item[-] \texttt{abook.controller.UnblockContactController}: richiamata dal \textit{front controller}, su richiesta di un client, per sbloccare un contatto presente nella propria rubrica;
+	  \item[-] \texttt{abook.controller.GetContactsController}: richiamata dal \textit{front controller}, su richiesta di un client, per scaricare la lista dei contatti presenti nella propria rubrica;
+	  \item[-] \texttt{abook.controller.GetGroupsController}: richiamata dal \textit{front controller} (su richiesta di un client) per scaricare lista dei contatti e dei gruppi in cui in cui il richiedente è inserito;
 	  \item[-] \texttt{abook.controller.SearchController}: utilizzata per ricercare gli utente contenenti nei parametri nome, cognome o mail, una parola chiave usata per fare la ricerca e passata al \inglese{controller};
-	  \item[-] \texttt{abook.controller.AccountSettingsController}: richiamata dal front controller per modificare i dati del client nel server.
+	  \item[-] \texttt{abook.controller.AccountSettingsController}: richiamata dal \textit{front controller} per modificare i dati del client nel server.
 \end{itemize}
 
 I cambiamenti di stato di un utente sono invece processati da \texttt{Controller Manager} che fornisce di conseguenza anch'esso un punto d'accesso al componente \textsf{Gestione rubrica}.
 
 Ai fini del \inglese{login} è utilizzato invece il \inglese{controller} \texttt{authentication.controller.LoginController}, che ha il compito di interfacciarsi con il sistema di autenticazione e, in particolare, con l'istanza del sottotipo di \texttt{javax.security.auth.spi.LoginModule} in uso per verificare le credenziali. Inoltre come già accennato sono presenti il \inglese{controller} per il \inglese{logout} \texttt{authentication.controller.LogoutController}, quello per la registrazione al sistema \texttt{authentication.controller.RegisterController} e quelli per la domanda segreta e la risposta alla medesima, rispettivamente \texttt{authentication.controller.QuestionController} e \texttt{authentication.controller.AnswerController}.\\
 
-Infine il download e la gestione della segreteria telefonica (di competenza di \textsf{Gestione segreteria}) e dello storico delle chiamate (per quanto riguarda il componente \textsf{Gestione chiamate}) avvengono in risposta alle richieste dei client pervenute al pacchetto di controller \texttt{message.controller} e \texttt{call.controller.GetCallsController} rispettivamente. 
+Infine il download e la gestione della segreteria telefonica (di competenza di \textsf{Gestione segreteria}) e dello storico delle chiamate (per quanto riguarda il componente \textsf{Gestione chiamate}) avvengono in risposta alle richieste dei client pervenute al pacchetto di \textit{controller} \texttt{message.controller} e \texttt{call.controller.GetCallsController} rispettivamente. 
 
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -977,9 +978,9 @@ Infine il download e la gestione della segreteria telefonica (di competenza di \
   \caption{Diagramma delle classi - Gestione controller}\label{fig:facadeserver}
 \end{figure}
 
-Il diagramma in figura \ref{fig:facadeserver} rappresenta la gerarchia dei \inglese{controller} del front controller ma non mostra in dettaglio le dipendenze fra ognuna di questi e i componenti interni ai sotto-package \texttt{abook}, \texttt{authentication}, \texttt{call}, \texttt{connection} e \texttt{message} per non appesantire troppo la notazione.
+Il diagramma in figura \ref{fig:facadeserver} rappresenta la gerarchia dei \inglese{controller} del \textit{front controller} ma non mostra in dettaglio le dipendenze fra ognuna di questi e i componenti interni ai sotto-\textit{package} \texttt{abook}, \texttt{authentication}, \texttt{call}, \texttt{connection} e \texttt{message} per non appesantire troppo la notazione.
 
-Tali dipendenze, di fondamentale importanza per l'architettura, sono però riportate nei diagrammi della sezione \vref{sec:patternfacade} in cui è descritta con maggiori dettagli l'applicazione del \inglese{design pattern} front controller.
+Tali dipendenze, di fondamentale importanza per l'architettura, sono però riportate nei diagrammi della sezione \vref{sec:patternfacade} in cui è descritta con maggiori dettagli l'applicazione del \inglese{design pattern} \textit{front controller}.
 	
 	\item{\scshape\bfseries Classi utilizzate:}\\
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1021,7 +1022,7 @@ Tale componente ha il ruolo di offrire ai client un punto di accesso alle funzio
 
 La classe Java \texttt{HttpServlet} implementa un sistema di \inglese{listening} che permette di monitorare costantemente richieste in ingresso. Queste ultime possono essere di duplice natura e corrispondono ai metodi di invio dei dati previsti dal protocollo HTTP (\texttt{GET} e \texttt{POST}).
 
-Per riconoscere il tipo di richiesta inoltrata il \inglese{front controller}, rappresentato dalla classe \texttt{ControllerManager}, si appoggia ad un \inglese{file .properties} contenente le associazioni tra i nomi dei controller e i percorsi delle classi corrispondenti.
+Per riconoscere il tipo di richiesta inoltrata il \inglese{front controller}, rappresentato dalla classe \texttt{ControllerManager}, si appoggia ad un \inglese{file .properties} contenente le associazioni tra i nomi dei \textit{controller} e i percorsi delle classi corrispondenti.
 
 	\item{\scshape\bfseries Diagramma delle classi:}\\
 %TODO: INSERIRE DIAGRAMMA CLASSI FRONT CONTROLLER
@@ -1054,7 +1055,7 @@ Interfaccia che definisce un generico controller.
 \item \texttt{AbstractController}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
-Classe astratta che implementa \texttt{IController}. Fornisce un implementazione di base di un controller generico.
+Classe astratta che implementa \texttt{IController}. Fornisce un implementazione di base di un \textit{controller} generico.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS07 -- Gestione controller}
@@ -1065,7 +1066,7 @@ Classe astratta che implementa \texttt{IController}. Fornisce un implementazione
 \item \texttt{ControllerManager}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
-Classe che costituisce il front controller del server. Ogni richiesta inoltrata al server dovrà passare per questa classe. Essa avrà quindi il compito di riconoscere il tipo di richiesta (tramite un associazione nomi richiesta - classe destinataria), e di creare quindi un istanza del controller associato.
+Classe che costituisce il  \textit{front controller} del server. Ogni richiesta inoltrata al server dovrà passare per questa classe. Essa avrà quindi il compito di riconoscere il tipo di richiesta (tramite un associazione nomi richiesta - classe destinataria), e di creare quindi un istanza del \textit{controller} associato.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS08 -- Front controller}
@@ -1110,7 +1111,7 @@ Presenta inoltre una dipendenza di tipo \inglese{create} e \inglese{use} all'int
 \item \texttt{UtilFactory}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
-classe usata per delegare le operazioni di manipolazione del database (intese come operazioni CRUD), alle apposite classi del package \texttt{server.dao.util}.
+classe usata per delegare le operazioni di manipolazione del database (intese come operazioni CRUD), alle apposite classi del \textit{package} \texttt{server.dao.util}.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS01 -- Gestione database}
@@ -1121,7 +1122,7 @@ classe usata per delegare le operazioni di manipolazione del database (intese co
 \item \texttt{GetUtil}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
-classe astratta che utilizza il \inglese{pattern} template method, ha il compito di estrarre i dati richiesti dal database e inizializzarli per renderli utilizzabili dalla componente che ne ha fatto richiesta.
+classe astratta che utilizza il \inglese{pattern} \textit{template method}, ha il compito di estrarre i dati richiesti dal database e inizializzarli per renderli utilizzabili dalla componente che ne ha fatto richiesta.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS01 -- Gestione database}
@@ -1166,7 +1167,7 @@ classe che estende \texttt{GetUtil}, ridefinisce l'algoritmo del metodo astratto
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
 classe che estende \texttt{GetUtil}, ridefinisce l'algoritmo del metodo astratto per la gestione dei
-transfer object che non hanno nulla da inizializzare (\texttt{AddressBookEntry}, \texttt{ICallList}, \texttt{IMessage}).
+\textit{transfer object} che non hanno nulla da inizializzare (\texttt{AddressBookEntry}, \texttt{ICallList}, \texttt{IMessage}).
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS01 -- Gestione database}
@@ -1177,7 +1178,7 @@ transfer object che non hanno nulla da inizializzare (\texttt{AddressBookEntry},
 \item \texttt{ModifyUtil}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
-classe astratta che utilizza il \inglese{pattern} template method, ha il compito di modificare i campi dati degli oggetti \textit{transfer object}.
+classe astratta che utilizza il \inglese{pattern} \textit{template method}, ha il compito di modificare i campi dati degli oggetti \textit{transfer object}.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS01 -- Gestione database}
@@ -1240,7 +1241,7 @@ Classe che implementa il \inglese{pattern} Singleton e che viene utilizzata dall
 \item \texttt{PushInbound}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
-Sottoclasse di \texttt{org.apache.catalina.websocket.MessageInbound} (e, di conseguenza sottotipo anche di \texttt{org.apache.catalina.websocket.StreamInbound}) che rappresenta il canale di comunicazione bidirezionale fra client e server realizzato mediante \textit{WebSocket}.
+Sottoclasse di \texttt{org.apache.catalina.websocket.MessageInbound} (e, di conseguenza sottotipo anche di \texttt{org.apache.catalina.websocket.StreamInbound}) che rappresenta il canale di comunicazione bidirezionale fra client e server realizzato mediante WebSocket.
 
 Il comportamento della sotto-architettura server in risposta ai messaggi ricevuti dal client è completamente determinato dall'implementazione (\inglese{overriding}) che tale classe fornisce del metodo \texttt{void onTextMessage(CharBuffer)}.
 
