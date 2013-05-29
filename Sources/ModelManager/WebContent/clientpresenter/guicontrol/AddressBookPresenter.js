@@ -154,7 +154,7 @@ function AddressBookPanelPresenter() {
     function contactExistInGroup(contact, group) {
         // ciclo l'array di contatti del gruppo
         for (var c in group.contacts) {
-            if (c == contact.id)
+            if (group.contacts[c] == contact.id)
                 return true;
         }
         return false;
@@ -360,7 +360,7 @@ function AddressBookPanelPresenter() {
             this.setup();
             return true;
         }
-        throw "Ops... qualcosa &egrave; andato storto nel server.";
+        throw "Ops... qualcosa è andato storto nel server.";
     };
 
     /** PRESENTER
@@ -389,7 +389,7 @@ function AddressBookPanelPresenter() {
             this.setup();
             return true;
         }
-        throw "Ops... qualcosa &egrave; andato storto nel server.";
+        throw "Ops... qualcosa è andato storto nel server.";
     };
 
     /** PRESENTER
@@ -405,7 +405,7 @@ function AddressBookPanelPresenter() {
     this.addContactInGroup = function(contact, group) {
         // controllo che il contatto non sia già presente nel gruppo
         if (contactExistInGroup(contact, group))
-            throw "Il contatto &egrave; già presente nel gruppo.";
+            throw "Il contatto è già presente nel gruppo.";
 
         // invio la richiesta al server e attendo il risultato
         var request = new XMLHttpRequest();
@@ -420,7 +420,7 @@ function AddressBookPanelPresenter() {
             this.setup();
             return true;
         }
-        throw "Ops... qualcosa &egrave; andato storto nel server.";
+        throw "Ops... qualcosa è andato storto nel server.";
     };
 
     /** PRESENTER
@@ -436,7 +436,7 @@ function AddressBookPanelPresenter() {
     this.removeContactFromGroup = function(contact, group) {
         // controllo che il contatto sia presente nel gruppo
         if (!contactExistInGroup(contact, group))
-            throw "Il contatto non &egrave; presente nel gruppo.";
+            throw "Il contatto non è presente nel gruppo.";
 
         // invio la richiesta al server e attendo il risultato
         var request = new XMLHttpRequest();
@@ -451,7 +451,7 @@ function AddressBookPanelPresenter() {
             this.setup();
             return true;
         }
-        throw "Ops... qualcosa &egrave; andato storto nel server.";
+        throw "Ops... qualcosa è andato storto nel server.";
     };
 
     /** PRESENTER
@@ -484,7 +484,7 @@ function AddressBookPanelPresenter() {
             this.setup();
             return true;
         }
-        throw "Ops... qualcosa &egrave; andato storto nel server.";
+        throw "Ops... qualcosa è andato storto nel server.";
     };
 
     /** PRESENTER
@@ -520,7 +520,7 @@ function AddressBookPanelPresenter() {
             this.setup();
             return true;
         }
-        throw "Ops... qualcosa &egrave; andato storto nel server.";
+        throw "Ops... qualcosa è andato storto nel server.";
     };
 
     /** PRESENTER
@@ -646,7 +646,7 @@ function AddressBookPanelPresenter() {
             throw "Contatto non presente nella rubrica.";
         }
         if (contact.blocked) {
-            throw "Contatto gi&agrave; bloccato.";
+            throw "Contatto già bloccato.";
         }
 
         // invio la richiesta di bloccaggio dell'utente
@@ -663,7 +663,7 @@ function AddressBookPanelPresenter() {
             mediator.displayContact(contact);
             return true;
         }
-        throw "Ops... qualcosa &egrave; andato storto nel server.";
+        throw "Ops... qualcosa è andato storto nel server.";
     };
 
     /** PRESENTER
@@ -680,7 +680,7 @@ function AddressBookPanelPresenter() {
             throw "Contatto non presente nella rubrica.";
         }
         if (!contact.blocked) {
-            throw "Contatto gi&agrave; sbloccato.";
+            throw "Contatto già sbloccato.";
         }
 
         // invio la richiesta di bloccaggio dell'utente
@@ -697,7 +697,7 @@ function AddressBookPanelPresenter() {
             mediator.displayContact(contact);
             return true;
         }
-        throw "Ops... qualcosa &egrave; andato storto nel server.";
+        throw "Ops... qualcosa è andato storto nel server.";
     };
 
     /** PRESENTER

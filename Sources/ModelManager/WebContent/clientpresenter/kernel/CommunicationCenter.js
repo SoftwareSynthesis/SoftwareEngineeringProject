@@ -436,7 +436,7 @@ function CommunicationCenter() {
             else
                 alert("Errore di connessine al server: websoket non esistente!");
         } else {
-            alert("Errore: Impostazione stato non conosciuto.\nNon pu&ograve; essere impostato lo stato " + state);
+            alert("Errore: Impostazione stato non conosciuto.\nNon può essere impostato lo stato " + state);
         }
     }
 

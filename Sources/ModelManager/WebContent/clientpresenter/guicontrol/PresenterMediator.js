@@ -121,22 +121,6 @@ function PresenterMediator() {
     };
 
     /**
-     * Provoca la visualizzazione del pannello delle comunicazioni (a.k.a.
-     * CommunicationPanel) nel pannello principale delegando a quest'ultimo
-     * tramite {@link MainPanelPresenter} la sua visualizzazione
-     *
-     * @see CommunicationPanelPresenter#createPanel()
-     * @see MainPanelPresenter#displayChildPanel({HTMLDivElement})
-     * @author Diego Beraldin
-     */
-    // TODO da documentare
-    // FIXME TRES di questa non ce ne facciamo nulla, vero?
-    this.displayCommunicationPanel = function() {
-        var element = communicationpp.createPanel();
-        presenters["main"].displayChildPanel(element);
-    };
-
-    /**
      * Controllo se un utente è rpesente nella rubrica
      *
      * @author Riccardo Tresoldi
@@ -159,6 +143,11 @@ function PresenterMediator() {
      */
     // TODO da documentare
     // TODO TRES mi confermi che esiste ancora? (createPanel, WTF?!)
+    // XXX
+    // XXX
+    // XXX
+    // XXX
+    // XXX
     this.onChatStarted = function(user) {
         var element = communicationpp.createPanel();
         presenters["main"].displayChildPanel(element);
@@ -243,22 +232,6 @@ function PresenterMediator() {
         } else {
             presenters["tools"].removeCommunicationFunction();
         }
-    };
-
-    /**
-     * Permette di effettuare il logout dal sistema
-     *
-     * @author Diego Beraldin
-     */
-    // TODO da documentare
-    // TODO TRES sono abbastanza sicuro che questa è morta, me lo confermi?
-    this.logout = function() {
-        if (communicationcenter.isPCDefined()) {
-            setTimeout(function() {
-                communicationcenter.endCall();
-            }, 3000);
-        }
-        presenters["tools"].logout();
     };
 
     /**

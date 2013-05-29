@@ -44,6 +44,7 @@ function GroupPanelPresenter(url) {
 				removeContactFromGroup.contact = contactObj;
 				removeContactFromGroup.group = group;
 				document.dispatchEvent(removeContactFromGroup);
+				document.dispatchEvent(showGroupPanel);
 			};
 
 			// crea l'elemento della lista

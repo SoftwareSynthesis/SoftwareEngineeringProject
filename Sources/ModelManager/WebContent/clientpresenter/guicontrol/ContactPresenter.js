@@ -194,9 +194,6 @@ function ContactPanelPresenter() {
         // tolgo la possibilità di aggiungere un utente se già presente
         if (mediator.contactAlreadyPresent(currentContact)) {
             document.getElementById("addToAddressBookButton").style.display = "none";
-            document.getElementById("displayBlockedDiv").style.display = "none";
-            document.getElementById("blockButton").style.display = "none";
-            document.getElementById("unlockButton").style.display = "none";
         }
     };
     
