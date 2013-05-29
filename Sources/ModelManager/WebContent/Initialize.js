@@ -68,7 +68,7 @@ window.onload = function() {
     **********************************************************/
     var host = window.location.href;
     if (window.location.host == "localhost") {
-        commandURL = host + "/Conf/controllerManagerStub.php";
+        commandURL = host + "Conf/controllerManagerStub.php";
     } else {
         commandURL =  host + "/CommandManager";
     }

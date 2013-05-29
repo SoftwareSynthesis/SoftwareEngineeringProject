@@ -66,6 +66,10 @@ switch($operation) {
 
     case "accountSettings" :
         break;
+        
+    case "addInGroup" :
+        $result = true;
+        break;
 
     // operazioni lista chiamate
     case "addCall" :
