@@ -229,7 +229,7 @@ Nessun attributo evidenziato
 \classsection{ControllerManager}
 
 \subsubsection*{Funzione}
-Estensione di \texttt{org.apache.catalina.websocket.WebSocketServlet} ed implementazione di \inglese{servlet}. ControllerManager rappresenta l'implementazione del pattern \texttt{front controller}. Esso fornisce un unico punto d'accesso al sistema. Tale implementazione avviene definendo la classe come una \inglese{servlet} il cui compito sarà quello di delegare al controller corretto la richiesta inoltrata dal client.
+Estensione di \texttt{org.apache.catalina.websocket.WebSocketServlet} ed implementazione di \inglese{servlet}. ControllerManager rappresenta l'implementazione del pattern \textit{front controller}. Esso fornisce un unico punto d'accesso al sistema. Tale implementazione avviene definendo la classe come una \inglese{servlet} il cui compito sarà quello di delegare al controller corretto la richiesta inoltrata dal client.
 
 \subsubsection*{Relazioni d'uso}
 \begin{itemize}
@@ -2063,7 +2063,7 @@ Nessuna relazione evidenziata.
 \classsection{GetCallsController}
 
 \subsubsection*{Funzione}
-\texttt{Controller} da richiamare per effettuare il download della lista che rappresenta lo storico delle chiamate effettuate e ricevute dell'utente. I dati vengono ritornati sotto forma di stringa in formato JSON.
+\textit{Controller} da richiamare per effettuare il download della lista che rappresenta lo storico delle chiamate effettuate e ricevute dell'utente. I dati vengono ritornati sotto forma di stringa in formato JSON.
 
 \subsubsection*{Relazioni d'uso}
 \begin{itemize}
@@ -2089,18 +2089,66 @@ Nessun attributo evidenziato
 \begin{description}
 	
 	\item{\method{\# doAction(request: HttpServletRequest, response: HttpServletResponse): void}}\\
-	Metodo usato per accedere alla funzionalità della \texttt{controller}. Il procedimento da definire passa attraverso 3 step essenziali:
+	Metodo usato per accedere alla funzionalità del \textit{controller}. Il procedimento da definire passa attraverso 3 step essenziali:
 	\begin{itemize}
 		\item \texttt{Inizializzazione}: il metodo definisce ed apre una nuova sessione a partire dalla richiesta request passata come parametro;
-		\item \texttt{Elaborazione dati}: il metodo interroga il database attraverso la classe \classname{DataPersistanceManager}. Per ogni oggetto \classname{ICall} in cui si evidenzia che uno dei due partecipanti è il client (\classname{IUserData}) che ha inoltrato la richiesta al \texttt{front controller}, si aggiunge alla stringa result da ritornare i dati di tale chiamata. Nello specifico la formattazione della stringa di ritorno, dovrà descrivere la seguente logica:\\
+		\item \texttt{Elaborazione dati}: il metodo interroga il database attraverso la classe \classname{DataPersistanceManager}. Per ogni oggetto \classname{ICall} in cui si evidenzia che uno dei due partecipanti è il client (\classname{IUserData}) che ha inoltrato la richiesta al \textit{front controller}, si aggiunge alla stringa result da ritornare i dati di tale chiamata. Nello specifico la formattazione della stringa di ritorno, dovrà descrivere la seguente logica:\\
 		
 		\verb|{name:"NOME_UTENTE",start="DATA_INIZIO",end="DATA_FINE"}|\\
 		
 		Si consideri che la dove vi è un nome in maiuscolo, vi dovrà essere il dato inerente estrapolato dall'istanza \classname{ICall} presa in considerazione.
-		\item \texttt{Restituzione risultato}: dopo aver elaborato i dati, il \texttt{controller} dovrà scrivere nel \texttt{PrintWriter} associato alla request:
+		\item \texttt{Restituzione risultato}: dopo aver elaborato i dati, il \textit{controller} dovrà scrivere nel \texttt{PrintWriter} associato alla request:
 			\begin{itemize}
 				\item una stringa formattata come sopra, se l'utente ha effettuato o ricevuto almeno una chiamata;
 				\item null, altrimenti.
+			\end{itemize}
+	\end{itemize}
+
+\end{description}
+
+\classsection{AddCallsController}
+
+\subsubsection*{Funzione}
+\textit{Controller} da richiamare per aggiungere una nuova chiamata al database.
+
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+	\item \texttt{java.io.IOException}: eccezione richiamabile dal metodo\method{doAction()}.
+	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doAction()}. Usata per scrivere l'output del \inglese{controller}.
+	\item \texttt{javax.servlet.ServletException}: eccezione sollevabile dai metodi \method{doAction()}.
+	\item \texttt{javax.servlet.http.HttpServletRequest}: classe usata per interagire con le richieste \texttt{ajax} inoltrate dal client.
+	\item \texttt{javax.servlet.http.HttpServletResponse}: classe usata per interagire con le richieste \texttt{ajax} inoltrate dal client.
+	\item \classname{call.ICall}: usata per definire un oggetto rappresentante una chiamata.
+	\item \classname{abook.IUserData}: usata per definire un utente generico, che ha partecipato alla chiamata.
+\end{itemize}
+
+\subsubsection*{Classi estese ed interfacce implementate}
+\begin{itemize}
+	\item \texttt{server.AbstractController}: classe estesa.
+\end{itemize}
+
+\subsubsection*{Attributi}
+
+Nessun attributo evidenziato
+
+\subsubsection*{Metodi}
+\begin{description}
+	
+	\item{\method{\# doAction(request: HttpServletRequest, response: HttpServletResponse): void}}\\
+	Metodo usato per accedere alla funzionalità del \textit{controller}. Il procedimento da definire passa attraverso 3 step essenziali:
+	\begin{itemize}
+		\item \texttt{Inizializzazione}: il metodo definisce ed apre una nuova sessione a partire dalla richiesta request passata come parametro;
+		
+		\item \texttt{Elaborazione dati}: il metodo crea (a partire dai parametri estratti dalla request) una nuova chiamata \classname{Call} da aggiungere al database. Si ricorda che i dati di una chiamata (o meglio di un oggetto che implementa l'interfaccia \classname{ICall}) sono espressi nel formato:\\
+		
+		\verb|{name:"NOME_UTENTE",start="DATA_INIZIO",end="DATA_FINE"}|\\
+		
+		Si consideri che la dove vi è un nome in maiuscolo, vi dovrà essere il valore analogo con cui impostare il transfer object da aggiungere nel database.
+		
+		\item \texttt{Restituzione risultato}: dopo aver elaborato i dati, il \textit{controller} dovrà scrivere nel \texttt{PrintWriter} associato alla request:
+			\begin{itemize}
+				\item \inglese{true} se l'operazione è andata a buon fine;
+				\item \inglese{false} altrimenti.
 			\end{itemize}
 	\end{itemize}
 
@@ -2288,7 +2336,7 @@ Nessun attributo evidenziato
 	\begin{itemize}
 		\item \texttt{Inizializzazione}: il metodo definisce ed apre una nuova sessione a partire dalla richiesta request passata come parametro;
 		\item \texttt{Elaborazione dati}: il metodo procede creando un \classname{IMessage} con i dati forniti dalla request e dopo aver aperto una \texttt{transaction} verso il database, esegue un operazione di ricerca dell'instanza appena creata all'interno della lista di \classname{IMessage} ottenuta dal db. Quindi se si verifica che tale istanza è effettivamente presente nel database, il metodo esegue l'operazione \method{delete()} sul relativo oggetto DAO. Al termine sarà necessario procedere con un operazione di \texttt{commit}. Nel realizzare il metodo, il programmatore incaricato dovrà tenere in considerazione la possibilità di fallimento durante l'esecuzione delle operazioni mediante la \texttt{transaction}. Ciò andrà gestito mediante un operazione di \texttt{rollback} atta ad eliminare una possibile inconsistenza dei dati.
-		\item \texttt{Restituzione risultato}: dopo aver elaborato i dati, il \texttt{controller} dovrà scrivere nel \texttt{PrintWriter} associato alla request:
+		\item \texttt{Restituzione risultato}: dopo aver elaborato i dati, il \textit{controller} dovrà scrivere nel \texttt{PrintWriter} associato alla request:
 			\begin{itemize}
 				\item ``\inglese{true}'' se l'operazione è andata a buon fine;
 				\item ``\inglese{false}'' altrimenti (compreso non solo il caso di errore dovuto ad un problema di connessione verso il db, ma anche quello relativo al mancato match del elemento ricercato con quelli presenti nel database).
