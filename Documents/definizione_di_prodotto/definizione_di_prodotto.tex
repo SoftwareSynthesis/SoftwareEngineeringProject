@@ -3304,7 +3304,7 @@ In caso di terminazione con errore della procedura nel server oppure nell'eventu
 \item{\method{+ onAddContactToGroup(contact: Object, group: Object): Boolean}}\\
 Questo gestore di eventi ha il compito di verificare che il contatto passato come primo parametro non sia già presente nel gruppo passato come secondo parametro tramite il metodo privato \method{contactExistInGroup} e, in caso negativo, inviare una richiesta AJAX sincrona al server per provocare l'aggiunta del contatto all'interno del gruppo della rubrica, creando una nuova istanza di \verb'XMLHttpRequest' con la \inglese{query string}
 \begin{verbatim}
-"operation=insertInGroup&contactId=" + contact.id + "&groupId=" + group.id
+"operation=addInGroup&contactId=" + contact.id + "&groupId=" + group.id
 \end{verbatim}
 
 Poiché il server ritorna la stringa \verb'"true"' se l'operazione va a buon fine, è sufficiente che il metodo restituisca \verb'true' se il risultato di \verb'JSON.parse(request.responseText)' è valutato positivamente e \verb'false' in caso contrario. Inoltre, nel caso in cui il contatto sia stato aggiunto con successo al gruppo, dovrà essere richiamato il metodo \method{setup()} fornito dal \inglese{presenter} stesso.
@@ -4472,11 +4472,13 @@ Vista associata al \classname{GroupPresenter} utilizzata per la visualizzazione 
     \begin{verbatim}
 confirm("Sei sicuro di voler eliminare il gruppo" + group.name + "?");
     \end{verbatim}
-    e, in caso di risposta affermativa, dovrà essere sollevato un evento con nome identificativo uguale a \verb'groupRemoved' cui risponderà il \inglese{presenter} incaricato di inviare al server la richiesta corrispondente.
+    e, in caso di risposta affermativa, dovrà essere sollevato un evento con nome identificativo uguale a \verb'deleteGroup' (dopo averne assegnato la proprietà \verb'group') cui risponderà il \inglese{presenter} incaricato di inviare al server la richiesta corrispondente, quindi provocare l'aggiornamento del pannello sollevando un evento \verb'showGroupPanel'.
   \end{itemize}
   
   \item{\method{+ display(): void}}\\
   Il metodo ha il compito di inizializzare la vista, ovvero l'insieme dei \inglese{widget} grafici che costituiscono il pannello per la gestione dei gruppi della rubrica.
+  
+  In particolare, alla pressione del pulsante per l'aggiunta di un nuovo gruppo dovrà essere chiesto all'utente con una finestra di dialogo il nome del gruppo e, se il nome inserito è non vuoto,  dovrà essere sollevato un evento con stringa identificativa \verb'createGroup', dopo averne assegnato la proprietà \verb'groupName', quindi aggiornare il pannello sollevando un evento con l'identificativo \verb'showGroupPanel'.
   
   Dal momento che per popolare il pannello con i dati necessari è necessario prima scaricarli dal server, la vista invoca il metodo \method{displayGroupList()} del relativo \inglese{presenter} per portare a termine l'operazione.
   
@@ -4803,7 +4805,7 @@ Vista associata al \inglese{presenter} \classname{ToolsPresenter} utilizzata per
   \item{\method{+ updateStateValue(): HTMLElement}}\\
   Questo metodo ha il compito di ottenere un riferimento all'elemento \verb'<select>' utilizzato per il cambio di stato, estrarre il valore associato all'opzione selezionata mediante un'istruzione del tipo
   \begin{verbatim}
-    var state = select.options[selectedIndex].value;
+    var state = select.options[select.selectedIndex].value;
   \end{verbatim}
   quindi sollevare un opportuno evento avente come identificativo la stringa \verb'changeMyState' e come proprietà \verb'state' il valore dello stato recuperato in precedenza.
   
@@ -4812,8 +4814,8 @@ Vista associata al \inglese{presenter} \classname{ToolsPresenter} utilizzata per
   \item{\method{-- initializeSelectState(): HTMLElement}}\\
   Il metodo ha il compito di inizializzare l'elemento \verb'<select>' per il cambio di stato presente sul pannello degli strumenti aggiungendo ad esso, se non sono già presenti, le opzioni che corrispondono allo stato ``disponibile'' e ``occupato'' utilizzando una sintassi del tipo:
   \begin{verbatim}
-    var availableOption = new Option("Disponibile", "available");
-    selectState.add(availableOption, null);
+    var option = new Option("Disponibile", "available");
+    select.add(option, null);
   \end{verbatim}
   
   È importante, inoltre, associare all'evento \verb'change' associato all'elemento \verb'<select>' una funzione anonima che provoca l'invocazione del metodo \method{updateStateValue()} della vista stessa.
