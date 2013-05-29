@@ -2753,7 +2753,7 @@ Definisce un'interfaccia per la creazione di un oggetto, lasciando alle sottocla
 \begin{description}
 
 	\item{\scshape\bfseries CS01 -- Gestione database}\\
-In tale componente è la classe \texttt{dao.DataPersistanceManager} a definire dei metodi per la creazione di istanze di classi figlie di \texttt{dao.GetUtil} e \texttt{dao.ModifyUtil}.
+In tale componente è la classe \texttt{dao.DataPersistanceManager} a definire dei metodi per la creazione di istanze di classi figlie di \texttt{dao.util.GetUtil} e \texttt{dao.util.ModifyUtil}.
 
   \item{\scshape\bfseries CS02 -- Gestione connessione}\\
 Gli oggetti che intendono rappresentare connessioni sono sottotipi della classe di libreria \texttt{org.apache.catalina.websocket.StreamInbound} e vengono instanziati mediante un Factory Method nelle sottoclassi di \texttt{org.apache.catalina.websocket.WebSocketServlet}.
@@ -2796,9 +2796,9 @@ Permette di definire la struttura di un algoritmo lasciando alle sottoclassi il 
 \begin{description}
 
   \item{\scshape\bfseries CS01 -- Gestione database}\\
-In tale componente la classe \texttt{dao.ModifyUtil} implementa il pattern \texttt{template method} definendo un metodo per l'esecuzione di un'operazione su \texttt{dao.DataPersistenceManager}, e lasciando l'implementazione dell'algoritmo alle classi figlie. Tali sono: \texttt{dao.InsertUtil}, \texttt{dao.UpdateUtil} e \texttt{dao.DeleteUtil}.
+In tale componente la classe \texttt{dao.uti.ModifyUtil} implementa il pattern \texttt{template method} definendo un metodo per l'esecuzione di un'operazione su \texttt{dao.DataPersistenceManager}, e lasciando l'implementazione dell'algoritmo alle classi figlie. Tali sono: \texttt{dao.uti.InsertUtil}, \texttt{dao.uti.UpdateUtil} e \texttt{dao.uti.DeleteUtil}.
 
-Anche la classe \texttt{dao.GetUtil} implementa lo stesso comportamento, lasciando alle classi figlie (\texttt{dao.GetCallUtil}, \texttt{dao.GetGroupUtil}, \texttt{dao.GetUserUtil}, \texttt{dao.NotInitialize}) il compito di definire l'algoritmo d'implementazione.
+Anche la classe \texttt{dao.uti.GetUtil} implementa lo stesso comportamento, lasciando alle classi figlie (\texttt{dao.uti.GetCallUtil}, \texttt{dao.uti.GetGroupUtil}, \texttt{dao.uti.GetUserUtil}, \texttt{dao.uti.NotInitialize}) il compito di definire l'algoritmo d'implementazione.
 
 	\item{\scshape\bfseries CS04 -- Gestione autenticazione}\\
 In tale componente la classe \texttt{authentication.security.AESTemplate} implementa il pattern \texttt{template method} definendo un metodo per l'esecuzione di un operazione AES. Nello specifico le operazioni possibili sono: criptazione e decriptazione. Tali sono rappresentate dalle classi figlie \texttt{authentication.security.AESEncode} e \texttt{authentication.security.AESDecode}.
