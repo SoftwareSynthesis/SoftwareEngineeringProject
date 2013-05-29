@@ -111,7 +111,7 @@ function ContactPanelPresenter() {
     /***************************************************************************
      * METODI PUBBLICI
      **************************************************************************/
-    /**
+    /** VIEW
      * Visualizza un contatto nel pannello principale popolando il contenuto dei
      * <li> del pannello oppure impostando il percorso dell'immagine. NOTA PER I
      * VERIFICATORI: Richiede la presenza di una lista ul con dei list item che
@@ -203,7 +203,7 @@ function ContactPanelPresenter() {
     /**************************************************************************
      * HANDLER DEGLI EVENTI
      **************************************************************************/
-    /**
+    /** PRESENTER
      * Funzione per gestire l'evento in cui viene visualizzato il pannello del
      * contatto
      * @author Riccardo Tresoldi
@@ -213,7 +213,7 @@ function ContactPanelPresenter() {
         mediator.getView('contact');
     }
 
-    /**
+    /** PRESENTER
      * Funzione per gestire l'evento in cui viene rimosso il pannello del
      * contatto
      * @author Riccardo Tresoldi
@@ -223,7 +223,7 @@ function ContactPanelPresenter() {
     }
 
     /***************************************************************************
-     * LISTNER DEGLI EVENTI
+     * LISTENER DEGLI EVENTI
      **************************************************************************/
     document.addEventListener("changeAddressBooksContactState", function(evt) {
         if (currentContact && currentContact.id == evt.idUserChange)
