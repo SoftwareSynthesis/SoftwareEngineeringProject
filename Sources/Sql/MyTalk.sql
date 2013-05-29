@@ -45,7 +45,7 @@ CREATE TABLE Groups
 	ID_Owner					BIGINT UNSIGNED,
 	
 	PRIMARY KEY(ID_group),
-	FOREIGN KEY(ID_Owner) REFERENCES UserData(ID_user)
+	FOREIGN KEY(ID_Owner) REFERENCES UserData(ID_user) ON DELETE CASCADE
 );
 
 CREATE TABLE Messages
@@ -58,8 +58,8 @@ CREATE TABLE Messages
 	Start_date					TIMESTAMP					NOT NULL,
 	
 	PRIMARY KEY(ID_message),
-	FOREIGN KEY(Sender) REFERENCES UserData(ID_user),
-	FOREIGN KEY(Receiver) REFERENCES UserData(ID_user)
+	FOREIGN KEY(Sender) REFERENCES UserData(ID_user) ON DELETE CASCADE,
+	FOREIGN KEY(Receiver) REFERENCES UserData(ID_user) ON DELETE CASCADE
 );
 
 CREATE TABLE CallLists
@@ -71,7 +71,7 @@ CREATE TABLE CallLists
 	
 	PRIMARY KEY(ID_callList),
 	FOREIGN KEY(ID_call) REFERENCES Calls(ID_call) ON DELETE CASCADE,
-	FOREIGN KEY(ID_user) REFERENCES UserData(ID_user)
+	FOREIGN KEY(ID_user) REFERENCES UserData(ID_user) ON DELETE CASCADE
 );
 
 CREATE TABLE AddressBookEntries
@@ -83,9 +83,9 @@ CREATE TABLE AddressBookEntries
 	Blocked						TINYINT						NOT NULL			DEFAULT 0,
 	
 	PRIMARY KEY(ID_addressBookEntry),
-	FOREIGN KEY(ID_user) REFERENCES UserData(ID_user),
+	FOREIGN KEY(ID_user) REFERENCES UserData(ID_user) ON DELETE CASCADE,
 	FOREIGN KEY(ID_group) REFERENCES Groups(ID_group) ON DELETE CASCADE,
-	FOREIGN KEY(Owner) REFERENCES UserData(ID_user)
+	FOREIGN KEY(Owner) REFERENCES UserData(ID_user) ON DELETE CASCADE
 );
 
 /*
