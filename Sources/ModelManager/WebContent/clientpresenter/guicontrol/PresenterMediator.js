@@ -178,7 +178,6 @@ function PresenterMediator() {
      *            onlyAudio true se si vuole effettuare una chiamata solo audio
      */
     // TODO da documentare
-    // TODO TRES mi confermi che esiste ancora? (createPanel, WTF?!)
     this.onCall = function(contact, onlyAudio) {
         document.dispatchEvent(showCommunicationPanel);
         communicationcenter.call(true, contact, onlyAudio);
