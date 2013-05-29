@@ -66,11 +66,11 @@ window.onload = function() {
     /**********************************************************
     ****Inizializzazione variabili per connessione all'host****
     **********************************************************/
-    var host = window.location.href;
+    var host =  window.location.protocol + "//" + window.location.host + window.location.pathname;
     if (window.location.host == "localhost") {
         commandURL = host + "Conf/controllerManagerStub.php";
     } else {
-        commandURL =  host + "/CommandManager";
+        commandURL =  host + "CommandManager";
     }
     urlChannelServlet = "ws://" + window.location.host + "/MyTalk/CommandManager";
 

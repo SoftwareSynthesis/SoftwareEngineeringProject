@@ -38,8 +38,10 @@ function GroupPanelPresenter(url) {
 			var deleteContactImg = document.createElement("img");
 			deleteContactImg.src = "img/deleteContactImg.png";
 			deleteContactImg.className = "deleteContact";
+			deleteContactImg.id = group.contacts[id];
 			deleteContactImg.onclick = function() {
-				removeContactFromGroup.contact = group.contacts[id];
+			    var contactObj = mediator.getContactById(this.id);
+				removeContactFromGroup.contact = contactObj;
 				removeContactFromGroup.group = group;
 				document.dispatchEvent(removeContactFromGroup);
 			};
