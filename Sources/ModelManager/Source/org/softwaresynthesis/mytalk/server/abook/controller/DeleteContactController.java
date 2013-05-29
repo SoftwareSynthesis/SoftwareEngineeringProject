@@ -48,26 +48,24 @@ public class DeleteContactController extends AbstractController{
 				while (iterator.hasNext() == true)
 				{
 					entry = iterator.next();
-					if (entry.getContact().equals(friend) == true)
+					if (entry.getContact().getId().equals(friend.getId()) == true)
 					{
-						myUser.removeAddressBookEntry(entry);
 						dao.delete(entry);
-						result = "true";
+						dao.update(myUser);
 					}
 				}
-				dao.update(myUser);
 				entrys = friend.getAddressBook();
 				iterator = entrys.iterator();
 				while (iterator.hasNext() == true)
 				{
 					entry = iterator.next();
-					if (entry.getContact().equals(myUser) == true)
+					if (entry.getContact().getId().equals(myUser.getId()) == true)
 					{
-						friend.removeAddressBookEntry(entry);
 						dao.delete(entry);
+						dao.update(friend);
+						result = "true";
 					}
 				}
-				dao.update(friend);
 			}
 		}
 		catch (Exception ex)
