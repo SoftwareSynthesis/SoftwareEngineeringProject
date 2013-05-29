@@ -659,8 +659,8 @@ function AddressBookPanelPresenter() {
         result = JSON.parse(request.responseText);
         if (result == true) {
             this.setup();
-            // XXX WTF?? Siamo sicuri di voler chiamare il cesso?
-            mediator.displayContact(contact);
+            showContactPanel.contact = contact;
+            document.dispatchEvent(showContactPanel);
             return true;
         }
         throw "Ops... qualcosa è andato storto nel server.";
@@ -693,8 +693,8 @@ function AddressBookPanelPresenter() {
         result = JSON.parse(request.responseText);
         if (result == true) {
             this.setup();
-            // FIXME WTF?? Siamo sicuri di voler chiamare il cesso?
-            mediator.displayContact(contact);
+            showContactPanel.contact = contact;
+            document.dispatchEvent(showContactPanel);
             return true;
         }
         throw "Ops... qualcosa è andato storto nel server.";
@@ -718,7 +718,7 @@ function AddressBookPanelPresenter() {
             // ciclo tutti i contatti di un gruppo
             for (var groupContact in groups[group].contacts) {
                 // controllo se il contatto è uguale al contatto del gruppo
-                if (groupContact == contact.id) {
+                if (groups[group].contacts[groupContact] == contact.id) {
                     // se i contatti coincidono aggiungo il gruppo alla lista di
                     // ritorno e blocco lo scorrimento dell'array
                     groupSelected[group] = groups[group];
