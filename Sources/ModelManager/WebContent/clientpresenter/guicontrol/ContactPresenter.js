@@ -167,6 +167,8 @@ function ContactPanelPresenter() {
         blockButton.onclick = function() {
             blockContact.contact = currentContact;
             document.dispatchEvent(blockContact);
+            showContactPanel.contact = currentContact;
+            document.dispatchEvent(showContactPanel);
         };
 
         unlockButton.onclick = function() {
