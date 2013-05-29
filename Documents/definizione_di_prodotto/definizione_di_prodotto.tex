@@ -4064,87 +4064,6 @@ Il metodo ritorna l'elemento DOM con \textit{id} uguale ad ``otherVideo''.
 
 \end{description}
 
-% TODO IBI ERIT FLETUS ET STRIDOR DENTIUM
-\classsection{ContactPanelPresenter}
-
-\subsubsection*{Funzione}
-Presenter incaricato di gestire il pannello che visualizza le informazioni di un singolo contatto.
-
-\subsubsection*{Relazioni d'uso}
-Nessuna relazione d'uso evidenziata.
-
-\subsubsection*{Classi estese ed interfacce implementate}
-
-Nessuna relazione evidenziata.
-
-\subsubsection*{Attributi}
-\begin{description}
-\item{\memberdata{-- element: DOM\_element}}\\
-  elemento controllato dal presenter in questione.
-\end{description}
-
-\subsubsection*{Metodi}
-\begin{description}
-\item{\method{- adjustBlockButtonDisplay(contact: Object(contact)): void}}\\
-	Il metodo riceve come parametro un contatto (\textit{contact}), successivamente viene controllato se tale utente è bloccato o meno e imposta correttamente la proprietà \textit{style} agli elementi della vista. più dettagliatamente:\\
-se il contatto è bloccato:
-\begin{itemize}
-\item nascondo il bottone per bloccare un utente;
-\item mostro il bottone per sbloccare un utente
-\end{itemize}
-altrimenti\\
-\begin{itemize}
-\item mostro il bottone per bloccare un utente;
-\item nascondo il bottone per sbloccare un utente
-\end{itemize}
-
-
-\item{\method{- buildGroupsDiv(contact Object(contact)): void}}\\
-Il metodo, che riceve come parametro un contatto (\textit{contact}, ha il compito di recuperare tutti i gruppi 
- a cui il contatto appartiene e visualizzare nel \textit{div} opportuno una \textit{label} per ogni gruppo trovato indicandone il nome. 
-
-\item{\method{+ createPanel():DOM\_element}}\\
-Metodo richiamato quando viene selezionato un contatto dalla rubrica. Inizializza il pannello che mostra le informazioni del contatto selezionato. Più precisamente, verranno creati tanti listItem (<li>) quanti i seguenti elementi:
-\begin{itemize}
-\item nome;
-\item cognome;
-\item email;
-\item avatar raffigurante l'immagine del contatto;
-\item div contenente i gruppi a cui il contatto appartiene;
-\item pulsante per la chiamata audio;
-\item pulsante per la chiamata video;
-\item pulsante per avviare una chat;
-\item pulsante per bloccare il contatto;
-\item pulsante per sbloccare il contatto.
-\end{itemize}
-Infine ritorno l'elemento creato.
-	
-\item{\method{+ display(contact: Object(contact)): void}}\\
-Metodo che popola nel corretto modo tutti gli elementi necessari per la visualizzazione di un utente. Prima di tutto quindi si recupereranno tutti gli elementi necessari, ossia:
-\begin{itemize}
-\item elemento per nome;
-\item elemento per cognome;
-\item elemento per email;
-\item elemento per avatar;
-\item pulsante per aggiungere un contatto alla rubrica;
-\item pulsante per la chiamata audio;
-\item pulsante per la video-chiamata;
-\item pulsante per avviare una chat;
-\item pulsante per bloccare il contatto;
-\item pulsante per sbloccare il contatto.
-\end{itemize}
-Successivamente si andranno a popolare tali elementi utilizzando le informazioni del contatto passato come parametro (\textit{contact}), infine si imposterà correttamente il comportamento dei bottoni associando le giuste chiamate a metodi del \textit{mediator}, ossia:
-\begin{itemize}
-\item aggiungi contatto --> onContactAdded(contact.id);
-\item blocca contatto --> onBlockContact();
-\item sblocca contatto --> onUnlockContact();
-\item chiamata audio --> onCall(contact, false);
-\item chiamata video --> onCall(contact, true);
-\item avvia chat --> onChatStarted(contact);
-\end{itemize}
-
-\end{description}
-
 
 \subsection{Package org.softwaresynthesis.mytalk.clientpresenter.kernel}\label{sec:kernel}
 \classsection{CommunicationCenter}
@@ -4439,7 +4358,57 @@ Il pannello è costituito da un \verb'<div>' con l'identificativo \verb'Communic
 Vista associata al \inglese{presenter} \classname{ContactPresenter} utilizzata per visualizzare il profilo di un utente, gestire la sua collocazione nella rubrica e/o avviare una comunicazione con quest'ultimo.
 
 \subsubsection*{Metodi}
-%TODO da terminare!!
+\begin{description}
+
+  \item{\method{+ display(): void}}\\
+  Il metodo dovrà innanzitutto visualizzare l'insieme dei dati personali che costituiscono il profilo del contatto selezionato, che corrisponde al valore dell'attributo \memberdata{currentContact}. Dovranno pertanto essere effettuate le seguenti operazioni
+  \begin{itemize}
+    \item[--] recuperare un riferimento al \verb'<li>' per la visualizzazione del nome, tramite il suo identificativo (\verb'contactName') e aggiungere ad esso un nodo di testo ottenuto come \verb'"Nome: " currentContact.name';
+    \item[--] recuperare un riferimento al \verb'<li>' per la visualizzazione del cognome, tramite il suo identificativo (\verb'contactSurname') e aggiungere ad esso un nodo di testo ottenuto come \verb'"Cognome: " currentContact.surname';
+    \item[--] recuperare un riferimento al \verb'<li>' per la visualizzazione dell'indirizzo email, tramite il suo identificativo (\verb'contactEmail') e aggiungere ad esso un nodo di testo ottenuto come \verb'"Email: " currentContact.email';
+    \item[--] recuperare un riferimento all'elemento \verb'<img>' (con identificativo \verb'contactAvatar') per la visualizzazione dell'immagine del profilo e impostarne l'attributo \verb'src' uguale al valore di \verb'currentContct.picturePath'.
+  \end{itemize}
+  
+  In un secondo momento dovrà essere impostata correttamente la visualizzazione dei pulsanti di blocco/sblocco e dell'eventuale stato di blocco del contatto tramite il metodo \method{adjustBlockButtonDisplay}, quindi visualizzare i pulsanti corretti per interagire con il contatto a seconda dello stato, tramite il metodo \method{adjustGUIOnContactState}.
+  
+  In terzo luogo, dovrà essere visualizzato correttamente il sotto-pannello per la gestione dei gruppi cui il contatto appartiene, mediante una chiamata al metodo \method{buildGroupsDiv}.
+  
+  Infine dovrà essere configurato il comportamento dei pulsanti presenti nel pannello, in particolare:
+  \begin{itemize}
+    \item[--] alla pressione del pulsante per aggiungere il contatto alla rubrica dovrà essere sollevato un evento con identificativo \verb'addContactToAddressBook' dopo averne impostato la proprietà \verb'contact' uguale a \memberdata{currentContact};
+    \item[--] alla pressione del pulsante per la rimozione del contatto alla rubrica dovrà essere sollevato un evento con identificativo \verb'removeContactToAddressBook' dopo averne impostato la proprietà \verb'contact' uguale a \memberdata{currentContact};
+    \item[--] alla pressione del pulsante per bloccare il contatto dovrà essere sollevato un evento con identificativo \verb'blockContact' dopo averne impostato la proprietà \verb'contact' uguale a \memberdata{currentContact}, quindi dovrà essere aggiornato il pannello sollevando un evento con identificativo \verb'showContactPanel' dopo averne impostato la proprietà \verb'contact';
+    \item[--] alla pressione del pulsante per sbloccare il contatto dovrà essere sollevato un evento con identificativo \verb'unlockContact' dopo averne impostato la proprietà \verb'contact' uguale a \memberdata{currentContact}, quindi dovrà essere aggiornato il pannello sollevando un evento con identificativo \verb'showContactPanel' dopo averne impostato la proprietà \verb'contact';
+    \item[--] alla pressione del pulsante per avviare una comunicazione audio con il contatto dovrà essere sollevato un evento con l'identificativo \verb'call' dopo averne impostato la proprietà \verb'contact' col valore di \memberdata{currentContact} e la proprietà \verb'isVideo' a \verb'false';
+    \item[--] alla pressione del pulsante per avviare una comunicazione audio/video con il contatto dovrà essere sollevato un evento con l'identificativo \verb'call' dopo averne impostato la proprietà \verb'contact' col valore di \memberdata{currentContact} e la proprietà \verb'isVideo' a \verb'true';
+    \item[--] alla pressione del pulsante per avviare una chat testuale con il contatto dovrà essere sollevato un evento con l'identificativo \verb'chatStarted' dopo averne impostato la proprietà \verb'contact' col valore di \memberdata{currentContact};
+    \item[--] alla pressione del pulsante per lasciare un messaggio nella segreteria del contatto dovrà essere sollevato un evento con identificativo uguale a \verb'showPhoneCallMessagePanel', dopo averne impostato la proprietà \verb'contact' uguale al valore di \memberdata{currentContact}.
+  \end{itemize}
+  
+  Infine, nel caso in cui il contatto dovesse essere già presente nella rubrica, dovrà essere impedita la visualizzazione del pulsante per aggiungerlo alla rubrica, impostando la proprietà \verb'style.display' al valore \verb'"none"'.
+
+  \item{\method{-- adjustBlockButtonDisplay(contact: Object): void}}\\
+  Il metodo avrà il compito di impostare la corretta visualizzazione dell'elemento \verb'<div>' contenente le informazioni relative al blocco del contatto e la visualizzazione del \verb'<button>' per bloccare e del \verb'<button>' per sbloccare il contatto in ragione dello stato (bloccato o meno) in cui si trova lo stesso.
+  
+  In particolare, se il contatto è bloccato, la proprietà \verb'style.display' dei tre elementi dovrà essere, rispettivamente, \verb'"block"', \verb'"none"' e \verb'"inline"'. Se invece il contatto non è bloccato, allora le proprietà di stile dovranno essere rispettivamente impostate a \verb'"none"', \verb'"inline"' e \verb'"none"'.
+  
+  \item{\method{-- adjustGUIOnContactState(contact: Object): void}}\\
+  Questo metodo avrà il compito di configurare i pulsanti che permettono di avviare una comunicazione (audio, audio/video o testuale) e di lasciare un messaggio in segreteria sulla base del contatto passato come parametro.
+  
+  In dettaglio, se il contatto è \inglese{online} e pertanto disponibile ad accettare comunicazioni in ingresso la proprietà \verb'style.display' dei pulsanti corrispondenti alle tre comunicazioni dovranno essere impostate a \verb'"inline"' mentre il pulsante per attivare la segreteria dovrà essere nascosto impostando detta proprietà a \verb'"none"'. Dualmente, se il contatto è invece \inglese{offline} le proprietà dei pulsanti per le comunicazioni dovranno essere \verb'"none"' e quella del pulsante della segreteria sarà invece \verb'"inline"'.
+  
+  \item{\method{-- buildGroupsDiv(contact: Object): void}}\\
+  Lo scopo di questo metodo è popolare l'elemento \verb'<div>' che visualizza i gruppi della rubrica cui appartiene il contatto e permette di effettuare alcune operazioni di amministrazione della rubrica (la rimozione del contatto da un gruppo).
+  
+  Il metodo dovrà pertanto recuperare innanzitutto l'insieme di tutti i gruppi tali che il \memberdata{currentContact} vi appartiene, invocando il metodo \method{getGroupsWhereContactIs} messo a disposizione da \classname{PresenterMediator}.
+  
+  Per ognuno di questi gruppi dovrà essere creato un elemento \verb'<span>' con attributo \verb'class' uguale a \verb'groupLabel', il quale dovrà contenere al proprio interno un nodo di testo con il nome del gruppo e un elemento \verb'<img>' con percorso uguale a \verb'img/close.png' e classe \verb'deleteGroupButton', al cui evento \verb'click' dovrà essere sollevato un evento con identificativo \verb'removeContactFromGroup', dopo averne impostato le proprietà \verb'contact' e \verb'group' in funzione del contatto visualizzato e del gruppo su cui si sta iterando.
+  
+\end{description}
+
+
+%\item{\method{- buildGroupsDiv(contact Object(contact)): void}}\\
+%Il metodo, che riceve come parametro un contatto (\textit{contact}, ha il compito di recuperare tutti i gruppi a cui il contatto appartiene e visualizzare nel \textit{div} opportuno una \textit{label} per ogni gruppo trovato indicandone il nome.
 
 \subsubsection*{Elementi}
 Il pannello è costituito da un elemento \verb'<div>' con l'identificativo \verb'ContactPanel', che contiene:
