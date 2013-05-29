@@ -17,8 +17,10 @@ function AddressBookPanelPresenter() {
     var thisPresenter = this;
     var thisPanel;
     // array dei contatti della rubrica dell'utente
+    // FIXME non dovrebbe essere new Object()?
     var contacts = new Array();
     // array dei gruppi della rubrica
+    // FIXME non dovrebbe essere new Object()?
     var groups = new Array();
 
     /***************************************************************************
@@ -158,7 +160,7 @@ function AddressBookPanelPresenter() {
         return false;
     }
     
-    /* VIEW (FIXME questo è un metodo fantasma)
+    /* VIEW (TODO questo è un metodo fantasma)
        Modifica la visualizzazione dello stato del contatto
      
       this.setState = function(contact, state) {
@@ -242,9 +244,11 @@ function AddressBookPanelPresenter() {
         //salvo un riferimento all'elemento DOM appena creato
         thisPanel = document.getElementById("AddressBookPanel");
 
+
         // configura il comportamento della vista
         var inputButton = document.getElementById("inputButton");
         inputButton.onclick = function() {
+			// FIXME la variabile 'inputText' non è inizializzata!
             var serchField = inputText.value;
             var filtredContacts = thisPresenter.applyFilterByString(serchField);
             thisPresenter.showFilter(filtredContacts);
@@ -262,7 +266,7 @@ function AddressBookPanelPresenter() {
         this.setup();
     };
     
-    /* VIEW (FIXME questo è un metodo fantasma)
+    /* VIEW (TODO questo è un metodo fantasma)
        Azzera il contenuto del select contenente i gruppi della rubrica
      
      this.initializeGroupSelect = function() {
@@ -271,7 +275,7 @@ function AddressBookPanelPresenter() {
      }
      */
     
-    /* VIEW (FIXME questo è un metodo fantasma)
+    /* VIEW (TODO questo è un metodo fantasma)
        Azzera il contenuto della lista dei contatti della rubrica
      
      this.initializeContactList = function() {
@@ -285,12 +289,6 @@ function AddressBookPanelPresenter() {
      * inserisce i contatti estratti dal server all'interno della lista
      * all'interno di 'AddressBookPanel'
      *
-     * NOTA PER I VERIFICATORI Richiede che il 'document' abbia al suo interno
-     * un elemento di tipo '
-     * <ul>' con 'id' uguale a 'AddressBookList' Al termine della funzione la
-     * lista dei contatti contacts deve essere popolata con i contatti che passa
-     * lo stub
-     *
      * @author Riccardo Tresoldi
      */
     this.setup = function() {
@@ -298,7 +296,7 @@ function AddressBookPanelPresenter() {
         getAddressBookContacts();
 
         // popolo la parte dei contatti
-        // FIXME richiama initializeContactList della vista
+        // TODO richiama initializeContactList della vista
         var ulList = document.getElementById("AddressBookList");
         ulList.innerHTML = "";
 
@@ -309,7 +307,7 @@ function AddressBookPanelPresenter() {
         }
         // ciclo i contatti e agiungo un <li> per ogni contatto
         for (var contact in contacts) {
-        	// FIXME non servirebbe il primo parametro
+        	// TODO non servirebbe il primo parametro (creare nella funzione)
             addListItem(ulList, contacts[contact]);
         }
 
@@ -525,7 +523,7 @@ function AddressBookPanelPresenter() {
         throw "Ops... qualcosa &egrave; andato storto nel server.";
     };
 
-    /** VIEW
+    /** PRESENTER
      * Dato una stringa in ingresso questa funzione filtra i contatti presenti
      * in locale
      *
@@ -550,9 +548,11 @@ function AddressBookPanelPresenter() {
         return filtred;
     };
 
-    /** VIEW
+    /** PRESENTER
      * Dato l'id di un gruppo in ingresso questa funzione filtra i contatti
      * presenti in locale
+     * 
+     * TODO tipo di ritorno incongruente con quello del metodo precedente
      *
      * @author Riccardo Tresoldi
      * @param {Number}
@@ -569,9 +569,6 @@ function AddressBookPanelPresenter() {
     /** VIEW
      * Mostra la lista di contatti passata come parametro all'interno della
      * AddressBookList
-     *
-     * NOTA PER I VERIFICATORI Richiede che il 'document' abbia al suo interno
-     * un elemento di tipo '<ul>' con 'id' uguale a 'AddressBookList'
      *
      * @param {Array}
      *            filtredContacts Array di ID di contatti
@@ -662,6 +659,7 @@ function AddressBookPanelPresenter() {
         result = JSON.parse(request.responseText);
         if (result == true) {
             this.setup();
+            // XXX WTF?? Siamo sicuri di voler chiamare il cesso?
             mediator.displayContact(contact);
             return true;
         }
@@ -695,6 +693,7 @@ function AddressBookPanelPresenter() {
         result = JSON.parse(request.responseText);
         if (result == true) {
             this.setup();
+            // FIXME WTF?? Siamo sicuri di voler chiamare il cesso?
             mediator.displayContact(contact);
             return true;
         }
