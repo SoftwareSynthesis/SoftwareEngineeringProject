@@ -1880,6 +1880,53 @@ Nessun attributo evidenziato
 	
 \end{description}
 
+\classsection{AccountSettingController}
+
+\subsubsection*{Funzione}
+\textit{Controller} usata per modificare i dati utente. Nello specifico il client potrà operare una modifica ai campi \texttt{nome} e \texttt{cognome}. Lo sviluppatore deve ricordarsi che i dati di autenticazione risiedono nella session con il quale il client sta interagendo con il \textit{front controller}.
+
+\subsubsection*{Relazioni d'uso}
+
+\begin{itemize}
+	\item \texttt{java.io.IOException}: eccezione richiamabile dal metodo \method{doAction()}.
+	\item \texttt{java.io.PrintWriter}: classe istanziata all'interno del metodo \method{doAction()}. Usata per scrivere l'output del \inglese{controller}.
+	\item \texttt{javax.servlet.ServletException}: eccezione sollevabile dai metodi \method{doAction()}.
+	\item \texttt{javax.servlet.http.HttpServletRequest}: classe usata per interagire con le richieste \texttt{ajax} inoltrate dal client.
+	\item \texttt{javax.servlet.http.HttpServletResponse}: classe usata per interagire con le richieste \texttt{ajax} inoltrate dal client.
+	\item \classname{org.softwaresynthesis.mytalk.server.dao.DataPersistenceManager}: classe usata per comunicare tramite Hibernate con la tabella UserData della base di dati.
+\end{itemize}
+
+\subsubsection*{Classi estese ed interfacce implementate}
+\begin{itemize}
+	\item \texttt{server.AbstractController}: classe estesa.
+\end{itemize}
+
+\subsubsection*{Attributi}
+
+Nessun attributo evidenziato
+
+\subsubsection*{Metodi}
+\begin{description}
+	\item{\method{\# doAction(request HttpServletRequest, response HttpServletResponse): void}}\\	
+	Metodo usato per eseguire la richiesta di modifica dei dati di un nuovo client, registrato all'interno del database. Il flusso principale inizia  con la creazione di un oggetto \classname{dao.DataPersistanceManager} avente nome userDAO. Quindi viene aperto un blocco try catch in cui si salva in un istanza di tipo \texttt{HttpSession}, l'oggetto ritornato da una chiamata \verb|request.getSession(false)|. I passi successivi sono (nell'ordine):
+	\begin{itemize}
+		
+		\item si crea un istanza di tipo \classname{IUserData} a partire da una chiamata a metodo:\\
+		\verb|session.getAttribute("user")|;
+		
+		\item si crea un istanza di tipo \classname{IUserData} che conterrà ``l'utente'' i cui dati dovranno essere modificati. L'oggetto dovrà essere istanziato in seguito ad una chiamata:\\
+		\verb|userDAO.getByID(contactId)|;
+		
+		\item quindi si procede modificando i campi di user: name e surname. L'istruzione da utilizzare è:\\
+		\verb|name = request.getParameter("name");|\\
+		\verb|surname = request.getParameter("surname");|
+	\end{itemize}
+	Quindi se il contatto (i cui dati dovranno essere modificati) è stato correttamente istanziato (contatto != null) allora il flusso principale procede creando e impostando un istanza di \classname{UserData}. Il metodo termina ``scrivendo'' \inglese{true} all'interno di un istanza di \texttt{PrintWriter} creata a partire da \texttt{response.getWriter()} ed eseguendo una chiamata di aggiornamento del database (uso delle classe \classname{dao.DataPersistanceManager}.
+	
+	Se invece si è osservato che l'oggetto contenente il contatto da "aggiornare", ha valore uguale a null, allora il metodo termina scrivendo \inglese{false} all'intero della dello stesso \texttt{PrintWriter} già citato.
+\end{description}
+
+
 \subsection{Package org.softwaresynthesis.mytalk.server.call}\label{sec:call}
 
 \classsection{ICall}
