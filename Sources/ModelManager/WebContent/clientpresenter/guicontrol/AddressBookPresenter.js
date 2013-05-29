@@ -694,7 +694,7 @@ function AddressBookPanelPresenter() {
         if (result == true) {
             this.setup();
             showContactPanel.contact = contact;
-            document.dispatchEvent(showContactPanel);
+            document.dispatchEvent(showContactPanel); 
             return true;
         }
         throw "Ops... qualcosa è andato storto nel server.";

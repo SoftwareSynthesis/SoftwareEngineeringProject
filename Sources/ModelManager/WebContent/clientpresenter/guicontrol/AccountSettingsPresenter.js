@@ -53,13 +53,13 @@ function AccountSettingsPanelPresenter(url) {
 			var request = new XMLHttpRequest();
 			var formData = new FormData();
 			formData.append("operation", "accountSettings");
-			if (userData.name && userData.name.length > 0) {
+			if (data.name && data.name.length > 0) {
 	            formData.append("name", encodeURIComponent(data.name));
 	        }
-	        if (userData.surname && userData.surname.length > 0) {
+	        if (data.surname && data.surname.length > 0) {
 	            formData.append("surname", encodeURIComponent(data.surname));
 	        }
-	        if (userData.picturePath && (data.picturePath != "")) {
+	        if (data.picturePath && (data.picturePath != "")) {
 	            formData.append("picturePath", data.picturePath);
 	        }
 			request.open("POST", commandURL, false);
