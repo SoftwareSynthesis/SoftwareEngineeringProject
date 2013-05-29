@@ -49,8 +49,6 @@ function ContactPanelPresenter() {
      * @param {Object} contact oggetto che rappresenta il contatto
      */
     function adjustGUIOnContactState(contact) {
-        //controllo quale è lo stato del contatto
-        var state = contact.state;
         var chatButton = document.getElementById("chatButton");
         var videoCallButton = document.getElementById("videoCallButton");
         var callButton = document.getElementById("callButton");
@@ -156,7 +154,7 @@ function ContactPanelPresenter() {
         // associo gli eventi onClick ai bottoni
         addToAddressBookButton.onclick = function() {
             addContactToAddressBook.contact = currentContact;
-            document.dispatchEvent(addContactToAddressBook)
+            document.dispatchEvent(addContactToAddressBook);
         };
 
         removeFromAddressBookButton.onclick = function() {
@@ -174,6 +172,8 @@ function ContactPanelPresenter() {
         unlockButton.onclick = function() {
             unlockContact.contact = currentContact;
             document.dispatchEvent(unlockContact);
+            showContactPanel.contact = currentContact;
+            document.dispatchEvent(showContactPanel);
         };
 
         chatButton.onclick = function() {
