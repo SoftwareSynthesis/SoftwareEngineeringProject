@@ -3452,8 +3452,35 @@ Nessuna relazione evidenziata.
 % Qui dovrà andarci COMMUNICATIONPRESENTER
 \classsection{CommunicationPresenter}
 
-% Qui dovrà andarci CONTACTPRESENTER
 \classsection{ContactPresenter}
+
+\subsubsection*{Funzione}
+\inglese{Presenter} incaricato di gestire il pannello per la visualizzazione di un contatto, sia esso della rubrica che un generico utente del sistema non presente in rubrica.
+
+\subsubsection*{Relazioni d'uso}
+Nessuna relazione d'uso evidenziata.
+
+\subsubsection*{Classi estese ed interfacce implementate}
+Nessuna relazione evidenziata.
+
+\subsubsection*{Attributi}
+\begin{description}
+
+  \item{\memberdata{-- thisPanel: HTMLElement}}\\
+  Riferimento all'elemento HTML, da intendersi come nodo DOM, che rappresenta la radice del pannello per la visualizzazione di un contatto. Quest'ultimo è costituito concretamente da un elemento \verb'<div>' con l'identificativo \verb'ContactPanel'.
+  
+\end{description}
+
+\subsubsection*{Metodi}
+\begin{description}
+
+  \item{\method{+ onRemoveContactPanel(): void}}\\
+  Questo gestore di eventi dovrà eseguire le operazioni che dovranno essere richiamate quando il pannello per la visualizzazione dei dati di un contatto viene rimosso e, in particolare, dovrà impostare a \verb'null' il valore del campo dati \memberdata{currentContact}.
+  
+  \item{\method{+ onShowContactPanel(contact: Object): void}}\\
+  Questo gestore di eventi ha il compito di provocare la visualizzazione del pannello del profilo del contatto passato come parametro, caricando il \inglese{template} HTML presente sul server, inizializzando il valore dell'attributo \memberdata{currentContact} e demandando in un secondo momento alla vista il compito di inizializzarsi tramite il metodo \method{display}.
+  
+\end{description}
 
 
 \classsection{GroupPresenter}
