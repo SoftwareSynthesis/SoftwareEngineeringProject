@@ -3449,8 +3449,81 @@ Nessuna relazione evidenziata.
 \end{description}
 
 
-% Qui dovrà andarci COMMUNICATIONPRESENTER
 \classsection{CommunicationPresenter}
+\subsubsection*{Funzione}
+Questo \inglese{presenter} ha il compito di gestire tutte le comunicazioni che possono avvenire tra persone, quindi sia di natura testuale che di tipo audio oppure audio/video.
+
+\subsubsection*{Relazioni d'uso}
+Nessuna relazione d'uso evidenziata.
+
+\subsubsection*{Classi estese ed interfacce implementate}
+Nessuna relazione evidenziata.
+
+\subsubsection*{Attributi}
+\begin{description}
+
+\item{\memberdata{-- chatElements: Object}}\\
+  Array associativo i cui valori sono costituiti da una serie di \verb'HTMLElement' che rappresentano tutte le chat aperte in un dato momento, mentre i cui valori sono gli identificativi degli utenti coinvolti nella comunicazione.
+  
+\item{\memberdata{-- thisPanel: HTMLElement}}\\
+Riferimento all'elemento HTML, da intendersi come nodo DOM, che corrisponde alla radice del pannello per la visualizzazione delle comunicazioni ed è costituito, ai fini pratici, da un elemento \verb'<div>' avente l'identificativo \verb'CommunicationPanel'.
+
+\end{description}
+
+\subsubsection*{Metodi}
+%TODO da terminare
+
+%\item{\method{- createLabel(user: Object(contact)): String}}\\
+%	Metodo che dato un utente (parametro del metodo), restituisce una stringa identificativa per il contatto in questione. Più precisamente, se il contatto contiene sia il nome che il cognome, la stringa restituita sarà composta da questi due elementi, altrimenti in base ai casi solo il nome o il cognome. Nell'ulteriore caso non siano presenti ne il nome ne il cognome, restituisce l'email, campo dati obbligatorio in fase di registrazione e quindi sempre presente.
+
+%\item{\method{- createChatItem(user: Object(contact)): DOM\_node}}\\
+%	Tale metodo restituisce un DOM\_element di tipo <li> contenente l'identificativo dell'utente con cui si sta comunicando (parametro del metodo). All'oggetto restituito viene assegnato un ``id'' corrispondente all'``id'' dell'utente con cui si vuole dialogare. All'evento \textit{onClick} viene collegato l'invocazione del metodo \method{displayChat(user)} che fa visualizzare la chat, viene inoltre creato il bottone per chiudere la chat che con l'evento ``onclick'' richiama il metodo \method{removeChat(user)}.
+
+%\item{\method{- createChatElement(user: Object(contact)): DOM\_node}}\\
+%	Tale metodo restituisce un DOM\_element contenente un \textit{div} che rappresenta l'area di chat. A tale elemento viene assegnato un ``id'' impostato a ``divContainerChat''. Deve essere creato anche una \textit{form} assegnando l'``id'' dell'utente come valore all'attributo ``id'' a tale \textit{form} va aggiunto una \textit{textarea} con \textit{id} impostato a \textit{chatText} dove andrà visualizzata la cronologia della chat; una casella di input con \textit{id} uguale \textit{input}; un bottone per inviare il messaggio assegnandogli all'evento \textit{onClick} l'invocazione del metodo \method{send(user, text)} del \textit{CommunicationPanelPresenter}. Infine viene aggiunta la \textit{form} all'elemento \textit{div} e ritornato.
+	
+%\item{\method{+ displayChat(user: Object(contact)): void}}\\
+%Provoca la visualizzazione della chat con l'utente (ricevuto da parametro) nel\textit{div} contenitore pertinente.
+
+%\item{\method{+ addChat(user: Object(contact)): void}}\\
+%Provoca l'aggiunta di una chat, con l'utente ricevuto come parametro, andando ad aggiornare il campo privato \textit{chatElements} e visualizzandola nell'elemento ulOpenChat.
+	
+%\item{\method{+ removeChat(user: Object(contact)): void}}\\
+%Comportamento simile al metodo scritto precedentemente. Viene chiusa una chat aperta con l'utente ricevuto da parametro andando ad eliminare l'elemento corrispondente da \textit{chatElements} e rimuovendo anche il DOM\_element dall'ulOpenChat.
+
+%\item{\method{+ appendToChat(user: Object(contact), text: String): void}}\\
+%Il metodo ha il compito di aggiunge una stringa \textit{text} all'interno dell'area di testo che è associata alla chat con l'utente \textit{user} (parametro del metodo).
+
+%\item{\method{+ createPanel(): DOM\_node}}\\
+%Con l'invocazione di tale metodo, viene inizializzato il pannello costruendo i \inglese{widget} grafici interni e lo restituisce in modo che possa essere inserito all'interno del pannello principale. Più dettagliatamente, deve costruire:
+%\begin{itemize}
+%\item div relativo alla chiamata assegnandogli come ``id'' CommunicationPanel;
+%\item div relativo alla gestione della chiamta assegnandogli come ``id'' divCall;
+%\item div relativo alla chat testuale assegnandogli come ``id'' divChat;
+%\item elemento video per la visualizzazione del proprio stream ricavato dalla videocamera con ``id'' myVideo;
+%\item elemento video per la visualizzazione dello \textit{stream} dell'altro utente con \textit{id} otherVideo;
+%\item div dove inserire la visualizzazione delle statistiche della chiamata tra cui:
+%\begin{itemize}
+%\item elemento ``span'' per byte Ricevuti con \textit{id}= statReceived;
+%\item elemento ``span'' per byte Inviati con \textit{id}= statSend;
+%\item elemento ``span'' per il tempo con \textit{id}= timerSpan;
+%\end{itemize}
+%\item bottone per la terminazione della chiamata che all'evento \textit{onClick} richiama il metodo \method{endCall()} di communicationcenter;
+%\item elemento div contenente le chat aperte.
+%\end{itemize}
+%Tutti gli elementi sopra descritti andranno poi aggiunti al parametro di ritorno \textit{element} tramite la funzione \method{appendChild()} fornita dai DOM\_element.
+
+%\item{\method{+ updateTimer(text: String): void}}\\
+%Il metodo aggiorna il tempo di comunicazione durante una chiamata. Imposta il campo \textit{value} dello \inglese{span} relativo alla visualizzazione del tempo chiamata con il valore del parametro ricevuto in input (text).
+
+%\item{\method{+ updateStats(text: String, isReceivedData: boolean): void}}\\
+%Il metodo controlla tramite il parametro booleano ricevuto in input (isReceivedData) se bisogna aggiornare lo span relativo ai dati inviati oppure lo span relativo ai dati ricevuti e lo imposta con il valore \textit{text} ricevuto per parametro.
+
+%\item{\method{+ getMyVideo(): DOM\_element}}\\
+%Il metodo ritorna l'elemento DOM con \textit{id} uguale ad ``myVideo''.
+
+%\item{\method{+ getOtherVideo(): DOM\_element}}\\
+%Il metodo ritorna l'elemento DOM con \textit{id} uguale ad ``otherVideo''.
 
 \classsection{ContactPresenter}
 
@@ -3986,84 +4059,6 @@ Riferimento all'elemento HTML, da intendersi come nodo DOM, che corrisponde al p
 
 \end{description}
 
-%***********************************************************************
-%*                QUESTO È IL CONFINE FRA IL BENE E IL MALE            *
-%***********************************************************************
-% TODO IBI ERIT FLETUS ET STRIDOR DENTIUM
-\classsection{CommunicationPanelPresenter}
-
-\subsubsection*{Funzione}
-Questo presenter ha il compito di gestire tutte le comunicazioni che possono avvenire tra persone, quindi sia di natura testuale che di tipo audio - audio/video.
-
-\subsubsection*{Relazioni d'uso}
-Nessuna relazione d'uso evidenziata.
-
-\subsubsection*{Classi estese ed interfacce implementate}
-
-Nessuna relazione evidenziata.
-
-\subsubsection*{Attributi}
-\begin{description}
-\item{\memberdata{-- chatElements: HTMLDivElements[]}}\\
-  array associativo contenente tutte le chat aperte in un dato momento.
-\end{description}
-
-\subsubsection*{Metodi}
-\begin{description}
-\item{\method{- createLabel(user: Object(contact)): String}}\\
-	Metodo che dato un utente (parametro del metodo), restituisce una stringa identificativa per il contatto in questione. Più precisamente, se il contatto contiene sia il nome che il cognome, la stringa restituita sarà composta da questi due elementi, altrimenti in base ai casi solo il nome o il cognome. Nell'ulteriore caso non siano presenti ne il nome ne il cognome, restituisce l'email, campo dati obbligatorio in fase di registrazione e quindi sempre presente.
-
-\item{\method{- createChatItem(user: Object(contact)): DOM\_node}}\\
-	Tale metodo restituisce un DOM\_element di tipo <li> contenente l'identificativo dell'utente con cui si sta comunicando (parametro del metodo). All'oggetto restituito viene assegnato un ``id'' corrispondente all'``id'' dell'utente con cui si vuole dialogare. All'evento \textit{onClick} viene collegato l'invocazione del metodo \method{displayChat(user)} che fa visualizzare la chat, viene inoltre creato il bottone per chiudere la chat che con l'evento ``onclick'' richiama il metodo \method{removeChat(user)}.
-
-\item{\method{- createChatElement(user: Object(contact)): DOM\_node}}\\
-	Tale metodo restituisce un DOM\_element contenente un \textit{div} che rappresenta l'area di chat. A tale elemento viene assegnato un ``id'' impostato a ``divContainerChat''. Deve essere creato anche una \textit{form} assegnando l'``id'' dell'utente come valore all'attributo ``id'' a tale \textit{form} va aggiunto una \textit{textarea} con \textit{id} impostato a \textit{chatText} dove andrà visualizzata la cronologia della chat; una casella di input con \textit{id} uguale \textit{input}; un bottone per inviare il messaggio assegnandogli all'evento \textit{onClick} l'invocazione del metodo \method{send(user, text)} del \textit{CommunicationPanelPresenter}. Infine viene aggiunta la \textit{form} all'elemento \textit{div} e ritornato.
-	
-\item{\method{+ displayChat(user: Object(contact)): void}}\\
-Provoca la visualizzazione della chat con l'utente (ricevuto da parametro) nel \textit{div} contenitore pertinente.
-
-\item{\method{+ addChat(user: Object(contact)): void}}\\
-Provoca l'aggiunta di una chat, con l'utente ricevuto come parametro, andando ad aggiornare il campo privato \textit{chatElements} e visualizzandola nell'elemento ulOpenChat.
-	
-\item{\method{+ removeChat(user: Object(contact)): void}}\\
-Comportamento simile al metodo scritto precedentemente. Viene chiusa una chat aperta con l'utente ricevuto da parametro andando ad eliminare l'elemento corrispondente da \textit{chatElements} e rimuovendo anche il DOM\_element dall'ulOpenChat.
-
-\item{\method{+ appendToChat(user: Object(contact), text: String): void}}\\
-Il metodo ha il compito di aggiunge una stringa \textit{text} all'interno dell'area di testo che è associata alla chat con l'utente \textit{user} (parametro del metodo).
-
-\item{\method{+ createPanel(): DOM\_node}}\\
-Con l'invocazione di tale metodo, viene inizializzato il pannello costruendo i \inglese{widget} grafici interni e lo restituisce in modo che possa essere inserito all'interno del pannello principale. Più dettagliatamente, deve costruire:
-\begin{itemize}
-\item div relativo alla chiamata assegnandogli come ``id'' CommunicationPanel;
-\item div relativo alla gestione della chiamta assegnandogli come ``id'' divCall;
-\item div relativo alla chat testuale assegnandogli come ``id'' divChat;
-\item elemento video per la visualizzazione del proprio stream ricavato dalla videocamera con ``id'' myVideo;
-\item elemento video per la visualizzazione dello \textit{stream} dell'altro utente con \textit{id} otherVideo;
-\item div dove inserire la visualizzazione delle statistiche della chiamata tra cui:
-\begin{itemize}
-\item elemento ``span'' per byte Ricevuti con \textit{id}= statReceived;
-\item elemento ``span'' per byte Inviati con \textit{id}= statSend;
-\item elemento ``span'' per il tempo con \textit{id}= timerSpan;
-\end{itemize}
-\item bottone per la terminazione della chiamata che all'evento \textit{onClick} richiama il metodo \method{endCall()} di communicationcenter;
-\item elemento div contenente le chat aperte.
-\end{itemize}
-Tutti gli elementi sopra descritti andranno poi aggiunti al parametro di ritorno \textit{element} tramite la funzione \method{appendChild()} fornita dai DOM\_element.
-
-\item{\method{+ updateTimer(text: String): void}}\\
-Il metodo aggiorna il tempo di comunicazione durante una chiamata. Imposta il campo \textit{value} dello \inglese{span} relativo alla visualizzazione del tempo chiamata con il valore del parametro ricevuto in input (text).
-
-\item{\method{+ updateStats(text: String, isReceivedData: boolean): void}}\\
-Il metodo controlla tramite il parametro booleano ricevuto in input (isReceivedData) se bisogna aggiornare lo span relativo ai dati inviati oppure lo span relativo ai dati ricevuti e lo imposta con il valore \textit{text} ricevuto per parametro.
-
-\item{\method{+ getMyVideo(): DOM\_element}}\\
-Il metodo ritorna l'elemento DOM con \textit{id} uguale ad ``myVideo''.
-
-\item{\method{+ getOtherVideo(): DOM\_element}}\\
-Il metodo ritorna l'elemento DOM con \textit{id} uguale ad ``otherVideo''.
-
-\end{description}
-
 
 \subsection{Package org.softwaresynthesis.mytalk.clientpresenter.kernel}\label{sec:kernel}
 \classsection{CommunicationCenter}
@@ -4405,10 +4400,6 @@ Vista associata al \inglese{presenter} \classname{ContactPresenter} utilizzata p
   Per ognuno di questi gruppi dovrà essere creato un elemento \verb'<span>' con attributo \verb'class' uguale a \verb'groupLabel', il quale dovrà contenere al proprio interno un nodo di testo con il nome del gruppo e un elemento \verb'<img>' con percorso uguale a \verb'img/close.png' e classe \verb'deleteGroupButton', al cui evento \verb'click' dovrà essere sollevato un evento con identificativo \verb'removeContactFromGroup', dopo averne impostato le proprietà \verb'contact' e \verb'group' in funzione del contatto visualizzato e del gruppo su cui si sta iterando.
   
 \end{description}
-
-
-%\item{\method{- buildGroupsDiv(contact Object(contact)): void}}\\
-%Il metodo, che riceve come parametro un contatto (\textit{contact}, ha il compito di recuperare tutti i gruppi a cui il contatto appartiene e visualizzare nel \textit{div} opportuno una \textit{label} per ogni gruppo trovato indicandone il nome.
 
 \subsubsection*{Elementi}
 Il pannello è costituito da un elemento \verb'<div>' con l'identificativo \verb'ContactPanel', che contiene:
