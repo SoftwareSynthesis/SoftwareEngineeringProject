@@ -411,7 +411,7 @@ function AddressBookPanelPresenter() {
         var request = new XMLHttpRequest();
         request.open("POST", commandURL, false);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        request.send("operation=addInGroup&contactId=" + contact.id + "&groupId=" + group.id);
+        request.send("operation=insertInGroup&contactId=" + contact.id + "&groupId=" + group.id);
 
         // visualizzo l'esito della richiesta. Se esito positivo refresh della
         // rubrica
