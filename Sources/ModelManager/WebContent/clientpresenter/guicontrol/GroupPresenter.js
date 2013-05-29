@@ -188,15 +188,22 @@ function GroupPanelPresenter(url) {
 		// appende al form i pulsanti per l'aggiunta e la chiusura
 		var addButton = document.createElement("button");
 		addButton.appendChild(document.createTextNode("Aggiungi"));
-		addButton.onclick = function() {
-			var checkedContacts = form.getElementsByTagName("input");
-			for ( var contactbox in checkedContacts)
-				if (contactbox.type == "checkbox" && contactbox.checked == true) {
-					addContactToGroup.contact = contacts[contactbox.value];
-					addContactToGroup.group = group;
-					document.dispatchEvent(addContactToGroup);
-				}
-		};
+        addButton.onclick = function() {
+            var checkedContacts = form.getElementsByTagName("input");
+            for (var contactbox in checkedContacts) {
+                /*alert("checkedContacts[contactbox].type == \"checkbox\": " +
+                 * checkedContacts[contactbox].type == "checkbox");
+                 alert("checkedContacts[contactbox].checked == true: " +
+                checkedContacts[contactbox].checked == true);
+                 alert("entrabme: " + checkedContacts[contactbox].type ==
+                "checkbox" && checkedContacts[contactbox].checked == true);*/
+                if (checkedContacts[contactbox].type == "checkbox" && checkedContacts[contactbox].checked == true) {
+                    addContactToGroup.contact = contacts[checkedContacts[contactbox].value];
+                    addContactToGroup.group = group;
+                    document.dispatchEvent(addContactToGroup);
+                }
+            }
+        };
 		var closeButton = document.createElement("button");
         closeButton.appendChild(document.createTextNode("Annulla"));
         closeButton.onclick = function() {

@@ -7,15 +7,15 @@ $result = array();
 switch($operation) {
     // operazioni login utente
     case "login" :
-        if ($_REQUEST["username"] == "pr@va.com" & $_REQUEST["password"] == "p") {
+        /*if ($_REQUEST["username"] == "pr@va.com" & $_REQUEST["password"] == "p") {*/
             $result["name"] = "Mario";
             $result["surname"] = "Rossi";
             $result["picturePath"] = "default.png";
             $result["id"] = 2;
             $result["email"] = "mario.rossi@gmail.com";
-        } else {
+        /*} else {
             $result = null;
-        }
+        }*/
         break;
 
     case "question" :
@@ -65,6 +65,10 @@ switch($operation) {
         break;
 
     case "accountSettings" :
+        break;
+        
+    case "addInGroup" :
+        $result = true;
         break;
 
     // operazioni lista chiamate
