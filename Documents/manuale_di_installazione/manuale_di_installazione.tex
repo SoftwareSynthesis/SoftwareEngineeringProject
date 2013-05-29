@@ -72,37 +72,39 @@ Il prodotto ``MyTalk'' è un sistema software di comunicazione tra utenti median
 Lo scopo del presente manuale è quello di fornire una guida per l'installazione del server sulla quale si poggia l'applicazione. Tale documento contiene la descrizione delle operazioni da eseguire per portare a termine correttamente la fase di installazione e rendere quindi l'applicativo funzionante.
 
 \subsection{Destinatario del manuale}
-Questo manuale è rivolto agli installatori di sistema.
+Questo manuale è rivolto agli installatori di sistema che intendono offrire un servizio di videochiamata ai propri utenti.
 
 \section{Prerequisiti}
 L'installatore deve avere a disposizione:
 \begin{itemize}
-\item connessione alla rete internet;
-\item un server con installato \textit{Tomcat 7} (un contenitore servlet open source) e che quest'ultimo sia attivo al momento dell'installazione;
-\item il DBMS \textit{MySQL}, per l'installazione seguire la procedura standard descritta nel sito ufficiale \url{www.mysql.com}, dev'essere anch'esso attivo durante l'installazione;
-\item console \textit{PhpMyAdmin} per l'amministrazione della base di dati;
-\item permessi per accedere alla sezione \textit{manager} di \textit{Tomcat};
-\item permessi per creare una variabile di sistema.
+	\item connessione alla rete internet se il servizio sarà proposto ad utenti in internet altrimenti connessione alla rete locale;
+	\item un server con installato \textit{Tomcat 7} (un contenitore servlet open source) e che 		quest'ultimo sia attivo al momento dell'installazione;
+	\item il server che ospita l'applicativo deve essere correttamente configurato, ovvero deve essere possibile raggiungerlo via web se il servizio è disponibile ad utenti in internet oppure visibile nella intranet aziendale se il servizio è rivolto solo ai dipendenti;
+	\item il DBMS \textit{MySQL}, per l'installazione seguire la procedura standard descritta nel sito ufficiale \url{www.mysql.com}; il servizio deve essere abilitato per poter installare correttamente la base di dati e successivamente dovrà restare attivo per consentire lo scambio dati con l'applicativo in oggetto;
+	\item console \textit{PhpMyAdmin} per l'amministrazione della base di dati;
+	\item permessi per accedere alla sezione \textit{manager} di \textit{Tomcat};
+	\item permessi per creare una variabile di sistema;
+	\item permessi per accedere ad \textit{PhpMyAdmin}.
 \end{itemize} 
 
 \section{Materiale fornito}
 \begin{itemize}
 \item directory \caName{} contenente il codice compilato in formato \textit{.war};
-\item file \textit{.sql} per la creazione del database;
-\item files \textit{html} contenenti la documentazione delle classi.
+\item file \textit{.sql} per la creazione della base di dati;
+\item files \textit{html} contenenti la documentazione delle classi per eventuale estendibilità del sistema.
 \end{itemize} 
 
 \section{Installazione}
 \begin{enumerate}
 \item Nella cartella di installazione di PhpMyAdmin aprire il file \texttt{config.inc.php} e verficare le seguenti variabili di sistema:
 \begin{itemize}
-\item \verb+$cfg['Servers'][\$i]['auth_type']+ sia impostata con il valore \texttt{cookie} (in modo da consentire l'accesso tramite \textit{username} e \textit{password});
+\item \verb+$cfg['Servers'][\$i]['auth_type']+ sia impostata con il valore \texttt{cookie} (in modo da consentire l'accesso, a PhpMyAdmin, tramite \textit{username} e \textit{password});
 \end{itemize}
 \item Nella cartella di installazione di PhpMyAdmin aprire il file \texttt{my.ini} e verficare le seguenti variabili di sistema:
 \begin{itemize}
 \item \texttt{lower\_case\_table\_names} sia impostata a 0 (in modo che MySQL sia \inglese{case-sensitive})
 \end{itemize}
-\item Configurare una variabile di ambiente, per l'utente che ha accesso al server, denominata \textit{MyTalkConfiguration} che punta alla cartella di installazione di \textit{TomCat 7};
+\item Configurare una variabile di ambiente, per l'utente che ha accesso al server, denominata \textit{MyTalkConfiguration} che punta alla cartella di installazione di \textit{TomCat 7}; In particolare alla cartella che contiene la sottodirectory \textit{webapp};
 
 \item aprire il pannello di controllo di PhpMyAdmin, importare il file \textit{.sql} e confermare il caricamento
 
@@ -110,7 +112,7 @@ L'installatore deve avere a disposizione:
   \includegraphics[width=\textwidth]{ManInst_InstallazioneDB}
 \caption{Installazione Database}\label{fig:InstallazioneDB}
 \end{figure}
-una volta eseguita l'operazione, si sarà creato il database e la relativa struttura;
+una volta eseguita l'operazione, si sarà creato il database e la relativa struttura; La base di dati sarà visibile nella colonna di sinistra ed è denominata \textit{MyTalk}.
 
 \begin{figure}[H]
   \includegraphics[width=\textwidth]{ManInst_EsitoInstDB}
@@ -125,7 +127,8 @@ una volta eseguita l'operazione, si sarà creato il database e la relativa strut
 \caption{Deploy blabla}\label{fig:Deploy}
 \end{figure}
 
-al termine della procedura la schermata principale di \textit{TomCat} dovrà essere equivalente alla seguente;
+al termine della procedura la schermata principale di \textit{TomCat} dovrà essere equivalente alla seguente se tutto è andato a buon fine; Nel caso il vostro tomcat esegua solo il deploy e non l'avvio eseguite tale operazione manualmente cliccando sull'apposito pulsante \textit{start} riportato nella riga raffigurante l'applicazione \textit{MyTalk}.\\
+In caso di errori di \textit{deploy} e/o di avvio dell'applicativo essi sono riportati nella prima riga in alto della pagina; si prega di segnalare tale errore al team di sviluppo che provvederà nel più breve tempo possibile alla risoluzione del problema.
 
 \begin{figure}[H]
   \includegraphics[width=\textwidth]{ManInst_EsitoDeploy}
@@ -133,7 +136,7 @@ al termine della procedura la schermata principale di \textit{TomCat} dovrà ess
 \end{figure}
 
 
-\item verificare infine che il proprio server cosi configurato sia visibile dalla rete internet.
+\item verificare infine che il proprio server cosi configurato sia visibile dalla rete.
 %TODO: proseguire specificando meglio
 \end{enumerate}
 
