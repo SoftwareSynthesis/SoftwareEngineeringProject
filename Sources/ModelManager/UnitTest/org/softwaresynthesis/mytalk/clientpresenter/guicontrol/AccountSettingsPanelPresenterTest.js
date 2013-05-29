@@ -1,5 +1,5 @@
 module(
-		"AccountSettingsPanelPresenterTest",
+		"AccountSettingsPresenterTest",
 		{
 			setup : function() {
 				communicationcenter = new Object();
@@ -9,19 +9,92 @@ module(
 					email : "margor@email.it",
 					picturePath : "xx.png"
 				};
-				configurationFile = "/ModelManager/WebContent/Conf/servletlocationtest.xml";
+				//configurationFile = "/ModelManager/WebContent/Conf/servletlocationtest.xml";
 				tester = new AccountSettingsPanelPresenter();
 			},
 			teardown : function() {
 			}
 		});
 
+		
+		
+	test("testSendUserData()", function() {
+	var i = 0;
+	
+	var data = {
+			name : "Maria",
+			surname : "Goretti",
+			picturePath : "xx.png"
+		};
+	
+	var bool = tester.sendUserData(data);
+	equal(bool, false, "rilevata correttamente mancanza di cambiamenti");
+	i++;
+	
+	data.name = "Marta";
+	/*tester.sendUserData(data);
+	
+	equal(bool, true, "cambiamento");
+	i++;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*bool = tester.sendUserData(data);
+	/*equal(bool, false, "rilevata correttamente mancanza di cambiamenti");
+	i++;
+	
+	/*bool = tester.sendUserData(data);
+	equal(bool, true, "rilevato correttamente nome cambiato");
+	i++;
+
+	/*data.name = "Maria";
+	data.surname = "Rossi";
+	bool = tester.hasSomethingChanged(data);
+	equal(bool, true, "rilevato correttamente cognome cambiato");
+	i++;
+	
+	data.surname = "Goretti";
+	data.picturePath = "yy.png";
+	bool = tester.hasSomethingChanged(data);
+	equal(bool, true, "rilevata correttamente immagine cambiato");
+	i++;*/
+	
+	expect(i);
+});
+		
+		
+		
+		
+		
+		
+		
+		
+		
 /*
  * Tale test controlla il buon funzionamento dell'inizializzazione
  * AccountSettingPanel controlla che l'albero sia stato costruito correttamente
  * e per i vari nodi controlla che il loro contenuto sia stato inserito
  * correttamente
  */
+ 
+ 
+ /*//COMMENTO PERCHE SONO MORTI I CREATE PANEL
 test("testCreatePanel()",
 		function() {
 			var i = 0;
@@ -69,7 +142,11 @@ test("testCreatePanel()",
 
 			expect(i);
 		});
+*/
 
+
+//è MORTO ANCHE QUESTO
+/*
 test("testBuildQueryString()", function() {
 	var data = {
 		name : "enrico",
@@ -81,6 +158,12 @@ test("testBuildQueryString()", function() {
 			"stringa di query costruita correttamente");
 });
 
+
+*/
+
+
+
+/*
 test("testhasSomethingChanged()", function() {
 	var i = 0;
 	
@@ -113,7 +196,9 @@ test("testhasSomethingChanged()", function() {
 	
 	expect(i);
 });
+*/
 
+/*
 test("testOnChangeButtonPressed", function() {
 	var i = 0;
 	//stub di interfaccia grafica
@@ -185,5 +270,33 @@ test("testOnChangeButtonPressed", function() {
 	i++;
 	
 	document.body.removeChild(element);
+	
+	
+	
 	expect(i);
 });
+
+
+*/
+
+
+
+
+
+
+test("testDisplay", function() {
+	var i = 0;
+	//stub di interfaccia grafica
+	document.dispatchEvent(showAccountSettingPanel);
+	
+	
+	tester.display();
+	
+	expect(i);
+});
+
+
+
+
+
+
