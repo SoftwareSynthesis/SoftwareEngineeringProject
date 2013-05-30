@@ -40,7 +40,7 @@ public class AddCallController extends AbstractController {
 			user = dao.getUserData(email);
 			other = dao.getUserData(userId);
 			date = createCurrentDate();
-			call = new Call();
+			call = createCall();
 
 			// inserisce la chiamata
 			call.setStart(date);
