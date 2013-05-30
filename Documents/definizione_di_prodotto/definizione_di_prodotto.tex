@@ -3473,10 +3473,6 @@ Nessuna relazione evidenziata.
 
   \item{\memberdata{-- audio: Object}}\\
   Mappa associativa di oggetti creati con una chiamata al costruttore \verb'new Audio(fileName)' le cui chiavi corrispono alle stringhe \verb'"income"' e \verb'"outcome"' cui sono associati i suoni per il segnale di chiamata in arrivo e di chiamata in uscita rispettivamente.
-
-  %XXX a me sembra un po' clandestino questo, qui!
-  \item{\memberdata{-- chatElements: Object}}\\
-  Array associativo i cui valori sono costituiti da una serie di \verb'HTMLElement' che rappresentano tutte le chat aperte in un dato momento, mentre i cui valori sono gli identificativi degli utenti coinvolti nella comunicazione.
   
   \item{\memberdata{-- intervalRing: Object}}\\
   Intervallo impostato inizialmente a \verb'null' nel costruttore e in seguito inizializzato di volta in volta dal gestore di evento \method{onStartRinging} che permette di controllare (e di arrestare) la riproduzione del segnale di chiamata.
@@ -4370,32 +4366,60 @@ Vista associata al \inglese{presenter} \classname{CommunicationPresenter} utiliz
   \item \texttt{clientpresenter.guicontrol.CommunicationPresenter}: per riferire il \inglese{presenter} a cui saranno inoltrati i comandi recepiti dall'interfaccia utente.
 \end{itemize}
 
+\subsubsection*{Attributi}
+\begin{description}
+
+  \item{\memberdata{-- chatElements: Object}}\\
+  Array associativo i cui valori sono costituiti da una serie di \verb'HTMLElement' che rappresentano tutte le chat aperte in un dato momento, mentre i cui valori sono gli identificativi degli utenti coinvolti nella comunicazione.
+
+  \item{\memberdata{-- thisPresenter: Object}}\\
+  Riferimento al \inglese{presenter} associato alla vista al quale vengono inoltrati i comandi relativi alla logica applicativa tramite i gestori di eventi associati agli elementi grafici del pannello.
+\end{description}
+
 \subsubsection*{Metodi}
-%TODO da terminare!!
+\begin{description}
 
-%\item{\method{- createChatItem(user: Object(contact)): DOM\_node}}\\
-%	Tale metodo restituisce un DOM\_element di tipo <li> contenente l'identificativo dell'utente con cui si sta comunicando (parametro del metodo). All'oggetto restituito viene assegnato un ``id'' corrispondente all'``id'' dell'utente con cui si vuole dialogare. All'evento \textit{onClick} viene collegato l'invocazione del metodo \method{displayChat(user)} che fa visualizzare la chat, viene inoltre creato il bottone per chiudere la chat che con l'evento ``onclick'' richiama il metodo \method{removeChat(user)}.
+  \item{\method{+ display(): void}}\\
+  Tale metodo ha il compito di inizializzare il comportamento della vista, in particolare assegnando all'evento \verb'click' del pulsante per la chiusura della chat deve essere sollevato un evento avente come nome identificativo la stringa \verb'callEnded'.
 
-%\item{\method{- createChatElement(user: Object(contact)): DOM\_node}}\\
-%	Tale metodo restituisce un DOM\_element contenente un \textit{div} che rappresenta l'area di chat. A tale elemento viene assegnato un ``id'' impostato a ``divContainerChat''. Deve essere creato anche una \textit{form} assegnando l'``id'' dell'utente come valore all'attributo ``id'' a tale \textit{form} va aggiunto una \textit{textarea} con \textit{id} impostato a \textit{chatText} dove andrà visualizzata la cronologia della chat; una casella di input con \textit{id} uguale \textit{input}; un bottone per inviare il messaggio assegnandogli all'evento \textit{onClick} l'invocazione del metodo \method{send(user, text)} del \textit{CommunicationPanelPresenter}. Infine viene aggiunta la \textit{form} all'elemento \textit{div} e ritornato.
-	
-%\item{\method{+ displayChat(user: Object(contact)): void}}\\
-%Provoca la visualizzazione della chat con l'utente (ricevuto da parametro) nel\textit{div} contenitore pertinente.
+  \item{\method{+ onAppendMessage(user: Object, text: String, amISender: Boolean): void}}\\
+  Questo gestore di eventi ha il compito di aggiungere la stringa passata come secondo parametro all'interno dell'area di testo che è associata alla chat con l'utente passato come primo parametro del metodo, dopo averla recuperata dall'attributo \memberdata{chatElements}.
 
-%\item{\method{+ addChat(user: Object(contact)): void}}\\
-%Provoca l'aggiunta di una chat, con l'utente ricevuto come parametro, andando ad aggiornare il campo privato \textit{chatElements} e visualizzandola nell'elemento ulOpenChat.
-	
-%\item{\method{+ removeChat(user: Object(contact)): void}}\\
-%Comportamento simile al metodo scritto precedentemente. Viene chiusa una chat aperta con l'utente ricevuto da parametro andando ad eliminare l'elemento corrispondente da \textit{chatElements} e rimuovendo anche il DOM\_element dall'ulOpenChat.
+  A seconda del fatto che il mittente del messaggio sia o meno l'utente del client, il testo del messaggio dovrà essere concatenato alla stringa \verb'"io: "' oppure \verb'contact.name + ": "'.
 
-%\item{\method{+ appendToChat(user: Object(contact), text: String): void}}\\
-%Il metodo ha il compito di aggiunge una stringa \textit{text} all'interno dell'area di testo che è associata alla chat con l'utente \textit{user} (parametro del metodo).
+  \item{\method{+ onChatAdded(user: Object): void}}\\
+  Questo gestore di eventi provoca l'aggiunta di una chat che coinvolge con l'utente ricevuto come parametro aggiornando il campo privato \memberdata{chatElements}. Inoltre, dovrà essere creato un nuovo elemento \verb'<li>' tramite una chiamata al metodo \method{createChatItem}, che dovrà essere aggiunto al sotto-albero radicato nell'elemento \verb'<ul>' con l'identificativo uguale a \verb'ulOpenChat'.
 
-%\item{\method{+ updateTimer(text: String): void}}\\
-%Il metodo aggiorna il tempo di comunicazione durante una chiamata. Imposta il campo \textit{value} dello \inglese{span} relativo alla visualizzazione del tempo chiamata con il valore del parametro ricevuto in input (text).
+  \item{\method{+ onChatRemoved(user: Object): void}}\\
+  Questo gestore di eventi provoca la chiusura definitiva della chat aperta con l'utente passato come parametro eliminando l'elemento corrispondente da \memberdata{chatElements} e rimuovendo contestualmente l'elemento HTML corrispondente al \verb'<li>' della chat dalla lista con identificativo \verb'ulOpenChat'.
 
-%\item{\method{+ updateStats(text: String, isReceivedData: boolean): void}}\\
-%Il metodo controlla tramite il parametro booleano ricevuto in input (isReceivedData) se bisogna aggiornare lo span relativo ai dati inviati oppure lo span relativo ai dati ricevuti e lo imposta con il valore \textit{text} ricevuto per parametro.
+  Inoltre, se l'utente passato come parametro è associato proprio alla chat visualizzata all'interno del pannello, quest'ultima dovrà essere eliminata anche dall'albero DOM dell'interfaccia grafica oltre che dall'attributo \memberdata{chatElements}.
+
+  \item{\method{+ onUpdateStats(text: String, isReceivedData: Boolean): void}}\\
+  Il metodo controlla tramite il parametro \verb'isReceivedData' ricevuto in input se è necessario aggiornare lo \verb'<span>' relativo ai dati inviati oppure lo \verb'<span>' relativo ai dati ricevuti e lo imposta con il valore del primo parametro dopo aver anteposto il prefisso \verb'"Dati inviati: "' oppure \verb'"Dati ricevuti: "' a seconda del caso.
+
+  \item{\method{+ onUpdateTimer(text: String): void}}\\
+  Il metodo aggiorna il tempo di comunicazione durante una chiamata. Imposta il contenuto dello \verb'<span>' relativo alla visualizzazione del tempo chiamata con il valore della stringa ricevuta come parametro in ingresso, dopo aver aggiunto il prefisso \verb'"Tempo chiamata: "'.
+
+  \item{\method{- createChatElement(user: Object): HTMLElement}}\\
+  Tale metodo restituisce un elemento HTML costituito da un \verb'<div>' che rappresenta l'area occupata dalla chat con l'utente passato come parametro. A tale elemento viene assegnato l'identificativo \verb'divContainerChat'.
+  
+  Deve inoltre essere aggiunto come ultimo figlio del \verb'<div>' anche un \verb'<form>' avente come identificativo la proprietà \verb'id' dell'utente passato come parametro. A tale \verb'<form>' dovranno essere aggiunti:
+  \begin{itemize}
+    \item[--] una \verb'<textarea>' con l'identificativo \verb'chatText' dove andrà visualizzata la cronologia della chat;
+    \item[--] una campo di di input testuale con l'identificativo uguale \verb'input';
+    \item[--] un pulsante per inviare il messaggio contenente il nodo di testo \verb'"Invia"' al cui evento \verb'click' è attivata una funzione anonima che solleva un evento \verb'sendMessage' dopo averne impostato la proprietà \verb'contact' con l'utente passato come parametro e la proprietà \verb'text' al valore estratto dall'area di testo \verb'chatText'.
+  \end{itemize}
+
+  \item{\method{-- createChatItem(user: Object): HTMLElement}}\\
+  Tale metodo restituisce un elemento HTML di tipo \verb'<li>' contenente l'identificativo dell'utente che corrisponde all'oggetto passato come parametro.
+  
+   Al \inglese{list item} restituito viene assegnato un identificativo corrispondente a quello dell'utente con cui si vuole dialogare. All'evento \verb'click' associato a questo \verb'<li>' si collega tramite una funzione anonima un'invocazione del metodo privato \method{displayChat} con il parametro \verb'user' che fa visualizzare la chat. Viene inoltre creato un pulsnate per chiudere la chat al cui evento \verb'click' è associata una funzione anomima che richiama il metodo \method{removeChat} ancora passando \verb'user' come parametro.
+
+  \item{\method{-- displayChat(user: Object): void}}\\
+  Provoca la visualizzazione della chat che coinvolge l'utente passato come parametro nell'interfaccia grafica posizionando correttamente nell'albero DOM della pagina l'elemento che può essere ottenuto da \memberdata{chatElements} in corrispondenza della chiave \verb'user.id'.
+
+\end{description}
 
 \subsubsection*{Elementi}
 Il pannello è costituito da un \verb'<div>' con l'identificativo \verb'CommunicationPanel', il quale contiene al proprio interno:
