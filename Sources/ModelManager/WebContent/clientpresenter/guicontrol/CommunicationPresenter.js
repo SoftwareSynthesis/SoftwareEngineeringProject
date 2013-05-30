@@ -362,19 +362,29 @@ function CommunicationPanelPresenter() {
      * @author Riccardo Tresoldi
      * @param {Object} user utente con cui è avviata la chat
      * @param {String} message testo da appendere al termine della textarea
-     * @param {Boolean} IAmSender rappresenta un flag che determina chi è che ha
+     * @param {Boolean} amISender rappresenta un flag che determina chi è che ha
      * inviato il messaggio
      */
-    function onAppendMessageToChat(user, message, IAmSender) {
+    function onAppendMessageToChat(user, message, amISender) {
         var divContainerChat = chatElements[user.id];
         var textArea = document.evaluate("//node()[@id='chatText']", divContainerChat, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
         var sender = null;
-        if (IAmSender)
+        if (amISender)
             sender = "io";
         else
             sender = user.name;
-        textArea.value += (sender + ":\t" + text + "\n");
+        textArea.value += (sender + ":\t" + message + "\n");
     }
+    
+    /*
+     * VIEW
+     * Visualizza il mtesto nella chat corrispnondente
+     * TODO questo è un metodo fantasma
+     * 
+     * this.appendToChat = function(user, message, amISender) {
+     *    ... quello che fa il metodo del presenter che non dovrebbe fare...
+     * }
+     */
 
     /***************************************************************************
      * LISTENER DEGLI EVENTI
