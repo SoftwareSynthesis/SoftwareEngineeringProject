@@ -49,9 +49,9 @@ public class BlockContactController extends AbstractController{
 					if (entry.getContact().equals(friend) == true)
 					{
 						entry.setBlocked(true);
+						dao.update(entry);
 					}
 				}
-				dao.update(entry);
 				result = "true";
 			}
 			else

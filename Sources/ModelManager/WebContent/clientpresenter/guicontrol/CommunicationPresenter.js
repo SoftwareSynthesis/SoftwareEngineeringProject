@@ -25,47 +25,7 @@ function CommunicationPanelPresenter() {
     /***************************************************************************
      * METODI PRIVATI
      **************************************************************************/
-    /**
-     * Funzione per gestire l'evento in cui viene visualizzato il pannello della
-     * comunicazione contenente i video e le chat
-     * @author Riccardo Tresoldi
-     */
-    function onShowCommunicationPanel() {
-        if (!thisPanel) {
-            mediator.getView('contact');
-        } else {
-            thisPresenter.display();
-        }
-        document.dispatchEvent(showReturnToCommunicationPanelButton);
-    }
-
-    /**
-     * Crea la stringa di testo che deve comparire come titolo della tab che
-     * contiene la lista delle chat testuali attive in un determinato momento
-     *
-     * @see AddressBookPanelPresenter#addListItem()
-     *
-     * @returns {String} il testo che deve costituire il titolo del list item
-     * @author Diego Beraldin
-     */
-    function createLabel(user) {
-        var title = "";
-        if (user.name != null) {
-            title += user.name;
-        }
-        if (user.surname != null) {
-            if (title != "") {
-                title += " ";
-            }
-            title += user.surname;
-        }
-        if (title == "") {
-            title += user.email;
-        }
-        return title;
-    }
-
-    /**
+    /** VIEW
      * Crea un elemento di lista adatto ad essere visualizzato dentro
      * 'ulOpenchat' all'interno di questo presenter
      *
@@ -80,7 +40,7 @@ function CommunicationPanelPresenter() {
     function createChatItem(user) {
         var item = document.createElement("li");
         item.id = user.id;
-        item.appendChild(document.createTextNode(createLabel(user)));
+        item.appendChild(document.createTextNode(mediator.createNameLabel(user)));
         var closeChatButton = document.createElement("img");
         closeChatButton.src = "img/deleteContactImg.png";
         closeChatButton.onclick = function() {
@@ -93,7 +53,7 @@ function CommunicationPanelPresenter() {
         return item;
     }
 
-    /**
+    /** VIEW
      * Crea un HTMLDivElement che contiene la porzione di codice HTML che deve
      * essere visualizzata nel momento in cui si fa click sul corrispondente
      * list item della 'ulOpenChat'.
@@ -142,6 +102,7 @@ function CommunicationPanelPresenter() {
      *
      * @author Riccardo Tresoldi
      */
+    // XXX questa è condannata a morte o sbaglio?!
     function removeAnswerBox() {
         //estraggo gli elementi da rimuovere
         overlay = document.getElementById('overlayAnswerBox');
@@ -157,17 +118,8 @@ function CommunicationPanelPresenter() {
     /***************************************************************************
      * METODI PUBBLICI
      **************************************************************************/
-    /**
+    /** VIEW
      * Visualizza una determinata chat nel 'divContainerChat'
-     *
-     * PRE: Esiste nel documento un <div> con id uguale a 'divChat' che contiene
-     * come figlio un altro <div> con id uguale a 'divContainerChat'. Inoltre,
-     * chatElements contiene un elemento chat indicizzato con l'id dell'utente
-     * passato come parametro alla funzione
-     *
-     * POST: il <div> interno ('divContainerChat') è stato rimpiazzato da un
-     * nuovo elemento che corrisponde alla chat con l'utente passato come
-     * parametro
      *
      * @param {Object}
      *            user utente con cui è attiva la chat che si vuole visualizzare
@@ -182,18 +134,10 @@ function CommunicationPanelPresenter() {
         divChat.appendChild(chatElements[user.id]);
     };
 
-    /**
+    /** VIEW
      * Aggiunge una chat fra quelle controllate da questo presenter, sia nella
      * lista degli elementi che nel liste item contenuto nella lista di tutte le
      * chat aperte
-     *
-     * PRE: il presenter ha la proprietà chatElements e la vista ha una lista
-     * che ha come id 'ulOpenChat'
-     *
-     * POST: a chatElements è stato aggiunto un nuovo elemento che contiene i
-     * dati relativi alla nuova chat testuale, e alla lista è stato attiunto un
-     * list item che contiene il nome del contatto con cui è stata instaurata la
-     * chat testuale.
      *
      * @param {Object}
      *            user utente con cui è stata avviata la chat che deve essere
@@ -208,16 +152,9 @@ function CommunicationPanelPresenter() {
         ulOpenChat.appendChild(item);
     };
 
-    /**
+    /** VIEW
      * Rimuove una chat dovunque sia riferita all'interno di questo
      * CommunicationPanelPresenter (nella lista e negli elementi)
-     *
-     * PRE: esiste nella lista 'ulChat' un
-     * <li> che riferisce la chat passata come parametro ed esiste in
-     * chatElements un <div> che contiene il testo di quella chat
-     *
-     * POST: sono stati rimossi sua l'elemento <div> da chatElements sia il
-     * <li> associato alla chat dalla lista delle chiamate
      *
      * @param {Object}
      *            user utente con cui è avviata la chat da rimuovere
@@ -258,7 +195,7 @@ function CommunicationPanelPresenter() {
         };
     };
 
-    /**
+    /** VIEW
      * Funzione per scrivere sulla label che visualizza il tempo della chiamata
      *
      * @author Riccardo Tresoldi
@@ -270,7 +207,7 @@ function CommunicationPanelPresenter() {
         statDiv.childNodes[1].textContent = "Tempo chiamata: " + text;
     };
 
-    /**
+    /** VIEW
      * Funzione per scrivere sulla label che visualizza il tempo della chiamata
      *
      * @author Riccardo Tresoldi
@@ -290,7 +227,7 @@ function CommunicationPanelPresenter() {
         }
     };
 
-    /**
+    /** PRESENTER
      * Funzione che restituisce l'elemento video myVideo dove viene visualizzato
      * lo steaming video estratto dalla propria webcam
      *
@@ -301,7 +238,7 @@ function CommunicationPanelPresenter() {
         return document.getElementById("myVideo");
     };
 
-    /**
+    /** PRESENTER
      * Funzione che restituisce l'elemento video otherVideo dove viene
      * visualizzato lo steaming video della persona chiamata
      *
@@ -318,6 +255,7 @@ function CommunicationPanelPresenter() {
      * @author Riccardo Tresoldi
      * @param {Object} caller contatto che rappresenta il chiamante
      */
+    // XXX anche questa è condannata a morte o sbaglio?!
     this.showAnswerBox = function(caller, onlyAudio) {
         var body = document.getElementsByTagName("body").item(0);
         //creo il div di sfondo
@@ -374,6 +312,8 @@ function CommunicationPanelPresenter() {
      * @author Riccardo tresoldi
      * @param {String} evt evento che richiede la suoneria
      */
+    // N.B. Nella documentazione è un gestore di evento
+    // XXX lo deve diventare per davvero?
     this.startRinging = function(evt) {
         if (!intervalRing) {
             intervalRing = setInterval(function() {
@@ -387,6 +327,8 @@ function CommunicationPanelPresenter() {
      *
      * @author Riccardo tresoldi
      */
+    // N.B. Nella documentazione è un gestore di evento
+    // XXX lo deve diventare per davvero?
     this.stopRinging = function() {
         if (intervalRing) {
             clearInterval(intervalRing);
@@ -398,7 +340,21 @@ function CommunicationPanelPresenter() {
     /***************************************************************************
      * HANDLER DEGLI EVENTI
      **************************************************************************/
-    /**
+    /** PRESENTER
+     * Funzione per gestire l'evento in cui viene visualizzato il pannello della
+     * comunicazione contenente i video e le chat
+     * @author Riccardo Tresoldi
+     */
+    function onShowCommunicationPanel() {
+        if (!thisPanel) {
+            mediator.getView('contact');
+        } else {
+            thisPresenter.display();
+        }
+        document.dispatchEvent(showReturnToCommunicationPanelButton);
+    }
+    
+    /** PRESENTER
      * Gestore dell'evento per l'aggiunta una stringa all'interno dell'area di
      * testo che è associata alla chat con l'utente passato come parametro
      *
@@ -406,22 +362,32 @@ function CommunicationPanelPresenter() {
      * @author Riccardo Tresoldi
      * @param {Object} user utente con cui è avviata la chat
      * @param {String} message testo da appendere al termine della textarea
-     * @param {Boolean} IAmSender rappresenta un flag che determina chi è che ha
+     * @param {Boolean} amISender rappresenta un flag che determina chi è che ha
      * inviato il messaggio
      */
-    function onAppendMessageToChat(user, message, IAmSender) {
+    function onAppendMessageToChat(user, message, amISender) {
         var divContainerChat = chatElements[user.id];
         var textArea = document.evaluate("//node()[@id='chatText']", divContainerChat, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
         var sender = null;
-        if (IAmSender)
+        if (amISender)
             sender = "io";
         else
             sender = user.name;
-        textArea.value += (sender + ":\t" + text + "\n");
+        textArea.value += (sender + ":\t" + message + "\n");
     }
+    
+    /*
+     * VIEW
+     * Visualizza il mtesto nella chat corrispnondente
+     * TODO questo è un metodo fantasma
+     * 
+     * this.appendToChat = function(user, message, amISender) {
+     *    ... quello che fa il metodo del presenter che non dovrebbe fare...
+     * }
+     */
 
     /***************************************************************************
-     * LISTNER DEGLI EVENTI
+     * LISTENER DEGLI EVENTI
      **************************************************************************/
     document.addEventListener("showCommunicationPanel", onShowCommunicationPanel);
     document.addEventListener("appendMessageToChat", function(evt) {

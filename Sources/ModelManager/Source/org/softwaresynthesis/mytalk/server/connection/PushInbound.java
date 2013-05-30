@@ -84,7 +84,7 @@ public class PushInbound extends MessageInbound {
 			if(status.equals("available")){setState(State.AVAILABLE);}					
 			if(status.equals("occupied")){setState(State.OCCUPIED);}
 			
-			//ricavo tutti gli amici con metodo da definire
+			//ricavo tutti gli amici
 			Set<IAddressBookEntry> friends = utente.getAddressBook();
 			Iterator<IAddressBookEntry> iter = friends.iterator();
 			while(iter.hasNext())

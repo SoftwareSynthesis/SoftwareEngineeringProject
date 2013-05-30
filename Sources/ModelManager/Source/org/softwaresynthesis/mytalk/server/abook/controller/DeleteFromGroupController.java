@@ -1,13 +1,11 @@
 package org.softwaresynthesis.mytalk.server.abook.controller;
 
 import java.io.PrintWriter;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Set;
-
 import org.softwaresynthesis.mytalk.server.AbstractController;
 import org.softwaresynthesis.mytalk.server.abook.IAddressBookEntry;
 import org.softwaresynthesis.mytalk.server.abook.IGroup;
@@ -47,12 +45,12 @@ public class DeleteFromGroupController extends AbstractController{
 			if (group != null && friend != null){
 				entrys = myUser.getAddressBook();
 				iterator = entrys.iterator();
-				while (iterator.hasNext() == true)
+				result = "null";
+				while (iterator.hasNext() == true && result.equals("null"))
 				{
 					entry = iterator.next();
-					if (entry.getContact() == friend && entry.getGroup() == group && entry.getOwner() == myUser)
+					if (entry.getContact().equals(friend) && entry.getGroup().equals(group) && entry.getOwner().equals(myUser))
 					{
-						myUser.removeAddressBookEntry(entry);
 						dao.delete(entry);
 						dao.update(myUser);
 						result = "true";
