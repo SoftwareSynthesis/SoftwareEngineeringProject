@@ -16,7 +16,7 @@ import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
 import sun.misc.IOUtils;
 
 public class AccountSettingsController extends AbstractController {
-	
+
 	@Override
 	protected void doAction(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
@@ -53,6 +53,7 @@ public class AccountSettingsController extends AbstractController {
 				ostream.close();
 				user.setPath("img/contactImg/" + email + ".png");
 			}
+			dao.update(user);
 			result = "true";
 		} catch (Exception e) {
 			result = "null";
