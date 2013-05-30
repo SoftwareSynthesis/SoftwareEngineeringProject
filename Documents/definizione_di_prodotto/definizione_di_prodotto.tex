@@ -3462,8 +3462,15 @@ Nessuna relazione evidenziata.
 \subsubsection*{Attributi}
 \begin{description}
 
-\item{\memberdata{-- chatElements: Object}}\\
+  \item{\memberdata{-- audio}: Object}\\
+  Mappa associativa di oggetti creati con una chiamata al costruttore \verb'new Audio(fileName)' le cui chiavi corrispono alle stringhe \verb'"income"' e \verb'"outcome"' cui sono associati i suoni per il segnale di chiamata in arrivo e di chiamata in uscita rispettivamente.
+
+  %XXX a me sembra un po' clandestino questo, qui!
+  \item{\memberdata{-- chatElements: Object}}\\
   Array associativo i cui valori sono costituiti da una serie di \verb'HTMLElement' che rappresentano tutte le chat aperte in un dato momento, mentre i cui valori sono gli identificativi degli utenti coinvolti nella comunicazione.
+  
+  \item{\memberdata{-- intervalRing: Object}}\\
+  Intervallo impostato inizialmente a \verb'null' nel costruttore e in seguito inizializzato di volta in volta dal gestore di evento \method{onStartRinging} che permette di controllare (e di arrestare) la riproduzione del segnale di chiamata.
   
 \item{\memberdata{-- thisPanel: HTMLElement}}\\
 Riferimento all'elemento HTML, da intendersi come nodo DOM, che corrisponde alla radice del pannello per la visualizzazione delle comunicazioni ed è costituito, ai fini pratici, da un elemento \verb'<div>' avente l'identificativo \verb'CommunicationPanel'.
@@ -3471,59 +3478,38 @@ Riferimento all'elemento HTML, da intendersi come nodo DOM, che corrisponde alla
 \end{description}
 
 \subsubsection*{Metodi}
-%TODO da terminare
+\begin{description}
 
-%\item{\method{- createLabel(user: Object(contact)): String}}\\
-%	Metodo che dato un utente (parametro del metodo), restituisce una stringa identificativa per il contatto in questione. Più precisamente, se il contatto contiene sia il nome che il cognome, la stringa restituita sarà composta da questi due elementi, altrimenti in base ai casi solo il nome o il cognome. Nell'ulteriore caso non siano presenti ne il nome ne il cognome, restituisce l'email, campo dati obbligatorio in fase di registrazione e quindi sempre presente.
+  \item{\method{+ getMyVideo(): HTMLElement}}\\
+  Il metodo dovrà restituire un riferimento l'elemento DOM con l'identificativo ad\verb'myVideo' presente nel pannello delle comunicazioni.
 
-%\item{\method{- createChatItem(user: Object(contact)): DOM\_node}}\\
-%	Tale metodo restituisce un DOM\_element di tipo <li> contenente l'identificativo dell'utente con cui si sta comunicando (parametro del metodo). All'oggetto restituito viene assegnato un ``id'' corrispondente all'``id'' dell'utente con cui si vuole dialogare. All'evento \textit{onClick} viene collegato l'invocazione del metodo \method{displayChat(user)} che fa visualizzare la chat, viene inoltre creato il bottone per chiudere la chat che con l'evento ``onclick'' richiama il metodo \method{removeChat(user)}.
+  \item{\method{+ getOtherVideo(): HTMLElement}}\\
+  Il metodo dovrà restituire un riferimento l'elemento DOM con l'identificativo ad\verb'otherVideo' presente nel pannello delle comunicazioni.
+  
+  \item{\method{+ onAppendMessageToChat(user: Object, message: String, amISender: Boolean)}}\\
+  Questo gestore di eventi ha il compito di aggiungere il messaggio di testo passato come secondo parametro all'elemento che rappresenta la chat testuale aperta con l'utente passato come primo parametro, in maniera corretta rispetto al fatto che l'utente del client sia o meno il mittente del messaggio. A tale fine dovrà essere richiamato il metodo \method{appendToChat} messo a disposizione dalla vista associata a questo \inglese{presenter}.
+  
+  %FIXME questo sicuramente non sarà corretto! Controllare per favore!
+  \item{\method{+ onCall(user: Object, onlyAudio: Boolean): void}}\\
+  Questo gestore di eventi viene richiamato al verificarsi di un evento con stringa identificativa \verb'call' che segnala l'avvio di una comunicazione audio (secondo parametro a \verb'true') o audio/video (secondo parametro a \verb'false') con l'utente passato come primo parametro.
+  Al verificarsi di un simile evento, il \inglese{presenter} dovrà contattare l'istanza presente di \classname{CommunicationCenter} e invocare il metodo \method{call} di quest'ultimo con il primo parametro a \verb'true' e inoltrando i valori di \verb'contact' e \verb'onlyAudio' come secondo e terzo parametro.
+  
+  \item{\method{+ onChatStarted(user: Object): void}}\\
+  Questo gestore di eventi viene richiamato quando si avvia una comunicazione testuale con il contatto passato come parametro. A tal fine dovrà essere invocato il metodo \method{addChat} messo a disposizione dalla vista associata a questo \inglese{presenter}.
+  
+  \item{\method{+ onShowCommunicationPanel(): void}}\\
+  Questo gestore di eventi avrà il compito di provocare la visualizzazione del pannello per la gestione delle comunicazioni, provocando il caricamento del \inglese{template} corrispondente, la sua aggiunta nel punto corretto dell'albero DOM e demandando in un secondo momento alla vista il compito dell'inizializzazione dei \inglese{widget} grafici che lo costituiscono.
+  
+  \item{\method{+ onStartRinging(evt: String): void}}\\
+  Questo gestore di eventi ha il compito di avviare il trillo che segnala una chiamata in arrivo (se il parametro è uguale a \verb'"income"') oppure il segnale di attesa di risposta (se il parametro è uguale a \verb'"outcome"').
+  
+  A tal fine dovrà essere utilizzata la funzione di libreria \verb'setInterval', salvando il risultato dell'invocazione della funzione nel campo dati \memberdata{intervalRing}. Il secondo parametro da passare alla funzione sarà l'intervallo di \inglese{timeout} pari a 1000 (per determinare la riproduzione ciclica del suono ogni secondo), mentre la funzione anonima passata come primo parametro dovrà invocare il metodo \verb'play()' sull'elemento \verb'Audio' corrispondente, in base al valore del parametro \verb'evt' ricevuto dal metodo.
+  
+  \item{\method{+ onStopRinging(): void}}\\
+  Questo gestore di eventi dovrà determinare l'interruzione della riproduzione del suono che segnala una chiamata in uscita oppure in entrata. A tal fine dovrà essere utilizzata la funzione di libreria \verb'clearInterval' passando come parametro l'attributo \memberdata{intervalRing}, quindi impostare quest'ultimo al valore \verb'null'.
 
-%\item{\method{- createChatElement(user: Object(contact)): DOM\_node}}\\
-%	Tale metodo restituisce un DOM\_element contenente un \textit{div} che rappresenta l'area di chat. A tale elemento viene assegnato un ``id'' impostato a ``divContainerChat''. Deve essere creato anche una \textit{form} assegnando l'``id'' dell'utente come valore all'attributo ``id'' a tale \textit{form} va aggiunto una \textit{textarea} con \textit{id} impostato a \textit{chatText} dove andrà visualizzata la cronologia della chat; una casella di input con \textit{id} uguale \textit{input}; un bottone per inviare il messaggio assegnandogli all'evento \textit{onClick} l'invocazione del metodo \method{send(user, text)} del \textit{CommunicationPanelPresenter}. Infine viene aggiunta la \textit{form} all'elemento \textit{div} e ritornato.
-	
-%\item{\method{+ displayChat(user: Object(contact)): void}}\\
-%Provoca la visualizzazione della chat con l'utente (ricevuto da parametro) nel\textit{div} contenitore pertinente.
+\end{description}
 
-%\item{\method{+ addChat(user: Object(contact)): void}}\\
-%Provoca l'aggiunta di una chat, con l'utente ricevuto come parametro, andando ad aggiornare il campo privato \textit{chatElements} e visualizzandola nell'elemento ulOpenChat.
-	
-%\item{\method{+ removeChat(user: Object(contact)): void}}\\
-%Comportamento simile al metodo scritto precedentemente. Viene chiusa una chat aperta con l'utente ricevuto da parametro andando ad eliminare l'elemento corrispondente da \textit{chatElements} e rimuovendo anche il DOM\_element dall'ulOpenChat.
-
-%\item{\method{+ appendToChat(user: Object(contact), text: String): void}}\\
-%Il metodo ha il compito di aggiunge una stringa \textit{text} all'interno dell'area di testo che è associata alla chat con l'utente \textit{user} (parametro del metodo).
-
-%\item{\method{+ createPanel(): DOM\_node}}\\
-%Con l'invocazione di tale metodo, viene inizializzato il pannello costruendo i \inglese{widget} grafici interni e lo restituisce in modo che possa essere inserito all'interno del pannello principale. Più dettagliatamente, deve costruire:
-%\begin{itemize}
-%\item div relativo alla chiamata assegnandogli come ``id'' CommunicationPanel;
-%\item div relativo alla gestione della chiamta assegnandogli come ``id'' divCall;
-%\item div relativo alla chat testuale assegnandogli come ``id'' divChat;
-%\item elemento video per la visualizzazione del proprio stream ricavato dalla videocamera con ``id'' myVideo;
-%\item elemento video per la visualizzazione dello \textit{stream} dell'altro utente con \textit{id} otherVideo;
-%\item div dove inserire la visualizzazione delle statistiche della chiamata tra cui:
-%\begin{itemize}
-%\item elemento ``span'' per byte Ricevuti con \textit{id}= statReceived;
-%\item elemento ``span'' per byte Inviati con \textit{id}= statSend;
-%\item elemento ``span'' per il tempo con \textit{id}= timerSpan;
-%\end{itemize}
-%\item bottone per la terminazione della chiamata che all'evento \textit{onClick} richiama il metodo \method{endCall()} di communicationcenter;
-%\item elemento div contenente le chat aperte.
-%\end{itemize}
-%Tutti gli elementi sopra descritti andranno poi aggiunti al parametro di ritorno \textit{element} tramite la funzione \method{appendChild()} fornita dai DOM\_element.
-
-%\item{\method{+ updateTimer(text: String): void}}\\
-%Il metodo aggiorna il tempo di comunicazione durante una chiamata. Imposta il campo \textit{value} dello \inglese{span} relativo alla visualizzazione del tempo chiamata con il valore del parametro ricevuto in input (text).
-
-%\item{\method{+ updateStats(text: String, isReceivedData: boolean): void}}\\
-%Il metodo controlla tramite il parametro booleano ricevuto in input (isReceivedData) se bisogna aggiornare lo span relativo ai dati inviati oppure lo span relativo ai dati ricevuti e lo imposta con il valore \textit{text} ricevuto per parametro.
-
-%\item{\method{+ getMyVideo(): DOM\_element}}\\
-%Il metodo ritorna l'elemento DOM con \textit{id} uguale ad ``myVideo''.
-
-%\item{\method{+ getOtherVideo(): DOM\_element}}\\
-%Il metodo ritorna l'elemento DOM con \textit{id} uguale ad ``otherVideo''.
 
 \classsection{ContactPresenter}
 
@@ -4329,6 +4315,30 @@ Vista associata al \inglese{presenter} \classname{CommunicationPresenter} utiliz
 \subsubsection*{Metodi}
 %TODO da terminare!!
 
+%\item{\method{- createChatItem(user: Object(contact)): DOM\_node}}\\
+%	Tale metodo restituisce un DOM\_element di tipo <li> contenente l'identificativo dell'utente con cui si sta comunicando (parametro del metodo). All'oggetto restituito viene assegnato un ``id'' corrispondente all'``id'' dell'utente con cui si vuole dialogare. All'evento \textit{onClick} viene collegato l'invocazione del metodo \method{displayChat(user)} che fa visualizzare la chat, viene inoltre creato il bottone per chiudere la chat che con l'evento ``onclick'' richiama il metodo \method{removeChat(user)}.
+
+%\item{\method{- createChatElement(user: Object(contact)): DOM\_node}}\\
+%	Tale metodo restituisce un DOM\_element contenente un \textit{div} che rappresenta l'area di chat. A tale elemento viene assegnato un ``id'' impostato a ``divContainerChat''. Deve essere creato anche una \textit{form} assegnando l'``id'' dell'utente come valore all'attributo ``id'' a tale \textit{form} va aggiunto una \textit{textarea} con \textit{id} impostato a \textit{chatText} dove andrà visualizzata la cronologia della chat; una casella di input con \textit{id} uguale \textit{input}; un bottone per inviare il messaggio assegnandogli all'evento \textit{onClick} l'invocazione del metodo \method{send(user, text)} del \textit{CommunicationPanelPresenter}. Infine viene aggiunta la \textit{form} all'elemento \textit{div} e ritornato.
+	
+%\item{\method{+ displayChat(user: Object(contact)): void}}\\
+%Provoca la visualizzazione della chat con l'utente (ricevuto da parametro) nel\textit{div} contenitore pertinente.
+
+%\item{\method{+ addChat(user: Object(contact)): void}}\\
+%Provoca l'aggiunta di una chat, con l'utente ricevuto come parametro, andando ad aggiornare il campo privato \textit{chatElements} e visualizzandola nell'elemento ulOpenChat.
+	
+%\item{\method{+ removeChat(user: Object(contact)): void}}\\
+%Comportamento simile al metodo scritto precedentemente. Viene chiusa una chat aperta con l'utente ricevuto da parametro andando ad eliminare l'elemento corrispondente da \textit{chatElements} e rimuovendo anche il DOM\_element dall'ulOpenChat.
+
+%\item{\method{+ appendToChat(user: Object(contact), text: String): void}}\\
+%Il metodo ha il compito di aggiunge una stringa \textit{text} all'interno dell'area di testo che è associata alla chat con l'utente \textit{user} (parametro del metodo).
+
+%\item{\method{+ updateTimer(text: String): void}}\\
+%Il metodo aggiorna il tempo di comunicazione durante una chiamata. Imposta il campo \textit{value} dello \inglese{span} relativo alla visualizzazione del tempo chiamata con il valore del parametro ricevuto in input (text).
+
+%\item{\method{+ updateStats(text: String, isReceivedData: boolean): void}}\\
+%Il metodo controlla tramite il parametro booleano ricevuto in input (isReceivedData) se bisogna aggiornare lo span relativo ai dati inviati oppure lo span relativo ai dati ricevuti e lo imposta con il valore \textit{text} ricevuto per parametro.
+
 \subsubsection*{Elementi}
 Il pannello è costituito da un \verb'<div>' con l'identificativo \verb'CommunicationPanel', il quale contiene al proprio interno:
 \begin{itemize}
@@ -4374,8 +4384,8 @@ Vista associata al \inglese{presenter} \classname{ContactPresenter} utilizzata p
     \item[--] alla pressione del pulsante per la rimozione del contatto alla rubrica dovrà essere sollevato un evento con identificativo \verb'removeContactToAddressBook' dopo averne impostato la proprietà \verb'contact' uguale a \memberdata{currentContact};
     \item[--] alla pressione del pulsante per bloccare il contatto dovrà essere sollevato un evento con identificativo \verb'blockContact' dopo averne impostato la proprietà \verb'contact' uguale a \memberdata{currentContact}, quindi dovrà essere aggiornato il pannello sollevando un evento con identificativo \verb'showContactPanel' dopo averne impostato la proprietà \verb'contact';
     \item[--] alla pressione del pulsante per sbloccare il contatto dovrà essere sollevato un evento con identificativo \verb'unlockContact' dopo averne impostato la proprietà \verb'contact' uguale a \memberdata{currentContact}, quindi dovrà essere aggiornato il pannello sollevando un evento con identificativo \verb'showContactPanel' dopo averne impostato la proprietà \verb'contact';
-    \item[--] alla pressione del pulsante per avviare una comunicazione audio con il contatto dovrà essere sollevato un evento con l'identificativo \verb'call' dopo averne impostato la proprietà \verb'contact' col valore di \memberdata{currentContact} e la proprietà \verb'isVideo' a \verb'false';
-    \item[--] alla pressione del pulsante per avviare una comunicazione audio/video con il contatto dovrà essere sollevato un evento con l'identificativo \verb'call' dopo averne impostato la proprietà \verb'contact' col valore di \memberdata{currentContact} e la proprietà \verb'isVideo' a \verb'true';
+    \item[--] alla pressione del pulsante per avviare una comunicazione audio con il contatto dovrà essere sollevato un evento con l'identificativo \verb'call' dopo averne impostato la proprietà \verb'contact' col valore di \memberdata{currentContact} e la proprietà \verb'isOnlyAudio' a \verb'false';
+    \item[--] alla pressione del pulsante per avviare una comunicazione audio/video con il contatto dovrà essere sollevato un evento con l'identificativo \verb'call' dopo averne impostato la proprietà \verb'contact' col valore di \memberdata{currentContact} e la proprietà \verb'onlyAudio' a \verb'true';
     \item[--] alla pressione del pulsante per avviare una chat testuale con il contatto dovrà essere sollevato un evento con l'identificativo \verb'chatStarted' dopo averne impostato la proprietà \verb'contact' col valore di \memberdata{currentContact};
     \item[--] alla pressione del pulsante per lasciare un messaggio nella segreteria del contatto dovrà essere sollevato un evento con identificativo uguale a \verb'showPhoneCallMessagePanel', dopo averne impostato la proprietà \verb'contact' uguale al valore di \memberdata{currentContact}.
   \end{itemize}
