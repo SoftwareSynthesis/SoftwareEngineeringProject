@@ -28,6 +28,7 @@ window.onload = function() {
     removeMainPanel = new CustomEvent("removeMainPanel");
     removeContactPanel = new CustomEvent("removeContactPanel");
     removeCommunicationPanel = new CustomEvent("removeCommunicationPanel");
+    removePhoneCallMessagePanel = new CustomEvent("removePhoneCallMessagePanel");
     // eventi per LoginPresenter
     login = new CustomEvent("login");
     logout = new CustomEvent("logout");

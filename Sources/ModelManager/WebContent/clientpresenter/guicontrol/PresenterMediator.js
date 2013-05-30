@@ -51,9 +51,10 @@ function PresenterMediator() {
     secondaryPresenter["message"] = messagepp
     secondaryPresenter["searchResult"] = searchresultpp
     secondaryPresenter["group"] = grouppp
-    
+
     // presenter "pop-up" per messaggio segreteria
-    var phonecallsregistrypp = new PhoneCallsRegistryPresenter();
+    var popupPresenters = new Array();
+    popupPresenters["phoneCallsRegistry"] = new PhoneCallsRegistryPresenter();
 
     /***************************************************************************
      * METODI PUBBLICI
@@ -254,8 +255,10 @@ function PresenterMediator() {
      * @param {Object} caller rappresenta il contatto che sta chiamando
      */
     // TODO da documentare
-    // FIXME TRES manca l'event handler, che comunque dovrebbe stare in CommunicationPresenter, giusto?
-    // inoltre dovrebbe essere una funzione privata (anche se per la documentazione 'sta roba è pubblica)
+    // FIXME TRES manca l'event handler, che comunque dovrebbe stare in
+    // CommunicationPresenter, giusto?
+    // inoltre dovrebbe essere una funzione privata (anche se per la
+    // documentazione 'sta roba è pubblica)
     this.onIncomeCall = function(caller, onlyAudio) {
         communicationpp.showAnswerBox(caller, onlyAudio);
     };
@@ -286,7 +289,7 @@ function PresenterMediator() {
     /**
      * Funzione per mostrare un Popup personalizzato
      * Richede in input una porzione di codice HTMLDivElement da mostrare
-     * 
+     *
      * NB: nella documentazione si chiama showAnswerBox ed è un gestore di eventi
      *
      * @author Riccardo Tresoldi
@@ -320,8 +323,9 @@ function PresenterMediator() {
 
     /**
      * Funzione che nasconde il popup
-     * 
-     * NB Nella documentazione si chiama onRemoveAnswerBox ed è un gestore di eventi
+     *
+     * NB Nella documentazione si chiama onRemoveAnswerBox ed è un gestore di
+     * eventi
      *
      * @author Riccardo Tresoldi
      */
@@ -336,7 +340,7 @@ function PresenterMediator() {
         document.body.removeChild(overlay);
         document.body.removeChild(answerBox);
     };
-    
+
     /**
      * Restituisce la vista da visualizzare nell'interfaccia grafica
      * in base alla stringa passata come parametro, utilizzata come chiave
@@ -354,9 +358,6 @@ function PresenterMediator() {
         viewRequest.send();
         viewRequest.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                // onLoadView senza chiamare l'evento
-            	// TODO TRES sottoscrivo! non serve chiamare un evento qui!
-            	// Si può chiamare una sottoprocedura, un metodo privato o qualsiasi cosa!
                 loadedView.view = viewRequest.responseXML.body.firstChild;
                 loadedView.presenter = key;
                 document.dispatchEvent(loadedView);
@@ -383,6 +384,27 @@ function PresenterMediator() {
             // avviso il presenter indicato per visualizzare i dati corretti nel
             // pannello appena aggiunto
             secondaryPresenter[presenter].display();
+        } else if (popupPresenters[presenter]) {
+            var body = document.getElementsByTagName("body").item(0);
+            //creo il div di sfondo
+            var overlay = document.createElement("div");
+            overlay.id = "overlayAnswerBox";
+            //creo il div con la richiesta di risposta
+            var answerBox = document.createElement("div");
+            answerBox.id = "answerBox";
+            //appendo l'elemento passato come parametro all'answerBox
+            answerBox.innerHTML = view.outerHTML;
+            //appendo i div appena creati al body
+            if ( bodyFirstChild = body.firstChild) {
+                body.insertBefore(overlay, bodyFirstChild);
+                body.insertBefore(answerBox, bodyFirstChild);
+            } else {
+                body.appendChild(overlay);
+                body.appendChild(answerBox);
+            }
+            // richiamo la visualizzazione dei contenuti della view da parte del
+            // presenter giusto
+            popupPresenters[presenter].showView();
         } else {
             alert("onLoadedView non gestita.\nNon esiste il presenter: [" + presenter + "]");
         }

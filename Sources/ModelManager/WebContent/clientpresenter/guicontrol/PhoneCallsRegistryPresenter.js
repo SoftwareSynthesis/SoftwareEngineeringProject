@@ -6,15 +6,22 @@
  * @author Riccardo Tresoldi
  */
 function PhoneCallsRegistryPresenter() {
-    /*CAMPI DATI PRIVATI*/
+    /*************************************************************
+     * CAMPI DATI PRIVATI
+     *************************************************************/
     var audio_context;
     var recorder;
     var objAudio;
     var localStream;
-    
-    var thisPresenter = this;
 
-    /*FUNZIONI PRIVATE*/
+    var thisPresenter = this;
+    var thisPanel = null;
+
+    var currentReciver = null;
+
+    /*************************************************************
+     * FUNZIONI PRIVATE
+     *************************************************************/
     function initializeStream() {
         audio_context = new AudioContext;
         navigator.getUserMedia({
@@ -63,25 +70,23 @@ function PhoneCallsRegistryPresenter() {
         xhr.send(formData);
     }
 
-    /*FUNZIONI PUBBLICHE*/
+    /*************************************************************
+     * FUNZIONI PUBBLICHE
+     *************************************************************/
     /**
      * Funzione per mostrare la view
      *
      * @author Riccardo Tresoldi
      */
     this.showView = function(receiver) {
-        // ottengo la view con l'apposita funzione
-        var view = mediator.getView("PhoneCallRegistry");
-        // mostro la view con il popup
-        mediator.showPopup();
-        // modifico la view
-        var phonecallsregistrypresenter = this;
+        thisPanel = document.getElementById("PhoneCallRecorder");
         var startRecordButton = document.getElementById("startRedord");
         startRecordButton.disabled = false;
         var stopRecordButton = document.getElementById("stopRedord");
         stopRecordButton.disabled = true;
         var sendRecordButton = document.getElementById("sendRedord");
         sendRecordButton.disabled = true;
+        var closePopupButton = document.getElementById("closePopup");
         startRecordButton.onclick = function() {
             startRecordButton.disabled = true;
             initializeStream();
@@ -96,24 +101,41 @@ function PhoneCallsRegistryPresenter() {
             startRecordButton.disabled = true;
             stopRecordButton.disabled = true;
             sendRecording(receiver);
-            mediator.removePopup();
+            document.dispatchEvent(removePhoneCallMessagePanel);
         };
+        closePopupButton.onclick = function(){
+            document.dispatchEvent(removePhoneCallMessagePanel);
+        }
+        
     };
     
+    this.destroy = function(){
+        if (thisPanel) {
+            var thisPanelParent = thisPanel.parentElement.parentElement;
+            thisPanelParent.removeChild(thisPanel.parentElement);
+            thisPanel = null;
+        }
+    };
+
     /*******************************************************************
      * HANDLER PER EVENTI
      *******************************************************************/
-    /**
-     * 
-     */
-    function onShowPhoneCallMessagePanel(reciver){
-        thisPresenter.showView(reciver);
+    function onShowPhoneCallMessagePanel(reciver) {
+        currentReciver = reciver;
+        mediator.getView("phoneCallsRegistry");
     }
     
+    function onRemovePhoneCallMessagePanel(){
+        
+    }
+
     /*******************************************************************
      * LISTNER PER EVENTI
      *******************************************************************/
-    document.addEventListener("showPhoneCallMessagePanel", function(evt){
+    document.addEventListener("showPhoneCallMessagePanel", function(evt) {
         onShowPhoneCallMessagePanel(evt.reciver);
+    });
+    document.addEventListener("removePhoneCallMessagePanel", function() {
+        onRemovePhoneCallMessagePanel();
     });
 }

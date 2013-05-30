@@ -167,6 +167,7 @@ function ContactPanelPresenter() {
         blockButton.onclick = function() {
             blockContact.contact = currentContact;
             document.dispatchEvent(blockContact);
+            currentContact.blockde = true;
             showContactPanel.contact = currentContact;
             document.dispatchEvent(showContactPanel);
         };
@@ -174,6 +175,9 @@ function ContactPanelPresenter() {
         unlockButton.onclick = function() {
             unlockContact.contact = currentContact;
             document.dispatchEvent(unlockContact);
+            currentContact.blockde = false;
+            showContactPanel.contact = currentContact;
+            document.dispatchEvent(showContactPanel);
         };
 
         chatButton.onclick = function() {
