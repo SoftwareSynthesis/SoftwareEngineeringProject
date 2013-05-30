@@ -3048,7 +3048,7 @@ Inizialmente il metodo crea un istanza per ognuno dei seguenti oggetti:
 		\item[•]Se la richiesta inoltrata è del tipo 1: il metodo prende in lettura il messaggio e imposta il contenuto di \memberdata{id} con il valore letto mediante procedura di \inglese{parsing} analoga a quella definita al passo precedente. Per farlo utilizza il metodo \texttt{fromJson} richiamato dall'istanza \texttt{gsonObj} di tipo \texttt{Gson} creata al passo precedente. A tale metodo passa il contenuto dell'array e in particolare ciò che è salvato nella posizione 1 (utilizzo di metodo \texttt{get(int i)}).
 		\item[•]Se la richiesta inoltrata è del tipo 2: il metodo procede con le istruzioni necessarie a scambiare i dati per la chiamata. Nello specifico viene salvato in un attributo di tipo \texttt{Long}, l'\texttt{id} del client che desidero chiamare, quindi ricerco l'oggetto \texttt{PushInbound} associato al client che desidero contattare, e gli inoltro il messaggio ricevuto come parametro d'ingresso.
 		\item[•]Se la richiesta inoltrata è del tipo 3: il metodo comunica al client ``destinatario'' della chiamata, l'\texttt{id} del client chiamante. La procedura è analoga a quella identificata nel punto precedente, con la specifica che il messaggio inoltrato è l'identificativo del cliente che desidera avviare la chiamata.
-		\item[•]Se la richiesta inoltrata è del tipo 4: il metodo si occupa dell'eliminazione della \textit{webSocket}.
+		\item[•]Se la richiesta inoltrata è del tipo 4: il metodo si occupa dell'eliminazione della \underline{WebSocket}.
 		\item[•]Se la richiesta inoltrata è del tipo 5: il metodo viene usato per modificare lo stato dell'utente, con il valore passato tramite messaggio. Dopo la ricezione del messaggio, il metodo cambia il valore del campo \texttt{state} con il valore ricevuto come parametro d'ingresso. Quindi procede ricavando la lista degli utenti nella rubrica dell'utente che ha cambiato stato e comunica loro che è avvenuto un cambiamento di stato.
 	\end{itemize}
 \end{description}
@@ -4094,16 +4094,14 @@ Nessuna relazione evidenziata.
 
 \subsubsection*{Attributi}
 \begin{description}
-\item{\memberdata{+ videoComunication: String[]}}\\
-Array che contiene i dati della video-chiamata
-\item{\memberdata{+ openChat: DOM\_element[]}}\\
-Array che contiene i dati della video-chiamata
-\item{\memberdata{- urlServlet: String}}\\
-Contiene l'indirizzo della \inglese{servlet} che gestisce la comunicazione
-\item{\memberdata{- my: String[]}}\\
-Array contenente i dati personali dell'utente
-\item{\memberdata{- websocket: Object()}}\\
-Oggetto che rappresenta la \textit{websocket} da utilizzare per comunicare con il server. Il costruttore di tale oggetto richiede l'URL della \inglese{servlet}.
+\item{\memberdata{-- my: Object}}\\
+Mappa associativa  che contiene i dati personali dell'utente.
+
+\item{\memberdata{-- websocket: Object}}\\
+Oggetto che rappresenta la WebSocket da utilizzare per comunicare con il server.
+
+\item{\memberdata{-- pc: Object}}\\
+Oggetto che rappresenta la WebRTCPeerConnection aperta con un altro client nel momento in cui è attiva una comunicazione audio o audio/video.
 
 \end{description}
 

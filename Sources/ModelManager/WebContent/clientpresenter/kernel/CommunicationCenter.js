@@ -9,8 +9,6 @@ function CommunicationCenter() {
      VARIABILI PUBBLICHE
      ***********************************************************/
     var thisMonolith = this;
-    //E' un array di HTMLTextAreaElement
-    this.openChat = new Array();
     //oggetto che contiene i dati dell'utente
     this.my = new Object();
 
