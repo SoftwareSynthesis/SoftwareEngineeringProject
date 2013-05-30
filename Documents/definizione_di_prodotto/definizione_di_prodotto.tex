@@ -3909,22 +3909,24 @@ Trattandosi di una richiesta asincrona, a differenza di tutte le altre richieste
 Il comportamento da eseguire quando la richiesta sarà soddisfatta dal server dovrà prevedere in primo luogo l'estrazione della risorsa in formato XML con una sintassi del tipo \verb'request.responseXML.body.firstChild', quindi l'assegnamento di questo \verb'HTMLElement' alla proprietà \verb'view' di un evento con nome identificativo uguale a \verb'loadedView'. Il metodo si concluderà sollevando l'evento appena descritto.
 
 \item{\method{+ onLoadedView(presenter: String, view: HTMLElement): void}}\\
-Questo gestore di eventi viene richiamato quando si verifica un evento con stringa identificativa uguale a \verb'loadedView'. La gestione dell'evento dovrà differenziarsi a seconda del fatto che si tratti di una vista di primo o di secondo livello, in base al valore del primo parametro che identifica il \inglese{presenter} destinatario.
+Questo gestore di eventi viene richiamato quando si verifica un evento con stringa identificativa uguale a \verb'loadedView'.
+
+La gestione dell'evento dovrà differenziarsi a seconda del fatto che si tratti di una vista di primo o di secondo livello o non appartenga a nessuno dei due casi, in base al valore del primo parametro che identifica il \inglese{presenter} destinatario.
 
 Nel caso di una vista di primo livello, dovrà essere richiamato il metodo \method{initialize} messo a disposizione dalla vista stessa, passando l'elemento HTML ricevuto come secondo parametro per la visualizzazione e l'inizializzazione della vista.
 
 Nel caso invece di una vista di secondo livello, sarà responsabilità del metodo far visualizzare la vista nel pannello centrale tramite il metodo \method{displayChildPanel} della \classname{MainView}, demandando poi alla specifica vista l'inizializzazione delle componenti tramite il metodo \method{display} corrispondente.
 
+Infine, se il primo parametro non corrisponde ad alcuno dei \inglese{presenter} di primo o di secondo livello, allora l'evento \verb'loadedView' e stato sollevato al fine di visualizzare un pannello temporaneo il cui sotto-albero ha come radice l'elemento HTML ricevuto come secondo parametro.
+
+A tale scopo dovrà pertanto essere creato un \verb'<div>' con l'identificativo \verb'overlayPopUp' che dovrà essere aggiunto come primo figlio dell'elemento \verb'<body>' e un secondo \verb'<div>' con identificativo \verb'popUp' che dovrà essere aggiunto immediatamente dopo l'\inglese{overlay} dopo aver assegnato il valore della proprietà \verb'outerHTML' di \verb'view' al suo contenuto di quest'ultimo. Tutti gli altri eventuali figli del \verb'<body>' dovranno essere posizionati in successivamente nell'albero DOM con un'istruzione del tipo \verb'body.insertBefore(overlay, bodyFirstChild)'.
+
 \item{\method{+ onRemoveAllPanels(): void}}\\
 Questo gestore di eventi dovrà determinare la scomparsa dall'interfaccia grafica di tutte le viste di primo livello visualizzate. A tale scopo dovranno essere quindi sollevati i cinque eventi corrispondenti (su cui le viste sono in ascolto), vale a dire \verb'removeLoginPanel', \verb'removeRegistrationPanel', \verb'removeAddressBookPanel', \verb'removeToolsPanel' e, da ultimo, \verb'removeMainPanel'.
 
-\item{\method{+ onRemoveAnswerBox(): void}}\\
-Questo gestore di eventi ha lo scopo di rimuovere il pannello temporaneo che permette all'utente di rispondere a una chiamata in ingresso (in caso di accettazione o di rifiuto della stessa). A tal fine dovranno essere recuperati i riferimenti ai due elementi \verb'<div>' presenti nel documento con identificativi, rispettivamente, uguali a \verb'overlayAnswerBox' e \verb'answerBox', quindi rimuoverli dai figli dell'elemento \verb'<body>'.
-
-\item{\method{+ onShowAnswerBox(content: HTMLElement): void}}\\
-Questo gestore di eventi ha il compito di far visualizzare un pannello temporaneo il cui sotto-albero ha come radice l'elemento HTML ricevuto come parametro, per permettere all'utente di rispondere a una chiamata in ingresso.
-
-A tale scopo dovrà essere creato un \verb'<div>' con l'identificativo \verb'overlayAnswerBox' che dovrà essere aggiunto come primo figlio dell'elemento \verb'<body>' e un secondo \verb'<div>' con identificativo \verb'answerBox' che dovrà essere aggiunto immediatamente dopo l'\inglese{overlay}. Tutti gli altri eventuali figli del \verb'<body>' dovranno essere posizionati in successivamente nell'albero DOM con un'istruzione del tipo \verb'body.insertBefore(overlay, bodyFirstChild)'.
+% Questo è morto!
+%\item{\method{+ onRemoveAnswerBox(): void}}\\
+%Questo gestore di eventi ha lo scopo di rimuovere il pannello temporaneo che permette all'utente di rispondere a una chiamata in ingresso (in caso di accettazione o di rifiuto della stessa). A tal fine dovranno essere recuperati i riferimenti ai due elementi \verb'<div>' presenti nel documento con identificativi, rispettivamente, uguali a \verb'overlayAnswerBox' e \verb'answerBox', quindi rimuoverli dai figli dell'elemento \verb'<body>'.
 
 \item{\method{+ onShowUIPanels(): void}}\\
 Questo gestore di eventi avrà il compito di far visualizzare l'interfaccia grafica principale a seguito di un'autenticazione avvenuta con successo. A tale fine dovrà essere sollevato innanzitutto un evento con stringa identificativa uguale a \verb'removeAllPanels', quindi dovranno essere sollevati in sequenza i tre eventi \verb'showAddressBookPanel', \verb'showMainPanel' e \verb'showToolsPanel' che avviano i relativi \inglese{presenter} e fanno visualizzare i pannelli.
