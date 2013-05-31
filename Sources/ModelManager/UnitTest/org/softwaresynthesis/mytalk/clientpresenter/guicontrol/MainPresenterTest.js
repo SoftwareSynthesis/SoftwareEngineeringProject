@@ -1,43 +1,76 @@
+/**
+ * Verifica della classe MainPresenter.
+ */
 module("MainPanelPresenter", {
 	setup : function() {
-		// stub di interfaccia grafica
-		var element = document.createElement("div");
-		element.id = "MainPanel";
-		element.style.position = "absolute";
-		element.style.left = "-999em";
-		document.body.appendChild(element);
+		// stub di mediator
+		mediator = {
+			getView : function(someString) {
+				var viewRequest = new XMLHttpRequest();
+				viewRequest.open("POST", "clientview/MainView.html", false);
+				viewRequest.send();
+				var div = document.createElement("div");
+				div.innerHTML = viewRequest.responseText;
+				return div.childNodes[0];
+			}
+		};
 		// inizializza l'oggetto da testare
 		tester = new MainPanelPresenter();
-		
+
 	},
 	teardown : function() {
 	}
 });
 
-test("testHide()", function() {
-	element = document.getElementById("MainPanel");
-	tester.hide();
-	equal(element.style.display, "none",
-	"la proprietà display è stata settata correttamente");
-});
-
-
+/**
+ * Verifica l'inizializzazione del pannello
+ */
 test("testInitialize()", function() {
+	var i = 0;
+
+	var mainView = mediator.getView("main");
+	tester.initialize(mainView);
+
 	var element = document.getElementById("MainPanel");
-	tester.initialize();
-	equal(element.style.display, "block", "il pannello è visualizzato correttamente");
-	equal(element.innerHTML, "", "il pannello ha contenuto vuoto come atteso");
-	expect(2);
+	equal(element.nodeName, "DIV", "elemento creato correttamente");
+	i++;
+	equal(element.id, "MainPanel", "id impostato correttamente");
+	i++;
+	expect(i);
 });
 
+/**
+ * Verifica che sia possibile aggiungere un pannello figlio dentro il MainPanel.
+ */
 test("testDisplayChildPanel()", function() {
 	var i = 0;
+
+	tester.initialize(mediator.getView("main"));
+
 	var child = document.createElement("div");
 	tester.displayChildPanel(child);
+
 	var element = document.getElementById("MainPanel");
-	equal(element.childNodes.length, 1, "il pannello viene effettivamente aggiunto");
+	equal(element.childNodes.length, 1,
+			"il pannello viene effettivamente aggiunto");
 	i++;
-	equal(element.childNodes[0], child, "l'inserimento non altera il pannello");
+
+	equal(element.childNodes[0].nodeName, "DIV", "tipo corretto del figlio");
 	i++;
+
+	expect(i);
+});
+
+/**
+ * Verifica che sia possibile distruggere il pannello
+ */
+test("testDestroy()", function() {
+	var i = 0;
+
+	tester.destroy();
+	var element = document.getElementById("MainView");
+	equal(element, null, "pannello rimosso correttamente");
+	i++;
+
 	expect(i);
 });
