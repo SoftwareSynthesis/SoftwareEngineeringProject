@@ -4695,6 +4695,932 @@ Al fine di rendere evidente l'associazione di necessità e sufficienza che inter
 
 \subsection{Requisiti - classi}
 
+\begin{center}
+\rowcolors{4}{lightblue}{llightblue}\begin{longtable}{lp{.55\textwidth}l}
+\toprule Requisiti &  Componenti\\
+\midrule
+RUFO1.0.0 & server.abook.controller.AddContactController\\
+& server.abook.controller.DeleteContactController\\
+& server.abook.controller.AddGroupController\\
+& server.abook.controller.DeleteGroupController\\
+& server.abook.controller.AddInGroupController\\
+& server.abook.controller.DeleteFromGroupController\\
+& server.abook.controller.BlockContactController\\
+& server.abook.controller.UnblockContactController\\
+& server.abook.controller.GetContactsController\\
+& server.abook.controller.GetGroupsController\\
+& server.abook.controller.SearchController\\
+& server.abook.controller.AccountSettingsController\\
+& server.authentication.controller.LoginController\\
+& server.authentication.controller.LogoutController\\
+& server.authentication.controller.RegisterController\\
+& server.authentication.controller.QuestionController\\
+& server.authentication.controller.AnswerController\\
+& server.message.controller.AddMessageController\\
+& server.message.controller.DeleteMessageController\\
+& server.message.controller.UpdateMessageController\\
+& server.message.controller.GetMessagesController\\
+& server.call.controller.GetCallsController\\
+& server.call.controller.AddCallController\\
+& server.ControllerManager\\
+ & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+ & server.dao.CallDAO\\
+& server.dao.ISession\\
+& server.dao.SessionManager\\
+& server.dao.DataPersistanceManager\\
+& server.dao.util.UtilFactory\\
+& server.dao.util.GetUtil\\
+& server.dao.util.GetCallUtil\\
+& server.dao.util.GetGroupUtil\\
+& server.dao.util.GetUserDataUtil\\
+& server.dao.util.NotInitialize\\
+& server.dao.util.ModifyUtil\\
+& server.dao.util.DeleteUtil\\
+& server.dao.util.UpdateUtil\\
+& server.dao.util.InsertUtil\\
+& server.IMyTalkObject\\
+& server.authentication.AuthenticationModule\\
+& server.authentication.CredentialLoader\\
+& server.authentication.PrincipalImpl\\
+& server.authentication.Loader\\
+& server.authentication.NameLoader\\
+& server.authentication.PasswordLoader\\
+& server.authentication.security.ISecurityStrategy\\
+& server.authentication.security.AESAlgorithm\\
+& server.authentication.security.AESTemplate\\
+& server.authentication.security.AESEncode\\
+& server.authentication.security.AESDecode\\
+& javax.security.auth.spi.LoginModule\\
+& javax.security.auth.callback.CallbackHandler\\
+& javax.security.Principal\\
+RUFD1.1.0 & server.dao.CallDAO\\
+& server.dao.ISession\\
+& server.dao.SessionManager\\
+& server.dao.DataPersistanceManager\\
+& server.dao.util.UtilFactory\\
+& server.dao.util.GetUtil\\
+& server.dao.util.GetCallUtil\\
+& server.dao.util.GetGroupUtil\\
+& server.dao.util.GetUserDataUtil\\
+& server.dao.util.NotInitialize\\
+& server.dao.util.ModifyUtil\\
+& server.dao.util.DeleteUtil\\
+& server.dao.util.UpdateUtil\\
+& server.dao.util.InsertUtil\\
+& server.IMyTalkObject\\
+RUFD1.1.2 & server.dao.CallDAO\\
+& server.dao.ISession\\
+& server.dao.SessionManager\\
+& server.dao.DataPersistanceManager\\
+& server.dao.util.UtilFactory\\
+& server.dao.util.GetUtil\\
+& server.dao.util.GetCallUtil\\
+& server.dao.util.GetGroupUtil\\
+& server.dao.util.GetUserDataUtil\\
+& server.dao.util.NotInitialize\\
+& server.dao.util.ModifyUtil\\
+& server.dao.util.DeleteUtil\\
+& server.dao.util.UpdateUtil\\
+& server.dao.util.InsertUtil\\
+& server.IMyTalkObject\\
+RSQO1.2.0 & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+ & server.dao.CallDAO\\
+& server.dao.ISession\\
+& server.dao.SessionManager\\
+& server.dao.DataPersistanceManager\\
+& server.dao.util.UtilFactory\\
+& server.dao.util.GetUtil\\
+& server.dao.util.GetCallUtil\\
+& server.dao.util.GetGroupUtil\\
+& server.dao.util.GetUserDataUtil\\
+& server.dao.util.NotInitialize\\
+& server.dao.util.ModifyUtil\\
+& server.dao.util.DeleteUtil\\
+& server.dao.util.UpdateUtil\\
+& server.dao.util.InsertUtil\\
+& server.IMyTalkObject\\
+& server.authentication.AuthenticationModule\\
+& server.authentication.CredentialLoader\\
+& server.authentication.PrincipalImpl\\
+& server.authentication.Loader\\
+& server.authentication.NameLoader\\
+& server.authentication.PasswordLoader\\
+& server.authentication.security.ISecurityStrategy\\
+& server.authentication.security.AESAlgorithm\\
+& server.authentication.security.AESTemplate\\
+& server.authentication.security.AESEncode\\
+& server.authentication.security.AESDecode\\
+& javax.security.auth.spi.LoginModule\\
+& javax.security.auth.callback.CallbackHandler\\
+& javax.security.Principal\\
+RUFO2.0.0 & server.abook.controller.AddContactController\\
+& server.abook.controller.DeleteContactController\\
+& server.abook.controller.AddGroupController\\
+& server.abook.controller.DeleteGroupController\\
+& server.abook.controller.AddInGroupController\\
+& server.abook.controller.DeleteFromGroupController\\
+& server.abook.controller.BlockContactController\\
+& server.abook.controller.UnblockContactController\\
+& server.abook.controller.GetContactsController\\
+& server.abook.controller.GetGroupsController\\
+& server.abook.controller.SearchController\\
+& server.abook.controller.AccountSettingsController\\
+& server.authentication.controller.LoginController\\
+& server.authentication.controller.LogoutController\\
+& server.authentication.controller.RegisterController\\
+& server.authentication.controller.QuestionController\\
+& server.authentication.controller.AnswerController\\
+& server.message.controller.AddMessageController\\
+& server.message.controller.DeleteMessageController\\
+& server.message.controller.UpdateMessageController\\
+& server.message.controller.GetMessagesController\\
+& server.call.controller.GetCallsController\\
+& server.call.controller.AddCallController\\
+& server.ControllerManager\\
+& server.authentication.AuthenticationModule\\
+& server.authentication.CredentialLoader\\
+& server.authentication.PrincipalImpl\\
+& server.authentication.Loader\\
+& server.authentication.NameLoader\\
+& server.authentication.PasswordLoader\\
+& server.authentication.security.ISecurityStrategy\\
+& server.authentication.security.AESAlgorithm\\
+& server.authentication.security.AESTemplate\\
+& server.authentication.security.AESEncode\\
+& server.authentication.security.AESDecode\\
+& javax.security.auth.spi.LoginModule\\
+& javax.security.auth.callback.CallbackHandler\\
+& javax.security.Principal\\
+RSQO2.1.0 & server.dao.CallDAO\\
+& server.dao.ISession\\
+& server.dao.SessionManager\\
+& server.dao.DataPersistanceManager\\
+& server.dao.util.UtilFactory\\
+& server.dao.util.GetUtil\\
+& server.dao.util.GetCallUtil\\
+& server.dao.util.GetGroupUtil\\
+& server.dao.util.GetUserDataUtil\\
+& server.dao.util.NotInitialize\\
+& server.dao.util.ModifyUtil\\
+& server.dao.util.DeleteUtil\\
+& server.dao.util.UpdateUtil\\
+& server.dao.util.InsertUtil\\
+& server.IMyTalkObject\\
+& server.authentication.AuthenticationModule\\
+& server.authentication.CredentialLoader\\
+& server.authentication.PrincipalImpl\\
+& server.authentication.Loader\\
+& server.authentication.NameLoader\\
+& server.authentication.PasswordLoader\\
+& server.authentication.security.ISecurityStrategy\\
+& server.authentication.security.AESAlgorithm\\
+& server.authentication.security.AESTemplate\\
+& server.authentication.security.AESEncode\\
+& server.authentication.security.AESDecode\\
+& javax.security.auth.spi.LoginModule\\
+& javax.security.auth.callback.CallbackHandler\\
+& javax.security.Principal\\
+RSDD2.2.0 & server.dao.CallDAO\\
+& server.dao.ISession\\
+& server.dao.SessionManager\\
+& server.dao.DataPersistanceManager\\
+& server.dao.util.UtilFactory\\
+& server.dao.util.GetUtil\\
+& server.dao.util.GetCallUtil\\
+& server.dao.util.GetGroupUtil\\
+& server.dao.util.GetUserDataUtil\\
+& server.dao.util.NotInitialize\\
+& server.dao.util.ModifyUtil\\
+& server.dao.util.DeleteUtil\\
+& server.dao.util.UpdateUtil\\
+& server.dao.util.InsertUtil\\
+& server.IMyTalkObject\\
+RUFF3.0.0 & server.abook.controller.AddContactController\\
+& server.abook.controller.DeleteContactController\\
+& server.abook.controller.AddGroupController\\
+& server.abook.controller.DeleteGroupController\\
+& server.abook.controller.AddInGroupController\\
+& server.abook.controller.DeleteFromGroupController\\
+& server.abook.controller.BlockContactController\\
+& server.abook.controller.UnblockContactController\\
+& server.abook.controller.GetContactsController\\
+& server.abook.controller.GetGroupsController\\
+& server.abook.controller.SearchController\\
+& server.abook.controller.AccountSettingsController\\
+& server.authentication.controller.LoginController\\
+& server.authentication.controller.LogoutController\\
+& server.authentication.controller.RegisterController\\
+& server.authentication.controller.QuestionController\\
+& server.authentication.controller.AnswerController\\
+& server.message.controller.AddMessageController\\
+& server.message.controller.DeleteMessageController\\
+& server.message.controller.UpdateMessageController\\
+& server.message.controller.GetMessagesController\\
+& server.call.controller.GetCallsController\\
+& server.call.controller.AddCallController\\
+& server.ControllerManager\\
+ & server.dao.CallDAO\\
+& server.dao.ISession\\
+& server.dao.SessionManager\\
+& server.dao.DataPersistanceManager\\
+& server.dao.util.UtilFactory\\
+& server.dao.util.GetUtil\\
+& server.dao.util.GetCallUtil\\
+& server.dao.util.GetGroupUtil\\
+& server.dao.util.GetUserDataUtil\\
+& server.dao.util.NotInitialize\\
+& server.dao.util.ModifyUtil\\
+& server.dao.util.DeleteUtil\\
+& server.dao.util.UpdateUtil\\
+& server.dao.util.InsertUtil\\
+& server.IMyTalkObject\\
+& server.authentication.AuthenticationModule\\
+& server.authentication.CredentialLoader\\
+& server.authentication.PrincipalImpl\\
+& server.authentication.Loader\\
+& server.authentication.NameLoader\\
+& server.authentication.PasswordLoader\\
+& server.authentication.security.ISecurityStrategy\\
+& server.authentication.security.AESAlgorithm\\
+& server.authentication.security.AESTemplate\\
+& server.authentication.security.AESEncode\\
+& server.authentication.security.AESDecode\\
+& javax.security.auth.spi.LoginModule\\
+& javax.security.auth.callback.CallbackHandler\\
+& javax.security.Principal\\
+RUFF3.1.0 & server.dao.CallDAO\\
+& server.dao.ISession\\
+& server.dao.SessionManager\\
+& server.dao.DataPersistanceManager\\
+& server.dao.util.UtilFactory\\
+& server.dao.util.GetUtil\\
+& server.dao.util.GetCallUtil\\
+& server.dao.util.GetGroupUtil\\
+& server.dao.util.GetUserDataUtil\\
+& server.dao.util.NotInitialize\\
+& server.dao.util.ModifyUtil\\
+& server.dao.util.DeleteUtil\\
+& server.dao.util.UpdateUtil\\
+& server.dao.util.InsertUtil\\
+& server.IMyTalkObject\\
+& server.authentication.AuthenticationModule\\
+& server.authentication.CredentialLoader\\
+& server.authentication.PrincipalImpl\\
+& server.authentication.Loader\\
+& server.authentication.NameLoader\\
+& server.authentication.PasswordLoader\\
+& server.authentication.security.ISecurityStrategy\\
+& server.authentication.security.AESAlgorithm\\
+& server.authentication.security.AESTemplate\\
+& server.authentication.security.AESEncode\\
+& server.authentication.security.AESDecode\\
+& javax.security.auth.spi.LoginModule\\
+& javax.security.auth.callback.CallbackHandler\\
+& javax.security.Principal\\
+RUFF3.2.0 & server.dao.CallDAO\\
+& server.dao.ISession\\
+& server.dao.SessionManager\\
+& server.dao.DataPersistanceManager\\
+& server.dao.util.UtilFactory\\
+& server.dao.util.GetUtil\\
+& server.dao.util.GetCallUtil\\
+& server.dao.util.GetGroupUtil\\
+& server.dao.util.GetUserDataUtil\\
+& server.dao.util.NotInitialize\\
+& server.dao.util.ModifyUtil\\
+& server.dao.util.DeleteUtil\\
+& server.dao.util.UpdateUtil\\
+& server.dao.util.InsertUtil\\
+& server.IMyTalkObject\\
+RUFF4.0.0 & server.abook.controller.AddContactController\\
+& server.abook.controller.DeleteContactController\\
+& server.abook.controller.AddGroupController\\
+& server.abook.controller.DeleteGroupController\\
+& server.abook.controller.AddInGroupController\\
+& server.abook.controller.DeleteFromGroupController\\
+& server.abook.controller.BlockContactController\\
+& server.abook.controller.UnblockContactController\\
+& server.abook.controller.GetContactsController\\
+& server.abook.controller.GetGroupsController\\
+& server.abook.controller.SearchController\\
+& server.abook.controller.AccountSettingsController\\
+& server.authentication.controller.LoginController\\
+& server.authentication.controller.LogoutController\\
+& server.authentication.controller.RegisterController\\
+& server.authentication.controller.QuestionController\\
+& server.authentication.controller.AnswerController\\
+& server.message.controller.AddMessageController\\
+& server.message.controller.DeleteMessageController\\
+& server.message.controller.UpdateMessageController\\
+& server.message.controller.GetMessagesController\\
+& server.call.controller.GetCallsController\\
+& server.call.controller.AddCallController\\
+& server.ControllerManager\\
+& server.dao.CallDAO\\
+& server.dao.ISession\\
+& server.dao.SessionManager\\
+& server.dao.DataPersistanceManager\\
+& server.dao.util.UtilFactory\\
+& server.dao.util.GetUtil\\
+& server.dao.util.GetCallUtil\\
+& server.dao.util.GetGroupUtil\\
+& server.dao.util.GetUserDataUtil\\
+& server.dao.util.NotInitialize\\
+& server.dao.util.ModifyUtil\\
+& server.dao.util.DeleteUtil\\
+& server.dao.util.UpdateUtil\\
+& server.dao.util.InsertUtil\\
+& server.IMyTalkObject\\
+RUFF4.1.0 & server.dao.CallDAO\\
+& server.dao.ISession\\
+& server.dao.SessionManager\\
+& server.dao.DataPersistanceManager\\
+& server.dao.util.UtilFactory\\
+& server.dao.util.GetUtil\\
+& server.dao.util.GetCallUtil\\
+& server.dao.util.GetGroupUtil\\
+& server.dao.util.GetUserDataUtil\\
+& server.dao.util.NotInitialize\\
+& server.dao.util.ModifyUtil\\
+& server.dao.util.DeleteUtil\\
+& server.dao.util.UpdateUtil\\
+& server.dao.util.InsertUtil\\
+& server.IMyTalkObject\\
+& server.abook.AddressBookEntry\\
+& server.abook.IAddressBookEntry\\
+& server.abook.IGroup\\
+& server.abook.Group\\
+& server.abook.IUserData\\
+& server.abook.UserData\\
+RUFF4.2.0 & server.dao.CallDAO\\
+& server.dao.ISession\\
+& server.dao.SessionManager\\
+& server.dao.DataPersistanceManager\\
+& server.dao.util.UtilFactory\\
+& server.dao.util.GetUtil\\
+& server.dao.util.GetCallUtil\\
+& server.dao.util.GetGroupUtil\\
+& server.dao.util.GetUserDataUtil\\
+& server.dao.util.NotInitialize\\
+& server.dao.util.ModifyUtil\\
+& server.dao.util.DeleteUtil\\
+& server.dao.util.UpdateUtil\\
+& server.dao.util.InsertUtil\\
+& server.IMyTalkObject\\
+& server.abook.AddressBookEntry\\
+& server.abook.IAddressBookEntry\\
+& server.abook.IGroup\\
+& server.abook.Group\\
+& server.abook.IUserData\\
+& server.abook.UserData\\
+RUFF4.3.0 & server.dao.CallDAO\\
+& server.dao.ISession\\
+& server.dao.SessionManager\\
+& server.dao.DataPersistanceManager\\
+& server.dao.util.UtilFactory\\
+& server.dao.util.GetUtil\\
+& server.dao.util.GetCallUtil\\
+& server.dao.util.GetGroupUtil\\
+& server.dao.util.GetUserDataUtil\\
+& server.dao.util.NotInitialize\\
+& server.dao.util.ModifyUtil\\
+& server.dao.util.DeleteUtil\\
+& server.dao.util.UpdateUtil\\
+& server.dao.util.InsertUtil\\
+& server.IMyTalkObject\\
+& server.abook.AddressBookEntry\\
+& server.abook.IAddressBookEntry\\
+& server.abook.IGroup\\
+& server.abook.Group\\
+& server.abook.IUserData\\
+& server.abook.UserData\\
+RUFF4.4.0 & server.dao.CallDAO\\
+& server.dao.ISession\\
+& server.dao.SessionManager\\
+& server.dao.DataPersistanceManager\\
+& server.dao.util.UtilFactory\\
+& server.dao.util.GetUtil\\
+& server.dao.util.GetCallUtil\\
+& server.dao.util.GetGroupUtil\\
+& server.dao.util.GetUserDataUtil\\
+& server.dao.util.NotInitialize\\
+& server.dao.util.ModifyUtil\\
+& server.dao.util.DeleteUtil\\
+& server.dao.util.UpdateUtil\\
+& server.dao.util.InsertUtil\\
+& server.IMyTalkObject\\
+& server.abook.AddressBookEntry\\
+& server.abook.IAddressBookEntry\\
+& server.abook.IGroup\\
+& server.abook.Group\\
+& server.abook.IUserData\\
+& server.abook.UserData\\
+RUFF4.4.1 & server.dao.CallDAO\\
+& server.dao.ISession\\
+& server.dao.SessionManager\\
+& server.dao.DataPersistanceManager\\
+& server.dao.util.UtilFactory\\
+& server.dao.util.GetUtil\\
+& server.dao.util.GetCallUtil\\
+& server.dao.util.GetGroupUtil\\
+& server.dao.util.GetUserDataUtil\\
+& server.dao.util.NotInitialize\\
+& server.dao.util.ModifyUtil\\
+& server.dao.util.DeleteUtil\\
+& server.dao.util.UpdateUtil\\
+& server.dao.util.InsertUtil\\
+& server.IMyTalkObject\\
+& server.abook.AddressBookEntry\\
+& server.abook.IAddressBookEntry\\
+& server.abook.IGroup\\
+& server.abook.Group\\
+& server.abook.IUserData\\
+& server.abook.UserData\\
+RUFF4.4.2 & server.abook.AddressBookEntry\\
+& server.abook.IAddressBookEntry\\
+& server.abook.IGroup\\
+& server.abook.Group\\
+& server.abook.IUserData\\
+& server.abook.UserData\\
+RUFF4.4.3 & server.dao.CallDAO\\
+& server.dao.ISession\\
+& server.dao.SessionManager\\
+& server.dao.DataPersistanceManager\\
+& server.dao.util.UtilFactory\\
+& server.dao.util.GetUtil\\
+& server.dao.util.GetCallUtil\\
+& server.dao.util.GetGroupUtil\\
+& server.dao.util.GetUserDataUtil\\
+& server.dao.util.NotInitialize\\
+& server.dao.util.ModifyUtil\\
+& server.dao.util.DeleteUtil\\
+& server.dao.util.UpdateUtil\\
+& server.dao.util.InsertUtil\\
+& server.IMyTalkObject\\
+& server.abook.AddressBookEntry\\
+& server.abook.IAddressBookEntry\\
+& server.abook.IGroup\\
+& server.abook.Group\\
+& server.abook.IUserData\\
+& server.abook.UserData\\
+RUFF4.4.4 & server.dao.CallDAO\\
+& server.dao.ISession\\
+& server.dao.SessionManager\\
+& server.dao.DataPersistanceManager\\
+& server.dao.util.UtilFactory\\
+& server.dao.util.GetUtil\\
+& server.dao.util.GetCallUtil\\
+& server.dao.util.GetGroupUtil\\
+& server.dao.util.GetUserDataUtil\\
+& server.dao.util.NotInitialize\\
+& server.dao.util.ModifyUtil\\
+& server.dao.util.DeleteUtil\\
+& server.dao.util.UpdateUtil\\
+& server.dao.util.InsertUtil\\
+& server.IMyTalkObject\\
+& server.abook.AddressBookEntry\\
+& server.abook.IAddressBookEntry\\
+& server.abook.IGroup\\
+& server.abook.Group\\
+& server.abook.IUserData\\
+& server.abook.UserData\\
+RUFF4.5.0 & server.dao.CallDAO\\
+& server.dao.ISession\\
+& server.dao.SessionManager\\
+& server.dao.DataPersistanceManager\\
+& server.dao.util.UtilFactory\\
+& server.dao.util.GetUtil\\
+& server.dao.util.GetCallUtil\\
+& server.dao.util.GetGroupUtil\\
+& server.dao.util.GetUserDataUtil\\
+& server.dao.util.NotInitialize\\
+& server.dao.util.ModifyUtil\\
+& server.dao.util.DeleteUtil\\
+& server.dao.util.UpdateUtil\\
+& server.dao.util.InsertUtil\\
+& server.IMyTalkObject\\
+& server.abook.AddressBookEntry\\
+& server.abook.IAddressBookEntry\\
+& server.abook.IGroup\\
+& server.abook.Group\\
+& server.abook.IUserData\\
+& server.abook.UserData\\
+RUFF4.6.0 & server.abook.AddressBookEntry\\
+& server.abook.IAddressBookEntry\\
+& server.abook.IGroup\\
+& server.abook.Group\\
+& server.abook.IUserData\\
+& server.abook.UserData\\
+RUFF4.7.0 & server.dao.CallDAO\\
+& server.dao.ISession\\
+& server.dao.SessionManager\\
+& server.dao.DataPersistanceManager\\
+& server.dao.util.UtilFactory\\
+& server.dao.util.GetUtil\\
+& server.dao.util.GetCallUtil\\
+& server.dao.util.GetGroupUtil\\
+& server.dao.util.GetUserDataUtil\\
+& server.dao.util.NotInitialize\\
+& server.dao.util.ModifyUtil\\
+& server.dao.util.DeleteUtil\\
+& server.dao.util.UpdateUtil\\
+& server.dao.util.InsertUtil\\
+& server.IMyTalkObject\\
+& server.abook.AddressBookEntry\\
+& server.abook.IAddressBookEntry\\
+& server.abook.IGroup\\
+& server.abook.Group\\
+& server.abook.IUserData\\
+& server.abook.UserData\\
+RUFO5.0.0 & server.dao.CallDAO\\
+& server.dao.ISession\\
+& server.dao.SessionManager\\
+& server.dao.DataPersistanceManager\\
+& server.dao.util.UtilFactory\\
+& server.dao.util.GetUtil\\
+& server.dao.util.GetCallUtil\\
+& server.dao.util.GetGroupUtil\\
+& server.dao.util.GetUserDataUtil\\
+& server.dao.util.NotInitialize\\
+& server.dao.util.ModifyUtil\\
+& server.dao.util.DeleteUtil\\
+& server.dao.util.UpdateUtil\\
+& server.dao.util.InsertUtil\\
+& server.IMyTalkObject\\
+& server.abook.controller.AddContactController\\
+& server.abook.controller.DeleteContactController\\
+& server.abook.controller.AddGroupController\\
+& server.abook.controller.DeleteGroupController\\
+& server.abook.controller.AddInGroupController\\
+& server.abook.controller.DeleteFromGroupController\\
+& server.abook.controller.BlockContactController\\
+& server.abook.controller.UnblockContactController\\
+& server.abook.controller.GetContactsController\\
+& server.abook.controller.GetGroupsController\\
+& server.abook.controller.SearchController\\
+& server.abook.controller.AccountSettingsController\\
+& server.authentication.controller.LoginController\\
+& server.authentication.controller.LogoutController\\
+& server.authentication.controller.RegisterController\\
+& server.authentication.controller.QuestionController\\
+& server.authentication.controller.AnswerController\\
+& server.message.controller.AddMessageController\\
+& server.message.controller.DeleteMessageController\\
+& server.message.controller.UpdateMessageController\\
+& server.message.controller.GetMessagesController\\
+& server.call.controller.GetCallsController\\
+& server.call.controller.AddCallController\\
+& server.ControllerManager\\
+RUFF5.1.0 & server.dao.CallDAO\\
+& server.dao.ISession\\
+& server.dao.SessionManager\\
+& server.dao.DataPersistanceManager\\
+& server.dao.util.UtilFactory\\
+& server.dao.util.GetUtil\\
+& server.dao.util.GetCallUtil\\
+& server.dao.util.GetGroupUtil\\
+& server.dao.util.GetUserDataUtil\\
+& server.dao.util.NotInitialize\\
+& server.dao.util.ModifyUtil\\
+& server.dao.util.DeleteUtil\\
+& server.dao.util.UpdateUtil\\
+& server.dao.util.InsertUtil\\
+& server.IMyTalkObject\\
+RSDO6.0.0 & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+RUFO6.1.0 & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+& server.abook.controller.AddContactController\\
+& server.abook.controller.DeleteContactController\\
+& server.abook.controller.AddGroupController\\
+& server.abook.controller.DeleteGroupController\\
+& server.abook.controller.AddInGroupController\\
+& server.abook.controller.DeleteFromGroupController\\
+& server.abook.controller.BlockContactController\\
+& server.abook.controller.UnblockContactController\\
+& server.abook.controller.GetContactsController\\
+& server.abook.controller.GetGroupsController\\
+& server.abook.controller.SearchController\\
+& server.abook.controller.AccountSettingsController\\
+& server.authentication.controller.LoginController\\
+& server.authentication.controller.LogoutController\\
+& server.authentication.controller.RegisterController\\
+& server.authentication.controller.QuestionController\\
+& server.authentication.controller.AnswerController\\
+& server.message.controller.AddMessageController\\
+& server.message.controller.DeleteMessageController\\
+& server.message.controller.UpdateMessageController\\
+& server.message.controller.GetMessagesController\\
+& server.call.controller.GetCallsController\\
+& server.call.controller.AddCallController\\
+ & server.call.ICall\\
+& server.call.Call\\
+ & server.call.ICallList\\
+& server.call.CallList\\
+RUFO6.1.1 & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+& server.call.ICall\\
+& server.call.Call\\
+& server.call.ICallList\\
+& server.call.CallList\\
+RUFF6.1.2 & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+RUFO6.1.3 & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+& server.call.ICall\\
+& server.call.Call\\
+& server.call.ICallList\\
+& server.call.CallList\\
+RUFF6.1.4 & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+RUFO6.2.0 & server.abook.controller.AddContactController\\
+& server.abook.controller.DeleteContactController\\
+& server.abook.controller.AddGroupController\\
+& server.abook.controller.DeleteGroupController\\
+& server.abook.controller.AddInGroupController\\
+& server.abook.controller.DeleteFromGroupController\\
+& server.abook.controller.BlockContactController\\
+& server.abook.controller.UnblockContactController\\
+& server.abook.controller.GetContactsController\\
+& server.abook.controller.GetGroupsController\\
+& server.abook.controller.SearchController\\
+& server.abook.controller.AccountSettingsController\\
+& server.authentication.controller.LoginController\\
+& server.authentication.controller.LogoutController\\
+& server.authentication.controller.RegisterController\\
+& server.authentication.controller.QuestionController\\
+& server.authentication.controller.AnswerController\\
+& server.message.controller.AddMessageController\\
+& server.message.controller.DeleteMessageController\\
+& server.message.controller.UpdateMessageController\\
+& server.message.controller.GetMessagesController\\
+& server.call.controller.GetCallsController\\
+& server.call.controller.AddCallController\\
+& server.call.ICall\\
+& server.call.Call\\
+& server.call.ICallList\\
+& server.call.CallList\\
+RUFO6.2.1 & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+& server.call.ICall\\
+& server.call.Call\\
+& server.call.ICallList\\
+& server.call.CallList\\
+RUFF6.2.2 & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+RUFO6.2.3 & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+& server.call.ICall\\
+& server.call.Call\\
+& server.call.ICallList\\
+& server.call.CallList\\
+RUFF6.2.4 & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+RUFF6.2.5 & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+RUFF6.3.0 & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+RUFO6.4.0    & server.call.ICall\\
+& server.call.Call\\
+ & server.call.ICallList\\
+& server.call.CallList\\
+RUFO 6.5.0   & server.call.ICall\\
+& server.call.Call\\
+ & server.call.ICallList\\
+& server.call.CallList\\
+RUFO7.0.0 & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+& server.call.ICall\\
+& server.call.Call\\
+& server.call.ICallList\\
+& server.call.CallList\\
+RUFO8.0.0 & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+ & server.call.ICall\\
+& server.call.Call\\
+ & server.call.ICallList\\
+& server.call.CallList\\
+RUFO8.1.0 & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+ & server.call.ICall\\
+& server.call.Call\\
+ & server.call.ICallList\\
+& server.call.CallList\\
+RUFO8.2.0 & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+ & server.call.ICall\\
+& server.call.Call\\
+ & server.call.ICallList\\
+& server.call.CallList\\
+RUFO9.0.0 & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+ & server.call.ICall\\
+& server.call.Call\\
+ & server.call.ICallList\\
+& server.call.CallList\\
+RUFO9.1.0 & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+ & server.call.ICall\\
+& server.call.Call\\
+ & server.call.ICallList\\
+& server.call.CallList\\
+RUFO9.2.0 & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+ & server.call.ICall\\
+& server.call.Call\\
+ & server.call.ICallList\\
+& server.call.CallList\\
+RUFF9.3.0 & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+RSFO11.0.0 & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+ & server.call.ICall\\
+& server.call.Call\\
+ & server.call.ICallList\\
+& server.call.CallList\\
+RSFO11.1.0 & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+ & server.call.ICall\\
+& server.call.Call\\
+ & server.call.ICallList\\
+& server.call.CallList\\
+RSFF11.2.0 & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+RSFO12.0.0 & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+& server.ControllerManager\\
+ & server.call.ICall\\
+& server.call.Call\\
+ & server.call.ICallList\\
+& server.call.CallList\\
+RSFF12.1.0 & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+RUFD12.2.0 & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+RUFO12.3.0 & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+ & server.call.ICall\\
+& server.call.Call\\
+ & server.call.ICallList\\
+& server.call.CallList\\
+RUFF13.0.0 & server.abook.controller.AddContactController\\
+& server.abook.controller.DeleteContactController\\
+& server.abook.controller.AddGroupController\\
+& server.abook.controller.DeleteGroupController\\
+& server.abook.controller.AddInGroupController\\
+& server.abook.controller.DeleteFromGroupController\\
+& server.abook.controller.BlockContactController\\
+& server.abook.controller.UnblockContactController\\
+& server.abook.controller.GetContactsController\\
+& server.abook.controller.GetGroupsController\\
+& server.abook.controller.SearchController\\
+& server.abook.controller.AccountSettingsController\\
+& server.authentication.controller.LoginController\\
+& server.authentication.controller.LogoutController\\
+& server.authentication.controller.RegisterController\\
+& server.authentication.controller.QuestionController\\
+& server.authentication.controller.AnswerController\\
+& server.message.controller.AddMessageController\\
+& server.message.controller.DeleteMessageController\\
+& server.message.controller.UpdateMessageController\\
+& server.message.controller.GetMessagesController\\
+& server.call.controller.GetCallsController\\
+& server.call.controller.AddCallController\\
+RUFD13.1.0 & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+RUFF13.2.0 & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+RUFF14.0.0 & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+RUFF14.1.0 & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+RUFF14.2.0 & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+RUFF15.0.0 & server.message.IMessage\\
+& server.message.Message\\
+ & server.abook.AddressBookEntry\\
+& server.abook.IAddressBookEntry\\
+& server.abook.IGroup\\
+& server.abook.Group\\
+& server.abook.IUserData\\
+& server.abook.UserData\\
+& server.abook.controller.AddContactController\\
+& server.abook.controller.DeleteContactController\\
+& server.abook.controller.AddGroupController\\
+& server.abook.controller.DeleteGroupController\\
+& server.abook.controller.AddInGroupController\\
+& server.abook.controller.DeleteFromGroupController\\
+& server.abook.controller.BlockContactController\\
+& server.abook.controller.UnblockContactController\\
+& server.abook.controller.GetContactsController\\
+& server.abook.controller.GetGroupsController\\
+& server.abook.controller.SearchController\\
+& server.abook.controller.AccountSettingsController\\
+& server.authentication.controller.LoginController\\
+& server.authentication.controller.LogoutController\\
+& server.authentication.controller.RegisterController\\
+& server.authentication.controller.QuestionController\\
+& server.authentication.controller.AnswerController\\
+& server.message.controller.AddMessageController\\
+& server.message.controller.DeleteMessageController\\
+& server.message.controller.UpdateMessageController\\
+& server.message.controller.GetMessagesController\\
+& server.call.controller.GetCallsController\\
+& server.call.controller.AddCallController\\
+  & CS08 -- Front controller \\
+RUFF15.1.0 & server.message.IMessage\\
+& server.message.Message\\
+RUFF15.2.0 & server.message.IMessage\\
+& server.message.Message\\
+ & server.abook.AddressBookEntry\\
+& server.abook.IAddressBookEntry\\
+& server.abook.IGroup\\
+& server.abook.Group\\
+& server.abook.IUserData\\
+& server.abook.UserData\\
+RUFF15.3.0 & server.message.IMessage\\
+& server.message.Message\\
+ & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+RUFF15.4.0 & server.dao.CallDAO\\
+& server.dao.ISession\\
+& server.dao.SessionManager\\
+& server.dao.DataPersistanceManager\\
+& server.dao.util.UtilFactory\\
+& server.dao.util.GetUtil\\
+& server.dao.util.GetCallUtil\\
+& server.dao.util.GetGroupUtil\\
+& server.dao.util.GetUserDataUtil\\
+& server.dao.util.NotInitialize\\
+& server.dao.util.ModifyUtil\\
+& server.dao.util.DeleteUtil\\
+& server.dao.util.UpdateUtil\\
+& server.dao.util.InsertUtil\\
+& server.IMyTalkObject\\
+& server.message.IMessage\\
+& server.message.Message\\
+ & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+RUFF15.5.0 & server.message.IMessage\\
+& server.message.Message\\
+ & server.dao.CallDAO\\
+& server.dao.ISession\\
+& server.dao.SessionManager\\
+& server.dao.DataPersistanceManager\\
+& server.dao.util.UtilFactory\\
+& server.dao.util.GetUtil\\
+& server.dao.util.GetCallUtil\\
+& server.dao.util.GetGroupUtil\\
+& server.dao.util.GetUserDataUtil\\
+& server.dao.util.NotInitialize\\
+& server.dao.util.ModifyUtil\\
+& server.dao.util.DeleteUtil\\
+& server.dao.util.UpdateUtil\\
+& server.dao.util.InsertUtil\\
+& server.IMyTalkObject\\
+& server.abook.controller.AddContactController\\
+& server.abook.controller.DeleteContactController\\
+& server.abook.controller.AddGroupController\\
+& server.abook.controller.DeleteGroupController\\
+& server.abook.controller.AddInGroupController\\
+& server.abook.controller.DeleteFromGroupController\\
+& server.abook.controller.BlockContactController\\
+& server.abook.controller.UnblockContactController\\
+& server.abook.controller.GetContactsController\\
+& server.abook.controller.GetGroupsController\\
+& server.abook.controller.SearchController\\
+& server.abook.controller.AccountSettingsController\\
+& server.authentication.controller.LoginController\\
+& server.authentication.controller.LogoutController\\
+& server.authentication.controller.RegisterController\\
+& server.authentication.controller.QuestionController\\
+& server.authentication.controller.AnswerController\\
+& server.message.controller.AddMessageController\\
+& server.message.controller.DeleteMessageController\\
+& server.message.controller.UpdateMessageController\\
+& server.message.controller.GetMessagesController\\
+& server.call.controller.GetCallsController\\
+& server.call.controller.AddCallController\\
+& server.ControllerManager\\
+RUFF18.0.0 & server.ControllerManager\\
+RUFF19.0.0 & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+RUFF20.0.0 & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+RUFF20.1.0 & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+RUFF20.2.0 & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+RUFF20.3.0 & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+RUFF20.4.0 & server.connection.PushInbound\\
+& org.apache.catalina.websocket.MessageInbound\\
+\bottomrule
+\end{longtable}
+\end{center}
+
 \subsection{Classi - requisiti}
 
 \begin{center}
@@ -4702,38 +5628,185 @@ Al fine di rendere evidente l'associazione di necessità e sufficienza che inter
 \toprule Classi & Componenti\\
 \midrule
 
-clientpresenter.data.JSCall & CP02 -- Rappresentazione dati\\
-clientpresenter.data.JSGroup & CP02 -- Rappresentazione dati\\
-clientpresenter.data.JSMessage & CP02 -- Rappresentazione dati\\
-clientpresenter.data.JSUserData & CP02 -- Rappresentazione dati\\
-clientpresenter.guicontrol.AccountSettingsPanelPresenter & CP03 -- Gestione GUI\\
-clientpresenter.guicontrol.AddressBookPanelPresenter & CP03 -- Gestione GUI\\
-clientpresenter.guicontrol.CallHistoryPanelPresenter & CP03 -- Gestione GUI\\
-clientpresenter.guicontrol.ChildPrenter & CP03 -- Gestione GUI\\
-clientpresenter.guicontrol.CommunicationPanelPresenter & CP03 -- Gestione GUI\\
-clientpresenter.guicontrol.ContactPanelPresenter & CP03 -- Gestione GUI\\
-clientpresenter.guicontrol.GroupPanelPresenter & CP03 -- Gestione GUI\\
-clientpresenter.guicontrol.LoginPanelPresenter & CP03 -- Gestione GUI\\
-clientpresenter.guicontrol.MainPanelPresenter & CP03 -- Gestione GUI\\
-clientpresenter.guicontrol.MessagePanelPresenter & CP03 -- Gestione GUI\\
-clientpresenter.guicontrol.PresenterMediator & CP03 -- Gestione GUI\\
-clientpresenter.guicontrol.RegisterPanelPresenter & CP03 -- Gestione GUI\\
-clientpresenter.guicontrol.SearchResultPanelPresenter & CP03 -- Gestione GUI\\
-clientpresenter.guicontrol.ToolsPanelPresenter & CP03 -- Gestione GUI\\
-clientpresenter.guicontrol.TopLevelPresenter & CP03 -- Gestione GUI\\
-clientpresenter.kernel.CommunicationCenter & CP01 -- Gestione comunicazione\\
-clientview.AccountSettingsPanel & CV01 -- GUI\\
-clientview.AddressBookPanel & CV01 -- GUI\\
-clientview.CallHistoryPanel & CV01 -- GUI\\
-clientview.CommunicationPanel & CV01 -- GUI\\
-clientview.ContactPanel & CV01 -- GUI\\
-clientview.GroupPanel & CV01 -- GUI\\
-clientview.LoginPanel & CV02 -- Login\\
-clientview.MainPanel & CV01 -- GUI\\
-clientview.MessagePanel & CV01 -- GUI\\
-clientview.RegisterPanel & CV02 -- Login\\
-clientview.SearchPanel & CV01 -- GUI\\
-clientview.ToolsPanel & CV01 -- GUI\\
+clientpresenter.data.JSCall & RUFO1.0.0\\
+& RUFO1.2.0\\
+& RUFO2.1.0\\
+& RUFF3.0.0\\
+& RUFF3.1.0\\
+& RUFF3.2.0\\
+clientpresenter.data.JSGroup & RUFO1.0.0\\
+& RUFO1.2.0\\
+& RUFO2.1.0\\
+& RUFF3.0.0\\
+& RUFF3.1.0\\
+& RUFF3.2.0\\
+clientpresenter.data.JSMessage & RUFO1.0.0\\
+& RUFO1.2.0\\
+& RUFO2.1.0\\
+& RUFF3.0.0\\
+& RUFF3.1.0\\
+& RUFF3.2.0\\
+clientpresenter.data.JSUserData & RUFO1.0.0\\
+& RUFO1.2.0\\
+& RUFO2.1.0\\
+& RUFF3.0.0\\
+& RUFF3.1.0\\
+& RUFF3.2.0\\
+clientpresenter.guicontrol.AccountSettingsPanelPresenter & RSFD21.0.0\\
+& RSQF26.0.0\\
+& RSDO10.0.0\\
+& RSDO10.1.0\\
+& RSFD21.0.0\\
+clientpresenter.guicontrol.AddressBookPanelPresenter & RSFD21.0.0\\
+& RSQF26.0.0\\
+& RSDO10.0.0\\
+& RSDO10.1.0\\
+& RSFD21.0.0\\
+clientpresenter.guicontrol.CallHistoryPanelPresenter & RSFD21.0.0\\
+& RSQF26.0.0\\
+& RSDO10.0.0\\
+& RSDO10.1.0\\
+& RSFD21.0.0\\
+clientpresenter.guicontrol.ChildPrenter & RSFD21.0.0\\
+& RSQF26.0.0\\
+& RSDO10.0.0\\
+& RSDO10.1.0\\
+& RSFD21.0.0\\
+clientpresenter.guicontrol.CommunicationPanelPresenter & RSFD21.0.0\\
+& RSQF26.0.0\\
+& RSDO10.0.0\\
+& RSDO10.1.0\\
+& RSFD21.0.0\\
+clientpresenter.guicontrol.ContactPanelPresenter & RSFD21.0.0\\
+& RSQF26.0.0\\
+& RSDO10.0.0\\
+& RSDO10.1.0\\
+& RSFD21.0.0\\
+clientpresenter.guicontrol.GroupPanelPresenter & RSFD21.0.0\\
+& RSQF26.0.0\\
+& RSDO10.0.0\\
+& RSDO10.1.0\\
+& RSFD21.0.0\\
+clientpresenter.guicontrol.LoginPanelPresenter & RSFD21.0.0\\
+& RSQF26.0.0\\
+& RSDO10.0.0\\
+& RSDO10.1.0\\
+& RSFD21.0.0\\
+clientpresenter.guicontrol.MainPanelPresenter & RSFD21.0.0\\
+& RSQF26.0.0\\
+& RSDO10.0.0\\
+& RSDO10.1.0\\
+& RSFD21.0.0\\
+clientpresenter.guicontrol.MessagePanelPresenter & RSFD21.0.0\\
+& RSQF26.0.0\\
+& RSDO10.0.0\\
+& RSDO10.1.0\\
+& RSFD21.0.0\\
+clientpresenter.guicontrol.PresenterMediator & RSFD21.0.0\\
+& RSQF26.0.0\\
+& RSDO10.0.0\\
+& RSDO10.1.0\\
+& RSFD21.0.0\\
+clientpresenter.guicontrol.RegisterPanelPresenter & RSFD21.0.0\\
+& RSQF26.0.0\\
+& RSDO10.0.0\\
+& RSDO10.1.0\\
+& RSFD21.0.0\\
+clientpresenter.guicontrol.SearchResultPanelPresenter & RSFD21.0.0\\
+& RSQF26.0.0\\
+& RSDO10.0.0\\
+& RSDO10.1.0\\
+& RSFD21.0.0\\
+clientpresenter.guicontrol.ToolsPanelPresenter & RSFD21.0.0\\
+& RSQF26.0.0\\
+& RSDO10.0.0\\
+& RSDO10.1.0\\
+& RSFD21.0.0\\
+clientpresenter.guicontrol.TopLevelPresenter & RSFD21.0.0\\
+& RSQF26.0.0\\
+& RSDO10.0.0\\
+& RSDO10.1.0\\
+& RSFD21.0.0\\
+clientpresenter.kernel.CommunicationCenter & RUFO6.1.0\\
+& RUFO6.1.1\\
+& RUFO6.1.3\\
+& RUFO6.2.0\\
+& RUFO6.2.1\\
+& RUFO6.2.3\\
+& RUFO6.4.0\\
+& RUFO6.5.0\\
+& RUFO7.0.0\\
+& RUFO8.0.0\\
+& RUFO8.1.0\\
+& RUFO8.2.0\\
+& RUFO9.0.0\\
+& RUFO9.1.0\\
+& RUFO9.2.0\\
+& RUFF6.1.2\\
+& RUFF6.1.4\\
+& RUFF6.2.2\\
+& RUFF6.2.4\\
+& RUFF6.2.5\\
+& RUFF6.3.0\\
+& RSDO6.0.0\\
+clientview.AccountSettingsPanel & RSFD21.0.0\\
+& RSQF26.0.0\\
+& RSDO10.0.0\\
+& RSDO10.1.0\\
+& RSFD21.0.0\\
+clientview.AddressBookPanel & RSFD21.0.0\\
+& RSQF26.0.0\\
+& RSDO10.0.0\\
+& RSDO10.1.0\\
+& RSFD21.0.0\\
+clientview.CallHistoryPanel & RSFD21.0.0\\
+& RSQF26.0.0\\
+& RSDO10.0.0\\
+& RSDO10.1.0\\
+& RSFD21.0.0\\
+clientview.CommunicationPanel & RSFD21.0.0\\
+& RSQF26.0.0\\
+& RSDO10.0.0\\
+& RSDO10.1.0\\
+& RSFD21.0.0\\
+clientview.ContactPanel & RSFD21.0.0\\
+& RSQF26.0.0\\
+& RSDO10.0.0\\
+& RSDO10.1.0\\
+& RSFD21.0.0\\
+clientview.GroupPanel & RSFD21.0.0\\
+& RSQF26.0.0\\
+& RSDO10.0.0\\
+& RSDO10.1.0\\
+& RSFD21.0.0\\
+clientview.LoginPanel & RUFO1.0.0\\
+& RSFO1.2.0\\
+& RSFO2.1.0\\
+& RSDD2.2.0\\
+clientview.MainPanel & RSFD21.0.0\\
+& RSQF26.0.0\\
+& RSDO10.0.0\\
+& RSDO10.1.0\\
+& RSFD21.0.0\\
+clientview.MessagePanel & RSFD21.0.0\\
+& RSQF26.0.0\\
+& RSDO10.0.0\\
+& RSDO10.1.0\\
+& RSFD21.0.0\\
+clientview.RegisterPanel & RUFO1.0.0\\
+& RSFO1.2.0\\
+& RSFO2.1.0\\
+& RSDD2.2.0\\
+clientview.SearchPanel & RSFD21.0.0\\
+& RSQF26.0.0\\
+& RSDO10.0.0\\
+& RSDO10.1.0\\
+& RSFD21.0.0\\
+clientview.ToolsPanel & RSFD21.0.0\\
+& RSQF26.0.0\\
+& RSDO10.0.0\\
+& RSDO10.1.0\\
+& RSFD21.0.0\\
 server.abook.AddressBookEntry & RUFF4.3.0 \\
  & RUFF4.7.0 \\
  & RUFF4.4.0 \\
