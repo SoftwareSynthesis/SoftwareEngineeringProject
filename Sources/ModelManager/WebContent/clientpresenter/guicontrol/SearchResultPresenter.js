@@ -90,6 +90,7 @@ function SearchResultPanelPresenter(url) {
 		// aggiunge i sottonodi al 'li' appena creato
 		item.appendChild(avatarNode);
 		item.appendChild(textNode);
+		item.appendChild(avatarState);
 
 		// comportamento del list item al click del mouse
 		item.onclick = function() {

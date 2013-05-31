@@ -1,5 +1,7 @@
 module("SearchResultPanelPresenter", {
 	setup : function() {
+		// indirizzo dello stub del front controller
+		commandURL = "http://localhost/ModelManager/WebContent/Conf/controllerManagerStub.php";
 		// stub di mediator
 		mediator = {
 			getView : function(someString) {
@@ -37,72 +39,122 @@ test("testDisplay()", function() {
 	tester.display();
 
 	var element = document.getElementById("SearchResultPanel");
-	equal(element.nodeName, "DIV", "corretto");
+	equal(element.nodeName, "DIV");
 	i++;
 
 	element = document.getElementById("searchInputField");
-	equal(element.nodeName, "INPUT", "corretto");
+	equal(element.nodeName, "INPUT");
 	i++;
 	element = document.getElementById("searchInputButton");
-	equal(element.nodeName, "BUTTON", "corretto");
+	equal(element.nodeName, "BUTTON");
 	i++;
-	equal(element.innerHTML.trim(), "Cerca", "testo corretto");
+	equal(element.innerHTML.trim(), "Cerca");
 	i++;
 
 	element = document.getElementById("userList");
-	equal(element.nodeName, "UL", "corretto");
+	equal(element.nodeName, "UL");
 	i++;
 
 	expect(i);
 });
 
-test("testHandleResult", function() {
+test(
+		"testHandleResult",
+		function() {
+			var event = new CustomEvent("showSearchResultPanel");
+			document.dispatchEvent(event);
+
+			var i = 0;
+			var contacts = {
+				1 : {
+					id : 1,
+					name : "paolino",
+					surname : "paperino",
+					email : "indirizzo5@dominio.it",
+					picturePath : "img/contactImg/Default.png",
+					state : "available"
+				},
+				2 : {
+					id : 2,
+					name : "gastone",
+					surname : "paperone",
+					email : "indirizzo4@dominio.it",
+					picturePath : "img/contactImg/Default.png",
+					state : "offline"
+				}
+			};
+
+			tester.handleResult(contacts);
+
+			var element = document.getElementById("userList");
+			equal(element.childNodes.length, 2);
+			i++;
+
+			var item = element.childNodes[0];
+			equal(item.nodeName, "LI");
+			i++;
+			equal(item.id, "resultList-1");
+			i++;
+			var avatar = item.childNodes[0];
+			equal(avatar.nodeName, "IMG");
+			i++;
+			equal(
+					avatar.src,
+					"http://localhost/ModelManager/UnitTest/org/softwaresynthesis/mytalk/img/contactImg/Default.png");
+			i++;
+			avatar = item.childNodes[1];
+			equal(avatar.nodeValue, "pippo");
+			i++;
+			avatar = item.childNodes[2];
+			equal(
+					avatar.src,
+					"http://localhost/ModelManager/UnitTest/org/softwaresynthesis/mytalk/img/stateavailable.png");
+			i++;
+
+			item = element.childNodes[1];
+			equal(item.nodeName, "LI");
+			i++;
+			equal(item.id, "resultList-2");
+			i++;
+			avatar = item.childNodes[0];
+			equal(avatar.nodeName, "IMG");
+			i++;
+			equal(
+					avatar.src,
+					"http://localhost/ModelManager/UnitTest/org/softwaresynthesis/mytalk/img/contactImg/Default.png");
+			i++;
+			avatar = item.childNodes[1];
+			equal(avatar.nodeValue, "pippo");
+			i++;
+			avatar = item.childNodes[2];
+			equal(
+					avatar.src,
+					"http://localhost/ModelManager/UnitTest/org/softwaresynthesis/mytalk/img/stateoffline.png");
+			i++;
+
+			expect(i);
+		});
+
+/**
+ * Questo simula un evento!!! :)
+ */
+test("testSendSearch()", function() {
+	var i = 0;
 	var event = new CustomEvent("showSearchResultPanel");
 	document.dispatchEvent(event);
+	tester.display();
 
-	var i = 0;
-	var contacts = {
-		1 : {
-			id : 1,
-			name : "paolino",
-			surname : "paperino",
-			email : "indirizzo5@dominio.it",
-			picturePath : "img/contactImg/Default.png",
-			state : "available"
-		},
-		2 : {
-			id : 2,
-			name : "gastone",
-			surname : "paperone",
-			email : "indirizzo4@dominio.it",
-			picturePath : "img/contactImg/Default.png",
-			state : "offline"
-		}
-	};
+	var input = document.getElementById("searchInputField");
+	var button = document.getElementById("searchInputButton");
+	input.value = "pippo";
+	event = new MouseEvent("click");
+	button.dispatchEvent(event);
 
-	tester.handleResult(contacts);
-
-	var element = document.getElementById("userList");
-	equal(element.childNodes.length, 2, "non andra' mai!");
+	var list = document.getElementById("userList");
+	var children = list.childNodes;
+	
+	equal(children.length, 5);
 	i++;
-
-	var item = element.childNodes[0];
-	equal(item.nodeName, "LI", "corretto");
-	i++;
-	equal(item.id, "resultList-1", "id corretto");
-	i++;
-	var avatar = item.childNodes[0];
-	equal(avatar.nodeName, "IMG", "corretto");
-	i++;
-
-	item = element.childNodes[1];
-	equal(item.nodeName, "LI", "corretto");
-	i++;
-	equal(item.id, "resultList-2", "id corretto");
-	i++;
-	avatar = item.childNodes[0];
-	equal(avatar.nodeName, "IMG", "corretto");
-	i++;
-
+	
 	expect(i);
 });
