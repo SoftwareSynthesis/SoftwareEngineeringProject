@@ -2,9 +2,6 @@ module(
 		"MessagePanelPresenterTest",
 		{
 			setup : function() {
-					// stub di communicationcenter
-				communicationcenter = new Object();
-				communicationcenter.my = { id:"01"};
 				commandURL = "http://localhost/ModelManager/WebContent/Conf/controllerManagerStub.php";
 				// stub di mediator
 				mediator = {
@@ -32,6 +29,8 @@ module(
 				tester = new MessagePanelPresenter();
 			},
 			teardown : function() {
+				var element= document.getElementById("MessagePanel");
+				document.body.removeChild(element.parentElement);
 			}
 		});
 		
@@ -68,3 +67,27 @@ test("testDisplay()",
 		i++;
 		expect(i);
 	});
+//TODO: DA AGGIUSTARE
+/*	
+test("testList()",
+	function(){
+	var i=0;
+	tester.displayList();
+	var list = document.getElementById("MessageList");
+	equal(list.childNodes.length, 1, "numero corretto di nodi");
+	i++;
+	expect(i);	
+	});
+
+test("testDelete()",
+	function() {
+	var i=0;
+	var message= {};
+	message.id=1;
+	test.deleteMessage(message);
+	var list = document.getElementById("MessageList");
+	equal(list.childNodes.length, 1, "numero corretto di nodi");
+	i++;
+	expect(i);	
+	});
+*/
