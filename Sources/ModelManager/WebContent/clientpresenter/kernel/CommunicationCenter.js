@@ -367,7 +367,8 @@ function CommunicationCenter() {
         mediator.getCommunicationPPOtherVideo().src = "";
         pc.close();
         pc = null;
-    }
+    };
+    
     /**
      * Verifica la presenza di una eventuale connessione WebSocket aperta con il
      * server
@@ -397,6 +398,7 @@ function CommunicationCenter() {
      */
     this.acceptCall = function(caller, onlyAudio) {
         mediator.stopRinging();
+        // FIXME questo è un errore!
         mediator.displayCommunicationPanel();
         this.call(false, caller.id, onlyAudio);
     };
