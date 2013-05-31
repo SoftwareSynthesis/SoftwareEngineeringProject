@@ -1908,22 +1908,36 @@ Nessun attributo evidenziato
 \subsubsection*{Metodi}
 \begin{description}
 	\item{\method{\# doAction(request HttpServletRequest, response HttpServletResponse): void}}\\	
-	Metodo usato per eseguire la richiesta di modifica dei dati di un nuovo client, registrato all'interno del database. Il flusso principale inizia  con la creazione di un oggetto \classname{dao.DataPersistanceManager} avente nome userDAO. Quindi viene aperto un blocco try catch in cui si salva in un istanza di tipo \texttt{HttpSession}, l'oggetto ritornato da una chiamata \verb|request.getSession(false)|. I passi successivi sono (nell'ordine):
-	\begin{itemize}
-		
-		\item si crea un istanza di tipo \classname{IUserData} a partire da una chiamata a metodo:\\
-		\verb|session.getAttribute("user")|;
-		
-		\item si crea un istanza di tipo \classname{IUserData} che conterrà ``l'utente'' i cui dati dovranno essere modificati. L'oggetto dovrà essere istanziato in seguito ad una chiamata:\\
-		\verb|userDAO.getByID(contactId)|;
-		
-		\item quindi si procede modificando i campi di user: name e surname. L'istruzione da utilizzare è:\\
-		\verb|name = request.getParameter("name");|\\
-		\verb|surname = request.getParameter("surname");|
-	\end{itemize}
-	Quindi se il contatto (i cui dati dovranno essere modificati) è stato correttamente istanziato (contatto != null) allora il flusso principale procede creando e impostando un istanza di \classname{UserData}. Il metodo termina ``scrivendo'' \inglese{true} all'interno di un istanza di \texttt{PrintWriter} creata a partire da \texttt{response.getWriter()} ed eseguendo una chiamata di aggiornamento del database (uso delle classe \classname{dao.DataPersistanceManager}.
+	Metodo usato per eseguire la richiesta di modifica dei dati di un nuovo client, registrato all'interno del database. Il flusso principale inizia con la creazione delle variabili locali:
+
+\begin{itemize}
+\item String email = null;
+\item IUserData user = null;
+\item String name = null;
+\item String surname = null;
+\item String path = null;
+\item Part filePart = null;
+\item InputStream istream = null;
+\item FileOutputStream ostream = null;
+\item DataPersistanceManager dao = null;
+\item PrintWriter writer = null;
+\item String result = null;
+\end{itemize}	
+
+Lo sviluppatore dovrà attenersi scrupolosamente alla nomenclatura qui riportata.
+
+Il flusso principale del metodo prosegue definendo un blocco try-catch-finaly. Il catch definito cattura un eccezione generica di tipo Exception e si occupa semplicemente di impostare result a null (si sottolinea che result è la stringa da ritornare nel Writer per informare il chiamante sul risultato della chiamata a metodo). Inoltre è definito un bloco finaly che si occupa di inizializzare writer a partire da response.getWriter(). Quindi termina scrivendo nel writer il contenuto della stringa result.
+
+Tornando al blocco try, in esso seno definiti i seguenti step:
+
+\begin{itemize}
+	\item si impostano i dati relativi al nome, cognome, mail e immagine profilo, con quelli ottenibili da una chiamata a metodo getParameter(nomeParametro), richiamabile a partire dall'oggetto \texttt{request};
+	\item quindi viene inizializzato l'oggetto dao con una chiamata getDAOFactory();
+	\item si inizializza user a partire dall'oggetto dao e si procede impostando (con gli appositi set) il nome e il cognome dell'utente;
+	\item si esegue un controllo sul filePath della nuova immagine profilo. Se si verifica che il filePath è diverso da null, allora si prosegue con le operazioni necessarie per caricare nel server l'immagine dell'utente e impostando in un secondo momento il path dell'immagine con quella nuova (usare il metodo setPath() di user);
+	\item si richiama update(user) a partire dall'oggetto dao. Si imposta result a \inglese{true}.
+\end{itemize}
 	
-	Se invece si è osservato che l'oggetto contenente il contatto da "aggiornare", ha valore uguale a null, allora il metodo termina scrivendo \inglese{false} all'intero della dello stesso \texttt{PrintWriter} già citato.
 \end{description}
 
 
@@ -2153,7 +2167,7 @@ Nessun attributo evidenziato
 
 \end{description}
 
-\classsection{AddCallsController}
+\classsection{AddCallController}
 
 \subsubsection*{Funzione}
 \textit{Controller} da richiamare per aggiungere una nuova chiamata al database.
