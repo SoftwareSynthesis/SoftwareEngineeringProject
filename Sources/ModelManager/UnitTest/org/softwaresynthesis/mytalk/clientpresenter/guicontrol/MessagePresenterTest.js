@@ -5,7 +5,7 @@ module(
 					// stub di communicationcenter
 				communicationcenter = new Object();
 				communicationcenter.my = { id:"01"};
-				commandURL = "http://localhost:8888/ModelManager/WebContent/Conf/controllerManagerStub.php";
+				commandURL = "http://localhost/ModelManager/WebContent/Conf/controllerManagerStub.php";
 				// stub di mediator
 				mediator = {
 					getView : function(someString) {
