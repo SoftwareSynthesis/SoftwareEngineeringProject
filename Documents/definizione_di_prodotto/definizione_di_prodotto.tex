@@ -3048,7 +3048,7 @@ Inizialmente il metodo crea un istanza per ognuno dei seguenti oggetti:
 		\item[•]Se la richiesta inoltrata è del tipo 1: il metodo prende in lettura il messaggio e imposta il contenuto di \memberdata{id} con il valore letto mediante procedura di \inglese{parsing} analoga a quella definita al passo precedente. Per farlo utilizza il metodo \texttt{fromJson} richiamato dall'istanza \texttt{gsonObj} di tipo \texttt{Gson} creata al passo precedente. A tale metodo passa il contenuto dell'array e in particolare ciò che è salvato nella posizione 1 (utilizzo di metodo \texttt{get(int i)}).
 		\item[•]Se la richiesta inoltrata è del tipo 2: il metodo procede con le istruzioni necessarie a scambiare i dati per la chiamata. Nello specifico viene salvato in un attributo di tipo \texttt{Long}, l'\texttt{id} del client che desidero chiamare, quindi ricerco l'oggetto \texttt{PushInbound} associato al client che desidero contattare, e gli inoltro il messaggio ricevuto come parametro d'ingresso.
 		\item[•]Se la richiesta inoltrata è del tipo 3: il metodo comunica al client ``destinatario'' della chiamata, l'\texttt{id} del client chiamante. La procedura è analoga a quella identificata nel punto precedente, con la specifica che il messaggio inoltrato è l'identificativo del cliente che desidera avviare la chiamata.
-		\item[•]Se la richiesta inoltrata è del tipo 4: il metodo si occupa dell'eliminazione della \textit{webSocket}.
+		\item[•]Se la richiesta inoltrata è del tipo 4: il metodo si occupa dell'eliminazione della \underline{WebSocket}.
 		\item[•]Se la richiesta inoltrata è del tipo 5: il metodo viene usato per modificare lo stato dell'utente, con il valore passato tramite messaggio. Dopo la ricezione del messaggio, il metodo cambia il valore del campo \texttt{state} con il valore ricevuto come parametro d'ingresso. Quindi procede ricavando la lista degli utenti nella rubrica dell'utente che ha cambiato stato e comunica loro che è avvenuto un cambiamento di stato.
 	\end{itemize}
 \end{description}
@@ -3152,7 +3152,9 @@ nel presente documento sarà utilizzato il tipo generico \exception{Exception} s
 \inglese{Presenter} incaricato di gestire il pannello delle impostazioni e dei dati personali dell'utente visualizzando i dati inseriti in fase di registrazione e permettendo di modificarli in un secondo momento.
 
 \subsubsection*{Relazioni d'uso}
-Nessuna relazione d'uso evidenziata.
+\begin{itemize}
+  \item \texttt{clientview.AccountSettingsView}: vista controllata da questo \inglese{presenter}.
+\end{itemize}
 
 \subsubsection*{Classi estese ed interfacce implementate}
 Nessuna relazione evidenziata.
@@ -3196,7 +3198,9 @@ L'oggetto passato come parametro in ingresso a questo metodo è costituito dalle
 \inglese{Presenter} incaricato di gestire il pannello della rubrica che controlla i \inglese{widget} grafici relativi alla vista e ha la responsabilità di aggiornarla sulla base dei dati ricevuti dal server.
 
 \subsubsection*{Relazioni d'uso}
-Nessuna relazione d'uso evidenziata.
+\begin{itemize}
+  \item \texttt{clientview.AddressBookView}: vista controllata da questo \inglese{presenter}.
+\end{itemize}
 
 \subsubsection*{Classi estese ed interfacce implementate}
 Nessuna relazione evidenziata.
@@ -3417,7 +3421,9 @@ Tale metodo ha il compito di recuperare l'insieme dei contatti e dei gruppi pres
 \inglese{Presenter} incaricato alla visualizzazione e alla gestione dello storico chiamate dell'utente.
 
 \subsubsection*{Relazioni d'uso}
-Nessuna relazione d'uso evidenziata.
+\begin{itemize}
+  \item \texttt{clientview.CallHistoryView}: vista controllata da questo \inglese{presenter}.
+\end{itemize}
 
 \subsubsection*{Classi estese ed interfacce implementate}
 Nessuna relazione evidenziata.
@@ -3454,7 +3460,10 @@ Nessuna relazione evidenziata.
 Questo \inglese{presenter} ha il compito di gestire tutte le comunicazioni che possono avvenire tra persone, quindi sia di natura testuale che di tipo audio oppure audio/video.
 
 \subsubsection*{Relazioni d'uso}
-Nessuna relazione d'uso evidenziata.
+\begin{itemize}
+  \item \texttt{clientview.CommunicationView}: vista controllata da questo \inglese{presenter};
+  \item \texttt{clientpresenter.kernelCommunicationCenter}: per gestire le chiamate in ingresso/uscita.
+\end{itemize}
 
 \subsubsection*{Classi estese ed interfacce implementate}
 Nessuna relazione evidenziata.
@@ -3462,12 +3471,8 @@ Nessuna relazione evidenziata.
 \subsubsection*{Attributi}
 \begin{description}
 
-  \item{\memberdata{-- audio}: Object}\\
+  \item{\memberdata{-- audio: Object}}\\
   Mappa associativa di oggetti creati con una chiamata al costruttore \verb'new Audio(fileName)' le cui chiavi corrispono alle stringhe \verb'"income"' e \verb'"outcome"' cui sono associati i suoni per il segnale di chiamata in arrivo e di chiamata in uscita rispettivamente.
-
-  %XXX a me sembra un po' clandestino questo, qui!
-  \item{\memberdata{-- chatElements: Object}}\\
-  Array associativo i cui valori sono costituiti da una serie di \verb'HTMLElement' che rappresentano tutte le chat aperte in un dato momento, mentre i cui valori sono gli identificativi degli utenti coinvolti nella comunicazione.
   
   \item{\memberdata{-- intervalRing: Object}}\\
   Intervallo impostato inizialmente a \verb'null' nel costruttore e in seguito inizializzato di volta in volta dal gestore di evento \method{onStartRinging} che permette di controllare (e di arrestare) la riproduzione del segnale di chiamata.
@@ -3517,7 +3522,9 @@ Riferimento all'elemento HTML, da intendersi come nodo DOM, che corrisponde alla
 \inglese{Presenter} incaricato di gestire il pannello per la visualizzazione di un contatto, sia esso della rubrica che un generico utente del sistema non presente in rubrica.
 
 \subsubsection*{Relazioni d'uso}
-Nessuna relazione d'uso evidenziata.
+\begin{itemize}
+  \item \texttt{clientview.ContactView}: vista controllata da questo \inglese{presenter}.
+\end{itemize}
 
 \subsubsection*{Classi estese ed interfacce implementate}
 Nessuna relazione evidenziata.
@@ -3548,7 +3555,9 @@ Nessuna relazione evidenziata.
 \inglese{Presenter} incaricato di gestire il pannello per la visualizzazione e l'amministrazione dei gruppi presenti nella rubrica.
 
 \subsubsection*{Relazioni d'uso}
-Nessuna relazione d'uso evidenziata.
+\begin{itemize}
+  \item \texttt{clientview.GroupView}: vista controllata da questo \inglese{presenter}.
+\end{itemize}
 
 \subsubsection*{Classi estese ed interfacce implementate}
 Nessuna relazione evidenziata.
@@ -3596,11 +3605,11 @@ Nessuna relazione evidenziata.
 Il \inglese{presenter} si occupa inoltre di gestire il caso in cui l'autenticazione non può essere portata a termine per errori nei dati di input e fornisce infine le funzionalità per il recupero della password.
 
 \subsubsection*{Relazioni d'uso}
-
-Nessuna relazione evidenziata.
+\begin{itemize}
+  \item \texttt{clientview.LoginView}: vista controllata da questo \inglese{presenter}.
+\end{itemize}
 
 \subsubsection*{Classi estese ed interfacce implementate}
-
 Nessuna relazione evidenziata.
 
 \subsubsection*{Attributi}
@@ -3681,7 +3690,9 @@ In caso di autenticazione non andata a buon fine, invece, dovrà essere aggiorna
 \inglese{Presenter} incaricato di gestire il pannello principale, ossia quello che occupa la regione centrale.
 
 \subsubsection*{Relazioni d'uso}
-Nessuna relazione d'uso evidenziata.
+\begin{itemize}
+  \item \texttt{clientview.MainView}: vista controllata da questo \inglese{presenter}.
+\end{itemize}
 
 \subsubsection*{Classi estese ed interfacce implementate}
 Nessuna relazione evidenziata.
@@ -3709,8 +3720,9 @@ Nessuna relazione evidenziata.
 \subsubsection*{Funzione}
 \inglese{Presenter} incaricato di gestire i messaggi in segreteria che permette di scaricarli dal server, eliminarli e impostarne lo stato.
 
-\subsubsection*{Relazioni d'uso}
-Nessuna relazione d'uso evidenziata.
+\begin{itemize}
+  \item \texttt{clientview.MessageView}: vista controllata da questo \inglese{presenter}.
+\end{itemize}
 
 \subsubsection*{Classi estese ed interfacce implementate}
 Nessuna relazione evidenziata.
@@ -3767,7 +3779,21 @@ Nessuna relazione evidenziata.
 L'unica istanza di tale classe presente nel client ha il compito di coordinare la collaborazione, potenzialmente complessa, fra tutti i \inglese{presenter} che gestiscono l'interfaccia grafica permettendo lo scambio di informazioni fra gli stessi ed evitando che ognuno di essi debba riferire direttamente gli altri.
 
 \subsubsection*{Relazioni d'uso}
-Nessuna relazione d'uso evidenziata.
+L'istanza di questa classe si trova ad utilizzare, per coordinare la loro interazione, un riferimento a tutti e dodici i\inglese{presenter} che sono stati definiti, vale a dire:
+\begin{itemize}
+  \item \texttt{clientpresenter.guicontrol.AccountSettingsPresenter};
+  \item \texttt{clientpresenter.guicontrol.AddressBookPresenter};
+  \item \texttt{clientpresenter.guicontrol.CallHistoryPresenter};
+  \item \texttt{clientpresenter.guicontrol.CommunicationPresenter};
+  \item \texttt{clientpresenter.guicontrol.ContactPresenter};
+  \item \texttt{clientpresenter.guicontrol.GroupPresenter};
+  \item \texttt{clientpresenter.guicontrol.LoginPresenter};
+  \item \texttt{clientpresenter.guicontrol.MainPresenter};
+  \item \texttt{clientpresenter.guicontrol.MessagePresenter};
+  \item \texttt{clientpresenter.guicontrol.RegisterPresenter};
+  \item \texttt{clientpresenter.guicontrol.SearchResultPresenter};
+  \item \texttt{clientpresenter.guicontrol.ToolsPresenter}.
+\end{itemize}
 
 \subsubsection*{Classi estese ed interfacce implementate}
 Nessuna relazione evidenziata.
@@ -3879,22 +3905,24 @@ Trattandosi di una richiesta asincrona, a differenza di tutte le altre richieste
 Il comportamento da eseguire quando la richiesta sarà soddisfatta dal server dovrà prevedere in primo luogo l'estrazione della risorsa in formato XML con una sintassi del tipo \verb'request.responseXML.body.firstChild', quindi l'assegnamento di questo \verb'HTMLElement' alla proprietà \verb'view' di un evento con nome identificativo uguale a \verb'loadedView'. Il metodo si concluderà sollevando l'evento appena descritto.
 
 \item{\method{+ onLoadedView(presenter: String, view: HTMLElement): void}}\\
-Questo gestore di eventi viene richiamato quando si verifica un evento con stringa identificativa uguale a \verb'loadedView'. La gestione dell'evento dovrà differenziarsi a seconda del fatto che si tratti di una vista di primo o di secondo livello, in base al valore del primo parametro che identifica il \inglese{presenter} destinatario.
+Questo gestore di eventi viene richiamato quando si verifica un evento con stringa identificativa uguale a \verb'loadedView'.
+
+La gestione dell'evento dovrà differenziarsi a seconda del fatto che si tratti di una vista di primo o di secondo livello o non appartenga a nessuno dei due casi, in base al valore del primo parametro che identifica il \inglese{presenter} destinatario.
 
 Nel caso di una vista di primo livello, dovrà essere richiamato il metodo \method{initialize} messo a disposizione dalla vista stessa, passando l'elemento HTML ricevuto come secondo parametro per la visualizzazione e l'inizializzazione della vista.
 
 Nel caso invece di una vista di secondo livello, sarà responsabilità del metodo far visualizzare la vista nel pannello centrale tramite il metodo \method{displayChildPanel} della \classname{MainView}, demandando poi alla specifica vista l'inizializzazione delle componenti tramite il metodo \method{display} corrispondente.
 
+Infine, se il primo parametro non corrisponde ad alcuno dei \inglese{presenter} di primo o di secondo livello, allora l'evento \verb'loadedView' e stato sollevato al fine di visualizzare un pannello temporaneo il cui sotto-albero ha come radice l'elemento HTML ricevuto come secondo parametro.
+
+A tale scopo dovrà pertanto essere creato un \verb'<div>' con l'identificativo \verb'overlayPopUp' che dovrà essere aggiunto come primo figlio dell'elemento \verb'<body>' e un secondo \verb'<div>' con identificativo \verb'popUp' che dovrà essere aggiunto immediatamente dopo l'\inglese{overlay} dopo aver assegnato il valore della proprietà \verb'outerHTML' di \verb'view' al suo contenuto di quest'ultimo. Tutti gli altri eventuali figli del \verb'<body>' dovranno essere posizionati in successivamente nell'albero DOM con un'istruzione del tipo \verb'body.insertBefore(overlay, bodyFirstChild)'.
+
 \item{\method{+ onRemoveAllPanels(): void}}\\
 Questo gestore di eventi dovrà determinare la scomparsa dall'interfaccia grafica di tutte le viste di primo livello visualizzate. A tale scopo dovranno essere quindi sollevati i cinque eventi corrispondenti (su cui le viste sono in ascolto), vale a dire \verb'removeLoginPanel', \verb'removeRegistrationPanel', \verb'removeAddressBookPanel', \verb'removeToolsPanel' e, da ultimo, \verb'removeMainPanel'.
 
-\item{\method{+ onRemoveAnswerBox(): void}}\\
-Questo gestore di eventi ha lo scopo di rimuovere il pannello temporaneo che permette all'utente di rispondere a una chiamata in ingresso (in caso di accettazione o di rifiuto della stessa). A tal fine dovranno essere recuperati i riferimenti ai due elementi \verb'<div>' presenti nel documento con identificativi, rispettivamente, uguali a \verb'overlayAnswerBox' e \verb'answerBox', quindi rimuoverli dai figli dell'elemento \verb'<body>'.
-
-\item{\method{+ onShowAnswerBox(content: HTMLElement): void}}\\
-Questo gestore di eventi ha il compito di far visualizzare un pannello temporaneo il cui sotto-albero ha come radice l'elemento HTML ricevuto come parametro, per permettere all'utente di rispondere a una chiamata in ingresso.
-
-A tale scopo dovrà essere creato un \verb'<div>' con l'identificativo \verb'overlayAnswerBox' che dovrà essere aggiunto come primo figlio dell'elemento \verb'<body>' e un secondo \verb'<div>' con identificativo \verb'answerBox' che dovrà essere aggiunto immediatamente dopo l'\inglese{overlay}. Tutti gli altri eventuali figli del \verb'<body>' dovranno essere posizionati in successivamente nell'albero DOM con un'istruzione del tipo \verb'body.insertBefore(overlay, bodyFirstChild)'.
+% Questo è morto!
+%\item{\method{+ onRemoveAnswerBox(): void}}\\
+%Questo gestore di eventi ha lo scopo di rimuovere il pannello temporaneo che permette all'utente di rispondere a una chiamata in ingresso (in caso di accettazione o di rifiuto della stessa). A tal fine dovranno essere recuperati i riferimenti ai due elementi \verb'<div>' presenti nel documento con identificativi, rispettivamente, uguali a \verb'overlayAnswerBox' e \verb'answerBox', quindi rimuoverli dai figli dell'elemento \verb'<body>'.
 
 \item{\method{+ onShowUIPanels(): void}}\\
 Questo gestore di eventi avrà il compito di far visualizzare l'interfaccia grafica principale a seguito di un'autenticazione avvenuta con successo. A tale fine dovrà essere sollevato innanzitutto un evento con stringa identificativa uguale a \verb'removeAllPanels', quindi dovranno essere sollevati in sequenza i tre eventi \verb'showAddressBookPanel', \verb'showMainPanel' e \verb'showToolsPanel' che avviano i relativi \inglese{presenter} e fanno visualizzare i pannelli.
@@ -3908,11 +3936,11 @@ Questo gestore di eventi avrà il compito di far visualizzare l'interfaccia graf
 \inglese{Presenter} incaricato di gestire il \inglese{form} di registrazione al sistema.
 
 \subsubsection*{Relazioni d'uso}
-
-Nessuna relazione d'uso evidenziata.
+\begin{itemize}
+  \item \texttt{clientview.RegisterView}: vista controllata da questo \inglese{presenter}.
+\end{itemize}
 
 \subsubsection*{Classi estese ed interfacce implementate}
-
 Nessuna relazione evidenziata.
 
 \subsubsection*{Attributi}
@@ -3971,7 +3999,9 @@ Se la mail è valida il metodo termina ritornandone il valore, mentre nel caso i
 \inglese{Presenter} incaricato di gestire il pannello che visualizza i risultati di ricerca.
 
 \subsubsection*{Relazioni d'uso}
-Nessuna relazione d'uso evidenziata.
+\begin{itemize}
+  \item \texttt{clientview.SearchResultView}: vista controllata da questo \inglese{presenter}.
+\end{itemize}
 
 \subsubsection*{Classi estese ed interfacce implementate}
 Nessuna relazione evidenziata.
@@ -4015,7 +4045,9 @@ Riferimento al pannello controllato da questo \inglese{presenter}, vale a dire u
 \inglese{Presenter} che ha il compito di gestire il pannello degli strumenti.
 
 \subsubsection*{Relazioni d'uso}
-Nessuna relazione d'uso evidenziata.
+\begin{itemize}
+  \item \texttt{clientview.ToolsView}: vista controllata da questo \inglese{presenter}.
+\end{itemize}
 
 \subsubsection*{Classi estese ed interfacce implementate}
 Nessuna relazione evidenziata.
@@ -4053,23 +4085,23 @@ Riferimento all'elemento HTML, da intendersi come nodo DOM, che corrisponde al p
 Classe logica che gestisce tutta la parte della comunicazione lato \textit{client}.
 
 \subsubsection*{Relazioni d'uso}
-Nessuna relazione d'uso evidenziata.
+\begin{itemize}
+  \item \texttt{clientpresenter.guicontrol.PresenterMediator}: utilizzato per gestire l'interazione fra il sottosistema di comunicazione e il componente di controllo dell'interfaccia grafica.
+\end{itemize}
 
 \subsubsection*{Classi estese ed interfacce implementate}
 Nessuna relazione evidenziata.
 
 \subsubsection*{Attributi}
 \begin{description}
-\item{\memberdata{+ videoComunication: String[]}}\\
-Array che contiene i dati della video-chiamata
-\item{\memberdata{+ openChat: DOM\_element[]}}\\
-Array che contiene i dati della video-chiamata
-\item{\memberdata{- urlServlet: String}}\\
-Contiene l'indirizzo della \inglese{servlet} che gestisce la comunicazione
-\item{\memberdata{- my: String[]}}\\
-Array contenente i dati personali dell'utente
-\item{\memberdata{- websocket: Object()}}\\
-Oggetto che rappresenta la \textit{websocket} da utilizzare per comunicare con il server. Il costruttore di tale oggetto richiede l'URL della \inglese{servlet}.
+\item{\memberdata{-- my: Object}}\\
+Mappa associativa  che contiene i dati personali dell'utente.
+
+\item{\memberdata{-- websocket: Object}}\\
+Oggetto che rappresenta la WebSocket da utilizzare per comunicare con il server.
+
+\item{\memberdata{-- pc: Object}}\\
+Oggetto che rappresenta la WebRTCPeerConnection aperta con un altro client nel momento in cui è attiva una comunicazione audio o audio/video.
 
 \end{description}
 
@@ -4142,6 +4174,11 @@ La descrizione di ciascuna vista riportata nel presente documento comprende, olt
 \subsubsection*{Funzione}
 Vista associata al \inglese{presenter} \classname{AccountSettingsPresenter} che ha il compito di permettere la visualizzazione e la modifica dei dati dell'utente.
 
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+  \item \texttt{clientpresenter.guicontrol.AccountSettingsPresenter}: per riferire il \inglese{presenter} a cui saranno inoltrati i comandi recepiti dall'interfaccia utente.
+\end{itemize}
+
 \subsubsection*{Attributi}
 \begin{description}
   \item{\memberdata{-- thisPresenter: Object}}\\
@@ -4186,6 +4223,11 @@ Il pannello è costituito da un elemento \verb'<div>' con identificativo uguale 
 \classsection{AddressBookView}
 \subsubsection*{Funzione}
 Vista associata ad \classname{AddressBookPresenter} usata per la visualizzazione della rubrica personale.
+
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+  \item \texttt{clientpresenter.guicontrol.AddressBookPresenter}: per riferire il \inglese{presenter} a cui saranno inoltrati i comandi recepiti dall'interfaccia utente.
+\end{itemize}
 
 \subsubsection*{Attributi}
 \begin{description}
@@ -4281,6 +4323,11 @@ Il pannello è costituito da un elemento \verb'<div>' con l'identificativo \verb
 \subsubsection*{Funzione}
 Vista associata al \inglese{presenter} \classname{CallHistoryPresenter} utilizzata per la visualizzazione dello storico chiamate di un utente del sistema.
 
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+  \item \texttt{clientpresenter.guicontrol.CallHistoryPresenter}: per riferire il \inglese{presenter} a cui saranno inoltrati i comandi recepiti dall'interfaccia utente.
+\end{itemize}
+
 \subsubsection*{Attributi}
 \begin{description}
   \item{\memberdata{-- thisPresenter: Object}}\\
@@ -4312,32 +4359,65 @@ Il pannello è costituito da un elemento \verb'<div>' avente come identificativo
 \subsubsection*{Funzione}
 Vista associata al \inglese{presenter} \classname{CommunicationPresenter} utilizzata durante una chiamata audio e per la gestione delle chat testuali con gli altri utenti.
 
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+  \item \texttt{clientpresenter.guicontrol.CommunicationPresenter}: per riferire il \inglese{presenter} a cui saranno inoltrati i comandi recepiti dall'interfaccia utente.
+\end{itemize}
+
+\subsubsection*{Attributi}
+\begin{description}
+
+  \item{\memberdata{-- chatElements: Object}}\\
+  Array associativo i cui valori sono costituiti da una serie di \verb'HTMLElement' che rappresentano tutte le chat aperte in un dato momento, mentre i cui valori sono gli identificativi degli utenti coinvolti nella comunicazione.
+
+  \item{\memberdata{-- thisPresenter: Object}}\\
+  Riferimento al \inglese{presenter} associato alla vista al quale vengono inoltrati i comandi relativi alla logica applicativa tramite i gestori di eventi associati agli elementi grafici del pannello.
+\end{description}
+
 \subsubsection*{Metodi}
-%TODO da terminare!!
+\begin{description}
 
-%\item{\method{- createChatItem(user: Object(contact)): DOM\_node}}\\
-%	Tale metodo restituisce un DOM\_element di tipo <li> contenente l'identificativo dell'utente con cui si sta comunicando (parametro del metodo). All'oggetto restituito viene assegnato un ``id'' corrispondente all'``id'' dell'utente con cui si vuole dialogare. All'evento \textit{onClick} viene collegato l'invocazione del metodo \method{displayChat(user)} che fa visualizzare la chat, viene inoltre creato il bottone per chiudere la chat che con l'evento ``onclick'' richiama il metodo \method{removeChat(user)}.
+  \item{\method{+ display(): void}}\\
+  Tale metodo ha il compito di inizializzare il comportamento della vista, in particolare assegnando all'evento \verb'click' del pulsante per la chiusura della chat deve essere sollevato un evento avente come nome identificativo la stringa \verb'callEnded'.
 
-%\item{\method{- createChatElement(user: Object(contact)): DOM\_node}}\\
-%	Tale metodo restituisce un DOM\_element contenente un \textit{div} che rappresenta l'area di chat. A tale elemento viene assegnato un ``id'' impostato a ``divContainerChat''. Deve essere creato anche una \textit{form} assegnando l'``id'' dell'utente come valore all'attributo ``id'' a tale \textit{form} va aggiunto una \textit{textarea} con \textit{id} impostato a \textit{chatText} dove andrà visualizzata la cronologia della chat; una casella di input con \textit{id} uguale \textit{input}; un bottone per inviare il messaggio assegnandogli all'evento \textit{onClick} l'invocazione del metodo \method{send(user, text)} del \textit{CommunicationPanelPresenter}. Infine viene aggiunta la \textit{form} all'elemento \textit{div} e ritornato.
-	
-%\item{\method{+ displayChat(user: Object(contact)): void}}\\
-%Provoca la visualizzazione della chat con l'utente (ricevuto da parametro) nel\textit{div} contenitore pertinente.
+  \item{\method{+ onAppendMessage(user: Object, text: String, amISender: Boolean): void}}\\
+  Questo gestore di eventi ha il compito di aggiungere la stringa passata come secondo parametro all'interno dell'area di testo che è associata alla chat con l'utente passato come primo parametro del metodo, dopo averla recuperata dall'attributo \memberdata{chatElements}.
 
-%\item{\method{+ addChat(user: Object(contact)): void}}\\
-%Provoca l'aggiunta di una chat, con l'utente ricevuto come parametro, andando ad aggiornare il campo privato \textit{chatElements} e visualizzandola nell'elemento ulOpenChat.
-	
-%\item{\method{+ removeChat(user: Object(contact)): void}}\\
-%Comportamento simile al metodo scritto precedentemente. Viene chiusa una chat aperta con l'utente ricevuto da parametro andando ad eliminare l'elemento corrispondente da \textit{chatElements} e rimuovendo anche il DOM\_element dall'ulOpenChat.
+  A seconda del fatto che il mittente del messaggio sia o meno l'utente del client, il testo del messaggio dovrà essere concatenato alla stringa \verb'"io: "' oppure \verb'contact.name + ": "'.
 
-%\item{\method{+ appendToChat(user: Object(contact), text: String): void}}\\
-%Il metodo ha il compito di aggiunge una stringa \textit{text} all'interno dell'area di testo che è associata alla chat con l'utente \textit{user} (parametro del metodo).
+  \item{\method{+ onChatAdded(user: Object): void}}\\
+  Questo gestore di eventi provoca l'aggiunta di una chat che coinvolge con l'utente ricevuto come parametro aggiornando il campo privato \memberdata{chatElements}. Inoltre, dovrà essere creato un nuovo elemento \verb'<li>' tramite una chiamata al metodo \method{createChatItem}, che dovrà essere aggiunto al sotto-albero radicato nell'elemento \verb'<ul>' con l'identificativo uguale a \verb'ulOpenChat'.
 
-%\item{\method{+ updateTimer(text: String): void}}\\
-%Il metodo aggiorna il tempo di comunicazione durante una chiamata. Imposta il campo \textit{value} dello \inglese{span} relativo alla visualizzazione del tempo chiamata con il valore del parametro ricevuto in input (text).
+  \item{\method{+ onChatRemoved(user: Object): void}}\\
+  Questo gestore di eventi provoca la chiusura definitiva della chat aperta con l'utente passato come parametro eliminando l'elemento corrispondente da \memberdata{chatElements} e rimuovendo contestualmente l'elemento HTML corrispondente al \verb'<li>' della chat dalla lista con identificativo \verb'ulOpenChat'.
 
-%\item{\method{+ updateStats(text: String, isReceivedData: boolean): void}}\\
-%Il metodo controlla tramite il parametro booleano ricevuto in input (isReceivedData) se bisogna aggiornare lo span relativo ai dati inviati oppure lo span relativo ai dati ricevuti e lo imposta con il valore \textit{text} ricevuto per parametro.
+  Inoltre, se l'utente passato come parametro è associato proprio alla chat visualizzata all'interno del pannello, quest'ultima dovrà essere eliminata anche dall'albero DOM dell'interfaccia grafica oltre che dall'attributo \memberdata{chatElements}.
+
+  \item{\method{+ onUpdateStats(text: String, isReceivedData: Boolean): void}}\\
+  Il metodo controlla tramite il parametro \verb'isReceivedData' ricevuto in input se è necessario aggiornare lo \verb'<span>' relativo ai dati inviati oppure lo \verb'<span>' relativo ai dati ricevuti e lo imposta con il valore del primo parametro dopo aver anteposto il prefisso \verb'"Dati inviati: "' oppure \verb'"Dati ricevuti: "' a seconda del caso.
+
+  \item{\method{+ onUpdateTimer(text: String): void}}\\
+  Il metodo aggiorna il tempo di comunicazione durante una chiamata. Imposta il contenuto dello \verb'<span>' relativo alla visualizzazione del tempo chiamata con il valore della stringa ricevuta come parametro in ingresso, dopo aver aggiunto il prefisso \verb'"Tempo chiamata: "'.
+
+  \item{\method{- createChatElement(user: Object): HTMLElement}}\\
+  Tale metodo restituisce un elemento HTML costituito da un \verb'<div>' che rappresenta l'area occupata dalla chat con l'utente passato come parametro. A tale elemento viene assegnato l'identificativo \verb'divContainerChat'.
+  
+  Deve inoltre essere aggiunto come ultimo figlio del \verb'<div>' anche un \verb'<form>' avente come identificativo la proprietà \verb'id' dell'utente passato come parametro. A tale \verb'<form>' dovranno essere aggiunti:
+  \begin{itemize}
+    \item[--] una \verb'<textarea>' con l'identificativo \verb'chatText' dove andrà visualizzata la cronologia della chat;
+    \item[--] una campo di di input testuale con l'identificativo uguale \verb'input';
+    \item[--] un pulsante per inviare il messaggio contenente il nodo di testo \verb'"Invia"' al cui evento \verb'click' è attivata una funzione anonima che solleva un evento \verb'sendMessage' dopo averne impostato la proprietà \verb'contact' con l'utente passato come parametro e la proprietà \verb'text' al valore estratto dall'area di testo \verb'chatText'.
+  \end{itemize}
+
+  \item{\method{-- createChatItem(user: Object): HTMLElement}}\\
+  Tale metodo restituisce un elemento HTML di tipo \verb'<li>' contenente l'identificativo dell'utente che corrisponde all'oggetto passato come parametro.
+  
+   Al \inglese{list item} restituito viene assegnato un identificativo corrispondente a quello dell'utente con cui si vuole dialogare. All'evento \verb'click' associato a questo \verb'<li>' si collega tramite una funzione anonima un'invocazione del metodo privato \method{displayChat} con il parametro \verb'user' che fa visualizzare la chat. Viene inoltre creato un pulsnate per chiudere la chat al cui evento \verb'click' è associata una funzione anomima che richiama il metodo \method{removeChat} ancora passando \verb'user' come parametro.
+
+  \item{\method{-- displayChat(user: Object): void}}\\
+  Provoca la visualizzazione della chat che coinvolge l'utente passato come parametro nell'interfaccia grafica posizionando correttamente nell'albero DOM della pagina l'elemento che può essere ottenuto da \memberdata{chatElements} in corrispondenza della chiave \verb'user.id'.
+
+\end{description}
 
 \subsubsection*{Elementi}
 Il pannello è costituito da un \verb'<div>' con l'identificativo \verb'CommunicationPanel', il quale contiene al proprio interno:
@@ -4361,6 +4441,17 @@ Il pannello è costituito da un \verb'<div>' con l'identificativo \verb'Communic
 \classsection{ContactView}
 \subsubsection*{Funzione}
 Vista associata al \inglese{presenter} \classname{ContactPresenter} utilizzata per visualizzare il profilo di un utente, gestire la sua collocazione nella rubrica e/o avviare una comunicazione con quest'ultimo.
+
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+  \item \texttt{clientpresenter.guicontrol.ContactPresenter}: per riferire il \inglese{presenter} a cui saranno inoltrati i comandi recepiti dall'interfaccia utente.
+\end{itemize}
+
+\subsubsection*{Attributi}
+\begin{description}
+  \item{\memberdata{-- thisPresenter: Object}}\\
+  Riferimento al \inglese{presenter} associato alla vista al quale vengono inoltrati i comandi relativi alla logica applicativa tramite i gestori di eventi associati agli elementi grafici del pannello.
+\end{description}
 
 \subsubsection*{Metodi}
 \begin{description}
@@ -4442,6 +4533,11 @@ Il pannello è costituito da un elemento \verb'<div>' con l'identificativo \verb
 \subsubsection*{Funzione}
 Vista associata al \classname{GroupPresenter} utilizzata per la visualizzazione dei gruppi della rubrica.
 
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+  \item \texttt{clientpresenter.guicontrol.GroupPresenter}: per riferire il \inglese{presenter} a cui saranno inoltrati i comandi recepiti dall'interfaccia utente.
+\end{itemize}
+
 \subsubsection*{Attributi}
 \begin{description}
   \item{\memberdata{-- thisPresenter: Object}}\\
@@ -4506,6 +4602,11 @@ Il pannello è rappresentato da un elemento \verb'<div>' con identificativo ugua
 \classsection{LoginView}
 \subsubsection*{Funzione}
 Vista associata al \inglese{presenter} \classname{LoginPresenter} utilizzata per effettuare il login nel sistema.
+
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+  \item \texttt{clientpresenter.guicontrol.LoginPresenter}: per riferire il \inglese{presenter} a cui saranno inoltrati i comandi recepiti dall'interfaccia utente.
+\end{itemize}
 
 \subsubsection*{Attributi}
 \begin{description}
@@ -4590,6 +4691,11 @@ Il pannello contiene un elemento \verb'<div>' con identificativo uguale a \verb'
 \subsubsection*{Funzione}
 Vista associata al \classname{MainPresenter} che contiene il pannello principale ed è responsabile del suo aggiornamento e della sua visualizzazione.
 
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+  \item \texttt{clientpresenter.guicontrol.MainPresenter}: per riferire il \inglese{presenter} a cui saranno inoltrati i comandi recepiti dall'interfaccia utente.
+\end{itemize}
+
 \subsubsection*{Attributi}
 \begin{description}
   \item{\memberdata{-- thisPresenter: Object}}\\
@@ -4625,6 +4731,11 @@ Il pannello è costituito da un solo elemento \verb'<div>' avente come attributo
 \classsection{MessageView}
 \subsubsection*{Funzione}
 Vista associata al \inglese{presenter} \classname{MessagePresenter} utilizzata per visualizzare i messaggi presenti nella segreteria telefonica dell'utente.
+
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+  \item \texttt{clientpresenter.guicontrol.MessagePresenter}: per riferire il \inglese{presenter} a cui saranno inoltrati i comandi recepiti dall'interfaccia utente.
+\end{itemize}
 
 \subsubsection*{Attributi}
 \begin{description}
@@ -4672,6 +4783,11 @@ Il pannello è costituito da un elemento \verb'<div>' con identificativo uguale 
 \classsection{RegisterView}
 \subsubsection*{Funzione}
 Vista associata al \inglese{presenter} \classname{RegisterPresenter} utilizzata per effettuare la registrazione.
+
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+  \item \texttt{clientpresenter.guicontrol.RegisterPresenter}: per riferire il \inglese{presenter} a cui saranno inoltrati i comandi recepiti dall'interfaccia utente.
+\end{itemize}
 
 \subsubsection*{Attributi}
 \begin{description}
@@ -4721,6 +4837,11 @@ Il pannello è costituito da n elemento di tipo \verb'<div>' con identificativo 
 \subsubsection*{Funzione}
 Vista associata al \inglese{presenter} \classname{SearchResultPresenter} utilizzata per visualizzare i risultati di una ricerca fra gli utenti registrati al sistema.
 
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+  \item \texttt{clientpresenter.guicontrol.SearchResultPresenter}: per riferire il \inglese{presenter} a cui saranno inoltrati i comandi recepiti dall'interfaccia utente.
+\end{itemize}
+
 \subsubsection*{Attributi}
 \begin{description}
   \item{\memberdata{-- thisPresenter: Object}}\\
@@ -4761,6 +4882,11 @@ Il pannello è costituito da un elemento \verb'<div>' avente come identificativo
 \classsection{ToolsView}
 \subsubsection*{Funzione}
 Vista associata al \inglese{presenter} \classname{ToolsPresenter} utilizzata per visualizzare gli strumenti e le funzionalità rese disponibili all'utente.
+
+\subsubsection*{Relazioni d'uso}
+\begin{itemize}
+  \item \texttt{clientpresenter.guicontrol.ToolsPresenter}: per riferire il \inglese{presenter} a cui saranno inoltrati i comandi recepiti dall'interfaccia utente.
+\end{itemize}
 
 \subsubsection*{Attributi}
 \begin{description}

@@ -144,6 +144,7 @@ function CommunicationPanelPresenter() {
      *            aggiunta fra quelle controllate da questo presenter
      * @author Diego Beraldin
      */
+    // Nella documentazione è onChatAdded
     this.addChat = function(user) {
         var element = createChatElement(user);
         chatElements[user.id] = element;
@@ -161,6 +162,7 @@ function CommunicationPanelPresenter() {
      * @returns {Boolean}
      * @author Diego Beraldin
      */
+    // Nella documentazione è onChatRemoved
     this.removeChat = function(user) {
         delete chatElements[user.id];
         var ulOpenChat = document.getElementById("ulOpenChat");
@@ -202,6 +204,7 @@ function CommunicationPanelPresenter() {
      * @param {String}
      *            text testo da visualizzare
      */
+    // Nella documentazione è onUpdateTimer
     this.updateTimer = function(text) {
         var statDiv = document.getElementById("statDiv");
         statDiv.childNodes[1].textContent = "Tempo chiamata: " + text;
@@ -217,6 +220,7 @@ function CommunicationPanelPresenter() {
      *            isRecevedData rappresenta un flag booleano che determina se i
      *            dati sono ricenuti o inviati
      */
+    // Nella documentazione è onUpdateStats
     this.updateStats = function(text, isRecevedData) {
         var statDiv = document.getElementById("statDiv");
         if (isRecevedData) {
@@ -354,7 +358,7 @@ function CommunicationPanelPresenter() {
         document.dispatchEvent(showReturnToCommunicationPanelButton);
     }
     
-    /** PRESENTER
+    /** VIEW
      * Gestore dell'evento per l'aggiunta una stringa all'interno dell'area di
      * testo che è associata alla chat con l'utente passato come parametro
      *
@@ -365,6 +369,7 @@ function CommunicationPanelPresenter() {
      * @param {Boolean} amISender rappresenta un flag che determina chi è che ha
      * inviato il messaggio
      */
+    // nella documentazione è onAppendMessage
     function onAppendMessageToChat(user, message, amISender) {
         var divContainerChat = chatElements[user.id];
         var textArea = document.evaluate("//node()[@id='chatText']", divContainerChat, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
@@ -375,16 +380,6 @@ function CommunicationPanelPresenter() {
             sender = user.name;
         textArea.value += (sender + ":\t" + message + "\n");
     }
-    
-    /*
-     * VIEW
-     * Visualizza il mtesto nella chat corrispnondente
-     * TODO questo è un metodo fantasma
-     * 
-     * this.appendToChat = function(user, message, amISender) {
-     *    ... quello che fa il metodo del presenter che non dovrebbe fare...
-     * }
-     */
 
     /***************************************************************************
      * LISTENER DEGLI EVENTI

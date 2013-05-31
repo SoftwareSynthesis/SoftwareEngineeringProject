@@ -52,8 +52,9 @@ public class AddMessageController extends AbstractController{
 				inputStream = filePart.getInputStream();
 			}
 			
+			path = System.getenv("MyTalkConfiguration");
 			separator = System.getProperty("file.separator");
-			path = "Secretariat" + separator;
+			path += separator + "MyTalk" + separator + "Secretariat" + separator;
 			path += dao.getMessageNewKey() + ".wav";
 			writeFile(path, inputStream);
 			send = dao.getUserData(sender);
