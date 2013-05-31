@@ -27,7 +27,6 @@ public class GetMessagesController extends AbstractController{
 		List<IMessage> messages = null;
 		Iterator<IMessage> messageIter = null;
 		IMessage message = null;
-		String separator = System.getProperty("file.separator");
 		String email = null;
 		IUserData user = null;
 		
@@ -50,7 +49,7 @@ public class GetMessagesController extends AbstractController{
 					result += ", \"status\":\"" + message.getNewer() + "\"";
 					result += ", \"video\":\"" + message.getVideo() + "\"";
 					result += ", \"date\":\"" + message.getDate() + "\"";
-					result += ", \"src\":\"Secretariat" + separator + message.getId() + ".wav\"";
+					result += ", \"src\":\"Secretariat/" + message.getId() + ".wav\"";
 					result += "}";
 					if (messageIter.hasNext() == true)
 					{

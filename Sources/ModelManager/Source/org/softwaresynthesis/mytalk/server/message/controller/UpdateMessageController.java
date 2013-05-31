@@ -32,7 +32,7 @@ public class UpdateMessageController extends AbstractController{
 		{
 			dao = getDAOFactory();
 			id = Long.parseLong(request.getParameter("idMessage"));
-			stato = request.getParameter("valueToSet");
+			stato = request.getParameter("read");
 			email = getUserMail();
 			user = dao.getUserData(email);
 			if (stato.equals("true"))
@@ -40,7 +40,7 @@ public class UpdateMessageController extends AbstractController{
 			else
 				state = false;
 			message = dao.getMessage(id);
-			if (message != null && message.getReceiver() == user){
+			if (message != null && message.getReceiver().getId() == user.getId()){
 				message.setNewer(state);
 				dao.update(message);
 				result = "true";

@@ -66,7 +66,9 @@ public final class LogoutController extends AbstractController
 			}
 			client = ControllerManager.findClient(id);
 			if (client != null)
+			{
 				ControllerManager.removeClient(client);
+			}
 			session = request.getSession(false);
 			context = (LoginContext)session.getAttribute("context");
 			context.logout();

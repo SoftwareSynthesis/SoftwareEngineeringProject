@@ -167,11 +167,16 @@ public class DataPersistanceManager
 		GetUtil select = this.factory.getGenericUtil(this.manager);
 		Long id = null;
 		Long result = null;
-		String query = "max(id) from Message";
+		String query = "select max(message.id) from Message message";
 		id = select.uniqueResult(query);
 		if (id != null)
 		{
 			result = (Long)id + 1;
+		}
+		else
+		{
+			Long n = new Long(1);
+			result = n;
 		}
 		return result;
 	}
@@ -210,7 +215,7 @@ public class DataPersistanceManager
 		GetUtil select = this.factory.getGenericUtil(this.manager);
 		List<IMessage> result = null;
 		List<IMyTalkObject> collection = null;
-		String query = "from Message as m where m.receiver = " + "'" + receiver + "'";
+		String query = "from Message as m where m.receiver.id = " + receiver.getId();
 		collection = select.execute(query);
 		if (collection != null && collection.isEmpty() == false)
 		{

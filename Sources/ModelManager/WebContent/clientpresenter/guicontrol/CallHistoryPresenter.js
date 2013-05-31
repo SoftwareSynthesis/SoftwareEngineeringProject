@@ -50,7 +50,7 @@ function CallHistoryPanelPresenter() {
 		var list = document.getElementById("ulHistory");
 		var item = document.createElement("li");
 		var contact = mediator.getContactById(call.id);
-		var contactName = mediator.createNameLabel(contact)
+		var contactName = mediator.createNameLabel(contact);
 		var text = document.createTextNode(contactName + " " + call.start);
 		if (call.caller) {
 			item.className = "outcome";
