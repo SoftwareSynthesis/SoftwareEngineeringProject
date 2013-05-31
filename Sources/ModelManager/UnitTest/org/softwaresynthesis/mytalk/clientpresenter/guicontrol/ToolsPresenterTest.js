@@ -17,6 +17,10 @@ module("ToolsPanelPresenter", {
 		changeMyState = Object();
 	},
 	teardown : function() {
+		var element = document.getElementById("ToolsPanel");
+		if (element) {
+			document.body.removeChild(element.parentElement);
+		}
 	}
 });
 
@@ -31,9 +35,7 @@ test("testDestroy()", function() {
 
 test("testInitialize()", function() {
 	var i = 0;
-	var toolsView = mediator.getView("tools");
-
-	tester.initialize(toolsView);
+	tester.initialize(mediator.getView("tools"));
 	var element = document.getElementById("ToolsPanel");
 	element.style.display = "none";
 
@@ -97,6 +99,7 @@ test("testInitialize()", function() {
 
 test("testAddCommunication()", function() {
 	var i = 0;
+	tester.initialize(mediator.getView("tools"));
 	tester.addCommunicationFunction();
 
 	var element = document.getElementById("CallFunction");
@@ -110,6 +113,7 @@ test("testAddCommunication()", function() {
 
 test("testRemoveCommunication()", function() {
 	var i = 0;
+	tester.initialize(mediator.getView("tools"));
 	tester.removeCommunicationFunction();
 
 	var element = document.getElementById("CallFunction");

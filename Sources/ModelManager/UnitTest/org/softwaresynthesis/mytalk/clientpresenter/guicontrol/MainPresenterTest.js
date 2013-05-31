@@ -19,6 +19,10 @@ module("MainPanelPresenter", {
 
 	},
 	teardown : function() {
+		var element = document.getElementById("MainPanel");
+		if (element) {
+			document.body.removeChild(element.parentElement);
+		}
 	}
 });
 
@@ -66,7 +70,7 @@ test("testDisplayChildPanel()", function() {
  */
 test("testDestroy()", function() {
 	var i = 0;
-
+	tester.initialize(mediator.getView("main"));
 	tester.destroy();
 	var element = document.getElementById("MainView");
 	equal(element, null, "pannello rimosso correttamente");

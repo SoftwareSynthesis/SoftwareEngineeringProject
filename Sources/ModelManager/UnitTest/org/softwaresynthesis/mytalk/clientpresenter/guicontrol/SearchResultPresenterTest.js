@@ -23,7 +23,9 @@ module("SearchResultPanelPresenter", {
 	},
 	teardown : function() {
 		var element = document.getElementById("SearchResultPanel");
-		document.body.removeChild(element.parentElement);
+		if (element) {
+			document.body.removeChild(element.parentElement);
+		}
 	}
 });
 
@@ -57,7 +59,7 @@ test("testDisplay()", function() {
 test("testHandleResult", function() {
 	var event = new CustomEvent("showSearchResultPanel");
 	document.dispatchEvent(event);
-	
+
 	var i = 0;
 	var contacts = {
 		1 : {
@@ -77,13 +79,13 @@ test("testHandleResult", function() {
 			state : "offline"
 		}
 	};
-	
+
 	tester.handleResult(contacts);
-	
+
 	var element = document.getElementById("userList");
 	equal(element.childNodes.length, 2, "non andra' mai!");
 	i++;
-	
+
 	var item = element.childNodes[0];
 	equal(item.nodeName, "LI", "corretto");
 	i++;
@@ -92,7 +94,7 @@ test("testHandleResult", function() {
 	var avatar = item.childNodes[0];
 	equal(avatar.nodeName, "IMG", "corretto");
 	i++;
-	
+
 	item = element.childNodes[1];
 	equal(item.nodeName, "LI", "corretto");
 	i++;
@@ -101,6 +103,6 @@ test("testHandleResult", function() {
 	avatar = item.childNodes[0];
 	equal(avatar.nodeName, "IMG", "corretto");
 	i++;
-	
+
 	expect(i);
 });

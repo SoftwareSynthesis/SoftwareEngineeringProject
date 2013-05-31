@@ -34,6 +34,10 @@ module(
 				tester = new AccountSettingsPanelPresenter();
 			},
 			teardown : function() {
+				var element = document.getElementById("AccountSettingsPanel");
+				if (element) {
+					document.body.removeChild(element.parentElement);
+				}
 			}
 		});
 

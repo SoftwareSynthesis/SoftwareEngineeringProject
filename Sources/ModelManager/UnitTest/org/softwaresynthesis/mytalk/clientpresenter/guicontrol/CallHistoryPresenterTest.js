@@ -34,6 +34,10 @@ module(
 				tester = new CallHistoryPanelPresenter();
 			},
 			teardown : function() {
+				var element = document.getElementById("CallHistoryPanel");
+				if (element) {
+					document.body.removeChild(element.parentElement);
+				}
 			}
 		});
 
