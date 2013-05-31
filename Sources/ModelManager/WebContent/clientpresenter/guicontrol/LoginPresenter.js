@@ -231,9 +231,6 @@ function LoginPanelPresenter() {
     /** PRESENTER
      * Procedura che esegue il login inviando al server i dati di autenticazione
      *
-     * NOTE PER I VERIFICATORI Testare communicationcenter.my al termine della
-     * procedura di login!!!
-     *
      * @param {Object}
      *            un oggetto con proprietà 'username' e 'password'
      * @returns {String} la string di query che viene inviata alla servlet
@@ -253,9 +250,6 @@ function LoginPanelPresenter() {
     /** VIEW
      * Inizializzazione del pannello di login con la creazione di tutti i widget
      * grafici che sono contenuti al suo interno
-     *
-     * NOTA PER I VERIFICATORI: Richiede che nel 'document' sia presente un
-     * elemento '<div>' che abbia come attributo 'id' il valore 'LoginPanel'
      *
      * @author Diego Beraldin
      */
@@ -303,6 +297,7 @@ function LoginPanelPresenter() {
     /** PRESENTER
      * Funzione per gestire l'evento in cui viene visualizzato il pannello di
      * registrazione
+     * 
      * @author Riccardo Tresoldi
      */
     function onShowLoginPanel() {
@@ -317,6 +312,7 @@ function LoginPanelPresenter() {
     /** PRESENTER
      * Funzione per gestire l'evento in cui viene rimosso il pannello di
      * registrazione
+     * 
      * @author Riccardo Tresoldi
      */
     function onRemoveLoginPanel() {
@@ -325,6 +321,7 @@ function LoginPanelPresenter() {
 
     /** PRESENTER
      * Funzione per effettuare il vero e proprio login visualizzando anche la GUI
+     * 
      * @author Riccardo Tresoldi
      */
     function onLogin(user) {
