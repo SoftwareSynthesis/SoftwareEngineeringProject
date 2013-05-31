@@ -150,13 +150,11 @@ function CommunicationCenter() {
             changeMyState.state = "available";
             document.dispatchEvent(changeMyState);
         };
+        
         //event handle per gestire la chiusura della socket
         websocket.onclose = function(evt) {
-            //disconnessione dalla servlet
-            //informo gli altri utenti che mi sono disconnesso
-            changeMyState.state = "offline";
-            document.dispatchEvent(changeMyState);
         };
+        
         //event handle per gestire l'arrivo di un messaggio da parte della socket
         websocket.onmessage = function(evt) {
             //split del messaggio ricevuto e estrazione del tipo di messaggio

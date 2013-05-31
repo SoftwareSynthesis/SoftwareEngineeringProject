@@ -19,6 +19,9 @@ function PhoneCallsRegistryPresenter() {
 
     var currentReciver = null;
 
+    //variabili pulsanti
+    var startRecordButton, stopRecordButton, sendRecordButton, closePopupButton;
+
     /*************************************************************
      * FUNZIONI PRIVATE
      *************************************************************/
@@ -38,23 +41,37 @@ function PhoneCallsRegistryPresenter() {
         input.connect(audio_context.destination);
         // Inizializzo l'oggetto record per registrare l'imput
         recorder = new Recorder(input);
-
+        startRecordButton.disabled = false;
     }
 
     function startRecording() {
+        startRecordButton.disabled = true;
+        stopRecordButton.disabled = false;
+        closePopupButton.disabled = true;
         //inizio la registrazione
-        recorder && recorder.record();
+        if (record) {
+            recorder.record();
+        }
     }
 
     function stopRecording() {
+        closePopupButton.disabled = false;
+        stopRecordButton.disabled = true;
+        sendRecordButton.disabled = false;
         //ferma la registrazione
-        recorder && recorder.stop();
-        // creo link per il download
-        //createDownloadLink();
+        if (recorder) {
+            recorder.stop();
+        }
+
         //pulisco il buffer di registrazione
-        recorder && recorder.exportWAV(function(blob) {
-            objAudio = blob;
-        });
+        if (recorder) {
+            recorder.exportWAV(function(blob) {
+                objAudio = blob;
+                var urlAudio = URL.createObjectURL(blob);
+                var audioElement = document.getElementById("recordAudioElement");
+                audioElement.src = urlAudio;
+            });
+        }
         localStream.stop();
         recorder.clear();
     }
@@ -80,40 +97,37 @@ function PhoneCallsRegistryPresenter() {
      */
     this.showView = function(receiver) {
         thisPanel = document.getElementById("PhoneCallRecorder");
-        var startRecordButton = document.getElementById("startRedord");
-        startRecordButton.disabled = false;
-        var stopRecordButton = document.getElementById("stopRedord");
-        stopRecordButton.disabled = true;
-        var sendRecordButton = document.getElementById("sendRedord");
+        startRecordButton = document.getElementById("startRecord");
+        stopRecordButton = document.getElementById("stopRecord");
+        sendRecordButton = document.getElementById("sendRecord");
+        closePopupButton = document.getElementById("closePopup");
+        startRecordButton.disabled = true;
         sendRecordButton.disabled = true;
-        var closePopupButton = document.getElementById("closePopup");
+        stopRecordButton.disabled = true;
         startRecordButton.onclick = function() {
-            startRecordButton.disabled = true;
-            initializeStream();
-            stopRecordButton.disabled = false;
+            startRecording();
         };
         stopRecordButton.onclick = function() {
-            stopRecordButton.disabled = true;
             stopRecording();
-            startRecordButton.disabled = false;
         };
         sendRecordButton.click = function() {
-            startRecordButton.disabled = true;
-            stopRecordButton.disabled = true;
             sendRecording(receiver);
             document.dispatchEvent(removePhoneCallMessagePanel);
         };
-        closePopupButton.onclick = function(){
+        closePopupButton.onclick = function() {
             document.dispatchEvent(removePhoneCallMessagePanel);
-        }
-        
+        };
+        initializeStream();
     };
-    
-    this.destroy = function(){
+
+    this.destroy = function() {
         if (thisPanel) {
             var thisPanelParent = thisPanel.parentElement.parentElement;
             thisPanelParent.removeChild(thisPanel.parentElement);
             thisPanel = null;
+            var overlay = document.getElementById("overlayAnswerBox");
+            var overlayParent = overlay.parentElement;
+            overlayParent.removeChild(overlay);
         }
     };
 
@@ -124,9 +138,9 @@ function PhoneCallsRegistryPresenter() {
         currentReciver = reciver;
         mediator.getView("phoneCallsRegistry");
     }
-    
-    function onRemovePhoneCallMessagePanel(){
-        
+
+    function onRemovePhoneCallMessagePanel() {
+        thisPresenter.destroy();
     }
 
     /*******************************************************************
