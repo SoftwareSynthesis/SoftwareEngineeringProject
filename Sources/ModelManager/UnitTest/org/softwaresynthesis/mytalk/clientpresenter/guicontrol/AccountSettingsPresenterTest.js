@@ -2,88 +2,43 @@ module(
 		"AccountSettingsPresenterTest",
 		{
 			setup : function() {
+				// stub di communicationcenter
 				communicationcenter = new Object();
 				communicationcenter.my = {
-					name : "Maria",
-					surname : "Goretti",
-					email : "margor@email.it",
-					picturePath : "xx.png"
+					name : "Paolino",
+					surname : "Paperino",
+					email : "indirizzo5@dominio.it",
+					picturePath : "img/contactImg/Default.png"
 				};
-				//configurationFile = "/ModelManager/WebContent/Conf/servletlocationtest.xml";
+				// configura il percorso del ControllerManager
+				commandURL = "http://localhost/ModelManager/WebContent/Conf/controllerManagerStub.php";
+				// oggetto da testare
 				tester = new AccountSettingsPanelPresenter();
 			},
 			teardown : function() {
 			}
 		});
-
-		
 		
 	test("testSendUserData()", function() {
 	var i = 0;
 	
 	var data = {
-			name : "Maria",
-			surname : "Goretti",
+			name : "Paperone",
+			surname : "dePaperoni",
 			picturePath : "xx.png"
 		};
 	
 	var bool = tester.sendUserData(data);
-	equal(bool, false, "rilevata correttamente mancanza di cambiamenti");
+	equal(bool, true, "operazione andata a buon fine");
 	i++;
 	
-	data.name = "Marta";
-	/*tester.sendUserData(data);
-	
-	equal(bool, true, "cambiamento");
+	data = communicationcenter.my;
+	var bool = tester.sendUserData(data);
+	equal(bool, false, "rilevato correttamente che non e' cambiato nulla");
 	i++;
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	/*bool = tester.sendUserData(data);
-	/*equal(bool, false, "rilevata correttamente mancanza di cambiamenti");
-	i++;
-	
-	/*bool = tester.sendUserData(data);
-	equal(bool, true, "rilevato correttamente nome cambiato");
-	i++;
-
-	/*data.name = "Maria";
-	data.surname = "Rossi";
-	bool = tester.hasSomethingChanged(data);
-	equal(bool, true, "rilevato correttamente cognome cambiato");
-	i++;
-	
-	data.surname = "Goretti";
-	data.picturePath = "yy.png";
-	bool = tester.hasSomethingChanged(data);
-	equal(bool, true, "rilevata correttamente immagine cambiato");
-	i++;*/
 	
 	expect(i);
 });
-		
-		
-		
-		
-		
-		
-		
 		
 		
 /*
@@ -276,14 +231,6 @@ test("testOnChangeButtonPressed", function() {
 	expect(i);
 });
 
-
-*/
-
-
-
-
-
-
 test("testDisplay", function() {
 	var i = 0;
 	//stub di interfaccia grafica
@@ -295,6 +242,7 @@ test("testDisplay", function() {
 	expect(i);
 });
 
+*/
 
 
 

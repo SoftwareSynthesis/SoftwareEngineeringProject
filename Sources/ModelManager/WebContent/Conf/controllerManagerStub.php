@@ -65,6 +65,7 @@ switch($operation) {
         break;
 
     case "accountSettings" :
+        $result = true;
         break;
         
     case "addInGroup" :
