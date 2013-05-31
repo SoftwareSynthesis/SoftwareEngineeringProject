@@ -2182,22 +2182,33 @@ Nessun attributo evidenziato
 \begin{description}
 	
 	\item{\method{\# doAction(request: HttpServletRequest, response: HttpServletResponse): void}}\\
-	Metodo usato per accedere alla funzionalità del \textit{controller}. Il procedimento da definire passa attraverso 3 step essenziali:
+	Metodo usato per accedere alla funzionalità del \textit{controller}. Il metodo può essere pensato come suddiviso in due parti logiche: la craezione delle variabili locali, e il blocco try-catch di esecuzione delle istruzioni di aggiunta al db. Nella prima parte il metodo definisce le seguenti variabili (NOTA: il nome usato non può essere cambiato a piacere, ma deve essere quello qui prestabilito):
+	
 	\begin{itemize}
-		\item \texttt{Inizializzazione}: il metodo definisce ed apre una nuova sessione a partire dalla richiesta request passata come parametro;
-		
-		\item \texttt{Elaborazione dati}: il metodo crea (a partire dai parametri estratti dalla request) una nuova chiamata \classname{Call} da aggiungere al database. Si ricorda che i dati di una chiamata (o meglio di un oggetto che implementa l'interfaccia \classname{ICall}) sono espressi nel formato:\\
-		
-		\verb|{name:"NOME_UTENTE",start="DATA_INIZIO",end="DATA_FINE"}|\\
-		
-		Si consideri che la dove vi è un nome in maiuscolo, vi dovrà essere il valore analogo con cui impostare il transfer object da aggiungere nel database.
-		
-		\item \texttt{Restituzione risultato}: dopo aver elaborato i dati, il \textit{controller} dovrà scrivere nel \texttt{PrintWriter} associato alla request:
-			\begin{itemize}
-				\item \inglese{true} se l'operazione è andata a buon fine;
-				\item \inglese{false} altrimenti.
-			\end{itemize}
+		\item Long userId = null;
+		\item String email = null;
+		\item IUserData user = null;
+		\item IUserData other = null;
+		\item ICall call = null;
+		\item ICallList userCall = null;
+		\item ICallList otherCall = null;
+		\item Date date = null;
+		\item Writer writer = null;
+		\item DataPersistanceManager dao = null;
+		\item String result = null;
 	\end{itemize}
+
+Dopo questa fase di inizializzazione, il metodo definisce un blocco try-catch. Il catch definito cattura un eccezione generica di tipo Exception e si occupa semplicemente di impostare result a null (si sottolinea che result è la stringa da ritornare nel Writer per informare il chiamante sul risultato della chiamata a metodo). Inoltre è definito un bloco finaly che si occupa di inizializzare writer a partire da response.getWriter(). Quindi termina scrivendo nel writer il contenuto della stringa result.
+
+Tornando al blocco try, in esso si evidenziano i seguenti step:
+
+\begin{itemize}
+	\item si impostano le variabili locali legate al contenuto informativo della chiamata (email, userId, user, other, date, call) con i dati ottenuti da apposite chiamate all'istanza di \classname{DataPersistanceManager};
+	\item si inserisce la chimata cosi creata attraverso un istruzione dao.insert(call);
+	\item si inserisce la prima CallList associata, definendo una nuova CallList da memorizzare in userCall. Quindi si imposta il suo contenuto con call e user e si termina questo step aggiungendo userCall al contenuto del db (usare sempre una chiamata a metodo dao.insert(userCall);
+	\item si inserisce la seconda CallList. La procedura è identica a quella dello step precedente, con la differenza che  al posto di user si usa other per inpostare il campo utente della chiamata;
+	\item il blocco try termina impostando result a \inglese{true}.
+\end{itemize}
 
 \end{description}
 
