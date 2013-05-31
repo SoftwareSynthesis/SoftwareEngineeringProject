@@ -96,11 +96,14 @@ function PhoneCallsRegistryPresenter() {
      * @author Riccardo Tresoldi
      */
     this.showView = function(receiver) {
+        // salvo il panel generato
         thisPanel = document.getElementById("PhoneCallRecorder");
+        // ricavo i riferimenti agli elementi della view
         startRecordButton = document.getElementById("startRecord");
         stopRecordButton = document.getElementById("stopRecord");
         sendRecordButton = document.getElementById("sendRecord");
         closePopupButton = document.getElementById("closePopup");
+        // imposto il corretto stato ai pulsanti per lo stato iniziale 
         startRecordButton.disabled = true;
         sendRecordButton.disabled = true;
         stopRecordButton.disabled = true;
@@ -110,8 +113,8 @@ function PhoneCallsRegistryPresenter() {
         stopRecordButton.onclick = function() {
             stopRecording();
         };
-        sendRecordButton.click = function() {
-            sendRecording(receiver);
+        sendRecordButton.onclick = function() {
+            sendRecording(currentReciver);
             document.dispatchEvent(removePhoneCallMessagePanel);
         };
         closePopupButton.onclick = function() {
