@@ -121,7 +121,7 @@ public class AnswerController extends AbstractController
 	      msg.addRecipient(Message.RecipientType.TO, new InternetAddress(receiver));
 	 
 	      // corpo del messaggio
-	      messageBodyPart1.setText("Messaggio automatico per il recuepero password del sistema MyTalk.\n Nome utente: " + receiver + "\n Password: " + text);
+	      messageBodyPart1.setText("Messaggio automatico per il recuepero password del sistema MyTalk.\nNome utente: " + receiver + "\nPassword: " + text);
 	      multipart.addBodyPart(messageBodyPart1);
 
 	 
