@@ -85,6 +85,7 @@ switch($operation) {
 
     // operazioni segreteria telefonica
     case "getMessages" :
+        $result = array(1 => array("id" => "1", "sender" => "4", "status" => true, "video" => false, "date" => "2013-05-31 10:38:27.0", "src" => "Secretariat/1.wav"));
         break;
 
     case "addMessage" :

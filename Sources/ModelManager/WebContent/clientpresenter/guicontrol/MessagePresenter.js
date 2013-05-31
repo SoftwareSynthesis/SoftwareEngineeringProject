@@ -96,7 +96,6 @@ function MessagePanelPresenter() {
 	/** PRESENTER
 	 * Ottiene i messaggi di segreteria dal server
 	 * 
-	 * @returns {Array} i messagi scaricati dal server
 	 * @author Riccardo Tresoldi
 	 */
 	function getMessages() {
@@ -104,7 +103,7 @@ function MessagePanelPresenter() {
 		request.open("POST", commandURL, false);
 		request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		request.send("operation=getMessages");
-		return JSON.parse(request.responseText);
+		messages = JSON.parse(request.responseText); 
 	};
 
 	/***************************************************************************
@@ -117,9 +116,9 @@ function MessagePanelPresenter() {
 	 * @author Riccardo Tresoldi
 	 */
 	this.displayList = function() {
-		messages = getMessages();
+	    getMessages();
 		for ( var message in messages) {
-			this.addListItem(message);
+			addListItem(messages[message]);
 		}
 	};
 	
@@ -150,7 +149,7 @@ function MessagePanelPresenter() {
 			result=JSON.parse(request.responseText);
 			
 			if (result == true) {
-	            this.setup();
+	            thisPresenter.setup();
 	            return true;
 	        }
 		
