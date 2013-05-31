@@ -30,9 +30,9 @@ function MessagePanelPresenter() {
 		// message.status rappresenta se il messaggio è nuovo/non nuovo
 		var result = "";
 		if (!message.status) {
-			result = "img/readmessage.png";
+			result = "img/readMessage.png";
 		} else {
-			result = "img/unreadmessage.png";
+			result = "img/unreadMessage.png";
 		}
 		return result;
 	}
@@ -60,8 +60,10 @@ function MessagePanelPresenter() {
 		var contactName = mediator.createNameLabel(contact);
 		
 		item.appendChild(status);
-		item.appendChild(document.createTextNode(contactName));
-		item.appendChild(document.createTextNode(message.date));
+		var spanInfo = document.createElement("span");
+		spanInfo.appendChild(document.createTextNode(contactName));
+		spanInfo.appendChild(document.createTextNode(message.date));
+		item.appendChild(spanInfo);
 		item.appendChild(elimina);
 		
 		// imposta il source delle immagini
@@ -69,7 +71,7 @@ function MessagePanelPresenter() {
 		elimina.src = "img/deleteGroupImg.png";
 		
 		// comportamento del list item
-		item.onclick = function() {
+		spanInfo.onclick = function() {
 			thisPresenter.setStatus(message, false);
 			status.src = getStatusSrc(message);
 			var video = document.getElementById("messageVideo");
@@ -79,6 +81,7 @@ function MessagePanelPresenter() {
 		// comportamento del pulsante elimina
 		elimina.onclick = function() {
 			thisPresenter.deleteMessage(message);
+			document.dispatchEvent(showMessagePanel);
 		};
 		
 		// comportamento del pulsante toggleState
@@ -164,9 +167,6 @@ function MessagePanelPresenter() {
 	 *            il messaggio che deve essere modificato
 	 * @param {Boolean} valueToSet
 	 *            [true: "nuovo"] oppure [false: "letto"]
-	 * @throws {String}
-	 *             un errore se il non è stato possibile cambiare lo stato del
-	 *             messaggio
 	 */
 	this.setStatus = function(message, valueToSet) {
 		message.status = valueToSet;
@@ -176,7 +176,7 @@ function MessagePanelPresenter() {
 		request.send("operation=updateMessage&idMessage=" + message.id + "&read=" + valueToSet);
 		outcome = JSON.parse(request.responseText);
 		if (!outcome) {
-			throw "Impossibile impostare lo stato del messaggio a " + (valueToSet ? " letto " : " non letto") + "!";
+			alert("Impossibile impostare lo stato del messaggio a " + (valueToSet ? " letto " : " non letto") + "!");
 		}
 	};
 	
