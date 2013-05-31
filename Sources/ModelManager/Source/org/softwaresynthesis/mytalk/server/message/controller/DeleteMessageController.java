@@ -34,9 +34,10 @@ public class DeleteMessageController extends AbstractController{
 			id = Long.parseLong(request.getParameter("idMessage"));
 			message = dao.getMessage(id);
 			user = dao.getUserData(getUserMail());
-			if (message != null && message.getReceiver().equals(user)){
+			if (message != null && message.getReceiver().getId() == user.getId()){
 				separator = System.getProperty("file.separator");
-				path = "Secretariat" + separator;
+				path = System.getenv("MyTalkConfiguration");
+				path += separator + "MyTalk" + separator + "Secretariat" + separator;
 				path += id.toString() + ".wav";
 				if (deleteFile(path) == false)
 				{

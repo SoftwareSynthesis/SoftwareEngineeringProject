@@ -34,18 +34,19 @@ public class AddMessageController extends AbstractController{
 		Long receiver = null;
 		InputStream inputStream = null;
 		Part filePart = null;
-
 		String path = null;
 		String separator = null;
 		IUserData send = null;
 		IUserData rec = null;
 		IMessage message = null;
+		Long idMessage = null;
 		
 		try
 		{
 			dao = getDAOFactory();
 			sender = getUserMail();
-			receiver = Long.parseLong(getValue(request.getPart("receiver")));
+			receiver = Long.parseLong(getValue(request.getPart("contactId")));
+			idMessage = dao.getMessageNewKey();
 			filePart = request.getPart("msg");
 			if (filePart != null)
 			{
@@ -55,15 +56,17 @@ public class AddMessageController extends AbstractController{
 			path = System.getenv("MyTalkConfiguration");
 			separator = System.getProperty("file.separator");
 			path += separator + "MyTalk" + separator + "Secretariat" + separator;
-			path += dao.getMessageNewKey() + ".wav";
+			path += idMessage + ".wav";
 			writeFile(path, inputStream);
 			send = dao.getUserData(sender);
 			rec = dao.getUserData(receiver);
 			message = createMessage();
-			message.setId(dao.getMessageNewKey());
+			message.setId(idMessage);
 			message.setSender(send);
 			message.setReceiver(rec);
 			message.setDate(getCurrentDate());
+			message.setNewer(true);
+			message.setVideo(false);
 			dao.insert(message);
 			
 			result = "true";
@@ -78,7 +81,7 @@ public class AddMessageController extends AbstractController{
 			writer.write(result);
 		}
 	}
-	
+
 	Date getCurrentDate() {
 		return new Date();
 	}
