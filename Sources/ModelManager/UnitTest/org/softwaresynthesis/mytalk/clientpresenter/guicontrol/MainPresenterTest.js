@@ -11,6 +11,7 @@ module("MainPanelPresenter", {
 				viewRequest.send();
 				var div = document.createElement("div");
 				div.innerHTML = viewRequest.responseText;
+				document.dispatchEvent(new CustomEvent("eventRaised"));
 				return div.childNodes[0];
 			}
 		};
@@ -77,4 +78,17 @@ test("testDestroy()", function() {
 	i++;
 
 	expect(i);
+});
+
+/**
+ * Verifica che il presenter risponda all'evento
+ */
+test("testOnShowMainPanel()", function() {
+	var bool = false;
+	// così catturo il sollevamento dell'evento :)
+	document.addEventListener("eventRaised", function() {
+		bool = true;
+	})
+	document.dispatchEvent(new CustomEvent("showMainPanel"));
+	ok(bool);
 });
