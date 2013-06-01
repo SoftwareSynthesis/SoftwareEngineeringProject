@@ -23,6 +23,13 @@ switch($operation) {
         break;
 
     case "register" :
+        $result = array(
+          "id" => 0,
+          "email" => "indirizzo5@dominio.it",
+          "name" => "Paolino",
+          "surname" => "Paperino",
+          "picturePath" => "img/contactImg/Default.png"
+        );
         break;
 
     case "logout" :
