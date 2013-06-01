@@ -20,8 +20,13 @@ module(
 				};
 				// stub di communicationcenter
 				communicationcenter = {
-					my : null
+					my : null,
+					connect : function() {
+					}
 				};
+				// eventi
+				login = new CustomEvent("login");
+				showUIPanels = new CustomEvent("showUIPanels");
 				// oggetto da testare
 				tester = new LoginPanelPresenter();
 			},
@@ -135,102 +140,117 @@ test("testGetUsername()", function() {
 	expect(i);
 });
 
-// test("testLogin()", function() {
-//	var loginData = new Object();
-//	loginData.username = "laurapausini@gmail.com";
-//	loginData.password = "opera";
-//	var string = tester.login(loginData);
-//	equal(string, "username=laurapausini%40gmail.com&password=opera");
-//	// TODO da testare communicationcenter.my
-//	// che dopo il login dovrebbe essere stato settato
-//	// console.debug(communicationcenter.my);
-//});
-//
-//
-//test("testGetPassword()", function() {
-//	var i = 0;
-//	// questo è uno stub
-//	var form = document.createElement("form");
-//	form.style.display = "none";
-//	var input = document.createElement("input");
-//	input.id = "password";
-//	input.value = "opera";
-//	form.appendChild(input);
-//	document.body.appendChild(form);
-//
-//	// invoca il metodo da testare
-//	var password = tester.getPassword();
-//	equal(password, "opera", "password recuperata correttamente");
-//	i++;
-//
-//	// verifica se rileva password mancante
-//	input.value = "";
-//	try {
-//		tester.getPassword();
-//		ok(false, "password mancante non rilevata");
-//		i++;
-//	} catch (err) {
-//		equal(err, "password non specificata",
-//				"password mancante rilevata correttamente");
-//		i++;
-//	}
-//
-//	document.body.removeChild(form);
-//	expect(i);
-//});
-//
-//test("testBuildRetrievePasswordForm()", function() {
-//	var i = 0;
-//
-//	// stub di interfaccia grafica
-//	var input = document.createElement("input");
-//	input.id = "username";
-//	input.type = "email";
-//	input.value = "laupau@gmail.com";
-//	element.appendChild(input);
-//
-//	var form = tester.buildRetrievePasswordForm();
-//
-//	var children = form.childNodes;
-//	equal(children.length, 3, "il form contiene esattamente tre figli");
-//	i++;
-//
-//	var labelQuestion = children[0];
-//	var inputAnswer = children[1];
-//	var submitButton = children[2];
-//	
-//	equal(labelQuestion.nodeName, "LABEL", "tipo della label corretta");
-//	i++;
-//	equal(inputAnswer.nodeName, "INPUT", "tipo del campo di test corretto");
-//	i++;
-//	equal(submitButton.nodeName, "INPUT", "tipo del pulsante corretto");
-//	i++;
-//	equal(labelQuestion.getAttribute("for"), inputAnswer.id,
-//			"attributo for della label settato correttamente");
-//	i++;
-//	equal(submitButton.type, "submit", "attributo type del pulsante corretto");
-//	i++;
-//	equal(submitButton.value, "OK", "testo del pulsante corretto");
-//	i++;
-//	equal(inputAnswer.required, true,
-//			"input per la risposta settato come obbligatorio");
-//	i++;
-//
-//	// si appella allo stub della servlet per vedere se la domanda viene creata
-//	// correttamente
-//	var question = labelQuestion.innerHTML;
-//	equal(question, "Come si chiama la mia gatta?",
-//			"testo della domanda recuperato correttamente");
-//	i++;
-//
-//	expect(i);
-//});
-//
-//test("testHasAnsweredCorrectly()", function() {
-//	var result = tester.hasAnsweredCorrectly("laupau@gmail.com", "tricolore");
-//	equal(result, true, "risposta corretta ricevuta correttamente");
-//	result = tester.hasAnsweredCorrectly("laupau@gmail.com", "rossa");
-//	equal(result, false, "risposta errata ricevuta correttamente");
-//	expect(2);
-//
-//});
+test("testGetPassword()", function() {
+	var i = 0;
+	tester.initialize(mediator.getView("login"));
+	var input = document.getElementById("password");
+	input.value = "";
+
+	try {
+		tester.getPassword();
+	} catch (error) {
+		equal(error, "password non specificata");
+		i++;
+	}
+
+	input.value = "pluto";
+	var result = tester.getPassword();
+	equal(result, "pluto");
+	i++;
+
+	expect(i);
+});
+
+test(
+		"testLoginUnsuccessfully()",
+		function() {
+			var i = 0;
+			tester.initialize(mediator.getView("login"));
+			var loginData = {
+				username : "indirizzo5@dominio.it",
+				password : "password"
+			};
+
+			var string = tester.login(loginData);
+			equal(string,
+					"operation=login&username=indirizzo5%40dominio.it&password=password");
+			i++;
+
+			var element = document.getElementById("username");
+			equal(element.className.trim(), "error");
+			i++;
+			element = document.getElementById("password");
+			equal(element.className.trim(), "error");
+			i++;
+
+			expect(i);
+		});
+
+test("testLoginSuccessfully()", function() {
+	var i = 0;
+	var loginData = {
+		username : "pr@va.com",
+		password : "p"
+	};
+
+	var string = tester.login(loginData);
+	equal(string, "operation=login&username=pr%40va.com&password=p");
+	i++;
+
+	var user = login.user;
+	equal(user.id, 2);
+	i++;
+	equal(user.email, "mario.rossi@gmail.com");
+	i++;
+	equal(user.name, "Mario");
+	i++;
+	equal(user.surname, "Rossi");
+	i++;
+	equal(user.picturePath, "default.png");
+	i++;
+
+	equal(user, communicationcenter.my);
+	i++;
+
+	expect(i);
+});
+
+test("testBuildRetrievePasswordForm()", function() {
+	var i = 0;
+
+	tester.initialize(mediator.getView("main"));
+	document.getElementById("username").value = "pr@va.com";
+	var button = document.getElementById("inputRetrievePassword");
+	var event = new MouseEvent("click");
+	button.dispatchEvent(event);
+
+	var form = document.getElementById("passwordretrieval");
+
+	var children = form.childNodes;
+	equal(children.length, 3, "il form contiene esattamente tre figli");
+	i++;
+
+	var labelQuestion = children[0];
+	var inputAnswer = children[1];
+	var submitButton = children[2];
+
+	equal(labelQuestion.nodeName, "LABEL");
+	i++;
+	equal(inputAnswer.nodeName, "INPUT");
+	i++;
+	equal(submitButton.nodeName, "BUTTON");
+	i++;
+	equal(labelQuestion.getAttribute("for"), inputAnswer.id);
+	i++;
+	equal(submitButton.type, "submit");
+	i++;
+	equal(submitButton.innerHTML.trim(), "Richiedi Password");
+	i++;
+	equal(inputAnswer.required, true);
+	i++;
+	var question = JSON.parse(labelQuestion.innerHTML.trim());
+	equal(question, "Quale e' la risposta?");
+	i++;
+
+	expect(i);
+});

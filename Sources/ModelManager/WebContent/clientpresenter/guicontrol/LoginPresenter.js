@@ -191,10 +191,6 @@ function LoginPanelPresenter() {
     /** PRESENTER
      * Recupera lo username dall'interfaccia grafica utente
      *
-     * NOTA PER I VERIFICATORI Richiede che il 'document' abbia al suo interno
-     * un elemento di tipo '<input>' con 'id' uguale a 'username' contenente
-     * l'indirizzo email dell'utente che intende autenticarsi al sistema
-     *
      * @author Diego Beraldin
      * @returns {String} lo username dell'utente
      */
@@ -212,10 +208,6 @@ function LoginPanelPresenter() {
 
     /** PRESENTER
      * Recupera lo username dall'interfaccia grafica utente
-     *
-     * NOTA PER I VERIFICATORI Richiede che il 'document' abbia al suo interno
-     * un elemento di tipo '<input>' con 'id' uguale a 'password' contenente la
-     * password dell'utente che intende autenticarsi al sistema
      *
      * @author Diego Beraldin
      * @returns {String} lo username dell'utente
