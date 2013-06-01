@@ -62,7 +62,7 @@ function MessagePanelPresenter() {
 		item.appendChild(status);
 		var spanInfo = document.createElement("span");
 		spanInfo.appendChild(document.createTextNode(contactName));
-		spanInfo.appendChild(document.createTextNode(message.date));
+		spanInfo.appendChild(document.createTextNode(" " + message.date));
 		item.appendChild(spanInfo);
 		item.appendChild(elimina);
 		
@@ -152,7 +152,8 @@ function MessagePanelPresenter() {
 			result=JSON.parse(request.responseText);
 			
 			if (result == true) {
-	            thisPresenter.setup();
+				// XXX WTF??? La riga dopo è errata e non serve più!
+	            //thisPresenter.setup();
 	            return true;
 	        }
 		

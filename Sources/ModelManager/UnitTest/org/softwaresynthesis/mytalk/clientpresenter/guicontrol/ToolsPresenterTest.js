@@ -1,5 +1,8 @@
 /**
  * Verifica di ToolsPresenter
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
  */
 module("ToolsPanelPresenter", {
 	setup : function() {
@@ -36,6 +39,9 @@ module("ToolsPanelPresenter", {
 
 /**
  * Verifica la creazione e l'inizializzazione del pannello
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
  */
 test("testInitialize()", function() {
 	var i = 0;
@@ -103,6 +109,9 @@ test("testInitialize()", function() {
 
 /**
  * Verifica la distruzione del pannello
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
  */
 test("testDestroy()", function() {
 	var i = 0;
@@ -116,6 +125,9 @@ test("testDestroy()", function() {
 
 /**
  * Verifica che sia possibile aggiungere il pulsante 'Comunicazione'
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
  */
 test("testAddCommunication()", function() {
 	var i = 0;
@@ -133,6 +145,9 @@ test("testAddCommunication()", function() {
 
 /**
  * Verifica che sia possibile rimuovere il pulsante 'Comunicazione'
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
  */
 test("testRemoveCommunication()", function() {
 	var i = 0;
@@ -149,6 +164,9 @@ test("testRemoveCommunication()", function() {
 
 /**
  * Verifica la possibilità di effettuare logout tramite evento
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
  */
 test("testOnLogout()", function() {
 	var bool = false;
@@ -162,6 +180,9 @@ test("testOnLogout()", function() {
 
 /**
  * Verifica il comportamento al cambiamento di stato
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
  */
 test("testUpdateStateValue()", function() {
 	var i = 0;
@@ -181,6 +202,9 @@ test("testUpdateStateValue()", function() {
 
 /**
  * Verifica che il presenter risponda all'evento showToolsPanel
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
  */
 test("testOnShowToolsPanel()", function() {
 	var bool = false;
@@ -193,6 +217,9 @@ test("testOnShowToolsPanel()", function() {
 
 /**
  * Verifica il funzionamento del pulsante di ricerca
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
  */
 test("testPerformSearch", function() {
 	showSearchResultPanel = new CustomEvent("showSearchResultPanel");
@@ -208,6 +235,9 @@ test("testPerformSearch", function() {
 
 /**
  * Verifica il funzionamento del pulsante per i gruppi
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
  */
 test("testPerformSearch", function() {
 	showGroupPanel = new CustomEvent("showGroupPanel");
@@ -223,6 +253,9 @@ test("testPerformSearch", function() {
 
 /**
  * Verifica il funzionamento del pulsante per lo storico chiamate
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
  */
 test("testPerformSearch", function() {
 	showCallHistoryPanel = new CustomEvent("showCallHistoryPanel");
@@ -238,6 +271,9 @@ test("testPerformSearch", function() {
 
 /**
  * Verifica il funzionamento del pulsante per le impostazioni utente
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
  */
 test("testPerformSearch", function() {
 	showAccountSettingPanel = new CustomEvent("showAccountSettingPanel");
@@ -253,6 +289,9 @@ test("testPerformSearch", function() {
 
 /**
  * Verifica il funzionamento del pulsante per la segreteria
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
  */
 test("testPerformSearch", function() {
 	showMessagePanel = new CustomEvent("showMessagePanel");

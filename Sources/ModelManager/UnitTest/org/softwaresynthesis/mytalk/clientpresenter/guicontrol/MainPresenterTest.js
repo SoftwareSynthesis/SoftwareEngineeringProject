@@ -1,5 +1,8 @@
 /**
  * Verifica della classe MainPresenter.
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
  */
 module("MainPanelPresenter", {
 	setup : function() {
@@ -29,6 +32,9 @@ module("MainPanelPresenter", {
 
 /**
  * Verifica l'inizializzazione del pannello
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
  */
 test("testInitialize()", function() {
 	var i = 0;
@@ -46,6 +52,9 @@ test("testInitialize()", function() {
 
 /**
  * Verifica che sia possibile aggiungere un pannello figlio dentro il MainPanel.
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
  */
 test("testDisplayChildPanel()", function() {
 	var i = 0;
@@ -68,6 +77,9 @@ test("testDisplayChildPanel()", function() {
 
 /**
  * Verifica che sia possibile distruggere il pannello
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
  */
 test("testDestroy()", function() {
 	var i = 0;
@@ -82,6 +94,9 @@ test("testDestroy()", function() {
 
 /**
  * Verifica che il presenter risponda all'evento
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
  */
 test("testOnShowMainPanel()", function() {
 	var bool = false;

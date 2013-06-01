@@ -1,3 +1,9 @@
+/**
+ * Verifica della classe SearchResultPresenter
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
 module(
 		"SearchResultPanelPresenter",
 		{
@@ -37,6 +43,12 @@ module(
 			}
 		});
 
+/**
+ * Verifica l'inizializzazione degli elementi grafici nel pannello
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
 test("testDisplay()", function() {
 	var i = 0;
 	var event = new CustomEvent("showSearchResultPanel");
@@ -64,6 +76,13 @@ test("testDisplay()", function() {
 	expect(i);
 });
 
+/**
+ * Verifica che una lista di possibili risultati dal server sia visualizzata
+ * correttamente nel pannello
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
 test("testHandleResult", function() {
 	var event = new CustomEvent("showSearchResultPanel");
 	document.dispatchEvent(event);
@@ -132,7 +151,11 @@ test("testHandleResult", function() {
 });
 
 /**
- * Questo simula un evento!!! :)
+ * Verifica che siano mandati al server i parametri di ricerca alla pressione
+ * del pulsante di ricerca e che siano visualizzati correttamente i risultati
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
  */
 test("testSendSearch()", function() {
 	var i = 0;

@@ -1,5 +1,8 @@
 /**
  * Verifica della classe LoginPresenter
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
  */
 module(
 		"LoginPanelPresenterTest",
@@ -43,6 +46,9 @@ module(
 
 /**
  * Verifica l'inizializzazione degli elementi grafici del pannello
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
  */
 test("testInitialize()", function() {
 	var i = 0;
@@ -108,6 +114,9 @@ test("testInitialize()", function() {
 
 /**
  * Verifica la rimozione del panello
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
  */
 test("testDestroy()", function() {
 	var i = 0;
@@ -122,6 +131,9 @@ test("testDestroy()", function() {
 
 /**
  * Verifica il recupero dello username dall'interfaccia grafica
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
  */
 test("testGetUsername()", function() {
 	var i = 0;
@@ -154,6 +166,9 @@ test("testGetUsername()", function() {
 
 /**
  * Verifica il recupero della password dall'interfaccia grafica
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
  */
 test("testGetPassword()", function() {
 	var i = 0;
@@ -178,6 +193,9 @@ test("testGetPassword()", function() {
 
 /**
  * Verifica il comportamento in caso di login con dati errati
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
  */
 test(
 		"testLoginUnsuccessfully()",
@@ -206,6 +224,9 @@ test(
 
 /**
  * Verifica il comportamento nel caso di login con dati corretti
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
  */
 test("testLoginSuccessfully()", function() {
 	var i = 0;
@@ -238,6 +259,9 @@ test("testLoginSuccessfully()", function() {
 
 /**
  * Verifica la costruzione del form per il recupero della password
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
  */
 test("testBuildRetrievePasswordForm()", function() {
 	var i = 0;
@@ -280,6 +304,9 @@ test("testBuildRetrievePasswordForm()", function() {
 
 /**
  * Verifica il comportamento al click sul pulsante di login
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
  */
 test("testOnInputLoginClick()", function() {
 	var i = 0;
@@ -311,6 +338,9 @@ test("testOnInputLoginClick()", function() {
 /**
  * Verifica il comportamento se si inserisce la risposta corretta nel form per
  * il recupero della password.
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
  */
 test(
 		"testRetrievePasswordSuccessfully()",
@@ -340,6 +370,9 @@ test(
 /**
  * Verifica il comportamento se si inserisce una risposta sbagliata nel form per
  * il recupero della password.
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
  */
 test("testRetrievePasswordUnsuccessfully()", function() {
 	var i = 0;

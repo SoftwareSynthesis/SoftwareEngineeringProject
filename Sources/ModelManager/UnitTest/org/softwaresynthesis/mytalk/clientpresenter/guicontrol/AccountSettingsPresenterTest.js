@@ -1,5 +1,9 @@
 /**
  * Verifica di AccountSettingsPresenter
+ * 
+ * @version 2.0
+ * @authot Elena Zecchinato
+ * @author Diego Beraldin
  */
 module(
 		"AccountSettingsPresenterTest",
@@ -48,6 +52,9 @@ module(
 /**
  * Verifica il metodo sendUserData verificando che venga rilevata o non venga
  * rilevata la mancanza di cambiamenti nei dati dell'utente.
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
  */
 test("testSendUserData()", function() {
 	var i = 0;
@@ -71,18 +78,21 @@ test("testSendUserData()", function() {
 
 /**
  * Verifica che i dati dell'utente siano visualizzati correttamente.
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
  */
 test("testDisplay()", function() {
 	var i = 0;
 	var event = new CustomEvent("showAccountSettingPanel");
 	document.dispatchEvent(event);
-	
+
 	tester.display();
-	
+
 	var element = document.getElementById("AccountSettingsPanel");
 	equal(element.children.length, 4);
 	i++;
-	
+
 	element = element.children[0];
 	equal(element.nodeName, "DIV");
 	i++;
@@ -132,15 +142,19 @@ test("testDisplay()", function() {
 
 /**
  * Verifica che sia costruito correttamente il form per la modifica dei dati
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
  */
 test("testOnChangeButtonPressed()", function() {
-	var i = 0;var event = new CustomEvent("showAccountSettingPanel");
+	var i = 0;
+	var event = new CustomEvent("showAccountSettingPanel");
 	document.dispatchEvent(event);
 	tester.display();
 	var button = document.getElementById("changeButton");
 	var event = new MouseEvent("click");
 	button.dispatchEvent(event);
-	
+
 	var element = document.getElementById("formData");
 	equal(element.nodeName, "FORM");
 	i++;
@@ -156,6 +170,6 @@ test("testOnChangeButtonPressed()", function() {
 	element = element.nextSibling;
 	equal(element.nodeName, "BUTTON");
 	i++;
-	
+
 	expect(i);
 });

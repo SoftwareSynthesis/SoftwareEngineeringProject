@@ -38,11 +38,65 @@ switch($operation) {
 
     // operazioni rubrica utente
     case "getContacts" :
-        $result = array(1 => array("name" => "Andrea", "surname" => "Rizzi", "email" => "a.rizzi@gmail.com", "id" => "1", "picturePath" => "img/contactImg/Default.png", "state" => "available", "blocked" => false), 2 => array("name" => "Stefano", "surname" => "", "email" => "s.farro@gmail.com", "id" => "2", "picturePath" => "img/contactImg/Default.png", "state" => "offline", "blocked" => true), 3 => array("name" => "", "surname" => "Beraldin", "email" => "d.beraldin@gmail.com", "id" => "3", "picturePath" => "img/contactImg/Default.png", "state" => "available", "blocked" => true), 4 => array("name" => "", "surname" => "", "email" => "skivo.marco@gmail.com", "id" => "4", "picturePath" => "img/contactImg/Default.png", "state" => "available", "blocked" => false), 5 => array("name" => "Andrea", "surname" => "Mene", "email" => "ma@gmail.com", "id" => "5", "picturePath" => "img/contactImg/Default.png", "state" => "occupied", "blocked" => false), );
+        $result = array(
+          1 => array(
+            "name" => "Andrea",
+            "surname" => "Rizzi",
+            "email" => "a.rizzi@gmail.com",
+            "id" => "1", "picturePath" => "img/contactImg/Default.png",
+            "state" => "available",
+            "blocked" => false
+          ),
+          2 => array(
+            "name" => "Stefano",
+            "surname" => "",
+            "email" => "s.farro@gmail.com",
+            "id" => "2",
+            "picturePath" => "img/contactImg/Default.png",
+            "state" => "offline",
+            "blocked" => true
+          ),
+          3 => array(
+            "name" => "",
+            "surname" => "Beraldin", 
+            "email" => "d.beraldin@gmail.com",
+            "id" => "3", "picturePath" => "img/contactImg/Default.png",
+            "state" => "available",
+            "blocked" => true
+          ),
+          4 => array(
+            "name" => "",
+            "surname" => "",
+            "email" => "skivo.marco@gmail.com",
+            "id" => "4",
+            "picturePath" => "img/contactImg/Default.png",
+            "state" => "available",
+            "blocked" => false
+          ),
+          5 => array(
+            "name" => "Andrea",
+            "surname" => "Mene",
+            "email" => "ma@gmail.com",
+            "id" => "5",
+            "picturePath" => "img/contactImg/Default.png",
+            "state" => "occupied",
+            "blocked" => false
+          ),
+        );
         break;
 
     case "getGroups" :
-        $result = array(1 => array("name" => "amici", "id" => "1", "contacts" => array(2, 3, 4, 5)), 2 => array("name" => "mona", "id" => "2", "contacts" => array(1)), 3 => array("name" => "addrBookEntry", "id" => "3", "contacts" => array(1, 2, 3, 4, 5)));
+        $result = array(
+          1 => array(
+            "name" => "amici", "id" => "1", "contacts" => array(2, 3, 4, 5)
+          ),
+          2 => array(
+            "name" => "mona", "id" => "2", "contacts" => array(1)
+          ),
+          3 => array(
+            "name" => "addrBookEntry", "id" => "3", "contacts" => array(1, 2, 3, 4, 5)
+          )
+        );
         break;
 
     case "addContact" :
@@ -91,16 +145,35 @@ switch($operation) {
 
     // operazioni segreteria telefonica
     case "getMessages" :
-        $result = array(1 => array("id" => "1", "sender" => "4", "status" => true, "video" => false, "date" => "2013-05-31 10:38:27.0", "src" => "Secretariat/1.wav"));
+        $result = array(
+          1 => array(
+            "id" => "1",
+            "sender" => "4",
+            "status" => true,
+            "video" => false,
+            "date" => "2013-05-31 10:38:27.0",
+            "src" => "Secretariat/1.wav"
+          ),
+          2 => array(
+            "id" => "2",
+            "sender" => "4",
+            "status" => false,
+            "video" => false,
+            "date" => "2013-05-31 18:38:27.0",
+            "src" => "Secretariat/2.wav"
+          )
+        );
         break;
 
     case "addMessage" :
         break;
 
     case "deleteMessage" :
+        $result = true;
         break;
 
     case "updateMessage" :
+        $result = true;
         break;
 
     // operazioni ricerca utenti del sistema
