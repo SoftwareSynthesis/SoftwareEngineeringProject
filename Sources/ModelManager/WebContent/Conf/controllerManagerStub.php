@@ -29,6 +29,11 @@ switch($operation) {
         break;
 
     case "answer" :
+    	if ($_REQUEST["answer"] == "ThisIsNotAnAnswer") {
+    	  $result = true;
+    	} else {
+    	  $result = false;
+    	}
         break;
 
     // operazioni rubrica utente

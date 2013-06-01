@@ -1,3 +1,6 @@
+/**
+ * Verifica della classe LoginPresenter
+ */
 module(
 		"LoginPanelPresenterTest",
 		{
@@ -38,6 +41,9 @@ module(
 			}
 		});
 
+/**
+ * Verifica l'inizializzazione degli elementi grafici del pannello
+ */
 test("testInitialize()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("main"));
@@ -100,6 +106,9 @@ test("testInitialize()", function() {
 	expect(i);
 });
 
+/**
+ * Verifica la rimozione del panello
+ */
 test("testDestroy()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("main"));
@@ -111,6 +120,9 @@ test("testDestroy()", function() {
 	expect(i);
 });
 
+/**
+ * Verifica il recupero dello username dall'interfaccia grafica
+ */
 test("testGetUsername()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("main"));
@@ -140,6 +152,9 @@ test("testGetUsername()", function() {
 	expect(i);
 });
 
+/**
+ * Verifica il recupero della password dall'interfaccia grafica
+ */
 test("testGetPassword()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("login"));
@@ -161,6 +176,9 @@ test("testGetPassword()", function() {
 	expect(i);
 });
 
+/**
+ * Verifica il comportamento in caso di login con dati errati
+ */
 test(
 		"testLoginUnsuccessfully()",
 		function() {
@@ -186,6 +204,9 @@ test(
 			expect(i);
 		});
 
+/**
+ * Verifica il comportamento nel caso di login con dati corretti
+ */
 test("testLoginSuccessfully()", function() {
 	var i = 0;
 	var loginData = {
@@ -215,9 +236,11 @@ test("testLoginSuccessfully()", function() {
 	expect(i);
 });
 
+/**
+ * Verifica la costruzione del form per il recupero della password
+ */
 test("testBuildRetrievePasswordForm()", function() {
 	var i = 0;
-
 	tester.initialize(mediator.getView("main"));
 	document.getElementById("username").value = "pr@va.com";
 	var button = document.getElementById("inputRetrievePassword");
@@ -227,7 +250,7 @@ test("testBuildRetrievePasswordForm()", function() {
 	var form = document.getElementById("passwordretrieval");
 
 	var children = form.childNodes;
-	equal(children.length, 3, "il form contiene esattamente tre figli");
+	equal(children.length, 3);
 	i++;
 
 	var labelQuestion = children[0];
@@ -252,5 +275,90 @@ test("testBuildRetrievePasswordForm()", function() {
 	equal(question, "Quale e' la risposta?");
 	i++;
 
+	expect(i);
+});
+
+/**
+ * Verifica il comportamento al click sul pulsante di login
+ */
+test("testOnInputLoginClick()", function() {
+	var i = 0;
+	tester.initialize(mediator.getView("main"));
+	document.getElementById("username").value = "pr@va.com";
+	document.getElementById("password").value = "p";
+	var element = document.getElementById("inputLogin");
+
+	element.dispatchEvent(new MouseEvent("click"));
+
+	var user = login.user;
+	equal(user.id, 2);
+	i++;
+	equal(user.email, "mario.rossi@gmail.com");
+	i++;
+	equal(user.name, "Mario");
+	i++;
+	equal(user.surname, "Rossi");
+	i++;
+	equal(user.picturePath, "default.png");
+	i++;
+
+	equal(user, communicationcenter.my);
+	i++;
+
+	expect(i);
+});
+
+/**
+ * Verifica il comportamento se si inserisce la risposta corretta nel form per
+ * il recupero della password.
+ */
+test(
+		"testRetrievePasswordSuccessfully()",
+		function() {
+			var i = 0;
+			// costriusce il pannello e il form
+			tester.initialize(mediator.getView("main"));
+			document.getElementById("username").value = "pr@va.com";
+			var button = document.getElementById("inputRetrievePassword");
+			var event = new MouseEvent("click");
+			button.dispatchEvent(event);
+			// inserisce la risposta nel campo di input
+			var element = document.getElementById("inputanswer");
+			element.value = "ThisIsNotAnAnswer";
+			element = document.getElementById("submitButton");
+			element.dispatchEvent(new MouseEvent("click"));
+			element = document.getElementById("LoginPanel").lastChild;
+			equal(element.nodeName, "P");
+			i++;
+			equal(
+					element.innerHTML,
+					"Recupero password avvenuto correttamente.Ti è stata inviata un'email contenente i dati richiesti.");
+			i++;
+			expect(i);
+		});
+
+/**
+ * Verifica il comportamento se si inserisce una risposta sbagliata nel form per
+ * il recupero della password.
+ */
+test("testRetrievePasswordUnsuccessfully()", function() {
+	var i = 0;
+	// costriusce il pannello e il form
+	tester.initialize(mediator.getView("main"));
+	document.getElementById("username").value = "pr@va.com";
+	var button = document.getElementById("inputRetrievePassword");
+	var event = new MouseEvent("click");
+	button.dispatchEvent(event);
+	// inserisce la risposta nel campo di input
+	var element = document.getElementById("inputanswer");
+	element.value = "ThisIsAWrongAnswer";
+	element = document.getElementById("submitButton");
+	element.dispatchEvent(new MouseEvent("click"));
+	element = document.getElementById("LoginPanel").lastChild;
+	equal(element.nodeName, "P");
+	i++;
+	equal(element.innerHTML,
+			"Dati non corretti. Inserire nuovamente la risposta.");
+	i++;
 	expect(i);
 });

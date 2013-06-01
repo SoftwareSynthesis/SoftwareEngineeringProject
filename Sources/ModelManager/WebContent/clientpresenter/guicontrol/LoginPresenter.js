@@ -172,6 +172,7 @@ function LoginPanelPresenter() {
         // pulsante di conferma
         var submitButton = document.createElement("button");
         submitButton.type = "submit";
+        submitButton.id = "submitButton";
         submitButton.appendChild(document.createTextNode("Richiedi Password"));
         submitButton.onclick = function() {
             // Answer(username, inputAnswer.getAttribute("value"));
