@@ -51,7 +51,6 @@ module(
  */
 test("testSendUserData()", function() {
 	var i = 0;
-
 	var data = {
 		name : "Paperone",
 		surname : "dePaperoni",
@@ -75,27 +74,88 @@ test("testSendUserData()", function() {
  */
 test("testDisplay()", function() {
 	var i = 0;
-
 	var event = new CustomEvent("showAccountSettingPanel");
 	document.dispatchEvent(event);
-
+	
 	tester.display();
-
-	var name = document.getElementById("name").innerHTML;
-	equal(name, "Paolino");
+	
+	var element = document.getElementById("AccountSettingsPanel");
+	equal(element.children.length, 4);
+	i++;
+	
+	element = element.children[0];
+	equal(element.nodeName, "DIV");
+	i++;
+	equal(element.children.length, 1);
+	i++;
+	element = element.children[0];
+	equal(element.nodeName, "H1");
+	i++;
+	equal(element.innerHTML.trim(), "DATI PERSONALI");
+	i++;
+	element = element.parentElement.parentElement.children[1];
+	equal(element.nodeName, "IMG");
+	i++;
+	equal(element.id, "picture");
+	i++;
+	equal(element.src, host + "img/contactImg/Default.png");
+	i++;
+	element = element.parentElement.children[2];
+	equal(element.nodeName, "UL");
+	i++;
+	equal(element.children.length, 2);
+	i++;
+	element = element.children[0];
+	equal(element.nodeName, "LI");
+	i++;
+	equal(element.id, "name");
+	i++;
+	equal(element.innerHTML.trim(), "Paolino");
+	i++;
+	element = element.parentElement.children[1];
+	equal(element.nodeName, "LI");
+	i++;
+	equal(element.id, "surname");
+	i++;
+	equal(element.innerHTML.trim(), "Paperino");
+	i++;
+	element = element.parentElement.parentElement.children[3];
+	equal(element.nodeName, "BUTTON");
+	i++;
+	equal(element.id, "changeButton");
+	i++;
+	equal(element.innerHTML.trim(), "Modifica dati");
 	i++;
 
-	var surname = document.getElementById("surname").innerHTML;
-	equal(surname, "Paperino");
-	i++;
+	expect(i);
+});
 
-	var picture = document.getElementById("picture");
-	equal(picture.src, host + "img/contactImg/Default.png");
-	i++;
-
+/**
+ * Verifica che sia costruito correttamente il form per la modifica dei dati
+ */
+test("testOnChangeButtonPressed()", function() {
+	var i = 0;var event = new CustomEvent("showAccountSettingPanel");
+	document.dispatchEvent(event);
+	tester.display();
 	var button = document.getElementById("changeButton");
-	equal(button.nodeName, "BUTTON");
+	var event = new MouseEvent("click");
+	button.dispatchEvent(event);
+	
+	var element = document.getElementById("formData");
+	equal(element.nodeName, "FORM");
 	i++;
-
+	equal(element.enctype, "multipart/form-data");
+	i++;
+	equal(element.children.length, 2);
+	i++;
+	element = element.children[0];
+	equal(element.nodeName, "UL");
+	i++;
+	equal(element.children.length, 3);
+	i++;
+	element = element.nextSibling;
+	equal(element.nodeName, "BUTTON");
+	i++;
+	
 	expect(i);
 });

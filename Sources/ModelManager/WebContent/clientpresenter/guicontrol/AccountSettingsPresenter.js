@@ -148,8 +148,9 @@ function AccountSettingsPanelPresenter(url) {
         // aggiunge il tutto al sottoalbero del DOM
         var formData = document.createElement("form");
         formData.setAttribute("name", "formData");
+        formData.setAttribute("id", "formData");
         formData.setAttribute("action", "");
-        formData.setAttibute("method", "POST");
+        formData.setAttribute("method", "POST");
         formData.setAttribute("accept-charset", "utf-8");
         formData.setAttribute("enctype", "multipart/form-data");
         formData.appendChild(ulData);
@@ -167,7 +168,7 @@ function AccountSettingsPanelPresenter(url) {
 	 */
     this.display = function() {
         // salvo un riferimento alla vista
-        var thisPanel = document.getElementById("AccountSettingsPanel");
+        thisPanel = document.getElementById("AccountSettingsPanel");
         // configura la vista
         document.getElementById("name").appendChild(document.createTextNode(communicationcenter.my.name));
         document.getElementById("surname").appendChild(document.createTextNode(communicationcenter.my.surname));
