@@ -5,6 +5,10 @@ module(
 		"AccountSettingsPresenterTest",
 		{
 			setup : function() {
+				// calcola l'indirizzo di base
+				host = window.location.protocol + "//" + window.location.host
+						+ window.location.pathname;
+				host = host.substr(0, host.length - 10);
 				// stub di communicationcenter
 				communicationcenter = new Object();
 				communicationcenter.my = {
@@ -55,12 +59,12 @@ test("testSendUserData()", function() {
 	};
 
 	var bool = tester.sendUserData(data);
-	equal(bool, true, "operazione andata a buon fine");
+	equal(bool, true);
 	i++;
 
 	data = communicationcenter.my;
 	var bool = tester.sendUserData(data);
-	equal(bool, false, "rilevato correttamente che non e' cambiato nulla");
+	equal(bool, false);
 	i++;
 
 	expect(i);
@@ -69,34 +73,29 @@ test("testSendUserData()", function() {
 /**
  * Verifica che i dati dell'utente siano visualizzati correttamente.
  */
-test(
-		"testDisplay()",
-		function() {
-			var i = 0;
+test("testDisplay()", function() {
+	var i = 0;
 
-			var event = new CustomEvent("showAccountSettingPanel");
-			document.dispatchEvent(event);
+	var event = new CustomEvent("showAccountSettingPanel");
+	document.dispatchEvent(event);
 
-			tester.display();
+	tester.display();
 
-			var name = document.getElementById("name").innerHTML;
-			equal(name, "Paolino", "nome impostato correttamente");
-			i++;
+	var name = document.getElementById("name").innerHTML;
+	equal(name, "Paolino");
+	i++;
 
-			var surname = document.getElementById("surname").innerHTML;
-			equal(surname, "Paperino", "cognome impostato correttamente");
-			i++;
+	var surname = document.getElementById("surname").innerHTML;
+	equal(surname, "Paperino");
+	i++;
 
-			var picture = document.getElementById("picture");
-			equal(
-					picture.src,
-					"http://localhost/ModelManager/UnitTest/org/softwaresynthesis/mytalk/img/contactImg/Default.png",
-					"percorso immagine impostato correttamente");
-			i++;
+	var picture = document.getElementById("picture");
+	equal(picture.src, host + "img/contactImg/Default.png");
+	i++;
 
-			var button = document.getElementById("changeButton");
-			equal(button.nodeName, "BUTTON", "tipo corretto dell'elemento");
-			i++;
+	var button = document.getElementById("changeButton");
+	equal(button.nodeName, "BUTTON");
+	i++;
 
-			expect(i);
-		});
+	expect(i);
+});

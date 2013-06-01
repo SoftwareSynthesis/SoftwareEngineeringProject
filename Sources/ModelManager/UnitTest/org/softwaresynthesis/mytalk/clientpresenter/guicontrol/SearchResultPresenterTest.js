@@ -1,35 +1,41 @@
-module("SearchResultPanelPresenter", {
-	setup : function() {
-		// indirizzo dello stub del front controller
-		commandURL = "http://localhost/ModelManager/WebContent/Conf/controllerManagerStub.php";
-		// stub di mediator
-		mediator = {
-			getView : function(someString) {
-				var viewRequest = new XMLHttpRequest();
-				viewRequest.open("POST", "clientview/SearchResultView.html",
-						false);
-				viewRequest.send();
-				var div = document.createElement("div");
-				div.innerHTML = viewRequest.responseText;
-				if (document.getElementById("SearchResultPanel") == null) {
-					document.body.appendChild(div);
-					div.style.display = "none";
-				}
+module(
+		"SearchResultPanelPresenter",
+		{
+			setup : function() {
+				// indirizzo base
+				host = window.location.protocol + "//" + window.location.host
+						+ window.location.pathname;
+				host = host.substr(0, host.length - 10);
+				// indirizzo dello stub del front controller
+				commandURL = "http://localhost/ModelManager/WebContent/Conf/controllerManagerStub.php";
+				// stub di mediator
+				mediator = {
+					getView : function(someString) {
+						var viewRequest = new XMLHttpRequest();
+						viewRequest.open("POST",
+								"clientview/SearchResultView.html", false);
+						viewRequest.send();
+						var div = document.createElement("div");
+						div.innerHTML = viewRequest.responseText;
+						if (document.getElementById("SearchResultPanel") == null) {
+							document.body.appendChild(div);
+							div.style.display = "none";
+						}
+					},
+					createNameLabel : function(something) {
+						return "pippo";
+					}
+				};
+				// oggetto da testare
+				tester = new SearchResultPanelPresenter();
 			},
-			createNameLabel : function(something) {
-				return "pippo";
+			teardown : function() {
+				var element = document.getElementById("SearchResultPanel");
+				if (element) {
+					document.body.removeChild(element.parentElement);
+				}
 			}
-		};
-		// oggetto da testare
-		tester = new SearchResultPanelPresenter();
-	},
-	teardown : function() {
-		var element = document.getElementById("SearchResultPanel");
-		if (element) {
-			document.body.removeChild(element.parentElement);
-		}
-	}
-});
+		});
 
 test("testDisplay()", function() {
 	var i = 0;
@@ -58,82 +64,72 @@ test("testDisplay()", function() {
 	expect(i);
 });
 
-test(
-		"testHandleResult",
-		function() {
-			var event = new CustomEvent("showSearchResultPanel");
-			document.dispatchEvent(event);
+test("testHandleResult", function() {
+	var event = new CustomEvent("showSearchResultPanel");
+	document.dispatchEvent(event);
 
-			var i = 0;
-			var contacts = {
-				1 : {
-					id : 1,
-					name : "paolino",
-					surname : "paperino",
-					email : "indirizzo5@dominio.it",
-					picturePath : "img/contactImg/Default.png",
-					state : "available"
-				},
-				2 : {
-					id : 2,
-					name : "gastone",
-					surname : "paperone",
-					email : "indirizzo4@dominio.it",
-					picturePath : "img/contactImg/Default.png",
-					state : "offline"
-				}
-			};
+	var i = 0;
+	var contacts = {
+		1 : {
+			id : 1,
+			name : "paolino",
+			surname : "paperino",
+			email : "indirizzo5@dominio.it",
+			picturePath : "img/contactImg/Default.png",
+			state : "available"
+		},
+		2 : {
+			id : 2,
+			name : "gastone",
+			surname : "paperone",
+			email : "indirizzo4@dominio.it",
+			picturePath : "img/contactImg/Default.png",
+			state : "offline"
+		}
+	};
 
-			tester.handleResult(contacts);
+	tester.handleResult(contacts);
 
-			var element = document.getElementById("userList");
-			equal(element.childNodes.length, 2);
-			i++;
+	var element = document.getElementById("userList");
+	equal(element.childNodes.length, 2);
+	i++;
 
-			var item = element.childNodes[0];
-			equal(item.nodeName, "LI");
-			i++;
-			equal(item.id, "resultList-1");
-			i++;
-			var avatar = item.childNodes[0];
-			equal(avatar.nodeName, "IMG");
-			i++;
-			equal(
-					avatar.src,
-					"http://localhost/ModelManager/UnitTest/org/softwaresynthesis/mytalk/img/contactImg/Default.png");
-			i++;
-			avatar = item.childNodes[1];
-			equal(avatar.nodeValue, "pippo");
-			i++;
-			avatar = item.childNodes[2];
-			equal(
-					avatar.src,
-					"http://localhost/ModelManager/UnitTest/org/softwaresynthesis/mytalk/img/stateavailable.png");
-			i++;
+	var item = element.childNodes[0];
+	equal(item.nodeName, "LI");
+	i++;
+	equal(item.id, "resultList-1");
+	i++;
+	var avatar = item.childNodes[0];
+	equal(avatar.nodeName, "IMG");
+	i++;
+	equal(avatar.src, host + "img/contactImg/Default.png");
+	i++;
+	avatar = item.childNodes[1];
+	equal(avatar.nodeValue, "pippo");
+	i++;
+	avatar = item.childNodes[2];
+	equal(avatar.src, host + "img/stateavailable.png");
+	i++;
 
-			item = element.childNodes[1];
-			equal(item.nodeName, "LI");
-			i++;
-			equal(item.id, "resultList-2");
-			i++;
-			avatar = item.childNodes[0];
-			equal(avatar.nodeName, "IMG");
-			i++;
-			equal(
-					avatar.src,
-					"http://localhost/ModelManager/UnitTest/org/softwaresynthesis/mytalk/img/contactImg/Default.png");
-			i++;
-			avatar = item.childNodes[1];
-			equal(avatar.nodeValue, "pippo");
-			i++;
-			avatar = item.childNodes[2];
-			equal(
-					avatar.src,
-					"http://localhost/ModelManager/UnitTest/org/softwaresynthesis/mytalk/img/stateoffline.png");
-			i++;
+	item = element.childNodes[1];
+	equal(item.nodeName, "LI");
+	i++;
+	equal(item.id, "resultList-2");
+	i++;
+	avatar = item.childNodes[0];
+	equal(avatar.nodeName, "IMG");
+	i++;
+	equal(avatar.src, host + "img/contactImg/Default.png");
+	i++;
+	avatar = item.childNodes[1];
+	equal(avatar.nodeValue, "pippo");
+	i++;
+	avatar = item.childNodes[2];
+	equal(avatar.src, host + "img/stateoffline.png");
+	i++;
 
-			expect(i);
-		});
+	expect(i);
+});
 
 /**
  * Questo simula un evento!!! :)
@@ -152,9 +148,9 @@ test("testSendSearch()", function() {
 
 	var list = document.getElementById("userList");
 	var children = list.childNodes;
-	
+
 	equal(children.length, 5);
 	i++;
-	
+
 	expect(i);
 });
