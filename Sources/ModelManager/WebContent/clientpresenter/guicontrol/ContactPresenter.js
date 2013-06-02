@@ -40,6 +40,23 @@ function ContactPanelPresenter() {
             document.getElementById("unlockButton").style.display = "none";
         }
     }
+    
+    /**
+     * Tres te l'eri dimenticata questa!
+     * 
+     * @author Diego Beraldin
+     * @param {Object}
+     * 			contact Contatto da controllare
+     */
+    function adjustAddressBookButtons(contact) {
+    	if (mediator.contactAlreadyPresent(contact)) {
+    		document.getElementById("addToAddressBookButton").style.display = "none";
+    		document.getElementById("removeFromAddressBookButton").style.display = "inline";
+    	} else {
+    		document.getElementById("addToAddressBookButton").style.display = "inline";
+    		document.getElementById("removeFromAddressBookButton").style.display = "none";
+    	}
+    }
 
     /** VIEW
      * Funzione che sistema la grafica della visualizzazione del contatto in base
@@ -82,7 +99,7 @@ function ContactPanelPresenter() {
         // estraggo il div da popolare
         var div = document.getElementById("groupsDiv");
         // estraggo la lista dei gruppi a cui appartiene l'utente visualizzato
-        var groups = mediator.getGroupsWhereContactsIs(contact);
+        var groups = mediator.getGroupsWhereContactIs(contact);
         // ciclo la lista e creo le "label"
         for (var group in groups) {
             if (groups[group].name != "addrBookEntry") {
@@ -147,6 +164,7 @@ function ContactPanelPresenter() {
 
         adjustBlockButtonDisplay(currentContact);
         adjustGUIOnContactState(currentContact);
+        adjustAddressBookButtons(currentContact);
 
         // popolo le label dei gruppi al div groupsDiv
         buildGroupsDiv(currentContact);
