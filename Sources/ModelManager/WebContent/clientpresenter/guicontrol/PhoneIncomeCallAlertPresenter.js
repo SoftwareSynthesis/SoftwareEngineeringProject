@@ -53,7 +53,7 @@ function PhoneIncomeCallAlertPresenter() {
         // faccio suonare il campanile
         startRinging.evento = "income";
         document.dispatchEvent(startRinging);
-        
+
     };
 
     /**
@@ -83,9 +83,11 @@ function PhoneIncomeCallAlertPresenter() {
      * @param {Object} caller rappresenta il contato he sta chiamando
      */
     function onShowPhoneIncomeCallAlertPanel(x, o) {
-        caller = x;
-        onlyAudio = o;
-        mediator.getView("phoneIncomeCallAlert");
+        if (!thisPanel) {
+            caller = x;
+            onlyAudio = o;
+            mediator.getView("phoneIncomeCallAlert");
+        }
     }
 
     /**

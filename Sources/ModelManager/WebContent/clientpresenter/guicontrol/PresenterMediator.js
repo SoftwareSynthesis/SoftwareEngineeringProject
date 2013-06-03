@@ -21,7 +21,7 @@ function PresenterMediator() {
         main : "MainView.html",
         message : "MessageView.html",
         phoneCallsRegistry : "PhoneCallsRegistryView.html",
-        phoneIncomeCallAlert : "PhoneCallsRegistryView.html",
+        phoneIncomeCallAlert : "PhoneIncomeCallAlertView.html",
         register : "RegisterView.html",
         searchResult : "SearchResultView.html",
         tools : "ToolsView.html"

@@ -241,7 +241,7 @@ function CommunicationCenter() {
             }]
         };
 
-        pc = new RTCPeerConnection(configuration);
+        pc = new webkitRTCPeerConnection(configuration);
 
         //invio tutti gli ICECandidate agli altri peer
         pc.onicecandidate = function(evt) {
@@ -301,7 +301,7 @@ function CommunicationCenter() {
         //prende lo stream video locale, lo visualizza sul corrispetivo <video> e
         // lo invia agli altri peer
         if (onlyAudio == true) {
-            navigator.GetUserMedia({
+            navigator.webkitGetUserMedia({
                 "audio" : true,
                 "video" : false
             }, function(stream) {
@@ -318,7 +318,7 @@ function CommunicationCenter() {
                     pc.createAnswer(gotDescription);
             });
         } else {
-            navigator.GetUserMedia({
+            navigator.webkitGetUserMedia({
                 "audio" : true,
                 "video" : true
             }, function(stream) {
@@ -447,7 +447,7 @@ function CommunicationCenter() {
      */
     function onAcceptCall(contact, onlyAudio){
         document.dispatchEvent(showCommunicationPanel);
-        call(false, contact, onlyAudio);
+        thisMonolith.call(false, contact, onlyAudio);
     }
     
     /**
