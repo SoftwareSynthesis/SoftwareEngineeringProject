@@ -44,7 +44,7 @@ public class GetCallsController extends AbstractController{
 				{
 					callList = callListIter.next();
 					result += "{";
-					result += "\"id\":\"" + callList.getUser().getId() + " " + callList.getUser().getSurname() + "\"";
+					result += "\"id\":\"" + callList.getUser().getId() + "\"";
 					result += ", \"start\":\"" + callList.getCall().getStart() + "\"";
 					result += ", \"caller\":\"" + callList.getCaller() + "\"";
 					result += "}";
