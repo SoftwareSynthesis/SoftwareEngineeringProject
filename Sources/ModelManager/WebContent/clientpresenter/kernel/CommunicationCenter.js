@@ -176,12 +176,13 @@ function CommunicationCenter() {
                     showPhoneIncomeCallAlertPanel.caller = mediator.getContactById(idOther);
                     showPhoneIncomeCallAlertPanel.onlyAudio = onlyAudio;
                     document.dispatchEvent(showPhoneIncomeCallAlertPanel);
-                }
-                if ((signal.sdp) == null) {
-                    pc.addIceCandidate(new RTCIceCandidate(signal));
                 } else {
-                    document.dispatchEvent(stopRinging);
-                    pc.setRemoteDescription(new RTCSessionDescription(signal));
+                    if ((signal.sdp) == null) {
+                        pc.addIceCandidate(new RTCIceCandidate(signal));
+                    } else {
+                        document.dispatchEvent(stopRinging);
+                        pc.setRemoteDescription(new RTCSessionDescription(signal));
+                    }
                 }
             } else if (type == "5") {
                 changeAddressBooksContactState.idUserChange = str[1];
@@ -422,13 +423,13 @@ function CommunicationCenter() {
         startRinging.evento = "outcome";
         document.dispatchEvent(startRinging);
     };
-    
+
     /**
      * Gestione evento chiamata rifiutata
      * @version 2.0
      * @author Riccardo Tresoldi
      */
-    function onRejectedCall(){
+    function onRejectedCall() {
         document.dispatchEvent(stopRinging);
         localStream.stop();
         stopTimer();
@@ -439,23 +440,23 @@ function CommunicationCenter() {
         pc = null;
         document.dispatchEvent(showContactPanel);
     }
-    
+
     /**
      * Gestione evento acettare chiamata
      * @version 2.0
      * @author Riccardo Tresoldi
      */
-    function onAcceptCall(contact, onlyAudio){
+    function onAcceptCall(contact, onlyAudio) {
         document.dispatchEvent(showCommunicationPanel);
         thisMonolith.call(false, contact, onlyAudio);
     }
-    
+
     /**
      * Gestione evento rifiutare chiamata
      * @version 2.0
      * @author Riccardo Tresoldi
      */
-    function onRejectCall(){
+    function onRejectCall(caller) {
         var message = new Array("6", caller.id);
         if (websocket)
             websocket.send(JSON.stringify(message));
@@ -473,13 +474,13 @@ function CommunicationCenter() {
     document.addEventListener("call", function(evt) {
         onCall(evt.contact, evt.onlyAudio);
     });
-    document.addEventListener("rejectedCall", function(evt){
+    document.addEventListener("rejectedCall", function(evt) {
         onRejectedCall();
     });
-    document.addEventListener("acceptCall", function(evt){
+    document.addEventListener("acceptCall", function(evt) {
         onAcceptCall(evt.contact, evt.onlyAudio);
     });
-    document.addEventListener("rejectCall", function(evt){
-        onRejectCall();
+    document.addEventListener("rejectCall", function(evt) {
+        onRejectCall(evt.caller);
     });
 }
