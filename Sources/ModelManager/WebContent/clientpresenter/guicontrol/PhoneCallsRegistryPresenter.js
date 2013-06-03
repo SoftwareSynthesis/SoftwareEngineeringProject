@@ -95,7 +95,7 @@ function PhoneCallsRegistryPresenter() {
      *
      * @author Riccardo Tresoldi
      */
-    this.showView = function(receiver) {
+    this.showView = function() {
         // salvo il panel generato
         thisPanel = document.getElementById("PhoneCallRecorder");
         // ricavo i riferimenti agli elementi della view

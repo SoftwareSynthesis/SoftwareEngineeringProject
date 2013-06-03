@@ -201,11 +201,15 @@ function ContactPanelPresenter() {
         };
 
         videoCallButton.onclick = function() {
-            mediator.onCall(currentContact, false);
+            call.contact = currentContact;
+            call.onlyAudio = false;
+            document.dispatchEvent(call);
         };
 
         callButton.onclick = function() {
-            mediator.onCall(currentContact, true);
+            call.contact = currentContact;
+            call.onlyAudio = true;
+            document.dispatchEvent(call);
         };
 
         messageButton.onclick = function() {
@@ -214,9 +218,9 @@ function ContactPanelPresenter() {
         };
 
         // tolgo la possibilità di aggiungere un utente se già presente
-        if (mediator.contactAlreadyPresent(currentContact)) {
+        /*if (mediator.contactAlreadyPresent(currentContact)) {
             document.getElementById("addToAddressBookButton").style.display = "none";
-        }
+        }*/
     };
     
     /**************************************************************************

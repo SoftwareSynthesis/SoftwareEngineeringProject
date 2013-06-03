@@ -97,24 +97,6 @@ function CommunicationPanelPresenter() {
         return element;
     }
 
-    /**
-     * Funzione che nasconde il messaggio che avvisa l'arrivo della chiamata
-     *
-     * @author Riccardo Tresoldi
-     */
-    // XXX questa è condannata a morte o sbaglio?!
-    function removeAnswerBox() {
-        //estraggo gli elementi da rimuovere
-        overlay = document.getElementById('overlayAnswerBox');
-        answerBox = document.getElementById('answerBox');
-        //setto la visibilità a 'none'
-        overlay.style.display = "none";
-        answerBox.style.display = "none";
-        //elimino dal DOM gli elementi
-        document.removeChild(overlay);
-        document.removeChild(answerBox);
-    }
-
     /***************************************************************************
      * METODI PUBBLICI
      **************************************************************************/
@@ -253,94 +235,6 @@ function CommunicationPanelPresenter() {
         return document.getElementById("otherVideo");
     };
 
-    /**
-     * Funzione che mostra il messaggio che avvisa l'arrivo della chiamata
-     *
-     * @author Riccardo Tresoldi
-     * @param {Object} caller contatto che rappresenta il chiamante
-     */
-    // XXX anche questa è condannata a morte o sbaglio?!
-    this.showAnswerBox = function(caller, onlyAudio) {
-        var body = document.getElementsByTagName("body").item(0);
-        //creo il div di sfondo
-        var overlay = document.createElement("div");
-        overlay.id = "overlayAnswerBox";
-        //creo il div con la richiesta di risposta
-        var answerBox = document.createElement("div");
-        answerBox.id = "answerBox";
-        //creo gli elementi della finestra di risposta
-        //label generica
-        var labelAnswerBox = document.createElement("span");
-        labelAnswerBox.appendChild(document.createTextNode("Chiamata in arrivo da:"));
-        labelAnswerBox.id = "labelAnswerBox";
-        //label con nome del chiamante
-        var nameCallerAnswerBox = document.createElement("span");
-        nameCallerAnswerBox.appendChild(document.createTextNode(mediator.createNameLabel(caller)));
-        nameCallerAnswerBox.id = "nameCallerAnswerBox";
-        //pulsante per rifiutare la chiamata
-        var refuseCallButton = document.createElement("button");
-        refuseCallButton.appendChild(document.createTextNode("Rifiuta"));
-        refuseCallButton.type = "button";
-        refuseCallButton.id = "refuseCallButton";
-        refuseCallButton.onclick = function() {
-            removeAnswerBox();
-            communicationcenter.refuseCall(caller);
-        };
-        //pulsante per accettare la chiamata
-        var acceptCallButton = document.createElement("button");
-        acceptCallButton.appendChild(document.createTextNode("Accetta"));
-        acceptCallButton.type = "button";
-        acceptCallButton.id = "acceptCallButton";
-        acceptCallButton.onclick = function() {
-            removeAnswerBox();
-            communicationcenter.acceptCall(caller, onlyAudio);
-        };
-        //appendo tutti gli elementi al div
-        answerBox.appendChild(labelAnswerBox);
-        answerBox.appendChild(nameCallerAnswerBox);
-        answerBox.appendChild(refuseCallButton);
-        answerBox.appendChild(acceptCallButton);
-        //appendo i div appena creati al body
-        if ( bodyFirstChild = body.firstChild) {
-            body.insertBefore(overlay, bodyFirstChild);
-            body.insertBefore(answerBox, bodyFirstChild);
-        } else {
-            body.appendChild(overlay);
-            body.appendChild(answerBox);
-        }
-    };
-
-    /**
-     * Funzione che fa partire una suoneria
-     *
-     * @author Riccardo tresoldi
-     * @param {String} evt evento che richiede la suoneria
-     */
-    // N.B. Nella documentazione è un gestore di evento
-    // XXX lo deve diventare per davvero?
-    this.startRinging = function(evt) {
-        if (!intervalRing) {
-            intervalRing = setInterval(function() {
-                audio[evt].play();
-            }, 1000);
-        }
-    };
-
-    /**
-     * Funzione che fa partire una suoneria
-     *
-     * @author Riccardo tresoldi
-     */
-    // N.B. Nella documentazione è un gestore di evento
-    // XXX lo deve diventare per davvero?
-    this.stopRinging = function() {
-        if (intervalRing) {
-            clearInterval(intervalRing);
-            intervalRing = null;
-        }
-
-    };
-
     /***************************************************************************
      * HANDLER DEGLI EVENTI
      **************************************************************************/
@@ -361,7 +255,7 @@ function CommunicationPanelPresenter() {
         if (!document.getElementById("CallFunction"))
             document.dispatchEvent(showReturnToCommunicationPanelButton);
     }
-    
+
     /** VIEW
      * Gestore dell'evento per l'aggiunta una stringa all'interno dell'area di
      * testo che è associata alla chat con l'utente passato come parametro
@@ -385,6 +279,33 @@ function CommunicationPanelPresenter() {
         textArea.value += (sender + ":\t" + message + "\n");
     }
 
+    /**
+     * Gestione suoneria chiamata ON
+     * @version 2.0
+     * @author Riccardo Tresoldi
+     * @param {String} event evento che richiede la suoneria
+     */
+    function onStartRinging(event) {
+        if (!intervalRing) {
+            intervalRing = setInterval(function() {
+                audio[event].play();
+            }, 1000);
+        }
+    }
+
+    /**
+     * Gestione suoneria chiamata OFF
+     * @version 2.0
+     * @author Riccardo Tresoldi
+     * @param {String} event evento che richiede la suoneria
+     */
+    function onStopRinging() {
+        if (intervalRing) {
+            clearInterval(intervalRing);
+            intervalRing = null;
+        }
+    }
+
     /***************************************************************************
      * LISTENER DEGLI EVENTI
      **************************************************************************/
@@ -392,4 +313,8 @@ function CommunicationPanelPresenter() {
     document.addEventListener("appendMessageToChat", function(evt) {
         onAppendMessageToChat(evt.user, evt.message, evt.IAmSender);
     })
+    document.addEventListener("startRinging", function(evt){
+        onStartRinging(evt.evento);
+    });
+    document.addEventListener("stopRinging", onStopRinging);
 }

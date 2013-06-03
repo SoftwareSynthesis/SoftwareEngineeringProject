@@ -19,6 +19,7 @@ window.onload = function() {
     showSearchResultPanel = new CustomEvent("showSearchResultPanel");
     showCommunicationPanel = new CustomEvent("showCommunicationPanel");
     showPhoneCallMessagePanel = new CustomEvent("showPhoneCallMessagePanel");
+    showPhoneIncomeCallAlertPanel = new CustomEvent("showPhoneIncomeCallAlertPanel");
     // eventi rimozione pannelli
     removeAllPanel = new CustomEvent("removeAllPanel");
     removeLoginPanel = new CustomEvent("removeLoginPanel");
@@ -29,6 +30,7 @@ window.onload = function() {
     removeContactPanel = new CustomEvent("removeContactPanel");
     removeCommunicationPanel = new CustomEvent("removeCommunicationPanel");
     removePhoneCallMessagePanel = new CustomEvent("removePhoneCallMessagePanel");
+    removePhoneIncomeCallAlertPanel = new CustomEvent("removePhoneIncomeCallAlertPanel");
     // eventi per LoginPresenter
     login = new CustomEvent("login");
     logout = new CustomEvent("logout");
@@ -48,15 +50,26 @@ window.onload = function() {
     changeMyState = new CustomEvent("changeMyState");
     sendMessage = new CustomEvent("sendMessage");
     appendMessageToChat = new CustomEvent("appendMessageToChat");
+    startRinging = new CustomEvent("startRinging");
+    stopRinging = new CustomEvent("stopRinging");
+    call = new CustomEvent("call");
+    rejectedCall = new CustomEvent("rejectedCall");
+    acceptCall = new CustomEvent("acceptCall");
+    rejectCall = new CustomEvent("rejectCall");
+    
+    
+    
+    
+    
+
 
     /**************************************
     ****Inizializzazione delle funzioni****
     **************************************/
     window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext || window.msAudioContext;
-    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+    // navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
     window.URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
-    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
-    navigator.RTCPeerConnection = navigator.RTCPeerConnection || navigator.webkitRTCPeerConnection || navigator.mozRTCPeerConnection || navigator.msRTCPeerConnection;
+    // RTCPeerConnection = RTCPeerConnection || webkitRTCPeerConnection || mozRTCPeerConnection || msRTCPeerConnection;
 
     /*****************************************
     ****Inizializzazione variabili globali**** || per cui i programmatori meritano il taglio delle dita

@@ -148,11 +148,11 @@ function CommunicationCenter() {
             changeMyState.state = "available";
             document.dispatchEvent(changeMyState);
         };
-        
+
         //event handle per gestire la chiusura della socket
         websocket.onclose = function(evt) {
         };
-        
+
         //event handle per gestire l'arrivo di un messaggio da parte della socket
         websocket.onmessage = function(evt) {
             //split del messaggio ricevuto e estrazione del tipo di messaggio
@@ -172,12 +172,15 @@ function CommunicationCenter() {
             } else if (type == "2") {
                 var signal = str[1];
                 if (pc == null) {
-                    //chiamo la funzione che gestisce la chiamata in arrivo
-                    thisMonolith.handleCall(mediator.getContactById(idOther), onlyAudio);
+                    // chiamo il gestore della chiamata in arrivo
+                    showPhoneIncomeCallAlertPanel.caller = mediator.getContactById(idOther);
+                    showPhoneIncomeCallAlertPanel.onlyAudio = onlyAudio;
+                    document.dispatchEvent(showPhoneIncomeCallAlertPanel);
                 }
                 if ((signal.sdp) == null) {
                     pc.addIceCandidate(new RTCIceCandidate(signal));
                 } else {
+                    document.dispatchEvent(stopRinging);
                     pc.setRemoteDescription(new RTCSessionDescription(signal));
                 }
             } else if (type == "5") {
@@ -186,7 +189,7 @@ function CommunicationCenter() {
                 document.dispatchEvent(changeAddressBooksContactState);
             } else if (type == "6") {
                 // notifica rifiuto chiamata
-                thisMonolith.refusedCall();
+                document.dispatchEvent(rejectedCall);
             } else if (type == "7") {
                 // ricezione messaggio in chat
                 appendMessageToChat.user = str[1];
@@ -355,65 +358,14 @@ function CommunicationCenter() {
     };
 
     /**
-     * Funzione per gestire il rifiuto della chiamata da parte dell'altro utente
-     *
-     * @author Riccardo Tresoldi
-     */
-    this.refusedCall = function() {
-        localStream.stop();
-        stopTimer();
-        stopStat();
-        mediator.getCommunicationPPMyVideo().src = "";
-        mediator.getCommunicationPPOtherVideo().src = "";
-        pc.close();
-        pc = null;
-    };
-    
-    /**
      * Verifica la presenza di una eventuale connessione WebSocket aperta con il
      * server
      *
      * @author Riccardo Tresoldi
      */
+    // XXX condannato a morte - impiccato al campanile
     this.isPCDefined = function() {
         return (pc != null && pc != undefined);
-    };
-
-    /**
-     * funzione che visualizza la richiesta di rispondere ad una chiamata in
-     * arrivo
-     * @author Riccardo Tresoldi
-     * @param {Object} caller id del contatto che sta chiamando
-     * @return {Boolean} true solo se desidero rispondere
-     */
-    this.handleCall = function(caller, onlyAudio) {
-        mediator.startRinging("income");
-        mediator.onIncomeCall(caller, onlyAudio);
-    }
-    /**
-     * Funzione per gestire la risposta alla chiamata
-     *
-     * @author Riccardo Tresoldi
-     * @param {Object} caller Oggetto che rappresenta il chiamante
-     */
-    this.acceptCall = function(caller, onlyAudio) {
-        mediator.stopRinging();
-        // FIXME questo è un errore!
-        mediator.displayCommunicationPanel();
-        this.call(false, caller.id, onlyAudio);
-    };
-
-    /**
-     * Funzione per gestire il rifiuto alla chiamata
-     *
-     * @author Riccardo Tresoldi
-     * @param {Object} caller Oggetto che rappresenta il chiamante
-     */
-    this.refuseCall = function(caller) {
-        mediator.stopRinging();
-        var ar = new Array("6", caller.id);
-        if (websocket)
-            websocket.send(JSON.stringify(ar));
     };
 
     /***************************************************************************
@@ -456,6 +408,59 @@ function CommunicationCenter() {
         document.dispatchEvent(appendMessageToChat);
     }
 
+    /**
+     * Funzione per effettuare la vera e propria chiamata con un contatto
+     * @version 2.0
+     * @author Riccardo Tresoldi
+     * @param {Object} contact il contatto da chiamare
+     * @param {Boolean} onlyAudio true se si vuole effettuare una chiamata solo
+     * audio
+     */
+    function onCall(contact, onlyAudio) {
+        document.dispatchEvent(showCommunicationPanel);
+        thisMonolith.call(true, contact, onlyAudio);
+        startRinging.evento = "outcome";
+        document.dispatchEvent(startRinging);
+    };
+    
+    /**
+     * Gestione evento chiamata rifiutata
+     * @version 2.0
+     * @author Riccardo Tresoldi
+     */
+    function onRejectedCall(){
+        document.dispatchEvent(stopRinging);
+        localStream.stop();
+        stopTimer();
+        stopStat();
+        mediator.getCommunicationPPMyVideo().src = "";
+        mediator.getCommunicationPPOtherVideo().src = "";
+        pc.close();
+        pc = null;
+        document.dispatchEvent(showContactPanel);
+    }
+    
+    /**
+     * Gestione evento acettare chiamata
+     * @version 2.0
+     * @author Riccardo Tresoldi
+     */
+    function onAcceptCall(contact, onlyAudio){
+        document.dispatchEvent(showCommunicationPanel);
+        call(false, contact, onlyAudio);
+    }
+    
+    /**
+     * Gestione evento rifiutare chiamata
+     * @version 2.0
+     * @author Riccardo Tresoldi
+     */
+    function onRejectCall(){
+        var message = new Array("6", caller.id);
+        if (websocket)
+            websocket.send(JSON.stringify(message));
+    }
+
     /***************************************************************************
      * LISTNER DEGLI EVENTI
      **************************************************************************/
@@ -464,5 +469,17 @@ function CommunicationCenter() {
     });
     document.addEventListener("sendMessage", function(evt) {
         onSendMessage(evt.contact, evt.messageText);
+    });
+    document.addEventListener("call", function(evt) {
+        onCall(evt.contact, evt.onlyAudio);
+    });
+    document.addEventListener("rejectedCall", function(evt){
+        onRejectedCall();
+    });
+    document.addEventListener("acceptCall", function(evt){
+        onAcceptCall(evt.contact, evt.onlyAudio);
+    });
+    document.addEventListener("rejectCall", function(evt){
+        onRejectCall();
     });
 }

@@ -21,6 +21,7 @@ function PresenterMediator() {
         main : "MainView.html",
         message : "MessageView.html",
         phoneCallsRegistry : "PhoneCallsRegistryView.html",
+        phoneIncomeCallAlert : "PhoneCallsRegistryView.html",
         register : "RegisterView.html",
         searchResult : "SearchResultView.html",
         tools : "ToolsView.html"
@@ -45,16 +46,17 @@ function PresenterMediator() {
     //creo array per rendere accessibili i presenter
     var secondaryPresenter = new Array();
     secondaryPresenter["accountSettings"] = accountsettingspp;
-    secondaryPresenter["communication"] = communicationpp
-    secondaryPresenter["contact"] = contactpp
-    secondaryPresenter["callHistory"] = callhistorypp
-    secondaryPresenter["message"] = messagepp
-    secondaryPresenter["searchResult"] = searchresultpp
-    secondaryPresenter["group"] = grouppp
+    secondaryPresenter["communication"] = communicationpp;
+    secondaryPresenter["contact"] = contactpp;
+    secondaryPresenter["callHistory"] = callhistorypp;
+    secondaryPresenter["message"] = messagepp;
+    secondaryPresenter["searchResult"] = searchresultpp;
+    secondaryPresenter["group"] = grouppp;
 
     // presenter "pop-up" per messaggio segreteria
     var popupPresenters = new Array();
     popupPresenters["phoneCallsRegistry"] = new PhoneCallsRegistryPresenter();
+    popupPresenters["phoneIncomeCallAlert"] = new PhoneIncomeCallAlertPresenter();
 
     /***************************************************************************
      * METODI PUBBLICI
@@ -158,22 +160,6 @@ function PresenterMediator() {
     };
 
     /**
-     * Funzione per effettuare la vera e propria chiamata con un contatto
-     *
-     * @author Riccardo Tresoldi
-     *
-     * @param {Object}
-     *            contact il contatto da chiamare
-     * @param {Boolean}
-     *            onlyAudio true se si vuole effettuare una chiamata solo audio
-     */
-    // TODO da documentare
-    this.onCall = function(contact, onlyAudio) {
-        document.dispatchEvent(showCommunicationPanel);
-        communicationcenter.call(true, contact, onlyAudio);
-    };
-
-    /**
      * Funzione per ottenere l'elemento "myVideo" del CommunicationPP
      *
      * @author Riccardo Tresoldi
@@ -246,21 +232,6 @@ function PresenterMediator() {
      */
     this.getContactById = function(idContact) {
         return presenters["addressBook"].getContact(idContact);
-    };
-
-    /**
-     * Funzione richiamata per gestire l'evento di chiamata in arrivo
-     *
-     * @author Riccardo Tresoldi
-     * @param {Object} caller rappresenta il contatto che sta chiamando
-     */
-    // TODO da documentare
-    // FIXME TRES manca l'event handler, che comunque dovrebbe stare in
-    // CommunicationPresenter, giusto?
-    // inoltre dovrebbe essere una funzione privata (anche se per la
-    // documentazione 'sta roba è pubblica)
-    this.onIncomeCall = function(caller, onlyAudio) {
-        communicationpp.showAnswerBox(caller, onlyAudio);
     };
 
     /**
