@@ -351,11 +351,15 @@ function CommunicationPanelPresenter() {
      */
     function onShowCommunicationPanel() {
         if (!thisPanel) {
-            mediator.getView('contact');
+            mediator.getView('communication');
         } else {
+            // TODO da aggiungere il comando di visualizzazione del
+            // CommunicationPanel al MainPresenter perche non lo fa più
+            // onLoadedView del cesso
             thisPresenter.display();
         }
-        document.dispatchEvent(showReturnToCommunicationPanelButton);
+        if (!document.getElementById("CallFunction"))
+            document.dispatchEvent(showReturnToCommunicationPanelButton);
     }
     
     /** VIEW
