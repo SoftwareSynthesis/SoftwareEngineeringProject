@@ -24,6 +24,7 @@ module(
 						viewRequest.send();
 						var div = document.createElement("div");
 						div.innerHTML = viewRequest.responseText;
+						div.children[0].style.display = "none";
 						return div.childNodes[0];
 					},
 					createNameLabel : function(someContact) {
@@ -54,54 +55,100 @@ test("testInitialize()", function() {
 	tester.initialize(mediator.getView("addressBook"));
 
 	var element = document.getElementById("AddressBookPanel");
-	var list = element.children;
-	equal(list.length, 4);
+	equal(element.children.length, 4);
 	i++;
-	equal(list[0].nodeName, "DIV");
+	element = element.children[0];
+	equal(element.nodeName, "DIV");
 	i++;
-	equal(list[1].nodeName, "DIV");
+	equal(element.className, "panelHeader");
 	i++;
-	equal(list[2].nodeName, "DIV");
+	element = element.children[0];
+	equal(element.nodeName, "H1");
 	i++;
-	equal(list[3].nodeName, "DIV");
+	equal(element.innerHTML.trim(), "RUBRICA");
 	i++;
-	equal(list[1].getAttribute("id"), "divFilter");
+	element = element.parentElement.parentElement.children[1];
+	equal(element.nodeName, "DIV");
 	i++;
-	equal(list[2].getAttribute("id"), "divList");
+	equal(element.id, "divFilter");
 	i++;
-	equal(list[3].getAttribute("id"), "divGroup");
+	element = element.children[0];
+	equal(element.nodeName, "INPUT");
 	i++;
-
-	var Filter = list[1].children;
-	equal(Filter.length, 2);
+	equal(element.id, "inputText");
 	i++;
-
-	equal(Filter[0].nodeName, "INPUT");
+	element = element.parentElement.children[1];
+	equal(element.nodeName, "INPUT");
 	i++;
-	equal(Filter[0].getAttribute("type"), "text");
+	equal(element.nodeName, "INPUT");
 	i++;
-
-	equal(Filter[1].nodeName, "INPUT");
+	equal(element.id, "inputButton");;
 	i++;
-	equal(Filter[1].getAttribute("type"), "image");
+	equal(element.src, host + "img/search.png");
 	i++;
-
-	var Sort = list[2].children;
-	equal(Sort.length, 1);
+	element = element.parentElement.parentElement.children[2];
+	equal(element.nodeName, "DIV");
 	i++;
-	equal(Sort[0].nodeName, "UL");
+	equal(element.id, "divList");
 	i++;
-	equal(Sort[0].getAttribute("id"), "AddressBookList");
+	element = element.children[0];
+	equal(element.nodeName, "UL");
 	i++;
-
-	var List = list[3].children;
-	equal(List.length, 1);
+	equal(element.id, "AddressBookList");
 	i++;
-	equal(List[0].nodeName, "SELECT");
+	element = element.parentElement.parentElement.children[3];
+	equal(element.nodeName, "DIV");
+	i++;
+	equal(element.id, "divGroup");
+	i++;
+	element = element.children[0];
+	equal(element.nodeName, "SELECT");
+	i++;
+	equal(element.id, "selectGroup");
 	i++;
 
 	expect(i);
 });
+
+/**
+ * Verifica la visualizzazione della lista dei contatti
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
+test("testSetup()", function() {
+	var i = 0;
+	tester.initialize(mediator.getView("addressBook"));
+	
+	tester.setup();
+	var element = document.getElementById("AddressBookList");
+
+	equal(element.children.length, 5);
+	i++;
+	element = element.children[0];
+	equal(element.nodeName, "LI");
+	i++;
+	equal(element.id, "1");
+	i++;
+	equal(element.className, "available");
+	i++;
+	element = element.children[0];
+	equal(element.nodeName, "IMG");
+	i++;
+	equal(element.src, host + "img/contactImg/Default.png");
+	i++;
+	equal(element.parentElement.childNodes[1].nodeValue.trim(), "a.rizzi@gmail.com");
+	i++;
+	element = element.parentElement.children[1];
+	equal(element.nodeName, "IMG");
+	i++;
+	equal(element.src, host + "img/stateavailable.png");
+	i++;
+
+	expect(i);
+});
+
+
 
 // test("testDeleteGroup()", function() {
 // var groups = {
@@ -132,78 +179,6 @@ test("testInitialize()", function() {
 // i++;
 // }
 // equal(tester.deleteGroup(famiglia), true, "");
-// i++;
-//
-// expect(i);
-// });
-//
-
-// test("testSetup()", function() {
-// var i = 0;
-// tester.setup();
-// var list = document.getElementById("AddressBookList").childNodes;
-// // controllo che abbia scaricato tutti contatti dal server
-// equal(list.length, 2, "numero corretto di contatti nella rubrica");
-// i++;
-//
-// equal(list[0].nodeName, "LI",
-// "il primo figlio dell'elemento e' un figlio della lista");
-// i++;
-//
-// var laura = list[1].childNodes;
-//
-// equal(laura.length, 3, "ci sono tre figli");
-// i++;
-//
-// equal(laura[0].nodeName, "IMG",
-// "il primo figlio dell'elemento e' un immagine(profilo)");
-// i++;
-//
-// equal(laura[1].nodeName, "#text",
-// "il primo figlio dell'elemento e' un nodo testo");
-// i++;
-//
-// equal(laura[2].nodeName, "IMG",
-// "il primo figlio dell'elemento e' un immagine(stato)");
-// i++;
-//
-// equal(laura[0].getAttribute("src"), "img/contactImg/1.png",
-// "l'immagine del primo contatto e' corretta");
-// i++;
-//
-// equal(laura[1].data, "Flavia Bacco", "il nome e congnome sono corretti");
-// i++;
-//
-// equal(laura[2].getAttribute("src"), "img/stateavailable.png",
-// "lo stato del primo contatto e' corretto");
-// i++;
-//
-// var flavia = list[0].childNodes;
-//
-// equal(flavia.length, 3, "ci sono tre figli");
-// i++;
-//
-// equal(flavia[0].nodeName, "IMG",
-// "il primo figlio dell'elemento e' un immagine(profilo)");
-// i++;
-//
-// equal(flavia[1].nodeName, "#text",
-// "il primo figlio dell'elemento e' un nodo testo");
-// i++;
-//
-// equal(flavia[2].nodeName, "IMG",
-// "il primo figlio dell'elemento e' un immagine(stato)");
-// i++;
-//
-// equal(flavia[0].getAttribute("src"), "img/contactImg/0.png",
-// "l'immagine del secondo contatto e' corretta");
-// i++;
-//
-// equal(flavia[1].data, "Laura Pausini", "il nome e congnome sono corretti");
-// i++;
-//
-// equal(flavia[2].getAttribute("src"), "img/stateoffline.png",
-// "lo stato del secondo contatto e' corretto");
 // i++;
 //
 // expect(i);
