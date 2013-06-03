@@ -300,7 +300,7 @@ function AddressBookPanelPresenter() {
         var ulList = document.getElementById("AddressBookList");
         ulList.innerHTML = "";
 
-        if (Object.size(contacts) == 0) {
+        if (Object.keys(contacts).length == 0) {
             var noContactAlertListItel = document.createElement("li");
             noContactAlertListItel.appendChild(document.createTextNode("Nessun contatto in rubrica"));
             ulList.appendChild(noContactAlertListItel);
