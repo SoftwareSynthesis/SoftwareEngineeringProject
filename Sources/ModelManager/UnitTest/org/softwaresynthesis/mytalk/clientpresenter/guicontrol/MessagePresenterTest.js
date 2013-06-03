@@ -184,7 +184,7 @@ test(
  * @version 2.0
  * @author Diego Beraldin
  */
-test("testUpdateMEssageByClick()", function() {
+test("testUpdateMessageByClick()", function() {
 	var i = 0;
 	document.dispatchEvent(new CustomEvent("showMessagePanel"));
 	tester.display();

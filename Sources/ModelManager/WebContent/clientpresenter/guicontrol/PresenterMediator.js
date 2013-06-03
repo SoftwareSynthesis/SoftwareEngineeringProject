@@ -296,6 +296,7 @@ function PresenterMediator() {
      * @param {HTMLDivElement} content elemento da visualizzare
      * @param {HTMLDivElement} Ritorna l'elemento HTML dell'anwerBox
      */
+    // XXX ma questa non è morta?!
     this.showPopup = function(content) {
         if (document.getElementsByTagName("answerBox") || document.getElementsByTagName("overlayAnswerBox")) {
             return null;
@@ -329,6 +330,7 @@ function PresenterMediator() {
      *
      * @author Riccardo Tresoldi
      */
+    // XXX ma questa non è morta?!
     this.removeAnswerBox = function() {
         //estraggo gli elementi da rimuovere
         overlay = document.getElementById('overlayAnswerBox');

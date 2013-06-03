@@ -1,150 +1,190 @@
 /**
- * Verifica della classe PresenterMediator
  * 
- * @version 2.0
- * @author Stefano Farronato
  */
-module("PresenterMediator", { //Da sistemare
+module("PresenterMediator", {
 	setup : function() {
-		// calcola l'indirizzo base
-		host = window.location.protocol + "//" + window.location.host
-				+ window.location.pathname;
-		host = host.substr(0, host.length - 10);
-		// stub di mediator
-		mediator = {
-			getView : function(someString) {
-				
-				}
-			},
-		tester = new PresenterMediator();
+		// stub di communicationcenter
+		communicationcenter = {};
+		// brutti eventi cattivi (globali)
+		showCommunicationPanel = new CustomEvent("showCommunicationPanel");
+		// oggetto da testare
+		mediator = new PresenterMediator();
 	},
 	teardown : function() {
-		
-		}
 	}
 });
 
-
-test("NamelabelTest()"), function(){ //devo creare i dati mediante AccountSettingPanel?
-	var i=0;
-/*	
-	var user = new Object();
-    user.name = "paperino";
-    user.surname = "Depaperoni";
-
-*/
-	expect(i);
+// dati di test
+var video = document.createElement("video");
+var contacts = {
+	1 : {
+		id : 1,
+		name : "Paolino",
+		surname : "Paperino",
+		email : "indirizzo5@dominio.it",
+		blocked : false,
+		state : "available",
+		picturePath : "img/contactImg/Default.png"
+	},
+	2 : {
+		id : 2,
+		name : "Gastone",
+		surname : "Paperone",
+		email : "indirizzo4@dominio.it",
+		blocked : false,
+		state : "offline",
+		picturePath : "img/contactImg/Default.png"
+	}
 };
 
+var groups = {
+	1 : {
+		name : "amici",
+		id : 1,
+		contacts : [ 1, 2 ]
+	},
+	0 : {
+		name : "famiglia",
+		id : 0,
+		contacts : [ 1 ]
+	}
+};
 
-test("AddressBookContactTest()"), function(){
-	var i=0;
-	
-	expect(i);
+// stub di CommunicationPresenter
+function CommunicationPanelPresenter() {
+	this.updateStats = function() {
+		document.dispatchEvent(new CustomEvent("eventRaised"));
+	};
+	this.getMyVideo = function() {
+		return video;
+	};
+	this.getOtherVideo = function() {
+		return video;
+	};
+	this.updateTimer = function() {
+		document.dispatchEvent(new CustomEvent("eventRaised"));
+	};
 }
 
-
-test("AddressBookGroupsTest()"), function(){
-	var i=0;
-	
-	expect(i);
+// stub di AddressBookPresenter
+function AddressBookPanelPresenter() {
+	this.getContacts = function() {
+		return contacts;
+	};
+	this.getGroups = function() {
+		return groups;
+	};
+	this.getGroupsWhereContactsIs = function(contact) {
+		return groups[0];
+	};
+	this.contactAlreadyPresent = function(contact) {
+		return true;
+	};
+	this.getContact = function(id) {
+		return contacts[id];
+	};
 }
 
+/**
+ * Verifica la corretta costruzione della stringa che rappresenta un contatto
+ * della rubrica nell'interfaccia grafica
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
+test("testCreateNameLabel()", function() {
+	var i = 0;
+	var contact = {
+		name : "null",
+		surname : "null",
+		email : "indirizzo5@dominio.it"
+	};
 
-test("whereContactsTest()"), function(){
-	var i=0;
-	
+	var result = mediator.createNameLabel(contact);
+	equal(result, "indirizzo5@dominio.it");
+	i++;
+
+	contact.name = "Paolino";
+	result = mediator.createNameLabel(contact);
+	equal(result, "Paolino");
+	i++;
+
+	contact.surname = "Paperino";
+	result = mediator.createNameLabel(contact);
+	equal(result, "Paolino Paperino");
+	i++;
+
 	expect(i);
-}
+});
 
+test("testGetAddressBookContacts()", function() {
+	var result = mediator.getAddressBookContacts();
+	equal(result, contacts);
+});
 
-test("ContactAlreadyTest()"), function(){
-	var i=0;
+test("testGetAddressBookGroups()", function() {
+	var result = mediator.getAddressBookGroups();
+	equal(result, groups);
+});
+
+test("testGetGroupsWhereContactsIs()", function() {
+	var contact = {
+		id : 2,
+		name : "Gastone",
+		surname : "Paperone",
+		email : "indirizzo4@dominio.it",
+		blocked : false,
+		state : "offline",
+		picturePath : "img/contactImg/Default.png"
+	};
+	var result = mediator.getGroupsWhereContactsIs(contact);
+	equal(result, groups[0]);
+});
+
+test("testContactAlreadyPresent()", function() {
+	var contact = {};
+	var bool = mediator.contactAlreadyPresent(contact);
+	ok(bool);
+});
+
+test("testGetCommunicationPPMyVideo()", function() {
+	var result = mediator.getCommunicationPPMyVideo();
+	equal(result, video);
+});
+
+test("testGetCommunicationPPOtherVideo()", function() {
+	var result = mediator.getCommunicationPPOtherVideo();
+	equal(result, video);
+});
+
+test("testUpdateCommunicationPPUpdateStats", function() {
+	var text = "";
+	var bool = false;
+	document.addEventListener("eventRaised", function() {
+		bool = true;
+	});
+
+	mediator.communicationPPUpdateStats(text, bool);
+	ok(bool);
+});
+
+test("testUpdateCommunicationPPUpdateTimer", function() {
+	var text = "";
+	var bool = false;
+	document.addEventListener("eventRaised", function() {
+		bool = true;
+	});
+
+	mediator.communicationPPUpdateTimer(text, bool);
+	ok(bool);
+});
+
+test("testGetContactsById()", function() {
+	var id = 1;
+	var result = mediator.getContactById(id);
+	equal(result, contacts[id]);
+});
+
+test("testGetView()", function() {
 	
-	expect(i);
-}
-
-
-test("ChatTest()"), function(){ //non si sa se esiste ancora (?)
-	var i=0;
-	
-	expect(i);
-}
-
-
-test("CallTest()"), function(){
-	var i=0;
-	
-	expect(i);
-}
-
-
-test("ComunicationPPVideoTest()"), function(){
-	var i=0;
-	
-	expect(i);
-}
-
-
-test("ComunicationPPOtherVideoTest()"), function(){
-	var i=0;
-	
-	expect(i);
-}
-
-test("ComunicationStatsTest()"), function(){
-	var i=0;
-	
-	expect(i);
-}
-
-test("ComunicationTimerTest()"), function(){
-	var i=0;
-	
-	expect(i);
-}
-
-test("RemoveComunicationToolsTest()"), function(){
-	var i=0;
-	
-	expect(i);
-}
-
-test("ContactByIdTest()"), function(){
-	var i=0;
-	
-	expect(i);
-}
-
-test("IncomeCallTest()"), function(){
-	var i=0;
-	
-	expect(i);
-}
-
-test("RingTest()"), function(){
-	var i=0;
-	
-	expect(i);
-}
-
-test("stopRingTest()"), function(){
-	var i=0;
-	
-	expect(i);
-}
-test("PopupTest()"), function(){
-	var i=0;
-	
-	expect(i);
-}
-test("RemoveAnswerTest()"), function(){
-	var i=0;
-	
-	expect(i);
-}
-test("viewTest()"), function(){
-	var i=0;
-	
-	expect(i);
-}
+});
