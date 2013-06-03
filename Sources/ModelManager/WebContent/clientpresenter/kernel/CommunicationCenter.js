@@ -17,8 +17,11 @@ function CommunicationCenter() {
      ***********************************************************/
     //self=this per utilizzo nei meotdi
     var self = this;
-    //dichiaro globale la websocket per lo scambio di dati con la servlet
+    // dichiaro globale la websocket per lo scambio di dati con la servlet
     var websocket, pc;
+    // variabili per la pacchettizzazione del signal in message.type=2
+    var remoteDescriptionPacket = new Array();
+    var sdpPacket = new Array();
 
     /**********************************************************
      METODI PRIVATI
@@ -176,6 +179,13 @@ function CommunicationCenter() {
                     showPhoneIncomeCallAlertPanel.caller = mediator.getContactById(idOther);
                     showPhoneIncomeCallAlertPanel.onlyAudio = onlyAudio;
                     document.dispatchEvent(showPhoneIncomeCallAlertPanel);
+                    // packing signal
+                    if ((signal.sdp) == null) {
+                        sdpPacket.push(new RTCIceCandidate(signal));
+                    } else {
+                        document.dispatchEvent(stopRinging);
+                        remoteDescriptionPacket.push(new RTCSessionDescription(signal));
+                    }
                 } else {
                     if ((signal.sdp) == null) {
                         pc.addIceCandidate(new RTCIceCandidate(signal));
@@ -184,6 +194,7 @@ function CommunicationCenter() {
                         pc.setRemoteDescription(new RTCSessionDescription(signal));
                     }
                 }
+
             } else if (type == "5") {
                 changeAddressBooksContactState.idUserChange = str[1];
                 changeAddressBooksContactState.statusUserChange = str[2];
@@ -449,6 +460,13 @@ function CommunicationCenter() {
     function onAcceptCall(contact, onlyAudio) {
         document.dispatchEvent(showCommunicationPanel);
         thisMonolith.call(false, contact, onlyAudio);
+        // unpacking signal
+        for (var i in remoteDescriptionPacket) {
+            pc.setRemoteDescription(new RTCSessionDescription(remoteDescriptionPacket[i]));
+        }
+        for (var i in sdpPacket) {
+            pc.addIceCandidate(new RTCIceCandidate(sdpPacket[i]));
+        }
     }
 
     /**
