@@ -107,15 +107,30 @@ switch($operation) {
         break;
 
     case "addContact" :
+          if ($_REQUEST["contactId"] == 10) {
+            $result = true;
+          } else {
+            $result = false;
+          }
         break;
 
     case "blockContact" :
         break;
 
     case "addGroup" :
+    	if ($_REQUEST["groupName"] == "famiglia") {
+    	  $result = true;
+    	} else {
+    	  $result = false;
+    	}
         break;
 
     case "deleteGroup" :
+        if ($_REQUEST["groupId"] == 2) {
+    	  $result = true;
+    	} else {
+    	  $result = false;
+    	}
         break;
 
     case "addInGroup" :
@@ -128,6 +143,11 @@ switch($operation) {
         break;
 
     case "deleteContact" :
+    	if ($_REQUEST["contactId"] == 1) {
+    	  $result = true;
+    	} else {
+    	  $result = false;
+    	}
         break;
 
     case "accountSettings" :
