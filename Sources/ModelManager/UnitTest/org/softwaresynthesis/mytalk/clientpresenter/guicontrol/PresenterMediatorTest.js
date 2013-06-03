@@ -1,7 +1,10 @@
 /**
+ * Verifica della classe PresenterMediator
  * 
+ * @author 2.0
+ * @author Diego Beraldin
  */
-module("Cesso", {
+module("PresenterMediatorTest", {
 	setup : function() {
 		// stub di communicationcenter
 		communicationcenter = {};
@@ -104,7 +107,7 @@ function MainPanelPresenter() {
 	};
 	this.displayChildPanel = function(div) {
 		document.dispatchEvent(new CustomEvent("calledDisplayChildPanel"));
-	}
+	};
 }
 
 // stub-ghost di CallHistoryPresenter
@@ -136,7 +139,7 @@ function XMLHttpRequest() {
 	};
 	this.send = function() {
 		document.dispatchEvent(new CustomEvent("calledSend"));
-	}
+	};
 }
 
 /**
@@ -171,16 +174,34 @@ test("testCreateNameLabel()", function() {
 	expect(i);
 });
 
+/**
+ * Verifica che sia possibile recuperare i contatti dalla rubrica
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
 test("testGetAddressBookContacts()", function() {
 	var result = cesso.getAddressBookContacts();
 	equal(result, contacts);
 });
 
+/**
+ * Verifica che sia possibile recuperare i gruppi dalla rubrica
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
 test("testGetAddressBookGroups()", function() {
 	var result = cesso.getAddressBookGroups();
 	equal(result, groups);
 });
 
+/**
+ * Verifica che sia possibile recuperare i gruppi cui appartiene un contatto
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
 test("testGetGroupsWhereContactsIs()", function() {
 	var contact = {
 		id : 2,
@@ -195,22 +216,48 @@ test("testGetGroupsWhereContactsIs()", function() {
 	equal(result, groups[0]);
 });
 
+/**
+ * Verifica che sia possibile controllare se un contatto appartiene alla rubrica
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
 test("testContactAlreadyPresent()", function() {
 	var contact = {};
 	var bool = cesso.contactAlreadyPresent(contact);
 	ok(bool);
 });
 
+/**
+ * Verifica che sia possibile recuperare un riferimento all'elemento video che
+ * corrisponde al mio flusso nell'interfaccia utente
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
 test("testGetCommunicationPPMyVideo()", function() {
 	var result = cesso.getCommunicationPPMyVideo();
 	equal(result, video);
 });
 
+/**
+ * Verifica che sia possibile recuperare un riferimento all'elemento video che
+ * corrisponde al flusso proveniente dall'altro utente nell'interfaccia utente
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
 test("testGetCommunicationPPOtherVideo()", function() {
 	var result = cesso.getCommunicationPPOtherVideo();
 	equal(result, video);
 });
 
+/**
+ * Verifica che la gestione delle statistiche sia effettuata nel modo corretto
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
 test("testUpdateCommunicationPPUpdateStats", function() {
 	var text = "";
 	var bool = false;
@@ -222,6 +269,12 @@ test("testUpdateCommunicationPPUpdateStats", function() {
 	ok(bool);
 });
 
+/**
+ * Verifica che la gestione del timer sia effettuata nel modo corretto
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
 test("testUpdateCommunicationPPUpdateTimer", function() {
 	var text = "";
 	var bool = false;
@@ -233,12 +286,25 @@ test("testUpdateCommunicationPPUpdateTimer", function() {
 	ok(bool);
 });
 
+/**
+ * Verifica che sia possibile recuperare un contatto correttamente tramite il
+ * suo numero identificativo.
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
 test("testGetContactsById()", function() {
 	var id = 1;
 	var result = cesso.getContactById(id);
 	equal(result, contacts[id]);
 });
 
+/**
+ * Verifica che le viste di primo livello siano caricate nel modo corretto
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
 test("testOnLoadedFirstLevelView()", function() {
 	var dummyView = document.createElement("div");
 	var result;
@@ -253,6 +319,12 @@ test("testOnLoadedFirstLevelView()", function() {
 	equal(result, dummyView);
 });
 
+/**
+ * Verifica che le viste di secondo livello siano caricate nel modo corretto
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
 test("testOnLoadedSecondLevelView()", function() {
 	var i = 0;
 	var dummyView = document.createElement("div");
@@ -277,6 +349,12 @@ test("testOnLoadedSecondLevelView()", function() {
 	expect(i);
 });
 
+/**
+ * Verifica che le viste di terzo livello siano caricate nel modo corretto
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
 test("testOnLoadedThirdLevelView()", function() {
 	var dummyView = document.createElement("div");
 	var calledShowView = false;
@@ -291,6 +369,13 @@ test("testOnLoadedThirdLevelView()", function() {
 	ok(calledShowView);
 });
 
+/**
+ * Verifica che al verificarsi dell'evento removeAllPanel vengano effettuate le
+ * operazioni corrette
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
 test("testOnRemoveAllPanels()", function() {
 	var i = 0;
 	var boolArray = [ false, false, false, false, false ];
@@ -320,6 +405,13 @@ test("testOnRemoveAllPanels()", function() {
 	expect(i);
 });
 
+/**
+ * Verifica che al verificarsi dell'evento showUIPanels vengano effettuate le
+ * operazioni corrette
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
 test("testOnShowUIPanels()", function() {
 	var i = 0;
 	var boolArray = [ false, false, false, false ];
@@ -346,6 +438,13 @@ test("testOnShowUIPanels()", function() {
 	expect(i);
 });
 
+/**
+ * Verifica che sia inviata una richiesta AJAX (asincrona) al server per il
+ * caricamento di una vista nell'interfaccia utente
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
 test("testGetView()", function() {
 	var i = 0;
 	var bool = false;
@@ -358,15 +457,15 @@ test("testGetView()", function() {
 		method = evt.method;
 		path = evt.path;
 	});
-	
+
 	cesso.getView("main");
-	
+
 	ok(bool);
 	i++;
 	equal(method, "GET");
 	i++;
 	equal(path, "clientview/MainView.html");
 	i++;
-	
+
 	expect(i);
 });
