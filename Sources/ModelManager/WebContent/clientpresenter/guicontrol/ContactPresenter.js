@@ -99,7 +99,7 @@ function ContactPanelPresenter() {
         // estraggo il div da popolare
         var div = document.getElementById("groupsDiv");
         // estraggo la lista dei gruppi a cui appartiene l'utente visualizzato
-        var groups = mediator.getGroupsWhereContactIs(contact);
+        var groups = mediator.getGroupsWhereContactsIs(contact);
         // ciclo la lista e creo le "label"
         for (var group in groups) {
             if (groups[group].name != "addrBookEntry") {

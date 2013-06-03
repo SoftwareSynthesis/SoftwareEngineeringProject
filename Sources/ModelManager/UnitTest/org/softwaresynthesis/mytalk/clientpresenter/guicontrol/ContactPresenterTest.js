@@ -23,7 +23,7 @@ module("ContactPanelPresenterTest", {
 					div.style.display = "none";
 				}
 			},
-			getGroupsWhereContactIs : function(someContact) {
+			getGroupsWhereContactsIs : function(someContact) {
 				return {
 					1 : {
 						id : 1,
