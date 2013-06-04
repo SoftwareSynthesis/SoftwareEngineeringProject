@@ -1,27 +1,65 @@
-module("CommunicationPanelPresenter", {
-	setup : function() {
+module(
+	"CommunicationPanelPresenter", {
+		setup : function() {// calcola l'indirizzo di base
+		host = window.location.protocol + "//" + window.location.host
+			+ window.location.pathname;
+		host = host.substr(0, host.length - 10);
 		// stub di communicationcenter
 		communicationcenter = new Object();
-		// oggetto da testare
-		tester = new CommunicationPanelPresenter();
-	},
-	teardown : function() {
-	}
-});
+		communicationcenter.my = {
+			name : "Paolino",
+			surname : "Paperino",
+			email : "indirizzo5@dominio.it",
+			picturePath : "img/contactImg/Default.png"
+		};
+	// configura il percorso del ControllerManager
+		commandURL = "http://localhost/ModelManager/WebContent/Conf/controllerManagerStub.php";	
+		//brutti eventi cattivi (globali -_-)
+		showReturnToCommunicationPanelButton= new CustomEvent("showReturnToCommunicationPanelButton");
+			// stub di mediator
+			mediator = {
+				getView : function(someString) {
+					var viewRequest = new XMLHttpRequest();
+					viewRequest.open("POST",
+							"clientview/CommunicationView.html", false);
+					viewRequest.send();
+					var div = document.createElement("div");
+					div.innerHTML = viewRequest.responseText;
+					if (document.getElementById("CommunicationPanel") == null) {
+						document.body.appendChild(div);
+						div.style.display = "none";
+					}	
+				},
+				createNameLabel:function(something){return "pluto";}
+			};
+			// oggetto da testare
+			tester = new CommunicationPanelPresenter();
+		},
+		teardown : function() {
+			var element = document.getElementById("CommunicationPanel");
+			if (element) {
+				document.body.removeChild(element.parentElement);
+			}
+		}
+	});
 
-test(
-		"testCreatePanel()",
-		function() {
-			var i = 0;
-			var element = tester.createPanel();
-			var list = element.childNodes;
+test("testDisplay()",function() {
+		var i = 0;
+		var event = new CustomEvent("showCommunicationPanel");
+		document.dispatchEvent(event);
 
-			equal(list.length, 2,
-					"il numero di figli dell'elemento restituito e' 2");
+		tester.display();
+		var element = document.getElementById("CommunicationPanel");
+		var list = element.children;
+
+				equal(list.length, 3);
+				i++;
+			var divHead = list[0];
+			var divCall = list[1];
+			var divChat = list[2];
+			
+			equal(divHead.className, "panelHeader");
 			i++;
-
-			var divCall = list[0];
-			var divChat = list[1];
 
 			equal(divCall.nodeName, "DIV",
 					"il primo figlio dell'elemento e' un div");
@@ -37,7 +75,7 @@ test(
 			equal(divChat.id, "divChat", "l'd del div e' divChat");
 			i++;
 
-			list = divCall.childNodes;
+			list = divCall.children;
 
 			equal(list.length, 4,
 					"la lista dei figli di divCall contiene 4 figli");
@@ -76,13 +114,13 @@ test(
 
 			equal(close.nodeName, "BUTTON", "tipo del pulsante corretto");
 			i++;
-			equal(close.type, "button",
+			equal(close.type, "submit",
 					"attributo type del pulsante impostato correttamente");
 			i++;
 			equal(close.id, "closeButton", "attributo id del pulsante corretto");
 			i++;
 
-			list = statDiv.childNodes;
+			list = statDiv.children;
 			equal(list.length, 2, "il div delle statistiche ha due figli");
 			i++;
 
@@ -98,7 +136,7 @@ test(
 			equal(timerSpan.id, "timerSpan", "id corretto");
 			i++;
 
-			list = statSpan.childNodes;
+			list = statSpan.children;
 			equal(list.length, 2, "statSpan ha esattamente due figli");
 			i++;
 
@@ -107,14 +145,14 @@ test(
 
 			equal(statReceived.nodeName, "SPAN", "tipo corretto dello span");
 			i++;
-			equal(statReceived.id, "statReceved", "id corretto dello span");
+			equal(statReceived.id, "statRecevd", "id corretto dello span");
 			i++;
 			equal(statSent.nodeName, "SPAN", "tipo corretto dello span");
 			i++;
 			equal(statSent.id, "statSend", "id corretto dello span");
 			i++;
-
-			list = divChat.childNodes;
+			
+			list = divChat.children;
 			equal(list.length, 1, "l'elemento divChat ha un figlio");
 			i++;
 			
@@ -124,36 +162,48 @@ test(
 			equal(ulOpenChat.id, "ulOpenChat", "attributo id della lista impostato correttamente");
 			i++;
 			
-			equal(ulOpenChat.childNodes.length, 0, "al momento della creazione la lista non ha figli");
+			equal(ulOpenChat.children.length, 0, "al momento della creazione la lista non ha figli");
 			i++;
-			expect(i);
+			expect(37);
 		});
 
-function createHiddenDiv() {
-	var div = document.createElement("div");
-	div.id = "statDiv";
-	div.style.position = "absolute";
-	div.style.left = "-999";
-	return div;
-}
+/*
+test("testAddChat", function(){
+	var event = new CustomEvent("showCommunicationPanel");
+	document.dispatchEvent(event);
+	tester.display();
+	
+	var user ={	id: "1", 
+				name : "Paolino",
+				surname : "Paperino",
+				email : "indirizzo5@dominio.it",
+				picturePath : "img/contactImg/Default.png"
+			};
+	tester.addChat(1);
+	var element= document.getElementById("ulOpenChat");
+	var list = element.children[0];
+	equal(list.nodeName, "LI");
+});
+
+test("testRemoveChat", function(){
+	
+});
+*/
 
 test("testUpdateTimer()", function() {
-	// stub di interfaccia grafica
-	var div0 = createHiddenDiv();
-	document.body.appendChild(div0);
-	var div1 = document.createElement("div");
-	var div2 = document.createElement("div");
-	div0.appendChild(div1);
-	div0.appendChild(div2);
-	
+	var event = new CustomEvent("showCommunicationPanel");
+	document.dispatchEvent(event);
+	tester.display();
 	var string = "io sono un testo";
 	tester.updateTimer(string);
-	equal(div2.textContent, string, "testo inserito correttamente nel div");
+	equal(div2.textContent, "Tempo chiamata: "+ string, "testo inserito correttamente nel div");
 	document.body.removeChild(div0);
 });
 
 test("testGetMyVideo()", function() {
-	var div = createHiddenDiv();
+	var event = new CustomEvent("showCommunicationPanel");
+	document.dispatchEvent(event);
+	tester.display();
 	var video = document.createElement("video");
 	video.id = "myVideo";
 	div.appendChild(video);
@@ -164,7 +214,9 @@ test("testGetMyVideo()", function() {
 });
 
 test("testGetOtherVideo()", function() {
-	var div = createHiddenDiv();
+	var event = new CustomEvent("showCommunicationPanel");
+	document.dispatchEvent(event);
+	tester.display();
 	var video = document.createElement("video");
 	video.id = "otherVideo";
 	div.appendChild(video);
@@ -174,28 +226,20 @@ test("testGetOtherVideo()", function() {
 	document.body.removeChild(div);
 });
 
-test("testUpdateStarts()", function() {
-	// stub di interfaccia grafica
-	var div0 = createHiddenDiv();
-	var span0 = document.createElement("span");
-	var span1 = document.createElement("span");
-	span1.id = "spanReceved";
-	var span2 = document.createElement("span");
-	span2.id = "spanSend";
-	span0.appendChild(span1);
-	span0.appendChild(span2);
-	div0.appendChild(span0);
-	document.body.appendChild(div0);
-	
+test("testUpdateStats()", function() {
+	int i=0;
+	var event = new CustomEvent("showCommunicationPanel");
+	document.dispatchEvent(event);
+	tester.display();
+
 	var string = "miao";
-	
 	// inserisci dati ricevuti
-	tester.updateStarts(string, true);
-	equal(span1.textContent, "Dati ricevuti: " + string, "stringa impostata correttamente");
+	tester.updateStats(string, true);
+	equal(document.getElementById("statRecevd"), "Dati ricevuti: " + string, "stringa impostata correttamente");
 	
 	// inserisci dati inviati
-	tester.updateStarts(string, false);
-	equal(span2.textContent, "Dati inviati: " + string, "stringa impostata correttamente");
+	tester.updateStats(string, false);
+	equal(document.getElementById("statSend"), "Dati inviati: " + string, "stringa impostata correttamente");
 	
 	expect(2);
 	document.body.removeChild(div0);
