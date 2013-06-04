@@ -2211,7 +2211,7 @@ Tale verifica è composta da tre test:
 \begin{itemize}
 
 \item \texttt{testDisplay()} crea l'elemento \textit{AccountSetting}, estrae la lista dei suoi figli, ne controlla il numero e che ogni nodo sia coerente con quanto atteso.
-Successivamente controlla che gli elementi della lista vengano visualizzati correttamente presentando quindi il contenuto corrispondente ai dati memorizzati nello \inglese{stub} di \texttt{CommunicationCenter}.
+Successivamente controlla che gli elementi della lista vengano visualizzati correttamente presentando quindi il contenuto corrispondente ai dati memorizzati nello \inglese{stub} di\\ \texttt{CommunicationCenter}.
 
 \item \texttt{testSendUserData()} Verifica il metodo sendUserData verificando che venga rilevata o non venga rilevata la mancanza di cambiamenti nei dati dell'utente.
 
@@ -2373,53 +2373,80 @@ Successivamente estraggo la lista dei figli del primo figlio (il suo figlio deve
 \item \textbf{TP1.10: RegisterPresenterTest}\\
 \textbf{Verifica l'oggetto:} \texttt{RegisterPresenter}.\\
 \textbf{Descrizione}:l'obiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \textit{Register}, la possibilità di nascondere correttamente l'elemento \textit{Register}, il corretto recupero dei dati inseriti nella \inglese{form} d'iscrizione e infine i test relativi al recupero delle singole informazioni passate in fase di registrazione.\\
-Tale verifica è composta da dieci test:
+Tale verifica è composta da dodici test:
 \begin{itemize}
-
-
-%TODO AGGIORNATO FIN QUI
 
 \item \texttt{testInitialize()} mediante diversi metodi \texttt{equal} controlla l'effettiva correttezza della \inglese{form} creata, sia nella forma che nel funzionamento.
 
-\item \texttt{testHide() } controlla che venga correttamente nascosto il \inglese{form} di registrazione.
-
-\item \texttt{testRegister() } mediante diversi metodi \texttt{equal} controlla l'effettiva registrazione dei dati inseriti nella \inglese{form}, confrontandoli con quelli passati in ingresso.
-
-\item \texttt{testGetPicturePath()} crea una \inglese{form} compilata correttamente con l'immagine utente da inserire, successivamente prova a recuperarla mediante 
-
-\texttt{getPicturePath}, verificando se è stata inserita correttamente (o meno).
+\item \texttt{testDestroy() } controlla che venga correttamente rimosso il \inglese{form} di registrazione.
 
 \item \texttt{testGetUsername() } crea una \inglese{form} compilata correttamente con lo \textit{username}, e prova a recuperarlo mediante \texttt{getUsername}, verificando se è stato inserito correttamente (o meno).
 
 \item \texttt{testGetPassword()} crea una \inglese{form} compilata correttamente con il campo \textit{password}, e prova a recuperarlo mediante \texttt{getPassword}, verificando se è stata inserita correttamente (o meno). Il test verifica anche il sollevamento di un'eccezione nel momento in cui non sia stata inserito alcun valore in questo campo.
 
+\item \texttt{testGetName()}  crea una \inglese{form} compilata correttamente con il campo \textit{name}, e prova a recuperarlo mediante \texttt{getName}, verificando se è stato inserito correttamente (o meno).
+
+\item \texttt{testGetSurname()}  crea una \inglese{form} compilata correttamente con il campo \textit{surname}, e prova a recuperarlo mediante \texttt{getSurname}, verificando se è stata inserita correttamente (o meno).
+
 \item \texttt{testGetQuestion()}  crea una \inglese{form} compilata correttamente con il campo \textit{question}, e prova a recuperarlo mediante \texttt{getQuestion}, verificando se è stata inserita correttamente (o meno). Dal momento che si tratta di un dato obbligatorio, il test verifica anche che sia sollevata un'eccezione nel caso in cui non sia fornito alcun valore.
 
 \item \texttt{testGetAnswer()} crea una \inglese{form} compilata correttamente con il campo \textit{answer}, e prova a recuperarlo mediante \texttt{getAnswer}, verificando se è stata inserita correttamente (o meno). Dal momento che si tratta di un dato obbligatorio, il test verifica anche che sia sollevata un'eccezione nel caso in cui questo valore non sia fornito.
 
-\item \texttt{testGetName()}  crea una \inglese{form} compilata correttamente con il campo \textit{name}, e prova a recuperarlo mediante \texttt{getName}, verificando se è stato inserito correttamente (o meno).
+\item \texttt{testGetPicturePath()} crea una \inglese{form} compilata correttamente con l'immagine utente da inserire, successivamente prova a recuperarla mediante 
 
-\item \texttt{testGetSurname()}  crea una \inglese{form} compilata correttamente con il campo \textit{surname}, e prova a recuperarlo mediante \texttt{getSurname}, verificando se è stata inserita correttamente (o meno).
+\item \texttt{testRegister() } mediante diversi metodi \texttt{equal} controlla l'effettiva registrazione dei dati inseriti nella \inglese{form}, confrontandoli con quelli passati in ingresso.
+
+\item \texttt{testRegisterByClickUnsuccessfully()} verifica che premendo il tasto di registrazione con parametri errati venga visualizzato un messaggio visuale d'errore.
+
+\item \texttt{testOnShowRegistrationPanel} verifica che venga effettivamente visualizzato il pannello di registrazione e che sia correttamente operativo.
 
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
 \item \textbf{TP1.11: SearchResultPresenterTest}\\
 \textbf{Verifica l'oggetto:} \texttt{SearchResultPresenter}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare che sia correttamente creato l'elemento grafico \textit{SearchResult} e il comportamento del presenter nel momento in cui tale pannello deve essere aggiornato. Tale verifica è composta da due test:
+\textbf{Descrizione}: l'obiettivo di questo test è verificare che sia correttamente creato l'elemento grafico \textit{SearchResult} e il comportamento del presenter nel momento in cui tale pannello deve essere aggiornato. Tale verifica è composta da tre test:
 \begin{itemize}
-\item \texttt{testCreate()} verifica che il pannello sia costruito e visualizzato in accordo con le specifiche della progettazione e, in particolare, che sia presente la lista dei contatti che corrispondono ai risultati della ricerca.
-\item \texttt{testDisplayContactList()} verifica che sia visualizzata la lista dei contatti passata come parametro in ingresso al metodo \texttt{displayContactList} del presenter.
+
+\item \texttt{testDisplay()} verifica che il pannello sia costruito e visualizzato in accordo con le specifiche della progettazione e, in particolare, che sia presente la lista dei contatti che corrispondono ai risultati della ricerca.
+
+\item \texttt{testHandleResult()} verifica che sia visualizzata la lista dei contatti passata come parametro in ingresso al metodo \texttt{displayContactList} del presenter.
+
+\item \texttt{testSendSearch()} verifica che siano mandati al server i parametri di ricerca alla pressione del relativo pulsante di ricerca, e che siano visualizzati correttamente i risultati.
+
 \end{itemize}
 
 \item \textbf{TP1.12: ToolsPresenterTest}\\
 \textbf{Verifica l'oggetto:} \texttt{ToolsPresenter}.\\
 \textbf{Descrizione}: l'obiettivo di tale test è verificare che sia correttamente creato il pannello degli strumenti dell'interfaccia grafica, nonché il comportamento del presenter nel momento in cui dalla vista è invocato il metodo che corrisponde all'uscita dal sistema.
-Tale verifica è composta da tre test:
+Tale verifica è composta da dodici test:
 \begin{itemize}
+
 \item \texttt{testInitialize()} mediante diversi metodi \textit{equal} controlla l'effettiva correttezza della \inglese{form} creata, sia nella forma che nel funzionamento.
-\item \texttt{testHide()} controlla che venga correttamente nascosto il \inglese{form} degli strumenti.
+
+\item \texttt{testDestroy()} controlla che venga correttamente eliminato il \inglese{form} degli strumenti.
+
 \item \texttt{testLogout()} controlla l'effettivo \inglese{logout} dell'utente autenticato al sistema.
+
+\item \texttt{testAddComunication()} verifica che sia possibile aggiungere il pulsante
+relativo alla comunicazione in corso.
+
+\item \texttt{testRemoveComunication()} verifica che sia possibile rimuovere il pulsante relativo alla comunicazione in corso una volta terminata.
+
+\item \texttt{testUpdateStateValue} verifica il comportamento al cambiamento dello stato utente.
+
+\item \texttt{testOnShowPanel()} verifica che il presenter risponda correttamente all'evento\\ \texttt{showToolPanel}.
+
+\item \texttt{testPerformSearch()} verifica il corretto funzionamento del pulsante relativo alla ricerca di un utente.
+
+\item \texttt{testPerformSearch()} verifica il corretto funzionamento del pulsante relativo alla gestione dei gruppi.
+
+\item \texttt{testPerformSearch()} verifica il corretto funzionamento del pulsante relativo alla visualizzazione dello storico delle chiamate.
+
+\item \texttt{testPerformSearch()} verifica il corretto funzionamento del pulsante relativo alle impostazioni dell'utente.
+
+\item \texttt{testPerformSearch()} verifica il corretto funzionamento del pulsante relativo alla gestione della segreteria.
+
 \end{itemize}
 \clearpage
 \end{itemize}
