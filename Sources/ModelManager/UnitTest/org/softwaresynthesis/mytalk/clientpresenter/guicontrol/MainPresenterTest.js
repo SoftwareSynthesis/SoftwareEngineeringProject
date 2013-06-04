@@ -12,10 +12,7 @@ module("MainPanelPresenter", {
 				var viewRequest = new XMLHttpRequest();
 				viewRequest.open("POST", "clientview/MainView.html", false);
 				viewRequest.send();
-				var div = document.createElement("div");
-				div.innerHTML = viewRequest.responseText;
-				document.dispatchEvent(new CustomEvent("eventRaised"));
-				return div.childNodes[0];
+				return viewRequest.response;
 			}
 		};
 		// inizializza l'oggetto da testare
@@ -41,11 +38,12 @@ test("testInitialize()", function() {
 
 	var mainView = mediator.getView("main");
 	tester.initialize(mainView);
+	document.getElementById("MainPanel").style.display  = "none";
 
 	var element = document.getElementById("MainPanel");
-	equal(element.nodeName, "DIV", "elemento creato correttamente");
+	equal(element.nodeName, "DIV");
 	i++;
-	equal(element.id, "MainPanel", "id impostato correttamente");
+	equal(element.id, "MainPanel");
 	i++;
 	expect(i);
 });
@@ -58,18 +56,17 @@ test("testInitialize()", function() {
  */
 test("testDisplayChildPanel()", function() {
 	var i = 0;
-
 	tester.initialize(mediator.getView("main"));
+	document.getElementById("MainPanel").style.display  = "none";
 
 	var child = document.createElement("div");
 	tester.displayChildPanel(child);
 
 	var element = document.getElementById("MainPanel");
-	equal(element.childNodes.length, 1,
-			"il pannello viene effettivamente aggiunto");
+	equal(element.children.length, 1);
 	i++;
 
-	equal(element.childNodes[0].nodeName, "DIV", "tipo corretto del figlio");
+	equal(element.children[0].nodeName, "DIV");
 	i++;
 
 	expect(i);
@@ -84,9 +81,11 @@ test("testDisplayChildPanel()", function() {
 test("testDestroy()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("main"));
+	document.getElementById("MainPanel").style.display  = "none";
+	
 	tester.destroy();
 	var element = document.getElementById("MainView");
-	equal(element, null, "pannello rimosso correttamente");
+	equal(element, null);
 	i++;
 
 	expect(i);
@@ -103,7 +102,7 @@ test("testOnShowMainPanel()", function() {
 	// così catturo il sollevamento dell'evento :)
 	document.addEventListener("eventRaised", function() {
 		bool = true;
-	})
+	});
 	document.dispatchEvent(new CustomEvent("showMainPanel"));
 	ok(bool);
 });

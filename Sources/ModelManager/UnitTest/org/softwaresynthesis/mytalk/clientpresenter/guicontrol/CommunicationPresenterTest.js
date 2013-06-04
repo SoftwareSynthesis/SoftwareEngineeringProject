@@ -227,7 +227,7 @@ test("testGetOtherVideo()", function() {
 });
 
 test("testUpdateStats()", function() {
-	int i=0;
+	var i=0;
 	var event = new CustomEvent("showCommunicationPanel");
 	document.dispatchEvent(event);
 	tester.display();

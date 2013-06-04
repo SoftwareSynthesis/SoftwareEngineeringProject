@@ -17,11 +17,7 @@ module(
 						viewRequest.open("POST", "clientview/LoginView.html",
 								false);
 						viewRequest.send();
-						var div = document.createElement("div");
-						div.innerHTML = viewRequest.responseText;
-
-						div.style.display = "none";
-						return div.childNodes[0];
+						return viewRequest.response;
 					},
 				};
 				// stub di communicationcenter
@@ -52,7 +48,8 @@ module(
  */
 test("testInitialize()", function() {
 	var i = 0;
-	tester.initialize(mediator.getView("main"));
+	tester.initialize(mediator.getView("login"));
+	document.getElementById("LoginPanel").style.display = "none";
 
 	var element = document.getElementById("LoginPanel");
 	equal(element.nodeName, "DIV");
@@ -121,6 +118,7 @@ test("testInitialize()", function() {
 test("testDestroy()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("main"));
+	document.getElementById("LoginPanel").style.display = "none";
 
 	tester.destroy();
 	var element = document.getElementById("LoginPanel");
@@ -138,6 +136,7 @@ test("testDestroy()", function() {
 test("testGetUsername()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("main"));
+	document.getElementById("LoginPanel").style.display = "none";
 
 	var input = document.getElementById("username");
 	input.value = "topolino";
@@ -173,6 +172,7 @@ test("testGetUsername()", function() {
 test("testGetPassword()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("login"));
+	document.getElementById("LoginPanel").style.display = "none";
 	var input = document.getElementById("password");
 	input.value = "";
 
@@ -202,6 +202,7 @@ test(
 		function() {
 			var i = 0;
 			tester.initialize(mediator.getView("login"));
+			document.getElementById("LoginPanel").style.display = "none";
 			var loginData = {
 				username : "indirizzo5@dominio.it",
 				password : "password"
@@ -266,6 +267,7 @@ test("testLoginSuccessfully()", function() {
 test("testBuildRetrievePasswordForm()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("main"));
+	document.getElementById("LoginPanel").style.display = "none";
 	document.getElementById("username").value = "pr@va.com";
 	var button = document.getElementById("inputRetrievePassword");
 	var event = new MouseEvent("click");
@@ -311,6 +313,7 @@ test("testBuildRetrievePasswordForm()", function() {
 test("testOnInputLoginClick()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("main"));
+	document.getElementById("LoginPanel").style.display = "none";
 	document.getElementById("username").value = "pr@va.com";
 	document.getElementById("password").value = "p";
 	var element = document.getElementById("inputLogin");
@@ -348,6 +351,7 @@ test(
 			var i = 0;
 			// costriusce il pannello e il form
 			tester.initialize(mediator.getView("main"));
+			document.getElementById("LoginPanel").style.display = "none";
 			document.getElementById("username").value = "pr@va.com";
 			var button = document.getElementById("inputRetrievePassword");
 			var event = new MouseEvent("click");
@@ -378,6 +382,7 @@ test("testRetrievePasswordUnsuccessfully()", function() {
 	var i = 0;
 	// costriusce il pannello e il form
 	tester.initialize(mediator.getView("main"));
+	document.getElementById("LoginPanel").style.display = "none";
 	document.getElementById("username").value = "pr@va.com";
 	var button = document.getElementById("inputRetrievePassword");
 	var event = new MouseEvent("click");

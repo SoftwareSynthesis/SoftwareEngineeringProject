@@ -12,10 +12,7 @@ module("ToolsPanelPresenter", {
 				var viewRequest = new XMLHttpRequest();
 				viewRequest.open("POST", "clientview/ToolsView.html", false);
 				viewRequest.send();
-				var div = document.createElement("div");
-				div.innerHTML = viewRequest.responseText;
-				document.dispatchEvent(new CustomEvent("eventRaised"));
-				return div.childNodes[0];
+				return viewRequest.response;
 			}
 		};
 		// stub di communicationcenter
@@ -46,6 +43,7 @@ module("ToolsPanelPresenter", {
 test("testInitialize()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("tools"));
+	document.getElementById("ToolsPanel").style.display = "none";
 	var element = document.getElementById("ToolsPanel");
 	element.style.display = "none";
 
@@ -116,6 +114,7 @@ test("testInitialize()", function() {
 test("testDestroy()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("tools"));
+	document.getElementById("ToolsPanel").style.display = "none";
 	tester.destroy();
 	var element = document.getElementById("ToolsPanel");
 	equal(element, null);
@@ -132,6 +131,7 @@ test("testDestroy()", function() {
 test("testAddCommunication()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("tools"));
+	document.getElementById("ToolsPanel").style.display = "none";
 	tester.addCommunicationFunction();
 
 	var element = document.getElementById("CallFunction");
@@ -152,6 +152,7 @@ test("testAddCommunication()", function() {
 test("testRemoveCommunication()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("tools"));
+	document.getElementById("ToolsPanel").style.display = "none";
 	tester.addCommunicationFunction();
 	tester.removeCommunicationFunction();
 
@@ -224,6 +225,7 @@ test("testOnShowToolsPanel()", function() {
 test("testPerformSearch", function() {
 	showSearchResultPanel = new CustomEvent("showSearchResultPanel");
 	tester.initialize(mediator.getView("tools"));
+	document.getElementById("ToolsPanel").style.display = "none";
 	var bool = false;
 	document.addEventListener("showSearchResultPanel", function() {
 		bool = true;
@@ -242,6 +244,7 @@ test("testPerformSearch", function() {
 test("testPerformSearch", function() {
 	showGroupPanel = new CustomEvent("showGroupPanel");
 	tester.initialize(mediator.getView("tools"));
+	document.getElementById("ToolsPanel").style.display = "none";
 	var bool = false;
 	document.addEventListener("showGroupPanel", function() {
 		bool = true;
@@ -260,6 +263,7 @@ test("testPerformSearch", function() {
 test("testPerformSearch", function() {
 	showCallHistoryPanel = new CustomEvent("showCallHistoryPanel");
 	tester.initialize(mediator.getView("tools"));
+	document.getElementById("ToolsPanel").style.display = "none";
 	var bool = false;
 	document.addEventListener("showCallHistoryPanel", function() {
 		bool = true;
@@ -278,6 +282,7 @@ test("testPerformSearch", function() {
 test("testPerformSearch", function() {
 	showAccountSettingPanel = new CustomEvent("showAccountSettingPanel");
 	tester.initialize(mediator.getView("tools"));
+	document.getElementById("ToolsPanel").style.display = "none";
 	var bool = false;
 	document.addEventListener("showAccountSettingPanel", function() {
 		bool = true;
@@ -296,6 +301,7 @@ test("testPerformSearch", function() {
 test("testPerformSearch", function() {
 	showMessagePanel = new CustomEvent("showMessagePanel");
 	tester.initialize(mediator.getView("tools"));
+	document.getElementById("ToolsPanel").style.display = "none";
 	var bool = false;
 	document.addEventListener("showMessagePanel", function() {
 		bool = true;

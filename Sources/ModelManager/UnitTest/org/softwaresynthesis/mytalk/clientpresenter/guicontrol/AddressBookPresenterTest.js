@@ -22,10 +22,7 @@ module(
 						viewRequest.open("POST",
 								"clientview/AddressBookView.html", false);
 						viewRequest.send();
-						var div = document.createElement("div");
-						div.innerHTML = viewRequest.responseText;
-						div.children[0].style.display = "none";
-						return div.childNodes[0];
+						return viewRequest.response;
 					},
 					createNameLabel : function(someContact) {
 						return someContact.email;
@@ -55,6 +52,7 @@ module(
 test("testInitialize()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("addressBook"));
+	document.getElementById("AddressBookPanel").style.display = "none";
 
 	var element = document.getElementById("AddressBookPanel");
 	equal(element.children.length, 4);
@@ -122,6 +120,7 @@ test("testInitialize()", function() {
 test("testSetup()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("addressBook"));
+	document.getElementById("AddressBookPanel").style.display = "none";
 
 	var element = document.getElementById("AddressBookList");
 
@@ -159,6 +158,7 @@ test("testSetup()", function() {
  */
 test("testDestroy()", function() {
 	tester.initialize(mediator.getView("addressBook"));
+	document.getElementById("AddressBookPanel").style.display = "none";
 	tester.destroy();
 	var element = document.getElementById("AddressBookPanel");
 	ok(!element);
@@ -175,6 +175,7 @@ test("testDestroy()", function() {
 test("testAddContact()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("addressBook"));
+	document.getElementById("AddressBookPanel").style.display = "none";
 	var contact = tester.getContacts()[1];
 
 	try {
@@ -220,6 +221,7 @@ test(
 		function() {
 			var i = 0;
 			tester.initialize(mediator.getView("addressBook"));
+			document.getElementById("AddressBookPanel").style.display = "none";
 			var contact = {
 				id : 1
 			};
@@ -259,6 +261,7 @@ test(
 test("testAddGroup()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("addressBook"));
+	document.getElementById("AddressBookPanel").style.display = "none";
 
 	var groupName = "mona";
 
@@ -295,6 +298,7 @@ test("testAddGroup()", function() {
 test("testDeleteGroup()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("addressBook"));
+	document.getElementById("AddressBookPanel").style.display = "none";
 	var group = {
 		id : 10
 	};
@@ -331,6 +335,7 @@ test("testDeleteGroup()", function() {
 test("testGetGroupsWhereContactsIs()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("addressBook"));
+	document.getElementById("AddressBookPanel").style.display = "none";
 	var contact = {
 		name : "Andrea",
 		surname : "Rizzi",
@@ -365,6 +370,7 @@ test("testGetGroupsWhereContactsIs()", function() {
 test("testAddContactInGroup()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("addressBook"));
+	document.getElementById("AddressBookPanel").style.display = "none";
 	var contact = {
 		name : "Andrea",
 		surname : "Rizzi",
@@ -420,6 +426,7 @@ test("testAddContactInGroup()", function() {
 test("testApplyFilterByString()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("addressBook"));
+	document.getElementById("AddressBookPanel").style.display = "none";
 
 	var result = tester.applyFilterByString("rizzi");
 	equal(result.length, 1);
@@ -447,6 +454,7 @@ test("testApplyFilterByGroup()", function() {
 	var i = 0;
 	var groupId = 2;
 	tester.initialize(mediator.getView("addressBook"));
+	document.getElementById("AddressBookPanel").style.display = "none";
 
 	var result = tester.applyFilterByGroup(groupId);
 
@@ -469,6 +477,7 @@ test("testApplyFilterByGroup()", function() {
 test("testShowFilter()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("addressBook"));
+	document.getElementById("AddressBookPanel").style.display = "none";
 	var filter = [];
 
 	tester.showFilter(filter, false);
@@ -524,6 +533,7 @@ test("testShowFilter()", function() {
 test("testDisplayContactByClick()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("addressBook"));
+	document.getElementById("AddressBookPanel").style.display = "none";
 	var bool = false;
 	var element = document.getElementById("AddressBookList");
 	element = element.children[0];
@@ -549,6 +559,7 @@ test("testDisplayContactByClick()", function() {
  */
 test("testOnChangeAddressBookContactState()", function() {
 	tester.initialize(mediator.getView("addressBook"));
+	document.getElementById("AddressBookPanel").style.display = "none";
 	var event = new CustomEvent("changeAddressBooksContactState");
 	event.idUserChange = 1;
 	event.statusUserChange = "occupied";
@@ -570,6 +581,7 @@ test("testOnChangeAddressBookContactState()", function() {
 test("testSearchByClick()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("addressBook"));
+	document.getElementById("AddressBookPanel").style.display = "none";
 	var element = document.getElementById("inputText");
 	element.value = "Rizzi";
 	element = document.getElementById("inputButton");
@@ -615,6 +627,7 @@ test("testSearchByClick()", function() {
 test("testRemoveFilteringByClick()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("addressBook"));
+	document.getElementById("AddressBookPanel").style.display = "none";
 	var element = document.getElementById("inputText");
 	element.value = "Rizzi";
 	element = document.getElementById("inputButton");
@@ -643,6 +656,7 @@ test("testRemoveFilteringByClick()", function() {
 test("testBlockContact()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("addressBook"));
+	document.getElementById("AddressBookPanel").style.display = "none";
 	var contact = {
 		name : "Andrea",
 		surname : "Rizzi",
@@ -686,6 +700,7 @@ test("testBlockContact()", function() {
 test("testUnlockContact()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("addressBook"));
+	document.getElementById("AddressBookPanel").style.display = "none";
 	var contact = {
 		name : "Andrea",
 		surname : "Rizzi",
@@ -737,6 +752,7 @@ test("testUnlockContact()", function() {
 test("testOnChangeSelectGroup()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("addressBook"));
+	document.getElementById("AddressBookPanel").style.display = "none";
 	var element = document.getElementById("selectGroup");
 
 	// seleziona il gruppo 'mona' come sempre
