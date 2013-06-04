@@ -33,14 +33,11 @@ switch($operation) {
         break;
 
     case "logout" :
+        $result = true;
         break;
 
     case "answer" :
-    	if ($_REQUEST["answer"] == "ThisIsNotAnAnswer") {
-    	  $result = true;
-    	} else {
-    	  $result = false;
-    	}
+    	$result = ($_REQUEST["answer"] == "ThisIsNotAnAnswer")? true : false;
         break;
 
     // operazioni rubrica utente
@@ -107,47 +104,34 @@ switch($operation) {
         break;
 
     case "addContact" :
-          if ($_REQUEST["contactId"] == 10) {
-            $result = true;
-          } else {
-            $result = false;
-          }
+          $result = ($_REQUEST["contactId"] == 10)? true : false;
         break;
 
     case "blockContact" :
+    	$result = ($_REQUEST["contactId"] == 1)? true : false;
         break;
 
     case "addGroup" :
-    	if ($_REQUEST["groupName"] == "famiglia") {
-    	  $result = true;
-    	} else {
-    	  $result = false;
-    	}
+    	$result = ($_REQUEST["groupName"] == "famiglia")? true : false;
         break;
 
     case "deleteGroup" :
-        if ($_REQUEST["groupId"] == 2) {
-    	  $result = true;
-    	} else {
-    	  $result = false;
-    	}
+        $result = ($_REQUEST["groupId"] == 2)? true : false;
         break;
 
     case "addInGroup" :
+    	$result  = ($_REQUEST["groupId"] == 1)? true : false;
         break;
 
     case "deleteFromGroup" :
         break;
 
     case "unblockContact" :
+    	$result = ($_REQUEST["contactId"] == 1)? true : false;
         break;
 
     case "deleteContact" :
-    	if ($_REQUEST["contactId"] == 1) {
-    	  $result = true;
-    	} else {
-    	  $result = false;
-    	}
+    	$result =  ($_REQUEST["contactId"] == 1)? true : false;
         break;
 
     case "accountSettings" :

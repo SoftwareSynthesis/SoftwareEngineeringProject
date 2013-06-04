@@ -248,7 +248,7 @@ function AddressBookPanelPresenter() {
         // configura il comportamento della vista
         var inputButton = document.getElementById("inputButton");
         inputButton.onclick = function() {
-			// FIXME la variabile 'inputText' non è inizializzata!
+			var inputText = document.getElementById("inputText");
             var serchField = inputText.value;
             var filtredContacts = thisPresenter.applyFilterByString(serchField);
             thisPresenter.showFilter(filtredContacts);
