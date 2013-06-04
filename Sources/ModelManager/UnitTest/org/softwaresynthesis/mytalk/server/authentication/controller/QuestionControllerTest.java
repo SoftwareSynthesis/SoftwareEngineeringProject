@@ -6,6 +6,7 @@ import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
@@ -129,8 +130,40 @@ public class QuestionControllerTest {
 		assertEquals(question, responseText);
 
 		// verifica il corretto utilizzo dei mock
+		verify(request).getParameter("username");
 		verify(response).getWriter();
 		verify(dao).getUserData(username);
 		verify(user).getQuestion();
+	}
+
+	/**
+	 * Verifica il comportamento del metodo doAction nel momento in cui non è
+	 * possibile portare a termine l'operazione di recupero della domanda
+	 * segreta perché al nome utente passato tramite la richiesta HTTP non
+	 * corrisponde alcun utente registrato al sistema. Il test verifica che, in
+	 * questo caso, sulla risposta sia stampata la stringa 'null', che denota un
+	 * errore nel server.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testGetQuestionNotExistUser() throws Exception {
+		// l'utente non esiste nel database
+		when(dao.getUserData(username)).thenReturn(null);
+
+		// invoca il metodo da testare
+		tester.doAction(request, response);
+
+		// verifica l'output ottenuto
+		writer.flush();
+		String responseText = writer.toString();
+		assertEquals("null", responseText);
+
+		// verifica il corretto utilizzo dei mock
+		verify(request).getParameter("username");
+		verify(response).getWriter();
+		verify(dao).getUserData(username);
+		verifyZeroInteractions(user);
 	}
 }

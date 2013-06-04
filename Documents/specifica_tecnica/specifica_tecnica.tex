@@ -23,13 +23,13 @@
 % Nome
 \newcommand{\docName}{Specifica tecnica}
 % Nome file
-\newcommand{\docFileName}{specifica\_tecnica.2.0.pdf}
+\newcommand{\docFileName}{specifica\_tecnica.3.0.pdf}
 % Versione
-\newcommand{\docVers}{2.0}
+\newcommand{\docVers}{3.0}
 % Data creazione
 \newcommand{\creationDate}{2013-01-23}
 % Data ultima modifica
-\newcommand{\modificationDate}{2013-02-20}
+\newcommand{\modificationDate}{2013-04-17}
 % Stato in {Approvato, Non approvato}
 \newcommand{\docState}{Approvato}
 % Uso in {Interno, Esterno}
@@ -37,11 +37,11 @@
 % Destinatari da specificare come nome1\\ &nome2\\ ecc.
 \newcommand{\docDistributionList}{Prof. Tullio Vardanega\\&Prof. Riccardo Cardin\\&Dott. Gregorio Piccoli\\&Team SoftwareSynthesis}
 % Redattori da specificare come nome1\\ &nome2\\ ecc.
-\newcommand{\docAuthors}{Andrea Rizzi\\&Elena Zecchinato\\&Marco Schivo\\&Stefano Farronato}
+\newcommand{\docAuthors}{Andrea Meneghinello\\& Diego Beraldin}
 % Approvato da
-\newcommand{\approvedBy}{Diego Beraldin}
+\newcommand{\approvedBy}{Marco Schivo}
 % Verificatori
-\newcommand{\verifiedBy}{Andrea Meneghinello}
+\newcommand{\verifiedBy}{Stefano Farronato}
 % Perscorso (relativo o assoluto) che punta alla directory contenente shared/
 % come sua sottodirectory (per comodità chiamiamola 'doc root').
 \newcommand{\docRoot}{..}
@@ -66,8 +66,12 @@
 \toprule
 Versione & Descrizione intervento & Membro & Ruolo & Data\\
 \midrule
-2.1 & Aggiornati diagrammi di attività con l'aggiunta delle guardie & Elena Zecchinato & Verificatore & 2013-04-18\\
-2.1 & Aggiunte considerazione sugli svantaggi degli strumenti utilizzati & Andrea Rizzi & Verificatore & 2013-04-17\\
+2.6 & Approvato documento & Marco Schivo & Responsabile & 2013-04-17\\
+2.5 & Verifica documento & Stefano Farronato & Verificatore & 2013-04-17\\
+2.4 & Corretti riferimenti obsoleti alle classi del package server.dao. Aggiornati i tracciamenti & Diego Beraldin & Verificatore & 2013-04-17\\
+2.3 & Rivista descrizione CS01 e CS07. Aggiunta componente CS08 & Andrea Meneghinello & Verificatore & 2013-04-16\\
+2.2 & Aggiornati diagrammi di attività con l'aggiunta delle guardie & Elena Zecchinato & Verificatore & 2013-04-10\\
+2.1 & Aggiunte considerazione sugli svantaggi degli strumenti utilizzati & Andrea Rizzi & Verificatore & 2013-04-10\\
 2.0 & Approvazione del documento & Diego Beraldin & Responsabile & 2013-02-20\\
 1.10 & Correzione errori segnalate dal verificatore & Andrea Rizzi & Progettista & 2013-02-18\\
 1.9 & Verifica del documento & Andrea Meneghinello & Verificatore & 2013-02-19\\
@@ -616,6 +620,7 @@ Tale sotto-architettura definisce le specifiche e le funzionalità dell'applicat
 	\item[-] \textsf{CS05 -- Gestione segreteria};
 	\item[-] \textsf{CS06 -- Gestione chiamate};
 	\item[-] \textsf{CS07 -- Gestione controller}.
+	\item[-] \textsf{CS08 -- Front controller}.
 \end{itemize}
 
 I componenti sopracitati verranno definiti rispettivamente nelle sottosezioni \ref{sec:cs01}, \ref{sec:cs02}, \ref{sec:cs03}, \ref{sec:cs04}, \ref{sec:cs05}, \ref{sec:cs06} e \ref{sec:cs07}. Si sottolinea sin da ora che il server è l'unico in grado di comunicare con il database su cui si poggia l'applicativo.
@@ -641,6 +646,8 @@ Per ogni oggetto del database così creato, sono predisposte delle operazioni pe
 \item[-] \texttt{ModifyUtil}: una classe astratta che descrive una generica operazione di modifica ai campi dati dell'oggetto. Essa viene quindi estesa da tre sottoclassi: \texttt{DeleteUtil}, \texttt{UpdateUtil}, \texttt{InsertUtil}.
 \end{description}
 
+Il sistema definisce inoltre una classe \texttt{UtilFactory} usata per stabilire quale classe (tra quelle di \inglese{utility}) usare per l'esecuzione di un operazione su una tabella del database.
+
 \texttt{DataPersistanceManager} ha la possibilità di creare (e usare) delle implementazioni dell'interfaccia \texttt{IMyTalkObject} che descrive il comportamento di un generico \textit{TrasferObject}.
 
 
@@ -656,7 +663,7 @@ Per chiarezza citiamo in tale sezione anche le classi che mappano le entità rap
 	  \item[-] \texttt{abook.UserData}
 	  \item[-] \texttt{call.ICall}
 	  \item[-] \texttt{call.Call}
-	   \item[-] \texttt{call.ICallList}
+	  \item[-] \texttt{call.ICallList}
 	  \item[-] \texttt{call.CallList}
 	  \item[-] \texttt{message.IMessage}
 	  \item[-] \texttt{message.Message}
@@ -677,11 +684,16 @@ Precisiamo che le classi rappresentanti i \inglese{transfer object} si trovano a
 	  \item[-] \texttt{server.dao.ISession}
 	  \item[-] \texttt{server.dao.SessionManager}
 	  \item[-] \texttt{server.dao.DataPersistanceManager}
-	  \item[-] \texttt{server.dao.GetUtil}
-	  \item[-] \texttt{server.dao.ModifyUtil}
-	  \item[-] \texttt{server.dao.DeleteUtil}
-	  \item[-] \texttt{server.dao.UpdateUtil}
-	  \item[-] \texttt{server.dao.InsertUtil}
+	  \item[-] \texttt{server.dao.util.UtilFactory}
+	  \item[-] \texttt{server.dao.util.GetUtil}
+	  \item[-] \texttt{server.dao.util.GetCallUtil}
+	  \item[-] \texttt{server.dao.util.GetGroupUtil}
+	  \item[-] \texttt{server.dao.util.GetUserDataUtil}
+	  \item[-] \texttt{server.dao.util.NotInitialize}
+	  \item[-] \texttt{server.dao.util.ModifyUtil}
+	  \item[-] \texttt{server.dao.util.DeleteUtil}
+	  \item[-] \texttt{server.dao.util.UpdateUtil}
+	  \item[-] \texttt{server.dao.util.InsertUtil}
 	  \item[-] \texttt{server.IMyTalkObject}
 	  
 	\end{itemize}
@@ -710,7 +722,7 @@ Ne consegue che, come sarà esposto con maggiori dettagli nella sezione \vref{se
 	\item{\scshape\bfseries Classi utilizzate:}
 	\begin{itemize}[nolistsep, noitemsep]
 	  \item[-] \texttt{connection.PushInbound}
-	    \item[-] \texttt{connection.State}
+	  \item[-] \texttt{connection.State}
 	  \item[-] \texttt{org.apache.catalina.websocket.MessageInbound}
 	\end{itemize}
 \end{description}
@@ -939,30 +951,21 @@ CS06 -- Gestione chiamate
 \end{tabular}
 \end{center}
 
-In particolare \texttt{connection.ChannelServlet} è coinvolto dopo la fase di \inglese{login}, una volta che è stata accertata la validità dell'autenticazione, interagisce con \textsf{Gestione connessione} allo scopo di creare un canale di comunicazione fra il server e il client, secondo le modalità illustrate nella sezione \ref{sec:cs02}.
-
-
-
-
-\footnote{%
-Tale classe, come anticipato nella descrizione a pagina \pageref{sec:cs02}, non è in realtà sottotipo diretto di \texttt{javax.servlet.http.HttpServlet}, ma estende \texttt{org.apache.catalina.websocket.WebSocketServlet} che a sua volta è sottoclasse di \texttt{javax.servlet.http.HttpServlet}.
-}
-
-Il compito di interfacciarsi con \textsf{Gestione rubrica} per recuperare la rubrica associata ad un utente e per riflettere sul server le operazioni di amministrazione della rubrica spetta invece al pacchetto di \inglese{servlet} \texttt{abook.servlet}. Tale \inglese{servlet} risponde anche alle richieste dei client per le azioni di aggiornamento e modifica dell'account personale dell'utente associato al client. Nello specifico si ha:
+Il compito di interfacciarsi con \textsf{Gestione rubrica} per recuperare la rubrica associata ad un utente e per riflettere sul server le operazioni di amministrazione della rubrica spetta invece al pacchetto di \inglese{controller} \texttt{abook.controller}. Tali \inglese{controller} rispondono anche alle richieste dei client per le azioni di aggiornamento e modifica dell'account personale dell'utente associato al client. Nello specifico si ha:
 
 \begin{itemize}
-	  \item[-] \texttt{abook.controller.AddContactController}: richiamata da un client per aggiungere un contatto alla propria rubrica utente;
-	  \item[-] \texttt{abook.controller.DeleteContactController}: richiamata da un client per rimuovere un contatto dalla propria rubrica;
-	  \item[-] \texttt{abook.controller.AddGroupController}: richiamata da un client per creare un nuovo gruppo contatti;
-	  \item[-] \texttt{abook.controller.DeleteGroupController}: richiamata da un client per eliminare un gruppo;
-	  \item[-] \texttt{abook.controller.AddInGroupController}: richiamata da un client per inserire un contatto in un gruppo;
-	  \item[-] \texttt{abook.controller.DeleteInGroupController}: richiamata da un client per rimuovere un contatto da un gruppo della propria rubrica;
-	  \item[-] \texttt{abook.controller.BlockContactController}: richiamata da un client per bloccare un contatto presente nella propria rubrica, indifferentemente dai gruppi (della rubrica del client) in cui esso si trova;
-	  \item[-] \texttt{abook.controller.UnblockContactController}: richiamata da un client per sbloccare un contatto presente nella propria rubrica;
-	  \item[-] \texttt{abook.controller.GetContactsController}: richiamata da un client per scaricare la lista dei contatti presenti nella propria rubrica;
-	  \item[-] \texttt{abook.controller.GetGroupsController}: richiamata da un client per scaricare lista dei contatti e dei gruppi in cui essi sono inseriti;
-	  \item[-] \texttt{abook.controller.SearchController}: utilizzata per ricercare gli utente contenenti nei parametri nome, cognome o mail, una parola chiave usata per fare la ricerca e passata alla \inglese{servlet};
-	  \item[-] \texttt{abook.controller.AccountSettingsController}: richiamata da un client per modificare i propri dati personali memorizzati nel server.
+	  \item[-] \texttt{abook.controller.AddContactController}: richiamata dal front controller per aggiungere un contatto alla propria rubrica utente;
+	  \item[-] \texttt{abook.controller.DeleteContactController}: richiamata dal front controller per rimuovere un contatto dalla propria rubrica;
+	  \item[-] \texttt{abook.controller.AddGroupController}: richiamata dal front controller per creare un nuovo gruppo contatti;
+	  \item[-] \texttt{abook.controller.DeleteGroupController}: richiamata dal front controller per eliminare un gruppo;
+	  \item[-] \texttt{abook.controller.AddInGroupController}: richiamata dal front controller, su richiesta di un client, per inserire un contatto in un gruppo;
+	  \item[-] \texttt{abook.controller.DeleteInGroupController}: richiamata dal front controller, su richiesta di un client, per rimuovere un contatto da un gruppo della propria rubrica;
+	  \item[-] \texttt{abook.controller.BlockContactController}: richiamata dal front controller, su richiesta di un client, per bloccare un contatto presente nella propria rubrica, indifferentemente dai gruppi (della rubrica del client) in cui esso si trova;
+	  \item[-] \texttt{abook.controller.UnblockContactController}: richiamata dal front controller, su richiesta di un client, per sbloccare un contatto presente nella propria rubrica;
+	  \item[-] \texttt{abook.controller.GetContactsController}: richiamata dal front controller, su richiesta di un client, per scaricare la lista dei contatti presenti nella propria rubrica;
+	  \item[-] \texttt{abook.controller.GetGroupsController}: richiamata dal front controller (su richiesta di un client) per scaricare lista dei contatti e dei gruppi in cui in cui il richiedente è inserito;
+	  \item[-] \texttt{abook.controller.SearchController}: utilizzata per ricercare gli utente contenenti nei parametri nome, cognome o mail, una parola chiave usata per fare la ricerca e passata al \inglese{controller};
+	  \item[-] \texttt{abook.controller.AccountSettingsController}: richiamata dal front controller per modificare i dati del client nel server.
 \end{itemize}
 
 I cambiamenti di stato di un utente sono invece processati da \texttt{Controller Manager} che fornisce di conseguenza anch'esso un punto d'accesso al componente \textsf{Gestione rubrica}.
@@ -1105,6 +1108,17 @@ Presenta inoltre una dipendenza di tipo \inglese{create} e \inglese{use} all'int
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS01 -- Gestione database}
     \item[-] \textsf{CS07 -- Gestione Controller}
+  \end{itemize}
+\end{description}
+
+\item \texttt{UtilFactory}
+\begin{description}
+  \item{\scshape\bfseries Descrizione:}\\
+classe usata per delegare le operazioni di manipolazione del database (intese come operazioni CRUD), alle apposite classi del package \texttt{server.dao.util}.
+  \item{\scshape\bfseries Componenti che ne fanno uso:}
+  \begin{itemize}[noitemsep,nolistsep]
+    \item[-] \textsf{CS01 -- Gestione database}
+    \item[-] \textsf{CS07 -- Gestione controller}
   \end{itemize}
 \end{description}
 
@@ -1251,25 +1265,6 @@ Classe che attraverso un tipo enumerativo rappresenta lo stato in cui si trova u
     \item[-] \textsf{CS02 -- Gestione rubrica}
     \item[-] \textsf{CS07 -- Gestione controller}
    \end{itemize}
-\end{description}
-
-\item \texttt{ChannnelServlet}
-\begin{description}
-	\item{\scshape\bfseries Descrizione:}\\
-Sottoclasse di \texttt{org.apache.catalina.websocket.WebSocketServlet} che ha la funzione di punto di accesso al componente \textsf{Gestione connessione} grazie al quale, ad autenticazione avvenuta, viene instaurato un canale di comunicazione fra il server e il client destinato a essere usato per effettuare e ricevere le comunicazioni fra client.
-
-Come accennato nella sezione \vref{sec:cs02}, tramite un opportuno \inglese{overriding} del metodo \texttt{createWebSocketInbound(String, HttpServletRequest}, la \inglese{servlet} restituisce ai client un canale di comunicazione che, per la sua natura \inglese{full-duplex}, può essere utilizzato sia dal client per trasmettere messaggi al server che viceversa.
-
-Questo Factory Method (per la cui descrizione si rimanda alla sezione \ref{sec:patternfactorymethod}) è richiamato dal \inglese{servlet container} nel momento in cui lato client, ad autenticazione ultimata, viene invocato il costruttore di \texttt{WebSocket} passando a quest'ultimo come parametro l'URL della \inglese{servlet} \texttt{ChannelServlet}.
-
-In ultima, la \inglese{servlet} si occupa di notificare i cambiamenti di stato degli utenti presenti nella rubrica di ogni altro utente.
-
-	\item{\scshape\bfseries Componenti che ne fanno uso:}
-	\begin{itemize}[noitemsep,nolistsep]
-	  \item[-] \textsf{CS02 -- Gestione connessione}
-	  \item[-] \textsf{CS03 -- Gestione rubrica}
-	  \item[-] \textsf{CS07 -- Gestione controller}
-	\end{itemize}
 \end{description}
 
 \end{itemize}
@@ -1997,7 +1992,7 @@ L'oggetto \texttt{PresenterMediator} invece incapsula la collaborazione fra i va
 \item \texttt{CommunicationCenter}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-È la classe che ha il compito di gestire la comunicazione con il server reagendo agli eventi che si verificano alla ricezione di un messaggio tramite il canale \texttt{server.connection.IChannel} (nel caso di una comunicazione entrante) oppure inviando tali messaggi al server (nel caso di una comunicazione uscente), al fine di stabilire una comunicazione client-client di tipo WebRTC\@.
+È la classe che ha il compito di gestire la comunicazione con il server reagendo agli eventi che si verificano alla ricezione di un messaggio tramite il canale \texttt{server.connection.PushInBound} (nel caso di una comunicazione entrante) oppure inviando tali messaggi al server (nel caso di una comunicazione uscente), al fine di stabilire una comunicazione client-client di tipo WebRTC\@.
 
 Tale classe è inoltre stata implementata come Singleton, al fine di porre un limite superiore pari a uno al numero di istanze che sono presenti in ciascun client.
 
@@ -2762,7 +2757,7 @@ Definisce un'interfaccia per la creazione di un oggetto, lasciando alle sottocla
 \begin{description}
 
 	\item{\scshape\bfseries CS01 -- Gestione database}\\
-In tale componente è la classe \texttt{dao.DataPersistanceManager} a definire dei metodi per la creazione di istanze di classi figlie di \texttt{dao.GetUtil} e \texttt{dao.ModifyUtil}.
+In tale componente è la classe \texttt{dao.DataPersistanceManager} a definire dei metodi per la creazione di istanze di classi figlie di \texttt{dao.util.GetUtil} e \texttt{dao.util.ModifyUtil}.
 
   \item{\scshape\bfseries CS02 -- Gestione connessione}\\
 Gli oggetti che intendono rappresentare connessioni sono sottotipi della classe di libreria \texttt{org.apache.catalina.websocket.StreamInbound} e vengono instanziati mediante un Factory Method nelle sottoclassi di \texttt{org.apache.catalina.websocket.WebSocketServlet}.
@@ -2805,9 +2800,9 @@ Permette di definire la struttura di un algoritmo lasciando alle sottoclassi il 
 \begin{description}
 
   \item{\scshape\bfseries CS01 -- Gestione database}\\
-In tale componente la classe \texttt{dao.ModifyUtil} implementa il pattern \texttt{template method} definendo un metodo per l'esecuzione di un'operazione su \texttt{dao.DataPersistenceManager}, e lasciando l'implementazione dell'algoritmo alle classi figlie. Tali sono: \texttt{dao.InsertUtil}, \texttt{dao.UpdateUtil} e \texttt{dao.DeleteUtil}.
+In tale componente la classe \texttt{dao.uti.ModifyUtil} implementa il pattern \texttt{template method} definendo un metodo per l'esecuzione di un'operazione su \texttt{dao.DataPersistenceManager}, e lasciando l'implementazione dell'algoritmo alle classi figlie. Tali sono: \texttt{dao.uti.InsertUtil}, \texttt{dao.uti.UpdateUtil} e \texttt{dao.uti.DeleteUtil}.
 
-Anche la classe \texttt{dao.GetUtil} implementa lo stesso comportamento, lasciando alle classi figlie (\texttt{dao.GetCallUtil}, \texttt{dao.GetGroupUtil}, \texttt{dao.GetUserUtil}, \texttt{dao.NotInitialize}) il compito di definire l'algoritmo d'implementazione.
+Anche la classe \texttt{dao.uti.GetUtil} implementa lo stesso comportamento, lasciando alle classi figlie (\texttt{dao.uti.GetCallUtil}, \texttt{dao.uti.GetGroupUtil}, \texttt{dao.uti.GetUserUtil}, \texttt{dao.uti.NotInitialize}) il compito di definire l'algoritmo d'implementazione.
 
 	\item{\scshape\bfseries CS04 -- Gestione autenticazione}\\
 In tale componente la classe \texttt{authentication.security.AESTemplate} implementa il pattern \texttt{template method} definendo un metodo per l'esecuzione di un operazione AES. Nello specifico le operazioni possibili sono: criptazione e decriptazione. Tali sono rappresentate dalle classi figlie \texttt{authentication.security.AESEncode} e \texttt{authentication.security.AESDecode}.

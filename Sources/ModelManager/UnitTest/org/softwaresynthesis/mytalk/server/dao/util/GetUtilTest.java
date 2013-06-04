@@ -1,6 +1,13 @@
 package org.softwaresynthesis.mytalk.server.dao.util;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.when;
 
 import java.util.List;
 
@@ -15,7 +22,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.softwaresynthesis.mytalk.server.IMyTalkObject;
 import org.softwaresynthesis.mytalk.server.dao.ISessionManager;
-import static org.mockito.Mockito.*;
+import org.softwaresynthesis.mytalk.server.dao.SessionManager;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GetUtilTest {
@@ -238,5 +245,61 @@ public class GetUtilTest {
 		verify(session).flush();
 		verify(session).close();
 		verify(tester, never()).doInitialize(list);
+	}
+
+	/**
+	 * Verifica il comportamento del metodo execute nel momento in cui esso non
+	 * può essere portato a termine con successo a causa dell'impossibilità di
+	 * aprire una sessione di interazione con la base di dati. Il test verifica
+	 * che in tal caso il metodo restituisca 'null' e che non avvenga alcuna
+	 * query né che venga avviata alcuna transazione.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testExecuteWithoutSession() {
+		// impedice l'apertura di una sessione
+		when(factory.openSession()).thenReturn(null);
+
+		// invoca il metodo da testare
+		List<IMyTalkObject> result = tester.execute(queryString);
+
+		// verifica l'output
+		assertNull(result);
+
+		// verifica il corretto utilizzo dei mock
+		verify(manager).getSessionFactory();
+		verify(factory).openSession();
+		verifyZeroInteractions(session);
+		verifyZeroInteractions(query);
+		verifyZeroInteractions(transaction);
+	}
+
+	/**
+	 * Verifica il comportamento del metodo uniqueResult nel momento in cui non
+	 * può essere portato a termine per l'impossibilità di aprire una sessione
+	 * di interazione con la base di dati. Il test verifica che in tal caso il
+	 * metodo restituisca null e che non sia eseguita alcuna query né avviata
+	 * alcuna transazione.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testUniqueResultWithoutSession() {
+		// impedisce l'apertura di una sessione
+		when(factory.openSession()).thenReturn(null);
+
+		// invoca il metodo da testare
+		Long retrievedId = tester.uniqueResult(queryString);
+		assertNull(retrievedId);
+
+		// verifica il corretto utilizzo dei mock
+		verify(manager).getSessionFactory();
+		verify(factory).openSession();
+		verifyZeroInteractions(session);
+		verifyZeroInteractions(query);
+		verifyZeroInteractions(transaction);
 	}
 }

@@ -21,13 +21,15 @@ import org.mockito.runners.MockitoJUnitRunner;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class AddressBookEntryTest {
+	private AddressBookEntry tester;
 	@Mock
 	private UserData contact;
+	@Mock
+	private IUserData someoneElse;
 	@Mock
 	private Group group;
 	@Mock
 	private AddressBookEntry other;
-	private AddressBookEntry tester;
 
 	/**
 	 * Reinizializza i mock prima di ogni test
@@ -131,5 +133,10 @@ public class AddressBookEntryTest {
 		tester.setContact(contact);
 		tester.setOwner(contact);
 		assertTrue(tester.equals(other));
+		when(other.getContact()).thenReturn(someoneElse);
+		assertFalse(tester.equals(other));
+		when(other.getContact()).thenReturn(contact);
+		when(other.getOwner()).thenReturn(someoneElse);
+		assertFalse(tester.equals(other));
 	}
 }

@@ -5,11 +5,13 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -28,7 +30,9 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
+import org.softwaresynthesis.mytalk.server.IController;
 import org.softwaresynthesis.mytalk.server.IMyTalkObject;
+import org.softwaresynthesis.mytalk.server.abook.IGroup;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
 import org.softwaresynthesis.mytalk.server.abook.UserData;
 import org.softwaresynthesis.mytalk.server.authentication.security.ISecurityStrategy;
@@ -40,11 +44,15 @@ public class RegisterControllerTest {
 	private final String password = "password";
 	private final String question = "Come si chiama la mia gatta?";
 	private final String answer = "Antonella";
-	private final String name = "paperino";
-	private final String surname = "de paperoni";
-	private final String picturePath = "ThisIsNotAPath";
+	private final String name = "paolino";
+	private final String surname = "paperino";
+	private final String picturePath = "img/contactImg/" + username + ".png";
+	private Writer writer;
+	private RegisterController tester;
 	@Mock
 	private InputStream istream;
+	@Mock
+	private FileOutputStream ostream;
 	@Mock
 	private Part filePart;
 	@Mock
@@ -55,10 +63,10 @@ public class RegisterControllerTest {
 	private HttpServletRequest request;
 	@Mock
 	private HttpServletResponse response;
+	@Mock
+	private IController loginController;
 	@Captor
-	private ArgumentCaptor<IUserData> argument;
-	private Writer writer;
-	private RegisterController tester;
+	private ArgumentCaptor<IMyTalkObject> argument;
 
 	@Before
 	public void setUp() throws Exception {
@@ -69,7 +77,24 @@ public class RegisterControllerTest {
 				return (String) invocation.getArguments()[0];
 			}
 		});
-
+		// configura il comportamento del finto controller
+		doAnswer(new Answer<Void>() {
+			@Override
+			public Void answer(InvocationOnMock invocation) {
+				try {
+					HttpServletResponse resp = (HttpServletResponse) invocation
+							.getArguments()[1];
+					String result = "{\"name\":\"" + name + "\"";
+					result += ", \"surname\":\"" + surname + "\"";
+					result += ", \"email\":\"" + username + "\"";
+					result += ", \"id\":\"" + -1 + "\"";
+					result += ", \"picturePath\":\"" + picturePath + "\"}";
+					resp.getWriter().write(result);
+				} catch (Exception e) {
+				}
+				return null;
+			}
+		}).when(loginController).execute(request, response);
 		// configura il comportamento del contenuto multipart
 		when(filePart.getInputStream()).thenReturn(istream);
 		// configura il comportamento della richiesta
@@ -99,6 +124,21 @@ public class RegisterControllerTest {
 			@Override
 			protected ISecurityStrategy getSecurityStrategyFactory() {
 				return strategy;
+			}
+
+			@Override
+			IController createLoginController() {
+				return loginController;
+			}
+
+			@Override
+			FileOutputStream createFileOutputStream(String path) {
+				return ostream;
+			}
+
+			@Override
+			byte[] readFully(InputStream istream) {
+				return null;
 			}
 		};
 	}
@@ -141,7 +181,28 @@ public class RegisterControllerTest {
 	 * @version 2.0
 	 */
 	@Test
-	public void testRegisterCorrectUser() throws Exception {
+	public void testRegisterCorrectUserWithoutPicture() throws Exception {
+		// l'utente non ha immagine
+		when(request.getPart("picturePath")).thenReturn(null);
+		// riconfigura il comportamento del finto controller
+		doAnswer(new Answer<Void>() {
+			@Override
+			public Void answer(InvocationOnMock invocation) {
+				try {
+					HttpServletResponse resp = (HttpServletResponse) invocation
+							.getArguments()[1];
+					String result = "{\"name\":\"" + name + "\"";
+					result += ", \"surname\":\"" + surname + "\"";
+					result += ", \"email\":\"" + username + "\"";
+					result += ", \"id\":\"" + -1 + "\"";
+					result += ", \"picturePath\":\"img/contactImg/Default.png\"}";
+					resp.getWriter().write(result);
+				} catch (Exception e) {
+				}
+				return null;
+			}
+		}).when(loginController).execute(request, response);
+
 		// invoca il metodo da testare
 		tester.doAction(request, response);
 
@@ -155,8 +216,8 @@ public class RegisterControllerTest {
 		assertEquals(toCompare, responseText);
 
 		// verifica il corretto uso dei mock
-		verify(dao).insert(argument.capture());
-		IUserData captured = argument.getValue();
+		verify(dao, times(2)).insert(argument.capture());
+		IUserData captured = (IUserData) argument.getAllValues().get(0);
 		assertEquals(username, captured.getMail());
 		assertEquals(question, captured.getQuestion());
 		assertEquals(answer, captured.getAnswer());
@@ -164,8 +225,12 @@ public class RegisterControllerTest {
 		assertEquals(name, captured.getName());
 		assertEquals(surname, captured.getSurname());
 		assertEquals("img/contactImg/Default.png", captured.getPath());
+		IGroup capturedGroup = (IGroup) argument.getAllValues().get(1);
+		assertEquals("addrBookEntry", capturedGroup.getName());
+		IUserData owner = capturedGroup.getOwner();
+		assertEquals(captured, owner);
 		verify(response).getWriter();
-		verify(request, times(7)).getParameter(anyString());
+		verify(request, times(6)).getParameter(anyString());
 		verify(strategy).encode(answer);
 		verify(strategy).encode(password);
 	}
@@ -203,8 +268,8 @@ public class RegisterControllerTest {
 		assertEquals(toCompare, responseText);
 
 		// verifica il corretto utilizzo dei mock
-		verify(dao).insert(argument.capture());
-		IUserData captured = argument.getValue();
+		verify(dao, times(2)).insert(argument.capture());
+		IUserData captured = (IUserData) argument.getAllValues().get(0);
 		assertEquals(username, captured.getMail());
 		assertEquals(question, captured.getQuestion());
 		assertEquals(answer, captured.getAnswer());
@@ -212,8 +277,12 @@ public class RegisterControllerTest {
 		assertEquals(name, captured.getName());
 		assertEquals(surname, captured.getSurname());
 		assertEquals(picturePath, captured.getPath());
+		IGroup capturedGroup = (IGroup) argument.getAllValues().get(1);
+		assertEquals("addrBookEntry", capturedGroup.getName());
+		IUserData owner = capturedGroup.getOwner();
+		assertEquals(captured, owner);
 		verify(response).getWriter();
-		verify(request, times(7)).getParameter(anyString());
+		verify(request, times(6)).getParameter(anyString());
 		verify(strategy).encode(answer);
 		verify(strategy).encode(password);
 	}
@@ -221,19 +290,19 @@ public class RegisterControllerTest {
 	/**
 	 * Verifica l'impossibilità di portare a termine la procedura di
 	 * registrazione per un utente la cui richiesta non contiene tutti i dati
-	 * necessari alla registrazione, ad esempio il nome utente. Il test verifica
-	 * che il testo stampato sulla pagina di risposta sia la stringa 'null' come
-	 * atteso, che non sia MAI utilizzato l'algoritmo di crittografia e che non
-	 * siano MAI effettuate in casi simili operazioni di inserimento nella base
-	 * di dati del server.
+	 * necessari alla registrazione, perché il nome utente è uguale alla stringa
+	 * vuota. Il test verifica che il testo stampato sulla pagina di risposta
+	 * sia la stringa 'null' come atteso, che non sia MAI utilizzato l'algoritmo
+	 * di crittografia e che non siano MAI effettuate in casi simili operazioni
+	 * di inserimento nella base di dati del server.
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
 	 */
 	@Test
-	public void testRegisterWrongUser() throws Exception {
+	public void testRegisterWrongUsername() throws Exception {
 		// rimuove un parametro obbligatorio per la registrazione
-		when(request.getParameter("username")).thenReturn(null);
+		when(request.getParameter("username")).thenReturn("");
 
 		// invoca il metodo da testare
 		tester.doAction(request, response);
@@ -245,6 +314,135 @@ public class RegisterControllerTest {
 
 		// verifica il corretto utilizzo dei mock
 		verify(dao, never()).insert(any(IMyTalkObject.class));
-		verify(strategy, never()).encode(anyString());
+	}
+
+	/**
+	 * Verifica l'impossibilità di portare a termine la procedura di
+	 * registrazione per un utente la cui richiesta non contiene tutti i dati
+	 * necessari alla registrazione, perché la password è uguale alla stringa
+	 * vuota. Il test verifica che il testo stampato sulla pagina di risposta
+	 * sia la stringa 'null' come atteso, che non sia MAI utilizzato l'algoritmo
+	 * di crittografia e che non siano MAI effettuate in casi simili operazioni
+	 * di inserimento nella base di dati del server.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testRegisterWrongPassword() throws Exception {
+		// rimuove un parametro obbligatorio per la registrazione
+		when(request.getParameter("password")).thenReturn("");
+
+		// invoca il metodo da testare
+		tester.doAction(request, response);
+
+		// verifica l'output ottenuto
+		writer.flush();
+		String responseText = writer.toString();
+		assertEquals("null", responseText);
+
+		// verifica il corretto utilizzo dei mock
+		verify(dao, never()).insert(any(IMyTalkObject.class));
+	}
+
+	/**
+	 * Verifica l'impossibilità di portare a termine la procedura di
+	 * registrazione per un utente la cui richiesta non contiene tutti i dati
+	 * necessari alla registrazione, perché la domanda segreta è uguale alla
+	 * stringa vuota. Il test verifica che il testo stampato sulla pagina di
+	 * risposta sia la stringa 'null' come atteso, che non sia MAI utilizzato
+	 * l'algoritmo di crittografia e che non siano MAI effettuate in casi simili
+	 * operazioni di inserimento nella base di dati del server.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testRegisterWrongQuestion() throws Exception {
+		// rimuove un parametro obbligatorio per la registrazione
+		when(request.getParameter("question")).thenReturn("");
+
+		// invoca il metodo da testare
+		tester.doAction(request, response);
+
+		// verifica l'output ottenuto
+		writer.flush();
+		String responseText = writer.toString();
+		assertEquals("null", responseText);
+
+		// verifica il corretto utilizzo dei mock
+		verify(dao, never()).insert(any(IMyTalkObject.class));
+	}
+
+	/**
+	 * Verifica l'impossibilità di portare a termine la procedura di
+	 * registrazione per un utente la cui richiesta non contiene tutti i dati
+	 * necessari alla registrazione, perché la risposta alla domanda segreta è
+	 * uguale alla stringa vuota. Il test verifica che il testo stampato sulla
+	 * pagina di risposta sia la stringa 'null' come atteso, che non sia MAI
+	 * utilizzato l'algoritmo di crittografia e che non siano MAI effettuate in
+	 * casi simili operazioni di inserimento nella base di dati del server.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testRegisterWrongAnswer() throws Exception {
+		// rimuove un parametro obbligatorio per la registrazione
+		when(request.getParameter("answer")).thenReturn("");
+
+		// invoca il metodo da testare
+		tester.doAction(request, response);
+
+		// verifica l'output ottenuto
+		writer.flush();
+		String responseText = writer.toString();
+		assertEquals("null", responseText);
+
+		// verifica il corretto utilizzo dei mock
+		verify(dao, never()).insert(any(IMyTalkObject.class));
+	}
+
+	/**
+	 * Verifica il comportamento del metodo doAction se lo username fornito
+	 * nella richiesta HTTP è già presente nella tabella degli utenti del
+	 * sistema compromettendo la riuscita dell'operazione di inserimento. Il
+	 * test verifica che in questo caso il testo stampato sulla risposta sia,
+	 * come desiderato, la stringa 'null'. Inoltre si verifica che siano
+	 * estratti tutti i parametri necessari dalla richiesta e che sia creata una
+	 * nuova istanza di IUserData con tutti i campi dati impostati nel modo
+	 * corretto.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testRegisterDuplicatePrimaryKey() throws Exception {
+		// solleva un errore inaspettato nel database
+		when(dao.insert(any(IUserData.class)))
+				.thenThrow(new RuntimeException());
+
+		// invoca il metodo da testare
+		tester.doAction(request, response);
+
+		// verifica l'output ottenuto
+		writer.flush();
+		String responseText = writer.toString();
+		assertEquals("null", responseText);
+
+		// verifica il corretto utilizzo dei mock
+		verify(dao).insert(argument.capture());
+		IUserData captured = (IUserData) argument.getAllValues().get(0);
+		assertEquals(username, captured.getMail());
+		assertEquals(question, captured.getQuestion());
+		assertEquals(answer, captured.getAnswer());
+		assertEquals(password, captured.getPassword());
+		assertEquals(name, captured.getName());
+		assertEquals(surname, captured.getSurname());
+		assertEquals(picturePath, captured.getPath());
+		verify(response).getWriter();
+		verify(request, times(6)).getParameter(anyString());
+		verify(strategy).encode(answer);
+		verify(strategy).encode(password);
 	}
 }

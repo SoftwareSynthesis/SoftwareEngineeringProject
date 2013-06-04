@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
@@ -221,7 +222,7 @@ public class DeleteContactControllerTest {
 		verify(contact, never()).removeAddressBookEntry(
 				any(IAddressBookEntry.class));
 		verify(dao, never()).delete(any(IAddressBookEntry.class));
-		verify(dao, never()).update(any(IUserData.class));
+		verify(dao, times(2)).update(any(IUserData.class));
 	}
 
 	/**

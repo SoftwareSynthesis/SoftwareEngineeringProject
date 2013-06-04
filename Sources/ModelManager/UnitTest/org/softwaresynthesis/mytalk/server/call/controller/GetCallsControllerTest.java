@@ -36,9 +36,7 @@ import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
 @RunWith(MockitoJUnitRunner.class)
 public class GetCallsControllerTest {
 	private final String username = "indirizzo5@dominio.it";
-	private final Long calleeName = 5L;
-	private final String calleeSurname = "paperino";
-	private final boolean isCaller = true;
+	private final Long calleeId = 5L;
 	private Writer writer;
 	private GetCallsController tester;
 	private Date startDate = new Date(1368437034437L);
@@ -58,7 +56,11 @@ public class GetCallsControllerTest {
 	@Mock
 	ICallList callList;
 	@Mock
+	ICallList otherCallList;
+	@Mock
 	ICall call;
+	@Mock
+	ICall otherCall;
 
 	/**
 	 * Reinizializza l'oggetto da testare e configura il comportamento dei mock
@@ -69,20 +71,24 @@ public class GetCallsControllerTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		// configura il comportamento della CallList
+		// configura il comportamento delle CallList
 		when(callList.getUser()).thenReturn(callee);
 		when(callList.getCall()).thenReturn(call);
-		when(callList.getCaller()).thenReturn(isCaller);
+		when(callList.getCaller()).thenReturn(true);
+		when(otherCallList.getUser()).thenReturn(callee);
+		when(otherCallList.getCall()).thenReturn(call);
+		when(otherCallList.getCaller()).thenReturn(true);
 		// aggiunge la callList all'insieme di CallList
 		callListSet = new HashSet<ICallList>();
 		callListSet.add(callList);
+		callListSet.add(otherCallList);
 		// configura il comportamento dell'utente che richiede la lista
 		when(user.getCalls()).thenReturn(callListSet);
 		// configura il comportamento del chiamato
-		when(callee.getId()).thenReturn(calleeName);
-		when(callee.getSurname()).thenReturn(calleeSurname);
-		// configura il comportamento della chiamata
+		when(callee.getId()).thenReturn(calleeId);
+		// configura il comportamento delle chiamate
 		when(call.getStart()).thenReturn(startDate);
+		when(otherCall.getStart()).thenReturn(startDate);
 		// configura il comportamento del gestore di persistenza
 		when(dao.getUserData(username)).thenReturn(user);
 		// configura il comportamento della risposta
@@ -125,20 +131,21 @@ public class GetCallsControllerTest {
 		// verifica l'output
 		writer.flush();
 		String responseText = writer.toString();
-		String toCompare = String.format(
-				"[{\"id\":\"%s %s\", \"start\":\"%s\", \"caller\":\"%s\"}]",
-				calleeName, calleeSurname, startDate, isCaller);
+		String toCompare = String
+				.format("[{\"id\":\"%d\", \"start\":\"%s\", \"caller\":\"%s\"}, {\"id\":\"%d\", \"start\":\"%s\", \"caller\":\"%s\"}]",
+						calleeId, startDate, true, calleeId, startDate, true);
 		assertEquals(toCompare, responseText);
 
 		// verifica il corretto utilizzo dei mock
 		verify(response).getWriter();
 		verify(dao).getUserData(username);
 		verify(user).getCalls();
-		verify(callee).getName();
-		verify(callee).getSurname();
-		verify(callList, times(2)).getUser();
+		verify(callee, times(2)).getId();
+		verify(callList).getUser();
 		verify(callList).getCall();
-		verify(call).getStart();
+		verify(otherCallList).getUser();
+		verify(otherCallList).getCall();
+		verify(call, times(2)).getStart();
 	}
 
 	/**
@@ -194,6 +201,40 @@ public class GetCallsControllerTest {
 		// sovrascrive quanto fatto nel setUp()
 		callListSet = new HashSet<ICallList>();
 		when(user.getCalls()).thenReturn(callListSet);
+
+		// invoca il metodo da testare
+		tester.doAction(request, response);
+
+		// verifica l'output
+		writer.flush();
+		String responseText = writer.toString();
+		assertEquals("[]", responseText);
+
+		// verifica il corretto utilizzo dei mock
+		verify(response).getWriter();
+		verify(dao).getUserData(username);
+		verify(user).getCalls();
+		verifyZeroInteractions(callee);
+		verifyZeroInteractions(callList);
+		verifyZeroInteractions(call);
+	}
+
+	/**
+	 * Verifica il comportamento del metodo doAction nel momento in cui si
+	 * verifica un errore nel recupero dello storico delle chiamate dell'utente
+	 * da cui proviene la richiesta e il riferimento restituito dal sistema di
+	 * gestione della persistenza non è valido. Il test verifica che in questo
+	 * caso sulla pagina di risposta sia stampata la stringa '[]', che
+	 * corrisponde alla rappresentazione in formato JSON di un array enumerativo
+	 * vuoto, che è quanto il client si aspetta in questo caso.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testNoCalls() throws Exception {
+		// situazione poco probabile in realtà
+		when(user.getCalls()).thenReturn(null);
 
 		// invoca il metodo da testare
 		tester.doAction(request, response);

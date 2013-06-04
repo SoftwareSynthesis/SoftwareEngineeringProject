@@ -9,6 +9,7 @@ import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -35,6 +36,7 @@ import org.softwaresynthesis.mytalk.server.message.IMessage;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class DataPersistanceManagerTest {
+	private DataPersistanceManager tester;
 	@Mock
 	private IMyTalkObject object;
 	@Mock
@@ -53,7 +55,6 @@ public class DataPersistanceManagerTest {
 	private IMessage message;
 	@Mock
 	private List<IMyTalkObject> list;
-	private DataPersistanceManager tester;
 
 	/**
 	 * Inizializza il comportamento dei mock che sono comuni a tutti i test e,
@@ -298,6 +299,38 @@ public class DataPersistanceManagerTest {
 
 	/**
 	 * Verifica il comportamento della classe nel momento in cui è richiesto di
+	 * recuperare un gruppo della rubrica sulla base del numero identificativo
+	 * di quest'ultimo ma avviene un errore nel sistema di persistenza dei dati
+	 * e il sottotipo di {@GetUtil} che effettua l'operazione di
+	 * SELECT, invece di una collezione di transfer object, restituisce un
+	 * riferimento nullo. Il test verifica che in questo caso anche la chiamata
+	 * di metodo getGroup restituisca un riferimento nullo.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testGetGroupLongNoCollection() {
+		// id del gruppo
+		Long groupId = 1L;
+		// query che deve essere eseguita
+		String query = "from Groups as g where g.id = " + "'" + groupId + "'";
+		// impedisce il recupero della collezione
+		when(getter.execute(query)).thenReturn(null);
+
+		// invoca il metodo da testare
+		IGroup result = tester.getGroup(groupId);
+
+		// verifica il risultato ottenuto
+		assertNull(result);
+
+		// verifica il corretto utilizzo dei mock
+		verify(getter).execute(query);
+		verifyZeroInteractions(list);
+	}
+
+	/**
+	 * Verifica il comportamento della classe nel momento in cui è richiesto di
 	 * recuperare la lista di gruppi della rubrica che hanno come proprietario
 	 * un determinato utente. In particolare, il test verifica che la collezione
 	 * restituita corrisponda alle aspettative (in base a come è stato
@@ -357,6 +390,36 @@ public class DataPersistanceManagerTest {
 	}
 
 	/**
+	 * Verifica il comportamento della classe nel momento in cui è richiesto di
+	 * recuperare un gruppo della rubrica sulla base del proprietario di
+	 * quest'ultimo ma avviene un errore nel sistema di persistenza dei dati e
+	 * il sottotipo di {@GetUtil} che effettua l'operazione di SELECT,
+	 * invece di una collezione di transfer object, restituisce un riferimento
+	 * nullo. Il test verifica che in questo caso anche la chiamata di metodo
+	 * getGroup restituisca un riferimento nullo.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testGetGroupIUserDataNoCollection() {
+		// query che deve essere eseguita
+		String query = "from Groups as g where g.owner = " + "'" + user + "'";
+		// impedisce il recupero della collezione
+		when(getter.execute(query)).thenReturn(null);
+
+		// invoca il metodo da testare
+		List<IGroup> result = tester.getGroup(user);
+
+		// verifica il risultato ottenuto
+		assertNull(result);
+
+		// verifica il corretto utilizzo dei mock
+		verify(getter).execute(query);
+		verifyZeroInteractions(list);
+	}
+
+	/**
 	 * Verifica la possibilità di recuperare il più piccolo id libero per il
 	 * prossimo inserimento nella tabella dei messaggi in segreteria del
 	 * database. In particolare, il test controlla che il risultato sia conforme
@@ -380,6 +443,33 @@ public class DataPersistanceManagerTest {
 		Long result = tester.getMessageNewKey();
 		assertNotNull(result);
 		assertTrue(result == lastId + 1);
+
+		// verifica il corretto utilizzo dei mock
+		verify(getter).uniqueResult(query);
+	}
+
+	/**
+	 * Verifica il comportamento della classe nel momento in cui è richiesto di
+	 * recuperare il prossimo id disponibile per un inserimento nella tabella
+	 * Messages del database ma avviene un errore nel sistema di persistenza dei
+	 * dati e il sottotipo di {@GetUtil} che effettua l'operazione di
+	 * SELECT, invece di una collezione di transfer object, restituisce un
+	 * riferimento nullo. Il test verifica che in questo caso anche la chiamata
+	 * di metodo getGroup restituisca un riferimento nullo.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testGetMessageNewKeyWithError() {
+		// query da eseguire
+		String query = "max(id) from Messages";
+		// impedisce l'esecuzione di uniqueResult
+		when(getter.uniqueResult(query)).thenReturn(null);
+
+		// invoca il metodo da testare
+		Long result = tester.getMessageNewKey();
+		assertNull(result);
 
 		// verifica il corretto utilizzo dei mock
 		verify(getter).uniqueResult(query);
@@ -460,6 +550,38 @@ public class DataPersistanceManagerTest {
 
 	/**
 	 * Verifica il comportamento della classe nel momento in cui è richiesto di
+	 * recuperare un messaggio della segreteria sulla base del numero
+	 * identificativo di quest'ultimo ma avviene un errore nel sistema di
+	 * persistenza dei dati e il sottotipo di {@GetUtil} che effettua
+	 * l'operazione di SELECT, invece di una collezione di transfer object,
+	 * restituisce un riferimento nullo. Il test verifica che in questo caso
+	 * anche la chiamata di metodo getGroup restituisca un riferimento nullo.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testGetMessageNoCollection() {
+		// identificativo di prova
+		Long id = 1L;
+		// query che deve essere eseguita
+		String query = "from Messages as m where m.id = " + "'" + id + "'";
+		// impedisce il recupero della lista
+		when(getter.execute(query)).thenReturn(null);
+
+		// invoca il metodo da testare
+		IMessage result = tester.getMessage(id);
+
+		// verifica l'output
+		assertNull(result);
+
+		// verifica il corretto utilizzo dei mock
+		verify(getter).execute(query);
+		verifyZeroInteractions(list);
+	}
+
+	/**
+	 * Verifica il comportamento della classe nel momento in cui è richiesto di
 	 * recuperare dal sistema di persistenza una lista di messaggi della
 	 * segreteria a partire da un utente che ha almeno un messaggio nella
 	 * propria segreteria telefonica. In particolare, il test verifica che il
@@ -519,6 +641,35 @@ public class DataPersistanceManagerTest {
 		// verifica il corretto utilizzo dei mock
 		verify(getter).execute(query);
 		verify(list).isEmpty();
+	}
+
+	/**
+	 * Verifica il comportamento della classe nel momento in cui è richiesto di
+	 * recuperare tutti i messaggi della segreteria di un determinato utente ma
+	 * avviene un errore nel sistema di persistenza dei dati e il sottotipo di
+	 * {@GetUtil} che effettua l'operazione di SELECT, invece di una
+	 * collezione di transfer object, restituisce un riferimento nullo. Il test
+	 * verifica che in questo caso anche la chiamata di metodo getGroup
+	 * restituisca un riferimento nullo.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testGetMessagesNoCollection() {
+		// query da eseguire
+		String query = "from Messages as m where m.receiver = " + "'" + user
+				+ "'";
+		// impedisce il recupero della collezione
+		when(getter.execute(query)).thenReturn(null);
+
+		// invoca il metodo da testare
+		List<IMessage> result = tester.getMessages(user);
+		assertNull(result);
+
+		// verifica il corretto utilizzo dei mock
+		verify(getter).execute(query);
+		verifyZeroInteractions(list);
 	}
 
 	/**
@@ -599,6 +750,39 @@ public class DataPersistanceManagerTest {
 	}
 
 	/**
+	 * Verifica il comportamento della classe nel momento in cui è richiesto di
+	 * recuperare uno degli utenti del sistema sulla base dell'indirizzo email
+	 * impostato in fase di registrazione ma avviene un errore nel sistema di
+	 * persistenza dei dati e il sottotipo di {@GetUtil} che effettua
+	 * l'operazione di SELECT, invece di una collezione di transfer object,
+	 * restituisce un riferimento nullo. Il test verifica che in questo caso
+	 * anche la chiamata di metodo getGroup restituisca un riferimento nullo.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testGetUserDataByEmailNoCollection() {
+		// indirizzo email di prova
+		String mail = "ThisIsNotAnEmailAddress";
+		// query che deve essere eseguita
+		String query = "from UserData as u where u.mail = " + "'" + mail + "'";
+		// configura il comportamento dei mock
+		when(getter.execute(query)).thenReturn(null);
+
+		// invoca il metodo da testare
+		IUserData result = tester.getUserData(mail);
+
+		// verifica il risultato ottenuto
+		assertNull(result);
+
+		// verifica il corretto utilizzo dei mock
+		verify(factory).getUserDataUtil(manager);
+		verify(getter).execute(query);
+		verifyZeroInteractions(list);
+	}
+
+	/**
 	 * Verifica la possibilità di recuperare i dati di un utente dal database
 	 * disponendo del relativo numero identificativo. In particolare, il test
 	 * assicura che il risultato sia uguale alle attese (in base a come è stato
@@ -676,6 +860,39 @@ public class DataPersistanceManagerTest {
 	}
 
 	/**
+	 * Verifica il comportamento della classe nel momento in cui è richiesto di
+	 * recuperare uno degli utenti registrati al sistema sulla base del numero
+	 * identificativo di quest'ultimo ma avviene un errore nel sistema di
+	 * persistenza dei dati e il sottotipo di {@GetUtil} che effettua
+	 * l'operazione di SELECT, invece di una collezione di transfer object,
+	 * restituisce un riferimento nullo. Il test verifica che in questo caso
+	 * anche la chiamata di metodo getGroup restituisca un riferimento nullo.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testGetUserDataByIdNoCollection() {
+		// identificativo di prova
+		Long id = 1L;
+		// query che deve essere eseguita
+		String query = "from UserData as u where u.id = " + id;
+		// impedisce il recupero della collezione
+		when(getter.execute(query)).thenReturn(null);
+
+		// invoca il metodo da testare
+		IUserData result = tester.getUserData(id);
+
+		// verifica il risultato ottenuto
+		assertNull(result);
+
+		// verifica il corretto utilizzo dei mock
+		verify(factory).getUserDataUtil(manager);
+		verify(getter).execute(query);
+		verifyZeroInteractions(list);
+	}
+
+	/**
 	 * Verifica la possibilità di recuperare i dati di un utente dal database
 	 * disponendo di una stringa che può comparire come sottostringa del nome,
 	 * del cognome oppure del nome utente. In particolare, il test assicura che
@@ -693,8 +910,8 @@ public class DataPersistanceManagerTest {
 		String mail = "indirizzo5@dominio.it";
 		String name = "paperino";
 		String surname = "de paperoni";
-		String query = "from UserData as u where u.mail like '" + mail
-				+ "' or u.name like '" + name + "' or u.surname like '"
+		String query = "from UserData as u where u.mail like '%" + mail
+				+ "%' or u.name like '" + name + "' or u.surname like '"
 				+ surname + "'";
 		// configura il comportamento dei mock
 		when(getter.execute(query)).thenReturn(list);

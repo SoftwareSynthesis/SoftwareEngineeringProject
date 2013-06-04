@@ -26,7 +26,11 @@ public class CallListTest {
 	@Mock
 	private IUserData user;
 	@Mock
+	private IUserData someoneElse;
+	@Mock
 	private ICall call;
+	@Mock
+	private ICall someOtherCall;
 	@Mock
 	private CallList other;
 
@@ -124,5 +128,10 @@ public class CallListTest {
 		tester.setCall(call);
 		tester.setUser(user);
 		assertTrue(tester.equals(other));
+		when(other.getUser()).thenReturn(someoneElse);
+		assertFalse(tester.equals(other));
+		when(other.getUser()).thenReturn(user);
+		when(other.getCall()).thenReturn(someOtherCall);
+		assertFalse(tester.equals(other));
 	}
 }

@@ -7,8 +7,10 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
@@ -244,6 +246,37 @@ public class ControllerManagerTest {
 
 		// verifica il corretto utilizzo dei mock
 		verify(request).getParameter("operation");
+		verifyZeroInteractions(controller);
+	}
+
+	/**
+	 * Verifica il comportamento del metodo doPost nel momento in cui la
+	 * richiesta HTTP con cui viene invocato non contiene tutti i parametri che
+	 * la servlet si aspetta e, in particolare, manchi il parametro obbligatorio
+	 * 'operation'. Il test verifica che la pagina di risposta in una simile
+	 * circostanza sia lasciata vuota e che non venga instanziato alcun
+	 * controller a causa dell'invocazione del metodo.
+	 * 
+	 * @version 2.0
+	 * @author Diego Beraldin
+	 */
+	@Test
+	public void testDoPostWithoutParameter() throws Exception {
+		// priva la richiesta del parametro richiesto
+		when(request.getParameter("operation")).thenReturn(null);
+
+		// invoca il metodo da testare
+		tester.doPost(request, response);
+
+		// verifica l'output ottenuto
+		writer.flush();
+		String result = writer.toString();
+		assertNotNull(result);
+		assertTrue(result.isEmpty());
+
+		// verifica il corretto utilizzo dei mock
+		verify(request).getParameter("operation");
+		verify(tester, never()).createController(anyString());
 		verifyZeroInteractions(controller);
 	}
 
