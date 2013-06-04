@@ -88,7 +88,7 @@ function AddressBookPanelPresenter() {
         var name = mediator.createNameLabel(contact);
 
         // imposto gli attributi corretti
-        item.id = contact.id;
+        item.id = "contact-" + contact.id;
         item.className = contact.state;
         item.onclick = function() {
             showContactPanel.contact = contact;
@@ -164,7 +164,7 @@ function AddressBookPanelPresenter() {
        Modifica la visualizzazione dello stato del contatto
      
       this.setState = function(contact, state) {
-      		var liUser = document.getElementById(contact.id);
+      		var liUser = document.getElementById("contact-" + contact.id);
             var imgState = liUser.children[1];
             imgState.src = getImageSrc(contact);
       }
@@ -185,7 +185,7 @@ function AddressBookPanelPresenter() {
             contacts[contact.id].state = state;
             // invoca il setState(contact, state) della vista
             // imposto l'src dell'immagine giusta
-            var liUser = document.getElementById(contact.id);
+            var liUser = document.getElementById("contact-" + contact.id);
             var imgState = liUser.children[1];
             imgState.src = getImageSrc(contact);
         }
