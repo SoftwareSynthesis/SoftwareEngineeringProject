@@ -173,27 +173,29 @@ function CommunicationCenter() {
                 idOther = str[1];
                 onlyAudio = str[2];
             } else if (type == "2") {
-                var signal = str[1];
+                var signal = JSON.parse(str[1]);
                 if (pc == null) {
-                    // chiamo il gestore della chiamata in arrivo
-                    showPhoneIncomeCallAlertPanel.caller = mediator.getContactById(idOther);
-                    showPhoneIncomeCallAlertPanel.onlyAudio = onlyAudio;
-                    document.dispatchEvent(showPhoneIncomeCallAlertPanel);
-                    // packing signal
-                    if ((signal.sdp) == null) {
-                        sdpPacket.push(new RTCIceCandidate(signal));
-                    } else {
-                        document.dispatchEvent(stopRinging);
-                        remoteDescriptionPacket.push(new RTCSessionDescription(signal));
-                    }
-                } else {
-                    if ((signal.sdp) == null) {
-                        pc.addIceCandidate(new RTCIceCandidate(signal));
-                    } else {
-                        document.dispatchEvent(stopRinging);
-                        pc.setRemoteDescription(new RTCSessionDescription(signal));
-                    }
+                    document.dispatchEvent(showCommunicationPanel);
+                    thisMonolith.call(false, mediator.getContactById(idOther), onlyAudio);
+                    /* chiamo il gestore della chiamata in arrivo
+                     showPhoneIncomeCallAlertPanel.caller = mediator.getContactById(idOther);
+                     showPhoneIncomeCallAlertPanel.onlyAudio = onlyAudio;
+                     document.dispatchEvent(showPhoneIncomeCallAlertPanel);
+                     // packing signal
+                     if ((signal.sdp) == null) {
+                     sdpPacket.push(signal);
+                     } else {
+                     document.dispatchEvent(stopRinging);
+                     remoteDescriptionPacket.push(signal);*/
                 }
+                //} else {
+                if ((signal.sdp) == null) {
+                    pc.addIceCandidate(new RTCIceCandidate(signal));
+                } else {
+                    document.dispatchEvent(stopRinging);
+                    pc.setRemoteDescription(new RTCSessionDescription(signal));
+                }
+                //}
 
             } else if (type == "5") {
                 changeAddressBooksContactState.idUserChange = str[1];
@@ -299,7 +301,7 @@ function CommunicationCenter() {
 
         //quando il remoteStream viene tolto lo eliminio dal mio client
         pc.onremovestream = function() {
-            changeMyState.state = "avaiable";
+            changeMyState.state = "available";
             document.dispatchEvent(changeMyState);
             localStream.stop();
             stopTimer();
@@ -461,11 +463,11 @@ function CommunicationCenter() {
         document.dispatchEvent(showCommunicationPanel);
         thisMonolith.call(false, contact, onlyAudio);
         // unpacking signal
-        for (var i in remoteDescriptionPacket) {
-            pc.setRemoteDescription(new RTCSessionDescription(remoteDescriptionPacket[i]));
-        }
         for (var i in sdpPacket) {
-            pc.addIceCandidate(new RTCIceCandidate(sdpPacket[i]));
+            pc.addIceCandidate(new RTCIceCandidate(JSON.parse(sdpPacket[i])));
+        }
+        for (var i in remoteDescriptionPacket) {
+            pc.setRemoteDescription(new RTCSessionDescription(JSON.parse(remoteDescriptionPacket[i])));
         }
     }
 

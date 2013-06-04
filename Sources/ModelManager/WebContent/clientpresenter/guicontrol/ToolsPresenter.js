@@ -233,7 +233,7 @@ function ToolsPanelPresenter() {
         request.send("operation=logout");
         var result = JSON.parse(request.responseText);
         if (!result) {
-            alert("Ops... qualcosa &egrave; andato storto nel server!");
+            alert("Ops... qualcosa è andato storto nel server!");
         }
     }
 
