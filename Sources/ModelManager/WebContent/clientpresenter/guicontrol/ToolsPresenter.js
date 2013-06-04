@@ -78,7 +78,7 @@ function ToolsPanelPresenter() {
         } else {
             document.body.insertBefore(dummyDiv, document.getElementsByTagName("footer")[0]);
         }
-        dummyDiv.innerHTML = view.outerHTML;
+        dummyDiv.innerHTML = view;
 
         //salvo un riferimento all'elemento DOM appena creato
         thisPanel = document.getElementById("ToolsPanel");

@@ -40,7 +40,7 @@ function MainPanelPresenter() {
         // posiziona il pannello sulla pagina
         var dummyDiv = document.createElement("div");
         document.body.insertBefore(dummyDiv, document.getElementsByTagName("footer")[0]);
-        dummyDiv.innerHTML = view.outerHTML;
+        dummyDiv.innerHTML = view;
 
         //salvo un riferimento all'elemento DOM appena creato
         thisPanel = document.getElementById("MainPanel");
@@ -55,7 +55,7 @@ function MainPanelPresenter() {
      * @author Diego Beraldin
      */
     this.displayChildPanel = function(node) {
-        thisPanel.innerHTML = node.outerHTML;
+        thisPanel.innerHTML = node;
     };
 
     /**

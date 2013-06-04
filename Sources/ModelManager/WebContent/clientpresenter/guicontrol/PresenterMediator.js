@@ -242,21 +242,14 @@ function PresenterMediator() {
      * @param {String} key nome del presenter di cui richiamare la view
      * @returns {HTMLDivElement} elemento HTML da agganciare al documento
      * @author Riccardo Tresoldi
-     */
+     */    
     this.getView = function(key) {
         // ottengo il frammento di codice HTML dalla view
         var viewRequest = new XMLHttpRequest();
-        viewRequest.responseType = "document";
-        viewRequest.open("GET", "clientview/" + View[key], true);
+        viewRequest.open("GET", "clientview/" + View[key], false);
         viewRequest.send();
-        viewRequest.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                loadedView.view = viewRequest.responseXML.body.firstChild;
-                loadedView.presenter = key;
-                document.dispatchEvent(loadedView);
-            }
-        };
-    };
+        onLoadedView(key, viewRequest.response);
+    }; 
 
     /***************************************************************************
      * HANDLER EVENTI MEDIATOR
@@ -286,7 +279,7 @@ function PresenterMediator() {
             var answerBox = document.createElement("div");
             answerBox.id = "answerBox";
             //appendo l'elemento passato come parametro all'answerBox
-            answerBox.innerHTML = view.outerHTML;
+            answerBox.innerHTML = view;
             //appendo i div appena creati al body
             if ( bodyFirstChild = body.firstChild) {
                 body.insertBefore(overlay, bodyFirstChild);
