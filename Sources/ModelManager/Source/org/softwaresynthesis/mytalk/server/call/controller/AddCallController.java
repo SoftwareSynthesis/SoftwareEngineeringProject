@@ -44,6 +44,7 @@ public class AddCallController extends AbstractController {
 
 			// inserisce la chiamata
 			call.setStart(date);
+			call.setEnd(date);
 			dao.insert(call);
 
 			// inserisce la prima CallList
