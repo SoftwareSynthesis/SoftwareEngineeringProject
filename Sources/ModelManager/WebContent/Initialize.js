@@ -111,7 +111,5 @@ Object.isEmpty = function(obj) {
 }
 
 window.onbeforeunload = function() {
-    if (!Object.isEmpty(communicationcenter.my))
-        //la variabile my non è impostata duqnue esco
-        return ("Prima di chiudere il browser effettua il Logout.");
+    document.dispatchEvent(logout)
 }

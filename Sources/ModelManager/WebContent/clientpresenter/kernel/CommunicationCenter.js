@@ -230,6 +230,9 @@ function CommunicationCenter() {
         var ar = new Array("4");
         websocket.send(JSON.stringify(ar));
         websocket.close();
+        my = new Object();
+        websocket = null;
+        pc = null;
     };
 
     /**
