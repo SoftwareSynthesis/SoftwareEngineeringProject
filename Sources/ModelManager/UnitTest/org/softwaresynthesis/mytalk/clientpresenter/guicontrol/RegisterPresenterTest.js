@@ -13,6 +13,7 @@ module(
 				// stub di mediator
 				mediator = {
 					getView : function(someString) {
+						document.dispatchEvent(new CustomEvent("eventRaised"));
 						var viewRequest = new XMLHttpRequest();
 						viewRequest.open("POST",
 								"clientview/RegisterView.html", false);
