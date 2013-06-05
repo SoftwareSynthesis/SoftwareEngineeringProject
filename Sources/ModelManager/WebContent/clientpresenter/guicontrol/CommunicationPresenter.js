@@ -170,8 +170,10 @@ function CommunicationPanelPresenter() {
     this.display = function() {
         if (!thisPanel) {
             thisPanel = document.getElementById("CommunicationPanel");
+        }else{
+            showGeneralPanel.panel = thisPanel.outerHTML;
+            document.dispatchEvent(showGeneralPanel);
         }
-
         // configura la vista
         var closeButton = document.getElementById("closeButton");
         closeButton.onclick = function() {

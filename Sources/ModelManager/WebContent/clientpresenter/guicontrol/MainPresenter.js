@@ -90,6 +90,15 @@ function MainPanelPresenter() {
     function onRemoveMainPanel() {
         thisPresenter.destroy();
     }
+    
+    /** VIEW
+     * Funzione che visualizza un blocco di codice HTML generico nel mainPanel
+     * @version 2.0
+     * @author Riccaro Tresoldi
+     */
+    function onShowGeneralPanel(panel) {
+        thisPresenter.displayChildPanel(panel);
+    }
 
     /***************************************************************************
      * LISTENER DEGLI EVENTI
@@ -99,5 +108,8 @@ function MainPanelPresenter() {
     });
     document.addEventListener("removeMainPanel", function(evt) {
         onRemoveMainPanel();
+    });
+    document.addEventListener("showGeneralPanel", function(evt) {
+        onShowGeneralPanel(evt.panel);
     });
 }

@@ -191,7 +191,7 @@ function PresenterMediator() {
      */
     // TODO da documentare (evento?)
     this.communicationPPUpdateStats = function(text, isRecevedData) {
-        communicationpp.updateStats();
+        communicationpp.updateStats(text, isRecevedData);
     };
 
     /**

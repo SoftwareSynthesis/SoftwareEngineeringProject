@@ -56,6 +56,8 @@ window.onload = function() {
     rejectedCall = new CustomEvent("rejectedCall");
     acceptCall = new CustomEvent("acceptCall");
     rejectCall = new CustomEvent("rejectCall");
+    // eventi per MainPresenter
+    showGeneralPanel = new CustomEvent("showGeneralPanel");
     
     
     
