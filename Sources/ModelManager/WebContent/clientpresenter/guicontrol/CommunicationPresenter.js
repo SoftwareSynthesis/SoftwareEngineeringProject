@@ -189,7 +189,7 @@ function CommunicationPanelPresenter() {
     // Nella documentazione è onUpdateTimer
     this.updateTimer = function(text) {
         var statDiv = document.getElementById("statDiv");
-        statDiv.childNodes[1].textContent = "Tempo chiamata: " + text;
+        statDiv.children[1].textContent = "Tempo chiamata: " + text;
     };
 
     /** VIEW

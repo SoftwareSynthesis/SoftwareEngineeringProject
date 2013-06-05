@@ -197,6 +197,9 @@ test("testGetOtherVideo()", function() {
 });
 
 /**
+ * Verifica l'aggiornameto delle statistiche relative alla comunicazione in
+ * corso sia per i dati ricevuti che per i dati inviati.
+ * 
  * @version 2.0
  * @author Stefano Farronato
  * @author Diego Beraldin
@@ -219,6 +222,23 @@ test("testUpdateStats()", function() {
 	expect(i);
 });
 
+/**
+ * Verifica l'aggiornamento del timer per il tempo di comunicazione
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
+test("testUpdateTimer()", function() {
+	mediator.getView("communication");
+	tester.display();
+	var string = "ciao";
+
+	tester.updateTimer(string);
+
+	equal(document.getElementById("timerSpan").innerHTML.trim(),
+			"Tempo chiamata: " + string);
+});
+
 /*
  * test("testAddChat", function(){ var event = new
  * CustomEvent("showCommunicationPanel"); document.dispatchEvent(event);
@@ -232,13 +252,5 @@ test("testUpdateStats()", function() {
  * test("testRemoveChat", function(){
  * 
  * });
- * 
- * 
- * test("testUpdateTimer()", function() { var event = new
- * CustomEvent("showCommunicationPanel"); document.dispatchEvent(event);
- * tester.display(); var string = "io sono un testo";
- * tester.updateTimer(string); equal(div2.textContent, "Tempo chiamata: "+
- * string, "testo inserito correttamente nel div");
- * document.body.removeChild(div0); });
  */
 
