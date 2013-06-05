@@ -61,24 +61,21 @@ test("testDisplay()",function() {
 			equal(divHead.className, "panelHeader");
 			i++;
 
-			equal(divCall.nodeName, "DIV",
-					"il primo figlio dell'elemento e' un div");
+			equal(divCall.nodeName, "DIV");
 			i++;
 
-			equal(divChat.nodeName, "DIV",
-					"il secondo figlio dell'elemenento e' un div");
+			equal(divChat.nodeName, "DIV");
 			i++;
 
-			equal(divCall.id, "divCall", "l'id del div e' divCall");
+			equal(divCall.id, "divCall");
 			i++;
 
-			equal(divChat.id, "divChat", "l'd del div e' divChat");
+			equal(divChat.id, "divChat");
 			i++;
 
 			list = divCall.children;
 
-			equal(list.length, 4,
-					"la lista dei figli di divCall contiene 4 figli");
+			equal(list.length, 4);
 			i++;
 
 			var myVideo = list[0];
@@ -86,83 +83,74 @@ test("testDisplay()",function() {
 			var statDiv = list[2];
 			var close = list[3];
 
-			equal(myVideo.nodeName, "VIDEO",
-					"tipo dell'elemento <video> corretto");
+			equal(myVideo.nodeName, "VIDEO");
 			i++;
-			equal(otherVideo.nodeName, "VIDEO",
-					"tipo dell'elemento <video> corretto");
+			equal(otherVideo.nodeName, "VIDEO");
 			i++;
-			equal(myVideo.id, "myVideo",
-					"attributo id del primo video corretto");
+			equal(myVideo.id, "myVideo");
 			i++;
-			equal(myVideo.autoplay, true,
-					"attributo autoplay del primo video corretto");
+			equal(myVideo.autoplay, true);
 			i++;
-			equal(otherVideo.id, "otherVideo",
-					"attributo id del secondo video corretto");
+			equal(otherVideo.id, "otherVideo");
 			i++;
-			equal(otherVideo.autoplay, true,
-					"attributo autoplay del secondo video corretto");
+			equal(otherVideo.autoplay, true);
 			i++;
 
-			equal(statDiv.nodeName, "DIV",
-					"tipo dell'elemento <div> delle statistiche corretto");
+			equal(statDiv.nodeName, "DIV");
 			i++;
-			equal(statDiv.id, "statDiv",
-					"attributo id delle statistiche impostato correttamente");
+			equal(statDiv.id, "statDiv");
 			i++;
 
-			equal(close.nodeName, "BUTTON", "tipo del pulsante corretto");
+			equal(close.nodeName, "BUTTON");
 			i++;
-			equal(close.type, "submit",
-					"attributo type del pulsante impostato correttamente");
+			equal(close.type, "submit");
 			i++;
-			equal(close.id, "closeButton", "attributo id del pulsante corretto");
+			equal(close.id, "closeButton");
 			i++;
 
 			list = statDiv.children;
-			equal(list.length, 2, "il div delle statistiche ha due figli");
+			equal(list.length, 2);
 			i++;
 
 			var statSpan = list[0];
 			var timerSpan = list[1];
 
-			equal(statSpan.nodeName, "SPAN", "tipo corretto dello span");
+			equal(statSpan.nodeName, "SPAN");
 			i++;
-			equal(timerSpan.nodeName, "SPAN", "tipo corretto dello span");
+			equal(timerSpan.nodeName, "SPAN");
 			i++;
-			equal(statSpan.id, "statSpan", "id corretto");
+			equal(statSpan.id, "statSpan");
 			i++;
-			equal(timerSpan.id, "timerSpan", "id corretto");
+			equal(timerSpan.id, "timerSpan");
 			i++;
 
 			list = statSpan.children;
-			equal(list.length, 2, "statSpan ha esattamente due figli");
+			equal(list.length, 2);
 			i++;
 
 			var statReceived = list[0];
 			var statSent = list[1];
 
-			equal(statReceived.nodeName, "SPAN", "tipo corretto dello span");
+			equal(statReceived.nodeName, "SPAN");
 			i++;
-			equal(statReceived.id, "statRecevd", "id corretto dello span");
+			equal(statReceived.id, "statRecevd");
 			i++;
-			equal(statSent.nodeName, "SPAN", "tipo corretto dello span");
+			equal(statSent.nodeName, "SPAN");
 			i++;
-			equal(statSent.id, "statSend", "id corretto dello span");
+			equal(statSent.id, "statSend");
 			i++;
 			
 			list = divChat.children;
-			equal(list.length, 1, "l'elemento divChat ha un figlio");
+			equal(list.length, 1);
 			i++;
 			
 			var ulOpenChat = list[0];
-			equal(ulOpenChat.nodeName, "UL", "tipo dell'elemento lista corretto");
+			equal(ulOpenChat.nodeName, "UL");
 			i++;
-			equal(ulOpenChat.id, "ulOpenChat", "attributo id della lista impostato correttamente");
+			equal(ulOpenChat.id, "ulOpenChat");
 			i++;
 			
-			equal(ulOpenChat.children.length, 0, "al momento della creazione la lista non ha figli");
+			equal(ulOpenChat.children.length, 0);
 			i++;
 			expect(37);
 		});
@@ -188,7 +176,7 @@ test("testAddChat", function(){
 test("testRemoveChat", function(){
 	
 });
-*/
+
 
 test("testUpdateTimer()", function() {
 	var event = new CustomEvent("showCommunicationPanel");
@@ -199,18 +187,14 @@ test("testUpdateTimer()", function() {
 	equal(div2.textContent, "Tempo chiamata: "+ string, "testo inserito correttamente nel div");
 	document.body.removeChild(div0);
 });
-
+*/
 test("testGetMyVideo()", function() {
 	var event = new CustomEvent("showCommunicationPanel");
 	document.dispatchEvent(event);
 	tester.display();
 	var video = document.createElement("video");
-	video.id = "myVideo";
-	div.appendChild(video);
-	document.body.appendChild(div);
-	var result = tester.getMyVideo();
-	deepEqual(result, video, "elemento video recuperato correttamente");
-	document.body.removeChild(div);
+	tester.getMyVideo();
+	deepEqual(document.getElementById("myVideo").nodeName, "VIDEO");
 });
 
 test("testGetOtherVideo()", function() {
@@ -218,12 +202,8 @@ test("testGetOtherVideo()", function() {
 	document.dispatchEvent(event);
 	tester.display();
 	var video = document.createElement("video");
-	video.id = "otherVideo";
-	div.appendChild(video);
-	document.body.appendChild(div);
-	var result = tester.getOtherVideo();
-	deepEqual(result, video, "elemento recuperato correttamente");
-	document.body.removeChild(div);
+	tester.getOtherVideo()
+	equal(document.getElementById("otherVideo").nodeName, "VIDEO");
 });
 
 test("testUpdateStats()", function() {
@@ -231,16 +211,14 @@ test("testUpdateStats()", function() {
 	var event = new CustomEvent("showCommunicationPanel");
 	document.dispatchEvent(event);
 	tester.display();
-
 	var string = "miao";
 	// inserisci dati ricevuti
 	tester.updateStats(string, true);
-	equal(document.getElementById("statRecevd"), "Dati ricevuti: " + string, "stringa impostata correttamente");
+	equal(document.getElementById("statRecevd").nodeName, "Dati ricevuti: " + string, "stringa impostata correttamente");
 	
 	// inserisci dati inviati
 	tester.updateStats(string, false);
-	equal(document.getElementById("statSend"), "Dati inviati: " + string, "stringa impostata correttamente");
+	equal(document.getElementById("statSend").nodeName, "Dati inviati: " + string, "stringa impostata correttamente");
 	
 	expect(2);
-	document.body.removeChild(div0);
 });

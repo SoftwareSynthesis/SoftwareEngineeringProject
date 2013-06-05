@@ -1,175 +1,230 @@
+/**
+ * Verifica della classe GroupPresenter
+ * 
+ * @version 2.0
+ * @author Elena Zecchinato
+ * @author Diego Beraldin
+ */
 module("GroupPresenter", {
 	setup : function() {
-	
-	
-		
-	mediator = {
-	
-		getAddressBookContacts: function(){ 
-			return {
-				0 : {
-					name : "Laura",
-					surname : "Pausini",
-					email : "laupau@gmail.com",
-					id : "0",
-					picturePath : "xx.png",
-					state : "offline",
-					blocked : true},
-					
-				1 : {
-					name : "Flavia",
-					surname : "Bacco",
-					email : "flaba@gmail.com",
-					id : "1",
-					picturePath : "zz.png",
-					state : "offline",
-					blocked : false},
-					
-				2 : {
-					name : "Antonio",
-					surname : "Rossi",
-					email : "antros@gmail.com",
-					id : "2",
-					picturePath : "yy.png",
-					state : "offline",
-					blocked : false}
-	}; 
-	
-	},
-	
-	getAddressBookGroups: function(){
-	
-	return {
-	
-	1:	{name : "amici",
-		id : "1",
-		contacts : [1]},
-		
-	2:	{name : "famiglia",
-		id : "2",
-		contacts : [1]}
-		
-	};
-},
+		// calcola l'indirizzo di base
+		host = window.location.protocol + "//" + window.location.host
+				+ window.location.pathname;
+		host = host.substr(0, host.length - 10);
+		// stub di mediator
+		mediator = {
+			getAddressBookContacts : function() {
+				return {
+					0 : {
+						name : "Mario",
+						surname : "Rossi",
+						email : "indirizzo1@dominio.it",
+						id : "0",
+						picturePath : "img/contactImg/Default.png",
+						state : "available",
+						blocked : true
+					},
 
+					1 : {
+						name : "Giuseppe",
+						surname : "Verdi",
+						email : "indirizzo2@dominio.it",
+						id : "1",
+						picturePath : "img/contactImg/Default.png",
+						state : "offline",
+						blocked : false
+					},
 
-	getView : function(someString) {
-		var viewRequest = new XMLHttpRequest();
-		viewRequest.open("POST",
-				"clientview/GroupView.html", false);
-		viewRequest.send();
-		var div = document.createElement("div");
-		div.innerHTML = viewRequest.responseText;
-		if (document.getElementById("GroupPanel") == null) {
-			document.body.appendChild(div);
-			div.style.display = "none";
-		}
-	},
-	
-	
-	
-	createNameLabel: function(){return "pippo";}
+				};
 
-	
+			},
+			getAddressBookGroups : function() {
+				return {
+					1 : {
+						name : "addrBookEntry",
+						id : "1",
+						contacts : [ 0, 1 ]
+					},
 
-}
-	
-	tester = new GroupPanelPresenter();	
+					2 : {
+						name : "amici",
+						id : "2",
+						contacts : [ 1 ]
+					}
+				};
+			},
+
+			getView : function(someString) {
+				document.dispatchEvent(new CustomEvent("eventRaised"));
+				var viewRequest = new XMLHttpRequest();
+				viewRequest.open("POST", "clientview/GroupView.html", false);
+				viewRequest.send();
+				var div = document.createElement("div");
+				div.innerHTML = viewRequest.responseText;
+				if (document.getElementById("GroupPanel") == null) {
+					document.body.appendChild(div);
+					div.style.display = "none";
+				}
+			},
+			createNameLabel : function(contact) {
+				return contact.email;
+			}
+
+		};
+		// oggetto da testare
+		tester = new GroupPanelPresenter();
 	},
 	teardown : function() {
+		var element = document.getElementById("GroupPanel");
+		if (element) {
+			document.body.removeChild(element.parentElement);
+		}
 	}
 });
 
-
-
-
-
-	test("testSelectCandidates()", function() {
-
-	var event= new CustomEvent("showGroupPanel");
+/**
+ * Verifica che sia possibile selezionare i contatti che non appartengono a un
+ * gruppo e che sono pertanto candidati ad essere aggiunti.
+ * 
+ * @version 2.0
+ * @author Elena Zecchinato
+ * @author Diego Beraldin
+ */
+test("testSelectCandidates()", function() {
+	var i = 0;
+	var event = new CustomEvent("showGroupPanel");
 	document.dispatchEvent(event);
 	tester.display();
 
-	
-	
-	var i = 0;
-	
-	var amici= mediator.getAddressBookGroups()[1];
-	var prova=tester.selectCandidates(amici);
-	
-	
-	equal(Object.keys(prova).length,2,"Gli utenti restituiti che quindi non fanno parte del gruppo sono due.");
-	i++;
-	
-	equal(prova["0"].id,0,"Il primo utente non appartenente al gruppo ha id=0");
-	i++;
-	equal(prova["0"].name,"Laura","Il primo utente non appartenente al gruppo ha nome = Laura");
-	i++;
-	equal(prova["0"].surname,"Pausini","Il primo utente non appartenente al gruppo ha cognome = Pausini");
-	i++;
-	equal(prova["0"].state,"offline","Il primo utente non appartenente al gruppo ha stato = offline");
-	i++;
-	equal(prova["0"].blocked,true,"Il primo utente non appartenente al gruppo è bloccato");
-	i++;
-	equal(prova["0"].picturePath,"xx.png","Il primo utente non appartenente al gruppo ha immagine = xx.png");
-	i++;
-	
+	var group = mediator.getAddressBookGroups()[2];
+	var list = tester.selectCandidates(group);
 
-	
-	
-	equal(prova["2"].id,2,"Il secondo utente non appartenente al gruppo ha id=2");
+	equal(Object.keys(list).length, 1);
 	i++;
-	equal(prova["2"].name,"Antonio","Il secondo utente non appartenente al gruppo ha nome = Antonio");
+	var contact = list[0];
+	equal(contact.id, 0);
 	i++;
-	equal(prova["2"].surname,"Rossi","Il secondo utente non appartenente al gruppo ha cognome = Rossi");
+	equal(contact.name, "Mario");
 	i++;
-	equal(prova["2"].state,"offline","Il secondo utente non appartenente al gruppo ha stato = offline");
+	equal(contact.surname, "Rossi");
 	i++;
-	equal(prova["2"].blocked,false,"Il secondo utente non appartenente al gruppo non è bloccato");
+	equal(contact.state, "available");
 	i++;
-	equal(prova["2"].picturePath,"yy.png","Il secondo utente non appartenente al gruppo ha immagine = yy.png");
+	equal(contact.blocked, true);
 	i++;
-	
-	
+	equal(contact.picturePath, "img/contactImg/Default.png");
+	i++;
+
 	expect(i);
 });
 
+/**
+ * Verifica che il presenter risponda correttamente all'evento showGroupPanel
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
+test("testOnShowGroupPanel()", function() {
+	var bool = false;
+	document.addEventListener("eventRaised", function() {
+		bool = true;
+	});
 
-
-
-
-
-
-
-test("test()", function() {
-
-	
-	var i = 0;
-	
-	expect(i);
+	document.dispatchEvent(new CustomEvent("showGroupPanel"));
+	ok(bool);
 });
-	
 
-
-
-
-
-
-	
-	test("testDisplay()", function() {
-
-	var event= new CustomEvent("showGroupPanel");
+/**
+ * Verifica la corretta inizializzazione degli elementi grafici del pannello
+ * 
+ * @version 2.0
+ * @author Elena Zecchinato
+ * @author Diego Beraldin
+ */
+test("testDisplay()", function() {
+	var i = 0;
+	var event = new CustomEvent("showGroupPanel");
 	document.dispatchEvent(event);
-	
-	var i = 0;
-	
-	var prova=tester.display();
-	
-	equal(prova,"","non so");
+
+	tester.display();
+
+	var element = document.getElementById("GroupPanel");
+	equal(element.children.length, 3);
 	i++;
-	
+	element = element.children[0];
+	equal(element.nodeName, "DIV");
+	i++;
+	element = element.children[0];
+	equal(element.nodeName, "H1");
+	i++;
+	equal(element.innerHTML.trim(), "GESTIONE GRUPPI");
+	i++;
+	element = element.parentElement.parentElement.children[1];
+	equal(element.nodeName, "BUTTON");
+	i++;
+	equal(element.id, "addGroupButton");
+	i++;
+	equal(element.innerHTML.trim(), "Aggiungi Gruppo");
+	i++;
+	element = element.parentElement.children[2];
+	equal(element.nodeName, "UL");
+	i++;
+	equal(element.id, "groupList");
+	i++;
+
 	expect(i);
 });
-	
-	
-	
+
+/**
+ * Verifica che la lista dei gruppi sia visualizzata correttamente e che di
+ * default la lista dei contatti che apartengono al gruppo sia visualizzata in
+ * forma compatta.
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
+test("testDisplayList()", function() {
+	var i = 0;
+	var event = new CustomEvent("showGroupPanel");
+	document.dispatchEvent(event);
+	tester.display();
+
+	var element = document.getElementById("groupList");
+	equal(element.children.length, 1);
+	i++;
+	element = element.children[0];
+	equal(element.nodeName, "LI");
+	i++;
+	equal(element.children.length, 5);
+	i++;
+	equal(element.children[0].nodeName, "IMG");
+	i++;
+	equal(element.children[0].src, host + "img/expandGroupImg.png");
+	i++;
+	equal(element.children[1].innerHTML.trim(), "amici");
+	i++;
+	equal(element.children[2].nodeName, "IMG");
+	i++;
+	equal(element.children[2].src, host + "img/deleteGroupImg.png");
+	i++;
+	equal(element.children[3].nodeName, "IMG");
+	i++;
+	equal(element.children[3].src, host + "img/addToGroupImg.png");
+	i++;
+	element = element.children[4];
+	equal(element.nodeName, "UL");
+	i++;
+	equal(element.className, "collapsedList");
+	i++;
+	equal(element.children.length, 1);
+	i++;
+	element = element.children[0];
+	equal(element.nodeName, "LI");
+	i++;
+	equal(element.childNodes[0].nodeValue, "indirizzo2@dominio.it");
+	i++;
+	equal(element.children[0].src, host + "img/deleteContactImg.png");
+	i++;
+
+	expect(i);
+});
