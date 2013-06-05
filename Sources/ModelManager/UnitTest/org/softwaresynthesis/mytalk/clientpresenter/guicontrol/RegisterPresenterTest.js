@@ -1,4 +1,6 @@
 /**
+ * Verifica della classe RegisterPresenter
+ * 
  * @version 2.0
  * @author Diego Beraldin
  */
@@ -11,18 +13,12 @@ module(
 				// stub di mediator
 				mediator = {
 					getView : function(someString) {
+						document.dispatchEvent(new CustomEvent("eventRaised"));
 						var viewRequest = new XMLHttpRequest();
 						viewRequest.open("POST",
 								"clientview/RegisterView.html", false);
 						viewRequest.send();
-						var div = document.createElement("div");
-						div.innerHTML = viewRequest.responseText;
-						if (document.getElementById("RegisterPanel") == null) {
-							div.style.display = "none";
-							document.dispatchEvent(new CustomEvent(
-									"eventRaised"));
-							return div.childNodes[0];
-						}
+						return viewRequest.response;
 					}
 				};
 				// stub di communicationcenter
@@ -55,8 +51,8 @@ test(
 		"testInitialize()",
 		function() {
 			var i = 0;
-
 			tester.initialize(mediator.getView("register"));
+			document.getElementById("RegisterPanel").style.display = "none";
 
 			var element = document.getElementById("RegisterPanel");
 			equal(element.nodeName, "DIV");
@@ -214,6 +210,7 @@ test(
  */
 test("testDestroy()", function() {
 	tester.initialize(mediator.getView("register"));
+	document.getElementById("RegisterPanel").style.display = "none";
 
 	tester.destroy();
 
@@ -224,6 +221,7 @@ test("testDestroy()", function() {
 test("testGetUsername()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("register"));
+	document.getElementById("RegisterPanel").style.display = "none";
 
 	var element = document.getElementById("username");
 	element.value = "ThisIsNotValid";
@@ -251,6 +249,7 @@ test("testGetUsername()", function() {
 test("testGetPassword()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("register"));
+	document.getElementById("RegisterPanel").style.display = "none";
 
 	var element = document.getElementById("password");
 	element.value = "";
@@ -271,6 +270,7 @@ test("testGetPassword()", function() {
 test("testGetName()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("register"));
+	document.getElementById("RegisterPanel").style.display = "none";
 
 	var element = document.getElementById("firstname");
 	element.value = "Paolino";
@@ -284,6 +284,7 @@ test("testGetName()", function() {
 test("testGetSurname()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("register"));
+	document.getElementById("RegisterPanel").style.display = "none";
 
 	var element = document.getElementById("lastname");
 	element.value = "Paperino";
@@ -297,6 +298,7 @@ test("testGetSurname()", function() {
 test("testGetQuestion()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("register"));
+	document.getElementById("RegisterPanel").style.display = "none";
 
 	var element = document.getElementById("question");
 	element.value = "";
@@ -317,6 +319,7 @@ test("testGetQuestion()", function() {
 test("testGetAnswer()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("register"));
+	document.getElementById("RegisterPanel").style.display = "none";
 
 	var element = document.getElementById("answer");
 	element.value = "";
@@ -337,6 +340,7 @@ test("testGetAnswer()", function() {
 test("testGetPicturePath()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("register"));
+	document.getElementById("RegisterPanel").style.display = "none";
 
 	var element = document.getElementById("picture");
 	element.files = [ "" ];
@@ -379,6 +383,7 @@ test("testRegisterByClickUnsuccessfully()", function() {
 	};
 	var i = 0;
 	tester.initialize(mediator.getView("register"));
+	document.getElementById("RegisterPanel").style.display = "none";
 	var element = document.getElementById("username");
 	element.value = "indirizzo5@dominio.it";
 	element = document.getElementById("password");

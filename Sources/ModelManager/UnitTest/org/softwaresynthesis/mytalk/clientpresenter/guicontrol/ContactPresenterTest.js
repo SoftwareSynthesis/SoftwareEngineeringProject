@@ -41,6 +41,7 @@ module("ContactPanelPresenterTest", {
 		blockContact = new CustomEvent("blockContact");
 		unlockContact = new CustomEvent("unlockContact");
 		removeContactFromGroup = new CustomEvent("removeContactFromGroup");
+		call = new CustomEvent("call");
 		// oggetto da testare
 		tester = new ContactPanelPresenter();
 	},
@@ -435,7 +436,35 @@ test("testSimulateUnblockByClick()", function() {
  * @version 2.0
  * @author Diego Beraldin
  */
-test("testSimulateRemoveFromGroupByClick()", function() {
+test(
+		"testSimulateRemoveFromGroupByClick()",
+		function() {
+			var event = new CustomEvent("showContactPanel");
+			event.contact = {
+				name : "Gastone",
+				surname : "Paperone",
+				id : 2,
+				email : "indirizzo4@dominio.it",
+				picturePath : "img/contactImg/Default.png",
+				state : "available",
+				blocked : true
+			};
+			document.dispatchEvent(event);
+			tester.display();
+
+			var button = document.getElementById("groupsDiv").children[0].childNodes[1];
+			button.dispatchEvent(new MouseEvent("click"));
+
+			equal(removeContactFromGroup.contact, event.contact);
+		});
+
+/**
+ * Simula l'avvio di una chiamata da interfaccia grafica.
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
+test("testSimulateCallByClick()", function() {
 	var event = new CustomEvent("showContactPanel");
 	event.contact = {
 		name : "Gastone",
@@ -448,9 +477,52 @@ test("testSimulateRemoveFromGroupByClick()", function() {
 	};
 	document.dispatchEvent(event);
 	tester.display();
-
-	var button = document.getElementById("groupsDiv").children[0].childNodes[1];
-	button.dispatchEvent(new MouseEvent("click"));
+	var contact;
+	var onlyAudio;
+	document.addEventListener("call", function(evt) {
+		contact = evt.contact;
+		onlyAudio = evt.onlyAudio;
+	});
 	
-	equal(removeContactFromGroup.contact, event.contact);
+	var button = document.getElementById("callButton");
+	button.dispatchEvent(new MouseEvent("click"));
+
+	equal(event.contact, contact);
+	ok(onlyAudio);
+	expect(2);
+});
+
+/**
+ * Simula l'avvio di una videochiamata da interfaccia grafica.
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
+test("testSimulateVideoCallByClick()", function() {
+	var event = new CustomEvent("showContactPanel");
+	event.contact = {
+		name : "Gastone",
+		surname : "Paperone",
+		id : 2,
+		email : "indirizzo4@dominio.it",
+		picturePath : "img/contactImg/Default.png",
+		state : "available",
+		blocked : true
+	};
+	document.dispatchEvent(event);
+	tester.display();
+	
+	var contact;
+	var onlyAudio;
+	document.addEventListener("call", function(evt) {
+		contact = evt.contact;
+		onlyAudio = evt.onlyAudio;
+	});
+	
+	var button = document.getElementById("videoCallButton");
+	button.dispatchEvent(new MouseEvent("click"));
+
+	equal(event.contact, contact);
+	ok(!onlyAudio);
+	expect(2);
 });

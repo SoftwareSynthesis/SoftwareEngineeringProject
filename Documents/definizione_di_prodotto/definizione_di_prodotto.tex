@@ -3428,14 +3428,14 @@ Nessuna relazione evidenziata.
 \subsubsection*{Attributi}
 \begin{description}
 \item{\memberdata{-- thisPanel: HTMLElement}}\\
-Attibuto che rappresenta un riferimento all'elemento HTML, da intendersi come nodo DOM, che rappresenta la radice del pannello associato a questo \inglese{presenter} ed è costituito da un \verb'<div>' avente come identificativo la stringa \verb'AccountSettingsPanel'.
+Attributo che rappresenta un riferimento all'elemento HTML, da intendersi come nodo DOM, che rappresenta la radice del pannello associato a questo \inglese{presenter} ed è costituito da un \verb'<div>' avente come identificativo la stringa \verb'AccountSettingsPanel'.
 \end{description}
 
 \subsubsection*{Metodi}
 \begin{description}
 
 \item{\method{+ onShowAccountSettingPanel(): void}}\\
-Questo gestore di eventi viene attivato al verificarsi dell'evento \verb'showAccountSettingPanel' e determina il caricamento del \inglese{template} che corriponde al pannello delle impostazioni utente, demandando in un secondo momento alla vista il compito di inizializzare il comportamento del pannello mediante il metodo \method{display()} che essa mette a disposizione.
+Questo gestore di eventi viene attivato al verificarsi dell'evento \verb'showAccountSettingPanel' e determina il caricamento del \inglese{template} che corrisponde al pannello delle impostazioni utente, demandando in un secondo momento alla vista il compito di inizializzare il comportamento del pannello mediante il metodo \method{display()} che essa mette a disposizione.
 
 \item{\method{+ sendUserData(data: Object): Boolean}}\\
 Il metodo ha il compito di gestire la modifica dell'utente ai propri dati verificando innanzitutto se essi hanno subito qualche variazione rispetto a quanto noto in precedenza, mediante una chiamata al metodo \method{hasSomethingChanged}. In caso affermativo, dovrà essere inviata una richiesta all'indirizzo del \inglese{front controller} per trasferire la modifica sui dati salvati sul database del server.
@@ -3519,7 +3519,7 @@ Nessuna relazione evidenziata.
   \end{verbatim}
   
    \item{\memberdata{-- thisPanel: HTMLElement}}\\
-  Riferimento all'elemento, da intendersi come nodo DOM, che rappresenta il pannelo controllato da questo \inglese{presenter} che nello specifico è rappresentato da un \verb'<div>' con l'identificativo \verb'AddressBookPanel'.
+  Riferimento all'elemento, da intendersi come nodo DOM, che rappresenta il pannello controllato da questo \inglese{presenter} che nello specifico è rappresentato da un \verb'<div>' con l'identificativo \verb'AddressBookPanel'.
   
 \end{description}
 
@@ -3658,7 +3658,7 @@ In caso affermativo, e solo allora, il metodo avrà il compito di inviare una ri
 
 Poiché il server ritorna la stringa \verb'"true"' se l'operazione va a buon fine, è sufficiente che il metodo restituisca \verb'true' se il risultato di \verb'JSON.parse(request.responseText)' è valutato positivamente e \verb'false' in caso contrario. Inoltre, nel caso in cui il contatto sia stato effettivamente sbloccato, dovrà essere richiamato il metodo \method{setup()} del \inglese{presenter}.
 
-In caso di errore, o di richiesta di sbloccare un contatto non presente in rubrica oppure nell'eventualità in cui il contatto di cui si richiede lo sblocco è già stato sbloccato, il metodo dovrà sollevare tre \exception{Exception} contenenti, rispettivamente, il messaggio ``Errore nel server'', ``Contatto non presente in rubrica''e ``Contatto già sbloccato''.
+In caso di errore, o di richiesta di sbloccare un contatto non presente in rubrica oppure nell'eventualità in cui il contatto di cui si richiede lo sblocco è già stato sbloccato, il metodo dovrà sollevare tre \exception{Exception} contenenti, rispettivamente, il messaggio ``Errore nel server'', ``Contatto non presente in rubrica'' e ``Contatto già sbloccato''.
 
 \item{\method{+ setup(): void}}\\
 Il metodo ha il compito di scaricare dal server i dati necessari al funzionamento del \inglese{presenter} e in secondo momento passare alla vista le informazioni necessarie per popolare il pannello nel formato di cui quest'ultima necessita.
@@ -3738,7 +3738,7 @@ Nessuna relazione evidenziata.
 \begin{description}
 
   \item{\memberdata{-- audio: Object}}\\
-  Mappa associativa di oggetti creati con una chiamata al costruttore \verb'new Audio(fileName)' le cui chiavi corrispono alle stringhe \verb'"income"' e \verb'"outcome"' cui sono associati i suoni per il segnale di chiamata in arrivo e di chiamata in uscita rispettivamente.
+  Mappa associativa di oggetti creati con una chiamata al costruttore \verb'new Audio(fileName)' le cui chiavi corrispondono alle stringhe \verb'"income"' e \verb'"outcome"' cui sono associati i suoni per il segnale di chiamata in arrivo e di chiamata in uscita rispettivamente.
   
   \item{\memberdata{-- intervalRing: Object}}\\
   Intervallo impostato inizialmente a \verb'null' nel costruttore e in seguito inizializzato di volta in volta dal gestore di evento \method{onStartRinging} che permette di controllare (e di arrestare) la riproduzione del segnale di chiamata.
@@ -4134,7 +4134,7 @@ Tale metodo dovrà restituire \verb'true' se il contatto passato come parametro 
 \item{\method{+ createNameLabel(contact: Object): String}}\\
 Il metodo ha il compito di restituire la rappresentazione in formato stringa del nome del contatto passato come parametro, da utilizzarsi ogni volta che un contatto dovrà essere visualizzato nell'interfaccia grafica (ad esempio nella rubrica, fra i risultati di una ricerca, come mittente di un messaggio in segreteria oppure contatto coinvolto in una chiamata nello storico).
 
-La rappresentazione testuale di un contatto deve contenere almeno una voce tra i valori di \verb'contact.name' e \verb'contact.surname', se almeno uno dei due è specificatto oppure, se non sono disponibili i dati anagrafici del contatto da visualizzare, l'indirizzo email di quest'ultimo.
+La rappresentazione testuale di un contatto deve contenere almeno una voce tra i valori di \verb'contact.name' e \verb'contact.surname', se almeno uno dei due è specificato oppure, se non sono disponibili i dati anagrafici del contatto da visualizzare, l'indirizzo email di quest'ultimo.
 
 \item{\method{+ getAddressBookContacts(): Object}}\\
 Tale metodo ha il compito di restituire tutti i contatti presenti nella rubrica dell'utente rappresentati come un array associativo con una struttura analoga a quella della variabile privata \memberdata{contacts} contenuta in \classname{AddressBookPresenter}. Un simile oggetto può essere ottenuto mediante il metodo pubblico \method{getContacts()} fornito da \classname{AddressBookPresenter}.
@@ -4185,10 +4185,6 @@ A tale scopo dovrà pertanto essere creato un \verb'<div>' con l'identificativo 
 
 \item{\method{+ onRemoveAllPanels(): void}}\\
 Questo gestore di eventi dovrà determinare la scomparsa dall'interfaccia grafica di tutte le viste di primo livello visualizzate. A tale scopo dovranno essere quindi sollevati i cinque eventi corrispondenti (su cui le viste sono in ascolto), vale a dire \verb'removeLoginPanel', \verb'removeRegistrationPanel', \verb'removeAddressBookPanel', \verb'removeToolsPanel' e, da ultimo, \verb'removeMainPanel'.
-
-% Questo è morto!
-%\item{\method{+ onRemoveAnswerBox(): void}}\\
-%Questo gestore di eventi ha lo scopo di rimuovere il pannello temporaneo che permette all'utente di rispondere a una chiamata in ingresso (in caso di accettazione o di rifiuto della stessa). A tal fine dovranno essere recuperati i riferimenti ai due elementi \verb'<div>' presenti nel documento con identificativi, rispettivamente, uguali a \verb'overlayAnswerBox' e \verb'answerBox', quindi rimuoverli dai figli dell'elemento \verb'<body>'.
 
 \item{\method{+ onShowUIPanels(): void}}\\
 Questo gestore di eventi avrà il compito di far visualizzare l'interfaccia grafica principale a seguito di un'autenticazione avvenuta con successo. A tale fine dovrà essere sollevato innanzitutto un evento con stringa identificativa uguale a \verb'removeAllPanels', quindi dovranno essere sollevati in sequenza i tre eventi \verb'showAddressBookPanel', \verb'showMainPanel' e \verb'showToolsPanel' che avviano i relativi \inglese{presenter} e fanno visualizzare i pannelli.
@@ -4378,13 +4374,13 @@ Nessuna relazione evidenziata.
   Metodo che gestisce la vera e propria chiamata tramite WebRTC.\\
 Inizialmente, si inizializza la variabile \memberdata{pc} che è di tipo RTCPeerConnection, oggetto reso disponibile dalle librerie di WebRTC, successivamente si definiscono i comportamenti associati agli eventi di RTCPeerConnection, ossia:
   \begin{itemize}
-    \item onicecandidate: evento scatenato quando un nuovo \inglese{peer} si ``candida'' per poter chiamare, viene quindi inviata la propria ``descrizione'' all'altro peer.
+    \item onicecandidate: evento sollevato quando un nuovo \inglese{peer} si ``candida'' per poter chiamare, viene quindi inviata la propria ``descrizione'' all'altro \inglese{peer}.
     \item onaddstream: evento scatenato quando viene aggiunto uno \textit{stream} nell'oggetto RTCPeerConnection. In questa situazione, il chiamato riceve lo \textit{stream} del chiamante e lo visualizza nell'apposito tag video. In contemporanea, vengono richiamati i metodi che fanno partire la visualizzazione delle statistiche di chiamata.
-    \item onremovestream: evento scatenato quando viene rimosso uno \textit{stream} nell'oggetto RTCPeerConnection. In questa situazione, colui che effettua questa operazione vuole terminare la chiamata e deve quindi re-inviare la propria descrizione (attraverso il metodo \method{gotDescription()} in modo tale che l'altro \inglese{peer} possa aggiornare la descrizione remota. Vengono richiamati alla fine i metodi che fermano la visualizzazione delle statistiche di chiamata e chiudono il canale di comunicazione tramite la chiamata del metodo \verb'close()' dell'oggetto \memberdata{pc}.
+    \item onremovestream: evento sollevato quando viene rimosso uno \textit{stream} nell'oggetto RTCPeerConnection. In questa situazione, colui che effettua questa operazione vuole terminare la chiamata e deve quindi re-inviare la propria descrizione (attraverso il metodo \method{gotDescription()} in modo tale che l'altro \inglese{peer} possa aggiornare la descrizione remota. Vengono richiamati alla fine i metodi che fermano la visualizzazione delle statistiche di chiamata e chiudono il canale di comunicazione tramite la chiamata del metodo \verb'close()' dell'oggetto \memberdata{pc}.
   \end{itemize}
 
   \item{\method{+ connect(): void}}\\
-  Metodo utilizzato per la creazione della connessione con il \textit{server}. Viene inizializzata la variabile \memberdata{websocket} richiamando il costruttore con un parametro (URL del sottotipo di \verb'WebSocketServlet' in ascolto sul server). Successivamente viene specificato il comportamento della WebSocket per determinati eventi quali:
+  Metodo utilizzato per la creazione della connessione con il server. Viene inizializzata la variabile \memberdata{websocket} richiamando il costruttore con un parametro (URL del sottotipo di \verb'WebSocketServlet' in ascolto sul server). Successivamente viene specificato il comportamento della WebSocket per determinati eventi quali:
   \begin{itemize}
     \item \texttt{onopen}: istruzioni da eseguire quando la WebSocket viene aperta. In questo caso, deve essere inviato alla WebSocket il proprio identificativo utente in modo tale da identificare univocamente il canale aperto con il server.
     \item \texttt{onclose}: istruzioni da eseguire quando la WebSocket viene chiusa per qualsiasi motivo, notificando il server di tale avvenimento.
@@ -4439,7 +4435,7 @@ Il metodo riceve come parametro un numero che rappresenta i byte e li converte i
   Metodo che ritorna nel formato ``hh:mm:ss'' il tempo della comunicazione. Il metodo riceve come parametro un numero che rappresenta il tempo espresso in secondi, lo converte nel formalismo descritto prima e lo restituisce.
 
   \item{\method{- gotDescription(): void}}\\
-  Metodo utilizzato da WebRTC che imposta la propria descrizione e la invia al client chiamato in modo tale da poter instaurare la comunicazione. Verrà quindi prima di tutto utilizzata la funzione della libreria di WebRTC \verb'setLocalDescription' per impostare la propria descrizione e successivamente, mediante la WebSocket, inviata al client \underline{peer} chiamato.
+  Metodo utilizzato da WebRTC che imposta la propria descrizione e la invia al client chiamato in modo tale da poter instaurare la comunicazione. Verrà quindi prima di tutto utilizzata la funzione della libreria di WebRTC \verb'setLocalDescription' per impostare la propria descrizione e successivamente, mediante la WebSocket, inviata al client \inglese{peer} chiamato.
 
   \item{\method{- stopStats(): void}}\\
   Metodo che ferma l'aggiornamento delle statistiche relative alla chiamata in corso, viene richiamato quando la chiamata termina.
@@ -4538,7 +4534,7 @@ In particolare, alla pressione del pulsante di ricerca (con identificativo \verb
 
 Inoltre, al verificarsi dell'evento predefinito \verb'change' associato all'elemento  \verb'<select>' (con l'identificativo \verb'selectGroup') che contiene come opzioni i gruppi della rubrica, dovranno essere effettuate le seguenti operazioni
 \begin{itemize}
-  \item[--] estrarre l'indice che corrisponde al gruppo selezionato accedendo alla proprietà \verb'value' dell'opzione selezionata (che avrà indice uguale al valore della proprità \verb'selectedIndex' dell'elemento \verb'<select>');
+  \item[--] estrarre l'indice che corrisponde al gruppo selezionato accedendo alla proprietà \verb'value' dell'opzione selezionata (che avrà indice uguale al valore della proprietà \verb'selectedIndex' dell'elemento \verb'<select>');
   \item[--] calcolare l'insieme dei contatti che appartengono al gruppo mediante un'invocazione del metodo \method{applyFilterByGroup} messo a disposizione dal \inglese{presenter};
   \item[--] determinare se il gruppo è la \inglese{whitelist} in base al nome del gruppo, quindi determinare la visualizzazione del gruppo con il metodo privato \method{showFilter} della vista stessa.
 \end{itemize}

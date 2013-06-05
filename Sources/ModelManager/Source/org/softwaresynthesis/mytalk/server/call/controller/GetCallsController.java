@@ -10,6 +10,7 @@ import java.util.Set;
 
 import org.softwaresynthesis.mytalk.server.AbstractController;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
+import org.softwaresynthesis.mytalk.server.call.ICall;
 import org.softwaresynthesis.mytalk.server.call.ICallList;
 import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
 
@@ -22,38 +23,56 @@ public class GetCallsController extends AbstractController{
 	protected void doAction(HttpServletRequest request, HttpServletResponse response) throws IOException 
 	{
 		DataPersistanceManager dao = null;
-		String result = null;
-		PrintWriter writer = null;
-		String email= null;
+		ICall call = null;
+		ICallList callsMy = null;
+		ICallList callsOther = null;
+		Iterator<ICallList> callsMyIterator;
+		Iterator<ICallList> callsOtherIterator;
 		IUserData user = null;
-		Set<ICallList> callsList = null;
-		Iterator<ICallList> callListIter = null;
-		ICallList callList = null;
-		
+		PrintWriter writer = null;
+		Set<ICallList> setMy = null;
+		Set<ICallList> setOther = null;
+		String mail = null;
+		String result = null;
 		try
 		{
-			dao = getDAOFactory();
-			email = getUserMail();
-			user = dao.getUserData(email);
-			callsList = user.getCalls();
-			if (callsList != null){
-				callListIter = callsList.iterator();
-
-				result = "[";
-				while (callListIter.hasNext() == true)
+			dao = this.getDAOFactory();
+			mail = this.getUserMail();
+			user = dao.getUserData(mail);
+			setMy = user.getCalls();
+			if (setMy != null)
+			{
+				callsMyIterator = setMy.iterator();
+				while (callsMyIterator.hasNext() == true)
 				{
-					callList = callListIter.next();
-					result += "{";
-					result += "\"id\":\"" + callList.getUser().getId() + "\"";
-					result += ", \"start\":\"" + callList.getCall().getStart() + "\"";
-					result += ", \"caller\":\"" + callList.getCaller() + "\"";
-					result += "}";
-					if (callListIter.hasNext() == true)
+					callsMy = callsMyIterator.next();
+					call = dao.getCall(callsMy.getId());
+					if (call != null)
+					{
+						setOther = call.getCalls();
+						if (setOther != null)
+						{
+							callsOtherIterator = setOther.iterator();
+							while (callsOtherIterator.hasNext() == true)
+							{
+								callsOther = callsOtherIterator.next();
+								if (callsOther.getUser().equals(user) == false)
+								{
+									//Costruisco risultato
+									result += "{";
+									result += "\"id\":\"" + callsOther.getUser().getId() + "\"";
+									result += ", \"start\":\"" + call.getStart() + "\"";
+									result += ", \"caller\":\"" + callsOther.getCaller() + "\"";
+									result += "}";
+								}
+							}
+						}
+					}
+					if (callsMyIterator.hasNext() == true)
 					{
 						result += ", ";
-					}
+					} 
 				}
-				result += "]";
 			}
 			else
 			{
