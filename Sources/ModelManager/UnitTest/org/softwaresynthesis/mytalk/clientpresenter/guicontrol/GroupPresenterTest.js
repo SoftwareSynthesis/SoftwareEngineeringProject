@@ -53,7 +53,6 @@ module("GroupPresenter", {
 					}
 				};
 			},
-
 			getView : function(someString) {
 				document.dispatchEvent(new CustomEvent("eventRaised"));
 				var viewRequest = new XMLHttpRequest();
@@ -68,12 +67,20 @@ module("GroupPresenter", {
 			},
 			createNameLabel : function(contact) {
 				return contact.email;
+			},
+			getContactById : function(id) {
+				return {
+					id : id,
+					name : "Paolino",
+					surname : "Paperino"
+				};
 			}
-
 		};
 		// brutti eventi cattivi (globali)
 		createGroup = new CustomEvent("createGroup");
 		showGroupPanel = new CustomEvent("showGroupPanel");
+		deleteGroup = new CustomEvent("deleteGroup");
+		removeContactFromGroup = new CustomEvent("removeContactFromGroup");
 		// oggetto da testare
 		tester = new GroupPanelPresenter();
 	},
@@ -261,7 +268,6 @@ test("testAddGroupByBlick()", function() {
  * @author Diego Beraldin
  */
 test("testExpandGroupByClick()", function() {
-	var i = 0;
 	document.dispatchEvent(showGroupPanel);
 	tester.display();
 	var element = document.getElementById("groupList");
@@ -271,9 +277,6 @@ test("testExpandGroupByClick()", function() {
 
 	element = element.parentElement.children[4];
 	equal(element.className, "uncollapsedList");
-	i++;
-
-	expect(i);
 });
 
 /**
@@ -284,7 +287,6 @@ test("testExpandGroupByClick()", function() {
  * @author Diego Beraldin
  */
 test("testCollapseGroupByClick()", function() {
-	var i = 0;
 	document.dispatchEvent(showGroupPanel);
 	tester.display();
 	var element = document.getElementById("groupList");
@@ -295,7 +297,95 @@ test("testCollapseGroupByClick()", function() {
 
 	element = element.parentElement.children[4];
 	equal(element.className, "collapsedList");
+});
+
+/**
+ * Verifica la possibilità di cancellare un nuovo gruppo da interfaccia grafica
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
+test("testDeleteGroupByClick()", function() {
+	document.dispatchEvent(showGroupPanel);
+	tester.display();
+	// questo non dovrei farlo
+	window.confirm = function() {
+		return true;
+	};
+	var bool = false;
+	document.addEventListener("deleteGroup", function() {
+		bool = true;
+	});
+	var element = document.getElementById("groupList");
+	element = element.children[0].children[2];
+
+	element.dispatchEvent(new MouseEvent("click"));
+
+	ok(bool);
+});
+
+/**
+ * Verifica che la creazione del form per l'aggiunta di un contatto all'interno
+ * di un gruppo sia creato correttamente.
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
+test("testAddToGroupByClick()", function() {
+	var i = 0;
+	document.dispatchEvent(showGroupPanel);
+	tester.display();
+	var element = document.getElementById("groupList");
+	element = element.children[0].children[3];
+
+	element.dispatchEvent(new MouseEvent("click"));
+
+	element = element.parentElement.children[4];
+	equal(element.className, "uncollapsedList");
+	i++;
+	element = document.getElementsByTagName("form")[0];
+	equal(element.children.length, 3);
+	i++;
+	element = element.children[0];
+	equal(element.nodeName, "FIELDSET");
+	i++;
+	element = element.parentElement.children[1];
+	equal(element.nodeName, "BUTTON");
+	i++;
+	equal(element.innerHTML.trim(), "Aggiungi");
+	i++;
+	element = element.parentElement.children[2];
+	equal(element.nodeName, "BUTTON");
+	i++;
+	equal(element.innerHTML.trim(), "Annulla");
 	i++;
 
+	expect(i);
+});
+
+/**
+ * Verifica che sia possibile rimuovere un contatto da un gruppo via UI
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
+test("testDeleteFromGroupByClick()", function() {
+	var i = 0;
+	document.dispatchEvent(showGroupPanel);
+	tester.display();
+	var element = document.getElementById("groupList");
+	element = element.children[0].children[4].children[0].children[0];
+	var contact;
+	document.addEventListener("removeContactFromGroup", function(evt) {
+		contact = evt.contact;
+	});
+	
+	element.dispatchEvent(new MouseEvent("click"));
+	
+	equal(contact.name, "Paolino");
+	i++;
+	equal(contact.surname, "Paperino");
+	i++;
+	
 	expect(i);
 });
