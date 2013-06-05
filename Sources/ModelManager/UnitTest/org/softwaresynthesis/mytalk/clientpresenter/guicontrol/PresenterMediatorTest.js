@@ -124,22 +124,32 @@ function PhoneCallsRegistryPresenter() {
 	};
 }
 
-// stub di ToolsPresenter
+// un po' di stub molto stupidi
 function ToolsPanelPresenter() {
 }
 
-// stub-ghost di richiesta AJAX
-function XMLHttpRequest() {
-	this.responsetype = "";
-	this.open = function(a, b, c) {
-		var event = new CustomEvent("calledOpen");
-		event.method = a;
-		event.path = b;
-		document.dispatchEvent(event);
-	};
-	this.send = function() {
-		document.dispatchEvent(new CustomEvent("calledSend"));
-	};
+function LoginPanelPresenter() {
+}
+
+function RegisterPanelPresenter() {
+}
+
+function AccountSettingsPanelPresenter() {
+}
+
+function ContactPanelPresenter() {
+}
+
+function MessagePanelPresenter() {
+}
+
+function SearchResultPanelPresenter() {
+}
+
+function GroupPanelPresenter() {
+}
+
+function PhoneIncomeCallAlertPresenter() {
 }
 
 /**
@@ -302,45 +312,40 @@ test("testGetContactsById()", function() {
 /**
  * Verifica che le viste di primo livello siano caricate nel modo corretto
  * 
- * @version 2.0
+ * @version 2.1
  * @author Diego Beraldin
  */
-test("testOnLoadedFirstLevelView()", function() {
-	var dummyView = document.createElement("div");
+test("testGetFirstLevelView()", function() {
 	var result;
-	var event = new CustomEvent("loadedView");
-	event.view = dummyView;
-	event.presenter = "main";
 	document.addEventListener("calledInitialize", function(evt) {
 		result = evt.view;
 	});
 
-	document.dispatchEvent(event);
-	equal(result, dummyView);
+	cesso.getView("main");
+
+	equal(result, "<div id=\"MainPanel\">\n</div>");
 });
 
 /**
  * Verifica che le viste di secondo livello siano caricate nel modo corretto
  * 
- * @version 2.0
+ * @version 2.1
  * @author Diego Beraldin
  */
-test("testOnLoadedSecondLevelView()", function() {
+test("testGetSecondLevelView()", function() {
 	var i = 0;
 	var dummyView = document.createElement("div");
 	var calledDisplay = false;
 	var calledDisplayChildPanel = false;
-	var event = new CustomEvent("loadedView");
-	event.view = dummyView;
-	event.presenter = "callHistory";
 	document.addEventListener("calledDisplay", function() {
 		calledDisplay = true;
 	});
 	document.addEventListener("calledDisplayChildPanel", function() {
 		calledDisplayChildPanel = true;
 	});
+	
+	cesso.getView("callHistory");
 
-	document.dispatchEvent(event);
 	ok(calledDisplay);
 	i++;
 	ok(calledDisplayChildPanel);
@@ -352,21 +357,20 @@ test("testOnLoadedSecondLevelView()", function() {
 /**
  * Verifica che le viste di terzo livello siano caricate nel modo corretto
  * 
- * @version 2.0
+ * @version 2.1
  * @author Diego Beraldin
  */
-test("testOnLoadedThirdLevelView()", function() {
-	var dummyView = document.createElement("div");
+test("testGetThirdLevelView()", function() {
 	var calledShowView = false;
-	var event = new CustomEvent("loadedView");
-	event.view = dummyView;
-	event.presenter = "phoneCallsRegistry";
 	document.addEventListener("calledShowView", function() {
 		calledShowView = true;
 	});
+	
+	cesso.getView("phoneCallsRegistry");
 
-	document.dispatchEvent(event);
 	ok(calledShowView);
+	document.body.removeChild(document.getElementById("overlayAnswerBox"));
+	document.body.removeChild(document.getElementById("answerBox"));
 });
 
 /**
@@ -398,7 +402,7 @@ test("testOnRemoveAllPanels()", function() {
 	document.dispatchEvent(new CustomEvent("removeAllPanel"));
 
 	for ( var idx in boolArray) {
-		ok(boolArray[i]);
+		ok(boolArray[idx]);
 		i++;
 	}
 
@@ -434,38 +438,6 @@ test("testOnShowUIPanels()", function() {
 		ok(boolArray[idx]);
 		i++;
 	}
-
-	expect(i);
-});
-
-/**
- * Verifica che sia inviata una richiesta AJAX (asincrona) al server per il
- * caricamento di una vista nell'interfaccia utente
- * 
- * @version 2.0
- * @author Diego Beraldin
- */
-test("testGetView()", function() {
-	var i = 0;
-	var bool = false;
-	var method = "";
-	var path = "";
-	document.addEventListener("calledSend", function() {
-		bool = true;
-	});
-	document.addEventListener("calledOpen", function(evt) {
-		method = evt.method;
-		path = evt.path;
-	});
-
-	cesso.getView("main");
-
-	ok(bool);
-	i++;
-	equal(method, "GET");
-	i++;
-	equal(path, "clientview/MainView.html");
-	i++;
 
 	expect(i);
 });
