@@ -271,7 +271,7 @@ function CommunicationPanelPresenter() {
     // nella documentazione è onAppendMessage
     function onAppendMessageToChat(user, message, amISender) {
         var divContainerChat = chatElements[user.id];
-        var textArea = document.evaluate("//node()[@id='chatText']", divContainerChat, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+        var textArea = document.evaluate("//node()[@id='chatText']", document.body, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
         var sender = null;
         if (amISender)
             sender = "io";
