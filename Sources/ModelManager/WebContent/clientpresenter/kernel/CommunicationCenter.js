@@ -355,7 +355,12 @@ function CommunicationCenter() {
      * @author Marco Schivo
      */
     this.endCall = function() {
+        // imposto il mio stato a disponibile
+        changeMyState.state = "available";
+        document.dispatchEvent(changeMyState);
+        // rimuovo lo stream dalla connesione
         pc.removeStream(localStream);
+        // blocco il localstream
         localStream.stop();
         pc.createOffer(gotDescription);
         stopTimer();
