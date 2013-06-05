@@ -109,7 +109,7 @@ function CommunicationCenter() {
             names = obj.names();
             for (var i = 0; i < names.length; ++i) {
                 if (names[i] == "bytesReceived") {
-                    mediator.CommunicationPPUpdateStats(formatBytes(obj.stat(names[i])), true);
+                    mediator.communicationPPUpdateStats(formatBytes(obj.stat(names[i])), true);
                 }
                 if (names[i] == "bytesSent") {
                     mediator.communicationPPUpdateStats(formatBytes(obj.stat(names[i])), false);
@@ -291,7 +291,7 @@ function CommunicationCenter() {
                         });
                     } else {
                         mediator.communicationPPUpdateStats("Browser not supported", false);
-                        mediator.CommunicationPPUpdateStats("Browser not supported", true);
+                        mediator.communicationPPUpdateStats("Browser not supported", true);
                     }
                 }
             }, 1000);
