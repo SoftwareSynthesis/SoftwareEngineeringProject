@@ -153,6 +153,7 @@ function CommunicationPanelPresenter() {
 
         // testa se era visualizzata proprio quella chat e in tal caso la
         // rimuove dalla vista
+        // XXX possibile problema. probabile if
         var divContainerChat = document.getElementById("divContainerChat");
         var form = divContainerChat.childNodes[0];
         if (form.id == user.id) {
@@ -188,8 +189,8 @@ function CommunicationPanelPresenter() {
      */
     // Nella documentazione è onUpdateTimer
     this.updateTimer = function(text) {
-        var statDiv = document.getElementById("statDiv");
-        statDiv.children[1].textContent = "Tempo chiamata: " + text;
+        var statDiv = document.getElementById("timerSpan");
+        statDiv.textContent = "Tempo chiamata: " + text;
     };
 
     /** VIEW
@@ -204,11 +205,11 @@ function CommunicationPanelPresenter() {
      */
     // Nella documentazione è onUpdateStats
     this.updateStats = function(text, isRecevedData) {
-        var statDiv = document.getElementById("statDiv");
+        var statDiv = document.getElementById("statSpan");
         if (isRecevedData) {
-            statDiv.children[0].children[0].textContent = "Dati ricevuti: " + text;
+            statDiv.children[0].textContent = "Dati ricevuti: " + text;
         } else {
-            statDiv.children[0].children[1].textContent = "Dati inviati: " + text;
+            statDiv.children[1].textContent = "Dati inviati: " + text;
 
         }
     };
