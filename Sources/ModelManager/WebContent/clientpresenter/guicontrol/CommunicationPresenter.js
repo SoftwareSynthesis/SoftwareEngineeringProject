@@ -39,7 +39,7 @@ function CommunicationPanelPresenter() {
      */
     function createChatItem(user) {
         var item = document.createElement("li");
-        item.id = user.id;
+        item.id = "chat-" + user.id;
         item.appendChild(document.createTextNode(mediator.createNameLabel(user)));
         var closeChatButton = document.createElement("img");
         closeChatButton.src = "img/deleteContactImg.png";
@@ -68,7 +68,7 @@ function CommunicationPanelPresenter() {
         var element = document.createElement("div");
         element.id = "divContainerChat";
         var form = document.createElement("form");
-        form.id = user.id;
+        form.id = "chatForm-" + user.id;
         // crea l'area di testo
         var textArea = document.createElement("textarea");
         textArea.id = "chatText";
@@ -148,7 +148,7 @@ function CommunicationPanelPresenter() {
     this.removeChat = function(user) {
         delete chatElements[user.id];
         var ulOpenChat = document.getElementById("ulOpenChat");
-        var liChat = ulOpenChat.getElementById(user.id);
+        var liChat = ulOpenChat.getElementById("chat-" + user.id);
         ulOpenChat.removeChild(liChat);
 
         // testa se era visualizzata proprio quella chat e in tal caso la
@@ -206,9 +206,9 @@ function CommunicationPanelPresenter() {
     this.updateStats = function(text, isRecevedData) {
         var statDiv = document.getElementById("statDiv");
         if (isRecevedData) {
-            statDiv.childNodes[0].childNodes[0].textContent = "Dati ricevuti: " + text;
+            statDiv.children[0].children[0].textContent = "Dati ricevuti: " + text;
         } else {
-            statDiv.childNodes[0].childNodes[1].textContent = "Dati inviati: " + text;
+            statDiv.children[0].children[1].textContent = "Dati inviati: " + text;
 
         }
     };

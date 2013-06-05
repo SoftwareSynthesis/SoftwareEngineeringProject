@@ -25,7 +25,7 @@ module(
 				// brutti eventi cattivi (globali -_-)
 				showReturnToCommunicationPanelButton = new CustomEvent(
 						"showReturnToCommunicationPanelButton");
-				// stub di mediator
+				// questo non è il cesso ma è una turca
 				mediator = {
 					getView : function(someString) {
 						var viewRequest = new XMLHttpRequest();
@@ -34,15 +34,17 @@ module(
 						viewRequest.send();
 						var div = document.createElement("div");
 						div.innerHTML = viewRequest.responseText;
-						if (document.getElementById("CommunicationPanel") == null) {
-							document.body.appendChild(div);
-							div.style.display = "none";
-						}
+						div.style.display = "none";
+						document.body.appendChild(div);
 					},
 					createNameLabel : function(something) {
 						return "pluto";
 					}
 				};
+				var ul = document.createElement("ul");
+				ul.id = "ToolsList";
+				ul.style.display = "none";
+				document.body.appendChild(ul);
 				// oggetto da testare
 				tester = new CommunicationPanelPresenter();
 			},
@@ -51,6 +53,7 @@ module(
 				if (element) {
 					document.body.removeChild(element.parentElement);
 				}
+				document.body.removeChild(document.getElementById("ToolsList"));
 			}
 		});
 
@@ -62,16 +65,15 @@ module(
  */
 test("testDisplay()", function() {
 	var i = 0;
-	document.dispatchEvent(new CustomEvent("showCommunicationPanel"));
-
+	mediator.getView("communication");
 	tester.display();
 
 	var element = document.getElementById("CommunicationPanel");
 	equal(element.children.length, 3);
 	i++;
-	var divHead = list[0];
-	var divCall = list[1];
-	var divChat = list[2];
+	var divHead = element.children[0];
+	var divCall = element.children[1];
+	var divChat = element.children[2];
 	equal(divHead.className, "panelHeader");
 	i++;
 	equal(divCall.nodeName, "DIV");
@@ -82,7 +84,7 @@ test("testDisplay()", function() {
 	i++;
 	equal(divChat.id, "divChat");
 	i++;
-	list = divCall.children;
+	var list = divCall.children;
 	equal(list.length, 4);
 	i++;
 	var myVideo = list[0];
@@ -147,6 +149,73 @@ test("testDisplay()", function() {
 	i++;
 	equal(ulOpenChat.children.length, 0);
 	i++;
+
+	expect(i);
+});
+
+/**
+ * Verifica che sia possibile accedere al video dell'utente
+ * 
+ * @version 2.0
+ * @author Stefano Farronato
+ * @author Diego Beraldin
+ */
+test("testGetMyVideo()", function() {
+	var i = 0;
+	mediator.getView("communication");
+	tester.display();
+
+	var element = tester.getMyVideo();
+
+	equal(element.nodeName, "VIDEO");
+	i++;
+	equal(element.id, "myVideo");
+	i++;
+
+	expect(i);
+});
+
+/**
+ * Verifica che sia possibile accedere al video dell'altro utente
+ * 
+ * @version 2.0
+ * @author Stefano Farronato
+ * @author Diego Beraldin
+ */
+test("testGetOtherVideo()", function() {
+	var i = 0;
+	mediator.getView("communication");
+	tester.display();
+
+	var element = tester.getOtherVideo();
+	equal(element.nodeName, "VIDEO");
+	i++;
+	equal(element.id, "otherVideo");
+	i++;
+
+	expect(i);
+});
+
+/**
+ * @version 2.0
+ * @author Stefano Farronato
+ * @author Diego Beraldin
+ */
+test("testUpdateStats()", function() {
+	var i = 0;
+	mediator.getView("communication");
+	tester.display();
+
+	var string = "miao";
+	tester.updateStats(string, true);
+	equal(document.getElementById("statRecevd").innerHTML.trim(),
+			"Dati ricevuti: " + string);
+	i++;
+	tester.updateStats(string, false);
+	equal(document.getElementById("statSend").innerHTML.trim(),
+			"Dati inviati: " + string);
+	i++;
+
 	expect(i);
 });
 
@@ -172,39 +241,4 @@ test("testDisplay()", function() {
  * string, "testo inserito correttamente nel div");
  * document.body.removeChild(div0); });
  */
-test("testGetMyVideo()", function() {
-	var event = new CustomEvent("showCommunicationPanel");
-	document.dispatchEvent(event);
-	tester.display();
-	var video = document.createElement("video");
-	tester.getMyVideo();
-	deepEqual(document.getElementById("myVideo").nodeName, "VIDEO");
-});
 
-test("testGetOtherVideo()", function() {
-	var event = new CustomEvent("showCommunicationPanel");
-	document.dispatchEvent(event);
-	tester.display();
-	var video = document.createElement("video");
-	tester.getOtherVideo()
-	equal(document.getElementById("otherVideo").nodeName, "VIDEO");
-});
-
-test("testUpdateStats()", function() {
-	var i = 0;
-	var event = new CustomEvent("showCommunicationPanel");
-	document.dispatchEvent(event);
-	tester.display();
-	var string = "miao";
-	// inserisci dati ricevuti
-	tester.updateStats(string, true);
-	equal(document.getElementById("statRecevd").nodeName, "Dati ricevuti: "
-			+ string, "stringa impostata correttamente");
-
-	// inserisci dati inviati
-	tester.updateStats(string, false);
-	equal(document.getElementById("statSend").nodeName, "Dati inviati: "
-			+ string, "stringa impostata correttamente");
-
-	expect(2);
-});
