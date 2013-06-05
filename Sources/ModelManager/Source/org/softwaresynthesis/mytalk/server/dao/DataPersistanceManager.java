@@ -3,6 +3,7 @@ import java.util.List;
 import org.softwaresynthesis.mytalk.server.IMyTalkObject;
 import org.softwaresynthesis.mytalk.server.abook.IGroup;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
+import org.softwaresynthesis.mytalk.server.call.ICall;
 import org.softwaresynthesis.mytalk.server.dao.util.GetUtil;
 import org.softwaresynthesis.mytalk.server.dao.util.ModifyUtil;
 import org.softwaresynthesis.mytalk.server.dao.util.UtilFactory;
@@ -283,6 +284,27 @@ public class DataPersistanceManager
 		List<IUserData> result = null;
 		String query = "from UserData as u where u.mail like '%" + mail + "%' or u.name like '" + name + "' or u.surname like '" + surname + "'";
 		result = (List)select.execute(query);
+		return result;
+	}
+	
+	/*
+	 * Cerca una chiamata effettauta nella base di
+	 * dati
+	 * 
+	 * @param	id			{@link Long} identificativo della chiamata
+	 * @return	{@link ICall} rappresentante la chiamata
+	 */
+	public ICall getCall(Long id)
+	{
+		GetUtil select = this.factory.getCallUtil(this.manager);
+		ICall result = null;
+		List<IMyTalkObject> collection = null;
+		String query = "from Call as c where c.id = " + id;
+		collection = select.execute(query);
+		if (collection != null && collection.isEmpty() == false)
+		{
+			result = (ICall)collection.get(0);
+		}
 		return result;
 	}
 }
