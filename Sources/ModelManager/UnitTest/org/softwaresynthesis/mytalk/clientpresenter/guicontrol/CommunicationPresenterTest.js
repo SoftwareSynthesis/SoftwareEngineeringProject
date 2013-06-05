@@ -204,7 +204,7 @@ test("testGetOtherVideo()", function() {
  * @author Stefano Farronato
  * @author Diego Beraldin
  */
-test("testUpdateStats()", function() {
+test("testOnUpdateStats()", function() {
 	var i = 0;
 	mediator.getView("communication");
 	tester.display();
@@ -228,7 +228,7 @@ test("testUpdateStats()", function() {
  * @version 2.0
  * @author Diego Beraldin
  */
-test("testUpdateTimer()", function() {
+test("testOnUpdateTimer()", function() {
 	mediator.getView("communication");
 	tester.display();
 	var string = "ciao";
@@ -239,18 +239,62 @@ test("testUpdateTimer()", function() {
 			"Tempo chiamata: " + string);
 });
 
-/*
- * test("testAddChat", function(){ var event = new
- * CustomEvent("showCommunicationPanel"); document.dispatchEvent(event);
- * tester.display();
+/**
+ * Verifica la corretta costruzione del list item che corrisponde a una chat
  * 
- * var user ={ id: "1", name : "Paolino", surname : "Paperino", email :
- * "indirizzo5@dominio.it", picturePath : "img/contactImg/Default.png" };
- * tester.addChat(1); var element= document.getElementById("ulOpenChat"); var
- * list = element.children[0]; equal(list.nodeName, "LI"); });
- * 
- * test("testRemoveChat", function(){
- * 
- * });
+ * @version 2.0
+ * @author Diego Beraldin
  */
+test("testOnChatAdded()", function() {
+	var i = 0;
+	mediator.getView("communication");
+	tester.display();
+	var user = {
+		id : "1",
+		name : "Paolino",
+		surname : "Paperino",
+		email : "indirizzo5@dominio.it",
+		picturePath : "img/contactImg/Default.png"
+	};
 
+	tester.addChat(user);
+
+	var element = document.getElementById("ulOpenChat");
+	equal(element.children.length, 1);
+	i++;
+	element = element.children[0];
+	equal(element.nodeName, "LI");
+	i++;
+	equal(element.id, "chat-" + user.id);
+	i++;
+
+	expect(i);
+});
+
+///**
+// * TODO da documentare
+// * 
+// * @version 2.0
+// * @author Diego Beraldin
+// */
+//test("testOnChatRemoved", function() {
+//	var i = 0;
+//	mediator.getView("communication");
+//	tester.display();
+//	var user = {
+//		id : "1",
+//		name : "Paolino",
+//		surname : "Paperino",
+//		email : "indirizzo5@dominio.it",
+//		picturePath : "img/contactImg/Default.png"
+//	};
+//	tester.addChat(user);
+//	tester.diplayChat(user);
+//	tester.removeChat(user);
+//	
+//	var element = document.getElementById("ulOpenChat");
+//	equal(element.children.length, 0);
+//	i++;
+//	
+//	expect(i);
+//});

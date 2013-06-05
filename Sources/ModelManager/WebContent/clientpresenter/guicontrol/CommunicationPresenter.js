@@ -148,14 +148,14 @@ function CommunicationPanelPresenter() {
     this.removeChat = function(user) {
         delete chatElements[user.id];
         var ulOpenChat = document.getElementById("ulOpenChat");
-        var liChat = ulOpenChat.getElementById("chat-" + user.id);
+        var liChat = document.getElementById("chat-" + user.id);
         ulOpenChat.removeChild(liChat);
 
         // testa se era visualizzata proprio quella chat e in tal caso la
         // rimuove dalla vista
         // XXX possibile problema. probabile if
         var divContainerChat = document.getElementById("divContainerChat");
-        var form = divContainerChat.childNodes[0];
+        var form = divContainerChat.children[0];
         if (form.id == user.id) {
             var divChat = document.getElementById("divChat");
             divChat.removeChild(divContainerChat);
