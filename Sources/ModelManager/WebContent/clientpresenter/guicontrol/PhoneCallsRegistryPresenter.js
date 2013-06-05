@@ -27,7 +27,7 @@ function PhoneCallsRegistryPresenter() {
      *************************************************************/
     function initializeStream() {
         audio_context = new AudioContext;
-        navigator.getUserMedia({
+        navigator.webkitGetUserMedia({
             audio : true,
             video : false
         }, startUserMedia);
