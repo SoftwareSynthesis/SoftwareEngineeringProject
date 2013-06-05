@@ -9,6 +9,7 @@ module("ToolsPanelPresenter", {
 		// stub di mediator
 		mediator = {
 			getView : function(someString) {
+				document.dispatchEvent(new CustomEvent("eventRaised"));
 				var viewRequest = new XMLHttpRequest();
 				viewRequest.open("POST", "clientview/ToolsView.html", false);
 				viewRequest.send();
