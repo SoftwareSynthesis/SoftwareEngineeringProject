@@ -9,6 +9,7 @@ module("MainPanelPresenter", {
 		// stub di mediator
 		mediator = {
 			getView : function(someString) {
+				document.dispatchEvent(new CustomEvent("eventRaised"));
 				var viewRequest = new XMLHttpRequest();
 				viewRequest.open("POST", "clientview/MainView.html", false);
 				viewRequest.send();
@@ -38,7 +39,7 @@ test("testInitialize()", function() {
 
 	var mainView = mediator.getView("main");
 	tester.initialize(mainView);
-	document.getElementById("MainPanel").style.display  = "none";
+	document.getElementById("MainPanel").style.display = "none";
 
 	var element = document.getElementById("MainPanel");
 	equal(element.nodeName, "DIV");
@@ -57,10 +58,9 @@ test("testInitialize()", function() {
 test("testDisplayChildPanel()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("main"));
-	document.getElementById("MainPanel").style.display  = "none";
+	document.getElementById("MainPanel").style.display = "none";
 
-	var child = document.createElement("div");
-	tester.displayChildPanel(child);
+	tester.displayChildPanel("<div></div>");
 
 	var element = document.getElementById("MainPanel");
 	equal(element.children.length, 1);
@@ -81,8 +81,8 @@ test("testDisplayChildPanel()", function() {
 test("testDestroy()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("main"));
-	document.getElementById("MainPanel").style.display  = "none";
-	
+	document.getElementById("MainPanel").style.display = "none";
+
 	tester.destroy();
 	var element = document.getElementById("MainView");
 	equal(element, null);
