@@ -31,7 +31,7 @@ CREATE TABLE UserData
 
 CREATE TABLE Calls
 (
-	ID_call						BIGINT	UNSIGNED			NOT NULL,
+	ID_call						BIGINT	UNSIGNED			NOT NULL			AUTO_INCREMENT,
 	Start_date					TIMESTAMP					NOT NULL,
 	End_date					TIMESTAMP,
 	
