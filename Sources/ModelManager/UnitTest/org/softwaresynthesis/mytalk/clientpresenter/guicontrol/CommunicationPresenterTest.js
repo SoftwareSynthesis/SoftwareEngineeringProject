@@ -271,30 +271,33 @@ test("testOnChatAdded()", function() {
 	expect(i);
 });
 
-///**
-// * TODO da documentare
-// * 
-// * @version 2.0
-// * @author Diego Beraldin
-// */
-//test("testOnChatRemoved", function() {
-//	var i = 0;
-//	mediator.getView("communication");
-//	tester.display();
-//	var user = {
-//		id : "1",
-//		name : "Paolino",
-//		surname : "Paperino",
-//		email : "indirizzo5@dominio.it",
-//		picturePath : "img/contactImg/Default.png"
-//	};
-//	tester.addChat(user);
-//	tester.diplayChat(user);
-//	tester.removeChat(user);
-//	
-//	var element = document.getElementById("ulOpenChat");
-//	equal(element.children.length, 0);
+/**
+ * TODO da documentare
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
+test("testOnChatRemoved", function() {
+	var i = 0;
+	mediator.getView("communication");
+	tester.display();
+	var user = {
+		id : "1",
+		name : "Paolino",
+		surname : "Paperino",
+		email : "indirizzo5@dominio.it",
+		picturePath : "img/contactImg/Default.png"
+	};
+	tester.addChat(user);
+	tester.displayChat(user);
+	tester.removeChat(user);
+	
+	var element = document.getElementById("ulOpenChat");
+	equal(element.children.length, 0);
+	i++;
+	element = document.getElementById("divContainerChat");
+//	ok(!element);
 //	i++;
-//	
-//	expect(i);
-//});
+	
+	expect(i);
+});
