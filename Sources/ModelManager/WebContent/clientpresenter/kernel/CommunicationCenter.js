@@ -401,7 +401,7 @@ function CommunicationCenter() {
             if (websocket)
                 websocket.send(JSON.stringify(message));
             else
-                alert("Errore di connessine al server: websoket non esistente!");
+                alert("Errore di connessione al server: websocket non esistente!");
         } else {
             alert("Errore: Impostazione stato non conosciuto.\nNon può essere impostato lo stato " + state);
         }
