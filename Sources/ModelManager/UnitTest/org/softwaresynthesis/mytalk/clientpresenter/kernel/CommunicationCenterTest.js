@@ -11,6 +11,10 @@ module("CommunicationCenterTest", {
 		// brutti eventi cattivi
 		changeMyState = new CustomEvent("changeMyState");
 		appendMessageToChat = new CustomEvent("appendMessageToChat");
+		stopRinging = new CustomEvent("stopRinging");
+		showContactPanel = new CustomEvent("showContactPanel");
+		showCommunicationPanel = new CustomEvent("showCommunicationPanel");
+		startRinging = new CustomEvent("startRinging");
 		// oggetto da testare
 		monolith = new CommunicationCenter();
 		// stub di mediator
@@ -30,6 +34,11 @@ module("CommunicationCenterTest", {
 	}
 });
 
+// stub-ghost di LocalStream
+localStream = new Object();
+localStream.stop = function() {
+	document.dispatchEvent(new CustomEvent("streamStopped"));
+};
 // stub-ghost di WebSocket
 ws = new Object();
 function WebSocket(url) {
@@ -55,7 +64,7 @@ function webkitRTCPeerConnection(conf) {
 pc.close = function() {
 	document.dispatchEvent(new CustomEvent("PCClosed"));
 };
-pc.removeStream = function() {
+pc.removeStream = function(localStream) {
 	document.dispatchEvent(new CustomEvent("streamRemoved"));
 };
 pc.createOffer = function() {
@@ -67,11 +76,6 @@ navigator.webkitGetUserMedia = function() {
 };
 // tarpa le ali all'alert
 window.alert = function() {
-};
-// altro ghost
-localStream = new Object();
-localStream.stop = function() {
-	document.dispatchEvent(new CustomEvent("streamStopped"));
 };
 
 /**
@@ -210,4 +214,110 @@ test("testOnSendMessage()", function() {
 	i++;
 
 	expect(i);
+});
+
+/**
+ * Verifica che il rifiuto di una chiamata in ingresso sia gestito correttamente
+ * mandando un messaggio di tipo 6 al server con l'id del chiamante.
+ * 
+ * @author Diego Beraldin
+ * @version 2.0
+ */
+test("testOnRejectCall()", function() {
+	var contact = {
+		id : 42
+	};
+	monolith.connect();
+	var event = new CustomEvent("rejectCall");
+	event.caller = contact;
+
+	document.dispatchEvent(event);
+
+	equal(message, "[\"6\"," + contact.id + "]");
+});
+
+/**
+ * Verifica che sia gestito correttamente il rifiuto di una chiamata in uscita
+ * da parte dell'altro utente.
+ */
+test("testOnRejectedCall()", function() {
+	var i = 0;
+	var contact = {
+		id : 42
+	};
+	monolith.call(true, contact, true);
+	var wasPCClosed = false;
+	var wasRingingStopped = false;
+	document.addEventListener("PCClosed", function() {
+		wasPCClosed = true;
+	});
+	document.addEventListener("stopRinging", function() {
+		wasRingingStopped = true;
+	});
+
+	document.dispatchEvent(new CustomEvent("rejectedCall"));
+
+	ok(wasPCClosed);
+	i++;
+	ok(wasRingingStopped);
+	i++;
+
+	expect(i);
+});
+
+/**
+ * Verifica la corretta gestione di una chiamata in uscita tramite evento.
+ * 
+ * @author Diego Beraldin
+ * @version 2.0
+ */
+test("testOnCall()", function() {
+	var contact = {
+		id : 42
+	};
+	var event = new CustomEvent("call");
+	event.contact = contact;
+	event.onlyAudio = true;
+	var wasRingingStarted = false;
+	document.addEventListener("startRinging", function() {
+		wasRingingStarted = true;
+	});
+
+	document.dispatchEvent(event);
+
+	ok(wasRingingStarted);
+});
+
+/**
+ * Verifica la corretta rimozione dello stream della RTCPeerConnection.
+ * 
+ * @author Diego Beraldin
+ * @version 2.0
+ */
+test("testOnPCRemoveStream()", function() {
+	var state = "";
+	document.addEventListener("changeMyState", function(evt) {
+		state = evt.state;
+	});
+	monolith.call(true, {}, true);
+	pc.onremovestream();
+	equal(state, "available");
+});
+
+/**
+ * Verifica che invii gli ICECandidate agli altri peer
+ * 
+ * @author Diego Beraldin
+ * @version 2.0
+ */
+test("testOnPCIceCandidate()", function() {
+	monolith.connect();
+	monolith.call(true, {
+		id : 42
+	}, true);
+	idOther = 42;
+	pc.onicecandidate({
+		candidate : "pippo"
+	});
+	equal(message, "[\"2\",42,\"\\\"pippo\\\"\"]");
 });
