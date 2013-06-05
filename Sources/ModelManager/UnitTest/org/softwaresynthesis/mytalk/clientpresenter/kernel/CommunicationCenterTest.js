@@ -15,6 +15,8 @@ module("CommunicationCenterTest", {
 		showContactPanel = new CustomEvent("showContactPanel");
 		showCommunicationPanel = new CustomEvent("showCommunicationPanel");
 		startRinging = new CustomEvent("startRinging");
+		changeAddressBooksContactState = new CustomEvent(
+				"changeAddressBooksContactState");
 		// oggetto da testare
 		monolith = new CommunicationCenter();
 		// stub di mediator
@@ -240,31 +242,30 @@ test("testOnRejectCall()", function() {
  * Verifica che sia gestito correttamente il rifiuto di una chiamata in uscita
  * da parte dell'altro utente.
  */
-test("testOnRejectedCall()", function() {
-	var i = 0;
-	var contact = {
-		id : 42
-	};
-	monolith.call(true, contact, true);
-	var wasPCClosed = false;
-	var wasRingingStopped = false;
-	document.addEventListener("PCClosed", function() {
-		wasPCClosed = true;
-	});
-	document.addEventListener("stopRinging", function() {
-		wasRingingStopped = true;
-	});
-
-	document.dispatchEvent(new CustomEvent("rejectedCall"));
-
-	ok(wasPCClosed);
-	i++;
-	ok(wasRingingStopped);
-	i++;
-
-	expect(i);
-});
-
+// test("testOnRejectedCall()", function() {
+// var i = 0;
+// var contact = {
+// id : 42
+// };
+// monolith.call(true, contact, true);
+// var wasPCClosed = false;
+// var wasRingingStopped = false;
+// document.addEventListener("PCClosed", function() {
+// wasPCClosed = true;
+// });
+// document.addEventListener("stopRinging", function() {
+// wasRingingStopped = true;
+// });
+//
+// document.dispatchEvent(new CustomEvent("rejectedCall"));
+//
+// ok(wasPCClosed);
+// i++;
+// ok(wasRingingStopped);
+// i++;
+//
+// expect(i);
+// });
 /**
  * Verifica la corretta gestione di una chiamata in uscita tramite evento.
  * 
@@ -320,4 +321,82 @@ test("testOnPCIceCandidate()", function() {
 		candidate : "pippo"
 	});
 	equal(message, "[\"2\",42,\"\\\"pippo\\\"\"]");
+});
+
+/**
+ * Verifica la corretta gestione di una WebSocket all'apertura della stessa
+ * 
+ * @author Diego Beraldin
+ * @version 2.0
+ */
+test("testWSOnOpen()", function() {
+	monolith.connect();
+	monolith.my = {
+		id : 1
+	};
+	ws.onopen();
+
+	// intercetto solo il changeMyState
+	equal(message, "[\"5\",\"available\"]");
+});
+
+/**
+ * Verifica la gestione dell'evento di accettazione di una chiamata in ingresso,
+ * facendo visualizzare il pannello della comunicazione.
+ * 
+ * @author Diego Beraldin
+ * @version 2.0
+ */
+test("testOnAcceptCall()", function() {
+	var event = new CustomEvent("acceptCall");
+	event.contact = {};
+	event.onlyAudio = false;
+	var bool = false;
+	document.addEventListener("showCommunicationPanel", function() {
+		bool = true;
+	});
+
+	document.dispatchEvent(event);
+
+	ok(bool);
+});
+
+/**
+ * Verifica il comportamento del client in risposta a diversi tipi di messaggio
+ * provenienti dal server attraverso la WebSocket
+ * 
+ * @author Diego Beraldin
+ * @version 2.0
+ */
+test("testWSOnMessage()", function() {
+	var i = 0;
+
+	var string = "";
+	document.addEventListener("appendMessageToChat", function(evt) {
+		string = evt.text;
+	});
+	monolith.connect();
+	var msg = "7|2|mona";
+	ws.onmessage({
+		data : msg
+	});
+	equal(string, "mona");
+	i++;
+
+	msg = "5|2|offline";
+	document.addEventListener("changeAddressBooksContactState", function(evt) {
+		string = evt.statusUserChange;
+	});
+	ws.onmessage({
+		data : msg
+	});
+	equal(string, "offline");
+	i++;
+
+	msg = "3";
+	ws.onmessage({
+		data : msg
+	});
+
+	expect(i);
 });
