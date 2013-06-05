@@ -71,6 +71,9 @@ module("GroupPresenter", {
 			}
 
 		};
+		// brutti eventi cattivi (globali)
+		createGroup = new CustomEvent("createGroup");
+		showGroupPanel = new CustomEvent("showGroupPanel");
 		// oggetto da testare
 		tester = new GroupPanelPresenter();
 	},
@@ -92,8 +95,7 @@ module("GroupPresenter", {
  */
 test("testSelectCandidates()", function() {
 	var i = 0;
-	var event = new CustomEvent("showGroupPanel");
-	document.dispatchEvent(event);
+	document.dispatchEvent(showGroupPanel);
 	tester.display();
 
 	var group = mediator.getAddressBookGroups()[2];
@@ -130,7 +132,7 @@ test("testOnShowGroupPanel()", function() {
 		bool = true;
 	});
 
-	document.dispatchEvent(new CustomEvent("showGroupPanel"));
+	document.dispatchEvent(showGroupPanel);
 	ok(bool);
 });
 
@@ -143,8 +145,7 @@ test("testOnShowGroupPanel()", function() {
  */
 test("testDisplay()", function() {
 	var i = 0;
-	var event = new CustomEvent("showGroupPanel");
-	document.dispatchEvent(event);
+	document.dispatchEvent(showGroupPanel);
 
 	tester.display();
 
@@ -185,8 +186,7 @@ test("testDisplay()", function() {
  */
 test("testDisplayList()", function() {
 	var i = 0;
-	var event = new CustomEvent("showGroupPanel");
-	document.dispatchEvent(event);
+	document.dispatchEvent(showGroupPanel);
 	tester.display();
 
 	var element = document.getElementById("groupList");
@@ -224,6 +224,77 @@ test("testDisplayList()", function() {
 	equal(element.childNodes[0].nodeValue, "indirizzo2@dominio.it");
 	i++;
 	equal(element.children[0].src, host + "img/deleteContactImg.png");
+	i++;
+
+	expect(i);
+});
+
+/**
+ * Verifica che sia possibile aggiungere un nuovo gruppo via interfaccia utente
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
+test("testAddGroupByBlick()", function() {
+	document.dispatchEvent(showGroupPanel);
+	tester.display();
+	// questo non dovrei farlo
+	window.prompt = function() {
+		return "pippo";
+	};
+	var bool = false;
+	document.addEventListener("createGroup", function() {
+		bool = true;
+	});
+	var element = document.getElementById("addGroupButton");
+
+	element.dispatchEvent(new MouseEvent("click"));
+
+	ok(bool);
+});
+
+/**
+ * Verifica che sia possibile espandere la lista dei contatti di un gruppo
+ * tramite un click nell'interfaccia utente
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
+test("testExpandGroupByClick()", function() {
+	var i = 0;
+	document.dispatchEvent(showGroupPanel);
+	tester.display();
+	var element = document.getElementById("groupList");
+	element = element.children[0].children[0];
+
+	element.dispatchEvent(new MouseEvent("click"));
+
+	element = element.parentElement.children[4];
+	equal(element.className, "uncollapsedList");
+	i++;
+
+	expect(i);
+});
+
+/**
+ * Verifica che sia possibile espandere la lista dei contatti di un gruppo
+ * tramite un click nell'interfaccia utente
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
+test("testCollapseGroupByClick()", function() {
+	var i = 0;
+	document.dispatchEvent(showGroupPanel);
+	tester.display();
+	var element = document.getElementById("groupList");
+	element = element.children[0].children[0];
+
+	element.dispatchEvent(new MouseEvent("click"));
+	element.dispatchEvent(new MouseEvent("click"));
+
+	element = element.parentElement.children[4];
+	equal(element.className, "collapsedList");
 	i++;
 
 	expect(i);
