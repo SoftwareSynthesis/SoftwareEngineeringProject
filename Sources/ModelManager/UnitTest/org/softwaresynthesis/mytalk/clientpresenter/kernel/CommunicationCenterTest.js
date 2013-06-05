@@ -10,6 +10,7 @@ module("CommunicationCenterTest", {
 		message = "";
 		// brutti eventi cattivi
 		changeMyState = new CustomEvent("changeMyState");
+		appendMessageToChat = new CustomEvent("appendMessageToChat");
 		// oggetto da testare
 		monolith = new CommunicationCenter();
 		// stub di mediator
@@ -126,7 +127,7 @@ test("testCall()", function() {
 	var wasPCCreated = false;
 	var wasGetUserMediaCalled = false;
 	document.addEventListener("PCCreated", function() {
-		wasPCCcreated = true;
+		wasPCCreated = true;
 	});
 	document.addEventListener("getUserMediaCalled", function() {
 		wasGetUserMediaCalled = true;
@@ -138,6 +139,8 @@ test("testCall()", function() {
 
 	monolith.call(true, contact, true);
 
+	ok(wasPCCreated);
+	i++;
 	ok(wasGetUserMediaCalled);
 	i++;
 	equal(message, "[\"5\",\"occupied\"]");
@@ -178,6 +181,32 @@ test("testEndCall()", function() {
 	ok(wasStreamRemoved);
 	i++;
 	ok(wasOfferCreated);
+	i++;
+
+	expect(i);
+});
+
+/**
+ * Verifica che sia gestito correttamente l'invio di un messaggio testuale,
+ * inviando al server la stringa contenente un messaggio di tipo 7 con l'id del
+ * destinatario e il testo del messaggio.
+ * 
+ * @author Diego Beraldin
+ * @version 2.0
+ */
+test("testOnSendMessage()", function() {
+	var i = 0;
+	var contact = {
+		id : 42
+	};
+	monolith.connect();
+	var event = new CustomEvent("sendMessage");
+	event.contact = contact;
+	event.messageText = "ciao, mona!";
+
+	document.dispatchEvent(event);
+
+	equal(message, "[\"7\"," + contact.id + ",\"ciao, mona!\"]");
 	i++;
 
 	expect(i);
