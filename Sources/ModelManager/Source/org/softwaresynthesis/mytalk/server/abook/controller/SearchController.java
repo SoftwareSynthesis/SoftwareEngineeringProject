@@ -31,31 +31,38 @@ public class SearchController extends AbstractController
 		DataPersistanceManager dao = null;
 		Iterator<IUserData> iterator = null;
 		IUserData entry = null;
+		IUserData user = null;
 		List<IUserData> resultSet = null;
 		PrintWriter writer = null;
 		String parameter = null;
 		String result = null;
+		String mail = null;
 		try
 		{
+			mail = this.getUserMail();
 			parameter = request.getParameter("param");
 			dao = getDAOFactory();
+			user = dao.getUserData(mail);
 			resultSet = dao.getUserDatas(parameter, parameter, parameter);
 			iterator = resultSet.iterator();
 			result = "{";
 			while (iterator.hasNext())
 			{
 				entry = iterator.next();
-				result += "\"" + entry.getId() + "\":";
-				result += "{\"name\":\"" + entry.getName() + "\"";
-				result += ", \"surname\":\"" + entry.getSurname() + "\"";
-				result += ", \"email\":\"" + entry.getMail() + "\"";
-				result += ", \"id\":\"" + entry.getId() + "\"";
-				result += ", \"picturePath\":\"" + entry.getPath() + "\"";
-				result += ", \"state\":\"" + getContactState(entry) + "\"";
-				result += ", \"blocked\":false}";
-				if (iterator.hasNext() == true)
+				if (entry.equals(user) == false)
 				{
-					result += ",";
+					result += "\"" + entry.getId() + "\":";
+					result += "{\"name\":\"" + entry.getName() + "\"";
+					result += ", \"surname\":\"" + entry.getSurname() + "\"";
+					result += ", \"email\":\"" + entry.getMail() + "\"";
+					result += ", \"id\":\"" + entry.getId() + "\"";
+					result += ", \"picturePath\":\"" + entry.getPath() + "\"";
+					result += ", \"state\":\"" + getContactState(entry) + "\"";
+					result += ", \"blocked\":false}";
+					if (iterator.hasNext() == true)
+					{
+						result += ",";
+					}
 				}
 			}
 			result += "}";
