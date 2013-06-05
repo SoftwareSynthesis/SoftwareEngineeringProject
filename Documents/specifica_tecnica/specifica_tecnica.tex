@@ -2750,6 +2750,19 @@ Fornire un punto d'ingresso centralizzato per la gestione delle richieste, defin
 Questa componente della sotto-architettura server fornisce un unico punto d'accesso al sistema, andando a delegare le operazioni richieste al corrispondente controller presente in \texttt{CS07 -- Gestione controller}. La classe cosi definita è \texttt{ControllerManager}. Le componenti su cui possono interagire direttamente i controller sono: \textsf{Gestione rubrica}, \textsf{Gestione connessione}, \textsf{Gestione segreteria}, \textsf{Gestione chiamate} e \textsf{Gestione autenticazione}, come riportato nella tabella della sezione \vref{sec:cs07}.
 \end{description}
 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=.8\textwidth]{DiaSeqFrontController}
+  \caption{Diagramma di sequenza del \inglese{front controller}}\label{fig:front_controller_seq}
+\end{figure}
+
+Tale diagramma rappresenta il funzionamento del \inglese{front controller}.Si osservi che:
+	\begin{itemize}
+		\item il client richiama il \inglese{front controller} (CommandManager) per l'esecuzione di un ben determinato comando (e.g. aggiungere un utente alla propria rubrica);
+		\item il \inglese{front controller} è l'unico a conoscere le associazioni operazioni-controller e si occupa quindi di creare il controller che è in grado di risolvere l'operazione richiesta dal client;
+		\item dopo la creazione del controller, il \inglese{front controller} delega a quest'ultimo l'esecuzione dell'operazione.
+	\end{itemize}
+
 \subsection{Factory Method}\label{sec:patternfactorymethod}
 
 \subsubsection{Scopo}
