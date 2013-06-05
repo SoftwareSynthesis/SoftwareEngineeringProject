@@ -12,6 +12,18 @@ module("CommunicationCenterTest", {
 		changeMyState = new CustomEvent("changeMyState");
 		// oggetto da testare
 		monolith = new CommunicationCenter();
+		// stub di mediator
+		mediator = {
+			getCommunicationPPOtherVideo : function() {
+				return document.createElement("video");
+			},
+			getCommunicationPPMyVideo : function() {
+				return document.createElement("video");
+			}
+		};
+		// et alii...
+		timer = {};
+		statCollector = {};
 	},
 	teardown : function() {
 	}
@@ -42,12 +54,23 @@ function webkitRTCPeerConnection(conf) {
 pc.close = function() {
 	document.dispatchEvent(new CustomEvent("PCClosed"));
 };
+pc.removeStream = function() {
+	document.dispatchEvent(new CustomEvent("streamRemoved"));
+};
+pc.createOffer = function() {
+	document.dispatchEvent(new CustomEvent("offerCreated"));
+};
 // tarpa le ali al getUserMedia
 navigator.webkitGetUserMedia = function() {
 	document.dispatchEvent(new CustomEvent("getUserMediaCalled"));
 };
 // tarpa le ali all'alert
 window.alert = function() {
+};
+// altro ghost
+localStream = new Object();
+localStream.stop = function() {
+	document.dispatchEvent(new CustomEvent("streamStopped"));
 };
 
 /**
@@ -92,6 +115,8 @@ test("testDisconnect()", function() {
 });
 
 /**
+ * Verifica che la chiamata (in uscita) sia gestita correttamente invocando il
+ * getUserMedia e impostando il proprio stato a occupato.
  * 
  * @author Diego Beraldin
  * @version 2.0
@@ -117,5 +142,43 @@ test("testCall()", function() {
 	i++;
 	equal(message, "[\"5\",\"occupied\"]");
 	i++;
+	expect(i);
+});
+
+/**
+ * Verifica che la fine della chiamata sia gestita in modo corretto arrestando e
+ * rimuovendo il flusso audio/video associato alla RTCPeerConnection.
+ * 
+ * @author Diego Beraldin
+ * @version 2.0
+ */
+test("testEndCall()", function() {
+	var i = 0;
+	var wasStreamStopped = false;
+	var wasStreamRemoved = false;
+	var wasOfferCreated = false;
+	document.addEventListener("streamStopped", function() {
+		wasStreamStopped = true;
+	});
+	document.addEventListener("streamRemoved", function() {
+		wasStreamRemoved = true;
+	});
+	document.addEventListener("offerCreated", function() {
+		wasOfferCreated = true;
+	});
+	var contact = {
+		id : 42
+	};
+	monolith.call(true, contact, false);
+
+	monolith.endCall();
+
+	ok(wasStreamStopped);
+	i++;
+	ok(wasStreamRemoved);
+	i++;
+	ok(wasOfferCreated);
+	i++;
+
 	expect(i);
 });
