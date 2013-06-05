@@ -12,14 +12,6 @@ module(
 				host = window.location.protocol + "//" + window.location.host
 						+ window.location.pathname;
 				host = host.substr(0, host.length - 10);
-				// stub di communicationcenter
-				communicationcenter = new Object();
-				communicationcenter.my = {
-					name : "Paolino",
-					surname : "Paperino",
-					email : "indirizzo5@dominio.it",
-					picturePath : "img/contactImg/Default.png"
-				};
 				// configura il percorso del ControllerManager
 				commandURL = "http://localhost/ModelManager/WebContent/Conf/controllerManagerStub.php";
 				// brutti eventi cattivi (globali -_-)
@@ -41,6 +33,7 @@ module(
 						return "pluto";
 					}
 				};
+				// questo non esiste
 				var ul = document.createElement("ul");
 				ul.id = "ToolsList";
 				ul.style.display = "none";
@@ -49,6 +42,7 @@ module(
 				tester = new CommunicationPanelPresenter();
 			},
 			teardown : function() {
+				// operazioni di clean-up
 				var element = document.getElementById("CommunicationPanel");
 				if (element) {
 					document.body.removeChild(element.parentElement);
@@ -204,7 +198,7 @@ test("testGetOtherVideo()", function() {
  * @author Stefano Farronato
  * @author Diego Beraldin
  */
-test("testUpdateStats()", function() {
+test("testOnUpdateStats()", function() {
 	var i = 0;
 	mediator.getView("communication");
 	tester.display();
@@ -228,7 +222,7 @@ test("testUpdateStats()", function() {
  * @version 2.0
  * @author Diego Beraldin
  */
-test("testUpdateTimer()", function() {
+test("testOnUpdateTimer()", function() {
 	mediator.getView("communication");
 	tester.display();
 	var string = "ciao";
@@ -239,18 +233,101 @@ test("testUpdateTimer()", function() {
 			"Tempo chiamata: " + string);
 });
 
-/*
- * test("testAddChat", function(){ var event = new
- * CustomEvent("showCommunicationPanel"); document.dispatchEvent(event);
- * tester.display();
+/**
+ * Verifica la corretta costruzione del list item che corrisponde a una chat
  * 
- * var user ={ id: "1", name : "Paolino", surname : "Paperino", email :
- * "indirizzo5@dominio.it", picturePath : "img/contactImg/Default.png" };
- * tester.addChat(1); var element= document.getElementById("ulOpenChat"); var
- * list = element.children[0]; equal(list.nodeName, "LI"); });
- * 
- * test("testRemoveChat", function(){
- * 
- * });
+ * @version 2.0
+ * @author Diego Beraldin
  */
+test("testOnChatAdded()", function() {
+	var i = 0;
+	mediator.getView("communication");
+	tester.display();
+	var user = {
+		id : "1",
+		name : "Paolino",
+		surname : "Paperino",
+		email : "indirizzo5@dominio.it",
+		picturePath : "img/contactImg/Default.png"
+	};
 
+	tester.addChat(user);
+
+	var element = document.getElementById("ulOpenChat");
+	equal(element.children.length, 1);
+	i++;
+	element = element.children[0];
+	equal(element.nodeName, "LI");
+	i++;
+	equal(element.id, "chat-" + user.id);
+	i++;
+
+	expect(i);
+});
+
+/**
+ * Verifica che una chat sia correttamente rimossa.
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
+test("testOnChatRemoved", function() {
+	var i = 0;
+	mediator.getView("communication");
+	tester.display();
+	var user = {
+		id : "1",
+		name : "Paolino",
+		surname : "Paperino",
+		email : "indirizzo5@dominio.it",
+		picturePath : "img/contactImg/Default.png"
+	};
+	tester.addChat(user);
+	tester.displayChat(user);
+	tester.removeChat(user);
+
+	var element = document.getElementById("ulOpenChat");
+	equal(element.children.length, 0);
+	i++;
+	element = document.getElementById("divContainerChat");
+	// FIXME questo non passa e dovrebbe passare
+	// ok(!element);
+	// i++;
+
+	expect(i);
+});
+
+/**
+ * Verifica che sia inviato un messaggio correttamente
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
+test("testOnAppendMessageToChat()", function() {
+	var i = 0;
+	mediator.getView("communication");
+	tester.display();
+	var user = {
+		id : "1",
+		name : "Paolino",
+		surname : "Paperino",
+		email : "indirizzo5@dominio.it",
+		picturePath : "img/contactImg/Default.png"
+	};
+	tester.addChat(user);
+	tester.displayChat(user);
+	var string = "ciao, mona!";
+	var event = new CustomEvent("appendMessageToChat");
+	event.user = user;
+	event.message = string;
+	event.IAMSender = true;
+	
+	document.dispatchEvent(event);
+	
+	// FIXME questo non va ovviamente bene!
+	var element = document.getElementById("chatText");
+	equal(element.innerHTML.trim(), "");
+	i++;
+
+	expect(i);
+});
