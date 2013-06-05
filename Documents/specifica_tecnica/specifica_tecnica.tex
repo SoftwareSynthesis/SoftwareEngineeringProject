@@ -2734,6 +2734,8 @@ La classe DAO Data Persistance Manager, consente di isolare l'accesso alle tabel
   \caption{Applicazione del \inglese{pattern} Data Access Object}\label{fig:dao}
 \end{figure}
 
+A titolo esemplificativo si riporta nel diagramma la relazione d'uso che intercorre tra \texttt{AddContactController} e \texttt{DataPersistanceManager}. Tale dipendenza è caratteristica di ogni classe controller. Qui vengono omesse al fine di rendere il diagramma più chiaro e comprensibile.
+
 Operando una distinzione di questo tipo gli utenti esterni possono considerare gli oggetti che richiedono la mappatura nel database alla stregua di normali oggetti Java (POJO) senza preoccuparsi del meccanismo di persistenza dei dati.
 \end{description}
 
@@ -2802,13 +2804,17 @@ Permette di definire la struttura di un algoritmo lasciando alle sottoclassi il 
   \item{\scshape\bfseries CS01 -- Gestione database}\\
 In tale componente la classe \texttt{dao.uti.ModifyUtil} implementa il pattern \texttt{template method} definendo un metodo per l'esecuzione di un'operazione su \texttt{dao.DataPersistenceManager}, e lasciando l'implementazione dell'algoritmo alle classi figlie. Tali sono: \texttt{dao.uti.InsertUtil}, \texttt{dao.uti.UpdateUtil} e \texttt{dao.uti.DeleteUtil}.
 
-Anche la classe \texttt{dao.uti.GetUtil} implementa lo stesso comportamento, lasciando alle classi figlie (\texttt{dao.uti.GetCallUtil}, \texttt{dao.uti.GetGroupUtil}, \texttt{dao.uti.GetUserUtil}, \texttt{dao.uti.NotInitialize}) il compito di definire l'algoritmo d'implementazione.
+Anche la classe \texttt{dao.uti.GetUtil} implementa lo stesso comportamento, lasciando alle classi figlie (\texttt{dao.uti.GetCallUtil}, \texttt{dao.uti.GetGroupUtil}, \texttt{dao.uti.GetUserDataUtil}, \texttt{dao.uti.NotInitialize}) il compito di definire l'algoritmo d'implementazione.
 
 	\item{\scshape\bfseries CS04 -- Gestione autenticazione}\\
 In tale componente la classe \texttt{authentication.security.AESTemplate} implementa il pattern \texttt{template method} definendo un metodo per l'esecuzione di un operazione AES. Nello specifico le operazioni possibili sono: criptazione e decriptazione. Tali sono rappresentate dalle classi figlie \texttt{authentication.security.AESEncode} e \texttt{authentication.security.AESDecode}.
 
 	\item{\scshape\bfseries CS07 -- Gestione controller}\\
 In tale componente la classe \texttt{server.AbstractController} definisce una procedura per l'esecuzione di una richiesta inoltrata da un client alg server. Tale procedura prevede di richiamare un metodo atto all'esecuzione della richiesta specifica. La procedura definita da tale metodo, secondo l'implementazione del \texttt{template method}, viene ridefinita all'interno delle classi figlie di \texttt{server.AbstractController}. Tali classi sono tutte e sole quelle contenute nella componente CS07, ossia tutti i controller del sistema.
+
+%TOTO inserire diagramma!
+
+Per rendere il diagramma più chiaro e leggibile, sono state omesse le relazioni d'uso che intercorrono tra \texttt{AbstractController} e le classi controller. Come unico esempio è stata riportata la relazione inerente \texttt{AddContactController} e \texttt{LoginController}.
 
 \end{description}
 
