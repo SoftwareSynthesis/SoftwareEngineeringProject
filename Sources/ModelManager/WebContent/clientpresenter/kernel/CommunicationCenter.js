@@ -175,6 +175,11 @@ function CommunicationCenter() {
             } else if (type == "2") {
                 var signal = JSON.parse(str[1]);
                 if (pc == null) {
+                    if ((signal.sdp) == null) {
+                        sdpPacket.push(signal);
+                    } else {
+                        remoteDescriptionPacket.push(signal);
+                    }
                     // chiamo il gestore della chiamata in arrivo
                     showPhoneIncomeCallAlertPanel.caller = mediator.getContactById(idOther);
                     showPhoneIncomeCallAlertPanel.onlyAudio = onlyAudio;
@@ -183,7 +188,7 @@ function CommunicationCenter() {
                     if ((signal.sdp) == null) {
                         pc.addIceCandidate(new RTCIceCandidate(signal));
                     } else {
-                        document.dispatchEvent(stopRinging);
+                        //document.dispatchEvent(stopRinging);
                         pc.setRemoteDescription(new RTCSessionDescription(signal));
                     }
                 }
@@ -455,6 +460,12 @@ function CommunicationCenter() {
     function onAcceptCall(contact, onlyAudio) {
         document.dispatchEvent(showCommunicationPanel);
         thisMonolith.call(false, contact, onlyAudio);
+        for (var i in remoteDescriptionPacket) {
+            pc.setRemoteDescription(new RTCSessionDescription(remoteDescriptionPacket[i]));
+        }
+        for (var i in sdpPacket) {
+            pc.addIceCandidate(new RTCIceCandidate(sdpPacket[i]));
+        }
     }
 
     /**
