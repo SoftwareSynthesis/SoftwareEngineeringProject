@@ -51,7 +51,6 @@ public class DeleteContactController extends AbstractController{
 					if (entry.getContact().getId().equals(friend.getId()) == true)
 					{
 						dao.delete(entry);
-						dao.update(myUser);
 					}
 				}
 				entrys = friend.getAddressBook();
@@ -62,7 +61,6 @@ public class DeleteContactController extends AbstractController{
 					if (entry.getContact().getId().equals(myUser.getId()) == true)
 					{
 						dao.delete(entry);
-						dao.update(friend);
 						result = "true";
 					}
 				}
