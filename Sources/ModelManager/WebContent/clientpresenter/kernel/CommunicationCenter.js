@@ -1,8 +1,8 @@
 /**
  * Classe logica che gestisce la parte della comunicazione lato Client
  *
- * @author Diego Beraldin
  * @author Riccardo Tresoldi
+ * @author Marco Schivo
  */
 function CommunicationCenter() {
     /**********************************************************
@@ -492,7 +492,7 @@ function CommunicationCenter() {
     }
 
     /***************************************************************************
-     * LISTNER DEGLI EVENTI
+     * LISTENER DEGLI EVENTI
      **************************************************************************/
     document.addEventListener("changeMyState", function(evt) {
         onChangeMyState(evt.state);

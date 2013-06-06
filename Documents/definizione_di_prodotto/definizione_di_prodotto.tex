@@ -4420,15 +4420,33 @@ Inizialmente, si inizializza la variabile \memberdata{pc} che è di tipo RTCPeer
   \item{\method{+ isPCDefined(): Boolean}}\\
   Questo metodo ha il compito di restituire \verb'true' se è attiva una RTCPeerConnection (in base al valore del campo dati \memberdata{pc}) e \verb'false' altrimenti.
   
+  \item{\method{+ onAcceptCall(contact: Object, onlyAudio: boolean): void}}\\
+  % TODO da terminare
+  
   \item{\method{+ onChangeMyState(state: String): void}}\\
-  Questo gestore di eventi ha il compito di inviare al server il messaggio che denota un cambiamento di stato dell'utente associato al client. A tal fine dovrà essere creato un array enumerativo avente in prima posizione il numero \verb'6' e in seconda posizione la stringa passata come parametro. Dovrà quindi essere invocato il metodo di libreria \verb'stringify' e il testo ottenuto dovrà essere spedito al server tramite un'invocazione del metodo \verb'websocket.send'.
+  Questo gestore di eventi ha il compito di inviare al server il messaggio che denota un cambiamento di stato dell'utente associato al client. A tal fine dovrà essere creato un array enumerativo avente in prima posizione il numero \verb'5' e in seconda posizione la stringa passata come parametro.
+  
+  Dovrà quindi essere invocato il metodo di libreria JSON \verb'stringify' sull'array e il testo ottenuto dovrà essere spedito al server tramite un'invocazione del metodo \verb'send' dell'oggetto WebSocket.
+  
+  \item{\method{+ onCall(contact: Object, onlyAudio: boolean): void}}\\
+  Questo gestore di eventi viene richiamato nel momento in cui si avvia una chiamata in uscita verso un altro utente, rappresentato dal secondo parametro. Il terzo parametro rappresenta invece la natura solo audio oppure audio/video della chiamata.
+  
+  Il gestore dell'evento ha il compito di richiamare il metodo \method{call} messo a disposizione da questa classe con i parametri corretti (in particolare, il primo parametro dovrà essere \verb'true' dal momento che si tratta di una chiamata in uscita). Al fine di permettere la visualizzazione del pannello per l'amministrazione della chiamata dovrà essere sollevato inoltre un evento \verb'showCommunicationPanel'. Per avvisare l'utente dell'avvio della chiamata dovrà inoltre essere sollevato un evento \verb'startRinging', dopo averne impostato correttamente la proprietà \verb'evento' alla stringa \verb'"outcome"'.
+  
+  \item{\method{+ onRejectCall(caller: Object): void}}\\
+  %TODO da terminare!
+  
+  \item{\method{+ onRejectedCall(): void}}\\
+  Questo gestore di evento deve essere richiamato nel momento in cui da parte dell'altro \inglese{peer} coinvolto in una chiamata in uscita giunge un rifiuto della chiamata. Al suo interno dovrà pertanto essere cambiato lo stato dell'utente sollevando un evento \verb'changeMyState' dopo averne impostato la proprietà \verb'state' alla stringa \verb'"available"'.
+  
+  Dovrà inoltre essere fermata la suoneria sollevando un evento \verb'stopRinging', chiusa la RTCPeerConnection e rimossi dall'interfaccia utente gli \inglese{stream} video relativi alla comunicazione.
   
   \item{\method{+ onSendMessage(contact: Object, messageText: String): void}}\\
   Questo gestore di eventi ha il compito di provocare l'invio di un messaggio testuale (corrispondente al secondo parametro) in una chat con l'utente passato come primo parametro.
   
-  A tal fine dovrà essere creato un nuovo array enumerativo avente in prima posizione il numero \verb'7', in seconda posizione l'identificativo del parametro ricevuto come primo parametro e in terza posizione il messaggio da aggiungere. Il messggio, ottenuto invocando la funzione \verb'stringify' sull'array, dovrà quindi essere inviato sulla WebSocket aperta con il server.
+  A tal fine dovrà essere creato un nuovo array enumerativo avente in prima posizione il numero \verb'7', in seconda posizione l'identificativo del contatto ricevuto come primo parametro e in terza posizione il messaggio da aggiungere. Il messggio, ottenuto invocando la funzione \verb'stringify' sull'array, dovrà quindi essere inviato sulla WebSocket aperta con il server.
   
-  Per visualizzare il nuovo messaggio nell'interfaccia grafica, dovrà inoltre essere sollevato un evento \verb'appendMessageToChat' dopo averne impostato le proprietà \verb'user' e \verb'text' in base ai parametri ricevuto e la proprietà \verb'amISender', ovviamente, a \verb'true' (dato che è un messaggio testuale in uscita).
+  Per visualizzare il nuovo messaggio nell'interfaccia grafica, dovrà inoltre essere sollevato un evento \verb'appendMessageToChat' dopo averne impostato le proprietà \verb'user' e \verb'text' in base ai parametri ricevuto e la proprietà \verb'amISender', ovviamente, a \verb'true' (dato che si tratta di un messaggio testuale in uscita).
   
   \item{\method{+ refusedCall(): void}}\\
   Metodo richiamato al rifiuto di una chiamata da parte dell'altro utente coinvolto in una comunicazione in uscita. Al fine di gestire questa eventualità, il metodo dovrà invocare \verb'localStream.stop()' e impostare alla stringa vuota gli attributi \verb'src' degli elementi \verb'<video>' presenti nella \classname{CommunicationView}, quindi invocate il metodo \verb'close()' sul campo dati \memberdata{pc}.
