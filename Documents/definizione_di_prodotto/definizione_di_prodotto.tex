@@ -4344,7 +4344,7 @@ Riferimento all'elemento HTML, da intendersi come nodo DOM, che corrisponde al p
 \classsection{CommunicationCenter}
 
 \subsubsection*{Funzione}
-Classe logica che gestisce tutta la parte della comunicazione lato \textit{client}.
+Classe logica che ha il compito di gestire tutta la parte della comunicazione lato \textit{client}.
 
 \subsubsection*{Relazioni d'uso}
 \begin{itemize}
@@ -4357,13 +4357,25 @@ Nessuna relazione evidenziata.
 \subsubsection*{Attributi}
 \begin{description}
   \item{\memberdata{-- my: Object}}\\
-  Mappa associativa  che contiene i dati personali dell'utente.
+  Mappa associativa  che contiene i dati personali dell'utente associato al client.
 
   \item{\memberdata{-- websocket: Object}}\\
-  Oggetto che rappresenta la WebSocket da utilizzare per comunicare con il server.
+  Oggetto WebSocket da utilizzare per lo scambio di messaggi con il server.
 
   \item{\memberdata{-- pc: Object}}\\
   Oggetto che rappresenta la RTCPeerConnection aperta con un altro client nel momento in cui è attiva una comunicazione audio o audio/video.
+  
+  \item{\memberdata{-- remoteDescriptionPacket: Array}}\\
+  Array in cui viene memorizzata la descrizione del \inglese{peer} chiamante nel caso della ricezione di un messaggio di tipo 2.
+  
+  \item{\memberdata{-- sdpPacket: Array}}\\
+  Array in cui sono memorizzati i dati relativi al \inglese{Session Description Protocol} per la descrizione dei parametri di inizializzazione delle sessioni di scambio di \inglese{stream} multimediali.
+  
+  \item{\memberdata{-- timer: Object}}\\
+  Oggetto restituito dalla funzione \verb'setInterval' che viene creato all'avvio del \inglese{timer} per tenere traccia della durata della comunicazione in corso.
+  
+  \item{\memberdata{-- statCollector: Object}}\\
+  Oggetto restituito dalla funzione \verb'setInterval' che viene creato all'avvio di una comunicazione al fine di tenere traccia delle statistiche che la riguardano.
 
 \end{description}
 
@@ -4424,24 +4436,26 @@ Inizialmente, si inizializza la variabile \memberdata{pc} che è di tipo RTCPeer
   \item{\method{+ webkitGetUserMedia(audio: Boolean, video: Boolean): void}}\\
   Metodo richiamato nel momento in cui un utente vuole iniziare una chiamata. Il metodo, fornito dalle librerie native di \underline{Chrome}, cattura lo \textit{stream} della propria videocamera/microfono. Riceve due parametri che indicano se deve essere catturato audio e/o video. Procedendo, viene aggiunto lo \textit{stream} all'oggetto RTCPeerConnection tramite il metodo \verb'addStream(localstream)' fornito dalle librerie di WebRTC\@.
 
-  \item{\method{- dumpStats(obj: Object): void}}\\
-  Metodo che permette l'estrazione dei dati rappresentanti le statistiche della chiamata, esso riceve come parametro un oggetto, lo elabora, ed estrae solo i byte ricevuti e inviati. Ricavati questi dati, li visualizza nello \verb'<span>' corrispondente.
+% FIXME questo dovrà essere sicuramente cambiato!!
+  \item{\method{-- dumpStats(obj: Object): void}}\\
+  Metodo che permette l'estrazione dei dati rappresentanti le statistiche della chiamata, esso riceve come parametro un oggetto, lo elabora, ed estrae solo i byte ricevuti e inviati. Ricavati questi dati, li visualizza nello \verb'<span>' corrispondente tramite il sistema di controllo dell'interfaccia grafica del sistema.
 
-  \item{\method{- formatBytes(bytes: Number): String}}\\
-  Metodo che formatta i byte ricevuti ed inviati al fine di fornire una visualizzazione sensata delle statistiche.\\
-Il metodo riceve come parametro un numero che rappresenta i byte e li converte in KB/s o MB/s a seconda della grandezza.
+  \item{\method{-- formatBytes(bytes: Number): String}}\\
+  Metodo che formatta i byte ricevuti ed inviati al fine di fornire una visualizzazione delle statistiche in formato facilmente \inglese{human readable}.
+  
+Il metodo riceve come parametro un numero che rappresenta i byte e li converte in una misura espressa in KB/s o MB/s a seconda della grandezza.
 
-  \item{\method{- formatTime(time: Number): String}}\\
-  Metodo che ritorna nel formato ``hh:mm:ss'' il tempo della comunicazione. Il metodo riceve come parametro un numero che rappresenta il tempo espresso in secondi, lo converte nel formalismo descritto prima e lo restituisce.
+  \item{\method{-- formatTime(time: Number): String}}\\
+  Metodo che ritorna nel formato ``hh:mm:ss'' il tempo della comunicazione. Il metodo riceve come parametro un numero che rappresenta il tempo espresso in secondi, lo converte nel formalismo sopra descritto e quindi lo restituisce al chiamante.
 
-  \item{\method{- gotDescription(): void}}\\
-  Metodo utilizzato da WebRTC che imposta la propria descrizione e la invia al client chiamato in modo tale da poter instaurare la comunicazione. Verrà quindi prima di tutto utilizzata la funzione della libreria di WebRTC \verb'setLocalDescription' per impostare la propria descrizione e successivamente, mediante la WebSocket, inviata al client \inglese{peer} chiamato.
+  \item{\method{-- gotDescription(): void}}\\
+  Metodo utilizzato da WebRTC che imposta la propria descrizione e la invia al client chiamato in modo tale da poter instaurare la comunicazione. Al suo interno dovrà quindi prima di tutto essere utilizzata la funzione della libreria di WebRTC \verb'setLocalDescription' per impostare la propria descrizione e successivamente, mediante la WebSocket aperta con il server, quest'ultima dovrà essere fatta pervenire al client \inglese{peer} chiamato.
 
-  \item{\method{- stopStats(): void}}\\
-  Metodo che ferma l'aggiornamento delle statistiche relative alla chiamata in corso, viene richiamato quando la chiamata termina.
+  \item{\method{-- stopStats(): void}}\\
+  Metodo che ferma l'aggiornamento delle statistiche relative alla chiamata in corso agendo sul campo dati privato \memberdata{statCollector} e che viene pertanto richiamato quando la chiamata termina
 
-  \item{\method{- stopTimer(): void}}\\
-  Metodo che ferma l'aggiornamento del timer e che deve essere richiamato quando la chiamata in corso termina.
+  \item{\method{-- stopTimer(): void}}\\
+  Metodo che ferma l'aggiornamento del timer agendo sul campo dati privato \memberdata{time} e che deve essere richiamato quando la chiamata in corso termina.
 
 \end{description}
 
