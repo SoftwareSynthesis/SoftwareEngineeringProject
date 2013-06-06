@@ -40,22 +40,22 @@ function ContactPanelPresenter() {
             document.getElementById("unlockButton").style.display = "none";
         }
     }
-    
+
     /**
      * Tres te l'eri dimenticata questa!
-     * 
+     *
      * @author Diego Beraldin
      * @param {Object}
      * 			contact Contatto da controllare
      */
     function adjustAddressBookButtons(contact) {
-    	if (mediator.contactAlreadyPresent(contact)) {
-    		document.getElementById("addToAddressBookButton").style.display = "none";
-    		document.getElementById("removeFromAddressBookButton").style.display = "inline";
-    	} else {
-    		document.getElementById("addToAddressBookButton").style.display = "inline";
-    		document.getElementById("removeFromAddressBookButton").style.display = "none";
-    	}
+        if (mediator.contactAlreadyPresent(contact)) {
+            document.getElementById("addToAddressBookButton").style.display = "none";
+            document.getElementById("removeFromAddressBookButton").style.display = "inline";
+        } else {
+            document.getElementById("addToAddressBookButton").style.display = "inline";
+            document.getElementById("removeFromAddressBookButton").style.display = "none";
+        }
     }
 
     /** VIEW
@@ -146,7 +146,7 @@ function ContactPanelPresenter() {
         }
 
         thisPanel = document.getElementById("ContactPanel");
-        
+
         document.getElementById("contactName").appendChild(document.createTextNode("Nome: " + currentContact.name));
         document.getElementById("contactSurname").appendChild(document.createTextNode("Cognome: " + currentContact.surname));
         document.getElementById("contactEmail").appendChild(document.createTextNode("Email: " + currentContact.email));
@@ -219,10 +219,11 @@ function ContactPanelPresenter() {
 
         // tolgo la possibilità di aggiungere un utente se già presente
         /*if (mediator.contactAlreadyPresent(currentContact)) {
-            document.getElementById("addToAddressBookButton").style.display = "none";
-        }*/
+         document.getElementById("addToAddressBookButton").style.display =
+        "none";
+         }*/
     };
-    
+
     /**************************************************************************
      * HANDLER DEGLI EVENTI
      **************************************************************************/
