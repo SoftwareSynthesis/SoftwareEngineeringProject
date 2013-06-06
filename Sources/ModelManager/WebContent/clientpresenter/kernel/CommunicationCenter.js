@@ -22,6 +22,8 @@ function CommunicationCenter() {
     // variabili per la pacchettizzazione del signal in message.type=2
     var remoteDescriptionPacket = new Array();
     var sdpPacket = new Array();
+    // variabili per statistiche
+    var timer, statCollector;
 
     /**********************************************************
      METODI PRIVATI
@@ -446,14 +448,19 @@ function CommunicationCenter() {
      * @author Riccardo Tresoldi
      */
     function onRejectedCall() {
+        // imposto il mio stato a disponibile
+        changeMyState.state = "available";
+        document.dispatchEvent(changeMyState);
+        // fermo la suoneria
         document.dispatchEvent(stopRinging);
+        // fermo gli stream video e menate varie
         localStream.stop();
-        stopTimer();
-        stopStat();
         mediator.getCommunicationPPMyVideo().src = "";
         mediator.getCommunicationPPOtherVideo().src = "";
+        // azzero la variabile della chiamata
         pc.close();
         pc = null;
+        // mostro il contatto della persona che ha rifiutato la chiamata
         document.dispatchEvent(showContactPanel);
     }
 
