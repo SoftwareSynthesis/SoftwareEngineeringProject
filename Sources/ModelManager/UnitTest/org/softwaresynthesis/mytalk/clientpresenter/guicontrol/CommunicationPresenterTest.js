@@ -17,6 +17,8 @@ module(
 				// brutti eventi cattivi (globali -_-)
 				showReturnToCommunicationPanelButton = new CustomEvent(
 						"showReturnToCommunicationPanelButton");
+				sendMessage = new CustomEvent("sendMessage");
+				showGeneralPanel = new CustomEvent("showGeneralPanel");
 				// questo non è il cesso ma è una turca
 				mediator = {
 					getView : function(someString) {
@@ -321,13 +323,33 @@ test("testOnAppendMessageToChat()", function() {
 	event.user = user;
 	event.message = string;
 	event.IAMSender = true;
-	
+
 	document.dispatchEvent(event);
-	
+
 	// FIXME questo non va ovviamente bene!
 	var element = document.getElementById("chatText");
 	equal(element.innerHTML.trim(), "");
 	i++;
 
 	expect(i);
+});
+
+/**
+ * Verifica che la gestione dell'evento di suoneria sia gestita correttamente.
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
+test("testOnStartRinging()", function() {
+	var wasCalled = false;
+	window.setInterval = function(block, interval) {
+		document.dispatchEvent(new CustomEvent("calledSetInterval"));
+	};
+	document.addEventListener("calledSetInterval", function() {
+		wasCalled = true;
+	});
+
+	document.dispatchEvent(new CustomEvent("startRinging"));
+
+	ok(wasCalled);
 });
