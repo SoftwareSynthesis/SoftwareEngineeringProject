@@ -178,7 +178,7 @@ function CommunicationPanelPresenter() {
         var closeButton = document.getElementById("closeButton");
         closeButton.onclick = function() {
             communicationcenter.endCall();
-            mediator.addOrRemoveCommunicationToTools();
+            //mediator.addOrRemoveCommunicationToTools();
         };
     };
 

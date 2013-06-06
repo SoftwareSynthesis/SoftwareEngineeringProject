@@ -42,6 +42,7 @@ function PhoneIncomeCallAlertPresenter() {
         // imposto il corretto stato ai pulsanti per lo stato iniziale
         refuseCallButton.onclick = function() {
             document.dispatchEvent(removePhoneIncomeCallAlertPanel);
+            rejectCall.caller = caller;
             document.dispatchEvent(rejectCall);
         };
         acceptCallButton.onclick = function() {
