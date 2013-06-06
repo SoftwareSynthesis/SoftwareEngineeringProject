@@ -70,21 +70,23 @@ function ContactPanelPresenter() {
         var videoCallButton = document.getElementById("videoCallButton");
         var callButton = document.getElementById("callButton");
         var messageButton = document.getElementById("messageButton");
-        switch(contact.state) {
-            case "available":
-                //visualizzo solo pulsanti per chiamata
-                messageButton.style.display = "none";
-                chatButton.style.display = "inline";
-                callButton.style.display = "inline";
-                videoCallButton.style.display = "inline";
-                break;
-            default:
-                //visualizzo solo pulsanti per messaggio segreteria
-                messageButton.style.display = "inline";
-                chatButton.style.display = "none";
-                callButton.style.display = "none";
-                videoCallButton.style.display = "none";
-                break;
+        if (chatButton && videoCallButton && callButton && messageButton) {
+            switch(contact.state) {
+                case "available":
+                    //visualizzo solo pulsanti per chiamata
+                    messageButton.style.display = "none";
+                    chatButton.style.display = "inline";
+                    callButton.style.display = "inline";
+                    videoCallButton.style.display = "inline";
+                    break;
+                default:
+                    //visualizzo solo pulsanti per messaggio segreteria
+                    messageButton.style.display = "inline";
+                    chatButton.style.display = "none";
+                    callButton.style.display = "none";
+                    videoCallButton.style.display = "none";
+                    break;
+            }
         }
     }
 
@@ -220,7 +222,7 @@ function ContactPanelPresenter() {
         // tolgo la possibilità di aggiungere un utente se già presente
         /*if (mediator.contactAlreadyPresent(currentContact)) {
          document.getElementById("addToAddressBookButton").style.display =
-        "none";
+         "none";
          }*/
     };
 
