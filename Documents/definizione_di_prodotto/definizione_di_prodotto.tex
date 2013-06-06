@@ -4382,6 +4382,7 @@ Nessuna relazione evidenziata.
 \subsubsection*{Metodi}
 \begin{description}
 
+%TODO da rivedere
   \item{\method{+ call(isCaller: Boolean, contact: Object): void}}\\
   Metodo che gestisce la vera e propria chiamata tramite WebRTC.\\
 Inizialmente, si inizializza la variabile \memberdata{pc} che è di tipo RTCPeerConnection, oggetto reso disponibile dalle librerie di WebRTC, successivamente si definiscono i comportamenti associati agli eventi di RTCPeerConnection, ossia:
@@ -4391,6 +4392,7 @@ Inizialmente, si inizializza la variabile \memberdata{pc} che è di tipo RTCPeer
     \item onremovestream: evento sollevato quando viene rimosso uno \textit{stream} nell'oggetto RTCPeerConnection. In questa situazione, colui che effettua questa operazione vuole terminare la chiamata e deve quindi re-inviare la propria descrizione (attraverso il metodo \method{gotDescription()} in modo tale che l'altro \inglese{peer} possa aggiornare la descrizione remota. Vengono richiamati alla fine i metodi che fermano la visualizzazione delle statistiche di chiamata e chiudono il canale di comunicazione tramite la chiamata del metodo \verb'close()' dell'oggetto \memberdata{pc}.
   \end{itemize}
 
+%TODO da rivedere
   \item{\method{+ connect(): void}}\\
   Metodo utilizzato per la creazione della connessione con il server. Viene inizializzata la variabile \memberdata{websocket} richiamando il costruttore con un parametro (URL del sottotipo di \verb'WebSocketServlet' in ascolto sul server). Successivamente viene specificato il comportamento della WebSocket per determinati eventi quali:
   \begin{itemize}
@@ -4405,23 +4407,18 @@ Inizialmente, si inizializza la variabile \memberdata{pc} che è di tipo RTCPeer
     \end{itemize}
   \end{itemize}
   
-  \item{\method{+ acceptCall(caller: Object, onlyAudio: Boolean): void}}\\
-  Questo metodo ha il compito di gestire l'accettazione di una chiamata in arrivo sollevando un evento \verb'stopRinging' seguito da un evento \verb'showCommunicationPanel'. Infine dovrà essere chiamato il metodo \method{call} di questa classe, passando \verb'true' come primo parametro, \verb'caller.id' come secondo parametro e inoltrando il valore di \verb'onlyAudio' come terzo parametro. 
-
+%TODO da rivedere
   \item{\method{+ disconnect(): void}}\\
   Metodo utilizzato per disconnettersi dal sistema, tale evento deve essere notificato al server tramite la WebSocket inviando un messaggio di tipo 4 contenente il proprio identificativo.
 
+%TODO da rivedere
   \item{\method{+ endCall(): void}}\\
   Metodo richiamato per terminare una chiamata, a cascata viene richiamato il metodo \verb'removeStream(localstream)' e inviata la nuova descrizione al \inglese{peer} remoto.
   
-  \item{\method{+ handleCall(caller: Object, onlyAudio: Boolean)}}\\
-  Il metodo ha il compito di gestire una chiamata in arrivo dando la possibilità di rispondere, sollevando un evento con l'identificativo \verb'startRinging' e un evento \verb'incomeCall'.
-  
-  \item{\method{+ isPCDefined(): Boolean}}\\
-  Questo metodo ha il compito di restituire \verb'true' se è attiva una RTCPeerConnection (in base al valore del campo dati \memberdata{pc}) e \verb'false' altrimenti.
-  
   \item{\method{+ onAcceptCall(contact: Object, onlyAudio: boolean): void}}\\
-  % TODO da terminare
+  Questo gestore di eventi viene richiamato all'avvenuta accettazione di una chiamata in ingresso e ha pertanto il compito di invocare il metodo \method{call} messo a disposizione dalla classe con il primo parametro a \verb'false' e inoltrando i parametri \verb'contact' e \verb'onlyAudio' associati all'evento.
+  
+  Alla RTCPeerConnection inizializzata durante l'esecuzione di \method{call} dovranno essere inoltre associati i valori contenuti negli attributi \memberdata{remoteDescriptionPacket} e \memberdata{sdpPacket} mediante i metodi \verb'setRemoteDescription' e \verb'addIceCandidate' messi a disposizione dalla libreria WebRTC.
   
   \item{\method{+ onChangeMyState(state: String): void}}\\
   Questo gestore di eventi ha il compito di inviare al server il messaggio che denota un cambiamento di stato dell'utente associato al client. A tal fine dovrà essere creato un array enumerativo avente in prima posizione il numero \verb'5' e in seconda posizione la stringa passata come parametro.
@@ -4434,7 +4431,7 @@ Inizialmente, si inizializza la variabile \memberdata{pc} che è di tipo RTCPeer
   Il gestore dell'evento ha il compito di richiamare il metodo \method{call} messo a disposizione da questa classe con i parametri corretti (in particolare, il primo parametro dovrà essere \verb'true' dal momento che si tratta di una chiamata in uscita). Al fine di permettere la visualizzazione del pannello per l'amministrazione della chiamata dovrà essere sollevato inoltre un evento \verb'showCommunicationPanel'. Per avvisare l'utente dell'avvio della chiamata dovrà inoltre essere sollevato un evento \verb'startRinging', dopo averne impostato correttamente la proprietà \verb'evento' alla stringa \verb'"outcome"'.
   
   \item{\method{+ onRejectCall(caller: Object): void}}\\
-  %TODO da terminare!
+  Questo gestore di eventi è richiamato nel momento in cui il client rifiuta una chiamata in ingresso proveniente da un altro client. A tal fine dovrà essere creato un messaggio nella forma di un array enumerativo la cui prima posizione è occupata dal valore \verb'6' e la seconda posizione dall'identificativo del chiamante. Tale messaggio, convertito in stringa tramite la funzione \verb'JSON.stringify' dovrà essere inviato al server tramite la WebSocket rappresentata dall'attributo \memberdata{ws}.
   
   \item{\method{+ onRejectedCall(): void}}\\
   Questo gestore di evento deve essere richiamato nel momento in cui da parte dell'altro \inglese{peer} coinvolto in una chiamata in uscita giunge un rifiuto della chiamata. Al suo interno dovrà pertanto essere cambiato lo stato dell'utente sollevando un evento \verb'changeMyState' dopo averne impostato la proprietà \verb'state' alla stringa \verb'"available"'.
