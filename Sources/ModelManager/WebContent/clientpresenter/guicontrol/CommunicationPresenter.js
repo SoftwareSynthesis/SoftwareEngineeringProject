@@ -18,8 +18,8 @@ function CommunicationPanelPresenter() {
     var chatElements = new Object();
     var intervalRing = null;
     var audio = {
-        income : new Audio("incomeRingtone.wav"),
-        outcome : new Audio("outcomeRingtone.wav")
+        income : new Audio("ringtones/incomeRingtone.wav"),
+        outcome : new Audio("ringtones/outcomeRingtone.wav")
     };
 
     /***************************************************************************
