@@ -200,7 +200,8 @@ function RegisterPanelPresenter() {
 
         // pulsante di registrazione
         var inputRegister = document.getElementById("inputRegister");
-        inputRegister.onclick = function() {
+        inputRegister.onclick = function(evt) {
+            evt.preventDefault();
             var data = new Object();
             try {
                 data.username = thisPresenter.getUsername();
