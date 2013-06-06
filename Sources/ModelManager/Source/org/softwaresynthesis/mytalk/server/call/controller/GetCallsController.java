@@ -43,10 +43,11 @@ public class GetCallsController extends AbstractController{
 			if (setMy != null)
 			{
 				callsMyIterator = setMy.iterator();
+				result = "[";
 				while (callsMyIterator.hasNext() == true)
 				{
 					callsMy = callsMyIterator.next();
-					call = dao.getCall(callsMy.getId());
+					call = dao.getCall(callsMy.getCall().getId());
 					if (call != null)
 					{
 						setOther = call.getCalls();
@@ -61,8 +62,9 @@ public class GetCallsController extends AbstractController{
 									//Costruisco risultato
 									result += "{";
 									result += "\"id\":\"" + callsOther.getUser().getId() + "\"";
+									result += "\"email:\"" + callsOther.getUser().getMail() + "\"";
 									result += ", \"start\":\"" + call.getStart() + "\"";
-									result += ", \"caller\":\"" + callsOther.getCaller() + "\"";
+									result += ", \"caller\":" + callsOther.getCaller();
 									result += "}";
 								}
 							}
@@ -73,6 +75,7 @@ public class GetCallsController extends AbstractController{
 						result += ", ";
 					} 
 				}
+				result += "]";
 			}
 			else
 			{
