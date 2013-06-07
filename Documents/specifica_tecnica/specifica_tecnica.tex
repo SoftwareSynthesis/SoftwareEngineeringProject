@@ -1,3 +1,4 @@
+
 % Documents/specifica_tecnica.tex
 %------------------------ RUOLI PA --------------------------
 % FASE 1:
@@ -66,10 +67,11 @@
 \toprule
 Versione & Descrizione intervento & Membro & Ruolo & Data\\
 \midrule
-2.6 & Approvato documento & Marco Schivo & Responsabile & 2013-04-17\\
-2.5 & Verifica documento & Stefano Farronato & Verificatore & 2013-04-17\\
-2.4 & Corretti riferimenti obsoleti alle classi del package server.dao. Aggiornati i tracciamenti & Diego Beraldin & Verificatore & 2013-04-17\\
-2.3 & Rivista descrizione CS01 e CS07. Aggiunta componente CS08 & Andrea Meneghinello & Verificatore & 2013-04-16\\
+3.0 & Approvato documento & Marco Schivo & Responsabile & 2013-04-19\\
+2.5 & Verifica documento & Stefano Farronato & Verificatore & 2013-04-19\\
+2.4 & Corretti riferimenti obsoleti alle classi del package server.dao. Aggiornati i tracciamenti & Diego Beraldin & Verificatore & 2013-04-19\\
+2.3 & Rivista descrizione CS01 e CS07. Aggiunta componente CS08 & Andrea Meneghinello & Verificatore & 2013-04-18\\
+2.2 & Aggiornati diagrammi delle classi & Elena Zecchinato & Verificatore & 2013-04-17\\
 2.2 & Aggiornati diagrammi di attività con l'aggiunta delle guardie & Elena Zecchinato & Verificatore & 2013-04-10\\
 2.1 & Aggiunte considerazione sugli svantaggi degli strumenti utilizzati & Andrea Rizzi & Verificatore & 2013-04-10\\
 2.0 & Approvazione del documento & Diego Beraldin & Responsabile & 2013-02-20\\
@@ -300,7 +302,7 @@ Tali considerazioni di base, hanno portato il team a suddividere l'architettura 
 
 Le specifiche di ogni sotto-architettura saranno definite, rispettivamente nelle sezioni \vref{sec:database}, \vref{sec:server}, \vref{sec:clientpresenter} e \vref{sec:clientview}.
 
-Inoltre si fa presente che l'architettura generale, intesa come agglomerato delle tre sotto-architetture precedentemente elencate, fa uso del pattern MVP\@.
+Inoltre si fa presente che l'architettura generale, intesa come agglomerato delle tre sotto-architetture precedentemente elencate, fa uso del \inglese{pattern} MVP\@.
 Con tale ottica la sotto-architettura \texttt{server} ricopre il ruolo di \inglese{model}, \texttt{clientpresenter} costituisce invece il \inglese{presenter}, mentre \texttt{clientview} è la vista definita per questo progetto. Tra le considerazioni più interessanti che hanno portato alla scelta di questo \inglese{pattern}, va messa in evidenza la seguente:
 
 assegnando a ogni sotto-architettura un ruolo specifico, si garantisce un alto livello di riutilizzo del codice (e.g. la vista comunica con il \inglese{presenter} poiché non conosce la logica di \inglese{business} del sistema).
@@ -636,14 +638,14 @@ Infine si fa notare che i nomi di tutte le classi riportate nella presente sezio
 \item{\scshape\bfseries Descrizione:}\\
 Tale componente si occupa di rappresentare la struttura del database relazionale su cui poggia l'applicativo, tramite esso il sistema potrà quindi effettuare operazione di lettura e scrittura di entità all'interno del database.
 
-Nucleo logico del componente è la classe Singleton \texttt{SessionManager} (implementazione dell'interfaccia \texttt{ISession}), il cui compito è implementare una \inglese{factory} per le sessioni verso il database. Tali sessioni si basano sul file di configurazione di Hibernate, tra le cui informazioni compare anche la tipologia di DBMS utilizzata.
+Nucleo logico del componente è la classe Singleton \texttt{SessionManager} (implementazione dell'interfaccia \texttt{ISessionManager}), il cui compito è implementare una \inglese{factory} per le sessioni verso il database. Tali sessioni si basano sul file di configurazione di Hibernate, tra le cui informazioni compare anche la tipologia di DBMS utilizzata.
 
 Hibernate necessita di definire una classe atta a rappresentare la struttura di un generico oggetto del database, essa è denominata \texttt{DataPersistanceManager}.
 Per ogni oggetto del database così creato, sono predisposte delle operazioni per garantirne la modifica e permettere il ritorno dei dati in essi contenuti. Tali procedure sono descritte mediante  classi che implementano il \inglese{pattern} \inglese{template method}:
 
 \begin{description}
 \item[-] \texttt{GetUtil}: classe astratta che contiene i metodi per ottenere i valori dei campi dati intrinsechi dell'oggetto, essa viene quindi estesa da quattro sottoclassi: \texttt{GetCallUtil}, \texttt{GetGroupUtil}, \texttt{GetUserDataUtil} e \texttt{NotInitialize} ;
-\item[-] \texttt{ModifyUtil}: una classe astratta che descrive una generica operazione di modifica ai campi dati dell'oggetto. Essa viene quindi estesa da tre sottoclassi: \texttt{DeleteUtil}, \texttt{UpdateUtil}, \texttt{InsertUtil}.
+\item[-] \texttt{ModifyUtil}: classe astratta che descrive una generica operazione di modifica ai campi dati dell'oggetto. Essa viene estesa da tre sottoclassi che rappresentano le tre tipologie di operazioni possibili: \texttt{DeleteUtil}, \texttt{UpdateUtil}, \texttt{InsertUtil}.
 \end{description}
 
 Il sistema definisce inoltre una classe \texttt{UtilFactory} usata per stabilire quale classe (tra quelle di \inglese{utility}) usare per l'esecuzione di un operazione su una tabella del database.
@@ -671,17 +673,16 @@ Per chiarezza citiamo in tale sezione anche le classi che mappano le entità rap
 
 Precisiamo che le classi rappresentanti i \inglese{transfer object} si trovano a essere collocate in package e componenti diversi da \texttt{server.dao}. Si è ritenuto infatti sensato inserire tali classi in contesti maggiormente specializzati, ad esempio la classe corrispondente ai messaggi in segreteria verrà ad essere collocata in \texttt{server.message}, mentre quella corrispondente alle chiamate in \texttt{server.call}.
 
-
 \item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=1\textwidth]{class_gestione_database}
+  \includegraphics[width=0.9\textwidth]{class_gestione_database}
   \caption{Diagramma delle classi - Gestione database}\label{fig:gestionedatabase}
 \end{figure}
 
 	\item{\scshape\bfseries Classi utilizzate:}
 	\begin{itemize}[nolistsep, noitemsep]
-	  \item[-] \texttt{server.dao.ISession}
+	  \item[-] \texttt{server.dao.ISessionManager}
 	  \item[-] \texttt{server.dao.SessionManager}
 	  \item[-] \texttt{server.dao.DataPersistanceManager}
 	  \item[-] \texttt{server.dao.util.UtilFactory}
@@ -706,11 +707,11 @@ Tale componente ingloba le classi destinate a stabilire le \inglese{routine} di 
 
 La comunicazione bidirezionale fra il server e i client è ottenuta estendendo la classe fornita dalle librerie di \textit{TomCat} \texttt{org.apache.catalina.websocket.MessageInbound} mediante \texttt{connection.PushInbound}. In particolare sarà realizzato l'\inglese{overriding} del metodo \texttt{onTextMessage(CharBuffer)} in modo da permettere al componente \textsf{Gestione connessione} del server di reagire correttamente ai messaggi provenienti dal client in forma testuale.
 
-Un ruolo essenziale è inoltre svolto dalla \inglese{servlet} \texttt{connection.ControllerManager}, realizzata estendendo mediante ereditarietà la classe fornita dalle librerie di \textit{Apache TomCat} \texttt{org.apache.catalina.websocket.WebSocketServlet}. Tale \inglese{servlet} non fa parte di questa componente, viene qui citata unicamente per chiarire l'interazione tra il client e il server in merito alla comunicazione. La \inglese{servlet} risiede, come si vedrà in seguito, nella componente \textsf{CS07 -- Gestione controller}.
+Un ruolo essenziale è inoltre svolto dalla \inglese{servlet} \texttt{connection.ControllerManager}, realizzata estendendo mediante ereditarietà la classe fornita dalle librerie di Apache TomCat \texttt{org.apache.catalina.websocket.WebSocketServlet}. Tale \inglese{servlet} non fa parte di questa componente, viene qui citata unicamente per chiarire l'interazione tra il client e il server in merito alla comunicazione. La \inglese{servlet} risiede, come si vedrà in seguito, nella componente \textsf{CS07 -- Gestione controller}.
 
 La caratteristica fondamentale della \inglese{servlet}, che rappresenta inoltre un punto di accesso centralizzato alle funzionalità del componente \textsf{Gestione connessione}, è quella di fare \inglese{overriding} del metodo \texttt{createWebSocketInbound(String, HttpServletRequest)} al fine di restituire un opportuno sottotipo di \texttt{org.apache.catalina.websocket.StreamInbound}. Il tipo dinamico dell'oggetto ritornato da \texttt{connection.ConnectionManager} corrisponde infatti proprio a \texttt{connection.PushInbound} in modo che lato client l'invocazione del costruttore di \texttt{WebSocket} (passando come parametro l'URL della \inglese{servlet}) crei una connessione del tipo voluto.
 
-Ne consegue che, come sarà esposto con maggiori dettagli nella sezione \vref{sec:patternfactorymethod}, \texttt{createWebSocketInbound} è un'applicazione del \inglese{design pattern} Factory Method, in quanto la sottoclasse di \texttt{WebSocketServlet} restituisce un oggetto di tipo statico \texttt{StreamInbound} ma avente il tipo dinamico adatto agli scopi dell'applicazione.
+Ne consegue che, come sarà esposto con maggiori dettagli nella sezione \vref{sec:patternfactorymethod}, la classe \texttt{ControllerManager} è un'applicazione del \inglese{design pattern} Factory Method, in quanto la sottoclasse di \texttt{WebSocketServlet} restituisce un oggetto di tipo statico \texttt{StreamInbound} ma avente il tipo dinamico adatto agli scopi dell'applicazione.
 
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -722,7 +723,6 @@ Ne consegue che, come sarà esposto con maggiori dettagli nella sezione \vref{se
 	\item{\scshape\bfseries Classi utilizzate:}
 	\begin{itemize}[nolistsep, noitemsep]
 	  \item[-] \texttt{connection.PushInbound}
-	  \item[-] \texttt{connection.State}
 	  \item[-] \texttt{org.apache.catalina.websocket.MessageInbound}
 	\end{itemize}
 \end{description}
@@ -736,11 +736,11 @@ A ogni utente del sistema, che corrisponde a un'istanza di \texttt{abook.UserDat
 
 La rubrica è rappresentata da una lista di \texttt{abook.IAddressBookEntry}, per la quale si fornisce un'implementazione nominata \texttt{abook.AddressBookEntry} che rappresenta un contatto della rubrica di un utente. Come si evince dal diagramma riportato in figura \ref{fig:gestionerubrica}, la struttura del componente rispecchia la logica di funzionamento del database.
 
-Di conseguenza ogni istanza di tipo \texttt{abook.AddressBookEntry} apparterrà a un solo \texttt{abook.IUserData} e in essa è registrata un'istanza di \texttt{abook.UserData} che rappresenta il contatto facente parte della rubrica.
+Di conseguenza, ogni istanza di tipo \texttt{abook.AddressBookEntry} apparterrà a un solo utente (\texttt{abook.IUserData}) e in essa è registrata un'istanza di \texttt{abook.UserData} che rappresenta il contatto facente parte della rubrica.
 
-Gli utenti inoltre possono essere opzionalmente organizzati in gruppi: un contatto in rubrica può, in un dato momento, appartenere a uno o più gruppi oppure non appartenere a nessuno. Per tale motivo ogni istanza di \texttt{abook.AddressBookEntry} contiene anche un riferimento di tipo \texttt{IGroup}.
+I contatti inoltre possono essere opzionalmente organizzati in gruppi: un contatto in rubrica può, in un dato momento, appartenere a uno o più gruppi oppure non appartenere a nessuno. Per tale motivo ogni istanza di \texttt{abook.AddressBookEntry} contiene anche un riferimento di tipo \texttt{IGroup}.
 
-Tale interfaccia, congiuntamente alla sua implementazione \texttt{abook.Group}, permettono di rappresentare i gruppi della rubrica di un utente.
+Tale interfaccia, congiuntamente alla sua implementazione \texttt{abook.Group}, permette di rappresentare i gruppi della rubrica di un utente.
 
 Infine sono stati predisposti 12 \inglese{controller} per interagire con le classi di questa componente:
 
@@ -759,7 +759,7 @@ Infine sono stati predisposti 12 \inglese{controller} per interagire con le clas
 	  \item \texttt{abook.controller.AccountSettingsController}
 \end{itemize}
 
-Le loro funzionalità riguardano principalmente le possibilità di modificare, creare e cancellare istanze di oggetti del tipo \texttt{transfer object} e quindi riconducibili ad oggetti fisicamente presenti nel database. I \inglese{controller} saranno descritte con maggiori dettaglio nella sezione \vref{sec:cs07} (\textsf{CS07 -- Gestione controller}).
+Le loro funzionalità riguardano principalmente le possibilità di modificare, creare e cancellare istanze di oggetti del tipo \inglese{Transfer Object} e quindi riconducibili ad oggetti fisicamente presenti nel database. Le classi \inglese{controller} saranno descritte con maggiori dettaglio nella sezione \vref{sec:cs07} (\textsf{CS07 -- Gestione controller}).
 
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -1086,7 +1086,7 @@ Classe che costituisce il front controller del server. Ogni richiesta inoltrata 
 
 \begin{itemize}[leftmargin=0em]
 
-\item \texttt{ISession}
+\item \texttt{ISessionManager}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
 Interfaccia che definisce un generico componente che gestisce una sessione Hibernate.
@@ -1102,7 +1102,7 @@ Interfaccia che definisce un generico componente che gestisce una sessione Hiber
   \item{\scshape\bfseries Descrizione:}\\
 Classe che rappresenta una generica istanza di una tabella del database gestito mediante Hibernate, la classe contiene associazioni:
 \begin{itemize}
-\item alla sessione Hibernate in corso (riferimento ad un oggetto \texttt{ISession});
+\item alla sessione Hibernate in corso (riferimento ad un oggetto \texttt{ISessionManager});
 \item alla classe che definisce le operazioni di get (\texttt{GetUtil)};
 \item alla classe che definisce le operazioni di modifica ai campi membro dell'oggetto rappresentato (\texttt{ModifyUtil)}.
 \end{itemize}
@@ -1230,7 +1230,7 @@ classe che estende \texttt{ModifyUtil}, ridefinisce l'algoritmo del metodo astra
 \item \texttt{SessionManager}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
-Classe che implementa il \inglese{pattern} Singleton e che viene utilizzata dalla classe \texttt{DataPersistanceManager} al fine di ottenere un riferimento alla sessione di connessione al DBMS tramite la quale effettuare le transazioni corrispondenti alle operazioni volte ad assicurare la persistenza dei dati. Tale classe implementa la classe \texttt{ISession}.
+Classe che implementa il \inglese{pattern} Singleton e che viene utilizzata dalla classe \texttt{DataPersistanceManager} al fine di ottenere un riferimento alla sessione di connessione al DBMS tramite la quale effettuare le transazioni corrispondenti alle operazioni volte ad assicurare la persistenza dei dati. Tale classe implementa la classe \texttt{ISessionManager}.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -2720,7 +2720,8 @@ Implementazione di \texttt{IRegisterView}.
 \section{Design pattern utilizzati}
 In conformità con quanto stabilito nella sezione 7.2 del documento \textit{norme\_di\_progetto.3.0.pdf}, per ognuno dei \inglese{design pattern} sono riportati lo scopo e una descrizione del contesto di applicazione del \inglese{pattern} all'interno di un componente, evidenziando in particolar modo i vantaggi derivati e riportando un diagramma esemplificativo.
 
-Per una visione d'insieme dei componenti utilizzati da un \inglese{pattern}, e dei \inglese{pattern} utilizzati da un componente, si rimanda alle sottosezioni ``Tracciamenti Componenti-Design Pattern'' e ``Tracciamenti Design Pattern-Componenti'' della sezione \vref{sec:tracciamenti}.
+Per una visione d'insieme dei componenti utilizzati da un \inglese{pattern}, e dei \inglese{pattern} utilizzati da un componente, si rimanda alle sottosezioni \vref{sec:tracCompDp} e \vref{sec:tracDpComp}.
+
 
 \subsection{Data Access Object (DAO)}\label{sec:patterndao}
 
@@ -2818,7 +2819,7 @@ Definisce un'interfaccia per il comportamento di un algoritmo generico, lasciand
 \begin{description}
 
   \item{\scshape\bfseries CS04 -- Gestione autenticazione}\\
-All'interno di tale classe l'utilizzo del pattern si ha nel momento in cui è necessario definire una strategia di criptazione e decriptazione dei dati, passati dall'utente per eseguire l'autenticazione. L'interfaccia atta a definire l'algoritmo generico è \texttt{authentication.security.ISecurityStrategy} mentre una prima implementazione proposta dal team è \texttt{authentication.security.AESAlgorithm}, che definisce un algoritmo di criptazione basato su AES.
+All'interno di tale classe l'utilizzo del \inglese{pattern} si ha nel momento in cui è necessario definire una strategia di criptazione e decriptazione dei dati, passati dall'utente per eseguire l'autenticazione. L'interfaccia atta a definire l'algoritmo generico è \texttt{authentication.security.ISecurityStrategy} mentre una prima implementazione proposta dal team è \texttt{authentication.security.AESAlgorithm}, che definisce un algoritmo di criptazione basato su AES.
 
 \begin{figure}[H]
   \centering
@@ -2837,7 +2838,7 @@ Permette di definire la struttura di un algoritmo lasciando alle sottoclassi il 
 \begin{description}
 
   \item{\scshape\bfseries CS01 -- Gestione database}\\
-In tale componente la classe \texttt{dao.util.ModifyUtil} implementa il pattern \texttt{template method} definendo un metodo per l'esecuzione di un'operazione su \texttt{dao.DataPersistenceManager}, e lasciando l'implementazione dell'algoritmo alle classi figlie. Tali sono: \texttt{dao.util.InsertUtil}, \texttt{dao.util.UpdateUtil} e \texttt{dao.util.DeleteUtil}.
+In tale componente la classe \texttt{dao.util.ModifyUtil} implementa il \inglese{pattern} \texttt{template method} definendo un metodo per l'esecuzione di un'operazione su \texttt{dao.DataPersistenceManager}, e lasciando l'implementazione dell'algoritmo alle classi figlie. Tali sono: \texttt{dao.util.InsertUtil}, \texttt{dao.util.UpdateUtil} e \texttt{dao.util.DeleteUtil}.
 
 
 \begin{figure}[H]
@@ -2860,7 +2861,7 @@ Anche la classe \texttt{dao.util.GetUtil} implementa lo stesso comportamento, la
 
 
 	\item{\scshape\bfseries CS04 -- Gestione autenticazione}\\
-In tale componente la classe \texttt{authentication.security.AESTemplate} implementa il pattern \texttt{template method} definendo un metodo per l'esecuzione di un operazione AES. Nello specifico le operazioni possibili sono: criptazione e decriptazione. Tali sono rappresentate dalle classi \texttt{authentication.security.AESEncode} e \texttt{authentication.security.AESDecode}.
+In tale componente la classe \texttt{authentication.security.AESTemplate} implementa il \inglese{pattern} \texttt{template method} definendo un metodo per l'esecuzione di un operazione AES. Nello specifico le operazioni possibili sono: criptazione e decriptazione. Tali sono rappresentate dalle classi \texttt{authentication.security.AESEncode} e \texttt{authentication.security.AESDecode}.
 
 \begin{figure}[H]
   \centering
@@ -2887,7 +2888,7 @@ Per rendere il diagramma più chiaro e leggibile, sono state omesse le relazioni
 \subsection{Model-View-Presenter}\label{sec:MVP}
 
 \subsubsection{Scopo}
-Il pattern architetturale \inglese{Model-View-Presenter} similmente a quanto accade per \inglese{Model-View-Controller} (MVC), ha lo scopo di mantenere separata la \inglese{business logic}, cioè la gestione dei dati secondo le regole di un determinato dominio e la loro memorizzazione in forma persistente, dalla presentazione e manipolazione mediante interfaccia utente.
+Il \inglese{pattern} architetturale \inglese{Model-View-Presenter} similmente a quanto accade per \inglese{Model-View-Controller} (MVC), ha lo scopo di mantenere separata la \inglese{business logic}, cioè la gestione dei dati secondo le regole di un determinato dominio e la loro memorizzazione in forma persistente, dalla presentazione e manipolazione mediante interfaccia utente.
 
 
 \begin{figure}[H]
