@@ -924,7 +924,7 @@ ToolsPresenter.js & 1,14 & 82\\
 \end{tabular}
 \caption{Misurazioni metriche TLOC e MLOC del presenter} \label{tab: metricheTLOCMLOCpresenter}
 \end{table}
-Il valore complessivo che se ne ricava è quindi una complessità ciclomatica media pari a 1,69 con un massimo di 9 in \texttt{RegistergPresenter.js}.
+Il valore complessivo che se ne ricava è quindi una complessità ciclomatica media pari a 1,69 con un massimo di 9 in \texttt{RegisterPresenter.js}.
 
 %TODO da rivedere descrizione
 
@@ -1142,9 +1142,12 @@ Il controllo avviene verificando l'oggetto eliminato non sia presenti nella list
 \textbf{Verifica l'oggetto:} \texttt{AccountSettingsController}.\\
 \textbf{Descrizione}: L'obiettivo del test è verificare il corretto comportamento della classe \texttt{AccountSettingsController} controllando, in particolare, che sia possibile interagire con la base di dati del sistema per modificare i campi dati dell'utente.
 
-Tale test si compone di un metodo:
+Tale test si compone di due metodi:
 \begin{itemize}
 \item \texttt{testUpdateCorrectly()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui viene invocato con una richiesta contenente tutti i parametri necessari per portare a termine con successo la richiesta. Il test verifica che il testo stampato sulla pagina di risposta corrisponda alla stringa \texttt{true}, che siano recuperate le informazioni dalla richiesta in maniera corretta, che sia ottenuto un riferimento all'utente richiedente tramite il sistema di persistenza, che siano impostate le proprietà di quest'ultimo secondo i parametri della richiesta e che infine sia effettuato l'aggiornamento del record corrispondente nel database. Il test verifica inoltre che sia effettivamente richiamato il metodo \texttt{createFileOutputStream} per scrivere sul disco l'immagine del contatto.
+
+\item \texttt{testUpdateWithoutPart()} Verifica il comportamento del metodo \texttt{doAction} nel momento in cui viene invocato con una richiesta contenente tutti i parametri necessari per portare a termine con successo la richiesta ma non prevede l'aggiornamento dell'immagine del profilo. Il test verifica che il testo stampato sulla pagina di risposta corrisponda alla stringa \texttt{true}, che siano recuperate le informazioni dalla richiesta in maniera corretta, che sia ottenuto un riferimento all'utente richiedente tramite il sistema di persistenza, che siano impostate le proprietà di quest'ultimo secondo i parametri della richiesta e che infine sia effettuato l'aggiornamento del record corrispondente nel database. Il test verifica inoltre che non sia salvato sullo spazio del server alcun file immagine.
+
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
