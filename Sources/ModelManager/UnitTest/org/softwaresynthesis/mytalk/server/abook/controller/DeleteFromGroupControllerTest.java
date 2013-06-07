@@ -133,7 +133,7 @@ public class DeleteFromGroupControllerTest {
 		verify(entry).getContact();
 		verify(entry).getGroup();
 		verify(entry).getOwner();
-		verify(user).removeAddressBookEntry(entry);
+//		verify(user).removeAddressBookEntry(entry);
 		verify(dao).delete(entry);
 		verify(dao).update(user);
 	}
