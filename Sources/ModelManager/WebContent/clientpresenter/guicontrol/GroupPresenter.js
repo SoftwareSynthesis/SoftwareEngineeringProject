@@ -212,7 +212,8 @@ function GroupPanelPresenter(url) {
 		};
 		var closeButton = document.createElement("button");
         closeButton.appendChild(document.createTextNode("Annulla"));
-        closeButton.onclick = function() {
+        closeButton.onclick = function(evt) {
+			evt.preventDefault();
             try {
                 var formParent = form.parentElement;
                 formParent.removeChild(form);
