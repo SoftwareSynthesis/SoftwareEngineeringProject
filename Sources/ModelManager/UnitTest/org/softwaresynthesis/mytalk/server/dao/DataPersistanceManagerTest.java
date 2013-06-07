@@ -22,6 +22,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.softwaresynthesis.mytalk.server.IMyTalkObject;
 import org.softwaresynthesis.mytalk.server.abook.IGroup;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
+import org.softwaresynthesis.mytalk.server.call.ICall;
 import org.softwaresynthesis.mytalk.server.dao.util.GetUtil;
 import org.softwaresynthesis.mytalk.server.dao.util.ModifyUtil;
 import org.softwaresynthesis.mytalk.server.dao.util.UtilFactory;
@@ -56,6 +57,8 @@ public class DataPersistanceManagerTest {
 	private IMessage message;
 	@Mock
 	private List<IMyTalkObject> list;
+	@Mock
+	private ICall call;
 
 	/**
 	 * Inizializza il comportamento dei mock che sono comuni a tutti i test e,
@@ -926,5 +929,113 @@ public class DataPersistanceManagerTest {
 		// verifica il corretto utilizzo dei mock
 		verify(factory).getUserDataUtil(manager);
 		verify(getter).execute(query);
+	}
+
+	/**
+	 * Verifica la possibilità di recuperare una chiamata dal database
+	 * disponendo del relativo numero identificativo. In particolare, il test
+	 * assicura che il risultato sia uguale alle attese (in base a come è stato
+	 * configurato il mock di GetUserDataUtil), e verifica inoltre il corretto
+	 * utilizzo dei mock. In particolare, verifica che sia eseguita ESATTAMENTE
+	 * la query impostata nella variabile 'query' e il fatto che dalla
+	 * collezione di oggetti ritornata dalla execute del GetUtil sia estratto il
+	 * primo elemento e che non sia MAI invocato get con argomenti superiori
+	 * allo zero, che la lista sia scorsa solo se non è vuota e che la
+	 * UtilFactory sia utilizzata per procurarsi la corretta istanza di GetUtil.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testGetCall() {
+		Long id = 1L;
+		String query = "from Call as c where c.id = " + id;
+		// configura il comportamento dei mock
+		when(list.get(0)).thenReturn(call);
+		when(getter.execute(query)).thenReturn(list);
+
+		// invoca il metodo da testare
+		ICall result = tester.getCall(id);
+
+		// verifica l'output
+		assertNotNull(result);
+		assertEquals(call, result);
+
+		// verifica il corretto utilizzo dei mock
+		verify(factory).getCallUtil(manager);
+		verify(getter).execute(query);
+		verify(list).isEmpty();
+		verify(list).get(0);
+	}
+
+	/**
+	 * Verifica il comportamento della classe nel momento in cui si tenta di
+	 * recuperare una chiamata con un id inesistente (cioè la query restituisce
+	 * un insieme vuoto). Il test assicura che in questo caso la collezione
+	 * restituita sia, come atteso, il riferimento nullo. Inoltre il test
+	 * verifica il corretto utilizzo dei mock, cioè che sia utilizzata la classe
+	 * factory per ottenere il GetUtil corretto, che il metodo execute di
+	 * quest'ultimo sia invocato ESATTAMENTE con la stringa impostata nella
+	 * variabile query, che si controlli se la collezione restituita è vuota e,
+	 * dal momento che appare come tale, che non sia MAI invocato il metodo get
+	 * su quest'ultima con un parametro intero.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testGetCallEmpty() {
+		// identificativo di prova
+		Long id = 1L;
+		// query che deve essere eseguita
+		String query = "from Call as c where c.id = " + id;
+		// configura il comportamento dei mock
+		when(list.isEmpty()).thenReturn(true);
+		when(getter.execute(query)).thenReturn(list);
+
+		// invoca il metodo da testare
+		ICall result = tester.getCall(id);
+
+		// verifica il risultato ottenuto
+		assertNull(result);
+
+		// verifica il corretto utilizzo dei mock
+		verify(factory).getCallUtil(manager);
+		verify(getter).execute(query);
+		verify(list).isEmpty();
+		verify(list, never()).get(anyInt());
+	}
+
+	/**
+	 * Verifica il comportamento della classe nel momento in cui è richiesto di
+	 * recuperare una chiamata sulla base del numero identificativo di
+	 * quest'ultimo ma avviene un errore nel sistema di persistenza dei dati e
+	 * il sottotipo di {@GetUtil} che effettua l'operazione di SELECT,
+	 * invece di una collezione di transfer object, restituisce un riferimento
+	 * nullo. Il test verifica che in questo caso anche la chiamata di metodo
+	 * getGroup restituisca un riferimento nullo.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testGetCallNoCollection() {
+		// identificativo di prova
+		Long id = 1L;
+		// query che deve essere eseguita
+		String query = "from Call as c where c.id = " + id;
+		// impedisce il recupero della collezione
+		when(getter.execute(query)).thenReturn(null);
+
+		// invoca il metodo da testare
+		ICall result = tester.getCall(id);
+
+		// verifica il risultato ottenuto
+		assertNull(result);
+
+		// verifica il corretto utilizzo dei mock
+		verify(factory).getCallUtil(manager);
+		verify(getter).execute(query);
+		verifyZeroInteractions(list);
 	}
 }
