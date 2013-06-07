@@ -54,13 +54,13 @@ function AccountSettingsPanelPresenter(url) {
 			var formData = new FormData();
 			formData.append("operation", "accountSettings");
 			if (data.name && data.name.length > 0) {
-	            formData.append("name", encodeURIComponent(data.name));
+	            formData.append("name", data.name);
 	        }
 	        if (data.surname && data.surname.length > 0) {
-	            formData.append("surname", encodeURIComponent(data.surname));
+	            formData.append("surname", data.surname);
 	        }
-	        if (data.picturePath && (data.picturePath != "")) {
-	            formData.append("picturePath", data.picturePath);
+	        if (data.picture && (data.picture != undefined)) {
+	            formData.append("picturePath", data.picture);
 	        }
 			request.open("POST", commandURL, false);
 			request.send(formData);
@@ -121,7 +121,7 @@ function AccountSettingsPanelPresenter(url) {
         inputPicture.setAttribute("type", "file");
         inputPicture.setAttribute("id", "picture");
         inputPicture.setAttribute("name", "picture");
-        inputPicture.setAttribute("value", communicationcenter.my.picturePath);
+        //inputPicture.setAttribute("value", communicationcenter.my.picturePath);
         liPicture.appendChild(labelPicture);
         liPicture.appendChild(inputPicture);
 
@@ -135,12 +135,13 @@ function AccountSettingsPanelPresenter(url) {
         var submitButton = document.createElement("button");
         submitButton.type = "submit";
         submitButton.appendChild(document.createTextNode("Modifica"));
-        submitButton.onclick = function() {
+        submitButton.onclick = function(evt) {
+			evt.preventDefault();
             // recupera i dati dal form e li memorizza in un oggetto
             var data = new Object();
             data.name = document.getElementById("name").value;
             data.surname = document.getElementById("surname").value;
-            data.picture = document.getElementById("picture").value;
+            data.picture = document.getElementById("picture").files[0];
             thisPresenter.sendUserData(data);
     		document.dispatchEvent(showAccountSettingPanel);            
         };
