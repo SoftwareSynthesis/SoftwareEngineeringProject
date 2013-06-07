@@ -58,7 +58,8 @@ window.onload = function() {
     rejectCall = new CustomEvent("rejectCall");
     // eventi per MainPresenter
     showGeneralPanel = new CustomEvent("showGeneralPanel");
-    
+    // eventi per chat
+    chatStarted = new CustomEvent("chatStarted");
     
     
     

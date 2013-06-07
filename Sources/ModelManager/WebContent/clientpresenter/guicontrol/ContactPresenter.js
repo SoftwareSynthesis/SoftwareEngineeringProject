@@ -199,7 +199,8 @@ function ContactPanelPresenter() {
         };
 
         chatButton.onclick = function() {
-            mediator.onChatStarted(currentContact);
+            chatStarted.user = currentContact;
+            document.dispatchEvent(chatStarted);
         };
 
         videoCallButton.onclick = function() {

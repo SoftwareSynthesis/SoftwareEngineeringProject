@@ -308,6 +308,17 @@ function CommunicationPanelPresenter() {
             intervalRing = null;
         }
     }
+    
+    /**
+     * Gestione evento visualizzazione chat
+     * @version 2.0
+     * @author Riccardo Tresoldi
+     */
+    function onChatStarted(user){
+        document.dispatchEvent(showCommunicationPanel);
+        thisPresenter.addChat(user);
+        thisPresenter.displayChat(user);
+    }
 
     /***************************************************************************
      * LISTENER DEGLI EVENTI
@@ -320,4 +331,7 @@ function CommunicationPanelPresenter() {
         onStartRinging(evt.evento);
     });
     document.addEventListener("stopRinging", onStopRinging);
+    document.addEventListener("chatStarted", function(evt){
+        onChatStarted(evt.user);
+    });
 }
