@@ -1,6 +1,7 @@
 package org.softwaresynthesis.mytalk.server.authentication.controller;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
@@ -72,6 +73,8 @@ public class LogoutControllerTest {
 	@Mock
 	private PushInbound inbound;
 	@Mock
+	private PushInbound myInbound;
+	@Mock
 	private WsOutbound outbound;
 
 	/**
@@ -107,6 +110,7 @@ public class LogoutControllerTest {
 		// configura i clients
 		clients = getClients();
 		clients.put(contactId, inbound);
+		clients.put(userId, myInbound);
 		// configura il comportamento del WsOutbound
 		writerOutbound = new StringWriter();
 		doAnswer(new Answer<Void>() {
@@ -163,6 +167,7 @@ public class LogoutControllerTest {
 		writerOutbound.flush();
 		String message = writerOutbound.toString();
 		assertEquals(message, "5|" + userId + "|offline");
+		assertFalse(clients.containsKey(userId));
 
 		// verifica il corretto utilizzo dei mock
 		verify(request).getSession(false);
