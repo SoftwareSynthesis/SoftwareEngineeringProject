@@ -3,6 +3,7 @@ package org.softwaresynthesis.mytalk.server.abook.controller;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
@@ -149,7 +150,7 @@ public class AddInGroupControllerTest {
 	@Test
 	public void testAddNotExistContact() throws Exception {
 		// impedisce di recuperare il contatto dal database
-		when(dao.getUserData(contactId)).thenReturn(null);
+		when(dao.getUserData(contactId)).thenThrow(new RuntimeException());
 
 		// invoca il metodo da testare
 		tester.doAction(request, response);
@@ -165,7 +166,7 @@ public class AddInGroupControllerTest {
 		verify(request).getParameter("groupId");
 		verify(dao).getUserData(username);
 		verify(dao).getUserData(contactId);
-		verify(dao).getGroup(groupId);
+		verify(dao, never()).getGroup(anyLong());
 		verify(dao, never()).insert(any(IMyTalkObject.class));
 		verify(dao, never()).update(any(IMyTalkObject.class));
 		verifyZeroInteractions(contact);
