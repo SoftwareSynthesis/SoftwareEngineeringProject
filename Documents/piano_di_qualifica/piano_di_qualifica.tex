@@ -1483,13 +1483,17 @@ Tale test si compone di cinque metodi:
 \textbf{Verifica l'oggetto:} \texttt{LogoutController}.\\
 \textbf{Descrizione}: L'obiettivo di questo test è verificare il comportamento di un'istanza di \texttt{LogoutController} controllando che sia possibile effettuare il \inglese{logout} da parte di un utente autenticato tramite un'opportuna richiesta HTTP passata con il metodo POST\@.
 
-Tale test si compone di due metodi:
+Tale test si compone di quattro metodi:
 
 \begin{itemize}
 
 \item \texttt{testLogoutCorrectUser()} verifica il corretto funzionamento del \inglese{logout} dal sistema da parte di un utente che ha superato la fase di autenticazione. Il controllo avviene verificando che la richiesta sia utilizzata correttamente ovvero con il parametro che abbia valore \texttt{false}, per ottenere la sessione. Inoltre si verifica che dalla sessione sia recuperato il contesto di autenticazione. Si controlla infine che il metodo \texttt{logout} sia invocato sul contesto, e che in seguito all'invocazione la sessione risulti essere effettivamente invalidata.
 
-\item \texttt{testLogoutWrongUser()}  controlla il comportamento della classe nel caso in cui la richiesta di \inglese{logout} provenga da un utente che non ha effettuato previamente l'autenticazione al sistema. Tale situazione viene simulata impedendo di recuperare la sessione associata alla richiesta HTTP. Il test avviene verificando che sia stampata sulla risposta la stringa \texttt{null}.
+\item \texttt{testLogoutWrongUser()} controlla il comportamento della classe nel caso in cui la richiesta di \inglese{logout} provenga da un utente che non ha effettuato previamente l'autenticazione al sistema. Tale situazione viene simulata impedendo di recuperare la sessione associata alla richiesta HTTP. Il test avviene verificando che sia stampata sulla risposta la stringa \texttt{null}.
+
+\item \texttt{testLogoutWithoutMyWebSocket()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui anche se è possibile effettuare il logout non è più aperto il canale di connessione con il client che da cui proviene la richiesta di disconnessione. Il test verifica che in tal caso la disconnessione abbia successo e che sia in ogni caso invalidata la sessione con il server.
+
+\item \texttt{testLogoutWithoutOtherWebSocket()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui anche se è possibile effettuare il logout non è più aperto il canale di connessione con uno dei client che appartengono a un contatto nella rubrica dell'utente da cui proviene la richiesta di disconnessione. Il test verifica che in un simile caso non sia inviato alcun messaggio sul canale di comunicazione con il client che corrisponde al contatto, dal momento che l'altro capo della connessione ha cessato di rispondere.
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
