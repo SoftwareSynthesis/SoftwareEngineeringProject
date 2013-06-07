@@ -139,31 +139,6 @@ function PresenterMediator() {
     };
 
     /**
-     * Codice da eseguire per coordinare i presenter nel momento in cui ha
-     * inizio una nuova comunicazione testuale, incapsula la collaborazione fra
-     * {@link ContactPanelPresenter} e {@link CommunicationPanelPresenter}
-     *
-     * @see CommunicationPanelPresenter#addChat(user)
-     * @param {Object}
-     *            user utente con cui si vuole avviare la chat
-     * @author Diego Beraldin
-     */
-    // TODO da documentare
-    // TODO TRES mi confermi che esiste ancora? (createPanel, WTF?!)
-    // XXX
-    // XXX
-    // XXX
-    // XXX
-    // XXX
-    this.onChatStarted = function(user) {
-        var element = communicationpp.createPanel();
-        presenters["main"].displayChildPanel(element);
-        communicationpp.addChat(user);
-        communicationpp.displayChat(user);
-        this.addOrRemoveCommunicationToTools();
-    };
-
-    /**
      * Funzione per ottenere l'elemento "myVideo" del CommunicationPP
      *
      * @author Riccardo Tresoldi
