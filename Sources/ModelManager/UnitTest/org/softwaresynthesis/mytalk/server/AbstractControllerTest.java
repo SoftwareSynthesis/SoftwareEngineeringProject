@@ -58,7 +58,7 @@ public class AbstractControllerTest {
 	 * Configura tutti gli oggetti che sono necessari all'esecuzione di tutti i
 	 * test (all'occorrenza il comportamento di qualche mock potrà essere
 	 * ridefinito in determinati test particolari se il comportamento che deve
-	 * esibire è diverso da quello predefinsito)
+	 * esibire è diverso da quello predefinito)
 	 * 
 	 * @author Diego Beraldin
 	 * @version 2.0
