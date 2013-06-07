@@ -36,7 +36,9 @@ import org.softwaresynthesis.mytalk.server.message.IMessage;
 @RunWith(MockitoJUnitRunner.class)
 public class DeleteMessageControllerTest {
 	private final String username = "indirizzo5@dominio.it";
+	private final Long userId = 1L;
 	private final String sep = System.getProperty("file.separator");
+	private final String path = System.getenv("MyTalkConfiguration");
 	private final Long idMessage = 1L;
 	private Writer writer;
 	private DeleteMessageController tester;
@@ -60,6 +62,7 @@ public class DeleteMessageControllerTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
+		when(user.getId()).thenReturn(userId);
 		// comportamento della richiesta
 		when(request.getParameter("idMessage"))
 				.thenReturn(idMessage.toString());
@@ -117,7 +120,8 @@ public class DeleteMessageControllerTest {
 		verify(request).getParameter("idMessage");
 		verify(dao).getMessage(idMessage);
 		verify(dao).delete(message);
-		verify(tester).deleteFile("Secretariat" + sep + idMessage + ".wav");
+		String name = path + sep + "MyTalk" + sep + "Secretariat" + sep + idMessage + ".wav";
+		verify(tester).deleteFile(name);
 		verify(message).getReceiver();
 	}
 
@@ -150,7 +154,8 @@ public class DeleteMessageControllerTest {
 		verify(request).getParameter("idMessage");
 		verify(dao).getMessage(idMessage);
 		verify(dao, never()).delete(any(IMessage.class));
-		verify(tester).deleteFile("Secretariat" + sep + idMessage + ".wav");
+		String name = path + sep + "MyTalk" + sep + "Secretariat" + sep + idMessage + ".wav";
+		verify(tester).deleteFile(name);
 		verify(message).getReceiver();
 	}
 
@@ -204,6 +209,7 @@ public class DeleteMessageControllerTest {
 	public void testDeleteNotOwnedMessage() throws Exception {
 		// il messaggio appartiene a un altro utente
 		IUserData other = mock(IUserData.class);
+		when(other.getId()).thenReturn(-1L);
 		when(message.getReceiver()).thenReturn(other);
 
 		// invoca il metodo da testare
