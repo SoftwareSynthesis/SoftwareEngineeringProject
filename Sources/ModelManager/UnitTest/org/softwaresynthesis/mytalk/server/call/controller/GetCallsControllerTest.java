@@ -36,11 +36,16 @@ import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
 @RunWith(MockitoJUnitRunner.class)
 public class GetCallsControllerTest {
 	private final String username = "indirizzo5@dominio.it";
+	private final String calleeUsername = "indirizzo4@dominioit";
+	private final Long userId = 1L;
 	private final Long calleeId = 5L;
+	private final Long callId = 1L;
 	private Writer writer;
 	private GetCallsController tester;
 	private Date startDate = new Date(1368437034437L);
 	Set<ICallList> callListSet;
+	Set<ICallList> otherCallListSet;
+	Set<ICallList> callCallListSet;
 	@Mock
 	private HttpServletRequest request;
 	@Mock
@@ -59,8 +64,6 @@ public class GetCallsControllerTest {
 	ICallList otherCallList;
 	@Mock
 	ICall call;
-	@Mock
-	ICall otherCall;
 
 	/**
 	 * Reinizializza l'oggetto da testare e configura il comportamento dei mock
@@ -72,25 +75,34 @@ public class GetCallsControllerTest {
 	@Before
 	public void setUp() throws Exception {
 		// configura il comportamento delle CallList
-		when(callList.getUser()).thenReturn(callee);
+		when(callList.getUser()).thenReturn(caller);
 		when(callList.getCall()).thenReturn(call);
 		when(callList.getCaller()).thenReturn(true);
 		when(otherCallList.getUser()).thenReturn(callee);
 		when(otherCallList.getCall()).thenReturn(call);
-		when(otherCallList.getCaller()).thenReturn(true);
-		// aggiunge la callList all'insieme di CallList
+		when(otherCallList.getCaller()).thenReturn(false);
+		// aggiunge la callList all'insieme di CallList del chiamante
 		callListSet = new HashSet<ICallList>();
 		callListSet.add(callList);
-		callListSet.add(otherCallList);
 		// configura il comportamento dell'utente che richiede la lista
+		when(user.getId()).thenReturn(userId);
 		when(user.getCalls()).thenReturn(callListSet);
-		// configura il comportamento del chiamato
+		// aggiunge l'altra callList all'insieme del chiamato
+		otherCallListSet = new HashSet<ICallList>();
+		otherCallListSet.add(otherCallList);
+		// configura il comportamento dell'utente chiamato
 		when(callee.getId()).thenReturn(calleeId);
-		// configura il comportamento delle chiamate
+		when(callee.getCalls()).thenReturn(otherCallListSet);
+		when(callee.getMail()).thenReturn(calleeUsername);
+		// configura il comportamento della chiamata
 		when(call.getStart()).thenReturn(startDate);
-		when(otherCall.getStart()).thenReturn(startDate);
+		when(call.getId()).thenReturn(callId);
+		callCallListSet = new HashSet<ICallList>();
+		callCallListSet.add(otherCallList);
+		when(call.getCalls()).thenReturn(callCallListSet);
 		// configura il comportamento del gestore di persistenza
 		when(dao.getUserData(username)).thenReturn(user);
+		when(dao.getCall(callId)).thenReturn(call);
 		// configura il comportamento della risposta
 		writer = new StringWriter();
 		when(response.getWriter()).thenReturn(new PrintWriter(writer));
@@ -132,20 +144,21 @@ public class GetCallsControllerTest {
 		writer.flush();
 		String responseText = writer.toString();
 		String toCompare = String
-				.format("[{\"id\":\"%d\", \"start\":\"%s\", \"caller\":\"%s\"}, {\"id\":\"%d\", \"start\":\"%s\", \"caller\":\"%s\"}]",
-						calleeId, startDate, true, calleeId, startDate, true);
+				.format("[{\"id\":\"%d\", \"email\":\"%s\", \"start\":\"%s\", \"caller\":%s}]",
+						calleeId, calleeUsername, startDate, true);
 		assertEquals(toCompare, responseText);
 
 		// verifica il corretto utilizzo dei mock
 		verify(response).getWriter();
 		verify(dao).getUserData(username);
+		verify(dao).getCall(callId);
 		verify(user).getCalls();
-		verify(callee, times(2)).getId();
-		verify(callList).getUser();
+		verify(callee).getId();
+		verify(callee).getMail();
 		verify(callList).getCall();
-		verify(otherCallList).getUser();
-		verify(otherCallList).getCall();
-		verify(call, times(2)).getStart();
+		verify(callList).getCaller();
+		verify(call).getStart();
+		verify(call).getId();
 	}
 
 	/**
