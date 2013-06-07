@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.ResourceBundle;
 import javax.servlet.Servlet;
@@ -143,11 +144,17 @@ public class ControllerManager extends WebSocketServlet implements Servlet
 	 * @param 	c		{@link PushInbound} canale da rimuovere
 	 */
 	public static void removeClient(PushInbound c){
-		for (Long key : clients.keySet()) {
-			if (clients.get(key)==c) {
-				clients.remove(key) ;
+		Long key = null;
+		Iterator<Long> longIter = clients.keySet().iterator();
+		boolean found = false;
+		while(longIter.hasNext() && !found) {
+			Long current = longIter.next();
+			if (clients.get(current).equals(c)) {
+				key = current;
+				found = true;
 			}
 		}
+		clients.remove(key);
 	}
 
 	/**
