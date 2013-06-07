@@ -35,8 +35,9 @@ public class AddMessageControllerTest {
 	private final String sep = System.getProperty("file.separator");
 	private final Long messageId = 1L;
 	private final Long receiverId = 1L;
-	private final String messagePath = String.format("Secretariat%s%d.wav",
-			sep, messageId);
+	private final String path = System.getenv("MyTalkConfiguration");
+	private final String messagePath = String.format(path + "%sMyTalk%sSecretariat%s%d.wav",
+			sep, sep, sep, messageId);
 	private final Date messageDate = new Date(1368775249L);
 	private Writer writer;
 	private AddMessageController tester;
@@ -71,7 +72,7 @@ public class AddMessageControllerTest {
 		// comportamento della part del messaggio
 		when(messagePart.getInputStream()).thenReturn(istream);
 		// comportamento della richiesta
-		when(request.getPart("receiver")).thenReturn(receiverPart);
+		when(request.getPart("contactId")).thenReturn(receiverPart);
 		when(request.getPart("msg")).thenReturn(messagePart);
 		// comportamento della risposta
 		writer = new StringWriter();
@@ -140,12 +141,12 @@ public class AddMessageControllerTest {
 		// verifica il corretto utilizzo dei mock e degli spy
 		verify(response).getWriter();
 		verify(request).getPart("msg");
-		verify(request).getPart("receiver");
+		verify(request).getPart("contactId");
 		verify(tester).getValue(receiverPart);
 		verify(messagePart).getInputStream();
 		verify(tester).writeFile(messagePath, istream);
 		verify(tester).createMessage();
-		verify(dao, times(2)).getMessageNewKey();
+		verify(dao).getMessageNewKey();
 		verify(message).setId(messageId);
 		verify(message).setSender(sender);
 		verify(message).setReceiver(receiver);
@@ -181,12 +182,12 @@ public class AddMessageControllerTest {
 		// verifica il corretto utilizzo dei mock e degli spy
 		verify(response).getWriter();
 		verify(request).getPart("msg");
-		verify(request).getPart("receiver");
+		verify(request).getPart("contactId");
 		verify(tester).getValue(receiverPart);
 		verify(messagePart).getInputStream();
 		verify(tester, never()).writeFile(anyString(), any(InputStream.class));
 		verify(tester, never()).createMessage();
-		verify(dao, never()).getMessageNewKey();
+		verify(dao).getMessageNewKey();
 		verifyZeroInteractions(message);
 		verify(dao, never()).insert(any(IMessage.class));
 	}
@@ -222,8 +223,8 @@ public class AddMessageControllerTest {
 		// verifica il corretto utilizzo dei mock
 		verify(response).getWriter();
 		verify(request).getPart("msg");
-		verify(request).getPart("receiver");
-		verifyZeroInteractions(dao);
+		verify(request).getPart("contactId");
+		verify(dao).getMessageNewKey();
 		verify(tester, never()).createMessage();
 		verifyZeroInteractions(istream);
 	}
