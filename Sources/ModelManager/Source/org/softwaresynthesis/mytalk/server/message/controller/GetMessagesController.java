@@ -46,7 +46,7 @@ public class GetMessagesController extends AbstractController{
 					result += "{";
 					result += "\"id\":\"" + message.getId() + "\"";
 					result += ", \"sender\":\"" + message.getSender().getId() + "\"";
-					result += ", \"status\":\"" + message.getNewer() + "\"";
+					result += ", \"status\":" + message.getNewer() + "";
 					result += ", \"video\":\"" + message.getVideo() + "\"";
 					result += ", \"date\":\"" + message.getDate() + "\"";
 					result += ", \"src\":\"Secretariat/" + message.getId() + ".wav\"";
