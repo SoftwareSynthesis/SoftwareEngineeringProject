@@ -801,7 +801,7 @@ Altri due \inglese{controller} sono predisposti per il recupero della password. 
 	\item \texttt{authentication.controller.AnswerController} per richiedere al server la validazione della risposta inserita dall'utente.
 \end{itemize}
 
-Per garantire un buon livello di sicurezza nell'invio dei dati l'applicativo si appoggia ad un sistema di criptazione basato su algoritmo AES. Tali funzionalità sono fornite dalla classe \texttt{authentication.security.AESAlgorithm}, che implementa l'interfaccia \texttt{authentication.security.ISecurityStrategy}. Tale classe fornisce due procedure, quella per criptare i dati e quella per decriptarli. Esse sono rappresentate dalle classi \texttt{authentication.security.AESEncode} e \texttt{authentication.security.AESDecode}. Entrambe estendono la classe astratta \texttt{authentication.security.AESTemplate} e basano la propria implementazione sul \inglese{pattern} \texttt{Template Method}.
+Per garantire un buon livello di sicurezza nell'invio dei dati l'applicativo si appoggia ad un sistema di criptazione basato su algoritmo AES. Tali funzionalità sono fornite dalla classe \texttt{authentication.security.AESAlgorithm}, che implementa l'interfaccia \texttt{authentication.security.ISecurityStrategy}. Tale classe fornisce due procedure, quella per criptare i dati e quella per decriptarli. Esse sono rappresentate dalle classi \texttt{authentication.security.AESEncode} e \texttt{authentication.security.AESDecode}. Entrambe estendono la classe astratta \texttt{authentication.security.AESTemplate} e basano la propria implementazione sul \inglese{pattern} Template Method.
   
   \item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
@@ -983,7 +983,7 @@ Infine il download e la gestione della segreteria telefonica (di competenza di \
 
 Il diagramma in figura \ref{fig:facadeserver} rappresenta la gerarchia dei \inglese{controller} del \inglese{front controller} ma non mostra in dettaglio le dipendenze fra ognuna di questi e i componenti interni ai sotto-package \texttt{abook}, \texttt{authentication}, \texttt{call}, \texttt{connection} e \texttt{message} per non appesantire troppo la notazione.
 
-Tali dipendenze, di fondamentale importanza per l'architettura, sono però riportate nei diagrammi della sezione \vref{sec:patternfacade} in cui è descritta con maggiori dettagli l'applicazione del \inglese{design pattern} \inglese{front controller}.
+Tali dipendenze, di fondamentale importanza per l'architettura, sono però riportate nei diagrammi della sezione \vref{sec:patternfacade} in cui è descritta con maggiori dettagli l'applicazione del \inglese{design pattern} Front Controller.
 	
 	\item{\scshape\bfseries Classi utilizzate:}\\
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1073,7 +1073,7 @@ Classe astratta che implementa \texttt{IController}. Fornisce un implementazione
 \item \texttt{ControllerManager}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
-Classe che costituisce il front \inglese{controller} del server. Ogni richiesta inoltrata al server dovrà passare per questa classe. Essa avrà quindi il compito di riconoscere il tipo di richiesta (tramite un associazione nomi richiesta - classe destinataria), e di creare quindi un istanza del controller associato.
+Classe che costituisce il front \inglese{controller} del server. Ogni richiesta inoltrata al server dovrà passare per questa classe. Essa avrà quindi il compito di riconoscere il tipo di richiesta (tramite un associazione nomi richiesta - classe destinataria), e di creare quindi un' istanza del controller associato.
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS08 -- Front controller}
@@ -1259,18 +1259,6 @@ Il comportamento della sotto-architettura server in risposta ai messaggi ricevut
   \end{itemize}
   \end{description}
   
-\item \texttt{State}
-\begin{description}
-  \item{\scshape\bfseries Descrizione:}\\
-Classe che attraverso un tipo enumerativo rappresenta lo stato in cui si trova un utente. Si osservi che tale stato non è associato direttamente all'utente ma bensì al canale di comunicazione (univoco) di cui l'utente diventa proprietario al momento del \inglese{login}. Di conseguenza le istanze della classe \texttt{connection.PushInBound} sono composte con un'istanza di \texttt{abook.State} che rappresenta lo stato in cui si trova un determinato utente in un determinato momento.
-  
-  \item{\scshape\bfseries Componenti che ne fanno uso:}
-  \begin{itemize}
-    \item[-] \textsf{CS02 -- Gestione rubrica}
-    \item[-] \textsf{CS07 -- Gestione controller}
-   \end{itemize}
-\end{description}
-
 \end{itemize}
 
 \subsubsection{Package \texttt{org.softwaresynthesis.mytalk.server.abook}}
@@ -1333,7 +1321,7 @@ Classe \inglese{transfer object} che implementa l'interfaccia \texttt{IUserData}
 \item \texttt{IGroup}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Interfaccia per i gruppi interni alla rubrica di un utente, prevede un'operazione astratta \texttt{add(IUserData)} per l'aggiunta di un nuovo contatto al gruppo e \texttt{remove(IUserData)} per la sua rimozione di un contatto dal gruppo. Contiene anche i metodi \inglese{get}/\inglese{set} per impostare o recuperare il nome di un gruppo.
+Interfaccia per i gruppi interni alla rubrica di un utente. Prevede un'operazione astratta \texttt{add(IUserData)} per l'aggiunta di un nuovo contatto al gruppo e \texttt{remove(IUserData)} per la sua rimozione di un contatto dal gruppo. Contiene anche i metodi \inglese{get}/\inglese{set} per impostare o recuperare il nome di un gruppo.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:} 
 	  \begin{itemize}[noitemsep,nolistsep]
@@ -1651,7 +1639,7 @@ Classe \inglese{transfer object} che rappresenta una voce nella lista delle chia
 \item \texttt{AuthenticationModule}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-  	Implementazione dell'interfaccia \texttt{javax.security.auth.spi.LoginModule} definisce la logica di autenticazione attuata dal sistema \caName. Se si avesse bisogno di una maggiore sicurezza per questa procedura è sufficiente fornire una nuova implementazione di questa interfaccia.
+  	Implementazione dell'interfaccia \texttt{javax.security.auth.spi.LoginModule}. Definisce la logica di autenticazione attuata dal sistema \caName. Se si avesse bisogno di una maggiore sicurezza per questa procedura è sufficiente fornire una nuova implementazione di questa interfaccia.
   \item{\scshape\bfseries Componenti che ne fanno uso}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS04 -- Gestione autenticazione}
@@ -1662,7 +1650,7 @@ Classe \inglese{transfer object} che rappresenta una voce nella lista delle chia
 \item \texttt{CredentialLoader}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-  	La classe ha compito di caricare le credenziali di accesso, fornite dall'utente, con lo scopo di metterle a disposizione del modulo di autenticazione \texttt{AuthenticationModule}.
+Implementazione dell'interfaccia \texttt{javax.security.auth.spi.callbackHandler}. La classe ha compito di caricare le credenziali di accesso, fornite dall'utente, con lo scopo di metterle a disposizione del modulo di autenticazione \texttt{AuthenticationModule}.
   \item{\scshape\bfseries Componenti che ne fanno uso}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS04 -- Gestione autenticazione}
@@ -1673,7 +1661,7 @@ Classe \inglese{transfer object} che rappresenta una voce nella lista delle chia
 \item \texttt{PrincipalImpl}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-  	La classe serve per contenere un elemento identificativo dell'utente che ha effettuato l'autenticazione, in modo che possa essere facilmente identificato nelle altre componenti del software.  
+  	Implementazione dell'interfaccia \texttt{javax.security.Principal}. La classe serve per contenere un elemento identificativo dell'utente che ha effettuato l'autenticazione, in modo che possa essere facilmente identificato nelle altre componenti del software.  
   \item{\scshape\bfseries Componenti che ne fanno uso}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS04 -- Gestione autenticazione}
@@ -1719,7 +1707,7 @@ Classe \inglese{transfer object} che rappresenta una voce nella lista delle chia
 \item \texttt{ISecurityStrategy}
 \begin{description}
 	\item{\scshape\bfseries Descrizione}\\
-		Interfaccia che contiene la strategia di crittografia adottata dal sistema \caName per garantire la sicurezza dei dati dell'utente registrato al sistema stesso.
+		Interfaccia che contiene la strategia di crittografia adottata dal sistema  MyTalk per garantire la sicurezza dei dati dell'utente registrato al sistema stesso.
 	\item{\scshape\bfseries Componenti che ne fanno uso}
 		\begin{itemize}[noitemsep,nolistsep]
 			\item[-] \textsf{CS04 -- Gestione autenticazione}
@@ -1730,7 +1718,7 @@ Classe \inglese{transfer object} che rappresenta una voce nella lista delle chia
 \item \texttt{AESAlgorithm}
 \begin{description}
 	\item{\scshape\bfseries Descrizione}\\
-		Implementa l'interfaccia \texttt{ISecurityStrategy} implementando la strategia di cripting, ovvero adottando l'algoritmo AES a 128 bit scelto dal team.
+		Implementa l'interfaccia \texttt{ISecurityStrategy} implementando la strategia di crittografia, ovvero adottando l'algoritmo AES a 128 bit scelto dal team.
 	\item{\scshape\bfseries Componenti che ne fanno uso}
 		\begin{itemize}[noitemsep,nolistsep]
 			\item[-] \textsf{CS04 -- Gestione autenticazione}
@@ -1780,7 +1768,7 @@ Classe \inglese{transfer object} che rappresenta una voce nella lista delle chia
 \item \texttt{LoginController}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-\textit{Controller} che ha il compito di autorizzare l'accesso al sistema \caName di un determinato utente precedentemente iscritto. 
+\textit{Controller} che ha il compito di autorizzare l'accesso al sistema \caName{} di un determinato utente precedentemente iscritto. 
   \item{\scshape\bfseries Componenti che ne fanno uso}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS04 -- Gestione autenticazione}
@@ -1792,7 +1780,7 @@ Classe \inglese{transfer object} che rappresenta una voce nella lista delle chia
 \item \texttt{LogoutController}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-\textit{Controller} che ha il compito di terminare l'accesso al sistema \caName da parte di un determinato utente precedentemente autenticato. 
+\textit{Controller} che ha il compito di terminare l'accesso al sistema \caName{} da parte di un determinato utente precedentemente autenticato. 
   \item{\scshape\bfseries Componenti che ne fanno uso}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CS04 -- Gestione autenticazione}
@@ -1842,7 +1830,8 @@ Classe \inglese{transfer object} che rappresenta una voce nella lista delle chia
 \end{figure}
 
 Il diagramma in figura \ref{fig:sottoarchserver} rappresenta solo ed esclusivamente le classi definite in sede di progettazione architetturale e non riporta invece tutte le interfacce/classi appartenenti a librerie esterne (ad es. \texttt{javax.servlet.http.HttpServlet}) che sono state estese o implementate nella sotto-architettura server. Tali informazioni, che avrebbero appesantito ulteriormente un diagramma già di grandi dimensioni sono invece riportate nei diagrammi dei singoli componenti.
-Inoltre il diagramma non riporta le dipendenze.
+Inoltre il diagramma non riporta le dipendenze che sussistono tra i \inglese{controller} di un determinato sottopackage e le classi/interfacce che appartengono al package padre.
+Infine non sono riportate le frecce che rappresentano la relazione di estensione dell'interfaccia \texttt{IMyTalkObjec} e della classe astratta\texttt{AbstractController}.
 \clearpage
 
 \section{Architettura \texttt{mytalk.clientpresenter}}\label{sec:clientpresenter}
