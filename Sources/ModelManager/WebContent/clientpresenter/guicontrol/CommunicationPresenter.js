@@ -72,24 +72,36 @@ function CommunicationPanelPresenter() {
         // crea l'area di testo
         var textArea = document.createElement("textarea");
         textArea.id = "chatText";
+        textArea.readOnly = true;
         form.appendChild(textArea);
         // crea il campo per l'immissioen del testo
         var input = document.createElement("input");
         input.id = "text";
         input.name = "text";
         form.appendChild(input);
+        input.onkeyup = function(){
+            if (this.value != ""){
+                document.getElementById("sendButton").disabled = false;
+            }else{
+                document.getElementById("sendButton").disabled = true   ;
+            }
+        }
 
         // crea il pulsante
         var sendButton = document.createElement("button");
+        sendButton.id = "sendButton";
+        sendButton.disabled = true;
         sendButton.appendChild(document.createTextNode("Invia"));
 
         // aggancia la funzione di callback al pulsante
-        sendButton.onclick = function() {
+        sendButton.onclick = function(evt) {
+            evt.preventDefault();
             var text = input.value;
-            textArea.value += (text + "\n");
             sendMessage.contact = user;
             sendMessage.messageText = text;
             document.dispatchEvent(sendMessage);
+            input.value = "";
+            this.disabled = true;
         };
         form.appendChild(sendButton);
 
@@ -325,7 +337,7 @@ function CommunicationPanelPresenter() {
      **************************************************************************/
     document.addEventListener("showCommunicationPanel", onShowCommunicationPanel);
     document.addEventListener("appendMessageToChat", function(evt) {
-        onAppendMessageToChat(evt.user, evt.message, evt.IAmSender);
+        onAppendMessageToChat(evt.user, evt.text, evt.IAmSender);
     })
     document.addEventListener("startRinging", function(evt){
         onStartRinging(evt.evento);
