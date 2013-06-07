@@ -2,6 +2,7 @@ package org.softwaresynthesis.mytalk.server.abook.controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -137,4 +138,45 @@ public class AccountSettingsControllerTest {
 		verify(tester).createFileOutputStream(anyString());
 	}
 
+	/**
+	 * Verifica il comportamento del metodo doAction nel momento in cui viene
+	 * invocato con una richiesta contenente tutti i parametri necessari per
+	 * portare a termine con successo la richiesta ma non prevede
+	 * l'aggiornamento dell'immagine del profilo. Il test verifica che il testo
+	 * stampato sulla pagina di risposta corrisponda alla stringa 'true', che
+	 * siano recuperate le informazioni dalla richiesta in maniera corretta, che
+	 * sia ottenuto un riferimento all'utente richiedente tramite il sistema di
+	 * persistenza, che siano impostate le proprietà di quest'ultimo secondo i
+	 * parametri della richiesta e che infine sia effettuato l'aggiornamento del
+	 * record corrispondente nel database. Il test verifica inoltre che non sia
+	 * salvato sullo spazio del server alcun file immagine.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testUpdateWithoutPart() throws Exception {
+		// nessuna immagine associata alla richiesta
+		when(request.getPart("picturePath")).thenReturn(null);
+
+		// invoca il metodo da testare
+		tester.doAction(request, response);
+
+		// verifica l'output
+		writer.flush();
+		String responseText = writer.toString();
+		assertEquals("true", responseText);
+
+		// verifica il corretto utilizzo dei mock
+		verify(response).getWriter();
+		verify(request).getParameter("name");
+		verify(request).getParameter("surname");
+		verify(request).getPart("picturePath");
+		verify(dao).getUserData(username);
+		verify(user).setName(newName);
+		verify(user).setSurname(newSurname);
+		verify(user, never()).setPath(anyString());
+		verify(dao).update(user);
+		verify(tester, never()).createFileOutputStream(anyString());
+	}
 }
