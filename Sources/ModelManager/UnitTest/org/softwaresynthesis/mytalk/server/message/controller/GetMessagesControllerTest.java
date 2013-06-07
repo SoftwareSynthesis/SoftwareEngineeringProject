@@ -120,7 +120,7 @@ public class GetMessagesControllerTest {
 		writer.flush();
 		String responseText = writer.toString();
 		String toCompare = String
-				.format("[{\"id\":\"%d\", \"sender\":\"%d\", \"status\":\"%s\", \"video\":\"%s\", \"date\":\"%s\", \"src\":\"%s\"}]",
+				.format("[{\"id\":\"%d\", \"sender\":\"%d\", \"status\":%s, \"video\":\"%s\", \"date\":\"%s\", \"src\":\"%s\"}]",
 						messageId, senderId, isNew, isVideo, messageDate,
 						"Secretariat/" + messageId + ".wav");
 		assertEquals(toCompare, responseText);

@@ -36,6 +36,7 @@ import org.softwaresynthesis.mytalk.server.message.IMessage;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class DataPersistanceManagerTest {
+	private final Long userId = 1L;
 	private DataPersistanceManager tester;
 	@Mock
 	private IMyTalkObject object;
@@ -73,6 +74,8 @@ public class DataPersistanceManagerTest {
 		when(factory.getDeleteUtil(manager)).thenReturn(modifier);
 		when(factory.getInsertUtil(manager)).thenReturn(modifier);
 		when(factory.getUpdateUtil(manager)).thenReturn(modifier);
+		// comportamento dell'utente
+		when(user.getId()).thenReturn(userId);
 		// inizializza l'oggetto da testare
 		tester = new DataPersistanceManager(manager, factory);
 	}
@@ -243,7 +246,7 @@ public class DataPersistanceManagerTest {
 		// id del gruppo
 		Long groupId = 1L;
 		// query che deve essere eseguita
-		String query = "from Groups as g where g.id = " + "'" + groupId + "'";
+		String query = "from Group as g where g.id = " + "'" + groupId + "'";
 		// comportamento dei mock
 		when(list.get(0)).thenReturn(group);
 		when(getter.execute(query)).thenReturn(list);
@@ -280,7 +283,7 @@ public class DataPersistanceManagerTest {
 		// id del gruppo
 		Long groupId = 1L;
 		// query che deve essere eseguita
-		String query = "from Groups as g where g.id = " + "'" + groupId + "'";
+		String query = "from Group as g where g.id = " + "'" + groupId + "'";
 		// comportamento dei mock
 		when(list.isEmpty()).thenReturn(true);
 		when(getter.execute(query)).thenReturn(list);
@@ -314,7 +317,7 @@ public class DataPersistanceManagerTest {
 		// id del gruppo
 		Long groupId = 1L;
 		// query che deve essere eseguita
-		String query = "from Groups as g where g.id = " + "'" + groupId + "'";
+		String query = "from Group as g where g.id = " + "'" + groupId + "'";
 		// impedisce il recupero della collezione
 		when(getter.execute(query)).thenReturn(null);
 
@@ -344,7 +347,7 @@ public class DataPersistanceManagerTest {
 	@Test
 	public void testGetGroupIUserData() {
 		// query che deve essere eseguita
-		String query = "from Groups as g where g.owner = " + "'" + user + "'";
+		String query = "from Group as g where g.owner.id = " + userId;
 		// comportamento dei mock
 		when(list.get(0)).thenReturn(group);
 		when(getter.execute(query)).thenReturn(list);
@@ -375,7 +378,7 @@ public class DataPersistanceManagerTest {
 	@Test
 	public void testGetGroupIUserDataEmpty() {
 		// query che deve essere eseguita
-		String query = "from Groups as g where g.owner = " + "'" + user + "'";
+		String query = "from Group as g where g.owner.id = " + userId;
 		// comportamento dei mock
 		when(list.isEmpty()).thenReturn(true);
 		when(getter.execute(query)).thenReturn(list);
@@ -404,7 +407,7 @@ public class DataPersistanceManagerTest {
 	@Test
 	public void testGetGroupIUserDataNoCollection() {
 		// query che deve essere eseguita
-		String query = "from Groups as g where g.owner = " + "'" + user + "'";
+		String query = "from Group as g where g.owner.id = " + userId;
 		// impedisce il recupero della collezione
 		when(getter.execute(query)).thenReturn(null);
 
@@ -435,7 +438,7 @@ public class DataPersistanceManagerTest {
 		// id dell'ultimo inserimento in Messages
 		Long lastId = 1L;
 		// query da eseguire
-		String query = "max(id) from Messages";
+		String query = "select max(message.id) from Message message";
 		// ignoriamo il metodo-portoghese
 		when(getter.uniqueResult(query)).thenReturn(lastId);
 
@@ -461,15 +464,15 @@ public class DataPersistanceManagerTest {
 	 * @version 2.0
 	 */
 	@Test
-	public void testGetMessageNewKeyWithError() {
+	public void testGetMessageNewKeyWithNoMessages() {
 		// query da eseguire
-		String query = "max(id) from Messages";
+		String query = "select max(message.id) from Message message";
 		// impedisce l'esecuzione di uniqueResult
 		when(getter.uniqueResult(query)).thenReturn(null);
 
 		// invoca il metodo da testare
 		Long result = tester.getMessageNewKey();
-		assertNull(result);
+		assertEquals(result, (Object) 1L);
 
 		// verifica il corretto utilizzo dei mock
 		verify(getter).uniqueResult(query);
@@ -494,7 +497,7 @@ public class DataPersistanceManagerTest {
 		// identificativo di prova
 		Long id = 1L;
 		// query che deve essere eseguita
-		String query = "from Messages as m where m.id = " + "'" + id + "'";
+		String query = "from Message as m where m.id = " + "'" + id + "'";
 		// comportamento dei mock
 		when(list.get(0)).thenReturn(message);
 		when(getter.execute(query)).thenReturn(list);
@@ -531,7 +534,7 @@ public class DataPersistanceManagerTest {
 		// identificativo di prova
 		Long id = 1L;
 		// query che deve essere eseguita
-		String query = "from Messages as m where m.id = " + "'" + id + "'";
+		String query = "from Message as m where m.id = " + "'" + id + "'";
 		// comportamento dei mock
 		when(list.isEmpty()).thenReturn(true);
 		when(getter.execute(query)).thenReturn(list);
@@ -565,7 +568,7 @@ public class DataPersistanceManagerTest {
 		// identificativo di prova
 		Long id = 1L;
 		// query che deve essere eseguita
-		String query = "from Messages as m where m.id = " + "'" + id + "'";
+		String query = "from Message as m where m.id = " + "'" + id + "'";
 		// impedisce il recupero della lista
 		when(getter.execute(query)).thenReturn(null);
 
@@ -597,8 +600,7 @@ public class DataPersistanceManagerTest {
 	@Test
 	public void testGetMessages() {
 		// query da eseguire
-		String query = "from Messages as m where m.receiver = " + "'" + user
-				+ "'";
+		String query = "from Message as m where m.receiver.id = " + userId;
 		// comportamento dei mock
 		when(getter.execute(query)).thenReturn(list);
 
@@ -628,8 +630,7 @@ public class DataPersistanceManagerTest {
 	@Test
 	public void testGetMessagesEmpty() {
 		// query da eseguire
-		String query = "from Messages as m where m.receiver = " + "'" + user
-				+ "'";
+		String query = "from Message as m where m.receiver.id = " + userId;
 		// comportamento dei mock
 		when(getter.execute(query)).thenReturn(list);
 		when(list.isEmpty()).thenReturn(true);
@@ -658,8 +659,7 @@ public class DataPersistanceManagerTest {
 	@Test
 	public void testGetMessagesNoCollection() {
 		// query da eseguire
-		String query = "from Messages as m where m.receiver = " + "'" + user
-				+ "'";
+		String query = "from Message as m where m.receiver.id = " + userId;
 		// impedisce il recupero della collezione
 		when(getter.execute(query)).thenReturn(null);
 
