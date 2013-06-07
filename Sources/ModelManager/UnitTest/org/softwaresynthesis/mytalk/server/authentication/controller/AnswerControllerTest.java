@@ -154,7 +154,10 @@ public class AnswerControllerTest {
 				msg.getRecipients(RecipientType.TO)[0].toString());
 		String recoveredPassword = ((MimeMultipart) msg.getContent())
 				.getBodyPart(0).getContent().toString();
-		assertEquals(password, recoveredPassword);
+		assertEquals(
+				"Messaggio automatico per il recuepero password del sistema MyTalk.\n"
+						+ "Nome utente: indirizzo5@dominio.it\n"
+						+ "Password: panettone", recoveredPassword);
 	}
 
 	/**
