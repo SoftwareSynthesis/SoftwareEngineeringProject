@@ -3,6 +3,7 @@ package org.softwaresynthesis.mytalk.server.message.controller;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
+import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -34,6 +35,7 @@ import org.softwaresynthesis.mytalk.server.message.IMessage;
 @RunWith(MockitoJUnitRunner.class)
 public class UpdateMessageControllerTest {
 	private final String username = "indirizzo5@dominio.it";
+	private final Long userId = 1L;
 	private final Long messageId = 1L;
 	private Writer writer;
 	private UpdateMessageController tester;
@@ -57,6 +59,7 @@ public class UpdateMessageControllerTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
+		when(user.getId()).thenReturn(userId);
 		// comportamento del messaggio
 		when(message.getReceiver()).thenReturn(user);
 		// comportamento del gestore della persistenza
@@ -97,7 +100,7 @@ public class UpdateMessageControllerTest {
 	@Test
 	public void testSetNewCorrectMessage() throws Exception {
 		// il messaggio è da impostare come non letto
-		when(request.getParameter("valueToSet")).thenReturn("true");
+		when(request.getParameter("read")).thenReturn("true");
 
 		// invoca il metodo da testare
 		tester.doAction(request, response);
@@ -110,7 +113,7 @@ public class UpdateMessageControllerTest {
 		// verifica il corretto utilizzo dei mock
 		verify(response).getWriter();
 		verify(request).getParameter("idMessage");
-		verify(request).getParameter("valueToSet");
+		verify(request).getParameter("read");
 		verify(dao).getUserData(username);
 		verify(dao).getMessage(messageId);
 		verify(message).setNewer(true);
@@ -132,7 +135,7 @@ public class UpdateMessageControllerTest {
 	@Test
 	public void testSetNotNewCorrectMessage() throws Exception {
 		// il messaggio è da impostare come non letto
-		when(request.getParameter("valueToSet")).thenReturn("false");
+		when(request.getParameter("read")).thenReturn("false");
 
 		// invoca il metodo da testare
 		tester.doAction(request, response);
@@ -145,7 +148,7 @@ public class UpdateMessageControllerTest {
 		// verifica il corretto utilizzo dei mock
 		verify(response).getWriter();
 		verify(request).getParameter("idMessage");
-		verify(request).getParameter("valueToSet");
+		verify(request).getParameter("read");
 		verify(dao).getUserData(username);
 		verify(dao).getUserData(username);
 		verify(dao).getMessage(messageId);
@@ -167,9 +170,10 @@ public class UpdateMessageControllerTest {
 	 */
 	@Test
 	public void testUpdateNotOwnedMessage() throws Exception {
-		when(request.getParameter("valueToSet")).thenReturn("true");
+		when(request.getParameter("read")).thenReturn("true");
 		// il messaggio non appartiene a chi manda la richiesta
 		IUserData other = mock(IUserData.class);
+		when(other.getId()).thenReturn(-1L);
 		when(message.getReceiver()).thenReturn(other);
 
 		// invoca il metodo da testare
@@ -183,7 +187,7 @@ public class UpdateMessageControllerTest {
 		// verifica il corretto utilizzo dei mock
 		verify(response).getWriter();
 		verify(request).getParameter("idMessage");
-		verify(request).getParameter("valueToSet");
+		verify(request).getParameter("read");
 		verify(dao).getUserData(username);
 		verify(dao).getMessage(messageId);
 		verify(message).getReceiver();
@@ -220,9 +224,9 @@ public class UpdateMessageControllerTest {
 		// verifica il corretto utilizzo dei mock
 		verify(response).getWriter();
 		verify(request).getParameter("idMessage");
-		verify(request).getParameter("valueToSet");
+		verify(request).getParameter("read");
 		verify(dao).getUserData(username);
-		verify(dao).getMessage(messageId);
+		verify(dao, never()).getMessage(anyLong());
 		verify(dao, never()).update(any(IMessage.class));
 		verifyZeroInteractions(message);
 	}
@@ -241,7 +245,7 @@ public class UpdateMessageControllerTest {
 	@Test
 	public void testWrongData() throws Exception {
 		// manca un parametro necessario nella richiesta
-		when(request.getParameter("valueToSet")).thenReturn(null);
+		when(request.getParameter("read")).thenReturn(null);
 
 		// invoca il metodo da testare
 		tester.doAction(request, response);
@@ -254,7 +258,7 @@ public class UpdateMessageControllerTest {
 		// verifica il corretto utilizzo dei mock
 		verify(response).getWriter();
 		verify(request).getParameter("idMessage");
-		verify(request).getParameter("valueToSet");
+		verify(request).getParameter("read");
 		verify(dao, never()).getMessage(messageId);
 		verify(dao, never()).update(any(IMessage.class));
 		verifyZeroInteractions(message);
