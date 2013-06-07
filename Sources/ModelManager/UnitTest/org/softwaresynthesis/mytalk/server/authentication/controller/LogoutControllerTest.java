@@ -2,6 +2,7 @@ package org.softwaresynthesis.mytalk.server.authentication.controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
@@ -166,7 +167,7 @@ public class LogoutControllerTest {
 		assertEquals("true", responseText);
 		writerOutbound.flush();
 		String message = writerOutbound.toString();
-		assertEquals(message, "5|" + userId + "|offline");
+		assertEquals("5|" + userId + "|offline", message);
 		assertFalse(clients.containsKey(userId));
 
 		// verifica il corretto utilizzo dei mock
@@ -212,6 +213,84 @@ public class LogoutControllerTest {
 		verify(session, never()).getAttribute(anyString());
 		verify(session, never()).invalidate();
 		verify(context, never()).logout();
+		verify(response).getWriter();
+		verify(dao).getUserData(username);
+		verify(user).getAddressBook();
+		verify(entry).getContact();
+		verify(contact).getId();
+	}
+
+	/**
+	 * Verifica il comportamento del metodo doAction nel momento in cui anche se
+	 * è possibile effettuare il logout non è più aperto il canale di
+	 * connessione con il client che da cui proviene la richiesta di
+	 * disconnessione.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testLogoutWithoutMyWebSocket() throws Exception {
+		// manca la WebSocket dell'utente
+		clients.remove(userId);
+		// invoca il metodo da testare
+		tester.doAction(request, response);
+
+		// verifica l'output
+		writer.flush();
+		String responseText = writer.toString();
+		assertEquals("true", responseText);
+		writerOutbound.flush();
+		String message = writerOutbound.toString();
+		assertEquals(message, "5|" + userId + "|offline");
+		assertFalse(clients.containsKey(userId));
+
+		// verifica il corretto utilizzo dei mock
+		verify(request).getSession(false);
+		verify(request, never()).getSession(true);
+		verify(session).getAttribute("context");
+		verify(session).invalidate();
+		verify(context).logout();
+		verify(response).getWriter();
+		verify(dao).getUserData(username);
+		verify(user).getAddressBook();
+		verify(entry).getContact();
+		verify(contact).getId();
+	}
+
+	/**
+	 * Verifica il comportamento del metodo doAction nel momento in cui anche se
+	 * è possibile effettuare il logout non è più aperto il canale di
+	 * connessione con uno dei client che appartengono a un contatto nella
+	 * rubrica dell'utente da cui proviene la richiesta di disconnessione. Il
+	 * test verifica che in questo caso non sia inviato alcun messaggio sul
+	 * canale di comunicazione aperto verso il client.
+	 * 
+	 * @author Diego Beraldin
+	 * @version 2.0
+	 */
+	@Test
+	public void testLogoutWithoutOtherWebSocket() throws Exception {
+		// manca la WebSocket dell'utente
+		clients.remove(contactId);
+		// invoca il metodo da testare
+		tester.doAction(request, response);
+
+		// verifica l'output
+		writer.flush();
+		String responseText = writer.toString();
+		assertEquals("true", responseText);
+		writerOutbound.flush();
+		String message = writerOutbound.toString();
+		assertTrue(message.isEmpty());
+		assertFalse(clients.containsKey(userId));
+
+		// verifica il corretto utilizzo dei mock
+		verify(request).getSession(false);
+		verify(request, never()).getSession(true);
+		verify(session).getAttribute("context");
+		verify(session).invalidate();
+		verify(context).logout();
 		verify(response).getWriter();
 		verify(dao).getUserData(username);
 		verify(user).getAddressBook();
