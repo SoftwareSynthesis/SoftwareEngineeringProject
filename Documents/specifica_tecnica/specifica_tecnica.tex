@@ -840,7 +840,7 @@ I messaggi in segreteria, che possono essere di natura audio o audio/video, corr
 
 La collezione di messaggi aventi un determinato utente come destinatario può essere ottenuta tramite un'operazione dichiarata nell'interfaccia \texttt{abook.IUserData}.
 
-Per consentire ai client di accedere alle funzionalità gestite da questo componente sono state predisposte dei \inglese{controller} e saranno descritti con maggiori dettagli nella sezione \vref{sec:cs07}. Al fine di comunicare le funzionalità proposte viene di seguito riportata la lista dei \inglese{controller} che comunicano con tale componente:
+Per consentire ai client di accedere alle funzionalità gestite da questo componente sono stati predisposte dei \inglese{controller} e saranno descritti con maggiori dettagli nella sezione \vref{sec:cs07}. Al fine di comunicare le funzionalità proposte viene di seguito riportata la lista dei \inglese{controller} che comunicano con tale componente:
 
 \begin{itemize}
 	\item \texttt{message.controller.AddMessageController}: viene utilizzata da un client \textit{A} per lasciare un messaggio nella segreteria di un client \textit{B};
@@ -852,7 +852,7 @@ Per consentire ai client di accedere alle funzionalità gestite da questo compon
 	\item{\scshape\bfseries Diagramma delle classi:}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=.45\textwidth]{class_gestione_segreteria}
+  \includegraphics[width=0.5\textwidth]{class_gestione_segreteria}
   \caption{Diagramma delle classi - Gestione segreteria}\label{fig:gestionesegreteria}
 \end{figure}	
 	
@@ -870,7 +870,7 @@ Per consentire ai client di accedere alle funzionalità gestite da questo compon
   \item{\scshape\bfseries Descrizione:}\\
 Le classi di questo componente hanno il ruolo di definire una strutturata per definire lo storico delle chiamate di un utente e, conseguentemente, l'accesso ai dati relativi a una chiamata (data, mittente e $n\geq1$ destinatari della chiamata).
 
-La componente contiene l'interfaccia \texttt{ICall} e la sua implementazione lato server \texttt{Call}, che rappresenta il \inglese{transfer object} per la rappresentazione della chiamata che deve essere mappata nel database. Ogni chiamata \texttt{ICall} è associata ad un istanza di un oggetto implementante \texttt{ICallList}. Nel nostro caso tale oggetto sarà un istanza di \texttt{CallList}.
+La componente contiene l'interfaccia \texttt{ICall} e la sua implementazione lato server \texttt{Call}, che rappresenta il \inglese{transfer object} per la rappresentazione della chiamata che deve essere mappata nel database. Ogni chiamata \texttt{ICall} è associata ad un'istanza di un oggetto implementante \texttt{ICallList}. Nel nostro caso tale oggetto sarà un'istanza di \texttt{CallList}.
 
 Infine, allo scopo di consentire ai client l'accesso alle funzionalità di questo componente, è stata prevista un \inglese{controller} \texttt{call.controller.GetCallsController} il cui ruolo sarà descritto con maggiori dettagli nella sezione \vref{sec:cs07}.
 
