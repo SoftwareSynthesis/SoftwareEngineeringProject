@@ -10,6 +10,8 @@ import javax.security.auth.login.LoginContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.apache.catalina.websocket.WsOutbound;
 import org.softwaresynthesis.mytalk.server.AbstractController;
 import org.softwaresynthesis.mytalk.server.ControllerManager;
 import org.softwaresynthesis.mytalk.server.abook.IAddressBookEntry;
@@ -24,7 +26,7 @@ import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
  * @author 	Andrea Meneghinello
  * @version	3.0
  */
-public final class LogoutController extends AbstractController 
+public class LogoutController extends AbstractController 
 {
 	/**
 	 * Esegue l'operazione di logout dal
@@ -48,7 +50,7 @@ public final class LogoutController extends AbstractController
 		PushInbound pi = null;
 		try
 		{
-			dao = new DataPersistanceManager();
+			dao = getDAOFactory();
 			email = getUserMail();
 			user = dao.getUserData(email);
 			id = user.getId();
@@ -61,7 +63,7 @@ public final class LogoutController extends AbstractController
 				if (pi != null)
 				{
 					String msg = "5|" + id + "|offline";
-					pi.getWsOutbound().writeTextMessage(CharBuffer.wrap(msg));
+					getWsOutbound(pi).writeTextMessage(CharBuffer.wrap(msg));
 				}
 			}
 			client = ControllerManager.findClient(id);
@@ -87,5 +89,9 @@ public final class LogoutController extends AbstractController
 			writer = response.getWriter();
 			writer.write(result);
 		}
+	}
+	
+	WsOutbound getWsOutbound(PushInbound pi) {
+		return pi.getWsOutbound();
 	}
 }
