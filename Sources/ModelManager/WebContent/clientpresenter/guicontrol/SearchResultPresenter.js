@@ -131,6 +131,11 @@ function SearchResultPanelPresenter(url) {
 	this.handleResult = function(contacts) {
 		var userList = document.getElementById("userList");
 		userList.innerHTML = "";
+		if (Object.keys(contacts).length == 0) {
+		    var noContactAlertListItel = document.createElement("li");
+            noContactAlertListItel.appendChild(document.createTextNode("Nessun risultato"));
+            userList.appendChild(noContactAlertListItel);
+		}
 		for ( var con in contacts) {
 			addListItem(contacts[con]);
 		}

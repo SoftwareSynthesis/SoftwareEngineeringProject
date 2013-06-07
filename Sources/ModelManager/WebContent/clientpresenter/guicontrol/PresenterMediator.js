@@ -73,18 +73,22 @@ function PresenterMediator() {
      * @author Riccardo Tresoldi
      */
     this.createNameLabel = function(contact) {
-        var name = "";
-        if (contact.name != "null")
-            name += contact.name;
-        if (contact.surname != "null") {
-            if (name != "")
-                name += " ";
-            name += contact.surname;
+        if (contact) {
+            var name = "";
+            if (contact.name != "null")
+                name += contact.name;
+            if (contact.surname != "null") {
+                if (name != "")
+                    name += " ";
+                name += contact.surname;
+            }
+            if (name == "") {
+                name += contact.email;
+            }
+            return name;
+        } else {
+            return "Sconosciuto";
         }
-        if (name == "") {
-            name += contact.email;
-        }
-        return name;
     };
 
     /**
@@ -242,14 +246,14 @@ function PresenterMediator() {
      * @param {String} key nome del presenter di cui richiamare la view
      * @returns {HTMLDivElement} elemento HTML da agganciare al documento
      * @author Riccardo Tresoldi
-     */    
+     */
     this.getView = function(key) {
         // ottengo il frammento di codice HTML dalla view
         var viewRequest = new XMLHttpRequest();
         viewRequest.open("GET", "clientview/" + View[key], false);
         viewRequest.send();
         onLoadedView(key, viewRequest.response);
-    }; 
+    };
 
     /***************************************************************************
      * HANDLER EVENTI MEDIATOR
