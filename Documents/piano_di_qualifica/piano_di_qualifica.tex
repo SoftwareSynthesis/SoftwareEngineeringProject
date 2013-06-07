@@ -1784,14 +1784,12 @@ Si controlla inoltre che il metodo \texttt{execute} di \texttt{GetUtil} sia rich
 
 \item \texttt{testGetCall()} verifica la possibilità di recuperare una chiamata dal database disponendo del relativo numero identificativo. In particolare, il test assicura che il risultato sia uguale alle attese (in base alla configurazione del \inglese{mock} di \texttt{GetUserDataUtil}), e verifica inoltre il corretto utilizzo dei mock. In particolare, verifica che sia eseguita \textit{esattamente} la query impostata nella variabile \texttt{query} e il fatto che dalla collezione di oggetti ritornata dalla \texttt{execute} del \texttt{GetUtil} sia estratto il primo elemento e che non sia \textit{mai} invocato \texttt{get} con argomenti superiori allo zero, che la lista sia scorsa solo se non è vuota e che la \texttt{UtilFactory} sia utilizzata per procurarsi la corretta istanza di \texttt{GetUtil}.
 
-\item \texttt{testGetCallEmpty()} %TODO: DA SCRIVERE
+\item \texttt{testGetCallEmpty()} verifica il comportamento della classe nel momento in cui si tenta di recuperare una chiamata con un id inesistente (cioè la \textit{query} restituisce un insieme vuoto).
+Il test assicura che in questo caso la collezione restituita sia, come atteso, il riferimento nullo, inoltre verifica il corretto utilizzo dei \textit{mock}, cioè che sia utilizzata la classe \textit{factory} per ottenere il \texttt{GetUtil} corretto, che il metodo \texttt{execute} di quest'ultimo sia invocato \textit{esattamente} con la stringa impostata nella variabile \textit{query}, che si controlli se la collezione restituita è vuota e, dal momento che appare come tale, che non sia \textit{mai} invocato il metodo \texttt{get} su quest'ultima con il parametro intero.
 
-\item \texttt{testGetCallNoCollection()} %TODO: DA SCRIVERE
-
+\item \texttt{testGetCallNoCollection()} verifica il comportamento della classe nel momento in cui è richiesto di recuperare una chiamata sulla base del numero identificativo di quest'ultimo ma avviene un errore nel sistema di persistenza dei dati e il sottotipo di \texttt{GetUtil} che effettua l'operazione di \texttt{select}, invece di una collezione di \textit{transfer object}, restituisce un riferimento nullo. Il test verifica che in questo caso anche la chiamata di metodo \texttt{getGroup} restituisca un riferimento nullo.
 \end{itemize} 
 \textbf{Risultato del test:} superato con successo.
-
-%TODO: ARRIVATO QUI
 
 \item \textbf{TM10.02: SessionManagerTest}\\
 \textbf{Verifica la Classe:} \texttt{SessionManager}.\\
@@ -1893,8 +1891,6 @@ La verifica si basa sul controllo della mancata esecuzione dei metodi \texttt{ro
 \item \texttt{testExecuteUnableToPerformQuery()} verifica il corretto comportamento del metodo \texttt{execute} nel caso in cui al momento di effettuare la query dovesse verificarsi di un evento eccezionale. In particolare, viene controllato che non sia mai invocato il metodo \texttt{commit()} sulla transazione e che sia invece invocato il \texttt{rollback()}.Inoltre è garantito che durante l'esecuzione del metodo sia aperta una sessione di interazione con il database e che quest'ultima sia finalizzata in modo corretto. 
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
-
-
 
 \item \textbf{TM11.05: InsertUtilTest}\\
 \textbf{Verifica la Classe:} \texttt{InsertUtil}.\\
@@ -2747,7 +2743,7 @@ Allo scopo di facilitare la consultazione di tali test sono stati evidenziati i 
 \textbf{Descrizione}: il test di questo requisito è intrinseco nella correttezza dei test TUFF16.0.0.\\
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{TUFF18.0.0}\\ %TODO: BLACKLIST DA RIVEDERE
+\item \textbf{TUFF18.0.0}\\ 
 \textbf{Verifica il requisito:} \texttt{RUFF18.0.0}, presenza di una \inglese{blacklist}.\\
 \textbf{Descrizione}: tramite un utente \inglese{test} correttamente registrato nel database e autenticato al sistema si ha a disposizione nella rubrica un gruppo denominato \inglese{blacklist} (di \inglese{default}).\\
 \textbf{Risultato del test:} superato con successo.
