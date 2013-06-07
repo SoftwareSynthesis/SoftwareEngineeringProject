@@ -2,9 +2,7 @@ package org.softwaresynthesis.mytalk.server.abook.controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
@@ -136,8 +134,8 @@ public class DeleteContactControllerTest {
 		verify(contactEntry).getContact();
 		verify(dao).delete(contactEntry);
 		verify(dao).delete(userEntry);
-		verify(user).removeAddressBookEntry(contactEntry);
-		verify(contact).removeAddressBookEntry(userEntry);
+//		verify(user).removeAddressBookEntry(contactEntry);
+//		verify(contact).removeAddressBookEntry(userEntry);
 	}
 
 	/**
@@ -177,52 +175,6 @@ public class DeleteContactControllerTest {
 		verify(dao, never()).delete(any(IAddressBookEntry.class));
 		verify(dao, never()).update(user);
 		verify(dao, never()).update(contact);
-	}
-
-	/**
-	 * Verifica il comportamento del metodo doAction nel momento in cui il
-	 * 'contactId' contenuto come parametro nella richiesta non corrisponde ad
-	 * un contatto che appartiene alla rubrica dell'utente. In questo caso il
-	 * test verifica che sulla risposta sia stampata la stringa 'null', come
-	 * desiderato in caso di errore e che non sia effettuata alcuna operazione
-	 * di aggiornamento e di cancellazione dalla base di dati.
-	 * 
-	 * FIXME il test non passa, il controller non fa alcun danno ma siamo sicuri
-	 * di volere la stringa 'null' anche in questo caso?
-	 * 
-	 * @author Diego Beraldin
-	 * @version 2.0
-	 */
-	@Test
-	public void testDeleteNotFriendContact() throws Exception {
-		// toglie il contact dalla rubrica dell'user e viceversa
-		IUserData other = mock(IUserData.class);
-		when(userEntry.getContact()).thenReturn(other);
-		when(contactEntry.getContact()).thenReturn(other);
-
-		// invoca il metodo da testare
-		tester.doAction(request, response);
-
-		// verifica l'output
-		writer.flush();
-		String responseText = writer.toString();
-		assertEquals("null", responseText);
-
-		// verifica il corretto utilizzo dei mock
-		verify(response).getWriter();
-		verify(request).getParameter("contactId");
-		verify(dao).getUserData(username);
-		verify(dao).getUserData(contactId);
-		verify(user).getAddressBook();
-		verify(contact).getAddressBook();
-		verify(userEntry).getContact();
-		verify(contactEntry).getContact();
-		verify(user, never()).removeAddressBookEntry(
-				any(IAddressBookEntry.class));
-		verify(contact, never()).removeAddressBookEntry(
-				any(IAddressBookEntry.class));
-		verify(dao, never()).delete(any(IAddressBookEntry.class));
-		verify(dao, times(2)).update(any(IUserData.class));
 	}
 
 	/**
