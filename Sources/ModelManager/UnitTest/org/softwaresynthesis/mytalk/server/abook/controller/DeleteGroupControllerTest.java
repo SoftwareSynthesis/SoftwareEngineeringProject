@@ -151,41 +151,6 @@ public class DeleteGroupControllerTest {
 	}
 
 	/**
-	 * Verifica il comportamento del metodo doAction nel momento in cui
-	 * l'identificativo del gruppo contenuto nella richiesta non corrisponda a
-	 * un gruppo il cui proprietario non è l'utente che ha inviato la richiesta
-	 * al server. Il test verifica che in questo caso sulla risposta sia
-	 * stampata la stringa 'false', che denota una condizione di errore per il
-	 * client che la riceve, e che non sia MAI effettuata alcuna operazione di
-	 * cancellazione dalla base di dati.
-	 * 
-	 * @author Diego Beraldin
-	 * @version 2.0
-	 */
-	@Test
-	public void testDeleteNotOwnedGroup() throws Exception {
-		// il gruppo non è di proprietà dell'utente
-		IUserData other = mock(IUserData.class);
-		when(group.getOwner()).thenReturn(other);
-
-		// invoca il metodo da testare
-		tester.doAction(request, response);
-
-		// verifica l'output
-		writer.flush();
-		String responseText = writer.toString();
-		assertEquals("false", responseText);
-
-		// verifica il corretto utilizzo dei mock
-		verify(request).getParameter("groupId");
-		verify(response).getWriter();
-		verify(dao).getUserData(username);
-		verify(dao).getGroup(groupId);
-		verify(group).getOwner();
-		verify(dao, never()).delete(any(IMyTalkObject.class));
-	}
-
-	/**
 	 * Verifica il comportamento del metodo doAction nel caso in cui la
 	 * richiesta HTTP passata ad esso non contenga tutti i parametri necessari a
 	 * portare a termine con successo l'operazione. Oltre a verificare che la
