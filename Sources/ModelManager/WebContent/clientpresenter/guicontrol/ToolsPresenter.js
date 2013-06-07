@@ -227,6 +227,7 @@ function ToolsPanelPresenter() {
      */
     function onLogout() {
         communicationcenter.disconnect();
+        document.dispatchEvent("resetChatsObject");
         var request = new XMLHttpRequest();
         request.open("POST", commandURL, false);
         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");

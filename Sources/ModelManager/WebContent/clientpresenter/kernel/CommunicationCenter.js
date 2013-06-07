@@ -190,7 +190,7 @@ function CommunicationCenter() {
                     if ((signal.sdp) == null) {
                         pc.addIceCandidate(new RTCIceCandidate(signal));
                     } else {
-                        //document.dispatchEvent(stopRinging);
+                        document.dispatchEvent(stopRinging);
                         pc.setRemoteDescription(new RTCSessionDescription(signal));
                     }
                 }
@@ -203,7 +203,10 @@ function CommunicationCenter() {
                 document.dispatchEvent(rejectedCall);
             } else if (type == "7") {
                 // ricezione messaggio in chat
-                appendMessageToChat.user = str[1];
+                var user = mediator.getContactById(str[1]);
+                chatStarted.user = user;
+                document.dispatchEvent(chatStarted);
+                appendMessageToChat.user = user;
                 appendMessageToChat.text = str[2];
                 appendMessageToChat.IAmSender = false;
                 document.dispatchEvent(appendMessageToChat);

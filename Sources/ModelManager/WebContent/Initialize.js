@@ -60,6 +60,7 @@ window.onload = function() {
     showGeneralPanel = new CustomEvent("showGeneralPanel");
     // eventi per chat
     chatStarted = new CustomEvent("chatStarted");
+    resetChatsObject = new CustomEvent("resetChatsObject");
     
     
     

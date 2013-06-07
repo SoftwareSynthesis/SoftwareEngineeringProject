@@ -140,11 +140,14 @@ function CommunicationPanelPresenter() {
      */
     // Nella documentazione è onChatAdded
     this.addChat = function(user) {
-        var element = createChatElement(user);
-        chatElements[user.id] = element;
-        var item = createChatItem(user);
-        var ulOpenChat = document.getElementById("ulOpenChat");
-        ulOpenChat.appendChild(item);
+        if (!chatElements[user.id]) {
+            // non è presente nessuna chat con questo utente. la creo
+            var element = createChatElement(user);
+            chatElements[user.id] = element;
+            var item = createChatItem(user);
+            var ulOpenChat = document.getElementById("ulOpenChat");
+            ulOpenChat.appendChild(item);
+        }
     };
 
     /** VIEW
@@ -190,8 +193,8 @@ function CommunicationPanelPresenter() {
         var closeButton = document.getElementById("closeButton");
         closeButton.onclick = function() {
             communicationcenter.endCall();
-            //mediator.addOrRemoveCommunicationToTools();
         };
+        thisPresenter.displayChat();
     };
 
     /** VIEW
@@ -331,6 +334,15 @@ function CommunicationPanelPresenter() {
         thisPresenter.addChat(user);
         thisPresenter.displayChat(user);
     }
+    
+    /**
+     * Gestione dell'azzeramento dell'oggetto che contiene le chat
+     * @version 2.0
+     * @author Riccardo Tresoldi
+     */
+    function onResetChatsObject(){
+        chatElements = new Object();
+    }
 
     /***************************************************************************
      * LISTENER DEGLI EVENTI
@@ -346,4 +358,5 @@ function CommunicationPanelPresenter() {
     document.addEventListener("chatStarted", function(evt){
         onChatStarted(evt.user);
     });
+    document.dispatchEvent("resetChatsObject", onResetChatsObject);
 }
