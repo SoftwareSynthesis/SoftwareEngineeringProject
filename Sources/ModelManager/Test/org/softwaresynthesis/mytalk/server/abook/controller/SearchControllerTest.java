@@ -29,10 +29,11 @@ import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
 @RunWith(MockitoJUnitRunner.class)
 public class SearchControllerTest {
 	private final String searchCriterion = "paperino";
-	private final String someUserName = "paolino";
-	private final String someUserEmail = "paperino@paperopoli.it";
+	private final String someUserName = "paolino", someOtherUserName = "paolo";
+	private final String someUserEmail = "paperino@paperopoli.it",
+			someOtherUserEmail = "paperino2@paperopoli.it";
 	private final String someUserPath = "img/contactImg/Default.png";
-	private final Long someUserId = 1L;
+	private final Long someUserId = 1L, someOtherUserId = 2L;
 	private List<IUserData> userList;
 	private SearchController tester;
 	private Writer writer;
@@ -44,6 +45,8 @@ public class SearchControllerTest {
 	private DataPersistanceManager dao;
 	@Mock
 	private IUserData someUser;
+	@Mock
+	private IUserData someOtherUser;
 
 	@Before
 	public void setUp() throws Exception {
@@ -53,8 +56,14 @@ public class SearchControllerTest {
 		when(someUser.getMail()).thenReturn(someUserEmail);
 		when(someUser.getPath()).thenReturn(someUserPath);
 		when(someUser.getId()).thenReturn(someUserId);
+		when(someOtherUser.getName()).thenReturn(someOtherUserName);
+		when(someOtherUser.getSurname()).thenReturn(searchCriterion);
+		when(someOtherUser.getMail()).thenReturn(someOtherUserEmail);
+		when(someOtherUser.getPath()).thenReturn(someUserPath);
+		when(someOtherUser.getId()).thenReturn(someOtherUserId);
 		userList = new ArrayList<IUserData>();
 		userList.add(someUser);
+		userList.add(someOtherUser);
 		// comportamento del gestore di persistenza
 		when(
 				dao.getUserDatas(searchCriterion, searchCriterion,
@@ -70,7 +79,7 @@ public class SearchControllerTest {
 			protected DataPersistanceManager getDAOFactory() {
 				return dao;
 			}
-			
+
 			@Override
 			String getContactState(IUserData contact) {
 				return "available";
@@ -102,9 +111,12 @@ public class SearchControllerTest {
 		writer.flush();
 		String responseText = writer.toString();
 		String toCompare = String
-				.format("{\"%d\":{\"name\":\"%s\", \"surname\":\"%s\", \"email\":\"%s\", \"id\":\"%d\", \"picturePath\":\"%s\", \"state\":\"%s\", \"blocked\":false}}",
+				.format("{\"%d\":{\"name\":\"%s\", \"surname\":\"%s\", \"email\":\"%s\", \"id\":\"%d\", \"picturePath\":\"%s\", \"state\":\"%s\", \"blocked\":false},\"%d\":{\"name\":\"%s\", \"surname\":\"%s\", \"email\":\"%s\", \"id\":\"%d\", \"picturePath\":\"%s\", \"state\":\"%s\", \"blocked\":false}}",
 						someUserId, someUserName, searchCriterion,
-						someUserEmail, someUserId, someUserPath, "available");
+						someUserEmail, someUserId, someUserPath, "available",
+						someOtherUserId, someOtherUserName, searchCriterion,
+						someOtherUserEmail, someOtherUserId, someUserPath,
+						"available");
 		assertEquals(toCompare, responseText);
 
 		// verifica il corretto utilizzo dei mock
