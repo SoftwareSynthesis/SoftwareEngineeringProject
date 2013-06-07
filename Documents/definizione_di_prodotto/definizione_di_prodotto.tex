@@ -4382,38 +4382,48 @@ Nessuna relazione evidenziata.
 \subsubsection*{Metodi}
 \begin{description}
 
-%TODO da rivedere
   \item{\method{+ call(isCaller: Boolean, contact: Object): void}}\\
-  Metodo che gestisce la vera e propria chiamata tramite WebRTC.\\
-Inizialmente, si inizializza la variabile \memberdata{pc} che è di tipo RTCPeerConnection, oggetto reso disponibile dalle librerie di WebRTC, successivamente si definiscono i comportamenti associati agli eventi di RTCPeerConnection, ossia:
+  Metodo che gestisce la chiamata tramite WebRTC\@. In un primo momento si inizializza la variabile \memberdata{pc} che è di tipo RTCPeerConnection, oggetto reso disponibile dalle librerie di WebRTC dopo aver sollevato un evento \verb'chageMyState' e averne impostato la proprietà \verb'state' alla stringa \verb'"occupied"'.
+  
+  Successivamente dovranno essere definiti i comportamenti della RTCPeerConnection, vale a dire:
   \begin{itemize}
-    \item onicecandidate: evento sollevato quando un nuovo \inglese{peer} si ``candida'' per poter chiamare, viene quindi inviata la propria ``descrizione'' all'altro \inglese{peer}.
-    \item onaddstream: evento scatenato quando viene aggiunto uno \textit{stream} nell'oggetto RTCPeerConnection. In questa situazione, il chiamato riceve lo \textit{stream} del chiamante e lo visualizza nell'apposito tag video. In contemporanea, vengono richiamati i metodi che fanno partire la visualizzazione delle statistiche di chiamata.
-    \item onremovestream: evento sollevato quando viene rimosso uno \textit{stream} nell'oggetto RTCPeerConnection. In questa situazione, colui che effettua questa operazione vuole terminare la chiamata e deve quindi re-inviare la propria descrizione (attraverso il metodo \method{gotDescription()} in modo tale che l'altro \inglese{peer} possa aggiornare la descrizione remota. Vengono richiamati alla fine i metodi che fermano la visualizzazione delle statistiche di chiamata e chiudono il canale di comunicazione tramite la chiamata del metodo \verb'close()' dell'oggetto \memberdata{pc}.
+    \item[--] \texttt{onicecandidate}: gestore di evento che viene richiamato quando un nuovo \inglese{peer} si ``candida'' per poter chiamare, viene quindi inviata la propria descrizione all'altro \inglese{peer} tramite il server, inviando sulla \memberdata{websocket} un messaggio di tipo 2.
+    
+    \item[--] \texttt{onaddstream}: gestore di evento che viene richiamato quando viene aggiunto uno \textit{stream} nell'oggetto RTCPeerConnection. In questa situazione, il chiamato riceve lo \textit{stream} del chiamante e lo visualizza nell'apposito elemento \verb'<video>'. In contemporanea, vengono richiamati i metodi che fanno partire il timer della comunicazione e la visualizzazione delle statistiche di chiamata.
+    
+    \item[--] \texttt{onremovestream}: gestore di evento che viene richiamato quando viene rimosso uno \textit{stream} nell'oggetto RTCPeerConnection. In tal caso dovrà essere sollevato un evento \verb'changeMyState' dopo averne impostato la proprietà \verb'state' a \verb'"available"', fermare lo \inglese{stream} con il metodo \verb'stop()', chiudere la RTCPeerConnection, arrestare i timer e la visualizzazione delle statistiche e riconfigurare gli attributi \verb'src' degli elementi \verb'<video>' nel pannello della comunicazione.
   \end{itemize}
 
-%TODO da rivedere
   \item{\method{+ connect(): void}}\\
-  Metodo utilizzato per la creazione della connessione con il server. Viene inizializzata la variabile \memberdata{websocket} richiamando il costruttore con un parametro (URL del sottotipo di \verb'WebSocketServlet' in ascolto sul server). Successivamente viene specificato il comportamento della WebSocket per determinati eventi quali:
+  Metodo utilizzato per la creazione della connessione WebSocket con il server. A tal fine viene inizializzato il campo dati \memberdata{websocket} richiamando il costruttore con un parametro che identifica l'URL a cui è raggiungibile il sottotipo di \verb'WebSocketServlet' in ascolto sul server.
+  
+  In una fase successiva viene specificato il comportamento della WebSocket per determinati eventi quali:
   \begin{itemize}
-    \item \texttt{onopen}: istruzioni da eseguire quando la WebSocket viene aperta. In questo caso, deve essere inviato alla WebSocket il proprio identificativo utente in modo tale da identificare univocamente il canale aperto con il server.
-    \item \texttt{onclose}: istruzioni da eseguire quando la WebSocket viene chiusa per qualsiasi motivo, notificando il server di tale avvenimento.
-    \item \texttt{onerror}: istruzioni da eseguire quando avviene un errore con la WebSocket. Tale evento verrà notificato all'utente con un messaggio d'errore che descrive l'errore e l'atteggiamento da seguire.
-    \item \texttt{onmessage}: metodo più corposo in quanto gestisce l'unico evento richiamato mentre avviene una comunicazione dal server verso il client. Per diversificare i messaggi ricevuti, si è deciso di rappresentare il messaggio come un array nel quale il primo elemento identifica il tipo di richiesta. In questo modo, avremo tre tipi:
+    \item[--] \texttt{onopen}: gestore di evento che viene richiamato quando la WebSocket viene aperta. In questo caso, deve essere inviato alla WebSocket un messaggio di tipo  1 con il proprio identificativo utente in modo tale da identificare univocamente il canale aperto con il server. Dovrà inoltre essere sollevato un evento identificato dalla stringa \verb'changeMyState' dopo averne impostato la proprietà \verb'state' a \verb'"available"'.
+    \item[--] \texttt{onclose}: gestore di evento che viene richiamato quando la WebSocket viene chiusa per qualsiasi motivo, notificando il server di tale avvenimento.
+    \item[--] \texttt{onerror}: gestore di evento che viene richiamato quando avviene un errore con la WebSocket. Tale evento verrà notificato all'utente con un messaggio d'errore che descrive l'errore e l'atteggiamento da seguire.
+    \item[--] \texttt{onmessage}: tale funzione ha il compito di gestire l'evento richiamato quando giunge un messaggio dal server destinato al client. Per diversificare i messaggi ricevuti, si è deciso di rappresentare il messaggio come un array nel quale il primo elemento identifica il tipo di richiesta.
+    
+    È possibile individuare quattro tipi di messaggi:
     \begin{itemize}
-      \item tipo 2: riceve e gestisce una richiesta di chiamata. Imposta quindi con il metodo della libreria di WebRTC \verb'setRemoteDescription' la descrizione del \inglese{peer} chiamante (secondo elemento dell'array ricevuto) e la comunicazione può iniziare.
-       \item tipo 3: riceve una richiesta con l'identificativo del chiamante come dato. Viene memorizzato nel client in modo tale da conoscere il canale che il chiamante ha aperto con il server per future comunicazioni.
-      \item tipo 5: notifica il cambiamento di stato degli amici. I dati ricevuti contengono l'identificativo dell'utente e relativo nuovo stato, si procede quindi a modificare lo stato dell'utente nella rubrica.
+      \item[-] tipo 2: riceve e gestisce una richiesta di chiamata, estraendo l'oggetto contenuto nella seconda posizione del messaggio in una variabile \verb'signal'.
+      
+      Nel caso in cui si tratti di una chiamata in arrivo (quando la variabile \memberdata{pc} è \verb'null') dovrà essere salvato il \verb'signal' nel campo dati \memberdata{remoteDescriptionPacket} oppure \memberdata{sdpPacket} a seconda del fatto che il \verb'signal' contenga o meno la descrizione del \inglese{peer} chiamante e dovrà inoltre essere visualizzato l'avviso di chiamata.
+      
+      Nel caso invece di una chiamata in uscita, ancora una volta a seconda del fatto che il \verb'signal' contenga o meno la descrizione del \inglese{peer} chiamante, dovrà essere creata una nuova RTCSessionDescription da associare alla RTCPeerConnection tramite il metodo di libreria \verb'setRemoteDescription' oppure, in caso negativo, creare un nuovo RTCIceCandidate da associare alla RTCPeerConnection con il metodo \verb'addIceCandidate'.
+
+       \item[-] tipo 3: riceve una richiesta con l'identificativo del chiamante come dato. Viene memorizzato nel client in modo tale da conoscere il canale che il chiamante ha aperto con il server per future comunicazioni.
+      \item[-] tipo 5: notifica il cambiamento di stato degli amici. I dati ricevuti contengono l'identificativo dell'utente in seconda posizione e il relativo nuovo stato in formato stringa in terza posizione. Dovrà, quindi essere sollevato un evento \verb'changeAddressBooksContactState' dopo averne impostato le due proprietà \verb'idUserChange' e \verb'statusUserChange'.
+      \item[-] tipo 6: il messaggio denota il rifiuto di una chiamata che deve essere gestito sollevando un evento con stringa identificativa \verb'rejectedCall'.
+      \item[-] tipo 7: il messaggio denota l'arrivo di un nuovo messaggio testuale da visualizzare nel pannello delle chat. Dovrà pertanto essere estratto il primo parametro (che corrisponde all'utente coinvolto nella chat) e il secondo parametro (che corrisponde al testo trasmesso) quindi sollevare un evento \verb'appendMessageToChat' dopo averne impostato i relativi parametri.
     \end{itemize}
   \end{itemize}
   
-%TODO da rivedere
   \item{\method{+ disconnect(): void}}\\
-  Metodo utilizzato per disconnettersi dal sistema, tale evento deve essere notificato al server tramite la WebSocket inviando un messaggio di tipo 4 contenente il proprio identificativo.
+  Metodo utilizzato per disconnettersi dal sistema, tale evento deve essere notificato al server tramite la WebSocket inviando un messaggio di tipo 4 al server, chiudendo la WebSocket con il metodo di libreria \verb'close()', azzerando il contenuto della variabile \memberdata{my} e impostando a \verb'null' i valori di \memberdata{pc} e \memberdata{websocket}.
 
-%TODO da rivedere
   \item{\method{+ endCall(): void}}\\
-  Metodo richiamato per terminare una chiamata, a cascata viene richiamato il metodo \verb'removeStream(localstream)' e inviata la nuova descrizione al \inglese{peer} remoto.
+  Metodo richiamato per terminare una chiamata tra due client che ha il compito innanzitutto di sollevare un evento con identificativo \verb'changeMyState' dopo averne impostato la proprietà \verb'state' ad \verb'"available"'. In seguito dovrà essere interrotto e rimosso lo \inglese{stream} associato alla RTCPeerConnection e riconfigurati gli attributi \verb'src' degli elementi \verb'<video>' del pannello per la comunicazione. Dovranno inoltre essere fermati i timer e l'aggiornamento delle statistiche e chiusa la RTCPeerConnection memorizzata nel campo dati \memberdata{pc} dopo un'attesa di 1 secondo.
   
   \item{\method{+ onAcceptCall(contact: Object, onlyAudio: boolean): void}}\\
   Questo gestore di eventi viene richiamato all'avvenuta accettazione di una chiamata in ingresso e ha pertanto il compito di invocare il metodo \method{call} messo a disposizione dalla classe con il primo parametro a \verb'false' e inoltrando i parametri \verb'contact' e \verb'onlyAudio' associati all'evento.
@@ -4431,7 +4441,7 @@ Inizialmente, si inizializza la variabile \memberdata{pc} che è di tipo RTCPeer
   Il gestore dell'evento ha il compito di richiamare il metodo \method{call} messo a disposizione da questa classe con i parametri corretti (in particolare, il primo parametro dovrà essere \verb'true' dal momento che si tratta di una chiamata in uscita). Al fine di permettere la visualizzazione del pannello per l'amministrazione della chiamata dovrà essere sollevato inoltre un evento \verb'showCommunicationPanel'. Per avvisare l'utente dell'avvio della chiamata dovrà inoltre essere sollevato un evento \verb'startRinging', dopo averne impostato correttamente la proprietà \verb'evento' alla stringa \verb'"outcome"'.
   
   \item{\method{+ onRejectCall(caller: Object): void}}\\
-  Questo gestore di eventi è richiamato nel momento in cui il client rifiuta una chiamata in ingresso proveniente da un altro client. A tal fine dovrà essere creato un messaggio nella forma di un array enumerativo la cui prima posizione è occupata dal valore \verb'6' e la seconda posizione dall'identificativo del chiamante. Tale messaggio, convertito in stringa tramite la funzione \verb'JSON.stringify' dovrà essere inviato al server tramite la WebSocket rappresentata dall'attributo \memberdata{ws}.
+  Questo gestore di eventi è richiamato nel momento in cui il client rifiuta una chiamata in ingresso proveniente da un altro client. A tal fine dovrà essere creato un messaggio nella forma di un array enumerativo la cui prima posizione è occupata dal valore \verb'6' e la seconda posizione dall'identificativo del chiamante. Tale messaggio, convertito in stringa tramite la funzione \verb'JSON.stringify' dovrà essere inviato al server tramite la WebSocket rappresentata dall'attributo \memberdata{websocket}.
   
   \item{\method{+ onRejectedCall(): void}}\\
   Questo gestore di evento deve essere richiamato nel momento in cui da parte dell'altro \inglese{peer} coinvolto in una chiamata in uscita giunge un rifiuto della chiamata. Al suo interno dovrà pertanto essere cambiato lo stato dell'utente sollevando un evento \verb'changeMyState' dopo averne impostato la proprietà \verb'state' alla stringa \verb'"available"'.
@@ -4441,7 +4451,7 @@ Inizialmente, si inizializza la variabile \memberdata{pc} che è di tipo RTCPeer
   \item{\method{+ onSendMessage(contact: Object, messageText: String): void}}\\
   Questo gestore di eventi ha il compito di provocare l'invio di un messaggio testuale (corrispondente al secondo parametro) in una chat con l'utente passato come primo parametro.
   
-  A tal fine dovrà essere creato un nuovo array enumerativo avente in prima posizione il numero \verb'7', in seconda posizione l'identificativo del contatto ricevuto come primo parametro e in terza posizione il messaggio da aggiungere. Il messggio, ottenuto invocando la funzione \verb'stringify' sull'array, dovrà quindi essere inviato sulla WebSocket aperta con il server.
+  A tal fine dovrà essere creato un nuovo array enumerativo avente in prima posizione il numero 7, in seconda posizione l'identificativo del contatto ricevuto come primo parametro e in terza posizione il messaggio da aggiungere. Il messggio, ottenuto invocando la funzione \verb'stringify' sull'array, dovrà quindi essere inviato sulla WebSocket aperta con il server.
   
   Per visualizzare il nuovo messaggio nell'interfaccia grafica, dovrà inoltre essere sollevato un evento \verb'appendMessageToChat' dopo averne impostato le proprietà \verb'user' e \verb'text' in base ai parametri ricevuto e la proprietà \verb'amISender', ovviamente, a \verb'true' (dato che si tratta di un messaggio testuale in uscita).
   
