@@ -201,7 +201,7 @@ Nessuna relazione evidenziata.
 \classsection{AbstractController}
 
 \subsubsection*{Funzione}
-Implementazione di \classname{IController}. Classe astratta che rappresenta un generico controller. Richiede la ridefinizione del metodo \method{doAction()} da parte delle classi figlie.
+Implementazione di \classname{IController}. Classe astratta che rappresenta un generico \inglese{controller}. Richiede la ridefinizione del metodo \method{doAction()} da parte delle classi figlie.
 
 \subsubsection*{Relazioni d'uso}
 \begin{itemize}
@@ -235,7 +235,7 @@ Nessun attributo evidenziato
 \classsection{ControllerManager}
 
 \subsubsection*{Funzione}
-Estensione di \texttt{org.apache.catalina.websocket.WebSocketServlet} ed implementazione di \inglese{servlet}. ControllerManager rappresenta l'implementazione del pattern \textit{front controller}. Esso fornisce un unico punto d'accesso al sistema. Tale implementazione avviene definendo la classe come una \inglese{servlet} il cui compito sarà quello di delegare al controller corretto la richiesta inoltrata dal client.
+Estensione di \texttt{org.apache.catalina.websocket.WebSocketServlet} ed implementazione di \inglese{servlet}. ControllerManager rappresenta l'implementazione del pattern \textit{front controller}. Esso fornisce un unico punto d'accesso al sistema. Tale implementazione avviene definendo la classe come una \inglese{servlet} il cui compito sarà quello di delegare al \inglese{controller} corretto la richiesta inoltrata dal client.
 
 \subsubsection*{Relazioni d'uso}
 \begin{itemize}
@@ -270,7 +270,7 @@ Estensione di \texttt{org.apache.catalina.websocket.WebSocketServlet} ed impleme
 	\item{\memberdata{-- clients: Map<Long, PushInbound>}}\\
 	\textit{Map} usata per definire un associazione tra gli utenti connessi (riconosciuti mediante ID) e i \classname{PushInbound} a loro associati.
 	\item{\memberdata{-- controllers: Hashtable<String, String>}}\\
-	\textit{Hashtablet} usata per mappare le associazioni funzionalità-controller associato.
+	\textit{Hashtablet} usata per mappare le associazioni funzionalità-\inglese{controller} associato.
 \end{itemize}
 
 \subsubsection*{Metodi}
@@ -283,7 +283,7 @@ Estensione di \texttt{org.apache.catalina.websocket.WebSocketServlet} ed impleme
 	Metodo usato per ottenere il contenuto del campo \memberdata{controllers}. Il metodo restituisce \memberdata{controllers}.
 	
 	\item{\method{+ createController(classPath: string): IController}}\\
-	Metodo usato per creare una nuova istanza di uno specifico controller a partire dal nome \texttt{classPath}. A tale scopo lo sviluppatore dovrà usare il metodo forName di \texttt{Class}, passando per l'appunto il nome della classe. Successivamente a partire da tale classe, sarà creata un istanza di \classname{IController}. Il metodo termina restituendo l'istanza di \classname{IController}. Si osservi che la firma del metodo dovrà specificare la possibilità che vengano invocate le seguenti eccezioni:
+	Metodo usato per creare una nuova istanza di uno specifico \inglese{controller} a partire dal nome \texttt{classPath}. A tale scopo lo sviluppatore dovrà usare il metodo forName di \texttt{Class}, passando per l'appunto il nome della classe. Successivamente a partire da tale classe, sarà creata un istanza di \classname{IController}. Il metodo termina restituendo l'istanza di \classname{IController}. Si osservi che la firma del metodo dovrà specificare la possibilità che vengano invocate le seguenti eccezioni:
 	\begin{itemize}
 		\item \texttt{ClassNotFoundException}: se la classe non viene trovata dal \texttt{class loader};
 		\item \texttt{IllegalAccessException}: se non si hanno i privilegi di accesso a tale classe;
@@ -293,7 +293,7 @@ Estensione di \texttt{org.apache.catalina.websocket.WebSocketServlet} ed impleme
 	Tali eccezioni possono essere invocate a causa di un errato utilizzo di \texttt{Class}.
 	
 	\item{\method{+ init(configuration: ServletConfiguration): void}}\\
-	Metodo usato per inizializzare la \inglese{servlet} caricando in memoria la lista dei controller. Il metodo inizia richiamando l'\texttt{init} di \texttt{super}. Quindi crea un istanza di \texttt{ResourceBundler} a partire da una chiamata a metodo \texttt{ResorceBundler.getBundler()} (passando come parametro la stringa: ''org.softwaresynthesis.mytalk.server.controllerList''). Il passo successivo consiste nel creare un oggetto di tipo \texttt{Enumeration<String>} (nominato \texttt{keys}), in cui salvare ciò che viene restituito da una chiamata a \texttt{getKeys()} (chiamato a partire dall'istanza di \texttt{ResorceBundler}). A questo punto si attuerà, all'interno di un ciclo \verb|while(keys.hasMoreElements())|, una procedura atta a salvare in controllers le coppie chiave-valore contenute in \texttt{keys}.
+	Metodo usato per inizializzare la \inglese{servlet} caricando in memoria la lista dei \inglese{controller}. Il metodo inizia richiamando l'\texttt{init} di \texttt{super}. Quindi crea un istanza di \texttt{ResourceBundler} a partire da una chiamata a metodo \texttt{ResorceBundler.getBundler()} (passando come parametro la stringa: ''org.softwaresynthesis.mytalk.server.controllerList''). Il passo successivo consiste nel creare un oggetto di tipo \texttt{Enumeration<String>} (nominato \texttt{keys}), in cui salvare ciò che viene restituito da una chiamata a \texttt{getKeys()} (chiamato a partire dall'istanza di \texttt{ResorceBundler}). A questo punto si attuerà, all'interno di un ciclo \verb|while(keys.hasMoreElements())|, una procedura atta a salvare in controllers le coppie chiave-valore contenute in \texttt{keys}.
 	
 	\item{\method{+ destroy(): void}}\\
 	Metodo usato per eliminare il contenuto di \memberdata{controllers}. Si dovrà usare il metodo \texttt{clear()} di \memberdata{controllers}.
@@ -311,7 +311,7 @@ Estensione di \texttt{org.apache.catalina.websocket.WebSocketServlet} ed impleme
 	Il metodo definisce una \texttt{String} result da restituire alla fine del metodo stesso. Dopo la creazione, il metodo cerca di ottenere da \memberdata{clients}, il cliente avente \texttt{id} uguale ad \texttt{identifier}. Quindi se tale client esiste realmente, il metodo procede ottenendo lo stato in cui si trova il client (\texttt{client.getState()}) e richiamando il suo metodo \texttt{toString()}, salva il suo valore in \texttt{result}. Se l'utente con id \texttt{identifier} non esiste in \memberdata{clients}, \texttt{result = ''offline''}. Il metodo termina restituendo result;
 	
 	\item{\method{\# doPost(request: HttpServletRequest, response: HttpServletResponse): void}}\\
-	Metodo \texttt{doPost()} della servlet. Tale metodo è l'unico invocato direttamente dall'esterno da parte di un client, mediante un richiesta \texttt{HttpServletRequest}. Il metodo definisce localmente un \classname{IController} in cui memorizzare il controller a cui delegare l'operazione richiesta dal client (che per l'appunto ha invocato il ControllerManager). All'interno di un costrutto try-catch (nel blocco try), si memorizza l'operazione contenuta in \texttt{request} mediante un \texttt{getParameter(''operation'')}. Tale sintassi è obbligatoria. Quindi se l'operazione impostata è diversa da \inglese{null}, si procede ricercando in \memberdata{controllers} il controller avente come chiave il valore di tipo String specificato come operazione richiesta dall'utente. A questo punto si crea il controller giusto (usando il metodo \method{createController(controllerName)}) e si richiama il suo metodo \texttt{execute()} passando come parametri \texttt{request} e \texttt{response}. I catch del blocco try-catch, atti a definire del blocchi per catturare le eccezioni: 
+	Metodo \texttt{doPost()} della servlet. Tale metodo è l'unico invocato direttamente dall'esterno da parte di un client, mediante un richiesta \texttt{HttpServletRequest}. Il metodo definisce localmente un \classname{IController} in cui memorizzare il \inglese{controller} a cui delegare l'operazione richiesta dal client (che per l'appunto ha invocato il ControllerManager). All'interno di un costrutto try-catch (nel blocco try), si memorizza l'operazione contenuta in \texttt{request} mediante un \texttt{getParameter(''operation'')}. Tale sintassi è obbligatoria. Quindi se l'operazione impostata è diversa da \inglese{null}, si procede ricercando in \memberdata{controllers} il \inglese{controller} avente come chiave il valore di tipo String specificato come operazione richiesta dall'utente. A questo punto si crea il \inglese{controller} giusto (usando il metodo \method{createController(controllerName)}) e si richiama il suo metodo \texttt{execute()} passando come parametri \texttt{request} e \texttt{response}. I catch del blocco try-catch, atti a definire del blocchi per catturare le eccezioni: 
 	\begin{itemize}
 		\item \texttt{ClassNotFoundException};
 		\item \texttt{IllegalAccessException};
@@ -1416,7 +1416,7 @@ Nessun attributo evidenziato
 \classsection{AddInGroupController}
 
 \subsubsection*{Funzione}
-Controller richiamata dal \textit{front controller} per inserire un utente nella propria rubrica, all'interno di un gruppo ben determinato.
+\inglese{Controller} richiamato dal \textit{front controller} per inserire un utente nella propria rubrica, all'interno di un gruppo ben determinato.
 
 \subsubsection*{Relazioni d'uso}
 
@@ -1481,7 +1481,7 @@ Nessun attributo evidenziato
 \classsection{DeleteFromGroupController}
 
 \subsubsection*{Funzione}
-Controller richiamata dal \textit{front controller} per inserire un utente nella propria rubrica, all'interno di un gruppo ben determinato.
+\inglese{Controller} richiamato dal \textit{front controller} per inserire un utente nella propria rubrica, all'interno di un gruppo ben determinato.
 
 \subsubsection*{Relazioni d'uso}
 
@@ -1548,7 +1548,7 @@ Nessun attributo evidenziato
 \classsection{BlockContactController}
 
 \subsubsection*{Funzione}
-Controller richiamata dal \textit{front controller} per bloccare un contatto presente nella propria rubrica.
+\inglese{Controller} richiamato dal \textit{front controller} per bloccare un contatto presente nella propria rubrica.
 
 \subsubsection*{Relazioni d'uso}
 
@@ -1613,7 +1613,7 @@ Nessun attributo evidenziato
 \classsection{UnblockContactController}
 
 \subsubsection*{Funzione}
-Controller richiamata dal \textit{front controller} per sbloccare un contatto presente nella propria rubrica.
+\inglese{Controller} richiamato dal \textit{front controller} per sbloccare un contatto presente nella propria rubrica.
 
 \subsubsection*{Relazioni d'uso}
 
@@ -1677,7 +1677,7 @@ Nessun attributo evidenziato
 \classsection{SearchController}
 
 \subsubsection*{Funzione}
-Controller richiamata dal \textit{front controller} per effettuare una ricerca sulla propria rubrica. La ricerca consiste nell'individuare tutti i contatti che contengono nei campi \texttt{name}, \texttt{surname} o \texttt{email} la parola ricercata. Per eseguire questa procedura di ricerca ci si avvale del metodo \method{searchGeneric(nome\_parametro)} della classe \classname{DataPersistanceManager}.
+\inglese{Controller} richiamato dal \textit{front controller} per effettuare una ricerca sulla propria rubrica. La ricerca consiste nell'individuare tutti i contatti che contengono nei campi \texttt{name}, \texttt{surname} o \texttt{email} la parola ricercata. Per eseguire questa procedura di ricerca ci si avvale del metodo \method{searchGeneric(nome\_parametro)} della classe \classname{DataPersistanceManager}.
 
 \subsubsection*{Relazioni d'uso}
 
@@ -1745,7 +1745,7 @@ Nessun attributo evidenziato
 \classsection{GetContactsController}
 
 \subsubsection*{Funzione}
-Controller richiamata dal \textit{front controller} per scaricare la lista dei contatti presenti nella propria rubrica.
+\inglese{Controller} richiamato dal \textit{front controller} per scaricare la lista dei contatti presenti nella propria rubrica.
 
 \subsubsection*{Relazioni d'uso}
 
@@ -1815,7 +1815,7 @@ Nessun attributo evidenziato
 \classsection{GetGroupsController}
 
 \subsubsection*{Funzione}
-Controller richiamata dal \textit{front controller} per scaricare la propria rubrica, provvista di gruppi e contatti in essi presenti.
+\inglese{Controller} richiamato dal \textit{front controller} per scaricare la propria rubrica, provvista di gruppi e contatti in essi presenti.
 
 \subsubsection*{Relazioni d'uso}
 
@@ -1889,7 +1889,7 @@ Nessun attributo evidenziato
 \classsection{AccountSettingController}
 
 \subsubsection*{Funzione}
-Controller usata per modificare i dati utente. Nello specifico il client potrà operare una modifica ai campi \texttt{nome} e \texttt{cognome}. Lo sviluppatore deve ricordarsi che i dati di autenticazione risiedono nella session con il quale il client sta interagendo con il \textit{front controller}.
+\inglese{Controller} usato per modificare i dati utente. Nello specifico il client potrà operare una modifica ai campi \texttt{nome} e \texttt{cognome}. Lo sviluppatore deve ricordarsi che i dati di autenticazione risiedono nella session con il quale il client sta interagendo con il \textit{front controller}.
 
 \subsubsection*{Relazioni d'uso}
 
@@ -2342,7 +2342,7 @@ Classe che implementa l'interfaccia \classname{IMessage}.
 \classsection{AddMessageController}
 
 \subsubsection*{Funzione}
-Controller da richiamare per inserire un messaggio nella segreteria di un utente.
+\inglese{Controller} da richiamare per inserire un messaggio nella segreteria di un utente.
 
 \subsubsection*{Relazioni d'uso}
 \begin{itemize}
@@ -2414,7 +2414,7 @@ Nessun attributo evidenziato
 	\begin{itemize}
 		\item \texttt{Inizializzazione}: il metodo definisce ed apre una nuova sessione a partire dalla richiesta \textit{request} passata come parametro;
 		\item \texttt{Elaborazione dati}: il metodo procede creando un \classname{IMessage} con i dati forniti dalla \textit{request} e dopo aver aperto una \texttt{transaction} verso il database, esegue un operazione di ricerca dell'instanza appena creata all'interno della lista di \classname{IMessage} ottenuta dal database. Quindi se si verifica che tale istanza è effettivamente presente nel database, il metodo esegue l'operazione \method{delete()} sul relativo oggetto DAO. Al termine sarà necessario procedere con un operazione di \textit{commit}. Nel realizzare il metodo, il programmatore incaricato dovrà tenere in considerazione la possibilità di fallimento durante l'esecuzione delle operazioni mediante la \texttt{transaction}. Ciò andrà gestito mediante un operazione di \textit{rollback} atta ad eliminare una possibile inconsistenza dei dati.
-		\item \texttt{Restituzione risultato}: dopo aver elaborato i dati, il controller dovrà scrivere nel \texttt{PrintWriter} associato alla \textit{request}:
+		\item \texttt{Restituzione risultato}: dopo aver elaborato i dati, il \inglese{controller} dovrà scrivere nel \texttt{PrintWriter} associato alla \textit{request}:
 			\begin{itemize}
 				\item \texttt{true} se l'operazione è andata a buon fine;
 				\item \texttt{false} altrimenti (compreso non solo il caso di errore dovuto ad un problema di connessione verso il database, ma anche quello relativo al mancato match del elemento ricercato con quelli presenti nel database).
@@ -2473,7 +2473,7 @@ Nessun attributo evidenziato
 \classsection{GetMessagesController}
 
 \subsubsection*{Funzione}
-Controller da richiamare per scaricare la lista di messaggi attualmente presenti nella propria segreteria.
+\inglese{Controller} da richiamare per scaricare la lista di messaggi attualmente presenti nella propria segreteria.
 
 \subsubsection*{Relazioni d'uso}
 \begin{itemize}
