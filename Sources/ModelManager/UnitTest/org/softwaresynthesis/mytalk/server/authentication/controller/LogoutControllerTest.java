@@ -1,26 +1,41 @@
 package org.softwaresynthesis.mytalk.server.authentication.controller;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.softwaresynthesis.mytalk.server.ControllerManagerTest.getClients;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.nio.CharBuffer;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import javax.security.auth.login.LoginContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.catalina.websocket.WsOutbound;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.stubbing.Answer;
+import org.softwaresynthesis.mytalk.server.abook.IAddressBookEntry;
+import org.softwaresynthesis.mytalk.server.abook.IUserData;
+import org.softwaresynthesis.mytalk.server.connection.PushInbound;
+import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
 
 /**
  * Verifica della classe {@link LogoutController} che in questa nuova versione
@@ -31,6 +46,14 @@ import org.mockito.runners.MockitoJUnitRunner;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class LogoutControllerTest {
+	private final Long userId = 1L;
+	private final Long contactId = 2L;
+	private final String username = "indirizzo5@dominio.it";
+	private Writer writer;
+	private Writer writerOutbound;
+	private LogoutController tester;
+	private Set<IAddressBookEntry> addressbook;
+	private Map<Long, PushInbound> clients;
 	@Mock
 	private LoginContext context;
 	@Mock
@@ -39,8 +62,20 @@ public class LogoutControllerTest {
 	private HttpServletRequest request;
 	@Mock
 	private HttpServletResponse response;
-	private Writer writer;
-	private LogoutController tester;
+	@Mock
+	private DataPersistanceManager dao;
+	@Mock
+	private IAddressBookEntry entry;
+	@Mock
+	private IUserData user;
+	@Mock
+	private IUserData contact;
+	@Mock
+	private PushInbound inbound;
+	@Mock
+	private PushInbound myInbound;
+	@Mock
+	private WsOutbound outbound;
 
 	/**
 	 * Reinizializza il comportamento di tutti i mock prima dell'esecuzione di
@@ -52,6 +87,18 @@ public class LogoutControllerTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
+		// comportamento della voce di rubrica
+		when(entry.getContact()).thenReturn(contact);
+		// rubrica del contatto
+		addressbook = new HashSet<IAddressBookEntry>();
+		addressbook.add(entry);
+		// comportamento del contatto
+		when(contact.getId()).thenReturn(contactId);
+		// comportamento dell'utente
+		when(user.getId()).thenReturn(userId);
+		when(user.getAddressBook()).thenReturn(addressbook);
+		// comportamento del gestore di persistenza
+		when(dao.getUserData(username)).thenReturn(user);
 		// azzera il contenuto del writer
 		writer = new StringWriter();
 		// configura il comportamento della risposta
@@ -60,8 +107,40 @@ public class LogoutControllerTest {
 		when(request.getSession(anyBoolean())).thenReturn(session);
 		// configura il comportamento della sessione
 		when(session.getAttribute("context")).thenReturn(context);
+		// configura i clients
+		clients = getClients();
+		clients.put(contactId, inbound);
+		clients.put(userId, myInbound);
+		// configura il comportamento del WsOutbound
+		writerOutbound = new StringWriter();
+		doAnswer(new Answer<Void>() {
+			@Override
+			public Void answer(InvocationOnMock invocation) {
+				try {
+					CharBuffer buf = (CharBuffer) invocation.getArguments()[0];
+					writerOutbound.write(buf.toString());
+				} catch (Exception e) {
+				}
+				return null;
+			}
+		}).when(outbound).writeTextMessage(any(CharBuffer.class));
 		// inizializza l'oggetto da testare (qui non occorrono sottoclassi)
-		tester = new LogoutController();
+		tester = new LogoutController() {
+			@Override
+			protected String getUserMail() {
+				return username;
+			}
+
+			@Override
+			protected DataPersistanceManager getDAOFactory() {
+				return dao;
+			}
+
+			@Override
+			WsOutbound getWsOutbound(PushInbound pi) {
+				return outbound;
+			}
+		};
 	}
 
 	/**
@@ -85,6 +164,10 @@ public class LogoutControllerTest {
 		writer.flush();
 		String responseText = writer.toString();
 		assertEquals("true", responseText);
+		writerOutbound.flush();
+		String message = writerOutbound.toString();
+		assertEquals(message, "5|" + userId + "|offline");
+		assertFalse(clients.containsKey(userId));
 
 		// verifica il corretto utilizzo dei mock
 		verify(request).getSession(false);
@@ -93,6 +176,10 @@ public class LogoutControllerTest {
 		verify(session).invalidate();
 		verify(context).logout();
 		verify(response).getWriter();
+		verify(dao).getUserData(username);
+		verify(user).getAddressBook();
+		verify(entry).getContact();
+		verify(contact).getId();
 	}
 
 	/**
@@ -126,5 +213,9 @@ public class LogoutControllerTest {
 		verify(session, never()).invalidate();
 		verify(context, never()).logout();
 		verify(response).getWriter();
+		verify(dao).getUserData(username);
+		verify(user).getAddressBook();
+		verify(entry).getContact();
+		verify(contact).getId();
 	}
 }
