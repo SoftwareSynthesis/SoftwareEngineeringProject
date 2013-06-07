@@ -61,11 +61,6 @@ window.onload = function() {
     // eventi per chat
     chatStarted = new CustomEvent("chatStarted");
     resetChatsObject = new CustomEvent("resetChatsObject");
-    
-    
-    
-    
-
 
     /**************************************
     ****Inizializzazione delle funzioni****

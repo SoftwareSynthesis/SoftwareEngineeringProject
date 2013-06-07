@@ -358,5 +358,5 @@ function CommunicationPanelPresenter() {
     document.addEventListener("chatStarted", function(evt){
         onChatStarted(evt.user);
     });
-    document.dispatchEvent("resetChatsObject", onResetChatsObject);
+    document.addEventListener("resetChatsObject", onResetChatsObject);
 }
