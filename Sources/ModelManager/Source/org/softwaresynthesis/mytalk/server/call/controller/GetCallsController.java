@@ -64,7 +64,7 @@ public class GetCallsController extends AbstractController{
 									result += "\"id\":\"" + callsOther.getUser().getId() + "\"";
 									result += ", \"email\":\"" + callsOther.getUser().getMail() + "\"";
 									result += ", \"start\":\"" + call.getStart() + "\"";
-									result += ", \"caller\":" + callsOther.getCaller();
+									result += ", \"caller\":" + callsMy.getCaller();
 									result += "}";
 								}
 							}
