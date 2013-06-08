@@ -195,7 +195,7 @@ test("testShowUnblockedOnlineContact()", function() {
  * @version 2.0
  * @author Diego Beraldin
  */
-test("testShowUnblockedOnlineContact()", function() {
+test("testShowBlockedOfflineContact()", function() {
 	var i = 0;
 
 	var event = new CustomEvent("showContactPanel");

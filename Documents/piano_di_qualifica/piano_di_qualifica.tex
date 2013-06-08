@@ -34,7 +34,12 @@
 % importa il preambolo condiviso da tutti i documenti
 \input{\docRoot/shared/preamble.tex}
 
+% pacchetto per caratteri esotici
+\usepackage{pifont}
+\newcommand{\passed}{\ding{52}{ }}
+\newcommand{\failed}{\ding{56}{ }}
 
+% per le appendici
 \renewcommand{\appendixname}{Appendici}
 
 % Fine del preambolo e inizio del documento
@@ -2216,7 +2221,7 @@ Ovviamente al termine di tali verifiche l'esito dovrà risultare positivo, ovver
 \subsubsection{Package \texttt{org.softwaresynthesis.mytalk.clientpresenter.guicontrol}}
 
 \begin{itemize}
-\item \textbf{TP1.01: AccountSettingsPresenterTest}
+\item[\passed] \textbf{TP1.01: AccountSettingsPresenterTest}
 
 \textbf{Verifica l'oggetto:} \texttt{AccountSettingsPresenter}.\\
 \textbf{Descrizione}: verifica la corretta inizializzazione del pannello per la gestione delle informazioni personali, assicurando l'albero DOM sia costruito correttamente, che il contenuto dei vari nodi sia stato inserito coerentemente e che il comportamento dell'interfaccia rispetti le scelte progettuali. Verifica inoltre la corretta inizializzazione del \inglese{\underline{form}} per la modifica dei dati personali e l'invio dei dati in forma corretta al server.
@@ -2231,9 +2236,9 @@ Successivamente controlla che gli elementi della lista vengano visualizzati corr
 
 \item \texttt{testOnChangeButtonPressed()} controlla il comportamento del \inglese{presenter} nel momento in cui si verifica l'evento nell'interfaccia grafica di pressione del pulsante per la modifica dei dati. In particolare, il test verifica che il pannello che inizialmente conteneva un \verb'<ul>' sia trasformato in un \inglese{form} con i tre campi di inserimento necessari corredati dalle relative etichette, e che l'attributo \verb'enctype' dello stesso sia impostato a \verb'multipart/form-data' per la corretta gestione di un eventuale aggiornamento dell'immagine del profilo.
 \end{itemize}
-\textbf{Risultato del test:} superato con successo.
+\textbf{Risultato del test:} superato con successo
 
-\item \textbf{TP1.02:AddressBookPresenterTest}
+\item[\passed] \textbf{TP1.02:AddressBookPresenterTest}
 
 \textbf{Verifica l'oggetto:} \texttt{AddressBookPresenter}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è la verifica della correttezza di tutte le funzionalità offerte da \texttt{AddressBookPresenter} per la gestione della rubrica.
@@ -2285,7 +2290,7 @@ Dal momento che lo \inglese{stub} restituisce una stringa che, una volta effettu
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{TP.103: CallHistoryPresenterTest}\\
+\item[\passed] \textbf{TP.103: CallHistoryPresenterTest}\\
 \textbf{Verifica l'oggetto:} \texttt{CallHistoryPresenter}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \verb'<div>' con identificativo \verb'CallHistoryPanel'.\\
 Tale verifica è composta da un solo test:
@@ -2297,7 +2302,7 @@ Tale verifica è composta da un solo test:
 \textbf{Risultato del test:} superato con successo.
 
 
-\item \textbf{TP1.04: CommunicationPresenterTest}
+\item[\passed] \textbf{TP1.04: CommunicationPresenterTest}
 
 \textbf{Verifica l'oggetto:} \texttt{CommunicationPresenter}.
 
@@ -2339,23 +2344,31 @@ Tale verifica è composta da dieci test:
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{TP1.05: ContactPresenterTest}\\
-\textbf{Verifica l'oggetto:} \texttt{ContactPresenter}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \textit{Contact}.\\
-Tale verifica è composta da sei test:
+\item[\passed] \textbf{TP1.05: ContactPresenterTest}
+
+\textbf{Verifica l'oggetto:} \texttt{ContactPresenter}.
+
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la corretta creazione del pannello per la visualizzazione dei dati di un contatto, la corretta inizializzazione dei \inglese{widget} grafici che lo compongono e i gestori di eventi inseriti all'interno del relativo \inglese{presenter}.
+
+Tale verifica è composta da otto test:
 \begin{itemize}
 
-\item \texttt{testShowUnblockedOnlineContact()} verifica che un contatto online, presente in rubrica e non bloccato sia visualizzato correttamente. Verifica inoltre che l'albero di visualizzazione di un contatto sia correttamente inizializzato.
+\item \texttt{testShowUnblockedOnlineContact()} verifica che un contatto online, presente in rubrica e non bloccato sia visualizzato correttamente, vale a dire che i dati siano presentati secondo la struttura della \inglese{view} corretta e che i nodi testo e il percorso dell'immagine del profilo corrispondano alle informazioni del contatto. Dal momento che si tratta di un contatto disponibile all'avvio di una comunicazione, inoltre, devono essere visibili i pulsanti per avviare una chiamata, una videochiamata e una chat testuale ma non quello per lasciare un messaggio in segreteria. Essendo il contatto in rubrica e non bloccato, dovranno inoltre essere visibili i pulsanti per rimuoverlo e per bloccarlo.
 
-\item \texttt{testShowUnblockedOfflineContact()} verifica che un contatto offline, presente in rubrica e bloccato sia visualizzato correttamente.Verifica inoltre che l'albero di visualizzazione di un contatto sia correttamente inizializzato.
+\item \texttt{testShowBlockedOfflineContact()} verifica che un contatto offline, presente in rubrica e bloccato sia visualizzato correttamente. Dal momento che si tratta di un contatto \inglese{offline} non dovranno essere visibili i pulsanti per avviare una chiamata, una videochiamata o una chat testuale quanto piuttosto quello per lasciare un messaggio in segreteria. Essendo il contatto in rubrica e bloccato, dovranno inoltre essere visibili i pulsanti per rimuoverlo e per sbloccarlo.
 
-\item \texttt{testSimulateContactNotSet()} verifica il comportamento del pannello quando non è impostato alcun contatto da visualizzare. Comparirà dunque un messaggio d'errore.
 
-\item \texttt{testSimulateBlockByClick()} verifica la possibilità effettiva di bloccare un contatto non bloccato dall'interfaccia utente.
+\item \texttt{testSimulateContactNotSet()} verifica il comportamento del pannello quando non è impostato alcun contatto da visualizzare. Poiché questa situazione è anomala, essendo sempre associato all'evento \verb'showContactPanel' un contatto, il test verifica che la situazione sia gestita visualizzando un messaggio d'errore.
 
-\item \texttt{testSimulateUnblockByClick()} verifica la possibilità effettiva di sbloccare un contatto non bloccato dall'interfaccia utente.
+\item \texttt{testSimulateBlockByClick()} verifica la possibilità effettiva di bloccare un contatto non bloccato dall'interfaccia utente. Il test verifica che dopo il click sia visualizzato nuovamente il pannello con le informazioni del contatto ma che quest'ultimo appaia come bloccato (e che sia visibile il pulsante per sbloccarlo)
 
-\item \texttt{testSimulateRemoveFromGroupByClick()} verifica la possibilità effettiva di sbloccare un contatto non bloccato dall'interfaccia utente.
+\item \texttt{testSimulateUnblockByClick()} verifica la possibilità effettiva di sbloccare un contatto non bloccato dall'interfaccia utente. Il test verifica che dopo il click sia visualizzato nuovamente il pannello con le informazioni del contatto ma che quest'ultimo appaia come non bloccato (e che sia visibile il pulsante per bloccarlo)
+
+\item \texttt{testSimulateRemoveFromGroupByClick()} verifica la possibilità di rimuovere un contatto da un gruppo via interfaccia grafica, controllando che sia sollevato un evento \verb'removeContactFromGroup' con la proprietà \verb'contact' uguale al contatto che era stato visualizzato.
+
+\item \texttt{testSimulateCallByClick()} il test simula l'avvio di una chiamata (esclusivamente audio) via interfaccia grafica, verificando che sia sollevato un evento con identificativo \verb'call' con le proprietà \verb'contact' uguale al contatto visualizzato e \verb'onlyAudio' a \verb'true'.
+
+\item \texttt{testSimulateVideoCallByClick()} il test simula l'avvio di una chiamata audio/video via interfaccia grafica, verificando che sia sollevato un evento con identificativo \verb'call' con le proprietà \verb'contact' uguale al contatto visualizzato e \verb'onlyAudio' a \verb'false'.
 
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
@@ -2544,7 +2557,7 @@ TP1.14 & CommunicationTesterTest &Superato\\
 \end{center}
 
 \subsection{Test Coverage}
-Tale test è stato effettuato mediante il \underline{\inglese{plugin}} per Eclipse \textit{EclLemma} per la parte Java (quindi nel \textit{Model}) e con \textit{JSCoverage} per la parte \textit{JavaScript} (per il presenter) definendo quindi le percentuali di codice che è stato sottoposto a test per i singoli componenti dell'applicazione.\\\\
+Tale test è stato effettuato mediante il \underline{\inglese{plugin}} per EclEmma Eclipse  per la parte dell'applicativo realizzata in Java (quindi nel \inglese{model}) e con lo strumento JSCoverage per la parte client implementata in JavaScript definendo quindi le percentuali di codice che è stato sottoposto a test per i singoli componenti dell'applicazione.
 
 \begin{center}
 \rowcolors{3}{lightblue}{llightblue}\begin{longtable}{p{.30\textwidth}ll}
@@ -2556,7 +2569,10 @@ Presenter & 85,6\% \\
 \end{longtable}
 \end{center}
 
-La percentuale di copertura rilevata relativamente alla parte \textit{Model}, risulta essere in linea con quanto pianificato, il risultato inferiore al 90\% si giustifica dal numero elevato di metodi \texttt{getter} e \texttt{setter} che non sono stati tutti analizzati tramite test di unità, ma solo tramite analisi statica del codice. Per la parte \textit{Presenter} al contrario si può ricondurre il risultato alle numerose funzioni anonime impossibili da testare e invocate soltanto durante l'effettivo funzionamento dell'applicazione.
+%FIXME queste sono cazzate
+La percentuale di copertura rilevata relativamente alla parte \inglese{model}, risulta essere in linea con quanto pianificato, il risultato inferiore al 90\% si giustifica dal numero elevato di metodi \inglese{get} e \inglese{set} che non sono stati tutti analizzati tramite test di unità, ma solo tramite analisi statica del codice.
+
+Per la parte \inglese{presenter} al contrario si può ricondurre il risultato alle numerose funzioni anonime impossibili da testare e invocate soltanto durante l'effettivo funzionamento dell'applicazione.
 
 \clearpage
 \subsection{Test di Sistema}
