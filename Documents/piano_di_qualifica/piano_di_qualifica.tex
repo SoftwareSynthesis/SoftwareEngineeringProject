@@ -1501,7 +1501,7 @@ Tale test si compone di quattro metodi:
 
 \item \texttt{testLogoutWithoutMyWebSocket()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui anche se è possibile effettuare il logout non è più aperto il canale di connessione con il client che da cui proviene la richiesta di disconnessione. Il test verifica che in tal caso la disconnessione abbia successo e che sia in ogni caso invalidata la sessione con il server.
 
-\item \texttt{testLogoutWithoutOtherWebSocket()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui anche se è possibile effettuare il logout non è più aperto il canale di connessione con uno dei client che appartengono a un contatto nella rubrica dell'utente da cui proviene la richiesta di disconnessione. Il test verifica che in un simile caso non sia inviato alcun messaggio sul canale di comunicazione con il client che corrisponde al contatto, dal momento che l'altro capo della connessione ha cessato di rispondere.
+\item \texttt{testLogoutWithoutOtherWebSocket()} verifica il comportamento di \texttt{doAction} nel momento in cui anche se è possibile effettuare il logout non è più aperto il canale di connessione con uno dei client che appartengono a un contatto nella rubrica dell'utente da cui proviene la richiesta di disconnessione. Il test verifica che in un simile caso non sia inviato alcun messaggio sul canale di comunicazione con il client che corrisponde al contatto, dal momento che l'altro capo della connessione ha cessato di rispondere.
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
@@ -1548,7 +1548,7 @@ verifica l'impossibilità di portare a termine la procedura di registrazione per
 verifica l'impossibilità di portare a termine la procedura di registrazione per un utente la cui richiesta non contiene tutti i dati necessari alla registrazione, perché la risposta alla domanda segreta è uguale alla stringa vuota. Il controllo avviene verificando che il testo stampato sulla pagina di risposta sia la stringa \texttt{null}. Inoltre viene verificato che non sia mai utilizzato l'algoritmo di crittografia e che non avvenga nessun inserimento di dati sul database.
 
 \item \texttt{testRegisterDuplicatePrimaryKey()}
-Verifica il comportamento del metodo \texttt{doAction} se lo username fornito nella richiesta HTTP è già presente nella tabella degli utenti del sistema compromettendo la riuscita dell'operazione di inserimento. Il test verifica che in questo caso il testo stampato sulla risposta sia, come desiderato, la stringa \texttt{null}. Inoltre si controlla che siano estratti tutti i parametri necessari dalla richiesta e che sia creata una nuova istanza di \texttt{IUserData} con tutti i campi dati impostati nel modo conforme ai parametri della richiesta.
+verifica il comportamento di \texttt{doAction} se lo \inglese{username} fornito nella richiesta HTTP è già presente nella tabella degli utenti del sistema compromettendo la riuscita dell'operazione di inserimento. Il test verifica che in questo caso il testo stampato sulla risposta sia, come desiderato, la stringa \texttt{null}. Inoltre si controlla che siano estratti tutti i parametri necessari dalla richiesta e che sia creata una nuova istanza di \texttt{IUserData} con tutti i campi dati impostati nel modo conforme ai parametri della richiesta.
 
 \item \texttt{testCheck()} verifica il corretto funzionamento del metodo \texttt{check}. Il controllo avviene verificando che l'oggetto restituito abbia valore \texttt{true}.
  
@@ -2437,42 +2437,57 @@ Tale verifica è composta da dieci test:
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{TP1.08: MainPresenterTest}\\
-\textbf{Verifica l'oggetto:} \texttt{MainPresenter}.\\
-\textbf{Descrizione}:l'obiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \textit{Main} e che il contenuto dei vari nodi sia stato inserito coerentemente, infine deve consentire la corretta visualizzazione dei sotto-pannelli.\\\\
-Tale verifica è composta da tre test:
-\begin{itemize}
+\item[\passed] \textbf{TP1.08: MainPresenterTest}
 
-\item \texttt{testInitialize()} mediante diversi metodi \textit{equal} controlla l'effettiva correttezza della \inglese{form} creata, sia nella forma che nel funzionamento.
+\textbf{Verifica l'oggetto:} \texttt{MainPresenter}.
 
-\item \texttt{testDisplayChildPanel()} verifica la corretta visualizzazione di un elemento interno al pannello principale.
+\textbf{Descrizione}:l'obiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \verb'<div>' con identificativo \verb'MainPanel' e che il contenuto dei vari nodi sia stato inserito coerentemente, consentendo inoltre la corretta visualizzazione dei sotto-pannelli.
 
-\item \texttt{testDestroy()} controlla che venga correttamente eliminato il pannello una volta effettuato il \inglese{logout} al sistema.
-
-\item \texttt{testOnShowMainPanel()} verifica che il presenter risponda all'evento.
-
-\end{itemize}
-
-\item \textbf{TP1.09: MessagePresenterTest}\\
-\textbf{Verifica l'oggetto:} \texttt{MessagePresenter}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \textit{Message} e che il contenuto dei vari nodi sia stato inserito coerentemente.\\
 Tale verifica è composta da quattro test:
 \begin{itemize}
 
-\item \texttt{testDisplay()} crea l'elemento \textit{Message} e estrae la lista dei figli del pannello verificando che contenga due figli:il primo dev'essere di tipo \textit{video} mentre il secondo di tipo \textit{div}.
-Successivamente estraggo la lista dei figli del primo figlio (il suo figlio deve essere \textit{source}) e del secondo figlio (il cui figlio deve essere \textit{ul}).
+\item \texttt{testInitialize()} il test verifica l'effettiva correttezza del \inglese{form} creato, sia nella forma che nel funzionamento.
 
-\item \texttt{testPlayMessageByClick()} verifica la possibilità di ascoltare un messaggio premendo sullo span che contiene le sue informazioni.
+\item \texttt{testDisplayChildPanel()} verifica la corretta visualizzazione di un elemento interno al pannello principale, secondo il formato in cui questo metodo è invocato da \texttt{PresenterMediator}.
 
-\item \texttt{testDeleteMessageByClick()} verifica la possibilità di eliminare un messaggio da interfaccia grafica, riscontrando l'effettiva eliminazione dello stesso.
+\item \texttt{testDestroy()} controlla che venga correttamente eliminato il pannello tramite l'invocazione del metodo \verb'destroy()'.
 
-\item \texttt{testUpdateMessageByClick()} verifica la possibilità di aggiornare lo stato un messaggio da interfaccia grafica, riscontrando l'effettivo aggiornamento dello stesso.
+\item \texttt{testOnShowMainPanel()} verifica che il \inglese{presenter} risponda all'evento provocando la visualizzazione e l'inizializzazione del pannello.
+
+\end{itemize}
+
+\item[\passed] \textbf{TP1.09: MessagePresenterTest}
+
+\textbf{Verifica l'oggetto:} \texttt{MessagePresenter}.
+
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \verb'<div>' con identificativo \texttt{MessagePanel} in relazione al tipo e al contenuto degli elementi grafici che lo compongono, nonché le reazioni del \inglese{presenter} agli eventi generati dall'interfaccia grafica.
+
+Tale verifica è composta da quattro test:
+\begin{itemize}
+
+\item \texttt{testDisplay()} il test verifica che sia caricato correttamente il pannello per la visualizzazione dei messaggi  e verificando che il \inglese{presenter} recuperi la lista dei messaggi dal server visualizzando i dati che riceve da quest'ultimo.
+
+\item \texttt{testPlayMessageByClick()} verifica la possibilità di ascoltare un messaggio premendo sull'elemento \verb'<span>' che contiene le sue informazioni, assicurando che l'attributo \verb'src' dell'elemento \verb'<video>' contenuto nel pannello sia impostato in maniera corretta.
+
+\item \texttt{testDeleteMessageByClick()} verifica la possibilità di eliminare un messaggio da interfaccia grafica, riscontrando l'effettiva eliminazione dello stesso e il fatto che venga nuovamente caricato il pannello della segreteria telefonica.
+
+\item \texttt{testUpdateMessageByClick()} verifica la possibilità di aggiornare lo stato un messaggio da interfaccia grafica, riscontrando l'effettivo aggiornamento dello stesso e constatando che nella versione del pannello ricaricata l'immagine del pulsante per modificare lo stato del messaggio abbia l'attributo \verb'src' corretto.
 
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{TP1.10: RegisterPresenterTest}\\
-\textbf{Verifica l'oggetto:} \texttt{RegisterPresenter}.\\
+%TODO QUESTO MANCA TUTTO
+\item[\passed] \textbf{TP1.10 PresenterMediatorTest}
+
+\textbf{Verifica l'oggetto:}
+
+\textbf{Descrizione:}
+
+%TODO da rileggere
+\item[\passed] \textbf{TP1.11: RegisterPresenterTest}
+
+\textbf{Verifica l'oggetto:} \texttt{RegisterPresenter}.
+
 \textbf{Descrizione}:l'obiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \textit{Register}, la possibilità di nascondere correttamente l'elemento \textit{Register}, il corretto recupero dei dati inseriti nella \inglese{form} d'iscrizione e infine i test relativi al recupero delle singole informazioni passate in fase di registrazione.\\
 Tale verifica è composta da dodici test:
 \begin{itemize}
@@ -2504,7 +2519,8 @@ Tale verifica è composta da dodici test:
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{TP1.11: SearchResultPresenterTest}\\
+%TODO da rileggere
+\item[\passed] \textbf{TP1.12: SearchResultPresenterTest}\\
 \textbf{Verifica l'oggetto:} \texttt{SearchResultPresenter}.\\
 \textbf{Descrizione}: l'obiettivo di questo test è verificare che sia correttamente creato l'elemento grafico \textit{SearchResult} e il comportamento del presenter nel momento in cui tale pannello deve essere aggiornato. Tale verifica è composta da tre test:
 \begin{itemize}
@@ -2517,7 +2533,8 @@ Tale verifica è composta da dodici test:
 
 \end{itemize}
 
-\item \textbf{TP1.12: ToolsPresenterTest}\\
+%TODO da rileggere
+\item[\passed] \textbf{TP1.13: ToolsPresenterTest}\\
 \textbf{Verifica l'oggetto:} \texttt{ToolsPresenter}.\\
 \textbf{Descrizione}: l'obiettivo di tale test è verificare che sia correttamente creato il pannello degli strumenti dell'interfaccia grafica, nonché il comportamento del presenter nel momento in cui dalla vista è invocato il metodo che corrisponde all'uscita dal sistema.
 Tale verifica è composta da dodici test:
@@ -2552,6 +2569,19 @@ relativo alla comunicazione in corso.
 
 \end{itemize}
 
+\subsubsection{Package \texttt{org.softwaresynthesis.mytalk.clientpresenter.kernel}}
+\begin{itemize}
+
+% TODO QUESTO MANCA TUTTO
+\item[\passed] \textbf{TP 2.01 CommunicationCenterTest}
+
+\textbf{Verifica l'oggetto:}
+
+\textbf{Descrizione:}
+
+
+\end{itemize}
+
 \subsubsection{Riassunto esiti test Presenter}
 Di seguito viene riportata una tabella alla scopo di riassumere i test effettuati e il loro esito finale, così da renderne più pratica la consultazione e la tracciabilità degli stessi.
 
@@ -2569,11 +2599,11 @@ TP1.06 & GroupPresenterTest &Superato\\
 TP1.07 & LoginPresenterTest &Superato\\
 TP1.08 & MainPresenterTest &Superato\\
 TP1.09 & MessagePresenterTest &Superato\\
-TP1.10 & RegisterPresenterTest &Superato\\
-TP1.11 & SearchResultPresenterTest &Superato\\
-TP1.12 & ToolsPresenterTest &Superato\\
-TP1.13 & PresenterMediatorTest &Superato\\
-TP1.14 & CommunicationTesterTest &Superato\\
+TP1.10 & PresenterMediatorTest & Superato\\
+TP1.11 & RegisterPresenterTest &Superato\\
+TP1.12 & SearchResultPresenterTest &Superato\\
+TP1.13 & ToolsPresenterTest &Superato\\
+TP2.01 & CommunicationCenterTest & Superato\\
 
 \bottomrule
 \end{longtable}

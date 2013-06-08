@@ -84,7 +84,7 @@ test("testDestroy()", function() {
 	document.getElementById("MainPanel").style.display = "none";
 
 	tester.destroy();
-	var element = document.getElementById("MainView");
+	var element = document.getElementById("MainPanel");
 	equal(element, null);
 	i++;
 
