@@ -416,6 +416,65 @@ test("testAddContactInGroup()", function() {
 });
 
 /**
+ * Verifica che avvenga la corretta eliminazione di un contatto da un gruppo. Il
+ * test controlla anche l'effettivo sollevamento di un'eccezione quando si tenta
+ * di eliminare dal gruppo un contatto che non gli appartiene.
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
+test("testRemoveContactFromGroup()", function() {
+	var i = 0;
+	tester.initialize(mediator.getView("addressBook"));
+	document.getElementById("AddressBookPanel").style.display = "none";
+	var group = {
+		id : 1,
+		name : "amici",
+		contacts : [ 2, 3, 4, 5 ]
+	};
+	var contact = {
+		name : "Andrea",
+		surname : "Rizzi",
+		email : "a.rizzi@gmail.com",
+		id : 1,
+		picturePath : "img/contactImg/Default.png",
+		state : "available",
+		blocked : false
+	};
+
+	try {
+		tester.removeContactFromGroup(contact, group);
+		ok(false, "eccezione non sollevata");
+	} catch (error) {
+		equal(error, "Il contatto non è presente nel gruppo.");
+	}
+	i++;
+	group = {
+		id : 2,
+		name : "mona",
+		contacts : [ 1 ]
+	};
+	var result = tester.removeContactFromGroup(contact, group);
+	ok(result);
+	i++;
+
+	group = {
+		id : 3,
+		name : "addrBookEntry",
+		contacts : [ 1, 2, 3, 4, 5 ]
+	};
+	try {
+		tester.removeContactFromGroup(contact, group);
+		ok(false, "eccezione non sollevata");
+	} catch (error) {
+		equal(error, "Ops... qualcosa è andato storto nel server.");
+	}
+	i++;
+
+	expect(i);
+});
+
+/**
  * Verifica che sia possibile applicare alla lista di contatti un filtro
  * testuale, e che la lista visualizzata contenga solo i contatti che soddisfano
  * i criteri di ricerca specificati.
@@ -518,6 +577,99 @@ test("testShowFilter()", function() {
 	i++;
 	equal(element.src, host + "img/stateoffline.png");
 	i++;
+
+	expect(i);
+});
+
+/**
+ * Verifica la possibilità di bloccare un contatto.
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
+test("testBlockContact()", function() {
+	var i = 0;
+	tester.initialize(mediator.getView("addressBook"));
+	document.getElementById("AddressBookPanel").style.display = "none";
+	var contact = {
+		name : "Andrea",
+		surname : "Rizzi",
+		email : "a.rizzi@gmail.com",
+		id : 1,
+		picturePath : "img/contactImg/Default.png",
+		state : "available",
+		blocked : false
+	};
+
+	ok(tester.blockContact(contact));
+	i++;
+	contact.id = 2;
+	try {
+		tester.blockContact(contact);
+		ok(false, "non sollevata eccezione");
+		i++;
+	} catch (error) {
+		equal(error, "Ops... qualcosa è andato storto nel server.");
+		i++;
+	}
+	contact.id = 0;
+	try {
+		tester.blockContact(contact);
+		ok(false, "non sollevata eccezione");
+		i++;
+	} catch (error) {
+		equal(error, "Contatto non presente nella rubrica.");
+		i++;
+	}
+
+	expect(i);
+});
+
+/**
+ * Verifica la possibilità di sbloccare un contatto.
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
+test("testUnlockContact()", function() {
+	var i = 0;
+	tester.initialize(mediator.getView("addressBook"));
+	document.getElementById("AddressBookPanel").style.display = "none";
+	var contact = {
+		name : "Andrea",
+		surname : "Rizzi",
+		email : "a.rizzi@gmail.com",
+		id : 1,
+		picturePath : "img/contactImg/Default.png",
+		state : "available",
+		blocked : false
+	};
+
+	try {
+		tester.unlockContact(contact);
+		i++;
+	} catch (error) {
+		equal(error, "Contatto già sbloccato.");
+		i++;
+	}
+	contact.id = 2;
+	try {
+		tester.unlockContact(contact);
+		ok(false, "non sollevata eccezione");
+		i++;
+	} catch (error) {
+		equal(error, "Contatto già sbloccato.");
+		i++;
+	}
+	contact.id = 0;
+	try {
+		tester.unlockContact(contact);
+		ok(false, "non sollevata eccezione");
+		i++;
+	} catch (error) {
+		equal(error, "Contatto non presente nella rubrica.");
+		i++;
+	}
 
 	expect(i);
 });
@@ -643,99 +795,6 @@ test("testRemoveFilteringByClick()", function() {
 	element = element.parentElement;
 	equal(element.children.length, 5);
 	i++;
-
-	expect(i);
-});
-
-/**
- * Verifica la possibilità di bloccare un contatto.
- * 
- * @version 2.0
- * @author Diego Beraldin
- */
-test("testBlockContact()", function() {
-	var i = 0;
-	tester.initialize(mediator.getView("addressBook"));
-	document.getElementById("AddressBookPanel").style.display = "none";
-	var contact = {
-		name : "Andrea",
-		surname : "Rizzi",
-		email : "a.rizzi@gmail.com",
-		id : 1,
-		picturePath : "img/contactImg/Default.png",
-		state : "available",
-		blocked : false
-	};
-
-	ok(tester.blockContact(contact));
-	i++;
-	contact.id = 2;
-	try {
-		tester.blockContact(contact);
-		ok(false, "non sollevata eccezione");
-		i++;
-	} catch (error) {
-		equal(error, "Ops... qualcosa è andato storto nel server.");
-		i++;
-	}
-	contact.id = 0;
-	try {
-		tester.blockContact(contact);
-		ok(false, "non sollevata eccezione");
-		i++;
-	} catch (error) {
-		equal(error, "Contatto non presente nella rubrica.");
-		i++;
-	}
-
-	expect(i);
-});
-
-/**
- * Verifica la possibilità di sbloccare un contatto.
- * 
- * @version 2.0
- * @author Diego Beraldin
- */
-test("testUnlockContact()", function() {
-	var i = 0;
-	tester.initialize(mediator.getView("addressBook"));
-	document.getElementById("AddressBookPanel").style.display = "none";
-	var contact = {
-		name : "Andrea",
-		surname : "Rizzi",
-		email : "a.rizzi@gmail.com",
-		id : 1,
-		picturePath : "img/contactImg/Default.png",
-		state : "available",
-		blocked : false
-	};
-
-	try {
-		tester.unlockContact(contact);
-		i++;
-	} catch (error) {
-		equal(error, "Contatto già sbloccato.");
-		i++;
-	}
-	contact.id = 2;
-	try {
-		tester.unlockContact(contact);
-		ok(false, "non sollevata eccezione");
-		i++;
-	} catch (error) {
-		equal(error, "Contatto già sbloccato.");
-		i++;
-	}
-	contact.id = 0;
-	try {
-		tester.unlockContact(contact);
-		ok(false, "non sollevata eccezione");
-		i++;
-	} catch (error) {
-		equal(error, "Contatto non presente nella rubrica.");
-		i++;
-	}
 
 	expect(i);
 });

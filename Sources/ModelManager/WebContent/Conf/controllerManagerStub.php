@@ -120,10 +120,11 @@ switch($operation) {
         break;
 
     case "addInGroup" :
-    	$result  = ($_REQUEST["groupId"] == 1)? true : false;
+    	$result = ($_REQUEST["groupId"] == 1)? true : false;
         break;
 
     case "deleteFromGroup" :
+    	$result = ($_REQUEST["groupId"] == 2)? true : false;
         break;
 
     case "unblockContact" :

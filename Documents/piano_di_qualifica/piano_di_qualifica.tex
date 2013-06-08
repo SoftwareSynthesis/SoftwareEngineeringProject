@@ -2204,58 +2204,81 @@ TM13.04 & UpdateMessageControllerTest &Superato\\
 \end{longtable}
 \end{center}
 
-%TODO da rivedere
-
 \subsection{Presenter}
-I test sul presenter mirano a verificare che le classi di tale componente rispettino il comportamento atteso, recuperando i dati tramite l'interazione con il \textit{model}, componente di cui i test sono riportati nella sezione precedente.
+I test sul \inglese{presenter} mirano a verificare che le classi di tale componente rispettino il comportamento atteso, recuperando i dati tramite l'interazione con il \inglese{model}, componente di cui i test sono riportati nella sezione precedente.
 
 Questa serie di test, come anticipato nelle prime pagine del documento, è stata eseguita mediante il \underline{\textit{framework}} QUnit. Tali verifiche sono state implementate allo scopo di non testare soltanto il comportamento della specifica funzione, ma anche verificare lo stato di avanzamento del prodotto e il numero di bug evidenziati ancora esistenti.
-Ovviamente al termine di tali verifiche il risultato dovrà risultare positivo, ovvero i test dovranno essere \textit{tutti} superati.
+Ovviamente al termine di tali verifiche l'esito dovrà risultare positivo, ovvero i test dovranno essere \textit{tutti} superati.
 
 \subsubsection{Package \texttt{org.softwaresynthesis.mytalk.clientpresenter.guicontrol}}
 
 \begin{itemize}
-\item \textbf{TP1.01: AccountSettingsPresenterTest}\\
+\item \textbf{TP1.01: AccountSettingsPresenterTest}
+
 \textbf{Verifica l'oggetto:} \texttt{AccountSettingsPresenter}.\\
 \textbf{Descrizione}: verifica la corretta inizializzazione del pannello per la gestione delle informazioni personali, assicurando l'albero DOM sia costruito correttamente, che il contenuto dei vari nodi sia stato inserito coerentemente e che il comportamento dell'interfaccia rispetti le scelte progettuali. Verifica inoltre la corretta inizializzazione del \inglese{\underline{form}} per la modifica dei dati personali e l'invio dei dati in forma corretta al server.
 
 Tale verifica è composta da tre test:
 \begin{itemize}
 
+\item \texttt{testSendUserData()} Verifica il metodo sendUserData assicurandosi che venga rilevata o non venga rilevata la mancanza di cambiamenti nei dati dell'utente dopo che il \inglese{form} per la modifica è stato compilato.
+
 \item \texttt{testDisplay()} crea l'elemento \texttt{AccountSettingsPanel}, estrae la lista dei suoi figli, ne controlla il numero e che ogni nodo sia coerente con quanto atteso in relazione al tipo di nodo.
 Successivamente controlla che gli elementi della lista vengano visualizzati correttamente presentando un contenuto testuale corrispondente ai dati memorizzati nello \inglese{stub} di \texttt{CommunicationCenter}.
-
-\item \texttt{testSendUserData()} Verifica il metodo sendUserData assicurandosi che venga rilevata o non venga rilevata la mancanza di cambiamenti nei dati dell'utente dopo che il \inglese{form} per la modifica è stato compilato.
 
 \item \texttt{testOnChangeButtonPressed()} controlla il comportamento del \inglese{presenter} nel momento in cui si verifica l'evento nell'interfaccia grafica di pressione del pulsante per la modifica dei dati. In particolare, il test verifica che il pannello che inizialmente conteneva un \verb'<ul>' sia trasformato in un \inglese{form} con i tre campi di inserimento necessari corredati dalle relative etichette, e che l'attributo \verb'enctype' dello stesso sia impostato a \verb'multipart/form-data' per la corretta gestione di un eventuale aggiornamento dell'immagine del profilo.
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{TP1.02:AddressBookPresenterTest}\\  %TODO da aggiornare
+\item \textbf{TP1.02:AddressBookPresenterTest}
+
 \textbf{Verifica l'oggetto:} \texttt{AddressBookPresenter}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è la verifica della correttezza di tutte le funzionalità offerte da \textit{AddressBook}.\\
-Tale verifica è composta da sedici test:
+\textbf{Descrizione}: l'obiettivo di questo test è la verifica della correttezza di tutte le funzionalità offerte da \texttt{AddressBookPresenter} per la gestione della rubrica.
+
+Tale verifica è composta da venti test:
 \begin{itemize}
+\item \texttt{testInitialize()} controlla che la rubrica venga costruita correttamente e che gli elementi grafici che la compongono siano inizializzati correttamente. In particolare, si verifica che sia presente il titolo, il campo di immissione per la ricerca testuale e il relativo pulsante di ricerca, la lista dei contatti e l'elemento \verb'<select>' per il filtraggio basato su gruppo.
+
+\item \texttt{testSetup()} controlla il corretto funzionamento del metodo \verb'setup()' che ha lo scopo il popolamento della rubrica con i contatti scaricati da uno \inglese{stub} che simula la presenza del \inglese{front controller} sul server.
+
+Dal momento che lo \inglese{stub} restituisce una stringa che, una volta effettuate le operazioni di \inglese{parsing} corrisponde a una lista di cinque contatti, il test controlla che la lista visualizzata nel pannello contenga un egual numero di elementi. Inoltre, si verifica che ai \inglese{list item} sia assegnata la classe corretta, che l'immagine dello stato e l'immagine del contatto corrispondano a quanto notificato dal server, e che il nome visualizzato corrisponda a quanto ottenuto da \verb'createNameLabel' tramite un opportuno \inglese{stub} di \texttt{PresenterMediator}.
+
+\item \texttt{testDestroy()} verifica che in seguito all'invocazione del metodo \verb'destroy()' sull'oggetto da testare il pannello per la visualizzazione della rubrica dell'utente non sia più presente nell'interfaccia grafica.
+
+\item \texttt{testAddContact()} verifica che sia possibile aggiungere un contatto alla rubrica tramite l'uso di uno \inglese{stub} per il \inglese{front controller} e che vengano sollevate le opportune eccezioni nel caso in cui questo sia già presente in rubrica o in caso di errore inatteso nel server.
+
+\item \texttt{testRemoveContact()} verifica che sia possibile rimuovere un contatto dalla rubrica e che vengano sollevate le opportune eccezioni nel caso in cui questo non sia di fatto presente in rubrica o in caso di errore imprevisto nel server.
+
+\item \texttt{testAddGroup()} verifica che sia possibile aggiungere un gruppo alla rubrica tramite l'uso di uno \inglese{stub} per il \inglese{front controller} e che vengano sollevate le opportune eccezioni nel caso in cui questo sia già presente o in caso di errore nel server.
+
 \item \texttt{testDeleteGroup()} il test controlla che avvenga la corretta eliminazione di un gruppo dalla rubrica, tramite l'uso di uno \inglese{stub}. Il test verifica anche l'effettivo sollevamento di un'eccezione quando si tenta di eliminare un gruppo non presente nella rubrica.
-\item \texttt{testInitialize()} controlla che la rubrica venga costruita correttamente. Verifica in particolare che la rubrica sia composta di cinque figli dove il primo è un \textit{<h1>} e gli altri quattro sono \textit{<div>}. Controlla poi che ognuno dei cinque figli sia costruito correttamente. 
-\item \texttt{testSetup()} controlla il corretto funzionamento di \textit{setup()} ovvero che avvenga correttamente il popolamento della rubrica con i contatti, che vengono scaricati da uno \inglese{stub} che simula la presenza di una \inglese{servlet} lato server. 
-Il test avviene tramite la creazione di uno \inglese{stub} che emula i contatti dell'utente presenti nella sua rubrica. 
-Il test consiste nel controllo che avvenga l'inserimento dei contatti nella lista contenuta nella struttura dell'\textit{AddressBook}. In particolare, oltre a controllare che il numero di contatti sia giusto (devono essere due), si verifica che sia corretto il loro nome, il loro cognome.
-\item \texttt{testHide()} verifica il comportamento del presenter nel momento in cui il pannello deve essere nascosto, vale a dire impostando correttamente le proprietà di visualizzazione dell'elemento grafico associato.
-\item \texttt{testAddContact()} il test verifica che avvenga il corretto inserimento di un contatto nella rubrica, tramite l'uso di uno \inglese{stub}. Il test verifica anche l'effettivo sollevamento di un'eccezione quando si tenta di inserire un contatto già presente nella rubrica.
-\item \texttt{testRemoveContact()} il test verifica che avvenga la corretta eliminazione di un contatto, tramite l'uso di \inglese{stub}. Il test verifica anche l'effettivo sollevamento di un'eccezione quando si tenta di eliminare un contatto non presente nella rubrica.
-\item \texttt{testApplyFilterByString()} verifica il funzionamento del filtro per i contatti. Il test controlla che data in \inglese{input} una stringa vengano restituiti i contatti che contengono la stringa nel nome, nel cognome o nella mail. Il test controlla il funzionamento per ogni possibile parametro (nome, cognome, mail). Viene inoltre verificato che il risultato del filtraggio sia nullo qualora la stringa inserita non sia presente in nessuno dei campi di nessun contatto della rubrica.
-\item \texttt{testApplyFilterByString()} verifica il funzionamento del filtro per i contatti. Il test controlla che data in \inglese{input} una stringa vengano restituiti i contatti che contengono la stringa nel nome, nel cognome o nella mail. Il test controlla il funzionamento per ogni possibile parametro (nome, cognome, mail). Viene inoltre verificato che il risultato del filtraggio sia nullo qualora la stringa inserita non sia presente in nessuno dei campi di nessun contatto della rubrica.
-\item \texttt{testAddGroup()} il test verifica che avvenga il corretto inserimento di un gruppo nella rubrica, tramite l'uso di uno \inglese{stub}. Il test verifica anche l'effettivo sollevamento di un'eccezione quando si tenta di inserire un gruppo già presente nella rubrica.
-\item \texttt{testBlockUser()} il test controlla che il controlla il corretto funzionamento del blocco di un contatto tramite l'uso di uno \inglese{stub} per la \inglese{servlet} coivolta nell'operazione. Viene inoltre controllato l'effettivo sollevamento di un'eccezione nel caso in cui l'utente che si desidera bloccare sia già bloccato.
-\item \texttt{testUnlockUser()} il test controlla che il controlla il corretto funzionamento dello sblocco di un contatto viene effettuato il blocco di un contatto tramite l'uso di uno \inglese{stub}. Il test controlla anche l'effettivo sollevamento di un'eccezione nel caso in cui l'utente che si desidera sbloccare risulta essere già sbloccato.
-\item \texttt{testApplyFilterByGroup() } verifica il funzionamento del filtro per i gruppi. Il test controlla che data in \inglese{input} il nome del gruppo vengano restituiti i contatti appartenenti a quel gruppo. 
-\item \texttt{testAddContactInGroup()} il test verifica che avvenga il corretto inserimento di un contatto all'interno gruppo, tramite l'uso di uno \inglese{stub}. Il test controlla anche l'effettivo sollevamento di un'eccezione quando si tenta di inserire un contatto già presente nel gruppo in cui si tenta di aggiungerlo.
-\item \texttt{testDeleteContactFromGroup()} il test verifica che avvenga la corretta eliminazione di un contatto da un gruppo, tramite l'uso di uno \inglese{stub}. Il test controlla anche l'effettivo sollevamento di un'eccezione quando si tenta di eliminare dal gruppo un contatto che non gli appartiene.
-\item \texttt{testGetGroupsWhereContactsIs()} verifica che il nome del gruppo in cui l'utente \textit{stub} è inserito sia corrispondente con quello in cui è effettivamente presente.
-\item \texttt{showFiltered()} il test controlla la corretta restituzione dei contatti filtrati. In particolare verifica che il numero di contatti restituiti sia corretto.
-\item \texttt{testContactAlreadyPresent()} verifica la presenza di un utente nella lista dei contatti presenti nella rubrica dell'utente garantendone la presenza effettiva.
-\item \texttt{testRemoveContactFromGroup()} il test verifica che avvenga la corretta eliminazione di un contatto da un gruppo, tramite l'uso di uno \inglese{stub}. Il test controlla anche l'effettivo sollevamento di un'eccezione quando si tenta di eliminare dal gruppo un contatto che non gli appartiene.
+
+\item \texttt{testGetGroupsWhereContactsIs()} verifica che sia possibile ottenere in forma di array associativo l'insieme tutti i gruppi a cui appartiene un determinato contatto.
+
+\item \texttt{testAddContactInGroup()} il test verifica che avvenga il corretto inserimento di un contatto all'interno gruppo, tramite l'uso di uno \inglese{stub} per il \inglese{front controller} presente sul server. Il test controlla anche l'effettivo sollevamento di un'eccezione quando si tenta di inserire un contatto già presente nel gruppo in cui si tenta di aggiungerlo o in caso di errore del server.
+
+\item \texttt{testRemoveContactFromGroup()} il test verifica che avvenga la corretta eliminazione di un contatto da un gruppo, tramite l'uso di uno \inglese{stub}. Il test controlla anche l'effettivo sollevamento di un'eccezione quando si tenta di eliminare dal gruppo un contatto che non vi appartiene o quando si verifica un errore nel server.
+
+\item \texttt{testApplyFilterByString()} verifica il funzionamento del filtro testuale per i contatti. Il test controlla che data in \inglese{input} una stringa vengano restituiti i contatti che contengono la stringa nel nome, nel cognome o nella mail. Il test controlla il funzionamento per ogni possibile parametro (nome, cognome, mail). Viene inoltre verificato che il risultato del filtraggio sia vuoto qualora la stringa inserita non sia presente in nessuno dei campi di nessun contatto della rubrica.
+
+\item \texttt{testApplyFilterByString()} verifica il funzionamento del filtro basato su gruppi per i contatti e, in particolare, che dato un gruppo in input vengano restituiti tutti e soli i contatti che vi appartengono.
+
+\item \texttt{showFilter()} il test controlla la corretta visualizzazione di un insieme di contatti come risultato di un filtro, eventualmente vuoto. In particolare verifica che il numero dei contatti visualizzati corrisponda alla cardinalità dell'insieme dei contatti passati più un'unità dovuta al fatto che il primo \inglese{list item} contiene il testo ``Filtraggio'' per segnalare che si tratta di un filtro.
+
+\item \texttt{testBlockUser()} il test controlla che il controlla il corretto funzionamento del blocco di un contatto tramite l'uso di uno \inglese{stub} per il \inglese{front controller}. Viene inoltre controllato l'effettivo sollevamento di un'eccezione nel caso in cui l'utente che si desidera bloccare sia già bloccato o non presente affatto nella rubrica.
+
+\item \texttt{testUnlockUser()} il test controlla che il controlla il corretto funzionamento dello sblocco di un contatto viene effettuato il blocco di un contatto tramite l'uso di uno \inglese{stub}. Il test controlla anche l'effettivo sollevamento di un'eccezione nel caso in cui l'utente che si desidera sbloccare risulta essere già sbloccato o non presente in rubrica.
+
+\item \texttt{testDisplayContactByClick()} verifica il comportamento dinamico del pannello garantendo che alla pressione del mouse su una voce della lista dei contatti della rubrica sia sollevato un evento con identificativo \verb'showContactPanel' dopo aver impostato la proprietà \verb'contact' dell'evento al contatto che corrisponde alla voce selezionata.
+
+\item \texttt{testOnChangeAddressBookContactState()} verifica che sia gestito correttamente l'evento di un cambiamento di stato da parte di un contatto presente in rubrica, in particolare, controllando che l'immagine dello stato impostata corrisponda al nuovo stato assunto dall'utente.
+
+\item \texttt{testSearchByClick()} verifica la possibilità di avviare una ricerca basata su un criterio testuale tramite interfaccia grafica, simulando l'inserimento di un valore nel campo di testo nel relativo campo di input e la pressione del pulsante di ricerca. Si assicura pertanto che la lista dei contatti visualizzata corrisponda a quanto ottenuto combinando i metodi \verb'applyFilterByString' e \verb'showFilter', con una serie di controlli simili a quelli effettuati per i relativi test.
+
+\item \texttt{testRemoveFilteringByClick()} verifica la possibilità di rimuovere il filtraggio facendo clic sul \inglese{list item} contenente la parola ``Filtraggio''. Il test si assicura che dopo l'evento sia visualizzata nuovamente l'intera rubrica, con una serie di controlli simili a quelli effettuati per il test del metodo \verb'setup()'.
+
+\item \texttt{testOnChangeSelectGroup()} verifica il comportamento del pannello nel momento in cui viene selezionato un gruppo dall'elemento \verb'<select>' per la visualizzazione dei gruppi. Il test verifica che siano mostrati tutti e soli i contatti appartenenti a quel determinato gruppo, come si otterrebbe combinando i metodi \verb'applyFilterByGroup' e \verb'showFilter'. Le asserzioni contenute in questa sede sono pertanto simili a quelle utilizzate nei due test menzionati sopra.
+
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
