@@ -4,36 +4,43 @@
  * @version 2.0
  * @author Diego Beraldin
  */
-module("ToolsPanelPresenter", {
-	setup : function() {
-		// stub di mediator
-		mediator = {
-			getView : function(someString) {
-				document.dispatchEvent(new CustomEvent("eventRaised"));
-				var viewRequest = new XMLHttpRequest();
-				viewRequest.open("POST", "clientview/ToolsView.html", false);
-				viewRequest.send();
-				return viewRequest.response;
+module(
+		"ToolsPanelPresenter",
+		{
+			setup : function() {
+				// url dello stub del front contoller
+				commandURL = "http://localhost/ModelManager/WebContent/Conf/controllerManagerStub.php";
+				// stub di mediator
+				mediator = {
+					getView : function(someString) {
+						document.dispatchEvent(new CustomEvent("eventRaised"));
+						var viewRequest = new XMLHttpRequest();
+						viewRequest.open("POST", "clientview/ToolsView.html",
+								false);
+						viewRequest.send();
+						return viewRequest.response;
+					}
+				};
+				// stub di communicationcenter
+				communicationcenter = {
+					disconnect : function() {
+						document.dispatchEvent(new CustomEvent("eventRaised"));
+					}
+				};
+				// brutti eventi cattivi (globali)
+				resetChatsObject = new CustomEvent("resetChatsObject");
+				// inizializza l'oggetto da testare
+				tester = new ToolsPanelPresenter();
+				// evento
+				changeMyState = Object();
+			},
+			teardown : function() {
+				var element = document.getElementById("ToolsPanel");
+				if (element) {
+					document.body.removeChild(element.parentElement);
+				}
 			}
-		};
-		// stub di communicationcenter
-		communicationcenter = {
-			disconnect : function() {
-				document.dispatchEvent(new CustomEvent("eventRaised"));
-			}
-		};
-		// inizializza l'oggetto da testare
-		tester = new ToolsPanelPresenter();
-		// evento
-		changeMyState = Object();
-	},
-	teardown : function() {
-		var element = document.getElementById("ToolsPanel");
-		if (element) {
-			document.body.removeChild(element.parentElement);
-		}
-	}
-});
+		});
 
 /**
  * Verifica la creazione e l'inizializzazione del pannello
