@@ -9,6 +9,7 @@ module("CommunicationCenterTest", {
 		urlChannelServlet = "http://localhost:8080";
 		message = "";
 		// brutti eventi cattivi
+		chatStarted = new CustomEvent("chatStarted");
 		changeMyState = new CustomEvent("changeMyState");
 		appendMessageToChat = new CustomEvent("appendMessageToChat");
 		stopRinging = new CustomEvent("stopRinging");
@@ -26,6 +27,11 @@ module("CommunicationCenterTest", {
 			},
 			getCommunicationPPMyVideo : function() {
 				return document.createElement("video");
+			},
+			getContactById : function(id) {
+				return {
+					id : id
+				};
 			}
 		};
 		// et alii...
