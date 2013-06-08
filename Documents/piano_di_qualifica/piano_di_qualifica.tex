@@ -2407,31 +2407,32 @@ Tale verifica è composta da dieci test:
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{TP1.07: LoginPresenterTest}\\
+\item[\passed] \textbf{TP1.07: LoginPresenterTest}\\
 \textbf{Verifica l'oggetto:} \texttt{LoginPresenter}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la corretta istanziazione del \textit{Login} popolato con dei dati coerenti rispetto allo scopo della \inglese{form}.
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la corretta istanziazione del pannello di autenticazione con i dati coerenti rispetto allo scopo della \inglese{form}.
+
 Tale verifica è composta da dieci test:
 \begin{itemize} 
 
-\item \texttt{testInitialize()} mediante diverse asserzioni \texttt{equal} controlla l'effettiva correttezza della \inglese{form} creata, sia nella forma che nel funzionamento.
+\item \texttt{testInitialize()} mediante diverse asserzioni \texttt{equal} controlla l'effettiva correttezza della \inglese{form} creata, sia per quanto concerne il tipo degli elementi utilizzati che il contenuto degli stessi.
 
-\item \texttt{testDestroy()} verifica la corretta rimozione del pannello visualizzato.
+\item \texttt{testDestroy()} verifica la corretta rimozione del pannello visualizzato tramite l'invocazione del metodo \verb'destroy()'.
 
-\item \texttt{testLoginSuccessfully() } effettua una prova di login, mediante l'inserimento di uno \textit{username} e una \textit{password} corretti, verificando che tali dati siano accettati correttamente.
+\item \texttt{testGetUsername()} verifica che, dato uno \textit{username} in \inglese{input} simulando l'inserimento di dati nel \inglese{form} da parte dell'utente, sia possibile recuperarlo correttamente. Se lo \textit{username} non è un indirizzo email valido, oppure se il campo di inserimento è lasciato accidentalmente vuoto, il test verifica che venga sollevata un'eccezione.
 
-\item \texttt{testLoginUnsuccessfully() } effettua una prova di login, mediante l'inserimento di uno \textit{username} e una \textit{password} non corretti, verificando che tali dati non sono accettati dal sistema e riporti coerentemente l'errore.
+\item \texttt{testGetPassword()} verifica che, data una \textit{password} in \inglese{input} simulando l'inserimento di dati nel \inglese{form} da parte dell'utente, sia possibile recuperarla in maniera corretta. Se la \textit{password} non è accidentalmente inserita nella \inglese{form}, il test verifica che venga sollevata un'eccezione.
 
-\item \texttt{testGetUsername()} verifica che, dato uno \textit{username} in \inglese{input} corretto generato come \inglese{stub}, sia possibile recuperarlo correttamente. Se lo \textit{username} non è una mail valida, o non è inserito nella \inglese{form}, il test verifica che venga sollevata un'eccezione.
+\item \texttt{testLoginUnsuccessfully()} effettua una simulazione di login, mediante l'inserimento di uno \textit{username} e una \textit{password} non corretti per lo \inglese{stub} del server, verificando che tali dati non sono accettati dal sistema e che sia riportato coerentemente l'errore modificando l'attributo \verb'class' dei campi di inserimento delle credenziali.
 
-\item \texttt{testGetPassword() } verifica che, data una \textit{password} in \inglese{input} corretta generata come \inglese{stub}, sia possibile recuperarla correttamente.Se la \textit{password} non è inserita nella \inglese{form}, il test verifica che venga sollevata un'eccezione.
+\item \texttt{testLoginSuccessfully()} effettua una simulazione di login, mediante l'inserimento di uno \textit{username} e una \textit{password} corretti, verificando che tali dati siano accettati e che siano memorizzate nel client le informazioni di autenticazione dell'utente.
 
-\item \texttt{testBuildRetrivePasswordForm()} tale test verifica la corretta creazione della form richiamata per il recupero della password tramite risposta segreta, successivamente controlla che venga richiamata la domanda correttamente impostata a cui rispondere.
+\item \texttt{testBuildRetrivePasswordForm()} tale test verifica la corretta creazione del \inglese{form} richiamata per il recupero della password tramite risposta alla domanda segreta, controllando inoltre che il testo della domanda segreta riportata nel \inglese{form} aggiuntivo corrisponda a quanto impostato in fase di registrazione (in base ai dati ottenuti dallo \inglese{stub} del server).
 
-\item \texttt{testRetrivePasswordSuccessfully()} verifica il comportamento se si inserisce la risposta corretta nel \inglese{form} per il recupero della password.
+\item \texttt{testOnInputLoginClick()} verifica il comportamento al clic sul pulsante di autenticazione, verificando che siano recuperati i dati dal \inglese{form} e che siano memorizzate nel client le informazioni di autenticazione dell'uetne.
 
-\item \texttt{testRetrivePasswordUnsuccessfully()} verifica il comportamento se si inserisce una risposta errata nel \inglese{form} per il recupero della password.
+\item \texttt{testRetrivePasswordSuccessfully()} verifica il comportamento del \inglese{form} per il recupero della password se si inserisce la risposta corretta nel \inglese{form} per il recupero della password. In particolare il test verifica che sia visualizzato un elemento \verb'<p>' contenente un messaggio di successo.
 
-\item \texttt{testOnInputLoginClick} verifica il comportamento al \inglese{click} sul pulsante di login.
+\item \texttt{testRetrivePasswordUnsuccessfully()} verifica il comportamento se si inserisce una risposta errata nel \inglese{form} per il recupero della password. In particolare il test verifica che sia visualizzato un elemento \verb'<p>' contenente un messaggio d'errore.
 
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
