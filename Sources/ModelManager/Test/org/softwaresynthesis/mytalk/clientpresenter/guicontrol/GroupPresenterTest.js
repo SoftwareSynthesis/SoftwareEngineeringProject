@@ -280,7 +280,7 @@ test("testExpandGroupByClick()", function() {
 });
 
 /**
- * Verifica che sia possibile espandere la lista dei contatti di un gruppo
+ * Verifica che sia possibile compattare la lista dei contatti di un gruppo
  * tramite un click nell'interfaccia utente
  * 
  * @version 2.0
@@ -326,7 +326,7 @@ test("testDeleteGroupByClick()", function() {
 
 /**
  * Verifica che la creazione del form per l'aggiunta di un contatto all'interno
- * di un gruppo sia creato correttamente.
+ * di un gruppo sia portata a termine correttamente.
  * 
  * @version 2.0
  * @author Diego Beraldin
@@ -379,13 +379,13 @@ test("testDeleteFromGroupByClick()", function() {
 	document.addEventListener("removeContactFromGroup", function(evt) {
 		contact = evt.contact;
 	});
-	
+
 	element.dispatchEvent(new MouseEvent("click"));
-	
+
 	equal(contact.name, "Paolino");
 	i++;
 	equal(contact.surname, "Paperino");
 	i++;
-	
+
 	expect(i);
 });
