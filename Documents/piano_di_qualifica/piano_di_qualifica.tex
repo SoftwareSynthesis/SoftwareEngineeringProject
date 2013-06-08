@@ -2209,24 +2209,25 @@ TM13.04 & UpdateMessageControllerTest &Superato\\
 \subsection{Presenter}
 I test sul presenter mirano a verificare che le classi di tale componente rispettino il comportamento atteso, recuperando i dati tramite l'interazione con il \textit{model}, componente di cui i test sono riportati nella sezione precedente.
 
-Questa serie di test, come anticipato nelle prime pagine del documento, è stata eseguita mediante il \underline{\textit{framework}} \textit{Qunit}. Tali verifiche sono state implementate allo scopo di non testare soltanto il comportamento della specifica funzione, ma anche verificare lo stato di avanzamento del prodotto e il numero di bug evidenziati ancora esistenti.
+Questa serie di test, come anticipato nelle prime pagine del documento, è stata eseguita mediante il \underline{\textit{framework}} QUnit. Tali verifiche sono state implementate allo scopo di non testare soltanto il comportamento della specifica funzione, ma anche verificare lo stato di avanzamento del prodotto e il numero di bug evidenziati ancora esistenti.
 Ovviamente al termine di tali verifiche il risultato dovrà risultare positivo, ovvero i test dovranno essere \textit{tutti} superati.
 
-\subsubsection{\texttt{org.softwaresynthesis.mytalk.clientpreenter.guicontrol}}
+\subsubsection{Package \texttt{org.softwaresynthesis.mytalk.clientpresenter.guicontrol}}
 
 \begin{itemize}
 \item \textbf{TP1.01: AccountSettingsPresenterTest}\\
 \textbf{Verifica l'oggetto:} \texttt{AccountSettingsPresenter}.\\
-\textbf{Descrizione}: verifica la corretta inizializzazione di \textit{AccountSetting}, ovvero che l'albero sia stato costruito correttamente, e che il contenuto dei vari nodi sia stato inserito coerentemente. Verifica inoltre la corretta inizializazione del \inglese{\underline{form}} per la modifica dei dati personali e l'invio dei dati in forma corretta al server.
+\textbf{Descrizione}: verifica la corretta inizializzazione del pannello per la gestione delle informazioni personali, assicurando l'albero DOM sia costruito correttamente, che il contenuto dei vari nodi sia stato inserito coerentemente e che il comportamento dell'interfaccia rispetti le scelte progettuali. Verifica inoltre la corretta inizializzazione del \inglese{\underline{form}} per la modifica dei dati personali e l'invio dei dati in forma corretta al server.
+
 Tale verifica è composta da tre test:
 \begin{itemize}
 
-\item \texttt{testDisplay()} crea l'elemento \textit{AccountSetting}, estrae la lista dei suoi figli, ne controlla il numero e che ogni nodo sia coerente con quanto atteso.
-Successivamente controlla che gli elementi della lista vengano visualizzati correttamente presentando quindi il contenuto corrispondente ai dati memorizzati nello \inglese{stub} di\\ \texttt{CommunicationCenter}.
+\item \texttt{testDisplay()} crea l'elemento \texttt{AccountSettingsPanel}, estrae la lista dei suoi figli, ne controlla il numero e che ogni nodo sia coerente con quanto atteso in relazione al tipo di nodo.
+Successivamente controlla che gli elementi della lista vengano visualizzati correttamente presentando un contenuto testuale corrispondente ai dati memorizzati nello \inglese{stub} di \texttt{CommunicationCenter}.
 
-\item \texttt{testSendUserData()} Verifica il metodo sendUserData verificando che venga rilevata o non venga rilevata la mancanza di cambiamenti nei dati dell'utente.
+\item \texttt{testSendUserData()} Verifica il metodo sendUserData assicurandosi che venga rilevata o non venga rilevata la mancanza di cambiamenti nei dati dell'utente dopo che il \inglese{form} per la modifica è stato compilato.
 
-\item \texttt{testOnChangeButtonPressed()} controlla il comportamento del presenter nel momento in cui si verifica l'evento nell'interfaccia grafica di pressione del pulsante per la modifica dei dati. In particolare, il test verifica che il pannello sia trasformato in un \inglese{form} con i tre campi di inserimento necessari corredati dalle relative etichette.
+\item \texttt{testOnChangeButtonPressed()} controlla il comportamento del \inglese{presenter} nel momento in cui si verifica l'evento nell'interfaccia grafica di pressione del pulsante per la modifica dei dati. In particolare, il test verifica che il pannello che inizialmente conteneva un \verb'<ul>' sia trasformato in un \inglese{form} con i tre campi di inserimento necessari corredati dalle relative etichette, e che l'attributo \verb'enctype' dello stesso sia impostato a \verb'multipart/form-data' per la corretta gestione di un eventuale aggiornamento dell'immagine del profilo.
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
