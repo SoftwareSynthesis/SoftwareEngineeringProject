@@ -907,24 +907,24 @@ Per la parte presenter vengono presentate due metriche già descritte per la par
 \begin{tabular}{p{.55\textwidth}ll}
 \toprule Package & CC  & TLOC\\
 \midrule
-AccountSettingPresenter.js & 2,75 & 122\\
-AddressBookPresenter.js & 2,78 & 504\\
-CallHistoryPresenter.js & 1,5 & 37\\
-CommunicationPresenter.js & 1,72 & 164\\
-ContactPresenter.js & 1,72 & 138\\
-GroupPresenter.js & 2,15 & 151\\ 
-LoginPresenter.js & 1,95 & 175\\
-MainPresenter.js & 1,2 & 34\\
-MessagePresenter.js & 1,6 & 86\\
-PresenterMediator.js & 2,1 & 120\\
-RegisterPresenter.js & 2,75 & 122\\
-SearchResultPresenter.js & 2 & 70\\
-ToolsPresenter.js & 1,5 & 101\\
+AccountSettingPresenter.js & 2 & 170\\
+AddressBookPresenter.js & 2,95 & 467\\
+CallHistoryPresenter.js & 1,25 & 78\\
+CommunicationPresenter.js & 1,92 & 220\\
+ContactPresenter.js & 0,3 & 173\\
+GroupPresenter.js & 1,5 & 48\\ 
+LoginPresenter.js & 2 & 275\\
+MainPresenter.js & 1 & 15\\
+MessagePresenter.js & 1,25 & 125\\
+PresenterMediator.js & 1,38 & 156\\
+RegisterPresenter.js & 3,08 & 246\\
+SearchResultPresenter.js & 2,25 & 67\\
+ToolsPresenter.js & 1,14 & 82\\
 \bottomrule
 \end{tabular}
 \caption{Misurazioni metriche TLOC e MLOC del presenter} \label{tab: metricheTLOCMLOCpresenter}
 \end{table}
-Il valore complessivo che se ne ricava è quindi una complessità ciclomatica media pari a 1,97, valore sostanzialmente in linea con le attese e accettabile dal punto di vista qualitativo.
+Il valore complessivo che se ne ricava è quindi una complessità ciclomatica media pari a 1,69 con un massimo di 9 in \texttt{RegisterPresenter.js}.
 
 %TODO da rivedere descrizione
 
@@ -2284,29 +2284,54 @@ Dal momento che lo \inglese{stub} restituisce una stringa che, una volta effettu
 
 \item \textbf{TP.103: CallHistoryPresenterTest}\\
 \textbf{Verifica l'oggetto:} \texttt{CallHistoryPresenter}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \textit{CallHistory}.\\
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \verb'<div>' con identificativo \verb'CallHistoryPanel'.\\
 Tale verifica è composta da un solo test:
 \begin{itemize}
 
-\item \texttt{testDisplay()} controlla che CallHistory abbia il numero corretto di figli e  che questi ultimi siano coerenti con quanto atteso, verificando quindi che la lista delle chiamate sia visualizzata correttamente.
+\item \texttt{testDisplay()} controlla che il pannello abbia il numero corretto di figli e  che questi ultimi siano coerenti con quanto atteso, sia in quanto a tipo che a contenuto, verificando quindi che la lista delle chiamate sia visualizzata correttamente in base ai dati che sono ricevuti dallo \inglese{stub} che simula la presenza del server.
 
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-\item \textbf{TP1.04: CommunicationPresenterTest}\\ %TODO da aggiornare
-\textbf{Verifica l'oggetto:} \texttt{CommunicationPresenter}.\\
-\textbf{Descrizione}: l'obiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \textit{Communication}.\\
-Tale verifica è composta da cinque test:
+
+\item \textbf{TP1.04: CommunicationPresenterTest}
+
+\textbf{Verifica l'oggetto:} \texttt{CommunicationPresenter}.
+
+\textbf{Descrizione}: l'obiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \texttt{CommunicationPanel}, che tutti i \inglese{widget} grafici del pannello siano correttamente inizializzati e che il \inglese{presenter} risponda coerentemente con le attese agli eventi che si verificano durante l'interazione dell'utente con il client.
+
+Tale verifica è composta da dieci test:
 \begin{itemize}
 
-\item \texttt{testCreate()} controlla che il numero dei figli del \textit{Communication} siano esattamente due, che entrambi siano \texttt{<div>} e che il valore dell'attributo \texttt{id} del primo figlio sia ``divCall'' mentre del secondo ``divChat''. Verifica i figli dell'elemento per la visualizzazione delle chiamate (due elementi \texttt{<video>} e un ulteriore elemento \texttt{<div>} per la visualizzazione delle statistiche) e i figli dell'elemento per la visualizzazione delle chat.
+% TODO da rivedere (chiedere a Diego quando il test è definitivo)
+\item \texttt{testDisplay()} controlla che il numero dei figli del \textit{Communication} siano esattamente due, che entrambi siano \texttt{<div>} e che il valore dell'attributo \texttt{id} del primo figlio sia ``divCall'' mentre del secondo ``divChat''. Verifica i figli dell'elemento per la visualizzazione delle chiamate (due elementi \texttt{<video>} e un ulteriore elemento \texttt{<div>} per la visualizzazione delle statistiche) e i figli dell'elemento per la visualizzazione delle chat.
 
-\item \texttt{testUpdateTimer()} verifica che sia correttamente visualizzata la stringa passata come parametro in ingresso al metodo \texttt{updateTimer}. A tal fine è utilizzato uno \inglese{stub} per simulare per la vista, che espone verso il presenter la medesima interfaccia del pannello vero.
-
+% TODO da rivedere
 \item \texttt{testGetMyVideo()} verifica l'accesso alla parte di interfaccia grafica incaricata di visualizzare l'\inglese{input} proveniente dalla webcam dell'utente, utilizzando ancora uno \inglese{stub} per la vista mancante.
+
+% TODO da rivedere
 \item \texttt{testGetOtherVideo()} verifica l'accesso alla parte di interfaccia grafica incaricata di visualizzare l'\inglese{input} proveniente dal client con cui si è instaurata una comunicazione.
 
-\item \texttt{testUpdateStarts()} verifica la corretta visualizzazione delle statistiche di comunicazione, tanto per i dati in ingresso che per i dati in uscita. A tal fine è utilizzato uno \inglese{stub} per simulare la presenza della vista durante l'esecuzione del test.
+% TODO da rivedere
+\item \texttt{testOnUpdateStats()} verifica la corretta visualizzazione delle statistiche di comunicazione, tanto per i dati in ingresso che per i dati in uscita. A tal fine è utilizzato uno \inglese{stub} per simulare la presenza della vista durante l'esecuzione del test.
+
+% TODO da rivedere
+\item \texttt{testOnUpdateTimer()} verifica che sia correttamente visualizzata la stringa passata come parametro in ingresso al metodo \texttt{updateTimer}. A tal fine è utilizzato uno \inglese{stub} per simulare per la vista, che espone verso il presenter la medesima interfaccia del pannello vero.
+
+\item \texttt{testOnChatAdded()}
+% TODO da terminare
+
+\item \texttt{testOnChatRemoved()}
+% TODO da terminare
+
+\item \texttt{testOnAppendMessageToChat()}
+% TODO da terminare
+
+\item \texttt{testOnStartRinging()}
+% TODO da terminare
+
+\item \texttt{testOnStopRinging()}
+% TODO da terminare
 
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
