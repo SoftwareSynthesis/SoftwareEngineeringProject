@@ -77,6 +77,7 @@ function CommunicationPanelPresenter() {
         // crea il campo per l'immissioen del testo
         var input = document.createElement("input");
         input.id = "text";
+        input.type = "text";
         input.name = "text";
         form.appendChild(input);
         input.onkeyup = function(){
