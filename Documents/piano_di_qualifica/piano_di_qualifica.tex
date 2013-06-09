@@ -2567,37 +2567,38 @@ Tale verifica si compone di tre test:
 
 \end{itemize}
 
-%TODO da rileggere
-\item[\passed] \textbf{TP1.13: ToolsPresenterTest}\\
-\textbf{Verifica l'oggetto:} \texttt{ToolsPresenter}.\\
-\textbf{Descrizione}: l'obiettivo di tale test è verificare che sia correttamente creato il pannello degli strumenti dell'interfaccia grafica, nonché il comportamento del presenter nel momento in cui dalla vista è invocato il metodo che corrisponde all'uscita dal sistema.
+\item[\passed] \textbf{TP1.13: ToolsPresenterTest}
+
+\textbf{Verifica l'oggetto:} \texttt{ToolsPresenter}.
+
+\textbf{Descrizione}: l'obiettivo di tale test è verificare che sia correttamente creato e inizializzato in tutte le sue parti il pannello degli strumenti dell'interfaccia grafica, nonché il comportamento del \inglese{presenter} nel momento in cui dalla vista vengono invocate le funzioni di \inglese{callback} per la gestione dell'interazione con l'utente.
+
 Tale verifica è composta da dodici test:
 \begin{itemize}
 
-\item \texttt{testInitialize()} mediante diversi metodi \textit{equal} controlla l'effettiva correttezza della \inglese{form} creata, sia nella forma che nel funzionamento.
+\item \texttt{testInitialize()} mediante una serie di asserzioni \texttt{equal} il test controlla a correttezza della creazione del pannello, sia nella forma  (tipo e contenuto degli elementi che lo compongono) che nel funzionamento.
 
-\item \texttt{testDestroy()} controlla che venga correttamente eliminato il \inglese{form} degli strumenti.
+\item \texttt{testDestroy()} controlla che venga correttamente eliminato il pannello degli strumenti mediante l'invocazione del metodo \verb'destroy()'.
 
-\item \texttt{testLogout()} controlla l'effettivo \inglese{logout} dell'utente autenticato al sistema.
-
-\item \texttt{testAddComunication()} verifica che sia possibile aggiungere il pulsante
-relativo alla comunicazione in corso.
+\item \texttt{testAddComunication()} verifica che sia possibile aggiungere il pulsante relativo alla comunicazione in corso.
 
 \item \texttt{testRemoveComunication()} verifica che sia possibile rimuovere il pulsante relativo alla comunicazione in corso una volta terminata.
 
-\item \texttt{testUpdateStateValue} verifica il comportamento al cambiamento dello stato utente.
+\item \texttt{testOnLogout()} controlla che sia possibile effettuare il \inglese{logout} da parte di un utente autenticato al sistema tramite un evento \verb'logout'. In particolare, il test verifica tramite un \inglese{mock} di \verb'CommunicationCenter' che sia invocata la funzione \verb'disconnect()' deputata a tale compito.
 
-\item \texttt{testOnShowPanel()} verifica che il presenter risponda correttamente all'evento\\ \texttt{showToolPanel}.
+\item \texttt{testUpdateStateValue()} verifica il comportamento del pannello al cambiamento dello stato utente controllando che sia sollevato correttamente un evento con identificativo \verb'changeMyState' se l'utente interagisce con l'elemento \verb'<select>' contenuto nel pannello.
 
-\item \texttt{testPerformSearch()} verifica il corretto funzionamento del pulsante relativo alla ricerca di un utente.
+\item \texttt{testOnShowPanel()} verifica che il \inglese{presenter} risponda secondo le aspettative all'evento \texttt{showToolPanel} controllando tramite un \inglese{mock} di \texttt{PresenterMediator} che sia invocato il metodo \verb'getView' per una vista di primo livello.
 
-\item \texttt{testPerformSearch()} verifica il corretto funzionamento del pulsante relativo alla gestione dei gruppi.
+\item \texttt{testPerformSearch()} verifica il corretto funzionamento del pulsante relativo alla ricerca di un utente controllando alla sua pressione che venga sollevato un evento \verb'showSearchResultPanel'.
 
-\item \texttt{testPerformSearch()} verifica il corretto funzionamento del pulsante relativo alla visualizzazione dello storico delle chiamate.
+\item \texttt{testGroup()} verifica il corretto funzionamento del pulsante relativo all'amministrazione dei gruppi controllando che alla sua pressione venga sollevato un evento \verb'showGroupPanel'.
 
-\item \texttt{testPerformSearch()} verifica il corretto funzionamento del pulsante relativo alle impostazioni dell'utente.
+\item \texttt{testCallHistory()} verifica il corretto funzionamento del pulsante relativo allo storico delle chiamate controllando che alla sua pressione venga sollevato un evento \verb'showCallHistoryPanel'.
 
-\item \texttt{testPerformSearch()} verifica il corretto funzionamento del pulsante relativo alla gestione della segreteria.
+\item \texttt{testAccountSettings()} verifica il corretto funzionamento del pulsante relativo alle impostazioni personali dell'utente controllando che alla sua pressione venga sollevato un evento \verb'showAccountSettingPanel'.
+
+\item \texttt{testMessage()} verifica il corretto funzionamento del pulsante relativo alla segreteria telefonica dell'utente controllando che alla sua pressione venga sollevato un evento \verb'showMessagePanel'.
 
 \end{itemize}
 

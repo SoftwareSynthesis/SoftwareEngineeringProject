@@ -195,15 +195,21 @@ test("testOnLogout()", function() {
  */
 test("testUpdateStateValue()", function() {
 	var i = 0;
+	var bool = false;
 	changeMyState = new CustomEvent("changeMyState");
 	tester.initialize(mediator.getView("tools"));
 	var element = document.getElementById("selectState");
 	element.selectedIndex = 0;
+	document.addEventListener("changeMyState", function() {
+		bool = true;
+	});
 
 	element = tester.updateStateValue();
 	equal(element.nodeName, "SELECT");
 	i++;
 	equal(element.children.length, 2);
+	i++;
+	ok(bool);
 	i++;
 
 	expect(i);
@@ -230,7 +236,7 @@ test("testOnShowToolsPanel()", function() {
  * @version 2.0
  * @author Diego Beraldin
  */
-test("testPerformSearch", function() {
+test("testPerformSearch()", function() {
 	showSearchResultPanel = new CustomEvent("showSearchResultPanel");
 	tester.initialize(mediator.getView("tools"));
 	document.getElementById("ToolsPanel").style.display = "none";
@@ -249,7 +255,7 @@ test("testPerformSearch", function() {
  * @version 2.0
  * @author Diego Beraldin
  */
-test("testPerformSearch", function() {
+test("testGroup()", function() {
 	showGroupPanel = new CustomEvent("showGroupPanel");
 	tester.initialize(mediator.getView("tools"));
 	document.getElementById("ToolsPanel").style.display = "none";
@@ -268,7 +274,7 @@ test("testPerformSearch", function() {
  * @version 2.0
  * @author Diego Beraldin
  */
-test("testPerformSearch", function() {
+test("testCallHistory()", function() {
 	showCallHistoryPanel = new CustomEvent("showCallHistoryPanel");
 	tester.initialize(mediator.getView("tools"));
 	document.getElementById("ToolsPanel").style.display = "none";
@@ -287,7 +293,7 @@ test("testPerformSearch", function() {
  * @version 2.0
  * @author Diego Beraldin
  */
-test("testPerformSearch", function() {
+test("testAccountSettings()", function() {
 	showAccountSettingPanel = new CustomEvent("showAccountSettingPanel");
 	tester.initialize(mediator.getView("tools"));
 	document.getElementById("ToolsPanel").style.display = "none";
@@ -306,7 +312,7 @@ test("testPerformSearch", function() {
  * @version 2.0
  * @author Diego Beraldin
  */
-test("testPerformSearch", function() {
+test("testMessage()", function() {
 	showMessagePanel = new CustomEvent("showMessagePanel");
 	tester.initialize(mediator.getView("tools"));
 	document.getElementById("ToolsPanel").style.display = "none";
