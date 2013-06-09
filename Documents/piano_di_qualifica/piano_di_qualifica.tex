@@ -2515,38 +2515,38 @@ Tale verifica è composta da quindici test:
 \item \texttt{testOnShowUIPanels()} verifica che il gestore dell'evento \verb'showUIPanels' abbia il comportamento corretto, vale a dire che provochi la rimozione di tutti i pannelli eventualmente presenti e la visualizzazione delle tre viste che compongono l'interfaccia principale dell'applicativo, sollevando tutti e soli gli eventi necessari.
 \end{itemize}
 
-%TODO da rileggere
 \item[\passed] \textbf{TP1.11: RegisterPresenterTest}
 
 \textbf{Verifica l'oggetto:} \texttt{RegisterPresenter}.
 
-\textbf{Descrizione}:l'obiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \textit{Register}, la possibilità di nascondere correttamente l'elemento \textit{Register}, il corretto recupero dei dati inseriti nella \inglese{form} d'iscrizione e infine i test relativi al recupero delle singole informazioni passate in fase di registrazione.\\
+\textbf{Descrizione}:l'obiettivo di questo test è verificare la corretta creazione del sotto-albero radicato nell'elemento \verb'<div>' con identificativo \texttt{RegisterPanel}, la possibilità di rimuovere e visualizzare il pannello, il corretto recupero dei dati inseriti nel \inglese{form} di registrazione e la corretta inizializzazione dei \inglese{widget} grafici che lo compongono
+
 Tale verifica è composta da dodici test:
 \begin{itemize}
 
-\item \texttt{testInitialize()} mediante diversi metodi \texttt{equal} controlla l'effettiva correttezza della \inglese{form} creata, sia nella forma che nel funzionamento.
+\item \texttt{testInitialize()} mediante diverse asserzioni \texttt{equal} il test controlla la correttezza della \inglese{form} creata, sia nella forma (contenuti e tipi degli elementi utilizzati) che nel funzionamento. Si verifica con particolare attenzione che siano impostati correttamente gli attributi \verb'required' per i campi di immissione il cui contenuto è obbligatorio per la registrazione e che il \inglese{form} abbia l'attributo \verb'enctype' impostato \verb'multipart/form-data' per la corretta gestione dei dati binari relativi all'immagine del profilo del nuovo utente.
 
-\item \texttt{testDestroy() } controlla che venga correttamente rimosso il \inglese{form} di registrazione.
+\item \texttt{testDestroy() } controlla che venga correttamente rimosso il \inglese{form} di registrazione tramite il metodo \verb'destroy()'.
 
-\item \texttt{testGetUsername() } crea una \inglese{form} compilata correttamente con lo \textit{username}, e prova a recuperarlo mediante \texttt{getUsername}, verificando se è stato inserito correttamente (o meno).
+\item \texttt{testGetUsername() } il test crea un \inglese{form} e simula la compilazione con diversi \inglese{input} da parte dell'utente del campo per lo \textit{username}, provando in seguito a recuperarlo mediante il metodo \texttt{getUsername()}. Lo scopo del test è verificare che sia recuperato correttamente nel caso in cui si tratta di un indirizzo email valido, che viene rilevato (e gestito) il caso in cui il campo non sia stato completato oppure che si tratti di una stringa non valida come indirizzo email.
 
-\item \texttt{testGetPassword()} crea una \inglese{form} compilata correttamente con il campo \textit{password}, e prova a recuperarlo mediante \texttt{getPassword}, verificando se è stata inserita correttamente (o meno). Il test verifica anche il sollevamento di un'eccezione nel momento in cui non sia stata inserito alcun valore in questo campo.
+\item \texttt{testGetPassword()} il test crea un \inglese{form} e simula la compilazione da parte dell'utente del campo per la \textit{password}, provando in seguito a recuperarla mediante il metodo \texttt{getPassword()}. Il test verifica anche il sollevamento di un'eccezione nel momento in cui non sia stato inserito alcun valore in questo campo.
 
-\item \texttt{testGetName()}  crea una \inglese{form} compilata correttamente con il campo \textit{name}, e prova a recuperarlo mediante \texttt{getName}, verificando se è stato inserito correttamente (o meno).
+\item \texttt{testGetName()} il test crea un \inglese{form} e simula la compilazione da parte dell'utente del campo per il nome, provando in seguito a recuperarlo mediante il metodo \texttt{getName()} e verificando che il risultato corrisponda a quanto immesso.
 
-\item \texttt{testGetSurname()}  crea una \inglese{form} compilata correttamente con il campo \textit{surname}, e prova a recuperarlo mediante \texttt{getSurname}, verificando se è stata inserita correttamente (o meno).
+\item \texttt{testGetSurname()} il test crea un \inglese{form} e simula la compilazione da parte dell'utente del campo per il cognome, provando in seguito a recuperarlo mediante il metodo \texttt{getSurname()} e verificando che il risultato corrisponda a quanto immesso.
 
-\item \texttt{testGetQuestion()}  crea una \inglese{form} compilata correttamente con il campo \textit{question}, e prova a recuperarlo mediante \texttt{getQuestion}, verificando se è stata inserita correttamente (o meno). Dal momento che si tratta di un dato obbligatorio, il test verifica anche che sia sollevata un'eccezione nel caso in cui non sia fornito alcun valore.
+\item \texttt{testGetQuestion()}  il test crea un \inglese{form} e simula la compilazione da parte dell'utente del campo per la domanda segreta, provando in seguito a recuperarla mediante il metodo \texttt{getQuestion()} e verificando che il risultato corrisponda a quanto immesso. Dal momento che si tratta di un dato obbligatorio, il test verifica anche che sia sollevata un'eccezione nel caso in cui non sia fornito alcun valore.
 
-\item \texttt{testGetAnswer()} crea una \inglese{form} compilata correttamente con il campo \textit{answer}, e prova a recuperarlo mediante \texttt{getAnswer}, verificando se è stata inserita correttamente (o meno). Dal momento che si tratta di un dato obbligatorio, il test verifica anche che sia sollevata un'eccezione nel caso in cui questo valore non sia fornito.
+\item \texttt{testGetAnswer()} il test crea un \inglese{form} e simula la compilazione da parte dell'utente del campo per la risposta alla domanda segreta, provando in seguito a recuperarla mediante il metodo \texttt{getAnswer()} e verificando che il risultato corrisponda a quanto immesso. Dal momento che si tratta di un dato obbligatorio, il test verifica anche che sia sollevata un'eccezione nel caso in cui questo valore non sia fornito.
 
-\item \texttt{testGetPicturePath()} crea una \inglese{form} compilata correttamente con l'immagine utente da inserire, successivamente prova a recuperarla mediante 
+\item \texttt{testGetPicturePath()} il test crea un \inglese{form} e simula il caricamento di un'immagine per il profilo personale, provando in seguito a recuperarla mediante il metodo \texttt{getPicturePath()} e verificando che il risultato corrisponda a quanto immesso.
 
-\item \texttt{testRegister() } mediante diversi metodi \texttt{equal} controlla l'effettiva registrazione dei dati inseriti nella \inglese{form}, confrontandoli con quelli passati in ingresso.
+\item \texttt{testRegister()} verifica il comportamento del \inglese{presenter} alla conferma di registrazione, in particolare assicurandosi che sia sollevato un evento con stringa identificativa \verb'login' se la registrazione va a buon fine e che la proprietà \verb'user' associata all'evento di autenticazione sia uguale in ogni sua parte all'oggetto utilizzato per popolare il \inglese{form} di registrazione con i dati di test.
 
-\item \texttt{testRegisterByClickUnsuccessfully()} verifica che premendo il tasto di registrazione con parametri errati venga visualizzato un messaggio visuale d'errore.
+\item \texttt{testRegisterByClickUnsuccessfully()} verifica che premendo il tasto di registrazione con parametri errati, e in particolare se non viene completato un campo dato obbligatorio, venga sollevata l'eccezione corrispondente (che sarà in seguito tradotta in un messaggio visualizzato a schermo).
 
-\item \texttt{testOnShowRegistrationPanel} verifica che venga effettivamente visualizzato il pannello di registrazione e che sia correttamente operativo.
+\item \texttt{testOnShowRegistrationPanel} verifica che venga visualizzato il pannello di registrazione quando il \inglese{presenter} reagisce all'evento \verb'showRegistrationPanel', contrllando tramite un \inglese{mock} di \texttt{PresenterMediator} che sia invocato il metodo \verb'getView'.
 
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
