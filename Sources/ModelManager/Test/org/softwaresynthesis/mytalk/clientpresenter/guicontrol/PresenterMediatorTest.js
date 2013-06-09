@@ -303,7 +303,7 @@ test("testUpdateCommunicationPPUpdateTimer", function() {
  * @version 2.0
  * @author Diego Beraldin
  */
-test("testGetContactsById()", function() {
+test("testGetContactById()", function() {
 	var id = 1;
 	var result = cesso.getContactById(id);
 	equal(result, contacts[id]);
@@ -334,7 +334,6 @@ test("testGetFirstLevelView()", function() {
  */
 test("testGetSecondLevelView()", function() {
 	var i = 0;
-	var dummyView = document.createElement("div");
 	var calledDisplay = false;
 	var calledDisplayChildPanel = false;
 	document.addEventListener("calledDisplay", function() {

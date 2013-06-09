@@ -2476,12 +2476,44 @@ Tale verifica è composta da quattro test:
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
-%TODO QUESTO MANCA TUTTO
 \item[\passed] \textbf{TP1.10 PresenterMediatorTest}
 
-\textbf{Verifica l'oggetto:}
+\textbf{Verifica l'oggetto:} \texttt{PresenterMediator}
 
-\textbf{Descrizione:}
+\textbf{Descrizione:} l'obiettivo del test è verificare il corretto funzionamento dei metodi di utilità offerti dalla classe ai \inglese{presenter} e controllare che i metodi necessari alla gestione delle interazioni fra di essi diano il risultato atteso o abbiano il comportamento corretto. In quest'ultimo caso, gli oggetti reali sono stati sostituiti con dei \inglese{mock} per verificare che siano invocati correttamente i metodi da parte del \texttt{PresenterMediator}.
+
+Tale verifica è composta da quindici test:
+\begin{itemize}
+\item \texttt{testCreateNameLabel()} verifica che la funzione di utilità \verb'createNameLabel' abbia il comportamento atteso e permetta di ottenere la stringa di testo che rappresenta un contatto della rubrica nell'interfaccia grafica, formata dal nome e/o dal cognome del contatto se almeno uno dei due è specificato e, in alternativa, dall'indirizzo email.
+
+\item \texttt{testGetAddressBookContacts()}  verifica che sia possibile ottenere in forma di array assciativo l'insieme dei contatti della rubrica tramite l'utilizzo di un opportuno \inglese{stub} di \verb'AddressBookPresenter'.
+
+\item \texttt{testGetAddressBookContacts()} verifica che sia possibile ottenere in forma di array assciativo l'insieme di tutti i gruppi presenti della rubrica tramite l'utilizzo di un opportuno \inglese{stub} di \verb'AddressBookPresenter'.
+
+\item \texttt{testGetGroupsWhereContactsIs()} verifica che sia possibile recuperare i gruppi cui appartiene un contatto tramite lo \inglese{stub} di \verb'AddressBookPresenter' utilizzato ai fini del test.
+
+\item \texttt{testContactAlreadyPresent()} verifica che il valore restituito dal metodo sia conforme a quanto restituito dallo \inglese{stub} di \verb'AddressBookPresenter' utilizzato per controllare se un contatto appartiene già alla rubrica.
+
+\item \texttt{testGetCommunicationPPMyVideo()} verifica, tramite l'utilizzo di dati d'esempio e di un \inglese{mock} di \verb'CommunicationPresenter' che sia possibile ottenere accesso all'elemento \verb'<video>' per il flusso multimediale proveniente dal client corrente.
+
+\item \texttt{testGetCommunicationPPOtherVideo()} verifica, tramite l'utilizzo di un \inglese{mock} di \verb'CommunicationPresenter' che sia possibile ottenere accesso all'elemento \verb'<video>' destinato al flusso multimediale proveniente dall'altro client coinvolto in una comunicazione.
+
+\item \texttt{testUpdateCommunicationPPUpdateStats()} verifica, tramite l'utilizzo di un \inglese{mock} di \verb'CommunicationView' che siano aggiornate le statistiche visualizzate nel pannello per la comunicazione.
+
+\item \texttt{testUpdateCommunicationPPUpdateTimer()} verifica, tramite l'utilizzo di un \inglese{mock} di \verb'CommunicationView' che sia aggiornato il valore del \inglese{timer} visualizzato nel pannello per la comunicazione.
+
+\item \texttt{testGetContactById()} il test verifica, tramite uno \inglese{stub} di \verb'AddressBookPresenter' e dei dati di esempio che rappresentano i contatti della rubrica, che sia possibile dato l'identificativo di un contatto ottenere un riferimento all'oggetto corrispondente.
+
+\item \texttt{testGetFirstLevelView()} verifica il comportamento della classe nel momento in cui viene utilizzato il metodo \verb'getView' per caricare una vista di primo livello. Poiché in questo caso il metodo ritorna la rappresentazione testuale del contenuto HTML della vista da passare a un metodo \verb'initialize', il test carica \verb'MainView' e confronta quanto ottenuto con la rappresentazione del pannello principale in formato stringa.
+
+\item \texttt{testGetSecondLevelView()} verifica il comportamento della classe nel momento in cui viene utilizzato il metodo \verb'getView' per visualizzare una vista di secondo livello, ad esempio \verb'CallHistoryView'. Tramite gli opportuni \inglese{mock} di \verb'MainPresenter' e di \verb'CallHistoryView' il test si assicura che la vista sia caricata, che sia invocato il metodo \verb'displayChilPanel' del pannello principale e che infine sia inizializzata la UI con il metodo \verb'display()' del panello dello storico chiamate. 
+
+\item \texttt{testGetThirdLevelView()} verifica il comportamento della classe nel momento in cui viene utilizzato il metodo \verb'getView' per visualizzare una finestra \inglese{popup} quale il riquadro per rispondere a una chiamata in arrivo o lasciare un messaggio nella segreteria telefonica di un utente, che non possono essere considerati dei pannelli veri e propri. Il test verifica che siano inseriti, rispettivamente come primo e secondo figlio del \verb'<body>' della pagina, un \inglese{overlay} e un ulteriore \verb'<div>' che contiene la UI corrispondente.
+
+\item \texttt{testOnRemoveAllPanels()} verifica che il gestore dell'evento \verb'removeAllPanel' abbia il comportamento corretto, provocando la rimozione di tutte e cinque le viste di primo livello dell'applicativo, sollevando a sua volta gli opportuni eventi cui risponderanno i \inglese{presenter} corrispondenti.
+
+\item \texttt{testOnShowUIPanels()} verifica che il gestore dell'evento \verb'showUIPanels' abbia il comportamento corretto, vale a dire che provochi la rimozione di tutti i pannelli eventualmente presenti e la visualizzazione delle tre viste che compongono l'interfaccia principale dell'applicativo, sollevando tutti e soli gli eventi necessari.
+\end{itemize}
 
 %TODO da rileggere
 \item[\passed] \textbf{TP1.11: RegisterPresenterTest}
