@@ -1,6 +1,5 @@
-
 % Documents/specifica_tecnica.tex
-%------------------------ RUOLI PA --------------------------
+% ------------------------ RUOLI PA --------------------------
 % FASE 1:
 % Progettisti: TRES, STEFANO, SCHIVO;
 % FASE 2:
@@ -786,7 +785,7 @@ Le loro funzionalità riguardano principalmente le possibilità di modificare, c
   \item{\scshape\bfseries Descrizione:}\\
 L'autenticazione passa attraverso due fasi: la richiesta di \inglese{login} e l'approvazione (\inglese{commit}). La richiesta di \inglese{login} verifica le credenziali di accesso con i dati memorizzati all'interno del database, mentre la richiesta di \inglese{commit} assegna al \inglese{subject} che ha attivato la procedura di autenticazione, dei valori identificativi che permettano di identificarlo finché esso utilizza il sistema software.
 
-Quando un utente avvia la procedura di autenticazione il \inglese{controller} che espone le funzionalità di questo componente (\texttt{authentication.controller.LoginController}), crea il contesto di autenticazione generando un istanza di \texttt{authentication.CredentialLoader} che ha il compito di caricare le credenziali di accesso (recuperando i dati di autenticazione mediante \texttt{authentication.NameLoader} e \texttt{authentication.PasswordLoader}) e accede al file di configurazione per istanziare il giusto modulo per l'autenticazione, costituito dalla classe \texttt{authentication.AuthenticationModule}.
+Quando un utente avvia la procedura di autenticazione il \inglese{controller} che espone le funzionalità di questo componente (\texttt{authentication.controller.LoginController}), crea il contesto di autenticazione generando un'istanza di \texttt{authentication.CredentialLoader} che ha il compito di caricare le credenziali di accesso (recuperando i dati di autenticazione mediante \texttt{authentication.NameLoader} e \texttt{authentication.PasswordLoader}) e accede al file di configurazione per istanziare il giusto modulo per l'autenticazione, costituito dalla classe \texttt{authentication.AuthenticationModule}.
 
 La componente predispone anche le funzionalità da usare per eseguire il \inglese{logout} di un utente registrato nel sistema, e la registrazione al sistema stesso. Tale funzionalità saranno richiamabili mediante 2 \inglese{controller}:
 \begin{itemize}
@@ -1888,7 +1887,7 @@ La presenza delle interfacce, delle relazioni di implementazione e l'estensione 
 	\item{\scshape\bfseries Diagramma delle classi:}
   \begin{figure}[H]
     \centering
-    \includegraphics[width=.7\textwidth]{class_gestione_comunicazione_pres}
+    \includegraphics[width=1\textwidth]{class_gestione_comunicazione_pres}
     \caption{Diagramma delle classi - Gestione comunicazione}\label{fig:gestionecomunicazione}
   \end{figure}
 
@@ -1913,7 +1912,7 @@ I dati rappresentati in forma di oggetti sono necessari, in particolare, per la 
   \item{\scshape\bfseries Diagramma delle classi:}\\
   \begin{figure}[H]
     \centering
-    \includegraphics[width=.8\textwidth]{class_rappresentazione_dati}
+    \includegraphics[width=.7\textwidth]{class_rappresentazione_dati}
     \caption{Diagramma delle classi - Rappresentazione dati}\label{fig:rappresentazionedati}
   \end{figure}
 
@@ -1951,7 +1950,7 @@ L'oggetto \texttt{PresenterMediator} invece incapsula la collaborazione fra i va
 	\item{\scshape\bfseries Diagramma delle classi:}\\
   \begin{figure}[H]
     \centering
-    \includegraphics[width=.9\textwidth]{class_gestione_gui}
+    \includegraphics[width=1\textwidth]{class_gestione_gui}
     \caption{Diagramma delle classi - Gestione GUI}\label{fig:gestionegui}
   \end{figure}
 
@@ -2318,12 +2317,12 @@ In figura \ref{fig: gui_alto} si riporta un abbozzo dell'interfaccia grafica ute
   \caption{Rappresentazione ad alto livello della GUI}\label{fig: gui_alto}
 \end{figure}
 
-Per quanto riguarda la componentistica, la sotto-architettura \texttt{clientview} è costituita dai seguenti componenti:
+Per quanto riguarda la componentistica, la sotto-architettura \texttt{clientview} è costituita dalle seguenti componenti:
 \begin{itemize}[noitemsep,nolistsep]
   \item[-] \textsf{CV01 -- GUI};
   \item[-] \textsf{CV02 -- Login};
 \end{itemize}
-per le specifiche del quale si rimanda, rispettivamente, alle sezioni \ref{sec:cv01} e \ref{sec:cv02}.
+per le specifiche di tali componenti si rimanda, rispettivamente, alle sezioni \ref{sec:cv01} e \ref{sec:cv02}.
 
 I nomi di tutte le classi riportate nella presente sezione sono inoltre implicitamente parte del package \texttt{org.softwaresynthesis.mytalk.clientview}, pertanto tale prefisso sarà omesso nella loro denominazione.
 
@@ -2338,7 +2337,7 @@ Il contenuto del \texttt{MainView}, invece, è destinato in relazione alla funzi
 \subsubsection{CV01 -- GUI}\label{sec:cv01}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Questo componente si occupa della presentazione dell'interfaccia grafica presentata all'utente finale. Le classi in esso contenute servono pertanto per la visualizzazione dei punti di accesso alle funzionalità offerte dal sistema all'utente.
+Questo componente si occupa della rappresentazione dell'interfaccia grafica proposta all'utente finale. Le classi in esso contenute servono pertanto per la visualizzazione dei punti di accesso alle funzionalità offerte dal sistema all'utente.
 
 Si noti che tale componente demanda tutta la logica di applicazione al \inglese{presenter} ed è quindi relativo solo ed esclusivamente alla grafica. Tutti i pannelli, che corrispondono ad altrettante viste, hanno pertanto un canale di comunicazione aperto con il \inglese{presenter} loro associato, e gli eventi generati dall'utente devono essere gestiti collegando l'evento alle opportune funzioni di \inglese{callback} offerte dai \inglese{presenter}.
 
@@ -2383,7 +2382,7 @@ Il componente \textsf{Login} ha la responsabilità di ricevere in ingresso le cr
 	\item{\scshape\bfseries Diagramma delle classi:}
   \begin{figure}[H]
     \centering
-    \includegraphics[width=.8\textwidth]{class_gui_login}
+    \includegraphics[width=.6\textwidth]{class_gui_login}
     \caption{Diagramma delle classi - Login}\label{fig:login}
   \end{figure}
 
@@ -2482,7 +2481,7 @@ Implementazione di \texttt{IToolsView}.
 \item \texttt{IContactView}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Pannello che estende \texttt{IMainView} utilizzato per rappresentare il profilo di un utente. Solo accedendo quest'ultimo sarà possibile avviare una comunicazione con l'utente. Il contatto viene visualizzato selezionando l'utente dalla rubrica oppure tra i risultati di una ricerca.
+Tale vista viene tilizzata per rappresentare il profilo di un utente. Solo accedendo quest'ultima sarà possibile avviare una comunicazione con l'utente. Il contatto viene visualizzato selezionando l'utente dalla rubrica oppure tra i risultati di una ricerca.
 
 Attraverso questo pannello è inoltre possibile effettuare alcune operazioni di amministrazione sulla rubrica: aggiungere o rimuovere un utente ad uno dei gruppi della propria rubrica, bloccare un contatto o, se il profilo visualizzato corrisponde a un utente che non appartiene alla rubrica personale, aggiungerlo ad essa.
 
@@ -2508,7 +2507,7 @@ Implementazione di \texttt{IContactView}.
 \item \texttt{IMessageView}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Questa Interfaccia, che estende \texttt{IMainView}, permette di accedere all'elenco dei messaggi in segreteria di un determinato utente e ne permette la gestione. La visualizzazione si attiva quando viene premuto il relativo pulsante mostrato dall'istanza di \texttt{ToolsView}.
+Questa Interfaccia permette di accedere all'elenco dei messaggi in segreteria di un determinato utente e ne permette la gestione. La visualizzazione si attiva quando viene premuto il relativo pulsante mostrato dall'istanza di \texttt{ToolsView}.
 
 Tramite questo elemento grafico è possibile anche riprodurre il contenuto di un messaggio, dopo che quest'ultimo è stato scaricato dal server (se non era già presente in memoria), arrestarne la riproduzione oppure cancellarlo se non si desidera che venga conservato.
 
@@ -2534,7 +2533,7 @@ Implementazione di \texttt{IMessageView}.
 \item \texttt{IGroupView}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Tramite questo pannello è possibile visionare i gruppi che compongono la rubrica dell'utente. I gruppi vengono rappresentanti mediante il loro nome all'interno di una lista e affianco ad ogni nome comparirà un icona atta ad indicare la possibilità di eliminare il gruppo selezionato.
+Tramite questo pannello è possibile visionare i gruppi che compongono la rubrica dell'utente. I gruppi vengono rappresentanti mediante il loro nome all'interno di una lista e affianco ad ogni nome comparirà un'icona atta ad indicare la possibilità di eliminare il gruppo selezionato.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -2582,7 +2581,7 @@ Implementazione di \texttt{ISearchResultView}.
 \item \texttt{IAccountSettingsView}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Questa classe è utilizzata per rappresentare il \underline{\inglese{form}} che si presenta all'utente per la modifica dei propri dati, costituisce inoltre una sottoclasse di \texttt{MainView} e viene visualizzata quando l'utente preme il relativo pulsante nel pannello degli strumenti.
+Questa interfaccia è utilizzata per rappresentare il \underline{\inglese{form}} che si presenta all'utente per la modifica dei propri dati. Tale vista viene visualizzata quando l'utente preme il relativo pulsante nel pannello degli strumenti.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -2606,7 +2605,7 @@ Implementazione di \texttt{IAccountSettingView}.
 \item \texttt{ICallHistoryView}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Questa classe estende \texttt{MainView} e viene impiegata per rappresentare lo storico delle chiamate visualizzato quando l'utente attiva il pulsante corrispondente presente nel \texttt{ToolsView}. Oltre alla visualizzazione dello storico delle chiamate non è prevista alcuna forma di interazione attiva con l'utente.
+Questa interfaccia viene impiegata per rappresentare lo storico delle chiamate visualizzato quando l'utente attiva il pulsante corrispondente presente nel \texttt{ToolsView}. Oltre alla visualizzazione dello storico delle chiamate non è prevista alcuna forma di interazione attiva con l'utente.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -2701,7 +2700,7 @@ Implementazione di \texttt{IRegisterView}.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=1\textwidth]{class_gui}
+  \includegraphics[width=0.9\textwidth]{class_gui}
   \caption{Diagramma delle classi - Architettura \texttt{mytalk.clientview}}\label{fig:sottoarchview}
 \end{figure}
 \clearpage
@@ -2726,7 +2725,7 @@ La classe DAO Data Persistance Manager, consente di isolare l'accesso alle tabel
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=.9\textwidth]{pattern_dao}
+  \includegraphics[width=.85\textwidth]{pattern_dao}
   \caption{Applicazione del \inglese{pattern} Data Access Object}\label{fig:dao}
 \end{figure}
 
@@ -2781,7 +2780,7 @@ In tale componente è la classe \texttt{dao.UtilFactory} a definire dei metodi p
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=.6\textwidth]{pattern_factorymethod_DB}
+  \includegraphics[width=1\textwidth]{pattern_factorymethod_DB}
   \caption{Applicazione del \inglese{pattern} Factory Method}in \textsf{CS01 - Gestione database} \label{fig:factory_method}
 \end{figure}
 
@@ -2812,7 +2811,7 @@ All'interno di tale classe l'utilizzo del \inglese{pattern} si ha nel momento in
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=.7\textwidth]{pattern_strategy}
+  \includegraphics[width=.6\textwidth]{pattern_strategy}
   \caption{Applicazione del \inglese{pattern} Strategy}\label{fig:strategy}
 \end{figure}
 
@@ -2864,7 +2863,7 @@ In tale componente la classe \texttt{server.AbstractController} definisce una pr
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.9\textwidth]{pattern_template_controller}
+  \includegraphics[width=1\textwidth]{pattern_template_controller}
   \caption{Applicazione del \inglese{pattern} Template Method}in \textsf{CS01 - Gestione controller} \label{fig:template_controller}
 \end{figure}
 
