@@ -1932,11 +1932,13 @@ I dati rappresentati in forma di oggetti sono necessari, in particolare, per la 
 	\item{\scshape\bfseries Descrizione:}\\
 Il componente ha il duplice ruolo di intercettare gli eventi che scaturiscono dall'interazione dell'utente con la GUI e di controllare l'aggiornamento della stessa a seguito dei cambiamenti che intervengono sul modello dei dati.
 
+
+%ELENA
 Il componente è costituito da due gerarchie. Una è relativa i \inglese{presenter} di primo livello, alla base della quale troviamo la classe astratta \texttt{guicontrol.TopLevelPresenter} e l'altra invece riguarda i \inglese{presenter}di secondo livello, alla radice della quale troviamo invece la classe astratta \texttt{guicontrol.ChildPresenter}
 
 Tra i \inglese{presenter} di primo livello troviamo quelli inerenti alla gestione della registrazione e dell'autenticazione.
 Per quanto riguarda quest'ultima, è prevista la presenza di un \inglese{presenter} per l'interfaccia di \inglese{login}, corrispondente all'oggetto \texttt{guicontrol.LoginPresenter}. Anche per la registrazione vale la stessa considerazione e tale funzionalità è destinata alla classe \texttt{guicontrol.RegisterPresenter}
-
+%ELENA_end
 %
 %Per quanto riguarda invece la pagina principale dell'applicativo, alla quale si accede dopo aver effettuato l'autenticazione, è prevista la presenza di tre tipi principali di \inglese{presenter}:
 %\begin{itemize}[noitemsep,nolistsep]
@@ -2201,7 +2203,7 @@ Tale \inglese{presenter} ha la responsabilità di controllare l'aggiornamento de
 \item \texttt{guicontrol.LoginPresenter}
 \begin{description}
   \item{\scshape\bfseries Descrizione:}\\
-Tale \inglese{presenter} ha il compito di ricevere dall'interfaccia grafica i dati di autenticazione, associando un suo metodo all'evento \texttt{onSubmit} del \inglese{form} di \inglese{login}, e in seguito inoltrarli alla sotto-architettura server tramite una \inglese{servlet} del componente \textsf{Gestione controller}.
+Tale \inglese{presenter} ha il compito di ricevere dall'interfaccia grafica i dati di autenticazione, associando un suo metodo all'evento \texttt{onSubmit} del \inglese{form} di \inglese{login}, e in seguito inoltrarli alla sotto-architettura server tramite il \inglese{controller} del componente \textsf{Gestione controller}.
 
 L'oggetto \texttt{LoginPresenter} permette semplicemente di comunicare al server i dati di \inglese{login} inseriti dall'utente.
   
@@ -2585,8 +2587,9 @@ Implementazione di \texttt{IGroupView}.
 \item \texttt{ISearchResultView}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Tramite questo pannello grafico, dotato di un <input> per l'inserimento di una parola chiave, è possibile ricercare nella propria rubrica tutti i contatti contenenti nel nome, cognome o indirizzo mail, la parola da ricercare. Una ricerca tramite questo pannello aggiorna il MainView con la lista dei contatti corretti secondo la ricerca.
-
+%ELENA
+Tramite questo pannello grafico, dotato di un <input> per l'inserimento di una parola chiave, è possibile effettuare ricerche nel sistema e di conseguenza anche all'interno della rubrica stessa. La ricerca restituisce tutti i contatti tali che contengono nel nome, cognome o indirizzo mail, la parola da ricercare. Il risultato della ricerca viene restituito nella vista stessa.
+%ELENA_end
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
     \item[-] \textsf{CV01 -- GUI}
