@@ -3552,7 +3552,7 @@ Fornisce al chiamante l'insieme dei contatti che sono presenti nella rubrica del
 \item{\method{+ getGroups(): Object}}\\
 Fornisce al chiamante l'insieme dei gruppi che sono presenti nella rubrica dell'utente restituendo un riferimento all'oggetto memorizzato nella variabile di istanza \memberdata{groups}.
 
-\item{\method{+ getGroupsWhereContactId(contact:Object): Object}}\\
+\item{\method{+ getGroupsWhereContactsIs(contact:Object): Object}}\\
 Tale metodo dovrà restituire un array associativo con la stessa struttura interna del campo dati \memberdata{groups} contenente l'insieme di tutti i gruppi cui appartiene il contatto passato come parametro.
 
 All'interno del corpo del metodo dovrà pertanto essere definito un nuovo array associativo, quindi dovrà essere realizzato un ciclo su tutti i gruppi della rubrica e, all'interno di ciascun gruppo, dovrà essere scorsa la proprietà \verb'contacts' per determinare se fra gli identificativi ivi contenuti si trova l'id del contatto da cercare.
@@ -3697,7 +3697,25 @@ Nessuna relazione evidenziata.
 \subsubsection*{Attributi}
 \begin{description}
   \item{\memberdata{-- calls: Array}}\\
-  Array enumerativo che conterrà tutte le chiamate effettuate dall'utente recuperate dal server.
+  Array enumerativo che conterrà tutte le chiamate effettuate dall'utente recuperate dal server la cui struttura è rappresentata in formato JSON dalla seguente stringa
+  \begin{verbatim}
+  [
+    {
+      "id" : 0
+      "email" : "indirizzo1@dominio.it",
+      "start": "Wed May 22 12:42:42 CEST 2013",
+      "caller": true
+    },
+    {
+      "id" : 1,
+      "email" : "indirizzo2@dominio.it",
+      "start": "Thu May 23 21:42:42 CEST 2013",
+      "caller": true
+    }
+  ]
+  \end{verbatim}
+  
+  
   \item{\memberdata{-- thisPanel: HTMLElement}}\\
   Elemento HTML, da intendersi come nodo DOM, che rappresenta la vista controllata da questo \inglese{presenter} e che corrisponde a un elemento \verb'<div>' avente come nome identificativo la stringa \verb'CallHistroryPanel'.
 \end{description}
@@ -4652,7 +4670,9 @@ Vista associata al \inglese{presenter} \classname{CallHistoryPresenter} utilizza
   \item{\method{+ addListItem(call: Object): void}}\\
   Metodo che aggiunge alla lista delle chiamate visualizzata nel pannello una nuova voce che corrisponde alla chiamata passata come parametro.
   
-  Ogni voce della lista contiene i dati relativi alla chiamata vale a dire l'altro utente coinvolto e la data della chiamata. Poiché a partire da questo pannello non è possibile effettuare alcuna azione, non è presente alcuna funzione di \inglese{callback} associata alle voci della lista.
+  Ogni voce della lista contiene i dati relativi alla chiamata vale a dire l'altro utente coinvolto e la data della chiamata. Dal momento che quest'ultimo potrebbe non essere presente in rubrica, il metodo dovrà procurarsi in base all'identificativo o allo \inglese{username} un riferimento all'oggetto contatto corrispondente, quindi costruire la rappresentazione del suo nome in formato testuale.
+  
+  Poiché a partire da questo pannello non è possibile effettuare alcuna azione, non è presente alcuna funzione di \inglese{callback} associata alle voci della lista.
   
   \item{\method{+ display(): void}}\\
   Tale metodo ha il compito di inizializzare il pannello della vista con i dati corretti popolando la lista delle chiamate in base ai dati ricevuti dal \inglese{presenter}.
