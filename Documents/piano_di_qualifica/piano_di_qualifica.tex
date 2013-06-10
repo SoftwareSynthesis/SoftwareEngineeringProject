@@ -2607,12 +2607,40 @@ Tale verifica è composta da dodici test:
 \subsubsection{Package \texttt{org.softwaresynthesis.mytalk.clientpresenter.kernel}}
 \begin{itemize}
 
-% TODO QUESTO MANCA TUTTO
 \item[\passed] \textbf{TP 2.01 CommunicationCenterTest}
 
-\textbf{Verifica l'oggetto:}
+\textbf{Verifica l'oggetto:} \texttt{CommunicationCenter}
 
-\textbf{Descrizione:}
+\textbf{Descrizione:} l'obiettivo di questo test è verificare il comportamento delle funzioni fondamentali esibite dall'istanza della classe \texttt{CommunicationCenter}, intercettando ove possibile le chiamate alla libreria WebRTC tramite un \inglese{mock} di RTCPeerConnection.
+
+Mediante l'utilizzo di un \inglese{mock} per la WebSocket, il test verifica inoltre che quest'ultima sia creata e inizializzata correttamente e che i messaggi inviatia server in fase di connessione, disconnessione, accettazione e rifiuto chiamata o invio di messaggio testuale corrispondano alle aspettative.
+
+Tale verifica si compone di dodici test:
+\begin{itemize}
+\item \texttt{testConnect()} verifica il comportamento del metodo \verb'connect()', in particolare assicurandosi che sia creata una WebSocket con l'indirizzo corretto che identifica il server dell'applicativo.
+
+\item \texttt{testDisconnect()} verifica il comportamento del metodo \verb'diconnect()' per la disconnessione, controllando in particolare che giunga al server il messaggio di tipo 4 come questo si aspetta e che sia inoltre invocato il metodo \verb'close()' sulla WebSocket.
+
+\item \texttt{testCall()} verifica che una chiamata in uscita sia gestita correttamente invocando il \verb'getUserMedia' e impostando successivamente il proprio stato a occupato tramite l'invio di un messaggio di tipo 5 sulla WebSocket.
+
+\item \texttt{testEndCall()} verifica che la fine della chiamata sia gestita in modo corretto arrestando e rimuovendo il flusso audio/video associato alla RTCPeerConnection.
+
+\item \texttt{testOnSendMessage()} verifica che sia gestito correttamente l'invio di un messaggio testuale, inviando al server la stringa contenente un messaggio di tipo 7 con l'identificativo del destinatario e il testo del messaggio della chat.
+
+\item \texttt{testOnRejectCall()} verifica che il rifiuto di una chiamata in ingresso sia gestito correttamente inviando un messaggio di tipo 6 al server tramite la WebSocket con l'identificativo del chiamante.
+
+\item \texttt{testOnCall()} verifica la corretta gestione di una chiamata in uscita tramite l'evento \verb'call', controllando inoltre che in risposta sia sollevato come atteso l'evento con identificativo \verb'startRinging'.
+
+\item \texttt{testOnPCRemoveStream()} verifica la corretta rimozione dello \inglese{stream} associato alla RTCPeerConnection, controllando inoltre che in risposta a tale evento sia sollevato un evento \verb'changeMyState' per impostare lo stato del client corrente nuovamente come disponibile.
+
+\item \texttt{testOnPCIceCandidate()} verifica che il \texttt{CommunicationCenter} invii gli ICECandidate agli altri \inglese{peer} tramite un opportuno messaggio di tipo 2 sulla WebSocket.
+
+\item \texttt{testOnWSOpen()} verifica la corretta gestione di una WebSocket all'apertura della stessa, controllando che all'apertura sia inoltre inviato un messaggio di tipo 5 al server per impostare il proprio stato a disponibie.
+
+\item \texttt{testOnAcceptCall()} verifica la corretta gestione dell'evento di accettazione di una chiamata in ingresso, controllando che il gestore provochi inoltre la visualizzazione  del pannello della comunicazione tramite un evento \verb'showCommunicationPanel'.
+
+\item \texttt{testWSOnMessage()} verifica il comportamento del client in risposta a diversi tipi di messaggio provenienti dal server attraverso la WebSocket. In particolare il test simula a titolo di esempio la ricezione di un messaggio di tipo 7 verificando che sia gestito sollevando un evento \verb'appendMessageToChat' e la ricezione di un messaggio di tipo 5 verificnado che sia sollevato un evento \verb'changeAddressBookcontactState'.
+\end{itemize}
 
 
 \end{itemize}
