@@ -49,7 +49,19 @@ function CallHistoryPanelPresenter() {
 	function addListItem(call) {
 		var list = document.getElementById("ulHistory");
 		var item = document.createElement("li");
-		var contact = mediator.getContactById(call.id);
+		//XXX che trissssste!
+		var contact = {id : call.id};
+		if (mediator.contactAlreadyPresent(contact)) {
+			contact = mediator.getContactById(call.id);
+		} else {
+			var request = new XMLHttpRequest();
+	        request.open("POST", commandURL, false);
+	        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	        request.send("operation=search&param=" + call.email);
+	        var result = JSON.parse(searchRequest.responseText);
+	        var key = Object.keys(result)[0];
+	        contact = result[key];
+		}
 		var contactName = mediator.createNameLabel(contact);
 		var text = document.createTextNode(contactName + " " + call.start);
 		if (call.caller) {
