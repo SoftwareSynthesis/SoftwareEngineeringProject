@@ -4292,6 +4292,8 @@ Riferimento al pannello controllato da questo \inglese{presenter}, vale a dire u
   
   Il compito del metodo è azzerare il contenuto della lista di utenti visualizzati (se era non vuota), quindi richiamare per ognuno dei contatti contenuti nell'array richiamare il metodo \method{addListItem} fornito dalla vista e passando il contatto come parametro.
   
+  Invece, nel caso limite in cui l'array di contatti passato come parametro fosse vuoto, dovrà essere inserito nella lista un elemento contenente il solo nodo di testo ``Nessun risultato''.
+  
   \item{\method{+ onShowSearchResultPanel(): void}}\\
   Questo gestore di eventi ha il compito di provocare la visualizzazione del pannello di ricerca caricando il \inglese{template} corrispondente e demandando alla \classname{SearchResultView} di inizializzarsi tramite il metodo \method{display()} preposto a tale scopo.
   
@@ -4334,7 +4336,9 @@ Riferimento all'elemento HTML, da intendersi come nodo DOM, che corrisponde al p
 \begin{description}
 
   \item{\method{+ onLogout(): void}}\\
-  Questo gestore di eventi viene richiamato al verificarsi dell'evento \verb'logout' e ha il compito di effettuare l'uscita dal sistema. In particolare, nel corpo del metodo dovrà essere creata una nuova \verb'XMLHttpRequest' da inviare all'indirizzo del \inglese{front controller} presente sul server, nella cui \inglese{query string} sarà presente il parametro \verb'operation=logout' per permettere il corretto smistamento della richiesta.
+  Questo gestore di eventi viene richiamato al verificarsi dell'evento \verb'logout' e ha il compito di effettuare l'uscita dal sistema. In particolare, nel corpo del metodo dovrà essere chiusa la connessione WebSocket con il server, mediante il metodo \verb'disconnect()' di \texttt{CommunicationCenter} e dovrà essere sollevato un evento \verb'resetChatsObject'.
+  
+  Inoltre, al fine di portare a termine il logout e invalidare la sessione sul server, dovrà essere creata una nuova \verb'XMLHttpRequest' da inviare all'indirizzo del \inglese{front controller} presente sul server, nella cui \inglese{query string} sarà presente il parametro \verb'operation' con il valore \texttt{logout} per permettere il corretto smistamento della richiesta.
   
   Infine, dal momento che il server risponde con una stringa \verb'true' o \verb'false', il metodo ha il compito di effettuare la deserializzazione con \verb'JSON.parse(request.responseText)' e nel caso in cui il risultato fosse valutato negativamente, provocare la visualizzazione di un generico messaggio d'errore.
   
@@ -4813,7 +4817,7 @@ Vista associata al \inglese{presenter} \classname{ContactPresenter} utilizzata p
     \item[--] alla pressione del pulsante per sbloccare il contatto dovrà essere sollevato un evento con identificativo \verb'unlockContact' dopo averne impostato la proprietà \verb'contact' uguale a \memberdata{currentContact}, quindi dovrà essere aggiornato il pannello sollevando un evento con identificativo \verb'showContactPanel' dopo averne impostato la proprietà \verb'contact';
     \item[--] alla pressione del pulsante per avviare una comunicazione audio con il contatto dovrà essere sollevato un evento con l'identificativo \verb'call' dopo averne impostato la proprietà \verb'contact' col valore di \memberdata{currentContact} e la proprietà \verb'isOnlyAudio' a \verb'false';
     \item[--] alla pressione del pulsante per avviare una comunicazione audio/video con il contatto dovrà essere sollevato un evento con l'identificativo \verb'call' dopo averne impostato la proprietà \verb'contact' col valore di \memberdata{currentContact} e la proprietà \verb'onlyAudio' a \verb'true';
-    \item[--] alla pressione del pulsante per avviare una chat testuale con il contatto dovrà essere sollevato un evento con l'identificativo \verb'chatStarted' dopo averne impostato la proprietà \verb'contact' col valore di \memberdata{currentContact};
+    \item[--] alla pressione del pulsante per avviare una chat testuale con il contatto dovrà essere sollevato un evento con l'identificativo \verb'chatStarted' dopo averne impostato la proprietà \verb'user' col valore di \memberdata{currentContact};
     \item[--] alla pressione del pulsante per lasciare un messaggio nella segreteria del contatto dovrà essere sollevato un evento con identificativo uguale a \verb'showPhoneCallMessagePanel', dopo averne impostato la proprietà \verb'contact' uguale al valore di \memberdata{currentContact}.
   \end{itemize}
   
@@ -4923,7 +4927,7 @@ confirm("Sei sicuro di voler eliminare il gruppo" + group.name + "?");
   
   Dovrà inoltre essere creato un nuovo elemento \verb'<ul>' all'interno del quale aggiungere un nodo \verb'<li>' per ogni contatto del gruppo. Le voci di questa lista saranno formate da un nodo di testo contenente il nome del contatto, più un pulsante sotto forma di immagine avente la classe \verb'deleteContact' e percorso uguale a \verb'img/deleteContactImg.png'.
   
-  La lista così costituita dovrà, infine, essere restituita al chiamante del metodo.
+  Alla pressione di questo pulsante dovrà essere sollevato un evento con identificativo \verb'removeContactFromGroup' dopo averne correttamente impostato le proprietà \verb'contact' e \verb'group' e, in seguito, dovrà essere sollevato un evento \verb'showGroupPanel' al fine di visualizzare nuovamente il pannello. La lista così costituita dovrà, infine, essere restituita al chiamante del metodo.
 
 \end{description}
 
