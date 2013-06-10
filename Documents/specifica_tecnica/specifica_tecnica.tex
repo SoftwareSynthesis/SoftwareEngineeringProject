@@ -1930,12 +1930,29 @@ I dati rappresentati in forma di oggetti sono necessari, in particolare, per la 
 	\item{\scshape\bfseries Descrizione:}\\
 Il componente ha il duplice ruolo di intercettare gli eventi che scaturiscono dall'interazione dell'utente con la GUI e di controllare l'aggiornamento della stessa a seguito dei cambiamenti che intervengono sul modello dei dati.
 
-Per quanto riguarda l'autenticazione, è prevista la presenza di un \inglese{presenter} per l'interfaccia di \inglese{login}, corrispondente all'oggetto \texttt{guicontrol.LoginPresenter}. Anche per la registrazione vale la stessa considerazione e tale funzionalità è destinata alla classe \texttt{guicontrol.RegisterPresenter}
+Il componente è costituito da due gerarchie. Una è relativa i \inglese{presenter} di primo livello, alla base della quale troviamo la classe astratta \texttt{guicontrol.TopLevelPresenter} e l'altra invece riguarda i \inglese{presenter}di secondo livello, alla radice della quale troviamo invece la classe astratta \texttt{guicontrol.ChildPresenter}
 
-Per quanto riguarda invece la pagina principale dell'applicativo, alla quale si accede dopo aver effettuato l'autenticazione, è prevista la presenza di tre tipi principali di \inglese{presenter}:
+Tra i \inglese{presenter} di primo livello troviamo quelli inerenti alla gestione della registrazione e dell'autenticazione.
+Per quanto riguarda quest'ultima, è prevista la presenza di un \inglese{presenter} per l'interfaccia di \inglese{login}, corrispondente all'oggetto \texttt{guicontrol.LoginPresenter}. Anche per la registrazione vale la stessa considerazione e tale funzionalità è destinata alla classe \texttt{guicontrol.RegisterPresenter}
+
+%
+%Per quanto riguarda invece la pagina principale dell'applicativo, alla quale si accede dopo aver effettuato l'autenticazione, è prevista la presenza di tre tipi principali di \inglese{presenter}:
+%\begin{itemize}[noitemsep,nolistsep]
+ % \item[-] \texttt{guicontrol.AddressBookPresenter}, che gestisce il pannello della %rubrica presente nell'interfaccia grafica;
+%  \item[-] \texttt{guicontrol.MainPresenter}, vista di \inglese{default} dedicata alla parte centrale dell'interfaccia grafica.
+%  \item[-] \texttt{guicontrol.ToolsPresenter}, che ha il compito di gestire il pannello degli strumenti nell'interfaccia grafica.
+%\end{itemize}
+
+
+
+
+
+
+
+Per quanto riguarda invece la pagina principale dell'applicativo, alla quale si accede dopo aver effettuato l'autenticazione, è prevista la presenza di tre tipi di \inglese{presenter}:
 \begin{itemize}[noitemsep,nolistsep]
   \item[-] \texttt{guicontrol.AddressBookPresenter}, che gestisce il pannello della rubrica presente nell'interfaccia grafica;
-  \item[-] \texttt{guicontrol.MainPresenter}, alla radice di una gerarchia di \inglese{presenter} destinati a gestire gli elementi che compaiono nella parte centrale dell'interfaccia grafica, comprende alcune operazioni comuni a questi elementi grafici (ad es. per l'inizializzazione o per la comparsa/scomparsa dell'elemento grafico associato);
+  \item[-] \texttt{guicontrol.MainPresenter}, \inglese{presenter} di \inglese{default} dedicato alla parte centrale dell'interfaccia grafica. Tale \inglese{presenter}, in base all'interazione con l'utente, può essere rimpiazzato da uno dei \inglese{presenter} di secondo livello.
   \item[-] \texttt{guicontrol.ToolsPresenter}, che ha il compito di gestire il pannello degli strumenti nell'interfaccia grafica.
 \end{itemize}
 
@@ -1943,7 +1960,11 @@ La struttura delle classi che lo compongono mostra una corrispondenza biunivoca 
 
 Ogni \inglese{presenter} facente parte di questo componente contiene al suo interno le funzioni di \inglese{callback} che vengono richiamate dall'elemento dell'interfaccia grafica corrispondente.
 
+
+%ELENA
 Dal momento che il componente \textsf{Gestione GUI} è anche responsabile anche delle modifiche alle viste, le sottoclassi di \texttt{guicontrol.MainPresenter} contengono anche le operazioni richiamate dall'esterno per l'aggiornamento dinamico della GUI\@.
+%ELENA_end
+
 
 L'oggetto \texttt{PresenterMediator} invece incapsula la collaborazione fra i vari \inglese{presenter} associati alla grafica e permette di gestire gli eventi generati da un elemento della GUI inviando a uno (o più) \inglese{presenter} i messaggi corrispondenti alle azioni da compiere.
 
@@ -1986,7 +2007,6 @@ L'oggetto \texttt{PresenterMediator} invece incapsula la collaborazione fra i va
 	\item{\scshape\bfseries Descrizione:}\\
 È la classe che ha il compito di gestire la comunicazione con il server reagendo agli eventi che si verificano alla ricezione di un messaggio tramite il canale \texttt{server.connection.PushInBound} (nel caso di una comunicazione entrante) oppure inviando tali messaggi al server (nel caso di una comunicazione uscente), al fine di stabilire una comunicazione client-client di tipo WebRTC\@.
 
-Tale classe è inoltre stata implementata come Singleton, al fine di porre un limite superiore pari a uno al numero di istanze che sono presenti in ciascun client.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -2086,12 +2106,11 @@ Per questo motivo, l'oggetto \texttt{AccountSettingsPresenter} ha il compito di 
 	\item{\scshape\bfseries Descrizione:}\\
 Tale \inglese{presenter} viene richiamato dall'elemento grafico corrispondente al pannello della rubrica (\texttt{org.softwaresynthesis.mytalk.clientview.AddressBookPresenter}) e contiene la risposta a eventi quali la selezione di un contatto dalla rubrica da parte dell'utente. Contiene inoltre un'operazione di \inglese{refresh} che visualizza una lista di contatti ricevuta in input in forma grafica sulla UI\@.
 
-Il \inglese{presenter} in questione rende inoltre possibile avviare una ricerca fra gli utenti registrati nel sistema nonché rilevare che l'operazione di ricerca è conclusa (e conseguentemente visualizzare nuovamente la rubrica). 
+Il \inglese{presenter} in questione rende inoltre possibile avviare una ricerca fra gli utenti presenti in rubrica, nonché rilevare che l'operazione di ricerca è conclusa (e conseguentemente visualizzare nuovamente la rubrica). 
 
 
 I dati corrispondenti alla rubrica, ovvero le corrispondenti istanze di classi definite in \textsf{Rappresentazione dati}, se non sono presenti sul client devono essere recuperati dal server ed è responsabilità di questa classe contattare la \textsf{Gestione controller} al fine di ottenere le informazioni necessarie.
 
-Infine in modo simile sono comunicati al server gli esiti delle operazioni di amministrazione sulla rubrica che hanno un effetto sulle informazioni di modello.
 
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
@@ -2194,8 +2213,10 @@ L'oggetto \texttt{LoginPresenter} permette semplicemente di comunicare al server
 \item \texttt{guicontrol.MainPresenter}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Classe base per i \inglese{presenter} associati ai diversi componenti dell'interfaccia grafica che contiene i metodi necessari all'inizializzazione di questi ultimi nonché i controlli che ne attivano la comparsa o scomparsa in risposta alle preferenze di visualizzazione dell'utente.
 
+%ELENA (controllo	
+\inglese{Presenter} incaricato di gestire la vista principale che contiene i metodi necessari all'inizializzazione delle viste di secondo livello nonché i controlli che ne attivano la comparsa o scomparsa in risposta alle preferenze di visualizzazione dell'utente.
+%ELENA_end
 	\item{\scshape\bfseries Componenti che ne fanno uso:}
 	\begin{itemize}[noitemsep,nolistsep]
 	  \item[-] \textsf{CP03 -- Gestione GUI}
@@ -2431,7 +2452,12 @@ Implementazione di \texttt{IAddressBookView}.
 \item \texttt{IMainView}
 \begin{description}
   \item{\scshape\bfseries Descrizione}\\
-Classe padre della gerarchia di oggetti grafici che possono comparire nella sezione principale dell'interfaccia utente. Ogni sua specializzazione definisce un nuovo tipo di pannello che costituisce l'elemento in primo piano dell'applicazione.
+%ELENA 
+Interfaccia che rappresenta la vista di \inglese{default} per la parte centrale dell'applicazione.
+%ELENA_end
+  
+%  
+%Classe padre della gerarchia di oggetti grafici che possono comparire nella sezione principale dell'interfaccia utente. Ogni sua specializzazione definisce un nuovo tipo di pannello che costituisce l'elemento in primo piano dell'applicazione.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
