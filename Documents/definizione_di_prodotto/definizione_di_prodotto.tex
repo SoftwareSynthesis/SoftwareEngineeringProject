@@ -3726,7 +3726,7 @@ Nessuna relazione evidenziata.
   \item{\method{+ displayList(): void}}\\
   Metodo che ha il compito di popolare la lista delle chiamate in cui è coinvolto un determinato utente. Il metodo ha il compito di procurarsi la lista delle chiamate attraverso il server al fine di inizializzare il campo dati privato \verb'calls'.
   
-  Quindi, per ognuna delle chiamate che sono state scaricate, ha il compito di aggiornare la vista corrispondente provocando la visualizzazione dei dati della chiamata.
+  Quindi, per ognuna delle chiamate che sono state scaricate, ha il compito di aggiornare la vista corrispondente provocando la visualizzazione dei dati della chiamata mediante il metodo \verb'addListItem' messo a disposizione da quest'ultima.
   
   \item{\method{+ onShowCallHistoryPanel(): void}}\\
   Questo gestore di eventi ha il compito di provocare la visualizzazione del pannello contenente lo storico delle chiamate demandando alla vista il compito di costruirsi e caricare il relativo \inglese{template}.
@@ -3914,10 +3914,10 @@ Il controllo dovrà essere effettuato mediante un'opportuna espressione regolare
 \begin{verbatim}
   ^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$
 \end{verbatim}
-e, nel caso in cui il valore non corrispondesse, il metodo dovrà sollevare un'eccezione contenente il testo ``indirizzo email non valido''. Dal momento che il metodo restituisce una stringa, in caso di valore accettabile quest'ultimo dovrà essere restituito al chiamante.
+e, nel caso in cui il valore non corrispondesse, il metodo dovrà sollevare una \exception{Exception} contenente il testo ``indirizzo email non valido''. Dal momento che il metodo restituisce una stringa, in caso di valore accettabile quest'ultimo dovrà essere restituito al chiamante.
 
 \item{\method{+ getPassword(): String}}\\
-Metodo che ha il compito di recuperare tramite l'interfaccia della vista la \textit{password} inserita dall'utente. Prima di restituire il valore ottenuto al chiamante, il metodo ha il compito di verificare che il valore sia valido e che, in particolare, non sia \verb+undefined+ oppure uguale alla stringa vuota. In simili circostanze, il metodo solleva un'eccezione contenente esattamente il testo ``password non specificata''.
+Metodo che ha il compito di recuperare tramite l'interfaccia della vista la \textit{password} inserita dall'utente. Prima di restituire il valore ottenuto al chiamante, il metodo ha il compito di verificare che il valore sia valido e che, in particolare, non sia \verb+undefined+ oppure uguale alla stringa vuota. In simili circostanze, il metodo solleva una \exception{Exception} contenente esattamente il testo ``password non specificata''.
 
 \item{\method{+ getSecretQuestion(username: String): String}}\\
 Il metodo a il compito di richiedere al server tramite una chiamata AJAX sincrona la domanda segreta associata all'utente che ha come nome identificativo la stringa passata come parametro, e restituirla al chiamante.
@@ -4179,7 +4179,7 @@ Al fine di scaricare dal server il \inglese{template} del pannello, questo metod
 
 Dopo aver inviato la richiesta mediante il metodo di libreria \verb'send()', dovrà essere invocato il metodo di utilità (privato) \verb'onLoadedView' di questo stesso presenter, passando come primo parametro la chiave identificativa del \inglese{presenter} detinatario (\texttt{key}) e come secondo parametro il testo scaricato dal server (cioè la proprietà \texttt{response}) della richiesta.
 
-\item{\method{+ onRemoveAllPanels(): void}}\\
+\item{\method{+ onRemoveAllPanel(): void}}\\
 Questo gestore di eventi dovrà determinare la scomparsa dall'interfaccia grafica di tutte le viste di primo livello visualizzate. A tale scopo dovranno essere quindi sollevati i cinque eventi corrispondenti (su cui le viste sono in ascolto), vale a dire \verb'removeLoginPanel', \verb'removeRegistrationPanel', \verb'removeAddressBookPanel', \verb'removeToolsPanel' e, da ultimo, \verb'removeMainPanel'.
 
 \item{\method{+ onShowUIPanels(): void}}\\
@@ -4222,19 +4222,19 @@ Nessuna relazione evidenziata.
 \begin{description}
 
 	\item{\method{+ getAnswer(): String}}\\
-	Metodo che estrae dal \inglese{form} la risposta alla domanda segreta associata al nuovo utente e la restituisce se specificata, mentre in caso contrario solleva un'eccezione avente come messaggio esattamente la stringa ``risposta alla domanda segreta non specificata''.
+	Metodo che estrae dal \inglese{form} la risposta alla domanda segreta associata al nuovo utente e la restituisce se specificata, mentre in caso contrario solleva una \exception{Exception} avente come messaggio esattamente la stringa ``risposta alla domanda segreta non specificata''.
 	
 	\item{\method{+ getName(): String}}\\
 	Metodo che estrae dalla \inglese{form} il valore del nome del nuovo utente e lo restituisce.
 	
 		\item{\method{+ getPassword(): String}}\\
-	Metodo che estrae dalla \inglese{form} la \textit{password} associata al nuovo utente e la restituisce se presente, mentre in caso contrario solleva un'eccezione avente come messaggio esattamente la stringa ``password non specificata''.
+	Metodo che estrae dalla \inglese{form} la \textit{password} associata al nuovo utente e la restituisce se presente, mentre in caso contrario solleva una \exception{Exception} avente come messaggio esattamente la stringa ``password non specificata''.
 	
 		\item{\method{+ getPicturePath(): String}}\\
 	Metodo che estrae dal \inglese{form} il percorso dell'immagine del nuovo profilo utente e lo restituisce.
 	
 		\item{\method{+ getQuestion(): String}}\\
-	Metodo che estrae dalla \inglese{form} la domanda segreta associata al nuovo utente e la restituisce se presente, mentre in caso contrario solleva un'eccezione avente come messaggio esattamente la stringa ``domanda segreta non specificata''.
+	Metodo che estrae dalla \inglese{form} la domanda segreta associata al nuovo utente e la restituisce se presente, mentre in caso contrario solleva una nuova \exception{Exception} avente come messaggio esattamente la stringa ``domanda segreta non specificata''.
 
 	\item{\method{+ getSurname(): String}}\\
 	Metodo che estrae dalla \inglese{form} il valore del cognome del nuovo utente e lo restituisce.
@@ -4246,7 +4246,7 @@ Nessuna relazione evidenziata.
 	  ^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$
 \end{verbatim}
 	
-Se la mail è valida il metodo termina ritornandone il valore, mentre nel caso in cui non sia un indirizzo ben formato o non sia stato specificato il metodo solleva delle eccezioni aventi come messaggio, rispettivamente, ``indirizzo email non valido'' e ``indirizzo email non specificato''.
+Se la mail è valida il metodo termina ritornandone il valore, mentre nel caso in cui non sia un indirizzo ben formato o non sia stato specificato il metodo solleva due \exception{Exception} aventi come messaggio, rispettivamente, ``indirizzo email non valido'' e ``indirizzo email non specificato''.
 
 	\item{\method{+ onRemoveRegistrationPanel(): void}}\\
 	Questo gestore di evento ha il compito di provocare la distruzione del pannello di registrazione, richiamando il metodo opportuno della vista corrispondente, vale a dire \method{destroy()}.
