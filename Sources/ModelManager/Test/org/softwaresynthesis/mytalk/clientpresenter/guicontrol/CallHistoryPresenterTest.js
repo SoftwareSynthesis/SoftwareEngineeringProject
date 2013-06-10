@@ -31,6 +31,12 @@ module(
 
 					getContactById : function(something) {
 						return new Object();
+					},
+					contactAlreadyPresent : function(contact) {
+						if (contact.id !=  10) {
+							return true;
+						}
+						return false;
 					}
 				};
 				// oggetto da testare
@@ -93,3 +99,5 @@ test("testDisplay()",
 
 			expect(i);
 		});
+
+//TODO manca da testare quello con la ricerca

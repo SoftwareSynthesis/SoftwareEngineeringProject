@@ -149,9 +149,9 @@ switch($operation) {
 
     case "getCalls" :
 		$result = array(
-			array("id" => 1, "start" => "Wed May 22 10:42:02 CEST 2013", "caller" => true), 
-			array("id" => 3, "start" => "Tue May 21 17:42:02 CEST 2013", "caller" => false), 
-			array("id" => 2, "start" => "Mon May 20 22:42:02 CEST 2013", "caller" => false)
+			array("id" => 1, "email" => "a.rizzi@gmail.com", "start" => "Wed May 22 10:42:02 CEST 2013", "caller" => true), 
+			array("id" => 3, "email" => "a.rizzi@gmail.com", "start" => "Tue May 21 17:42:02 CEST 2013", "caller" => false), 
+			array("id" => 10, "email" => "p.m@gmail.com", "start" => "Mon May 20 22:42:02 CEST 2013", "caller" => false)
 		); 
 		      break;
 

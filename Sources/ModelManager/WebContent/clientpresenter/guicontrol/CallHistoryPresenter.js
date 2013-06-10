@@ -58,7 +58,7 @@ function CallHistoryPanelPresenter() {
 	        request.open("POST", commandURL, false);
 	        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	        request.send("operation=search&param=" + call.email);
-	        var result = JSON.parse(searchRequest.responseText);
+	        var result = JSON.parse(request.responseText);
 	        var key = Object.keys(result)[0];
 	        contact = result[key];
 		}
