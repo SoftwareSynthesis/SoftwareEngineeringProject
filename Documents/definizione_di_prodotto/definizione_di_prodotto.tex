@@ -4157,37 +4157,26 @@ Questo metodo dovrà restituire un riferimento all'elemento \verb'<video>' che n
 \item{\method{+ getView(key: String): void}}\\
 Questo metodo ha il compito di ottenere dal server un frammento XHTML che rappresenta la porzione di codice corrispondente al pannello della vista, che in seguito dovrà essere gestita in una fase preliminare dal metodo \method{onLoadedView} di questa stessa classe, e in una fase successiva dagli \method{initialize} delle viste di primo livello e dai \method{display()} delle viste di secondo livello.
 
-Al fine di scaricare dal server il \inglese{template} del pannello, questo metodo dovrà inviare una nuova richiesta AJAX \emph{asincrona} all'indirizzo del server tramite un'opportuna istanza di \verb'XMLHttpRequest', richiedendo tramite il metodo HTTP GET la risorsa il cui URI relativo è dato dalla concatenazione della stringa \verb'"clientview/"' con il valore presente nell'attributo \memberdata{views} in corrispondenza dell'indice dato dal parametro \verb'key' del metodo stesso.
+Al fine di scaricare dal server il \inglese{template} del pannello, questo metodo dovrà inviare una nuova richiesta AJAX sincrona all'indirizzo del server tramite un'opportuna istanza di \verb'XMLHttpRequest', richiedendo tramite il metodo HTTP GET la risorsa il cui URI relativo è dato dalla concatenazione della stringa \verb'"clientview/"' con il valore presente nell'attributo \memberdata{views} in corrispondenza dell'indice dato dal parametro \verb'key' del metodo stesso.
 
-Trattandosi di una richiesta asincrona, a differenza di tutte le altre richieste trattate sinora, il suo comportamento quando dovesse diventare pronta dovrà essere configurato nel modo seguente:
-\begin{verbatim}
-  request.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                ...comportamento...
-            }
-        };
-\end{verbatim}
-
-Il comportamento da eseguire quando la richiesta sarà soddisfatta dal server dovrà prevedere in primo luogo l'estrazione della risorsa in formato XML con una sintassi del tipo \verb'request.responseXML.body.firstChild', quindi l'assegnamento di questo \verb'HTMLElement' alla proprietà \verb'view' di un evento con nome identificativo uguale a \verb'loadedView'. Il metodo si concluderà sollevando l'evento appena descritto.
-
-\item{\method{+ onLoadedView(presenter: String, view: HTMLElement): void}}\\
-Questo gestore di eventi viene richiamato quando si verifica un evento con stringa identificativa uguale a \verb'loadedView'.
-
-La gestione dell'evento dovrà differenziarsi a seconda del fatto che si tratti di una vista di primo o di secondo livello o non appartenga a nessuno dei due casi, in base al valore del primo parametro che identifica il \inglese{presenter} destinatario.
-
-Nel caso di una vista di primo livello, dovrà essere richiamato il metodo \method{initialize} messo a disposizione dalla vista stessa, passando l'elemento HTML ricevuto come secondo parametro per la visualizzazione e l'inizializzazione della vista.
-
-Nel caso invece di una vista di secondo livello, sarà responsabilità del metodo far visualizzare la vista nel pannello centrale tramite il metodo \method{displayChildPanel} della \classname{MainView}, demandando poi alla specifica vista l'inizializzazione delle componenti tramite il metodo \method{display} corrispondente.
-
-Infine, se il primo parametro non corrisponde ad alcuno dei \inglese{presenter} di primo o di secondo livello, allora l'evento \verb'loadedView' e stato sollevato al fine di visualizzare un pannello temporaneo il cui sotto-albero ha come radice l'elemento HTML ricevuto come secondo parametro.
-
-A tale scopo dovrà pertanto essere creato un \verb'<div>' con l'identificativo \verb'overlayPopUp' che dovrà essere aggiunto come primo figlio dell'elemento \verb'<body>' e un secondo \verb'<div>' con identificativo \verb'popUp' che dovrà essere aggiunto immediatamente dopo l'\inglese{overlay} dopo aver assegnato il valore della proprietà \verb'outerHTML' di \verb'view' al suo contenuto di quest'ultimo. Tutti gli altri eventuali figli del \verb'<body>' dovranno essere posizionati in successivamente nell'albero DOM con un'istruzione del tipo \verb'body.insertBefore(overlay, bodyFirstChild)'.
+Dopo aver inviato la richiesta mediante il metodo di libreria \verb'send()', dovrà essere invocato il metodo di utilità (privato) \verb'onLoadedView' di questo stesso presenter, passando come primo parametro la chiave identificativa del \inglese{presenter} detinatario (\texttt{key}) e come secondo parametro il testo scaricato dal server (cioè la proprietà \texttt{response}) della richiesta.
 
 \item{\method{+ onRemoveAllPanels(): void}}\\
 Questo gestore di eventi dovrà determinare la scomparsa dall'interfaccia grafica di tutte le viste di primo livello visualizzate. A tale scopo dovranno essere quindi sollevati i cinque eventi corrispondenti (su cui le viste sono in ascolto), vale a dire \verb'removeLoginPanel', \verb'removeRegistrationPanel', \verb'removeAddressBookPanel', \verb'removeToolsPanel' e, da ultimo, \verb'removeMainPanel'.
 
 \item{\method{+ onShowUIPanels(): void}}\\
 Questo gestore di eventi avrà il compito di far visualizzare l'interfaccia grafica principale a seguito di un'autenticazione avvenuta con successo. A tale fine dovrà essere sollevato innanzitutto un evento con stringa identificativa uguale a \verb'removeAllPanels', quindi dovranno essere sollevati in sequenza i tre eventi \verb'showAddressBookPanel', \verb'showMainPanel' e \verb'showToolsPanel' che avviano i relativi \inglese{presenter} e fanno visualizzare i pannelli.
+
+\item{\method{-- onLoadedView(presenter: String, view: String): void}}\\
+Questo metodo privato ha il compito di gestire il caricamento di una delle viste che compongono l'interfaccia grafica. Il suo comportamento dovrà pertanto differenziarsi a seconda del fatto che si tratti di una vista di primo o di secondo livello o non appartenga a nessuno dei due casi, in base al valore del primo parametro che identifica il \inglese{presenter} destinatario.
+
+Nel caso di una vista di primo livello, dovrà essere richiamato il metodo \method{initialize} messo a disposizione dalla vista stessa, passando la stringa HTML ricevuta come secondo parametro per la visualizzazione e l'inizializzazione della vista.
+
+Nel caso invece di una vista di secondo livello, sarà responsabilità del metodo far visualizzare la vista nel pannello centrale tramite il metodo \method{displayChildPanel} della \classname{MainView}, demandando poi alla specifica vista l'inizializzazione delle componenti tramite il metodo \method{display} corrispondente.
+
+Infine, se il primo parametro non corrisponde ad alcuno dei \inglese{presenter} di primo o di secondo livello, allora dovrà essere visualizzato un pannello temporaneo il cui contenuto HTML interno corrisponde a quanto ricevuto come secondo parametro dal metodo.
+
+A tale scopo dovrà pertanto essere creato un \verb'<div>' con l'identificativo \verb'overlayPopUp' che dovrà essere aggiunto come primo figlio dell'elemento \verb'<body>' e un secondo \verb'<div>' con identificativo \verb'popUp' che dovrà essere aggiunto immediatamente dopo l'\inglese{overlay} dopo aver assegnato il valore del parametro \verb'view' al contenuto HTML interno di quest'ultimo. Tutti gli altri eventuali figli del \verb'<body>' dovranno essere posizionati in successivamente nell'albero DOM con un'istruzione del tipo \verb'body.insertBefore(overlay, bodyFirstChild)'.
 
 \end{description}
 
@@ -4564,8 +4553,8 @@ Riferimento al \inglese{presenter} incaricato di controllare e aggiornare questa
 \item{\method{+ destroy(): void}}\\
 Il metodo dovrà determinare la completa eliminazione del pannello per la visualizzazione della rubrica dall'interfaccia grafica rimuovendo il nodo che corrisponde alla radice di tale pannello nell'albero DOM della UI\@.
 
-\item{\method{+ initialize(view: HTMLElement): void}}\\
-Questo metodo ha il compito di provocare la visualizzazione del pannello della rubrica nell'interfaccia grafica, inserendo nel punto corretto dell'albero DOM della pagina l'elemento HTML ricevuto come parametro in ingresso.
+\item{\method{+ initialize(view: String): void}}\\
+Questo metodo ha il compito di provocare la visualizzazione del pannello della rubrica nell'interfaccia grafica, inserendo nel punto corretto dell'albero DOM della pagina l'elemento HTML la cui rappresentazione in formato stringa è ricevuta come parametro in ingresso.
 
 Sarà responsabilità di questo metodo anche configurare il comportamento della vista, impostando le funzioni di \inglese{callback} che reagiscono all'interazione dell'utente con l'interfaccia grafica, eventualmente tramite le opportune chiamate ai metodi pubblici del \inglese{presenter} corrispondente.
 
@@ -4678,6 +4667,7 @@ Il pannello è costituito da un elemento \verb'<div>' avente come identificativo
 \end{itemize}
 
 
+%TODO questa sarà da rivedere a breve!
 \classsection{CommunicationView}
 \subsubsection*{Funzione}
 Vista associata al \inglese{presenter} \classname{CommunicationPresenter} utilizzata durante una chiamata audio e per la gestione delle chat testuali con gli altri utenti.
@@ -4945,7 +4935,7 @@ Vista associata al \inglese{presenter} \classname{LoginPresenter} utilizzata per
 	
 Il metodo deve rimuovere il figlio con identificativo uguale a \texttt{passwordretrieval} dalla vista, quindi aggiunge un nuovo elemento \verb'<p>' contenente il messaggio:
 \begin{verbatim}
-	Recupero \textit{password} avvenuto correttamente.
+	Recupero password avvenuto correttamente.
 	Ti è stata inviata un'email contenente i dati richiesti.
 \end{verbatim}
 il messaggio citato è temporaneo e dovrà essere rimosso allo scadere di un \inglese{timeout} della durata di due secondi utilizzando la funzione \verb'window.setTimeout(funtion() {...}, 2000)'.
@@ -4968,8 +4958,8 @@ Il corpo della funzione anonima passata a \verb'setTimeout' avrà il compito di 
 	
 	Tale messaggio dovrà essere visualizzato con una procedura analoga a quella usata in \method{correctAnswer()}.
 
-	\item{\method{+ initialize(view: HTMLElement): void}}\\
-	Il metodo ha il compito di inizializzare il pannello di login dopo che è stato caricato il relativo \inglese{template} che crea di tutti i \inglese{widget} grafici contenuti al suo interno.
+	\item{\method{+ initialize(view: String): void}}\\
+	Il metodo ha il compito di inizializzare il pannello di login dopo che è stato caricato il relativo \inglese{template} che crea di tutti i \inglese{widget} grafici contenuti al suo interno e che viene ricevuto in forma testuale come parametro in ingresso.
 	
 	Oltre ad aggiungere all'interfaccia grafica il sotto-albero DOM che riceve come parametro in ingresso, il metodo dovrà configurare il pannello assegnando ai pulsanti le funzioni di \inglese{callback} corrispondenti.
 	
@@ -5033,8 +5023,8 @@ Vista associata al \classname{MainPresenter} che contiene il pannello principale
   \item{\method{+ displayChildPanel(node: HTMLElement): void}}\\
   Provoca la visualizzazione di un pannello secondario all'interno della \classname{MainView} aggiungendo la sua radice, vale a dire il nodo DOM ricevuto come parametro in ingresso, come elemento figlio del \verb'<div>' che rappresenta il pannello principale.
 
-  \item{\method{+ initialize(view: HTMLElement): void}}\\
-  Tale metodo ha il compito di visualizzare del pannello principale, che viene passato tramite il parametro in ingresso \verb'view', aggiungendolo nella posizione corretta dell'albero DOM dell'interfaccia grafica in modo che venga ad occupare la posizione centrale.
+  \item{\method{+ initialize(view: String): void}}\\
+  Tale metodo ha il compito di visualizzare del pannello principale, che viene passato in forma di rappresentazione testuale tramite il parametro in ingresso \verb'view', aggiungendolo nella posizione corretta dell'albero DOM dell'interfaccia grafica in modo che venga ad occupare la posizione centrale.
   
 \end{description}
 
@@ -5123,8 +5113,8 @@ Vista associata al \inglese{presenter} \classname{RegisterPresenter} utilizzata 
   \item{\method{+ destroy(): void}}\\
   Tale metodo ha il compito di eliminare il pannello dall’interfaccia grafica visualizzata. A tal fine, deve essere rimosso il nodo che corrisponde al pannello nell’albero DOM della UI\@.
   
-  \item{\method{+ initialize(view: HTMLElement): void}}\\
-  	Il metodo ha il compito di inizializzare il pannello di registrazione al sistema una volta caricato il relativo \inglese{template} che crea di tutti i \inglese{widget} grafici contenuti al suo interno.
+  \item{\method{+ initialize(view: String): void}}\\
+  	Il metodo ha il compito di inizializzare il pannello di registrazione al sistema una volta caricato il relativo \inglese{template} che crea di tutti i \inglese{widget} grafici contenuti al suo interno e che corrisponde alla stringa passata come parametro in ingresso.
 	
 	Oltre ad aggiungere all'interfaccia grafica il sotto-albero DOM che riceve come parametro in ingresso, il metodo dovrà configurare il pannello assegnando ai pulsanti le funzioni di \inglese{callback} corrispondenti.
 	
@@ -5228,8 +5218,8 @@ Vista associata al \inglese{presenter} \classname{ToolsPresenter} utilizzata per
   \item{\method{+ destroy(): void}}\\
   Tale metodo ha il compito di provocare la rimozione del pannello degli strumenti governato da questa vista, rimuovendo in maniera definitiva dall'albero DOM il nodo che corrisponde alla radice del pannello.
   
-  \item{\method{+ initialize(view: HTMLElement): void}}\\
-  Il metodo ha la funzione di aggiungere nel punto corretto dell'albero DOM che rappresenta l'interfaccia utente il nodo passato come parametro, vale a dire il pannello degli strumenti, quindi di configurare il comportamento quest'ultimo assegnando a tutti i \inglese{list item} delle funzionalità i gestori di eventi corrispondenti.
+  \item{\method{+ initialize(view: String): void}}\\
+  Il metodo ha la funzione di aggiungere nel punto corretto dell'albero DOM che rappresenta l'interfaccia utente l'elemento la cui rappresentazione in formato stringa è passata come parametro. Una volta visualizzato il pannello degli strumenti, il metodo avrà quindi il compito di configurare il comportamento quest'ultimo assegnando a tutti i \inglese{list item} delle funzionalità i gestori di eventi corrispondenti.
   
   In particolare:
   \begin{itemize}
