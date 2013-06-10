@@ -2737,19 +2737,19 @@ Operando una distinzione di questo tipo gli utenti esterni possono considerare g
 \subsection{Front Controller}\label{sec:patternfacade}
 
 \subsubsection{Scopo}
-Fornire un punto d'ingresso centralizzato per la gestione delle richieste, definisce inoltre un'interfaccia di livello più alto che rende la sotto-architettura più semplice da utilizzare e riduce il numero di dipendenze funzionali fra i componenti appartenenti a sotto-architetture esterne e le classi del server.
+Ha lo scopo di fornire un punto d'ingresso centralizzato per la gestione delle richieste provenienti dal client, definisce inoltre un'interfaccia di livello più alto che rende la sotto-architettura più semplice da utilizzare e riduce il numero di dipendenze funzionali fra i componenti appartenenti a sotto-architetture esterne e le classi del server.
 
 \subsubsection{Componenti che lo implementano}
 \begin{description}
   \item{\scshape\bfseries CS08 -- Front controller}\\
-Questa componente della sotto-architettura server fornisce un unico punto d'accesso al sistema, andando a delegare le operazioni richieste al corrispondente \inglese{controller} presente in \texttt{CS07 -- Gestione controller}. La classe cosi definita è \texttt{ControllerManager}. Le componenti su cui possono interagire direttamente i \inglese{controller} sono: \textsf{Gestione rubrica}, \textsf{Gestione connessione}, \textsf{Gestione segreteria}, \textsf{Gestione chiamate} e \textsf{Gestione autenticazione}, come riportato nella tabella della sezione \vref{sec:cs07}.
+Questa componente della sotto-architettura server fornisce un unico punto d'accesso al sistema, andando a delegare le operazioni richieste al corrispondente \inglese{controller} presente in \texttt{CS07 -- Gestione controller}. La classe che implementa questa funzionalità è \texttt{ControllerManager}. Le componenti su cui possono interagire direttamente i \inglese{controller} sono: \textsf{Gestione rubrica}, \textsf{Gestione connessione}, \textsf{Gestione segreteria}, \textsf{Gestione chiamate} e \textsf{Gestione autenticazione}, come riportato nella tabella della sezione \vref{sec:cs07}.
 \end{description}
 
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=.9\textwidth]{pattern_frontcontroller}
-  \caption{Applicazione del \inglese{pattern} Data Access Object}\label{fig:dao}
+  \caption{Applicazione del \inglese{pattern} Front Controller}\label{fig:dao}
 \end{figure}
 
 
@@ -2762,7 +2762,7 @@ Questa componente della sotto-architettura server fornisce un unico punto d'acce
 
 Tale diagramma rappresenta il funzionamento del \inglese{front controller}.Si osservi che:
 	\begin{itemize}
-		\item il client richiama il \inglese{front controller} (CommandManager) per l'esecuzione di un ben determinato comando (e.g. aggiungere un utente alla propria rubrica);
+		\item il client richiama il \inglese{front controller} (CommandManager) per la risoluzione di una richiesta proveniente dall'utente (e.g. aggiungere un utente alla propria rubrica);
 		\item il \inglese{front controller} è l'unico a conoscere le associazioni operazioni-\inglese{controller} e si occupa quindi di creare il \inglese{controller} che è in grado di risolvere l'operazione richiesta dal client;
 		\item dopo la creazione del \inglese{controller}, il \inglese{front controller} delega a quest'ultimo l'esecuzione dell'operazione.
 	\end{itemize}
