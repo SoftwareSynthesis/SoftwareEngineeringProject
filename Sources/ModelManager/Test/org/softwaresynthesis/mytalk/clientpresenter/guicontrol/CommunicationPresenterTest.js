@@ -307,9 +307,8 @@ test("testOnChatRemoved", function() {
 	equal(element.children.length, 0);
 	i++;
 	element = document.getElementById("divContainerChat");
-	// FIXME questo non passa e dovrebbe passare
-	// ok(!element);
-	// i++;
+	ok(!element);
+	i++;
 
 	expect(i);
 });
@@ -370,6 +369,29 @@ test("testOnStartRinging()", function() {
 });
 
 /**
+ * Verifica il comportamento del presenter in risposta all'evento stopRinging,
+ * controllando in particolare che sia invocata la funzione di libreria
+ * window.clearInterval per fermare la suoneria.
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
+test("testOnStopRinging()", function() {
+	var calledClearInterval = false;
+	window.setInterval = function(something, somethingElse) {
+		return "ciao";
+	};
+	window.clearInterval = function(interval) {
+		calledClearInterval = true;
+	};
+
+	document.dispatchEvent(new CustomEvent("startRinging"));
+	document.dispatchEvent(new CustomEvent("stopRinging"));
+
+	ok(calledClearInterval);
+});
+
+/**
  * Verifica il comportamento del pannello nel momento in cui viene premuto il
  * pulsante per l'invio di un messaggio tramite chat testuale. Il test verifica
  * in particolare che sia sollevato un evento sendMessage con le proprietà
@@ -378,7 +400,7 @@ test("testOnStartRinging()", function() {
  * @version 2.0
  * @author Diego Beraldin
  */
-test("testSendMessageByClick()", function() {
+test("testOnSendMessageByClick()", function() {
 	var i = 0;
 	mediator.getView("communication");
 	tester.display();
@@ -413,27 +435,4 @@ test("testSendMessageByClick()", function() {
 	i++;
 
 	expect(i);
-});
-
-/**
- * Verifica il comportamento del presenter in risposta all'evento stopRinging,
- * controllando in particolare che sia invocata la funzione di libreria
- * window.clearInterval per fermare la suoneria.
- * 
- * @version 2.0
- * @author Diego Beraldin
- */
-test("testOnStopRinging()", function() {
-	var calledClearInterval = false;
-	window.setInterval = function(something, somethingElse) {
-		return "ciao";
-	};
-	window.clearInterval = function(interval) {
-		calledClearInterval = true;
-	};
-
-	document.dispatchEvent(new CustomEvent("startRinging"));
-	document.dispatchEvent(new CustomEvent("stopRinging"));
-
-	ok(calledClearInterval);
 });

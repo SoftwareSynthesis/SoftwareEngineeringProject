@@ -2310,38 +2310,30 @@ Tale verifica è composta da un solo test:
 
 \textbf{Descrizione}: l'obiettivo di questo test è verificare la corretta creazione del sotto-albero che ha radice nell'elemento \texttt{CommunicationPanel}, che tutti i \inglese{widget} grafici del pannello siano correttamente inizializzati e che il \inglese{presenter} risponda coerentemente con le attese agli eventi che si verificano durante l'interazione dell'utente con il client.
 
-Tale verifica è composta da dieci test:
+Tale verifica è composta da undici test:
 \begin{itemize}
 
-% TODO da rivedere (chiedere a Diego quando il test è definitivo)
-\item \texttt{testDisplay()} controlla che il numero dei figli del \textit{Communication} siano esattamente due, che entrambi siano \texttt{<div>} e che il valore dell'attributo \texttt{id} del primo figlio sia ``divCall'' mentre del secondo ``divChat''. Verifica i figli dell'elemento per la visualizzazione delle chiamate (due elementi \texttt{<video>} e un ulteriore elemento \texttt{<div>} per la visualizzazione delle statistiche) e i figli dell'elemento per la visualizzazione delle chat.
+\item \texttt{testDisplay()} verifica la corretta costruzione e inizializzazione degli elementi grafici del pannello controllando che la vista sia caricata e che la struttura di quest'ultima rispetti le scelte progettuali in relazione al tipo e al contenuto degli elementi stessi.
 
-% TODO da rivedere
-\item \texttt{testGetMyVideo()} verifica l'accesso alla parte di interfaccia grafica incaricata di visualizzare l'\inglese{input} proveniente dalla webcam dell'utente, utilizzando ancora uno \inglese{stub} per la vista mancante.
+\item \texttt{testGetMyVideo()} verifica che sia possibile accedere alla parte di interfaccia grafica incaricata di visualizzare lo \inglese{stream} proveniente dal client associato all'utente.
 
-% TODO da rivedere
-\item \texttt{testGetOtherVideo()} verifica l'accesso alla parte di interfaccia grafica incaricata di visualizzare l'\inglese{input} proveniente dal client con cui si è instaurata una comunicazione.
+\item \texttt{testGetOtherVideo()} verifica che sia possibile accedere alla parte di interfaccia grafica incaricata di visualizzare lo \inglese{stream} associato all'altro client coinvolto nella comunicazione.
 
-% TODO da rivedere
-\item \texttt{testOnUpdateStats()} verifica la corretta visualizzazione delle statistiche di comunicazione, tanto per i dati in ingresso che per i dati in uscita. A tal fine è utilizzato uno \inglese{stub} per simulare la presenza della vista durante l'esecuzione del test.
+\item \texttt{testOnUpdateStats()} verifica la corretta visualizzazione delle statistiche di comunicazione, tanto per i dati in ingresso che per i dati in uscita, controllando che il testo passato come parametro a \verb'updateStats' sia visualizzato dopo il prefisso \verb'"Dati ricevuti: "' e \verb'"Dati inviati: "' rispettivamente.
 
-% TODO da rivedere
-\item \texttt{testOnUpdateTimer()} verifica che sia correttamente visualizzata la stringa passata come parametro in ingresso al metodo \texttt{updateTimer}. A tal fine è utilizzato uno \inglese{stub} per simulare per la vista, che espone verso il presenter la medesima interfaccia del pannello vero.
+\item \texttt{testOnUpdateTimer()} verifica che sia correttamente visualizzata nell'interfaccia grafica la stringa passata come parametro in ingresso al metodo \texttt{updateTimer}, dopo aver anteposto il prefisso \verb'"Tempo chiamata: "'.
 
-\item \texttt{testOnChatAdded()}
-% TODO da terminare
+\item \texttt{testOnChatAdded()} verifica il gestore dell'evento di aggiunta di una nuova chat testuale assicurando la corretta costruzione del \inglese{list item} che la rappresenta nell'interfaccia grafica.
 
-\item \texttt{testOnChatRemoved()}
-% TODO da terminare
+\item \texttt{testOnChatRemoved()} verifica il gestore dell'evento di rimozione di una nuova chat testuale controllando che sia eliminata dall'interfaccia grafica il \inglese{list item} corrispondente. Il test si assicura inoltre del fatto che se la chat da rimuovere era visualizzata nell'elemento con identificativo \texttt{divContainerChat}, anche il contenuto di quest'ultimo viene rimosso dal pannello.
 
-\item \texttt{testOnAppendMessageToChat()}
-% TODO da terminare
+\item \texttt{testOnAppendMessageToChat()} verifica che quando si verifica l'evento di aggiunta di un nuovo messaggio, sia aggiornata l'interfaccia grafica in maniera corretta aggiungendo alla \verb'<textArea>' con l'identificativo \verb'chatText' una nuova stringa con il nome del mittente (``io'' se si tratta dell'utente corrente) seguita dal testo del messaggio e da un carattere di fine riga.
 
-\item \texttt{testOnStartRinging()}
-% TODO da terminare
+\item \texttt{testOnStartRinging()}  verifica il comportamento del \inglese{presenter} in risposta all'evento \texttt{startRinging}, controllando in particolare che sia invocata la funzione di libreria \verb'window.setInterval' per avviare la riproduzione della suoneria.
 
-\item \texttt{testOnStopRinging()}
-% TODO da terminare
+\item \texttt{testOnStopRinging()} verifica il comportamento del \inglese{presenter} in risposta all'evento \texttt{stopRinging}, controllando in particolare che sia invocata la funzione di libreria \verb'window.clearInterval' per fermare la suoneria.
+
+\item \texttt{testOnSendMessageByClick()} verifica il comportamento del pannello nel momento in cui viene premuto il pulsante per l'invio di un messaggio tramite chat testuale. Il test verifica in particolare che sia sollevato un evento sendMessage con le proprietà \texttt{contact} e \texttt{messsageTest} impostate in maniera corretta.
 
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
