@@ -2108,7 +2108,7 @@ Per questo motivo, l'oggetto \texttt{AccountSettingsPresenter} ha il compito di 
 \item \texttt{guicontrol.AddressBookPresenter}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Tale \inglese{presenter} viene richiamato dall'elemento grafico corrispondente al pannello della rubrica (\texttt{org.softwaresynthesis.mytalk.clientview.AddressBookPresenter}) e contiene la risposta a eventi quali la selezione di un contatto dalla rubrica da parte dell'utente. Contiene inoltre un'operazione di \inglese{refresh} che visualizza una lista di contatti ricevuta in input in forma grafica sulla UI\@.
+Tale \inglese{presenter} viene richiamato dall'elemento grafico corrispondente al pannello della rubrica (\texttt{org.softwaresynthesis.mytalk.clientview.AddressBookPresenter}) e contiene la risposta a eventi quali la selezione di un contatto dalla rubrica da parte dell'utente. Contiene inoltre un'operazione di \inglese{refresh} sui dati.
 
 Il \inglese{presenter} in questione rende inoltre possibile avviare una ricerca fra gli utenti presenti in rubrica, nonché rilevare che l'operazione di ricerca è conclusa (e conseguentemente visualizzare nuovamente la rubrica). 
 
@@ -2295,11 +2295,10 @@ Per questo motivo, l'oggetto \texttt{SearchResultPresenter} ha il compito di met
 \item \texttt{guicontrol.ToolsPresenter}
 \begin{description}
 	\item{\scshape\bfseries Descrizione:}\\
-Tramite tale \inglese{presenter} è possibile inizializzare la barra laterale degli strumenti rappresentata da \texttt{org.softwaresynthesis.mytalk.clientview.ToolsPresenter}. Gli aggiornamenti cui tale porzione della vista è soggetta consistono nella visualizzazione/scomparsa di uno o più strumenti su richiesta dell'utente e per ognuno di questi è prevista la presenza di un'operazione.
+Tramite tale \inglese{presenter} è possibile inizializzare la barra laterale degli strumenti rappresentata da \texttt{org.softwaresynthesis.mytalk.clientview.ToolsPresenter}.
+D'altra parte, gli eventi scatenati dall'interazione dell'utente con il pannello degli strumenti che comportano la modifica dell'elemento mostrato nella regione centrale, sono raccolti da questo \inglese{presenter} e inoltrati al \texttt{PresenterMediator} per la gestione.
 
-D'altra parte, gli eventi scatenati dall'interazione dell'utente con il pannello degli strumenti che comportano la modifica dell'elemento mostrato nella regione centrale al posto del pannello principale, sono raccolti da questo \inglese{presenter} e inoltrati al \texttt{PresenterMediator} per la gestione.
-
-In tal modo è possibile far comparire o scomparire il pannello di gestione dei dati personali corrispondenti al proprio account, della segreteria, la gestione dei gruppi e lo storico delle chiamate.
+In tal modo è possibile far comparire o scomparire il pannello di gestione dei dati personali corrispondenti al proprio account, della segreteria, la gestione dei gruppi, la funzione di ricerca e lo storico delle chiamate.
 
 Poiché inoltre da \texttt{org.softwaresynthesis.mytalk.clienview.ToolsPresenter} è possibile impostare il proprio stato, il \inglese{presenter} ad esso associato contiene le funzioni che notificano l'avvenuto cambiamento di stato al componente \textsf{Gestione controller}.
 
@@ -2314,7 +2313,7 @@ Poiché inoltre da \texttt{org.softwaresynthesis.mytalk.clienview.ToolsPresenter
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=.8\textwidth]{presenter_generale}
+  \includegraphics[width=1\textwidth]{presenter_generale}
   \caption{Diagramma delle classi - Architettura \texttt{mytalk.clientpresenter}}\label{fig:sottoarchpresenter}
   \end{figure}
 \clearpage
@@ -2487,7 +2486,7 @@ Implementazione di \texttt{IMainView}
   \item{\scshape\bfseries Descrizione}\\
 Pannello che rappresenta il pannello degli strumenti della \inglese{home screen} dell'applicativo  mediante il quale è possibile accedere alle funzionalità di ricerca, di segreteria telefonica, selezione della lingua, modifica dei dati dell'utente e storico delle chiamate.
 
-All'occorrenza il pannello può essere messo in secondo piano e non essere più visibile per intero nella finestra principale. In questo pannello inoltre è visualizzato lo stato corrente dell'utente ed è possibile modificarlo per passare da ``occupato'' a ``disponibile'' o per disconnettersi e passare a \inglese{offline}.
+In questo pannello inoltre è visualizzato lo stato corrente dell'utente ed è possibile modificarlo per passare da ``occupato'' a ``disponibile'' o per disconnettersi e passare a \inglese{offline}.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -2513,7 +2512,7 @@ Implementazione di \texttt{IToolsView}.
   \item{\scshape\bfseries Descrizione}\\
 Tale vista viene utilizzata per rappresentare il profilo di un utente. Solo accedendo quest'ultima sarà possibile avviare una comunicazione con l'utente. Il contatto viene visualizzato selezionando l'utente dalla rubrica oppure tra i risultati di una ricerca.
 
-Attraverso questo pannello è inoltre possibile effettuare alcune operazioni di amministrazione sulla rubrica: aggiungere o rimuovere un utente ad uno dei gruppi della propria rubrica, bloccare un contatto o, se il profilo visualizzato corrisponde a un utente che non appartiene alla rubrica personale, aggiungerlo ad essa.
+Attraverso questo pannello è inoltre possibile effettuare alcune operazioni di amministrazione sulla rubrica tra cui aggiungere o rimuovere un utente ad uno dei gruppi della propria rubrica, bloccare un contatto o, se il profilo visualizzato corrisponde a un utente che non appartiene alla rubrica personale, aggiungerlo ad essa.
 
   \item{\scshape\bfseries Componenti che ne fanno uso:}
   \begin{itemize}[noitemsep,nolistsep]
@@ -2838,7 +2837,7 @@ Definisce un'interfaccia per il comportamento di un algoritmo generico, lasciand
 \begin{description}
 
   \item{\scshape\bfseries CS04 -- Gestione autenticazione}\\
-All'interno di tale classe l'utilizzo del \inglese{pattern} si ha nel momento in cui è necessario definire una strategia di criptazione e decriptazione dei dati, passati dall'utente, per eseguire l'autenticazione. L'interfaccia atta a definire l'algoritmo generico è \texttt{authentication.security.ISecurityStrategy} mentre una prima implementazione proposta dal team è \texttt{authentication.security.AESAlgorithm}, che definisce un algoritmo di criptazione basato su AES.
+All'interno di tale classe l'utilizzo del \inglese{pattern} si ha nel momento in cui è necessario definire una strategia di criptazione e decriptazione dei dati, passati dall'utente, per eseguire l'autenticazione. L'interfaccia \texttt{authentication.security.ISecurityStrategy} è atta a definire l'algoritmo generico, mentre una prima implementazione proposta dal team è \texttt{authentication.security.AESAlgorithm}, che definisce un algoritmo di criptazione basato su AES.
 
 \begin{figure}[H]
   \centering
@@ -2857,7 +2856,7 @@ Permette di definire la struttura di un algoritmo lasciando alle sottoclassi il 
 \begin{description}
 
   \item{\scshape\bfseries CS01 -- Gestione database}\\
-In tale componente la classe \texttt{dao.util.ModifyUtil} implementa il \inglese{pattern} \texttt{template method} definendo un metodo per l'esecuzione di un'operazione su \texttt{dao.DataPersistenceManager}, e lasciando l'implementazione di alcuni passi dell'algoritmo alle classi figlie. Tali sono: \texttt{dao.util.InsertUtil}, \texttt{dao.util.UpdateUtil} e \texttt{dao.util.DeleteUtil}.
+In tale componente la classe \texttt{dao.util.ModifyUtil} implementa il \inglese{pattern} Template Method definendo un metodo per l'esecuzione di un'operazione su \texttt{dao.DataPersistenceManager}, e lasciando l'implementazione di alcuni passi dell'algoritmo alle classi figlie. Tali sono: \texttt{dao.util.InsertUtil}, \texttt{dao.util.UpdateUtil} e \texttt{dao.util.DeleteUtil}.
 
 
 \begin{figure}[H]
@@ -2880,7 +2879,7 @@ Anche la classe \texttt{dao.util.GetUtil} implementa lo stesso comportamento, la
 
 
 	\item{\scshape\bfseries CS04 -- Gestione autenticazione}\\
-In tale componente la classe \texttt{authentication.security.AESTemplate} implementa il \inglese{pattern} \texttt{template method} definendo un metodo per l'esecuzione di un operazione AES. Nello specifico le operazioni possibili sono: criptazione e decriptazione. Tali sono rappresentate dalle classi \texttt{authentication.security.AESEncode} e \texttt{authentication.security.AESDecode}.
+In tale componente la classe \texttt{authentication.security.AESTemplate} implementa il \inglese{pattern} template method definendo un metodo per l'esecuzione di un operazione AES. Nello specifico le operazioni possibili sono: criptazione e decriptazione. Tali sono rappresentate dalle classi \texttt{authentication.security.AESEncode} e \texttt{authentication.security.AESDecode}.
 
 \begin{figure}[H]
   \centering
@@ -2890,7 +2889,7 @@ In tale componente la classe \texttt{authentication.security.AESTemplate} implem
 
 
 	\item{\scshape\bfseries CS07 -- Gestione controller}\\
-In tale componente la classe \texttt{server.AbstractController} definisce una procedura per l'esecuzione di una richiesta inoltrata da un client al server. Tale procedura prevede di richiamare un metodo atto all'esecuzione della richiesta specifica. La procedura definita da tale metodo, secondo l'implementazione del \texttt{template method}, viene ridefinita all'interno delle classi figlie di \texttt{server.AbstractController}. Tali classi sono tutte e sole quelle contenute nella componente CS07, ossia tutti i \inglese{controller} del sistema.
+In tale componente la classe \texttt{server.AbstractController} definisce una procedura per l'esecuzione di una richiesta inoltrata da un client al server. Tale procedura prevede di richiamare un metodo atto all'esecuzione della richiesta specifica. La procedura definita da tale metodo, secondo l'implementazione del Template Method, viene ridefinita all'interno delle classi figlie di \texttt{server.AbstractController}. Tali classi sono tutte e sole quelle contenute nella componente CS07, ossia tutti i \inglese{controller} del sistema.
 
 \begin{figure}[H]
   \centering
@@ -2907,7 +2906,7 @@ Per rendere il diagramma più chiaro e leggibile, sono state omesse le relazioni
 \subsection{Model-View-Presenter}\label{sec:MVP}
 
 \subsubsection{Scopo}
-Il \inglese{pattern} architetturale \inglese{Model-View-Presenter} similmente a quanto accade per \inglese{Model-View-Controller} (MVC), ha lo scopo di mantenere separata la \inglese{business logic}, cioè la gestione dei dati secondo le regole di un determinato dominio e la loro memorizzazione in forma persistente, dalla presentazione e manipolazione mediante interfaccia utente.
+Il \inglese{pattern} architetturale Model-View-Presenter similmente a quanto accade per Model-View-Controller (MVC), ha lo scopo di mantenere separata la \inglese{business logic}, cioè la gestione dei dati secondo le regole di un determinato dominio e la loro memorizzazione in forma persistente, dalla presentazione e manipolazione mediante interfaccia utente.
 
 
 \begin{figure}[H]
