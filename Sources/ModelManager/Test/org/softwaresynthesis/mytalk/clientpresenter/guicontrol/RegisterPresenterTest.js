@@ -372,7 +372,7 @@ test("testRegister()", function() {
 	i++;
 	equal(user.id, 0);
 	i++;
-	equal(user.picturePath, "img/contactImg/Default.png");
+	equal(user.picturePath, "Default.png");
 	i++;
 
 	expect(i);

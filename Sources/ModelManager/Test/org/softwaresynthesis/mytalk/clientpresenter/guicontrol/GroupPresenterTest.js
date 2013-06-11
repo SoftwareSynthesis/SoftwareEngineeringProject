@@ -352,12 +352,12 @@ test("testAddToGroupByClick()", function() {
 	element = element.parentElement.children[1];
 	equal(element.nodeName, "BUTTON");
 	i++;
-	equal(element.innerHTML.trim(), "Aggiungi");
+	equal(element.innerHTML.trim(), "Annulla");
 	i++;
 	element = element.parentElement.children[2];
 	equal(element.nodeName, "BUTTON");
 	i++;
-	equal(element.innerHTML.trim(), "Annulla");
+	equal(element.innerHTML.trim(), "Aggiungi");
 	i++;
 
 	expect(i);
