@@ -18,7 +18,13 @@ module(
 				showReturnToCommunicationPanelButton = new CustomEvent(
 						"showReturnToCommunicationPanelButton");
 				sendMessage = new CustomEvent("sendMessage");
+				showCommunicationPanel = new CustomEvent(
+						"showCommunicationPanel");
 				showGeneralPanel = new CustomEvent("showGeneralPanel");
+				// Tres mi sono stufato dei tuoi alert di debug!
+				window.alert = function() {
+					// io non faccio nulla
+				};
 				// questo non è il cesso ma è una turca
 				mediator = {
 					getView : function(someString) {
@@ -33,6 +39,15 @@ module(
 					},
 					createNameLabel : function(something) {
 						return "pluto";
+					},
+					getContactById : function(id) {
+						return {
+							id : 1,
+							name : "Paolino",
+							surname : "Paperino",
+							email : "indirizzo5@dominio.it",
+							picturePath : "img/contactImg/Default.png"
+						};
 					}
 				};
 				// questo non esiste
@@ -352,4 +367,73 @@ test("testOnStartRinging()", function() {
 	document.dispatchEvent(new CustomEvent("startRinging"));
 
 	ok(wasCalled);
+});
+
+/**
+ * Verifica il comportamento del pannello nel momento in cui viene premuto il
+ * pulsante per l'invio di un messaggio tramite chat testuale. Il test verifica
+ * in particolare che sia sollevato un evento sendMessage con le proprietà
+ * contact e messsageTest impostate in maniera corretta.
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
+test("testSendMessageByClick()", function() {
+	var i = 0;
+	mediator.getView("communication");
+	tester.display();
+	var user = {
+		id : "1",
+		name : "Paolino",
+		surname : "Paperino",
+		email : "indirizzo5@dominio.it",
+		picturePath : "img/contactImg/Default.png"
+	};
+	tester.addChat(user);
+	tester.displayChat(user);
+	var input = document.getElementById("text");
+	input.value = "ciao, mona!";
+	var button = document.getElementById("sendButton");
+	var sent = "";
+	var contact = null;
+	document.addEventListener("sendMessage", function(evt) {
+		sent = evt.messageText;
+		contact = evt.contact;
+	});
+	button.disabled = false;
+
+	button.dispatchEvent(new MouseEvent("click"));
+
+	input = document.getElementById("text");
+	equal(input.value, "");
+	i++;
+	equal(contact, user);
+	i++;
+	equal(sent, "ciao, mona!");
+	i++;
+
+	expect(i);
+});
+
+/**
+ * Verifica il comportamento del presenter in risposta all'evento stopRinging,
+ * controllando in particolare che sia invocata la funzione di libreria
+ * window.clearInterval per fermare la suoneria.
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
+test("testOnStopRinging()", function() {
+	var calledClearInterval = false;
+	window.setInterval = function(something, somethingElse) {
+		return "ciao";
+	};
+	window.clearInterval = function(interval) {
+		calledClearInterval = true;
+	};
+
+	document.dispatchEvent(new CustomEvent("startRinging"));
+	document.dispatchEvent(new CustomEvent("stopRinging"));
+
+	ok(calledClearInterval);
 });
