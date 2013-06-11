@@ -122,7 +122,6 @@ function CommunicationPanelPresenter() {
      * @author Diego Beraldin
      */
     this.displayChat = function(user) {
-        alert(user);
         if (user) {
             var divChat = document.getElementById("divChat");
             var container = document.getElementById("divContainerChat");
