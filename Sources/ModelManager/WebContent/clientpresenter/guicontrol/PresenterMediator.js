@@ -235,10 +235,12 @@ function PresenterMediator() {
      **************************************************************************/
     /**
      * Event Heandler per gestire il caricamento di una View
+     * 
+     * N.B. Questo non è più un evento (neppure nella documentazione lo è)
      *
      * @author Riccardo Tresoldi
      * @param {String} presenter il presenter di cui si è richiesta la view
-     * @param {HTMLDivElement} view la view da passare all'initialize
+     * @param {String} view la view da passare all'initialize
      */
     function onLoadedView(presenter, view) {
         if (presenters[presenter]) {
