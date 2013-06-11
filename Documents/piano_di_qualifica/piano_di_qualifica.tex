@@ -2668,19 +2668,21 @@ TP2.01 & CommunicationCenterTest & Superato\\
 Tale test è stato effettuato mediante il \inglese{plugin} per EclEmma Eclipse  per la parte dell'applicativo realizzata in Java (quindi nel \inglese{model}) e con lo strumento JSCoverage per la parte client implementata in JavaScript definendo quindi le percentuali di codice che è stato sottoposto a test per i singoli componenti dell'applicazione.
 
 \begin{center}
-\rowcolors{3}{lightblue}{llightblue}\begin{longtable}{p{.30\textwidth}ll}
-\toprule Componente & Copertura\\
+\rowcolors{3}{lightblue}{llightblue}
+\begin{tabular}{p{.30\textwidth}cc}
+\toprule
+\multirow{2}{*}{\textsc{Componente}} & \multicolumn{2}{c}{\textsc{Copertura}}\\
+& \itshape{}statement & \itshape{}branch\\
 \midrule
-Model & 86,7\%\\
-Presenter & 85,6\% \\
+Model & 90,6\% & 80,1\%\\
+Presenter & 85,2\% & --- \\
 \bottomrule
-\end{longtable}
+\end{tabular}
 \end{center}
 
-%FIXME queste sono cazzate
-La percentuale di copertura rilevata relativamente alla parte \inglese{model}, risulta essere in linea con quanto pianificato, il risultato inferiore al 90\% si giustifica dal numero elevato di metodi \inglese{get} e \inglese{set} che non sono stati tutti analizzati tramite test di unità, ma solo tramite analisi statica del codice.
+La percentuale di copertura rilevata relativamente alla parte \inglese{model}, risulta essere in linea con quanto pianificato. La ragione di un risultato intorno al 90\% è da ravvisarsi nel fatto che, anche con l'utilizzo di \inglese{mock} non è stato possibile coprire tutti i rami nel grafo del flusso di controllo, specialmente per quanto concerne la gestione delle eccezioni e le clausole \texttt{finally}.
 
-Per la parte \inglese{presenter} al contrario si può ricondurre il risultato alle numerose funzioni anonime impossibili da testare e invocate soltanto durante l'effettivo funzionamento dell'applicazione.
+Per la parte \inglese{presenter}, al contrario, si può ricondurre il risultato all'impossibilità di raggiungere tutte le funzioni anonime associate alla gestione degli eventi, anche se le principali funzionalità sono state testate simulando il \inglese{dispatching} degli eventi (in particolare \texttt{UIEvent} e \texttt{MouseEvent})) associati all'interazione dell'utente con l'interfaccia grafica.
 
 \clearpage
 \subsection{Test di Sistema}
