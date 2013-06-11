@@ -219,12 +219,6 @@ function ContactPanelPresenter() {
             showPhoneCallMessagePanel.reciver = currentContact;
             document.dispatchEvent(showPhoneCallMessagePanel);
         };
-
-        // tolgo la possibilità di aggiungere un utente se già presente
-        /*if (mediator.contactAlreadyPresent(currentContact)) {
-         document.getElementById("addToAddressBookButton").style.display =
-         "none";
-         }*/
     };
 
     /**************************************************************************

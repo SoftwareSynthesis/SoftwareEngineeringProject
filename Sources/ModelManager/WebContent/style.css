@@ -43,12 +43,29 @@ input[type=button], button[type=button] {
     margin: 0.1em 0.5em 0.1em 0.5em;
 }
 input[type=button]:hover, button[type=button]:hover, input[type=button]:focus, button[type=button]:focus {
-    /*FIXME*/
     background-color: rgba(40,90,230,1);
 }
 input[type=button]:active, button[type=button]:active {
-    /*FIXME*/
     background-color: rgba(40,60,230,1);
+}
+/*Bottoni Disabilitati*/
+input[type=submit][disabled], button[type=submit][disabled]{
+    color: rgba(0,0,0,0.5);
+    background-color: rgba(40,150,230,0.3);
+}
+input[type=button][disabled], button[type=button][disabled]{
+    color: rgba(0,0,0,0.5);
+    background-color: rgba(40,150,230,0.3);
+}
+/*Bottoni "ANNULLA"*/
+input[type=button].back, button[type=button].back{
+    background-color: rgba(243,49,27,1);
+}
+input[type=button].back:hover, button[type=button].back:hover{
+    background-color: rgba(199,29,10,1);
+}
+input[type=button].back:active, button[type=button].back:active{
+    background-color: rgba(174,26,9,1);
 }
 
 /*TextBox personalizzate*/
@@ -436,7 +453,7 @@ footer {
 }
 .groupLabel img:active {
 }
-#buttonDiv {
+#buttonsDiv {
     text-align: center;
     clear: right;
 }
@@ -595,6 +612,11 @@ video {
 #ulOpenChat li:active, #ulOpenChat li.showed{
     background-color: rgba(100,100,255,0.5);
 }
+#ulOpenChat li img{
+    width: 1.5em;
+    vertical-align: middle;
+    margin-left: 0.5em;
+}
 #divContainerChat {
     padding-top: 0.5em;
     background-color: rgba(100,100,255,0.5);
@@ -656,15 +678,25 @@ video {
 #PhoneCallRecorder {
     padding: 0.3em;
     border-radius: 1.5em;
-    width: 20em;
-    height: 4em;
+    width: 18em;
+    height: 6em;
     background: #FFEBCD;
     position: absolute;
     top: 50%;
     left: 50%;
-    margin-left: -10em;
-    margin.top: -5em;
+    margin-left: -9em;
+    margin-top: -6em;
     z-index: 200;
+    text-align: center;
+}
+#PhoneCallRecorder audio{
+    display: block;
+    margin: auto;
+    margin-top: 0.6em;
+}
+#PhoneCallRecorder button:last-child{
+    display: block;
+    margin: auto;
 }
 /*end PhoneCallsRegistryPanel*/
 
@@ -681,7 +713,7 @@ video {
     top: 50%;
     left: 50%;
     margin-left: -7.5em;
-    margin.top: -5em;
+    margin-top: -5em;
     z-index: 200;
 }
 /*end PhoneCallsRegistryPanel*/

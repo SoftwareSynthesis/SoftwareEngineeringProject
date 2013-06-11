@@ -28,7 +28,7 @@ switch($operation) {
           "email" => "indirizzo5@dominio.it",
           "name" => "Paolino",
           "surname" => "Paperino",
-          "picturePath" => "img/contactImg/Default.png"
+          "picturePath" => "Default.png"
         );
         break;
 

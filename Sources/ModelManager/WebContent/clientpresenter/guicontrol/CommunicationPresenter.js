@@ -40,16 +40,18 @@ function CommunicationPanelPresenter() {
     function createChatItem(user) {
         var item = document.createElement("li");
         item.id = "chat-" + user.id;
-        item.appendChild(document.createTextNode(mediator.createNameLabel(user)));
+        var textItem = document.createElement("span");
+        textItem.appendChild(document.createTextNode(mediator.createNameLabel(user)));
+        item.appendChild(textItem);
         var closeChatButton = document.createElement("img");
         closeChatButton.src = "img/deleteContactImg.png";
         closeChatButton.onclick = function() {
-            self.removeChat(user);
-            mediator.addOrRemoveCommunicationToTools();
+            thisPresenter.removeChat(user);
         };
-        item.onclick = function() {
+        textItem.onclick = function() {
             thisPresenter.displayChat(user);
-        };
+        }; 
+        item.appendChild(closeChatButton);
         return item;
     }
 
@@ -80,14 +82,13 @@ function CommunicationPanelPresenter() {
         input.type = "text";
         input.name = "text";
         form.appendChild(input);
-        input.onkeyup = function(){
-            if (this.value != ""){
+        input.onkeyup = function() {
+            if (this.value != "") {
                 document.getElementById("sendButton").disabled = false;
-            }else{
-                document.getElementById("sendButton").disabled = true   ;
+            } else {
+                document.getElementById("sendButton").disabled = true;
             }
         }
-
         // crea il pulsante
         var sendButton = document.createElement("button");
         sendButton.id = "sendButton";
@@ -121,12 +122,15 @@ function CommunicationPanelPresenter() {
      * @author Diego Beraldin
      */
     this.displayChat = function(user) {
-        var divChat = document.getElementById("divChat");
-        var container = document.getElementById("divContainerChat");
-        if (divChat != null && container != null) {
-            divChat.removeChild(container);
+        alert(user);
+        if (user) {
+            var divChat = document.getElementById("divChat");
+            var container = document.getElementById("divContainerChat");
+            if (divChat != null && container != null) {
+                divChat.removeChild(container);
+            }
+            divChat.appendChild(chatElements[user.id]);
         }
-        divChat.appendChild(chatElements[user.id]);
     };
 
     /** VIEW
@@ -148,6 +152,7 @@ function CommunicationPanelPresenter() {
             var item = createChatItem(user);
             var ulOpenChat = document.getElementById("ulOpenChat");
             ulOpenChat.appendChild(item);
+            thisPanel = document.getElementById("CommunicationPanel");
         }
     };
 
@@ -169,10 +174,9 @@ function CommunicationPanelPresenter() {
 
         // testa se era visualizzata proprio quella chat e in tal caso la
         // rimuove dalla vista
-        // XXX possibile problema. probabile if
         var divContainerChat = document.getElementById("divContainerChat");
         var form = divContainerChat.children[0];
-        if (form.id == user.id) {
+        if (form.id == ("chatForm-" + user.id)) {
             var divChat = document.getElementById("divChat");
             divChat.removeChild(divContainerChat);
         }
@@ -186,7 +190,7 @@ function CommunicationPanelPresenter() {
     this.display = function() {
         if (!thisPanel) {
             thisPanel = document.getElementById("CommunicationPanel");
-        }else{
+        } else {
             showGeneralPanel.panel = thisPanel.outerHTML;
             document.dispatchEvent(showGeneralPanel);
         }
@@ -195,7 +199,30 @@ function CommunicationPanelPresenter() {
         closeButton.onclick = function() {
             communicationcenter.endCall();
         };
+        // mostro le chat
         thisPresenter.displayChat();
+        // inizializzo i callback delle chat
+        var chatsList = document.getElementById("ulOpenChat");
+        if (chatsList && chatsList.children.length != 0){
+            for (c in chatsList.children) {
+                if(c == "length"){
+                    break;
+                }
+                var item = chatsList.children[c];
+                var userId = item.id.split("-")[1];
+                var user = mediator.getContactById(userId);
+                // setto l'evento onclick per la visualizzazione dela chat
+                item.children[0].onclick = function() {
+                    var currentUser = user;
+                    thisPresenter.displayChat(currentUser);
+                }
+                // setto l'evento onclick per la chiusura della chat
+                item.children[1].onclick = function() {
+                    var currentUser = user;
+                    thisPresenter.removeChat(currentUser);
+                }
+            }
+        }
     };
 
     /** VIEW
@@ -266,9 +293,6 @@ function CommunicationPanelPresenter() {
         if (!thisPanel) {
             mediator.getView('communication');
         } else {
-            // TODO da aggiungere il comando di visualizzazione del
-            // CommunicationPanel al MainPresenter perche non lo fa più
-            // onLoadedView del cesso
             thisPresenter.display();
         }
         if (!document.getElementById("CallFunction"))
@@ -324,24 +348,24 @@ function CommunicationPanelPresenter() {
             intervalRing = null;
         }
     }
-    
+
     /**
      * Gestione evento visualizzazione chat
      * @version 2.0
      * @author Riccardo Tresoldi
      */
-    function onChatStarted(user){
+    function onChatStarted(user) {
         document.dispatchEvent(showCommunicationPanel);
         thisPresenter.addChat(user);
         thisPresenter.displayChat(user);
     }
-    
+
     /**
      * Gestione dell'azzeramento dell'oggetto che contiene le chat
      * @version 2.0
      * @author Riccardo Tresoldi
      */
-    function onResetChatsObject(){
+    function onResetChatsObject() {
         chatElements = new Object();
     }
 
@@ -352,11 +376,11 @@ function CommunicationPanelPresenter() {
     document.addEventListener("appendMessageToChat", function(evt) {
         onAppendMessageToChat(evt.user, evt.text, evt.IAmSender);
     })
-    document.addEventListener("startRinging", function(evt){
+    document.addEventListener("startRinging", function(evt) {
         onStartRinging(evt.evento);
     });
     document.addEventListener("stopRinging", onStopRinging);
-    document.addEventListener("chatStarted", function(evt){
+    document.addEventListener("chatStarted", function(evt) {
         onChatStarted(evt.user);
     });
     document.addEventListener("resetChatsObject", onResetChatsObject);

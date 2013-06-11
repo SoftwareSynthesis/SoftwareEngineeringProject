@@ -190,6 +190,7 @@ function GroupPanelPresenter(url) {
 
 		// appende al form i pulsanti per l'aggiunta e la chiusura
 		var addButton = document.createElement("button");
+		addButton.type = "button";
 		addButton.appendChild(document.createTextNode("Aggiungi"));
 		addButton.onclick = function(evt) {
 		    evt.preventDefault();
@@ -211,6 +212,8 @@ function GroupPanelPresenter(url) {
             }
 		};
 		var closeButton = document.createElement("button");
+		closeButton.type = "button";
+		closeButton.className = "back";
         closeButton.appendChild(document.createTextNode("Annulla"));
         closeButton.onclick = function(evt) {
 			evt.preventDefault();
@@ -222,8 +225,8 @@ function GroupPanelPresenter(url) {
             }
         };
         
+        form.appendChild(closeButton);
 		form.appendChild(addButton);
-		form.appendChild(closeButton);
 
 		return form;
 	};
