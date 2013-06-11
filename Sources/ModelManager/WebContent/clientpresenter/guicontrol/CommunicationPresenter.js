@@ -121,6 +121,7 @@ function CommunicationPanelPresenter() {
      *            user utente con cui è attiva la chat che si vuole visualizzare
      * @author Diego Beraldin
      */
+    // NB nella documentazione questo è un metodo privato
     this.displayChat = function(user) {
         if (user) {
             var divChat = document.getElementById("divChat");
@@ -214,12 +215,12 @@ function CommunicationPanelPresenter() {
                 item.children[0].onclick = function() {
                     var currentUser = user;
                     thisPresenter.displayChat(currentUser);
-                }
+                };
                 // setto l'evento onclick per la chiusura della chat
                 item.children[1].onclick = function() {
                     var currentUser = user;
                     thisPresenter.removeChat(currentUser);
-                }
+                };
             }
         }
     };
@@ -309,7 +310,6 @@ function CommunicationPanelPresenter() {
      * @param {Boolean} amISender rappresenta un flag che determina chi è che ha
      * inviato il messaggio
      */
-    // nella documentazione è onAppendMessage
     function onAppendMessageToChat(user, message, amISender) {
         var divContainerChat = chatElements[user.id];
         var textArea = document.evaluate("//node()[@id='chatText']", document.body, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
@@ -321,7 +321,7 @@ function CommunicationPanelPresenter() {
         textArea.value += (sender + ":\t" + message + "\n");
     }
 
-    /**
+    /** PRESENTER
      * Gestione suoneria chiamata ON
      * @version 2.0
      * @author Riccardo Tresoldi
@@ -335,7 +335,7 @@ function CommunicationPanelPresenter() {
         }
     }
 
-    /**
+    /** PRESENTER
      * Gestione suoneria chiamata OFF
      * @version 2.0
      * @author Riccardo Tresoldi
@@ -348,7 +348,7 @@ function CommunicationPanelPresenter() {
         }
     }
 
-    /**
+    /** PRESENTER
      * Gestione evento visualizzazione chat
      * @version 2.0
      * @author Riccardo Tresoldi
@@ -359,7 +359,7 @@ function CommunicationPanelPresenter() {
         thisPresenter.displayChat(user);
     }
 
-    /**
+    /** VIEW
      * Gestione dell'azzeramento dell'oggetto che contiene le chat
      * @version 2.0
      * @author Riccardo Tresoldi
