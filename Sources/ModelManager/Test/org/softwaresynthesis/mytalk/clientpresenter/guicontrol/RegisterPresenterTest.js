@@ -557,6 +557,24 @@ test("testProcessPassword()", function() {
 	i++;
 	equal(element.innerHTML.trim(), "compl. elevata");
 	i++;
+	
+	element = document.getElementById("password");
+	element.value = "ciao";
+	element.dispatchEvent(new UIEvent("input"));
+	element = document.getElementById("complexitySpan");
+	equal(element.className, "low");
+	i++;
+	equal(element.innerHTML.trim(), "compl. bassa");
+	i++;
+	
+	element = document.getElementById("password");
+	element.value = "1ciao2";
+	element.dispatchEvent(new UIEvent("input"));
+	element = document.getElementById("complexitySpan");
+	equal(element.className, "medium");
+	i++;
+	equal(element.innerHTML.trim(), "compl. media");
+	i++;
 
 	expect(i);
 });
