@@ -914,8 +914,8 @@ public class DataPersistanceManagerTest {
 		String name = "paperino";
 		String surname = "de paperoni";
 		String query = "from UserData as u where u.mail like '%" + mail
-				+ "%' or u.name like '" + name + "' or u.surname like '"
-				+ surname + "'";
+				+ "%' or u.name like '%" + name + "%' or u.surname like '%"
+				+ surname + "%'";
 		// configura il comportamento dei mock
 		when(getter.execute(query)).thenReturn(list);
 
