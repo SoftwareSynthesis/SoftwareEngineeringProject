@@ -272,14 +272,14 @@ Estensione di \texttt{org.apache.catalina.websocket.WebSocketServlet} ed impleme
 
 \subsubsection*{Attributi}
 
-\begin{itemize}
+\begin{description}
 	\item{\memberdata{\underline{-- serialVersionUID: long}}}\\
 	Attributo usato per definire un id univoco alla \inglese{servlet}.
 	\item{\memberdata{-- clients: Map<Long, PushInbound>}}\\
 	\textit{Map} usata per definire un associazione tra gli utenti connessi (riconosciuti mediante ID) e i \classname{PushInbound} a loro associati.
 	\item{\memberdata{-- controllers: Hashtable<String, String>}}\\
 	\textit{Hashtablet} usata per mappare le associazioni funzionalità-\inglese{controller} associato.
-\end{itemize}
+\end{description}
 
 \subsubsection*{Metodi}
 
@@ -379,12 +379,12 @@ Implementazione di \classname{ISessionManager}. Inizializza un'unica \inglese{fa
 
 \subsubsection*{Attributi}
 
-\begin{itemize}
+\begin{description}
 	\item{\memberdata{\underline{-- instance: ISessionManager}}}\\
 	Attributo usato per implementare il \inglese{pattern} singleton. Tale istanza verrà inizializzata tramite il metodo statico \method{getIstance()}, assicurando che l'attributo non sia già stato inizializzato in precedenza.
 	\item{\memberdata{-- sessionFactory: SessionFactory}}\\
 	Attributo contenente la \inglese{factory} delle sessioni verso il database.
-\end{itemize}
+\end{description}
 
 \subsubsection*{Metodi}
 
@@ -422,12 +422,12 @@ Nessuna relazione evidenziata.
 
 \subsubsection*{Attributi}
 
-\begin{itemize}
+\begin{description}
 	\item{\memberdata{-- manager: ISessionManager}}\\
 	Attributo usato per mantenere un riferimento alla singola istanza di SessionManagaer (estensione di \classname{ISessionManagaer}.
 	\item{\memberdata{-- factory: UtilFactory}}\\
 	Attributo usato per mantenere un riferimento ad un'istanza di UtilFactory, usata per l'esecuzione delle operazioni relative alla manipolazione dei dati.
-\end{itemize}
+\end{description}
 
 \subsubsection*{Metodi}
 
@@ -594,10 +594,10 @@ Nessuna relazione evidenziata.
 
 \subsubsection*{Attributi}
 
-\begin{itemize}
-	\item{\memberdata{\underline{-- manager: ISessionManager}}}\\
+\begin{description}
+	\item{\memberdata{-- manager: ISessionManager}}\\
 	Attributo usato per comunicare con la classe rappresentate il ''cuore'' del sistema di gestione del database.
-\end{itemize}
+\end{description}
 
 \subsubsection*{Metodi}
 
@@ -748,10 +748,10 @@ Nessuna relazione evidenziata.
 
 \subsubsection*{Attributi}
 
-\begin{itemize}
-	\item{\memberdata{\underline{-- manager: ISessionManager}}}\\
+\begin{description}
+	\item{\memberdata{-- manager: ISessionManager}}\\
 	Attributo usato per comunicare con la classe rappresentate il ''cuore'' del sistema di gestione del database.
-\end{itemize}
+\end{description}
 
 \subsubsection*{Metodi}
 
@@ -1080,7 +1080,7 @@ Nessuna relazione evidenziata
 
 \subsubsection*{Attributi}
 
-\begin{itemize}
+\begin{description}
 	\item{\memberdata{-- id: long}}
 	Attributo che definisce il codice identificativo con il quale l'utente è registrato nel database del sistema.
 	\item{\memberdata{-- mail: String}}
@@ -1099,8 +1099,7 @@ Nessuna relazione evidenziata
 	Attributo che definisce il percorso (sul server) in cui è memorizzata l'immagine del profilo dell'utente.
 	\item{\memberdata{-- addressBook: Set<AddressBookEntry>}}
 	Attributo che definisce l'insieme di \classname{AddressBookEntry} che costituiscono la rubrica dell'utente.
-	
-\end{itemize}
+\end{description}
 
 \subsubsection*{Metodi}
 
@@ -1169,12 +1168,12 @@ Nessuna relazione evidenziata.
 
 \subsubsection*{Attributi}
 
-\begin{itemize}
+\begin{description}
 	\item{\memberdata{-- id: long}}
 	Attributo del codice identificativo del gruppo.
 	\item{\memberdata{-- name: String}}:
 	Attributo del nome del gruppo.
-\end{itemize}
+\end{description}
 
 \subsubsection*{Metodi}
 
@@ -1210,7 +1209,7 @@ Implementazione dell'interfaccia IAddressBookEntry.
 
 \subsubsection*{Attributi}
 
-\begin{itemize}
+\begin{description}
 	\item{\memberdata{-- id: long}}
 	Attributo del codice identificativo della classe.
 	\item{\memberdata{-- group: IGroup}}
@@ -1221,7 +1220,7 @@ Implementazione dell'interfaccia IAddressBookEntry.
 	Attributo destinato ad identificare il possessore dell'istanza di \classname{AddressBookEntry}.
 	\item{\memberdata{-- blocked: boolean}}
 	Attributo booleano necessario per bloccare il contatto, avviene impostando l'attributo a \textit{true}.
-\end{itemize}
+\end{description}
 
 
 \subsubsection*{Metodi}
@@ -1567,7 +1566,7 @@ Nessun attributo evidenziato
 			\item \classname{IUserData} user;
 			Long contactIdl;
 			Long groupId;
-			\item \classname{PrintWriter} writer;
+			\item \texttt{PrintWriter} writer;
 			String result;
 			\item \classname{DataPersistanceManager} userDAO;
 		\end{itemize}
@@ -1635,7 +1634,7 @@ Nessun attributo evidenziato
 			Long contactIdl;
 			\item \texttt{Iterator<IAddressBookEntry>} iterator;
 			\item \texttt{Set<IAddressBookEntry>} entrys;
-			\item \classname{PrintWriter} writer;
+			\item \texttt{PrintWriter} writer;
 			String result;
 			\item \classname{DataPersistanceManager} userDAO;
 		\end{itemize}
@@ -1700,7 +1699,7 @@ Nessun attributo evidenziato
 			Long contactIdl;
 			\item \texttt{Iterator<IAddressBookEntry>} iterator;
 			\item \texttt{Set<IAddressBookEntry>} entrys;
-			\item \classname{PrintWriter} writer;
+			\item \texttt{PrintWriter} writer;
 			String result;
 			\item \classname{DataPersistanceManager} userDAO;
 		\end{itemize}
@@ -1761,7 +1760,7 @@ Nessun attributo evidenziato
 			\item \texttt{List<IUserData>} users;
 			\item \texttt{Iterator<IUserData>} iterator;
 			\item \texttt{Set<IAddressBookEntry>} entrys;
-			\item \classname{PrintWriter} writer;
+			\item \texttt{PrintWriter} writer;
 			\item String result e String parameter;
 			\item \classname{DataPersistanceManager} userDAO;
 		\end{itemize}
@@ -1830,7 +1829,7 @@ Nessun attributo evidenziato
 			\item \classname{IUserData} friend;
 			\item \texttt{Iterator<IAddressBookEntry>} iterator;
 			\item \texttt{Set<IAddressBookEntry>} entrys;
-			\item \classname{PrintWriter} writer;
+			\item \texttt{PrintWriter} writer;
 			\item String result;
 			\item \classname{IAddressBookEntry} entry;
 		\end{itemize}
@@ -1906,7 +1905,7 @@ Nessun attributo evidenziato
 			\item \texttt{Iterator<IAddressBookEntry>} entryIter;
 			\item \texttt{Iterator<IGroup>} groupIter;
 			\item \texttt{Set<IAddressBookEntry>} addentrys;
-			\item \classname{PrintWriter} writer;
+			\item \texttt{PrintWriter} writer;
 			\item String result;
 		\end{itemize}
 		
@@ -2064,7 +2063,7 @@ Classe che implementa l'interfaccia \classname{ICall}.
 
 \subsubsection*{Attributi}
 
-\begin{itemize}
+\begin{description}
 	\item{\memberdata{-- id: long}}
 	Attributo contenente il codice identificativo della chiamata.
 	\item{\memberdata{-- startDate: Date}}
@@ -2073,7 +2072,7 @@ Classe che implementa l'interfaccia \classname{ICall}.
 	Attributo di tipo \texttt{java.util.Date} contenente la data (compresa l'ora) in cui la chiamata è terminata.
 	\item{\memberdata{-- calls: Set<ICallList>}}
 	Attributo usato per definire la lista dei partecipanti alla chiamata.
-\end{itemize}
+\end{description}
 
 \subsubsection*{Metodi}
 \begin{description}
@@ -2153,7 +2152,7 @@ Nessuna relazione evidenziata.
 
 \subsubsection*{Attributi}
 
-\begin{itemize}
+\begin{description}
 	\item{\memberdata{-- id: long}}
 	Attributo contenente il codice identificativo dello storico chiamata.
 	\item{\memberdata{-- idCall: long}}
@@ -2162,7 +2161,7 @@ Nessuna relazione evidenziata.
 	Attributo contenente il codice identificativo dell'utente partecipante alla chiamata.
 	\item{\memberdata{-- caller: boolean}}
 	Attributo che identifica se l'utente è il chiamante o meno.
-\end{itemize}
+\end{description}
 
 \subsubsection*{Metodi}
 \begin{description}
@@ -2374,7 +2373,7 @@ Classe che implementa l'interfaccia \classname{IMessage}.
 
 \subsubsection*{Attributi}
 
-\begin{itemize}
+\begin{description}
 	\item{\memberdata{-- id: long}}
 	Attributo contenente il codice identificativo del messaggio.
 	\item{\memberdata{-- sender: IUserData}}
@@ -2387,7 +2386,7 @@ Classe che implementa l'interfaccia \classname{IMessage}.
 	Attributo che stabilisce se il messaggio contiene o meno una traccia video. Si ricorda che ogni messaggio contiene (di \inglese{default}) una traccia audio. Se tale attributo è impostato a \texttt{true} allora il messaggio contiene una traccia video.
 	\item{\memberdata{-- date: Date}}
 	Attributo che definisce l'orario di invio del messaggio.
-\end{itemize}
+\end{description}
 
 \subsubsection*{Metodi}
 \begin{description}
