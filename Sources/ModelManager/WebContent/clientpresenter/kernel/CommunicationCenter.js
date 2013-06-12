@@ -250,7 +250,7 @@ function CommunicationCenter() {
 			var addToCallsHistory = new XMLHttpRequest();
 			addToCallsHistory.open("POST", commandURL, false);
 			addToCallsHistory.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-			addToCallsHistory.send("operation=addCall&contactId=" && contact.id);
+			addToCallsHistory.send("operation=addCall&contactId=" + contact.id);
 		}
 
         //invio l'avviso di cambio stato in occupato
