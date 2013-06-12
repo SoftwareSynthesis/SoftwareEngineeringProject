@@ -36,7 +36,7 @@
 % definire se si vuole l'indice delle tabelle
 \def\INDICETABELLE{false}
 % definire se si vuole l'indice delle figure
-\def\INDICEFIGURE{false}
+\def\INDICEFIGURE{true}
 
 % importa il preambolo condiviso da tutti i documenti
 \input{\docRoot/shared/preamble.tex}
@@ -1244,6 +1244,13 @@ Implementazione dell'interfaccia IAddressBookEntry.
 
 \subsection{Package \texttt{org.softwaresynthesis.mytalk.server.abook.controller}}\label{sec:call}
 
+\begin{center}
+\begin{figure}[H]
+  \includegraphics[width=.5\textwidth]{DDPAbookController}
+\caption{Diagramma package server.abook.controller}
+\end{figure}
+\end{center}
+
 %TODO da verificare
 
 \classsection{AddContactController}
@@ -1988,6 +1995,13 @@ Tornando al blocco try, in esso seno definiti i seguenti step:
 
 \subsection{Package \texttt{org.softwaresynthesis.mytalk.server.call}}\label{sec:call}
 
+\begin{center}
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{DDPCall}
+\caption{Diagramma package server.call}
+\end{figure}
+\end{center}
+
 \classsection{ICall}
 
 \subsubsection*{Funzione}
@@ -2166,6 +2180,13 @@ Nessuna relazione evidenziata.
 
 \subsection{Package \texttt{org.softwaresynthesis.mytalk.server.call.controller}}\label{sec:callServlet}
 
+\begin{center}
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{DDPCallController}
+\caption{Diagramma package server.call.controller}
+\end{figure}
+\end{center}
+
 \classsection{GetCallsController}
 
 \subsubsection*{Funzione}
@@ -2277,6 +2298,14 @@ Tornando al blocco \textit{try}, in esso si evidenziano i seguenti step:
 
 \subsection{Package \texttt{org.softwaresynthesis.mytalk.server.message}}\label{sec:message}
 
+\begin{center}
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{DDPMessage}
+\caption{Diagramma package server.message}
+\end{figure}
+\end{center}
+
+
 \classsection{IMessage}
 
 \subsubsection*{Funzione}
@@ -2381,6 +2410,13 @@ Classe che implementa l'interfaccia \classname{IMessage}.
 \end{description}
 
 \subsection{Package \texttt{org.softwaresynthesis.mytalk.server.message.controller}}\label{sec:messageServlet}
+
+\begin{center}
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{DDPMessageController}
+\caption{Diagramma package server.message.controller}
+\end{figure}
+\end{center}
 
 \classsection{AddMessageController}
 
@@ -2576,6 +2612,13 @@ Nessun attributo evidenziato
 
 \subsection{Package \texttt{org.softwaresynthesis.mytalk.server.authentication.security}}\label{sec:authentication}
 
+\begin{center}
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{DDPAuthenticationSecurity}
+\caption{Diagramma package server.authentication.security}
+\end{figure}
+\end{center}
+
 \classsection{ISecurityStrategy}
 
 \subsubsection*{Funzione}
@@ -2770,6 +2813,13 @@ Nessun attributo evidenziato.
 \end{description}
 
 \subsection{Package \texttt{org.softwaresynthesis.mytalk.server.authentication}}\label{sec:authentication}
+
+\begin{center}
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{DDPAuthentication}
+\caption{Diagramma package server.authentication}
+\end{figure}
+\end{center}
 
 \classsection{PrincipalImpl}
 
@@ -3022,6 +3072,13 @@ Nessun attributo evidenziato.
 \end{description}
 
 \subsection{Package \texttt{org.softwaresynthesis.mytalk.server.authentication.controller}}\label{sec:autservlet}
+
+\begin{center}
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{DDPAuthenticationController}
+\caption{Diagramma package server.authentication.controller}
+\end{figure}
+\end{center}
 
 %TODO da rivedere nella definizione dei metodi! 
 \classsection{LogoutController}
@@ -3314,6 +3371,13 @@ Il blocco \textit{try} invece procede come segue:
 
 \subsection{Package \texttt{org.softwaresynthesis.mytalk.server.connection}}\label{sec:connection}
 
+%\begin{center}
+%\begin{figure}[H]
+%  \includegraphics[width=\textwidth]{DDPCall}
+%\caption{Diagramma package server.call}
+%\end{figure}
+%\end{center}
+
 \classsection{PushInbound}
 
 \subsubsection*{Funzione}
@@ -3471,6 +3535,13 @@ nel presente documento sarà utilizzato il tipo generico \exception{Exception} s
 \end{description}
 
 \subsection{Package \texttt{org.softwaresynthesis.mytalk.clientpresenter.guicontrol}}\label{sec:guicontrol}
+
+\begin{center}
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{DDPGuiControl}
+\caption{Diagramma package clientpresenter.guicontrol}
+\end{figure}
+\end{center}
 
 \classsection{AccountSettingsPresenter}
 \subsubsection*{Funzione}
@@ -4282,12 +4353,7 @@ Nessuna relazione evidenziata.
 
 \subsubsection*{Metodi}
 \begin{description}
-	\item{\method{+ calculateScore(character: String): Number}}\\
-	Il metodo calcola il punteggio di complessità del carattere passato come parametro in ingresso, che sarà pari a 1 se si tratta di un carattere alfanumerico comune e minuscolo, 2 se si tratta di una maiuscola e 3 se è invece un simbolo che appartiene all'insieme:
-\begin{verbatim}
-	                       ,!?^/@-#§* {}[]'`()\%$£\"<>:;_|
-\end{verbatim}
-	
+
 	\item{\method{+ getAnswer(): String}}\\
 	Metodo che estrae dal \inglese{form} la risposta alla domanda segreta associata al nuovo utente e la restituisce se specificata, mentre in caso contrario solleva una \exception{Exception} avente come messaggio esattamente la stringa ``risposta alla domanda segreta non specificata''.
 	
@@ -4419,6 +4485,14 @@ Riferimento all'elemento HTML, da intendersi come nodo DOM, che corrisponde al p
 
 
 \subsection{Package \texttt{org.softwaresynthesis.mytalk.clientpresenter.kernel}}\label{sec:kernel}
+
+\begin{center}
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{DDPKernel}
+\caption{Diagramma package clientpresenter.kernel}
+\end{figure}
+\end{center}
+
 \classsection{CommunicationCenter}
 
 \subsubsection*{Funzione}
@@ -4570,6 +4644,13 @@ Il sistema dispone di dodici viste, ognuna associata ad uno specifico \inglese{p
 La descrizione di ciascuna vista riportata nel presente documento comprende, oltre alla funzione, agli attributi e ai metodi che essa mette a disposizione del relativo \inglese{presenter}, anche la struttura degli elementi che la compongono.
 
 \subsection{Package \texttt{org.softwaresynthesis.mytalk.clientview}}
+
+\begin{center}
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{DDPClientGui}
+\caption{Diagramma package clientpresenter.clientview}
+\end{figure}
+\end{center}
 
 \classsection{AccountSettingsView}
 \subsubsection*{Funzione}
@@ -5212,11 +5293,6 @@ Vista associata al \inglese{presenter} \classname{RegisterPresenter} utilizzata 
 	In particolare, alla pressione del pulsante ``Indietro'' deve essere sollevato un evento avente come nome identificativo la stringa \verb'showLoginPanel'.
 	
   Alla pressione del pulsante per la registrazione, invece, devono essere recuperati i valori di tutti i campi dati del form mediante i metodi \method{getUsername()}, \method{getPassword()}, \method{getQuestion()}, \method{getAnswer()}, \method{getName()}, \method{getSurname()}, \method{getPicturePath()} e, in un secondo momento, deve essere richiamato il metodo \method{register} del \inglese{presenter}.
-  
-  \item{\method{+ processPassword(string: String): void}}\\
-  Tale metodo ha il compito di processare il contenuto del campo di immissione per la password, calcolarne la complessità invocando il metodo \method{calculateScore} offerto dal \inglese{presenter} su ognuno dei caratteri del valore del campo di immissione per la \inglese{pasword}, quindi visualizzare un messaggio corrispondente nell'interfaccia grafica.
-  
-  In particolare, dato un punteggio $x$ se $x \in (0, 5)$ dovrà comparire il messaggio ``Compl. bassa'' in colore verde, se $x \in [5, 15)$ il messaggio ``Compl. media'' in colore giallo e se $x \in [15, +\infty)$ il messaggio ``Compl. alta'' in colore verde.
 
 \end{description}
 
