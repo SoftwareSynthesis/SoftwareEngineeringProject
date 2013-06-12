@@ -2538,7 +2538,11 @@ Tale verifica è composta da dodici test:
 
 \item \texttt{testRegisterByClickUnsuccessfully()} verifica che premendo il tasto di registrazione con parametri errati, e in particolare se non viene completato un campo dato obbligatorio, venga sollevata l'eccezione corrispondente (che sarà in seguito tradotta in un messaggio visualizzato a schermo).
 
-\item \texttt{testOnShowRegistrationPanel()} verifica che venga visualizzato il pannello di registrazione quando il \inglese{presenter} reagisce all'evento \verb'showRegistrationPanel', contrllando tramite un \inglese{mock} di \texttt{PresenterMediator} che sia invocato il metodo \verb'getView'.
+\item \texttt{testOnShowRegistrationPanel()} verifica che venga visualizzato il pannello di registrazione quando il \inglese{presenter} reagisce all'evento \verb'showRegistrationPanel', controllando tramite un \inglese{mock} di \texttt{PresenterMediator} che sia invocato il metodo \verb'getView'.
+
+\item \texttt{testCalculateScore()} verifica che il punteggio sia calcolato correttamente tramite il metodo \texttt{calculateScore}, passando come parametro un carattere alfabetico minuscolo, un carattere numerico, una lettera maiuscola e un carattere speciale controllando che fornisca i risultati attesi.
+
+\item \texttt{testProcessPassword()} verifica il comportamento del metodo \texttt{processPassword} simulando la compilazione da parte dell'utente del campo di inserimento per la password e l'evento \texttt{input} su quest'ultimo, controllando che sullo \verb'<span>' sia scritto il testo corretto e che sia impostato l'attributo \texttt{class} in maniera corretta.
 
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
@@ -2675,7 +2679,7 @@ Tale test è stato effettuato mediante il \inglese{plugin} per EclEmma Eclipse  
 & \itshape{}statement & \itshape{}branch\\
 \midrule
 Model & 90,6\% & 80,1\%\\
-Presenter & 85,2\% & --- \\
+Presenter & 85,3\% & --- \\
 \bottomrule
 \end{tabular}
 \end{center}

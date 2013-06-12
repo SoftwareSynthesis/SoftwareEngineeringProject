@@ -247,14 +247,14 @@ public class PushInboundTest {
 		// prepara il messaggio e il finto 'peer' del client
 		clients.put(otherId, other);
 		when(buffer.toString())
-				.thenReturn(String.format("[\"3\", \"%d\"]", id));
+				.thenReturn(String.format("[\"3\", \"%d\", true]", id));
 		// invoca il metodo da testare
 		tester.setId(id);
 		tester.onTextMessage(buffer);
 		// verifica l'output
 		writer.flush();
 		String message = writer.toString();
-		assertEquals("3|" + id, message);
+		assertEquals("3|" + id + "|true", message);
 	}
 
 	/**

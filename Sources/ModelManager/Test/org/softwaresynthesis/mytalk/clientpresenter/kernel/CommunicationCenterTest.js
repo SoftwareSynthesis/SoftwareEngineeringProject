@@ -6,6 +6,7 @@
  */
 module("CommunicationCenterTest", {
 	setup : function() {
+		commandURL = "http://localhost/ModelManager/WebContent/Conf/controllerManagerStub.php";
 		urlChannelServlet = "http://localhost:8080";
 		message = "";
 		// brutti eventi cattivi

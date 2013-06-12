@@ -328,7 +328,7 @@ function CommunicationCenter() {
 
         //prende lo stream video locale, lo visualizza sul corrispetivo <video> e
         // lo invia agli altri peer
-        if (onlyAudio == "true" || onlyAudio) {
+        if (onlyAudio == "true" || onlyAudio == true) {
             navigator.webkitGetUserMedia({
                 "audio" : true,
                 "video" : false
