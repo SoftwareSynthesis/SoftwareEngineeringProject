@@ -143,6 +143,7 @@ function CommunicationCenter() {
      */
     this.connect = function() {
         var self = this;
+        var onlyAudio = false;
         websocket = new WebSocket(urlChannelServlet);
         //event handle per gestire l'apertura della socket
         websocket.onopen = function(evt) {
@@ -162,7 +163,6 @@ function CommunicationCenter() {
         websocket.onmessage = function(evt) {
             //split del messaggio ricevuto e estrazione del tipo di messaggio
             var str = evt.data.split("|");
-            var onlyAudio = false;
             var type = str[0];
             //controllo che tipo di messaggio ho ricevuto
             /*{ 3 : ottengo id della persona che mi sta chiamando,
@@ -328,7 +328,7 @@ function CommunicationCenter() {
 
         //prende lo stream video locale, lo visualizza sul corrispetivo <video> e
         // lo invia agli altri peer
-        if (onlyAudio == true) {
+        if (onlyAudio == "true" || onlyAudio) {
             navigator.webkitGetUserMedia({
                 "audio" : true,
                 "video" : false
