@@ -100,8 +100,8 @@ test(
 			i++;
 
 			// per la password
-			var labelPassword = liPassword.children[0];
-			var inputPassword = liPassword.children[1];
+			var labelPassword = liPassword.children[1];
+			var inputPassword = liPassword.children[2];
 			equal(labelPassword.nodeName, "LABEL");
 			i++;
 			equal(labelPassword.getAttribute("for"), inputPassword.id);
@@ -218,6 +218,15 @@ test("testDestroy()", function() {
 	equal(element, null);
 });
 
+/**
+ * Lo scopo del test è verificare che sia recuperato correttamente nel caso in
+ * cui si tratta di un indirizzo email valido, che viene rilevato (e gestito) il
+ * caso in cui il campo non sia stato completato oppure che si tratti di una
+ * stringa non valida come indirizzo email.
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
 test("testGetUsername()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("register"));
@@ -246,6 +255,15 @@ test("testGetUsername()", function() {
 	expect(i);
 });
 
+/**
+ * Il test crea un simula la compilazione da parte dell'utente del campo per la
+ * password, provando in seguito a recuperarla mediante il metodo getPassword().
+ * Il test verifica anche il sollevamento di un'eccezione nel momento in cui non
+ * sia stato inserito alcun valore in questo campo.
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
 test("testGetPassword()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("register"));
@@ -267,6 +285,14 @@ test("testGetPassword()", function() {
 	expect(i);
 });
 
+/**
+ * Il test crea un simula la compilazione da parte dell'utente del campo per il
+ * nome, provando in seguito a recuperarlo mediante il metodo etName() e
+ * verificando che il risultato corrisponda a quanto immesso.
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
 test("testGetName()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("register"));
@@ -281,6 +307,14 @@ test("testGetName()", function() {
 	expect(i);
 });
 
+/**
+ * Il test simula la compilazione da parte dell'utente del campo per il cognome,
+ * provando in seguito a recuperarlo mediante il metodo getSurname() e
+ * verificando che il risultato corrisponda a quanto immesso.
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
 test("testGetSurname()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("register"));
@@ -295,6 +329,16 @@ test("testGetSurname()", function() {
 	expect(i);
 });
 
+/**
+ * Il test simula la compilazione da parte dell'utente del campo per la domanda
+ * segreta, provando in seguito a recuperarla mediante il metodo getQuestion() e
+ * verificando che il risultato corrisponda a quanto immesso. Dal momento che si
+ * tratta di un dato obbligatorio, il test verifica anche che sia sollevata
+ * un'eccezione nel caso in cui non sia fornito alcun valore.
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
 test("testGetQuestion()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("register"));
@@ -316,6 +360,16 @@ test("testGetQuestion()", function() {
 	expect(i);
 });
 
+/**
+ * Il test simula la compilazione da parte dell'utente del campo per la risposta
+ * alla domanda segreta, provando in seguito a recuperarla mediante il metodo
+ * getAnswer() e verificando che il risultato corrisponda a quanto immesso. Dal
+ * momento che si tratta di un dato obbligatorio, il test verifica anche che sia
+ * sollevata un'eccezione nel caso in cui questo valore non sia fornito.
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
 test("testGetAnswer()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("register"));
@@ -337,6 +391,14 @@ test("testGetAnswer()", function() {
 	expect(i);
 });
 
+/**
+ * Il test simula il caricamento di un'immagine per il profilo personale,
+ * provando in seguito a recuperarla mediante il metodo getPicturePath() e
+ * verificando che il risultato corrisponda a quanto immesso.
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
 test("testGetPicturePath()", function() {
 	var i = 0;
 	tester.initialize(mediator.getView("register"));
@@ -351,6 +413,15 @@ test("testGetPicturePath()", function() {
 	expect(i);
 });
 
+/**
+ * Verifica che sia sollevato un evento con stringa identificativa 'login' se la
+ * registrazione va a buon fine e che la proprietà 'user' associata all'evento
+ * di autenticazione sia uguale in ogni sua parte all'oggetto utilizzato per
+ * popolare il form di registrazione con i dati di test.
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
 test("testRegister()", function() {
 	var i = 0;
 	var data = {
@@ -378,6 +449,15 @@ test("testRegister()", function() {
 	expect(i);
 });
 
+/**
+ * Verifica che premendo il tasto di registrazione con parametri errati, e in
+ * particolare se non viene completato un campo dato obbligatorio, venga
+ * sollevata l'eccezione corrispondente (che sarà in seguito tradotta in un
+ * messaggio visualizzato a schermo).
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
 test("testRegisterByClickUnsuccessfully()", function() {
 	window.alert = function() {
 	};
@@ -408,11 +488,75 @@ test("testRegisterByClickUnsuccessfully()", function() {
 	expect(i);
 });
 
-test("testOnShowRegistrationPanel", function() {
+/**
+ * Verifica che venga visualizzato il pannello di registrazione quando il
+ * presenter reagisce all'evento 'showRegistrationPanel', controllando tramite
+ * un mock di PresenterMediator che sia invocato il metodo getView.
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
+test("testOnShowRegistrationPanel()", function() {
 	var bool = false;
 	document.addEventListener("eventRaised", function() {
 		bool = true;
 	});
 	document.dispatchEvent(new CustomEvent("showRegistrationPanel"));
 	ok(bool);
+});
+
+/**
+ * Verifica che il punteggio sia calcolato correttamente tramite il metodo
+ * calculateScore, passando come parametro un carattere alfabetico minuscolo, un
+ * carattere numerico, una lettera maiuscola e un carattere speciale
+ * controllando che fornisca i risultati attesi.
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
+test("testCalculateScore()", function() {
+	var i = 0;
+	var result = 0;
+
+	result = tester.calculateScore("a");
+	equal(result, 1);
+	i++;
+	result = tester.calculateScore("1");
+	equal(result, 2);
+	i++;
+	result = tester.calculateScore(".");
+	equal(result, 3);
+	i++;
+	result = tester.calculateScore("A");
+	equal(result, 2);
+	i++;
+
+	expect(i);
+});
+
+/**
+ * Verifica il comportamento del metodo processPassword simulando la
+ * compilazione da parte dell'utente del campo di inserimento per la password e
+ * l'evento 'input' sull'elemento <input>, controllando che sullo span sia
+ * scritto il testo corretto e che sia impostato l'attributo class in maniera
+ * corretta.
+ * 
+ * @version 2.0
+ * @author Diego Beraldin
+ */
+test("testProcessPassword()", function() {
+	var i = 0;
+	tester.initialize(mediator.getView("register"));
+	document.getElementById("RegisterPanel").style.display = "none";
+	var element = document.getElementById("password");
+	element.value = "pippoPluto10!";
+	element.dispatchEvent(new UIEvent("input"));
+	element = document.getElementById("complexitySpan");
+
+	equal(element.className, "high");
+	i++;
+	equal(element.innerHTML.trim(), "compl. elevata");
+	i++;
+
+	expect(i);
 });
