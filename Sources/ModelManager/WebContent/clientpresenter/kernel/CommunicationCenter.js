@@ -143,6 +143,7 @@ function CommunicationCenter() {
      */
     this.connect = function() {
         var self = this;
+        var onlyAudio = false;
         websocket = new WebSocket(urlChannelServlet);
         //event handle per gestire l'apertura della socket
         websocket.onopen = function(evt) {
@@ -162,7 +163,6 @@ function CommunicationCenter() {
         websocket.onmessage = function(evt) {
             //split del messaggio ricevuto e estrazione del tipo di messaggio
             var str = evt.data.split("|");
-            var onlyAudio = false;
             var type = str[0];
             //controllo che tipo di messaggio ho ricevuto
             /*{ 3 : ottengo id della persona che mi sta chiamando,
@@ -246,6 +246,13 @@ function CommunicationCenter() {
      * @param {Boolean} onlyAudio true se si vole fare una chiamata solo audio
      */
     this.call = function(isCaller, contact, onlyAudio) {
+		if (isCaller) {
+			var addToCallsHistory = new XMLHttpRequest();
+			addToCallsHistory.open("POST", commandURL, false);
+			addToCallsHistory.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			addToCallsHistory.send("operation=addCall&contactId=" + contact.id);
+		}
+
         //invio l'avviso di cambio stato in occupato
         changeMyState.state = "occupied";
         document.dispatchEvent(changeMyState);
@@ -304,20 +311,24 @@ function CommunicationCenter() {
 
         //quando il remoteStream viene tolto lo eliminio dal mio client
         pc.onremovestream = function() {
-            changeMyState.state = "available";
-            document.dispatchEvent(changeMyState);
-            localStream.stop();
-            stopTimer();
-            stopStat();
-            mediator.getCommunicationPPMyVideo().src = "";
-            mediator.getCommunicationPPOtherVideo().src = "";
-            pc.close();
-            pc = null;
+			if (localStream != null){
+				changeMyState.state = "available";
+				document.dispatchEvent(changeMyState);
+				localStream.stop();
+				pc.removeStream(localStream);
+				stopTimer();
+				stopStat();
+				mediator.getCommunicationPPMyVideo().src = "";
+				mediator.getCommunicationPPOtherVideo().src = "";
+				pc.close();
+				pc = null;
+				localStream = null;
+			}
         };
 
         //prende lo stream video locale, lo visualizza sul corrispetivo <video> e
         // lo invia agli altri peer
-        if (onlyAudio == true) {
+        if (onlyAudio == "true" || onlyAudio) {
             navigator.webkitGetUserMedia({
                 "audio" : true,
                 "video" : false
@@ -376,6 +387,7 @@ function CommunicationCenter() {
         setTimeout(function() {
             pc.close();
             pc = null;
+			localStream = null;
         }, 1000);
     };
 
