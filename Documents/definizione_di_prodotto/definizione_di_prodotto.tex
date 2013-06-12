@@ -4263,7 +4263,12 @@ Nessuna relazione evidenziata.
 
 \subsubsection*{Metodi}
 \begin{description}
-
+	\item{\method{+ calculateScore(character: String): Number}}\\
+	Il metodo calcola il punteggio di complessità del carattere passato come parametro in ingresso, che sarà pari a 1 se si tratta di un carattere alfanumerico comune e minuscolo, 2 se si tratta di una maiuscola e 3 se è invece un simbolo che appartiene all'insieme:
+\begin{verbatim}
+	                       ,!?^/@-#§* {}[]'`()\%$£\"<>:;_|
+\end{verbatim}
+	
 	\item{\method{+ getAnswer(): String}}\\
 	Metodo che estrae dal \inglese{form} la risposta alla domanda segreta associata al nuovo utente e la restituisce se specificata, mentre in caso contrario solleva una \exception{Exception} avente come messaggio esattamente la stringa ``risposta alla domanda segreta non specificata''.
 	
@@ -5195,6 +5200,11 @@ Vista associata al \inglese{presenter} \classname{RegisterPresenter} utilizzata 
 	In particolare, alla pressione del pulsante ``Indietro'' deve essere sollevato un evento avente come nome identificativo la stringa \verb'showLoginPanel'.
 	
   Alla pressione del pulsante per la registrazione, invece, devono essere recuperati i valori di tutti i campi dati del form mediante i metodi \method{getUsername()}, \method{getPassword()}, \method{getQuestion()}, \method{getAnswer()}, \method{getName()}, \method{getSurname()}, \method{getPicturePath()} e, in un secondo momento, deve essere richiamato il metodo \method{register} del \inglese{presenter}.
+  
+  \item{\method{+ processPassword(string: String): void}}\\
+  Tale metodo ha il compito di processare il contenuto del campo di immissione per la password, calcolarne la complessità invocando il metodo \method{calculateScore} offerto dal \inglese{presenter} su ognuno dei caratteri del valore del campo di immissione per la \inglese{pasword}, quindi visualizzare un messaggio corrispondente nell'interfaccia grafica.
+  
+  In particolare, dato un punteggio $x$ se $x \in (0, 5)$ dovrà comparire il messaggio ``Compl. bassa'' in colore verde, se $x \in [5, 15)$ il messaggio ``Compl. media'' in colore giallo e se $x \in [15, +\infty)$ il messaggio ``Compl. alta'' in colore verde.
 
 \end{description}
 

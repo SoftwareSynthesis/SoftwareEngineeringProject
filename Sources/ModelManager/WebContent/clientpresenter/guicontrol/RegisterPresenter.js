@@ -29,7 +29,7 @@ function RegisterPanelPresenter() {
     };
     
     /** PRESENTER
-	 * Calcola il punteggio di un caratterere in base alla complessità
+	 * Calcola il punteggio di un carattere in base alla complessità
 	 * (1 se un carattere normale, 2 se una maiuscola e 3 se si tratta di un
 	 * carattere speciale)
 	 * 
