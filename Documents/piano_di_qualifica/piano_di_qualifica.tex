@@ -1349,15 +1349,15 @@ Il test verifica che in questo caso la stringa stampata sulla risorsa HTTP sia \
 
 Tale test si compone di undici metodi:
 \begin{itemize}
-\item \texttt{testAbortWihtoutLogin()} verifica il comportamento del metodo \texttt{abort()} quando viene invocato senza che sia stato precedentemente effettuato un login con successo. Il test verifica che in questo caso il metodo restituisca \texttt{false} e che non venga mai effettuato il logout.
+\item \texttt{testAbortWihtoutLogin()} verifica il comportamento del metodo \texttt{abort()} quando viene invocato senza che sia stato precedentemente effettuato un login con successo. Il test verifica che in questo caso il metodo restituisca \texttt{false} e che non venga mai effettuato il \inglese{logout}.
 
-\item \texttt{testAbortCommitted()} verifica il comportamento del metodo \texttt{abort()} se invocato dopo che è stato effettuato il login ma l'operazione è \textit{committed}. In tal caso il test verifica che il risultato della chiamata di metodo sia \texttt{true} e che non sia effettuato il logout.
+\item \texttt{testAbortCommitted()} verifica il comportamento del metodo \texttt{abort()} se invocato dopo che è stato effettuato il login ma l'operazione è \textit{committed}. In tal caso il test verifica che il risultato della chiamata di metodo sia \texttt{true} e che non sia effettuato il \inglese{logout}.
 
-\item \texttt{testAbortUncommitted} verifica il comportamento del metodo \texttt{abort()} dopo che è stata effettuata un'operazione di login. Il test verifica che sia effettivamente richiamata l'operazione per il logout e che il metodo restituisca, come atteso, \texttt{true}.
+\item \texttt{testAbortUncommitted} verifica il comportamento del metodo \texttt{abort()} dopo che è stata effettuata un'operazione di login. Il test verifica che sia effettivamente richiamata l'operazione per il \inglese{logout} e che il metodo restituisca, come atteso, \texttt{true}.
 
 \item \texttt{testLogoutSucccessfully()} verifica il comportamento del metodo \texttt{logout()} se l'operazione può essere portata a termine con successo. In particolare, il test verifica che la chiamata di metodo restituisca, come atteso, il valore \texttt{true}.
 
-\item \texttt{testLogoutUnsucccessfully()} verifica il comportamento della classe nel momento in cui si tenta di effettuare il logout ma viene sollevata un'eccezione nel momento in cui si tenta di accedere ai dati di autenticazione. Il test ha successo se, e soltanto se, viene come desiderato sollevata un'eccezione.
+\item \texttt{testLogoutUnsucccessfully()} verifica il comportamento della classe nel momento in cui si tenta di effettuare il \inglese{logout} ma viene sollevata un'eccezione nel momento in cui si tenta di accedere ai dati di autenticazione. Il test ha successo se, e soltanto se, viene come desiderato sollevata un'eccezione.
 
 \item \texttt{testCommit()} verifica il comportamento del metodo \texttt{commit()} controllando che, nelle opportune condizioni, sia possibile portare a termine correttamente l'operazione.
 
@@ -1499,9 +1499,9 @@ Tale test si compone di quattro metodi:
 
 \item \texttt{testLogoutWrongUser()} controlla il comportamento della classe nel caso in cui la richiesta di \inglese{logout} provenga da un utente che non ha effettuato previamente l'autenticazione al sistema. Tale situazione viene simulata impedendo di recuperare la sessione associata alla richiesta HTTP. Il test avviene verificando che sia stampata sulla risposta la stringa \texttt{null}.
 
-\item \texttt{testLogoutWithoutMyWebSocket()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui anche se è possibile effettuare il logout non è più aperto il canale di connessione con il client che da cui proviene la richiesta di disconnessione. Il test verifica che in tal caso la disconnessione abbia successo e che sia in ogni caso invalidata la sessione con il server.
+\item \texttt{testLogoutWithoutMyWebSocket()} verifica il comportamento del metodo \texttt{doAction} nel momento in cui anche se è possibile effettuare il \inglese{logout} non è più aperto il canale di connessione con il client che da cui proviene la richiesta di disconnessione. Il test verifica che in tal caso la disconnessione abbia successo e che sia in ogni caso invalidata la sessione con il server.
 
-\item \texttt{testLogoutWithoutOtherWebSocket()} verifica il comportamento di \texttt{doAction} nel momento in cui anche se è possibile effettuare il logout non è più aperto il canale di connessione con uno dei client che appartengono a un contatto nella rubrica dell'utente da cui proviene la richiesta di disconnessione. Il test verifica che in un simile caso non sia inviato alcun messaggio sul canale di comunicazione con il client che corrisponde al contatto, dal momento che l'altro capo della connessione ha cessato di rispondere.
+\item \texttt{testLogoutWithoutOtherWebSocket()} verifica il comportamento di \texttt{doAction} nel momento in cui anche se è possibile effettuare il \inglese{logout} non è più aperto il canale di connessione con uno dei client che appartengono a un contatto nella rubrica dell'utente da cui proviene la richiesta di disconnessione. Il test verifica che in un simile caso non sia inviato alcun messaggio sul canale di comunicazione con il client che corrisponde al contatto, dal momento che l'altro capo della connessione ha cessato di rispondere.
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
 
@@ -2538,7 +2538,11 @@ Tale verifica è composta da dodici test:
 
 \item \texttt{testRegisterByClickUnsuccessfully()} verifica che premendo il tasto di registrazione con parametri errati, e in particolare se non viene completato un campo dato obbligatorio, venga sollevata l'eccezione corrispondente (che sarà in seguito tradotta in un messaggio visualizzato a schermo).
 
-\item \texttt{testOnShowRegistrationPanel()} verifica che venga visualizzato il pannello di registrazione quando il \inglese{presenter} reagisce all'evento \verb'showRegistrationPanel', contrllando tramite un \inglese{mock} di \texttt{PresenterMediator} che sia invocato il metodo \verb'getView'.
+\item \texttt{testOnShowRegistrationPanel()} verifica che venga visualizzato il pannello di registrazione quando il \inglese{presenter} reagisce all'evento \verb'showRegistrationPanel', controllando tramite un \inglese{mock} di \texttt{PresenterMediator} che sia invocato il metodo \verb'getView'.
+
+\item \texttt{testCalculateScore()} verifica che il punteggio sia calcolato correttamente tramite il metodo \texttt{calculateScore}, passando come parametro un carattere alfabetico minuscolo, un carattere numerico, una lettera maiuscola e un carattere speciale controllando che fornisca i risultati attesi.
+
+\item \texttt{testProcessPassword()} verifica il comportamento del metodo \texttt{processPassword} simulando la compilazione da parte dell'utente del campo di inserimento per la password e l'evento \texttt{input} su quest'ultimo, controllando che sullo \verb'<span>' sia scritto il testo corretto e che sia impostato l'attributo \texttt{class} in maniera corretta.
 
 \end{itemize}
 \textbf{Risultato del test:} superato con successo.
@@ -2675,7 +2679,7 @@ Tale test è stato effettuato mediante il \inglese{plugin} per EclEmma Eclipse  
 & \itshape{}statement & \itshape{}branch\\
 \midrule
 Model & 90,6\% & 80,1\%\\
-Presenter & 85,2\% & --- \\
+Presenter & 85,3\% & --- \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -2959,7 +2963,7 @@ Allo scopo di facilitare la consultazione di tali test sono stati evidenziati i 
 \textbf{Risultato del test:} superato con successo.
 
 \item \textbf{TSDD2.1.1}\\
-\textbf{Verifica il requisito:} RSDD2.1.1.\\
+\textbf{Verifica il requisito:} RSDD2.1.1, L'utente ha una stima per la complessità della propria \inglese{password}.\\
 \textbf{Descrizione}: durante l'inserimento della password desiderata nel form di registrazione (o nella form di modifica dei campi) di un utente \inglese{test} compare la stima di complessità (livello di qualità) della stringa inserita. Verrà inoltre confermata la presenza e la correttezza  del relativo codice all'interno dei corrispondenti file di codifica.\\
 \textbf{Risultato del test:} superato con successo.
 
@@ -3059,9 +3063,9 @@ Dai test di sistema pianificati e superati, si riscontra la seguente copertura d
 
 Obbligatori & 51 & 48\\
 Facoltativi & 73 & 32\\
-Desiderabili & 9 & 6\\
+Desiderabili & 9 & 7\\
 \bottomrule\rowcolor{white}
-Totale &133 & 86\\
+Totale &133 & 87\\
 \end{longtable}
 \end{center}
 
@@ -3070,7 +3074,7 @@ I risultati ottenuti dimostrano una copertura prossima al 95\% dei requisiti obb
 
 La copertura dei requisiti facoltativi è invece vicina al 45\%, risultato che è frutto dell'ancora non totale implementazione della tecnologia \textit{WebRTC} su browser alternativi a \textit{Chrome} (13 requisiti), la mancata implementazione di alcune funzioni relative alla chiamata utente (es. comunicazione a tre o più utenti, promozione/declassazione chiamata, registrazione della stessa e la condivisione di risorse, per un totale di 12 requisiti), e di scelte progettuali volute come l'impossibilità di modificare i dati di autenticazione di un utente ma solo quelli facoltativi.
 
-Infine i requisiti desiderabili sono stati coperti per il 66\% degli stessi, non implementando quindi l'interfaccia multi-lingua e la stima della complessità della \textit{password}, l'ultimo requisito non soddisfatto è condizionato dall'impossibilità sopracitata di effettuare chiamate con più di due utenti, pertanto risulta inutile eliminare un membro della chiamata se non chiudendo effettivamente la stessa.
+Infine i requisiti desiderabili sono stati coperti per il 78\% degli stessi, non implementando quindi l'interfaccia multi-lingua. L'ultimo requisito non soddisfatto è condizionato dall'impossibilità sopracitata di effettuare chiamate con più di due utenti, pertanto risulta inutile eliminare un membro della chiamata se non chiudendo effettivamente la stessa.
 
 Tali risultati confermano gli obbiettivi che il team si è imposto in sede di revisione dei requisiti, soddisfacendo quindi la maggior parte dei requisiti inerenti alla realizzazione e alle funzionalità principali dell'applicativo pattuite con il committente, mentre alcune funzioni più avanzate o ancora difficili (o impossibili) da implementare allo stadio attuale della tecnologia \textit{WebRTC}. Tali lacune potranno essere colmate mediante evoluzioni future al software, sviluppato appositamente per garantire la corretta implementazione delle funzionalità mancanti.
 
@@ -3235,7 +3239,7 @@ TSQF26.0.0&	Compatibilità Flash	 &Non superato\\
 TUFD1.1.0&	Gestione password Dimenticata	&Superato\\
 TUFD1.1.1&	\ \ Chiedere risposta segreta	&Superato\\
 TUFD1.1.2&	\ \ Invio mail con password	&Superato\\
-TSDD2.1.1&	Complessità password	&Non superato\\
+TSDD2.1.1&	Complessità password	&Superato\\
 TUFD2.1.2&	Convalida username	&Superato\\
 TSDD2.2.0&	Utente: dati facoltativi	&Superato\\
 TUFD12.2.0&	Eliminare membri chiamata	&Non superato\\

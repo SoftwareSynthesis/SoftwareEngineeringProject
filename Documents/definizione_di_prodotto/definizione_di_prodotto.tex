@@ -227,7 +227,8 @@ Nessun attributo evidenziato
 
 \begin{description}
 	\item{\method{-- check(request: HttpServletRequest): boolean}}\\
-	Metodo usato per verificare se l'utente che richiede l'esecuzione di un operazione, è autenticato nel sistema. Il metodo definisce inizialmente una variabile booleana \texttt{result}, usata per ritornare una segnalazione della buona riuscita del metodo. \texttt{result} è impostata di \inglese{default} a \texttt{true}. Quindi si procede controllando se la mail dell'utente (\memberdata{userMail}) corrisponde a quella presente nel campo \textit{username} della sessione corrente (session.getAttribute(''username'')). se il \inglese{match} è negativo, \texttt{result} viene impostata a \texttt{false}. Il metodo termina ritornando il contenuto di \texttt{result}.
+	Metodo usato per verificare se l'utente che richiede l'esecuzione di un operazione, è autenticato nel sistema. Il metodo definisce inizialmente una variabile booleana \texttt{result}, usata per ritornare una segnalazione della buona riuscita del metodo. \texttt{result} è impostata di \inglese{default} a \texttt{false}. Quindi si procede controllando se la mail dell'utente (\memberdata{userMail}) corrisponde a quella presente nel campo \textit{username} della sessione corrente (session.getAttribute(''username'')). se l'e-mail estratta non è nulla ed è diversa dalla stringa vuota, \texttt{result} viene impostata a \texttt{true}. Il metodo termina ritornando il contenuto di \texttt{result}.
+	
 	\item{\method{-- execute(request: HttpServletRequest, response: HttpServletResponse): void}}\\
 	Il metodo inizia definendo un oggetto \texttt{PrintWriter} \texttt{writer}. Quindi viene effettuato un controllo sul richiedente mediante il richiamo del metodo \method{check()}. Se tale metodo ritorna \texttt{true} allora il flusso principale prosegue richiamando il metodo \method{doAction}. In caso contrario il metodo termina salvando nel \texttt{writer} il valore \texttt{null}.
 \end{description}
@@ -283,7 +284,7 @@ Estensione di \texttt{org.apache.catalina.websocket.WebSocketServlet} ed impleme
 	Metodo usato per ottenere il contenuto del campo \memberdata{controllers}. Il metodo restituisce \memberdata{controllers}.
 	
 	\item{\method{+ createController(classPath: string): IController}}\\
-	Metodo usato per creare una nuova istanza di uno specifico \inglese{controller} a partire dal nome \texttt{classPath}. A tale scopo lo sviluppatore dovrà usare il metodo forName di \texttt{Class}, passando per l'appunto il nome della classe. Successivamente a partire da tale classe, sarà creata un istanza di \classname{IController}. Il metodo termina restituendo l'istanza di \classname{IController}. Si osservi che la firma del metodo dovrà specificare la possibilità che vengano invocate le seguenti eccezioni:
+	Metodo usato per creare una nuova istanza di uno specifico \inglese{controller} a partire dal nome \texttt{classPath}. A tale scopo lo sviluppatore dovrà usare il metodo (statico) forName di \texttt{Class}, passando per l'appunto il nome della classe. Successivamente a partire da tale classe, sarà creata un istanza di \classname{IController}. Il metodo termina restituendo l'istanza di \classname{IController}. Si osservi che la firma del metodo dovrà specificare la possibilità che vengano invocate le seguenti eccezioni:
 	\begin{itemize}
 		\item \texttt{ClassNotFoundException}: se la classe non viene trovata dal \texttt{class loader};
 		\item \texttt{IllegalAccessException}: se non si hanno i privilegi di accesso a tale classe;
@@ -293,7 +294,7 @@ Estensione di \texttt{org.apache.catalina.websocket.WebSocketServlet} ed impleme
 	Tali eccezioni possono essere invocate a causa di un errato utilizzo di \texttt{Class}.
 	
 	\item{\method{+ init(configuration: ServletConfiguration): void}}\\
-	Metodo usato per inizializzare la \inglese{servlet} caricando in memoria la lista dei \inglese{controller}. Il metodo inizia richiamando l'\texttt{init} di \texttt{super}. Quindi crea un istanza di \texttt{ResourceBundler} a partire da una chiamata a metodo \texttt{ResorceBundler.getBundler()} (passando come parametro la stringa: ''org.softwaresynthesis.mytalk.server.controllerList''). Il passo successivo consiste nel creare un oggetto di tipo \texttt{Enumeration<String>} (nominato \texttt{keys}), in cui salvare ciò che viene restituito da una chiamata a \texttt{getKeys()} (chiamato a partire dall'istanza di \texttt{ResorceBundler}). A questo punto si attuerà, all'interno di un ciclo \verb|while(keys.hasMoreElements())|, una procedura atta a salvare in controllers le coppie chiave-valore contenute in \texttt{keys}.
+	Metodo usato per inizializzare la \inglese{servlet} caricando in memoria la lista dei \inglese{controller}. Il metodo inizia richiamando l'\texttt{init} di \texttt{super}. Quindi crea un istanza di \texttt{ResourceBundle} a partire da una chiamata a metodo \texttt{ResorceBundle.getBundle()} (passando come parametro la stringa: ''org.softwaresynthesis.mytalk.server.controllerList''). Il passo successivo consiste nel creare un oggetto di tipo \texttt{Enumeration<String>} (nominato \texttt{keys}), in cui salvare ciò che viene restituito da una chiamata a \texttt{getKeys()} (chiamato a partire dall'istanza di \texttt{ResorceBundle}). A questo punto si attuerà, all'interno di un ciclo \verb|while(keys.hasMoreElements())|, una procedura atta a salvare in controllers le coppie chiave-valore contenute in \texttt{keys}.
 	
 	\item{\method{+ destroy(): void}}\\
 	Metodo usato per eliminare il contenuto di \memberdata{controllers}. Si dovrà usare il metodo \texttt{clear()} di \memberdata{controllers}.
@@ -311,23 +312,28 @@ Estensione di \texttt{org.apache.catalina.websocket.WebSocketServlet} ed impleme
 	Il metodo definisce una \texttt{String} result da restituire alla fine del metodo stesso. Dopo la creazione, il metodo cerca di ottenere da \memberdata{clients}, il cliente avente \texttt{id} uguale ad \texttt{identifier}. Quindi se tale client esiste realmente, il metodo procede ottenendo lo stato in cui si trova il client (\texttt{client.getState()}) e richiamando il suo metodo \texttt{toString()}, salva il suo valore in \texttt{result}. Se l'utente con id \texttt{identifier} non esiste in \memberdata{clients}, \texttt{result = ''offline''}. Il metodo termina restituendo result;
 	
 	\item{\method{\# doPost(request: HttpServletRequest, response: HttpServletResponse): void}}\\
-	Metodo \texttt{doPost()} della servlet. Tale metodo è l'unico invocato direttamente dall'esterno da parte di un client, mediante un richiesta \texttt{HttpServletRequest}. Il metodo definisce localmente un \classname{IController} in cui memorizzare il \inglese{controller} a cui delegare l'operazione richiesta dal client (che per l'appunto ha invocato il ControllerManager). All'interno di un costrutto try-catch (nel blocco try), si memorizza l'operazione contenuta in \texttt{request} mediante un \texttt{getParameter(''operation'')}. Tale sintassi è obbligatoria. Quindi se l'operazione impostata è diversa da \inglese{null}, si procede ricercando in \memberdata{controllers} il \inglese{controller} avente come chiave il valore di tipo String specificato come operazione richiesta dall'utente. A questo punto si crea il \inglese{controller} giusto (usando il metodo \method{createController(controllerName)}) e si richiama il suo metodo \texttt{execute()} passando come parametri \texttt{request} e \texttt{response}. I catch del blocco try-catch, atti a definire del blocchi per catturare le eccezioni: 
+	Metodo \texttt{doPost()} della servlet. Il metodo definisce localmente un \classname{IController} in cui memorizzare il \inglese{controller} a cui delegare l'operazione richiesta dal client (che per l'appunto ha invocato il ControllerManager). All'interno di un costrutto try-catch (nel blocco try), si memorizza l'operazione contenuta in \texttt{request} mediante un \texttt{getParameter(''operation'')}. Tale sintassi è obbligatoria. Quindi se l'operazione impostata è diversa da \inglese{null}, si procede ricercando in \memberdata{controllers} il \inglese{controller} avente come chiave il valore di tipo String specificato come operazione richiesta dall'utente. A questo punto si crea il \inglese{controller} giusto (usando il metodo \method{createController(controllerName)}) e si richiama il suo metodo \texttt{execute()} passando come parametri \texttt{request} e \texttt{response}. I catch del blocco try-catch, atti a definire del blocchi per catturare le eccezioni: 
 	\begin{itemize}
 		\item \texttt{ClassNotFoundException};
 		\item \texttt{IllegalAccessException};
 		\item \texttt{InstantiationException};
 	\end{itemize}
 	
-	hanno al loro interno delle procedure per scrivere l'ora e il nome dell'errore (inteso come nome dell'eccezione sollevata) in un file di log. Non sono fatte ulteriori segnalazioni di errore al client, poiché al fine sarà la chiamata \texttt{controller.execute()} (fatta in precedenza e eventuale causa del sollevamento delle eccezioni), a restituire al client una segnalazione dell'errore riscontrato. Il metodo termina distruggendo l'oggetto \classname{IController} creato per la gestione della richiesta.
+	hanno al loro interno delle procedure per scrivere l'ora e il nome dell'errore (inteso come nome dell'eccezione sollevata) in un file di log. Non sono fatte ulteriori segnalazioni di errore al client, poiché al fine sarà la chiamata \texttt{controller.execute()} (fatta in precedenza e eventuale causa del sollevamento delle eccezioni), a restituire al client una segnalazione dell'errore riscontrato durante l'esecuzione dell'operazione richiesta. Il metodo termina distruggendo l'oggetto \classname{IController} creato per la gestione della richiesta.
 	
 \end{description}
 
 \subsection{Package \texttt{org.softwaresynthesis.mytalk.server.dao}}\label{sec:dao}
 
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{DDPDao}
+\caption{Diagramma package server.dao}
+\end{figure}
+
 \classsection{ISessionManager}
 
 \subsubsection*{Funzione}
-Interfaccia rappresentante il comportamento di un generico classe adibita alla creazione e alla gestione delle sessioni \texttt{Hibernate}.
+Interfaccia rappresentante il comportamento di una generica classe adibita alla creazione e alla gestione delle sessioni \texttt{Hibernate} (di comunicazione con la base dati).
 
 \subsubsection*{Relazioni d'uso}
 
@@ -340,10 +346,10 @@ Nessuna relazione evidenziata.
 
 \subsubsection*{Metodi}
 \begin{description}
-	\item{\method{\underline{+ getInstance(): ISessionManager}}}\\
-	Metodo d'implementazione del \inglese{pattern} \texttt{Singleton}. Usato per restituire l'unica istanza creabile.
-	\item{\method{\underline{+ getSessionFactory(): SessionFactory}}}\\
+
+	\item{\method{+ getSessionFactory(): SessionFactory}}\\
 	Metodo usato per ottenere una sessione verso il database gestito mediante Hibernate.
+	
 \end{description}
 
 \classsection{SessionManager}
@@ -377,9 +383,11 @@ Implementazione di \classname{ISessionManager}. Inizializza un'unica \inglese{fa
 
 \begin{description}
 	\item{\method{-- SessionManager()}}\\
-	Costruttore privato della classe, definito \inglese{private} in correlazione all'applicazione del \inglese{pattern} singleton.
+	Costruttore della classe, definito \inglese{private} in correlazione all'applicazione del \inglese{pattern} singleton. Il metodo si occupa dell'inizializzazione della \inglese{factory} per la creazione di sessioni di comunicazione verso la base dati.
+	
 	\item{\method{\underline{+ getInstance(): SessionManager}}}\\
-	Metodo pubblico che ritorna l'istanza \memberdata{istance}. Il metodo controlla se \memberdata{istance} è già stata inizializzata, nel caso in cui non lo sia il metodo dovrà generare un istanza di SessionManager richiamando il costruttore privato \method{SessionManager()} e assegnare il valore ritornato all'attributo \memberdata{istance}. Il programma termina restituendo \memberdata{istance}.
+	Metodo pubblico che ritorna l'istanza \memberdata{istance}. Il metodo controlla se \memberdata{istance} è già stata inizializzata, nel caso in cui non lo sia il metodo dovrà generare un istanza di \classname{SessionManager} richiamando il costruttore privato \method{SessionManager()} e assegnare il valore ritornato all'attributo \memberdata{istance}. Il programma termina restituendo \memberdata{istance}.
+	
 	\item{\method{\underline{+ getSessionFactory(): SessionFactory}}}\\
 	Metodo che ritorna l'attributo \memberdata{sessionFactory}.
 \end{description}
@@ -418,7 +426,7 @@ Nessuna relazione evidenziata.
 
 \begin{description}
 	\item{\method{+ DataPersistanceManager()}}\\
-	Costruttore pubblico della classe. Richiama il costruttore \method{DataPersistanceManager(ISessionManager manager, UtilFactory factory} passando come parametri \texttt{SessionMAnager.getIstance()} e una nuova istanza di \classname{UtilFactory}.
+	Costruttore pubblico della classe. Richiama il costruttore \method{DataPersistanceManager(ISessionManager manager, UtilFactory factory)} passando come parametri \texttt{SessionMAnager.getIstance()} e una nuova istanza di \classname{UtilFactory}.
 	
 	\item{\method{\# DataPersistanceManager(manager: ISessionManager, factory: UtilFactory)}}\\
 	Costruttore protetto della classe. Inizializza gli attributi della classe con i parametri d'ingresso.
@@ -443,28 +451,35 @@ Nessuna relazione evidenziata.
 		\item{\method{+ getGroup(owner: IUserData): List<IGroup>}}\\
 	Metodo usato per l'esecuzione di una query SQL atta ad garantire la restituzione dei gruppi aventi come possessore l'utente \textit{owner}. Il metodo definisce un istanza di \classname{GetUtil} mediante una chiamata \verb|this.factory.getGroupUtil(this.manager)|. Quindi definisce un oggetto \classname{IGroup} denominato \texttt{result}. Successivamente si definisce una lista \texttt{List<IMyTalkObject>}, da usare per memorizzare temporaneamente i dati ottenuti dall'esecuzione della query:\\
 	
-	\verb|from Groups as g where g.owner = VALORE_owner|\\
+	\verb|from Groups as g where g.owner.id = VALORE_owner|\\
+	
+	Tale operazione si ottiene con l'istruzione \verb|select.execute(query)|. Quindi si controlla se la lista cosi popolata contiene almeno un elemento. Nel caso si imposta \texttt{result} uguale alla lista usata. Il metodo termina restituendo \texttt{result}.
+	
+			\item{\method{+ getGroup(owner: IUserData, name: String): List<IGroup>}}\\
+	Metodo usato per l'esecuzione di una query SQL atta ad garantire la restituzione dei gruppi aventi come possessore l'utente \textit{owner} e nome del gruppo uguale al valore contenuto in name. Il metodo definisce un istanza di \classname{GetUtil} mediante una chiamata \verb|this.factory.getGroupUtil(this.manager)|. Quindi definisce un oggetto \classname{IGroup} denominato \texttt{result}. Successivamente si definisce una lista \texttt{List<IMyTalkObject>}, da usare per memorizzare temporaneamente i dati ottenuti dall'esecuzione della query:\\
+	
+	\verb|from Groups as g where g.owner.id = VALORE_owner and g.name = VALORE_name |\\
 	
 	Tale operazione si ottiene con l'istruzione \verb|select.execute(query)|. Quindi si controlla se la lista cosi popolata contiene almeno un elemento. Nel caso si imposta \texttt{result} uguale alla lista usata. Il metodo termina restituendo \texttt{result}.
 	
 	\item{\method{+ getMessageNewKey(): Long}}\\
-	Metodo usato per l'esecuzione di una query SQL atta ad garantire la restituzione della più alta chiave primaria usata nella tabella \texttt{message}. Il metodo restituirà tale valore maggiorato di 1. Il metodo definisce un istanza di \classname{GetUtil} mediante una chiamata \verb|this.factory.getGroupUtil(this.manager)|. Quindi definisce un oggetto \classname{Long} denominato \texttt{result}. Successivamente si definisce un \texttt{long} nominato \texttt{id}, da usare per memorizzare temporaneamente il dato ottenuto dall'esecuzione della query:\\
+	Metodo usato per l'esecuzione di una query SQL atta ad garantire la restituzione della più alta chiave primaria usata nella tabella \texttt{message}. Il metodo restituirà tale valore maggiorato di 1. Il metodo definisce un istanza di \classname{GetUtil} mediante una chiamata \verb|this.factory.getGenericUtil(this.manager)|. Quindi definisce un oggetto \classname{Long} denominato \texttt{result}. Successivamente si definisce un \texttt{long} nominato \texttt{id}, da usare per memorizzare temporaneamente il dato ottenuto dall'esecuzione della query:\\
 	
-	\verb|max(id) from Messages|\\
+	\verb|max(message.id) from Message|\\
 	
 	Tale operazione si ottiene con l'istruzione \verb|select.execute(query)|. Quindi si controlla se la variabile \texttt{id} contiene almeno un elemento. Nel caso si imposta \texttt{result} uguale alla uguale al contenuto di \texttt{id} + 1. Il metodo termina restituendo \texttt{result}.
 	
 	\item{\method{+ getMessage(id: Long): IMessage}}\\
 	Metodo usato per l'esecuzione di una query SQL atta a garantire la restituzione dei dati inerenti il messaggio avente come \textit{primary key} il valore contenuto in \texttt{id}. Il metodo definisce un istanza di \classname{GetUtil} mediante una chiamata \verb|this.factory.getGenericUtil(this.manager)|. Quindi definisce un oggetto \classname{IGroup} denominato \texttt{result}. Successivamente si definisce una lista \texttt{List<IMyTalkObject>}, da usare per memorizzare temporaneamente i dati ottenuti dall'esecuzione della query:\\
 	
-	\verb|from Messages as m where m.id = VALORE_id|\\
+	\verb|from Message as m where m.id = VALORE_id|\\
 	
 	Tale operazione si ottiene con l'istruzione \verb|select.execute(query)|. Quindi si controlla se la lista cosi popolata contiene almeno un elemento (che per come è stata progettata la query, ossia un interrogazione su chiave primaria, deve essere al più uno). Nel caso si imposta \texttt{result} con una chiamata a metodo \texttt{get()} richiamato dalla lista usata. Il metodo termina restituendo \texttt{result}.
 	
 		\item{\method{+ getMessages(receiver: IUserData): List<IMessages>}}\\
 	Metodo usato per l'esecuzione di una query SQL atta ad garantire la restituzione dei messaggi aventi come ricevente l'utente \textit{receiver}. Il metodo definisce un istanza di \classname{GetUtil} mediante una chiamata \verb|this.factory.getGenericUtil(this.manager)|. Quindi definisce un oggetto \classname{IMessages} denominato result. Successivamente si definisce una lista \texttt{List<IMyTalkObject>}, da usare per memorizzare temporaneamente i dati ottenuti dall'esecuzione della query:\\
 	
-	\verb|from Messages as m where m.receiver = VALORE_receiver|\\
+	\verb|from Message as m where m.receiver.id = VALORE_receiver|\\
 	
 	Tale operazione si ottiene con l'istruzione \verb|select.execute(query)|. Quindi si controlla se la lista cosi popolata contiene almeno un elemento. Nel caso si imposta \texttt{result} uguale alla lista usata. Il metodo termina restituendo \texttt{result}.	
 	
@@ -485,14 +500,26 @@ Nessuna relazione evidenziata.
 	\item{\method{+ getUserDatas(mail: String, name: String, surname: String): List<IUserData>}}\\
 	Metodo usato per l'esecuzione di una query SQL atta ad garantire la restituzione degli utenti aventi come valore dei campi omonimi ai parametri del metodo, il valore di quest'ultimi. Il metodo definisce un istanza di \classname{GetUtil} mediante una chiamata \\ \verb|this.factory.getUserDataUtil(this.manager)|. Quindi definisce un oggetto \classname{IUserData} denominato \texttt{result}. Successivamente si definisce una lista \texttt{List<IMyTalkObject>}, da usare per memorizzare temporaneamente i dati ottenuti dall'esecuzione della query:\\
 	
-	\verb|from UserData as u where u.mail like VALORE_receiver|\\
-	\verb|or u.name like VALORE_name or u.surname like VALORE_surname|\\
+	\verb|from UserData as u where u.mail like %VALORE_receiver%|\\
+	\verb|or u.name like %VALORE_name% or u.surname like %VALORE_surname%|\\
 	
 	Tale operazione si ottiene con l'istruzione \verb|select.execute(query)|. Quindi si controlla se la lista cosi popolata contiene almeno un elemento. Nel caso si imposta \texttt{result} uguale alla lista usata. Il metodo termina restituendo \texttt{result}.
+	
+		\item{\method{+ getCall(id: Long): ICall}}\\
+	Metodo usato per l'esecuzione di una query SQL atta a garantire la restituzione dei dati inerenti ad una chiamata avente come chiave primaria il valore contenuto in \texttt{id}. Il metodo definisce un istanza di \classname{GetUtil} mediante una chiamata \verb|this.factory.getCallUtil(this.manager)|. Quindi definisce un oggetto \classname{ICall} denominato \texttt{result}. Successivamente si definisce una lista \texttt{List<IMyTalkObject>}, da usare per memorizzare temporaneamente i dati ottenuti dall'esecuzione della query:\\
+	
+	\verb|from Call as c where c.id = VALORE_id|\\
+	
+	Tale operazione si ottiene con l'istruzione \verb|select.execute(query)|. Quindi si controlla se la lista cosi popolata contiene almeno un elemento (che per come è stata progettata la query, ossia un interrogazione su chiave primaria, deve essere al più uno). Nel caso si imposta \texttt{result} con una chiamata a metodo \texttt{get()} richiamato dalla lista usata. Il metodo termina restituendo \texttt{result}.
 	
 \end{description}
 
 \subsection{Package \texttt{org.softwaresynthesis.mytalk.server.dao.util}}\label{sec:daoUtil}
+
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{DDPDaoUtil}
+\caption{Diagramma package server.dao.util}
+\end{figure}
 
 \classsection{UtilFactory}
 
@@ -913,6 +940,11 @@ Nessun attributo evidenziato.
 
 \subsection{Package \texttt{org.softwaresynthesis.mytalk.server.abook}}\label{sec:abook}
 
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{DDPAbook}
+\caption{Diagramma package server.abook}
+\end{figure}
+
 \classsection{IUserData}
 
 \subsubsection*{Funzione}
@@ -1242,17 +1274,17 @@ Nessun attributo evidenziato
 \subsubsection*{Metodi}
 \begin{description}
 	\item{\method{\# doAction(request HttpServletRequest, response HttpServletResponse): void}}\\	
-	Metodo usato per eseguire la richiesta di aggiungere un nuovo contatto all'interno della rubrica. Il flusso principale inizia  con la creazione di un oggetto \classname{dao.DataPersistanceManager} avente nome \texttt{UserDAO}. Quindi viene aperto un blocco try catch in cui si salva in un istanza di tipo \texttt{HttpSession}, l'oggetto ritornato da una chiamata \verb|request.getSession(false)|. I passi successivi sono (nell'ordine):
+	Metodo usato per eseguire la richiesta di aggiungere un nuovo contatto all'interno della rubrica. Il flusso principale inizia  con la creazione di un oggetto \classname{dao.DataPersistanceManager} avente nome \texttt{userDAO}. Quindi viene aperto un blocco try catch in cui vengono eseguite le seguenti istruzioni:
 	\begin{itemize}
-		\item salvare in attributo di tipo \texttt{long}, \texttt{contactID}, l'\texttt{id} dell'utente. Tale id dovrà essere ottenuto con una chiamata:\\
+		\item salvare in un attributo di tipo \texttt{long}, \texttt{contactID}, l'\texttt{id} dell'utente. Tale id dovrà essere ottenuto con una chiamata:\\
 		\verb|request.getParameter("contactId")|;\\
 		
-		\item si crea un istanza di tipo \classname{IUserData} a partire da una chiamata a metodo:\\
-		\verb|session.getAttribute("user")|;
+		\item si crea un istanza di tipo \classname{IUserData} che conterrà l'utente che dovrà essere registrato nella rubrica del proprietario. L'oggetto dovrà essere istanziato in seguito ad una chiamata:\\
+		\verb|userDAO.getUseData(contactId)|;
 		
-		\item si crea un istanza di tipo \classname{IUserData} che conterrà l'utente che dovrà essere registrato nella rubrica del chiamante. L'oggetto dovrà essere istanziato in seguito ad una chiamata:\\
-		\verb|userDAO.getByID(contactId)|;
+		\item si crea un istanza di tipo \classname{IUserData} che conterrà l'utente che ha richiesto l'operazione. Tale utente sarà aggiunto alla rubrica del contatto precedentemente aggiunto alla propria.
 	\end{itemize}
+	
 	Quindi se il contatto (che dovrò andare a registrare) è stato correttamente istanziato (\texttt{contatto} != \texttt{null}) allora il flusso principale procede creando e impostando un istanza di \classname{AddressBookEntry}. Il metodo termina ``scrivendo'' \texttt{true} all'interno di un istanza di \texttt{PrintWriter} creata a partire da \texttt{response.getWriter()} ed eseguendo il metodo \method{addAddressBookEntry()} (passando l'\textit{entry} creata in precedenza) a partire dall'istanza che rappresenta l'utente richiedente.
 	
 	Se invece si è osservato che l'oggetto contenente il contatto da aggiungere, ha valore uguale a \texttt{null}, allora il metodo termina scrivendo \texttt{false} all'intero della dello stesso \texttt{PrintWriter} già citato.
@@ -1288,16 +1320,13 @@ Nessun attributo evidenziato
 \subsubsection*{Metodi}
 \begin{description}
 	\item{\method{\# doAction(request HttpServletRequest, response HttpServletResponse): void}}\\	
-	Metodo usato per eseguire la richiesta di eliminazione di un contatto presente all'interno della rubrica. Tale metodo deve creare un istanza di \texttt{AddressBookEntry} con i dati relativi alla \textit{entry} da eliminare, quindi richiamerà il metodo \method{removeAddressBookEntry()} a partire dalle due istanze di \texttt{IUserData} (quella che rappresenta l'utente richiedete e quella che rappresenta l'utente da eliminare) passando come parametro l'\textit{entry} definita in precedenza. Più nello specifico Il flusso principale inizia  con la creazione di un oggetto \classname{dao.DataPersistanceManager} avente nome \texttt{UserDAO}, quindi viene aperto un blocco \textit{try-catch} in cui si salva in un istanza di tipo \texttt{HttpSession}, l'oggetto ritornato da una chiamata \verb|request.getSession(false)|. I passi successivi sono (nell'ordine):
+	Metodo usato per eseguire la richiesta di eliminazione di un contatto presente all'interno della rubrica. Tale metodo deve creare un istanza di \texttt{AddressBookEntry} con i dati relativi alla \textit{entry} da eliminare, quindi richiamerà il metodo \method{removeAddressBookEntry()} a partire dalle due istanze di \texttt{IUserData} (quella che rappresenta l'utente richiedete e quella che rappresenta l'utente da eliminare) passando come parametro l'\textit{entry} definita in precedenza. Più nello specifico Il flusso principale inizia  con la creazione di un oggetto \classname{dao.DataPersistanceManager} avente nome \texttt{userDAO}. Quindi viene aperto un blocco try catch in cui vengono eseguite le seguenti istruzioni::
 	\begin{itemize}
 		\item salvare in attributo di tipo \texttt{long}, \texttt{contactID}, l'\texttt{id} dell'utente. Tale id dovrà essere ottenuto con una chiamata:\\
 		\verb|request.getParameter("contactId")|;\\
 		
-		\item si crea un istanza di tipo \classname{IUserData} a partire da una chiamata a metodo:\\
-		\verb|session.getAttribute("user")|;
-		
 		\item si crea un istanza di tipo \classname{IUserData} che conterrà ``l'utente'' che dovrà essere eliminato dalla rubrica del chiamante. L'oggetto dovrà essere istanziato in seguito ad una chiamata:\\
-		\verb|userDAO.getByID(contactId)|;
+		\verb|userDAO.getUserData(contactId)|;
 	\end{itemize}
 	Quindi se il contatto (che dovrò andare a cancellare dalla lista) è stato correttamente istanziato (\texttt{contatto != null}) allora il flusso principale procede creando e impostando un istanza di \classname{AddressBookEntry}. Quindi a partire dall'oggetto che rappresenta l'utente richiedente, viene richiamato il metodo \method{removeAddressBookEntry()}. Il metodo termina ``scrivendo'' \texttt{true} all'interno di un istanza di \texttt{PrintWriter} creata a partire da \texttt{response.getWriter()}.
 	
@@ -1337,7 +1366,6 @@ Nessun attributo evidenziato
 	Metodo usato per eseguire la richiesta di creazione di un gruppo. Nell'ordine proposto, devono essere eseguite le seguenti operazioni:
 	\begin{itemize}
 		\item creazione di un oggetto \classname{dao.DataPersistanceManager} avente nome groupDAO;
-		\item creazione di un oggetto \texttt{HttpSession} avente nome \texttt{session};
 		\item creazione di un oggetto \classname{abook.IGroup} avente nome \texttt{group};
 		\item creazione di un oggetto \classname{abook.IUserData} avente nome \texttt{user};
 		\item creazione di un oggetto \texttt{PrinterWriter} avente nome \texttt{writer};
@@ -1345,9 +1373,11 @@ Nessun attributo evidenziato
 	\end{itemize}
 	A questo punto viene creato un blocco \textit{try-catch}. Il blocco \textit{catch} imposta la stringa \texttt{result} a \texttt{false}, il blocco \textit{try} dovrà invece seguire il seguente iter:
 	\begin{itemize}
-		\item si imposta \textit{session} con il valore ritornato da una chiamata:\\
-		\verb|request.getSession(false)|;
-		\item si imposta la variabile user con il valore presente nell'attributo \textit{user} di sessione (usare l'istruzione \verb|session.getAttribute("user")|;
+		\item si imposta la variabile user nel seguente modo:
+			\begin{itemize}
+				\item si procede salvando l'indirizzo mail in una stringa (mail). Tale indirizzo è ottenuto mediante una chiamata a \method{getUserMail()};
+				\item si esegue una chiamata a \texttt{userDAO.getUserData(mail)}, il cui valore restituito viene in fine salvato in user;
+			\end{itemize}
 		\item impostare \texttt{name} con il contenuto del parametro \textit{groupName} presente nell'oggetto \texttt{request};
 		\item verificare se \texttt{name} è \texttt{null} o vuoto. Nel caso procedere impostando \texttt{result} a \texttt{false} e uscendo dal blocco \textit{try}.
 		\item altrimenti, se \texttt{name} contiene un nome valido si crea un nuovo gruppo (salvandolo nella variabile \texttt{group}), e impostando il nome e l'utente proprietario.
@@ -1451,18 +1481,18 @@ Nessun attributo evidenziato
 	Metodo usato per eseguire la richiesta di aggiungere un contatto in un gruppo. Nell'ordine proposto, devono essere eseguite le seguenti operazioni:
 	\begin{itemize}
 		\item creazione di un istanza di \classname{DataPersistanceManager} denominata groupDAO;
-		\item creazione di una sessione \texttt{HttpSession} avente nome \texttt{session};
-		\item creazione degli oggetti rappresentanti la realtà della rubrica su cui opero: un \texttt{IAddressBookEntry entry}, \texttt{IGroup group}, \texttt{IUserData user} e \texttt{IUserData friend};
+\item si imposta la variabile user nel seguente modo:
+			\begin{itemize}
+				\item si procede salvando l'indirizzo mail in una stringa (mail). Tale indirizzo è ottenuto mediante una chiamata a \method{getUserMail()};
+				\item si esegue una chiamata a \texttt{userDAO.getUserData(mail)}, il cui valore restituito viene in fine salvato in user;
+			\end{itemize}
+		\item creazione degli oggetti rappresentanti la realtà della rubrica su cui opero: un \texttt{IAddressBookEntry entry}, \texttt{IGroup group}e \texttt{IUserData friend};
 		\item creazione di due identificativi di tipo \texttt{long}: \texttt{contactId} e \texttt{groupId}.
-		\item creazione di un \texttt{PrintWriter} denominato \textit{writer} e di una stringa \textit{result} usata con lo scopo di memorizzare il contenuto testuale da scrivere sul \texttt{writer} come messaggio di notifica della \inglese{servlet};
+		\item creazione di un \texttt{PrintWriter} denominato \textit{writer} e di una stringa \textit{result} usata con lo scopo di memorizzare il contenuto testuale da scrivere sul \texttt{writer} come messaggio di notifica del \inglese{controller};
 		\item creazione di un istanza \texttt{DataPersistanceManager} \texttt{userDAO}.
 	\end{itemize}
 	Dopo questa fase di creazione delle variabili il metodo deve definire un costrutto \textit{try-catch}. All'interno del blocco \textit{catch} dovrà essere predisposta la memorizzazione della parola ``\inglese{false}''. Passando invece alla definizione del blocco \textit{try}, al suo interno si dovranno predisporre le seguenti istruzioni:
 	\begin{itemize}
-		\item inizializzazione di \textit{session} al valore ottenuto da una chiamata:\\
-		\verb|request.getSession(false)|
-		\item istanziazione di user a partire dal valore contenuto nella \textit{request}. Per la precisione si dovrà usare un istruzione del tipo:\\
-		\verb|session.getAttribute("user")|
 		\item con una procedura analoga alla precedente definisco il contenuto di \texttt{contactID}. Usare \verb|getParameter("contactId")| a partire dall'oggetto \textit{request};
 		\item istruzione analoga alla precedente usata per istanziare il contenuto di \texttt{groupId} (nome del parametro da ottenere: \texttt{groupId});
 		\item inizializzare \texttt{friend} con una chiamata \method{getById} passando come parametro \texttt{contactId}.
@@ -1517,7 +1547,6 @@ Nessun attributo evidenziato
 		\item creazione degli oggetti necessari al completamento dell'operazione:
 		\begin{itemize}
 			\item \classname{DataPersistanceManager} groupDAO;
-			\item \texttt{HttpSession} session;
 			\item \classname{IAddressBookEntry} entry;
 			\item \classname{IGroup} group;
 			\item \classname{IUserData} friend;
@@ -1531,9 +1560,13 @@ Nessun attributo evidenziato
 		
 		\item quindi il metodo procede definendo un blocco \textit{try-catch}. Nel ramo \textit{catch} si imposta \texttt{result} a \texttt{false}. Passando invece alla definizione del ramo \textit{try}, in esso devono essere definiti i seguenti punti:
 		\begin{itemize}
-			\item session viene impostato mediante una chiamata a metodo:
-			\verb|request.getSession(false)|;
-			\item \texttt{user} e \texttt{groupID} vengono impostate ottenendo l'omonimo attributo da \texttt{request} (usare il metodo \texttt{getParameter(nome\_parametro)};
+			\item si imposta la variabile user nel seguente modo:
+			\begin{itemize}
+				\item si procede salvando l'indirizzo mail in una stringa (mail). Tale indirizzo è ottenuto mediante una chiamata a \method{getUserMail()};
+				\item si esegue una chiamata a \texttt{userDAO.getUserData(mail)}, il cui valore restituito viene in fine salvato in user;
+			\end{itemize}
+			
+			
 			\item impostare \texttt{friend} e \texttt{group} a partire dai relativi tipi di istanze DAO e facendosi restituire i dati presenti nel database tramite una chiamata a metodo \method{getByID} a cui passa i relativi id (\texttt{contactId} e \texttt{groupid});
 			\item avvia un costrutto condizionale dotato di ramo \textit{else}, se \texttt{group!=null} allora il metodo procede nel ramo \texttt{if} andando ad impostare \texttt{entry} con i relativi parametri, in modo da ricreare l'istanza \classname{IAddressBookEntry} da rimuovere dal database per mezzo del metodo \method{removeAddressBookEntry()} a cui passa \texttt{entry}. 
 			\item altrimenti, se \texttt{group == null} allora entra nel ramo else del costrutto condizionale e procede impostando \texttt{result} a \texttt{false}.
@@ -1582,7 +1615,6 @@ Nessun attributo evidenziato
 		\item creazione degli oggetti necessari al completamento dell'operazione:
 		\begin{itemize}
 			\item \classname{DataPersistanceManager} groupDAO;
-			\item \texttt{HttpSession} session;
 			\item \classname{IAddressBookEntry} entry;
 			\item \classname{IUserData} friend;
 			\item \classname{IUserData} user;
@@ -1596,10 +1628,12 @@ Nessun attributo evidenziato
 		
 		\item quindi il metodo procede definendo un blocco \textit{try-catch}. Nel ramo \textit{catch} si imposta \texttt{result} a \texttt{false}. Passando invece alla definizione del ramo \textit{try} devono essere definiti i seguenti punti:
 		\begin{itemize}
-			\item \textit{session} viene impostato mediante una chiamata a metodo:
-			\verb|request.getSession(false)|;
-			\item \textit{user} viene impostato ottenendo l'omonimo attributo da \textit{request} (usare il metodo \texttt{getParameter(``user'')};
-			\item impostare  \texttt{friend} a partire dal relativo tipo di istanza DAO e facendo restituire i dati presenti nel database tramite una chiamata a metodo \method{getByID} a cui passa il parametro \texttt{contactId};
+			\item si imposta la variabile user nel seguente modo:
+			\begin{itemize}
+				\item si procede salvando l'indirizzo mail in una stringa (mail). Tale indirizzo è ottenuto mediante una chiamata a \method{getUserMail()};
+				\item si esegue una chiamata a \texttt{userDAO.getUserData(mail)}, il cui valore restituito viene in fine salvato in user;
+			\end{itemize}
+			\item impostare  \texttt{friend} a partire dal relativo tipo di istanza DAO e facendo restituire i dati presenti nel database tramite una chiamata a metodo \method{getUserData()} a cui passa il parametro \texttt{contactId};
 			\item avvia un costrutto condizionale dotato di ramo else. Se \texttt{friend!=null} il metodo procede nel ramo \texttt{if} andando a scaricare l'elenco delle \texttt{entry} a partire da \textit{user}. Quindi utilizzando l'iteratore \texttt{iterator} va a scorrere tale set di \textit{entry} e quando verifica la presenza del contatto \texttt{friend} all'interno, modifica l'\textit{entry} attualmente selezionata richiamando il metodo \method{setBlocked(true)}. Quindi prima di uscire dal costrutto \texttt{if}, viene eseguita un operazione di \textit{update} a partire da user e si memorizza nella variabile \texttt{result} il valore \texttt{true}.
 			\item altrimenti, se \texttt{friend == null} allora entra nel ramo else del costrutto condizionale e procede impostando \texttt{result} a \texttt{false}.
 		\end{itemize}
@@ -1646,7 +1680,6 @@ Nessun attributo evidenziato
 		\item creazione degli oggetti necessari al completamento dell'operazione:
 		\begin{itemize}
 			\item \classname{DataPersistanceManager} groupDAO;
-			\item \texttt{HttpSession} session;
 			\item \classname{IAddressBookEntry} entry;
 			\item \classname{IUserData} friend;
 			\item \classname{IUserData} user;
@@ -1660,10 +1693,12 @@ Nessun attributo evidenziato
 		
 		\item quindi il metodo procede definendo un blocco \textit{try-catch}. Nel ramo \textit{catch} si imposta \texttt{result} a \texttt{false}. Passando invece alla definizione del ramo \textit{try}, in esso devono essere definiti i seguenti punti:
 		\begin{itemize}
-			\item \texttt{session} viene impostato mediante una chiamata a metodo:
-			\verb|request.getSession(false)|;
-			\item user viene impostata ottenendo l'omonimo attributo da \texttt{request} (usare il metodo \texttt{getParameter(``user'')};
-			\item impostare\texttt{friend} a partire dal relativo tipo di istanza DAO e facendo restituire i dati presenti nel database tramite una chiamata a metodo \method{getByID} a cui passa il parametro \texttt{contactId};
+			\item si imposta la variabile user nel seguente modo:
+			\begin{itemize}
+				\item si procede salvando l'indirizzo mail in una stringa (mail). Tale indirizzo è ottenuto mediante una chiamata a \method{getUserMail()};
+				\item si esegue una chiamata a \texttt{userDAO.getUserData(mail)}, il cui valore restituito viene in fine salvato in user;
+			\end{itemize}
+			\item impostare\texttt{friend} a partire dal relativo tipo di istanza DAO e facendo restituire i dati presenti nel database tramite una chiamata a metodo \method{getUserData()} a cui passa il parametro \texttt{contactId};
 			\item avvia un costrutto condizionale dotato di ramo else. Se \texttt{friend!=null} il metodo procede nel ramo \textit{if} andando a scaricare l'elenco delle \textit{entry} a partire da \texttt{user}. Quindi utilizzando l'iteratore \textit{iterator} va a scorrere tale set di \textit{entry} e quando verifica la presenza del contatto \texttt{friend} all'interno, modifica l'\textit{entry} attualmente selezionata richiamando il metodo \method{setBlocked(false)}. Quindi prima di uscire dal costrutto \texttt{if}, viene eseguita un operazione di \textit{update} a partire da \textit{user} e si memorizza nella variabile \texttt{result} il valore \texttt{true}.
 			\item altrimenti, se \texttt{friend == null} allora entra nel ramo else del costrutto condizionale e procede impostando \texttt{result} a \texttt{false}.
 		\end{itemize}
@@ -1722,7 +1757,7 @@ Nessun attributo evidenziato
 			\item parameter viene impostato con il valore del parametro da ricercare. Tale operazione è da eseguirsi con l'istruzione:\\
 			\verb|request.getParameter("param")|;
 			\item quindi il metodo procede effettuando la ricerca del parametro. Tale operazione si svolge sfruttando le specifiche della classe \classname{DataPersistanceManager}. Nello specifico deve essere eseguita l'istruzione:\\
-			\verb|users = userDAO.searchGeneric(parameter)|;
+			\verb|users = userDAO.getUserData(parameter)|;
 			\item a questo punto si dovrà predisporre un iteratore per scorrere la lista \textit{users};
 			\item si imposta \texttt{result} al valore ``{'' e si entra in un ciclo \inglese{while} che potrà terminare solo quando l'iteratore già citato avrà raggiunto l'ultimo elemento ispezionabile;
 			\item dentro al ciclo \inglese{while} si procederà con la formattazione della stringa \texttt{result} al fine di restituire al client un formato sul quale possa operare. Nello specifico la stringa \texttt{result} dovrà contenere (per ogni istanza di IUserData presente in \texttt{users}):\\
@@ -1777,7 +1812,6 @@ Nessun attributo evidenziato
 	\begin{itemize}
 		\item creazione degli oggetti necessari al completamento dell'operazione:
 		\begin{itemize}
-			\item \texttt{HttpSession} session;
 			\item \classname{IUserData} user;
 			\item \classname{IUserData} friend;
 			\item \texttt{Iterator<IAddressBookEntry>} iterator;
@@ -1789,8 +1823,11 @@ Nessun attributo evidenziato
 		
 		\item quindi il metodo procede definendo un blocco \textit{try-catch}. Nel ramo \textit{catch} si imposta \texttt{result} a \texttt{null}. Passando invece alla definizione del ramo \textit{try}, devono essere definiti i seguenti punti:
 		\begin{itemize}
-			\item session viene impostata tramite una chiamata a metodo del tipo:\\
-			\verb|session = request.getSession(false)|;
+			\item si imposta la variabile user nel seguente modo:
+			\begin{itemize}
+				\item si procede salvando l'indirizzo mail in una stringa (mail). Tale indirizzo è ottenuto mediante una chiamata a \method{getUserMail()};
+				\item si esegue una chiamata a \texttt{userDAO.getUserData(mail)}, il cui valore restituito viene in fine salvato in user;
+			\end{itemize}
 			\item quindi il metodo procede impostando user a partire dalla sessione precedentemente creata. Tale operazione richiede l'uso del metodo \method{getAttribute(``user''};
 			\item viene inizializzato l'insieme \texttt{contacts} tramite una chiamata \method{getAddressBook()} richiamata a partire dalla variabile \texttt{user};
 			\item a questo punto si dovrà predisporre un iteratore per scorrere l'insieme \textit{contacts};
@@ -1848,7 +1885,6 @@ Nessun attributo evidenziato
 	\begin{itemize}
 		\item creazione degli oggetti necessari al completamento dell'operazione:
 		\begin{itemize}
-			\item \texttt{HttpSession} session;
 			\item \classname{DataPersistanceManager} groupDAO;
 			\item \classname{IAddressBookEntry} entry;
 			\item \classname{IGroup} group;
@@ -1862,12 +1898,15 @@ Nessun attributo evidenziato
 		
 		\item quindi il metodo procede definendo un blocco \textit{try-catch}. Nel ramo catch si imposta \texttt{result} a \texttt{false}. Passando invece alla definizione del ramo \textit{try}, in esso devono essere definiti i seguenti punti:
 		\begin{itemize}
-			\item session viene impostata tramite una chiamata a metodo del tipo:\\
-			\verb|session = request.getSession(false)|;
+			\item si imposta la variabile user nel seguente modo:
+			\begin{itemize}
+				\item si procede salvando l'indirizzo mail in una stringa (mail). Tale indirizzo è ottenuto mediante una chiamata a \method{getUserMail()};
+				\item si esegue una chiamata a \texttt{userDAO.getUserData(mail)}, il cui valore restituito viene in fine salvato in user;
+			\end{itemize}
 			\item quindi il metodo procede impostando user a partire dalla sessione precedentemente creata. Tale operazione richiede l'uso del metodo \method{getAttribute(``user'')};
 			\item viene inizializzato l'oggetto \texttt{groupDAO};
 			\item si inizializza la lista \texttt{groups} dei gruppi. Tale operazione deve essere eseguita mediante l'istruzione:\\
-			\verb|groupDAO.getByOwner(user.getId())|
+			\verb|groupDAO.getGroup(user.getId())|
 			\item il metodo definisce un costrutto condizionale \textit{if-else} basato sulla condizione \texttt{groups != null}. Nel ramo \textit{else} il metodo non fa altro che impostare \texttt{result} a \texttt{false}. Nel ramo \textit{if} saranno definite le seguenti istruzioni:	
 			\begin{itemize}
 				\item predisporre un iteratore per scorrere l'insieme \texttt{groups} (inizializzazione di groupIter);
@@ -2158,7 +2197,11 @@ Nessun attributo evidenziato
 	\item{\method{\# doAction(request: HttpServletRequest, response: HttpServletResponse): void}}\\
 	Metodo usato per accedere alla funzionalità del \textit{controller}. Il procedimento da definire passa attraverso 3 step essenziali:
 	\begin{itemize}
-		\item \texttt{Inizializzazione}: il metodo definisce ed apre una nuova sessione a partire dalla richiesta \inglese{request} passata come parametro;
+		\item \texttt{Inizializzazione}: si imposta la variabile user nel seguente modo:
+			\begin{itemize}
+				\item si procede salvando l'indirizzo mail in una stringa (mail). Tale indirizzo è ottenuto mediante una chiamata a \method{getUserMail()};
+				\item si esegue una chiamata a \texttt{userDAO.getUserData(mail)}, il cui valore restituito viene in fine salvato in user;
+			\end{itemize}
 		\item \texttt{Elaborazione dati}: il metodo interroga il database attraverso la classe \classname{DataPersistanceManager}. Per ogni oggetto \classname{ICall} in cui si evidenzia che uno dei due partecipanti è il client (\classname{IUserData}) che ha inoltrato la richiesta al \textit{front controller}, si aggiunge alla stringa \texttt{result} da ritornare i dati di tale chiamata. Nello specifico la formattazione della stringa di ritorno, dovrà descrivere la seguente logica:\\
 		
 		\verb|{name:"NOME_UTENTE",start="DATA_INIZIO",end="DATA_FINE"}|\\
@@ -2370,9 +2413,13 @@ Nessun attributo evidenziato
 	\item{\method{\# doAction(request: HttpServletRequest, response: HttpServletResponse): void}}\\
 	Metodo usato per accedere alla funzionalità del controller. Il procedimento da definire passa attraverso 3 step essenziali:
 	\begin{itemize}
-		\item \texttt{Inizializzazione}: il metodo definisce ed apre una nuova sessione a partire dalla richiesta \textit{request} passata come parametro;
+		\item \texttt{Inizializzazione}: si imposta la variabile user nel seguente modo:
+			\begin{itemize}
+				\item si procede salvando l'indirizzo mail in una stringa (mail). Tale indirizzo è ottenuto mediante una chiamata a \method{getUserMail()};
+				\item si esegue una chiamata a \texttt{userDAO.getUserData(mail)}, il cui valore restituito viene in fine salvato in user;
+			\end{itemize}
 		\item \texttt{Elaborazione dati}: il metodo procede creando un \classname{IMessage} con i dati forniti dalla \texttt{request} e dopo aver aperto una \texttt{transaction} verso il database, esegue l'operazione \method{save()} sul relativo oggetto DAO. Al termine sarà necessario procedere con un operazione di \textit{commit}. Nel realizzare il metodo, il programmatore incaricato dovrà tenere in considerazione la possibilità di fallimento durante l'esecuzione delle operazioni mediante la \texttt{transaction}. Ciò andrà gestito mediante un operazione di \textit{rollback} atta ad eliminare una possibile inconsistenza dei dati.
-		\item \texttt{Restituzione risultato}: dopo aver elaborato i dati, la \inglese{servlet} dovrà scrivere nel \texttt{PrintWriter} associato alla \texttt{request}:
+		\item \texttt{Restituzione risultato}: dopo aver elaborato i dati, il \inglese{controller} dovrà scrivere nel \texttt{PrintWriter} associato alla \texttt{request}:
 			\begin{itemize}
 				\item \texttt{true} se l'operazione è andata a buon fine;
 				\item \texttt{false} altrimenti.
@@ -2412,7 +2459,11 @@ Nessun attributo evidenziato
 \item{\method{\# doAction(request: HttpServletRequest, response: HttpServletResponse): void}}\\
 	Metodo usato per accedere alla funzionalità della controller. Il procedimento da definire passa attraverso 3 step essenziali:
 	\begin{itemize}
-		\item \texttt{Inizializzazione}: il metodo definisce ed apre una nuova sessione a partire dalla richiesta \textit{request} passata come parametro;
+		\item \texttt{Inizializzazione}: si imposta la variabile user nel seguente modo:
+			\begin{itemize}
+				\item si procede salvando l'indirizzo mail in una stringa (mail). Tale indirizzo è ottenuto mediante una chiamata a \method{getUserMail()};
+				\item si esegue una chiamata a \texttt{userDAO.getUserData(mail)}, il cui valore restituito viene in fine salvato in user;
+			\end{itemize}
 		\item \texttt{Elaborazione dati}: il metodo procede creando un \classname{IMessage} con i dati forniti dalla \textit{request} e dopo aver aperto una \texttt{transaction} verso il database, esegue un operazione di ricerca dell'instanza appena creata all'interno della lista di \classname{IMessage} ottenuta dal database. Quindi se si verifica che tale istanza è effettivamente presente nel database, il metodo esegue l'operazione \method{delete()} sul relativo oggetto DAO. Al termine sarà necessario procedere con un operazione di \textit{commit}. Nel realizzare il metodo, il programmatore incaricato dovrà tenere in considerazione la possibilità di fallimento durante l'esecuzione delle operazioni mediante la \texttt{transaction}. Ciò andrà gestito mediante un operazione di \textit{rollback} atta ad eliminare una possibile inconsistenza dei dati.
 		\item \texttt{Restituzione risultato}: dopo aver elaborato i dati, il \inglese{controller} dovrà scrivere nel \texttt{PrintWriter} associato alla \textit{request}:
 			\begin{itemize}
@@ -2459,7 +2510,11 @@ Nessun attributo evidenziato
 	\item{\method{\# doAction(request: HttpServletRequest, response: HttpServletResponse): void}}\\
 	Il procedimento da definire passa attraverso 3 step essenziali:
 	\begin{itemize}
-		\item \texttt{Inizializzazione}: il metodo definisce ed apre una nuova sessione a partire dalla richiesta request passata come parametro;
+		\item \texttt{Inizializzazione}: si imposta la variabile user nel seguente modo:
+			\begin{itemize}
+				\item si procede salvando l'indirizzo mail in una stringa (mail). Tale indirizzo è ottenuto mediante una chiamata a \method{getUserMail()};
+				\item si esegue una chiamata a \texttt{userDAO.getUserData(mail)}, il cui valore restituito viene in fine salvato in user;
+			\end{itemize}
 		\item \texttt{Elaborazione dati}: il metodo procede creando un \classname{IMessage} con i dati forniti dalla \textit{request} e dopo aver aperto una \texttt{transaction} verso il database, esegue un operazione di ricerca dell'instanza appena creata all'interno della lista di \classname{IMessage} ottenuta dal database. Quindi se si verifica che tale istanza è effettivamente presente nel database, il metodo esegue l'operazione \method{update()} sul relativo oggetto DAO, andando a modificare lo stato in di lettura del messaggio. Al termine sarà necessario procedere con un operazione di \textit{commit}. Nel realizzare il metodo il programmatore incaricato dovrà tenere in considerazione la possibilità di fallimento durante l'esecuzione delle operazioni mediante la \texttt{transaction}. Ciò andrà gestito mediante un operazione di \textit{rollback} atta ad eliminare una possibile inconsistenza dei dati.
 		\item \texttt{Restituzione risultato}: dopo aver elaborato i dati, il \inglese{controller} dovrà scrivere nel \texttt{PrintWriter} associato alla \textit{request}:
 			\begin{itemize}
@@ -2500,11 +2555,15 @@ Nessun attributo evidenziato
 	\item{\method{\# doAction(request: HttpServletRequest, response: HttpServletResponse): void}}\\
 	Il procedimento da definire passa attraverso 3 step essenziali:
 	\begin{itemize}
-		\item \texttt{Inizializzazione}: il metodo definisce ed apre una nuova sessione a partire dalla richiesta \textit{request} passata come parametro;
+		\item \texttt{Inizializzazione}: si imposta la variabile user nel seguente modo:
+			\begin{itemize}
+				\item si procede salvando l'indirizzo mail in una stringa (mail). Tale indirizzo è ottenuto mediante una chiamata a \method{getUserMail()};
+				\item si esegue una chiamata a \texttt{userDAO.getUserData(mail)}, il cui valore restituito viene in fine salvato in user;
+			\end{itemize}
 		\item \texttt{Elaborazione dati}: quindi esegue un operazione di download degli oggetti \classname{IMessage} il cui possessore è l'utente che ha fatto richiesta di \inglese{download}. in seguito a tale operazione, sarà necessario popolare e formattare la stringa di ritorno come segue: per ogni messaggio presente nella lista si dovrà riportare la dicitura:\\
 		
-		\verb|{name:"NOME_UTENTE",state="LETTO/NON LETTO"|\\
-		\verb|,url="INDIRIZZO_MESSAGGIO",data="DATA_REGISTRAZIONE_MESSAGGIO"}|\\
+		\verb|{name:"NOME_UTENTE",mail:"INDIRIZZO_MAIL",state:"LETTO/NON LETTO"|\\
+		\verb|,url:"INDIRIZZO_MESSAGGIO",data:"DATA_REGISTRAZIONE_MESSAGGIO"}|\\
 	
 		\item \texttt{Restituzione risultato}: dopo aver elaborato i dati, il \inglese{controller} dovrà scrivere nel \texttt{PrintWriter} associato alla \textit{request}:
 			\begin{itemize}
@@ -2993,7 +3052,7 @@ Nessun attributo evidenziato
 \subsubsection*{Metodi}
 \begin{description}
 	\item{\method{\# doAction(request: HttpServletRequest, response: HttpServletResponse): void}}\\
-	Metodo che costituisce il kernel logico di risposta della \inglese{servlet}. Il metodo inizia caricando i parametri ricevuti mediante \texttt{HttpServletRequest}. Una chiamata a tale \inglese{servlet} corrisponde ad una richiesta di logout e si attua impostando a false la sessione contenuta nell'oggetto \texttt{HttpServletRequest request}. Il metodo procede con la creazione di un istanza  di \texttt{LoginContext} denominata \texttt{context}. Quindi viene effettuata la memorizzazione dell'oggetto ritornato da una chiamata:
+	Metodo che costituisce il kernel logico di risposta del \inglese{controller}. Il metodo inizia caricando i parametri ricevuti mediante \texttt{HttpServletRequest}. Una chiamata a tale \inglese{controller} corrisponde ad una richiesta di logout e si attua impostando a false la sessione contenuta nell'oggetto \texttt{HttpServletRequest request}. Il metodo procede con la creazione di un istanza  di \texttt{LoginContext} denominata \texttt{context}. Quindi viene effettuata la memorizzazione dell'oggetto ritornato da una chiamata:
 \\
 \verb|session.getAttribute("LoginContext");|
 \\
@@ -3031,7 +3090,7 @@ Nessun attributo evidenziato
 \begin{description}
 	\item{\method{\# doAction(request: HttpServletRequest, response: HttpServletResponse): void}}\\
 
-Il metodo inizia caricando i parametri ricevuti mediante \texttt{HttpServletRequest}. Una chiamata a tale metodo corrisponde ad una richiesta di login e si attua impostando due campi \texttt{String} con i dati ottenuti da una chiamata a \texttt{getParameter(``username'')} e \texttt{getParameter(``password'')} . Quindi si crea un istanza di \texttt{HttpSession} tramite il metodo \texttt{getSession(true)} del parametro \texttt{request}. Il metodo prosegue controllando se l'\textit{username} e la \textit{password} precedentemente ottenute hanno valore diverso da \texttt{null}. Nel caso il flusso principale continua creando un'istanza di \classname{AutenthicationData} (denominata \texttt{credential}) a partire dai parametri \textit{username} e \textit{password}. Quindi si carica la path del file di configurazione in un apposita stringa \texttt{pathFileConfig}, tramite la chiamata a metodo:\\
+Il metodo inizia caricando i parametri ricevuti mediante \texttt{HttpServletRequest}. Una chiamata a tale metodo corrisponde ad una richiesta di login e si attua impostando due campi \texttt{String} con i dati ottenuti da una chiamata a \texttt{getParameter(``username'')} e \texttt{getParameter(``password'')}. Il metodo prosegue controllando se l'\textit{username} e la \textit{password} precedentemente ottenute hanno valore diverso da \texttt{null}. Nel caso il flusso principale continua creando un'istanza di \classname{AutenthicationData} (denominata \texttt{credential}) a partire dai parametri \textit{username} e \textit{password}. Quindi si carica la path del file di configurazione in un apposita stringa \texttt{pathFileConfig}, tramite la chiamata a metodo:\\
 	
 \verb|System.getenv("MyTalkConfiguration") + "\\LoginConfiguration.conf"|.\\
 
@@ -3045,7 +3104,7 @@ Quindi tramite context si esegue il login e si impostano gli attributi di sessio
 
 \texttt{session.setAttribute("LoginContext", context);}
 
-Infine si carica in user un istanza di \classname{dao.UserDataDAO} ottenuta dalla chiamata a metodo \method{UserDataDAO.getByEmail()}, e restituendo user in un formato di formattazione \texttt{Json} (\texttt{user.toJson()}).
+Infine si carica in user un istanza di \classname{dao.DataPersistanceManager} ottenuta dalla chiamata a metodo \method{DataPersistanceManager.getUserData()}, e restituendo user in un formato di formattazione \texttt{Json} (\texttt{user.toJson()}).
 
 \end{description}
 
@@ -3775,15 +3834,19 @@ Riferimento all'elemento HTML, da intendersi come nodo DOM, che corrisponde alla
   \item{\method{+ getOtherVideo(): HTMLElement}}\\
   Il metodo dovrà restituire un riferimento l'elemento DOM con l'identificativo ad\verb'otherVideo' presente nel pannello delle comunicazioni.
   
+  \item{\method{+ onAppendMessageToChat(user: Object, message: String, amISender: Boolean)}}\\
+  Questo gestore di eventi ha il compito di aggiungere il messaggio di testo passato come secondo parametro all'elemento che rappresenta la chat testuale aperta con l'utente passato come primo parametro, in maniera corretta rispetto al fatto che l'utente del client sia o meno il mittente del messaggio. A tale fine dovrà essere richiamato il metodo \method{appendToChat} messo a disposizione dalla vista associata a questo \inglese{presenter}.
+  
+  %FIXME questo sicuramente non sarà corretto! Controllare per favore!
+  \item{\method{+ onCall(user: Object, onlyAudio: Boolean): void}}\\
+  Questo gestore di eventi viene richiamato al verificarsi di un evento con stringa identificativa \verb'call' che segnala l'avvio di una comunicazione audio (secondo parametro a \verb'true') o audio/video (secondo parametro a \verb'false') con l'utente passato come primo parametro.
+  Al verificarsi di un simile evento, il \inglese{presenter} dovrà contattare l'istanza presente di \classname{CommunicationCenter} e invocare il metodo \method{call} di quest'ultimo con il primo parametro a \verb'true' e inoltrando i valori di \verb'contact' e \verb'onlyAudio' come secondo e terzo parametro.
+  
   \item{\method{+ onChatStarted(user: Object): void}}\\
-  Questo gestore di eventi viene richiamato quando si avvia una comunicazione testuale con il contatto passato come parametro. A tal fine dovranno essere invocati i metodi \method{addChat} e \method{displayChat} messi a disposizione dalla vista associata a questo \inglese{presenter}.
+  Questo gestore di eventi viene richiamato quando si avvia una comunicazione testuale con il contatto passato come parametro. A tal fine dovrà essere invocato il metodo \method{addChat} messo a disposizione dalla vista associata a questo \inglese{presenter}.
   
   \item{\method{+ onShowCommunicationPanel(): void}}\\
-  Questo gestore di eventi avrà il compito di provocare la visualizzazione del pannello per la gestione delle comunicazioni
-  
-  Se non è presente alcuna comunicazione in corso, dovrà quindi essere caricato il \inglese{template} corrispondente, che sarà caricato nel punto corretto dell'albero DOM demandando in un secondo momento alla vista il compito dell'inizializzazione dei \inglese{widget} grafici che lo costituiscono.
-  
-  Se, al contrario, è presente almeno una comunicazione (audio, audio/video oppure testuale) la risposta del \inglese{presenter} a tale evento deve ripristinare il pannello precedentemente visualizzato, invocando il solo metodo \method{display()} messo a disposizione dalla vista corrispondente.
+  Questo gestore di eventi avrà il compito di provocare la visualizzazione del pannello per la gestione delle comunicazioni, provocando il caricamento del \inglese{template} corrispondente, la sua aggiunta nel punto corretto dell'albero DOM e demandando in un secondo momento alla vista il compito dell'inizializzazione dei \inglese{widget} grafici che lo costituiscono.
   
   \item{\method{+ onStartRinging(evt: String): void}}\\
   Questo gestore di eventi ha il compito di avviare il trillo che segnala una chiamata in arrivo (se il parametro è uguale a \verb'"income"') oppure il segnale di attesa di risposta (se il parametro è uguale a \verb'"outcome"').
@@ -4219,7 +4282,12 @@ Nessuna relazione evidenziata.
 
 \subsubsection*{Metodi}
 \begin{description}
-
+	\item{\method{+ calculateScore(character: String): Number}}\\
+	Il metodo calcola il punteggio di complessità del carattere passato come parametro in ingresso, che sarà pari a 1 se si tratta di un carattere alfabetico comune e minuscolo, 2 se si tratta di un numero oppure di una maiuscola e 3 se è invece un simbolo che appartiene all'insieme:
+\begin{verbatim}
+	                       ,!?^/@-#§* {}[]'`()\%$£\"<>:;_|
+\end{verbatim}
+	
 	\item{\method{+ getAnswer(): String}}\\
 	Metodo che estrae dal \inglese{form} la risposta alla domanda segreta associata al nuovo utente e la restituisce se specificata, mentre in caso contrario solleva una \exception{Exception} avente come messaggio esattamente la stringa ``risposta alla domanda segreta non specificata''.
 	
@@ -4471,6 +4539,7 @@ Nessuna relazione evidenziata.
   \item{\method{+ webkitGetUserMedia(audio: Boolean, video: Boolean): void}}\\
   Metodo richiamato nel momento in cui un utente vuole iniziare una chiamata. Il metodo, fornito dalle librerie native di \underline{Chrome}, cattura lo \textit{stream} della propria videocamera/microfono. Riceve due parametri che indicano se deve essere catturato audio e/o video. Procedendo, viene aggiunto lo \textit{stream} all'oggetto RTCPeerConnection tramite il metodo \verb'addStream(localstream)' fornito dalle librerie di WebRTC\@.
 
+% FIXME questo dovrà essere sicuramente cambiato!!
   \item{\method{-- dumpStats(obj: Object): void}}\\
   Metodo che permette l'estrazione dei dati rappresentanti le statistiche della chiamata, esso riceve come parametro un oggetto, lo elabora, ed estrae solo i byte ricevuti e inviati. Ricavati questi dati, li visualizza nello \verb'<span>' corrispondente tramite il sistema di controllo dell'interfaccia grafica del sistema.
 
@@ -4689,6 +4758,7 @@ Il pannello è costituito da un elemento \verb'<div>' avente come identificativo
 \end{itemize}
 
 
+%TODO questa sarà da rivedere a breve!
 \classsection{CommunicationView}
 \subsubsection*{Funzione}
 Vista associata al \inglese{presenter} \classname{CommunicationPresenter} utilizzata durante una chiamata audio e per la gestione delle chat testuali con gli altri utenti.
@@ -4712,27 +4782,20 @@ Vista associata al \inglese{presenter} \classname{CommunicationPresenter} utiliz
 \begin{description}
 
   \item{\method{+ display(): void}}\\
-  Tale metodo ha il compito di inizializzare il comportamento della vista, in particolare assegnando all'evento \verb'click' del pulsante per la chiusura della comunicazione una funzione anonima che solleva un evento con identificativo \verb'callEnded'.
-  
-  Dovrà inoltre visualizzare l'area delle chat e inizializzare il comportamento dei \inglese{list item} della lista \verb'ulOpenChat' facendo in modo che all'evento \texttt{click} sul nome del contatto sia visualizzata la chat corrispondente mediante il metodo \method{displayChat} mentre all'evento \texttt{click} sull'immagine con il pulsante di chiusura sia invocato il metodo \method{removeChat}.
+  Tale metodo ha il compito di inizializzare il comportamento della vista, in particolare assegnando all'evento \verb'click' del pulsante per la chiusura della chat deve essere sollevato un evento avente come nome identificativo la stringa \verb'callEnded'.
 
-  \item{\method{+ onAppendMessageToChat(user: Object, text: String, amISender: Boolean): void}}\\
-  Questo gestore di eventi ha il compito di aggiungere il messaggio di testo passato come secondo parametro all'elemento che rappresenta la chat testuale aperta con l'utente passato come primo parametro, dopo averla recuperata dall'attributo \memberdata{chatElements}.
+  \item{\method{+ onAppendMessage(user: Object, text: String, amISender: Boolean): void}}\\
+  Questo gestore di eventi ha il compito di aggiungere la stringa passata come secondo parametro all'interno dell'area di testo che è associata alla chat con l'utente passato come primo parametro del metodo, dopo averla recuperata dall'attributo \memberdata{chatElements}.
 
   A seconda del fatto che il mittente del messaggio sia o meno l'utente del client, il testo del messaggio dovrà essere concatenato alla stringa \verb'"io: "' oppure \verb'contact.name + ": "'.
 
   \item{\method{+ onChatAdded(user: Object): void}}\\
-  Questo gestore di eventi provoca l'aggiunta di una chat che coinvolge con l'utente ricevuto come parametro aggiornando il campo privato \memberdata{chatElements} aggiungendovi un nuovo elemento creato tramite il metodo privato \method{createChatElement}.
-  
-  Inoltre, al suo interno dovrà essere creato un nuovo elemento \verb'<li>' tramite una chiamata al metodo \method{createChatItem}, che dovrà essere aggiunto al sotto-albero radicato nell'elemento \verb'<ul>' con l'identificativo uguale a \verb'ulOpenChat'.
+  Questo gestore di eventi provoca l'aggiunta di una chat che coinvolge con l'utente ricevuto come parametro aggiornando il campo privato \memberdata{chatElements}. Inoltre, dovrà essere creato un nuovo elemento \verb'<li>' tramite una chiamata al metodo \method{createChatItem}, che dovrà essere aggiunto al sotto-albero radicato nell'elemento \verb'<ul>' con l'identificativo uguale a \verb'ulOpenChat'.
 
   \item{\method{+ onChatRemoved(user: Object): void}}\\
   Questo gestore di eventi provoca la chiusura definitiva della chat aperta con l'utente passato come parametro eliminando l'elemento corrispondente da \memberdata{chatElements} e rimuovendo contestualmente l'elemento HTML corrispondente al \verb'<li>' della chat dalla lista con identificativo \verb'ulOpenChat'.
 
   Inoltre, se l'utente passato come parametro è associato proprio alla chat visualizzata all'interno del pannello, quest'ultima dovrà essere eliminata anche dall'albero DOM dell'interfaccia grafica oltre che dall'attributo \memberdata{chatElements}.
-  
-  \item{\method{+ onResetChatsObject(): void}}\\
-  Questo gestore di eventi ha il compito di ripristinare la situazione iniziale della vista in cui non è presente alcun elemento chat all'interno della variabile di istanza \memberdata{chatElements}.
 
   \item{\method{+ onUpdateStats(text: String, isReceivedData: Boolean): void}}\\
   Il metodo controlla tramite il parametro \verb'isReceivedData' ricevuto in input se è necessario aggiornare lo \verb'<span>' relativo ai dati inviati oppure lo \verb'<span>' relativo ai dati ricevuti e lo imposta con il valore del primo parametro dopo aver anteposto il prefisso \verb'"Dati inviati: "' oppure \verb'"Dati ricevuti: "' a seconda del caso.
@@ -4743,22 +4806,20 @@ Vista associata al \inglese{presenter} \classname{CommunicationPresenter} utiliz
   \item{\method{- createChatElement(user: Object): HTMLElement}}\\
   Tale metodo restituisce un elemento HTML costituito da un \verb'<div>' che rappresenta l'area occupata dalla chat con l'utente passato come parametro. A tale elemento viene assegnato l'identificativo \verb'divContainerChat'.
   
-  Deve inoltre essere aggiunto come ultimo figlio del \verb'<div>' anche un \verb'<form>' avente come identificativo la proprietà \verb'id' dell'utente passato come parametro preceduta dal prefisso \verb'"chatForm-"'.
-  
-  A tale \verb'<form>' dovranno essere aggiunti:
+  Deve inoltre essere aggiunto come ultimo figlio del \verb'<div>' anche un \verb'<form>' avente come identificativo la proprietà \verb'id' dell'utente passato come parametro preceduta dal prefisso \verb'"chatForm-"'. A tale \verb'<form>' dovranno essere aggiunti:
   \begin{itemize}
-    \item[--] una \verb'<textarea>' con l'identificativo \verb'chatText' dove andrà visualizzata la cronologia della chat con i messaggi di entrambi gli utenti;
-    \item[--] una campo di di input testuale con l'identificativo uguale \verb'text' e attributo \verb'type' uguale a \verb'text' al cui evento \verb'keyup' deve essere associata una funzione anonima che abilita il pulsante per l'invio del messaggio;
-    \item[--] un pulsante per inviare il messaggio contenente il nodo di testo \verb'"Invia"' al cui evento \verb'click' è attivata una funzione anonima che solleva un evento \verb'sendMessage' dopo averne impostato la proprietà \verb'contact' con l'utente passato come parametro e la proprietà \verb'messageText' al valore estratto dall'area di testo \verb'chatText'.
+    \item[--] una \verb'<textarea>' con l'identificativo \verb'chatText' dove andrà visualizzata la cronologia della chat;
+    \item[--] una campo di di input testuale con l'identificativo uguale \verb'input';
+    \item[--] un pulsante per inviare il messaggio contenente il nodo di testo \verb'"Invia"' al cui evento \verb'click' è attivata una funzione anonima che solleva un evento \verb'sendMessage' dopo averne impostato la proprietà \verb'contact' con l'utente passato come parametro e la proprietà \verb'text' al valore estratto dall'area di testo \verb'chatText'.
   \end{itemize}
 
   \item{\method{-- createChatItem(user: Object): HTMLElement}}\\
   Tale metodo restituisce un elemento HTML di tipo \verb'<li>' contenente l'identificativo dell'utente che corrisponde all'oggetto passato come parametro.
   
-   Al \inglese{list item} restituito viene assegnato un identificativo corrispondente a quello dell'utente con cui si vuole dialogare con il prefisso \verb'"chat-"'. All'evento \verb'click' associato al nodo di testo contenuto in questo \verb'<li>' si collega tramite una funzione anonima un'invocazione del metodo privato \method{displayChat} con il parametro \verb'user' che fa visualizzare la chat. Viene inoltre creato un pulsante per chiudere la chat al cui evento \verb'click' è associata una funzione anonima che richiama il metodo \method{removeChat} ancora passando \verb'user' come parametro.
+   Al \inglese{list item} restituito viene assegnato un identificativo corrispondente a quello dell'utente con cui si vuole dialogare con il prefisso \verb'"chat-"'. All'evento \verb'click' associato a questo \verb'<li>' si collega tramite una funzione anonima un'invocazione del metodo privato \method{displayChat} con il parametro \verb'user' che fa visualizzare la chat. Viene inoltre creato un pulsante per chiudere la chat al cui evento \verb'click' è associata una funzione anonima che richiama il metodo \method{removeChat} ancora passando \verb'user' come parametro.
 
   \item{\method{-- displayChat(user: Object): void}}\\
-  Provoca la visualizzazione della chat che coinvolge l'utente passato come parametro nell'interfaccia grafica posizionando correttamente nell'albero DOM della pagina l'elemento che può essere ottenuto da \memberdata{chatElements} in corrispondenza della chiave \verb'user.id' e rimuovendo l'eventuale chat visualizzata in precedenza.
+  Provoca la visualizzazione della chat che coinvolge l'utente passato come parametro nell'interfaccia grafica posizionando correttamente nell'albero DOM della pagina l'elemento che può essere ottenuto da \memberdata{chatElements} in corrispondenza della chiave \verb'user.id'.
 
 \end{description}
 
@@ -5151,6 +5212,11 @@ Vista associata al \inglese{presenter} \classname{RegisterPresenter} utilizzata 
 	In particolare, alla pressione del pulsante ``Indietro'' deve essere sollevato un evento avente come nome identificativo la stringa \verb'showLoginPanel'.
 	
   Alla pressione del pulsante per la registrazione, invece, devono essere recuperati i valori di tutti i campi dati del form mediante i metodi \method{getUsername()}, \method{getPassword()}, \method{getQuestion()}, \method{getAnswer()}, \method{getName()}, \method{getSurname()}, \method{getPicturePath()} e, in un secondo momento, deve essere richiamato il metodo \method{register} del \inglese{presenter}.
+  
+  \item{\method{+ processPassword(string: String): void}}\\
+  Tale metodo ha il compito di processare il contenuto del campo di immissione per la password, calcolarne la complessità invocando il metodo \method{calculateScore} offerto dal \inglese{presenter} su ognuno dei caratteri del valore del campo di immissione per la \inglese{pasword}, quindi visualizzare un messaggio corrispondente nell'interfaccia grafica.
+  
+  In particolare, dato un punteggio $x$ se $x \in (0, 5)$ dovrà comparire il messaggio ``Compl. bassa'' in colore verde, se $x \in [5, 15)$ il messaggio ``Compl. media'' in colore giallo e se $x \in [15, +\infty)$ il messaggio ``Compl. alta'' in colore verde.
 
 \end{description}
 
