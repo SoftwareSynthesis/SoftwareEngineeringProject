@@ -82,6 +82,8 @@ window.onload = function() {
     var host =  window.location.protocol + "//" + window.location.host + window.location.pathname;
     if (window.location.host == "localhost") {
         commandURL = host + "Conf/controllerManagerStub.php";
+     // per chi ha Apache "liscio" e non MAMP/WAMP/XAMP...
+     // commandURL = host.substr(0, host.length - 10)+ "Conf/controllerManagerStub.php";
     } else {
         commandURL =  host + "CommandManager";
     }
