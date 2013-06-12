@@ -4593,7 +4593,7 @@ Nessuna relazione evidenziata.
   \item{\method{+ onAcceptCall(contact: Object, onlyAudio: boolean): void}}\\
   Questo gestore di eventi viene richiamato all'avvenuta accettazione di una chiamata in ingresso e ha pertanto il compito di invocare il metodo \method{call} messo a disposizione dalla classe con il primo parametro a \verb'false' e inoltrando i parametri \verb'contact' e \verb'onlyAudio' associati all'evento.
   
-  Alla RTCPeerConnection inizializzata durante l'esecuzione di \method{call} dovranno essere inoltre associati i valori contenuti negli attributi \memberdata{remoteDescriptionPacket} e \memberdata{sdpPacket} mediante i metodi \verb'setRemoteDescription' e \verb'addIceCandidate' messi a disposizione dalla libreria WebRTC.
+  Alla RTCPeerConnection inizializzata durante l'esecuzione di \method{call} dovranno essere inoltre associati i valori contenuti negli attributi \memberdata{remoteDescriptionPacket} e \memberdata{sdpPacket} mediante i metodi \verb'setRemoteDescription' e \verb'addIceCandidate' messi a disposizione dalla libreria WebRTC\@. Infine, le due variabili di istanza \memberdata{remoteDescriptionPacket} e \memberdata{sdpPacket} dovranno essere azzerate e inizializzate nuovamente.
   
   \item{\method{+ onChangeMyState(state: String): void}}\\
   Questo gestore di eventi ha il compito di inviare al server il messaggio che denota un cambiamento di stato dell'utente associato al client. A tal fine dovrà essere creato un array enumerativo avente in prima posizione il numero \verb'5' e in seconda posizione la stringa passata come parametro.
@@ -4626,7 +4626,6 @@ Nessuna relazione evidenziata.
   \item{\method{+ webkitGetUserMedia(audio: Boolean, video: Boolean): void}}\\
   Metodo richiamato nel momento in cui un utente vuole iniziare una chiamata. Il metodo, fornito dalle librerie native di \underline{Chrome}, cattura lo \textit{stream} della propria videocamera/microfono. Riceve due parametri che indicano se deve essere catturato audio e/o video. Procedendo, viene aggiunto lo \textit{stream} all'oggetto RTCPeerConnection tramite il metodo \verb'addStream(localstream)' fornito dalle librerie di WebRTC\@.
 
-% FIXME questo dovrà essere sicuramente cambiato!!
   \item{\method{-- dumpStats(obj: Object): void}}\\
   Metodo che permette l'estrazione dei dati rappresentanti le statistiche della chiamata, esso riceve come parametro un oggetto, lo elabora, ed estrae solo i byte ricevuti e inviati. Ricavati questi dati, li visualizza nello \verb'<span>' corrispondente tramite il sistema di controllo dell'interfaccia grafica del sistema.
 
