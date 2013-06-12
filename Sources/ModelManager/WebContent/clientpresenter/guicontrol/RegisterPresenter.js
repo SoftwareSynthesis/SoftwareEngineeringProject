@@ -27,6 +27,60 @@ function RegisterPanelPresenter() {
             thisPanel = null;
         }
     };
+    
+    /** PRESENTER
+	 * Calcola il punteggio di un caratterere in base alla complessità
+	 * (1 se un carattere normale, 2 se una maiuscola e 3 se si tratta di un
+	 * carattere speciale)
+	 * 
+	 * @param {String}
+	 *            character carattere da valutare
+	 * @returns {Number} punteggio calcolato
+	 * @author Diego Beraldin
+	 */
+    this.calculateScore = function(character) {
+		var special = ".,!?^/@-#§* {}[]'`()\%$£\"<>:;_|";
+		var result = 1;
+		// se è maiuscolo
+		if (character == character.toUpperCase()
+				&& special.indexOf(character) == -1) {
+			result++;
+		}
+		// se è un carattere speciale
+		if (special.indexOf(character) != -1) {
+			result += 2;
+		}
+		return result;
+	};
+    
+    /** VIEW
+     * Processa il contenuto del campo di immissione per la password e
+	 * visualizza un messaggio corrispondente nell'interfaccia grafica
+	 * 
+	 * @param {String}
+	 *            string contenuto dell'<input> da valutare
+	 * @author Diego Beraldin
+	 */
+    this.processPassword = function(string) {
+		var score = 0;
+		for ( var i = 0; i < string.length; i++) {
+			score += thisPresenter.calculateScore(string.charAt(i));
+		}
+		var element = document.getElementById("complexitySpan");
+		if (score == 0) {
+			element.className = "low";
+			element.innerHTML = "";
+		} else if (score < 5) {
+			element.className = "low";
+			element.innerHTML = "compl. bassa";
+		} else if (score < 15) {
+			element.className = "medium";
+			element.innerHTML = "compl. media";
+		} else {
+			element.className = "high";
+			element.innerHTML = "compl. elevata";
+		}
+	};
 
     /** PRESENTER
      * Estrae dal form il valore del cognome del nuovo utente
@@ -196,6 +250,12 @@ function RegisterPanelPresenter() {
         var inputLogin = document.getElementById("inputLogin");
         inputLogin.onclick = function() {
             document.dispatchEvent(showLoginPanel);
+        };
+        
+        // span della complessità della password
+        var inputPassword = document.getElementById("password");
+        inputPassword.oninput = function() {
+        	thisPresenter.processPassword(inputPassword.value);
         };
 
         // pulsante di registrazione
