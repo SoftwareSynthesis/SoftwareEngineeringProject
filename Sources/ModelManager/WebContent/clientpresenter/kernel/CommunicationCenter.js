@@ -493,6 +493,8 @@ function CommunicationCenter() {
         for (var i in sdpPacket) {
             pc.addIceCandidate(new RTCIceCandidate(sdpPacket[i]));
         }
+        remoteDescriptionPacket = new Array();
+        sdpPacket = new Array();
     }
 
     /**
