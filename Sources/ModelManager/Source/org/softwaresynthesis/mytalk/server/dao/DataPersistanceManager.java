@@ -307,4 +307,24 @@ public class DataPersistanceManager
 		}
 		return result;
 	}
+	
+	/**
+	 * Verifica se un determinato utente, identificato dal {@Long}
+	 * passato come primo parametro, ha bloccato l'utende identificato dal
+	 * {@Long} passato come secondo parametro.
+	 * 
+	 * @param blockerId
+	 *            id del contatto autore dell'eventuale blocco
+	 * @param blockedId
+	 *            id del contatto che si vuole verificare se è bloccato o meno
+	 * @return
+	 */
+	public boolean hasBlocked(Long blockerId, Long blockedId) {
+		GetUtil select = this.factory.getGenericUtil(this.manager);
+		String query = String
+				.format("from AddressBookEntry as e where e.owner.id = %d and e.contact.id = %d and e.blocked = true",
+						blockerId, blockedId);
+		List<IMyTalkObject> result = select.execute(query);
+		return (result.size() > 0);
+	}
 }
