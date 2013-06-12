@@ -65,8 +65,9 @@ public class PushInbound extends MessageInbound {
 		//manda mio id al chiamato
 		else if (type.equals("3")){
 			Long client = gson.fromJson(array.get(1), Long.class);
+			String onlyAudio= gson.fromJson(array.get(2), String.class);
 			PushInbound sendTo= ControllerManager.findClient(client);
-			String msg = "3|" + id;
+			String msg = "3|" + id + "|" + onlyAudio;
 			getWsOutbound(sendTo).writeTextMessage(CharBuffer.wrap(msg));
 		}
 		//disconnessione ed eliminazione canale
