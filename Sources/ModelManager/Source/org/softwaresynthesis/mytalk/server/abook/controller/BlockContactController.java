@@ -2,6 +2,7 @@ package org.softwaresynthesis.mytalk.server.abook.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.CharBuffer;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -9,8 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.softwaresynthesis.mytalk.server.AbstractController;
+import org.softwaresynthesis.mytalk.server.ControllerManager;
 import org.softwaresynthesis.mytalk.server.abook.IAddressBookEntry;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
+import org.softwaresynthesis.mytalk.server.connection.PushInbound;
 import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
 
 public class BlockContactController extends AbstractController{
@@ -51,6 +54,12 @@ public class BlockContactController extends AbstractController{
 						entry.setBlocked(true);
 						dao.update(entry);
 					}
+				}
+				PushInbound inbound = ControllerManager.findClient(friend.getId());
+				if (inbound != null) {
+					CharBuffer message = CharBuffer.wrap("5|" + myUser.getId()
+							+ "| offline");
+					inbound.getWsOutbound().writeTextMessage(message);
 				}
 				result = "true";
 			}
