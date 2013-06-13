@@ -91,11 +91,16 @@ public class PushInbound extends MessageInbound {
 			while(iter.hasNext())
 			{
 				IAddressBookEntry entry = (IAddressBookEntry)iter.next();
-				Long idFriend=entry.getContact().getId();
-				PushInbound sendTo= ControllerManager.findClient(idFriend);
-				if (sendTo != null){
-					String msg = "5|" + id + "|" + state.toString().toLowerCase();
-					getWsOutbound(sendTo).writeTextMessage(CharBuffer.wrap(msg));
+				Long idFriend = entry.getContact().getId();
+				boolean areTheyBlocked = database.hasBlocked(id, idFriend);
+				if (!areTheyBlocked) {
+					PushInbound sendTo = ControllerManager.findClient(idFriend);
+					if (sendTo != null) {
+						String msg = "5|" + id + "|"
+								+ state.toString().toLowerCase();
+						getWsOutbound(sendTo).writeTextMessage(
+								CharBuffer.wrap(msg));
+					}
 				}
 			}
 		}

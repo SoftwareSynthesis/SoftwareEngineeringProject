@@ -57,7 +57,7 @@ public class GetContactsController extends AbstractController{
 					result += ", \"email\":\"" + friend.getMail() + "\"";
 					result += ", \"id\":\"" + friend.getId() + "\"";
 					result += ", \"picturePath\":\"" + friend.getPath() + "\"";
-					result += ", \"state\":\"" + getContactState(friend) + "\"";
+					result += ", \"state\":\"" + getContactState(friend, myUser, dao) + "\"";
 					result += ", \"blocked\":" + entry.getBlocked() + "}";
 				}
 			}
@@ -79,11 +79,24 @@ public class GetContactsController extends AbstractController{
 	 * 
 	 * @param contact
 	 *            il contatto di cui deve essere recuperato lo stato
+	 * @param me
+	 *            il contatto a cui deve essere inviato lo stato
+	 * @param dao
+	 *            riferimento al gestore di persistenza dei dati
 	 * @return una stringa che identifica lo stato
 	 */
-	String getContactState(IUserData contact)
+	String getContactState(IUserData contact, IUserData me, DataPersistanceManager dao)
 	{
-		String state = ControllerManager.getState(contact.getId());
+		String state = null;
+		boolean amIBlocked = dao.hasBlocked(contact.getId(), me.getId());
+		if (amIBlocked)
+		{
+			state = "offline";
+		}
+		else
+		{
+			state = ControllerManager.getState(contact.getId());
+		}
 		return state;
 	}
 }
