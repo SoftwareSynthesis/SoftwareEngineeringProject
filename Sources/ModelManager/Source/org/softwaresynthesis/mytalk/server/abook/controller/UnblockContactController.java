@@ -2,6 +2,7 @@ package org.softwaresynthesis.mytalk.server.abook.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.CharBuffer;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -9,8 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.softwaresynthesis.mytalk.server.AbstractController;
+import org.softwaresynthesis.mytalk.server.ControllerManager;
 import org.softwaresynthesis.mytalk.server.abook.IAddressBookEntry;
 import org.softwaresynthesis.mytalk.server.abook.IUserData;
+import org.softwaresynthesis.mytalk.server.connection.PushInbound;
 import org.softwaresynthesis.mytalk.server.dao.DataPersistanceManager;
 
 public class UnblockContactController extends AbstractController{
@@ -50,6 +53,14 @@ public class UnblockContactController extends AbstractController{
 						entry.setBlocked(false);
 						dao.update(entry);
 					}
+				}
+				PushInbound myInbound = ControllerManager.findClient(myUser.getId());
+				PushInbound theirInbound = ControllerManager.findClient(friend.getId());
+				if (theirInbound != null) {
+					CharBuffer message = CharBuffer.wrap("5|" + myUser.getId()
+							+ "|"
+							+ myInbound.getState().toString().toLowerCase());
+					theirInbound.getWsOutbound().writeTextMessage(message);
 				}
 				result = "true";
 			}
